@@ -1,0 +1,207 @@
+{
+  "acceptanceResults": [
+    "A supported recovery operation accepts the approved current managed section only under explicit repository/provider/target identity checks and writes the matching adapter record without hand-editing installedDigest.",
+    "Recovery preserves AGENTS.md bytes outside the managed section and preserves existing historical records.",
+    "agent doctor returns the protocol-defined normal state after recovery, with Runtime identity recorded in bootstrap evidence.",
+    "A repository governance/CI check fails on managed-section versus installedDigest mismatch and reports target, expected digest, and actual digest.",
+    "No legacy_runtime or release behavior is changed by this Work Item."
+  ],
+  "createdAt": "2026-09-23T01:11:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3b72599b253de356885a2d3c435b65d6dd2f4b787ae077d57d70a25558c6fc26",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/adapters/codex.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1006-runtime-guide-action-outcome.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1007-archived-recovery-cli-route.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a supported, ownership-safe adapter recovery path for a repository-owned managed section whose content changed in an approved repository documentation migration, add a CI regression for digest drift, and preserve all unrelated repository bytes and historical evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+  },
+  "taskReportDigest": "sha256:aa13363b2bb62690f2eadbb2df3188a6ad27d7a841b11e6beb3c8121d574c84f",
+  "taskReportMarkdownDigest": "sha256:bf548824608007be9c5a519b3d8aba3fed52825a63b91a4cff18af802cca2553",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+}

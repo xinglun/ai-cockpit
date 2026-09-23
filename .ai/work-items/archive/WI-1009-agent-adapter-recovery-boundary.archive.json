@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-23T01:13:08Z",
+  "files": {
+    "contractDigest": "sha256:6ba08e0d5c357c0adf97c7b1b2b99f84d48be30e6897f0d3cffeff271c92ad35",
+    "contractPath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json",
+    "eventsDigest": "sha256:48deea3ebc81b669019bfd632fbb11081453441e05d1f1892e02f056f900b727",
+    "eventsPath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.events.jsonl",
+    "outcomeDigest": "sha256:ebd965fa8038e16df4367bd8dc16d6a4f3138aa8cf71ad1074f7021108af2228",
+    "outcomePath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.outcome.json",
+    "summaryDigest": "sha256:95ce3b869afa94f5564be783f12fe999295dfd32ad66a71aaff30a8665122999",
+    "summaryPath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json",
+    "taskReportDigest": "sha256:aa13363b2bb62690f2eadbb2df3188a6ad27d7a841b11e6beb3c8121d574c84f",
+    "taskReportMarkdownDigest": "sha256:bf548824608007be9c5a519b3d8aba3fed52825a63b91a4cff18af802cca2553",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+}
