@@ -24,11 +24,11 @@ step. The complete audit handoff remains available with `--view full` (or MCP
 authorization, exit codes, and persisted evidence are unchanged. No user-study
 or risk-reduction benefit is claimed by this release note.
 
-The current release artifact naming is `ai-cockpit-v0.2.107-<target>.tar.gz` or
+The current release artifact naming is `ai-cockpit-v0.2.108-<target>.tar.gz` or
 the corresponding Windows archive. This becomes the installation baseline only
 after the public Release and post-release acceptance are complete.
 
-The current installation baseline target is the `v0.2.107` candidate; it becomes
+The current installation baseline target is the `v0.2.108` candidate; it becomes
 public only after Release and post-release acceptance. Until then, the public,
 identity-bound `v0.2.106` Release remains the installed baseline. The
 `v0.2.84` tag is retained as immutable failed-publication
