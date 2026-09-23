@@ -44,98 +44,98 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.105f1d565c27f55ba758b5c9936b7dd0f2674f1b851e4aed6950553c60948e0c.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.78451c735772e945748bf5da867d490aad797016d3cd3b4ae7d9c325324f7803.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.81a4560dbacdd6f36dd6509a0f7210cff696cce78477fa7e5be9835314c76ab3.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.a45183dfd82e79d1777db04eefaa77933bd4e51b4d34b0ca3d465420c0e9be28.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.c2220ed454b2b266480a1213608be8304e81cd3203614a14cd82270b2b99bf25.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.e52541b6038333fcc20a0fb63ade648c060b8ff05da6cbaa9a77c42fff505e6a.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1023-release-close-admission.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.outcome.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1023-release-close-admission.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1023-release-close-admission.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1023-release-close-admission.task-report.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.md"
+          "text": "Changed path: .ai/work-items/archive/WI-1023-release-close-admission.task-report.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/ci/repository_gate_manifest.json"
@@ -194,7 +194,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.contract.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.contract.json"
           ],
           "inference": false,
           "text": "在不改变发布资源或任务进度架构的前提下，保证恢复失败不能生成 passed close receipt，并统一文档为保留 unknown、由 Runtime safeActions 与必需人类决策决定是否继续。"
@@ -203,7 +203,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1023-release-close-admission.contract.json"
+            ".ai/work-items/archive/WI-1023-release-close-admission.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -213,8 +213,8 @@
     "status": "verified",
     "workItemId": "WI-1023-release-close-admission"
   },
-  "taskReportDigest": "sha256:f6310763a8dfe45d2cef2c77a6c5f4ec58b5da429fc340d178903eea5eafe88d",
-  "taskReportMarkdownDigest": "sha256:0647f0b0de95373167df977fa2e3e14465824c48225951288c4acdb479504626",
+  "taskReportDigest": "sha256:922b4cafdc2303997cb45fd86e844eee7bc39fa8887897aad30bb108bf1fbfc0",
+  "taskReportMarkdownDigest": "sha256:36a516cf3714ce895ae888c8cefdf67fd94e9e831292014910ba70b4f3eb3cbb",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
