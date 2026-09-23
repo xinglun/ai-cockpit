@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "The legacy_runtime eligibility predicate requires a real PR number, merge commit, and merged state before and after the PR.",
+    "Plan generation and recovery writing use the same eligibility predicate.",
+    "Unmerged, missing-merge-commit, and classification-mismatch inputs are rejected without writing a recovery record.",
+    "A valid normal merged-PR historical receipt remains accepted append-only.",
+    "WI-1006, WI-1007, and WI-1008 predecessor evidence remains unchanged."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2358bc47cb79af3de66c665601729f53020cac66",
+  "createdAt": "2026-09-22T23:56:18Z",
+  "goal": "Prevent invalid historical classifications while preserving formal WI-1006/WI-1007/WI-1008 recovery evidence",
+  "intent": "Enforce one shared legacy_runtime eligibility rule for recovery planning and recovery writes",
+  "mode": "implementation",
+  "outOfScope": [
+    "task-progress APIs",
+    "release or publication",
+    "historical record rewrites",
+    "adapter implementation already delivered by WI-1009"
+  ],
+  "predecessorContractDigest": "sha256:19b1f13e1e0adc16f84f8f37558ca5d96ba52d213b972e6fa1555ff815eb22f4",
+  "predecessorWorkItemId": "WI-1008-finalization-recovery-normal-pr",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-repository --test resource_finalization_transition historical_runtime_",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1010-legacy-runtime-validation"
+}

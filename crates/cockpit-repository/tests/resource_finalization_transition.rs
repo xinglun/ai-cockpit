@@ -638,6 +638,175 @@ fn historical_runtime_recovery_accepts_normal_merged_pr_before_close() {
     assert_eq!(fs::read(&canonical).unwrap(), predecessor);
 }
 
+#[test]
+fn historical_runtime_plan_does_not_classify_incomplete_pr_history() {
+    for (label, merged_before, merged_after, has_merge_commit) in [
+        ("unmerged", false, false, false),
+        ("missing-merge-commit", true, true, false),
+    ] {
+        let (directory, context, contract) = repository();
+        let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+        let legacy_runtime = RuntimeContext {
+            runtime_version: "0.2.33".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
+        };
+        let mut receipt = blocked(&repository_id, &context, &contract);
+        receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
+        receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
+        receipt["pullRequest"]["mergeCommit"] = if has_merge_commit {
+            "merge-191".into()
+        } else {
+            Value::Null
+        };
+        receipt["before"]["pullRequest"] = if merged_before {
+            "merged".into()
+        } else {
+            "unmerged".into()
+        };
+        receipt["after"]["pullRequest"] = if merged_after {
+            "merged".into()
+        } else {
+            "unmerged".into()
+        };
+        receipt["result"] = if merged_after {
+            json!({
+                "disposition": "deleted",
+                "failureCodes": [],
+                "unknownCodes": []
+            })
+        } else {
+            json!({
+                "disposition": "blocked",
+                "failureCodes": ["unmerged_pull_request"],
+                "unknownCodes": []
+            })
+        };
+        let input = write_input(&directory, &format!("{label}.json"), &receipt);
+        if label == "missing-merge-commit" {
+            fs::write(
+                directory
+                    .path()
+                    .join(format!(".ai/decisions/{ID}.finalize.json")),
+                serde_json::to_vec_pretty(&receipt).unwrap(),
+            )
+            .unwrap();
+        } else {
+            record_resource_finalization(directory.path(), ID, &input, &legacy_runtime).unwrap();
+        }
+
+        let plan = historical_finalization_recovery_plan(directory.path(), ID, &runtime(), None)
+            .expect("incomplete historical receipt remains inspectable");
+        assert_ne!(plan["historicalKind"], "legacy_runtime", "case: {label}");
+        assert!(plan.get("suggestedRecovery").is_none(), "case: {label}");
+    }
+}
+
+#[test]
+fn historical_runtime_recovery_rejects_mismatched_classification_without_writing() {
+    let (directory, context, contract, base_revision, feature_head, merge_commit) =
+        direct_merge_repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let legacy_runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
+    };
+    let historical_url = format!("historical://direct-merge/{merge_commit}");
+    let receipt = json!({
+        "schemaVersion": 1,
+        "receiptId": "direct-merge-mismatch",
+        "operationId": "direct-merge-mismatch-operation",
+        "repositoryId": repository_id,
+        "workItemId": ID,
+        "runtimeVersion": legacy_runtime.runtime_version,
+        "runtimeDigest": legacy_runtime.runtime_digest,
+        "provider": "historical",
+        "pullRequest": {
+            "number": 0,
+            "url": historical_url,
+            "headRevision": feature_head,
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "baseRevision": base_revision,
+            "mergeCommit": merge_commit
+        },
+        "branch": {
+            "name": context.branch,
+            "remote": "origin",
+            "headRevision": feature_head
+        },
+        "worktree": {
+            "worktreeId": "primary-repository",
+            "path": context.worktree,
+            "branch": context.branch,
+            "headRevision": feature_head
+        },
+        "before": {
+            "pullRequest": "merged",
+            "branch": "present",
+            "worktree": "clean"
+        },
+        "after": {
+            "pullRequest": "merged",
+            "branch": "deleted",
+            "worktree": "clean"
+        },
+        "result": {
+            "disposition": "retained",
+            "failureCodes": [],
+            "unknownCodes": []
+        },
+        "actor": "human:test",
+        "authoritySource": "historical-test",
+        "reason": "record a direct merge for classification mismatch",
+        "timestamp": "2026-08-23T00:30:00Z",
+        "contractDigest": contract,
+        "resourceContext": context,
+        "historical": {
+            "kind": "direct_merge_no_pr",
+            "assurance": "historical_low",
+            "mergeCommit": merge_commit,
+            "mergeParents": [base_revision, feature_head],
+            "baseRevision": base_revision
+        }
+    });
+    let input = write_input(&directory, "mismatched-classification.json", &receipt);
+    record_historical_finalization_recovery(directory.path(), ID, &input, &legacy_runtime)
+        .expect("complete direct merge predecessor should be recorded");
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let predecessor: cockpit_protocol::ResourceFinalizationReceipt =
+        serde_json::from_slice(&fs::read(&canonical).unwrap()).unwrap();
+    let predecessor_digest =
+        cockpit_protocol::digest_json(&serde_json::to_value(predecessor).unwrap()).unwrap();
+    let recovery = historical_recovery(
+        &repository_id,
+        &predecessor_digest,
+        "legacy_runtime",
+        &base_revision,
+    );
+    let recovery_input = write_input(
+        &directory,
+        "mismatched-classification-recovery.json",
+        &recovery,
+    );
+    let error =
+        record_historical_finalization_recovery(directory.path(), ID, &recovery_input, &runtime())
+            .expect_err("a mismatched historical classification must be rejected");
+    assert!(
+        error.to_string().contains("classification does not match"),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize-recovery.json"))
+            .exists()
+    );
+}
+
 fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::PathBuf {
     let digest = cockpit_protocol::digest_json(value).unwrap().to_string();
     decisions.join(format!(

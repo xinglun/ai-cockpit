@@ -1370,7 +1370,28 @@ pub fn doctor(root: &Path) -> Result<cockpit_protocol::AgentDoctorReport, AgentE
                             state = "installed";
                             installed_count += 1;
                         }
-                        Ok(_) | Err(_) => {
+                        Ok(record) => {
+                            state = "conflict";
+                            let identity_matches = record.provider == provider
+                                && record.repository_id == context.repository_id
+                                && record.target == target_name
+                                && record.adapter_version == 1
+                                && record.mode == "managed-section";
+                            if identity_matches {
+                                let actual =
+                                    inspection.current_digest.as_deref().unwrap_or("unknown");
+                                problems.push(format!(
+                                    "{} has no matching repository-owned adapter record: expected digest {}, actual digest {}",
+                                    target_name, record.installed_digest, actual
+                                ));
+                            } else {
+                                problems.push(format!(
+                                    "{} has no matching repository-owned adapter record",
+                                    target_name
+                                ));
+                            }
+                        }
+                        Err(_) => {
                             state = "conflict";
                             problems.push(format!(
                                 "{} has no matching repository-owned adapter record",
@@ -1511,8 +1532,27 @@ pub fn repair_adapter(root: &Path, provider: AgentProvider) -> Result<AdapterRec
         path: target.clone(),
         message: "managed adapter section is missing; refusing automatic repair".into(),
     })?;
-    verify_record(&record, &provider, &context, &target, section)?;
-    install_adapter(&context.root, provider)
+    verify_record_identity(&record, &provider, &context, &target, section)?;
+    let installed_digest = sha256_bytes(section.as_bytes());
+    if record.installed_digest != installed_digest {
+        let repaired = cockpit_protocol::ManagedAdapterRecord {
+            installed_digest: installed_digest.clone(),
+            ..record
+        };
+        let record_bytes =
+            serde_json::to_vec_pretty(&repaired).map_err(|error| AgentError::State {
+                path: ownership_path.clone(),
+                message: error.to_string(),
+            })?;
+        atomic_write(&ownership_path, &record_bytes)?;
+    }
+    Ok(AdapterReceipt {
+        provider,
+        target,
+        ownership_path,
+        repository_id: context.repository_id,
+        installed_digest,
+    })
 }
 
 fn read_managed_record(path: &Path) -> Result<cockpit_protocol::ManagedAdapterRecord, AgentError> {
@@ -1529,19 +1569,39 @@ fn verify_record(
     target: &Path,
     section: &str,
 ) -> Result<(), AgentError> {
-    let target_name = relative_target(&context.root, target)?;
+    verify_record_identity(record, provider, context, target, section)?;
     let digest = sha256_bytes(section.as_bytes());
+    if record.installed_digest != digest {
+        return Err(AgentError::State {
+            path: target.into(),
+            message: format!(
+                "managed adapter content or ownership does not match; expected digest {}, actual digest {}",
+                record.installed_digest, digest
+            ),
+        });
+    }
+    Ok(())
+}
+
+fn verify_record_identity(
+    record: &cockpit_protocol::ManagedAdapterRecord,
+    provider: &AgentProvider,
+    context: &AgentRepositoryContext,
+    target: &Path,
+    section: &str,
+) -> Result<(), AgentError> {
+    let target_name = relative_target(&context.root, target)?;
     if record.provider != *provider
         || record.adapter_version != 1
         || record.mode != "managed-section"
         || record.repository_id != context.repository_id
         || record.target != target_name
-        || record.installed_digest != digest
+        || managed_section_provider(section) != Some(provider_name(provider))
+        || managed_section_repository_id(section) != Some(context.repository_id.as_str())
     {
         return Err(AgentError::State {
             path: target.into(),
-            message: "managed adapter content or ownership does not match; refusing operation"
-                .into(),
+            message: "managed adapter ownership identity does not match; refusing operation".into(),
         });
     }
     Ok(())
@@ -1875,6 +1935,14 @@ fn managed_section_provider(section: &str) -> Option<&str> {
     value
         .split_whitespace()
         .find_map(|part| part.strip_prefix("provider="))
+}
+
+fn managed_section_repository_id(section: &str) -> Option<&str> {
+    let header = section.lines().next()?;
+    let value = header.strip_prefix("<!-- AI_COCKPIT_ADAPTER_BEGIN ")?;
+    value
+        .split_whitespace()
+        .find_map(|part| part.strip_prefix("repositoryId="))
 }
 
 fn relative_target(root: &Path, target: &Path) -> Result<String, AgentError> {

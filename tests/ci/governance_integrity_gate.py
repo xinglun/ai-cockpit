@@ -1131,6 +1131,55 @@ def finding(
     return {"workItemId": work_item, "code": code, "path": path, "severity": severity}
 
 
+ADAPTER_BEGIN_MARKER = "<!-- AI_COCKPIT_ADAPTER_BEGIN"
+ADAPTER_END_MARKER = "<!-- AI_COCKPIT_ADAPTER_END -->"
+
+
+def adapter_integrity_findings(repo: Path) -> list[dict[str, str]]:
+    """Check repository-owned managed sections against their adapter records."""
+    directory = repo / ".ai/adapters"
+    if not directory.is_dir() or directory.is_symlink():
+        return []
+    findings: list[dict[str, str]] = []
+    for record_path in sorted(directory.glob("*.json")):
+        relative_record = str(record_path.relative_to(repo))
+        try:
+            record = load_json(record_path)
+        except ValueError:
+            findings.append(finding("repository", "invalid_adapter_record", relative_record))
+            continue
+        target_relative = record.get("target")
+        if not isinstance(target_relative, str):
+            findings.append(finding("repository", "invalid_adapter_target", relative_record))
+            continue
+        target = _regular_repository_file(repo, target_relative)
+        if target is None:
+            findings.append(finding("repository", "invalid_adapter_target", target_relative))
+            continue
+        try:
+            text = target.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            findings.append(finding("repository", "invalid_adapter_target", target_relative))
+            continue
+        begins = [match.start() for match in re.finditer(re.escape(ADAPTER_BEGIN_MARKER), text)]
+        ends = [match.start() for match in re.finditer(re.escape(ADAPTER_END_MARKER), text)]
+        if len(begins) != 1 or len(ends) != 1 or begins[0] >= ends[0]:
+            findings.append(finding("repository", "invalid_adapter_section", target_relative))
+            continue
+        end = ends[0] + len(ADAPTER_END_MARKER)
+        if text[end : end + 1] == "\r":
+            end += 1
+        if text[end : end + 1] == "\n":
+            end += 1
+        actual = "sha256:" + hashlib.sha256(text[begins[0] : end].encode("utf-8")).hexdigest()
+        expected = record.get("installedDigest")
+        if expected != actual:
+            item = finding("repository", "adapter_digest_mismatch", target_relative)
+            item["message"] = f"expected digest {expected!s}, actual digest {actual}"
+            findings.append(item)
+    return findings
+
+
 def valid_recovery_decision(
     repo: Path, work_item: str, value: dict[str, Any]
 ) -> bool:
@@ -1536,6 +1585,7 @@ def main() -> int:
 
     rows, parity_findings = parity_rows(repo)
     findings.extend(parity_findings)
+    findings.extend(adapter_integrity_findings(repo))
     try:
         pending_entries = load_pending_parity_registry(repo)
     except ValueError:
@@ -2212,7 +2262,9 @@ def main() -> int:
     report_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     if blocking_findings:
         for item in blocking_findings:
-            print(f"{item['workItemId']}: {item['code']}: {item['path']}", file=sys.stderr)
+            message = item.get("message")
+            suffix = f": {message}" if message else ""
+            print(f"{item['workItemId']}: {item['code']}: {item['path']}{suffix}", file=sys.stderr)
         return 1
     print(f"governance integrity gate passed: {len(inventory)} work items")
     return 0

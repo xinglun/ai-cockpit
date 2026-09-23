@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-23T00:16:40Z",
+  "files": {
+    "contractDigest": "sha256:5367b3a4cdff49d10a29180d9798a4d156abff83d781e45898a40a9fad0ba2ce",
+    "contractPath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json",
+    "eventsDigest": "sha256:9a29b5d064f87f37e9d259ab37eeb8c4c94b7bc68c79a3693d73db7516feb2df",
+    "eventsPath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.events.jsonl",
+    "outcomeDigest": "sha256:d2354a46dedb552de8e65562571bb6df74e4b45c0849c819c96e60128357d5af",
+    "outcomePath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.outcome.json",
+    "summaryDigest": "sha256:4b1e88703d6f7e0f24e4e383d1ccc0a9f5b23d977b77d352f613afcf6c015592",
+    "summaryPath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json",
+    "taskReportDigest": "sha256:bb12eee80dd134f5a9fbcece2f2240629831c55bd77227f16846d8719b4b5a6b",
+    "taskReportMarkdownDigest": "sha256:c7fe817f72ef30344f144ef2fdae083a9bf6267ba691684077c5f066eb03ddd2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1010-legacy-runtime-validation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1010-legacy-runtime-validation"
+}
