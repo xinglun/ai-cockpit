@@ -38,6 +38,7 @@ The implementation must close the Important findings from the independent review
 7. The MCP schema exposes one unambiguous `workItemId` contract for each coordination action, and CLI/MCP parity tests assert the intended provider-versus-consumer identity semantics.
 8. The existing multi-linked-worktree, multiple-real-process acceptance and the ordinary no-collaboration serial path continue to pass under the repository's canonical Runtime CLI + Cargo/CI gate.
 9. A read-only candidate CLI compatibility check against Sentinel succeeds without changing its Git tree, Contract/evidence state, lifecycle Runtime, or coordination store.
+10. CLI/MCP inspection, status/outcome projection, and dependency queries do not create or modify durable coordination records. Request-scoped observation consistency is not represented as cross-process event delivery; only explicit registration, impact/publication, coordination, and recovery write actions mutate the durable store, with before/after bytes covered by regression tests.
 
 ## Verification and governance
 

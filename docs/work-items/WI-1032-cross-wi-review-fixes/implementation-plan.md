@@ -140,6 +140,24 @@
 - [ ] Run focused MCP/interface tests and the manifest test; expected: schema has unambiguous fields and the real process test remains a required gate.
 - [ ] Commit schema, parity tests, and docs as the projection/documentation layer.
 
+### Task 7: Prove query and durable-write boundaries
+
+**Files:**
+- Test: `crates/cockpit-cli/tests/collaboration_cli.rs` and relevant status/outcome query tests.
+- Test: `crates/cockpit-mcp/tests/collaboration_rpc.rs`.
+- Test: `crates/cockpit-repository/tests/coordination_store.rs` where store-open behavior needs direct coverage.
+- Update the collaboration reference only if the public query/write distinction is unclear after the tests.
+
+**Interfaces:**
+- Consumes: read-only `inspect` and projection routes, explicit durable write actions, and request-scoped observation ledgers.
+- Produces: regression evidence that reads never mutate durable coordination state and that request-local consistency is not described as cross-process event transport.
+
+- [ ] Add subprocess-backed CLI and MCP tests that snapshot the coordination directory before and after `inspect`/projection queries, including an absent store; assert no file is created, rewritten, or consumed.
+- [ ] Assert each durable mutation remains behind its explicit action and that a fresh process observes only records actually persisted by those actions; request-scoped ledger state alone must not appear as a delivered event.
+- [ ] Run the focused tests before any change; retain existing correct query boundaries and repair only a demonstrated mutation or misleading projection/documentation.
+- [ ] Re-run CLI/MCP/repository focused suites and the real multi-process acceptance; keep query assertions separate from writes so an inspect call cannot mask a missing explicit report or recovery.
+- [ ] Commit the query/write-boundary proof with the final projection/documentation layer.
+
 ## Final verification and handoff
 
 Run the Contract-declared focused tests during each task, then all of:
