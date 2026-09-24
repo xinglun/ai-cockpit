@@ -960,6 +960,27 @@ fn merged_target_stage_requires_actual_target_ancestry() {
             .iter()
             .any(|blocker| blocker == "outcome_merge_fact_missing:WI-PROVIDER:api")
     );
+
+    run(root.path(), &["checkout", "-q", "main"]);
+    run(
+        root.path(),
+        &[
+            "merge",
+            "--no-ff",
+            "-m",
+            "merge provider for MergedTarget acceptance",
+            "feature/provider",
+        ],
+    );
+    run(root.path(), &["checkout", "-q", "feature/provider"]);
+    let merged =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission after actual target merge");
+    assert!(
+        merged.allowed,
+        "a provider head in the actual main ancestry satisfies MergedTarget: {:?}",
+        merged.blockers
+    );
 }
 
 #[test]
