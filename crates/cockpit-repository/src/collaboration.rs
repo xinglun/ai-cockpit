@@ -1,10 +1,14 @@
 use crate::{CoordinationError, CoordinationStore};
 use cockpit_protocol::{
-    CoordinationEvent, CoordinationIntent, CoordinationRequest, CoordinationRequestState,
-    WorktreeRegistration,
+    CoordinationEvent, CoordinationIntent, CoordinationRecovery, CoordinationRequest,
+    CoordinationRequestState, WorktreeRegistration,
+};
+use cockpit_verification::{
+    CompositionAttempt, CompositionError, CompositionInput, run_composition,
 };
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet};
+use thiserror::Error;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -28,6 +32,20 @@ pub struct CollaborationAdmission {
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
     pub refreshed_events: usize,
+}
+
+#[derive(Debug, Error)]
+pub enum CollaborationExecutionError {
+    #[error(transparent)]
+    Coordination(#[from] CoordinationError),
+    #[error("collaboration action is blocked for {work_item_id}: {blockers:?}")]
+    Blocked {
+        work_item_id: String,
+        blockers: Vec<String>,
+        unknowns: Vec<String>,
+    },
+    #[error(transparent)]
+    Composition(#[from] CompositionError),
 }
 
 pub fn collaboration_projection(
@@ -198,11 +216,37 @@ pub fn admit_collaboration_action(
     })
 }
 
+pub fn run_admitted_composition(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    let admission = admit_collaboration_action(store, work_item_id, generation)?;
+    if !admission.allowed {
+        return Err(CollaborationExecutionError::Blocked {
+            work_item_id: work_item_id.into(),
+            blockers: admission.blockers,
+            unknowns: admission.unknowns,
+        });
+    }
+    Ok(run_composition(input)?)
+}
+
 pub fn report_impact(
     store: &CoordinationStore,
     event: CoordinationEvent,
 ) -> Result<CoordinationEvent, CoordinationError> {
     store.publish_event(event)
+}
+
+pub fn recover_impact(
+    store: &CoordinationStore,
+    event_id: &str,
+    consumer_work_item_id: &str,
+    consumer_generation: u64,
+) -> Result<CoordinationRecovery, CoordinationError> {
+    store.recover_event(event_id, consumer_work_item_id, consumer_generation)
 }
 
 pub fn request_safe_pause(

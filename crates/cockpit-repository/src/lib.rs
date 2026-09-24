@@ -64,9 +64,10 @@ mod status_projection;
 
 pub use action_admission::require_current_action_admission;
 pub use collaboration::{
-    CollaborationAdmission, CollaborationProjection, acknowledge_pause, admit_collaboration_action,
-    collaboration_projection, refresh_dependency_state, report_impact, request_safe_pause,
-    resume_and_re_evaluate,
+    CollaborationAdmission, CollaborationExecutionError, CollaborationProjection,
+    acknowledge_pause, admit_collaboration_action, collaboration_projection, recover_impact,
+    refresh_dependency_state, report_impact, request_safe_pause, resume_and_re_evaluate,
+    run_admitted_composition,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
