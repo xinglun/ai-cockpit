@@ -22,6 +22,7 @@ cockpit-knowledge = { path = "../cockpit-knowledge" }
 cockpit-mcp = { path = "../cockpit-mcp" }
 cockpit-protocol = { path = "../cockpit-protocol" }
 serde_json.workspace = true
+serde.workspace = true
 sha2.workspace = true
 toml.workspace = true
 hex.workspace = true

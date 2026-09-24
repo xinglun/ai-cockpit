@@ -1,4 +1,11 @@
+pub mod composition;
 pub mod gate_plan;
+
+pub use composition::{
+    CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
+    CompositionIdentity, CompositionInput, CompositionPrecondition, ReuseDecision,
+    ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
+};
 
 use cockpit_core::Digest;
 use cockpit_evidence::{

@@ -3420,6 +3420,273 @@ fn default_parallel_slot_lease_schema_version() -> u32 {
     PARALLEL_SLOT_LEASE_SCHEMA_VERSION
 }
 
+pub const COLLABORATION_SCHEMA_VERSION: u32 = 1;
+pub const COLLABORATION_CAPABILITY: &str = "cross_wi_coordination_v1";
+
+/// The candidate-only binding for the collaboration protocol.  The installed
+/// 0.2.105 Runtime owns the existing lifecycle protocol and deliberately does
+/// not advertise this capability; collaboration writes must therefore fail
+/// before they reach the coordination store when this binding is absent.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct RuntimeCapabilityBinding {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub capability: String,
+}
+
+fn default_collaboration_schema_version() -> u32 {
+    COLLABORATION_SCHEMA_VERSION
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum RuntimeCapabilityError {
+    #[error("unsupported_runtime_capability: collaboration capability is not advertised")]
+    UnsupportedCapability,
+    #[error("unsupported_runtime_capability: Runtime {0} owns lifecycle only")]
+    FixedLifecycleRuntime(String),
+    #[error("collaboration schema version {0} is unsupported")]
+    UnsupportedSchema(u32),
+    #[error("runtime capability binding identity mismatch")]
+    IdentityMismatch,
+}
+
+impl RuntimeCapabilityBinding {
+    pub fn validate_candidate(&self) -> Result<(), RuntimeCapabilityError> {
+        if self.schema_version != COLLABORATION_SCHEMA_VERSION {
+            return Err(RuntimeCapabilityError::UnsupportedSchema(
+                self.schema_version,
+            ));
+        }
+        if self.capability != COLLABORATION_CAPABILITY {
+            return Err(RuntimeCapabilityError::UnsupportedCapability);
+        }
+        if self.runtime_version == "0.2.105" {
+            return Err(RuntimeCapabilityError::FixedLifecycleRuntime(
+                self.runtime_version.clone(),
+            ));
+        }
+        if self.runtime_version.trim().is_empty() || self.runtime_digest.as_str().is_empty() {
+            return Err(RuntimeCapabilityError::IdentityMismatch);
+        }
+        Ok(())
+    }
+
+    pub fn same_identity(&self, other: &Self) -> bool {
+        self.schema_version == other.schema_version
+            && self.runtime_version == other.runtime_version
+            && self.runtime_digest == other.runtime_digest
+            && self.capability == other.capability
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Ord, PartialOrd)]
+#[serde(rename_all = "snake_case")]
+pub enum OutcomeStage {
+    InterfaceStable,
+    ComposableHead,
+    MergedTarget,
+}
+
+impl OutcomeStage {
+    pub fn satisfies(self, required: Self) -> bool {
+        self >= required
+    }
+
+    pub fn can_transition_to(self, next: Self) -> bool {
+        next == self || next as u8 == self as u8 + 1
+    }
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CollaborationDeclaration {
+    #[serde(default)]
+    pub provided_outcomes: Vec<ProvidedOutcome>,
+    #[serde(default)]
+    pub consumed_outcomes: Vec<ConsumedOutcome>,
+    #[serde(default)]
+    pub resource_claims: Vec<ResourceClaim>,
+    pub integration_responsibility: IntegrationResponsibility,
+    pub composition_verification: CompositionVerification,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProvidedOutcome {
+    pub outcome_id: String,
+    pub interface_contract: String,
+    pub behavior_contract: String,
+    pub published_head: String,
+    pub stage: OutcomeStage,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ConsumedOutcome {
+    pub provider_work_item_id: String,
+    pub outcome_id: String,
+    pub minimum_stage: OutcomeStage,
+    pub verification_required: bool,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResourceClaimMode {
+    Exclusive,
+    Shared,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceClaim {
+    pub resource_id: String,
+    pub mode: ResourceClaimMode,
+    pub serial: bool,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct IntegrationResponsibility {
+    pub responsible_work_item_id: String,
+    pub target_branch: String,
+    #[serde(default)]
+    pub composition_order: Vec<String>,
+    pub rationale: String,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionVerification {
+    #[serde(default)]
+    pub compatibility_constraints: Vec<String>,
+    #[serde(default)]
+    pub required_scenarios: Vec<String>,
+    #[serde(default)]
+    pub reusable_nodes: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorktreeRegistration {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub worktree_path: String,
+    pub branch: String,
+    pub head: String,
+    pub generation: u64,
+    pub declaration: CollaborationDeclaration,
+    pub runtime: RuntimeCapabilityBinding,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CoordinationEventKind {
+    OutcomePublished,
+    InterfaceChanged,
+    ResourceChanged,
+    ExecutionChanged,
+    VerificationChanged,
+    Impact,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CoordinationEvent {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub event_id: String,
+    pub repository_id: Digest,
+    pub work_item_id: String,
+    pub generation: u64,
+    pub kind: CoordinationEventKind,
+    pub source: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CoordinationRecovery {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub consumption_id: String,
+    pub repository_id: Digest,
+    pub event_id: String,
+    pub provider_work_item_id: String,
+    pub provider_generation: u64,
+    pub consumer_work_item_id: String,
+    pub consumer_generation: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ResourceReservation {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub reservation_id: String,
+    pub work_item_id: String,
+    pub generation: u64,
+    pub resources: Vec<ResourceClaim>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CoordinationIntent {
+    WaitForDependency,
+    RequestSafePause,
+    AdjustIntegrationOrder,
+    ResumeReEvaluate,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CoordinationRequestState {
+    Requested,
+    Acknowledged,
+    SafelyPaused,
+    Unavailable,
+    Expired,
+    Resumed,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CoordinationRequest {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub request_id: String,
+    pub repository_id: Digest,
+    pub target_work_item_id: String,
+    pub target_generation: u64,
+    pub intent: CoordinationIntent,
+    pub state: CoordinationRequestState,
+    pub reason: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionBinding {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub binding_id: String,
+    pub target_branch: String,
+    pub target_sha: String,
+    pub participant_work_items: Vec<String>,
+    pub participant_heads: Vec<String>,
+    pub contract_digests: Vec<Digest>,
+    pub verifier: RuntimeCapabilityBinding,
+}
+
 /// Provenance for a repository fact.  The Runtime never promotes a derived
 /// interpretation to an observed fact; consumers can therefore distinguish
 /// what the Observer saw from what an implementation approach inferred.

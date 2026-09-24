@@ -48,6 +48,8 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 mod action_admission;
+mod collaboration;
+mod coordination_store;
 mod evidence_store;
 mod execution_context;
 mod governance_controls;
@@ -61,6 +63,16 @@ mod resource_lifecycle;
 mod status_projection;
 
 pub use action_admission::require_current_action_admission;
+pub use collaboration::{
+    CollaborationAdmission, CollaborationExecutionError, CollaborationOutcomeProjection,
+    CollaborationProjection, acknowledge_pause, admit_collaboration_action,
+    collaboration_outcome_projection, collaboration_projection, recover_impact,
+    refresh_dependency_state, report_impact, request_safe_pause, resume_and_re_evaluate,
+    run_admitted_composition,
+};
+pub use coordination_store::{
+    CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
+};
 pub use evidence_store::{
     ReceiptStoreBinding, ReceiptStoreLoad, ReceiptStoreWrite, load_reusable_receipt,
     persist_reusable_receipt,
@@ -105,8 +117,9 @@ pub use outcome_render::{
     FinalizationProjection, HumanDecisionProjection, OUTCOME_DELIVERY_MAX_SEGMENT_CHARS,
     OUTCOME_DELIVERY_SCHEMA_VERSION, OutcomeAssemblyMetadata, OutcomeRenderInput,
     OutcomeRenderView, outcome_render_input, outcome_render_input_from_outcome,
-    outcome_render_input_with_runtime, prepare_archive_outcome_delivery, render_full_human_outcome,
-    render_human_outcome, render_human_outcome_with_view,
+    outcome_render_input_with_runtime, prepare_archive_outcome_delivery,
+    render_collaboration_outcome, render_full_human_outcome, render_human_outcome,
+    render_human_outcome_with_view,
 };
 pub use project_governance::*;
 pub use resource_lifecycle::{

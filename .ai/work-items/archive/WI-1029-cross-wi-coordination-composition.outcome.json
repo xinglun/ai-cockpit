@@ -1,0 +1,208 @@
+{
+  "acceptanceResults": [
+    "A1: Two real linked worktrees in one Git common directory can register and observe each other with repository, WI, Contract, worktree, head, and execution-generation identity.",
+    "A2: Providers can publish exact staged outcomes and consumers can consume composable heads before provider closure; invalidated consumers are discovered before their related action.",
+    "A3: Conflicting resource reservations are atomic, duplicate-safe, generation-bound, and never treat corrupt or stale state as free.",
+    "A4: Impact events are uniquely identified, deduplicated, persisted, and recoverable without late events overwriting newer state.",
+    "A5: Wait, safe-pause request/confirmation/paused, resume/re-evaluate, and cycle diagnostics are executable; affected actions wait while unrelated work continues.",
+    "A6: Collaboration writes and reads are explicit separate operations; queries have no persistence side effects.",
+    "A7: Fixed Runtime 0.2.105 remains responsible for existing schema-2 lifecycle only; candidate Runtime collaboration operations fail closed when its capability/runtime binding is absent or mismatched and never silently ignore constraints.",
+    "A8: Exact composition verification binds target, participant heads, order, Contract/declaration identities, toolchain/configuration inputs, and execution result in an isolated temporary worktree.",
+    "A9: Composition precondition failure starts zero expensive verification processes; failures, timeouts, and interruptions persist readable records before retry.",
+    "A10: Head, target, declaration, or relevant input changes invalidate old composition conclusions; only proven unaffected nodes are reused with immutable receipt references.",
+    "A11: CLI, MCP, and human Outcome use one projection and distinguish implementation, composition pass, target merge, and cleanup.",
+    "A12: Ordinary single-WI lifecycle remains compatible and does not pay collaboration scanning cost.",
+    "A13: Real Git multi-worktree and concurrent-process scenarios, tri-language docs, governance gates, and cost measurements are present and reproducible."
+  ],
+  "createdAt": "2026-09-24T07:03:24Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:062b77ef1ae98d36e5d2bc1f27fdb296cea6d9e45cf0ce865dfc71892a3ce29a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a3898df94ccef7bf50454fe2b898e4a0fec5396da78885a9b1a400706a1ab94e",
+      "workItemId": "WI-1029-cross-wi-coordination-composition"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.0006688cf1e5f87ca9f45f18fa4066f3e14a33658d8a693ec246df22d28b2352.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.02d5b567aab8e4db2a40270caeb4c148aa7388b01c0bdc839460682d25d5b2ae.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.097303213ecaa1dffbd3a037fdd2cbcefc1e49456e7ce86283437aa07bbb7b6b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.4fbbf0554ebe6c571cdc46bfbe17b4ff0ec37eb1db556543e505934b94fba29f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.7d93cb2262153b3abf988e15ac68daa63869fdf70f7ff8f2c96b7ba2b82d995e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification-attempt.ae07a9dabc4b6b4c0e390eabc446bea4d92a451039bc940b002335ff9e514dfa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1029-cross-wi-coordination-composition.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1029-cross-wi-coordination-composition.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow explicit linked-worktree Work Items to declare dependencies and resources, observe and report real impacts, coordinate safe waits and pauses, and verify exact compositions before merge without adding mandatory cost to ordinary single-WI work."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1029-cross-wi-coordination-composition.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1029-cross-wi-coordination-composition"
+  },
+  "taskReportDigest": "sha256:309c5901497ebfc444977b2b0a5b0bee48b5850c36c81c78082671dfab886e65",
+  "taskReportMarkdownDigest": "sha256:89650d5044a3d457880bfd164cf6fb3b94bf36aad9d308db05485dfc56854a79",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1029-cross-wi-coordination-composition.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1029-cross-wi-coordination-composition"
+}
