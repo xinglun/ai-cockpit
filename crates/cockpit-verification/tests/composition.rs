@@ -311,7 +311,7 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
-        vec![command("cheap", "sh", &["-c", "true"])],
+        vec![command("cheap", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let passed = run_composition(composition.clone()).expect("successful attempt");
@@ -339,7 +339,7 @@ fn repeated_exact_composition_reuses_without_spawning_a_process() {
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
-        vec![command("cheap", "sh", &["-c", "true"])],
+        vec![command("cheap", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
@@ -393,8 +393,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
         vec![
-            command("stable", "sh", &["-c", "true"]),
-            command("changed", "sh", &["-c", "true"]),
+            command("stable", "true", &[]),
+            command("changed", "true", &[]),
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
@@ -406,8 +406,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         state.path(),
         first_input.binding,
         vec![
-            command("stable", "sh", &["-c", "true"]),
-            command("changed", "sh", &["-c", "false"]),
+            command("stable", "true", &[]),
+            command("changed", "false", &[]),
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
@@ -434,9 +434,9 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     run(root.path(), &["checkout", "-q", "main"]);
 
     let state = tempdir("state");
-    let mut api = command("api", "sh", &["-c", "true"]);
+    let mut api = command("api", "true", &[]);
     api.input_paths = vec!["api.txt".into()];
-    let mut docs = command("docs", "sh", &["-c", "true"]);
+    let mut docs = command("docs", "true", &[]);
     docs.input_paths = vec!["docs.txt".into()];
     let first_input = input(
         root.path(),
@@ -495,13 +495,13 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     run(root.path(), &["checkout", "-q", "main"]);
 
     let state = tempdir("state");
-    let mut source = command("source", "sh", &["-c", "cat api.txt"]);
+    let mut source = command("source", "cat", &["api.txt"]);
     source.input_paths = vec!["api.txt".into()];
-    let mut consumer = command("consumer", "sh", &["-c", "true"]);
+    let mut consumer = command("consumer", "true", &[]);
     consumer.depends_on = vec!["source".into()];
-    let mut transitive = command("transitive", "sh", &["-c", "true"]);
+    let mut transitive = command("transitive", "true", &[]);
     transitive.depends_on = vec!["consumer".into()];
-    let mut independent = command("independent", "sh", &["-c", "true"]);
+    let mut independent = command("independent", "true", &[]);
     independent.input_paths = vec!["docs.txt".into()];
     let commands = vec![
         source.clone(),
@@ -600,11 +600,7 @@ fn inherited_environment_change_invalidates_reuse_across_real_processes() {
         let root = PathBuf::from(std::env::var_os("COMPOSITION_ENV_ROOT").expect("root path"));
         let state = PathBuf::from(std::env::var_os("COMPOSITION_ENV_STATE").expect("state path"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
-        let check = command(
-            "inherited-environment-check",
-            "sh",
-            &["-c", "test -n \"$COMPOSITION_EXTERNAL_FLAVOR\""],
-        );
+        let check = command("inherited-environment-check", "env", &[]);
         let attempt = run_composition(input(
             &root,
             &state,
@@ -725,6 +721,88 @@ fn executable_resolved_from_command_path_override_invalidates_reuse() {
     assert!(!second.passed);
     assert_eq!(second.processes_spawned, 1);
     assert_eq!(second.execution_records[0].exit_code, Some(19));
+}
+
+#[test]
+fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("unbounded-read-state");
+    let external = tempdir("unbounded-read-source");
+    let source = external.path().join("source.txt");
+    fs::write(&source, "version-one\n").expect("write external source");
+    let mut check = command("external-read", "cat", &[source.to_str().unwrap()]);
+    // This is deliberately not the file read by `cat`; a caller-supplied path
+    // list cannot make an unbounded command read-set complete.
+    check.input_paths = vec!["README.md".into()];
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![check, command("independent", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let original_json = serde_json::to_vec(&composition).expect("serialize composition input");
+
+    let first = run_composition(composition.clone()).expect("first attempt");
+    fs::write(&source, "version-two\n").expect("change external source without editing input");
+    assert_eq!(
+        serde_json::to_vec(&composition).expect("serialize unchanged composition input"),
+        original_json
+    );
+    let second = run_composition(composition).expect("second attempt");
+
+    assert!(first.passed && second.passed);
+    assert_eq!(first.processes_spawned, 2);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(!second.execution_records[0].reused);
+    assert!(second.execution_records[1].reused);
+    assert!(second.execution_records[1].node_id == "independent");
+}
+
+#[cfg(unix)]
+#[test]
+fn relative_executable_uses_isolated_worktree_bytes_and_changes_identity() {
+    use std::os::unix::fs::{PermissionsExt, symlink};
+
+    let root = repository();
+    let state = tempdir("relative-executable-state");
+    let external = tempdir("relative-executable");
+    let executable = external.path().join("check.sh");
+    fs::write(&executable, "#!/bin/sh\nexit 0\n").expect("write initial executable");
+    fs::set_permissions(&executable, fs::Permissions::from_mode(0o755)).expect("make executable");
+    fs::create_dir_all(root.path().join("tools")).expect("create tools directory");
+    symlink(&executable, root.path().join("tools/check.sh")).expect("link executable into repo");
+    run(root.path(), &["add", "tools/check.sh"]);
+    run(root.path(), &["commit", "-qm", "add relative executable"]);
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let check = command("relative-check", "./tools/check.sh", &[]);
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![check],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+
+    let first = run_composition(composition.clone()).expect("first attempt");
+    assert!(first.passed, "first attempt: {first:?}");
+    assert_ne!(
+        first.identity.toolchain_digest,
+        CompositionIdentity::default().toolchain_digest,
+        "the Runtime must hash the executable resolved from the isolated worktree"
+    );
+
+    fs::write(&executable, "#!/bin/sh\nexit 19\n").expect("replace linked executable bytes");
+    let second = run_composition(composition).expect("second attempt");
+
+    assert!(!second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.execution_records[0].exit_code, Some(19));
+    assert_ne!(
+        second.identity.toolchain_digest,
+        first.identity.toolchain_digest
+    );
 }
 
 #[test]

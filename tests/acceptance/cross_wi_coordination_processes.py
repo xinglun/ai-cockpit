@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -22,14 +23,30 @@ def git(repo: Path, *args: str) -> str:
     return result.stdout.strip()
 
 
-def run_cli(binary: Path, args: list[str]) -> subprocess.CompletedProcess[str]:
+def run_cli(
+    binary: Path,
+    args: list[str],
+    environment: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
+    child_environment = None
+    if environment is not None:
+        child_environment = os.environ.copy()
+        child_environment.update(environment)
     return subprocess.run(
-        [str(binary), *args], text=True, capture_output=True, check=False
+        [str(binary), *args],
+        text=True,
+        capture_output=True,
+        check=False,
+        env=child_environment,
     )
 
 
-def require_cli(binary: Path, args: list[str]) -> str:
-    result = run_cli(binary, args)
+def require_cli(
+    binary: Path,
+    args: list[str],
+    environment: dict[str, str] | None = None,
+) -> str:
+    result = run_cli(binary, args, environment)
     if result.returncode != 0:
         raise RuntimeError(
             f"CLI {' '.join(args)} failed ({result.returncode}): {result.stderr}"
@@ -42,9 +59,9 @@ def digest_bytes(value: bytes) -> str:
 
 
 def digest_json(value: object) -> str:
-    # Rust's protocol canonical_json is serde_json::to_vec: no whitespace,
-    # preserving the generated struct/object field order.
-    return digest_bytes(json.dumps(value, separators=(",", ":")).encode())
+    # Runtime digests serde_json::Value, whose object keys serialize in sorted
+    # order; match its compact byte representation.
+    return digest_bytes(json.dumps(value, sort_keys=True, separators=(",", ":")).encode())
 
 
 def contract_digest(path: Path) -> str:
@@ -139,6 +156,12 @@ def main() -> None:
                 ],
             )
 
+        # Bind WI-B's composition command to the actual Contract required check.
+        contract_b = worktree_b / ".ai/work-items/active/WI-B.contract.json"
+        contract_value = json.loads(contract_b.read_text())
+        contract_value["verification"] = [{"check": "env", "required": True}]
+        contract_b.write_text(json.dumps(contract_value, indent=2) + "\n")
+
         def registration(work_item_id: str, worktree: Path) -> dict:
             contract = worktree / ".ai/work-items/active" / f"{work_item_id}.contract.json"
             branch = git(worktree, "branch", "--show-current")
@@ -223,11 +246,10 @@ def main() -> None:
         # contains a deliberately false caller precondition; the admitted path
         # must replace it with facts recomputed from the registrations/Git.
         head_b = git(worktree_b, "rev-parse", "HEAD")
-        contract_b = worktree_b / ".ai/work-items/active/WI-B.contract.json"
         command = {
             "nodeId": "required-check",
-            "program": "sh",
-            "args": ["-c", "true"],
+            "program": "env",
+            "args": [],
             "dependsOn": [],
             "environment": {},
             "inputPaths": ["README.md"],
@@ -268,15 +290,32 @@ def main() -> None:
             "--input",
             str(composition_path),
         ]
-        first = json.loads(require_cli(binary, composition_args))
-        second = json.loads(require_cli(binary, composition_args))
+        first = json.loads(
+            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "one"})
+        )
+        composition_bytes = composition_path.read_bytes()
+        second = json.loads(
+            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "one"})
+        )
+        assert composition_path.read_bytes() == composition_bytes
+        changed_environment = json.loads(
+            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "two"})
+        )
         first_result = first["result"]
         second_result = second["result"]
+        changed_environment_result = changed_environment["result"]
         assert first_result["passed"] is True, first
         assert second_result["passed"] is True, second
         assert first_result["processesSpawned"] == 1, first_result
         assert second_result["processesSpawned"] == 0, second_result
         assert second_result["executionRecords"][0]["reused"] is True, second_result
+        assert changed_environment_result["passed"] is True, changed_environment
+        assert changed_environment_result["processesSpawned"] == 1, changed_environment_result
+        assert changed_environment_result["executionRecords"][0]["reused"] is False, changed_environment_result
+        assert (
+            changed_environment_result["identity"]["environmentDigest"]
+            != second_result["identity"]["environmentDigest"]
+        ), changed_environment_result
 
         inspection = json.loads(
             require_cli(binary, ["work-item", "coordination", "inspect", "--repo", str(root)])
@@ -292,6 +331,7 @@ def main() -> None:
                     "deduplicatedEvents": len(inspection["events"]),
                     "firstCompositionProcesses": first_result["processesSpawned"],
                     "secondCompositionProcesses": second_result["processesSpawned"],
+                    "changedEnvironmentProcesses": changed_environment_result["processesSpawned"],
                 }
             )
         )

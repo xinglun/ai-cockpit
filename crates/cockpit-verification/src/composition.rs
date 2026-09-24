@@ -701,7 +701,7 @@ fn observe_composition_identity(
     let toolchain = input
         .commands
         .iter()
-        .map(|command| executable_digest(&command.program, &command.environment))
+        .map(|command| executable_digest(worktree, &command.program, &command.environment))
         .collect::<Option<Vec<_>>>()?;
     let environment_digest = observed_environment_digest(&input.commands)?;
     let generated_paths = input
@@ -731,9 +731,6 @@ fn observed_node_identity(
     command: &CompositionCommand,
     execution_records: &[CompositionExecutionRecord],
 ) -> Option<Digest> {
-    if command.input_paths.is_empty() {
-        return None;
-    }
     let dependencies = command
         .depends_on
         .iter()
@@ -747,8 +744,14 @@ fn observed_node_identity(
             Some((dependency, &record.identity_digest, &record.output_digest))
         })
         .collect::<Option<Vec<_>>>()?;
-    let executable = executable_digest(&command.program, &command.environment)?;
-    let paths_digest = digest_paths(worktree, &command.input_paths)?;
+    let executable_path = resolve_executable(worktree, &command.program, &command.environment)?;
+    let executable = digest_executable(&executable_path)?;
+    let observed_paths = deterministic_command_read_paths(command, &executable_path)?;
+    let mut input_paths = command.input_paths.clone();
+    input_paths.extend(observed_paths);
+    input_paths.sort();
+    input_paths.dedup();
+    let paths_digest = digest_paths(worktree, &input_paths)?;
     let environment = observed_environment_digest(std::slice::from_ref(command))?;
     let bytes = serde_json::to_vec(&(
         &command.node_id,
@@ -769,6 +772,48 @@ fn observed_node_identity(
     ))
     .ok()?;
     Some(Digest::sha256_bytes(&bytes))
+}
+
+/// Return file reads only for commands whose read set follows directly from
+/// their executable and argv. Shells, scripts, absolute paths, and command
+/// wrappers remain executable but are never reused without a bounded read set.
+fn deterministic_command_read_paths(
+    command: &CompositionCommand,
+    executable: &Path,
+) -> Option<Vec<String>> {
+    if !is_system_utility(executable) {
+        return None;
+    }
+    match command.program.as_str() {
+        "true" | "false" | "env" if command.args.is_empty() => Some(Vec::new()),
+        "cat"
+            if !command.args.is_empty()
+                && command.args.iter().all(|argument| {
+                    let path = Path::new(argument);
+                    !argument.starts_with('-')
+                        && !path.is_absolute()
+                        && !path.as_os_str().is_empty()
+                        && path
+                            .components()
+                            .all(|component| matches!(component, Component::Normal(_)))
+                }) =>
+        {
+            Some(command.args.clone())
+        }
+        _ => None,
+    }
+}
+
+fn is_system_utility(executable: &Path) -> bool {
+    #[cfg(unix)]
+    {
+        executable.starts_with("/bin") || executable.starts_with("/usr/bin")
+    }
+    #[cfg(not(unix))]
+    {
+        let _ = executable;
+        false
+    }
 }
 
 fn digest_paths(root: &Path, paths: &[String]) -> Option<Digest> {
@@ -810,15 +855,30 @@ fn observed_environment_digest(commands: &[CompositionCommand]) -> Option<Digest
     Some(Digest::sha256_bytes(&bytes))
 }
 
-fn executable_digest(program: &str, environment: &BTreeMap<String, String>) -> Option<Digest> {
-    let candidate = if Path::new(program).components().count() > 1 {
-        PathBuf::from(program)
+fn resolve_executable(
+    worktree: &Path,
+    program: &str,
+    environment: &BTreeMap<String, String>,
+) -> Option<PathBuf> {
+    let program_path = Path::new(program);
+    let candidate = if program_path.is_absolute() {
+        program_path.to_path_buf()
+    } else if program_path.components().count() > 1 {
+        worktree.join(program_path)
     } else {
         let path = environment
             .get("PATH")
             .map(OsString::from)
             .or_else(|| std::env::var_os("PATH"))?;
-        std::env::split_paths(&path)
+        let directories = std::env::split_paths(&path).collect::<Vec<_>>();
+        if directories.iter().any(|directory| !directory.is_absolute()) {
+            // Relative PATH entries can be resolved against different working
+            // directories by the parent and child launch paths. Do not claim
+            // an executable identity when that ambiguity exists.
+            return None;
+        }
+        directories
+            .into_iter()
             .map(|directory| directory.join(program))
             .find(|path| path.is_file())?
     };
@@ -827,8 +887,21 @@ fn executable_digest(program: &str, environment: &BTreeMap<String, String>) -> O
     if !metadata.is_file() {
         return None;
     }
-    let bytes = fs::read(canonical).ok()?;
+    Some(canonical)
+}
+
+fn digest_executable(executable: &Path) -> Option<Digest> {
+    let bytes = fs::read(executable).ok()?;
     Some(Digest::sha256_bytes(&bytes))
+}
+
+fn executable_digest(
+    worktree: &Path,
+    program: &str,
+    environment: &BTreeMap<String, String>,
+) -> Option<Digest> {
+    let executable = resolve_executable(worktree, program, environment)?;
+    digest_executable(&executable)
 }
 
 fn is_lockfile(path: &str) -> bool {

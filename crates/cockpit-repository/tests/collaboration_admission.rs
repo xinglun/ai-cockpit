@@ -342,11 +342,7 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let root = repository();
     let store = store(root.path());
     let marker = root.path().join("composition-marker");
-    declare_required_checks(
-        root.path(),
-        "WI-CONSUMER",
-        &[format!("touch {}", marker.display())],
-    );
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
     let mut consumer_declaration = declaration(root.path(), &[], &[]);
     consumer_declaration.composition_verification.reusable_nodes = vec!["marker".into()];
     store
@@ -358,6 +354,8 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
         ))
         .expect("register consumer");
     let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
     let first = run_admitted_composition(&store, "WI-CONSUMER", 1, input.clone())
