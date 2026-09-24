@@ -1,7 +1,8 @@
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_SCHEMA_VERSION, CoordinationEvent, CoordinationRequest, CoordinationRequestState,
-    ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding, WorktreeRegistration,
+    COLLABORATION_SCHEMA_VERSION, CoordinationEvent, CoordinationRecovery, CoordinationRequest,
+    CoordinationRequestState, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
+    WorktreeRegistration,
 };
 use serde::Serialize;
 use serde::de::DeserializeOwned;
@@ -82,7 +83,13 @@ impl CoordinationStore {
                 source: std::io::Error::other(source.to_string()),
             })?;
         let root = topology.common_dir.join(".ai-cockpit/coordination/v1");
-        for directory in ["registrations", "events", "reservations", "requests"] {
+        for directory in [
+            "registrations",
+            "events",
+            "reservations",
+            "requests",
+            "recoveries",
+        ] {
             fs::create_dir_all(root.join(directory)).map_err(|source| CoordinationError::Io {
                 path: root.join(directory),
                 source,
@@ -314,6 +321,75 @@ impl CoordinationStore {
             request.state = state;
             self.atomic_write(&path, &request)?;
             Ok(request)
+        })
+    }
+
+    pub fn recover_event(
+        &self,
+        event_id: &str,
+        consumer_work_item_id: &str,
+        consumer_generation: u64,
+    ) -> Result<CoordinationRecovery, CoordinationError> {
+        self.runtime.validate_candidate()?;
+        if !valid_component(event_id)
+            || !valid_component(consumer_work_item_id)
+            || consumer_generation == 0
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "invalid recovery consumption identity".into(),
+            ));
+        }
+        self.with_lock(|| {
+            let event_path = self.root.join("events").join(format!("{event_id}.json"));
+            let event: CoordinationEvent = self.read_json(&event_path)?;
+            let provider_registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(&event.work_item_id))?;
+            if provider_registration.generation != event.generation {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: event.work_item_id.clone(),
+                    expected: provider_registration.generation,
+                    actual: event.generation,
+                });
+            }
+            let consumer_registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(consumer_work_item_id))?;
+            if consumer_registration.generation != consumer_generation {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: consumer_work_item_id.into(),
+                    expected: consumer_registration.generation,
+                    actual: consumer_generation,
+                });
+            }
+            if event.repository_id != consumer_registration.repository_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "event repository identity differs from consumer registration".into(),
+                ));
+            }
+            let consumption_id =
+                format!("recovery-{event_id}-{consumer_work_item_id}-{consumer_generation}");
+            let recovery = CoordinationRecovery {
+                schema_version: COLLABORATION_SCHEMA_VERSION,
+                consumption_id: consumption_id.clone(),
+                repository_id: event.repository_id,
+                event_id: event.event_id,
+                provider_work_item_id: event.work_item_id,
+                provider_generation: event.generation,
+                consumer_work_item_id: consumer_work_item_id.into(),
+                consumer_generation,
+            };
+            let path = self
+                .root
+                .join("recoveries")
+                .join(format!("{consumption_id}.json"));
+            if path.exists() {
+                let existing: CoordinationRecovery = self.read_json(&path)?;
+                if existing == recovery {
+                    return Ok(existing);
+                }
+                return Err(CoordinationError::DuplicateIdentity(consumption_id));
+            }
+            self.atomic_write(&path, &recovery)?;
+            Ok(recovery)
         })
     }
 

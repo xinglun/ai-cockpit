@@ -3614,6 +3614,20 @@ pub struct CoordinationEvent {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CoordinationRecovery {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub consumption_id: String,
+    pub repository_id: Digest,
+    pub event_id: String,
+    pub provider_work_item_id: String,
+    pub provider_generation: u64,
+    pub consumer_work_item_id: String,
+    pub consumer_generation: u64,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ResourceReservation {
     #[serde(default = "default_collaboration_schema_version")]
     pub schema_version: u32,

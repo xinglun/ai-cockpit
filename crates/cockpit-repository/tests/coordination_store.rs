@@ -170,6 +170,51 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
 }
 
 #[test]
+fn recovery_consumes_only_matching_event_and_is_idempotent() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 1))
+        .expect("register provider");
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1))
+        .expect("register consumer");
+    let event = CoordinationEvent {
+        schema_version: 1,
+        event_id: "recoverable-impact".into(),
+        repository_id: digest("repository"),
+        work_item_id: "WI-PROVIDER".into(),
+        generation: 1,
+        kind: CoordinationEventKind::Impact,
+        source: "recovery-test".into(),
+        evidence_refs: vec!["evidence/impact.json".into()],
+    };
+    store.publish_event(event.clone()).expect("publish event");
+
+    let consumed = store
+        .recover_event("recoverable-impact", "WI-CONSUMER", 1)
+        .expect("consume event");
+    assert_eq!(consumed.event_id, event.event_id);
+    assert_eq!(consumed.consumer_work_item_id, "WI-CONSUMER");
+    assert_eq!(
+        store
+            .recover_event("recoverable-impact", "WI-CONSUMER", 1)
+            .expect("duplicate consumption"),
+        consumed
+    );
+
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 2))
+        .expect("new consumer generation");
+    let stale = store.recover_event("recoverable-impact", "WI-CONSUMER", 1);
+    assert!(matches!(
+        stale,
+        Err(CoordinationError::StaleGeneration { .. })
+    ));
+    assert_eq!(store.inspect().expect("inspect").unknowns.len(), 0);
+}
+
+#[test]
 fn corrupt_reservation_is_not_treated_as_free() {
     let root = repository();
     let store = store(root.path());
