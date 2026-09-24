@@ -1,4 +1,6 @@
 use crate::{CoordinationError, CoordinationStore};
+use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
+use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     CoordinationEvent, CoordinationIntent, CoordinationRecovery, CoordinationRequest,
@@ -11,7 +13,8 @@ use cockpit_verification::{
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
-use std::path::Path;
+use std::io::Read;
+use std::path::{Component, Path};
 use std::process::Command;
 use thiserror::Error;
 
@@ -280,14 +283,7 @@ fn verification_evidence_is_complete(
     }) else {
         return false;
     };
-    let path = root.join(&expected_reference);
-    let Ok(metadata) = fs::symlink_metadata(&path) else {
-        return false;
-    };
-    if metadata.file_type().is_symlink() || !metadata.is_file() {
-        return false;
-    }
-    let Ok(bytes) = fs::read(&path) else {
+    let Ok(bytes) = read_registered_outcome_evidence(root, &expected_reference) else {
         return false;
     };
     if publication.evidence_digests.get(&expected_reference)
@@ -336,6 +332,98 @@ fn verification_evidence_is_complete(
     };
     crate::verification_evidence_state(root, &contract, &snapshot, false, Some(&runtime))
         .is_ok_and(|state| state == cockpit_core::EvidenceState::Complete)
+}
+
+/// Read outcome evidence through directory handles rooted at the registered
+/// worktree. Every parent is opened without following symlinks and the leaf is
+/// opened with no-follow semantics, so a path cannot escape between a path
+/// check and the read. The canonical path containment check is retained as a
+/// second invariant for the registered-worktree boundary.
+fn read_registered_outcome_evidence(root: &Path, reference: &str) -> Result<Vec<u8>, String> {
+    if reference.is_empty()
+        || reference.contains('\\')
+        || reference
+            .split('/')
+            .any(|component| component.is_empty() || matches!(component, "." | ".."))
+    {
+        return Err(format!("invalid relative evidence reference: {reference}"));
+    }
+    let relative = Path::new(reference);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err(format!("invalid relative evidence reference: {reference}"));
+    }
+    let components = relative
+        .components()
+        .map(|component| component.as_os_str().to_owned())
+        .collect::<Vec<_>>();
+    let (leaf, parents) = components
+        .split_last()
+        .ok_or_else(|| format!("empty evidence reference: {reference}"))?;
+    let leaf = leaf
+        .to_str()
+        .ok_or_else(|| format!("evidence reference is not valid UTF-8: {reference}"))?;
+    let canonical_root = fs::canonicalize(root).map_err(|error| {
+        format!(
+            "cannot resolve registered worktree {}: {error}",
+            root.display()
+        )
+    })?;
+    let mut parent =
+        Dir::open_ambient_dir(&canonical_root, cap_std::ambient_authority()).map_err(|error| {
+            format!(
+                "cannot open registered worktree {}: {error}",
+                canonical_root.display()
+            )
+        })?;
+    let mut display_path = canonical_root.clone();
+    for component in parents {
+        let name = component
+            .to_str()
+            .ok_or_else(|| format!("evidence path component is not valid UTF-8: {reference}"))?;
+        display_path.push(name);
+        parent = crate::open_cap_directory_nofollow_strict(&parent, name, &display_path).map_err(
+            |error| {
+                format!(
+                    "evidence parent is not safely contained at {}: {error}",
+                    display_path.display()
+                )
+            },
+        )?;
+    }
+    display_path.push(leaf);
+    let canonical_evidence = fs::canonicalize(&display_path).map_err(|error| {
+        format!(
+            "cannot resolve outcome evidence {}: {error}",
+            display_path.display()
+        )
+    })?;
+    if !canonical_evidence.starts_with(&canonical_root) {
+        return Err(format!(
+            "outcome evidence escapes registered worktree: {reference}"
+        ));
+    }
+    let mut options = CapOpenOptions::new();
+    options.read(true).follow(FollowSymlinks::No);
+    let mut file = parent
+        .open_with(leaf, &options)
+        .map_err(|error| format!("cannot safely open outcome evidence {reference}: {error}"))?
+        .into_std();
+    let metadata = file
+        .metadata()
+        .map_err(|error| format!("cannot inspect outcome evidence {reference}: {error}"))?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(format!(
+            "outcome evidence is not a regular file: {reference}"
+        ));
+    }
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)
+        .map_err(|error| format!("cannot read outcome evidence {reference}: {error}"))?;
+    Ok(bytes)
 }
 
 fn transitive_invalidated_outcomes(
@@ -1249,29 +1337,10 @@ pub fn publish_outcome(
     let root = Path::new(&provider.worktree_path);
     let mut evidence_digests = BTreeMap::new();
     for reference in &outcome.evidence_refs {
-        let relative = Path::new(reference);
-        if relative.is_absolute()
-            || relative
-                .components()
-                .any(|component| component == std::path::Component::ParentDir)
-        {
-            return Err(CoordinationError::RecoveryRequired(format!(
-                "outcome evidence reference escapes the registered worktree: {reference}"
-            )));
-        }
-        let path = root.join(relative);
-        let metadata = fs::symlink_metadata(&path).map_err(|source| CoordinationError::Io {
-            path: path.clone(),
-            source,
-        })?;
-        if metadata.file_type().is_symlink() || !metadata.is_file() {
-            return Err(CoordinationError::RecoveryRequired(format!(
-                "outcome evidence is not a regular file: {reference}"
-            )));
-        }
-        let bytes = fs::read(&path).map_err(|source| CoordinationError::Io {
-            path: path.clone(),
-            source,
+        let bytes = read_registered_outcome_evidence(root, reference).map_err(|error| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome evidence is not safely contained: {reference}: {error}"
+            ))
         })?;
         if evidence_digests
             .insert(

@@ -717,6 +717,61 @@ fn outcome_publication_rejects_missing_verification_receipt_before_appending_eve
     );
 }
 
+#[cfg(unix)]
+#[test]
+fn outcome_publication_rejects_parent_symlink_escape() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository();
+    let store = store(root.path());
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("outcome.json"), "outside evidence\n")
+        .expect("write outside evidence");
+
+    let evidence_dir = root.path().join(".ai/evidence");
+    fs::create_dir_all(&evidence_dir).expect("registered evidence directory");
+    fs::write(evidence_dir.join("outcome.json"), "registered evidence\n")
+        .expect("write initial in-tree evidence");
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs = vec![".ai/evidence/outcome.json".into()];
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 1, provider))
+        .expect("register provider against in-tree evidence");
+
+    let evidence_backup = root.path().join(".ai/evidence-before-symlink");
+    fs::rename(&evidence_dir, &evidence_backup).expect("preserve original evidence directory");
+    symlink(outside.path(), &evidence_dir).expect("link evidence parent outside worktree");
+
+    let result = publish_outcome(&store, "WI-PROVIDER", 1, "api");
+
+    assert!(
+        result.is_err(),
+        "publication must reject evidence reached through a parent symlink: {result:?}"
+    );
+    assert!(
+        store.inspect().unwrap().events.is_empty(),
+        "rejected outside evidence must not append an OutcomePublished event"
+    );
+
+    fs::remove_file(&evidence_dir).expect("remove parent symlink");
+    fs::rename(&evidence_backup, &evidence_dir).expect("restore original evidence directory");
+    fs::remove_file(evidence_dir.join("outcome.json")).expect("remove in-tree evidence leaf");
+    symlink(
+        outside.path().join("outcome.json"),
+        evidence_dir.join("outcome.json"),
+    )
+    .expect("link evidence leaf outside worktree");
+    let final_symlink_result = publish_outcome(&store, "WI-PROVIDER", 1, "api");
+    assert!(
+        final_symlink_result.is_err(),
+        "publication must continue rejecting a final evidence symlink"
+    );
+    assert!(
+        store.inspect().unwrap().events.is_empty(),
+        "rejected final symlink must not append an OutcomePublished event"
+    );
+}
+
 #[test]
 fn outcome_publication_rejects_malformed_and_identity_mismatched_receipts() {
     let root = repository();
@@ -860,6 +915,66 @@ fn verification_dependency_requires_current_generation_publication_binding() {
             .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
         "generation-1 publication must not make the old receipt current for generation 2: {:?}",
         next_generation.blockers
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn dependency_inspection_rejects_published_evidence_through_parent_symlink() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs =
+        vec![".ai/evidence/WI-PROVIDER.verification.json".into()];
+    let mut consumer = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer.consumed_outcomes[0].verification_required = true;
+    let evidence_dir = root.path().join(".ai/evidence");
+    let evidence_path = evidence_dir.join("WI-PROVIDER.verification.json");
+    fs::create_dir_all(&evidence_dir).expect("evidence directory");
+    fs::write(&evidence_path, "placeholder\n").expect("initial receipt placeholder");
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 1, provider))
+        .expect("register provider");
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, consumer))
+        .expect("register consumer");
+
+    record_typed_verification(root.path(), "WI-PROVIDER");
+    publish_verification_outcome(&store, root.path(), "WI-PROVIDER", 1, "api");
+    let before =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("inspect valid published evidence");
+    assert!(
+        before.allowed,
+        "valid current receipt should admit: {before:?}"
+    );
+
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    let receipt_bytes = fs::read(&evidence_path).expect("read current Runtime receipt");
+    fs::write(
+        outside.path().join("WI-PROVIDER.verification.json"),
+        receipt_bytes,
+    )
+    .expect("copy receipt outside registered worktree");
+    let evidence_backup = root.path().join(".ai/evidence-before-symlink");
+    fs::rename(&evidence_dir, &evidence_backup).expect("preserve original evidence directory");
+    symlink(outside.path(), &evidence_dir).expect("link evidence parent outside worktree");
+
+    let after =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("inspect after evidence parent substitution");
+    assert!(
+        after
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
+        "outside evidence must not satisfy the published dependency: {after:?}"
     );
 }
 
