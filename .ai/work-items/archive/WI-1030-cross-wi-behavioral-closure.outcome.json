@@ -1,0 +1,366 @@
+{
+  "acceptanceResults": [
+    "登记必须核验真实 repository/common directory、WI Contract 存在与 digest、worktree topology、branch/head 和 verification-required 证据；不可信声明 fail closed",
+    "SafelyPaused 在恢复前必须拒绝具体执行动作且不得启动进程；无关 WI 继续，恢复后刷新依赖",
+    "资源 reserve/release 必须核验当前登记代次，旧执行者不能释放新代次资源",
+    "组合身份必须由 Runtime/仓库事实核验，前置条件由 Runtime 计算，必需检查必须完整覆盖，空命令不得成功",
+    "组合执行复用既有 bounded executor，逐节点持久化 attempt，真实记录 timeout/interruption/cleanup，stdout/stderr 有执行期上限",
+    "CLI/MCP 连续执行证明完全相同输入实际少启动进程，局部变化只重跑受影响节点",
+    "影响事件按失效与发布区分，跨代次追加式恢复可解除旧事件阻塞但不删除历史；相关动作前刷新真实 head/Contract/evidence",
+    "共享 Outcome 投影反映最近 composition/merge/cleanup/reuse 事实，协调请求不直接伪造 human decision required",
+    "真实多进程、多 linked worktree 验收脚本进入 canonical gate manifest 并持续执行",
+    "Runtime 前置：本机治理命令解析到公开 Runtime v0.2.113，架构为 aarch64-apple-darwin，archive、SHA256SUMS 和 release-manifest 身份一致；升级前版本保留为可恢复备份。"
+  ],
+  "createdAt": "2026-09-24T10:27:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e890ac9d15d221fe9c4b35cad984618baaee73c2f11afa482d44e45337070387",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f0ed81f5074114861ff0daeefcb1f74aca5f024c1c65c243394abb8afd0400d7",
+      "workItemId": "WI-1030-cross-wi-behavioral-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cross-process-acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.085f738073dea2c30319f6df78274c75316fb19ca6c943aae93dd71b959c78c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.22618b4cd9f557b6b3d6d0e4ae6f3cf8d8ddf45b35c15801e7a447382736ccdf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.2e1153e4b5824ed07cf625b0f897a48869ba834909fc7823bc0999680bb2178d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.f823405c3b8e3da369e0f44ee21ae6b79af33aa373483fdbbeabfab26787e670.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-evidence-classes-controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-runtime-upgrade-amendment-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1030-scenario-controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/collaboration_cli.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/collaboration.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/coordination_store.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/collaboration_admission.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/coordination_store.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/src/composition.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/tests/composition.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/features/cross-wi-coordination.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/features/cross-wi-coordination.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/features/cross-wi-coordination.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/cross-wi-coordination.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/cross-wi-coordination.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/cross-wi-coordination.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-24-cross-wi-behavioral-closure.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/specs/2026-09-24-cross-wi-behavioral-closure-design.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/acceptance/cross_wi_coordination_processes.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "让登记、准入、暂停、资源、组合验证、超时恢复、实际复用、影响消费和 Outcome 投影都绑定真实仓库事实并可由 CLI/MCP 与真实多进程验收证明"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1030-cross-wi-behavioral-closure"
+  },
+  "taskReportDigest": "sha256:b8ad2e21d86087db8d0410c5833389cbec4225f94b28209cb3bd7f29105e4df6",
+  "taskReportMarkdownDigest": "sha256:d5ee11b576dd238148ded08d65f65761d8aa916190ffdd571a3c6b953211d6e0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1030-cross-wi-behavioral-closure"
+}
