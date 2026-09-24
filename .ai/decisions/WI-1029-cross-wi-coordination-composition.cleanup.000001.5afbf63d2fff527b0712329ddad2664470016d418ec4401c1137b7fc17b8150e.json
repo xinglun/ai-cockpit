@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:e2e8f6c8d5f03373ba04d529aeff8269e50b6911e4cb63cab8e3d4c997d15713",
+  "branchRef": "refs/heads/codex/wi-collaboration-closure",
+  "contractDigest": "sha256:166582158fd499a86506d1e14d4ead5b95d7b88e71446e11b71d49c6283eee8f",
+  "headRevision": "9750c0fe8e65ac043b7d0f052aa75fc20647f28e",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-24T08:18:15Z",
+  "operationId": "sha256:634debbbc58d0877ada001fa004463f19d3ad2c337d2aa45b31775e2d3b05ec6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1029-cross-wi-coordination-composition",
+  "worktreeId": "sha256:bd74559342c76b046455d715ba7b90ed7004b280c53b8a02fc3aeed7527faa16"
+}
