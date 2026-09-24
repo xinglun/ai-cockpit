@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-24T02:00:17Z",
+  "files": {
+    "contractDigest": "sha256:af81c8b96b5d726c234f759e06bd6c6d0a805eaa23d55d186fbc58aaf6f15963",
+    "contractPath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.contract.json",
+    "eventsDigest": "sha256:d3cad5790d9b401c988a0068151e1e7db42a89f039b04993d3fb5d059b3f411b",
+    "eventsPath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.events.jsonl",
+    "outcomeDigest": "sha256:35466e9c728d2b651d2e9289ee5fab90caebbec9dd9b43c8d0e97c8eebf4128a",
+    "outcomePath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.outcome.json",
+    "summaryDigest": "sha256:f89b638e98465e864a10b7f56c5141bfee516a31c18835fb47c1f5545bb372bd",
+    "summaryPath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.summary.json",
+    "taskReportDigest": "sha256:a91cd323a7fda489916c168f3fa632ec9b70b114d32dfbc0496eeaadae35e4bc",
+    "taskReportMarkdownDigest": "sha256:d70a4556c53d3004cbe08b5005b821dd5bbca817668b747fc7aecbe74bb34d75",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1027-release-v0-2-113-lineage-repair"
+}

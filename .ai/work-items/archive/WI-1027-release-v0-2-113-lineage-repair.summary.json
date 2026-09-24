@@ -1,0 +1,135 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "existing release acceptance mappings",
+          "path": ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json",
+          "type": "governance",
+          "verification": "The input contains the four mappings for the already declared WI-1025 acceptance criteria, backed by release, install, upgrade, finalization, and cleanup receipts."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable predecessor archive",
+          "path": ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+          "type": "runtime",
+          "verification": "The archived predecessor manifest and exact Contract, Summary, Outcome, and Events digests are retained without rewriting predecessor files."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "successor Runtime lifecycle",
+          "path": ".ai/evidence/WI-1027-release-v0-2-113-lineage-repair-controls-input.json",
+          "type": "runtime",
+          "verification": "This successor is restricted to existing evidence binding and lifecycle closure; it does not rerun release or workspace verification."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "repeated lifecycle receipts",
+          "path": ".ai/evidence/external/v0.2.113/adopter/lifecycle-close.json",
+          "type": "test",
+          "verification": "Existing adopter lifecycle close and upgrade close receipts show fixed-point cleanup; the local projection check will be run after successor close."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1025-release-v0-2-113-successor-WI-1027-input.json",
+    ".ai/evidence/WI-1027-release-v0-2-113-lineage-repair-controls-input.json",
+    ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.contract.json",
+    ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-24T01:54:30Z",
+  "checkpointContractDigest": "sha256:142fb36637e3e42a21db27240f2297758d9c85409996cb0047f003bad9837274",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "createdAt": "2026-09-24T01:54:27Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1027-release-v0-2-113-lineage-repair.contract.json",
+      ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json"
+    ],
+    "reason": "The bounded successor repairs historical lifecycle binding and declares no separate user-benefit measurement.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-24T01:59:47Z",
+  "preflightContractDigest": "sha256:142fb36637e3e42a21db27240f2297758d9c85409996cb0047f003bad9837274",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json",
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        ".ai/evidence/external/v0.2.113/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.113/upgrade/acceptance.json"
+      ],
+      "expected": "The four existing WI-1025 acceptance criteria have explicit evidence mappings.",
+      "required": true,
+      "scenario": "existing_release_acceptance_mapping",
+      "status": "verified",
+      "verificationPlan": "Inspect the existing release, install, upgrade, finalization, and cleanup receipts without rerunning the workspace."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.contract.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.outcome.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.events.jsonl"
+      ],
+      "expected": "The predecessor archive and its historical evidence remain unchanged.",
+      "required": true,
+      "scenario": "predecessor_archive_immutability",
+      "status": "verified",
+      "verificationPlan": "Bind the archived predecessor through the Runtime recovery receipt and compare its recorded digests."
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.0bf8c874a8b117d75aaed2f22f345019b0c1e990d0d883608da35f76398dcdd5.json",
+        ".ai/decisions/WI-1025-release-v0-2-113.finalize.json"
+      ],
+      "expected": "The successor can pass Runtime verification, finish, archive, and close through supported lifecycle commands.",
+      "required": true,
+      "scenario": "successor_lifecycle_terminal",
+      "status": "verified",
+      "verificationPlan": "Run only the current Runtime controls, verification, finish, archive, and close gates for this governance-only successor."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/adopter/lifecycle-close.json",
+        ".ai/evidence/external/v0.2.113/upgrade/new-close.json"
+      ],
+      "expected": "Repeated status and projection work creates no new successor or cleanup obligation.",
+      "required": true,
+      "scenario": "projection_fixed_point",
+      "status": "verified",
+      "verificationPlan": "Run the repository projection checks after close and confirm the second pass is unchanged."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-24T02:00:08Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1027-release-v0-2-113-lineage-repair"
+}

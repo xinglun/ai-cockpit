@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "A1: WI-1027 Contract 和 Summary 由 Runtime 绑定到 WI-1025 的归档 Contract 与 recovery decision。",
+    "A2: 复用 v0.2.113 发布、安装、升级、finalization 和 cleanup 证据，不重写 predecessor 或 WI-1026 历史字节。",
+    "A3: WI-1027 通过现有 controls、廉价验证、finish、archive、close 和普通 cleanup 生命周期。",
+    "A4: WI-1025 的三语 parity 投影包含真实 terminal recovery decision，docs governance/status checks 达到固定点且不产生新的 successor。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c3793d029e05b9d5a55750d573447eda4212309c",
+  "createdAt": "2026-09-24T01:54:27Z",
+  "goal": "不重跑发布或 workspace，使用已有 WI-1025/WI-1026 证据创建正确绑定的终态 successor，保持历史记录不变并让治理投影达到固定点",
+  "intent": "修复 v0.2.113 发布收尾的 predecessor/successor lineage 绑定并完成文档治理投影收敛",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改产品源码、发布资产、tag、已有归档 Contract/Summary/Outcome/Events，不新增任务进度 API，不重跑完整 workspace"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅修复 WI-1025 的 Runtime recovery lineage、现有验收证据引用、归档/关闭/普通清理记录和三语 parity 决策引用"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "git status --short --branch"
+  ],
+  "workItemId": "WI-1027-release-v0-2-113-lineage-repair"
+}

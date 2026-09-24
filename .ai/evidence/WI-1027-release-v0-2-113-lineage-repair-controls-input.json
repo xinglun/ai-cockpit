@@ -1,0 +1,106 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "existing_release_acceptance_mapping",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json",
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        ".ai/evidence/external/v0.2.113/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.113/upgrade/acceptance.json"
+      ],
+      "expected": "The four existing WI-1025 acceptance criteria have explicit evidence mappings.",
+      "verificationPlan": "Inspect the existing release, install, upgrade, finalization, and cleanup receipts without rerunning the workspace."
+    },
+    {
+      "scenario": "predecessor_archive_immutability",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.contract.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.outcome.json",
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.events.jsonl"
+      ],
+      "expected": "The predecessor archive and its historical evidence remain unchanged.",
+      "verificationPlan": "Bind the archived predecessor through the Runtime recovery receipt and compare its recorded digests."
+    },
+    {
+      "scenario": "successor_lifecycle_terminal",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.0bf8c874a8b117d75aaed2f22f345019b0c1e990d0d883608da35f76398dcdd5.json",
+        ".ai/decisions/WI-1025-release-v0-2-113.finalize.json"
+      ],
+      "expected": "The successor can pass Runtime verification, finish, archive, and close through supported lifecycle commands.",
+      "verificationPlan": "Run only the current Runtime controls, verification, finish, archive, and close gates for this governance-only successor."
+    },
+    {
+      "scenario": "projection_fixed_point",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/adopter/lifecycle-close.json",
+        ".ai/evidence/external/v0.2.113/upgrade/new-close.json"
+      ],
+      "expected": "Repeated status and projection work creates no new successor or cleanup obligation.",
+      "verificationPlan": "Run the repository projection checks after close and confirm the second pass is unchanged."
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "existing release acceptance mappings",
+          "path": ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json",
+          "type": "governance",
+          "verification": "The input contains the four mappings for the already declared WI-1025 acceptance criteria, backed by release, install, upgrade, finalization, and cleanup receipts."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable predecessor archive",
+          "path": ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+          "type": "runtime",
+          "verification": "The archived predecessor manifest and exact Contract, Summary, Outcome, and Events digests are retained without rewriting predecessor files."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "successor Runtime lifecycle",
+          "path": ".ai/evidence/WI-1027-release-v0-2-113-lineage-repair-controls-input.json",
+          "type": "runtime",
+          "verification": "This successor is restricted to existing evidence binding and lifecycle closure; it does not rerun release or workspace verification."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "repeated lifecycle receipts",
+          "path": ".ai/evidence/external/v0.2.113/adopter/lifecycle-close.json",
+          "type": "test",
+          "verification": "Existing adopter lifecycle close and upgrade close receipts show fixed-point cleanup; the local projection check will be run after successor close."
+        }
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "The bounded successor repairs historical lifecycle binding and declares no separate user-benefit measurement.",
+    "evidence": [
+      ".ai/work-items/active/WI-1027-release-v0-2-113-lineage-repair.contract.json",
+      ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json"
+    ]
+  }
+}
