@@ -97,6 +97,26 @@ fn contract_digest(root: &Path, work_item_id: &str) -> Digest {
     cockpit_protocol::digest_json(&value).expect("Contract digest")
 }
 
+fn declare_required_checks(root: &Path, work_item_id: &str, checks: &[String]) {
+    contract_digest(root, work_item_id);
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("Contract bytes")).expect("Contract JSON");
+    contract["verification"] = serde_json::Value::Array(
+        checks
+            .iter()
+            .map(|check| serde_json::json!({"check": check, "required": true}))
+            .collect(),
+    );
+    fs::write(
+        path,
+        serde_json::to_vec_pretty(&contract).expect("serialize typed Contract checks"),
+    )
+    .expect("write typed Contract checks");
+}
+
 fn declaration(
     root: &Path,
     provided: &[(&str, OutcomeStage)],
@@ -131,7 +151,7 @@ fn declaration(
             .collect(),
         resource_claims: Vec::new(),
         integration_responsibility: IntegrationResponsibility {
-            responsible_work_item_id: "WI-INTEGRATION".into(),
+            responsible_work_item_id: "WI-CONSUMER".into(),
             target_branch: "main".into(),
             composition_order: Vec::new(),
             rationale: "test".into(),
@@ -295,8 +315,8 @@ fn composition_input(root: &Path, marker: &Path) -> CompositionInput {
         identity,
         commands: vec![CompositionCommand {
             node_id: "marker".into(),
-            program: "sh".into(),
-            args: vec!["-c".into(), format!("touch {}", marker.display())],
+            program: "touch".into(),
+            args: vec![marker.to_string_lossy().into_owned()],
             depends_on: Vec::new(),
             environment: Default::default(),
             input_paths: vec!["README.md".into()],
@@ -321,6 +341,12 @@ fn runtime_context() -> RuntimeContext {
 fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let root = repository();
     let store = store(root.path());
+    let marker = root.path().join("composition-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
     let mut consumer_declaration = declaration(root.path(), &[], &[]);
     consumer_declaration.composition_verification.reusable_nodes = vec!["marker".into()];
     store
@@ -331,7 +357,6 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
             consumer_declaration,
         ))
         .expect("register consumer");
-    let marker = root.path().join("composition-marker");
     let mut input = composition_input(root.path(), &marker);
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
@@ -418,6 +443,231 @@ fn missing_one_of_two_required_scenarios_blocks_composition() {
 }
 
 #[test]
+fn caller_labels_cannot_forge_required_contract_checks() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("forged-check-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display()), "true".into()],
+    );
+    let mut work = declaration(root.path(), &[], &[]);
+    work.composition_verification.required_scenarios = vec!["api-contract".into()];
+    work.composition_verification.compatibility_constraints = vec!["stable-api".into()];
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, work))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "sh".into();
+    input.commands[0].args = vec!["-c".into(), format!("touch {}", marker.display())];
+    input.commands[0].covered_scenarios = vec!["api-contract".into()];
+    input.commands[0].covered_constraints = vec!["stable-api".into()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "caller-supplied labels and a shell command must not replace registered Contract checks"
+    );
+    assert!(
+        !marker.exists(),
+        "forged check must be rejected before spawn"
+    );
+}
+
+#[test]
+fn composition_rejects_a_missing_required_contract_check_before_spawn() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("partial-check-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display()), "true".into()],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &marker);
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "one exact command cannot cover two required Contract checks"
+    );
+    assert!(
+        !marker.exists(),
+        "partial check set must be rejected before spawn"
+    );
+}
+
+#[test]
+fn non_integration_owner_cannot_start_composition() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("non-owner-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
+    let mut owner_declaration = declaration(root.path(), &[], &[]);
+    owner_declaration
+        .integration_responsibility
+        .responsible_work_item_id = "WI-INTEGRATION".into();
+    store
+        .register(registration(
+            root.path(),
+            "WI-INTEGRATION",
+            1,
+            owner_declaration,
+        ))
+        .expect("register integration owner");
+    let mut consumer_declaration = declaration(root.path(), &[], &[]);
+    consumer_declaration
+        .integration_responsibility
+        .responsible_work_item_id = "WI-INTEGRATION".into();
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            consumer_declaration,
+        ))
+        .expect("register non-owner consumer");
+
+    let mut input = composition_input(root.path(), &marker);
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "only the declared integration owner may compose"
+    );
+    assert!(
+        !marker.exists(),
+        "non-owner composition must be rejected before spawn"
+    );
+}
+
+#[test]
+fn composition_rejects_duplicate_extra_and_unresolvable_check_identities() {
+    let duplicate_root = repository();
+    let duplicate_store = store(duplicate_root.path());
+    let duplicate_marker = duplicate_root.path().join("duplicate-check-marker");
+    declare_required_checks(
+        duplicate_root.path(),
+        "WI-CONSUMER",
+        &[
+            format!("touch {}", duplicate_marker.display()),
+            "true".into(),
+        ],
+    );
+    duplicate_store
+        .register(registration(
+            duplicate_root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(duplicate_root.path(), &[], &[]),
+        ))
+        .expect("register duplicate-check consumer");
+    let mut duplicate_input = composition_input(duplicate_root.path(), &duplicate_marker);
+    let mut duplicate = duplicate_input.commands[0].clone();
+    duplicate.node_id = "duplicate-marker".into();
+    duplicate_input.commands.push(duplicate);
+    duplicate_input.identity.command_digest =
+        composition_commands_digest(&duplicate_input.commands);
+    let duplicate_result =
+        run_admitted_composition(&duplicate_store, "WI-CONSUMER", 1, duplicate_input);
+    assert!(
+        duplicate_result.is_err(),
+        "duplicate command identities must block"
+    );
+    assert!(
+        !duplicate_marker.exists(),
+        "duplicate command set must not spawn"
+    );
+
+    let extra_root = repository();
+    let extra_store = store(extra_root.path());
+    let extra_marker = extra_root.path().join("extra-check-marker");
+    declare_required_checks(
+        extra_root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", extra_marker.display())],
+    );
+    extra_store
+        .register(registration(
+            extra_root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(extra_root.path(), &[], &[]),
+        ))
+        .expect("register extra-check consumer");
+    let mut extra_input = composition_input(extra_root.path(), &extra_marker);
+    extra_input.commands.push(CompositionCommand {
+        node_id: "undeclared-extra".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        depends_on: Vec::new(),
+        environment: Default::default(),
+        input_paths: Vec::new(),
+        covered_scenarios: Vec::new(),
+        covered_constraints: Vec::new(),
+    });
+    extra_input.identity.command_digest = composition_commands_digest(&extra_input.commands);
+    let extra_result = run_admitted_composition(&extra_store, "WI-CONSUMER", 1, extra_input);
+    assert!(
+        extra_result.is_err(),
+        "extra commands must not exceed required checks"
+    );
+    assert!(!extra_marker.exists(), "extra command set must not spawn");
+
+    let ambiguous_root = repository();
+    let ambiguous_store = store(ambiguous_root.path());
+    let ambiguous_marker = ambiguous_root.path().join("ambiguous-check-marker");
+    declare_required_checks(
+        ambiguous_root.path(),
+        "WI-CONSUMER",
+        &[format!("sh -c \"touch {}\"", ambiguous_marker.display())],
+    );
+    ambiguous_store
+        .register(registration(
+            ambiguous_root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(ambiguous_root.path(), &[], &[]),
+        ))
+        .expect("register ambiguous-check consumer");
+    let mut ambiguous_input = composition_input(ambiguous_root.path(), &ambiguous_marker);
+    ambiguous_input.commands[0].program = "sh".into();
+    ambiguous_input.commands[0].args =
+        vec!["-c".into(), format!("touch {}", ambiguous_marker.display())];
+    ambiguous_input.identity.command_digest =
+        composition_commands_digest(&ambiguous_input.commands);
+    let ambiguous_result =
+        run_admitted_composition(&ambiguous_store, "WI-CONSUMER", 1, ambiguous_input);
+    assert!(
+        ambiguous_result.is_err(),
+        "quoted Contract checks are ambiguous"
+    );
+    assert!(
+        !ambiguous_marker.exists(),
+        "unresolvable check must not spawn"
+    );
+}
+
+#[test]
 fn composition_requires_the_dependency_closure_in_declared_order() {
     let root = repository();
     let store = store(root.path());
@@ -481,6 +731,12 @@ fn feature_worktree_can_compose_against_the_declared_main_target() {
         .unwrap()
         .head
         .unwrap();
+    let marker = root.path().join("feature-composition-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
     let store = store(root.path());
     store
         .register(registration(
@@ -491,7 +747,7 @@ fn feature_worktree_can_compose_against_the_declared_main_target() {
         ))
         .expect("register feature worktree");
 
-    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    let mut input = composition_input(root.path(), &marker);
     input.binding.target_branch = "main".into();
     input.binding.target_sha = main_head;
     input.binding.participant_heads = vec![feature_head];

@@ -286,7 +286,7 @@ fn verification_evidence_is_complete(
     }) else {
         return false;
     };
-    let Ok(bytes) = read_registered_outcome_evidence(root, &expected_reference) else {
+    let Ok(bytes) = read_registered_worktree_file(root, &expected_reference) else {
         return false;
     };
     if publication.evidence_digests.get(&expected_reference)
@@ -342,7 +342,7 @@ fn verification_evidence_is_complete(
 /// opened with no-follow semantics, so a path cannot escape between a path
 /// check and the read. The canonical path containment check is retained as a
 /// second invariant for the registered-worktree boundary.
-fn read_registered_outcome_evidence(root: &Path, reference: &str) -> Result<Vec<u8>, String> {
+fn read_registered_worktree_file(root: &Path, reference: &str) -> Result<Vec<u8>, String> {
     if reference.is_empty()
         || reference.contains('\\')
         || reference
@@ -1034,6 +1034,61 @@ pub fn run_admitted_composition(
     Ok(run_composition(input)?)
 }
 
+fn read_registered_contract(
+    registration: &WorktreeRegistration,
+) -> Result<cockpit_protocol::Contract, CoordinationError> {
+    let root = Path::new(&registration.worktree_path);
+    let reference = format!(
+        ".ai/work-items/active/{}.contract.json",
+        registration.work_item_id
+    );
+    let bytes = read_registered_worktree_file(root, &reference).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract is not safely readable for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    let path = root.join(&reference);
+    let contract = crate::parse_contract_bytes(&bytes, &path).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract is invalid for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract JSON is invalid for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    let actual_digest = cockpit_protocol::digest_json(&value).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract digest cannot be calculated for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    if actual_digest != registration.contract_digest {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "registered Contract digest mismatch for {}",
+            registration.work_item_id
+        )));
+    }
+    Ok(contract)
+}
+
+fn parse_required_check_identity(check: &str) -> Option<(String, Vec<String>)> {
+    if check
+        .chars()
+        .any(|character| character.is_control() || matches!(character, '\'' | '"' | '\\'))
+    {
+        return None;
+    }
+    let mut parts = check.split_whitespace();
+    let program = parts.next()?.to_owned();
+    let args = parts.map(str::to_owned).collect();
+    Some((program, args))
+}
+
 fn verify_composition_identity(
     store: &CoordinationStore,
     work_item_id: &str,
@@ -1057,6 +1112,32 @@ fn verify_composition_identity(
     };
     if target.generation != generation {
         blockers.push(format!("generation_mismatch:{work_item_id}"));
+    }
+    let integration_owner = &target
+        .declaration
+        .integration_responsibility
+        .responsible_work_item_id;
+    if integration_owner != work_item_id {
+        blockers.push(format!(
+            "composition_integration_owner_mismatch:caller={work_item_id}:owner={integration_owner}"
+        ));
+    }
+    match registrations.get(integration_owner) {
+        None => blockers.push(format!(
+            "composition_integration_owner_registration_missing:{integration_owner}"
+        )),
+        Some(owner_registration)
+            if owner_registration
+                .declaration
+                .integration_responsibility
+                .responsible_work_item_id
+                != *integration_owner =>
+        {
+            blockers.push(format!(
+                "composition_integration_owner_declaration_mismatch:{integration_owner}"
+            ));
+        }
+        Some(_) => {}
     }
     GitRepository::discover(&input.repository_root).map_err(|error| {
         CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
@@ -1118,6 +1199,59 @@ fn verify_composition_identity(
     if !composition_order.is_empty() && composition_order != &input.binding.participant_work_items {
         blockers.push("composition_order_mismatch".into());
     }
+    let mut required_check_identities = Vec::<(String, Vec<String>)>::new();
+    let mut seen_required_check_identities = BTreeSet::new();
+    for participant_id in &input.binding.participant_work_items {
+        let Some(participant) = registrations.get(participant_id) else {
+            continue;
+        };
+        let contract = read_registered_contract(participant)?;
+        let explicit_required_checks = contract
+            .verification
+            .iter()
+            .filter_map(|declaration| match declaration {
+                cockpit_protocol::VerificationDeclaration::Check(check) if check.required => {
+                    Some(check.check.trim().to_owned())
+                }
+                cockpit_protocol::VerificationDeclaration::Legacy(_)
+                | cockpit_protocol::VerificationDeclaration::Check(_) => None,
+            })
+            .filter(|check| !check.is_empty())
+            .collect::<Vec<_>>();
+        let complete_required_checks = crate::required_verification_checks(&contract);
+        if complete_required_checks.is_empty() {
+            blockers.push(format!(
+                "required_check_declaration_missing:{participant_id}"
+            ));
+        }
+        let explicit_check_set = explicit_required_checks
+            .iter()
+            .cloned()
+            .collect::<BTreeSet<_>>();
+        for check in complete_required_checks {
+            if !explicit_check_set.contains(&check) {
+                blockers.push(format!(
+                    "required_check_identity_unresolvable:{participant_id}:{check}"
+                ));
+            }
+        }
+        for check in explicit_required_checks {
+            let Some(identity) = parse_required_check_identity(&check) else {
+                blockers.push(format!(
+                    "required_check_identity_unresolvable:{participant_id}:{check}"
+                ));
+                continue;
+            };
+            if !seen_required_check_identities.insert(identity.clone()) {
+                blockers.push(format!(
+                    "required_check_identity_ambiguous:{participant_id}:{}",
+                    check
+                ));
+                continue;
+            }
+            required_check_identities.push(identity);
+        }
+    }
     let mut node_ids = BTreeSet::new();
     let mut prior_node_ids = BTreeSet::new();
     if input.commands.is_empty() {
@@ -1150,14 +1284,44 @@ fn verify_composition_identity(
         }
         prior_node_ids.insert(command.node_id.clone());
     }
+    let mut seen_command_identities = BTreeSet::new();
+    let mut matched_check_node_ids = BTreeSet::new();
+    for command in &input.commands {
+        let identity = (command.program.clone(), command.args.clone());
+        if !seen_command_identities.insert(identity.clone()) {
+            blockers.push(format!(
+                "composition_command_identity_ambiguous:{}",
+                command.node_id
+            ));
+        }
+    }
+    if input.commands.len() != required_check_identities.len() {
+        blockers.push(format!(
+            "required_check_set_incomplete:expected={}:actual={}",
+            required_check_identities.len(),
+            input.commands.len()
+        ));
+    }
+    for (command, required_identity) in input.commands.iter().zip(&required_check_identities) {
+        if (command.program.clone(), command.args.clone()) == *required_identity {
+            matched_check_node_ids.insert(command.node_id.clone());
+        } else {
+            blockers.push(format!(
+                "required_check_identity_mismatch:{}",
+                command.node_id
+            ));
+        }
+    }
     let covered_scenarios = input
         .commands
         .iter()
+        .filter(|command| matched_check_node_ids.contains(&command.node_id))
         .flat_map(|command| command.covered_scenarios.iter().cloned())
         .collect::<BTreeSet<_>>();
     let covered_constraints = input
         .commands
         .iter()
+        .filter(|command| matched_check_node_ids.contains(&command.node_id))
         .flat_map(|command| command.covered_constraints.iter().cloned())
         .collect::<BTreeSet<_>>();
     for participant_id in &input.binding.participant_work_items {
@@ -1341,7 +1505,7 @@ pub fn publish_outcome(
     let root = Path::new(&provider.worktree_path);
     let mut evidence_digests = BTreeMap::new();
     for reference in &outcome.evidence_refs {
-        let bytes = read_registered_outcome_evidence(root, reference).map_err(|error| {
+        let bytes = read_registered_worktree_file(root, reference).map_err(|error| {
             CoordinationError::RecoveryRequired(format!(
                 "outcome evidence is not safely contained: {reference}: {error}"
             ))

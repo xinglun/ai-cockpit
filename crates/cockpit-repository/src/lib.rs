@@ -5693,12 +5693,19 @@ pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, O
         path: path.into(),
         source,
     })?;
-    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+    parse_contract_bytes(&bytes, path)
+}
+
+pub(crate) fn parse_contract_bytes(
+    bytes: &[u8],
+    path: &Path,
+) -> Result<cockpit_protocol::Contract, ObserverError> {
+    reject_duplicate_json_keys(bytes).map_err(|message| ObserverError::State {
         path: path.to_path_buf(),
         message: format!("invalid Contract JSON: {message}"),
     })?;
     let value: serde_json::Value =
-        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+        serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
