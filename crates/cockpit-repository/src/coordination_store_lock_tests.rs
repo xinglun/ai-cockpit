@@ -156,17 +156,16 @@ fn wait_for_marker(marker: &Path, child: &mut Child) {
             return;
         }
         if let Some(status) = child.try_wait().expect("check child status") {
+            let stderr =
+                std::io::BufReader::new(child.stderr.as_mut().expect("captured child stderr"));
+            let mut stderr_bytes = Vec::new();
+            stderr
+                .take(4096)
+                .read_to_end(&mut stderr_bytes)
+                .expect("read child stderr");
             panic!(
                 "child exited before its synchronization marker with {status}; stderr: {}",
-                String::from_utf8_lossy(
-                    &child
-                        .stderr
-                        .as_mut()
-                        .expect("captured child stderr")
-                        .bytes()
-                        .collect::<Result<Vec<_>, _>>()
-                        .expect("read child stderr")
-                )
+                String::from_utf8_lossy(&stderr_bytes)
             );
         }
         assert!(Instant::now() < deadline, "child did not create marker");
