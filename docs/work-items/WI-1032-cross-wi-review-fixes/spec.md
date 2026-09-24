@@ -39,6 +39,7 @@ The implementation must close the Important findings from the independent review
 8. The existing multi-linked-worktree, multiple-real-process acceptance and the ordinary no-collaboration serial path continue to pass under the repository's canonical Runtime CLI + Cargo/CI gate.
 9. A read-only candidate CLI compatibility check against Sentinel succeeds without changing its Git tree, Contract/evidence state, lifecycle Runtime, or coordination store.
 10. CLI/MCP inspection, status/outcome projection, and dependency queries do not create or modify durable coordination records. Request-scoped observation consistency is not represented as cross-process event delivery; only explicit registration, impact/publication, coordination, and recovery write actions mutate the durable store, with before/after bytes covered by regression tests.
+11. Before Runtime-bound verification, the English, Simplified Chinese, and Japanese Work Item projection pages and their matching `reference-parity` rows exist, accurately distinguish pending work from verified facts, and pass the documentation acceptance gate.
 
 ## Verification and governance
 

@@ -125,6 +125,8 @@
 **Files:**
 - Modify: `crates/cockpit-mcp/src/lib.rs`
 - Update interface descriptions/reference output if generated from the source of truth: `crates/cockpit-interface/src/interface_description.rs`, `crates/cockpit-protocol/tests/interface_description.rs`, and associated reference files.
+- Add or update the required Work Item projection pages: `docs/work-items/WI-1032-cross-wi-review-fixes.md`, `.zh-CN.md`, and `.ja.md`.
+- Add the exact Work Item row to `docs/reference/reference-parity.md`, `.zh-CN.md`, and `.ja.md`.
 - Test: `crates/cockpit-mcp/tests/collaboration_rpc.rs` and relevant interface-description tests.
 - Modify `tests/ci/repository_gate_manifest.json` only if inspection shows the real process acceptance is not already registered.
 
@@ -137,6 +139,7 @@
 - [ ] Define action-specific identity fields once in the canonical interface description, generate MCP properties from them, and update CLI/MCP parity assertions. Preserve provider identity for publish and consumer/provider tuples for actions that select dependencies.
 - [ ] Verify `tests/acceptance/cross_wi_coordination_processes.py` is named in the canonical gate manifest; register it and add manifest coverage only if absent.
 - [ ] Update the collaboration reference/docs in all maintained locales only where the public field semantics changed, then run the documentation and interface-generation checks.
+- [ ] Runtime currently rejects verification until the three Work Item projection pages and parity rows exist. Keep their claims explicitly in-progress until evidence is available; create/update them before Runtime-bound verification, then refresh the outcome projection after verification without claiming unproven benefits.
 - [ ] Run focused MCP/interface tests and the manifest test; expected: schema has unambiguous fields and the real process test remains a required gate.
 - [ ] Commit schema, parity tests, and docs as the projection/documentation layer.
 
@@ -169,6 +172,7 @@ cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 python3 tests/ci/repository_gate_manifest_test.py
 cargo build --locked --release -p cockpit-cli --bin ai-cockpit
 python3 tests/acceptance/cross_wi_coordination_processes.py --binary target/release/ai-cockpit
+python3 scripts/documentation_acceptance.sh
 ```
 
 Run the read-only candidate CLI compatibility check against Sentinel and compare its repository tree, Contract/evidence state, lifecycle Runtime, and coordination store before and after. Then follow Runtime verification, finish, archive, PR review, hosted checks, merge, and exact cleanup. Do not enter release preparation or publish.
