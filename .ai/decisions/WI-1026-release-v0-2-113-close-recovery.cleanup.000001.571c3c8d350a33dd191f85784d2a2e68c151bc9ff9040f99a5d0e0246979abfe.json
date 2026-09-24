@@ -1,0 +1,26 @@
+{
+  "bindingDigest": "sha256:84e065222115f7528b42d0c2678c4c9fb746f841c545cf79fce3fcfb68beac70",
+  "branchRef": "refs/heads/codex/wi-1026-release-v0-2-113-close-recovery",
+  "contractDigest": "sha256:3d7d8b1eda434bb1a751888473108916ea1a4f36e81f01e57093444993c639fa",
+  "headRevision": "7e187d26e34828910585243f7f945e8768a6819b",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "identity_conflict"
+  },
+  "observedAt": "2026-09-24T01:46:13Z",
+  "operationId": "sha256:cf0bc65a3bacff6e8cc27d420f7ae7acb1513fc3aaa6d2be252bd4fc57ddbc81",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict",
+      "worktree_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1026-release-v0-2-113-close-recovery",
+  "worktreeId": "sha256:95d2551a939478a1c4c1d6b3c7f2ce050bf5236f35dd38ad2893fc7d2b6ae4dc"
+}
