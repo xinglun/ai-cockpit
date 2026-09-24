@@ -1,9 +1,47 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:d54d24d52f72cd770a91df8ecbef4c9431b9e5d0ba5e942d615ce0899f4dacee",
+  "commands": [
+    {
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "baseCommit": "9361254d92652d0e641d53720cd5d6177f82565e",
+      "commandDigest": "sha256:14daa69c44902cf8f9a865aebe285245ee7833a0a0759ad1312289a884a1d827",
+      "nodeId": "project-command-0",
+      "program": "git",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "contractExecutionScopeDigest": "sha256:c3a5893e1dff2319b65cc478f818a5e929c7c5c2234aef9e439a4fe0ca3d6a86",
   "createdAt": "2026-09-24T00:15:28Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:14daa69c44902cf8f9a865aebe285245ee7833a0a0759ad1312289a884a1d827",
+      "deadlineMs": 1790209228660,
+      "elapsedMs": 30,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -111,10 +149,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-1025-release-v0-2-113"
   },
-  "receiptDigest": "sha256:d59a40fc263c3ae2dc9c86d1f711105106c73ccf0ddd6832e9a8c746ad3f36ba",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:8b6ed96d1eb865016d1c793ad7794317fa8560ee65323a66727c393d9d32874d",
   "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
   "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-1025-release-v0-2-113"
 }

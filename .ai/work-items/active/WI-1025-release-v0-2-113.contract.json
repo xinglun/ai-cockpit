@@ -25,6 +25,14 @@
     "verification_receipt",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-113",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/990",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-113/ai-cockpit"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
