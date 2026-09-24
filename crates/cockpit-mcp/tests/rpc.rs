@@ -122,7 +122,9 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "work_item_recover",
             "work_item_recover_selected_lineage",
             "verify",
-            "work_item_parallel"
+            "work_item_parallel",
+            "work_item_coordination",
+            "work_item_composition"
         ]
     );
 }
@@ -135,7 +137,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 20);
+    assert_eq!(listed.len(), 22);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -933,19 +935,15 @@ fn mcp_parallel_tool_exposes_explicit_repository_bound_slot_list() {
 
 #[test]
 fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
-    let directory = std::env::temp_dir().join(format!(
-        "cockpit-mcp-outcome-{}",
-        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
-    ));
-    fs::create_dir_all(&directory).expect("directory");
+    let directory = TestTempDir::new("cockpit-mcp-outcome");
     Command::new("git")
         .args(["init", "-q"])
-        .current_dir(&directory)
+        .current_dir(directory.path())
         .status()
         .expect("git init");
-    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::attach(directory.path()).expect("attach");
     cockpit_repository::start_work_item_with_options(
-        &directory,
+        directory.path(),
         "WI-MCP-HANDOFF",
         "project an outcome",
         "show the Agent a readable handoff",
@@ -957,10 +955,12 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     )
     .expect("start");
     fs::write(
-        directory.join(".ai/decisions/WI-MCP-HANDOFF.close.json"),
+        directory
+            .path()
+            .join(".ai/decisions/WI-MCP-HANDOFF.close.json"),
         serde_json::to_vec_pretty(&serde_json::json!({
             "workItemId": "WI-MCP-HANDOFF",
-            "repositoryId": cockpit_repository::repository_id(&directory).to_string(),
+            "repositoryId": cockpit_repository::repository_id(directory.path()).to_string(),
             "state": "closed",
             "decisionState": "confirmed",
             "humanDecision": "continue",
@@ -986,7 +986,7 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
             "method":"tools/call",
             "params":{"name":"work_item_outcome","arguments":{"workItemId":"WI-MCP-HANDOFF","language":"zh-CN"}}
         }),
-        &directory,
+        directory.path(),
         &test_runtime_context(),
     );
     assert_eq!(response["result"]["isError"], false);
@@ -1010,21 +1010,31 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     assert!(handoff.contains("人工决定状态: 已记录：continue"));
     assert!(handoff.contains("保证级别: 未知"));
     let input = cockpit_repository::outcome_render_input_with_runtime(
-        &directory,
+        directory.path(),
         "WI-MCP-HANDOFF",
         &test_runtime_context(),
     )
     .expect("outcome render input");
-    assert_eq!(
-        serde_json::to_value(&input.outcome).expect("outcome JSON"),
-        structured["outcome"]
-    );
+    let mut expected_outcome = serde_json::to_value(&input.outcome).expect("outcome JSON");
+    expected_outcome["collaboration"] = structured["collaboration"].clone();
+    assert_eq!(expected_outcome, structured["outcome"]);
     assert_eq!(
         handoff,
-        cockpit_repository::render_human_outcome_with_view(
-            &input,
-            "zh",
-            cockpit_repository::OutcomeRenderView::Summary,
+        format!(
+            "{}\n{}",
+            cockpit_repository::render_human_outcome_with_view(
+                &input,
+                "zh",
+                cockpit_repository::OutcomeRenderView::Summary,
+            ),
+            cockpit_repository::render_collaboration_outcome(
+                &cockpit_repository::collaboration_outcome_projection(
+                    directory.path(),
+                    "WI-MCP-HANDOFF",
+                    &test_runtime_context(),
+                ),
+                "zh",
+            )
         )
     );
     let full_response = cockpit_mcp::handle_request_for_repo(
@@ -1034,7 +1044,7 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
             "method":"tools/call",
             "params":{"name":"work_item_outcome","arguments":{"workItemId":"WI-MCP-HANDOFF","language":"zh-CN","view":"full"}}
         }),
-        &directory,
+        directory.path(),
         &test_runtime_context(),
     );
     assert_eq!(full_response["result"]["isError"], false);
@@ -1043,7 +1053,6 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
         .expect("full handoff");
     assert!(full_handoff.contains("发现的问题"));
     assert!(full_handoff.contains("证据"));
-    fs::remove_dir_all(directory).expect("cleanup");
 }
 
 #[test]
