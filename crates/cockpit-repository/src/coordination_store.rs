@@ -68,6 +68,7 @@ pub struct RecoveryReport {
 #[derive(Clone, Debug)]
 pub struct CoordinationStore {
     root: PathBuf,
+    common_dir: PathBuf,
     runtime: RuntimeCapabilityBinding,
 }
 
@@ -106,7 +107,11 @@ impl CoordinationStore {
                 source: std::io::Error::other(source.to_string()),
             })?;
         let root = topology.common_dir.join(".ai-cockpit/coordination/v1");
-        Ok(Self { root, runtime })
+        Ok(Self {
+            root,
+            common_dir: topology.common_dir,
+            runtime,
+        })
     }
 
     pub fn root(&self) -> &Path {
@@ -130,8 +135,10 @@ impl CoordinationStore {
                 cockpit_protocol::RuntimeCapabilityError::IdentityMismatch,
             ));
         }
+        self.validate_registration_facts(&registration)?;
         self.with_lock(|| {
             let path = self.registration_path(&registration.work_item_id);
+            let mut identity_changed = false;
             if path.exists() {
                 let existing: WorktreeRegistration = self.read_json(&path)?;
                 if existing == registration {
@@ -144,8 +151,39 @@ impl CoordinationStore {
                         actual: registration.generation,
                     });
                 }
+                identity_changed = existing.head != registration.head
+                    || existing.branch != registration.branch
+                    || existing.contract_digest != registration.contract_digest
+                    || existing.declaration != registration.declaration;
             }
             self.atomic_write(&path, &registration)?;
+            if identity_changed {
+                let event = CoordinationEvent {
+                    schema_version: COLLABORATION_SCHEMA_VERSION,
+                    event_id: format!(
+                        "auto-impact-{}-{}",
+                        registration.work_item_id, registration.generation
+                    ),
+                    repository_id: registration.repository_id.clone(),
+                    work_item_id: registration.work_item_id.clone(),
+                    generation: registration.generation,
+                    kind: cockpit_protocol::CoordinationEventKind::Impact,
+                    source: "registration-identity-changed".into(),
+                    evidence_refs: Vec::new(),
+                };
+                let event_path = self
+                    .root
+                    .join("events")
+                    .join(format!("{}.json", event.event_id));
+                if event_path.exists() {
+                    let existing: CoordinationEvent = self.read_json(&event_path)?;
+                    if existing != event {
+                        return Err(CoordinationError::DuplicateIdentity(event.event_id));
+                    }
+                } else {
+                    self.atomic_write(&event_path, &event)?;
+                }
+            }
             Ok(registration)
         })
     }
@@ -159,6 +197,7 @@ impl CoordinationStore {
         self.with_lock(|| {
             let registration_path = self.registration_path(&event.work_item_id);
             let registration: WorktreeRegistration = self.read_json(&registration_path)?;
+            self.validate_registration_facts(&registration)?;
             if registration.repository_id != event.repository_id {
                 return Err(CoordinationError::RecoveryRequired(
                     "event repository identity differs from registration".into(),
@@ -171,6 +210,7 @@ impl CoordinationStore {
                     actual: event.generation,
                 });
             }
+            self.validate_event_facts(&event, &registration)?;
             let path = self
                 .root
                 .join("events")
@@ -194,6 +234,21 @@ impl CoordinationStore {
         self.runtime.validate_candidate()?;
         validate_reservation(&reservation)?;
         self.with_lock(|| {
+            let registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(&reservation.work_item_id))?;
+            self.validate_registration_facts(&registration)?;
+            if registration.repository_id != reservation.repository_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "reservation repository identity differs from registration".into(),
+                ));
+            }
+            if registration.generation != reservation.generation {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: reservation.work_item_id.clone(),
+                    expected: registration.generation,
+                    actual: reservation.generation,
+                });
+            }
             let path = self
                 .root
                 .join("reservations")
@@ -245,10 +300,23 @@ impl CoordinationStore {
                 .join("reservations")
                 .join(format!("{reservation_id}.json"));
             let reservation: ResourceReservation = self.read_json(&path)?;
-            if reservation.work_item_id != work_item_id || reservation.generation != generation {
+            let registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(work_item_id))?;
+            self.validate_registration_facts(&registration)?;
+            if registration.generation != generation {
                 return Err(CoordinationError::StaleGeneration {
                     work_item_id: work_item_id.into(),
-                    expected: reservation.generation,
+                    expected: registration.generation,
+                    actual: generation,
+                });
+            }
+            if reservation.repository_id != registration.repository_id
+                || reservation.work_item_id != work_item_id
+                || reservation.generation != generation
+            {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: work_item_id.into(),
+                    expected: registration.generation,
                     actual: generation,
                 });
             }
@@ -277,6 +345,12 @@ impl CoordinationStore {
         self.with_lock(|| {
             let registration_path = self.registration_path(&request.target_work_item_id);
             let registration: WorktreeRegistration = self.read_json(&registration_path)?;
+            self.validate_registration_facts(&registration)?;
+            if registration.repository_id != request.repository_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "coordination request repository identity differs from registration".into(),
+                ));
+            }
             if registration.generation != request.target_generation {
                 return Err(CoordinationError::StaleGeneration {
                     work_item_id: request.target_work_item_id.clone(),
@@ -316,6 +390,12 @@ impl CoordinationStore {
             let mut request: CoordinationRequest = self.read_json(&path)?;
             let registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(&request.target_work_item_id))?;
+            self.validate_registration_facts(&registration)?;
+            if registration.repository_id != request.repository_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "coordination request repository identity differs from registration".into(),
+                ));
+            }
             if registration.generation != request.target_generation {
                 return Err(CoordinationError::StaleGeneration {
                     work_item_id: request.target_work_item_id.clone(),
@@ -355,15 +435,22 @@ impl CoordinationStore {
             let event: CoordinationEvent = self.read_json(&event_path)?;
             let provider_registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(&event.work_item_id))?;
-            if provider_registration.generation != event.generation {
+            self.validate_registration_facts(&provider_registration)?;
+            if provider_registration.generation < event.generation {
                 return Err(CoordinationError::StaleGeneration {
                     work_item_id: event.work_item_id.clone(),
                     expected: provider_registration.generation,
                     actual: event.generation,
                 });
             }
+            if event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished {
+                return Err(CoordinationError::RecoveryRequired(
+                    "published outcomes do not require invalidation recovery".into(),
+                ));
+            }
             let consumer_registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(consumer_work_item_id))?;
+            self.validate_registration_facts(&consumer_registration)?;
             if consumer_registration.generation != consumer_generation {
                 return Err(CoordinationError::StaleGeneration {
                     work_item_id: consumer_work_item_id.into(),
@@ -385,6 +472,9 @@ impl CoordinationStore {
                 event_id: event.event_id,
                 provider_work_item_id: event.work_item_id,
                 provider_generation: event.generation,
+                current_provider_generation: Some(provider_registration.generation),
+                current_provider_head: Some(provider_registration.head),
+                current_provider_contract_digest: Some(provider_registration.contract_digest),
                 consumer_work_item_id: consumer_work_item_id.into(),
                 consumer_generation,
             };
@@ -416,17 +506,17 @@ impl CoordinationStore {
         };
         self.read_directory("registrations", &mut inspection.unknowns, |path| {
             let registration: WorktreeRegistration = self.read_json(path)?;
-            if !Path::new(&registration.worktree_path).exists() {
-                return Err(CoordinationError::RecoveryRequired(format!(
-                    "worktree moved or deleted: {}",
-                    registration.worktree_path
-                )));
-            }
+            self.validate_registration_facts(&registration)?;
             inspection.registrations.push(registration);
             Ok(())
         })?;
         self.read_directory("events", &mut inspection.unknowns, |path| {
-            inspection.events.push(self.read_json(path)?);
+            let event: CoordinationEvent = self.read_json(path)?;
+            let registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(&event.work_item_id))?;
+            self.validate_registration_facts(&registration)?;
+            self.validate_event_facts(&event, &registration)?;
+            inspection.events.push(event);
             Ok(())
         })?;
         self.read_directory("reservations", &mut inspection.unknowns, |path| {
@@ -464,6 +554,166 @@ impl CoordinationStore {
         Ok(RecoveryReport {
             unknowns: inspection.unknowns,
         })
+    }
+
+    /// Bind a caller-supplied registration to facts observed from Git and the
+    /// active Contract before any coordination record can become authoritative
+    /// for a later action.  This is deliberately used by both writes and
+    /// inspection: a read reports moved or stale state instead of treating the
+    /// declaration as current.
+    fn validate_registration_facts(
+        &self,
+        registration: &WorktreeRegistration,
+    ) -> Result<(), CoordinationError> {
+        let worktree = Path::new(&registration.worktree_path);
+        let canonical_worktree = fs::canonicalize(worktree).map_err(|source| {
+            CoordinationError::RecoveryRequired(format!(
+                "worktree moved or deleted: {} ({source})",
+                registration.worktree_path
+            ))
+        })?;
+        let git = GitRepository::discover(&canonical_worktree).map_err(|source| {
+            CoordinationError::RecoveryRequired(format!(
+                "registered worktree is not a readable repository: {} ({source})",
+                registration.worktree_path
+            ))
+        })?;
+        let topology = git.topology().map_err(|source| {
+            CoordinationError::RecoveryRequired(format!(
+                "registered worktree topology is unavailable: {} ({source})",
+                registration.worktree_path
+            ))
+        })?;
+        if topology.common_dir != self.common_dir {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "registered worktree is not in this Git common directory: {}",
+                registration.worktree_path
+            )));
+        }
+        if topology.repository_root != canonical_worktree {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "registered worktree path does not resolve to its repository root: {}",
+                registration.worktree_path
+            )));
+        }
+        if registration.repository_id != crate::repository_id(&topology.repository_root) {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "repository identity mismatch for {}",
+                registration.work_item_id
+            )));
+        }
+        if registration.worktree_path != canonical_worktree.to_string_lossy() {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "worktree path is not canonical for {}",
+                registration.work_item_id
+            )));
+        }
+        if topology.branch.as_deref() != Some(registration.branch.as_str()) {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "branch mismatch for {}: declared {}, observed {:?}",
+                registration.work_item_id, registration.branch, topology.branch
+            )));
+        }
+        if topology.head.as_deref() != Some(registration.head.as_str()) {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "head mismatch for {}: declared {}, observed {:?}",
+                registration.work_item_id, registration.head, topology.head
+            )));
+        }
+
+        let contract_path = topology
+            .repository_root
+            .join(".ai/work-items/active")
+            .join(format!("{}.contract.json", registration.work_item_id));
+        let metadata = fs::symlink_metadata(&contract_path).map_err(|source| {
+            CoordinationError::RecoveryRequired(format!(
+                "active Contract is unavailable for {}: {source}",
+                registration.work_item_id
+            ))
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "active Contract is not a regular file for {}",
+                registration.work_item_id
+            )));
+        }
+        crate::read_contract(&contract_path).map_err(|error| {
+            CoordinationError::RecoveryRequired(format!(
+                "active Contract is invalid for {}: {error}",
+                registration.work_item_id
+            ))
+        })?;
+        let actual_contract_digest = crate::contract_digest(&contract_path).map_err(|error| {
+            CoordinationError::RecoveryRequired(format!(
+                "active Contract digest is unavailable for {}: {error}",
+                registration.work_item_id
+            ))
+        })?;
+        if actual_contract_digest != registration.contract_digest {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "Contract digest mismatch for {}",
+                registration.work_item_id
+            )));
+        }
+        for outcome in &registration.declaration.provided_outcomes {
+            if outcome.published_head != registration.head {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "provided outcome {} is not bound to the registered head",
+                    outcome.outcome_id
+                )));
+            }
+            for evidence_ref in &outcome.evidence_refs {
+                let evidence_path = topology.repository_root.join(evidence_ref);
+                let metadata = fs::symlink_metadata(&evidence_path).map_err(|source| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "required outcome evidence is unavailable at {}: {source}",
+                        evidence_ref
+                    ))
+                })?;
+                if metadata.file_type().is_symlink() || !metadata.is_file() {
+                    return Err(CoordinationError::RecoveryRequired(format!(
+                        "required outcome evidence is not a regular file at {}",
+                        evidence_ref
+                    )));
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn validate_event_facts(
+        &self,
+        event: &CoordinationEvent,
+        registration: &WorktreeRegistration,
+    ) -> Result<(), CoordinationError> {
+        for reference in &event.evidence_refs {
+            let relative = Path::new(reference);
+            if relative.is_absolute()
+                || relative
+                    .components()
+                    .any(|component| component == std::path::Component::ParentDir)
+            {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "event evidence reference escapes registered worktree: {reference}"
+                )));
+            }
+            let path = Path::new(&registration.worktree_path).join(relative);
+            let metadata = fs::symlink_metadata(&path).map_err(|source| {
+                CoordinationError::RecoveryRequired(format!(
+                    "event evidence is unavailable for {}: {} ({source})",
+                    event.event_id,
+                    path.display()
+                ))
+            })?;
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "event evidence is not a regular file for {}: {}",
+                    event.event_id,
+                    path.display()
+                )));
+            }
+        }
+        Ok(())
     }
 
     fn read_reservations(&self) -> Result<Vec<ResourceReservation>, CoordinationError> {

@@ -1,0 +1,61 @@
+
+running 1 test
+{
+  "profileVersion": 1,
+  "repositoryId": "sha256:4d6d8d220ce6fdd0b1a0fee35028403b18c6db8c68e07b3b1dd4d69e07477aff",
+  "repositorySchemaVersion": 2,
+  "state": "calibration_required",
+  "profileDigest": "sha256:2e5a9a47cf3a3f3da732baad56ff6f911f26fa6f3263e797945d66ae2e57cbcb",
+  "tests": [],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 2,
+  "repositoryId": "sha256:4d6d8d220ce6fdd0b1a0fee35028403b18c6db8c68e07b3b1dd4d69e07477aff",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:281f221d021851400a0513a7dc6d87495b378343018a86cd5877070792857285",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+{
+  "profileVersion": 3,
+  "repositoryId": "sha256:4d6d8d220ce6fdd0b1a0fee35028403b18c6db8c68e07b3b1dd4d69e07477aff",
+  "repositorySchemaVersion": 2,
+  "state": "calibrated",
+  "profileDigest": "sha256:9bdd94e983e5e903a6564eaf9abb11c58147251af1a694ede3b58be8bd1adb03",
+  "tests": [
+    {
+      "program": "npm",
+      "args": [
+        "test"
+      ],
+      "state": "verified"
+    }
+  ],
+  "buildSystems": [
+    "Npm"
+  ]
+}
+test calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 14 filtered out; finished in 10.29s
+
+
+running 1 test
+test mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 34 filtered out; finished in 2.49s
+

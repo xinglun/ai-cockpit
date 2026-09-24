@@ -64,11 +64,11 @@ mod status_projection;
 
 pub use action_admission::require_current_action_admission;
 pub use collaboration::{
-    CollaborationAdmission, CollaborationExecutionError, CollaborationOutcomeProjection,
-    CollaborationProjection, acknowledge_pause, admit_collaboration_action,
-    collaboration_outcome_projection, collaboration_projection, recover_impact,
-    refresh_dependency_state, report_impact, request_safe_pause, resume_and_re_evaluate,
-    run_admitted_composition,
+    CollaborationAction, CollaborationActionKind, CollaborationAdmission,
+    CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
+    acknowledge_pause, admit_collaboration_action, collaboration_outcome_projection,
+    collaboration_projection, recover_impact, refresh_dependency_state, report_impact,
+    request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
@@ -107,7 +107,7 @@ pub use knowledge_projection::{
     implementation_approach_read_only,
 };
 pub use lifecycle::*;
-use lifecycle::{
+pub(crate) use lifecycle::{
     RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence, decision_state_name,
     recovery_decision_error, validate_archived_revalidation_evidence,
     validate_recovery_predecessor_bindings, validate_recovery_successor_binding,
@@ -5688,7 +5688,7 @@ fn reject_duplicate_json_keys(bytes: &[u8]) -> Result<(), String> {
     deserializer.end().map_err(|error| error.to_string())
 }
 
-fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
+pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
     let bytes = fs::read(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,

@@ -1,0 +1,125 @@
+{
+  "attemptId": "sha256:f823405c3b8e3da369e0f44ee21ae6b79af33aa373483fdbbeabfab26787e670",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+      "commandDigest": "sha256:fe6e14a5cb959ae6d7c0878d630e1e361fb7e1e6edaac5833f4669e9f7bcb0f0",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+      "commandDigest": "sha256:ee13346265b432ed042582869006f30ef26721d5ea57b825251411ab61a15965",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+      "commandDigest": "sha256:bc55e84d8707e5b0f53a7a15304adae1d56b56d446177f03fd7327628c4c213b",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/acceptance/cross_wi_coordination_processes.py"
+      ],
+      "baseCommit": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+      "commandDigest": "sha256:1f35e70534346e13da5d189444ec2dd7537eb78f24ffba43df6f0f89597db0f7",
+      "nodeId": "project-command-3",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "--version",
+        "应为",
+        "0.2.113；ai-cockpit",
+        "inspect/status/doctor/agent",
+        "doctor/preflight",
+        "使用升级后的",
+        "Runtime",
+        "重新执行并记录其",
+        "runtimeDigest。"
+      ],
+      "baseCommit": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+      "commandDigest": "sha256:d1e5c78792852818449d6c8acf5eb78016146f4e55f74c6ac145a9ab96f23a4e",
+      "nodeId": "project-command-4",
+      "program": "ai-cockpit",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+  "contractExecutionScopeDigest": "sha256:6a50cff322f652866912fc38f913db27ed5b5ddd7d6250fe1db44c3a458c7e75",
+  "createdAt": "2026-09-24T10:21:14Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-collaboration-behavioral-closure/ai-cockpit/.ai/work-items/active/WI-1030-cross-wi-behavioral-closure.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0ed81f5074114861ff0daeefcb1f74aca5f024c1c65c243394abb8afd0400d7",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1030-cross-wi-behavioral-closure"
+}

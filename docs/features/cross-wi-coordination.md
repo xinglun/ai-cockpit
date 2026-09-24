@@ -13,3 +13,8 @@ explicit writes.
 The supported topology is one Git common directory with linked worktrees. The
 fixed Runtime owns lifecycle compatibility; the candidate Runtime must advertise
 the collaboration capability before it may write or consume these records.
+
+Registration is fact-bound: Runtime rechecks Git identity, active Contracts,
+heads, branches, and regular evidence files before admission. Composition
+records are shared under the Git common directory, use the bounded verification
+executor, and expose real per-node reuse and cleanup facts through Outcome.

@@ -3622,6 +3622,15 @@ pub struct CoordinationRecovery {
     pub event_id: String,
     pub provider_work_item_id: String,
     pub provider_generation: u64,
+    /// The provider facts observed when this recovery relation was appended.
+    /// These are intentionally distinct from the predecessor event generation
+    /// so an old invalidation can be resolved after the provider advances.
+    #[serde(default)]
+    pub current_provider_generation: Option<u64>,
+    #[serde(default)]
+    pub current_provider_head: Option<String>,
+    #[serde(default)]
+    pub current_provider_contract_digest: Option<Digest>,
     pub consumer_work_item_id: String,
     pub consumer_generation: u64,
 }

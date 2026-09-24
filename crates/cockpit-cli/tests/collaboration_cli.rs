@@ -1,4 +1,5 @@
 use cockpit_core::Digest;
+use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility,
     RuntimeCapabilityBinding, WorktreeRegistration,
@@ -8,6 +9,10 @@ use sha2::{Digest as ShaDigest, Sha256};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+
+use cockpit_repository::{
+    WorkItemStartOptions, attach, repository_id, start_work_item_with_options,
+};
 
 fn run_git(root: &Path, args: &[&str]) {
     assert!(
@@ -49,14 +54,21 @@ fn candidate_runtime() -> RuntimeCapabilityBinding {
 }
 
 fn registration(root: &Path) -> WorktreeRegistration {
+    let topology = GitRepository::discover(root)
+        .expect("discover repository")
+        .topology()
+        .expect("repository topology");
+    let contract_path = root.join(".ai/work-items/active/WI-CLI.contract.json");
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+        .expect("contract JSON");
     WorktreeRegistration {
         schema_version: 1,
-        repository_id: Digest::sha256_bytes(b"repository"),
+        repository_id: repository_id(root),
         work_item_id: "WI-CLI".into(),
-        contract_digest: Digest::sha256_bytes(b"contract"),
-        worktree_path: root.to_string_lossy().into_owned(),
-        branch: "codex/wi-cli".into(),
-        head: "0123456789012345678901234567890123456789".into(),
+        contract_digest: cockpit_protocol::digest_json(&contract).expect("contract digest"),
+        worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+        branch: topology.branch.expect("branch"),
+        head: topology.head.expect("head"),
         generation: 1,
         declaration: CollaborationDeclaration {
             integration_responsibility: IntegrationResponsibility {
@@ -81,6 +93,21 @@ fn invoke(args: &[&str]) -> std::process::Output {
 #[test]
 fn coordination_cli_separates_read_only_inspection_from_writes() {
     let root = repository();
+    run_git(root.path(), &["checkout", "-qb", "codex/wi-cli"]);
+    attach(root.path()).expect("attach repository");
+    start_work_item_with_options(
+        root.path(),
+        "WI-CLI",
+        "CLI coordination test",
+        "bind registration to observed facts",
+        &[".ai/**".into(), "README.md".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["registration is fact-bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start Work Item");
     let output = invoke(&[
         "work-item",
         "coordination",

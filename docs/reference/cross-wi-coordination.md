@@ -14,6 +14,15 @@ are unsupported. Records live under `.ai-cockpit/coordination/v1/` and bind the
 repository, Work Item, Contract, worktree/head, Runtime capability, and
 execution generation.
 
+Registration and inspection re-observe those bindings from the canonical Git
+topology and active Contract; a caller-provided repository id, branch, head,
+Contract digest, or evidence path is not authoritative by itself. A head or
+Contract/declaration change on a later registration appends a deduplicated
+Impact event. Published outcomes are informational and do not invalidate a
+consumer; invalidation recovery records the current provider generation/head
+and Contract digest, so an old event can be resolved after the provider has
+advanced without deleting history.
+
 Ordinary single-WI lifecycle commands remain the fast path. They do not scan or
 write the collaboration store unless the Work Item explicitly participates.
 
@@ -49,13 +58,18 @@ from an older execution generation cannot control a newer one.
 
 ## Composition verification
 
-Composition first refreshes dependency admission, then builds the declared
-participant order in a temporary linked worktree. It records text conflicts,
-interface checks, command output, exit status, and cleanup. A failed
-precondition starts zero expensive verification processes. A previous receipt is
-reusable only when all bound source, dependency, interface, configuration,
-toolchain, lockfile, generated-input, environment, verifier, and command
-identities match and the predecessor passed unambiguously.
+Composition first refreshes dependency admission and rejects a safely paused
+target before any verification process starts. The Runtime then verifies the
+target topology, every registered participant head/Contract, unique required
+check coverage, and computes the preconditions before building the participant
+order in a temporary linked worktree. It uses the shared bounded verifier for
+finite timeouts and bounded output, persists an in-progress attempt before
+spawning, persists every node, and records timeout/interruption-safe state and
+cleanup results. A previous receipt is reusable per node only when all bound
+source, dependency, interface, configuration, toolchain, lockfile,
+generated-input, environment, verifier, and command identities match and the
+predecessor node passed; an exact repeat can therefore spawn zero processes and
+a local change reruns only its affected node.
 
 The CLI and MCP expose the same repository service. Outcome output keeps
 implementation, composition, target merge, and cleanup states separate; an

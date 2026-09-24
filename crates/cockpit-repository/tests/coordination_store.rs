@@ -5,7 +5,10 @@ use cockpit_protocol::{
     ResourceClaim, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
     WorktreeRegistration,
 };
-use cockpit_repository::{CoordinationError, CoordinationStore};
+use cockpit_repository::{
+    CoordinationError, CoordinationStore, WorkItemStartOptions, attach, repository_id,
+    start_work_item_with_options,
+};
 use std::fs;
 use std::path::Path;
 use std::process::Command;
@@ -25,6 +28,11 @@ fn repository() -> tempfile::TempDir {
     );
     run(root.path(), &["config", "user.name", "Test"]);
     fs::write(root.path().join("README.md"), "initial\n").expect("write");
+    fs::create_dir_all(root.path().join("target/evidence")).expect("evidence directory");
+    fs::create_dir_all(root.path().join("evidence")).expect("recovery evidence directory");
+    fs::write(root.path().join("target/evidence.json"), "{}\n").expect("event evidence");
+    fs::write(root.path().join("target/impact.json"), "{}\n").expect("impact evidence");
+    fs::write(root.path().join("evidence/impact.json"), "{}\n").expect("recovery evidence");
     run(root.path(), &["add", "."]);
     run(root.path(), &["commit", "-qm", "initial"]);
     root
@@ -55,15 +63,46 @@ fn store(root: &Path) -> CoordinationStore {
     CoordinationStore::open(&git, binding()).expect("store")
 }
 
+fn contract_digest(root: &Path, work_item_id: &str) -> Digest {
+    if !root.join(".ai/cockpit.toml").exists() {
+        attach(root).expect("attach repository");
+    }
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if !path.exists() {
+        start_work_item_with_options(
+            root,
+            work_item_id,
+            "coordination test",
+            "bind coordination records to observed facts",
+            &[".ai/**".into(), "README.md".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                out_of_scope: vec!["target/**".into()],
+                acceptance_criteria: vec!["identity remains bound".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start test Work Item");
+    }
+    let value: serde_json::Value =
+        serde_json::from_slice(&fs::read(path).expect("Contract bytes")).expect("Contract JSON");
+    cockpit_protocol::digest_json(&value).expect("Contract digest")
+}
+
 fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeRegistration {
+    let contract_digest = contract_digest(root, work_item_id);
+    let git = GitRepository::discover(root).expect("discover");
+    let topology = git.topology().expect("topology");
     WorktreeRegistration {
         schema_version: 1,
-        repository_id: digest("repository"),
+        repository_id: repository_id(root),
         work_item_id: work_item_id.into(),
-        contract_digest: digest(&format!("contract-{work_item_id}")),
-        worktree_path: root.to_string_lossy().into_owned(),
-        branch: format!("codex/{work_item_id}"),
-        head: "0123456789012345678901234567890123456789".into(),
+        contract_digest,
+        worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+        branch: topology.branch.expect("branch"),
+        head: topology.head.expect("head"),
         generation,
         declaration: CollaborationDeclaration::default(),
         runtime: binding(),
@@ -71,13 +110,14 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
 }
 
 fn reservation(
+    root: &Path,
     work_item_id: &str,
     reservation_id: &str,
     resources: &[&str],
 ) -> ResourceReservation {
     ResourceReservation {
         schema_version: 1,
-        repository_id: digest("repository"),
+        repository_id: repository_id(root),
         reservation_id: reservation_id.into(),
         work_item_id: work_item_id.into(),
         generation: 1,
@@ -103,7 +143,7 @@ fn duplicate_registration_and_event_are_idempotent() {
     let event = CoordinationEvent {
         schema_version: 1,
         event_id: "event-1".into(),
-        repository_id: digest("repository"),
+        repository_id: repository_id(root.path()),
         work_item_id: "WI-A".into(),
         generation: 1,
         kind: CoordinationEventKind::Impact,
@@ -115,19 +155,53 @@ fn duplicate_registration_and_event_are_idempotent() {
 }
 
 #[test]
+fn registration_identity_change_appends_an_impact_event() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-AUTO", 1))
+        .expect("register first generation");
+
+    fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "changed identity"]);
+
+    store
+        .register(registration(root.path(), "WI-AUTO", 2))
+        .expect("register changed generation");
+    let inspection = store.inspect().expect("inspect automatic impact");
+    let event = inspection
+        .events
+        .iter()
+        .find(|event| event.event_id == "auto-impact-WI-AUTO-2")
+        .expect("automatic impact event");
+    assert_eq!(event.kind, CoordinationEventKind::Impact);
+    assert_eq!(event.generation, 2);
+    assert_eq!(event.source, "registration-identity-changed");
+}
+
+#[test]
 fn conflicting_resources_are_atomic_and_partial_reservation_rolls_back() {
     let root = repository();
     let store = Arc::new(store(root.path()));
+    store
+        .register(registration(root.path(), "WI-A", 1))
+        .expect("register A");
+    store
+        .register(registration(root.path(), "WI-B", 1))
+        .expect("register B");
     let first = {
         let store = Arc::clone(&store);
+        let root = root.path().to_path_buf();
         thread::spawn(move || {
-            store.reserve_resources(reservation("WI-A", "r-a", &["src/a", "src/b"]))
+            store.reserve_resources(reservation(&root, "WI-A", "r-a", &["src/a", "src/b"]))
         })
     };
     let second = {
         let store = Arc::clone(&store);
+        let root = root.path().to_path_buf();
         thread::spawn(move || {
-            store.reserve_resources(reservation("WI-B", "r-b", &["src/b", "src/c"]))
+            store.reserve_resources(reservation(&root, "WI-B", "r-b", &["src/b", "src/c"]))
         })
     };
     let results = [first.join().unwrap(), second.join().unwrap()];
@@ -150,7 +224,7 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
     let late = CoordinationEvent {
         schema_version: 1,
         event_id: "late".into(),
-        repository_id: digest("repository"),
+        repository_id: repository_id(root.path()),
         work_item_id: "WI-A".into(),
         generation: 1,
         kind: CoordinationEventKind::Impact,
@@ -182,7 +256,7 @@ fn recovery_consumes_only_matching_event_and_is_idempotent() {
     let event = CoordinationEvent {
         schema_version: 1,
         event_id: "recoverable-impact".into(),
-        repository_id: digest("repository"),
+        repository_id: repository_id(root.path()),
         work_item_id: "WI-PROVIDER".into(),
         generation: 1,
         kind: CoordinationEventKind::Impact,
@@ -211,6 +285,14 @@ fn recovery_consumes_only_matching_event_and_is_idempotent() {
         stale,
         Err(CoordinationError::StaleGeneration { .. })
     ));
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 2))
+        .expect("new provider generation");
+    let current = store
+        .recover_event("recoverable-impact", "WI-CONSUMER", 2)
+        .expect("cross-generation recovery");
+    assert_eq!(current.provider_generation, 1);
+    assert_eq!(current.current_provider_generation, Some(2));
     assert_eq!(store.inspect().expect("inspect").unknowns.len(), 0);
 }
 
@@ -219,18 +301,50 @@ fn corrupt_reservation_is_not_treated_as_free() {
     let root = repository();
     let store = store(root.path());
     store
-        .reserve_resources(reservation("WI-A", "r-a", &["src/a"]))
+        .register(registration(root.path(), "WI-A", 1))
+        .expect("register");
+    store
+        .reserve_resources(reservation(root.path(), "WI-A", "r-a", &["src/a"]))
         .expect("reserve");
     fs::write(
         store.root().join("reservations/r-a.json"),
         b"partial-record",
     )
     .expect("corrupt reservation");
-    let result = store.reserve_resources(reservation("WI-B", "r-b", &["src/a"]));
+    store
+        .register(registration(root.path(), "WI-B", 1))
+        .expect("register B");
+    let result = store.reserve_resources(reservation(root.path(), "WI-B", "r-b", &["src/a"]));
     assert!(matches!(
         result,
         Err(CoordinationError::InvalidRecord { .. })
     ));
+}
+
+#[test]
+fn stale_generation_cannot_release_an_existing_resource_reservation() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-A", 1))
+        .expect("register first generation");
+    store
+        .reserve_resources(reservation(root.path(), "WI-A", "r-a", &["src/a"]))
+        .expect("reserve resource");
+
+    fs::write(root.path().join("generation-two.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "generation two"]);
+    store
+        .register(registration(root.path(), "WI-A", 2))
+        .expect("register second generation");
+
+    let result = store.release_resources("r-a", "WI-A", 1);
+    assert!(matches!(
+        result,
+        Err(CoordinationError::StaleGeneration { .. })
+    ));
+    assert_eq!(store.inspect().expect("inspect").reservations.len(), 1);
 }
 
 #[test]
@@ -247,6 +361,61 @@ fn registration_with_a_different_runtime_identity_is_rejected_before_write() {
         ))
     ));
     assert!(!store.registration_path("WI-A").exists());
+}
+
+type RegistrationMutation<'a> = (&'a str, Box<dyn Fn(&mut WorktreeRegistration) + 'a>);
+
+#[test]
+fn registration_identity_is_rejected_before_persistence_when_observed_facts_differ() {
+    let root = repository();
+    let store = store(root.path());
+    let valid = registration(root.path(), "WI-IDENTITY", 1);
+    let cases: Vec<RegistrationMutation<'_>> = vec![
+        (
+            "repository",
+            Box::new(|value: &mut WorktreeRegistration| {
+                value.repository_id = digest("forged-repository");
+            }),
+        ),
+        (
+            "contract",
+            Box::new(|value: &mut WorktreeRegistration| {
+                value.contract_digest = digest("forged-contract");
+            }),
+        ),
+        (
+            "branch",
+            Box::new(|value: &mut WorktreeRegistration| {
+                value.branch = "codex/forged-branch".into();
+            }),
+        ),
+        (
+            "head",
+            Box::new(|value: &mut WorktreeRegistration| {
+                value.head = "1111111111111111111111111111111111111111".into();
+            }),
+        ),
+        (
+            "worktree",
+            Box::new(|value: &mut WorktreeRegistration| {
+                value.worktree_path = root
+                    .path()
+                    .parent()
+                    .expect("temporary parent")
+                    .to_string_lossy()
+                    .into_owned();
+            }),
+        ),
+    ];
+    for (label, mutate) in cases {
+        let mut forged = valid.clone();
+        mutate(&mut forged);
+        assert!(
+            store.register(forged).is_err(),
+            "{label} mismatch must fail closed"
+        );
+        assert!(!store.registration_path("WI-IDENTITY").exists());
+    }
 }
 
 #[test]
