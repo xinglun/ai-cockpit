@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T01:50:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.570b2c44da335176f235e1b13ff35c20740d39d5d19068176f497b0c7d209f84.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+    ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.archive.json",
+    ".ai/decisions/WI-1026-release-v0-2-113-close-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:8ed12512f9924e89898ef1d92a1687d969836fe4205425bb42231d60c7f80353",
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorEventsDigest": "sha256:8771924f51105e7a1df035e988f6bf89ae2a53eb0e7e6783c11f9073ccd6c0d4",
+  "predecessorOutcomeDigest": "sha256:d258edd944589159e188dfcc896136685e0759e935f55eb9926585b426135f9b",
+  "predecessorSummaryDigest": "sha256:c2adc7450f2985911b8ef65f420f47f5f8948607ccef554a00769ee8c846243f",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "Bind the already archived WI-1025 manifest to the already closed WI-1026 successor so governance projection can recognize the immutable terminal supersession without rewriting either Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-1025; retain both immutable archives and continue only from the closed WI-1026 successor.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorBindingMode": "legacy_terminal_evidence",
+  "successorWorkItemId": "WI-1026-release-v0-2-113-close-recovery",
+  "workItemId": "WI-1025-release-v0-2-113"
+}
