@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:6614a12e6905935a59186e0c87c7b9f727e96cdbd148e6b235af30266f5dabe0",
+  "commands": [
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "9361254d92652d0e641d53720cd5d6177f82565e",
+      "commandDigest": "sha256:578dd5f5a5f4cf759b25e5369601773e91dfc4ae11f668138de930764c007386",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "contractExecutionScopeDigest": "sha256:c3a5893e1dff2319b65cc478f818a5e929c7c5c2234aef9e439a4fe0ca3d6a86",
+  "createdAt": "2026-09-24T00:30:53Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-113/ai-cockpit/.ai/work-items/active/WI-1025-release-v0-2-113.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, safeActions=[\"archive_when_reviewed\", \"refresh_status\"], admissionDigest=sha256:fda6be258db92d36ab631c21415f631f548e9cdd5f1578d70aed009923f12f19, issues=[\"evidence_stale\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1025-release-v0-2-113"
+}
