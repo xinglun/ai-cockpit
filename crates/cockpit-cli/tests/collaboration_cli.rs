@@ -1,14 +1,17 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility, OutcomeStage,
-    ProvidedOutcome, RuntimeCapabilityBinding, WorktreeRegistration,
+    COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
+    IntegrationResponsibility, OutcomeStage, ProvidedOutcome, RuntimeCapabilityBinding,
+    WorktreeRegistration,
 };
 use serde_json::Value;
 use sha2::{Digest as ShaDigest, Sha256};
+use std::collections::BTreeMap;
 use std::fs;
+use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use cockpit_repository::{
     WorkItemStartOptions, attach, repository_id, start_work_item_with_options,
@@ -90,8 +93,75 @@ fn invoke(args: &[&str]) -> std::process::Output {
         .expect("candidate CLI")
 }
 
+fn coordination_snapshot(root: &Path) -> Option<BTreeMap<PathBuf, Vec<u8>>> {
+    let directory = root.join(".git/.ai-cockpit/coordination");
+    if !directory.exists() {
+        return None;
+    }
+
+    fn collect_files(directory: &Path, current: &Path, files: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in fs::read_dir(current).expect("read coordination directory") {
+            let entry = entry.expect("coordination entry");
+            let path = entry.path();
+            let kind = entry.file_type().expect("coordination entry type");
+            assert!(!kind.is_symlink(), "coordination store contains a symlink");
+            if kind.is_dir() {
+                collect_files(directory, &path, files);
+            } else {
+                assert!(kind.is_file(), "unexpected coordination entry: {path:?}");
+                files.insert(
+                    path.strip_prefix(directory)
+                        .expect("entry beneath coordination directory")
+                        .to_owned(),
+                    fs::read(path).expect("coordination record bytes"),
+                );
+            }
+        }
+    }
+
+    let mut files = BTreeMap::new();
+    collect_files(&directory, &directory, &mut files);
+    Some(files)
+}
+
+fn invoke_mcp(root: &Path, name: &str, arguments: Value) -> Value {
+    let request = serde_json::json!({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {"name": name, "arguments": arguments}
+    });
+    let mut child = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["mcp", "--repo"])
+        .arg(root)
+        .current_dir(root)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("candidate MCP stdio server");
+    let mut stdin = child.stdin.take().expect("MCP stdin");
+    let mut request_bytes = serde_json::to_vec(&request).expect("MCP request JSON");
+    request_bytes.push(b'\n');
+    stdin.write_all(&request_bytes).expect("write MCP request");
+    drop(stdin);
+
+    let output = child.wait_with_output().expect("MCP response");
+    assert!(
+        output.status.success(),
+        "MCP stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let response: Value = serde_json::from_slice(&output.stdout).expect("MCP response JSON");
+    assert_ne!(
+        response["result"]["isError"], true,
+        "MCP response: {response}"
+    );
+    response
+}
+
 #[test]
-fn coordination_cli_separates_read_only_inspection_from_writes() {
+fn coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes() {
     let root = repository();
     run_git(root.path(), &["checkout", "-qb", "codex/wi-cli"]);
     attach(root.path()).expect("attach repository");
@@ -108,6 +178,8 @@ fn coordination_cli_separates_read_only_inspection_from_writes() {
         },
     )
     .expect("start Work Item");
+
+    assert_eq!(coordination_snapshot(root.path()), None);
     let output = invoke(&[
         "work-item",
         "coordination",
@@ -120,8 +192,75 @@ fn coordination_cli_separates_read_only_inspection_from_writes() {
         "{}",
         String::from_utf8_lossy(&output.stderr)
     );
-    assert!(!root.path().join(".git/.ai-cockpit/coordination").exists());
     let first: Value = serde_json::from_slice(&output.stdout).expect("projection JSON");
+    assert_eq!(coordination_snapshot(root.path()), None);
+
+    let repo_path = root.path().to_str().unwrap();
+    for (label, args) in [
+        (
+            "CLI status",
+            vec![
+                "work-item",
+                "status",
+                "--repo",
+                repo_path,
+                "--id",
+                "WI-CLI",
+                "--json",
+            ],
+        ),
+        (
+            "CLI Outcome",
+            vec![
+                "work-item",
+                "outcome",
+                "--repo",
+                repo_path,
+                "--id",
+                "WI-CLI",
+                "--json",
+            ],
+        ),
+    ] {
+        let output = invoke(&args);
+        assert!(
+            output.status.success(),
+            "{label}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let _: Value = serde_json::from_slice(&output.stdout).expect("projection JSON");
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            None,
+            "{label} created a store"
+        );
+    }
+
+    for (name, arguments) in [
+        (
+            "work_item_coordination",
+            serde_json::json!({"action":"inspect"}),
+        ),
+        (
+            "work_item_status",
+            serde_json::json!({"workItemId":"WI-CLI"}),
+        ),
+        (
+            "work_item_outcome",
+            serde_json::json!({"workItemId":"WI-CLI"}),
+        ),
+    ] {
+        let response = invoke_mcp(root.path(), name, arguments);
+        assert!(
+            !response["result"]["structuredContent"].is_null(),
+            "{name} returned no structured projection: {response}"
+        );
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            None,
+            "{name} created a store"
+        );
+    }
 
     let input = root.path().join("registration.json");
     fs::write(
@@ -145,18 +284,131 @@ fn coordination_cli_separates_read_only_inspection_from_writes() {
     );
     let written: Value = serde_json::from_slice(&output.stdout).expect("write result JSON");
     assert!(written.get("projection").is_some());
+    let registered_snapshot = coordination_snapshot(root.path())
+        .expect("explicit registration creates a durable coordination store");
 
-    let output = invoke(&[
-        "work-item",
-        "coordination",
-        "inspect",
-        "--repo",
-        root.path().to_str().unwrap(),
-    ]);
+    let output = invoke(&["work-item", "coordination", "inspect", "--repo", repo_path]);
     assert!(output.status.success());
     let second: Value = serde_json::from_slice(&output.stdout).expect("projection JSON");
     assert_eq!(first["events"], second["events"]);
     assert_eq!(second["registrations"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        coordination_snapshot(root.path()),
+        Some(registered_snapshot.clone())
+    );
+
+    for (label, args) in [
+        (
+            "CLI status",
+            vec![
+                "work-item",
+                "status",
+                "--repo",
+                repo_path,
+                "--id",
+                "WI-CLI",
+                "--json",
+            ],
+        ),
+        (
+            "CLI Outcome",
+            vec![
+                "work-item",
+                "outcome",
+                "--repo",
+                repo_path,
+                "--id",
+                "WI-CLI",
+                "--json",
+            ],
+        ),
+    ] {
+        let output = invoke(&args);
+        assert!(
+            output.status.success(),
+            "{label}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let _: Value = serde_json::from_slice(&output.stdout).expect("projection JSON");
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            Some(registered_snapshot.clone()),
+            "{label} rewrote, consumed, or appended to the coordination store"
+        );
+    }
+
+    for (name, arguments) in [
+        (
+            "work_item_coordination",
+            serde_json::json!({"action":"inspect"}),
+        ),
+        (
+            "work_item_status",
+            serde_json::json!({"workItemId":"WI-CLI"}),
+        ),
+        (
+            "work_item_outcome",
+            serde_json::json!({"workItemId":"WI-CLI"}),
+        ),
+    ] {
+        let response = invoke_mcp(root.path(), name, arguments);
+        assert!(
+            !response["result"]["structuredContent"].is_null(),
+            "{name} returned no structured projection: {response}"
+        );
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            Some(registered_snapshot.clone()),
+            "{name} rewrote, consumed, or appended to the coordination store"
+        );
+    }
+
+    let event = CoordinationEvent {
+        schema_version: 1,
+        event_id: "impact-WI-CLI-1".into(),
+        repository_id: repository_id(root.path()),
+        work_item_id: "WI-CLI".into(),
+        generation: 1,
+        kind: CoordinationEventKind::Impact,
+        source: "explicit CLI impact report".into(),
+        evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
+    };
+    let event_path = root.path().join("impact.json");
+    fs::write(&event_path, serde_json::to_vec_pretty(&event).unwrap()).unwrap();
+    let output = invoke(&[
+        "work-item",
+        "coordination",
+        "report-impact",
+        "--repo",
+        repo_path,
+        "--input",
+        event_path.to_str().unwrap(),
+    ]);
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let reported_snapshot = coordination_snapshot(root.path()).expect("reported event store");
+    assert_ne!(reported_snapshot, registered_snapshot);
+
+    let fresh_process_projection = invoke_mcp(
+        root.path(),
+        "work_item_coordination",
+        serde_json::json!({"action":"inspect"}),
+    )["result"]["structuredContent"]
+        .clone();
+    assert_eq!(
+        fresh_process_projection["events"].as_array().unwrap().len(),
+        1
+    );
+    assert_eq!(
+        fresh_process_projection["events"][0]["eventId"],
+        "impact-WI-CLI-1"
+    );
+    assert_eq!(coordination_snapshot(root.path()), Some(reported_snapshot));
 }
 
 #[test]

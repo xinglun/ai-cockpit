@@ -65,7 +65,7 @@ identity 及观察到的状态。同时保留 receipt 绑定的原因、证据�
 | 参考关注点 | Rust Runtime 状态 | 证据与边界 |
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.zh-CN.md)；archive `.ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json`；verification `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`；finalization `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.finalize.json`；close `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json`。 |
-| WI-1032-cross-wi-review-fixes | 进行中；仅有本地针对性证据，Runtime verification 与审查待完成 | [Work Item](../work-items/WI-1032-cross-wi-review-fixes.zh-CN.md)；[独立审查](../work-items/WI-1032-cross-wi-review-fixes/independent-review.md)；不宣称已验证、合并或发布。 |
+| WI-1032-cross-wi-review-fixes | 进行中；已有本地针对性、gate-manifest 和真实多进程证据；Runtime verification、Sentinel 兼容检查与审查待完成 | [Work Item](../work-items/WI-1032-cross-wi-review-fixes.zh-CN.md)；[独立审查](../work-items/WI-1032-cross-wi-review-fixes/independent-review.md)；不宣称 Runtime 验证、合并或发布。 |
 | 面向读者的入口和语言切换 | 已实现 | 根 README 与 route README 在 English、简体中文和日本語之间互链。 |
 | 目的、问题、架构和功能概览 | 已实现 | 设计思想、架构和功能路线描述当前 Runtime 及其责任方。 |
 | 共享 Runtime 与 request-scoped repository context | 已实现 | 显式 `--repo` 绑定和 repository isolation tests 保持 context 与 evidence 隔离。 |

@@ -52,6 +52,10 @@ creates the coordination directory. Recovery consumption is a write: it is
 idempotent for the exact event/provider generation/consumer generation tuple,
 and rejects stale generations.
 
+Request-scoped observations provide consistency only within that request; they
+are not cross-process event delivery. A fresh process observes coordination
+events only after an explicit write has persisted them.
+
 Impact events are deduplicated by event identity. An impact blocks only
 affected consumers; unrelated Work Items continue. Pause requests are distinct
 from acknowledgement, safe pause, unavailable/expired, and resume. A request

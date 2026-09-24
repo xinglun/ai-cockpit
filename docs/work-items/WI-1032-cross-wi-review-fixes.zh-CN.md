@@ -43,4 +43,4 @@ lastVerifiedBy: WI-1032-cross-wi-review-fixes
 
 ## 证据与当前状态
 
-Task 1–5 已按串行顺序分别提交。组合针对性测试、`cockpit-repository` package 套件和真实 CLI 验收已在本地通过。验收使用两个 linked worktree；完全重复组合的进程数从 1 降到 0；只改变继承环境且 composition JSON 字节保持一致后，进程数回到 1。Task 6 MCP/interface 工作仍在进行；Task 7、完整 canonical gate、Sentinel 只读兼容检查、独立 PR 审查、合并和清理尚待完成。这些是本地开发证据，不是 Runtime-bound verification 或发布批准。详见[规格](WI-1032-cross-wi-review-fixes/spec.md)、[实施计划](WI-1032-cross-wi-review-fixes/implementation-plan.md)和[独立审查](WI-1032-cross-wi-review-fixes/independent-review.md)。
+Task 1–7 已按串行顺序实现并分别提交。组合、协调存储及 CLI/MCP 查询—写入边界针对性测试通过；gate-manifest 回归、release CLI 构建、文档验收和真实多进程验收也通过。真实验收使用两个 linked worktree；完全重复组合的进程数为 1 → 0；保持 composition JSON 字节不变、只改变实际观察到的环境输入后，进程数回到 1。查询测试在存储不存在和已有记录两种情况下逐项比较协调目录路径与文件字节；只有显式注册和影响报告写入会持久化记录，新的 MCP 进程随后能观察到这些记录。Runtime-bound 完整验证、Sentinel 只读兼容检查、独立 PR 审查、合并和精确清理仍待完成。这些是本地开发证据，不是 Runtime-bound verification 或发布批准。详见[规格](WI-1032-cross-wi-review-fixes/spec.md)、[实施计划](WI-1032-cross-wi-review-fixes/implementation-plan.md)和[独立审查](WI-1032-cross-wi-review-fixes/independent-review.md)。

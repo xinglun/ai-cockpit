@@ -40,6 +40,10 @@ consumer generation の完全一致で idempotent になり、古い generation 
 impact は影響を受けた consumer だけを止め、無関係な WI は継続できます。pause の
 request、acknowledged、safely paused、unavailable/expired、resumed は区別します。
 
+request-scoped observation が保証するのはその request 内の一貫性だけであり、process 間で
+coordination event を配送しません。新しい process が読むのは、明示的な write によって
+永続化された event だけです。
+
 Outcome の公開は、現在の登録 generation と宣言済み outcome に対する明示的な write
 です。Runtime は現在の consumer が要求する verification receipt を検証し、正確な
 evidence bytes に束縛した `OutcomePublished` event を追加します。read-only query は

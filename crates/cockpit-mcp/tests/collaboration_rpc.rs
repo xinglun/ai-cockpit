@@ -9,8 +9,9 @@ use cockpit_repository::{
     WorkItemStartOptions, attach, repository_id, start_work_item_with_options,
 };
 use serde_json::{Value, json};
+use std::collections::BTreeMap;
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn run_git(root: &Path, args: &[&str]) {
@@ -100,6 +101,37 @@ fn call(root: &Path, name: &str, arguments: Value) -> Value {
     response["result"]["structuredContent"].clone()
 }
 
+fn coordination_snapshot(root: &Path) -> Option<BTreeMap<PathBuf, Vec<u8>>> {
+    let directory = root.join(".git/.ai-cockpit/coordination");
+    if !directory.exists() {
+        return None;
+    }
+
+    fn collect_files(directory: &Path, current: &Path, files: &mut BTreeMap<PathBuf, Vec<u8>>) {
+        for entry in fs::read_dir(current).expect("read coordination directory") {
+            let entry = entry.expect("coordination entry");
+            let path = entry.path();
+            let kind = entry.file_type().expect("coordination entry type");
+            assert!(!kind.is_symlink(), "coordination store contains a symlink");
+            if kind.is_dir() {
+                collect_files(directory, &path, files);
+            } else {
+                assert!(kind.is_file(), "unexpected coordination entry: {path:?}");
+                files.insert(
+                    path.strip_prefix(directory)
+                        .expect("entry beneath coordination directory")
+                        .to_owned(),
+                    fs::read(path).expect("coordination record bytes"),
+                );
+            }
+        }
+    }
+
+    let mut files = BTreeMap::new();
+    collect_files(&directory, &directory, &mut files);
+    Some(files)
+}
+
 #[test]
 fn coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection() {
     let root = repository();
@@ -121,13 +153,14 @@ fn coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection
         "work_item_coordination",
         json!({"action":"inspect"}),
     );
-    assert!(!root.path().join(".git/.ai-cockpit/coordination").exists());
+    assert_eq!(coordination_snapshot(root.path()), None);
     let second = call(
         root.path(),
         "work_item_coordination",
         json!({"action":"inspect"}),
     );
     assert_eq!(first, second);
+    assert_eq!(coordination_snapshot(root.path()), None);
 
     let error = cockpit_mcp::handle_request_for_repo(
         &json!({
@@ -138,7 +171,77 @@ fn coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection
         &runtime(),
     );
     assert_eq!(error["result"]["isError"], true);
-    assert!(!root.path().join(".git/.ai-cockpit/coordination").exists());
+    assert_eq!(coordination_snapshot(root.path()), None);
+}
+
+#[test]
+fn coordination_rpc_projections_preserve_exact_persisted_store_bytes() {
+    let root = repository();
+    run_git(root.path(), &["branch", "-M", "main"]);
+    run_git(root.path(), &["checkout", "-qb", "codex/wi-mcp-readonly"]);
+    attach(root.path()).expect("attach repository");
+    start_work_item_with_options(
+        root.path(),
+        "WI-MCP",
+        "MCP read-only projection test",
+        "keep projection queries separate from durable coordination writes",
+        &[
+            ".ai/**".into(),
+            "README.md".into(),
+            "target/api.json".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["read routes preserve coordination bytes".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start Work Item");
+
+    for (name, arguments) in [
+        ("work_item_coordination", json!({"action":"inspect"})),
+        ("work_item_status", json!({"workItemId":"WI-MCP"})),
+        ("work_item_outcome", json!({"workItemId":"WI-MCP"})),
+    ] {
+        let response = call(root.path(), name, arguments);
+        assert!(!response.is_null(), "{name} returned no projection");
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            None,
+            "{name} created a store"
+        );
+    }
+
+    fs::create_dir_all(root.path().join("target")).expect("target directory");
+    fs::write(root.path().join("target/api.json"), b"{\"api\":1}\n").expect("outcome evidence");
+    let write_result = call(
+        root.path(),
+        "work_item_coordination",
+        json!({
+            "action":"register",
+            "registration":outcome_registration(root.path())
+        }),
+    );
+    assert_eq!(
+        write_result["result"]["workItemId"], "WI-MCP",
+        "{write_result}"
+    );
+    let persisted = coordination_snapshot(root.path())
+        .expect("explicit registration creates persisted coordination records");
+
+    for (name, arguments) in [
+        ("work_item_coordination", json!({"action":"inspect"})),
+        ("work_item_status", json!({"workItemId":"WI-MCP"})),
+        ("work_item_outcome", json!({"workItemId":"WI-MCP"})),
+    ] {
+        let response = call(root.path(), name, arguments);
+        assert!(!response.is_null(), "{name} returned no projection");
+        assert_eq!(
+            coordination_snapshot(root.path()),
+            Some(persisted.clone()),
+            "{name} rewrote, consumed, or appended to the coordination store"
+        );
+    }
 }
 
 #[test]
