@@ -8,11 +8,13 @@ use cockpit_protocol::{
 use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::collections::{BTreeMap, BTreeSet};
-use std::fs::{self, OpenOptions};
-use std::io::{ErrorKind, Write};
+use std::fs::{self, File, OpenOptions};
+#[cfg(unix)]
+use std::io::ErrorKind;
+use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::thread;
-use std::time::{Duration, SystemTime, UNIX_EPOCH};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 const LOCK_WAIT: Duration = Duration::from_millis(5);
@@ -888,21 +890,18 @@ impl CoordinationStore {
         F: FnOnce() -> Result<T, CoordinationError>,
     {
         let lock_path = self.root.join(".lock");
-        let started = SystemTime::now();
-        let lock = loop {
-            match OpenOptions::new()
-                .write(true)
-                .create_new(true)
-                .open(&lock_path)
-            {
-                Ok(file) => break file,
-                Err(error) if error.kind() == ErrorKind::AlreadyExists => {
-                    if started.elapsed().unwrap_or(LOCK_TIMEOUT) >= LOCK_TIMEOUT {
-                        return Err(CoordinationError::RecoveryRequired(
-                            "coordination lock did not become available".into(),
-                        ));
-                    }
+        let lock = open_lock_file(&lock_path)?;
+        let started = Instant::now();
+        loop {
+            match try_lock_exclusive(&lock) {
+                Ok(true) => break,
+                Ok(false) if started.elapsed() < LOCK_TIMEOUT => {
                     thread::sleep(LOCK_WAIT);
+                }
+                Ok(false) => {
+                    return Err(CoordinationError::RecoveryRequired(
+                        "coordination lock did not become available".into(),
+                    ));
                 }
                 Err(source) => {
                     return Err(CoordinationError::Io {
@@ -911,11 +910,86 @@ impl CoordinationStore {
                     });
                 }
             }
-        };
+        }
         let result = operation();
         drop(lock);
-        let _ = fs::remove_file(&lock_path);
         result
+    }
+}
+
+fn open_lock_file(path: &Path) -> Result<File, CoordinationError> {
+    // Keep this path and inode persistent. Unlinking a lock while another
+    // process holds its open handle would let a contender lock a replacement.
+    let mut options = OpenOptions::new();
+    options.read(true).write(true).create(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW);
+    }
+    #[cfg(windows)]
+    {
+        use std::os::windows::fs::OpenOptionsExt;
+        options.custom_flags(windows_sys::Win32::Storage::FileSystem::FILE_FLAG_OPEN_REPARSE_POINT);
+    }
+    let file = options.open(path).map_err(|source| CoordinationError::Io {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    let metadata = file.metadata().map_err(|source| CoordinationError::Io {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    if !metadata.is_file() || metadata.file_type().is_symlink() {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "coordination lock path is not a regular file: {}",
+            path.display()
+        )));
+    }
+    Ok(file)
+}
+
+fn try_lock_exclusive(file: &File) -> std::io::Result<bool> {
+    #[cfg(unix)]
+    {
+        use std::os::fd::AsRawFd;
+        let result = unsafe { libc::flock(file.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) };
+        if result == 0 {
+            return Ok(true);
+        }
+        let error = std::io::Error::last_os_error();
+        if matches!(error.kind(), ErrorKind::WouldBlock | ErrorKind::Interrupted) {
+            return Ok(false);
+        }
+        Err(error)
+    }
+    #[cfg(windows)]
+    {
+        use std::os::windows::io::AsRawHandle;
+        use windows_sys::Win32::Storage::FileSystem::{
+            LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY, LockFileEx,
+        };
+        use windows_sys::Win32::System::IO::OVERLAPPED;
+        let mut overlapped = OVERLAPPED::default();
+        let locked = unsafe {
+            LockFileEx(
+                file.as_raw_handle() as windows_sys::Win32::Foundation::HANDLE,
+                LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY,
+                0,
+                1,
+                0,
+                &mut overlapped,
+            )
+        };
+        if locked != 0 {
+            return Ok(true);
+        }
+        let error = std::io::Error::last_os_error();
+        if error.raw_os_error() == Some(windows_sys::Win32::Foundation::ERROR_LOCK_VIOLATION as i32)
+        {
+            return Ok(false);
+        }
+        Err(error)
     }
 }
 
@@ -987,6 +1061,10 @@ fn valid_component(value: &str) -> bool {
         && !value.contains('/')
         && !value.contains('\\')
 }
+
+#[cfg(test)]
+#[path = "coordination_store_lock_tests.rs"]
+mod lock_recovery_tests;
 
 fn valid_request_transition(from: CoordinationRequestState, to: CoordinationRequestState) -> bool {
     matches!(
