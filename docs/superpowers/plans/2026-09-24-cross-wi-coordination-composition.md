@@ -172,31 +172,31 @@
 - Consumes: Task 1 protocol/store, active and archived Work Item facts, Git worktree registrations, and fixed/candidate Runtime identity.
 - Produces: `collaboration_projection`, `admit_collaboration_action`, `refresh_dependency_state`, `report_impact`, `request_safe_pause`, `acknowledge_pause`, `resume_and_re_evaluate`, and typed diagnostics for cycles, unsupported runtime, stale requests, and affected-only blocking.
 
-- [ ] **Step 1: Write failing admission tests.**
+- [x] **Step 1: Write failing admission tests.**
 
   Cover `interface_stable`, `composable_head`, and `merged_target`; provider closure must not be required for a composable head. Add a provider change that invalidates only its consumers, an unrelated WI that remains runnable, a two-edge cycle, and a late event that targets an old generation.
 
-- [ ] **Step 2: Write failing coordination state-machine tests.**
+- [x] **Step 2: Write failing coordination state-machine tests.**
 
   Exercise `requested -> acknowledged -> paused -> resumed`, unavailable/expired requests, duplicate requests, and running-action safe-boundary behavior. Assert that resume refreshes current facts before admission.
 
-- [ ] **Step 3: Write the fixed/candidate Runtime boundary tests.**
+- [x] **Step 3: Write the fixed/candidate Runtime boundary tests.**
 
   Pass the fixed `0.2.105` identity to candidate collaboration actions and assert `unsupported_runtime_capability` with zero coordination writes. Pass the candidate capability and assert the action proceeds. Keep ordinary single-WI lifecycle tests on the fixed Runtime path.
 
-- [ ] **Step 4: Implement declaration loading and graph evaluation.**
+- [x] **Step 4: Implement declaration loading and graph evaluation.**
 
   Read explicit declarations through the store, validate current worktree/Contract/head identity, propagate invalidation by dependency edges, coalesce equivalent consumer invalidations, and mark unknown edges conservatively.
 
-- [ ] **Step 5: Implement explicit write operations.**
+- [x] **Step 5: Implement explicit write operations.**
 
   `report_impact` appends an idempotent event; request/acknowledge/resume operations append transitions bound to target generation; recovery consumes only matching identities and never repairs on a read. The admission service refreshes the store and Git facts before every dependent action.
 
-- [ ] **Step 6: Implement cycle and local-continuation diagnostics.**
+- [x] **Step 6: Implement cycle and local-continuation diagnostics.**
 
   Return the cycle path and actionable edge. Block only affected actions; do not pause the entire WI or permit a dependency edge to be bypassed by a coordinator message.
 
-- [ ] **Step 7: Run Task 2 tests.**
+- [x] **Step 7: Run Task 2 tests.**
 
   ```bash
   cargo test --locked -p cockpit-repository --test collaboration_admission -- --nocapture
@@ -204,7 +204,7 @@
   cargo test --locked -p cockpit-protocol --test collaboration
   ```
 
-- [ ] **Step 8: Commit the dependency/coordination layer.**
+- [x] **Step 8: Commit the dependency/coordination layer.**
 
   ```bash
   git diff --check

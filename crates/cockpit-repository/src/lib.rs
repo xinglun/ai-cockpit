@@ -48,6 +48,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 mod action_admission;
+mod collaboration;
 mod coordination_store;
 mod evidence_store;
 mod execution_context;
@@ -62,6 +63,11 @@ mod resource_lifecycle;
 mod status_projection;
 
 pub use action_admission::require_current_action_admission;
+pub use collaboration::{
+    CollaborationAdmission, CollaborationProjection, acknowledge_pause, admit_collaboration_action,
+    collaboration_projection, refresh_dependency_state, report_impact, request_safe_pause,
+    resume_and_re_evaluate,
+};
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
 };

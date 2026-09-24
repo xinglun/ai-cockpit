@@ -296,6 +296,15 @@ impl CoordinationStore {
                 .join("requests")
                 .join(format!("{request_id}.json"));
             let mut request: CoordinationRequest = self.read_json(&path)?;
+            let registration: WorktreeRegistration =
+                self.read_json(&self.registration_path(&request.target_work_item_id))?;
+            if registration.generation != request.target_generation {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: request.target_work_item_id.clone(),
+                    expected: registration.generation,
+                    actual: request.target_generation,
+                });
+            }
             if !valid_request_transition(request.state, state) {
                 return Err(CoordinationError::InvalidRequestTransition {
                     from: request.state,
