@@ -1,0 +1,174 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+      "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1026-release-v0-2-113-close-recovery-controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification-attempt.618744b5c730b14f0afcb4499322c965fbbe9f323b1d43a0fcd913d31a51617f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery-controls-input.json",
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization-current-conversation at 2026-09-24T01:43:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "保留 WI-1025 全部归档字节不变，绑定已有公开发布、安装、N-1 升级、finalization 和清理证据，完成 successor 的验证、归档、close 与派生文档投影。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+  },
+  "finalReportDigest": "sha256:5b1c31af415d28ffd7b8a0488d647a581bf08641000b00e2d0eeaab0400504e4",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:c9ecf4e1a45a8debcf3856d64d756d07b2e1dd753f489eab7efb691e4c97a25f",
+    "branch": "codex/wi-1026-release-v0-2-113-close-recovery",
+    "branchRef": "refs/heads/codex/wi-1026-release-v0-2-113-close-recovery",
+    "capturedAt": "2026-09-24T01:42:21Z",
+    "contractDigest": "sha256:3d7d8b1eda434bb1a751888473108916ea1a4f36e81f01e57093444993c639fa",
+    "headRevision": "7e187d26e34828910585243f7f945e8768a6819b",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+    "runtimeVersion": "0.2.109",
+    "schemaVersion": 1,
+    "workItemId": "WI-1026-release-v0-2-113-close-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/wi-1026-release-v0-2-113-close-recovery",
+    "worktreeId": "sha256:95d2551a939478a1c4c1d6b3c7f2ce050bf5236f35dd38ad2893fc7d2b6ae4dc",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1026-release-v0-2-113-close-recovery"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:84e065222115f7528b42d0c2678c4c9fb746f841c545cf79fce3fcfb68beac70",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-current-conversation",
+    "decidedAt": "2026-09-24T01:43:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1026-release-v0-2-113-close-recovery-controls-input.json",
+      ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Bounded successor records the existing WI-1025 acceptance mappings without changing release or predecessor evidence.",
+    "resumeCondition": "No further action unless the final projection check reports a new difference."
+  },
+  "timestamp": "2026-09-24T01:42:21Z",
+  "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+}
