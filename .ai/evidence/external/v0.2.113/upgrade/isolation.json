@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/home/runner/work/ai-cockpit/ai-cockpit/release-source",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceAiDigest": "sha256:0c853e8218af0a93ac53d078b34abd519d54e8a77667fe5ab6fbbfd4c388d03d",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:a31a46596678456cae2ca0062997f501ef60748aff373670735bce68ff0dcabb",
+    "afterDigest": "sha256:a31a46596678456cae2ca0062997f501ef60748aff373670735bce68ff0dcabb"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/tmp/ai-cockpit-n-minus-one.OSd8cy/new-control",
+  "repositoryId": "sha256:144d016f1cbec1e47b46b2aa5b42e027f5c8996dbf664fd35914fa7959a27141",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:3323961d731def1088d4838c792642081ffe1adbdfe289bd2eea7f5bcfbf15cf",
+      "symlinkTargetsContained": true
+    }
+  },
+  "releasePublished": true
+}

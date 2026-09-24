@@ -1,0 +1,81 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "reviewed_release_candidate_identity",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/release/public-release-evidence.json",
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35940322605",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.113"
+      ],
+      "expected": "The reviewed main revision, package version, annotated tag, workflow source revision, and typed ReleasePlan identify the same v0.2.113 candidate.",
+      "verificationPlan": "The successful release close receipt, immutable peeled tag, public Release, and workflow head commit were inspected together."
+    },
+    {
+      "scenario": "public_release_artifact_integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/release/public-release-evidence.json",
+        ".ai/evidence/external/v0.2.113/release/release-manifest.json",
+        ".ai/evidence/external/v0.2.113/release/SHA256SUMS",
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.113"
+      ],
+      "expected": "The public v0.2.113 Release contains the four supported target archives and matching manifest, checksums, SBOM, provenance, and source identity without Intel macOS publication.",
+      "verificationPlan": "The public Release asset inventory, manifest, checksum file, SBOM digests, tag target, and release close receipt were inspected."
+    },
+    {
+      "scenario": "downloaded_public_install_and_n_minus_one_upgrade",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.113/adopter/isolation.json",
+        ".ai/evidence/external/v0.2.113/adopter/cleanup.json",
+        ".ai/evidence/external/v0.2.113/upgrade/acceptance.json",
+        ".ai/evidence/external/v0.2.113/upgrade/isolation.json",
+        ".ai/evidence/external/v0.2.113/upgrade/migration-state.json",
+        ".ai/evidence/external/v0.2.113/upgrade/cleanup.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35940322605"
+      ],
+      "expected": "Downloaded public v0.2.113 artifacts pass isolated fresh-install and v0.2.112-to-v0.2.113 N-1 upgrade acceptance with cleanup evidence.",
+      "verificationPlan": "The hosted public install and N-1 upgrade receipts both report passed acceptance and passed temporary-root cleanup."
+    },
+    {
+      "scenario": "release_failure_preserves_immutable_truth",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        ".ai/evidence/external/v0.2.113/release/public-release-evidence.json"
+      ],
+      "expected": "Any failed publication or post-release acceptance records the failure without rewriting the immutable tag, provider Release, or predecessor evidence.",
+      "verificationPlan": "The terminal release close receipt has state passed with empty failureRoots and binds the immutable tag, source commit, and required acceptance receipts."
+    },
+    {
+      "scenario": "release_close_is_fixed_point",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/v0.2.113/release/release-close.json",
+        ".ai/evidence/external/v0.2.113/adopter/lifecycle-close.json",
+        ".ai/evidence/external/v0.2.113/adopter/lifecycle-finalize-verify.json",
+        ".ai/evidence/external/v0.2.113/upgrade/new-close.json",
+        ".ai/evidence/external/v0.2.113/upgrade/new-finalize-verify.json"
+      ],
+      "expected": "After successful finalization and close, repeated status/projection checks produce no new cleanup obligation, successor, or mutable historical evidence.",
+      "verificationPlan": "Release close and adopter lifecycle receipts passed; Runtime archive/finalize/close and repeated local projection checks remain to be recorded for WI-1025 itself."
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "The approved release scope proves publication and adopter acceptance but declares no separate user-benefit measurement.",
+    "evidence": [
+      ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json",
+      ".ai/evidence/external/v0.2.113/release/public-release-evidence.json"
+    ]
+  }
+}

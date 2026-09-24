@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-1025-release-v0-2-113",
+  "workflow": {
+    "runId": 35940322605,
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/35940322605",
+    "state": "success",
+    "headCommit": "73f8bd2b86338f8025ef12ba9fff15bf45ef5782",
+    "closeJob": "https://github.com/xinglun/ai-cockpit/actions/runs/35940322605/job/107451449363"
+  },
+  "release": {
+    "tag": "v0.2.113",
+    "url": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.113",
+    "tagPeeledCommit": "73f8bd2b86338f8025ef12ba9fff15bf45ef5782",
+    "targets": [
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-gnu",
+      "x86_64-unknown-linux-gnu",
+      "x86_64-pc-windows-msvc"
+    ],
+    "intelMacTargetPublished": false
+  },
+  "requiredReceipts": {
+    "releaseClose": "release-close.json",
+    "versionConsistency": "version-consistency.json",
+    "providerRelease": "provider-release-state.json",
+    "manifest": "release-manifest.json",
+    "checksums": "SHA256SUMS",
+    "homebrewHandoff": "homebrew-handoff.json",
+    "publicInstall": "../adopter/acceptance.json",
+    "publicUpgrade": "../upgrade/acceptance.json"
+  },
+  "source": {
+    "repository": "xinglun/ai-cockpit",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeVersion": "0.2.109",
+    "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae"
+  }
+}

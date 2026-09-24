@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "kind": "run_root_cleanup",
+  "state": "passed",
+  "removed": true,
+  "validated": true,
+  "reason": "validated run_root removed",
+  "target": {
+    "path": "/tmp/ai-cockpit-n-minus-one.OSd8cy",
+    "parent": "/tmp",
+    "basename": "ai-cockpit-n-minus-one.OSd8cy",
+    "deviceInode": "2049\t8966072"
+  },
+  "priorTargetRecovery": {
+    "state": "not_attempted",
+    "reason": null
+  }
+}

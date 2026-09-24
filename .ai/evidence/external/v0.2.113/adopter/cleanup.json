@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "kind": "run_root_cleanup",
+  "state": "passed",
+  "removed": true,
+  "validated": true,
+  "reason": "validated run_root removed",
+  "target": {
+    "path": "/tmp/ai-cockpit-adopter-acceptance.c3s0Ya",
+    "parent": "/tmp",
+    "basename": "ai-cockpit-adopter-acceptance.c3s0Ya",
+    "deviceInode": "2049\t8966351"
+  },
+  "priorTargetRecovery": {
+    "state": "not_attempted",
+    "reason": null
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 2,
+  "sourceRepository": "/home/runner/work/ai-cockpit/ai-cockpit/release-source",
+  "sourceAiState": "present",
+  "sourceBeforeStatus": "",
+  "sourceAfterStatus": "",
+  "sourceManifest": {
+    "format": "typed-jsonl",
+    "beforeDigest": "sha256:6736f7f18098f57faf1a490086e3eb86be8ad5d08f6a031c629f0e92e6dc38eb",
+    "afterDigest": "sha256:6736f7f18098f57faf1a490086e3eb86be8ad5d08f6a031c629f0e92e6dc38eb"
+  },
+  "sourceUnchanged": true,
+  "adopterRepository": "/tmp/ai-cockpit-adopter-acceptance.c3s0Ya/adopter-control",
+  "repositoryIsolation": true,
+  "roots": {
+    "HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "XDG_CONFIG_HOME": {
+      "classification": "global-config",
+      "allowedWrites": false,
+      "allowedPrefixes": [],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "unchanged": true
+    },
+    "TMPDIR": {
+      "classification": "runtime-temporary",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<TMPDIR>/**"
+      ],
+      "beforeDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "afterDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "symlinkTargetsContained": true
+    },
+    "CARGO_HOME": {
+      "classification": "dependency-cache",
+      "allowedWrites": true,
+      "allowedPrefixes": [
+        "<CARGO_HOME>/**"
+      ],
+      "beforeDigest": "sha256:c3057eb1adf0f91d098bd194b8c342bc1777849a2edc4436fbdeb745c642cf20",
+      "afterDigest": "sha256:8700bdf5631e986c1af62dfa77f072c4bebda4c044f14ccce2db15891f513ee5",
+      "symlinkTargetsContained": true
+    }
+  }
+}

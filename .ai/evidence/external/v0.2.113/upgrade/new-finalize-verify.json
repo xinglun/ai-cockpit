@@ -1,0 +1,66 @@
+{
+  "disposition": "deleted",
+  "headDigest": "sha256:e35f0ca4c6ccfd7a3b37214243688b1f14b4c4096cc0538becbd12dc1bf25edb",
+  "headPath": ".ai/decisions/n-minus-one-post-migration.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "ad7a36a3d46fff6f56c6a376736ec2838809b0ce",
+      "name": "release-adopter-post-migration",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:3143091a7e2c038125e700af1f9c1594d3e5964770dcfb705b9886bb0350754a",
+    "operationId": "delete-n-minus-one-post-migration",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "release-adopter-post-migration",
+      "baseRemote": "local",
+      "baseRevision": "85dc47c022f8091b67cdd6b4c6d792e1a96e65b3",
+      "headRevision": "ad7a36a3d46fff6f56c6a376736ec2838809b0ce",
+      "mergeCommit": "ad7a36a3d46fff6f56c6a376736ec2838809b0ce",
+      "number": 1,
+      "url": "acceptance://v0.2.113/n-minus-one-post-migration"
+    },
+    "reason": "The post-migration lifecycle branch and worktree were removed before close.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-post-migration",
+    "repositoryId": "sha256:144d016f1cbec1e47b46b2aa5b42e027f5c8996dbf664fd35914fa7959a27141",
+    "resourceContext": {
+      "baseBranch": "release-adopter-post-migration",
+      "baseRemote": "local",
+      "branch": "release-adopter-post-migration",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.113/n-minus-one-post-migration",
+      "worktree": "/tmp/ai-cockpit-n-minus-one.OSd8cy/old-control"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:b5fdfa46e96abb0de8590a912c15637a20fa0fa9646f7a61c93e1df0b8f248f3",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-24T01:12:35Z",
+    "workItemId": "n-minus-one-post-migration",
+    "worktree": {
+      "branch": "release-adopter-post-migration",
+      "headRevision": "ad7a36a3d46fff6f56c6a376736ec2838809b0ce",
+      "path": "/tmp/ai-cockpit-n-minus-one.OSd8cy/old-control",
+      "worktreeId": "n-minus-one-post-migration"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "n-minus-one-post-migration"
+}
