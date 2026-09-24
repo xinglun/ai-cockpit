@@ -1,0 +1,191 @@
+# Task Outcome Report
+
+- Work Item: `WI-1031-cross-wi-acceptance-corrections`
+- Status: `verified`
+- Human status color: `green`
+
+## Outcome summary
+
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+
+## Task overview
+
+- 让运行时从真实仓库与执行事实构造协作准入和复用身份，验证完整依赖与证据要求，保证影响事件可恢复，并使 Outcome 准确表达合并、过期与暂停状态
+
+## Delivered changes
+
+- Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.067dce5f96f5b2dcf6339c6f083d938840ce08ba368b32309bcf205eb12c133b.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.069760938101523393cef563fc433e7722a9f59d746a0a51a051ab98c412c0e5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.07420a689dc63ee37e1eca89aecb41cecb603dbb9093ae0a33fae1db7a4a11e1.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.07c4bcbe83b65a1425b6fe1f2fca7ef746c13e4d8b1bf2d5a424ec7f72f1d04a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.08574a8da0b393506c9bf818d18db60d6ad2d044fbe497976673e4ee22a1aea0.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.0a6c8bc4fe7b69a19b3e438c6b8a39615d3f0aa14fe6ddef54a6254c66b1c645.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.0d90a50c6793f4c3696ff3f0cf8c1164901a6212b6b7014f1b2eaa37c8c1701a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.0eb8551fd913b1e7b8ced29d9692772bb6253914bb38620f65c3fb066f43db32.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.0eecb55ce1f18f8b5ea70dbb3378f2a67752440d9574655625356a83002a72db.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.10c589be46110135e31bc61795af292aa83b905166f71ccf0fdedce1ef8fe486.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.12945f8d404a4c0a1123bc9a244df205aa003b54fe57b756cd31ea2f9a01de9f.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.18cc51085a7ada836504063ef0673cbfc77afd25cdd076c907b6e71f54e4e861.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.1b4a80a7b832fb354a3e3b54419cf8cd22c273a6469134a14cdd3ec48fd20b0d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.1bbfbefa8411d60a22d061bdbda3142aa50bd14369c20648533ca7fd978b7dd0.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.1ca34985dbf913a519ebfb4a4165832c9ff645a7bd23b5e3938f6ab9a15dcf6b.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.202a660c8401e126d941b3e7aa04cb0624cc179d25f3a9512641d34ad19835b5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.23e3c96294cf6ea34e9cc2f6c49f763f86f4bce69073e728592480c4479e5d50.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.24dc11faab5831948f2f101582ee3a8f687d260b6394b22f9459c0b6d0637e8c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.26fb6d6a56753a599f50e531bff425bf4a706b1cd2b38722221264ef95397f63.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.285f153a9a18831868eb8729431947136030faff253dadd9a7f1a72b0f0f9d0e.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.28ad816730e7e3bca76ea733505d2cd1fcad59c6977b2447bed2cef268e9df89.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.29d66460234c5bebd9af4bae801b614f7756a974cc6e985c1a60e86f5b647262.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.2ba9494cf73dd03c0c253cc475d033348b2cccadd376f60f3cf5f0acef4409ff.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.2d2294b570b8a30337875462877748cdb816cc0d44a3e2e15a067fbe64cdff88.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.362a60ec1e7be2f55c2b9d28c670c1b52129cb433c885bd0be5455380cef9cbe.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.37fdc3828ef5a934fdac3e7c8bb55b64fb5327f87403da2b6e0f4972d8982e22.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.39395d911606ce329d8695feb9e972a95a4ebc58697e845cc85f369601169dfe.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.3abe52ddd8792e96ada07b5fea62e841384045007ad80bf0ed57251ae4f8243c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.3d2ec33d39424d6faf76a15ba89ba671f345940cabe4a4a438ad70a8f921bd29.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.3dd25a6f97a5515fc3615c2a769ca525db14d3cd12881dcfcb96e77d342539ff.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.3e0b4c97a68032b0519bbe2d05a0793b322f37887e1ffa6eab8c06c2ef1731eb.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.3fa844152b90d1e8b74c9b18d9143ff50653f3ae0bb9411b027f2e43efdf266d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.44f08a073ac3f31795a739b4506d36d27893c7ffcda53561c306205f4dd58bdd.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.454d993ffd32ef7bc4331506edc397665b20bdbe0307f198ec6f0fe67c73903a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.463320ee05cbdba7c7c8f7163f4d85b44334191db8dbc3ea0c4ff0171bfd7082.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.482f6b0284aae5fb1e3ec3b01e049034c152e05bf4e40aaaa984c3979bb5f7ce.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.48d1f24e6f1b8f87c8284f7acc10552c7487b7d561544da0c80793102df2399c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.4d7e4d4312d218520477458bdf8380fd887df67532df02796706036ba3813772.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.4fe5aa0338e368a4eef60577c694d79773b72b93ff1787806b0e3fa0728e6e92.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.53b468a6af7e10c60123b6ecc80c732d03a8ba91d144c47c64f376961f8fee78.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.57c55afba29842557326104ea0abc43224e8465aca10a65dd25e4ac8977027d6.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.58b8d12867a7a480cc65f618382777c88c04a2b659704ca3190996418ba487c2.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.5a86d29fbe8ecc92cf09e7a55dbf362d533aa9e10062d8ba37949b577e6602c9.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.5fa63b12d070e4ff80a526273c89e8e123b9a465abde77614ca498ec09a36781.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.638c44cf6c821e0e01ee03b4199773da92e3f927e054c356b956efc2e323311b.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.63fc40c0fd4ce3eacf6b4bbbb1d69744edcbaa408b21cb28cd1e7d4ff57f05a2.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6484366c80d1dd9d12e37b5e4325210eff52a21e2d1937feeea3b54dd44658fd.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.64c9197952b9672743ff6fd8c8e0a4d667a98e0e92b5dc365700bcb54e2c11a6.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.65c2356929620e6352916259f9500e36cce5310d002db10a0bd515e7a199d557.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.68077f3915e73fa1e044625a1cdd53d82ad98999d3e3fd4a7ee4f2a26d758090.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.69dae990d186f9f771b977c970fe0819a52d9b5dcca1653e8b3fe4353d74edec.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b77dbbf47374d03c6efcb0fb45b0d2015a8c397722ead23cec593f6363697a0.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b8dd402b6a7f1d534dd7235b3f6773dbaad0bb7f363a703781a8b0f6ecb58d0.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6c884371713903caff7c86d1f94c801f1b1c6d7f1a311d6b46603f52a900627e.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6da78fdd7316adb8ec201b4a1ceb390e6a766e66f0008c2766521e03fb09a54a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6df254dbed6e8b1a582c9818b1062dc00d1aea3c3195479d39bbb2e7469f7962.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6eb8cd916f9b5a874213ae65e37d693bd9a24be094d87c85c784ab0be4302d4d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.703954708d5a6fc1a11e667463f136b6724d199df1473ad58681b94213374cf2.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.70dbb0aa3183a069ec205a4ef67011eb2eca99295b8b34f523716a45b21b1865.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.730ea3ab3689adeebf628d72a7c99ea03ec1195a81bbde3a5e386da4f91a28d5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.74109c473fde4e3e260a398a17c7fbab6a2ffd0954d6c1282926a2a0431dfb25.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.79afec9aac0ad399be7ac278df1773ad92b30e389e997a59b55a8c06219e7b31.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.7bf4e2aaaebeebea05e9955fada592656179794e5d5be48f947a0c25f4f3f54d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.801cb61834395a4fbf984be198a6520edf346e8d4e3fc8e43278cccb3b1681c5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.82120c78bf6056ecacb2587b1a9a06ebe3784e7b33f032dc2c143299999640a9.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.82691050cebaf545512cd63d13aa323d128d0023ea8bc83529b9dc188e2ba5e5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.827c6df2222a80d673bb48c22125a4d17ec2e99fa84904e89a77ccb92239908f.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.864c1f43248f7ef19070e88ee11d14838615cc332b9f8b31219f6a37b14da27a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.869d7cbbdd60cb5489708f0492373b46474b3f1a0297cb19a00f1298a742a932.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.8e7adb611c93fb3741b45c98c4c0be454dae0b9b1fbb8f2f01baa58709a4cf72.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.94c790e939502e15e4447563020142b455a4842e70de05b24ee0c06507121a2a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.94d79fbc245880385529418689af0d753d42e70b756f7e09ff1b2492b2442ccb.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.95315d657871452d99f871f3cfc3d7224d33177e35d74078ea4b5179c6bc9540.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.97f848e5f419cffb946e5067339fdb9f1854cdc71cafd3b8f670696f3e8e6b43.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.98f4ab5bca20adb87e13361c1bd9d8c321a9501dc5c568208511a49edba82d67.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.a1a33b54bc43881236113c540331c61bd27fd114ac9ec9f7bc15425e7ade14bc.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.a1f1a838c5937a5a02bd89c132525cd74f030866b851be1a167ffc3e317ecbc5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.a5b17a54433f351bdedb7c08e44748198754dbbadf44d3cbfef63f28b7054b9f.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.a77c35452bbf92c3996fc746a40e1110863616f021e0e18651a0f33ed001db5d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.aac24e690feb91e4db30d93a597d08212dd157f9c87788f2f338900da27f8f26.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ab48bef70ccb9126529c3cc02b19f792255af1527b6f2aed35e7c31b81812fe7.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ab97b3cbbc89a2c1d71d6c5b0b227a0fda5c73dba3246a5147d268ed99eb4caf.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.aec9167139967f520265762fe7d8b56f06d99fbe2765c12030325be0dc46818b.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.b0757ac906a3301dad037cdc2ca5b3a4620f89a11b125a626ff02917c096be18.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.b156e2db6dc66480abc1aacc2f8045ddfcebde97f3ab2f02293173695596aa47.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.b1e8f63734cdd397d41f527c2ffece6f9c3016c28aac011a1e1c86349d98b373.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.b4ba9de0a88946ff1a88e623a4c69266d9486f36d7d0287e6d673500ba6e0bd4.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.b72ec8f9bd7f5cb4e01079a8fbef5caca42842b5c38d1ec7ca85400b423a4429.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ba0a9eb56d3acb6b9eae7d06d50ad7552f24e9d7be322172cc9a30e05746effb.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.bc3c88e789ab175d7b1b973421b2e8b5c8e049b881633e93c446b611fd0b4449.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.bca80dca7862678a7ae9b628d0623132d854aefa8c23c12419b20b15363189db.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c00234ec5ac30565a7b1917d84800e5f784ba59e1ebd9d713f382aaf54dde9de.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c2130b3676e4e4780ad68cf1152530fde526abf54686b10db23779471604374a.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c2b0ad08ff596264aff3bcca1400ec44e8cace0f7ecc3c7e500eff6ab56f1045.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c66bb491b2a1e92dac53cc13af81d3b82ad4af0bbe20939af4ebde28f7260912.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c864719fc0a194fe04a4fa3ca192933d91439704cef8f52614feaf01fe1b58e5.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c982c75129f2630e0d1c22a7e87f82b1ba4831f4ffcabcccaa90d0a41c9b6404.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ca0e7d43f8431f7dadfb95b8734c364e88c425e60af5e8cf348625d9fb0253cd.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ca5e0e22d2e12b9134d4c17eee74636509456c7695a6d31a2419a83d37999d9e.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.cc265ee29f72eec6de5d0193b2979589fd84d65ccd3acf5a7eed66aac29b59ec.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.cf4c62d3fb411a6caa442baca21cfe93c59b4e1a4f2ed216fb1642726e6586da.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.d019d5e4749120922478d2af60dc347a0a313001944367b216b61e9818eefe3e.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.d3cd935b557849273e9596db31c8a8e6cc8c793a0a8ea71a96cef16d6575a669.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.d497a5055bd28f65dfe1917dc3d1880ee4bc1dbbff72aebaec2ece7d8ba8b6d4.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.d567163d92253e8518a5475ab1ba5b5f1f06ce4d2e435d63d1580580c025671c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.d9e965a785d1a3d973d9300d8e286f00ca3d9cce35633ca540341a14ba66cd15.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.da69312ad406cf35c2e277c8d7040097b74725fa3ba4da583fa17f21d3a30448.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.e5b8aaab831c254db2537fb8ee00f39b7f96af855f50f3380e04b2622210ffb0.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.e69374e8d11d84f345c073dfde8344a15c60fba61f4a21f21cfd07667b369ac1.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ee3b5dd5fdf8eb59bcfecdb5a807e7a815bdb47ff89b36e45d83aa0cf8145090.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f07ca8d3ba9d0a64aacfc095338d557ba5e9de42bb8c65ba87153318a78f28b8.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f33e4cbba2acb808f2e35b8d5e94e31ebd8dd361829a9526c197ae699011329d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f340514c9d587a76e1c5bec7773b0c035f765ff7449f4d0b0ccf5b6d6b7e338c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f646fdf89afd6b054ab8f714146f0639493ea060dbf4474e8fff7ab5cabc0e8c.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f7bcdbe79e5142575b1bf098336bf16f73f7d75f8d2f34bdef45dc48c9e4b2c3.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f9a31b31f93cf8755575994948136228ac7464a3adbb04dbb27f89170bb05440.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.fa050d501fe0fd0cd87c8ea2da37448c81f8c8ce9aff8d892f688a505874f504.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.fbb82588a4fa8532d9c1607e59e72cd22e9fab4d92e56595f2ea59a43333d174.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.fc79ed73007a1dd5d792e536e0b8f834d06ab9e21d047330757950ece09da95d.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.fd9afe7bbf6e54e37dfdd9e55b1784bbaddfdb0d52ac629c3e25a1f5732972bc.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.fdac6f274e59bc4b562f56e218b890043186d093b0e0a12adb8253b585e26f3b.json
+- Changed path: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json
+- Changed path: .ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.approach.json
+- Changed path: .ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json
+- Changed path: .ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.summary.json
+
+## Findings
+
+- None
+
+## Risks
+
+- None
+
+## Warnings
+
+- User-visible benefit is not declared by the Work Item owner.
+
+## Limitations
+
+- None
+
+## Interventions
+
+- None
+
+## Forced stops
+
+- None
+
+## Resolutions
+
+- The current verification evidence is valid for this repository and Work Item.
+
+## Recurrence prevention
+
+- None
+
+## Avoided impact
+
+- None
+
+## Residual risks
+
+- Remaining unknown: user_visible_benefit_not_declared
+
+## Human decisions
+
+- None
+
+## Evidence
+
+- .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json
