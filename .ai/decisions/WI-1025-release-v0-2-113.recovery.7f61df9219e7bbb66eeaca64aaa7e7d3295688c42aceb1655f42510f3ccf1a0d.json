@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T01:28:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1025-release-v0-2-113-controls-input.json",
+    ".ai/decisions/WI-1025-release-v0-2-113.finalize.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35940322605"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorEventsDigest": "sha256:8771924f51105e7a1df035e988f6bf89ae2a53eb0e7e6783c11f9073ccd6c0d4",
+  "predecessorOutcomeDigest": "sha256:d258edd944589159e188dfcc896136685e0759e935f55eb9926585b426135f9b",
+  "predecessorSummaryDigest": "sha256:c2adc7450f2985911b8ef65f420f47f5f8948607ccef554a00769ee8c846243f",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "WI-1025 was archived with all release and cleanup work complete, but its four declared acceptanceCriteria were not projected into acceptanceEvidence before archive. Preserve every WI-1025 archive and evidence byte; use the bounded successor only to record the existing acceptance mappings and complete the supported terminal close path.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the existing release, install, upgrade, finalization, and cleanup evidence; record the four acceptanceEvidence mappings, verify, finish, archive, close, and project the predecessor without changing release or product scope.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1026-release-v0-2-113-close-recovery",
+  "workItemId": "WI-1025-release-v0-2-113"
+}

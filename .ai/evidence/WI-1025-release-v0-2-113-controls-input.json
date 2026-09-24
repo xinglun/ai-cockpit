@@ -70,11 +70,57 @@
       "verificationPlan": "Release close and adopter lifecycle receipts passed; Runtime archive/finalize/close and repeated local projection checks remain to be recorded for WI-1025 itself."
     }
   ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "immutable candidate and release close",
+          "path": ".ai/evidence/external/v0.2.113/release/release-close.json",
+          "type": "release",
+          "verification": "Workflow 35940322605 release_close passed and binds v0.2.113 to main commit 73f8bd2b86338f8025ef12ba9fff15bf45ef5782."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public four-target release assets",
+          "path": ".ai/evidence/external/v0.2.113/release/release-manifest.json",
+          "type": "release",
+          "verification": "Public v0.2.113 manifest, SHA256SUMS, SBOM assets, and release close receipt passed without Intel macOS publication."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public install and N-1 upgrade",
+          "path": ".ai/evidence/external/v0.2.113/adopter/acceptance.json",
+          "type": "test",
+          "verification": "Public v0.2.113 install acceptance passed with isolated cleanup; matching N-1 v0.2.112-to-v0.2.113 acceptance is recorded in ../upgrade/acceptance.json."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Runtime and provider lifecycle cleanup",
+          "path": ".ai/decisions/WI-1025-release-v0-2-113.finalize.json",
+          "type": "runtime",
+          "verification": "Runtime finalize-verify passed with merged PR #990 and deleted remote branch and linked worktree; release close and adopter lifecycle receipts passed."
+        }
+      ]
+    }
+  ],
   "intentAlignment": {
     "state": "unknown",
     "reason": "The approved release scope proves publication and adopter acceptance but declares no separate user-benefit measurement.",
     "evidence": [
-      ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json",
+      ".ai/work-items/archive/WI-1025-release-v0-2-113.contract.json",
       ".ai/evidence/external/v0.2.113/release/public-release-evidence.json"
     ]
   }

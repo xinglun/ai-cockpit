@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "059186a22820c43ebc1fa47f6904a3128ecd7d12",
+    "name": "codex/release-v0-2-113",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "9361254d92652d0e641d53720cd5d6177f82565e",
+  "contractDigest": "sha256:1b2dae43cc6ac94b4720b784db84f02194f91c9c8d6e20dc05a6fce6c03d19d5",
+  "operationId": "WI-1025-release-v0-2-113-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "73f8bd2b86338f8025ef12ba9fff15bf45ef5782",
+    "headRevision": "059186a22820c43ebc1fa47f6904a3128ecd7d12",
+    "mergeCommit": "73f8bd2b86338f8025ef12ba9fff15bf45ef5782",
+    "number": 990,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/990"
+  },
+  "reason": "PR #990 merged as 73f8bd2b86338f8025ef12ba9fff15bf45ef5782; v0.2.113 public release and post-release acceptance passed in workflow run 35940322605. The exact merged branch and linked worktree were preserved until archive, then deleted after provider cleanup verification.",
+  "receiptId": "WI-1025-release-v0-2-113-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-113",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/990",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-113/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-24T01:22:46Z",
+  "workItemId": "WI-1025-release-v0-2-113",
+  "worktree": {
+    "branch": "codex/release-v0-2-113",
+    "headRevision": "059186a22820c43ebc1fa47f6904a3128ecd7d12",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-113/ai-cockpit",
+    "worktreeId": "release-v0-2-113"
+  }
+}
