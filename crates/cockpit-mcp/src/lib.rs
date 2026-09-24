@@ -2055,12 +2055,17 @@ fn work_item_outcome(
             },
         )
         .map_err(|error| error.to_string())?;
-        let outcome = result
-            .delivery
-            .outcome
-            .clone()
-            .ok_or("archive Outcome delivery did not contain assembled Outcome facts")?;
+        let mut outcome = serde_json::to_value(
+            result
+                .delivery
+                .outcome
+                .clone()
+                .ok_or("archive Outcome delivery did not contain assembled Outcome facts")?,
+        )
+        .map_err(|error| error.to_string())?;
         let collaboration = cockpit_repository::collaboration_outcome_projection(repo, id, runtime);
+        outcome["collaboration"] =
+            serde_json::to_value(&collaboration).map_err(|error| error.to_string())?;
         return Ok(json!({
             "workItemId": id,
             "outcome": outcome,
@@ -2084,9 +2089,12 @@ fn work_item_outcome(
         cockpit_repository::render_human_outcome_with_view(&input, language, view),
         cockpit_repository::render_collaboration_outcome(&collaboration, language)
     );
+    let mut outcome = serde_json::to_value(&input.outcome).map_err(|error| error.to_string())?;
+    outcome["collaboration"] =
+        serde_json::to_value(&collaboration).map_err(|error| error.to_string())?;
     Ok(json!({
         "workItemId": id,
-        "outcome": input.outcome,
+        "outcome": outcome,
         "collaboration": collaboration,
         "humanHandoff": handoff,
         "language": language,
