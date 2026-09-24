@@ -1,0 +1,110 @@
+{
+  "acceptanceCriteria": [
+    "版本身份、tag 目标、workflow source revision 和 ReleasePlan 一致。",
+    "公开 Release 包含四个受支持目标的 manifest、checksums、SBOM、provenance，且制品身份可复核。",
+    "完成 fresh install 与 v0.2.112 到 v0.2.113 的 N-1 升级验收；失败证据保留且不误报完成。",
+    "完成 Runtime archive、provider finalization、finalize-verify、close、文档投影和精确分支/worktree 清理。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9361254d92652d0e641d53720cd5d6177f82565e",
+  "createdAt": "2026-09-23T23:52:34Z",
+  "goal": "从已同步且 CI 通过的 main 发布 v0.2.113，取得不可变 tag、公开 Release、四目标制品与供应链证据，完成公开安装和 N-1 升级验收、Runtime 归档/finalize/close、文档投影和精确资源清理。",
+  "intent": "完成 AI Cockpit v0.2.113 的受支持公开发布、验收与生命周期收尾。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改历史 Release、历史 tag、旧候选或失败证据。",
+    "不生成 Intel macOS 公开资产，不新增任务进度 API、手工账本或全局 Agent/MCP 配置。",
+    "不绕过 Runtime、release workflow、公开安装验收或清理门禁。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reviewed main revision, package version, annotated tag, workflow source revision, and typed ReleasePlan identify the same v0.2.113 candidate.",
+      "required": true,
+      "scenario": "reviewed_release_candidate_identity",
+      "status": "unverified",
+      "verificationPlan": "Run the declared local policy checks, then inspect the release preflight, tag, and hosted workflow identity receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.113 Release contains the four supported target archives and matching manifest, checksums, SBOM, provenance, and source identity without Intel macOS publication.",
+      "required": true,
+      "scenario": "public_release_artifact_integrity",
+      "status": "unverified",
+      "verificationPlan": "Inspect the immutable tag, provider Release, release manifest, SHA256SUMS, SBOM, provenance, and downloaded archive digests after the hosted publication workflow completes."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded public v0.2.113 artifacts pass isolated fresh-install and v0.2.112-to-v0.2.113 N-1 upgrade acceptance with cleanup evidence.",
+      "required": true,
+      "scenario": "downloaded_public_install_and_n_minus_one_upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the existing release adopter acceptance jobs and inspect their immutable artifact, isolated-root, install, upgrade, and cleanup receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Any failed publication or post-release acceptance records the failure without rewriting the immutable tag, provider Release, or predecessor evidence.",
+      "required": true,
+      "scenario": "release_failure_preserves_immutable_truth",
+      "status": "unverified",
+      "verificationPlan": "Inspect the release and close receipts for explicit failure roots, immutable identity, and preserved predecessor evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "After successful finalization and close, repeated status/projection checks produce no new cleanup obligation, successor, or mutable historical evidence.",
+      "required": true,
+      "scenario": "release_close_is_fixed_point",
+      "status": "unverified",
+      "verificationPlan": "Run finalize-verify, close, documentation projection, and repeated read-only status checks, then inspect exact branch/worktree/provider cleanup."
+    }
+  ],
+  "scope": [
+    "基于 main 9361254d92652d0e641d53720cd5d6177f82565e，准备并发布 v0.2.113，前一公开版本为 v0.2.112。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-1025-release-v0-2-113.**",
+    ".ai/**"
+  ],
+  "sources": [
+    "origin/main at 9361254d92652d0e641d53720cd5d6177f82565e",
+    "public Release v0.2.112 and immutable tag v0.2.112",
+    ".github/workflows/release.yml",
+    "agents/skills/release-upgrade-acceptance.md",
+    "PR #989 and main CI run 35934541056"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh .github/workflows/release.yml",
+    "git diff --check"
+  ],
+  "workItemId": "WI-1025-release-v0-2-113"
+}

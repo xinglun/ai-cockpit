@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:486260f2e8ac15cfc1ba2b6ace8f2a973c02d16698f625cd3f056ddd4b152e4f",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh .github/workflows/release.yml"
+      ],
+      "baseCommit": "9361254d92652d0e641d53720cd5d6177f82565e",
+      "commandDigest": "sha256:0c728d5206a245f0f4f6a79710c1e558c0655588a163dfd43b896699b355ae60",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:63852b0f9bdbf64c1ade51f8ebeb20934c5136c56f14b00db2e83008d6ad4c23",
+  "contractExecutionScopeDigest": "sha256:c3a5893e1dff2319b65cc478f818a5e929c7c5c2234aef9e439a4fe0ca3d6a86",
+  "createdAt": "2026-09-23T23:56:07Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-113/ai-cockpit/.ai/work-items/active/WI-1025-release-v0-2-113.summary.json: verification requires exactly one completed checkpoint and an active lifecycle state"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1025-release-v0-2-113"
+}

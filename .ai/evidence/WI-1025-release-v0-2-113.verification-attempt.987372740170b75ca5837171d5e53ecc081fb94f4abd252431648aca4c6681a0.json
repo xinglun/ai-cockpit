@@ -1,0 +1,185 @@
+{
+  "attemptId": "sha256:987372740170b75ca5837171d5e53ecc081fb94f4abd252431648aca4c6681a0",
+  "commands": [
+    {
+      "args": [
+        "[\"tests/release/workflow_policy.sh\"",
+        "\".github/workflows/release.yml\"]"
+      ],
+      "baseCommit": "9361254d92652d0e641d53720cd5d6177f82565e",
+      "commandDigest": "sha256:7a297ec827f26e71b26151687a68749230e60cfb3e661dcf3f5f423a1ab2e0e5",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:63852b0f9bdbf64c1ade51f8ebeb20934c5136c56f14b00db2e83008d6ad4c23",
+  "contractExecutionScopeDigest": "sha256:c3a5893e1dff2319b65cc478f818a5e929c7c5c2234aef9e439a4fe0ca3d6a86",
+  "createdAt": "2026-09-24T00:05:10Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:7a297ec827f26e71b26151687a68749230e60cfb3e661dcf3f5f423a1ab2e0e5",
+      "deadlineMs": 1790208610047,
+      "elapsedMs": 16,
+      "exitCode": 127,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "626173683a205b2274657374732f72656c656173652f776f726b666c6f775f706f6c6963792e7368223a204e6f20737563682066696c65206f72206469726563746f72790a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 176,
+      "executionElapsedMs": 16,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "runtimeVersion": "0.2.109",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 176,
+    "executionElapsedMs": 16,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:7a297ec827f26e71b26151687a68749230e60cfb3e661dcf3f5f423a1ab2e0e5",
+        "deadlineMs": 1790208610047,
+        "elapsedMs": 16,
+        "exitCode": 127,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "626173683a205b2274657374732f72656c656173652f776f726b666c6f775f706f6c6963792e7368223a204e6f20737563682066696c65206f72206469726563746f72790a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 43,
+    "filesRead": 43,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/architecture/release-distribution.zh-CN.md",
+        "docs/architecture/versioning.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.md",
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/reference-comparison-metadata.json",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/work-items/WI-1025-release-v0-2-113.ja.md",
+        "docs/work-items/WI-1025-release-v0-2-113.md",
+        "docs/work-items/WI-1025-release-v0-2-113.zh-CN.md"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "9361254d92652d0e641d53720cd5d6177f82565e",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 16,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:396077cfb0507b25dc3ed180a65ddfa1f30dae4ba90c23a0a860c5d2a29eff72",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1025-release-v0-2-113"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:db258e422dfc7c7be6d218d762dab4a0d5bf36f3dabb1d29f6c61f517a87152c",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+    "runtimeVersion": "0.2.109",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1025-release-v0-2-113"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:396077cfb0507b25dc3ed180a65ddfa1f30dae4ba90c23a0a860c5d2a29eff72",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-1025-release-v0-2-113"
+}

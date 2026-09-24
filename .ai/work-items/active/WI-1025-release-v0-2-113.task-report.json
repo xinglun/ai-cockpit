@@ -1,0 +1,410 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:396077cfb0507b25dc3ed180a65ddfa1f30dae4ba90c23a0a860c5d2a29eff72",
+    "workItemId": "WI-1025-release-v0-2-113"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.preflight-review.ac5ce61577f52f17dc2808160e70d1e59a25de64ca3a02aad29948a08d8b81f1.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.preflight-review.c2ce3c400f0f65794519285516743b6060935d60f8ef012d208a8b7c202193ee.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.preflight-review.ffea9aeac0c686fee8044e6285f7fe8177ca325d74ed37ca096e3001ca6f89bc.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.0a5082c6a7f463f0d8f0a02e988b2a9b98a8ba9a9967242d3a501b5a2a9479c3.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.2f2723d5665037a7731f5b327a0d9ae8ed5391896a800e4dd4c3cce14325346b.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.45bff604846b53a1d3fcbf009492c9ccb5c00a7dc48c875ccff724d34e9b853f.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.486260f2e8ac15cfc1ba2b6ace8f2a973c02d16698f625cd3f056ddd4b152e4f.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.86db249bf4e4ad58fb700000483fd3cf59559ab85db26c68ad86e0c864d176af.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.8aa133ac47efeed11c2272eadd5e641fefeac75016fe3cb270150b5a40571620.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.987372740170b75ca5837171d5e53ecc081fb94f4abd252431648aca4c6681a0.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.a080b45309e438efe534c1980759943d45bfc136ab4338c7320a495a9e90a447.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.d4c073b42fc5e0bf84b9a39c844b280ff7f70903b8b0a41a4508ad4f3e03741e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.de3854a725e6acbf22fe13b645d83881468fdbc617b41b5971c4bb5bc35d4f61.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e092ca3d8a7751da7f41543235330ee911ef6116653f32e4bd6e29c358391772.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.ef589a0e10ac1571583798f1aae040905e59ad2d1d613ef3ef0dfb4e93fdffe4.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.toml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-comparison-metadata.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-1025-release-v0-2-113.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-1025-release-v0-2-113.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-1025-release-v0-2-113.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json"
+        ],
+        "inference": false,
+        "text": "从已同步且 CI 通过的 main 发布 v0.2.113，取得不可变 tag、公开 Release、四目标制品与供应链证据，完成公开安装和 N-1 升级验收、Runtime 归档/finalize/close、文档投影和精确资源清理。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-1025-release-v0-2-113"
+}

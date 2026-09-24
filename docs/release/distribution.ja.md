@@ -23,7 +23,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 完全な audit handoff は `--view full`（MCP は `view: "full"`）で取得できます。これは presentation-only の変更であり、machine JSON、検証、権限、exit code、永続化 evidence は変更しません。
 この release note は user study や risk reduction の効果を主張しません。
 
-現在の候補 Release artifact は `ai-cockpit-v0.2.112-<target>.tar.gz`（Windows は対応する
+現在の候補 Release artifact は `ai-cockpit-v0.2.113-<target>.tar.gz`（Windows は対応する
 archive）という名前です。公開 Release と post-release acceptance が完了してから installation baseline になります。
 
 公開前は installation baseline は identity-bound な `v0.2.105` Release です。失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な公開失敗履歴で、provider Release がないため再利用も installation baseline 化もしません。`v0.2.77` tag は provider Release のない immutable な公開失敗履歴として保持し、installation baseline にはしません。予約済みの `v0.2.51` tag は immutable な公開失敗試行
