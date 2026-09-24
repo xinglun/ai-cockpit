@@ -63,6 +63,7 @@ fn repository() -> TempDir {
     fs::write(root.path().join("README.md"), "initial\n").expect("write");
     run(root.path(), &["add", "."]);
     run(root.path(), &["commit", "-qm", "initial"]);
+    run(root.path(), &["branch", "-M", "main"]);
     root
 }
 
