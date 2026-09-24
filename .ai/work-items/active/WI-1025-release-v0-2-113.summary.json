@@ -1,0 +1,107 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1025-release-v0-2-113.preflight-review.059cbfe9b0e3c6a1494a2614d8ab6c9cc88c166fcc0a91a7fde9ad064b374202.json",
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.ac72db6f2a0cb9bb32f112a17b250562cf153f703aa0f9b54b2e2aabdb05b905.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.2a52f9a6e597a416b6f1074dff003776686d21c308032c55a696a1ab9c9c5fb5.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.57775ca5c70196c27bdae5682ff02e25c295a3b5a2d29e6805f4d0ab8cadfaeb.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.6614a12e6905935a59186e0c87c7b9f727e96cdbd148e6b235af30266f5dabe0.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.ab3774b04bd841cdd774d1819464429694ffed2a720a130f8be8a9886646bd51.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e6fe8252101767295a0fe755c93ecbfbeccd58119432b8c0c88c122ffe5506fd.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification.json",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.outcome.json",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.task-report.json",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.task-report.md"
+  ],
+  "checkpointAt": "2026-09-23T23:56:11Z",
+  "checkpointContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "createdAt": "2026-09-23T23:52:34Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "重新确认已批准的 v0.2.113 发布边界，并绑定 parity 修复后当前 Contract、PR #990 和验证通过的最新仓库快照。继续使用现有 release workflow、四个受支持目标、公开安装与 N-1 验收、Runtime 生命周期和精确清理；不新增任务进度 API、手工账本、历史改写或 Intel macOS 资产。",
+    "recordedAt": "2026-09-24T10:15:00+09:00",
+    "recordedBy": "human:xinglun",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+    "schemaVersion": 1,
+    "workItemId": "WI-1025-release-v0-2-113"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "The Contract intent is the authorized v0.2.113 release and governed delivery boundary; this projection does not claim an unmeasured user-visible speed or risk-reduction benefit.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-24T00:32:34Z",
+  "preflightContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reviewed main revision, package version, annotated tag, workflow source revision, and typed ReleasePlan identify the same v0.2.113 candidate.",
+      "reason": "Candidate and hosted identity evidence is collected after the version-preparation change is merged and the release workflow is dispatched.",
+      "required": true,
+      "scenario": "reviewed_release_candidate_identity",
+      "status": "not_applicable",
+      "verificationPlan": "Run the declared local policy checks, then inspect the release preflight, tag, and hosted workflow identity receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.113 Release contains the four supported target archives and matching manifest, checksums, SBOM, provenance, and source identity without Intel macOS publication.",
+      "reason": "The public Release and immutable assets do not exist before publication.",
+      "required": true,
+      "scenario": "public_release_artifact_integrity",
+      "status": "not_applicable",
+      "verificationPlan": "Inspect the immutable tag, provider Release, release manifest, SHA256SUMS, SBOM, provenance, and downloaded archive digests after the hosted publication workflow completes."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded public v0.2.113 artifacts pass isolated fresh-install and v0.2.112-to-v0.2.113 N-1 upgrade acceptance with cleanup evidence.",
+      "reason": "Downloaded public-artifact acceptance is a post-publication stage.",
+      "required": true,
+      "scenario": "downloaded_public_install_and_n_minus_one_upgrade",
+      "status": "not_applicable",
+      "verificationPlan": "Use the existing release adopter acceptance jobs and inspect their immutable artifact, isolated-root, install, upgrade, and cleanup receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Any failed publication or post-release acceptance records the failure without rewriting the immutable tag, provider Release, or predecessor evidence.",
+      "reason": "Failure-preservation evidence is evaluated from the hosted publication and post-release receipts.",
+      "required": true,
+      "scenario": "release_failure_preserves_immutable_truth",
+      "status": "not_applicable",
+      "verificationPlan": "Inspect the release and close receipts for explicit failure roots, immutable identity, and preserved predecessor evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "After successful finalization and close, repeated status/projection checks produce no new cleanup obligation, successor, or mutable historical evidence.",
+      "reason": "Finalization, close, documentation projection, and exact cleanup occur after the public acceptance boundary.",
+      "required": true,
+      "scenario": "release_close_is_fixed_point",
+      "status": "not_applicable",
+      "verificationPlan": "Run finalize-verify, close, documentation projection, and repeated read-only status checks, then inspect exact branch/worktree/provider cleanup."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-24T00:34:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1025-release-v0-2-113"
+}

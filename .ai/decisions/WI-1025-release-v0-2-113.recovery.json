@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T09:30:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.outcome.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/task-outcome-events.md"
+  ],
+  "predecessorContractDigest": "sha256:63852b0f9bdbf64c1ade51f8ebeb20934c5136c56f14b00db2e83008d6ad4c23",
+  "predecessorEventsDigest": "sha256:1d4b5a5d19de5ff51040df44ad47c7a32869a31b3c5f6ec964f2d9a9d3509a88",
+  "predecessorOutcomeDigest": "sha256:87148fdd72ab1794d0dbdf440f4edb44f1f0e293894d23ab4358860bcb6fb866",
+  "predecessorSummaryDigest": "sha256:2a2ecae788f622e589d7a6a25bdbdc305fefef54366de18b31ff92f91e3c05e0",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "The first finish attempt persisted a finish.lifecycle failure projection after the current preflight and focused verification had passed. Preserve that immutable failure evidence and use the supported retry boundary to clear only the stale lifecycle marker, refresh the current verification binding, and retry the same release Work Item without creating a successor or changing its scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and the declared focused verification checks, then retry finish with the current Contract and snapshot; preserve the prior failed finish evidence and continue the release lifecycle only after Runtime admission allows it.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1025-release-v0-2-113"
+}

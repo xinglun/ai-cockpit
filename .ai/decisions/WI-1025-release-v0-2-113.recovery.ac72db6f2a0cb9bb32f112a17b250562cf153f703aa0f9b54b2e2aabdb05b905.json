@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T10:05:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/990",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.6614a12e6905935a59186e0c87c7b9f727e96cdbd148e6b235af30266f5dabe0.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.57775ca5c70196c27bdae5682ff02e25c295a3b5a2d29e6805f4d0ab8cadfaeb.json",
+    ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e6fe8252101767295a0fe755c93ecbfbeccd58119432b8c0c88c122ffe5506fd.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/installed-lifecycle.md"
+  ],
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorEventsDigest": "sha256:1f13136271bf2af77a2fdd911b11457884440da1dbff3c116463d8f7c81895ee",
+  "predecessorOutcomeDigest": "sha256:126edec5f022f00fc519d0c7cdf21626d0c4923f8927ccf059ccefbedd8d915d",
+  "predecessorSummaryDigest": "sha256:c86e452599bd72631e5b944f515f580f576e4f883ee9f03c6171e863fa788a8d",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "The parity registration correction changed the repository snapshot after the previous finish-ready verification projection. Preserve the stale evidence and precondition-rejected attempts, then use the supported append-only retry boundary to refresh preflight and verification for the same PR-bound release Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh preflight decision evidence for the current snapshot, rerun the declared focused checks, then finish again; keep the prior stale and rejected evidence immutable.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1025-release-v0-2-113"
+}

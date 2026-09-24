@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T09:35:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/990",
+    ".ai/work-items/active/WI-1025-release-v0-2-113.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/installed-lifecycle.md"
+  ],
+  "predecessorContractDigest": "sha256:63852b0f9bdbf64c1ade51f8ebeb20934c5136c56f14b00db2e83008d6ad4c23",
+  "predecessorEventsDigest": "sha256:10bad98b1cb383ec1cec68cc15b37aa05b9f619a884db568590dc07fe7eb5f96",
+  "predecessorOutcomeDigest": "sha256:d10c55e9fca7241fd0f6c434ce785438db714c1ed14b488910ae1f2451b69696",
+  "predecessorSummaryDigest": "sha256:4b4f9bfaf6e2b707f63124dda65dcc8a81fd6fb96b56167950495d98c7ecf351",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "The PR resource context became available after the first successful finish projection. Use the supported append-only retry boundary to bind PR #990 before the verification cycle, preserving the prior finish and verification evidence and continuing the same release Work Item without a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the exact PR #990, branch, base, provider, and worktree with finalize-plan, run fresh preflight and focused verification, then finish again before archive and release continuation.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1025-release-v0-2-113"
+}

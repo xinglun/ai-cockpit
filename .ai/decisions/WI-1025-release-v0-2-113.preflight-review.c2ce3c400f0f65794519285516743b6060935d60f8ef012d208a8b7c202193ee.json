@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:63852b0f9bdbf64c1ade51f8ebeb20934c5136c56f14b00db2e83008d6ad4c23",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "确认已批准的 v0.2.113 发布边界并记录当前发布前阶段投影。继续使用现有 release workflow、四个受支持目标、公开安装与 N-1 验收、Runtime 生命周期和精确清理；不新增任务进度 API、手工账本、历史改写或 Intel macOS 资产。",
+  "recordedAt": "2026-09-24T09:12:00+09:00",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:396077cfb0507b25dc3ed180a65ddfa1f30dae4ba90c23a0a860c5d2a29eff72",
+  "schemaVersion": 1,
+  "workItemId": "WI-1025-release-v0-2-113"
+}
