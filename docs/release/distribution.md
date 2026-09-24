@@ -25,9 +25,9 @@ authorization, exit codes, and persisted evidence are unchanged. No user-study
 or risk-reduction benefit is claimed by this release note.
 
 The current release artifact naming is `ai-cockpit-v0.2.113-<target>.tar.gz` or
-the corresponding Windows archive. The public `v0.2.113` Release is the
-current installation baseline; its public Release and post-release acceptance
-are complete.
+the corresponding Windows archive. The public `v0.2.113` Release is the current
+installation baseline; its public Release and post-release acceptance are
+complete.
 
 The preceding public `v0.2.106` Release remains historical evidence. The failed `v0.2.111`
 candidate remains immutable unpublished history after its five-target workflow
