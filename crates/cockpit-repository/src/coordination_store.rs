@@ -1,3 +1,4 @@
+use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_SCHEMA_VERSION, CoordinationEvent, CoordinationRecovery, CoordinationRequest,
@@ -6,6 +7,7 @@ use cockpit_protocol::{
 };
 use serde::Serialize;
 use serde::de::DeserializeOwned;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
 use std::io::{ErrorKind, Write};
 use std::path::{Path, PathBuf};
@@ -156,7 +158,6 @@ impl CoordinationStore {
                     || existing.contract_digest != registration.contract_digest
                     || existing.declaration != registration.declaration;
             }
-            self.atomic_write(&path, &registration)?;
             if identity_changed {
                 let event = CoordinationEvent {
                     schema_version: COLLABORATION_SCHEMA_VERSION,
@@ -170,6 +171,8 @@ impl CoordinationStore {
                     kind: cockpit_protocol::CoordinationEventKind::Impact,
                     source: "registration-identity-changed".into(),
                     evidence_refs: Vec::new(),
+                    evidence_digests: BTreeMap::new(),
+                    outcome_ids: Vec::new(),
                 };
                 let event_path = self
                     .root
@@ -184,13 +187,22 @@ impl CoordinationStore {
                     self.atomic_write(&event_path, &event)?;
                 }
             }
+            // Publish invalidation before making the new registration
+            // authoritative. If writing the event fails, the previous
+            // registration remains current. If the process stops after the
+            // event is persisted, a retry observes the older registration,
+            // validates the same deterministic event, and then completes the
+            // registration write. This avoids an unrecoverable gap where an
+            // identical retry returned early after replacing the facts but
+            // before persisting their impact.
+            self.atomic_write(&path, &registration)?;
             Ok(registration)
         })
     }
 
     pub fn publish_event(
         &self,
-        event: CoordinationEvent,
+        mut event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
         self.runtime.validate_candidate()?;
         validate_event(&event)?;
@@ -210,7 +222,13 @@ impl CoordinationStore {
                     actual: event.generation,
                 });
             }
-            self.validate_event_facts(&event, &registration)?;
+            let observed_digests = self.observed_event_evidence_digests(&event, &registration)?;
+            if !event.evidence_digests.is_empty() && event.evidence_digests != observed_digests {
+                return Err(CoordinationError::RecoveryRequired(
+                    "event evidence digest does not match current file bytes".into(),
+                ));
+            }
+            event.evidence_digests = observed_digests;
             let path = self
                 .root
                 .join("events")
@@ -686,6 +704,26 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        if !event.evidence_digests.is_empty() {
+            let references = event.evidence_refs.iter().collect::<BTreeSet<_>>();
+            let digested_references = event.evidence_digests.keys().collect::<BTreeSet<_>>();
+            if references != digested_references {
+                return Err(CoordinationError::RecoveryRequired(
+                    "event evidence digest references do not match evidenceRefs".into(),
+                ));
+            }
+        }
+        if event.outcome_ids.iter().any(|outcome_id| {
+            !registration
+                .declaration
+                .provided_outcomes
+                .iter()
+                .any(|outcome| outcome.outcome_id == *outcome_id)
+        }) {
+            return Err(CoordinationError::RecoveryRequired(
+                "event outcome identity is not declared by the registered provider".into(),
+            ));
+        }
         for reference in &event.evidence_refs {
             let relative = Path::new(reference);
             if relative.is_absolute()
@@ -714,6 +752,25 @@ impl CoordinationStore {
             }
         }
         Ok(())
+    }
+
+    fn observed_event_evidence_digests(
+        &self,
+        event: &CoordinationEvent,
+        registration: &WorktreeRegistration,
+    ) -> Result<BTreeMap<String, Digest>, CoordinationError> {
+        self.validate_event_facts(event, registration)?;
+        let root = Path::new(&registration.worktree_path);
+        let mut digests = BTreeMap::new();
+        for reference in &event.evidence_refs {
+            let path = root.join(reference);
+            let bytes = fs::read(&path).map_err(|source| CoordinationError::Io {
+                path: path.clone(),
+                source,
+            })?;
+            digests.insert(reference.clone(), Digest::sha256_bytes(&bytes));
+        }
+        Ok(digests)
     }
 
     fn read_reservations(&self) -> Result<Vec<ResourceReservation>, CoordinationError> {
@@ -884,6 +941,16 @@ fn validate_event(event: &CoordinationEvent) -> Result<(), CoordinationError> {
     {
         return Err(CoordinationError::RecoveryRequired(
             "invalid event identity".into(),
+        ));
+    }
+    let mut outcome_ids = std::collections::BTreeSet::new();
+    if event
+        .outcome_ids
+        .iter()
+        .any(|outcome_id| !valid_component(outcome_id) || !outcome_ids.insert(outcome_id))
+    {
+        return Err(CoordinationError::RecoveryRequired(
+            "invalid or duplicate event outcome identity".into(),
         ));
     }
     Ok(())

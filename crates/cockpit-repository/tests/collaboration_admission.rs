@@ -172,6 +172,8 @@ fn impact(root: &Path, work_item_id: &str, generation: u64, id: &str) -> Coordin
         generation,
         kind: CoordinationEventKind::Impact,
         source: "provider-outcome-changed".into(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
         evidence_refs: vec!["target/impact.json".into()],
     }
 }

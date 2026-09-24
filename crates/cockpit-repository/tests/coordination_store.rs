@@ -149,9 +149,73 @@ fn duplicate_registration_and_event_are_idempotent() {
         kind: CoordinationEventKind::Impact,
         source: "test".into(),
         evidence_refs: vec!["target/evidence.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
-    assert_eq!(store.publish_event(event.clone()).unwrap(), event);
-    assert_eq!(store.publish_event(event.clone()).unwrap(), event);
+    let published = store.publish_event(event.clone()).unwrap();
+    assert_eq!(store.publish_event(event.clone()).unwrap(), published);
+    let serialized = serde_json::to_value(published).expect("serialized event");
+    assert_eq!(
+        serialized["evidenceDigests"],
+        serde_json::json!({
+            "target/evidence.json": Digest::sha256_bytes(b"{}\n").to_string()
+        })
+    );
+}
+
+#[test]
+fn event_publication_rejects_a_caller_supplied_digest_that_differs_from_file_bytes() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-A", 1))
+        .expect("register provider");
+
+    let event: CoordinationEvent = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "eventId": "event-wrong-digest",
+        "repositoryId": repository_id(root.path()),
+        "workItemId": "WI-A",
+        "generation": 1,
+        "kind": "impact",
+        "source": "test",
+        "evidenceRefs": ["target/evidence.json"],
+        "evidenceDigests": {"target/evidence.json": digest("wrong")},
+        "outcomeIds": []
+    }))
+    .expect("parse evidence-digest event");
+
+    let error = store
+        .publish_event(event)
+        .expect_err("caller-supplied digest must not override observed evidence bytes");
+    assert!(
+        error.to_string().contains("evidence digest"),
+        "unexpected publication error: {error}"
+    );
+}
+
+#[test]
+fn coordination_event_round_trips_outcome_specific_invalidation() {
+    let value = serde_json::json!({
+        "schemaVersion": 1,
+        "eventId": "impact-api",
+        "repositoryId": digest("repository"),
+        "workItemId": "WI-PROVIDER",
+        "generation": 1,
+        "kind": "impact",
+        "source": "api-contract-changed",
+        "evidenceRefs": [],
+        "outcomeIds": ["api"]
+    });
+    let parsed = serde_json::from_value::<CoordinationEvent>(value.clone());
+    assert!(
+        parsed.is_ok(),
+        "the event protocol must represent which provided outcome changed: {parsed:?}"
+    );
+    assert_eq!(
+        serde_json::to_value(parsed.unwrap()).expect("serialize event")["outcomeIds"],
+        value["outcomeIds"]
+    );
 }
 
 #[test]
@@ -178,6 +242,121 @@ fn registration_identity_change_appends_an_impact_event() {
     assert_eq!(event.kind, CoordinationEventKind::Impact);
     assert_eq!(event.generation, 2);
     assert_eq!(event.source, "registration-identity-changed");
+}
+
+#[test]
+fn interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once() {
+    let root = repository();
+    let store = store(root.path());
+    let original = registration(root.path(), "WI-RECOVER-IMPACT", 1);
+    store
+        .register(original.clone())
+        .expect("register original identity");
+
+    fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "changed identity"]);
+    let updated = registration(root.path(), "WI-RECOVER-IMPACT", 2);
+    let event_path = store
+        .root()
+        .join("events/auto-impact-WI-RECOVER-IMPACT-2.json");
+    fs::create_dir_all(&event_path).expect("inject event write interruption");
+
+    assert!(
+        store.register(updated.clone()).is_err(),
+        "a failed impact write must not report registration success"
+    );
+    let persisted: WorktreeRegistration = serde_json::from_slice(
+        &fs::read(store.registration_path("WI-RECOVER-IMPACT")).expect("registration record"),
+    )
+    .expect("registration JSON");
+    assert_eq!(
+        persisted, original,
+        "new repository facts must not become authoritative before the impact event"
+    );
+
+    fs::remove_dir(&event_path).expect("remove injected failure");
+    assert_eq!(
+        store
+            .register(updated.clone())
+            .expect("retry identical registration after interruption"),
+        updated
+    );
+    let inspection = store.inspect().expect("inspect reconciled store");
+    assert_eq!(
+        inspection
+            .events
+            .iter()
+            .filter(|event| event.event_id == "auto-impact-WI-RECOVER-IMPACT-2")
+            .count(),
+        1
+    );
+}
+
+#[test]
+fn retry_completes_registration_after_event_was_durable_before_interruption() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-CRASH-WINDOW", 1))
+        .expect("register original identity");
+    fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "changed identity"]);
+    let updated = registration(root.path(), "WI-CRASH-WINDOW", 2);
+
+    // Model process death at the exact durable boundary: the deterministic
+    // impact record exists, while registration remains at generation one.
+    let event = CoordinationEvent {
+        schema_version: 1,
+        event_id: "auto-impact-WI-CRASH-WINDOW-2".into(),
+        repository_id: updated.repository_id.clone(),
+        work_item_id: updated.work_item_id.clone(),
+        generation: updated.generation,
+        kind: CoordinationEventKind::Impact,
+        source: "registration-identity-changed".into(),
+        evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
+    };
+    let event_path = store
+        .root()
+        .join("events/auto-impact-WI-CRASH-WINDOW-2.json");
+    fs::write(
+        &event_path,
+        serde_json::to_vec_pretty(&event).expect("serialize impact event"),
+    )
+    .expect("persist impact before simulated interruption");
+    let still_old: WorktreeRegistration = serde_json::from_slice(
+        &fs::read(store.registration_path("WI-CRASH-WINDOW")).expect("old registration"),
+    )
+    .expect("old registration JSON");
+    assert_eq!(still_old.generation, 1);
+
+    assert_eq!(
+        store
+            .register(updated.clone())
+            .expect("retry after impact persisted"),
+        updated
+    );
+    let inspection = store.inspect().expect("inspect resumed registration");
+    assert_eq!(
+        inspection
+            .events
+            .iter()
+            .filter(|event| event.event_id == "auto-impact-WI-CRASH-WINDOW-2")
+            .count(),
+        1
+    );
+    assert_eq!(
+        inspection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == "WI-CRASH-WINDOW")
+            .unwrap()
+            .generation,
+        2
+    );
 }
 
 #[test]
@@ -230,6 +409,8 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
         kind: CoordinationEventKind::Impact,
         source: "late-process".into(),
         evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
     assert!(matches!(
         store.publish_event(late),
@@ -262,6 +443,8 @@ fn recovery_consumes_only_matching_event_and_is_idempotent() {
         kind: CoordinationEventKind::Impact,
         source: "recovery-test".into(),
         evidence_refs: vec!["evidence/impact.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
     store.publish_event(event.clone()).expect("publish event");
 

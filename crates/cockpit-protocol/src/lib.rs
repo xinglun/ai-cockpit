@@ -3610,6 +3610,16 @@ pub struct CoordinationEvent {
     pub source: String,
     #[serde(default)]
     pub evidence_refs: Vec<String>,
+    /// Exact file content digests observed when this event was appended.
+    /// Legacy events deserialize without bindings and cannot satisfy evidence
+    /// requirements that need a current publication.
+    #[serde(default)]
+    pub evidence_digests: BTreeMap<String, Digest>,
+    /// Empty preserves the legacy meaning of invalidating all provider
+    /// outcomes. A non-empty list narrows the event to these declared output
+    /// identities so action admission can remain outcome-specific.
+    #[serde(default)]
+    pub outcome_ids: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
