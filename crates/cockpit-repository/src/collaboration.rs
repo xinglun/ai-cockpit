@@ -3,8 +3,9 @@ use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
 use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    CoordinationEvent, CoordinationIntent, CoordinationRecovery, CoordinationRequest,
-    CoordinationRequestState, RuntimeCapabilityBinding, RuntimeContext, WorktreeRegistration,
+    ConsumedOutcome, CoordinationEvent, CoordinationIntent, CoordinationRecovery,
+    CoordinationRequest, CoordinationRequestState, ProviderOutcomeKey, RuntimeCapabilityBinding,
+    RuntimeContext, WorktreeRegistration,
 };
 use cockpit_verification::{
     CompositionAttempt, CompositionError, CompositionInput, CompositionPrecondition,
@@ -58,7 +59,7 @@ pub struct CollaborationAction {
     pub kind: CollaborationActionKind,
     pub consumer_work_item_id: String,
     #[serde(default)]
-    pub outcome_ids: Vec<String>,
+    pub outcomes: Vec<ProviderOutcomeKey>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -162,12 +163,13 @@ pub fn collaboration_projection(
 fn dependency_blockers_for_registration(
     projection: &CollaborationProjection,
     registration: &WorktreeRegistration,
-    selected_outcomes: Option<&BTreeSet<String>>,
-    invalidated_outcomes: &BTreeMap<(String, String), Vec<CoordinationEvent>>,
+    selected_outcomes: Option<&BTreeSet<ProviderOutcomeKey>>,
+    invalidated_outcomes: &BTreeMap<ProviderOutcomeKey, Vec<CoordinationEvent>>,
 ) -> Vec<String> {
     let mut blockers = Vec::new();
     for dependency in &registration.declaration.consumed_outcomes {
-        if selected_outcomes.is_some_and(|selected| !selected.contains(&dependency.outcome_id)) {
+        let key = provider_outcome_key(dependency);
+        if selected_outcomes.is_some_and(|selected| !selected.contains(&key)) {
             continue;
         }
         let Some(provider) = projection
@@ -225,17 +227,11 @@ fn dependency_blockers_for_registration(
                 )),
             }
         }
-        if invalidated_outcomes
-            .get(&(
-                dependency.provider_work_item_id.clone(),
-                dependency.outcome_id.clone(),
-            ))
-            .is_some_and(|events| {
-                events
-                    .iter()
-                    .any(|event| !recovery_consumed(projection, event, registration))
-            })
-        {
+        if invalidated_outcomes.get(&key).is_some_and(|events| {
+            events
+                .iter()
+                .any(|event| !recovery_consumed(projection, event, registration))
+        }) {
             blockers.push(format!(
                 "dependency_impact:{}:{}",
                 dependency.provider_work_item_id, dependency.outcome_id
@@ -251,6 +247,13 @@ fn dependency_blockers_for_registration(
         }
     }
     blockers
+}
+
+fn provider_outcome_key(dependency: &ConsumedOutcome) -> ProviderOutcomeKey {
+    ProviderOutcomeKey {
+        provider_work_item_id: dependency.provider_work_item_id.clone(),
+        outcome_id: dependency.outcome_id.clone(),
+    }
 }
 
 fn verification_evidence_is_complete(
@@ -428,7 +431,7 @@ fn read_registered_outcome_evidence(root: &Path, reference: &str) -> Result<Vec<
 
 fn transitive_invalidated_outcomes(
     projection: &CollaborationProjection,
-) -> BTreeMap<(String, String), Vec<CoordinationEvent>> {
+) -> BTreeMap<ProviderOutcomeKey, Vec<CoordinationEvent>> {
     let mut pending = VecDeque::new();
     for event in projection
         .events
@@ -453,23 +456,23 @@ fn transitive_invalidated_outcomes(
             event.outcome_ids.clone()
         };
         for outcome_id in outcome_ids {
-            pending.push_back((event.clone(), provider.work_item_id.clone(), outcome_id));
+            pending.push_back((
+                event.clone(),
+                ProviderOutcomeKey {
+                    provider_work_item_id: provider.work_item_id.clone(),
+                    outcome_id,
+                },
+            ));
         }
     }
 
-    let mut invalidated = BTreeMap::<(String, String), Vec<CoordinationEvent>>::new();
+    let mut invalidated = BTreeMap::<ProviderOutcomeKey, Vec<CoordinationEvent>>::new();
     let mut visited = BTreeSet::new();
-    while let Some((root_event, provider_id, outcome_id)) = pending.pop_front() {
-        if !visited.insert((
-            root_event.event_id.clone(),
-            provider_id.clone(),
-            outcome_id.clone(),
-        )) {
+    while let Some((root_event, key)) = pending.pop_front() {
+        if !visited.insert((root_event.event_id.clone(), key.clone())) {
             continue;
         }
-        let events = invalidated
-            .entry((provider_id.clone(), outcome_id.clone()))
-            .or_default();
+        let events = invalidated.entry(key.clone()).or_default();
         if !events
             .iter()
             .any(|existing| existing.event_id == root_event.event_id)
@@ -477,15 +480,11 @@ fn transitive_invalidated_outcomes(
             events.push(root_event.clone());
         }
         for consumer in &projection.registrations {
-            let consumes_invalidated_outcome =
-                consumer
-                    .declaration
-                    .consumed_outcomes
-                    .iter()
-                    .any(|dependency| {
-                        dependency.provider_work_item_id == provider_id
-                            && dependency.outcome_id == outcome_id
-                    });
+            let consumes_invalidated_outcome = consumer
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .any(|dependency| provider_outcome_key(dependency) == key);
             if !consumes_invalidated_outcome || recovery_consumed(projection, &root_event, consumer)
             {
                 continue;
@@ -493,8 +492,10 @@ fn transitive_invalidated_outcomes(
             for output in &consumer.declaration.provided_outcomes {
                 pending.push_back((
                     root_event.clone(),
-                    consumer.work_item_id.clone(),
-                    output.outcome_id.clone(),
+                    ProviderOutcomeKey {
+                        provider_work_item_id: consumer.work_item_id.clone(),
+                        outcome_id: output.outcome_id.clone(),
+                    },
                 ));
             }
         }
@@ -605,10 +606,7 @@ pub fn collaboration_outcome_projection(
     let mut invalidated_ids = BTreeSet::new();
     if let Some(consumer) = current {
         for dependency in &consumer.declaration.consumed_outcomes {
-            if let Some(events) = invalidated_outcomes.get(&(
-                dependency.provider_work_item_id.clone(),
-                dependency.outcome_id.clone(),
-            )) {
+            if let Some(events) = invalidated_outcomes.get(&provider_outcome_key(dependency)) {
                 for event in events {
                     if !recovery_consumed(&projection, event, consumer) {
                         invalidated_ids.insert(event.event_id.clone());
@@ -637,11 +635,11 @@ pub fn collaboration_outcome_projection(
         let action = CollaborationAction {
             kind: CollaborationActionKind::Composition,
             consumer_work_item_id: work_item_id.into(),
-            outcome_ids: registration
+            outcomes: registration
                 .declaration
                 .consumed_outcomes
                 .iter()
-                .map(|dependency| dependency.outcome_id.clone())
+                .map(provider_outcome_key)
                 .collect(),
         };
         admit_collaboration_action(&store, work_item_id, registration.generation, action)
@@ -927,18 +925,21 @@ pub fn admit_collaboration_action(
             action.consumer_work_item_id
         ));
     } else if let Some(registration) = registration {
-        if !action.outcome_ids.is_empty() {
-            for outcome_id in &action.outcome_ids {
+        if !action.outcomes.is_empty() {
+            for key in &action.outcomes {
                 if !registration
                     .declaration
                     .consumed_outcomes
                     .iter()
-                    .any(|dependency| dependency.outcome_id == *outcome_id)
+                    .any(|dependency| provider_outcome_key(dependency) == *key)
                 {
-                    blockers.push(format!("action_outcome_not_declared:{outcome_id}"));
+                    blockers.push(format!(
+                        "action_outcome_not_declared:{}:{}",
+                        key.provider_work_item_id, key.outcome_id
+                    ));
                 }
             }
-            let selected = action.outcome_ids.iter().cloned().collect::<BTreeSet<_>>();
+            let selected = action.outcomes.iter().cloned().collect::<BTreeSet<_>>();
             let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
             let outcome_blockers = dependency_blockers_for_registration(
                 &projection,
@@ -982,7 +983,7 @@ pub fn run_admitted_composition(
     generation: u64,
     input: CompositionInput,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
-    let outcome_ids = store
+    let outcomes = store
         .inspect()?
         .registrations
         .into_iter()
@@ -992,7 +993,10 @@ pub fn run_admitted_composition(
                 .declaration
                 .consumed_outcomes
                 .into_iter()
-                .map(|dependency| dependency.outcome_id)
+                .map(|dependency| ProviderOutcomeKey {
+                    provider_work_item_id: dependency.provider_work_item_id,
+                    outcome_id: dependency.outcome_id,
+                })
                 .collect()
         })
         .unwrap_or_default();
@@ -1003,7 +1007,7 @@ pub fn run_admitted_composition(
         CollaborationAction {
             kind: CollaborationActionKind::Composition,
             consumer_work_item_id: work_item_id.into(),
-            outcome_ids,
+            outcomes,
         },
     )?;
     if !admission.allowed {
@@ -1380,14 +1384,17 @@ pub fn publish_outcome(
         evidence_digests,
         outcome_ids: vec![outcome_id.into()],
     };
+    let published_key = ProviderOutcomeKey {
+        provider_work_item_id: work_item_id.into(),
+        outcome_id: outcome_id.into(),
+    };
     let verification_required = projection.registrations.iter().any(|consumer| {
         consumer
             .declaration
             .consumed_outcomes
             .iter()
             .any(|dependency| {
-                dependency.provider_work_item_id == work_item_id
-                    && dependency.outcome_id == outcome_id
+                provider_outcome_key(dependency) == published_key
                     && dependency.verification_required
             })
     });
@@ -1468,7 +1475,7 @@ pub fn resume_and_re_evaluate(
         CollaborationAction {
             kind: CollaborationActionKind::Verification,
             consumer_work_item_id: work_item_id.into(),
-            outcome_ids: Vec::new(),
+            outcomes: Vec::new(),
         },
     )
 }

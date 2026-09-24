@@ -3534,6 +3534,14 @@ pub struct ConsumedOutcome {
     pub verification_required: bool,
 }
 
+/// The globally unambiguous identity of an outcome declared by one provider.
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProviderOutcomeKey {
+    pub provider_work_item_id: String,
+    pub outcome_id: String,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ResourceClaimMode {

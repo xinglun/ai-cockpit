@@ -240,15 +240,23 @@ fn composition_action(work_item_id: &str) -> CollaborationAction {
     CollaborationAction {
         kind: CollaborationActionKind::Composition,
         consumer_work_item_id: work_item_id.into(),
-        outcome_ids: Vec::new(),
+        outcomes: Vec::new(),
     }
 }
 
-fn outcome_action(work_item_id: &str, outcome_ids: &[&str]) -> CollaborationAction {
+fn outcome_action(work_item_id: &str, outcomes: &[(&str, &str)]) -> CollaborationAction {
     CollaborationAction {
         kind: CollaborationActionKind::Composition,
         consumer_work_item_id: work_item_id.into(),
-        outcome_ids: outcome_ids.iter().map(|value| (*value).into()).collect(),
+        outcomes: outcomes
+            .iter()
+            .map(
+                |(provider_work_item_id, outcome_id)| cockpit_protocol::ProviderOutcomeKey {
+                    provider_work_item_id: (*provider_work_item_id).into(),
+                    outcome_id: (*outcome_id).into(),
+                },
+            )
+            .collect(),
     }
 }
 
@@ -1155,7 +1163,7 @@ fn selected_outcome_admission_ignores_unselected_outcome_merge_blocker() {
         &store,
         "WI-CONSUMER",
         1,
-        outcome_action("WI-CONSUMER", &["api"]),
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
     )
     .unwrap();
 
@@ -1214,14 +1222,14 @@ fn same_work_item_admission_filters_impact_by_consumed_outcome() {
         &store,
         "WI-CONSUMER",
         1,
-        outcome_action("WI-CONSUMER", &["api"]),
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
     )
     .unwrap();
     let docs = admit_collaboration_action(
         &store,
         "WI-CONSUMER",
         1,
-        outcome_action("WI-CONSUMER", &["docs"]),
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "docs")]),
     )
     .unwrap();
 
@@ -1232,6 +1240,79 @@ fn same_work_item_admission_filters_impact_by_consumed_outcome() {
         "an unaffected outcome in the same WI can proceed"
     );
     assert!(!docs.affected);
+}
+
+#[test]
+fn action_dependency_selection_is_provider_scoped() {
+    let root = repository();
+    let store = store(root.path());
+    for provider in ["WI-PROVIDER-A", "WI-PROVIDER-B"] {
+        store
+            .register(registration(
+                root.path(),
+                provider,
+                1,
+                declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]),
+            ))
+            .expect("register provider with shared outcome ID");
+    }
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[
+                    ("WI-PROVIDER-A", "api", OutcomeStage::ComposableHead),
+                    ("WI-PROVIDER-B", "api", OutcomeStage::ComposableHead),
+                ],
+            ),
+        ))
+        .expect("register consumer of both provider/outcome pairs");
+
+    let mut provider_a_impact = impact(root.path(), "WI-PROVIDER-A", 1, "impact-provider-a-api");
+    provider_a_impact.outcome_ids = vec!["api".into()];
+    report_impact(&store, provider_a_impact).expect("publish provider A impact");
+
+    // Before provider identity is carried, this bare ID accidentally selects
+    // both providers. The desired call selects only Provider B's `api`.
+    let provider_b_only = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER-B", "api")]),
+    )
+    .expect("admit action selecting provider B only");
+    assert!(
+        provider_b_only.allowed,
+        "Provider A's impact must not cross-block Provider B's identical outcome ID: {:?}",
+        provider_b_only.blockers
+    );
+    assert!(
+        !provider_b_only
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_impact:WI-PROVIDER-A:api"),
+        "a provider-B-only action must not consume provider A's invalidation"
+    );
+
+    let provider_a_only = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER-A", "api")]),
+    )
+    .expect("admit action selecting provider A only");
+    assert!(
+        provider_a_only
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_impact:WI-PROVIDER-A:api"),
+        "selecting Provider A must retain Provider A's impact blocker: {:?}",
+        provider_a_only.blockers
+    );
 }
 
 #[test]
@@ -1372,7 +1453,7 @@ fn historical_impact_can_be_recovered_after_provider_generation_advances() {
             &store,
             "WI-CONSUMER",
             1,
-            outcome_action("WI-CONSUMER", &["api"]),
+            outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
         )
         .unwrap()
         .allowed
@@ -1405,7 +1486,7 @@ fn historical_impact_can_be_recovered_after_provider_generation_advances() {
             &store,
             "WI-CONSUMER",
             1,
-            outcome_action("WI-CONSUMER", &["api"]),
+            outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
         )
         .unwrap()
         .allowed
