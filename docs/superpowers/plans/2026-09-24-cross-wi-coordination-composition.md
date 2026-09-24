@@ -83,7 +83,7 @@
 
   `ai-cockpit checkpoint --repo <worktree> --id WI-1029-cross-wi-coordination-composition` returned `state=checkpointed`.
 
-- [ ] **Step 4: Run the clean baseline.**
+- [x] **Step 4: Run the clean baseline.**
 
   Run:
 
@@ -95,7 +95,7 @@
 
   Record failures without rerunning blindly. If the baseline is red, add a recovery note to the Summary and repair only an in-scope defect before implementation.
 
-- [ ] **Step 5: Commit the Runtime-generated governance baseline.**
+- [x] **Step 5: Commit the Runtime-generated governance baseline.**
 
   Stage only Runtime-generated active Contract/Summary/observer snapshot plus the plan once it exists; use `git diff --check`, then commit `chore(ai): bind WI-1029 collaboration composition baseline`.
 
