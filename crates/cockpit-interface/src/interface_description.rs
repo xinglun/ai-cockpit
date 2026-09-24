@@ -265,6 +265,282 @@ pub struct InterfaceParameterSpec {
     pub description: &'static str,
 }
 
+/// One MCP property used by the Work Item coordination tool. Action
+/// applicability and requiredness live in `WorkItemCoordinationActionSpec` so
+/// a property name cannot silently acquire a second meaning in one action.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct WorkItemCoordinationParameterSpec {
+    pub canonical_name: &'static str,
+    pub name: &'static str,
+    pub cli_name: Option<&'static str>,
+    pub wire_type: &'static str,
+    pub default: Option<&'static str>,
+    pub enum_values: &'static [&'static str],
+    pub minimum: Option<u64>,
+    pub minimum_length: Option<u64>,
+    pub description: &'static str,
+}
+
+/// A closed action variant for the `work_item_coordination` request schema.
+/// Multiple variants for one action represent an explicit compatibility
+/// alternative, not an overlapping identity interpretation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct WorkItemCoordinationActionSpec {
+    pub action: &'static str,
+    pub required_parameters: &'static [&'static str],
+    pub allowed_parameters: &'static [&'static str],
+    pub action_required: bool,
+    pub legacy_alias: bool,
+}
+
+static WORK_ITEM_COORDINATION_PARAMETERS: &[WorkItemCoordinationParameterSpec] = &[
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "action",
+        name: "action",
+        cli_name: None,
+        wire_type: "string",
+        default: Some("inspect"),
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Explicit coordination operation; omission selects read-only inspect.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "registration",
+        name: "registration",
+        cli_name: Some("input"),
+        wire_type: "object",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: None,
+        description: "Strict Work Item worktree registration to persist.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "event",
+        name: "event",
+        cli_name: Some("input"),
+        wire_type: "object",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: None,
+        description: "Strict impact event to append.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "request",
+        name: "request",
+        cli_name: Some("input"),
+        wire_type: "object",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: None,
+        description: "Strict safe-pause request to append.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "providerWorkItemId",
+        name: "providerWorkItemId",
+        cli_name: Some("id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Provider Work Item whose declared outcome is being published.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "providerGeneration",
+        name: "providerGeneration",
+        cli_name: Some("generation"),
+        wire_type: "integer",
+        default: None,
+        enum_values: &[],
+        minimum: Some(1),
+        minimum_length: None,
+        description: "Current registration generation of providerWorkItemId.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "outcomeId",
+        name: "outcomeId",
+        cli_name: Some("outcome-id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Declared provider outcome selected for publication.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "requestId",
+        name: "requestId",
+        cli_name: Some("request-id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Safe-pause request identity to acknowledge.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "state",
+        name: "state",
+        cli_name: Some("state"),
+        wire_type: "string",
+        default: None,
+        enum_values: &["acknowledged", "safely_paused", "unavailable", "expired"],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Acknowledged pause-request state.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "workItemId",
+        name: "workItemId",
+        cli_name: Some("id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Work Item being resumed; the legacy publish-outcome alias names its provider.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "generation",
+        name: "generation",
+        cli_name: Some("generation"),
+        wire_type: "integer",
+        default: None,
+        enum_values: &[],
+        minimum: Some(1),
+        minimum_length: None,
+        description: "Resume target generation; the legacy publish-outcome alias names its provider generation.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "eventId",
+        name: "eventId",
+        cli_name: Some("event-id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Provider impact event identity; recovery resolves its provider from this immutable event.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "consumerWorkItemId",
+        name: "consumerWorkItemId",
+        cli_name: Some("consumer-work-item-id"),
+        wire_type: "string",
+        default: None,
+        enum_values: &[],
+        minimum: None,
+        minimum_length: Some(1),
+        description: "Consumer Work Item identity for recovery consumption.",
+    },
+    WorkItemCoordinationParameterSpec {
+        canonical_name: "consumerGeneration",
+        name: "consumerGeneration",
+        cli_name: Some("consumer-generation"),
+        wire_type: "integer",
+        default: None,
+        enum_values: &[],
+        minimum: Some(1),
+        minimum_length: None,
+        description: "Current execution generation of consumerWorkItemId.",
+    },
+];
+
+static WORK_ITEM_COORDINATION_ACTIONS: &[WorkItemCoordinationActionSpec] = &[
+    WorkItemCoordinationActionSpec {
+        action: "inspect",
+        required_parameters: &[],
+        allowed_parameters: &[],
+        action_required: false,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "inspect",
+        required_parameters: &[],
+        allowed_parameters: &[],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "register",
+        required_parameters: &["registration"],
+        allowed_parameters: &["registration"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "report-impact",
+        required_parameters: &["event"],
+        allowed_parameters: &["event"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "publish-outcome",
+        required_parameters: &["providerWorkItemId", "providerGeneration", "outcomeId"],
+        allowed_parameters: &["providerWorkItemId", "providerGeneration", "outcomeId"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "publish-outcome",
+        required_parameters: &["workItemId", "generation", "outcomeId"],
+        allowed_parameters: &["workItemId", "generation", "outcomeId"],
+        action_required: true,
+        legacy_alias: true,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "request-pause",
+        required_parameters: &["request"],
+        allowed_parameters: &["request"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "acknowledge",
+        required_parameters: &["requestId", "state"],
+        allowed_parameters: &["requestId", "state"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "resume",
+        required_parameters: &["workItemId", "generation"],
+        allowed_parameters: &["workItemId", "generation"],
+        action_required: true,
+        legacy_alias: false,
+    },
+    WorkItemCoordinationActionSpec {
+        action: "recover",
+        required_parameters: &["eventId", "consumerWorkItemId", "consumerGeneration"],
+        allowed_parameters: &["eventId", "consumerWorkItemId", "consumerGeneration"],
+        action_required: true,
+        legacy_alias: false,
+    },
+];
+
+pub fn work_item_coordination_parameter_specs() -> &'static [WorkItemCoordinationParameterSpec] {
+    WORK_ITEM_COORDINATION_PARAMETERS
+}
+
+pub fn work_item_coordination_action_specs() -> &'static [WorkItemCoordinationActionSpec] {
+    WORK_ITEM_COORDINATION_ACTIONS
+}
+
+pub fn work_item_coordination_action_values() -> Vec<&'static str> {
+    let mut values = Vec::new();
+    for spec in WORK_ITEM_COORDINATION_ACTIONS {
+        if !values.contains(&spec.action) {
+            values.push(spec.action);
+        }
+    }
+    values
+}
+
 /// A transport projection plus parser-derived facts for one Outcome parameter.
 ///
 /// Defaults, enum values, types, and descriptions are materialized from the

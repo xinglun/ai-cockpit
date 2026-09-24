@@ -142,6 +142,104 @@ fn coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection
 }
 
 #[test]
+fn coordination_schema_binds_provider_consumer_and_resume_identities_per_action() {
+    let tools = cockpit_mcp::handle_request(
+        &json!({"jsonrpc":"2.0", "id":1, "method":"tools/list"}),
+        &runtime(),
+    );
+    let schema = &tools["result"]["tools"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|tool| tool["name"] == "work_item_coordination")
+        .expect("coordination tool")["inputSchema"];
+    let properties = schema["properties"].as_object().expect("properties");
+
+    assert_eq!(
+        properties["providerWorkItemId"]["description"],
+        "Provider Work Item whose declared outcome is being published."
+    );
+    assert_eq!(
+        properties["providerGeneration"]["description"],
+        "Current registration generation of providerWorkItemId."
+    );
+    assert_eq!(
+        properties["workItemId"]["description"],
+        "Work Item being resumed; the legacy publish-outcome alias names its provider."
+    );
+    assert_eq!(
+        properties["consumerWorkItemId"]["description"],
+        "Consumer Work Item identity for recovery consumption."
+    );
+    assert_eq!(
+        properties.len(),
+        properties
+            .keys()
+            .collect::<std::collections::BTreeSet<_>>()
+            .len(),
+        "serialized MCP property names are unique"
+    );
+    assert!(schema["oneOf"].as_array().is_some_and(|variants| {
+        variants.iter().any(|variant| {
+            variant["properties"]["action"]["const"] == "recover"
+                && variant["required"]
+                    == json!([
+                        "action",
+                        "eventId",
+                        "consumerWorkItemId",
+                        "consumerGeneration"
+                    ])
+        })
+    }));
+    assert!(schema["oneOf"].as_array().is_some_and(|variants| {
+        variants.iter().any(|variant| {
+            variant["properties"]["action"]["const"] == "publish-outcome"
+                && variant["required"]
+                    == json!([
+                        "action",
+                        "providerWorkItemId",
+                        "providerGeneration",
+                        "outcomeId"
+                    ])
+        })
+    }));
+    assert!(schema["oneOf"].as_array().is_some_and(|variants| {
+        variants.iter().any(|variant| {
+            variant["properties"]["action"]["const"] == "resume"
+                && variant["required"] == json!(["action", "workItemId", "generation"])
+        })
+    }));
+}
+
+#[test]
+fn coordination_rejects_mixed_provider_aliases_before_opening_the_store() {
+    let root = repository();
+    let response = cockpit_mcp::handle_request_for_repo(
+        &json!({
+            "jsonrpc":"2.0", "id":5, "method":"tools/call",
+            "params":{"name":"work_item_coordination", "arguments":{
+                "action":"publish-outcome",
+                "providerWorkItemId":"WI-PROVIDER",
+                "providerGeneration":1,
+                "workItemId":"WI-OTHER",
+                "generation":1,
+                "outcomeId":"api"
+            }}
+        }),
+        root.path(),
+        &runtime(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .unwrap()
+            .contains("identity contract")
+    );
+    assert!(!root.path().join(".git/.ai-cockpit/coordination").exists());
+}
+
+#[test]
 fn publish_outcome_mcp_action_uses_the_same_bound_write_path() {
     let root = repository();
     run_git(root.path(), &["branch", "-M", "main"]);
@@ -179,7 +277,7 @@ fn publish_outcome_mcp_action_uses_the_same_bound_write_path() {
         &json!({
             "jsonrpc":"2.0", "id":3, "method":"tools/call",
             "params":{"name":"work_item_coordination", "arguments":{
-                "action":"publish-outcome", "workItemId":"WI-MCP", "generation":1, "outcomeId":"api"
+                "action":"publish-outcome", "providerWorkItemId":"WI-MCP", "providerGeneration":1, "outcomeId":"api"
             }}
         }),
         root.path(),
@@ -192,5 +290,20 @@ fn publish_outcome_mcp_action_uses_the_same_bound_write_path() {
     assert_eq!(
         published["evidenceDigests"]["target/api.json"],
         Digest::sha256_bytes(evidence_bytes).to_string()
+    );
+
+    let legacy = cockpit_mcp::handle_request_for_repo(
+        &json!({
+            "jsonrpc":"2.0", "id":4, "method":"tools/call",
+            "params":{"name":"work_item_coordination", "arguments":{
+                "action":"publish-outcome", "workItemId":"WI-MCP", "generation":1, "outcomeId":"api"
+            }}
+        }),
+        root.path(),
+        &runtime(),
+    );
+    assert_ne!(
+        legacy["result"]["isError"], true,
+        "legacy provider alias: {legacy}"
     );
 }

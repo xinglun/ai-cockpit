@@ -46,6 +46,20 @@ evidence bytes に束縛した `OutcomePublished` event を追加します。rea
 公開、修復、event 消費を行いません。公開後に evidence bytes が変わると束縛が崩れ、
 verification dependency を満たせません。
 
+### MCP identity fields
+
+`work_item_coordination` schema は action ごとに許可する field を制約します。
+`publish-outcome` は `providerWorkItemId`、`providerGeneration`、`outcomeId` を使います。
+旧 `workItemId`/`generation` の組はこの action だけで legacy alias として受け付けます。
+`resume` では同じ名前が再開対象の Work Item を指します。`recover` は `eventId` と
+`consumerWorkItemId`、`consumerGeneration` を使い、provider identity は不変 event から
+解決します。余分な field や identity の混在は拒否されます。
+
+```json
+{"action":"publish-outcome","providerWorkItemId":"WI-PROVIDER","providerGeneration":3,"outcomeId":"api"}
+{"action":"recover","eventId":"impact-1","consumerWorkItemId":"WI-CONSUMER","consumerGeneration":2}
+```
+
 composition は admission を再確認し、安全に pause された対象を検証プロセス起動前に
 拒否します。Runtime は target topology、参加者の登録済み head/Contract、必須 check
 の一意で完全な coverage を検証し、観測事実から前提条件を計算します。共有の bounded

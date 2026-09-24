@@ -70,6 +70,7 @@ matrix は次の 4 state だけを使います。
 | Reference concern | Rust Runtime status | Evidence と boundary |
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.ja.md); archive `.ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json`; verification `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; finalization `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.finalize.json`; close `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json`. |
+| WI-1032-cross-wi-review-fixes | In progress; local focused evidence only, Runtime verification and review pending | [Work Item](../work-items/WI-1032-cross-wi-review-fixes.ja.md); [independent review](../work-items/WI-1032-cross-wi-review-fixes/independent-review.md); verification、merge、release は未主張です。 |
 | Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |
 | Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
 | Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |

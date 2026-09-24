@@ -48,6 +48,19 @@ ai-cockpit work-item composition --repo <path> --id <wi> --generation <n> --inpu
 要求的验证 receipt，再追加绑定精确证据字节的 `OutcomePublished` 事件。只读查询
 不会发布、修复或消费事件；发布后若证据字节改变，该绑定失效，不能满足验证依赖。
 
+### MCP 身份字段
+
+`work_item_coordination` schema 按 action 限定字段。`publish-outcome` 使用
+`providerWorkItemId`、`providerGeneration` 和 `outcomeId`；旧的
+`workItemId`/`generation` 组合仅作为此 action 的兼容别名。`resume` 中这两个字段
+指被恢复的 Work Item。`recover` 使用 `eventId`、`consumerWorkItemId` 和
+`consumerGeneration`；不可变 event 本身标识 provider。多余或混用的身份字段会被拒绝。
+
+```json
+{"action":"publish-outcome","providerWorkItemId":"WI-PROVIDER","providerGeneration":3,"outcomeId":"api"}
+{"action":"recover","eventId":"impact-1","consumerWorkItemId":"WI-CONSUMER","consumerGeneration":2}
+```
+
 组合验证会先刷新依赖准入，并在启动任何验证进程前拒绝安全暂停的目标。Runtime
 随后核验目标 topology、每个已登记参与者的 head/Contract、完整的必需检查覆盖和
 前置条件，再在临时 linked worktree 中按声明顺序组合。它复用共享的有界验证执行器，

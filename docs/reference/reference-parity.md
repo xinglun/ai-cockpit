@@ -77,6 +77,7 @@ anti-omission index; this page remains the higher-level product-boundary matrix.
 | Reference concern | Rust Runtime status | Evidence and boundary |
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | In progress → Implemented after verified close | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.md); archive `.ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json`; verification `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; finalization `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.finalize.json`; close `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json`. |
+| WI-1032-cross-wi-review-fixes | In progress; local focused evidence only, Runtime verification and review pending | [Work Item](../work-items/WI-1032-cross-wi-review-fixes.md); [independent review](../work-items/WI-1032-cross-wi-review-fixes/independent-review.md); no verification, merge, or release is claimed. |
 | Reader-first entry and language switching | Implemented | Root and route README files link to one another in English, Simplified Chinese, and Japanese. |
 | Purpose, problem, architecture, and capability overview | Implemented | The philosophy, architecture, and capability routes describe the current Runtime and its owners. |
 | Shared Runtime with request-scoped repository contexts | Implemented | Explicit `--repo` binding and repository isolation tests keep context and evidence separate. |

@@ -64,6 +64,21 @@ the exact referenced evidence bytes. A read-only query never publishes, repairs,
 or consumes an event; changing the evidence after publication breaks the byte
 binding and cannot satisfy a verification dependency.
 
+### MCP identity fields
+
+The `work_item_coordination` schema constrains fields by action. `publish-outcome`
+uses `providerWorkItemId`, `providerGeneration`, and `outcomeId`; the older
+`workItemId`/`generation` pair remains accepted only as a legacy alias for that
+action. `resume` uses `workItemId` and `generation` for the Work Item being
+resumed. `recover` uses `eventId` plus `consumerWorkItemId` and
+`consumerGeneration`; the immutable event identifies its provider. Extra or
+mixed identity fields are rejected.
+
+```json
+{"action":"publish-outcome","providerWorkItemId":"WI-PROVIDER","providerGeneration":3,"outcomeId":"api"}
+{"action":"recover","eventId":"impact-1","consumerWorkItemId":"WI-CONSUMER","consumerGeneration":2}
+```
+
 ## Composition verification
 
 Composition first refreshes dependency admission and rejects a safely paused
