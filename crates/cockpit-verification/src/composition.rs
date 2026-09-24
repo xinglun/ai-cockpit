@@ -60,7 +60,8 @@ pub struct CompositionCommand {
     pub args: Vec<String>,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompositionInput {
     pub repository_root: PathBuf,
     pub state_dir: PathBuf,

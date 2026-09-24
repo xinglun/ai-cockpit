@@ -4,10 +4,12 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query_with_metrics};
 use cockpit_protocol::{
-    AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
-    EvidencePersistence, EvidenceRetention, HumanDecision, ReleasePlan, ReleasePlanEnvelope,
-    ReleaseRequestInput, RepositoryConfig, RuntimeContext, VerificationDeclaration,
-    VerificationStage, VerificationTier, validate_protocol_version,
+    AgentProvider, COLLABORATION_CAPABILITY, ConcurrencyBoundary, CoordinationEvent,
+    CoordinationRequest, CoordinationRequestState, DataClassification, DelegatedEvidence,
+    EvidenceAssurance, EvidencePersistence, EvidenceRetention, HumanDecision, ReleasePlan,
+    ReleasePlanEnvelope, ReleaseRequestInput, RepositoryConfig, RuntimeCapabilityBinding,
+    RuntimeContext, VerificationDeclaration, VerificationStage, VerificationTier,
+    WorktreeRegistration, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -25,6 +27,7 @@ use cockpit_verification::gate_plan::{
     failure_metadata, load_manifest, plan_gate_route, validate_gate_plan,
     validate_lifecycle_summary,
 };
+use serde::de::DeserializeOwned;
 use serde_json::json;
 use std::{
     fs,
@@ -759,6 +762,25 @@ enum WorkItemCommand {
         #[command(subcommand)]
         command: WorkItemSlotCommand,
     },
+    /// Inspect or mutate the candidate-only cross-Work-Item coordination store.
+    Coordination {
+        #[command(subcommand)]
+        command: WorkItemCoordinationCommand,
+    },
+    /// Execute an exact composition in an isolated temporary worktree after
+    /// refreshing cross-Work-Item admission.
+    Composition {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        generation: u64,
+        /// JSON CompositionInput. Repository and state paths are resolved by
+        /// this command and are not trusted from the input document.
+        #[arg(long)]
+        input: PathBuf,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -780,6 +802,58 @@ enum WorkItemSlotCommand {
     List {
         #[arg(long)]
         repo: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemCoordinationCommand {
+    Inspect {
+        #[arg(long)]
+        repo: PathBuf,
+    },
+    Register {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    ReportImpact {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    RequestPause {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    Acknowledge {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        request_id: String,
+        #[arg(long)]
+        state: String,
+    },
+    Resume {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        generation: u64,
+    },
+    Recover {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        event_id: String,
+        #[arg(long)]
+        consumer_work_item_id: String,
+        #[arg(long)]
+        consumer_generation: u64,
     },
 }
 
@@ -1150,6 +1224,150 @@ fn output_language(explicit: Option<&str>) -> &'static str {
         .unwrap_or_default()
         .to_ascii_lowercase();
     cockpit_protocol::normalize_work_item_outcome_language(&value)
+}
+
+fn collaboration_runtime(runtime: &RuntimeContext) -> RuntimeCapabilityBinding {
+    RuntimeCapabilityBinding {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        capability: COLLABORATION_CAPABILITY.into(),
+    }
+}
+
+fn collaboration_store(
+    repo: &Path,
+    runtime: &RuntimeContext,
+    write: bool,
+) -> Result<cockpit_repository::CoordinationStore> {
+    let git = GitRepository::discover(repo).context("discover repository topology")?;
+    let binding = collaboration_runtime(runtime);
+    let store = if write {
+        cockpit_repository::CoordinationStore::open(&git, binding)
+    } else {
+        cockpit_repository::CoordinationStore::open_read_only(&git, binding)
+    }
+    .context("open candidate collaboration store")?;
+    Ok(store)
+}
+
+fn read_json_file<T: DeserializeOwned>(path: &Path, description: &str) -> Result<T> {
+    serde_json::from_slice(&fs::read(path).with_context(|| format!("read {description}"))?)
+        .with_context(|| format!("parse {description}"))
+}
+
+fn coordination_output(
+    store: &cockpit_repository::CoordinationStore,
+    result: serde_json::Value,
+) -> Result<()> {
+    let projection = cockpit_repository::collaboration_projection(store)
+        .context("refresh collaboration projection")?;
+    println!(
+        "{}",
+        serde_json::to_string_pretty(&json!({
+            "result": result,
+            "projection": projection,
+        }))?
+    );
+    Ok(())
+}
+
+fn run_coordination_command(
+    command: WorkItemCoordinationCommand,
+    runtime: &RuntimeContext,
+) -> Result<()> {
+    match command {
+        WorkItemCoordinationCommand::Inspect { repo } => {
+            let store = collaboration_store(&repo, runtime, false)?;
+            let projection = cockpit_repository::collaboration_projection(&store)
+                .context("inspect collaboration projection")?;
+            println!("{}", serde_json::to_string_pretty(&projection)?);
+        }
+        WorkItemCoordinationCommand::Register { repo, input } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let registration: WorktreeRegistration = read_json_file(&input, "registration")?;
+            let result = store.register(registration).context("register Work Item")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::ReportImpact { repo, input } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let event: CoordinationEvent = read_json_file(&input, "impact event")?;
+            let result = cockpit_repository::report_impact(&store, event)
+                .context("report collaboration impact")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::RequestPause { repo, input } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let request: CoordinationRequest = read_json_file(&input, "coordination request")?;
+            let result = cockpit_repository::request_safe_pause(&store, request)
+                .context("request safe pause")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::Acknowledge {
+            repo,
+            request_id,
+            state,
+        } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let state: CoordinationRequestState =
+                serde_json::from_value(serde_json::Value::String(state))
+                    .context("parse coordination request state")?;
+            let result = cockpit_repository::acknowledge_pause(&store, &request_id, state)
+                .context("acknowledge safe pause")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::Resume {
+            repo,
+            id,
+            generation,
+        } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let result = cockpit_repository::resume_and_re_evaluate(&store, &id, generation)
+                .context("resume and re-evaluate Work Item")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::Recover {
+            repo,
+            event_id,
+            consumer_work_item_id,
+            consumer_generation,
+        } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let result = cockpit_repository::recover_impact(
+                &store,
+                &event_id,
+                &consumer_work_item_id,
+                consumer_generation,
+            )
+            .context("consume recovered impact")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+    }
+    Ok(())
+}
+
+fn run_composition_command(
+    repo: PathBuf,
+    work_item_id: String,
+    generation: u64,
+    input_path: PathBuf,
+    runtime: &RuntimeContext,
+) -> Result<()> {
+    let mut input: cockpit_verification::CompositionInput =
+        read_json_file(&input_path, "composition input")?;
+    let candidate = collaboration_runtime(runtime);
+    if !input.binding.verifier.same_identity(&candidate) {
+        anyhow::bail!(
+            "unsupported_runtime_capability: composition verifier identity differs from current candidate"
+        )
+    }
+    input.repository_root = repo.clone();
+    input.state_dir = repo.join(".ai-cockpit/coordination/v1/compositions");
+    let store = collaboration_store(&repo, runtime, true)?;
+    let attempt =
+        cockpit_repository::run_admitted_composition(&store, &work_item_id, generation, input)
+            .context("run admitted composition")?;
+    coordination_output(&store, serde_json::to_value(attempt)?)
 }
 
 fn record_ordinary_cleanup_command(
@@ -2445,7 +2663,13 @@ fn run() -> Result<()> {
                         },
                     )
                     .map_err(|error| anyhow::anyhow!(error))?;
+                    let collaboration = cockpit_repository::collaboration_outcome_projection(
+                        &repo,
+                        &query.id,
+                        &runtime_context,
+                    );
                     let mut output = serde_json::to_value(&result.delivery)?;
+                    output["collaboration"] = serde_json::to_value(&collaboration)?;
                     output["assistantMessageEvents"] = serde_json::to_value(
                         cockpit_agent::assistant_message_events(&result.delivery),
                     )?;
@@ -2467,15 +2691,28 @@ fn run() -> Result<()> {
                         &runtime_context,
                     )
                     .context("read Work Item outcome")?;
+                    let collaboration = cockpit_repository::collaboration_outcome_projection(
+                        &repo,
+                        &query.id,
+                        &runtime_context,
+                    );
                     if query.json {
-                        println!("{}", serde_json::to_string_pretty(&input.outcome)?);
+                        let mut output = serde_json::to_value(&input.outcome)?;
+                        output["collaboration"] = serde_json::to_value(&collaboration)?;
+                        println!("{}", serde_json::to_string_pretty(&output)?);
                     } else {
+                        let language = output_language(language.as_deref());
+                        let handoff = cockpit_repository::render_human_outcome_with_view(
+                            &input,
+                            language,
+                            outcome_repository_view(query.view.as_str()),
+                        );
                         println!(
-                            "{}",
-                            cockpit_repository::render_human_outcome_with_view(
-                                &input,
-                                output_language(language.as_deref()),
-                                outcome_repository_view(query.view.as_str()),
+                            "{}\n{}",
+                            handoff,
+                            cockpit_repository::render_collaboration_outcome(
+                                &collaboration,
+                                language
                             )
                         );
                     }
@@ -2742,6 +2979,17 @@ fn run() -> Result<()> {
                     cockpit_repository::set_work_item_concurrency_boundary(&repo, &id, boundary)
                         .context("bind Contract concurrency boundary")?;
                 println!("{}", serde_json::to_string_pretty(&boundary)?);
+            }
+            WorkItemCommand::Coordination { command } => {
+                run_coordination_command(command, &runtime_context)?;
+            }
+            WorkItemCommand::Composition {
+                repo,
+                id,
+                generation,
+                input,
+            } => {
+                run_composition_command(repo, id, generation, input, &runtime_context)?;
             }
             WorkItemCommand::Slot { command } => match command {
                 WorkItemSlotCommand::Acquire { repo, id } => {

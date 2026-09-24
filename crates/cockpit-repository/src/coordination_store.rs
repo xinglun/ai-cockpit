@@ -56,6 +56,7 @@ pub struct CoordinationInspection {
     pub events: Vec<CoordinationEvent>,
     pub reservations: Vec<ResourceReservation>,
     pub requests: Vec<CoordinationRequest>,
+    pub recoveries: Vec<CoordinationRecovery>,
     pub unknowns: Vec<String>,
 }
 
@@ -75,6 +76,28 @@ impl CoordinationStore {
         repository: &GitRepository,
         runtime: RuntimeCapabilityBinding,
     ) -> Result<Self, CoordinationError> {
+        let store = Self::open_read_only(repository, runtime)?;
+        for directory in [
+            "registrations",
+            "events",
+            "reservations",
+            "requests",
+            "recoveries",
+        ] {
+            fs::create_dir_all(store.root.join(directory)).map_err(|source| {
+                CoordinationError::Io {
+                    path: store.root.join(directory),
+                    source,
+                }
+            })?;
+        }
+        Ok(store)
+    }
+
+    pub fn open_read_only(
+        repository: &GitRepository,
+        runtime: RuntimeCapabilityBinding,
+    ) -> Result<Self, CoordinationError> {
         runtime.validate_candidate()?;
         let topology = repository
             .topology()
@@ -83,18 +106,6 @@ impl CoordinationStore {
                 source: std::io::Error::other(source.to_string()),
             })?;
         let root = topology.common_dir.join(".ai-cockpit/coordination/v1");
-        for directory in [
-            "registrations",
-            "events",
-            "reservations",
-            "requests",
-            "recoveries",
-        ] {
-            fs::create_dir_all(root.join(directory)).map_err(|source| CoordinationError::Io {
-                path: root.join(directory),
-                source,
-            })?;
-        }
         Ok(Self { root, runtime })
     }
 
@@ -400,6 +411,7 @@ impl CoordinationStore {
             events: Vec::new(),
             reservations: Vec::new(),
             requests: Vec::new(),
+            recoveries: Vec::new(),
             unknowns: Vec::new(),
         };
         self.read_directory("registrations", &mut inspection.unknowns, |path| {
@@ -425,6 +437,10 @@ impl CoordinationStore {
             inspection.requests.push(self.read_json(path)?);
             Ok(())
         })?;
+        self.read_directory("recoveries", &mut inspection.unknowns, |path| {
+            inspection.recoveries.push(self.read_json(path)?);
+            Ok(())
+        })?;
         inspection
             .registrations
             .sort_by(|a, b| a.work_item_id.cmp(&b.work_item_id));
@@ -437,6 +453,9 @@ impl CoordinationStore {
         inspection
             .requests
             .sort_by(|a, b| a.request_id.cmp(&b.request_id));
+        inspection
+            .recoveries
+            .sort_by(|a, b| a.consumption_id.cmp(&b.consumption_id));
         Ok(inspection)
     }
 
@@ -476,10 +495,16 @@ impl CoordinationStore {
         F: FnMut(&Path) -> Result<(), CoordinationError>,
     {
         let path = self.root.join(directory);
-        let entries = fs::read_dir(&path).map_err(|source| CoordinationError::Io {
-            path: path.clone(),
-            source,
-        })?;
+        let entries = match fs::read_dir(&path) {
+            Ok(entries) => entries,
+            Err(source) if source.kind() == ErrorKind::NotFound => return Ok(()),
+            Err(source) => {
+                return Err(CoordinationError::Io {
+                    path: path.clone(),
+                    source,
+                });
+            }
+        };
         for entry in entries {
             let entry = entry.map_err(|source| CoordinationError::Io {
                 path: path.clone(),

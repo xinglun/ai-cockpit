@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 20] = [
+const TOOL_NAMES: [&str; 22] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -25,6 +25,8 @@ const TOOL_NAMES: [&str; 20] = [
     "work_item_recover_selected_lineage",
     "verify",
     "work_item_parallel",
+    "work_item_coordination",
+    "work_item_composition",
 ];
 
 fn string_property(description: &str) -> Value {
@@ -385,6 +387,30 @@ fn mcp_tool_schema(name: &str) -> Value {
             &[],
         ),
         "work_item_parallel" => parallel_tool_schema(),
+        "work_item_coordination" => object_schema(
+            json!({
+                "action": {"type":"string", "enum":["inspect","register","report-impact","request-pause","acknowledge","resume","recover"], "default":"inspect"},
+                "registration": {"type":"object", "description":"Strict Work Item worktree registration."},
+                "event": {"type":"object", "description":"Strict impact event to append."},
+                "request": {"type":"object", "description":"Strict safe-pause request to append."},
+                "requestId": string_property("Coordination request identity."),
+                "state": {"type":"string", "enum":["acknowledged","safely_paused","unavailable","expired"]},
+                "workItemId": string_property("Canonical consumer Work Item identifier."),
+                "generation": {"type":"integer", "minimum":1},
+                "eventId": string_property("Impact event identity."),
+                "consumerWorkItemId": string_property("Consumer Work Item identity for recovery consumption."),
+                "consumerGeneration": {"type":"integer", "minimum":1},
+            }),
+            &[],
+        ),
+        "work_item_composition" => object_schema(
+            json!({
+                "workItemId": string_property("Integration-owner Work Item identifier."),
+                "generation": {"type":"integer", "minimum":1},
+                "input": {"type":"object", "description":"Strict CompositionInput with candidate verifier identity."},
+            }),
+            &["workItemId", "generation", "input"],
+        ),
         _ => object_schema(json!({}), &[]),
     }
 }
@@ -491,6 +517,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "work_item_parallel",
             "Inspect or manage repository-local parallel Work Item slots.",
         ),
+        (
+            "work_item_coordination",
+            "Inspect or explicitly mutate candidate cross-Work-Item coordination state; reads do not write or consume records.",
+        ),
+        (
+            "work_item_composition",
+            "Refresh collaboration admission and verify an exact composition in an isolated temporary worktree.",
+        ),
     ];
     descriptions
         .into_iter()
@@ -548,6 +582,22 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             ][..],
         ),
         "work_item_parallel" => Some(&["action", "workItemId", "id", "leaseId"][..]),
+        "work_item_coordination" => Some(
+            &[
+                "action",
+                "registration",
+                "event",
+                "request",
+                "requestId",
+                "state",
+                "workItemId",
+                "generation",
+                "eventId",
+                "consumerWorkItemId",
+                "consumerGeneration",
+            ][..],
+        ),
+        "work_item_composition" => Some(&["workItemId", "generation", "input"][..]),
         _ => return Err(format!("unknown tool: {name}")),
     };
     for key in object.keys() {
@@ -740,6 +790,58 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 _ => unreachable!(),
             }
         }
+        "work_item_coordination" => {
+            let action = object
+                .get("action")
+                .and_then(Value::as_str)
+                .unwrap_or("inspect");
+            if !matches!(
+                action,
+                "inspect"
+                    | "register"
+                    | "report-impact"
+                    | "request-pause"
+                    | "acknowledge"
+                    | "resume"
+                    | "recover"
+            ) {
+                return Err(format!(
+                    "invalid arguments for work_item_coordination: unsupported action {action}"
+                ));
+            }
+            match action {
+                "inspect" => {
+                    if object.keys().any(|key| key != "action") {
+                        return Err(
+                            "invalid arguments for work_item_coordination: inspect accepts only action"
+                                .into(),
+                        );
+                    }
+                }
+                "register" => require_object(object, "registration", name)?,
+                "report-impact" => require_object(object, "event", name)?,
+                "request-pause" => require_object(object, "request", name)?,
+                "acknowledge" => {
+                    require_string(object, "requestId", name)?;
+                    require_string(object, "state", name)?;
+                }
+                "resume" => {
+                    require_string(object, "workItemId", name)?;
+                    require_positive_u64(object, "generation", name)?;
+                }
+                "recover" => {
+                    require_string(object, "eventId", name)?;
+                    require_string(object, "consumerWorkItemId", name)?;
+                    require_positive_u64(object, "consumerGeneration", name)?;
+                }
+                _ => unreachable!(),
+            }
+        }
+        "work_item_composition" => {
+            require_string(object, "workItemId", name)?;
+            require_positive_u64(object, "generation", name)?;
+            require_object(object, "input", name)?;
+        }
         "capability_show" => {
             if let Some(surface) = object.get("surface") {
                 let surface = surface.as_str().ok_or_else(|| {
@@ -782,6 +884,193 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
     Ok(())
 }
 
+fn collaboration_runtime(
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> cockpit_protocol::RuntimeCapabilityBinding {
+    cockpit_protocol::RuntimeCapabilityBinding {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+    }
+}
+
+fn collaboration_store(
+    repo: &Path,
+    runtime: &cockpit_protocol::RuntimeContext,
+    write: bool,
+) -> Result<cockpit_repository::CoordinationStore, String> {
+    let git = cockpit_git::GitRepository::discover(repo).map_err(|error| error.to_string())?;
+    let binding = collaboration_runtime(runtime);
+    if write {
+        cockpit_repository::CoordinationStore::open(&git, binding)
+    } else {
+        cockpit_repository::CoordinationStore::open_read_only(&git, binding)
+    }
+    .map_err(|error| error.to_string())
+}
+
+fn coordination_result<T: serde::Serialize>(
+    store: &cockpit_repository::CoordinationStore,
+    result: T,
+) -> Result<Value, String> {
+    let projection =
+        cockpit_repository::collaboration_projection(store).map_err(|error| error.to_string())?;
+    Ok(json!({
+        "result": serde_json::to_value(result).map_err(|error| error.to_string())?,
+        "projection": serde_json::to_value(projection).map_err(|error| error.to_string())?,
+    }))
+}
+
+fn work_item_coordination(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let object = arguments
+        .as_object()
+        .ok_or("work_item_coordination arguments must be an object")?;
+    let action = object
+        .get("action")
+        .and_then(Value::as_str)
+        .unwrap_or("inspect");
+    if action == "inspect" {
+        let store = collaboration_store(repo, runtime, false)?;
+        let projection = cockpit_repository::collaboration_projection(&store)
+            .map_err(|error| error.to_string())?;
+        return serde_json::to_value(projection).map_err(|error| error.to_string());
+    }
+    let store = collaboration_store(repo, runtime, true)?;
+    match action {
+        "register" => {
+            let registration: cockpit_protocol::WorktreeRegistration =
+                serde_json::from_value(object.get("registration").cloned().unwrap_or(Value::Null))
+                    .map_err(|error| format!("invalid registration: {error}"))?;
+            coordination_result(
+                &store,
+                store
+                    .register(registration)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "report-impact" => {
+            let event: cockpit_protocol::CoordinationEvent =
+                serde_json::from_value(object.get("event").cloned().unwrap_or(Value::Null))
+                    .map_err(|error| format!("invalid impact event: {error}"))?;
+            coordination_result(
+                &store,
+                cockpit_repository::report_impact(&store, event)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "request-pause" => {
+            let request: cockpit_protocol::CoordinationRequest =
+                serde_json::from_value(object.get("request").cloned().unwrap_or(Value::Null))
+                    .map_err(|error| format!("invalid coordination request: {error}"))?;
+            coordination_result(
+                &store,
+                cockpit_repository::request_safe_pause(&store, request)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "acknowledge" => {
+            let request_id = object
+                .get("requestId")
+                .and_then(Value::as_str)
+                .ok_or("requestId is required")?;
+            let state: cockpit_protocol::CoordinationRequestState =
+                serde_json::from_value(Value::String(
+                    object
+                        .get("state")
+                        .and_then(Value::as_str)
+                        .unwrap_or_default()
+                        .into(),
+                ))
+                .map_err(|error| format!("invalid coordination request state: {error}"))?;
+            coordination_result(
+                &store,
+                cockpit_repository::acknowledge_pause(&store, request_id, state)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "resume" => {
+            let work_item_id = object
+                .get("workItemId")
+                .and_then(Value::as_str)
+                .ok_or("workItemId is required")?;
+            let generation = object
+                .get("generation")
+                .and_then(Value::as_u64)
+                .ok_or("generation is required")?;
+            coordination_result(
+                &store,
+                cockpit_repository::resume_and_re_evaluate(&store, work_item_id, generation)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "recover" => {
+            let event_id = object
+                .get("eventId")
+                .and_then(Value::as_str)
+                .ok_or("eventId is required")?;
+            let consumer_work_item_id = object
+                .get("consumerWorkItemId")
+                .and_then(Value::as_str)
+                .ok_or("consumerWorkItemId is required")?;
+            let consumer_generation = object
+                .get("consumerGeneration")
+                .and_then(Value::as_u64)
+                .ok_or("consumerGeneration is required")?;
+            coordination_result(
+                &store,
+                cockpit_repository::recover_impact(
+                    &store,
+                    event_id,
+                    consumer_work_item_id,
+                    consumer_generation,
+                )
+                .map_err(|error| error.to_string())?,
+            )
+        }
+        _ => Err(format!("unsupported coordination action: {action}")),
+    }
+}
+
+fn work_item_composition(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let object = arguments
+        .as_object()
+        .ok_or("work_item_composition arguments must be an object")?;
+    let work_item_id = object
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId is required")?;
+    let generation = object
+        .get("generation")
+        .and_then(Value::as_u64)
+        .ok_or("generation is required")?;
+    let mut input: cockpit_verification::CompositionInput =
+        serde_json::from_value(object.get("input").cloned().unwrap_or(Value::Null))
+            .map_err(|error| format!("invalid composition input: {error}"))?;
+    let candidate = collaboration_runtime(runtime);
+    if !input.binding.verifier.same_identity(&candidate) {
+        return Err(
+            "unsupported_runtime_capability: composition verifier identity differs from current candidate"
+                .into(),
+        );
+    }
+    input.repository_root = repo.to_path_buf();
+    input.state_dir = repo.join(".ai-cockpit/coordination/v1/compositions");
+    let store = collaboration_store(repo, runtime, true)?;
+    let attempt =
+        cockpit_repository::run_admitted_composition(&store, work_item_id, generation, input)
+            .map_err(|error| error.to_string())?;
+    coordination_result(&store, attempt)
+}
+
 fn require_string(
     object: &serde_json::Map<String, Value>,
     field: &str,
@@ -793,6 +1082,33 @@ fn require_string(
             "invalid arguments for {tool}: {field} must be a non-empty string"
         )),
         None => Err(format!("invalid arguments for {tool}: {field} is required")),
+    }
+}
+
+fn require_object(
+    object: &serde_json::Map<String, Value>,
+    field: &str,
+    tool: &str,
+) -> Result<(), String> {
+    match object.get(field) {
+        Some(Value::Object(_)) => Ok(()),
+        Some(_) => Err(format!(
+            "invalid arguments for {tool}: {field} must be an object"
+        )),
+        None => Err(format!("invalid arguments for {tool}: {field} is required")),
+    }
+}
+
+fn require_positive_u64(
+    object: &serde_json::Map<String, Value>,
+    field: &str,
+    tool: &str,
+) -> Result<u64, String> {
+    match object.get(field).and_then(Value::as_u64) {
+        Some(value) if value > 0 => Ok(value),
+        Some(_) | None => Err(format!(
+            "invalid arguments for {tool}: {field} must be a positive integer"
+        )),
     }
 }
 
@@ -1082,6 +1398,8 @@ pub fn handle_request_for_repo(
         "work_item_parallel" => {
             require_compatible(repo, runtime).and_then(|_| work_item_parallel(repo, &arguments))
         }
+        "work_item_coordination" => work_item_coordination(repo, &arguments, runtime),
+        "work_item_composition" => work_item_composition(repo, &arguments, runtime),
         _ => unreachable!("tool names and dispatch must stay in sync"),
     };
     match result {
@@ -1742,9 +2060,11 @@ fn work_item_outcome(
             .outcome
             .clone()
             .ok_or("archive Outcome delivery did not contain assembled Outcome facts")?;
+        let collaboration = cockpit_repository::collaboration_outcome_projection(repo, id, runtime);
         return Ok(json!({
             "workItemId": id,
             "outcome": outcome,
+            "collaboration": collaboration,
             "humanHandoff": result.handoff,
             "assistantMessageEvents": cockpit_agent::assistant_message_events(&result.delivery),
             "outcomeDelivery": result.delivery,
@@ -1758,10 +2078,16 @@ fn work_item_outcome(
     }
     let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
-    let handoff = cockpit_repository::render_human_outcome_with_view(&input, language, view);
+    let collaboration = cockpit_repository::collaboration_outcome_projection(repo, id, runtime);
+    let handoff = format!(
+        "{}\n{}",
+        cockpit_repository::render_human_outcome_with_view(&input, language, view),
+        cockpit_repository::render_collaboration_outcome(&collaboration, language)
+    );
     Ok(json!({
         "workItemId": id,
         "outcome": input.outcome,
+        "collaboration": collaboration,
         "humanHandoff": handoff,
         "language": language,
         "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated."

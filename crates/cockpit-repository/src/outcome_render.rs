@@ -1211,6 +1211,110 @@ pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> 
     render_human_outcome_with_view(input, language, OutcomeRenderView::Full)
 }
 
+pub fn render_collaboration_outcome(
+    projection: &crate::CollaborationOutcomeProjection,
+    language: &str,
+) -> String {
+    let language = normalized_language(language);
+    let labels = match language {
+        "zh" => (
+            "跨 WI 协调",
+            "状态",
+            "实现状态",
+            "组合验证",
+            "目标合并",
+            "清理",
+            "提供方",
+            "消费者",
+            "等待边",
+            "影响事件",
+            "阻塞",
+            "未知",
+            "人工决定",
+            "复验",
+            "可复用检查",
+            "下一步",
+        ),
+        "ja" => (
+            "WI 間調整",
+            "状態",
+            "実装状態",
+            "構成検証",
+            "対象マージ",
+            "クリーンアップ",
+            "提供元",
+            "利用者",
+            "待機エッジ",
+            "影響イベント",
+            "ブロッカー",
+            "不明点",
+            "人間の判断",
+            "再検証",
+            "再利用可能な検査",
+            "次のアクション",
+        ),
+        _ => (
+            "Cross-WI coordination",
+            "State",
+            "Implementation state",
+            "Composition verification",
+            "Target merge",
+            "Cleanup",
+            "Providers",
+            "Consumers",
+            "Waiting edges",
+            "Impact events",
+            "Blockers",
+            "Unknowns",
+            "Human decision",
+            "Revalidation",
+            "Reusable checks",
+            "Next action",
+        ),
+    };
+    let owner = projection
+        .integration_owner
+        .as_deref()
+        .unwrap_or("not observed");
+    format!(
+        "{}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- integration owner/order: {}/{}\n",
+        labels.0,
+        projection.work_item_id,
+        labels.1,
+        projection.state,
+        labels.2,
+        projection.implementation_state,
+        labels.3,
+        projection.composition_state,
+        labels.4,
+        projection.target_merge_state,
+        labels.5,
+        projection.cleanup_state,
+        labels.6,
+        projection.providers.join(", "),
+        labels.7,
+        projection.consumers.join(", "),
+        labels.8,
+        projection.waiting_edges.join(", "),
+        labels.9,
+        projection.invalidated_event_ids.join(", "),
+        labels.10,
+        projection.blockers.join(", "),
+        labels.11,
+        projection.unknowns.join(", "),
+        labels.12,
+        projection.human_decision_required,
+        labels.13,
+        projection.revalidation,
+        labels.14,
+        projection.reusable_checks.join(", "),
+        labels.15,
+        projection.next_action,
+        owner,
+        projection.composition_order.join(" -> "),
+    )
+}
+
 /// Prepare the immutable, full-view payload used by archive delivery.  The
 /// archive manifest digest is part of the identity, so a later archive or
 /// evidence change cannot be silently delivered as the old result.

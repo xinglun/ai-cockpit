@@ -248,3 +248,14 @@ fn registration_with_a_different_runtime_identity_is_rejected_before_write() {
     ));
     assert!(!store.registration_path("WI-A").exists());
 }
+
+#[test]
+fn read_only_inspection_does_not_create_coordination_storage() {
+    let root = repository();
+    let git = GitRepository::discover(root.path()).expect("discover");
+    let store = CoordinationStore::open_read_only(&git, binding()).expect("read-only store");
+    let projection = store.inspect().expect("inspect absent store");
+    assert!(projection.registrations.is_empty());
+    assert!(projection.events.is_empty());
+    assert!(!store.root().exists());
+}

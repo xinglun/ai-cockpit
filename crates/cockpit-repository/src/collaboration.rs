@@ -1,7 +1,8 @@
 use crate::{CoordinationError, CoordinationStore};
+use cockpit_git::GitRepository;
 use cockpit_protocol::{
     CoordinationEvent, CoordinationIntent, CoordinationRecovery, CoordinationRequest,
-    CoordinationRequestState, WorktreeRegistration,
+    CoordinationRequestState, RuntimeCapabilityBinding, RuntimeContext, WorktreeRegistration,
 };
 use cockpit_verification::{
     CompositionAttempt, CompositionError, CompositionInput, run_composition,
@@ -15,6 +16,7 @@ use thiserror::Error;
 pub struct CollaborationProjection {
     pub registrations: Vec<WorktreeRegistration>,
     pub events: Vec<CoordinationEvent>,
+    pub recoveries: Vec<CoordinationRecovery>,
     pub requests: Vec<CoordinationRequest>,
     pub affected_work_items: Vec<String>,
     pub blockers: BTreeMap<String, Vec<String>>,
@@ -32,6 +34,31 @@ pub struct CollaborationAdmission {
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
     pub refreshed_events: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct CollaborationOutcomeProjection {
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub state: String,
+    pub providers: Vec<String>,
+    pub consumers: Vec<String>,
+    pub waiting_edges: Vec<String>,
+    pub invalidated_event_ids: Vec<String>,
+    pub unhandled_requests: Vec<CoordinationRequest>,
+    pub integration_owner: Option<String>,
+    pub composition_order: Vec<String>,
+    pub implementation_state: String,
+    pub composition_state: String,
+    pub target_merge_state: String,
+    pub cleanup_state: String,
+    pub revalidation: String,
+    pub reusable_checks: Vec<String>,
+    pub blockers: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub human_decision_required: bool,
+    pub next_action: String,
 }
 
 #[derive(Debug, Error)]
@@ -54,10 +81,12 @@ pub fn collaboration_projection(
     let inspection = store.inspect()?;
     let registrations = inspection.registrations;
     let events = inspection.events;
+    let recoveries = inspection.recoveries;
     let requests = inspection.requests;
     let mut projection = CollaborationProjection {
         registrations,
         events,
+        recoveries,
         requests,
         unknowns: inspection.unknowns,
         ..CollaborationProjection::default()
@@ -72,6 +101,9 @@ pub fn collaboration_projection(
     for event in &projection.events {
         for registration in &projection.registrations {
             if registration.work_item_id == event.work_item_id {
+                continue;
+            }
+            if recovery_consumed(&projection, event, registration) {
                 continue;
             }
             if registration
@@ -125,11 +157,10 @@ pub fn collaboration_projection(
                     dependency.provider_work_item_id
                 ));
             }
-            if projection
-                .events
-                .iter()
-                .any(|event| event.work_item_id == dependency.provider_work_item_id)
-            {
+            if projection.events.iter().any(|event| {
+                event.work_item_id == dependency.provider_work_item_id
+                    && !recovery_consumed(&projection, event, registration)
+            }) {
                 blockers.push(format!(
                     "dependency_impact:{}",
                     dependency.provider_work_item_id
@@ -159,6 +190,194 @@ pub fn collaboration_projection(
         blockers.dedup();
     }
     Ok(projection)
+}
+
+pub fn collaboration_outcome_projection(
+    root: &std::path::Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> CollaborationOutcomeProjection {
+    let fallback = |state: &str, reason: String| CollaborationOutcomeProjection {
+        schema_version: 1,
+        work_item_id: work_item_id.into(),
+        state: state.into(),
+        providers: Vec::new(),
+        consumers: Vec::new(),
+        waiting_edges: Vec::new(),
+        invalidated_event_ids: Vec::new(),
+        unhandled_requests: Vec::new(),
+        integration_owner: None,
+        composition_order: Vec::new(),
+        implementation_state: "separate_lifecycle_outcome".into(),
+        composition_state: "not_observed".into(),
+        target_merge_state: "not_observed".into(),
+        cleanup_state: "not_observed".into(),
+        revalidation: "unknown".into(),
+        reusable_checks: Vec::new(),
+        blockers: Vec::new(),
+        unknowns: vec![reason],
+        human_decision_required: true,
+        next_action: "resolve collaboration capability or recovery unknowns".into(),
+    };
+    let binding = RuntimeCapabilityBinding {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+    };
+    let git = match GitRepository::discover(root) {
+        Ok(git) => git,
+        Err(error) => return fallback("unknown", format!("repository_topology:{error}")),
+    };
+    let store = match CoordinationStore::open_read_only(&git, binding) {
+        Ok(store) => store,
+        Err(error) => return fallback("unsupported", format!("collaboration_store:{error}")),
+    };
+    let projection = match collaboration_projection(&store) {
+        Ok(projection) => projection,
+        Err(error) => return fallback("unknown", format!("collaboration_projection:{error}")),
+    };
+    let current = projection
+        .registrations
+        .iter()
+        .find(|registration| registration.work_item_id == work_item_id);
+    let providers = current
+        .map(|registration| {
+            registration
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .map(|dependency| dependency.provider_work_item_id.clone())
+                .collect::<BTreeSet<_>>()
+        })
+        .unwrap_or_default()
+        .into_iter()
+        .collect::<Vec<_>>();
+    let consumers = projection
+        .registrations
+        .iter()
+        .filter(|registration| {
+            registration
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .any(|dependency| dependency.provider_work_item_id == work_item_id)
+        })
+        .map(|registration| registration.work_item_id.clone())
+        .collect::<Vec<_>>();
+    let waiting_edges = current
+        .map(|registration| {
+            registration
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .map(|dependency| format!("{}->{}", work_item_id, dependency.provider_work_item_id))
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    let invalidated_event_ids = projection
+        .events
+        .iter()
+        .filter(|event| {
+            providers
+                .iter()
+                .any(|provider| provider == &event.work_item_id)
+                && current.is_some_and(|consumer| !recovery_consumed(&projection, event, consumer))
+        })
+        .map(|event| event.event_id.clone())
+        .collect::<Vec<_>>();
+    let unhandled_requests = projection
+        .requests
+        .iter()
+        .filter(|request| {
+            request.target_work_item_id == work_item_id
+                && current.is_some_and(|registration| {
+                    registration.generation == request.target_generation
+                })
+                && matches!(
+                    request.state,
+                    CoordinationRequestState::Requested | CoordinationRequestState::Acknowledged
+                )
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let blockers = projection
+        .blockers
+        .get(work_item_id)
+        .cloned()
+        .unwrap_or_default();
+    let unknowns = projection.unknowns.clone();
+    let state = if !unknowns.is_empty() {
+        "unknown"
+    } else if !blockers.is_empty() {
+        "blocked"
+    } else {
+        "allowed"
+    };
+    let next_action = if !unknowns.is_empty() {
+        "resolve collaboration recovery unknowns before dependent action"
+    } else if !blockers.is_empty() {
+        "refresh affected dependency and composition evidence"
+    } else if !unhandled_requests.is_empty() {
+        "acknowledge or safely pause at the next boundary"
+    } else {
+        "refresh dependency state before the next dependent action"
+    };
+    CollaborationOutcomeProjection {
+        schema_version: 1,
+        work_item_id: work_item_id.into(),
+        state: state.into(),
+        providers,
+        consumers,
+        waiting_edges,
+        invalidated_event_ids: invalidated_event_ids.clone(),
+        unhandled_requests: unhandled_requests.clone(),
+        integration_owner: current.map(|registration| {
+            registration
+                .declaration
+                .integration_responsibility
+                .responsible_work_item_id
+                .clone()
+        }),
+        composition_order: current
+            .map(|registration| {
+                registration
+                    .declaration
+                    .integration_responsibility
+                    .composition_order
+                    .clone()
+            })
+            .unwrap_or_default(),
+        implementation_state: "separate_lifecycle_outcome".into(),
+        composition_state: "not_observed".into(),
+        target_merge_state: "not_observed".into(),
+        cleanup_state: "not_observed".into(),
+        revalidation: if invalidated_event_ids.is_empty() {
+            "not_required"
+        } else {
+            "required"
+        }
+        .into(),
+        reusable_checks: Vec::new(),
+        blockers,
+        unknowns,
+        human_decision_required: !unhandled_requests.is_empty(),
+        next_action: next_action.into(),
+    }
+}
+
+fn recovery_consumed(
+    projection: &CollaborationProjection,
+    event: &CoordinationEvent,
+    consumer: &WorktreeRegistration,
+) -> bool {
+    projection.recoveries.iter().any(|recovery| {
+        recovery.event_id == event.event_id
+            && recovery.provider_work_item_id == event.work_item_id
+            && recovery.provider_generation == event.generation
+            && recovery.consumer_work_item_id == consumer.work_item_id
+            && recovery.consumer_generation == consumer.generation
+    })
 }
 
 pub fn refresh_dependency_state(

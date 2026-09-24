@@ -250,6 +250,7 @@ dependencies = [
  "cockpit-repository",
  "cockpit-verification",
  "hex",
+ "serde",
  "serde_json",
  "sha2",
  "tempfile",
@@ -335,6 +336,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+ "tempfile",
 ]
 
 [[package]]

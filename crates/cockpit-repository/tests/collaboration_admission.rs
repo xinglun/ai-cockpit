@@ -8,8 +8,8 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     CoordinationError, CoordinationStore, acknowledge_pause, admit_collaboration_action,
-    collaboration_projection, refresh_dependency_state, report_impact, request_safe_pause,
-    resume_and_re_evaluate,
+    collaboration_projection, recover_impact, refresh_dependency_state, report_impact,
+    request_safe_pause, resume_and_re_evaluate,
 };
 use std::fs;
 use std::path::Path;
@@ -175,6 +175,24 @@ fn impact_blocks_only_affected_consumers_and_unrelated_work_continues() {
     assert!(consumer.affected);
     assert!(unrelated.allowed);
     assert!(!unrelated.affected);
+}
+
+#[test]
+fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
+    let root = repository();
+    let store = store(root.path());
+    register_provider_and_consumer(&store, root.path(), OutcomeStage::ComposableHead);
+    report_impact(&store, impact("WI-PROVIDER", 1, "impact-recovery")).unwrap();
+    assert!(
+        !admit_collaboration_action(&store, "WI-CONSUMER", 1)
+            .unwrap()
+            .allowed
+    );
+
+    recover_impact(&store, "impact-recovery", "WI-CONSUMER", 1).unwrap();
+    let admission = admit_collaboration_action(&store, "WI-CONSUMER", 1).unwrap();
+    assert!(admission.allowed);
+    assert!(!admission.affected);
 }
 
 #[test]
