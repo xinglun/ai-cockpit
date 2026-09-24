@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:60a4b9e33b8328e893bcce41d508f24e7c25003e22b266718f696bc2a6b16ad2",
+  "branchRef": "refs/heads/codex/wi-1027-release-v0-2-113-lineage-repair",
+  "contractDigest": "sha256:688dc6435e1a664885b3b8ee3a5728b69941e95e89ec1db378cc1a1e8d1de546",
+  "headRevision": "4434df2f8e1e2905a0f1bbcba727ba66a7474d84",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-24T02:25:26Z",
+  "operationId": "sha256:6ca57405501bcd0588fefb8f47e2f77a5b5545ffbcfdc978333e11cf5f1bdbc6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair",
+  "worktreeId": "sha256:dcf7e729cdb22d17c94ba30e2ae5886ccccd4a827c82c2b76d8f46829cb28622"
+}
