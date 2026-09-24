@@ -28,19 +28,37 @@ scan せず、書き込みません。
 ai-cockpit work-item coordination inspect --repo <path>
 ```
 
+Outcome の公開は明示的な write です：
+
+```text
+ai-cockpit work-item coordination publish-outcome --repo <path> --id <wi> --generation <n> --outcome-id <outcome>
+```
+
 登録、impact 報告、安全な pause、resume、recovery consumption、composition は
 明示的な書き込み操作です。recovery consumption は event/provider generation/
 consumer generation の完全一致で idempotent になり、古い generation を拒否します。
 impact は影響を受けた consumer だけを止め、無関係な WI は継続できます。pause の
 request、acknowledged、safely paused、unavailable/expired、resumed は区別します。
 
+Outcome の公開は、現在の登録 generation と宣言済み outcome に対する明示的な write
+です。Runtime は現在の consumer が要求する verification receipt を検証し、正確な
+evidence bytes に束縛した `OutcomePublished` event を追加します。read-only query は
+公開、修復、event 消費を行いません。公開後に evidence bytes が変わると束縛が崩れ、
+verification dependency を満たせません。
+
 composition は admission を再確認し、安全に pause された対象を検証プロセス起動前に
 拒否します。Runtime は target topology、参加者の登録済み head/Contract、必須 check
 の一意で完全な coverage を検証し、観測事実から前提条件を計算します。共有の bounded
 executor で有限 timeout と bounded output を使い、起動前に in-progress attempt を
 保存し、各 node、timeout、中断からの復旧情報、cleanup 結果を保存します。全 identity
-が一致する node だけを再利用するため、完全な再実行はプロセスを起動せず、局所変更は
-影響を受けた node だけを再実行します。
+が一致する node だけを再利用します。呼び出し側の identity digest は reuse を許可せず、
+Runtime は target tree、lock/configuration files、解決された executable、有効な環境、
+宣言された入力ファイルを観測します。観測済み executable、command、有効 environment、
+宣言入力 bytes、upstream receipt が成功済み predecessor と一致する場合だけ再利用し、
+node 入力が欠落または観測不能なら reuse を無効にします。同一入力ならプロセスを起動せず、
+宣言入力の変更時は該当 node と依存 node を再実行します。
 
-CLI と MCP は同じ repository service を利用します。Outcome では実装、composition、
-target merge、cleanup を分離し、比較のない効果は主張しません。
+CLI と MCP は同じ repository service を利用します。Outcome では実装、仮 composition、
+現在の composition applicability、実際の target merge、cleanup を分離します。target
+または participant の事実が変わった場合も履歴上の成功は保持しつつ stale と示します。
+比較のない効果は主張しません。

@@ -76,6 +76,7 @@ anti-omission index; this page remains the higher-level product-boundary matrix.
 
 | Reference concern | Rust Runtime status | Evidence and boundary |
 | --- | --- | --- |
+| WI-1031-cross-wi-acceptance-corrections | Partial | Targeted reuse, collaboration admission, and storage regressions plus real two-worktree process acceptance pass; the full canonical gate, independent PR review, merge, and cleanup remain pending. This is not a release acceptance. |
 | Reader-first entry and language switching | Implemented | Root and route README files link to one another in English, Simplified Chinese, and Japanese. |
 | Purpose, problem, architecture, and capability overview | Implemented | The philosophy, architecture, and capability routes describe the current Runtime and its owners. |
 | Shared Runtime with request-scoped repository contexts | Implemented | Explicit `--repo` binding and repository isolation tests keep context and evidence separate. |

@@ -64,6 +64,7 @@ identity 及观察到的状态。同时保留 receipt 绑定的原因、证据�
 
 | 参考关注点 | Rust Runtime 状态 | 证据与边界 |
 | --- | --- | --- |
+| WI-1031-cross-wi-acceptance-corrections | 部分实现 | 针对性复用、协作准入、存储回归及真实双 worktree 进程验收已通过；完整 canonical gate、独立 PR 审查、合并与清理仍待完成，不构成发布验收。 |
 | 面向读者的入口和语言切换 | 已实现 | 根 README 与 route README 在 English、简体中文和日本語之间互链。 |
 | 目的、问题、架构和功能概览 | 已实现 | 设计思想、架构和功能路线描述当前 Runtime 及其责任方。 |
 | 共享 Runtime 与 request-scoped repository context | 已实现 | 显式 `--repo` 绑定和 repository isolation tests 保持 context 与 evidence 隔离。 |

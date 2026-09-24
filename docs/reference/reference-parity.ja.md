@@ -69,6 +69,7 @@ matrix は次の 4 state だけを使います。
 
 | Reference concern | Rust Runtime status | Evidence と boundary |
 | --- | --- | --- |
+| WI-1031-cross-wi-acceptance-corrections | Partial | 重点的な reuse、collaboration admission、storage 回帰と実際の 2 worktree process acceptance は通過済み。canonical gate 全体、独立 PR review、merge、cleanup は未完了であり、release acceptance ではない。 |
 | Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |
 | Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
 | Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |

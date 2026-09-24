@@ -39,6 +39,7 @@ Explicit writes use JSON records and return the updated projection:
 ```text
 ai-cockpit work-item coordination register --repo <path> --input registration.json
 ai-cockpit work-item coordination report-impact --repo <path> --input event.json
+ai-cockpit work-item coordination publish-outcome --repo <path> --id <wi> --generation <n> --outcome-id <outcome>
 ai-cockpit work-item coordination request-pause --repo <path> --input request.json
 ai-cockpit work-item coordination acknowledge --repo <path> --request-id <id> --state acknowledged
 ai-cockpit work-item coordination resume --repo <path> --id <wi> --generation <n>
@@ -56,22 +57,34 @@ affected consumers; unrelated Work Items continue. Pause requests are distinct
 from acknowledgement, safe pause, unavailable/expired, and resume. A request
 from an older execution generation cannot control a newer one.
 
+Publishing an outcome is an explicit write for the current registration
+generation and a declared outcome. Runtime validates any verification receipt
+required by current consumers and appends an `OutcomePublished` event bound to
+the exact referenced evidence bytes. A read-only query never publishes, repairs,
+or consumes an event; changing the evidence after publication breaks the byte
+binding and cannot satisfy a verification dependency.
+
 ## Composition verification
 
 Composition first refreshes dependency admission and rejects a safely paused
 target before any verification process starts. The Runtime then verifies the
-target topology, every registered participant head/Contract, unique required
-check coverage, and computes the preconditions before building the participant
-order in a temporary linked worktree. It uses the shared bounded verifier for
-finite timeouts and bounded output, persists an in-progress attempt before
-spawning, persists every node, and records timeout/interruption-safe state and
-cleanup results. A previous receipt is reusable per node only when all bound
-source, dependency, interface, configuration, toolchain, lockfile,
-generated-input, environment, verifier, and command identities match and the
-predecessor node passed; an exact repeat can therefore spawn zero processes and
-a local change reruns only its affected node.
+target topology, every registered participant head/Contract, required check
+coverage, and preconditions before building the declared participant order in a
+temporary linked worktree. It uses the shared bounded verifier for finite
+timeouts and bounded output, persists an in-progress attempt before spawning,
+persists every node, and records timeout/interruption-safe state and cleanup
+results. Caller-supplied identity digests do not authorize reuse: Runtime
+observes the target tree, lock and configuration files, resolved executables,
+effective environment, and declared input files. A node is reusable only when
+its observed executable, command, effective environment, declared input-file
+bytes, and upstream receipts match a successful predecessor; missing or
+unobservable node inputs disable reuse. An exact repeat can therefore spawn
+zero processes, while a changed declared input reruns its node and dependent
+nodes.
 
 The CLI and MCP expose the same repository service. Outcome output keeps
-implementation, composition, target merge, and cleanup states separate; an
+implementation, temporary composition, current composition applicability,
+actual target merge, and cleanup separate; historical passes remain visible
+but become stale when their bound target or participant facts move. An
 unproven benefit or missing comparison remains explicit rather than becoming a
 performance claim.
