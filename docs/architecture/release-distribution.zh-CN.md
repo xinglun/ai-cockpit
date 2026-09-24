@@ -18,7 +18,7 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 `v0.2.110` 标签因生命周期转换预检在发布前停止而作为不可变失败历史保留，不能复用或作为安装基线。
 
-当前发布候选是 `v0.2.113`；在公开 Release 和发布后验收完成之前，它不是安装基线。当前不可变公开安装基线是 `v0.2.106`。
+当前公开 Release 是 `v0.2.113`；公开 Release 和发布后验收已经完成，因此它是当前不可变公开安装基线。此前的 `v0.2.106` Release 作为历史 evidence 保留。
 `v0.2.111` 标签作为五目标发布流程在公开前取消后的不可变未发布候选历史保留，不能复用或作为安装基线。
 失败的 `v0.2.88` 标签作为不可变发布失败历史保留（WI-764，workflow run `34371183927`）；它没有 provider Release，不能复用或作为安装基线。
 `v0.2.77` 标签作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。
@@ -131,7 +131,7 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 已公开的不可变安装基线是 `v0.2.106`；当前发布基线目标是 `v0.2.113` 候选，public adopter acceptance 和 N-1 升级验收仍属于发布后 evidence。外部 Homebrew tap 是
+- 已公开的不可变安装基线是 `v0.2.113`；它的 public adopter acceptance 和 N-1 升级验收已经完成。此前的 `v0.2.106` Release 作为历史 evidence 保留。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
