@@ -166,7 +166,7 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
     fs::write(&registration_path, b"{partial").expect("corrupt record");
     let inspection = store.inspect().expect("inspect corrupt");
     assert!(!inspection.unknowns.is_empty());
-    assert!(store.recover().expect("recover").unknowns.len() >= 1);
+    assert!(!store.recover().expect("recover").unknowns.is_empty());
 }
 
 #[test]
