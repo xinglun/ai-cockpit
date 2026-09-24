@@ -48,6 +48,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 mod action_admission;
+mod coordination_store;
 mod evidence_store;
 mod execution_context;
 mod governance_controls;
@@ -61,6 +62,9 @@ mod resource_lifecycle;
 mod status_projection;
 
 pub use action_admission::require_current_action_admission;
+pub use coordination_store::{
+    CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
+};
 pub use evidence_store::{
     ReceiptStoreBinding, ReceiptStoreLoad, ReceiptStoreWrite, load_reusable_receipt,
     persist_reusable_receipt,

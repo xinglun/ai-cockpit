@@ -309,6 +309,39 @@ pub struct GitRepository {
     root: PathBuf,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum GitTopologyKind {
+    PrimaryWorktree,
+    LinkedWorktree,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum GitTopologyCompatibility {
+    SharedCommonDirectory,
+    UnsupportedIndependentClone,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct GitTopology {
+    pub repository_root: PathBuf,
+    pub git_dir: PathBuf,
+    pub common_dir: PathBuf,
+    pub worktree_path: PathBuf,
+    pub branch: Option<String>,
+    pub head: Option<String>,
+    pub kind: GitTopologyKind,
+}
+
+impl GitTopology {
+    pub fn compatibility_with(&self, other: &Self) -> GitTopologyCompatibility {
+        if self.common_dir == other.common_dir {
+            GitTopologyCompatibility::SharedCommonDirectory
+        } else {
+            GitTopologyCompatibility::UnsupportedIndependentClone
+        }
+    }
+}
+
 #[derive(Debug, Error)]
 pub enum GitError {
     #[error("path is not a git repository: {0}")]
@@ -317,6 +350,8 @@ pub enum GitError {
     Command(String),
     #[error("git output was not valid UTF-8")]
     InvalidUtf8,
+    #[error("git topology path could not be resolved: {0}")]
+    InvalidTopology(PathBuf),
 }
 
 impl GitRepository {
@@ -338,6 +373,40 @@ impl GitRepository {
 
     pub fn root(&self) -> &Path {
         &self.root
+    }
+
+    /// Resolve the actual Git common directory and worktree identity.  This
+    /// intentionally asks Git instead of inferring `.git` from the filesystem
+    /// because linked worktrees expose a `.git` file and keep their common
+    /// metadata elsewhere.
+    pub fn topology(&self) -> Result<GitTopology, GitError> {
+        let repository_root = std::fs::canonicalize(&self.root)
+            .map_err(|_| GitError::InvalidTopology(self.root.clone()))?;
+        let git_dir = resolve_git_path(
+            &repository_root,
+            self.run(["rev-parse", "--git-dir"])?.trim(),
+        )?;
+        let common_dir = resolve_git_path(
+            &repository_root,
+            self.run(["rev-parse", "--git-common-dir"])?.trim(),
+        )?;
+        let branch = self.run(["branch", "--show-current"])?.trim().to_owned();
+        let head_output = self.run(["rev-parse", "--verify", "HEAD"]);
+        let head = head_output.ok().map(|value| value.trim().to_owned());
+        let kind = if git_dir == common_dir {
+            GitTopologyKind::PrimaryWorktree
+        } else {
+            GitTopologyKind::LinkedWorktree
+        };
+        Ok(GitTopology {
+            repository_root: repository_root.clone(),
+            git_dir,
+            common_dir,
+            worktree_path: repository_root,
+            branch: (!branch.is_empty()).then_some(branch),
+            head,
+            kind,
+        })
     }
 
     pub fn snapshot(&self) -> Result<RepositorySnapshot, GitError> {
@@ -669,6 +738,15 @@ impl GitRepository {
         }
         String::from_utf8(output.stdout).map_err(|_| GitError::InvalidUtf8)
     }
+}
+
+fn resolve_git_path(root: &Path, value: &str) -> Result<PathBuf, GitError> {
+    let path = if Path::new(value).is_absolute() {
+        PathBuf::from(value)
+    } else {
+        root.join(value)
+    };
+    std::fs::canonicalize(&path).map_err(|_| GitError::InvalidTopology(path))
 }
 
 fn status_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKind>) {

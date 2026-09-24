@@ -115,11 +115,11 @@
 - Produces: `CollaborationDeclaration`, `OutcomeStage`, `WorktreeRegistration`, `CoordinationEvent`, `CoordinationRequest`, `ResourceReservation`, `CompositionBinding`, `RuntimeCapabilityBinding`, and `CoordinationStore` methods:
   `register`, `publish_event`, `reserve_resources`, `release_resources`, `request_coordination`, `transition_request`, `recover`, `inspect`.
 
-- [ ] **Step 1: Write protocol failing tests.**
+- [x] **Step 1: Write protocol failing tests.**
 
   Assert JSON round trips for every new identity, `deny_unknown_fields` rejects an unknown field, stage transitions do not equate closure with `composable_head`, old Contracts without collaboration fields remain readable, and a runtime binding mismatch is an error.
 
-- [ ] **Step 2: Run the protocol tests and observe the expected failure.**
+- [x] **Step 2: Run the protocol tests and observe the expected failure.**
 
   ```bash
   cargo test --locked -p cockpit-protocol --test collaboration
@@ -127,23 +127,23 @@
 
   Expected failure: the new protocol types and runtime binding are not defined.
 
-- [ ] **Step 3: Write Git topology failing tests using real linked worktrees.**
+- [x] **Step 3: Write Git topology failing tests using real linked worktrees.**
 
   Create a temporary repository, a branch, and a linked worktree. Assert that common-directory discovery resolves the same path from both worktrees and that an independent clone is classified unsupported. Include the `.git`-file topology.
 
-- [ ] **Step 4: Implement minimal topology helpers.**
+- [x] **Step 4: Implement minimal topology helpers.**
 
   Add repository-bound helpers that invoke the existing Git abstraction, normalize canonical paths, and return typed topology identity; do not infer common directory from path layout.
 
-- [ ] **Step 5: Write coordination-store failing tests.**
+- [x] **Step 5: Write coordination-store failing tests.**
 
   Exercise two processes reserving the same resource, multi-resource rollback, duplicate registration/event, partial record bytes, stale generation, moved worktree, and recovery. Assert no stale/corrupt record becomes free and no old owner can append after generation change.
 
-- [ ] **Step 6: Implement atomic storage.**
+- [x] **Step 6: Implement atomic storage.**
 
   Store records beneath `<git-common-dir>/.ai-cockpit/coordination/v1/`. Use an exclusive lock, canonical resource ordering, temporary regular files, flush/rename, and strict read validation. Give every write a stable operation/event identity and make duplicate writes return the existing result without a second mutation.
 
-- [ ] **Step 7: Run Task 1 tests and refactor only while green.**
+- [x] **Step 7: Run Task 1 tests and refactor only while green.**
 
   ```bash
   cargo fmt --all -- --check
@@ -152,7 +152,7 @@
   cargo test --locked -p cockpit-repository --test coordination_store
   ```
 
-- [ ] **Step 8: Commit the protocol/storage layer.**
+- [x] **Step 8: Commit the protocol/storage layer.**
 
   ```bash
   git diff --check
