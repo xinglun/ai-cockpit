@@ -10,13 +10,14 @@ use cockpit_protocol::{
 use cockpit_repository::{
     CollaborationAction, CollaborationActionKind, CoordinationError, CoordinationStore,
     WorkItemStartOptions, acknowledge_pause, admit_collaboration_action, attach,
-    collaboration_outcome_projection, collaboration_projection, recover_impact,
+    checkpoint_work_item, collaboration_outcome_projection, collaboration_projection,
+    preflight_work_item, publish_outcome, record_verification, recover_impact,
     refresh_dependency_state, report_impact, repository_id, request_safe_pause,
     resume_and_re_evaluate, run_admitted_composition, start_work_item_with_options,
 };
 use cockpit_verification::{
     CompositionCommand, CompositionIdentity, CompositionInput, CompositionPrecondition,
-    composition_commands_digest,
+    VerificationCommand, VerificationReusePolicy, composition_commands_digest, execute_bounded,
 };
 use std::fs;
 use std::path::Path;
@@ -51,6 +52,7 @@ fn repository() -> tempfile::TempDir {
     fs::write(root.path().join("target/impact.json"), "{}\n").expect("impact evidence");
     run(root.path(), &["add", "."]);
     run(root.path(), &["commit", "-qm", "initial"]);
+    run(root.path(), &["branch", "-M", "main"]);
     root
 }
 
@@ -124,7 +126,7 @@ fn declaration(
                 provider_work_item_id: (*provider).into(),
                 outcome_id: (*outcome_id).into(),
                 minimum_stage: *minimum_stage,
-                verification_required: true,
+                verification_required: false,
             })
             .collect(),
         resource_claims: Vec::new(),
@@ -136,6 +138,62 @@ fn declaration(
         },
         composition_verification: Default::default(),
     }
+}
+
+fn record_typed_verification(root: &Path, work_item_id: &str) {
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    if evidence_path.exists() {
+        fs::remove_file(&evidence_path).expect("remove invalid placeholder evidence");
+    }
+    let contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    preflight_work_item(root, &contract).expect("preflight for verification evidence");
+    checkpoint_work_item(root, work_item_id).expect("checkpoint for verification evidence");
+    let receipt = execute_bounded(
+        vec![VerificationCommand::new(
+            "collaboration-evidence",
+            "sh",
+            vec!["-c".into(), "true".into()],
+            VerificationReusePolicy::NeverReuse,
+        )],
+        1,
+    )
+    .expect("execute evidence check");
+    let receipt = serde_json::to_value(receipt).expect("serialize typed receipt");
+    record_verification(
+        root,
+        work_item_id,
+        &receipt,
+        "0.2.113",
+        &digest("candidate-runtime"),
+    )
+    .expect("record typed verification evidence");
+}
+
+fn publish_verification_outcome(
+    store: &CoordinationStore,
+    root: &Path,
+    work_item_id: &str,
+    generation: u64,
+    outcome_id: &str,
+) {
+    store
+        .publish_event(CoordinationEvent {
+            schema_version: 1,
+            event_id: format!("verification-{work_item_id}-{generation}-{outcome_id}"),
+            repository_id: repository_id(root),
+            work_item_id: work_item_id.into(),
+            generation,
+            kind: CoordinationEventKind::OutcomePublished,
+            source: "verified-outcome-publication".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            evidence_digests: Default::default(),
+            outcome_ids: vec![outcome_id.into()],
+        })
+        .expect("publish generation-bound verification outcome");
 }
 
 fn registration(
@@ -172,9 +230,9 @@ fn impact(root: &Path, work_item_id: &str, generation: u64, id: &str) -> Coordin
         generation,
         kind: CoordinationEventKind::Impact,
         source: "provider-outcome-changed".into(),
+        evidence_refs: vec!["target/impact.json".into()],
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
-        evidence_refs: vec!["target/impact.json".into()],
     }
 }
 
@@ -183,6 +241,14 @@ fn composition_action(work_item_id: &str) -> CollaborationAction {
         kind: CollaborationActionKind::Composition,
         consumer_work_item_id: work_item_id.into(),
         outcome_ids: Vec::new(),
+    }
+}
+
+fn outcome_action(work_item_id: &str, outcome_ids: &[&str]) -> CollaborationAction {
+    CollaborationAction {
+        kind: CollaborationActionKind::Composition,
+        consumer_work_item_id: work_item_id.into(),
+        outcome_ids: outcome_ids.iter().map(|value| (*value).into()).collect(),
     }
 }
 
@@ -223,7 +289,13 @@ fn composition_input(root: &Path, marker: &Path) -> CompositionInput {
             node_id: "marker".into(),
             program: "sh".into(),
             args: vec!["-c".into(), format!("touch {}", marker.display())],
+            depends_on: Vec::new(),
+            environment: Default::default(),
+            input_paths: vec!["README.md".into()],
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
         }],
+        reusable_node_ids: Vec::new(),
         preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
         timeout_seconds: 1,
     }
@@ -241,12 +313,14 @@ fn runtime_context() -> RuntimeContext {
 fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let root = repository();
     let store = store(root.path());
+    let mut consumer_declaration = declaration(root.path(), &[], &[]);
+    consumer_declaration.composition_verification.reusable_nodes = vec!["marker".into()];
     store
         .register(registration(
             root.path(),
             "WI-CONSUMER",
             1,
-            declaration(root.path(), &[], &[]),
+            consumer_declaration,
         ))
         .expect("register consumer");
     let marker = root.path().join("composition-marker");
@@ -259,7 +333,8 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let first_projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
     assert_eq!(first_projection.composition_state, "passed");
-    assert_eq!(first_projection.target_merge_state, "passed");
+    assert_eq!(first_projection.target_merge_state, "merged");
+    assert_eq!(first_projection.composition_applicability, "current");
     assert_eq!(first_projection.cleanup_state, "cleaned");
     assert!(first_projection.reusable_checks.is_empty());
     assert!(!first_projection.human_decision_required);
@@ -272,6 +347,168 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
     assert_eq!(second_projection.reusable_checks, vec!["marker"]);
     assert!(!second_projection.human_decision_required);
+}
+
+#[test]
+fn admitted_composition_rejects_invalid_command_dependencies_before_launch() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let marker = root.path().join("invalid-dependency-marker");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].depends_on = vec!["missing-upstream".into()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "invalid dependency graph must be rejected by admission"
+    );
+    assert!(
+        result
+            .unwrap_err()
+            .to_string()
+            .contains("composition_dependency_order_invalid")
+    );
+    assert!(!marker.exists(), "invalid graph must not launch the check");
+}
+
+#[test]
+fn missing_one_of_two_required_scenarios_blocks_composition() {
+    let root = repository();
+    let store = store(root.path());
+    let mut work = declaration(root.path(), &[], &[]);
+    work.composition_verification.required_scenarios =
+        vec!["api-contract".into(), "docs-contract".into()];
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, work))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    input.commands[0].covered_scenarios = vec!["api-contract".into()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "one missing required scenario must fail closed"
+    );
+    assert!(
+        result
+            .unwrap_err()
+            .to_string()
+            .contains("required_scenario_uncovered:docs-contract")
+    );
+}
+
+#[test]
+fn composition_requires_the_dependency_closure_in_declared_order() {
+    let root = repository();
+    let store = store(root.path());
+    let provider = registration(
+        root.path(),
+        "WI-PROVIDER",
+        1,
+        declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]),
+    );
+    let mut consumer_declaration = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer_declaration
+        .integration_responsibility
+        .composition_order = vec!["WI-PROVIDER".into(), "WI-CONSUMER".into()];
+    let consumer = registration(root.path(), "WI-CONSUMER", 1, consumer_declaration);
+    store.register(provider.clone()).expect("register provider");
+    store.register(consumer.clone()).expect("register consumer");
+
+    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let missing = run_admitted_composition(&store, "WI-CONSUMER", 1, input.clone())
+        .expect_err("provider dependency must be represented");
+    assert!(
+        missing
+            .to_string()
+            .contains("composition_dependency_closure_incomplete")
+    );
+
+    input.binding.participant_work_items = vec!["WI-CONSUMER".into(), "WI-PROVIDER".into()];
+    input.binding.participant_heads = vec![consumer.head, provider.head];
+    input.binding.contract_digests = vec![consumer.contract_digest, provider.contract_digest];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let wrong_order = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
+        .expect_err("declared composition order must be honored");
+    assert!(
+        wrong_order
+            .to_string()
+            .contains("composition_order_mismatch")
+    );
+}
+
+#[test]
+fn feature_worktree_can_compose_against_the_declared_main_target() {
+    let root = repository();
+    let main_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    run(root.path(), &["checkout", "-qb", "feature/consumer"]);
+    fs::write(root.path().join("feature.txt"), "feature\n").expect("feature file");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "feature"]);
+    let feature_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register feature worktree");
+
+    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    input.binding.target_branch = "main".into();
+    input.binding.target_sha = main_head;
+    input.binding.participant_heads = vec![feature_head];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let attempt = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
+        .expect("feature worktree may target main");
+
+    assert!(attempt.passed);
+    assert_eq!(attempt.binding.target_branch, "main");
+    let projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(projection.composition_state, "passed");
+    assert_eq!(projection.target_merge_state, "not_merged");
+    assert_eq!(projection.composition_applicability, "current");
+
+    run(root.path(), &["checkout", "-q", "main"]);
+    fs::write(root.path().join("main-advance.txt"), "advanced\n").expect("advance main");
+    run(root.path(), &["add", "main-advance.txt"]);
+    run(root.path(), &["commit", "-qm", "advance main"]);
+    run(root.path(), &["checkout", "-q", "feature/consumer"]);
+    let stale_projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(stale_projection.composition_state, "passed");
+    assert_eq!(stale_projection.composition_applicability, "stale");
+    assert_eq!(stale_projection.target_merge_state, "not_merged");
 }
 
 fn register_provider_and_consumer(store: &CoordinationStore, root: &Path, stage: OutcomeStage) {
@@ -330,6 +567,7 @@ fn impact_blocks_only_affected_consumers_and_unrelated_work_continues() {
             work_item_id: "WI-PROVIDER".into(),
             generation: 1,
             source: "provider-outcome".into(),
+            outcome_ids: Vec::new(),
             ..impact(root.path(), "WI-PROVIDER", 1, "published-template")
         })
         .unwrap();
@@ -356,6 +594,607 @@ fn impact_blocks_only_affected_consumers_and_unrelated_work_continues() {
 }
 
 #[test]
+fn report_impact_rejects_outcome_publication_events() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            1,
+            declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]),
+        ))
+        .expect("register provider");
+
+    let mut event = impact(root.path(), "WI-PROVIDER", 1, "misrouted-publication");
+    event.kind = CoordinationEventKind::OutcomePublished;
+    event.evidence_refs = vec!["target/outcome.json".into()];
+    event.outcome_ids = vec!["api".into()];
+    let result = report_impact(&store, event);
+
+    assert!(
+        matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("publish_outcome")),
+        "OutcomePublished must go through the identity- and evidence-validating publisher: {result:?}"
+    );
+}
+
+#[test]
+fn verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_receipt() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs =
+        vec![".ai/evidence/WI-PROVIDER.verification.json".into()];
+    let mut consumer = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer.consumed_outcomes[0].verification_required = true;
+    let evidence_path = root
+        .path()
+        .join(".ai/evidence/WI-PROVIDER.verification.json");
+    fs::create_dir_all(evidence_path.parent().unwrap()).expect("evidence directory");
+    fs::write(&evidence_path, "{}\n").expect("untyped placeholder evidence");
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 1, provider))
+        .expect("register provider");
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, consumer))
+        .expect("register consumer");
+
+    let empty_evidence =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission");
+    assert!(!empty_evidence.allowed);
+    assert!(
+        empty_evidence
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api")
+    );
+
+    record_typed_verification(root.path(), "WI-PROVIDER");
+    publish_verification_outcome(&store, root.path(), "WI-PROVIDER", 1, "api");
+    let bound_evidence =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission after a real Runtime receipt");
+    assert!(
+        bound_evidence.allowed,
+        "valid bound receipt should satisfy dependency"
+    );
+
+    let mut changed_bytes = fs::read(&evidence_path).expect("read published verification evidence");
+    changed_bytes.extend_from_slice(b" \n");
+    fs::write(&evidence_path, changed_bytes).expect("mutate published evidence bytes");
+    let mutated_evidence =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission after evidence mutation");
+    assert!(
+        mutated_evidence
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
+        "a publication must not survive a byte-level evidence change: {:?}",
+        mutated_evidence.blockers
+    );
+}
+
+#[test]
+fn outcome_publication_rejects_missing_verification_receipt_before_appending_event() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs =
+        vec![".ai/evidence/WI-PROVIDER.verification.json".into()];
+    let mut consumer = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer.consumed_outcomes[0].verification_required = true;
+    let evidence_path = root
+        .path()
+        .join(".ai/evidence/WI-PROVIDER.verification.json");
+    fs::create_dir_all(evidence_path.parent().unwrap()).expect("evidence directory");
+    fs::write(&evidence_path, "{}\n").expect("untyped evidence");
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 1, provider))
+        .expect("register provider");
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, consumer))
+        .expect("register consumer");
+
+    let result = publish_outcome(&store, "WI-PROVIDER", 1, "api");
+
+    assert!(
+        matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("verification receipt")),
+        "untyped evidence must not be published to a verification-required consumer: {result:?}"
+    );
+    assert!(
+        store.inspect().unwrap().events.is_empty(),
+        "rejected publication must not append an event"
+    );
+}
+
+#[test]
+fn outcome_publication_rejects_malformed_and_identity_mismatched_receipts() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs =
+        vec![".ai/evidence/WI-PROVIDER.verification.json".into()];
+    let mut consumer = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer.consumed_outcomes[0].verification_required = true;
+    let evidence_path = root
+        .path()
+        .join(".ai/evidence/WI-PROVIDER.verification.json");
+    let provider_registration = registration(root.path(), "WI-PROVIDER", 1, provider);
+    let consumer_registration = registration(root.path(), "WI-CONSUMER", 1, consumer);
+    fs::create_dir_all(evidence_path.parent().unwrap()).expect("evidence directory");
+    fs::write(&evidence_path, b"{\"protocolVersion\":").expect("malformed receipt");
+    let registered_evidence = Path::new(&provider_registration.worktree_path)
+        .join(".ai/evidence/WI-PROVIDER.verification.json");
+    assert!(
+        registered_evidence.is_file(),
+        "{}",
+        registered_evidence.display()
+    );
+    store
+        .register(provider_registration)
+        .expect("register provider");
+    store
+        .register(consumer_registration)
+        .expect("register consumer");
+
+    assert!(
+        publish_outcome(&store, "WI-PROVIDER", 1, "api").is_err(),
+        "malformed evidence must not be published"
+    );
+    assert!(store.inspect().unwrap().events.is_empty());
+
+    record_typed_verification(root.path(), "WI-PROVIDER");
+    let valid_bytes = fs::read(&evidence_path).expect("valid verification receipt");
+    let valid: serde_json::Value =
+        serde_json::from_slice(&valid_bytes).expect("valid verification JSON");
+    let invalid_fields = vec![
+        ("workItemId", serde_json::json!("WI-OTHER")),
+        (
+            "repositoryId",
+            serde_json::json!(digest("other-repository").to_string()),
+        ),
+        (
+            "repositorySnapshotDigest",
+            serde_json::json!(digest("other-head").to_string()),
+        ),
+        (
+            "contractDigest",
+            serde_json::json!(digest("other-contract").to_string()),
+        ),
+        ("runtimeVersion", serde_json::json!("0.2.105")),
+        (
+            "runtimeDigest",
+            serde_json::json!(digest("other-runtime").to_string()),
+        ),
+        ("passed", serde_json::json!(false)),
+        ("captureMode", serde_json::json!("legacy_untyped")),
+        ("receipt", serde_json::Value::Null),
+    ];
+    for (field, replacement) in invalid_fields {
+        let mut mismatched = valid.clone();
+        mismatched[field] = replacement;
+        fs::write(
+            &evidence_path,
+            serde_json::to_vec(&mismatched).expect("serialize mismatched receipt"),
+        )
+        .expect("write mismatched receipt");
+        assert!(
+            publish_outcome(&store, "WI-PROVIDER", 1, "api").is_err(),
+            "receipt field {field} must be bound before publication"
+        );
+        assert!(
+            store.inspect().unwrap().events.is_empty(),
+            "rejected field {field} must leave no OutcomePublished event"
+        );
+    }
+    fs::write(&evidence_path, valid_bytes).expect("restore valid evidence");
+    publish_outcome(&store, "WI-PROVIDER", 1, "api").expect("publish valid bound receipt");
+    assert_eq!(store.inspect().unwrap().events.len(), 1);
+}
+
+#[test]
+fn verification_dependency_requires_current_generation_publication_binding() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]);
+    provider.provided_outcomes[0].evidence_refs =
+        vec![".ai/evidence/WI-PROVIDER.verification.json".into()];
+    let mut consumer = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::ComposableHead)],
+    );
+    consumer.consumed_outcomes[0].verification_required = true;
+    let evidence_path = root
+        .path()
+        .join(".ai/evidence/WI-PROVIDER.verification.json");
+    fs::create_dir_all(evidence_path.parent().unwrap()).expect("evidence directory");
+    fs::write(&evidence_path, "{}\n").expect("initial placeholder evidence");
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            1,
+            provider.clone(),
+        ))
+        .expect("register first provider generation");
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, consumer))
+        .expect("register consumer");
+
+    record_typed_verification(root.path(), "WI-PROVIDER");
+    publish_verification_outcome(&store, root.path(), "WI-PROVIDER", 1, "api");
+    let first_generation =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .unwrap();
+    assert!(
+        first_generation.allowed,
+        "current receipt publication should satisfy evidence"
+    );
+
+    store
+        .register(registration(root.path(), "WI-PROVIDER", 2, provider))
+        .expect("advance provider registration generation");
+    let next_generation =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .unwrap();
+
+    assert!(
+        next_generation
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
+        "generation-1 publication must not make the old receipt current for generation 2: {:?}",
+        next_generation.blockers
+    );
+}
+
+#[test]
+fn ordinary_single_work_item_verification_remains_serial_without_coordination_state() {
+    let root = repository();
+    let _contract = contract_digest(root.path(), "WI-SERIAL-ONLY");
+    let contract_path = root
+        .path()
+        .join(".ai/work-items/active/WI-SERIAL-ONLY.contract.json");
+    let preflight = preflight_work_item(root.path(), &contract_path).expect("preflight");
+    assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
+    checkpoint_work_item(root.path(), "WI-SERIAL-ONLY").expect("checkpoint");
+    let receipt = execute_bounded(
+        vec![VerificationCommand::new(
+            "serial-gate",
+            "sh",
+            vec!["-c".into(), "true".into()],
+            VerificationReusePolicy::NeverReuse,
+        )],
+        1,
+    )
+    .expect("serial verification execution");
+    assert!(receipt.passed);
+    assert_eq!(receipt.processes_spawned, 1);
+    assert_eq!(receipt.max_concurrent_processes, 1);
+    let receipt = serde_json::to_value(receipt).expect("serialize receipt");
+    record_verification(
+        root.path(),
+        "WI-SERIAL-ONLY",
+        &receipt,
+        "0.2.113",
+        &digest("candidate-runtime"),
+    )
+    .expect("record ordinary verification");
+    assert!(
+        !GitRepository::discover(root.path())
+            .unwrap()
+            .topology()
+            .unwrap()
+            .common_dir
+            .join(".ai-cockpit/coordination/v1")
+            .exists(),
+        "ordinary serial verification must not require collaboration storage"
+    );
+}
+
+#[test]
+fn merged_target_stage_requires_actual_target_ancestry() {
+    let root = repository();
+    let main_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    run(root.path(), &["checkout", "-qb", "feature/provider"]);
+    fs::write(root.path().join("provider.txt"), "not merged\n").expect("provider file");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "provider head"]);
+    let provider_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            1,
+            declaration(root.path(), &[("api", OutcomeStage::MergedTarget)], &[]),
+        ))
+        .expect("register provider");
+    let consumer_declaration = declaration(
+        root.path(),
+        &[],
+        &[("WI-PROVIDER", "api", OutcomeStage::MergedTarget)],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            consumer_declaration,
+        ))
+        .expect("register consumer");
+    assert_ne!(provider_head, main_head);
+
+    let admission =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission");
+    assert!(!admission.allowed);
+    assert!(
+        admission
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "outcome_merge_fact_missing:WI-PROVIDER:api")
+    );
+}
+
+#[test]
+fn selected_outcome_admission_ignores_unselected_outcome_merge_blocker() {
+    let root = repository();
+    let main_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    run(root.path(), &["checkout", "-qb", "feature/provider"]);
+    fs::write(root.path().join("provider.txt"), "provider change\n").expect("provider file");
+    run(root.path(), &["add", "provider.txt"]);
+    run(root.path(), &["commit", "-qm", "provider change"]);
+    let provider_head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    assert_ne!(provider_head, main_head);
+
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            1,
+            declaration(
+                root.path(),
+                &[
+                    ("api", OutcomeStage::ComposableHead),
+                    ("docs", OutcomeStage::MergedTarget),
+                ],
+                &[],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[
+                    ("WI-PROVIDER", "api", OutcomeStage::ComposableHead),
+                    ("WI-PROVIDER", "docs", OutcomeStage::ComposableHead),
+                ],
+            ),
+        ))
+        .unwrap();
+
+    let api = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &["api"]),
+    )
+    .unwrap();
+
+    assert!(
+        api.allowed,
+        "unselected docs merge fact must not block api: {:?}",
+        api.blockers
+    );
+    assert!(
+        !api.blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("outcome_merge_fact_")),
+        "only the selected api outcome may contribute dependency blockers"
+    );
+}
+
+#[test]
+fn same_work_item_admission_filters_impact_by_consumed_outcome() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            1,
+            declaration(
+                root.path(),
+                &[
+                    ("api", OutcomeStage::ComposableHead),
+                    ("docs", OutcomeStage::ComposableHead),
+                ],
+                &[],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[
+                    ("WI-PROVIDER", "api", OutcomeStage::ComposableHead),
+                    ("WI-PROVIDER", "docs", OutcomeStage::ComposableHead),
+                ],
+            ),
+        ))
+        .unwrap();
+    let mut api_changed = impact(root.path(), "WI-PROVIDER", 1, "impact-api");
+    api_changed.outcome_ids = vec!["api".into()];
+    report_impact(&store, api_changed).unwrap();
+
+    let api = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &["api"]),
+    )
+    .unwrap();
+    let docs = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &["docs"]),
+    )
+    .unwrap();
+
+    assert!(!api.allowed, "the impacted outcome remains blocked");
+    assert!(api.affected);
+    assert!(
+        docs.allowed,
+        "an unaffected outcome in the same WI can proceed"
+    );
+    assert!(!docs.affected);
+}
+
+#[test]
+fn impact_propagates_through_three_dependency_levels_only() {
+    let root = repository();
+    let store = store(root.path());
+    let head = GitRepository::discover(root.path())
+        .unwrap()
+        .topology()
+        .unwrap()
+        .head
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            1,
+            declaration(root.path(), &[("base", OutcomeStage::ComposableHead)], &[]),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-B",
+            1,
+            declaration(
+                root.path(),
+                &[("build", OutcomeStage::ComposableHead)],
+                &[("WI-A", "base", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-C",
+            1,
+            declaration(
+                root.path(),
+                &[("package", OutcomeStage::ComposableHead)],
+                &[("WI-B", "build", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-D",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[("WI-C", "package", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-UNRELATED",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .unwrap();
+
+    let mut invalidation = impact(root.path(), "WI-A", 1, "impact-three-levels");
+    invalidation.outcome_ids = vec!["base".into()];
+    report_impact(&store, invalidation).unwrap();
+
+    let projection = collaboration_projection(&store).unwrap();
+    for work_item_id in ["WI-B", "WI-C", "WI-D"] {
+        assert!(
+            projection
+                .affected_work_items
+                .iter()
+                .any(|id| id == work_item_id),
+            "transitive consumer {work_item_id} must be marked affected: {projection:?}"
+        );
+        assert!(
+            !admit_collaboration_action(&store, work_item_id, 1, composition_action(work_item_id))
+                .unwrap()
+                .allowed,
+            "transitive consumer {work_item_id} must be blocked"
+        );
+    }
+    assert!(
+        admit_collaboration_action(
+            &store,
+            "WI-UNRELATED",
+            1,
+            composition_action("WI-UNRELATED")
+        )
+        .unwrap()
+        .allowed
+    );
+    assert_eq!(head.len(), 40, "fixture starts from a real committed head");
+}
+
+#[test]
 fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
     let root = repository();
     let store = store(root.path());
@@ -377,6 +1216,64 @@ fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
             .unwrap();
     assert!(admission.allowed);
     assert!(!admission.affected);
+}
+
+#[test]
+fn historical_impact_can_be_recovered_after_provider_generation_advances() {
+    let root = repository();
+    let store = store(root.path());
+    register_provider_and_consumer(&store, root.path(), OutcomeStage::ComposableHead);
+    let mut event = impact(
+        root.path(),
+        "WI-PROVIDER",
+        1,
+        "impact-before-provider-advance",
+    );
+    event.outcome_ids = vec!["api".into()];
+    report_impact(&store, event).unwrap();
+    assert!(
+        !admit_collaboration_action(
+            &store,
+            "WI-CONSUMER",
+            1,
+            outcome_action("WI-CONSUMER", &["api"]),
+        )
+        .unwrap()
+        .allowed
+    );
+
+    let advanced = registration(
+        root.path(),
+        "WI-PROVIDER",
+        2,
+        declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]),
+    );
+    store
+        .register(advanced)
+        .expect("provider generation can advance without changing outcome identity");
+
+    let recovery = recover_impact(&store, "impact-before-provider-advance", "WI-CONSUMER", 1)
+        .expect("historical provider event remains recoverable");
+    assert_eq!(recovery.provider_generation, 1);
+    assert_eq!(recovery.current_provider_generation, Some(2));
+
+    let inspection = store.inspect().unwrap();
+    assert!(
+        inspection
+            .events
+            .iter()
+            .any(|event| event.event_id == "impact-before-provider-advance")
+    );
+    assert!(
+        admit_collaboration_action(
+            &store,
+            "WI-CONSUMER",
+            1,
+            outcome_action("WI-CONSUMER", &["api"]),
+        )
+        .unwrap()
+        .allowed
+    );
 }
 
 #[test]
@@ -498,6 +1395,15 @@ fn safely_paused_composition_is_rejected_before_spawn_and_unrelated_work_continu
         CoordinationRequestState::SafelyPaused,
     )
     .unwrap();
+    let paused_projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(paused_projection.state, "blocked");
+    assert!(
+        paused_projection
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("coordination_safely_paused:"))
+    );
 
     let marker = root.path().join("target/paused-marker");
     let blocked = run_admitted_composition(

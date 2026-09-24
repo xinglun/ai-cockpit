@@ -823,6 +823,16 @@ enum WorkItemCoordinationCommand {
         #[arg(long)]
         input: PathBuf,
     },
+    PublishOutcome {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        generation: u64,
+        #[arg(long)]
+        outcome_id: String,
+    },
     RequestPause {
         #[arg(long)]
         repo: PathBuf,
@@ -1294,6 +1304,17 @@ fn run_coordination_command(
             let event: CoordinationEvent = read_json_file(&input, "impact event")?;
             let result = cockpit_repository::report_impact(&store, event)
                 .context("report collaboration impact")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::PublishOutcome {
+            repo,
+            id,
+            generation,
+            outcome_id,
+        } => {
+            let store = collaboration_store(&repo, runtime, true)?;
+            let result = cockpit_repository::publish_outcome(&store, &id, generation, &outcome_id)
+                .context("publish current Work Item outcome")?;
             coordination_output(&store, serde_json::to_value(result)?)?;
         }
         WorkItemCoordinationCommand::RequestPause { repo, input } => {

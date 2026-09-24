@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility,
-    RuntimeCapabilityBinding, WorktreeRegistration,
+    COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility, OutcomeStage,
+    ProvidedOutcome, RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use serde_json::Value;
 use sha2::{Digest as ShaDigest, Sha256};
@@ -157,4 +157,87 @@ fn coordination_cli_separates_read_only_inspection_from_writes() {
     let second: Value = serde_json::from_slice(&output.stdout).expect("projection JSON");
     assert_eq!(first["events"], second["events"]);
     assert_eq!(second["registrations"].as_array().unwrap().len(), 1);
+}
+
+#[test]
+fn publish_outcome_cli_binds_selected_generation_to_exact_evidence_bytes() {
+    let root = repository();
+    run_git(root.path(), &["checkout", "-qb", "codex/wi-cli-publish"]);
+    attach(root.path()).expect("attach repository");
+    start_work_item_with_options(
+        root.path(),
+        "WI-CLI",
+        "CLI outcome publication test",
+        "bind a published outcome to observed evidence bytes",
+        &[
+            ".ai/**".into(),
+            "README.md".into(),
+            "target/api.json".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["publication binds exact evidence bytes".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start Work Item");
+
+    let evidence_reference = "target/api.json";
+    let evidence_bytes = b"{\"api\":1}\n";
+    fs::create_dir_all(root.path().join("target")).expect("target directory");
+    fs::write(root.path().join(evidence_reference), evidence_bytes).expect("write evidence");
+    let mut registration = registration(root.path());
+    registration
+        .declaration
+        .provided_outcomes
+        .push(ProvidedOutcome {
+            outcome_id: "api".into(),
+            interface_contract: "api-v1".into(),
+            behavior_contract: "stable response".into(),
+            published_head: registration.head.clone(),
+            stage: OutcomeStage::ComposableHead,
+            evidence_refs: vec![evidence_reference.into()],
+        });
+    let input = root.path().join("registration.json");
+    fs::write(&input, serde_json::to_vec_pretty(&registration).unwrap()).unwrap();
+    let registered = invoke(&[
+        "work-item",
+        "coordination",
+        "register",
+        "--repo",
+        root.path().to_str().unwrap(),
+        "--input",
+        input.to_str().unwrap(),
+    ]);
+    assert!(
+        registered.status.success(),
+        "{}",
+        String::from_utf8_lossy(&registered.stderr)
+    );
+
+    let published = invoke(&[
+        "work-item",
+        "coordination",
+        "publish-outcome",
+        "--repo",
+        root.path().to_str().unwrap(),
+        "--id",
+        "WI-CLI",
+        "--generation",
+        "1",
+        "--outcome-id",
+        "api",
+    ]);
+    assert!(
+        published.status.success(),
+        "{}",
+        String::from_utf8_lossy(&published.stderr)
+    );
+    let response: Value = serde_json::from_slice(&published.stdout).expect("publication JSON");
+    assert_eq!(response["result"]["kind"], "outcome_published");
+    assert_eq!(response["result"]["outcomeIds"], serde_json::json!(["api"]));
+    assert_eq!(
+        response["result"]["evidenceDigests"][evidence_reference],
+        Digest::sha256_bytes(evidence_bytes).to_string()
+    );
 }

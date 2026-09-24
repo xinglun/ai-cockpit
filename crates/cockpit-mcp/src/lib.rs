@@ -389,10 +389,13 @@ fn mcp_tool_schema(name: &str) -> Value {
         "work_item_parallel" => parallel_tool_schema(),
         "work_item_coordination" => object_schema(
             json!({
-                "action": {"type":"string", "enum":["inspect","register","report-impact","request-pause","acknowledge","resume","recover"], "default":"inspect"},
+                "action": {"type":"string", "enum":["inspect","register","report-impact","publish-outcome","request-pause","acknowledge","resume","recover"], "default":"inspect"},
                 "registration": {"type":"object", "description":"Strict Work Item worktree registration."},
                 "event": {"type":"object", "description":"Strict impact event to append."},
                 "request": {"type":"object", "description":"Strict safe-pause request to append."},
+                "workItemId": string_property("Current provider Work Item identity."),
+                "generation": {"type":"integer", "minimum":1},
+                "outcomeId": string_property("Declared outcome to publish."),
                 "requestId": string_property("Coordination request identity."),
                 "state": {"type":"string", "enum":["acknowledged","safely_paused","unavailable","expired"]},
                 "workItemId": string_property("Canonical consumer Work Item identifier."),
@@ -592,6 +595,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "state",
                 "workItemId",
                 "generation",
+                "outcomeId",
                 "eventId",
                 "consumerWorkItemId",
                 "consumerGeneration",
@@ -800,6 +804,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "inspect"
                     | "register"
                     | "report-impact"
+                    | "publish-outcome"
                     | "request-pause"
                     | "acknowledge"
                     | "resume"
@@ -820,6 +825,11 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 }
                 "register" => require_object(object, "registration", name)?,
                 "report-impact" => require_object(object, "event", name)?,
+                "publish-outcome" => {
+                    require_string(object, "workItemId", name)?;
+                    require_positive_u64(object, "generation", name)?;
+                    require_string(object, "outcomeId", name)?;
+                }
                 "request-pause" => require_object(object, "request", name)?,
                 "acknowledge" => {
                     require_string(object, "requestId", name)?;
@@ -960,6 +970,25 @@ fn work_item_coordination(
             coordination_result(
                 &store,
                 cockpit_repository::report_impact(&store, event)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "publish-outcome" => {
+            let work_item_id = object
+                .get("workItemId")
+                .and_then(Value::as_str)
+                .ok_or("workItemId is required")?;
+            let generation = object
+                .get("generation")
+                .and_then(Value::as_u64)
+                .ok_or("generation is required")?;
+            let outcome_id = object
+                .get("outcomeId")
+                .and_then(Value::as_str)
+                .ok_or("outcomeId is required")?;
+            coordination_result(
+                &store,
+                cockpit_repository::publish_outcome(&store, work_item_id, generation, outcome_id)
                     .map_err(|error| error.to_string())?,
             )
         }

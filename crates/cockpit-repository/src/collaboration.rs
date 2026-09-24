@@ -6,12 +6,13 @@ use cockpit_protocol::{
 };
 use cockpit_verification::{
     CompositionAttempt, CompositionError, CompositionInput, CompositionPrecondition,
-    composition_commands_digest, run_composition,
+    run_composition,
 };
 use serde::Serialize;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
 use std::path::Path;
+use std::process::Command;
 use thiserror::Error;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
@@ -72,6 +73,7 @@ pub struct CollaborationOutcomeProjection {
     pub composition_order: Vec<String>,
     pub implementation_state: String,
     pub composition_state: String,
+    pub composition_applicability: String,
     pub target_merge_state: String,
     pub cleanup_state: String,
     pub revalidation: String,
@@ -113,113 +115,30 @@ pub fn collaboration_projection(
         ..CollaborationProjection::default()
     };
 
-    let registration_by_id = projection
-        .registrations
-        .iter()
-        .map(|registration| (registration.work_item_id.as_str(), registration))
-        .collect::<BTreeMap<_, _>>();
+    let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
     let mut affected = BTreeSet::new();
-    for event in &projection.events {
-        for registration in &projection.registrations {
-            if registration.work_item_id == event.work_item_id {
-                continue;
-            }
-            if !event_invalidates(event) || recovery_consumed(&projection, event, registration) {
-                continue;
-            }
-            if registration
-                .declaration
-                .consumed_outcomes
-                .iter()
-                .any(|dependency| dependency.provider_work_item_id == event.work_item_id)
-            {
-                affected.insert(registration.work_item_id.clone());
-            }
-        }
-    }
-    projection.affected_work_items = affected.into_iter().collect();
-
-    let mut provider_stages = BTreeMap::new();
     for registration in &projection.registrations {
-        for outcome in &registration.declaration.provided_outcomes {
-            provider_stages.insert(
-                (
-                    registration.work_item_id.as_str(),
-                    outcome.outcome_id.as_str(),
-                ),
-                outcome.stage,
-            );
+        let mut blockers = dependency_blockers_for_registration(
+            &projection,
+            registration,
+            None,
+            &invalidated_outcomes,
+        );
+        if blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("dependency_impact:"))
+        {
+            affected.insert(registration.work_item_id.clone());
         }
-    }
-    for registration in &projection.registrations {
-        let mut blockers = Vec::new();
-        for dependency in &registration.declaration.consumed_outcomes {
-            let Some(provider) = registration_by_id.get(dependency.provider_work_item_id.as_str())
-            else {
-                blockers.push(format!(
-                    "dependency_missing:{}",
-                    dependency.provider_work_item_id
-                ));
-                continue;
-            };
-            let Some(stage) = provider_stages.get(&(
-                provider.work_item_id.as_str(),
-                dependency.outcome_id.as_str(),
-            )) else {
-                blockers.push(format!(
-                    "outcome_missing:{}:{}",
-                    dependency.provider_work_item_id, dependency.outcome_id
-                ));
-                continue;
-            };
-            if !stage.satisfies(dependency.minimum_stage) {
-                blockers.push(format!(
-                    "dependency_stage:{}:{stage:?}",
-                    dependency.provider_work_item_id
-                ));
-            }
-            if projection.events.iter().any(|event| {
-                event.work_item_id == dependency.provider_work_item_id
-                    && event_invalidates(event)
-                    && !recovery_consumed(&projection, event, registration)
-            }) {
-                blockers.push(format!(
-                    "dependency_impact:{}",
-                    dependency.provider_work_item_id
-                ));
-            }
-            if dependency.verification_required {
-                let provider_outcome = provider
-                    .declaration
-                    .provided_outcomes
-                    .iter()
-                    .find(|outcome| outcome.outcome_id == dependency.outcome_id);
-                if provider_outcome.is_none_or(|outcome| {
-                    outcome.evidence_refs.is_empty()
-                        || outcome.evidence_refs.iter().any(|reference| {
-                            let path = Path::new(&provider.worktree_path).join(reference);
-                            fs::symlink_metadata(path)
-                                .map(|metadata| {
-                                    metadata.file_type().is_symlink() || !metadata.is_file()
-                                })
-                                .unwrap_or(true)
-                        })
-                }) {
-                    blockers.push(format!(
-                        "dependency_evidence_missing:{}:{}",
-                        dependency.provider_work_item_id, dependency.outcome_id
-                    ));
-                }
-            }
-        }
-        blockers.sort();
-        blockers.dedup();
         if !blockers.is_empty() {
+            blockers.sort();
+            blockers.dedup();
             projection
                 .blockers
                 .insert(registration.work_item_id.clone(), blockers);
         }
     }
+    projection.affected_work_items = affected.into_iter().collect();
     projection.cycles = find_cycles(&projection.registrations);
     for cycle in &projection.cycles {
         for work_item_id in cycle {
@@ -235,6 +154,279 @@ pub fn collaboration_projection(
         blockers.dedup();
     }
     Ok(projection)
+}
+
+fn dependency_blockers_for_registration(
+    projection: &CollaborationProjection,
+    registration: &WorktreeRegistration,
+    selected_outcomes: Option<&BTreeSet<String>>,
+    invalidated_outcomes: &BTreeMap<(String, String), Vec<CoordinationEvent>>,
+) -> Vec<String> {
+    let mut blockers = Vec::new();
+    for dependency in &registration.declaration.consumed_outcomes {
+        if selected_outcomes.is_some_and(|selected| !selected.contains(&dependency.outcome_id)) {
+            continue;
+        }
+        let Some(provider) = projection
+            .registrations
+            .iter()
+            .find(|provider| provider.work_item_id == dependency.provider_work_item_id)
+        else {
+            blockers.push(format!(
+                "dependency_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+            continue;
+        };
+        let Some(outcome) = provider
+            .declaration
+            .provided_outcomes
+            .iter()
+            .find(|outcome| outcome.outcome_id == dependency.outcome_id)
+        else {
+            blockers.push(format!(
+                "outcome_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+            continue;
+        };
+        if outcome.published_head != provider.head {
+            blockers.push(format!(
+                "outcome_head_mismatch:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+        if !outcome.stage.satisfies(dependency.minimum_stage) {
+            blockers.push(format!(
+                "dependency_stage:{}:{}:{:?}",
+                dependency.provider_work_item_id, dependency.outcome_id, outcome.stage
+            ));
+        }
+        if outcome.stage == cockpit_protocol::OutcomeStage::MergedTarget {
+            match commit_is_ancestor(
+                Path::new(&provider.worktree_path),
+                &provider
+                    .declaration
+                    .integration_responsibility
+                    .target_branch,
+                &outcome.published_head,
+            ) {
+                Some(true) => {}
+                Some(false) => blockers.push(format!(
+                    "outcome_merge_fact_missing:{}:{}",
+                    dependency.provider_work_item_id, dependency.outcome_id
+                )),
+                None => blockers.push(format!(
+                    "outcome_merge_fact_unknown:{}:{}",
+                    dependency.provider_work_item_id, dependency.outcome_id
+                )),
+            }
+        }
+        if invalidated_outcomes
+            .get(&(
+                dependency.provider_work_item_id.clone(),
+                dependency.outcome_id.clone(),
+            ))
+            .is_some_and(|events| {
+                events
+                    .iter()
+                    .any(|event| !recovery_consumed(projection, event, registration))
+            })
+        {
+            blockers.push(format!(
+                "dependency_impact:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+        if dependency.verification_required
+            && !verification_evidence_is_complete(projection, provider, outcome)
+        {
+            blockers.push(format!(
+                "dependency_evidence_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+    }
+    blockers
+}
+
+fn verification_evidence_is_complete(
+    projection: &CollaborationProjection,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+) -> bool {
+    let root = Path::new(&provider.worktree_path);
+    let expected_reference = format!(".ai/evidence/{}.verification.json", provider.work_item_id);
+    if !outcome
+        .evidence_refs
+        .iter()
+        .any(|reference| reference == &expected_reference)
+    {
+        return false;
+    }
+    let Some(publication) = projection.events.iter().find(|event| {
+        event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished
+            && event.repository_id == provider.repository_id
+            && event.work_item_id == provider.work_item_id
+            && event.generation == provider.generation
+            && event
+                .outcome_ids
+                .iter()
+                .any(|outcome_id| outcome_id == &outcome.outcome_id)
+            && event
+                .evidence_refs
+                .iter()
+                .any(|reference| reference == &expected_reference)
+    }) else {
+        return false;
+    };
+    let path = root.join(&expected_reference);
+    let Ok(metadata) = fs::symlink_metadata(&path) else {
+        return false;
+    };
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return false;
+    }
+    let Ok(bytes) = fs::read(&path) else {
+        return false;
+    };
+    if publication.evidence_digests.get(&expected_reference)
+        != Some(&cockpit_core::Digest::sha256_bytes(&bytes))
+    {
+        return false;
+    }
+    let Ok(envelope) = serde_json::from_slice::<crate::VerificationEvidenceV2>(&bytes) else {
+        return false;
+    };
+    if envelope.work_item_id != provider.work_item_id
+        || envelope.repository_id != provider.repository_id.to_string()
+        || envelope.contract_digest.as_ref() != Some(&provider.contract_digest)
+        || envelope.runtime_version != provider.runtime.runtime_version
+        || envelope.runtime_digest != provider.runtime.runtime_digest
+        || !envelope.passed
+        || !matches!(
+            envelope.capture_mode,
+            crate::VerificationCaptureMode::FullCapture
+                | crate::VerificationCaptureMode::RedactedCapture
+        )
+        || envelope.receipt.is_none()
+        || outcome.published_head != provider.head
+    {
+        return false;
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.contract.json", provider.work_item_id));
+    let Ok(contract) = crate::read_contract(&contract_path) else {
+        return false;
+    };
+    let Ok(git) = GitRepository::discover(root) else {
+        return false;
+    };
+    let Ok(snapshot) = git.snapshot() else {
+        return false;
+    };
+    if snapshot.head.as_deref() != Some(provider.head.as_str()) {
+        return false;
+    }
+    let runtime = RuntimeContext {
+        runtime_version: provider.runtime.runtime_version.clone(),
+        protocol_version: 1,
+        runtime_digest: provider.runtime.runtime_digest.clone(),
+    };
+    crate::verification_evidence_state(root, &contract, &snapshot, false, Some(&runtime))
+        .is_ok_and(|state| state == cockpit_core::EvidenceState::Complete)
+}
+
+fn transitive_invalidated_outcomes(
+    projection: &CollaborationProjection,
+) -> BTreeMap<(String, String), Vec<CoordinationEvent>> {
+    let mut pending = VecDeque::new();
+    for event in projection
+        .events
+        .iter()
+        .filter(|event| event_invalidates(event))
+    {
+        let Some(provider) = projection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == event.work_item_id)
+        else {
+            continue;
+        };
+        let outcome_ids = if event.outcome_ids.is_empty() {
+            provider
+                .declaration
+                .provided_outcomes
+                .iter()
+                .map(|outcome| outcome.outcome_id.clone())
+                .collect::<Vec<_>>()
+        } else {
+            event.outcome_ids.clone()
+        };
+        for outcome_id in outcome_ids {
+            pending.push_back((event.clone(), provider.work_item_id.clone(), outcome_id));
+        }
+    }
+
+    let mut invalidated = BTreeMap::<(String, String), Vec<CoordinationEvent>>::new();
+    let mut visited = BTreeSet::new();
+    while let Some((root_event, provider_id, outcome_id)) = pending.pop_front() {
+        if !visited.insert((
+            root_event.event_id.clone(),
+            provider_id.clone(),
+            outcome_id.clone(),
+        )) {
+            continue;
+        }
+        let events = invalidated
+            .entry((provider_id.clone(), outcome_id.clone()))
+            .or_default();
+        if !events
+            .iter()
+            .any(|existing| existing.event_id == root_event.event_id)
+        {
+            events.push(root_event.clone());
+        }
+        for consumer in &projection.registrations {
+            let consumes_invalidated_outcome =
+                consumer
+                    .declaration
+                    .consumed_outcomes
+                    .iter()
+                    .any(|dependency| {
+                        dependency.provider_work_item_id == provider_id
+                            && dependency.outcome_id == outcome_id
+                    });
+            if !consumes_invalidated_outcome || recovery_consumed(projection, &root_event, consumer)
+            {
+                continue;
+            }
+            for output in &consumer.declaration.provided_outcomes {
+                pending.push_back((
+                    root_event.clone(),
+                    consumer.work_item_id.clone(),
+                    output.outcome_id.clone(),
+                ));
+            }
+        }
+    }
+    invalidated
+}
+
+fn is_outcome_dependency_blocker(blocker: &str) -> bool {
+    [
+        "dependency_missing:",
+        "outcome_missing:",
+        "outcome_head_mismatch:",
+        "dependency_stage:",
+        "outcome_merge_fact_missing:",
+        "outcome_merge_fact_unknown:",
+        "dependency_impact:",
+        "dependency_evidence_missing:",
+    ]
+    .iter()
+    .any(|prefix| blocker.starts_with(prefix))
 }
 
 pub fn collaboration_outcome_projection(
@@ -255,6 +447,7 @@ pub fn collaboration_outcome_projection(
         composition_order: Vec::new(),
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state: "not_observed".into(),
+        composition_applicability: "not_observed".into(),
         target_merge_state: "not_observed".into(),
         cleanup_state: "not_observed".into(),
         revalidation: "unknown".into(),
@@ -320,18 +513,23 @@ pub fn collaboration_outcome_projection(
                 .collect::<Vec<_>>()
         })
         .unwrap_or_default();
-    let invalidated_event_ids = projection
-        .events
-        .iter()
-        .filter(|event| {
-            providers
-                .iter()
-                .any(|provider| provider == &event.work_item_id)
-                && event_invalidates(event)
-                && current.is_some_and(|consumer| !recovery_consumed(&projection, event, consumer))
-        })
-        .map(|event| event.event_id.clone())
-        .collect::<Vec<_>>();
+    let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
+    let mut invalidated_ids = BTreeSet::new();
+    if let Some(consumer) = current {
+        for dependency in &consumer.declaration.consumed_outcomes {
+            if let Some(events) = invalidated_outcomes.get(&(
+                dependency.provider_work_item_id.clone(),
+                dependency.outcome_id.clone(),
+            )) {
+                for event in events {
+                    if !recovery_consumed(&projection, event, consumer) {
+                        invalidated_ids.insert(event.event_id.clone());
+                    }
+                }
+            }
+        }
+    }
+    let invalidated_event_ids = invalidated_ids.into_iter().collect::<Vec<_>>();
     let unhandled_requests = projection
         .requests
         .iter()
@@ -347,31 +545,63 @@ pub fn collaboration_outcome_projection(
         })
         .cloned()
         .collect::<Vec<_>>();
-    let blockers = projection
-        .blockers
-        .get(work_item_id)
-        .cloned()
-        .unwrap_or_default();
+    let admission = current.map(|registration| {
+        let action = CollaborationAction {
+            kind: CollaborationActionKind::Composition,
+            consumer_work_item_id: work_item_id.into(),
+            outcome_ids: registration
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .map(|dependency| dependency.outcome_id.clone())
+                .collect(),
+        };
+        admit_collaboration_action(&store, work_item_id, registration.generation, action)
+    });
+    let mut admission_unknowns = Vec::new();
+    let blockers = match admission {
+        Some(Ok(admission)) => {
+            admission_unknowns = admission.unknowns;
+            admission.blockers
+        }
+        Some(Err(error)) => {
+            admission_unknowns.push(format!("collaboration_admission:{error}"));
+            Vec::new()
+        }
+        None => Vec::new(),
+    };
     let mut unknowns = projection.unknowns.clone();
-    let (composition_state, target_merge_state, cleanup_state, reusable_checks) =
-        match latest_composition_attempt(store.root(), work_item_id) {
-            Ok(Some(attempt)) => composition_facts(&attempt),
-            Ok(None) => (
+    unknowns.extend(admission_unknowns);
+    let (
+        (composition_state, target_merge_state, cleanup_state, reusable_checks),
+        composition_applicability,
+    ) = match latest_composition_attempt(store.root(), work_item_id) {
+        Ok(Some(attempt)) => (
+            composition_facts(store.root(), &attempt),
+            composition_applicability(store.root(), &attempt, &projection),
+        ),
+        Ok(None) => (
+            (
                 "not_observed".into(),
                 "not_observed".into(),
                 "not_observed".into(),
                 Vec::new(),
             ),
-            Err(error) => {
-                unknowns.push(format!("composition_projection:{error}"));
+            "not_observed".into(),
+        ),
+        Err(error) => {
+            unknowns.push(format!("composition_projection:{error}"));
+            (
                 (
                     "unknown".into(),
                     "unknown".into(),
                     "unknown".into(),
                     Vec::new(),
-                )
-            }
-        };
+                ),
+                "unknown".into(),
+            )
+        }
+    };
     let state = if !unknowns.is_empty() {
         "unknown"
     } else if !blockers.is_empty() {
@@ -415,6 +645,7 @@ pub fn collaboration_outcome_projection(
             .unwrap_or_default(),
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state,
+        composition_applicability,
         target_merge_state,
         cleanup_state,
         revalidation: if invalidated_event_ids.is_empty() {
@@ -478,7 +709,10 @@ fn latest_composition_attempt(
     Ok(latest)
 }
 
-fn composition_facts(attempt: &CompositionAttempt) -> (String, String, String, Vec<String>) {
+fn composition_facts(
+    root: &Path,
+    attempt: &CompositionAttempt,
+) -> (String, String, String, Vec<String>) {
     let composition_state = if attempt.passed {
         "passed"
     } else if attempt.failure.as_deref() == Some("in_progress") {
@@ -486,13 +720,7 @@ fn composition_facts(attempt: &CompositionAttempt) -> (String, String, String, V
     } else {
         "failed"
     };
-    let target_merge_state = if attempt.isolated_worktree.is_empty() {
-        "not_observed"
-    } else if attempt.text_conflicts.is_empty() {
-        "passed"
-    } else {
-        "failed"
-    };
+    let target_merge_state = target_merge_state(root, attempt);
     let cleanup_state = match &attempt.cleanup {
         Some(cleanup) if cleanup.removed => "cleaned",
         Some(cleanup) if cleanup.attempted => "failed",
@@ -507,10 +735,59 @@ fn composition_facts(attempt: &CompositionAttempt) -> (String, String, String, V
         .collect();
     (
         composition_state.into(),
-        target_merge_state.into(),
+        target_merge_state,
         cleanup_state.into(),
         reusable_checks,
     )
+}
+
+fn target_merge_state(root: &Path, attempt: &CompositionAttempt) -> String {
+    let Some(target) = resolve_local_branch(root, &attempt.binding.target_branch) else {
+        return "unknown".into();
+    };
+    if !attempt.text_conflicts.is_empty() {
+        return "not_merged".into();
+    }
+    for participant_head in &attempt.binding.participant_heads {
+        let output = Command::new("git")
+            .args(["merge-base", "--is-ancestor", participant_head, &target])
+            .current_dir(root)
+            .output();
+        match output {
+            Ok(output) if output.status.success() => {}
+            Ok(output) if output.status.code() == Some(1) => return "not_merged".into(),
+            _ => return "unknown".into(),
+        }
+    }
+    "merged".into()
+}
+
+fn composition_applicability(
+    root: &Path,
+    attempt: &CompositionAttempt,
+    projection: &CollaborationProjection,
+) -> String {
+    let Some(target_head) = resolve_local_branch(root, &attempt.binding.target_branch) else {
+        return "unknown".into();
+    };
+    if target_head != attempt.binding.target_sha {
+        return "stale".into();
+    }
+    for (index, work_item_id) in attempt.binding.participant_work_items.iter().enumerate() {
+        let Some(registration) = projection
+            .registrations
+            .iter()
+            .find(|registration| &registration.work_item_id == work_item_id)
+        else {
+            return "unknown".into();
+        };
+        if attempt.binding.participant_heads.get(index) != Some(&registration.head)
+            || attempt.binding.contract_digests.get(index) != Some(&registration.contract_digest)
+        {
+            return "stale".into();
+        }
+    }
+    "current".into()
 }
 
 fn recovery_consumed(
@@ -573,6 +850,16 @@ pub fn admit_collaboration_action(
                     blockers.push(format!("action_outcome_not_declared:{outcome_id}"));
                 }
             }
+            let selected = action.outcome_ids.iter().cloned().collect::<BTreeSet<_>>();
+            let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
+            let outcome_blockers = dependency_blockers_for_registration(
+                &projection,
+                registration,
+                Some(&selected),
+                &invalidated_outcomes,
+            );
+            blockers.retain(|blocker| !is_outcome_dependency_blocker(blocker));
+            blockers.extend(outcome_blockers);
         }
         for request in &projection.requests {
             if request.target_work_item_id == work_item_id
@@ -583,17 +870,9 @@ pub fn admit_collaboration_action(
             }
         }
     }
-    let affected = projection
-        .affected_work_items
+    let affected = blockers
         .iter()
-        .any(|candidate| candidate == work_item_id);
-    if affected
-        && !blockers
-            .iter()
-            .any(|blocker| blocker.starts_with("dependency_impact:"))
-    {
-        blockers.push("dependency_impact:current_events".into());
-    }
+        .any(|blocker| blocker.starts_with("dependency_impact:"));
     blockers.sort();
     blockers.dedup();
     unknowns.sort();
@@ -687,18 +966,18 @@ fn verify_composition_identity(
     if target.generation != generation {
         blockers.push(format!("generation_mismatch:{work_item_id}"));
     }
-    let topology = GitRepository::discover(&input.repository_root)
-        .and_then(|git| git.topology())
-        .map_err(|error| {
-            CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
-        })?;
+    GitRepository::discover(&input.repository_root).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
+    })?;
     if input.binding.repository_id != target.repository_id {
         blockers.push("composition_repository_identity_mismatch".into());
     }
-    if input.binding.target_branch != topology.branch.clone().unwrap_or_default() {
+    if input.binding.target_branch != target.declaration.integration_responsibility.target_branch {
         blockers.push("composition_target_branch_mismatch".into());
     }
-    if input.binding.target_sha != topology.head.clone().unwrap_or_default() {
+    let resolved_target =
+        resolve_local_branch(&input.repository_root, &input.binding.target_branch);
+    if resolved_target.as_deref() != Some(input.binding.target_sha.as_str()) {
         blockers.push("composition_target_head_mismatch".into());
     }
     if input.binding.participant_work_items.is_empty()
@@ -730,7 +1009,25 @@ fn verify_composition_identity(
             ));
         }
     }
+    let required_participants = dependency_closure(&registrations, work_item_id);
+    let declared_participants = input
+        .binding
+        .participant_work_items
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    if declared_participants != required_participants {
+        blockers.push("composition_dependency_closure_incomplete".into());
+    }
+    let composition_order = &target
+        .declaration
+        .integration_responsibility
+        .composition_order;
+    if !composition_order.is_empty() && composition_order != &input.binding.participant_work_items {
+        blockers.push("composition_order_mismatch".into());
+    }
     let mut node_ids = BTreeSet::new();
+    let mut prior_node_ids = BTreeSet::new();
     if input.commands.is_empty() {
         blockers.push("required_checks_empty".into());
     }
@@ -747,10 +1044,71 @@ fn verify_composition_identity(
                 command.node_id
             ));
         }
+        let mut dependencies = BTreeSet::new();
+        for dependency in &command.depends_on {
+            if dependency.trim().is_empty()
+                || !dependencies.insert(dependency)
+                || !prior_node_ids.contains(dependency)
+            {
+                blockers.push(format!(
+                    "composition_dependency_order_invalid:{}:{}",
+                    command.node_id, dependency
+                ));
+            }
+        }
+        prior_node_ids.insert(command.node_id.clone());
     }
-    if input.identity.command_digest != composition_commands_digest(&input.commands) {
-        blockers.push("composition_command_identity_mismatch".into());
+    let covered_scenarios = input
+        .commands
+        .iter()
+        .flat_map(|command| command.covered_scenarios.iter().cloned())
+        .collect::<BTreeSet<_>>();
+    let covered_constraints = input
+        .commands
+        .iter()
+        .flat_map(|command| command.covered_constraints.iter().cloned())
+        .collect::<BTreeSet<_>>();
+    for participant_id in &input.binding.participant_work_items {
+        let Some(participant) = registrations.get(participant_id) else {
+            continue;
+        };
+        for scenario in &participant
+            .declaration
+            .composition_verification
+            .required_scenarios
+        {
+            if !covered_scenarios.contains(scenario) {
+                blockers.push(format!("required_scenario_uncovered:{scenario}"));
+            }
+        }
+        for constraint in &participant
+            .declaration
+            .composition_verification
+            .compatibility_constraints
+        {
+            if !covered_constraints.contains(constraint) {
+                blockers.push(format!("compatibility_constraint_uncovered:{constraint}"));
+            }
+        }
     }
+    let declared_reusable_nodes = target
+        .declaration
+        .composition_verification
+        .reusable_nodes
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    for node_id in &declared_reusable_nodes {
+        if !node_ids.contains(node_id) {
+            blockers.push(format!("reusable_node_missing:{node_id}"));
+        }
+    }
+    input.reusable_node_ids = input
+        .commands
+        .iter()
+        .filter(|command| declared_reusable_nodes.contains(&command.node_id))
+        .map(|command| command.node_id.clone())
+        .collect();
     blockers.sort();
     blockers.dedup();
     if blockers.is_empty() {
@@ -766,10 +1124,212 @@ fn verify_composition_identity(
     Ok(blockers)
 }
 
+fn resolve_local_branch(root: &Path, branch: &str) -> Option<String> {
+    let checked = Command::new("git")
+        .args(["check-ref-format", "--branch", branch])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    if !checked.status.success() {
+        return None;
+    }
+    let reference = format!("refs/heads/{branch}^{{commit}}");
+    let output = Command::new("git")
+        .args(["rev-parse", "--verify", "--end-of-options", &reference])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    String::from_utf8(output.stdout)
+        .ok()
+        .map(|value| value.trim().to_owned())
+}
+
+fn commit_is_ancestor(root: &Path, branch: &str, commit: &str) -> Option<bool> {
+    if commit.len() != 40 || !commit.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Some(false);
+    }
+    let target = resolve_local_branch(root, branch)?;
+    let output = Command::new("git")
+        .args(["merge-base", "--is-ancestor", commit, &target])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    match output.status.code() {
+        Some(0) => Some(true),
+        Some(1) => Some(false),
+        _ => None,
+    }
+}
+
+fn dependency_closure(
+    registrations: &BTreeMap<String, WorktreeRegistration>,
+    starting_work_item_id: &str,
+) -> BTreeSet<String> {
+    let mut required = BTreeSet::new();
+    let mut pending = vec![starting_work_item_id.to_owned()];
+    while let Some(work_item_id) = pending.pop() {
+        if !required.insert(work_item_id.clone()) {
+            continue;
+        }
+        if let Some(registration) = registrations.get(&work_item_id) {
+            pending.extend(
+                registration
+                    .declaration
+                    .consumed_outcomes
+                    .iter()
+                    .map(|dependency| dependency.provider_work_item_id.clone()),
+            );
+        }
+    }
+    required
+}
+
 pub fn report_impact(
     store: &CoordinationStore,
     event: CoordinationEvent,
 ) -> Result<CoordinationEvent, CoordinationError> {
+    if event.kind != cockpit_protocol::CoordinationEventKind::Impact {
+        return Err(CoordinationError::RecoveryRequired(
+            "report_impact accepts only Impact events; use publish_outcome for OutcomePublished events"
+                .into(),
+        ));
+    }
+    store.publish_event(event)
+}
+
+pub fn publish_outcome(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    outcome_id: &str,
+) -> Result<CoordinationEvent, CoordinationError> {
+    let mut projection = collaboration_projection(store)?;
+    if !projection.unknowns.is_empty() {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "cannot publish an outcome while coordination facts are unknown: {}",
+            projection.unknowns.join(", ")
+        )));
+    }
+    let provider = projection
+        .registrations
+        .iter()
+        .find(|registration| registration.work_item_id == work_item_id)
+        .cloned()
+        .ok_or_else(|| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome publisher requires a current registration for {work_item_id}"
+            ))
+        })?;
+    if provider.generation != generation {
+        return Err(CoordinationError::StaleGeneration {
+            work_item_id: work_item_id.into(),
+            expected: provider.generation,
+            actual: generation,
+        });
+    }
+    let outcome = provider
+        .declaration
+        .provided_outcomes
+        .iter()
+        .find(|outcome| outcome.outcome_id == outcome_id)
+        .ok_or_else(|| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome {outcome_id} is not declared by {work_item_id}"
+            ))
+        })?;
+    if outcome.published_head != provider.head {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "outcome {outcome_id} head does not match the current registration for {work_item_id}"
+        )));
+    }
+
+    let root = Path::new(&provider.worktree_path);
+    let mut evidence_digests = BTreeMap::new();
+    for reference in &outcome.evidence_refs {
+        let relative = Path::new(reference);
+        if relative.is_absolute()
+            || relative
+                .components()
+                .any(|component| component == std::path::Component::ParentDir)
+        {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "outcome evidence reference escapes the registered worktree: {reference}"
+            )));
+        }
+        let path = root.join(relative);
+        let metadata = fs::symlink_metadata(&path).map_err(|source| CoordinationError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "outcome evidence is not a regular file: {reference}"
+            )));
+        }
+        let bytes = fs::read(&path).map_err(|source| CoordinationError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        if evidence_digests
+            .insert(
+                reference.clone(),
+                cockpit_core::Digest::sha256_bytes(&bytes),
+            )
+            .is_some()
+        {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "outcome evidence reference is duplicated: {reference}"
+            )));
+        }
+    }
+    let identity_bytes = serde_json::to_vec(&(
+        &provider.repository_id,
+        work_item_id,
+        generation,
+        outcome_id,
+        &provider.head,
+        &provider.contract_digest,
+        &evidence_digests,
+    ))
+    .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
+    let identity_digest = cockpit_core::Digest::sha256_bytes(&identity_bytes).to_string();
+    let digest_suffix = identity_digest
+        .strip_prefix("sha256:")
+        .unwrap_or(&identity_digest);
+    let event = CoordinationEvent {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        event_id: format!("outcome-{work_item_id}-{generation}-{outcome_id}-{digest_suffix}"),
+        repository_id: provider.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        generation,
+        kind: cockpit_protocol::CoordinationEventKind::OutcomePublished,
+        source: "runtime-publish-outcome".into(),
+        evidence_refs: outcome.evidence_refs.clone(),
+        evidence_digests,
+        outcome_ids: vec![outcome_id.into()],
+    };
+    let verification_required = projection.registrations.iter().any(|consumer| {
+        consumer
+            .declaration
+            .consumed_outcomes
+            .iter()
+            .any(|dependency| {
+                dependency.provider_work_item_id == work_item_id
+                    && dependency.outcome_id == outcome_id
+                    && dependency.verification_required
+            })
+    });
+    if verification_required {
+        projection.events.push(event.clone());
+        if !verification_evidence_is_complete(&projection, &provider, outcome) {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "outcome {outcome_id} requires a current successful verification receipt before publication"
+            )));
+        }
+    }
     store.publish_event(event)
 }
 

@@ -1,5 +1,13 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{PROTOCOL_VERSION, RuntimeContext};
+use cockpit_git::GitRepository;
+use cockpit_protocol::{
+    COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility, OutcomeStage,
+    PROTOCOL_VERSION, ProvidedOutcome, RuntimeCapabilityBinding, RuntimeContext,
+    WorktreeRegistration,
+};
+use cockpit_repository::{
+    WorkItemStartOptions, attach, repository_id, start_work_item_with_options,
+};
 use serde_json::{Value, json};
 use std::fs;
 use std::path::Path;
@@ -35,6 +43,49 @@ fn runtime() -> RuntimeContext {
         runtime_version: "0.2.113".into(),
         protocol_version: PROTOCOL_VERSION,
         runtime_digest: Digest::sha256_bytes(b"candidate-mcp"),
+    }
+}
+
+fn outcome_registration(root: &Path) -> WorktreeRegistration {
+    let topology = GitRepository::discover(root)
+        .expect("discover repository")
+        .topology()
+        .expect("repository topology");
+    let contract_path = root.join(".ai/work-items/active/WI-MCP.contract.json");
+    let contract: Value =
+        serde_json::from_slice(&fs::read(contract_path).expect("contract")).expect("contract JSON");
+    WorktreeRegistration {
+        schema_version: 1,
+        repository_id: repository_id(root),
+        work_item_id: "WI-MCP".into(),
+        contract_digest: cockpit_protocol::digest_json(&contract).expect("contract digest"),
+        worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+        branch: topology.branch.expect("branch"),
+        head: topology.head.clone().expect("head"),
+        generation: 1,
+        declaration: CollaborationDeclaration {
+            provided_outcomes: vec![ProvidedOutcome {
+                outcome_id: "api".into(),
+                interface_contract: "api-v1".into(),
+                behavior_contract: "stable response".into(),
+                published_head: topology.head.expect("head"),
+                stage: OutcomeStage::ComposableHead,
+                evidence_refs: vec!["target/api.json".into()],
+            }],
+            integration_responsibility: IntegrationResponsibility {
+                responsible_work_item_id: "WI-MCP".into(),
+                target_branch: "main".into(),
+                composition_order: vec!["WI-MCP".into()],
+                rationale: "MCP outcome publication test".into(),
+            },
+            ..Default::default()
+        },
+        runtime: RuntimeCapabilityBinding {
+            schema_version: 1,
+            runtime_version: runtime().runtime_version,
+            runtime_digest: runtime().runtime_digest,
+            capability: COLLABORATION_CAPABILITY.into(),
+        },
     }
 }
 
@@ -88,4 +139,58 @@ fn coordination_rpc_exposes_explicit_read_write_operations_and_stable_projection
     );
     assert_eq!(error["result"]["isError"], true);
     assert!(!root.path().join(".git/.ai-cockpit/coordination").exists());
+}
+
+#[test]
+fn publish_outcome_mcp_action_uses_the_same_bound_write_path() {
+    let root = repository();
+    run_git(root.path(), &["branch", "-M", "main"]);
+    run_git(root.path(), &["checkout", "-qb", "codex/wi-mcp"]);
+    attach(root.path()).expect("attach repository");
+    start_work_item_with_options(
+        root.path(),
+        "WI-MCP",
+        "MCP outcome publication test",
+        "bind an outcome publication to its selected evidence",
+        &[
+            ".ai/**".into(),
+            "README.md".into(),
+            "target/api.json".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["MCP publication binds exact evidence bytes".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start Work Item");
+    fs::create_dir_all(root.path().join("target")).expect("target directory");
+    let evidence_bytes = b"{\"api\":1}\n";
+    fs::write(root.path().join("target/api.json"), evidence_bytes).expect("write evidence");
+
+    let registered = call(
+        root.path(),
+        "work_item_coordination",
+        json!({"action":"register", "registration":outcome_registration(root.path())}),
+    );
+    assert_eq!(registered["result"]["workItemId"], "WI-MCP");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &json!({
+            "jsonrpc":"2.0", "id":3, "method":"tools/call",
+            "params":{"name":"work_item_coordination", "arguments":{
+                "action":"publish-outcome", "workItemId":"WI-MCP", "generation":1, "outcomeId":"api"
+            }}
+        }),
+        root.path(),
+        &runtime(),
+    );
+    assert_ne!(response["result"]["isError"], true, "{response}");
+    let published = &response["result"]["structuredContent"]["result"];
+    assert_eq!(published["kind"], "outcome_published");
+    assert_eq!(published["outcomeIds"], json!(["api"]));
+    assert_eq!(
+        published["evidenceDigests"]["target/api.json"],
+        Digest::sha256_bytes(evidence_bytes).to_string()
+    );
 }
