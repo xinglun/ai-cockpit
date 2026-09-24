@@ -1,0 +1,164 @@
+{
+  "acceptanceResults": [
+    "A1: 将 WI-1025 已声明的四条 acceptanceCriteria 映射到现有发布、安装、升级、finalization 和清理证据。",
+    "A2: 保持 WI-1025 归档 Contract、Summary、Outcome、Events 和 verification 原件不变。",
+    "A3: successor 通过 Runtime verification、controls、finish、archive、finalize-verify 和 close。",
+    "A4: 重复状态和文档投影检查不产生新的 successor 或清理义务。"
+  ],
+  "createdAt": "2026-09-24T01:41:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b87f0e3e97d1a8f91fe1bbe067a13470e35c010efc11fdfb1af0761c45e2eb0c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+      "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1026-release-v0-2-113-close-recovery-controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification-attempt.618744b5c730b14f0afcb4499322c965fbbe9f323b1d43a0fcd913d31a51617f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "保留 WI-1025 全部归档字节不变，绑定已有公开发布、安装、N-1 升级、finalization 和清理证据，完成 successor 的验证、归档、close 与派生文档投影。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1026-release-v0-2-113-close-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+  },
+  "taskReportDigest": "sha256:3a356024af21672cca5adbb55492bf9c6649f43a2e7f60d7ba2077eb2427ccec",
+  "taskReportMarkdownDigest": "sha256:4c9141ca57e83977ce07dcbb16897b4ae8a1d81a4eb4728189e10fe6a2cbd216",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1026-release-v0-2-113-close-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+}

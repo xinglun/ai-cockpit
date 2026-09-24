@@ -1,0 +1,34 @@
+{
+  "acceptanceCriteria": [
+    "A1: 将 WI-1025 已声明的四条 acceptanceCriteria 映射到现有发布、安装、升级、finalization 和清理证据。",
+    "A2: 保持 WI-1025 归档 Contract、Summary、Outcome、Events 和 verification 原件不变。",
+    "A3: successor 通过 Runtime verification、controls、finish、archive、finalize-verify 和 close。",
+    "A4: 重复状态和文档投影检查不产生新的 successor 或清理义务。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "508dd903ccb67f6dc0d6249a0b8daaab14415cf9",
+  "createdAt": "2026-09-24T01:26:58Z",
+  "goal": "保留 WI-1025 全部归档字节不变，绑定已有公开发布、安装、N-1 升级、finalization 和清理证据，完成 successor 的验证、归档、close 与派生文档投影。",
+  "intent": "补齐 WI-1025 已完成 v0.2.113 发布的正式 acceptanceEvidence 映射并通过受支持生命周期收尾",
+  "mode": "implementation",
+  "outOfScope": [
+    "不重跑 workspace，不修改 v0.2.113 Release/tag，不新增任务进度 API，不修改 WI-1025 归档原件。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅补齐 WI-1025 四条既有 acceptanceCriteria 的证据映射和 successor 生命周期记录，不修改产品、发布资产或历史证据。"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "git status --short --branch"
+  ],
+  "workItemId": "WI-1026-release-v0-2-113-close-recovery"
+}
