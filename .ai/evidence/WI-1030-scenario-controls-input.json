@@ -1,0 +1,88 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "registration_identity_is_rejected_when_repository_common_directory_or_contract_binding_is_false",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs",
+        ".ai/evidence/WI-1030-cross-process-acceptance.json"
+      ]
+    },
+    {
+      "scenario": "safely_paused_action_is_rejected_without_spawning_and_unrelated_work_continues",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs"
+      ]
+    },
+    {
+      "scenario": "resource_release_rejects_old_generation_after_registration_upgrade",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs"
+      ]
+    },
+    {
+      "scenario": "composition_rejects_empty_or_incomplete_required_checks",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs"
+      ]
+    },
+    {
+      "scenario": "composition_timeout_and_interruption_persist_bounded_attempt_state_and_cleanup_result",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs"
+      ]
+    },
+    {
+      "scenario": "cli_and_mcp_repeat_composition_reuse_processes_and_partial_changes_rerun_only_affected_nodes",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/WI-1030-cross-process-acceptance.json",
+        ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt"
+      ]
+    },
+    {
+      "scenario": "published_outcome_does_not_block_consumers_and_old_generation_impact_is_resolved_append_only",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs",
+        "crates/cockpit-repository/tests/coordination_store.rs"
+      ]
+    },
+    {
+      "scenario": "shared_outcome_projects_composition_merge_cleanup_and_reuse_facts",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs",
+        ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt"
+      ]
+    },
+    {
+      "scenario": "cross_wi_coordination_processes_is_manifest_gate_covered",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/ci/repository_gate_manifest.json",
+        ".ai/evidence/WI-1030-cross-process-acceptance.json"
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "evidence": [
+      "docs/superpowers/specs/2026-09-24-cross-wi-behavioral-closure-design.md",
+      ".ai/evidence/WI-1030-cross-process-acceptance.json"
+    ]
+  }
+}

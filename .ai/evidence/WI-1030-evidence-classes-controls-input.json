@@ -1,0 +1,32 @@
+{
+  "evidenceClasses": {
+    "schemaVersion": 1,
+    "contractDigest": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+    "items": [
+      {
+        "class": "cross_process_acceptance",
+        "evidence": [
+          {
+            "type": "acceptance",
+            "path": ".ai/evidence/WI-1030-cross-process-acceptance.json",
+            "locator": "cross_wi_coordination_processes.py:real-linked-worktrees-and-composition-reuse",
+            "verification": "passed",
+            "digest": "sha256:db136abb3be96dd7a4173309e16c8e705887f5a80ddbffe3f256faa74b060ce7"
+          }
+        ]
+      },
+      {
+        "class": "cli_mcp_reuse_evidence",
+        "evidence": [
+          {
+            "type": "verification",
+            "path": ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt",
+            "locator": "cockpit-cli::calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process; cockpit-mcp::mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service",
+            "verification": "passed",
+            "digest": "sha256:c4dfe773a46820daa303190903c59cf295e67da6fcc5de1ac7147442e3f60014"
+          }
+        ]
+      }
+    ]
+  }
+}

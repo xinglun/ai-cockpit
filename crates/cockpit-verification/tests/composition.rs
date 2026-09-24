@@ -129,6 +129,7 @@ fn input(
         identity,
         commands,
         preconditions,
+        timeout_seconds: 1,
     }
 }
 
@@ -271,5 +272,129 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
     assert_eq!(
         classify_reuse(&passed, &changed).kind,
         ReuseDecisionKind::Execute
+    );
+}
+
+#[test]
+fn repeated_exact_composition_reuses_without_spawning_a_process() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("cheap", "sh", &["-c", "true"])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+
+    let first = run_composition(composition.clone()).expect("first attempt");
+    let second = run_composition(composition).expect("second attempt");
+
+    assert!(first.passed);
+    assert!(second.passed);
+    assert_eq!(second.processes_spawned, 0);
+    assert_eq!(second.execution_records.len(), 1);
+    assert!(!second.execution_records[0].spawned);
+    assert!(second.execution_records[0].reused);
+    assert_eq!(
+        second.execution_records[0]
+            .predecessor_attempt_id
+            .as_deref(),
+        Some(first.attempt_id.as_str())
+    );
+}
+
+#[test]
+fn changed_command_only_reexecutes_the_affected_node() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let first_input = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![
+            command("stable", "sh", &["-c", "true"]),
+            command("changed", "sh", &["-c", "true"]),
+        ],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(first_input.clone()).expect("first attempt");
+    assert!(first.passed);
+
+    let second_input = input(
+        root.path(),
+        state.path(),
+        first_input.binding,
+        vec![
+            command("stable", "sh", &["-c", "true"]),
+            command("changed", "sh", &["-c", "false"]),
+        ],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let second = run_composition(second_input).expect("second attempt");
+
+    assert!(!second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(!second.execution_records[0].spawned);
+    assert!(second.execution_records[0].reused);
+    assert!(second.execution_records[1].spawned);
+    assert!(!second.execution_records[1].passed);
+}
+
+#[test]
+fn empty_required_checks_fail_closed_without_a_worktree_or_process() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        Vec::new(),
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("empty composition attempt");
+
+    assert!(!attempt.passed);
+    assert_eq!(attempt.processes_spawned, 0);
+    assert_eq!(attempt.failure.as_deref(), Some("required_checks_empty"));
+    assert!(
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| !cleanup.attempted)
+    );
+}
+
+#[test]
+fn timed_out_node_is_durable_and_reports_cleanup() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("timeout", "sh", &["-c", "sleep 2"])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("timeout composition attempt");
+
+    assert!(!attempt.passed);
+    assert_eq!(attempt.processes_spawned, 1);
+    assert!(attempt.execution_records[0].timed_out);
+    assert!(
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted)
+    );
+    assert!(
+        state
+            .path()
+            .join(format!("{}.json", attempt.attempt_id))
+            .exists()
     );
 }

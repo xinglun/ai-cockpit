@@ -1362,7 +1362,6 @@ fn run_composition_command(
         )
     }
     input.repository_root = repo.clone();
-    input.state_dir = repo.join(".ai-cockpit/coordination/v1/compositions");
     let store = collaboration_store(&repo, runtime, true)?;
     let attempt =
         cockpit_repository::run_admitted_composition(&store, &work_item_id, generation, input)

@@ -1,0 +1,323 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt",
+    ".ai/evidence/WI-1030-cross-process-acceptance.json",
+    ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.085f738073dea2c30319f6df78274c75316fb19ca6c943aae93dd71b959c78c0.json",
+    ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.22618b4cd9f557b6b3d6d0e4ae6f3cf8d8ddf45b35c15801e7a447382736ccdf.json",
+    ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.2e1153e4b5824ed07cf625b0f897a48869ba834909fc7823bc0999680bb2178d.json",
+    ".ai/evidence/WI-1030-cross-wi-behavioral-closure.verification-attempt.f823405c3b8e3da369e0f44ee21ae6b79af33aa373483fdbbeabfab26787e670.json",
+    ".ai/evidence/WI-1030-evidence-classes-controls-input.json",
+    ".ai/evidence/WI-1030-runtime-upgrade-amendment-input.json",
+    ".ai/evidence/WI-1030-scenario-controls-input.json",
+    ".ai/work-items/active/WI-1030-cross-wi-behavioral-closure.contract.json",
+    ".ai/work-items/active/WI-1030-cross-wi-behavioral-closure.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/collaboration_cli.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/collaboration.rs",
+    "crates/cockpit-repository/src/coordination_store.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/collaboration_admission.rs",
+    "crates/cockpit-repository/tests/coordination_store.rs",
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs",
+    "docs/features/cross-wi-coordination.ja.md",
+    "docs/features/cross-wi-coordination.md",
+    "docs/features/cross-wi-coordination.zh-CN.md",
+    "docs/reference/cross-wi-coordination.ja.md",
+    "docs/reference/cross-wi-coordination.md",
+    "docs/reference/cross-wi-coordination.zh-CN.md",
+    "docs/superpowers/plans/2026-09-24-cross-wi-behavioral-closure.md",
+    "docs/superpowers/specs/2026-09-24-cross-wi-behavioral-closure-design.md",
+    "tests/acceptance/cross_wi_coordination_processes.py",
+    "tests/ci/repository_gate_manifest.json"
+  ],
+  "checkpointAt": "2026-09-24T08:48:12Z",
+  "checkpointContractDigest": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:7c11d2fd27ceb0be477686d2913b1709ccacf9119cc51c2757674a4ffd5da670",
+      "recorded": true,
+      "recordedAt": "2026-09-24T08:48:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:847fef6c654ed3aa3f0ec0080674b185b0b44a11727d494b404ce2791d0d5af0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1030-cross-wi-behavioral-closure"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7c11d2fd27ceb0be477686d2913b1709ccacf9119cc51c2757674a4ffd5da670",
+      "previousContractHash": "sha256:7c11d2fd27ceb0be477686d2913b1709ccacf9119cc51c2757674a4ffd5da670",
+      "reason": "用户于 2026-09-24 明确授权：后续治理动作先将本机外部 Runtime 升级到最新公开 immutable release，再使用升级后的 Runtime。该授权覆盖此前 Contract 对 Runtime 0.2.105 的固定约束；本次仅扩展治理验证边界，不扩大产品发布范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-24T10:05:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:51eb418119fc6562d7a12b3aee4c5a277e1fc8829319e677b254c1d5a25833da",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1030-cross-wi-behavioral-closure"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f0ed81f5074114861ff0daeefcb1f74aca5f024c1c65c243394abb8afd0400d7",
+  "createdAt": "2026-09-24T08:37:15Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+    "items": [
+      {
+        "class": "cross_process_acceptance",
+        "evidence": [
+          {
+            "digest": "sha256:db136abb3be96dd7a4173309e16c8e705887f5a80ddbffe3f256faa74b060ce7",
+            "locator": "cross_wi_coordination_processes.py:real-linked-worktrees-and-composition-reuse",
+            "path": ".ai/evidence/WI-1030-cross-process-acceptance.json",
+            "type": "acceptance",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "cli_mcp_reuse_evidence",
+        "evidence": [
+          {
+            "digest": "sha256:c4dfe773a46820daa303190903c59cf295e67da6fcc5de1ac7147442e3f60014",
+            "locator": "cockpit-cli::calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process; cockpit-mcp::mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service",
+            "path": ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt",
+            "type": "verification",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-09-24-cross-wi-behavioral-closure-design.md",
+      ".ai/evidence/WI-1030-cross-process-acceptance.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-24T10:26:50Z",
+  "preflightContractDigest": "sha256:fcedf7b31188bffb7d58880097c10c7bdb7347ea31c6bf56a93064d148db6f56",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f0ed81f5074114861ff0daeefcb1f74aca5f024c1c65c243394abb8afd0400d7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs",
+        ".ai/evidence/WI-1030-cross-process-acceptance.json"
+      ],
+      "required": true,
+      "scenario": "registration_identity_is_rejected_when_repository_common_directory_or_contract_binding_is_false",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs"
+      ],
+      "required": true,
+      "scenario": "safely_paused_action_is_rejected_without_spawning_and_unrelated_work_continues",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs"
+      ],
+      "required": true,
+      "scenario": "resource_release_rejects_old_generation_after_registration_upgrade",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs"
+      ],
+      "required": true,
+      "scenario": "composition_rejects_empty_or_incomplete_required_checks",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs"
+      ],
+      "required": true,
+      "scenario": "composition_timeout_and_interruption_persist_bounded_attempt_state_and_cleanup_result",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1030-cross-process-acceptance.json",
+        ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt"
+      ],
+      "required": true,
+      "scenario": "cli_and_mcp_repeat_composition_reuse_processes_and_partial_changes_rerun_only_affected_nodes",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs",
+        "crates/cockpit-repository/tests/coordination_store.rs"
+      ],
+      "required": true,
+      "scenario": "published_outcome_does_not_block_consumers_and_old_generation_impact_is_resolved_append_only",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs",
+        ".ai/evidence/WI-1030-cli-mcp-reuse-evidence.txt"
+      ],
+      "required": true,
+      "scenario": "shared_outcome_projects_composition_merge_cleanup_and_reuse_facts",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/repository_gate_manifest.json",
+        ".ai/evidence/WI-1030-cross-process-acceptance.json"
+      ],
+      "required": true,
+      "scenario": "cross_wi_coordination_processes_is_manifest_gate_covered",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-24T10:27:21Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1030-cross-wi-behavioral-closure"
+}

@@ -1,0 +1,161 @@
+{
+  "acceptanceCriteria": [
+    "登记必须核验真实 repository/common directory、WI Contract 存在与 digest、worktree topology、branch/head 和 verification-required 证据；不可信声明 fail closed",
+    "SafelyPaused 在恢复前必须拒绝具体执行动作且不得启动进程；无关 WI 继续，恢复后刷新依赖",
+    "资源 reserve/release 必须核验当前登记代次，旧执行者不能释放新代次资源",
+    "组合身份必须由 Runtime/仓库事实核验，前置条件由 Runtime 计算，必需检查必须完整覆盖，空命令不得成功",
+    "组合执行复用既有 bounded executor，逐节点持久化 attempt，真实记录 timeout/interruption/cleanup，stdout/stderr 有执行期上限",
+    "CLI/MCP 连续执行证明完全相同输入实际少启动进程，局部变化只重跑受影响节点",
+    "影响事件按失效与发布区分，跨代次追加式恢复可解除旧事件阻塞但不删除历史；相关动作前刷新真实 head/Contract/evidence",
+    "共享 Outcome 投影反映最近 composition/merge/cleanup/reuse 事实，协调请求不直接伪造 human decision required",
+    "真实多进程、多 linked worktree 验收脚本进入 canonical gate manifest 并持续执行",
+    "Runtime 前置：本机治理命令解析到公开 Runtime v0.2.113，架构为 aarch64-apple-darwin，archive、SHA256SUMS 和 release-manifest 身份一致；升级前版本保留为可恢复备份。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "669937a43f680c5ef759b511d30d2a17aceb56e6",
+  "createdAt": "2026-09-24T08:37:15Z",
+  "goal": "让登记、准入、暂停、资源、组合验证、超时恢复、实际复用、影响消费和 Outcome 投影都绑定真实仓库事实并可由 CLI/MCP 与真实多进程验收证明",
+  "intent": "修复跨 WI 协作能力从声明模型到真实执行路径的闭环缺口",
+  "mode": "implementation",
+  "outOfScope": [
+    "不发布、不打 tag、不升级固定 Runtime 0.2.105、不修改全局 Agent/MCP 配置、不引入外部 Provider 资源",
+    "不把 Runtime v0.2.113 的安装实现并入产品源码；不发布、不打 tag、不修改 Provider 资源；旧的 0.2.105 固定条款仅作为升级前历史基线保留。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4accde0d84d483c970b592d9787c0f73857f273cec16c873e21978a03fb4c4cd",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "cross_process_acceptance",
+    "cli_mcp_reuse_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A registration whose repository, common directory, Contract digest, worktree topology, branch, head, or required evidence does not match observed facts is rejected before persistence.",
+      "required": true,
+      "scenario": "registration_identity_is_rejected_when_repository_common_directory_or_contract_binding_is_false",
+      "status": "unverified",
+      "verificationPlan": "Use real linked worktrees and tamper each identity dimension; assert no registration is persisted and the failure identifies the mismatched fact."
+    },
+    {
+      "evidence": [],
+      "expected": "A SafelyPaused target rejects the requested action before process spawn, while an unrelated Work Item remains allowed.",
+      "required": true,
+      "scenario": "safely_paused_action_is_rejected_without_spawning_and_unrelated_work_continues",
+      "status": "unverified",
+      "verificationPlan": "Request and acknowledge safe pause, call the concrete composition action with a process sentinel, and assert sentinel absence plus unrelated admission."
+    },
+    {
+      "evidence": [],
+      "expected": "An old-generation owner cannot release a reservation after the Work Item registration advances to a new generation.",
+      "required": true,
+      "scenario": "resource_release_rejects_old_generation_after_registration_upgrade",
+      "status": "unverified",
+      "verificationPlan": "Reserve at generation one, register generation two, attempt old release, and assert the reservation remains until a current-generation release."
+    },
+    {
+      "evidence": [],
+      "expected": "Composition fails closed when no commands or when declared required checks are not completely covered, regardless of caller-supplied satisfied booleans.",
+      "required": true,
+      "scenario": "composition_rejects_empty_or_incomplete_required_checks",
+      "status": "unverified",
+      "verificationPlan": "Run empty, missing-node, and forged-precondition inputs through the admitted composition entry point and assert zero project processes."
+    },
+    {
+      "evidence": [],
+      "expected": "Each node records bounded output, timeout or interruption, and explicit cleanup result durably before the next node or terminal return.",
+      "required": true,
+      "scenario": "composition_timeout_and_interruption_persist_bounded_attempt_state_and_cleanup_result",
+      "status": "unverified",
+      "verificationPlan": "Run a sleeping command and terminate the parent execution at a node boundary; inspect append-only attempt records and worktree cleanup status."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated identical CLI and MCP composition calls reuse prior successful nodes without spawning, while a local identity change reruns only affected nodes.",
+      "required": true,
+      "scenario": "cli_and_mcp_repeat_composition_reuse_processes_and_partial_changes_rerun_only_affected_nodes",
+      "status": "unverified",
+      "verificationPlan": "Execute the same request twice and then mutate one node identity; compare persisted per-node process counts and reuse decisions."
+    },
+    {
+      "evidence": [],
+      "expected": "Published outcome is not an invalidation event, while an older-generation invalidation can be resolved by a current-generation append-only recovery relation.",
+      "required": true,
+      "scenario": "published_outcome_does_not_block_consumers_and_old_generation_impact_is_resolved_append_only",
+      "status": "unverified",
+      "verificationPlan": "Publish both event kinds, advance provider generation, append current recovery, and assert history remains plus consumer admission is restored."
+    },
+    {
+      "evidence": [],
+      "expected": "Read-only shared Outcome projection reports the latest identity-bound composition, merge, cleanup, and reuse observations without inventing human authority.",
+      "required": true,
+      "scenario": "shared_outcome_projects_composition_merge_cleanup_and_reuse_facts",
+      "status": "unverified",
+      "verificationPlan": "Record shared coordination/composition facts through explicit write entry points and compare CLI/MCP Outcome projections."
+    },
+    {
+      "evidence": [],
+      "expected": "The real multi-process linked-worktree acceptance script is a required canonical repository gate.",
+      "required": true,
+      "scenario": "cross_wi_coordination_processes_is_manifest_gate_covered",
+      "status": "unverified",
+      "verificationPlan": "Inspect the manifest dependency closure and run the exact gate command on the final route."
+    }
+  ],
+  "scope": [
+    "仅修改跨 WI 协作协议、CoordinationStore、协作准入与恢复、Composition 执行接线、共享 Outcome 投影、CLI/MCP 入口、验收测试、canonical gate manifest 和三语文档",
+    "补充本 Work Item 的纠偏 spec 与实现计划，并在发布前形成可独立审查的实现与验证证据",
+    ".ai/**",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-verification/src/**",
+    "crates/cockpit-verification/tests/**",
+    "crates/cockpit-git/src/**",
+    "crates/cockpit-git/tests/**",
+    "crates/cockpit-cli/src/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-mcp/tests/**",
+    "crates/cockpit-agent/src/**",
+    "crates/cockpit-agent/tests/**",
+    "tests/acceptance/**",
+    "tests/ci/**",
+    "docs/superpowers/specs/2026-09-24-cross-wi-behavioral-closure-design.md",
+    "docs/superpowers/plans/2026-09-24-cross-wi-behavioral-closure.md",
+    "docs/reference/cross-wi-coordination.md",
+    "docs/reference/cross-wi-coordination.zh-CN.md",
+    "docs/reference/cross-wi-coordination.ja.md",
+    "docs/features/cross-wi-coordination.md",
+    "docs/features/cross-wi-coordination.zh-CN.md",
+    "docs/features/cross-wi-coordination.ja.md",
+    "Cargo.lock",
+    "crates/cockpit-cli/Cargo.toml",
+    "crates/cockpit-mcp/Cargo.toml",
+    "本 Work Item 后续 Runtime 治理命令使用本机外部安装的最新公开 immutable Runtime v0.2.113；Runtime 升级作为独立、可回滚的本地治理前置动作。",
+    "Runtime v0.2.113 负责生命周期、准入和证据登记；当前 Work Item 候选源码仍由 Cargo/CI canonical gate 验证，二者保持身份分离。"
+  ],
+  "sources": [
+    "PR #993 merge commit ab1e4be1be766ffac1dea86a3fbec9b8cbd87160",
+    "独立验收结论：协作基础已实现，行为闭环待修复（2026-09-24）",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.113",
+    "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.113/release-manifest.json",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo fmt --all -- --check",
+    "python3 tests/acceptance/cross_wi_coordination_processes.py",
+    "ai-cockpit --version 应为 0.2.113；ai-cockpit inspect/status/doctor/agent doctor/preflight 使用升级后的 Runtime 重新执行并记录其 runtimeDigest。"
+  ],
+  "workItemId": "WI-1030-cross-wi-behavioral-closure"
+}

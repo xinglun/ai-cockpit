@@ -11,3 +11,7 @@ repository service が domain boundary、CLI と MCP が adapter、Outcome が p
 対応する topology は同一 Git common directory の linked worktree です。固定 Runtime
 は lifecycle compatibility を担当し、候補 Runtime が collaboration capability を
 advertise した場合だけレコードを読み書きできます。
+
+登録は Git identity、active Contract、head、branch、regular evidence を Runtime が
+再観測してから有効になります。Composition は Git common directory に共有記録を残し、
+bounded executor を使い、実際の node 単位の再利用と cleanup を Outcome に投影します。

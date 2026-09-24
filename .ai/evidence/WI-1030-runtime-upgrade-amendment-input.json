@@ -1,0 +1,22 @@
+{
+  "scopeAppend": [
+    "本 Work Item 后续 Runtime 治理命令使用本机外部安装的最新公开 immutable Runtime v0.2.113；Runtime 升级作为独立、可回滚的本地治理前置动作。",
+    "Runtime v0.2.113 负责生命周期、准入和证据登记；当前 Work Item 候选源码仍由 Cargo/CI canonical gate 验证，二者保持身份分离。"
+  ],
+  "outOfScopeAppend": [
+    "不把 Runtime v0.2.113 的安装实现并入产品源码；不发布、不打 tag、不修改 Provider 资源；旧的 0.2.105 固定条款仅作为升级前历史基线保留。"
+  ],
+  "sourcesAppend": [
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.113",
+    "https://github.com/xinglun/ai-cockpit/releases/download/v0.2.113/release-manifest.json",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md"
+  ],
+  "acceptanceAppend": [
+    "Runtime 前置：本机治理命令解析到公开 Runtime v0.2.113，架构为 aarch64-apple-darwin，archive、SHA256SUMS 和 release-manifest 身份一致；升级前版本保留为可恢复备份。"
+  ],
+  "verificationAppend": [
+    "ai-cockpit --version 应为 0.2.113；ai-cockpit inspect/status/doctor/agent doctor/preflight 使用升级后的 Runtime 重新执行并记录其 runtimeDigest。"
+  ]
+}
