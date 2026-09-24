@@ -1018,6 +1018,11 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     let mut expected_outcome = serde_json::to_value(&input.outcome).expect("outcome JSON");
     expected_outcome["collaboration"] = structured["collaboration"].clone();
     assert_eq!(expected_outcome, structured["outcome"]);
+    assert_eq!(structured["collaboration"]["workItemId"], "WI-MCP-HANDOFF");
+    assert_eq!(
+        structured["outcome"]["collaboration"],
+        structured["collaboration"]
+    );
     assert_eq!(
         handoff,
         format!(
@@ -1053,6 +1058,7 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
         .expect("full handoff");
     assert!(full_handoff.contains("发现的问题"));
     assert!(full_handoff.contains("证据"));
+    fs::remove_dir_all(directory.path()).expect("cleanup");
 }
 
 #[test]
