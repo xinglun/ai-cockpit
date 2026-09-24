@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "A1: Runtime strictly binds WI-1028 to the WI-1025 archive and recovery decision.",
+    "A2: Existing release and WI-1027 evidence is reused without historical byte edits.",
+    "A3: WI-1028 completes controls, cheap verification, finish, archive, close, and cleanup.",
+    "A4: Three-language parity and governance checks reach a fixed point without a new successor."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c3793d029e05b9d5a55750d573447eda4212309c",
+  "createdAt": "2026-09-24T02:05:50Z",
+  "goal": "Complete the existing v0.2.113 evidence lineage without rerunning release or workspace.",
+  "intent": "Bind the strict Runtime successor for WI-1025 historical release closure and docs projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product source",
+    " release assets",
+    " tags",
+    " full workspace rerun",
+    " and historical byte edits"
+  ],
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions",
+    ".ai/evidence",
+    ".ai/work-items/archive",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.zh-CN.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.ja.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "/usr/bin/git status --short --branch",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity.json",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+}

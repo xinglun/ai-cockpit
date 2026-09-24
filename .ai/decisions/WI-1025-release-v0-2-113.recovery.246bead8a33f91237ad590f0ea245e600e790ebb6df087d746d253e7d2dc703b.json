@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T02:15:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.d4c7bbf57c0f6c4b273c38d099c27929be7fa0abdc071572cb6a6f2968ef213c.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+    ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorEventsDigest": "sha256:8771924f51105e7a1df035e988f6bf89ae2a53eb0e7e6783c11f9073ccd6c0d4",
+  "predecessorOutcomeDigest": "sha256:d258edd944589159e188dfcc896136685e0759e935f55eb9926585b426135f9b",
+  "predecessorSummaryDigest": "sha256:c2adc7450f2985911b8ef65f420f47f5f8948607ccef554a00769ee8c846243f",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "reason": "Create the strict Runtime-bound successor required for the repository documentation projection after preserving the completed legacy-compatible WI-1027 evidence; do not rerun release or workspace.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use existing v0.2.113 evidence and complete only the strict successor lifecycle; preserve all predecessor and WI-1027 bytes.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1028-release-v0-2-113-strict-lineage-repair",
+  "workItemId": "WI-1025-release-v0-2-113"
+}

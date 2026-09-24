@@ -1,0 +1,191 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Runtime strict predecessor binding",
+          "path": ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+          "type": "runtime",
+          "verification": "The Runtime recovery decision and successor Contract contain matching predecessor identity, digest, and recovery path."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable historical records",
+          "path": ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+          "type": "governance",
+          "verification": "The predecessor archive manifest and prior WI-1027 terminal evidence remain immutable and are referenced by digest-bound recovery records."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "strict successor lifecycle",
+          "path": ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-controls-input.json",
+          "type": "runtime",
+          "verification": "The bounded successor will use controls, one cheap verification node, finish, archive, close, and ordinary cleanup only."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "projection checks",
+          "path": "tests/docs/work_item_status_consistency.py",
+          "type": "test",
+          "verification": "The focused repository checks will prove three-language parity, governance integrity, and idempotent projection after close."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1025-release-v0-2-113-successor-WI-1028-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-amendment-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-controls-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-projection-amendment-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-sources-amendment-input.json",
+    ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json",
+    ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.ja.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.md",
+    "docs/work-items/WI-1028-release-v0-2-113-strict-lineage-repair.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-24T02:07:14Z",
+  "checkpointContractDigest": "sha256:688dc6435e1a664885b3b8ee3a5728b69941e95e89ec1db378cc1a1e8d1de546",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7956406d3269b3ef7f3093698d932d58b586a56dddee3bdb9357e61910a9f978",
+      "recorded": true,
+      "recordedAt": "2026-09-24T02:07:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:adccf0044d33e5ec15f7c138bd3de36240336f003662604fd4c3d0c204c46992",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7956406d3269b3ef7f3093698d932d58b586a56dddee3bdb9357e61910a9f978",
+      "previousContractHash": "sha256:7956406d3269b3ef7f3093698d932d58b586a56dddee3bdb9357e61910a9f978",
+      "reason": "Bind the reviewed governance and documentation sources and declare the focused projection checks without expanding into a workspace rerun.",
+      "recorded": true,
+      "recordedAt": "2026-09-24T02:07:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:688dc6435e1a664885b3b8ee3a5728b69941e95e89ec1db378cc1a1e8d1de546",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7956406d3269b3ef7f3093698d932d58b586a56dddee3bdb9357e61910a9f978",
+      "previousContractHash": "sha256:adccf0044d33e5ec15f7c138bd3de36240336f003662604fd4c3d0c204c46992",
+      "reason": "Declare the generated Work Item projection files required by the existing acceptance criteria.",
+      "recorded": true,
+      "recordedAt": "2026-09-24T02:12:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac1aa7a9cdbd56bd9db73b81d230dcd85f3e39028b67ba9bfcd31c05c8cdb288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:70a99281925e84f78437cb37e240cfddee52511acc52affd49ba02a06e27f990",
+  "createdAt": "2026-09-24T02:05:50Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json",
+      ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json"
+    ],
+    "reason": "This bounded successor repairs strict lineage and projection binding; no separate user-benefit measurement is declared.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "preflightAt": "2026-09-24T02:13:51Z",
+  "preflightContractDigest": "sha256:688dc6435e1a664885b3b8ee3a5728b69941e95e89ec1db378cc1a1e8d1de546",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:70a99281925e84f78437cb37e240cfddee52511acc52affd49ba02a06e27f990",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+        ".ai/work-items/active/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json"
+      ],
+      "expected": "The Runtime-created successor Contract and Summary bind the exact WI-1025 predecessor and recovery decision path.",
+      "required": true,
+      "scenario": "strict_successor_binding",
+      "status": "verified",
+      "verificationPlan": "Inspect the Runtime-written predecessor fields and recovery path before finish."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+        ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.archive.json",
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.d4c7bbf57c0f6c4b273c38d099c27929be7fa0abdc071572cb6a6f2968ef213c.json"
+      ],
+      "expected": "Existing release, WI-1025, and WI-1027 evidence remains byte-for-byte preserved.",
+      "required": true,
+      "scenario": "historical_evidence_preservation",
+      "status": "verified",
+      "verificationPlan": "Use the recorded archive and recovery digests; do not rerun release or workspace."
+    },
+    {
+      "evidence": [
+        "tests/docs/work_item_status_consistency.py",
+        "tests/ci/governance_integrity_gate.py",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The three-language parity projection and governance checks pass without creating another successor.",
+      "required": true,
+      "scenario": "projection_fixed_point",
+      "status": "verified",
+      "verificationPlan": "Run the focused status, governance, and promotion checks after the final parity edit."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-24T02:14:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+}

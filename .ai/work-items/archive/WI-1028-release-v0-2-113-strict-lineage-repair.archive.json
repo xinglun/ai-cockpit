@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-24T02:14:52Z",
+  "files": {
+    "contractDigest": "sha256:864efd134e826f0e55678e35cfd666d712128c1ecfae97e4acbf08e00fb552c7",
+    "contractPath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json",
+    "eventsDigest": "sha256:92304c53313842df58d1a28439c2319182f6c05ddf7b7b4ab70d9c7b666c0e31",
+    "eventsPath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.events.jsonl",
+    "outcomeDigest": "sha256:549ce7e0e9640b9eb7907cad880868ebfc8166745aee0c7b33d7cf6ab7cf76fa",
+    "outcomePath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.outcome.json",
+    "summaryDigest": "sha256:f480c2c82f96c9d02b64ecebc7eae23b9300be8efe09cc6c5b15bed5d9cbc376",
+    "summaryPath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.summary.json",
+    "taskReportDigest": "sha256:1340f3a3bfaa0a81f0a48c1333a145d2f3fe9266cb697db8ac38b3cf899129ab",
+    "taskReportMarkdownDigest": "sha256:f1ac4b719197d1ba96de7e482fcb54d5be58a42de273a3aec5b7e8514bc77f45",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+}

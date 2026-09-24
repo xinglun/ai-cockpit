@@ -1,0 +1,35 @@
+{
+  "scopeAppend": [
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.*.json",
+    ".ai/evidence/WI-1025-release-v0-2-113-successor-WI-1028-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-controls-input.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.*",
+    ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.*",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "outOfScopeAppend": [
+    "不修改产品源码、发布资产、tag、已有归档 Contract/Summary/Outcome/Events，不重跑 release 或完整 workspace，不删除 WI-1027 或任何历史 recovery evidence。"
+  ],
+  "sourcesAppend": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/commands.md",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "acceptanceAppend": [
+    "A1: WI-1028 Contract 和 Summary 由 Runtime 严格绑定到 WI-1025 的归档 Contract 与 recovery decision。",
+    "A2: 复用 v0.2.113、WI-1027 和 WI-1025 的既有证据，历史 bytes 保持不变。",
+    "A3: WI-1028 通过 controls、廉价验证、finish、archive、close 和普通 cleanup 生命周期。",
+    "A4: 三语 parity 投影包含 WI-1025 的真实 terminal recovery decision，文档状态检查和治理门禁通过，且不产生新的 successor。"
+  ],
+  "verificationAppend": [
+    "/usr/bin/git status --short --branch",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/governance-integrity.json",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ]
+}

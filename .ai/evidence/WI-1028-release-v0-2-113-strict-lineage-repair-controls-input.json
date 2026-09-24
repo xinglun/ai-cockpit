@@ -1,0 +1,93 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "strict_successor_binding",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+        ".ai/work-items/active/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json"
+      ],
+      "expected": "The Runtime-created successor Contract and Summary bind the exact WI-1025 predecessor and recovery decision path.",
+      "verificationPlan": "Inspect the Runtime-written predecessor fields and recovery path before finish."
+    },
+    {
+      "scenario": "historical_evidence_preservation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+        ".ai/work-items/archive/WI-1027-release-v0-2-113-lineage-repair.archive.json",
+        ".ai/decisions/WI-1025-release-v0-2-113.recovery.d4c7bbf57c0f6c4b273c38d099c27929be7fa0abdc071572cb6a6f2968ef213c.json"
+      ],
+      "expected": "Existing release, WI-1025, and WI-1027 evidence remains byte-for-byte preserved.",
+      "verificationPlan": "Use the recorded archive and recovery digests; do not rerun release or workspace."
+    },
+    {
+      "scenario": "projection_fixed_point",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/docs/work_item_status_consistency.py",
+        "tests/ci/governance_integrity_gate.py",
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "expected": "The three-language parity projection and governance checks pass without creating another successor.",
+      "verificationPlan": "Run the focused status, governance, and promotion checks after the final parity edit."
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Runtime strict predecessor binding",
+          "path": ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json",
+          "type": "runtime",
+          "verification": "The Runtime recovery decision and successor Contract contain matching predecessor identity, digest, and recovery path."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "immutable historical records",
+          "path": ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+          "type": "governance",
+          "verification": "The predecessor archive manifest and prior WI-1027 terminal evidence remain immutable and are referenced by digest-bound recovery records."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "strict successor lifecycle",
+          "path": ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair-controls-input.json",
+          "type": "runtime",
+          "verification": "The bounded successor will use controls, one cheap verification node, finish, archive, close, and ordinary cleanup only."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "projection checks",
+          "path": "tests/docs/work_item_status_consistency.py",
+          "type": "test",
+          "verification": "The focused repository checks will prove three-language parity, governance integrity, and idempotent projection after close."
+        }
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "This bounded successor repairs strict lineage and projection binding; no separate user-benefit measurement is declared.",
+    "evidence": [
+      ".ai/work-items/active/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json",
+      ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json"
+    ]
+  }
+}
