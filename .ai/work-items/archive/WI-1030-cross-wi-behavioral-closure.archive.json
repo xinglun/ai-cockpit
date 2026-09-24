@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-24T10:59:46Z",
+  "files": {
+    "contractDigest": "sha256:59333a52008cf82611f7de72a9025848b5bc53704dfc23c65b1a811b8b980807",
+    "contractPath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.contract.json",
+    "eventsDigest": "sha256:b4ff5baeaaefa41b6cbe27c9bbaf4e4e0d8b160d3d032f831e10e4b5dd3e5a9e",
+    "eventsPath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.events.jsonl",
+    "outcomeDigest": "sha256:d51f06f41fd056b66e2867d359857e77d88e1a589296c705cc26bda553b671d7",
+    "outcomePath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.outcome.json",
+    "summaryDigest": "sha256:834786329d73a82aa0e106372f0af830602152ca183315337618e2b25f3aa7b2",
+    "summaryPath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.summary.json",
+    "taskReportDigest": "sha256:b8ad2e21d86087db8d0410c5833389cbec4225f94b28209cb3bd7f29105e4df6",
+    "taskReportMarkdownDigest": "sha256:d5ee11b576dd238148ded08d65f65761d8aa916190ffdd571a3c6b953211d6e0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1030-cross-wi-behavioral-closure"
+}
