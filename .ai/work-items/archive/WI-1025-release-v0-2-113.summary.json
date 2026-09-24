@@ -9,10 +9,10 @@
     ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.ab3774b04bd841cdd774d1819464429694ffed2a720a130f8be8a9886646bd51.json",
     ".ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e6fe8252101767295a0fe755c93ecbfbeccd58119432b8c0c88c122ffe5506fd.json",
     ".ai/evidence/WI-1025-release-v0-2-113.verification.json",
-    ".ai/work-items/active/WI-1025-release-v0-2-113.outcome.json",
-    ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json",
-    ".ai/work-items/active/WI-1025-release-v0-2-113.task-report.json",
-    ".ai/work-items/active/WI-1025-release-v0-2-113.task-report.md"
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.outcome.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.task-report.json",
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.task-report.md"
   ],
   "checkpointAt": "2026-09-23T23:56:11Z",
   "checkpointContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",

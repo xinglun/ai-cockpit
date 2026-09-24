@@ -44,94 +44,94 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.preflight-review.059cbfe9b0e3c6a1494a2614d8ab6c9cc88c166fcc0a91a7fde9ad064b374202.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1025-release-v0-2-113.recovery.ac72db6f2a0cb9bb32f112a17b250562cf153f703aa0f9b54b2e2aabdb05b905.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.2a52f9a6e597a416b6f1074dff003776686d21c308032c55a696a1ab9c9c5fb5.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.57775ca5c70196c27bdae5682ff02e25c295a3b5a2d29e6805f4d0ab8cadfaeb.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.6614a12e6905935a59186e0c87c7b9f727e96cdbd148e6b235af30266f5dabe0.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.ab3774b04bd841cdd774d1819464429694ffed2a720a130f8be8a9886646bd51.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e6fe8252101767295a0fe755c93ecbfbeccd58119432b8c0c88c122ffe5506fd.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.outcome.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.task-report.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.summary.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.md"
+          "text": "Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.task-report.md"
         }
       ],
       "evidence": [
@@ -187,7 +187,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.contract.json"
           ],
           "inference": false,
           "text": "从已同步且 CI 通过的 main 发布 v0.2.113，取得不可变 tag、公开 Release、四目标制品与供应链证据，完成公开安装和 N-1 升级验收、Runtime 归档/finalize/close、文档投影和精确资源清理。"
@@ -196,7 +196,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1025-release-v0-2-113.contract.json"
+            ".ai/work-items/archive/WI-1025-release-v0-2-113.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -206,8 +206,8 @@
     "status": "verified",
     "workItemId": "WI-1025-release-v0-2-113"
   },
-  "taskReportDigest": "sha256:40b23be08e2970645e14be3de8e076a0f31339311f94d9283c83f4b8c16b77e8",
-  "taskReportMarkdownDigest": "sha256:8514db2ed5af0ea04f257cd1bf96b9ed7f30976225af0e3cd8a2cf668c6d0784",
+  "taskReportDigest": "sha256:b6281e952bd8fee5e1636d84880a632dd72f2f904040d2d8dc065593f7317946",
+  "taskReportMarkdownDigest": "sha256:dbb6edbf2b3f5456419afba46357edd5d6cb09705bdcd12262ae8ff0ca70128a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

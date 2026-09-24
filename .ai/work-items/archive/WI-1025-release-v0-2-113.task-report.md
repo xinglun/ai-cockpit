@@ -23,10 +23,10 @@
 - Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.ab3774b04bd841cdd774d1819464429694ffed2a720a130f8be8a9886646bd51.json
 - Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification-attempt.e6fe8252101767295a0fe755c93ecbfbeccd58119432b8c0c88c122ffe5506fd.json
 - Changed path: .ai/evidence/WI-1025-release-v0-2-113.verification.json
-- Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.outcome.json
-- Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.summary.json
-- Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.json
-- Changed path: .ai/work-items/active/WI-1025-release-v0-2-113.task-report.md
+- Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.outcome.json
+- Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.summary.json
+- Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.task-report.json
+- Changed path: .ai/work-items/archive/WI-1025-release-v0-2-113.task-report.md
 
 ## Findings
 
