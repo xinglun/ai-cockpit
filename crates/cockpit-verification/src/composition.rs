@@ -2,9 +2,11 @@ use crate::{VerificationCommand, VerificationReusePolicy, execute_bounded};
 use cockpit_core::Digest;
 use cockpit_protocol::{CompositionBinding, RuntimeCapabilityError};
 use serde::{Deserialize, Serialize};
+use std::collections::{BTreeMap, BTreeSet};
+use std::ffi::OsString;
 use std::fs::{self, OpenOptions};
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -25,6 +27,24 @@ pub struct CompositionIdentity {
     pub environment_digest: Digest,
     pub verifier_digest: Digest,
     pub command_digest: Digest,
+}
+
+impl Default for CompositionIdentity {
+    fn default() -> Self {
+        let unobserved = || Digest::sha256_bytes(b"runtime-has-not-observed-composition-identity");
+        Self {
+            source_digest: unobserved(),
+            dependency_digest: unobserved(),
+            interface_digest: unobserved(),
+            configuration_digest: unobserved(),
+            toolchain_digest: unobserved(),
+            lockfile_digest: unobserved(),
+            generated_input_digest: unobserved(),
+            environment_digest: unobserved(),
+            verifier_digest: unobserved(),
+            command_digest: unobserved(),
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -59,6 +79,16 @@ pub struct CompositionCommand {
     pub node_id: String,
     pub program: String,
     pub args: Vec<String>,
+    #[serde(default)]
+    pub depends_on: Vec<String>,
+    #[serde(default)]
+    pub environment: std::collections::BTreeMap<String, String>,
+    #[serde(default)]
+    pub input_paths: Vec<String>,
+    #[serde(default)]
+    pub covered_scenarios: Vec<String>,
+    #[serde(default)]
+    pub covered_constraints: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -67,8 +97,11 @@ pub struct CompositionInput {
     pub repository_root: PathBuf,
     pub state_dir: PathBuf,
     pub binding: CompositionBinding,
+    #[serde(default)]
     pub identity: CompositionIdentity,
     pub commands: Vec<CompositionCommand>,
+    #[serde(default)]
+    pub reusable_node_ids: Vec<String>,
     pub preconditions: Vec<CompositionPrecondition>,
     #[serde(default = "default_composition_timeout")]
     pub timeout_seconds: u64,
@@ -167,8 +200,13 @@ pub enum CompositionError {
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
+    let mut input = input;
     input.binding.verifier.validate_candidate()?;
     validate_binding(&input.binding)?;
+    // Caller identity fields are descriptive only. Start from explicit
+    // sentinels so a failed observation cannot persist self-reported claims.
+    input.identity = CompositionIdentity::default();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
 
     let predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
     let recorded_at_unix_nanos = now_unix_nanos();
@@ -202,17 +240,16 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
     // durable in_progress attempt rather than an invisible execution.
     persist_attempt(&input.state_dir, &attempt)?;
 
-    let expected_command_digest = composition_commands_digest(&input.commands);
-    if input.identity.command_digest != expected_command_digest {
+    if input.commands.is_empty() {
+        fail_without_worktree(&input.state_dir, &mut attempt, "required_checks_empty")?;
+        return Ok(attempt);
+    }
+    if !valid_command_graph(&input.commands) {
         fail_without_worktree(
             &input.state_dir,
             &mut attempt,
-            "composition_identity_mismatch:commands",
+            "invalid_composition_command_graph",
         )?;
-        return Ok(attempt);
-    }
-    if input.commands.is_empty() {
-        fail_without_worktree(&input.state_dir, &mut attempt, "required_checks_empty")?;
         return Ok(attempt);
     }
     if let Some(precondition) = input.preconditions.iter().find(|item| !item.satisfied) {
@@ -224,41 +261,6 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
                 precondition.name, precondition.reason
             ),
         )?;
-        return Ok(attempt);
-    }
-
-    let predecessor_id = predecessor
-        .as_ref()
-        .map(|previous| previous.attempt_id.as_str());
-    let reusable = input
-        .commands
-        .iter()
-        .map(|command| {
-            predecessor.as_ref().and_then(|previous| {
-                previous
-                    .execution_records
-                    .iter()
-                    .find(|record| can_reuse_node(record, &input, command))
-                    .map(|record| reused_record(record, command, previous.attempt_id.as_str()))
-            })
-        })
-        .collect::<Vec<_>>();
-
-    if reusable.iter().all(Option::is_some) {
-        attempt.execution_records = reusable.into_iter().flatten().collect();
-        attempt.reuse_decision = ReuseDecision {
-            kind: ReuseDecisionKind::Reuse,
-            reason: "all required checks match durable predecessor identities".into(),
-            predecessor_attempt_id: predecessor_id.map(str::to_owned),
-        };
-        attempt.passed = true;
-        attempt.failure = None;
-        attempt.cleanup = Some(CompositionCleanup {
-            attempted: false,
-            removed: true,
-            error: None,
-        });
-        persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
 
@@ -320,13 +322,64 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         }
     }
 
-    for (index, command) in input.commands.iter().enumerate() {
-        if let Some(record) = reusable[index].clone() {
+    let observed_identity = observe_composition_identity(&worktree, &input);
+    let identity_observed = observed_identity.is_some();
+    if let Some(identity) = observed_identity {
+        input.identity = identity;
+        attempt.identity = input.identity.clone();
+    }
+    let predecessor_id = predecessor
+        .as_ref()
+        .map(|previous| previous.attempt_id.as_str());
+    let mut node_identities_observed = true;
+    let mut all_nodes_reused = predecessor.is_some() && identity_observed;
+    attempt.reuse_decision = ReuseDecision {
+        kind: if identity_observed {
+            ReuseDecisionKind::Execute
+        } else {
+            ReuseDecisionKind::Unknown
+        },
+        reason: "node inputs and upstream receipts are evaluated in execution order".into(),
+        predecessor_attempt_id: predecessor_id.map(str::to_owned),
+    };
+    persist_attempt(&input.state_dir, &attempt)?;
+
+    for command in &input.commands {
+        let current_identity =
+            observed_node_identity(&worktree, &input, command, &attempt.execution_records);
+        if current_identity.is_none() {
+            node_identities_observed = false;
+        }
+        let reusable = if identity_observed
+            && input
+                .reusable_node_ids
+                .iter()
+                .any(|node_id| node_id == &command.node_id)
+        {
+            predecessor.as_ref().and_then(|previous| {
+                let identity = current_identity.as_ref()?;
+                previous
+                    .execution_records
+                    .iter()
+                    .find(|record| {
+                        record.node_id == command.node_id
+                            && record.passed
+                            && !record.timed_out
+                            && (record.spawned || record.reused)
+                            && &record.identity_digest == identity
+                    })
+                    .map(|record| reused_record(record, command, previous.attempt_id.as_str()))
+            })
+        } else {
+            None
+        };
+        if let Some(record) = reusable {
             attempt.execution_records.push(record);
             persist_attempt(&input.state_dir, &attempt)?;
             continue;
         }
-        let record = execute_node(&worktree, command, &input);
+        all_nodes_reused = false;
+        let record = execute_node(&worktree, command, &input, current_identity);
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
@@ -349,6 +402,25 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
     if attempt.passed {
         attempt.failure = None;
     }
+    attempt.reuse_decision = ReuseDecision {
+        kind: if !identity_observed || !node_identities_observed {
+            ReuseDecisionKind::Unknown
+        } else if all_nodes_reused && attempt.passed {
+            ReuseDecisionKind::Reuse
+        } else {
+            ReuseDecisionKind::Execute
+        },
+        reason: if !identity_observed {
+            "runtime could not observe a complete composition identity; reuse disabled".into()
+        } else if !node_identities_observed {
+            "one or more node inputs or upstream receipts are not fully observable; reuse disabled for those nodes".into()
+        } else if all_nodes_reused && attempt.passed {
+            "runtime-observed node inputs and upstream receipts match durable predecessor identities".into()
+        } else {
+            "one or more nodes were executed because their observed inputs or upstream receipts changed".into()
+        },
+        predecessor_attempt_id: predecessor_id.map(str::to_owned),
+    };
     attempt.cleanup = Some(cleanup_worktree(
         &input.repository_root,
         &worktree,
@@ -378,20 +450,10 @@ pub fn classify_reuse(previous: &CompositionAttempt, current: &CompositionInput)
             predecessor_attempt_id: Some(previous.attempt_id.clone()),
         };
     }
-    if previous.passed
-        && previous.failure.is_none()
-        && previous.binding == current.binding
-        && previous.identity == current.identity
-    {
-        return ReuseDecision {
-            kind: ReuseDecisionKind::Reuse,
-            reason: "exact composition binding and verification identity match".into(),
-            predecessor_attempt_id: Some(previous.attempt_id.clone()),
-        };
-    }
+    let _ = current;
     ReuseDecision {
-        kind: ReuseDecisionKind::Execute,
-        reason: "composition binding or verification identity changed".into(),
+        kind: ReuseDecisionKind::Unknown,
+        reason: "reuse classification requires runtime-observed node inputs".into(),
         predecessor_attempt_id: Some(previous.attempt_id.clone()),
     }
 }
@@ -424,6 +486,25 @@ fn validate_binding(binding: &CompositionBinding) -> Result<(), CompositionError
         ));
     }
     Ok(())
+}
+
+fn valid_command_graph(commands: &[CompositionCommand]) -> bool {
+    let mut prior_nodes = BTreeSet::new();
+    for command in commands {
+        if command.node_id.trim().is_empty() || !prior_nodes.insert(command.node_id.as_str()) {
+            return false;
+        }
+        let mut dependencies = BTreeSet::new();
+        if command.depends_on.iter().any(|dependency| {
+            dependency.trim().is_empty()
+                || !dependencies.insert(dependency.as_str())
+                || !prior_nodes.contains(dependency.as_str())
+                || dependency == &command.node_id
+        }) {
+            return false;
+        }
+    }
+    true
 }
 
 fn fail_without_worktree(
@@ -480,7 +561,7 @@ fn load_latest_attempt(
         })?;
         let candidate: CompositionAttempt = serde_json::from_slice(&bytes)
             .map_err(|error| CompositionError::Serialization(error.to_string()))?;
-        if candidate.binding != *binding {
+        if !same_composition_lineage(&candidate.binding, binding) {
             continue;
         }
         if latest.as_ref().is_none_or(|current| {
@@ -493,16 +574,11 @@ fn load_latest_attempt(
     Ok(latest)
 }
 
-fn can_reuse_node(
-    record: &CompositionExecutionRecord,
-    input: &CompositionInput,
-    command: &CompositionCommand,
-) -> bool {
-    record.node_id == command.node_id
-        && record.passed
-        && !record.timed_out
-        && (record.spawned || record.reused)
-        && record.identity_digest == node_identity_digest(&input.binding, &input.identity, command)
+fn same_composition_lineage(previous: &CompositionBinding, current: &CompositionBinding) -> bool {
+    previous.repository_id == current.repository_id
+        && previous.target_branch == current.target_branch
+        && previous.participant_work_items == current.participant_work_items
+        && previous.verifier == current.verifier
 }
 
 fn reused_record(
@@ -531,8 +607,10 @@ fn execute_node(
     worktree: &Path,
     command: &CompositionCommand,
     input: &CompositionInput,
+    identity_digest: Option<Digest>,
 ) -> CompositionExecutionRecord {
-    let identity_digest = node_identity_digest(&input.binding, &input.identity, command);
+    let identity_digest = identity_digest
+        .unwrap_or_else(|| Digest::sha256_bytes(b"unknown-composition-node-identity"));
     let verification_command = VerificationCommand::new(
         &command.node_id,
         &command.program,
@@ -540,6 +618,13 @@ fn execute_node(
         VerificationReusePolicy::NeverReuse,
     )
     .with_current_dir(worktree)
+    .with_environment(
+        command
+            .environment
+            .iter()
+            .map(|(key, value)| (OsString::from(key), OsString::from(value)))
+            .collect(),
+    )
     .with_timeout_seconds(input.timeout_seconds);
     match execute_bounded(vec![verification_command], 1) {
         Ok(receipt) => {
@@ -595,16 +680,201 @@ fn execute_node(
     }
 }
 
-fn node_identity_digest(
-    binding: &CompositionBinding,
-    identity: &CompositionIdentity,
+fn observe_composition_identity(
+    worktree: &Path,
+    input: &CompositionInput,
+) -> Option<CompositionIdentity> {
+    let source = git_text(worktree, &["rev-parse", "HEAD^{tree}"])?;
+    let lockfiles = git_text(worktree, &["ls-tree", "-r", "--name-only", "HEAD"])?
+        .lines()
+        .filter(|path| is_lockfile(path))
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    let lockfile_digest = digest_paths(worktree, &lockfiles)?;
+    let configuration_paths = git_text(worktree, &["ls-tree", "-r", "--name-only", "HEAD"])?
+        .lines()
+        .filter(|path| is_configuration_file(path))
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    let configuration_digest = digest_paths(worktree, &configuration_paths)?;
+    let interface_digest = digest_serialized(&input.binding.contract_digests)?;
+    let toolchain = input
+        .commands
+        .iter()
+        .map(|command| executable_digest(&command.program, &command.environment))
+        .collect::<Option<Vec<_>>>()?;
+    let environment_digest = observed_environment_digest(&input.commands)?;
+    let generated_paths = input
+        .commands
+        .iter()
+        .flat_map(|command| command.input_paths.iter().cloned())
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+    Some(CompositionIdentity {
+        source_digest: Digest::sha256_bytes(source.as_bytes()),
+        dependency_digest: lockfile_digest.clone(),
+        interface_digest,
+        configuration_digest,
+        toolchain_digest: digest_serialized(&toolchain)?,
+        lockfile_digest,
+        generated_input_digest: digest_paths(worktree, &generated_paths)?,
+        environment_digest,
+        verifier_digest: digest_serialized(&toolchain)?,
+        command_digest: composition_commands_digest(&input.commands),
+    })
+}
+
+fn observed_node_identity(
+    worktree: &Path,
+    input: &CompositionInput,
     command: &CompositionCommand,
-) -> Digest {
-    let mut identity_without_commands = identity.clone();
-    identity_without_commands.command_digest = Digest::sha256_bytes(b"per-node-command-digest");
-    let bytes = serde_json::to_vec(&(binding, identity_without_commands, command))
-        .expect("composition node identity is serializable");
-    Digest::sha256_bytes(&bytes)
+    execution_records: &[CompositionExecutionRecord],
+) -> Option<Digest> {
+    if command.input_paths.is_empty() {
+        return None;
+    }
+    let dependencies = command
+        .depends_on
+        .iter()
+        .map(|dependency| {
+            let record = execution_records.iter().find(|record| {
+                record.node_id == *dependency
+                    && record.passed
+                    && !record.timed_out
+                    && (record.spawned || record.reused)
+            })?;
+            Some((dependency, &record.identity_digest, &record.output_digest))
+        })
+        .collect::<Option<Vec<_>>>()?;
+    let executable = executable_digest(&command.program, &command.environment)?;
+    let paths_digest = digest_paths(worktree, &command.input_paths)?;
+    let environment = observed_environment_digest(std::slice::from_ref(command))?;
+    let bytes = serde_json::to_vec(&(
+        &command.node_id,
+        &command.program,
+        &command.args,
+        &command.depends_on,
+        dependencies,
+        &command.environment,
+        &command.covered_scenarios,
+        &command.covered_constraints,
+        input.timeout_seconds,
+        &input.binding.target_branch,
+        &input.binding.participant_work_items,
+        &input.binding.contract_digests,
+        executable,
+        paths_digest,
+        environment,
+    ))
+    .ok()?;
+    Some(Digest::sha256_bytes(&bytes))
+}
+
+fn digest_paths(root: &Path, paths: &[String]) -> Option<Digest> {
+    let mut observed = Vec::new();
+    for value in paths {
+        let path = Path::new(value);
+        if path.is_absolute()
+            || path.components().any(|component| {
+                matches!(
+                    component,
+                    Component::ParentDir | Component::RootDir | Component::Prefix(_)
+                )
+            })
+            || path.as_os_str().is_empty()
+        {
+            return None;
+        }
+        let candidate = root.join(path);
+        let metadata = fs::symlink_metadata(&candidate).ok()?;
+        if !metadata.file_type().is_file() {
+            return None;
+        }
+        let bytes = fs::read(&candidate).ok()?;
+        observed.push((value, Digest::sha256_bytes(&bytes)));
+    }
+    digest_serialized(&observed)
+}
+
+fn observed_environment_digest(commands: &[CompositionCommand]) -> Option<Digest> {
+    let mut environment = BTreeMap::<String, String>::new();
+    for (key, value) in std::env::vars_os() {
+        environment.insert(key.into_string().ok()?, value.into_string().ok()?);
+    }
+    let overlays = commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    let bytes = serde_json::to_vec(&(environment, overlays)).ok()?;
+    Some(Digest::sha256_bytes(&bytes))
+}
+
+fn executable_digest(program: &str, environment: &BTreeMap<String, String>) -> Option<Digest> {
+    let candidate = if Path::new(program).components().count() > 1 {
+        PathBuf::from(program)
+    } else {
+        let path = environment
+            .get("PATH")
+            .map(OsString::from)
+            .or_else(|| std::env::var_os("PATH"))?;
+        std::env::split_paths(&path)
+            .map(|directory| directory.join(program))
+            .find(|path| path.is_file())?
+    };
+    let canonical = fs::canonicalize(candidate).ok()?;
+    let metadata = fs::metadata(&canonical).ok()?;
+    if !metadata.is_file() {
+        return None;
+    }
+    let bytes = fs::read(canonical).ok()?;
+    Some(Digest::sha256_bytes(&bytes))
+}
+
+fn is_lockfile(path: &str) -> bool {
+    let name = Path::new(path)
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or_default();
+    matches!(
+        name,
+        "Cargo.lock"
+            | "package-lock.json"
+            | "pnpm-lock.yaml"
+            | "yarn.lock"
+            | "poetry.lock"
+            | "uv.lock"
+            | "Gemfile.lock"
+            | "go.sum"
+    )
+}
+
+fn is_configuration_file(path: &str) -> bool {
+    matches!(
+        Path::new(path)
+            .file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or_default(),
+        "Cargo.toml" | "rust-toolchain" | "rust-toolchain.toml" | "Makefile" | "Dockerfile"
+    )
+}
+
+fn git_text(root: &Path, args: &[&str]) -> Option<String> {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(root)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    String::from_utf8(output.stdout)
+        .ok()
+        .map(|value| value.trim().to_owned())
+}
+
+fn digest_serialized(value: &impl Serialize) -> Option<Digest> {
+    Some(Digest::sha256_bytes(&serde_json::to_vec(value).ok()?))
 }
 
 fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(), CompositionError> {

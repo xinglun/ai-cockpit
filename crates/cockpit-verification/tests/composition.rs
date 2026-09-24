@@ -110,7 +110,58 @@ fn command(node_id: &str, program: &str, args: &[&str]) -> CompositionCommand {
         node_id: node_id.into(),
         program: program.into(),
         args: args.iter().map(|arg| (*arg).into()).collect(),
+        depends_on: Vec::new(),
+        environment: Default::default(),
+        input_paths: vec!["README.md".into()],
+        covered_scenarios: Vec::new(),
+        covered_constraints: Vec::new(),
     }
+}
+
+#[test]
+fn composition_commands_accept_explicit_upstream_dependencies() {
+    let command: CompositionCommand = serde_json::from_value(serde_json::json!({
+        "nodeId": "consumer",
+        "program": "sh",
+        "args": ["-c", "true"],
+        "dependsOn": ["provider"]
+    }))
+    .expect("command dependency protocol");
+
+    assert_eq!(command.node_id, "consumer");
+    assert_eq!(
+        serde_json::to_value(command)
+            .expect("serialize command")
+            .get("dependsOn")
+            .and_then(serde_json::Value::as_array)
+            .map(Vec::len),
+        Some(1)
+    );
+}
+
+#[test]
+fn composition_rejects_dependencies_that_are_not_prior_nodes_before_spawn() {
+    let root = repository();
+    let head = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let mut consumer = command("consumer", "sh", &["-c", "true"]);
+    consumer.depends_on = vec!["provider".into()];
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&head, vec![head.clone(), head.clone()]),
+        vec![consumer, command("provider", "sh", &["-c", "true"])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("invalid composition is recorded");
+
+    assert!(!attempt.passed);
+    assert_eq!(attempt.processes_spawned, 0);
+    assert_eq!(
+        attempt.failure.as_deref(),
+        Some("invalid_composition_command_graph")
+    );
+    assert!(attempt.isolated_worktree.is_empty());
 }
 
 fn input(
@@ -127,6 +178,10 @@ fn input(
         state_dir: state_dir.to_path_buf(),
         binding,
         identity,
+        reusable_node_ids: commands
+            .iter()
+            .map(|command| command.node_id.clone())
+            .collect(),
         commands,
         preconditions,
         timeout_seconds: 1,
@@ -236,14 +291,14 @@ fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
     );
     assert_eq!(
         classify_reuse(&first, &composition).kind,
-        ReuseDecisionKind::Execute
+        ReuseDecisionKind::Unknown
     );
 
     let mut changed = composition;
     changed.identity.interface_digest = digest("changed-interface");
     assert_eq!(
         classify_reuse(&first, &changed).kind,
-        ReuseDecisionKind::Execute
+        ReuseDecisionKind::Unknown
     );
 }
 
@@ -263,7 +318,7 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
     assert!(passed.passed);
     assert_eq!(
         classify_reuse(&passed, &composition).kind,
-        ReuseDecisionKind::Reuse
+        ReuseDecisionKind::Unknown
     );
 
     let mut changed = composition;
@@ -271,7 +326,7 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
     changed.identity.command_digest = composition_commands_digest(&changed.commands);
     assert_eq!(
         classify_reuse(&passed, &changed).kind,
-        ReuseDecisionKind::Execute
+        ReuseDecisionKind::Unknown
     );
 }
 
@@ -303,6 +358,29 @@ fn repeated_exact_composition_reuses_without_spawning_a_process() {
             .as_deref(),
         Some(first.attempt_id.as_str())
     );
+}
+
+#[test]
+fn node_without_observable_inputs_executes_again_instead_of_reusing() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let mut unverifiable = command("unverifiable", "sh", &["-c", "true"]);
+    unverifiable.input_paths.clear();
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![unverifiable],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("first attempt");
+    let second = run_composition(composition).expect("second attempt");
+
+    assert!(first.passed && second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(!second.execution_records[0].reused);
+    assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
 }
 
 #[test]
@@ -341,6 +419,312 @@ fn changed_command_only_reexecutes_the_affected_node() {
     assert!(second.execution_records[0].reused);
     assert!(second.execution_records[1].spawned);
     assert!(!second.execution_records[1].passed);
+}
+
+#[test]
+fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-qb", "provider"]);
+    fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
+    fs::write(root.path().join("docs.txt"), "docs-stable\n").expect("docs input");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "provider-v1"]);
+    let first_head = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-q", "main"]);
+
+    let state = tempdir("state");
+    let mut api = command("api", "sh", &["-c", "true"]);
+    api.input_paths = vec!["api.txt".into()];
+    let mut docs = command("docs", "sh", &["-c", "true"]);
+    docs.input_paths = vec!["docs.txt".into()];
+    let first_input = input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![first_head.clone(), base.clone()]),
+        vec![api.clone(), docs.clone()],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(first_input).expect("first attempt");
+    assert!(first.passed);
+
+    run(root.path(), &["checkout", "-q", "provider"]);
+    fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
+    run(root.path(), &["add", "api.txt"]);
+    run(root.path(), &["commit", "-qm", "provider-api-v2"]);
+    let second_head = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-q", "main"]);
+
+    let second = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![second_head, base.clone()]),
+        vec![api, docs],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("second attempt");
+
+    assert!(second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    let api_record = second
+        .execution_records
+        .iter()
+        .find(|record| record.node_id == "api")
+        .unwrap();
+    let docs_record = second
+        .execution_records
+        .iter()
+        .find(|record| record.node_id == "docs")
+        .unwrap();
+    assert!(api_record.spawned);
+    assert!(!api_record.reused);
+    assert!(!docs_record.spawned);
+    assert!(docs_record.reused);
+}
+
+#[test]
+fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-qb", "provider"]);
+    fs::write(root.path().join("api.txt"), "api-v1\n").expect("api input");
+    fs::write(root.path().join("docs.txt"), "docs-stable\n").expect("docs input");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "provider-v1"]);
+    let first_head = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-q", "main"]);
+
+    let state = tempdir("state");
+    let mut source = command("source", "sh", &["-c", "cat api.txt"]);
+    source.input_paths = vec!["api.txt".into()];
+    let mut consumer = command("consumer", "sh", &["-c", "true"]);
+    consumer.depends_on = vec!["source".into()];
+    let mut transitive = command("transitive", "sh", &["-c", "true"]);
+    transitive.depends_on = vec!["consumer".into()];
+    let mut independent = command("independent", "sh", &["-c", "true"]);
+    independent.input_paths = vec!["docs.txt".into()];
+    let commands = vec![
+        source.clone(),
+        consumer.clone(),
+        transitive.clone(),
+        independent.clone(),
+    ];
+    let first = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![first_head.clone(), base.clone()]),
+        commands.clone(),
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("first attempt");
+    assert!(first.passed);
+
+    run(root.path(), &["checkout", "-q", "provider"]);
+    fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
+    run(root.path(), &["add", "api.txt"]);
+    run(root.path(), &["commit", "-qm", "provider-api-v2"]);
+    let second_head = run(root.path(), &["rev-parse", "HEAD"]);
+    run(root.path(), &["checkout", "-q", "main"]);
+
+    let second = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![second_head, base.clone()]),
+        commands,
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("second attempt");
+
+    assert!(second.passed);
+    assert_eq!(second.processes_spawned, 3);
+    for node_id in ["source", "consumer", "transitive"] {
+        let record = second
+            .execution_records
+            .iter()
+            .find(|record| record.node_id == node_id)
+            .unwrap();
+        assert!(record.spawned, "{node_id} must be re-executed");
+        assert!(
+            !record.reused,
+            "{node_id} cannot reuse a stale dependency receipt"
+        );
+    }
+    let independent = second
+        .execution_records
+        .iter()
+        .find(|record| record.node_id == "independent")
+        .unwrap();
+    assert!(!independent.spawned);
+    assert!(independent.reused);
+}
+
+#[test]
+fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let mut first_command = command(
+        "environment-check",
+        "sh",
+        &["-c", "test \"$COMPOSITION_FLAVOR\" = one"],
+    );
+    first_command
+        .environment
+        .insert("COMPOSITION_FLAVOR".into(), "one".into());
+    let first_input = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![first_command],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(first_input.clone()).expect("first attempt");
+    assert!(first.passed, "first attempt: {first:?}");
+
+    let mut second_input = first_input;
+    second_input.commands[0]
+        .environment
+        .insert("COMPOSITION_FLAVOR".into(), "two".into());
+    // Deliberately keep every caller-supplied identity digest unchanged.
+    let second = run_composition(second_input).expect("second attempt");
+
+    assert!(!second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(second.execution_records[0].spawned);
+}
+
+#[test]
+fn inherited_environment_change_invalidates_reuse_across_real_processes() {
+    let child_mode = std::env::var_os("COMPOSITION_ENV_CHILD").is_some();
+    if child_mode {
+        let root = PathBuf::from(std::env::var_os("COMPOSITION_ENV_ROOT").expect("root path"));
+        let state = PathBuf::from(std::env::var_os("COMPOSITION_ENV_STATE").expect("state path"));
+        let base = run(&root, &["rev-parse", "refs/heads/main"]);
+        let check = command(
+            "inherited-environment-check",
+            "sh",
+            &["-c", "test -n \"$COMPOSITION_EXTERNAL_FLAVOR\""],
+        );
+        let attempt = run_composition(input(
+            &root,
+            &state,
+            binding(&base, vec![base.clone(), base.clone()]),
+            vec![check],
+            vec![CompositionPrecondition::satisfied("identity-bound")],
+        ))
+        .expect("child composition attempt");
+        assert!(attempt.passed, "child composition failed: {attempt:?}");
+        return;
+    }
+
+    let root = repository();
+    let state = tempdir("inherited-environment-state");
+    for flavor in ["one", "two"] {
+        let child = Command::new(std::env::current_exe().expect("integration-test executable"))
+            .args([
+                "--exact",
+                "inherited_environment_change_invalidates_reuse_across_real_processes",
+            ])
+            .env("COMPOSITION_ENV_CHILD", "1")
+            .env("COMPOSITION_ENV_ROOT", root.path())
+            .env("COMPOSITION_ENV_STATE", state.path())
+            .env("COMPOSITION_EXTERNAL_FLAVOR", flavor)
+            .output()
+            .expect("spawn separate test process");
+        assert!(
+            child.status.success(),
+            "child process for flavor {flavor} failed: {}",
+            String::from_utf8_lossy(&child.stderr)
+        );
+    }
+
+    let mut attempts = fs::read_dir(state.path())
+        .expect("composition state directory")
+        .map(|entry| {
+            let path = entry.expect("attempt entry").path();
+            serde_json::from_slice::<serde_json::Value>(&fs::read(path).expect("attempt bytes"))
+                .expect("attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    attempts.sort_by_key(|attempt| {
+        attempt["recordedAtUnixNanos"]
+            .as_u64()
+            .expect("recorded timestamp")
+    });
+    assert_eq!(attempts.len(), 2, "both processes must persist an attempt");
+    assert_eq!(attempts[0]["processesSpawned"], 1);
+    assert_eq!(
+        attempts[1]["processesSpawned"], 1,
+        "changing only inherited process environment must execute the node again"
+    );
+    assert_eq!(attempts[1]["executionRecords"][0]["reused"], false);
+}
+
+#[cfg(unix)]
+#[test]
+fn replacing_the_same_toolchain_executable_invalidates_reuse() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let executable = root.path().join("verify-tool");
+    fs::write(&executable, "#!/bin/sh\nexit 0\n").expect("write initial verifier");
+    fs::set_permissions(&executable, fs::Permissions::from_mode(0o755))
+        .expect("make initial verifier executable");
+    let mut check = command("toolchain-check", executable.to_str().unwrap(), &[]);
+    check.input_paths = vec!["README.md".into()];
+    let first_input = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![check],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(first_input.clone()).expect("first attempt");
+    assert!(first.passed);
+
+    fs::write(&executable, "#!/bin/sh\nexit 19\n").expect("replace verifier at same path");
+    let second = run_composition(first_input).expect("second attempt");
+    assert!(!second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.execution_records[0].exit_code, Some(19));
+}
+
+#[cfg(unix)]
+#[test]
+fn executable_resolved_from_command_path_override_invalidates_reuse() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let path_override = tempdir("command-path");
+    let executable = path_override.path().join("sh");
+    fs::write(&executable, "#!/bin/sh\nexit 0\n").expect("write initial command executable");
+    fs::set_permissions(&executable, fs::Permissions::from_mode(0o755))
+        .expect("make command executable");
+    let mut check = command("path-toolchain-check", "sh", &[]);
+    check.environment.insert(
+        "PATH".into(),
+        path_override.path().to_string_lossy().into_owned(),
+    );
+    let first_input = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![check],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(first_input.clone()).expect("first attempt");
+    assert!(first.passed, "first attempt: {first:?}");
+
+    fs::write(&executable, "#!/bin/sh\nexit 19\n").expect("replace command executable");
+    let second = run_composition(first_input).expect("second attempt");
+
+    assert!(!second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.execution_records[0].exit_code, Some(19));
 }
 
 #[test]

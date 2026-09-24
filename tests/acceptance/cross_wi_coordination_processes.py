@@ -158,14 +158,14 @@ def main() -> None:
                     "resourceClaims": [],
                     "integrationResponsibility": {
                         "responsibleWorkItemId": work_item_id,
-                        "targetBranch": branch,
+                        "targetBranch": "main",
                         "compositionOrder": [work_item_id],
                         "rationale": "process acceptance",
                     },
                     "compositionVerification": {
                         "compatibilityConstraints": [],
                         "requiredScenarios": [],
-                        "reusableNodes": [],
+                        "reusableNodes": ["required-check"] if work_item_id == "WI-B" else [],
                     },
                 },
                 "runtime": runtime,
@@ -223,9 +223,17 @@ def main() -> None:
         # contains a deliberately false caller precondition; the admitted path
         # must replace it with facts recomputed from the registrations/Git.
         head_b = git(worktree_b, "rev-parse", "HEAD")
-        branch_b = git(worktree_b, "branch", "--show-current")
         contract_b = worktree_b / ".ai/work-items/active/WI-B.contract.json"
-        command = {"nodeId": "required-check", "program": "sh", "args": ["-c", "true"]}
+        command = {
+            "nodeId": "required-check",
+            "program": "sh",
+            "args": ["-c", "true"],
+            "dependsOn": [],
+            "environment": {},
+            "inputPaths": ["README.md"],
+            "coveredScenarios": [],
+            "coveredConstraints": [],
+        }
         composition_input = {
             "repositoryRoot": str(worktree_b),
             "stateDir": str(temporary_path / "caller-state"),
@@ -233,24 +241,12 @@ def main() -> None:
                 "schemaVersion": 1,
                 "repositoryId": repository_id_value,
                 "bindingId": "process-composition",
-                "targetBranch": branch_b,
-                "targetSha": head_b,
+                "targetBranch": "main",
+                "targetSha": git(root, "rev-parse", "refs/heads/main"),
                 "participantWorkItems": ["WI-B"],
                 "participantHeads": [head_b],
                 "contractDigests": [contract_digest(contract_b)],
                 "verifier": runtime,
-            },
-            "identity": {
-                "sourceDigest": digest_bytes(b"source"),
-                "dependencyDigest": digest_bytes(b"dependency"),
-                "interfaceDigest": digest_bytes(b"interface"),
-                "configurationDigest": digest_bytes(b"configuration"),
-                "toolchainDigest": digest_bytes(b"toolchain"),
-                "lockfileDigest": digest_bytes(b"lockfile"),
-                "generatedInputDigest": digest_bytes(b"generated"),
-                "environmentDigest": digest_bytes(b"environment"),
-                "verifierDigest": digest_bytes(b"verifier"),
-                "commandDigest": digest_json([command]),
             },
             "commands": [command],
             "preconditions": [
@@ -291,7 +287,6 @@ def main() -> None:
             json.dumps(
                 {
                     "state": "passed",
-                    "realProcesses": 6,
                     "linkedWorktrees": 2,
                     "registrations": len(inspection["registrations"]),
                     "deduplicatedEvents": len(inspection["events"]),
