@@ -4,9 +4,12 @@ workItemId: WI-1028-release-v0-2-113-strict-lineage-repair
 title: 严格发布证据 lineage 修复
 description: 为 v0.2.113 历史发布证据绑定 Runtime 创建的严格 successor，并在不改写历史证据的前提下收敛文档投影。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1028-release-v0-2-113-strict-lineage-repair
+terminalArchive: .ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json
+terminalVerification: .ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json
+terminalDecision: .ai/decisions/WI-1028-release-v0-2-113-strict-lineage-repair.close.json
 ---
 
 [English](WI-1028-release-v0-2-113-strict-lineage-repair.md) · [日本語](WI-1028-release-v0-2-113-strict-lineage-repair.ja.md)

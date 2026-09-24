@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "supersede",
+  "workItemId": "WI-1025-release-v0-2-113",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1025-release-v0-2-113",
+  "predecessorContractDigest": "sha256:ac1502b3949b4d427016e74d0d22f5dea3c2ad1656aad11cb562cd2f77d070a0",
+  "predecessorSummaryDigest": "sha256:c2adc7450f2985911b8ef65f420f47f5f8948607ccef554a00769ee8c846243f",
+  "predecessorOutcomeDigest": "sha256:d258edd944589159e188dfcc896136685e0759e935f55eb9926585b426135f9b",
+  "predecessorEventsDigest": "sha256:8771924f51105e7a1df035e988f6bf89ae2a53eb0e7e6783c11f9073ccd6c0d4",
+  "predecessorArchiveManifestDigest": "sha256:8ed12512f9924e89898ef1d92a1687d969836fe4205425bb42231d60c7f80353",
+  "successorWorkItemId": "WI-1028-release-v0-2-113-strict-lineage-repair",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "Record the terminal supersession of the immutable WI-1025 release evidence by the strictly Runtime-bound WI-1028 successor; preserve all historical bytes and reuse existing verification evidence.",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1025-release-v0-2-113.archive.json",
+    ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json",
+    ".ai/decisions/WI-1028-release-v0-2-113-strict-lineage-repair.close.json",
+    ".ai/decisions/WI-1025-release-v0-2-113.recovery.246bead8a33f91237ad590f0ea245e600e790ebb6df087d746d253e7d2dc703b.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "decidedAt": "2026-09-24T02:17:00Z",
+  "resumeCondition": "If the terminal lineage or parity checks reject this receipt, preserve the rejection and use the supported Runtime recovery path; do not edit historical archive bytes."
+}

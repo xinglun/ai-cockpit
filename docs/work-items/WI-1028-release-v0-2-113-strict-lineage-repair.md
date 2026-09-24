@@ -4,9 +4,12 @@ workItemId: WI-1028-release-v0-2-113-strict-lineage-repair
 title: Strict release evidence lineage repair
 description: Bind the historical v0.2.113 recovery to a Runtime-created strict successor and converge the documentation projection without rewriting historical evidence.
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1028-release-v0-2-113-strict-lineage-repair
+terminalArchive: .ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json
+terminalVerification: .ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json
+terminalDecision: .ai/decisions/WI-1028-release-v0-2-113-strict-lineage-repair.close.json
 ---
 
 [简体中文](WI-1028-release-v0-2-113-strict-lineage-repair.zh-CN.md) · [日本語](WI-1028-release-v0-2-113-strict-lineage-repair.ja.md)

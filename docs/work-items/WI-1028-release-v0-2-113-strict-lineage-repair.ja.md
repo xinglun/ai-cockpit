@@ -4,9 +4,12 @@ workItemId: WI-1028-release-v0-2-113-strict-lineage-repair
 title: 厳格なリリース証拠 lineage 修復
 description: v0.2.113 の履歴リリース証拠を Runtime が作成した厳格な successor に結び付け、履歴証拠を書き換えずにドキュメント投影を収束させる。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1028-release-v0-2-113-strict-lineage-repair
+terminalArchive: .ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json
+terminalVerification: .ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json
+terminalDecision: .ai/decisions/WI-1028-release-v0-2-113-strict-lineage-repair.close.json
 ---
 
 [English](WI-1028-release-v0-2-113-strict-lineage-repair.md) · [简体中文](WI-1028-release-v0-2-113-strict-lineage-repair.zh-CN.md)
