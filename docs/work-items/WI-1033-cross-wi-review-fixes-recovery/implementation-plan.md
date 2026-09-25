@@ -34,7 +34,7 @@ These findings are evidence-backed follow-up inputs, not changes to WI-1033's im
 
 - Add this specification and plan in the WI-1033 worktree.
 - Activate the Runtime-generated recovery scaffold with the same bounded intent and source scope.
-- Declare all twenty-one acceptance criteria, the seventeen required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
+- Declare all twenty-four acceptance criteria, the twenty required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
 - Cover the retirement-parity invariant: every required locale row binds the retirement receipt and not_verified state; any missing locale fails closed without inventing successful verification evidence.
 - Run Runtime preflight and checkpoint only when the current Runtime admits them. Preserve any rejection without retrying unchanged inputs.
 
@@ -48,6 +48,9 @@ These findings are evidence-backed follow-up inputs, not changes to WI-1033's im
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.
 - Add a failing provider-registration regression where an old output is removed at a newer generation; prove the persisted event retains the old output ID and invalidation reaches direct and multi-level consumers.
 - Add failing coordination-store regressions for traversal/mismatched request identities, including a traversal-shaped embedded registration Work Item ID on both creation and transition; assert registration identity is rejected before Contract fact lookup and request bytes stay unchanged, alongside non-Requested creation-state coverage.
+- Add a deterministic directory-handle swap regression for Contract containment: open the active directory, move the opened directory outside the repository, replace its old in-repository pathname, and prove that the exact handle used by the read—not a fresh pathname lookup—controls containment. Reject before registration/event persistence and preserve bytes.
+- Add a deterministic swap-back race regression: move the already-open active directory outside, open the Contract through that handle, restore it before the next check, and prove ancestor mutation detection plus registration/event digest binding rejects the bytes. Route verification-evidence Contract reads through the same digest-bound reader before parsing or trusting them.
+- Ensure the Windows-only directory-rename denial regression is executed by the existing Windows CI job; pin that command with the repository gate-manifest test rather than treating the test source as hosted proof.
 - Implement only after observing each regression fail for the expected reason; rerun the focused `collaboration_admission` and `coordination_store` integration suites after each fix.
 
 ### 3. Run canonical and object-project compatibility evidence

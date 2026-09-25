@@ -25,7 +25,7 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
-本次审查修复前最近一次完整 Runtime 验证在提交 `cb842380` 上通过了 34 个节点，但现在只是历史证据：Contract 已增补到 21 项验收标准、17 个场景；独立复审还发现 `.ai/work-items/active` 的父目录 symlink 可把 Contract 读取引出仓库。新负例先复现了问题，修复后 coordination-store 集成测试 24/24 通过；最终 canonical verification 仍待完成。新增覆盖还包括提供者删除产出后的影响传播、请求及 registration 身份路径安全，以及创建时必须处于 Requested 初态。此前的完整运行都不能代表当前状态；新鲜度以 Runtime 查询为准。
+独立复审发现目录句柄交换竞态之前，Runtime 曾在提交 `6f5c4aaf` 上完成 34/34 节点的完整 canonical verification；该回执现为历史证据，不能绑定当前树。Contract 现有 24 项验收标准、20 个场景，并要求 CI 实际执行 Windows 专属的目录重命名拒绝回归。本地 macOS 格式检查和 repository 库测试通过（35/35，包含三个目录交换回归）；gate-manifest 回归在添加 Windows workflow 步骤前按预期失败，添加后通过。Windows 行为及 workflow 改动仍需等 hosted CI 执行，尚未验证。当前证据新鲜度以 Runtime 为准。完整 canonical Runtime 验证、hosted CI、合并和精确清理仍待完成；不宣称发布。
 
 ## 范围
 
@@ -33,6 +33,7 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 - 证明真实多进程 linked-worktree 行为，并保留普通单 WI 串行执行。
 - 保留提供者删除产出后的跨依赖链失效；拒绝不安全或绕过确认初态的协调请求，并在查询 Contract facts 前绑定加载到的 registration 身份。
 - 使用候选 CLI 检查 Sentinel，且不写入其源码、Contract/evidence、生命周期 Runtime 或协调存储。
+- 在现有 Windows CI job 中运行 repository 库级 containment 回归，并由 gate-manifest 回归固定该步骤。
 - 维护英文、简体中文和日文投影与 reference parity。
 
 ## 不在范围内
@@ -41,7 +42,7 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 验收与验证
 
-参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。十七个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
+参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。二十个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
 
 ## 交付边界
 

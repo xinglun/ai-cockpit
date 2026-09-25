@@ -25,7 +25,7 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
-The latest full Runtime verification before the current review fix passed 34 nodes on commit `cb842380`, but that receipt is now historical: the Contract has since been amended to 21 acceptance criteria and 17 scenarios, and an independent review found that a symlinked active-directory ancestor could redirect Contract reads outside the repository. The new negative test reproduced the issue before the narrow fix; the coordination-store integration suite now passes 24/24, while final canonical verification remains pending. The added coverage also includes invalidation after provider-output removal, request and registration identity path safety, and enforcing Requested as the initial state. Query Runtime for current freshness; do not treat earlier verification runs as current evidence.
+Before independent review found directory-handle swap races, a full Runtime canonical verification passed 34/34 nodes on commit `6f5c4aaf`; that receipt is historical and does not bind this tree. The Contract now has 24 acceptance criteria and 20 scenarios, including execution of the Windows-only rename-denial regression in CI. Local macOS formatting and repository library tests pass (35/35, including all three directory swap regressions); the gate-manifest regression was observed failing before the Windows workflow step and passing after it was added. Windows behavior and the workflow change remain unverified until hosted CI runs. Runtime is authoritative for current evidence freshness. Full canonical Runtime verification, hosted CI, merge, and exact cleanup remain pending; no release is claimed.
 
 ## Scope
 
@@ -33,6 +33,7 @@ The latest full Runtime verification before the current review fix passed 34 nod
 - Prove real multi-process linked-worktree behavior and preserve ordinary single-WI serial execution.
 - Preserve invalidation for removed provider outputs through dependency chains, and reject unsafe or pre-acknowledged coordination requests; bind loaded registration identity before Contract fact lookup.
 - Inspect Sentinel with the candidate CLI without writing its source, Contract/evidence, lifecycle Runtime, or coordination store.
+- Run repository library containment regressions in the existing Windows CI job and pin that job step in the gate-manifest regression.
 - Maintain English, Simplified Chinese, and Japanese projections and reference parity.
 
 ## Out of scope
@@ -41,7 +42,7 @@ Task 8, the Runtime snapshot-binding behavior across commits, is a separate seri
 
 ## Acceptance and verification
 
-See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All seventeen required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
+See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twenty required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
 
 ## Delivery boundary
 
