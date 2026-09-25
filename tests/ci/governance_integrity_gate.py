@@ -2292,6 +2292,14 @@ def main() -> int:
                                 parity_doc,
                             )
                         )
+                    if retirement_valid and evidence in line:
+                        findings.append(
+                            finding(
+                                work_item,
+                                "retirement_projection_claims_verification_evidence",
+                                parity_doc,
+                            )
+                        )
                     if decision is not None and not retirement_present and decision not in line:
                         findings.append(finding(work_item, "missing_parity_decision", parity_doc))
                     lifecycle_statuses = (

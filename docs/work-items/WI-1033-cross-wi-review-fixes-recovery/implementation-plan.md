@@ -29,7 +29,7 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 
 - Trace each independent-review finding to the implementation and a regression test.
 - Include Contract-bound required-check coverage labels, no-follow evidence reads at registration/publication/inspection, and execution-repository/CoordinationStore common-directory identity as explicit review findings with pre-spawn negative tests.
-- Add failing gate regressions for a valid active recovery successor and a replaced/not_verified archive; distinguish intermediate lineage from terminal close, retirement evidence from successful verification evidence, and complete locale parity from missing-row cases.
+- Add failing gate regressions for a valid active recovery successor and a replaced/not_verified archive; distinguish intermediate lineage from terminal close, retirement evidence from successful verification evidence, require complete locale parity, reject contradictory verification-receipt claims, and cover each missing-row case.
 - Run focused negative and positive tests for trust identity, complete required-check coverage, crash recovery/live lock safety, evidence containment, provider/outcome selection, actual reuse, MCP identity, and query/write persistence.
 - If a gap is found, add the failing regression first, implement the narrow repair, commit it separately, then re-query Runtime because the repository snapshot changed.
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.

@@ -332,6 +332,59 @@ for path in (
     assert ".ai/evidence/WI-900-release-v9-9-9.verification.json" not in row, row
 PY
 
+# A replaced/not_verified projection must not simultaneously claim a
+# successful verification receipt. The receipt is neither required nor a
+# valid projection for the retired work item.
+python3 - "$tmp/retired-replaced" "$tmp/retired-claims-verification" <<'PY'
+import shutil
+import sys
+from pathlib import Path
+
+source = Path(sys.argv[1])
+target = Path(sys.argv[2])
+shutil.copytree(source, target)
+for suffix in ("", ".zh-CN", ".ja"):
+    path = target / "docs/reference" / f"reference-parity{suffix}.md"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    matches = [index for index, line in enumerate(lines) if line.startswith("| WI-900 ")]
+    assert len(matches) == 1, path
+    index = matches[0]
+    line = lines[index]
+    assert "not_verified" in line, line
+    assert ".ai/evidence/WI-900-release-v9-9-9.verification.json" not in line, line
+    lines[index] = (
+        line.rsplit("|", 1)[0]
+        + "; `.ai/evidence/WI-900-release-v9-9-9.verification.json` |"
+    )
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+set +e
+python3 "$gate" --repo "$tmp/retired-claims-verification" \
+  --report "$tmp/retired-claims-verification-report.json" >/dev/null
+retired_claim_code=$?
+set -e
+[[ "$retired_claim_code" -eq 1 ]] || {
+  printf 'retired verification claim: expected exit 1, got %s\n' \
+    "$retired_claim_code" >&2
+  exit 1
+}
+python3 - "$tmp/retired-claims-verification-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    item for item in report["findings"]
+    if item["code"] == "retirement_projection_claims_verification_evidence"
+]
+assert {item["path"] for item in findings} == {
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+}, report["findings"]
+PY
+printf 'governance retired verification contradiction regression passed\n'
+
 # A valid retirement receipt does not waive any locale parity row.  Check
 # each locale independently and the all-rows-absent case so a receipt cannot
 # make a retired/replaced Work Item disappear from the projection.
