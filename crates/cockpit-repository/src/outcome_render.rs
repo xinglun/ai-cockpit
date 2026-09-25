@@ -3734,19 +3734,29 @@ mod render_tests {
             Path::new("/repo"),
             "WI-42",
         );
+        let receipt_args = receipt.argv.as_ref().expect("receipt command");
+        let expected_receipt_prefix = vec![
+            "ai-cockpit",
+            "work-item",
+            "finalize",
+            "--repo",
+            "/repo",
+            "--id",
+            "WI-42",
+            "--input",
+        ];
+        let expected_receipt_path = Path::new("/repo")
+            .join(".ai")
+            .join("decisions")
+            .join("WI-42.finalize.json");
+        assert_eq!(receipt_args.len(), expected_receipt_prefix.len() + 1);
         assert_eq!(
-            receipt.argv,
-            Some(vec![
-                "ai-cockpit".into(),
-                "work-item".into(),
-                "finalize".into(),
-                "--repo".into(),
-                "/repo".into(),
-                "--id".into(),
-                "WI-42".into(),
-                "--input".into(),
-                "/repo/.ai/decisions/WI-42.finalize.json".into(),
-            ])
+            &receipt_args[..expected_receipt_prefix.len()],
+            expected_receipt_prefix
+        );
+        assert_eq!(
+            Path::new(receipt_args.last().expect("receipt input path")),
+            expected_receipt_path.as_path()
         );
         let retained = finalization_action_projection_for_context(
             "retain_resources_and_follow_close_rules",

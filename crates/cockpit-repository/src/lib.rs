@@ -12746,7 +12746,10 @@ fn collect_files(
 mod environment_identity_tests {
     use super::{effective_verification_environment, execution_environment_digest_from_values};
     use crate::execution_context::merge_execution_environment;
-    use std::{ffi::OsString, path::Path};
+    use std::{
+        ffi::OsString,
+        path::{Path, PathBuf},
+    };
 
     fn digest(values: &[(&str, &str)]) -> String {
         execution_environment_digest_from_values(
@@ -12871,11 +12874,9 @@ mod environment_identity_tests {
         let target = environment
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
-            .map(|(_, value)| value.to_string_lossy());
-        assert_eq!(
-            target.as_deref(),
-            Some("/Users/tester/.cache/ai-cockpit-verify-target")
-        );
+            .map(|(_, value)| PathBuf::from(value.to_owned()));
+        let expected_target = Path::new("/Users/tester").join(".cache/ai-cockpit-verify-target");
+        assert_eq!(target.as_deref(), Some(expected_target.as_path()));
         assert!(
             environment
                 .iter()
