@@ -234,6 +234,36 @@ def configure(root, disposition="integrated", invalid=False):
 configure(valid_root)
 configure(replaced_root, disposition="replaced")
 configure(invalid_root, invalid=True)
+# Declare the projection as required independently of existing parity rows;
+# otherwise deleting all three rows would also remove the fixture's signal
+# that the archived Contract requires a projection.
+for root in (valid_root, replaced_root, invalid_root):
+    project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+    project_dir = root / ".ai/project"
+    project_dir.mkdir(parents=True, exist_ok=True)
+    (project_dir / "documentation-policy.json").write_text(
+        json.dumps(
+            {
+                "schemaVersion": 1,
+                "repositoryId": project["repositoryId"],
+                "defaultProjection": "required",
+                "requiredModes": [],
+                "requiredOperations": [],
+                "preserveExistingRegistrations": True,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "capabilities.json").write_text(
+        json.dumps(
+            {"repositoryId": project["repositoryId"], "operationMappings": {}},
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 # Retirement is explicitly not verification.  A valid retired/replaced
 # predecessor must therefore remain valid even when its current evidence and
 # Work Item projection were never produced.
@@ -301,6 +331,68 @@ for path in (
     assert ".ai/decisions/WI-900-release-v9-9-9.retirement.json" in row, row
     assert ".ai/evidence/WI-900-release-v9-9-9.verification.json" not in row, row
 PY
+
+# A valid retirement receipt does not waive any locale parity row.  Check
+# each locale independently and the all-rows-absent case so a receipt cannot
+# make a retired/replaced Work Item disappear from the projection.
+python3 - "$tmp/retired-replaced" "$tmp" <<'PY'
+import shutil
+import sys
+from pathlib import Path
+
+source = Path(sys.argv[1])
+root = Path(sys.argv[2])
+rows = {
+    "retired-missing-en": ("docs/reference/reference-parity.md",),
+    "retired-missing-zh": ("docs/reference/reference-parity.zh-CN.md",),
+    "retired-missing-ja": ("docs/reference/reference-parity.ja.md",),
+    "retired-missing-all": (
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+    ),
+}
+for name, paths in rows.items():
+    target = root / name
+    shutil.copytree(source, target)
+    for relative in paths:
+        path = target / relative
+        lines = path.read_text(encoding="utf-8").splitlines()
+        filtered = [line for line in lines if not line.startswith("| WI-900 ")]
+        if len(filtered) == len(lines):
+            raise AssertionError(f"expected WI-900 parity row in {path}")
+        path.write_text("\n".join(filtered) + "\n", encoding="utf-8")
+PY
+for name in retired-missing-en retired-missing-zh retired-missing-ja retired-missing-all; do
+  set +e
+  python3 "$gate" --repo "$tmp/$name" --report "$tmp/$name-report.json" >/dev/null
+  missing_parity_code=$?
+  set -e
+  [[ "$missing_parity_code" -eq 1 ]] || {
+    printf '%s: expected exit 1, got %s\n' "$name" "$missing_parity_code" >&2
+    exit 1
+  }
+  python3 - "$tmp/$name-report.json" "$name" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+missing = [item for item in report["findings"] if item["code"] == "missing_parity_entry"]
+expected_paths = {
+    "retired-missing-en": {"docs/reference/reference-parity.md"},
+    "retired-missing-zh": {"docs/reference/reference-parity.zh-CN.md"},
+    "retired-missing-ja": {"docs/reference/reference-parity.ja.md"},
+    "retired-missing-all": {
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+    },
+}
+assert {item["path"] for item in missing} == expected_paths[sys.argv[2]], report["findings"]
+PY
+done
+printf 'governance retired parity omission regression passed\n'
+
 set +e
 python3 "$gate" --repo "$tmp/retired-invalid" --report "$tmp/retired-invalid-report.json" >/dev/null
 retired_invalid_code=$?
@@ -440,7 +532,7 @@ for suffix in ("", ".zh-CN", ".ja"):
         "进行中 → 验证关闭后已实现"
         if suffix == ".zh-CN"
         else (
-            "In progress → verified close 後 Implemented"
+            "進行中 → 検証済みクローズ後に実装済み"
             if suffix == ".ja"
             else "In progress → Implemented after verified close"
         )
@@ -1861,7 +1953,7 @@ statuses = {
         "；",
     ),
     "docs/reference/reference-parity.ja.md": (
-        "In progress → verified close 後 Implemented",
+        "進行中 → 検証済みクローズ後に実装済み",
         "；",
     ),
 }
@@ -2407,7 +2499,7 @@ for relative in (
     status = (
         "进行中 → 验证关闭后已实现"
         if relative.endswith(".zh-CN.md")
-        else "In progress → verified close 後 Implemented"
+        else "進行中 → 検証済みクローズ後に実装済み"
         if relative.endswith(".ja.md")
         else "In progress → Implemented after verified close"
     )

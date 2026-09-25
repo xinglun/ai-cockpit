@@ -1844,7 +1844,7 @@ def main() -> int:
                     "进行中 → 验证关闭后已实现"
                     if parity_doc.endswith(".zh-CN.md")
                     else (
-                        "In progress → verified close 後 Implemented"
+                        "進行中 → 検証済みクローズ後に実装済み"
                         if parity_doc.endswith(".ja.md")
                         else "In progress → Implemented after verified close"
                     )
@@ -2277,7 +2277,7 @@ def main() -> int:
                 for parity_doc, implemented in PARITY_DOCS:
                     line = work_item_rows.get(parity_doc)
                     if line is None:
-                        if not pending_valid and not retirement_present:
+                        if not pending_valid:
                             findings.append(
                                 finding(work_item, "missing_parity_entry", parity_doc)
                             )
@@ -2294,16 +2294,22 @@ def main() -> int:
                         )
                     if decision is not None and not retirement_present and decision not in line:
                         findings.append(finding(work_item, "missing_parity_decision", parity_doc))
-                    lifecycle_status = (
-                        "进行中 → 验证关闭后已实现"
+                    lifecycle_statuses = (
+                        ("进行中 → 验证关闭后已实现",)
                         if parity_doc.endswith(".zh-CN.md")
                         else (
-                            "In progress → verified close 後 Implemented"
+                            (
+                                "進行中 → 検証済みクローズ後に実装済み",
+                                "In progress → verified close 後 Implemented",
+                            )
                             if parity_doc.endswith(".ja.md")
-                            else "In progress → Implemented after verified close"
+                            else ("In progress → Implemented after verified close",)
                         )
                     )
-                    if f"| {lifecycle_status} |" in line and not retirement_present:
+                    lifecycle_status_present = any(
+                        f"| {status} |" in line for status in lifecycle_statuses
+                    )
+                    if lifecycle_status_present and not retirement_present:
                         lifecycle_records = (
                             f".ai/work-items/archive/{work_item}.contract.json",
                             evidence,
@@ -2337,16 +2343,34 @@ def main() -> int:
                                     severity,
                                 )
                             )
-                    status_tokens = (implemented,)
+                    japanese_parity = parity_doc.endswith(".ja.md")
+                    status_tokens = (
+                        (implemented, "実装済み")
+                        if japanese_parity
+                        else (implemented,)
+                    )
                     if record.get("lifecycleState") == "recovered":
                         recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
-                        status_tokens = (implemented, recovery_status)
+                        localized_recovery = "復旧済み" if japanese_parity else recovery_status
+                        status_tokens = (implemented, recovery_status, localized_recovery)
                     elif record.get("lifecycleState") in {
                         "awaiting_merge_close",
                         "awaiting_successor_close",
                     }:
-                        pending_status = "进行中" if parity_doc.endswith(".zh-CN.md") else "In progress"
-                        status_tokens = (implemented, pending_status)
+                        pending_status = (
+                            "进行中"
+                            if parity_doc.endswith(".zh-CN.md")
+                            else "進行中"
+                            if japanese_parity
+                            else "In progress"
+                        )
+                        legacy_pending_status = ("In progress",) if japanese_parity else ()
+                        status_tokens = (
+                            implemented,
+                            "実装済み",
+                            pending_status,
+                            *legacy_pending_status,
+                        )
                     elif record.get("lifecycleState") == "replaced":
                         status_tokens = (
                             ("已替代",)
