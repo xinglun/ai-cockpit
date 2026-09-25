@@ -25,7 +25,7 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
-最新の完全な Runtime verification は commit `55c4a15f` で 34 node を通過しましたが、現在は履歴 evidence です。その後 Contract を 20 acceptance criteria と 16 scenario に amend し、独立 review で registration path の解決順序に追加の gap が見つかって source と test が変わりました。negative test は修正前に問題を再現し、修正後の focused suite は pass（collaboration-admission 36 件、coordination-store 23 件）しましたが、最終 canonical verification は未完了です。追加範囲には provider output 削除後の invalidation 伝播、request/registration identity の path safety、Requested 初期状態の強制を含みます。以前の完全な run は現在の evidence ではありません。freshness は Runtime を照会してください。
+今回の review 修正前に行った最新の完全な Runtime verification は commit `cb842380` で 34 node を通過しましたが、現在は履歴 evidence です。その後 Contract を 21 acceptance criteria と 17 scenario に amend し、独立 review で `.ai/work-items/active` の ancestor symlink が Contract の読み取りを repository 外へ向ける問題が見つかりました。negative test は修正前に問題を再現し、修正後の coordination-store integration suite は 24/24 pass しましたが、最終 canonical verification は未完了です。追加範囲には provider output 削除後の invalidation 伝播、request/registration identity の path safety、Requested 初期状態の強制も含みます。以前の完全な run は現在の evidence ではありません。freshness は Runtime を照会してください。
 
 ## Scope
 
@@ -41,7 +41,7 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## 受け入れと検証
 
-[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 16 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
+[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 17 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
 
 ## Delivery boundary
 

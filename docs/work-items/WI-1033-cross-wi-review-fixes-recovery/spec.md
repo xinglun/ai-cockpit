@@ -48,6 +48,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 18. Coordination-request transitions validate the caller's request ID before reading its record; after reading, they validate the stored target Work Item ID before resolving the registration path; after loading the registration, they reject an unsafe or mismatched embedded Work Item ID before validating registration facts or resolving any Contract path. Mismatched stored request IDs are also rejected without changing bytes.
 19. Coordination-request creation accepts only the initial Requested state; later lifecycle states can be reached only through valid transitions.
 20. Before consulting registration facts or resolving any Contract path, request creation and state transitions reject registrations whose embedded workItemId is unsafe or differs from the request target; traversal-shaped embedded identities do not trigger Contract path resolution, and rejected request bytes remain unchanged.
+21. Coordination registration opens every active Contract path component without following symlinks, rejects ancestor-directory escapes, and validates identity plus digest from the same securely read bytes.
 
 ## Required scenario expectations
 
@@ -69,6 +70,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 | coordination_request_identity_is_path_safe | Traversal in the caller request ID or stored target is rejected before its path is resolved; a registration with a traversal-shaped or mismatched embedded Work Item ID is rejected before Contract fact lookup. | Exercise request creation and transition through the real API with a safe alias registration path containing `../events/victim` as the embedded Work Item ID; assert the identity-mismatch error precedes Contract validation and that rejected request bytes remain unchanged. Also retain traversal request/target and mismatched embedded request-ID cases. |
 | registration_identity_before_contract_resolution | Request creation and transitions reject traversal or mismatched embedded registration identity before Contract path resolution; transitions leave request bytes unchanged. | Run the new creation and transition regressions against the real CoordinationStore API and assert the early identity-mismatch error plus byte-for-byte request preservation. |
 | coordination_request_creation_requires_requested_state | Only Requested is accepted at creation; later states require valid lifecycle transitions. | Attempt creation in Resumed and SafelyPaused states, assert no request is persisted, then prove a Requested record follows the valid transition API. |
+| coordination_contract_ancestor_symlink_escape | A valid matching Contract reached only through a symlinked active-directory ancestor outside the repository is rejected before a registration or impact event is persisted. | Run the focused Unix CoordinationStore regression with an exact-copy external Contract behind a symlinked ancestor; assert rejection and no registration/event write. |
 
 ## Verification
 

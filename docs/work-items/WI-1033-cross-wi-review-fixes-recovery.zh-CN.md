@@ -25,7 +25,7 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
-最近一次完整 Runtime 验证在提交 `55c4a15f` 上通过了 34 个节点，但现在只是历史证据：Contract 后来增补到 20 项验收标准、16 个场景，独立复审又发现 registration 路径解析顺序缺口，源码与测试随之变化。新的负例先复现了问题；针对性测试现已通过（collaboration-admission 36 项、coordination-store 23 项），最终 canonical verification 仍待完成。新增覆盖包括提供者删除产出后的影响传播、请求及 registration 身份路径安全，以及创建时必须处于 Requested 初态。此前的完整运行都不能代表当前状态；新鲜度以 Runtime 查询为准。
+本次审查修复前最近一次完整 Runtime 验证在提交 `cb842380` 上通过了 34 个节点，但现在只是历史证据：Contract 已增补到 21 项验收标准、17 个场景；独立复审还发现 `.ai/work-items/active` 的父目录 symlink 可把 Contract 读取引出仓库。新负例先复现了问题，修复后 coordination-store 集成测试 24/24 通过；最终 canonical verification 仍待完成。新增覆盖还包括提供者删除产出后的影响传播、请求及 registration 身份路径安全，以及创建时必须处于 Requested 初态。此前的完整运行都不能代表当前状态；新鲜度以 Runtime 查询为准。
 
 ## 范围
 
@@ -41,7 +41,7 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 验收与验证
 
-参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。十六个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
+参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。十七个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
 
 ## 交付边界
 
