@@ -1,10 +1,12 @@
 # Cross-Work-Item coordination
 
-This capability is candidate-Runtime-only. Runtime `0.2.105` remains the
-lifecycle owner and is not a reader of the coordination records. The candidate
-Runtime owns collaboration capability discovery, repository-local coordination
-writes/reads, impact admission, and exact composition verification. This is not
-a bidirectional compatibility promise.
+This capability is candidate-Runtime-only. Installed Runtime `0.2.113` remains
+the lifecycle owner and is not a reader of coordination records or candidate-
+only check-coverage metadata. The candidate Runtime owns collaboration
+capability discovery, repository-local coordination writes/reads, impact
+admission, and exact composition verification. This is not a bidirectional
+compatibility promise: an older installed binary must not be assumed to parse
+or enforce fields added for candidate composition.
 
 ## Supported boundary
 
@@ -12,7 +14,9 @@ The store is resolved from Git's common directory, so linked worktrees in one
 repository can coordinate. Independent clones and cross-machine coordination
 are unsupported. Records live under `.ai-cockpit/coordination/v1/` and bind the
 repository, Work Item, Contract, worktree/head, Runtime capability, and
-execution generation.
+execution generation. Composition calls also verify that the execution
+repository shares the store's Git common directory; a copied repository id in
+an independent clone is insufficient.
 
 Registration and inspection re-observe those bindings from the canonical Git
 topology and active Contract; a caller-provided repository id, branch, head,
@@ -89,7 +93,12 @@ Composition first refreshes dependency admission and rejects a safely paused
 target before any verification process starts. The Runtime then verifies the
 target topology, every registered participant head/Contract, required check
 coverage, and preconditions before building the declared participant order in a
-temporary linked worktree. It uses the shared bounded verifier for finite
+temporary linked worktree. An active Contract's required `verification` check
+may declare `coversScenarios` and `coversConstraints`; those fields are bound
+by the Contract digest and exact required-check identity. Composition-input
+labels are descriptive assertions only, never coverage evidence: an unmapped
+label or a missing Contract mapping fails closed before spawn. It uses the
+shared bounded verifier for finite
 timeouts and bounded output, persists an in-progress attempt before spawning,
 persists every node, and records timeout/interruption-safe state and cleanup
 results. Caller-supplied identity digests do not authorize reuse: Runtime

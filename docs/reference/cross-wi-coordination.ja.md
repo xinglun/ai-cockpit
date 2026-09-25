@@ -1,16 +1,19 @@
 # Work Item 間の調整
 
-この機能は候補 Runtime 専用です。Runtime `0.2.105` は既存ライフサイクルを
-担当し、調整レコードを読みません。候補 Runtime は capability discovery、
-repository-local な読み書き、impact admission、正確な composition verification
-を担当します。これは双方向互換性の約束ではありません。
+この機能は候補 Runtime 専用です。インストール済み Runtime `0.2.113` は lifecycle
+owner のままで、調整レコードや候補専用の check-coverage metadata を読みません。
+候補 Runtime は capability discovery、repository-local な読み書き、impact admission、
+正確な composition verification を担当します。これは双方向互換性の約束ではなく、
+古いインストール済み binary が候補用フィールドを parse または強制すると仮定してはいけません。
 
 ## 対応範囲
 
 Git の common directory を解決するため、同じ repository の linked worktree を
 調整できます。独立 clone とマシンをまたぐ調整は未対応です。レコードは
 `.ai-cockpit/coordination/v1/` に置き、repository、WI、Contract、worktree/head、
-候補 Runtime capability、execution generation に束縛します。
+候補 Runtime capability、execution generation に束縛します。composition 実行時には
+execution repository と coordination store が同じ Git common directory を共有することも
+検証します。repository id をコピーした独立 clone だけでは不十分です。
 
 登録と inspect は canonical な Git topology と active Contract からこれらの事実を
 再観測します。呼び出し側が宣言した repository id、branch、head、Contract digest、
@@ -66,7 +69,12 @@ verification dependency を満たせません。
 
 composition は admission を再確認し、安全に pause された対象を検証プロセス起動前に
 拒否します。Runtime は target topology、参加者の登録済み head/Contract、必須 check
-の一意で完全な coverage を検証し、観測事実から前提条件を計算します。共有の bounded
+の一意で完全な coverage を検証し、観測事実から前提条件を計算します。active Contract の
+必須 `verification` check は `coversScenarios` と `coversConstraints` を宣言できます。
+Contract digest と正確な必須 check identity に束縛された値だけを coverage として扱います。
+composition input の label は説明用 assertion にすぎず、coverage の証拠ではありません。
+未対応 label または Contract 側の mapping 欠落は process 起動前に fail closed します。
+共有の bounded
 executor で有限 timeout と bounded output を使い、起動前に in-progress attempt を
 保存し、各 node、timeout、中断からの復旧情報、cleanup 結果を保存します。全 identity
 が一致する node だけを再利用します。呼び出し側の identity digest は reuse を許可せず、

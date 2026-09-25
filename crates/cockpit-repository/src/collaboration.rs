@@ -342,7 +342,10 @@ fn verification_evidence_is_complete(
 /// opened with no-follow semantics, so a path cannot escape between a path
 /// check and the read. The canonical path containment check is retained as a
 /// second invariant for the registered-worktree boundary.
-fn read_registered_worktree_file(root: &Path, reference: &str) -> Result<Vec<u8>, String> {
+pub(crate) fn open_registered_worktree_file(
+    root: &Path,
+    reference: &str,
+) -> Result<fs::File, String> {
     if reference.is_empty()
         || reference.contains('\\')
         || reference
@@ -411,7 +414,7 @@ fn read_registered_worktree_file(root: &Path, reference: &str) -> Result<Vec<u8>
     }
     let mut options = CapOpenOptions::new();
     options.read(true).follow(FollowSymlinks::No);
-    let mut file = parent
+    let file = parent
         .open_with(leaf, &options)
         .map_err(|error| format!("cannot safely open outcome evidence {reference}: {error}"))?
         .into_std();
@@ -423,6 +426,14 @@ fn read_registered_worktree_file(root: &Path, reference: &str) -> Result<Vec<u8>
             "outcome evidence is not a regular file: {reference}"
         ));
     }
+    Ok(file)
+}
+
+pub(crate) fn read_registered_worktree_file(
+    root: &Path,
+    reference: &str,
+) -> Result<Vec<u8>, String> {
+    let mut file = open_registered_worktree_file(root, reference)?;
     let mut bytes = Vec::new();
     file.read_to_end(&mut bytes)
         .map_err(|error| format!("cannot read outcome evidence {reference}: {error}"))?;
@@ -1139,19 +1150,26 @@ fn verify_composition_identity(
         }
         Some(_) => {}
     }
-    GitRepository::discover(&input.repository_root).map_err(|error| {
-        CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
-    })?;
+    let execution_topology = GitRepository::discover(&input.repository_root)
+        .and_then(|repository| repository.topology())
+        .map_err(|error| {
+            CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
+        })?;
+    if execution_topology.common_dir != store.git_common_dir() {
+        blockers.push("composition_repository_common_directory_mismatch".into());
+    }
     if input.binding.repository_id != target.repository_id {
         blockers.push("composition_repository_identity_mismatch".into());
     }
     if input.binding.target_branch != target.declaration.integration_responsibility.target_branch {
         blockers.push("composition_target_branch_mismatch".into());
     }
-    let resolved_target =
-        resolve_local_branch(&input.repository_root, &input.binding.target_branch);
-    if resolved_target.as_deref() != Some(input.binding.target_sha.as_str()) {
-        blockers.push("composition_target_head_mismatch".into());
+    if execution_topology.common_dir == store.git_common_dir() {
+        let resolved_target =
+            resolve_local_branch(&input.repository_root, &input.binding.target_branch);
+        if resolved_target.as_deref() != Some(input.binding.target_sha.as_str()) {
+            blockers.push("composition_target_head_mismatch".into());
+        }
     }
     if input.binding.participant_work_items.is_empty()
         || input.binding.participant_work_items.len() != input.binding.participant_heads.len()
@@ -1199,7 +1217,12 @@ fn verify_composition_identity(
     if !composition_order.is_empty() && composition_order != &input.binding.participant_work_items {
         blockers.push("composition_order_mismatch".into());
     }
-    let mut required_check_identities = Vec::<(String, Vec<String>)>::new();
+    let mut required_check_identities = Vec::<(
+        String,
+        (String, Vec<String>),
+        BTreeSet<String>,
+        BTreeSet<String>,
+    )>::new();
     let mut seen_required_check_identities = BTreeSet::new();
     for participant_id in &input.binding.participant_work_items {
         let Some(participant) = registrations.get(participant_id) else {
@@ -1211,12 +1234,12 @@ fn verify_composition_identity(
             .iter()
             .filter_map(|declaration| match declaration {
                 cockpit_protocol::VerificationDeclaration::Check(check) if check.required => {
-                    Some(check.check.trim().to_owned())
+                    Some(check)
                 }
                 cockpit_protocol::VerificationDeclaration::Legacy(_)
                 | cockpit_protocol::VerificationDeclaration::Check(_) => None,
             })
-            .filter(|check| !check.is_empty())
+            .filter(|check| !check.check.trim().is_empty())
             .collect::<Vec<_>>();
         let complete_required_checks = crate::required_verification_checks(&contract);
         if complete_required_checks.is_empty() {
@@ -1226,7 +1249,7 @@ fn verify_composition_identity(
         }
         let explicit_check_set = explicit_required_checks
             .iter()
-            .cloned()
+            .map(|check| check.check.trim().to_owned())
             .collect::<BTreeSet<_>>();
         for check in complete_required_checks {
             if !explicit_check_set.contains(&check) {
@@ -1236,20 +1259,52 @@ fn verify_composition_identity(
             }
         }
         for check in explicit_required_checks {
-            let Some(identity) = parse_required_check_identity(&check) else {
+            let check_name = check.check.trim().to_owned();
+            let Some(identity) = parse_required_check_identity(&check_name) else {
                 blockers.push(format!(
-                    "required_check_identity_unresolvable:{participant_id}:{check}"
+                    "required_check_identity_unresolvable:{participant_id}:{check_name}"
                 ));
                 continue;
             };
             if !seen_required_check_identities.insert(identity.clone()) {
                 blockers.push(format!(
                     "required_check_identity_ambiguous:{participant_id}:{}",
-                    check
+                    check_name
                 ));
                 continue;
             }
-            required_check_identities.push(identity);
+            let scenarios = check
+                .covers_scenarios
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            let constraints = check
+                .covers_constraints
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            if scenarios.len() != check.covers_scenarios.len()
+                || check
+                    .covers_scenarios
+                    .iter()
+                    .any(|scenario| scenario.trim().is_empty())
+                || constraints.len() != check.covers_constraints.len()
+                || check
+                    .covers_constraints
+                    .iter()
+                    .any(|constraint| constraint.trim().is_empty())
+            {
+                blockers.push(format!(
+                    "required_check_coverage_invalid:{participant_id}:{check_name}"
+                ));
+                continue;
+            }
+            required_check_identities.push((
+                participant_id.clone(),
+                identity,
+                scenarios,
+                constraints,
+            ));
         }
     }
     let mut node_ids = BTreeSet::new();
@@ -1285,7 +1340,6 @@ fn verify_composition_identity(
         prior_node_ids.insert(command.node_id.clone());
     }
     let mut seen_command_identities = BTreeSet::new();
-    let mut matched_check_node_ids = BTreeSet::new();
     for command in &input.commands {
         let identity = (command.program.clone(), command.args.clone());
         if !seen_command_identities.insert(identity.clone()) {
@@ -1302,9 +1356,50 @@ fn verify_composition_identity(
             input.commands.len()
         ));
     }
-    for (command, required_identity) in input.commands.iter().zip(&required_check_identities) {
+    let mut covered_scenarios_by_participant = BTreeMap::<String, BTreeSet<String>>::new();
+    let mut covered_constraints_by_participant = BTreeMap::<String, BTreeSet<String>>::new();
+    for (command, (participant_id, required_identity, declared_scenarios, declared_constraints)) in
+        input.commands.iter().zip(&required_check_identities)
+    {
         if (command.program.clone(), command.args.clone()) == *required_identity {
-            matched_check_node_ids.insert(command.node_id.clone());
+            let scenario_labels = command
+                .covered_scenarios
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            let constraint_labels = command
+                .covered_constraints
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            if scenario_labels.len() != command.covered_scenarios.len()
+                || scenario_labels
+                    .iter()
+                    .any(|scenario| !declared_scenarios.contains(scenario))
+            {
+                blockers.push(format!(
+                    "composition_scenario_label_unbound:{}",
+                    command.node_id
+                ));
+            }
+            if constraint_labels.len() != command.covered_constraints.len()
+                || constraint_labels
+                    .iter()
+                    .any(|constraint| !declared_constraints.contains(constraint))
+            {
+                blockers.push(format!(
+                    "composition_constraint_label_unbound:{}",
+                    command.node_id
+                ));
+            }
+            covered_scenarios_by_participant
+                .entry(participant_id.clone())
+                .or_default()
+                .extend(declared_scenarios.iter().cloned());
+            covered_constraints_by_participant
+                .entry(participant_id.clone())
+                .or_default()
+                .extend(declared_constraints.iter().cloned());
         } else {
             blockers.push(format!(
                 "required_check_identity_mismatch:{}",
@@ -1312,22 +1407,18 @@ fn verify_composition_identity(
             ));
         }
     }
-    let covered_scenarios = input
-        .commands
-        .iter()
-        .filter(|command| matched_check_node_ids.contains(&command.node_id))
-        .flat_map(|command| command.covered_scenarios.iter().cloned())
-        .collect::<BTreeSet<_>>();
-    let covered_constraints = input
-        .commands
-        .iter()
-        .filter(|command| matched_check_node_ids.contains(&command.node_id))
-        .flat_map(|command| command.covered_constraints.iter().cloned())
-        .collect::<BTreeSet<_>>();
     for participant_id in &input.binding.participant_work_items {
         let Some(participant) = registrations.get(participant_id) else {
             continue;
         };
+        let covered_scenarios = covered_scenarios_by_participant
+            .get(participant_id)
+            .cloned()
+            .unwrap_or_default();
+        let covered_constraints = covered_constraints_by_participant
+            .get(participant_id)
+            .cloned()
+            .unwrap_or_default();
         for scenario in &participant
             .declaration
             .composition_verification

@@ -11,9 +11,12 @@ impact, outcome publication, coordination transitions, recovery consumption,
 and composition are explicit writes. Outcome publication binds the current
 registration generation and exact evidence bytes.
 
-The supported topology is one Git common directory with linked worktrees. The
-fixed Runtime owns lifecycle compatibility; the candidate Runtime must advertise
-the collaboration capability before it may write or consume these records.
+The supported topology is one Git common directory with linked worktrees.
+Installed Runtime `0.2.113` owns lifecycle compatibility and does not read the
+collaboration store. The candidate Runtime must advertise the collaboration
+capability before it may write or consume these records. Candidate-only Contract
+check-coverage fields are not assumed to be readable or enforced by an older
+installed binary.
 
 Registration is fact-bound: Runtime rechecks Git identity, active Contracts,
 heads, branches, and regular evidence files before admission. Composition
@@ -22,3 +25,9 @@ verification executor. Reuse requires matching observed executable, command,
 effective environment, declared input bytes, and dependency receipts; unknown
 node inputs disable it. Outcome exposes applicability, actual merge, cleanup,
 and reuse facts separately.
+
+Composition coverage comes from digest-bound required `verification` checks
+that declare `coversScenarios` or `coversConstraints`; caller labels do not
+grant coverage. The execution repository must share the coordination store's
+Git common directory, so an independent clone with a copied repository id is
+rejected.

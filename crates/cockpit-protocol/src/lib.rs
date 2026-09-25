@@ -2488,6 +2488,15 @@ pub struct VerificationCheck {
     pub check: String,
     #[serde(default)]
     pub required: bool,
+    /// Scenario identities this exact Contract check is declared to verify.
+    /// Composition admission derives coverage from this digest-bound field;
+    /// command-input labels are descriptive only.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub covers_scenarios: Vec<String>,
+    /// Compatibility-constraint identities this exact Contract check is
+    /// declared to verify.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub covers_constraints: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

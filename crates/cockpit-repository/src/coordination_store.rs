@@ -9,9 +9,7 @@ use serde::Serialize;
 use serde::de::DeserializeOwned;
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, File, OpenOptions};
-#[cfg(unix)]
-use std::io::ErrorKind;
-use std::io::Write;
+use std::io::{ErrorKind, Write};
 use std::path::{Path, PathBuf};
 use std::thread;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
@@ -120,6 +118,10 @@ impl CoordinationStore {
 
     pub fn root(&self) -> &Path {
         &self.root
+    }
+
+    pub(crate) fn git_common_dir(&self) -> &Path {
+        &self.common_dir
     }
 
     pub fn registration_path(&self, work_item_id: &str) -> PathBuf {
@@ -683,19 +685,16 @@ impl CoordinationStore {
                 )));
             }
             for evidence_ref in &outcome.evidence_refs {
-                let evidence_path = topology.repository_root.join(evidence_ref);
-                let metadata = fs::symlink_metadata(&evidence_path).map_err(|source| {
+                crate::collaboration::open_registered_worktree_file(
+                    &topology.repository_root,
+                    evidence_ref,
+                )
+                .map_err(|error| {
                     CoordinationError::RecoveryRequired(format!(
-                        "required outcome evidence is unavailable at {}: {source}",
+                        "required outcome evidence is not safely readable at {}: {error}",
                         evidence_ref
                     ))
                 })?;
-                if metadata.file_type().is_symlink() || !metadata.is_file() {
-                    return Err(CoordinationError::RecoveryRequired(format!(
-                        "required outcome evidence is not a regular file at {}",
-                        evidence_ref
-                    )));
-                }
             }
         }
         Ok(())
@@ -737,21 +736,16 @@ impl CoordinationStore {
                     "event evidence reference escapes registered worktree: {reference}"
                 )));
             }
-            let path = Path::new(&registration.worktree_path).join(relative);
-            let metadata = fs::symlink_metadata(&path).map_err(|source| {
+            crate::collaboration::open_registered_worktree_file(
+                Path::new(&registration.worktree_path),
+                reference,
+            )
+            .map_err(|error| {
                 CoordinationError::RecoveryRequired(format!(
-                    "event evidence is unavailable for {}: {} ({source})",
-                    event.event_id,
-                    path.display()
+                    "event evidence is not safely readable for {} at {}: {error}",
+                    event.event_id, reference
                 ))
             })?;
-            if metadata.file_type().is_symlink() || !metadata.is_file() {
-                return Err(CoordinationError::RecoveryRequired(format!(
-                    "event evidence is not a regular file for {}: {}",
-                    event.event_id,
-                    path.display()
-                )));
-            }
         }
         Ok(())
     }
@@ -765,11 +759,13 @@ impl CoordinationStore {
         let root = Path::new(&registration.worktree_path);
         let mut digests = BTreeMap::new();
         for reference in &event.evidence_refs {
-            let path = root.join(reference);
-            let bytes = fs::read(&path).map_err(|source| CoordinationError::Io {
-                path: path.clone(),
-                source,
-            })?;
+            let bytes = crate::collaboration::read_registered_worktree_file(root, reference)
+                .map_err(|error| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "event evidence is not safely readable for {} at {}: {error}",
+                        event.event_id, reference
+                    ))
+                })?;
             digests.insert(reference.clone(), Digest::sha256_bytes(&bytes));
         }
         Ok(digests)

@@ -2,8 +2,8 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
-    ResourceClaim, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
-    WorktreeRegistration,
+    OutcomeStage, ProvidedOutcome, ResourceClaim, ResourceClaimMode, ResourceReservation,
+    RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use cockpit_repository::{
     CoordinationError, CoordinationStore, WorkItemStartOptions, attach, repository_id,
@@ -109,6 +109,29 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
     }
 }
 
+fn registration_with_outcome(root: &Path, work_item_id: &str) -> WorktreeRegistration {
+    let mut value = registration(root, work_item_id, 1);
+    value.declaration.provided_outcomes = vec![ProvidedOutcome {
+        outcome_id: "api".into(),
+        interface_contract: "api-v1".into(),
+        behavior_contract: "stable behavior".into(),
+        published_head: value.head.clone(),
+        stage: OutcomeStage::ComposableHead,
+        evidence_refs: vec!["target/evidence.json".into()],
+    }];
+    value
+}
+
+#[cfg(unix)]
+fn replace_target_directory_with_external_symlink(root: &Path, outside: &Path) {
+    use std::os::unix::fs::symlink;
+
+    let target = root.join("target");
+    let backup = root.join("target-before-parent-symlink");
+    fs::rename(&target, &backup).expect("preserve target directory");
+    symlink(outside, target).expect("link target directory outside worktree");
+}
+
 fn reservation(
     root: &Path,
     work_item_id: &str,
@@ -192,6 +215,91 @@ fn event_publication_rejects_a_caller_supplied_digest_that_differs_from_file_byt
         error.to_string().contains("evidence digest"),
         "unexpected publication error: {error}"
     );
+}
+
+#[cfg(unix)]
+#[test]
+fn registration_rejects_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration_with_outcome(root.path(), "WI-PARENT-LINK");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let result = store.register(registration);
+
+    assert!(
+        result.is_err(),
+        "registration must reject an evidence file reached through a symlinked parent"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn event_publication_rejects_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-EVENT-PARENT-LINK", 1))
+        .expect("register provider");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let result = store.publish_event(CoordinationEvent {
+        schema_version: 1,
+        event_id: "outside-parent-event".into(),
+        repository_id: repository_id(root.path()),
+        work_item_id: "WI-EVENT-PARENT-LINK".into(),
+        generation: 1,
+        kind: CoordinationEventKind::Impact,
+        source: "parent-symlink-test".into(),
+        evidence_refs: vec!["target/evidence.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
+    });
+
+    assert!(
+        result.is_err(),
+        "event publication must not digest evidence reached through a parent symlink"
+    );
+    assert!(
+        store.inspect().expect("inspect store").events.is_empty(),
+        "rejected outside evidence must not persist an event"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn inspection_reports_registration_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration_with_outcome(root.path(), "WI-INSPECT-PARENT-LINK");
+    fs::write(
+        store.registration_path(&registration.work_item_id),
+        serde_json::to_vec_pretty(&registration).expect("serialize registration"),
+    )
+    .expect("write registered record");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let inspection = store
+        .inspect()
+        .expect("inspection preserves unknown record");
+
+    assert!(
+        inspection
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.contains("evidence")),
+        "inspection must surface a registration whose evidence parent is a symlink: {inspection:?}"
+    );
+    assert!(inspection.registrations.is_empty());
 }
 
 #[test]

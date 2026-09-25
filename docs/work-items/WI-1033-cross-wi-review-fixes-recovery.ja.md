@@ -25,11 +25,11 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
-WI-1033 の Contract-bound Runtime verification は現在の repository snapshot で通過しました。宣言された 31 node がすべて成功し、必須 8 scenario すべてに evidence mapping があります。実プロセス acceptance では 2 つの linked worktree と composition reuse を確認し、candidate CLI による Sentinel inspection の前後 bytes は一致しました。独立 PR review、hosted CI、merge、正確な cleanup、選択 lineage の close は未完了です。
+以前の Runtime verification receipt は当時の Contract と必須 8 scenario に対して 31 node を通過しました。これは履歴 evidence であり、現在の状態を示しません。Contract は現在 15 acceptance criteria と 11 scenario に amend され、review fix によって repository snapshot も変わりました。Hosted CI では active recovery lineage と replaced/not_verified archive の governance-integrity projection にも不足が見つかりました。この WI では close や verification receipt を捏造せず、対象を絞った gate regression を追加します。最終 canonical gate と Runtime-bound verification は未完了です。現在の freshness は Runtime を照会してください。追加された identity scenario は、repository ID を複製した別 clone を process 起動前に拒否します。
 
 ## Scope
 
-- 信頼できる registration/composition identity、必須 check の完全性、crash と live-lock の安全性、evidence containment、provider 単位の dependency、CLI の実際の reuse、MCP identity parity、read-only query/write 境界を再検証します。
+- 信頼できる registration/composition identity（execution repository と CoordinationStore の Git common directory 一致を含む）、必須 check の完全性、crash と live-lock の安全性、evidence containment、provider 単位の dependency、CLI の実際の reuse、MCP identity parity、read-only query/write 境界を再検証します。
 - 実プロセスの複数 linked-worktree 動作を証明し、通常の単一 WI serial execution を維持します。
 - 候補 CLI で Sentinel を検査します。source、Contract/evidence、lifecycle Runtime、coordination store には書き込みません。
 - 英語、簡体字中国語、日本語の Work Item projection と reference parity を維持します。
@@ -40,8 +40,8 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## 受け入れと検証
 
-[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 8 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
+[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 11 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
 
 ## Delivery boundary
 
-現在も実施中ですが、Runtime-bound verification は完了しています。Work Item はまだ統合済みではなく、Release 可能という意味でもありません。完了には独立 review、hosted CI、merge、正確な cleanup、および Runtime が認める historical lineage close が必要です。Release の判断は人に委ねます。
+Work Item は進行中です。現在の verification freshness は Runtime の照会のみを根拠とし、以前の receipt は歴史 evidence として保持します。完了には最終 Runtime verification、独立 review、hosted CI、merge、正確な cleanup、および Runtime が認める historical lineage close が必要です。Release は対象外です。

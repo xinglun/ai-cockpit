@@ -21,12 +21,14 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 
 - Add this specification and plan in the WI-1033 worktree.
 - Activate the Runtime-generated recovery scaffold with the same bounded intent and source scope.
-- Declare all twelve acceptance criteria, the eight required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
+- Declare all fifteen acceptance criteria, the eleven required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
 - Run Runtime preflight and checkpoint only when the current Runtime admits them. Preserve any rejection without retrying unchanged inputs.
 
 ### 2. Revalidate existing implementation, repairing only demonstrated gaps
 
 - Trace each independent-review finding to the implementation and a regression test.
+- Include Contract-bound required-check coverage labels, no-follow evidence reads at registration/publication/inspection, and execution-repository/CoordinationStore common-directory identity as explicit review findings with pre-spawn negative tests.
+- Add failing gate regressions for a valid active recovery successor and a replaced/not_verified archive; distinguish intermediate lineage from terminal close, and retirement evidence from successful verification evidence.
 - Run focused negative and positive tests for trust identity, complete required-check coverage, crash recovery/live lock safety, evidence containment, provider/outcome selection, actual reuse, MCP identity, and query/write persistence.
 - If a gap is found, add the failing regression first, implement the narrow repair, commit it separately, then re-query Runtime because the repository snapshot changed.
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.
@@ -42,6 +44,7 @@ Run, in order, the Contract-declared checks:
 - cargo build --locked --release -p cockpit-cli --bin ai-cockpit
 - python3 tests/acceptance/cross_wi_coordination_processes.py --binary target/release/ai-cockpit
 - bash tests/docs/documentation_acceptance.sh
+- bash tests/ci/governance_integrity_gate_test.sh
 
 Use the candidate binary for Sentinel inspection. Record exact before/after Git tree, Contract/evidence digests, lifecycle Runtime identity, and coordination-store bytes; stop if any protected state changes.
 

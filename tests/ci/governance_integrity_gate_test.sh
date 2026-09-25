@@ -13,6 +13,24 @@ build_fixture() {
   python3 "$fixtures/build_fixture.py" --spec "$spec" --output "$target"
 }
 
+bind_fixture_successor() {
+  local repo=$1
+  local predecessor=$2
+  local successor=$3
+  python3 - "$repo" "$predecessor" "$successor" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+predecessor, successor = sys.argv[2:]
+contract = root / ".ai/work-items/archive" / f"{successor}.contract.json"
+value = json.loads(contract.read_text(encoding="utf-8"))
+value["predecessorWorkItemId"] = predecessor
+contract.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+}
+
 run_case() {
   local name=$1
   local expected_code=$2
@@ -20,6 +38,12 @@ run_case() {
   local repo="$tmp/$name"
   local report="$tmp/$name-report.json"
   build_fixture "$fixtures/$name.json" "$repo"
+  if [[ "$name" == "superseded-recovery" ]]; then
+    bind_fixture_successor \
+      "$repo" \
+      "WI-902-recovered-predecessor" \
+      "WI-901-successor"
+  fi
   test -f "$repo/docs/reference/pending-parity-registry.json"
   python3 - "$repo/docs/reference/pending-parity-registry.json" <<'PY'
 import json
@@ -221,6 +245,27 @@ for root in (valid_root, replaced_root):
         document = root / f"docs/work-items/WI-900-release-v9-9-9{suffix}.md"
         if document.exists():
             document.unlink()
+for root, status in ((valid_root, "Retired"), (replaced_root, "Replaced")):
+    for suffix, localized_status in (
+        ("", status),
+        (".zh-CN", "已退役" if status == "Retired" else "已替代"),
+        (".ja", status),
+    ):
+        path = root / "docs/reference" / f"reference-parity{suffix}.md"
+        text = path.read_text(encoding="utf-8")
+        text = text.replace(
+            ".ai/evidence/WI-900-release-v9-9-9.verification.json",
+            ".ai/decisions/WI-900-release-v9-9-9.retirement.json",
+        )
+        text = text.replace(
+            ".ai/decisions/WI-900-release-v9-9-9.close.json",
+            ".ai/decisions/WI-900-release-v9-9-9.retirement.json",
+        )
+        text = text.replace("| Implemented |", f"| {localized_status} |")
+        text = text.replace("| 已实现 |", f"| {localized_status} |")
+        text = text.replace("; `.ai/decisions/WI-900-release-v9-9-9.retirement.json` |", "; `.ai/decisions/WI-900-release-v9-9-9.retirement.json`; not_verified |")
+        text = text.replace("；`.ai/decisions/WI-900-release-v9-9-9.retirement.json` |", "；`.ai/decisions/WI-900-release-v9-9-9.retirement.json`；not_verified |")
+        path.write_text(text, encoding="utf-8")
 PY
 python3 "$gate" --repo "$tmp/retired-valid" --report "$tmp/retired-valid-report.json" >/dev/null
 python3 - "$tmp/retired-valid-report.json" <<'PY'
@@ -234,15 +279,27 @@ assert item["lifecycleState"] == "retired", item
 assert item["decisionPath"].endswith(".retirement.json"), item
 PY
 python3 "$gate" --repo "$tmp/retired-replaced" --report "$tmp/retired-replaced-report.json" >/dev/null
-python3 - "$tmp/retired-replaced-report.json" <<'PY'
+python3 - "$tmp/retired-replaced-report.json" "$tmp/retired-replaced" <<'PY'
 import json
 import sys
+from pathlib import Path
 
 report = json.load(open(sys.argv[1], encoding="utf-8"))
 assert report["findings"] == [], report["findings"]
 item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
 assert item["lifecycleState"] == "replaced", item
 assert item["decisionPath"].endswith(".retirement.json"), item
+for path in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    row = next(
+        line for line in open(Path(sys.argv[2]) / path, encoding="utf-8")
+        if line.startswith("| WI-900 ")
+    )
+    assert ".ai/decisions/WI-900-release-v9-9-9.retirement.json" in row, row
+    assert ".ai/evidence/WI-900-release-v9-9-9.verification.json" not in row, row
 PY
 set +e
 python3 "$gate" --repo "$tmp/retired-invalid" --report "$tmp/retired-invalid-report.json" >/dev/null
@@ -262,6 +319,339 @@ assert any(item["code"] == "invalid_retirement_receipt" for item in findings), f
 assert not any(item["code"] == "missing_terminal_decision" for item in findings), findings
 PY
 printf 'governance retirement compatibility regression passed\n'
+
+# Ordinary verification and close evidence must not substitute for the
+# retirement receipt explicitly declared by an archived retirement manifest.
+build_fixture "$fixtures/valid.json" "$tmp/retired-missing-receipt"
+python3 - "$tmp/retired-missing-receipt" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-900-release-v9-9-9"
+manifest_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+manifest.update(
+    {
+        "closeRequired": False,
+        "historicalEvidence": True,
+        "retirementDisposition": "integrated",
+        "retirementReceiptPath": f".ai/decisions/{work_item}.retirement.json",
+        "state": "retired",
+    }
+)
+manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+assert (root / ".ai/evidence" / f"{work_item}.verification.json").is_file()
+assert (root / ".ai/decisions" / f"{work_item}.close.json").is_file()
+assert not (root / ".ai/decisions" / f"{work_item}.retirement.json").exists()
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/retired-missing-receipt" \
+  --report "$tmp/retired-missing-receipt-report.json" >/dev/null
+retired_missing_receipt_code=$?
+set -e
+[[ "$retired_missing_receipt_code" -eq 1 ]] || {
+  printf 'missing retirement receipt: expected exit 1, got %s\n' \
+    "$retired_missing_receipt_code" >&2
+  exit 1
+}
+python3 - "$tmp/retired-missing-receipt-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "missing_retirement_receipt"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance missing retirement receipt regression passed\n'
+
+# A valid recovery successor is an in-progress lineage until the selected
+# successor closes.  The predecessor must not require a premature close or be
+# projected as recovered while its successor is still active.
+build_fixture "$fixtures/valid.json" "$tmp/pending-recovery-lineage"
+python3 - "$tmp/pending-recovery-lineage" <<'PY'
+import json
+import shutil
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+predecessor = "WI-900-release-v9-9-9"
+successor = "WI-901-successor"
+decisions = root / ".ai/decisions"
+archive = root / ".ai/work-items/archive"
+active = root / ".ai/work-items/active"
+(decisions / f"{predecessor}.close.json").unlink()
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+recovery = {
+    "schemaVersion": 1,
+    "decisionId": "work-item-recovery",
+    "workItemId": predecessor,
+    "predecessorWorkItemId": predecessor,
+    "successorWorkItemId": successor,
+    "repositoryId": project["repositoryId"],
+    "decision": "successor",
+    "evidenceRefs": [f".ai/evidence/{predecessor}.verification.json"],
+    "reason": "Continue the bounded work through its selected successor.",
+}
+(decisions / f"{predecessor}.recovery.json").write_text(
+    json.dumps(recovery, indent=2) + "\n", encoding="utf-8"
+)
+active.mkdir(parents=True, exist_ok=True)
+contract = json.loads((archive / f"{predecessor}.contract.json").read_text(encoding="utf-8"))
+contract["workItemId"] = successor
+contract["predecessorWorkItemId"] = predecessor
+(active / f"{successor}.contract.json").write_text(
+    json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+)
+summary = json.loads((archive / f"{predecessor}.summary.json").read_text(encoding="utf-8"))
+summary["workItemId"] = successor
+(active / f"{successor}.summary.json").write_text(
+    json.dumps(summary, indent=2) + "\n", encoding="utf-8"
+)
+for suffix in ("", ".zh-CN", ".ja"):
+    (root / "docs/work-items" / f"{successor}{suffix}.md").write_text(
+        f"---\nworkItemId: {successor}\n---\n\n# {successor}\n",
+        encoding="utf-8",
+    )
+    parity = root / "docs/reference" / f"reference-parity{suffix}.md"
+    text = parity.read_text(encoding="utf-8")
+    rows = text.splitlines()
+    for index, row in enumerate(rows):
+        if row.startswith("| WI-900 "):
+            row = row.replace("| WI-900 —", f"| {predecessor} —", 1)
+            rows[index] = row.replace("| Implemented |", "| In progress |", 1).replace(
+                "| 已实现 |", "| 进行中 |", 1
+            ).replace(
+                f"`.ai/decisions/{predecessor}.close.json`",
+                f"`.ai/decisions/{predecessor}.recovery.json`",
+                1,
+            )
+            break
+    else:
+        raise AssertionError(f"missing predecessor parity row in {parity}")
+    status = (
+        "进行中 → 验证关闭后已实现"
+        if suffix == ".zh-CN"
+        else (
+            "In progress → verified close 後 Implemented"
+            if suffix == ".ja"
+            else "In progress → Implemented after verified close"
+        )
+    )
+    paths = "; ".join(
+        f"`{path}`"
+        for path in (
+            f".ai/work-items/archive/{successor}.contract.json",
+            f".ai/evidence/{successor}.verification.json",
+            f".ai/decisions/{successor}.finalize.json",
+            f".ai/decisions/{successor}.close.json",
+        )
+    )
+    rows.append(f"| {successor} | {status} | prearchive registration; {paths} |")
+    parity.write_text("\n".join(rows) + "\n", encoding="utf-8")
+PY
+python3 "$gate" --repo "$tmp/pending-recovery-lineage" \
+  --report "$tmp/pending-recovery-lineage-report.json" >/dev/null
+python3 - "$tmp/pending-recovery-lineage-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+predecessor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
+assert predecessor["decisionPath"].endswith(".recovery.json"), predecessor
+successor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-901-successor"
+)
+assert successor["lifecycleState"] == "prearchive_parity_registered", successor
+PY
+cp -R "$tmp/pending-recovery-lineage" "$tmp/foreign-recovery-successor"
+python3 - "$tmp/foreign-recovery-successor/.ai/work-items/active/WI-901-successor.contract.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["predecessorWorkItemId"] = "WI-999-foreign-predecessor"
+path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+PY
+set +e
+python3 "$gate" --repo "$tmp/foreign-recovery-successor" \
+  --report "$tmp/foreign-recovery-successor-report.json" >/dev/null
+foreign_successor_code=$?
+set -e
+[[ "$foreign_successor_code" -eq 1 ]] || {
+  printf 'foreign recovery successor: expected exit 1, got %s\n' \
+    "$foreign_successor_code" >&2
+  exit 1
+}
+python3 - "$tmp/foreign-recovery-successor-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "invalid_recovery_successor_binding"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance pending recovery lineage regression passed\n'
+
+# An invalid historical close cannot make a still-active selected successor
+# look recovered.  The valid successor lineage remains pending until its own
+# terminal close is proven.
+cp -R "$tmp/pending-recovery-lineage" "$tmp/pending-recovery-invalid-close"
+python3 - "$tmp/pending-recovery-invalid-close" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+predecessor = "WI-900-release-v9-9-9"
+(root / ".ai/decisions" / f"{predecessor}.close.json").write_text(
+    json.dumps({"workItemId": predecessor, "state": "closed"}) + "\n",
+    encoding="utf-8",
+)
+PY
+python3 "$gate" --repo "$tmp/pending-recovery-invalid-close" \
+  --report "$tmp/pending-recovery-invalid-close-report.json" >/dev/null
+python3 - "$tmp/pending-recovery-invalid-close-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+predecessor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
+PY
+printf 'governance invalid-close recovery lineage regression passed\n'
+
+# A successor Contract reached through a parent symlink must not be accepted
+# as a repository-owned recovery binding. Absolute successor IDs are rejected
+# as well, even when an external file with that name exists.
+external_successor="$tmp/external-successor"
+mkdir -p "$external_successor"
+cp -R "$tmp/pending-recovery-lineage" "$tmp/escaping-recovery-successor"
+python3 - "$tmp/escaping-recovery-successor" "$external_successor" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+external = Path(sys.argv[2])
+predecessor = "WI-900-release-v9-9-9"
+successor = "escape/WI-901-successor"
+decisions = root / ".ai/decisions"
+recovery_path = decisions / f"{predecessor}.recovery.json"
+recovery = json.loads(recovery_path.read_text(encoding="utf-8"))
+recovery["successorWorkItemId"] = successor
+recovery_path.write_text(json.dumps(recovery, indent=2) + "\n", encoding="utf-8")
+active = root / ".ai/work-items/active"
+(active / "escape").symlink_to(external, target_is_directory=True)
+(external / "WI-901-successor.contract.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "predecessorWorkItemId": predecessor,
+            "repositoryId": json.loads((root / ".ai/project.json").read_text())["repositoryId"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+set +e
+python3 "$gate" --repo "$tmp/escaping-recovery-successor" \
+  --report "$tmp/escaping-recovery-successor-report.json" >/dev/null
+escaping_successor_code=$?
+set -e
+[[ "$escaping_successor_code" -eq 1 ]] || {
+  printf 'escaping recovery successor: expected exit 1, got %s\n' \
+    "$escaping_successor_code" >&2
+  exit 1
+}
+python3 - "$tmp/escaping-recovery-successor-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "invalid_recovery_successor_binding"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance recovery successor containment regression passed\n'
+
+cp -R "$tmp/pending-recovery-lineage" "$tmp/absolute-recovery-successor"
+python3 - "$tmp/absolute-recovery-successor" "$external_successor" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+external = Path(sys.argv[2])
+predecessor = "WI-900-release-v9-9-9"
+successor_path = external / "absolute-successor"
+successor = str(successor_path)
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+(external / "absolute-successor.contract.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "predecessorWorkItemId": predecessor,
+            "repositoryId": project["repositoryId"],
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+recovery_path = root / ".ai/decisions" / f"{predecessor}.recovery.json"
+recovery = json.loads(recovery_path.read_text(encoding="utf-8"))
+recovery["successorWorkItemId"] = successor
+recovery_path.write_text(json.dumps(recovery, indent=2) + "\n", encoding="utf-8")
+PY
+set +e
+python3 "$gate" --repo "$tmp/absolute-recovery-successor" \
+  --report "$tmp/absolute-recovery-successor-report.json" >/dev/null
+absolute_successor_code=$?
+set -e
+[[ "$absolute_successor_code" -eq 1 ]] || {
+  printf 'absolute recovery successor: expected exit 1, got %s\n' \
+    "$absolute_successor_code" >&2
+  exit 1
+}
+python3 - "$tmp/absolute-recovery-successor-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "invalid_recovery_successor_binding"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance absolute recovery successor regression passed\n'
 
 # ``confirmed`` is an explicit positive Runtime decision token equivalent to
 # ``approved`` for terminal promotion; arbitrary/rejected decisions remain
@@ -630,8 +1020,8 @@ PY
 printf 'governance orphaned-retry regression passed\n'
 
 # Runtime recovery is append-only. A canonical retry may coexist with a
-# digest-suffixed successor/supersession receipt; the latest valid terminal
-# recovery must be selected and bound into all parity rows.
+# digest-suffixed successor/supersession receipt; the latest valid receipt
+# must bind the real successor and remain in progress until that successor closes.
 build_fixture "$fixtures/valid.json" "$tmp/recovery-suffixed"
 python3 - "$tmp/recovery-suffixed" <<'PY'
 import json
@@ -665,7 +1055,12 @@ retry["predecessorSummaryDigest"] = "sha256:" + "d" * 64
 (decisions / f"{work_item}.recovery.json").write_text(
     json.dumps(retry, indent=2) + "\n", encoding="utf-8"
 )
-supersede = dict(common, decision="supersede", successorWorkItemId="WI-901-corrective-after-baseline")
+successor = "WI-100-release-v1-0-0"
+successor_contract = root / ".ai/work-items/archive" / f"{successor}.contract.json"
+contract_value = json.loads(successor_contract.read_text(encoding="utf-8"))
+contract_value["predecessorWorkItemId"] = work_item
+successor_contract.write_text(json.dumps(contract_value, indent=2) + "\n", encoding="utf-8")
+supersede = dict(common, decision="supersede", successorWorkItemId=successor)
 supersede["predecessorContractDigest"] = retry["predecessorContractDigest"]
 supersede["predecessorSummaryDigest"] = retry["predecessorSummaryDigest"]
 supersede["decidedAt"] = "2026-03-02T00:00:00Z"
@@ -680,6 +1075,8 @@ for name in ("reference-parity.md", "reference-parity.zh-CN.md", "reference-pari
         f"`.ai/decisions/{work_item}.close.json`",
         f"`.ai/decisions/{work_item}.recovery.{suffix}.json`",
     )
+    text = text.replace("| Implemented |", "| In progress |", 1)
+    text = text.replace("| 已实现 |", "| 进行中 |", 1)
     path.write_text(text, encoding="utf-8")
 PY
 python3 "$gate" --repo "$tmp/recovery-suffixed" --report "$tmp/recovery-suffixed-report.json" >/dev/null
@@ -690,9 +1087,9 @@ report = json.load(open(sys.argv[1], encoding="utf-8"))
 assert report["findings"] == [], report["findings"]
 item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
 assert item["decisionPath"].endswith(".recovery." + "a" * 64 + ".json"), item
-assert item["lifecycleState"] == "recovered", item
+assert item["lifecycleState"] == "awaiting_successor_close", item
 PY
-printf 'governance recovery suffix regression passed\n'
+printf 'governance recovery suffix successor-lineage regression passed\n'
 
 # A successful retry remains immutable history and must not turn an otherwise
 # normal archived/finalized item into a recovered predecessor. The static gate
@@ -892,6 +1289,7 @@ successor = "WI-100-release-v1-0-0"
         {
             "workItemId": successor,
             "repositoryId": repository_id,
+            "predecessorWorkItemId": work_item,
             "createdAt": "2025-01-01T00:00:00Z",
             "baseRevision": "1" * 40,
         },
@@ -1042,6 +1440,10 @@ PY
 recovered_close_repo="$tmp/recovered-with-invalid-close"
 recovered_close_report="$tmp/recovered-with-invalid-close-report.json"
 build_fixture "$fixtures/superseded-recovery.json" "$recovered_close_repo"
+bind_fixture_successor \
+  "$recovered_close_repo" \
+  "WI-902-recovered-predecessor" \
+  "WI-901-successor"
 python3 - "$recovered_close_repo/.ai/decisions/WI-902-recovered-predecessor.close.json" <<'PY'
 import json
 import sys

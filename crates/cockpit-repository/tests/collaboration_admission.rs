@@ -117,6 +117,32 @@ fn declare_required_checks(root: &Path, work_item_id: &str, checks: &[String]) {
     .expect("write typed Contract checks");
 }
 
+fn declare_required_check_coverage(
+    root: &Path,
+    work_item_id: &str,
+    check: &str,
+    scenarios: &[&str],
+    constraints: &[&str],
+) {
+    contract_digest(root, work_item_id);
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("Contract bytes")).expect("Contract JSON");
+    contract["verification"] = serde_json::json!([{
+        "check": check,
+        "required": true,
+        "coversScenarios": scenarios,
+        "coversConstraints": constraints,
+    }]);
+    fs::write(
+        path,
+        serde_json::to_vec_pretty(&contract).expect("serialize coverage-bound check"),
+    )
+    .expect("write coverage-bound Contract check");
+}
+
 fn declaration(
     root: &Path,
     provided: &[(&str, OutcomeStage)],
@@ -477,6 +503,80 @@ fn caller_labels_cannot_forge_required_contract_checks() {
 }
 
 #[test]
+fn caller_coverage_labels_cannot_attach_scenarios_to_an_unrelated_required_check() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("forged-coverage-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display()), "true".into()],
+    );
+    let mut work = declaration(root.path(), &[], &[]);
+    work.composition_verification.required_scenarios = vec!["api-compat".into()];
+    work.composition_verification.compatibility_constraints = vec!["stable-api".into()];
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, work))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "touch".into();
+    input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
+    let mut unrelated_required_check = input.commands[0].clone();
+    unrelated_required_check.node_id = "unrelated-required-check".into();
+    unrelated_required_check.program = "true".into();
+    unrelated_required_check.args.clear();
+    unrelated_required_check.covered_scenarios = vec!["api-compat".into()];
+    unrelated_required_check.covered_constraints = vec!["stable-api".into()];
+    input.commands.push(unrelated_required_check);
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_err(),
+        "a matching required command must not inherit caller-invented scenario or constraint coverage"
+    );
+    assert!(
+        !marker.exists(),
+        "unbound coverage labels must block before the required command starts"
+    );
+}
+
+#[test]
+fn contract_bound_check_scenario_and_constraint_coverage_is_admitted() {
+    let root = repository();
+    let store = store(root.path());
+    declare_required_check_coverage(
+        root.path(),
+        "WI-CONSUMER",
+        "true",
+        &["api-compat"],
+        &["stable-api"],
+    );
+    let mut work = declaration(root.path(), &[], &[]);
+    work.composition_verification.required_scenarios = vec!["api-compat".into()];
+    work.composition_verification.compatibility_constraints = vec!["stable-api".into()];
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 1, work))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].covered_scenarios = vec!["api-compat".into()];
+    input.commands[0].covered_constraints = vec!["stable-api".into()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
+
+    assert!(
+        result.is_ok(),
+        "a digest-bound Contract check may cover exactly its declared scenarios and constraints: {result:?}"
+    );
+}
+
+#[test]
 fn composition_rejects_a_missing_required_contract_check_before_spawn() {
     let root = repository();
     let store = store(root.path());
@@ -506,6 +606,91 @@ fn composition_rejects_a_missing_required_contract_check_before_spawn() {
     assert!(
         !marker.exists(),
         "partial check set must be rejected before spawn"
+    );
+}
+
+#[test]
+fn admitted_composition_rejects_a_different_clone_even_with_matching_repository_id() {
+    let root = repository();
+    let clone = tempfile::tempdir().expect("separate clone directory");
+    let marker = clone.path().join("must-not-run");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
+    let declaration = declaration(root.path(), &[], &[]);
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration.clone(),
+        ))
+        .expect("register integration owner");
+    run(
+        root.path(),
+        &[
+            "clone",
+            "-q",
+            "--no-hardlinks",
+            root.path().to_str().unwrap(),
+            clone.path().to_str().unwrap(),
+        ],
+    );
+    // `git clone` creates the directory; place the copied identity after it.
+    fs::create_dir_all(clone.path().join(".ai")).expect("clone identity directory");
+    fs::copy(
+        root.path().join(".ai/cockpit.toml"),
+        clone.path().join(".ai/cockpit.toml"),
+    )
+    .expect("copy the same repository identity to the separate clone");
+    let stale_target = GitRepository::discover(clone.path())
+        .expect("discover clone")
+        .topology()
+        .expect("clone topology")
+        .head
+        .expect("clone head");
+
+    fs::write(root.path().join("advanced-target.txt"), "advanced\n")
+        .expect("advance integration target");
+    run(root.path(), &["add", "advanced-target.txt"]);
+    run(
+        root.path(),
+        &["commit", "-qm", "advance integration target"],
+    );
+    store
+        .register(registration(root.path(), "WI-CONSUMER", 2, declaration))
+        .expect("refresh registered target head");
+    run(
+        root.path(),
+        &[
+            "-C",
+            clone.path().to_str().unwrap(),
+            "fetch",
+            "-q",
+            root.path().to_str().unwrap(),
+            "main",
+        ],
+    );
+
+    let mut input = composition_input(root.path(), &marker);
+    input.repository_root = clone.path().to_path_buf();
+    input.binding.target_sha = stale_target;
+    input.commands[0].program = "touch".into();
+    input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let result = run_admitted_composition(&store, "WI-CONSUMER", 2, input);
+
+    assert!(
+        matches!(&result, Err(error) if error.to_string().contains("composition_repository_common_directory_mismatch")),
+        "composition must bind the execution repository to the registered coordination store: {result:?}"
+    );
+    assert!(
+        !marker.exists(),
+        "a separate clone must be rejected before a composition command is spawned"
     );
 }
 
@@ -1232,11 +1417,19 @@ fn dependency_inspection_rejects_published_evidence_through_parent_symlink() {
         admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
             .expect("inspect after evidence parent substitution");
     assert!(
-        after
-            .blockers
-            .iter()
-            .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
-        "outside evidence must not satisfy the published dependency: {after:?}"
+        !after.allowed
+            && (after
+                .blockers
+                .iter()
+                .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api")
+                || (after
+                    .blockers
+                    .iter()
+                    .any(|blocker| blocker == "dependency_missing:WI-PROVIDER:api")
+                    && after.unknowns.iter().any(
+                        |unknown| unknown.contains("evidence parent is not safely contained")
+                    ))),
+        "outside evidence must remain blocked and the safely detected parent escape must be visible: {after:?}"
     );
 }
 

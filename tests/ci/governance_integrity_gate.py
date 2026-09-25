@@ -75,6 +75,25 @@ def record_id(path: Path, suffix: str) -> str:
     return path.name[: -len(ending)]
 
 
+def valid_work_item_id(value: Any) -> bool:
+    # Match Runtime validate_work_item_id: legacy IDs may not use the modern
+    # WI-<number>-slug form, but path separators and dot segments are never
+    # valid Work Item identity characters.
+    return isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_-]+", value) is not None
+
+
+def repository_contained_regular_file(repo: Path, path: Path) -> bool:
+    """Accept a regular file only when ancestor symlinks stay inside repo."""
+    if path.is_symlink():
+        return False
+    try:
+        resolved = path.resolve(strict=True)
+        resolved.relative_to(repo.resolve(strict=True))
+    except (OSError, RuntimeError, ValueError):
+        return False
+    return resolved.is_file()
+
+
 def short_id(work_item: str) -> str:
     match = re.match(r"^(WI-[0-9]+[A-Za-z]?)", work_item, re.IGNORECASE)
     return match.group(1).upper() if match else work_item
@@ -1386,25 +1405,59 @@ def recovery_successor_is_closed(
     the static gate mirrors the same boundary so a valid-looking recovery
     marker cannot suppress a missing terminal decision.
     """
+    predecessor = recovery.get("predecessorWorkItemId")
     successor = recovery.get("successorWorkItemId")
-    if not isinstance(successor, str) or not successor:
+    if (
+        not isinstance(predecessor, str)
+        or not predecessor
+        or not valid_work_item_id(successor)
+        or not recovery_successor_binding_is_valid(repo, predecessor, recovery)
+    ):
         return False
     archive = repo / ".ai/work-items/archive"
-    if not (
-        (archive / f"{successor}.contract.json").is_file()
-        and not (archive / f"{successor}.contract.json").is_symlink()
-        and (archive / f"{successor}.archive.json").is_file()
-        and not (archive / f"{successor}.archive.json").is_symlink()
+    if not repository_contained_regular_file(
+        repo, archive / f"{successor}.contract.json"
+    ) or not repository_contained_regular_file(
+        repo, archive / f"{successor}.archive.json"
     ):
         return False
     close_path = repo / ".ai/decisions" / f"{successor}.close.json"
-    if not close_path.is_file() or close_path.is_symlink():
+    if not repository_contained_regular_file(repo, close_path):
         return False
     try:
         close = load_json(close_path)
     except ValueError:
         return False
     return valid_close_decision(repo, successor, close)
+
+
+def recovery_successor_binding_is_valid(
+    repo: Path, predecessor: str, recovery: dict[str, Any]
+) -> bool:
+    """Bind a recovery successor to a real Contract in this repository."""
+    successor = recovery.get("successorWorkItemId")
+    if not valid_work_item_id(successor) or successor == predecessor:
+        return False
+    try:
+        project = load_json(repo / ".ai/project.json")
+    except ValueError:
+        return False
+    locations = (
+        repo / ".ai/work-items/active" / f"{successor}.contract.json",
+        repo / ".ai/work-items/archive" / f"{successor}.contract.json",
+    )
+    existing = [path for path in locations if path.exists()]
+    if len(existing) != 1 or not repository_contained_regular_file(repo, existing[0]):
+        return False
+    try:
+        contract = load_json(existing[0])
+    except ValueError:
+        return False
+    return (
+        contract.get("workItemId") == successor
+        and contract.get("predecessorWorkItemId") == predecessor
+        and contract.get("repositoryId") == project.get("repositoryId")
+    )
 
 
 def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
@@ -1822,6 +1875,24 @@ def main() -> int:
                         f".ai/work-items/archive/{work_item}.archive.json",
                     )
                 )
+            archive_manifest_path = base / f"{work_item}.archive.json"
+            try:
+                archive_manifest = load_json(archive_manifest_path)
+            except ValueError:
+                archive_manifest = {}
+            retirement_declared = (
+                archive_manifest.get("state") in {"retired", "replaced"}
+                or "retirementDisposition" in archive_manifest
+                or "retirementReceiptPath" in archive_manifest
+            )
+            if retirement_declared and not retirement_present:
+                findings.append(
+                    finding(
+                        work_item,
+                        "missing_retirement_receipt",
+                        f".ai/decisions/{work_item}.retirement.json",
+                    )
+                )
             if retirement_present and not retirement_valid:
                 findings.append(
                     finding(
@@ -1924,6 +1995,24 @@ def main() -> int:
                     else "retirement_invalid"
                 )
             close_path = repo / ".ai/decisions" / f"{work_item}.close.json"
+            recovery_links_successor = (
+                recovery_receipt_valid
+                and recovery_value.get("decision") in {"successor", "supersede"}
+            )
+            recovery_successor_binding_valid = (
+                recovery_links_successor
+                and recovery_successor_binding_is_valid(
+                    repo, work_item, recovery_value
+                )
+            )
+            if recovery_links_successor and not recovery_successor_binding_valid:
+                findings.append(
+                    finding(
+                        work_item,
+                        "invalid_recovery_successor_binding",
+                        str(recovery_path.relative_to(repo)),
+                    )
+                )
             # A recovery receipt explains a predecessor's history; it must not
             # shadow a later valid close decision for the same Work Item.
             if decision is None and close_path.is_file() and not close_path.is_symlink():
@@ -1934,8 +2023,8 @@ def main() -> int:
                     decision_value = {}
                 if valid_close_decision(repo, work_item, decision_value):
                     if (
-                        recovery_receipt_valid
-                        and recovery_value.get("decision") in {"successor", "supersede"}
+                        recovery_links_successor
+                        and recovery_successor_binding_valid
                         and recovery_successor_is_closed(repo, recovery_value)
                     ):
                         # A closed predecessor with a terminal successor is a
@@ -1946,19 +2035,35 @@ def main() -> int:
                         decision = str(recovery_path.relative_to(repo))
                         record["decisionPath"] = decision
                         record["lifecycleState"] = "recovered"
+                    elif recovery_links_successor and recovery_successor_binding_valid:
+                        decision = str(recovery_path.relative_to(repo))
+                        record["decisionPath"] = decision
+                        record["lifecycleState"] = "awaiting_successor_close"
+                    elif recovery_links_successor:
+                        decision = str(recovery_path.relative_to(repo))
+                        record["decisionPath"] = decision
+                        record["lifecycleState"] = "closure_invalid"
                     else:
                         record["decisionPath"] = decision
                         record["lifecycleState"] = "closed"
                 elif recovery_receipt_valid:
                     # A predecessor may already contain an immutable, but
                     # non-canonical, close receipt when a later recovery
-                    # explicitly supersedes it.  The recovery receipt is the
-                    # authoritative terminal projection in that case; do not
-                    # reclassify the predecessor as invalid merely because
-                    # its historical close cannot be rewritten.
+                    # selects a successor.  That recovery receipt is
+                    # authoritative for the lineage, but it is not terminal
+                    # until the selected successor is closed.
                     decision = str(recovery_path.relative_to(repo))
                     record["decisionPath"] = decision
-                    record["lifecycleState"] = "recovered"
+                    if recovery_links_successor and recovery_successor_binding_valid:
+                        record["lifecycleState"] = (
+                            "recovered"
+                            if recovery_successor_is_closed(repo, recovery_value)
+                            else "awaiting_successor_close"
+                        )
+                    elif recovery_links_successor:
+                        record["lifecycleState"] = "closure_invalid"
+                    else:
+                        record["lifecycleState"] = "recovered"
                 else:
                     record["lifecycleState"] = "closure_invalid"
                     findings.append(finding(work_item, "invalid_terminal_decision", decision))
@@ -1966,7 +2071,16 @@ def main() -> int:
                 if recovery_receipt_valid:
                     decision = str(recovery_path.relative_to(repo))
                     record["decisionPath"] = decision
-                    record["lifecycleState"] = "recovered"
+                    if recovery_links_successor and recovery_successor_binding_valid:
+                        record["lifecycleState"] = (
+                            "recovered"
+                            if recovery_successor_is_closed(repo, recovery_value)
+                            else "awaiting_successor_close"
+                        )
+                    elif recovery_links_successor:
+                        record["lifecycleState"] = "closure_invalid"
+                    else:
+                        record["lifecycleState"] = "recovered"
                 else:
                     # A valid canonical retry whose archived Outcome is green
                     # is historical evidence, not a terminal decision.  Keep
@@ -2155,6 +2269,11 @@ def main() -> int:
                             )
                         )
             if parity_projection:
+                parity_evidence = (
+                    decision
+                    if retirement_valid and decision is not None
+                    else evidence
+                )
                 for parity_doc, implemented in PARITY_DOCS:
                     line = work_item_rows.get(parity_doc)
                     if line is None:
@@ -2163,8 +2282,16 @@ def main() -> int:
                                 finding(work_item, "missing_parity_entry", parity_doc)
                             )
                         continue
-                    if evidence not in line:
+                    if parity_evidence not in line:
                         findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
+                    if retirement_valid and "not_verified" not in line:
+                        findings.append(
+                            finding(
+                                work_item,
+                                "missing_retirement_not_verified_projection",
+                                parity_doc,
+                            )
+                        )
                     if decision is not None and not retirement_present and decision not in line:
                         findings.append(finding(work_item, "missing_parity_decision", parity_doc))
                     lifecycle_status = (
@@ -2214,9 +2341,24 @@ def main() -> int:
                     if record.get("lifecycleState") == "recovered":
                         recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
                         status_tokens = (implemented, recovery_status)
-                    elif record.get("lifecycleState") == "awaiting_merge_close":
+                    elif record.get("lifecycleState") in {
+                        "awaiting_merge_close",
+                        "awaiting_successor_close",
+                    }:
                         pending_status = "进行中" if parity_doc.endswith(".zh-CN.md") else "In progress"
                         status_tokens = (implemented, pending_status)
+                    elif record.get("lifecycleState") == "replaced":
+                        status_tokens = (
+                            ("已替代",)
+                            if parity_doc.endswith(".zh-CN.md")
+                            else ("Replaced",)
+                        )
+                    elif record.get("lifecycleState") == "retired":
+                        status_tokens = (
+                            ("已退役",)
+                            if parity_doc.endswith(".zh-CN.md")
+                            else ("Retired",)
+                        )
                     if not any(token in line for token in status_tokens):
                         findings.append(finding(work_item, "stale_parity_status", parity_doc))
         inventory.append(record)
