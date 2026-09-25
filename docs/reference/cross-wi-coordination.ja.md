@@ -79,6 +79,10 @@ composition は admission を再確認し、安全に pause された対象を�
 Contract digest と正確な必須 check identity に束縛された値だけを coverage として扱います。
 composition input の label は説明用 assertion にすぎず、coverage の証拠ではありません。
 未対応 label または Contract 側の mapping 欠落は process 起動前に fail closed します。
+必須 Contract check は空でない `CompositionCommand.environment` overlay も拒否します。
+現在の typed `VerificationCheck` には environment 宣言がないため、caller の値をその check に
+束縛できません。identity と reuse のために実効環境を観測しても、overlay で Contract 必須 check を
+変更する権限にはなりません。
 共有の bounded
 executor で有限 timeout と bounded output を使い、起動前に in-progress attempt を
 保存し、各 node、timeout、中断からの復旧情報、cleanup 結果を保存します。全 identity

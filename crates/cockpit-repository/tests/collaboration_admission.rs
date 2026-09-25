@@ -577,6 +577,47 @@ fn contract_bound_check_scenario_and_constraint_coverage_is_admitted() {
 }
 
 #[test]
+fn required_check_environment_overlay_is_rejected_when_unbound_by_contract() {
+    let root = repository();
+    let store = store(root.path());
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &["printenv COCKPIT_REQUIRED_CHECK_RESULT".into()],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    input.commands[0].program = "printenv".into();
+    input.commands[0].args = vec!["COCKPIT_REQUIRED_CHECK_RESULT".into()];
+    input.commands[0]
+        .environment
+        .insert("COCKPIT_REQUIRED_CHECK_RESULT".into(), "forged-pass".into());
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let error = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
+        .expect_err("an undeclared environment overlay must not redefine a required check");
+
+    assert!(
+        error
+            .to_string()
+            .contains("required_check_environment_unbound"),
+        "the rejection should identify the unbound environment: {error}"
+    );
+    assert!(
+        !store.root().join("compositions").exists(),
+        "an unbound environment must be rejected before an attempt or check process starts"
+    );
+}
+
+#[test]
 fn composition_rejects_a_missing_required_contract_check_before_spawn() {
     let root = repository();
     let store = store(root.path());

@@ -10,7 +10,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 
 ## Scope
 
-- Verify the existing fixes for observed composition identity and reuse, authoritative required-check coverage, interruption recovery and lock safety, evidence containment, provider-scoped outcome selection, MCP identity parity, and query/write boundaries.
+- Verify the existing fixes for observed composition identity and reuse, authoritative required-check coverage (including rejection of unbound command-environment overlays), interruption recovery and lock safety, evidence containment, provider-scoped outcome selection, MCP identity parity, and query/write boundaries.
 - Verify real multiple-process behavior in linked worktrees and the ordinary single-Work-Item serial route.
 - Run the candidate CLI against Sentinel read-only and compare repository, Contract/evidence, lifecycle Runtime, and coordination state before and after.
 - Keep every required scenario explicit, with an observable expected result and a concrete verification plan.
@@ -29,7 +29,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 ## Acceptance criteria
 
 1. An undeclared or incomplete node read-set disables reuse. Changing readable source or a relative executable while composition JSON remains unchanged launches the affected node.
-2. Only the registered integration owner is admitted. Runtime-derived, digest-matched required checks must be complete; forged labels, missing checks, caller-supplied satisfied booleans, and an execution repository from a different Git common directory than the bound CoordinationStore are rejected before any process starts.
+2. Only the registered integration owner is admitted. Runtime-derived, digest-matched required checks must be complete; forged labels, missing checks, caller-supplied satisfied booleans, unbound command-environment overlays, and an execution repository from a different Git common directory than the bound CoordinationStore are rejected before any process starts. The current typed Contract check has no environment declaration, so its composition command must not supply an environment overlay.
 3. A real process killed after durable invalidation but before registration completion can be retried. Reconciliation leaves exactly one valid impact event and never evicts a live lock owner.
 4. Evidence whose final file or any ancestor symlink escapes the registered worktree is rejected; outside bytes are never accepted as evidence.
 5. Equal outcome identifiers from different providers do not cross-affect admission. Actions select dependencies by the exact provider/outcome pair.
@@ -58,7 +58,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 | Scenario | Expected observable result | Verification plan |
 | --- | --- | --- |
 | trusted_read_set_and_executable_identity | Missing or untrusted read-sets disable reuse; changing a readable source or the launched relative executable with unchanged JSON re-runs the affected node. | Run composition identity regressions and real CLI acceptance with undeclared readable inputs and relative executables; assert the affected process is spawned, not reused. |
-| integration_owner_and_complete_required_checks | A non-owner or incomplete/forged required-check set is rejected before process spawn. | Exercise incomplete, forged-label, and caller-satisfied inputs; assert every rejection occurs before any process is spawned. |
+| integration_owner_and_complete_required_checks | A non-owner, incomplete/forged required-check set, or unbound command-environment overlay is rejected before process spawn. | Exercise incomplete, forged-label, caller-satisfied, and non-empty unbound environment inputs; assert every rejection occurs before an attempt or process is created. |
 | crash_reconciliation_and_live_lock_safety | A fresh process reconciles one durable event after child death, while a live lock owner remains protected. | Kill a real child after durable invalidation but before registration completes; retry in a fresh process and assert one impact event, restored registration, and no live-lock eviction. |
 | registered_worktree_evidence_containment | Final and parent symlink escapes are rejected without accepting outside bytes or appending a success event. | Test final-file and parent-directory symlink escapes at registration, publication, and inspection; compare event bytes before and after rejection. |
 | provider_scoped_outcome_selection | Admission uses only the exact provider/outcome pair; a same-named outcome from another provider cannot affect it. | Register providers with the same outcome ID, select each exact pair in turn, and assert the unselected provider never changes admission. |

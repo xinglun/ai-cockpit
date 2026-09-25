@@ -76,6 +76,9 @@ workItemId 与安全 target 完全一致，然后才核验 registration facts �
 `verification` 检查可声明 `coversScenarios` 和 `coversConstraints`；这些字段由
 Contract digest 与精确必需检查身份绑定。composition 输入中的标签只是描述性断言，不能
 作为覆盖证据；未映射标签或缺少 Contract 映射会在启动进程前 fail closed。它复用共享的有界验证执行器，
+必需 Contract 检查也会拒绝非空的 `CompositionCommand.environment` overlay：当前 typed
+`VerificationCheck` 没有环境声明字段，因此调用方提供的值无法绑定到该检查。Runtime 观察有效环境
+用于身份和复用，不代表授权 overlay 改写 Contract 要求的检查。
 具有有限超时和有界输出；启动进程前先落盘 in-progress attempt，逐节点落盘，并记录
 超时、父进程中断可恢复状态和清理结果。调用方提供的 identity digest 不授权复用：
 Runtime 会观察目标 tree、锁文件和配置文件、实际解析的 executable、有效进程环境及

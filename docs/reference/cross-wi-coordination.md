@@ -103,7 +103,12 @@ temporary linked worktree. An active Contract's required `verification` check
 may declare `coversScenarios` and `coversConstraints`; those fields are bound
 by the Contract digest and exact required-check identity. Composition-input
 labels are descriptive assertions only, never coverage evidence: an unmapped
-label or a missing Contract mapping fails closed before spawn. It uses the
+label or a missing Contract mapping fails closed before spawn. A required
+Contract check also rejects a non-empty `CompositionCommand.environment`
+overlay: the current typed `VerificationCheck` has no environment declaration,
+so caller-supplied values cannot be bound to that check. Observing an effective
+environment for identity and reuse does not authorize an overlay to redefine
+the Contract-required check. It uses the
 shared bounded verifier for finite
 timeouts and bounded output, persists an in-progress attempt before spawning,
 persists every node, and records timeout/interruption-safe state and cleanup

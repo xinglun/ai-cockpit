@@ -2029,6 +2029,15 @@ fn verify_composition_identity(
         input.commands.iter().zip(&required_check_identities)
     {
         if (command.program.clone(), command.args.clone()) == *required_identity {
+            // Required checks have no Contract-owned environment declaration.
+            // A composition caller must not be able to change the behavior of
+            // an otherwise matching check with an unbound environment overlay.
+            if !command.environment.is_empty() {
+                blockers.push(format!(
+                    "required_check_environment_unbound:{}",
+                    command.node_id
+                ));
+            }
             let scenario_labels = command
                 .covered_scenarios
                 .iter()
