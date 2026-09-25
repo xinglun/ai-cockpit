@@ -25,7 +25,7 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
-The earlier Runtime verification receipt passed 31 nodes for the then-current Contract and eight required scenarios. It is historical, not current evidence: the Contract has since been amended to 15 acceptance criteria and 11 scenarios, and review fixes changed the repository snapshot. Hosted CI also exposed a governance-integrity projection gap for active recovery lineage and replaced/not_verified archives; the current Work Item adds targeted gate regressions rather than fabricating close or verification receipts. Final canonical gates and Runtime-bound verification remain pending; query Runtime for current freshness. The added identity scenario rejects a separate clone even when it carries a copied repository ID.
+The earlier Runtime verification receipt passed 31 nodes for the then-current Contract and eight required scenarios. It is historical, not current evidence: a later amendment brought the Contract to 15 acceptance criteria and 11 scenarios, and the latest retirement-parity review added a 16th criterion and 12th scenario. Review fixes also changed the repository snapshot. Hosted CI exposed governance-integrity projection gaps for active recovery lineage and replaced/not_verified archives; the current Work Item adds targeted gate regressions rather than fabricating close or verification receipts. Final canonical gates and Runtime-bound verification remain pending; query Runtime for current freshness. The added identity scenario rejects a separate clone even when it carries a copied repository ID.
 
 ## Scope
 
@@ -40,7 +40,7 @@ Task 8, the Runtime snapshot-binding behavior across commits, is a separate seri
 
 ## Acceptance and verification
 
-See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All eleven required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
+See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twelve required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
 
 ## Delivery boundary
 

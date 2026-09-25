@@ -25,7 +25,7 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
-以前の Runtime verification receipt は当時の Contract と必須 8 scenario に対して 31 node を通過しました。これは履歴 evidence であり、現在の状態を示しません。Contract は現在 15 acceptance criteria と 11 scenario に amend され、review fix によって repository snapshot も変わりました。Hosted CI では active recovery lineage と replaced/not_verified archive の governance-integrity projection にも不足が見つかりました。この WI では close や verification receipt を捏造せず、対象を絞った gate regression を追加します。最終 canonical gate と Runtime-bound verification は未完了です。現在の freshness は Runtime を照会してください。追加された identity scenario は、repository ID を複製した別 clone を process 起動前に拒否します。
+以前の Runtime verification receipt は当時の Contract と必須 8 scenario に対して 31 node を通過しました。これは履歴 evidence であり、現在の状態を示しません。後の amend で Contract は 15 acceptance criteria と 11 scenario になり、今回の retirement-parity review で 16 番目の criteria と 12 番目の scenario が追加されました。review fix によって repository snapshot も変わりました。Hosted CI では active recovery lineage と replaced/not_verified archive の governance-integrity projection にも不足が見つかりました。この WI では close や verification receipt を捏造せず、対象を絞った gate regression を追加します。最終 canonical gate と Runtime-bound verification は未完了です。現在の freshness は Runtime を照会してください。追加された identity scenario は、repository ID を複製した別 clone を process 起動前に拒否します。
 
 ## Scope
 
@@ -40,7 +40,7 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## 受け入れと検証
 
-[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 11 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
+[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 12 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
 
 ## Delivery boundary
 
