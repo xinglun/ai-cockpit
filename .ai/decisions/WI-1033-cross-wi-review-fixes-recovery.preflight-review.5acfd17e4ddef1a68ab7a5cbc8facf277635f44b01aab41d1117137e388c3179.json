@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The user already authorized WI-1033 through merge and exact cleanup, followed by the separate serial Task 8, stopping before release. This append-only receipt rebinds that same bounded authorization to the exact current preflight and unchanged Contract/scope. It is not a new start gate and does not assert verification, independent review, merge, or release.",
+  "recordedAt": "2026-09-25T20:00:03Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

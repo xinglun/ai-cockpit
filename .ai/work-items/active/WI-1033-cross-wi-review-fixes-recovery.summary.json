@@ -1,5 +1,8 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b108e9725097d883805c53f6d79d27d0365fd314955b58816495aebe18a5750.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9729a02a901b1149b984f18510b061fd936644fa14bf7b87b8ab368eb8a1c756.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.3babd8ab63d4cc8997de48814591004081d18bfbd4673c90dadc7c761bd84512.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
   ],
@@ -282,18 +285,18 @@
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:85d602f8a908fa0bbd650e2c9081b8d354d3cd0d2704dd64671d9f12100cd05d",
+  "checkpointRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
   "createdAt": "2026-09-25T00:59:30Z",
   "decisionEvidence": {
     "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The user explicitly authorized completing WI-1033 corrections, verification, independent PR review, merge, exact cleanup, and then a separate serial Task 8, stopping before release for a full user review. This rebinds the same bounded decision to the current unchanged Contract and scope; it does not claim verification, independent review, merge, or release approval.",
-    "recordedAt": "2026-09-25T18:46:40Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The user already authorized WI-1033 through merge and exact cleanup, followed by the separate serial Task 8, stopping before release. This append-only receipt rebinds that same bounded authorization to the exact current preflight and unchanged Contract/scope. It is not a new start gate and does not assert verification, independent review, merge, or release.",
+    "recordedAt": "2026-09-25T20:00:03Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:85d602f8a908fa0bbd650e2c9081b8d354d3cd0d2704dd64671d9f12100cd05d",
+    "repositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
     "schemaVersion": 1,
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
@@ -306,10 +309,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-25T19:00:07Z",
+  "preflightAt": "2026-09-25T19:55:53Z",
   "preflightContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:85d602f8a908fa0bbd650e2c9081b8d354d3cd0d2704dd64671d9f12100cd05d",
+  "preflightRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
@@ -603,7 +606,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-25T18:47:24.601352+00:00",
+  "updatedAt": "2026-09-25T20:01:53.627846+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -746,6 +749,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:361aea95ac651002376537cd6c08b8863df00961b320a42d4955e9862cadc424",
+  "verificationRecoveryReconciled": "sha256:defb315f0d12a3f2da0efdc19c25a733a7ba18cef23dbdef42f6238c3d2d546e",
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }
