@@ -19,6 +19,11 @@ manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 assert "name: upload repository gate diagnostics" in workflow_text
 assert "name: repository-gate-diagnostics" in workflow_text
 assert "target/repository-gate-diagnostics/*.log" in workflow_text
+assert (
+    "- name: verify Windows directory-handle containment regressions\n"
+    "        run: cargo test --locked -p cockpit-repository --lib"
+    in workflow_text
+), "Windows CI must execute repository library regressions for directory-handle containment"
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
 entries = manifest["gates"]

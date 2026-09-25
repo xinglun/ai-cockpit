@@ -278,6 +278,8 @@ jobs:
         run: cargo test -p cockpit-verification --test execution
       - name: verify Windows repository boundaries
         run: cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
+      - name: verify Windows directory-handle containment regressions
+        run: cargo test --locked -p cockpit-repository --lib
 
   v1-behavioral-oracle:
     needs: route
