@@ -25,6 +25,8 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
+WI-1033 の Contract-bound Runtime verification は現在の repository snapshot で通過しました。宣言された 31 node がすべて成功し、必須 8 scenario すべてに evidence mapping があります。実プロセス acceptance では 2 つの linked worktree と composition reuse を確認し、candidate CLI による Sentinel inspection の前後 bytes は一致しました。独立 PR review、hosted CI、merge、正確な cleanup、選択 lineage の close は未完了です。
+
 ## Scope
 
 - 信頼できる registration/composition identity、必須 check の完全性、crash と live-lock の安全性、evidence containment、provider 単位の dependency、CLI の実際の reuse、MCP identity parity、read-only query/write 境界を再検証します。
@@ -42,4 +44,4 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## Delivery boundary
 
-現在は実施中であり、検証完了やRelease可能を意味しません。完了には新しい Runtime-bound verification、独立 review、hosted CI、merge、正確な cleanup、および Runtime が認める historical lineage close が必要です。Release の判断は人に委ねます。
+現在も実施中ですが、Runtime-bound verification は完了しています。Work Item はまだ統合済みではなく、Release 可能という意味でもありません。完了には独立 review、hosted CI、merge、正確な cleanup、および Runtime が認める historical lineage close が必要です。Release の判断は人に委ねます。

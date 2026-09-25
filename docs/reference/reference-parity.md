@@ -78,7 +78,7 @@ anti-omission index; this page remains the higher-level product-boundary matrix.
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | Archived; historical verification passed, human close pending; selected recovery lineage continues through WI-1032 and WI-1033 | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.md); Runtime Outcome remains yellow until an admitted lineage close is recorded. |
 | WI-1032-cross-wi-review-fixes | Replaced by WI-1033; verification claim not_verified; original evidence preserved | [Historical Work Item](../work-items/WI-1032-cross-wi-review-fixes.md); see the active [recovery successor](../work-items/WI-1033-cross-wi-review-fixes-recovery.md). |
-| WI-1033-cross-wi-review-fixes-recovery | In progress; Runtime-bound verification, independent review, merge, and exact cleanup pending | [Work Item](../work-items/WI-1033-cross-wi-review-fixes-recovery.md); no release is claimed. |
+| WI-1033-cross-wi-review-fixes-recovery | In progress; Runtime-bound verification passed (31 nodes, eight scenarios); independent review, hosted CI, merge, and exact cleanup pending | [Work Item](../work-items/WI-1033-cross-wi-review-fixes-recovery.md); no release is claimed. |
 | Reader-first entry and language switching | Implemented | Root and route README files link to one another in English, Simplified Chinese, and Japanese. |
 | Purpose, problem, architecture, and capability overview | Implemented | The philosophy, architecture, and capability routes describe the current Runtime and its owners. |
 | Shared Runtime with request-scoped repository contexts | Implemented | Explicit `--repo` binding and repository isolation tests keep context and evidence separate. |

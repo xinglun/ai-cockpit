@@ -25,6 +25,8 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
+WI-1033's Contract-bound Runtime verification passed for the current repository snapshot: all 31 declared nodes passed, and all eight required scenarios have evidence mappings. The real-process acceptance covered two linked worktrees and composition reuse; candidate CLI inspection of Sentinel was byte-stable. Independent PR review, hosted CI, merge, exact cleanup, and the selected lineage close remain pending.
+
 ## Scope
 
 - Revalidate trusted registration/composition identity, required-check completeness, crash and live-lock safety, evidence containment, provider-scoped dependencies, actual CLI reuse, MCP identity parity, and the read-only query/write boundary.
@@ -42,4 +44,4 @@ See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [imp
 
 ## Delivery boundary
 
-The current state is in progress, not fully verified and not release-ready. Completion requires fresh Runtime-bound verification, independent review, hosted CI, merge, exact cleanup, and whatever historical lineage close Runtime admits. Release remains a human decision.
+The current state remains in progress, but Runtime-bound verification is complete; the Work Item is not yet fully integrated or release-ready. Completion requires independent review, hosted CI, merge, exact cleanup, and whatever historical lineage close Runtime admits. Release remains a human decision.

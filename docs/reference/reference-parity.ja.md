@@ -71,7 +71,7 @@ matrix は次の 4 state だけを使います。
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | Archived；historical verification 済み、human close pending。選択された recovery lineage は WI-1032 と WI-1033 に続く | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.ja.md); Runtime Outcome は admitted lineage close が記録されるまで yellow。 |
 | WI-1032-cross-wi-review-fixes | WI-1033 に置き換え済み；verification claim not_verified；元 evidence は保持 | [Historical Work Item](../work-items/WI-1032-cross-wi-review-fixes.ja.md); 現在の[recovery successor](../work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md)を参照。 |
-| WI-1033-cross-wi-review-fixes-recovery | In progress；Runtime-bound verification、独立 review、merge、正確な cleanup は未完了 | [Work Item](../work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md); Release は主張しません。 |
+| WI-1033-cross-wi-review-fixes-recovery | In progress；Runtime-bound verification は通過（31 node、8 scenario）。独立 review、hosted CI、merge、正確な cleanup は未完了 | [Work Item](../work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md); Release は主張しません。 |
 | Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |
 | Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
 | Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |

@@ -25,6 +25,8 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
+WI-1033 的 Contract 绑定 Runtime 验证已针对当前仓库快照通过：31 个声明节点全部通过，8 个必需场景均已映射证据。真实进程验收覆盖两个 linked worktree 与组合复用；候选 CLI 对 Sentinel 的检查前后字节一致。独立 PR 审查、hosted CI、合并、精确清理及所选 lineage close 仍待完成。
+
 ## 范围
 
 - 重新核验受信登记/组合身份、必需检查完整性、崩溃与活动锁安全、证据边界、按 provider 区分的依赖、CLI 实际复用、MCP 身份 parity 及只读查询/写入边界。
@@ -42,4 +44,4 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 交付边界
 
-当前状态为进行中，尚未完成验证，也不代表可以发布。完成前仍需新的 Runtime 绑定验证、独立审查、hosted CI、合并、精确清理，以及 Runtime 实际允许的历史 lineage close。是否发布由人决定。
+当前状态仍为进行中，但 Runtime 绑定验证已完成；Work Item 尚未集成完成，也不代表可以发布。完成前仍需独立审查、hosted CI、合并、精确清理，以及 Runtime 实际允许的历史 lineage close。是否发布由人决定。
