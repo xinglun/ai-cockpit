@@ -1376,4 +1376,83 @@ mod registered_worktree_file_tests {
             "rejected re-registration must not publish an impact event"
         );
     }
+
+    #[test]
+    fn moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged() {
+        let root = repository();
+        let git = GitRepository::discover(root.path()).expect("discover");
+        let store = CoordinationStore::open(&git, runtime()).expect("coordination store");
+        let original = registration(root.path(), 1);
+        store
+            .register(original.clone())
+            .expect("initial registration");
+        let registration_path = store.registration_path(&original.work_item_id);
+        let original_registration_bytes = fs::read(&registration_path).expect("registration");
+        let events_path = store.root().join("events");
+        let original_event_bytes = file_bytes(&events_path);
+
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active/WI-REGISTERED-SWAP-BACK.contract.json");
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        contract["verification"] = serde_json::json!([{
+            "check": "cargo test --locked -p cockpit-repository",
+            "required": true
+        }]);
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).expect("serialize updated Contract"),
+        )
+        .expect("update test Contract");
+        let replacement_bytes = fs::read(&contract_path).expect("updated Contract bytes");
+        let replacement = registration(root.path(), 2);
+        assert_ne!(replacement.contract_digest, original.contract_digest);
+
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        let moved_active = outside.path().join("active");
+        let contract_leaf = format!("{}.contract.json", original.work_item_id);
+        let result =
+            store.register_with_contract_reader(replacement, |repository_root, reference| {
+                crate::collaboration::read_registered_worktree_file_with_opener(
+                    repository_root,
+                    reference,
+                    |parent, leaf| {
+                        fs::rename(&active_path, &moved_active)
+                            .expect("move opened active directory outside repository");
+                        fs::create_dir_all(&active_path)
+                            .expect("install an in-repository replacement directory");
+                        fs::write(active_path.join(&contract_leaf), &replacement_bytes)
+                            .expect("write matching replacement Contract");
+                        let mut options = cap_std::fs::OpenOptions::new();
+                        options.read(true).follow(FollowSymlinks::No);
+                        parent
+                            .open_with(leaf, &options)
+                            .map(cap_std::fs::File::into_std)
+                    },
+                )
+            });
+
+        assert_eq!(
+            fs::read(moved_active.join(&contract_leaf)).expect("Contract opened outside root"),
+            replacement_bytes,
+            "the moved directory contains the exact matching Contract bytes"
+        );
+        assert!(
+            matches!(result, Err(CoordinationError::RecoveryRequired(_))),
+            "the moved open directory must be rejected before registration publication: {result:?}"
+        );
+        assert_eq!(
+            fs::read(&registration_path).expect("registration after rejection"),
+            original_registration_bytes,
+            "rejected registration must preserve the old registration bytes"
+        );
+        assert_eq!(
+            file_bytes(&events_path),
+            original_event_bytes,
+            "rejected registration must not publish an impact event"
+        );
+    }
 }
