@@ -695,31 +695,42 @@ impl CoordinationStore {
             .repository_root
             .join(".ai/work-items/active")
             .join(format!("{}.contract.json", registration.work_item_id));
-        let metadata = fs::symlink_metadata(&contract_path).map_err(|source| {
+        let contract_reference = format!(
+            ".ai/work-items/active/{}.contract.json",
+            registration.work_item_id
+        );
+        let contract_bytes = crate::collaboration::read_registered_worktree_file(
+            &topology.repository_root,
+            &contract_reference,
+        )
+        .map_err(|error| {
             CoordinationError::RecoveryRequired(format!(
-                "active Contract is unavailable for {}: {source}",
+                "active Contract is not safely contained for {}: {error}",
                 registration.work_item_id
             ))
         })?;
-        if metadata.file_type().is_symlink() || !metadata.is_file() {
-            return Err(CoordinationError::RecoveryRequired(format!(
-                "active Contract is not a regular file for {}",
-                registration.work_item_id
-            )));
-        }
-        let contract = crate::read_contract(&contract_path).map_err(|error| {
-            CoordinationError::RecoveryRequired(format!(
-                "active Contract is invalid for {}: {error}",
-                registration.work_item_id
-            ))
-        })?;
+        let contract =
+            crate::parse_contract_bytes(&contract_bytes, &contract_path).map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "active Contract is invalid for {}: {error}",
+                    registration.work_item_id
+                ))
+            })?;
         validate_contract_registration_identity(registration, &contract)?;
-        let actual_contract_digest = crate::contract_digest(&contract_path).map_err(|error| {
-            CoordinationError::RecoveryRequired(format!(
-                "active Contract digest is unavailable for {}: {error}",
-                registration.work_item_id
-            ))
-        })?;
+        let contract_json: serde_json::Value =
+            serde_json::from_slice(&contract_bytes).map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "active Contract digest is unavailable for {}: {error}",
+                    registration.work_item_id
+                ))
+            })?;
+        let actual_contract_digest =
+            cockpit_protocol::digest_json(&contract_json).map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "active Contract digest is unavailable for {}: {error}",
+                    registration.work_item_id
+                ))
+            })?;
         if actual_contract_digest != registration.contract_digest {
             return Err(CoordinationError::RecoveryRequired(format!(
                 "Contract digest mismatch for {}",

@@ -1057,6 +1057,52 @@ fn registration_rejects_a_contract_with_a_different_declared_identity() {
     }
 }
 
+#[cfg(unix)]
+#[test]
+fn registration_rejects_a_contract_reached_through_a_symlinked_ancestor() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository();
+    let store = store(root.path());
+    let work_item_id = "WI-CONTRACT-PARENT-SYMLINK";
+    let registration = registration(root.path(), work_item_id, 1);
+    let work_items = root.path().join(".ai/work-items");
+    let active = work_items.join("active");
+    let contract_name = format!("{work_item_id}.contract.json");
+    let contract_bytes = fs::read(active.join(&contract_name)).expect("Contract bytes");
+
+    // Keep an exact, valid copy outside the repository. The old path-based
+    // checks followed this ancestor symlink and accepted the matching bytes.
+    let outside = tempfile::tempdir().expect("external directory");
+    let external_active = outside.path().join("active");
+    fs::create_dir_all(&external_active).expect("external active directory");
+    fs::write(external_active.join(contract_name), contract_bytes)
+        .expect("external matching Contract");
+
+    let original_active = work_items.join("active-original");
+    fs::rename(&active, &original_active).expect("preserve active Contracts");
+    symlink(&external_active, &active).expect("symlink active ancestor outside repository");
+
+    let error = store
+        .register(registration)
+        .expect_err("Contract ancestor symlink must be rejected");
+    assert!(
+        matches!(error, CoordinationError::RecoveryRequired(_)),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !store.registration_path(work_item_id).exists(),
+        "rejected registration must not be persisted"
+    );
+    assert!(
+        fs::read_dir(store.root().join("events"))
+            .expect("events directory")
+            .next()
+            .is_none(),
+        "rejected registration must not append an impact event"
+    );
+}
+
 #[test]
 fn read_only_inspection_does_not_create_coordination_storage() {
     let root = repository();
