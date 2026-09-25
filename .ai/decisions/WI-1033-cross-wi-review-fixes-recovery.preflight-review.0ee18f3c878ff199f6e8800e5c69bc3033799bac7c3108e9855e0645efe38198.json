@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:98998babd331656379f6f18c3b4ad45bee1a1358498a73242f351eb13f8cb98d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Existing explicit user authorization to proceed serially through this bounded Work Item to the pre-release boundary; binds only the current Work Item, Contract, and repository snapshot and does not assert independent review completion or release approval.",
+  "recordedAt": "2026-09-25T14:52:11Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0bef40b347c3c0b3bb102a746129cab77e402d028315c247fe0dccf3b911ad9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

@@ -1,0 +1,28 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to continue through merge and exact cleanup, stopping before release",
+  "decidedAt": "2026-09-25T09:45:58Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.ad3b0eb56f9e43561d963dd03ed38186140a674ccfed2a3eb6f4adfec46f1c95.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+  "predecessorEventsDigest": "sha256:8fd01e38e1b34bbcfe74a32daf918fd8cc6595cdb802c4be8398136d48559f6c",
+  "predecessorOutcomeDigest": "sha256:8417c8c133d33e85dd216570de65c6af2cdf7e28efb3b63bc2a68b9a01663a6c",
+  "predecessorSummaryDigest": "sha256:d4b57148ea76dd93d2aabfac718da279b23d936f6df647fc4073b246e108e9d0",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The prior finish failed its governance projection because three passing required scenarios were not mapped into Summary scenarioCoverage. All 15 required scenarios are now mapped, the focused Rust regression tests and documentation acceptance pass, and the remaining recovery is to rerun the canonical Runtime verification on the current commit. This retry preserves the failed Outcome, does not claim verification success, does not widen scope, and does not authorize release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one fresh Runtime-bound verification on the current repository snapshot; then refresh preflight and status, retry finish only if Runtime admits it, and continue through review, merge, and exact cleanup only as admitted. Stop before release.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

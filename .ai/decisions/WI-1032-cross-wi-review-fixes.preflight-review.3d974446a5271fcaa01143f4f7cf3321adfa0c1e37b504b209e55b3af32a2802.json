@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:812894e7e276fc04ca65f17cdf34f2f7e2acaa61b916eafdf9970fe9c074ccdc",
+  "reason": "The user already authorized this bounded Work Item through PR review, merge, and cleanup, with release excluded. This append-only receipt rebinds that existing authorization to the Task 6 commit snapshot; it does not claim verification, review, hosted checks, merge, cleanup, release, or additional human approval.",
+  "recordedAt": "2026-09-24T22:52:17Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:907388b8ec9034347b593beb88b9a22b43c7bb7856f6eb612c44bfff46134287",
+  "schemaVersion": 1,
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

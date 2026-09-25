@@ -1,0 +1,157 @@
+{
+  "attemptId": "sha256:c5be2f3a53b2b928347c827f001dbd7e2946c855c90ce8a9d585274e0484749f",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:5fa3fc567a2095f165481e8c37a2f638072c4b74b9dc81bf967905de62ad2105",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:fa6321c86cded535b0b6ee6db2c1fff7c902bed80cccf790fb0bf923a35e54b7",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:0a9d2f242184131ebb2fa1bdb63c41c097a46a9b9b65417499f7fb78f735f8fa",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/repository_gate_manifest_test.py"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:07d15f7cb5c574bcdf6334863b8aa6c3ebd50a20d53cd49dd176e60da2940996",
+      "nodeId": "project-command-3",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "build",
+        "--locked",
+        "--release",
+        "-p",
+        "cockpit-cli",
+        "--bin",
+        "ai-cockpit"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:8474627776491dc90568232db25b4be7ac3f0440f1c87b5eb167e449251970c5",
+      "nodeId": "project-command-4",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/acceptance/cross_wi_coordination_processes.py",
+        "--binary",
+        "target/release/ai-cockpit"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:7f132c8cea075767fd29cb53a0107283e61cba2f5cb95d0e324a9e23d608115c",
+      "nodeId": "project-command-5",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:464fb6c41081ddf2e041e2a26a080abfae1b9ce4be2f5ba493f1afc35404b263",
+      "nodeId": "project-command-6",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+  "contractExecutionScopeDigest": "sha256:c9d349518df1af03a056ee7ff3f12af5fa1a1b77a78b1f377962c1f10bc18dac",
+  "createdAt": "2026-09-25T01:58:58Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1033-cross-wi-review-fixes-recovery/ai-cockpit/.ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, safeActions=[\"archive_when_reviewed\", \"refresh_status\"], admissionDigest=sha256:78413a675acdf30fead88a4c58eb6a9928aa695797e273cc002dd47ffdb05a9c, issues=[\"evidence_stale\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0cdca7ba813e653b97297b3a14cc70794f4c0d1fe1508751925d775c46395304",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

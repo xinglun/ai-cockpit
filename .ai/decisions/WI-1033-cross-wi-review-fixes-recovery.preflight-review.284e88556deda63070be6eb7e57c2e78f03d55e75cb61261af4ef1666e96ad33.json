@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user explicitly authorizes completing WI-1033 corrections, verification, PR merge, exact cleanup, and then a separate serial Task 8, stopping before release for a full user review. This receipt binds that bounded authority to the current Contract and repository snapshot only; it is not verification, independent review, or release approval.",
+  "recordedAt": "2026-09-25T17:48:26Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2580fb347a89401199839447b8bd112a8277f81dadc94af8286695d9b394c3ed",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

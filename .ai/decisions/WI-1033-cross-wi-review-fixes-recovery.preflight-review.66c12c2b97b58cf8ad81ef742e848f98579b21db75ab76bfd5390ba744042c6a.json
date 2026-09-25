@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user explicitly authorized completing WI-1033 corrections, verification, independent PR review, merge, exact cleanup, and then a separate serial Task 8, stopping before release for full user review. This rebinds the same bounded decision after the three planned reviewable implementation commits changed the snapshot; it does not claim scenario completion, verification, review, merge, or release approval.",
+  "recordedAt": "2026-09-25T18:29:38Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:323796c08555f8b597f6e2be99c6058fc6502f78421c7c944fcdc0baec32f7b6",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

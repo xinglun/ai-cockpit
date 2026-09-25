@@ -1,0 +1,38 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:271076b5f282f4e2148526947a35479209ca241e738bc2031e095d4a4ebd316b",
+  "artifacts": {
+    "approach": {
+      "digest": "sha256:a8535d5bc941c425176bee262903b449f7d315b5cc2317a52b53ae45085cfd35",
+      "path": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.approach.json"
+    },
+    "contract": {
+      "digest": "sha256:86ad1ee099f8ea8513f7e8f22ade268b226ea5b82690a73eb4036d8b8dbe299f",
+      "path": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:265fc50715f6337ba3c69e02dcdc5d05b4dc882a214cce0fc31fb621b559a9a2",
+      "path": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:466f04577d777b247bf59d4fd09f02e7461b9a01bcfbb773af51308d5779396a",
+      "path": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.summary.json"
+    }
+  },
+  "authoritySource": "User authorization in the current Codex task: continue through the pre-release boundary (2026-09-25 Asia/Tokyo).",
+  "contractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-1032's generated Contract cannot express the required expected results through its supported additive amendment path. Retire it as replaced by the Runtime-bound WI-1033 recovery successor while preserving the original Contract, Summary, failed precondition evidence, and unverified status.",
+  "recordedAt": "2026-09-25T01:00:47Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c288f95db53f9664b0b2a40824de8be3036122018b82e667e5edd03ae231788a",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "summaryDigest": "sha256:adf9f240df77212b76b8d13245b9e4c811276a257a2ac8ef95d3095bd5f2b277",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

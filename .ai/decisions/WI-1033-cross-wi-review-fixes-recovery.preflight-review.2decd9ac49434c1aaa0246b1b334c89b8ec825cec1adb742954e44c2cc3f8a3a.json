@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e53d3a8869c64120867e761aaebe8daeef86199cbebbe76fbe60b3e30d6d6c3d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "User explicitly authorized continuing this serial Work Item through the pre-release boundary and requested independent review; confirms only the bounded in-scope symlink-containment repair, not any verification result, merge approval, or release.",
+  "recordedAt": "2026-09-25T11:06:36Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d6f149c0c2bd242c18f523c6efbdc6325218a4605cb0187e09ace09bb47026c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

@@ -1,0 +1,840 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.3d974446a5271fcaa01143f4f7cf3321adfa0c1e37b504b209e55b3af32a2802.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.86a07afd320a0c620d74bfc0994a79a5d363d20389e0dfb7d4a39259ee80f32f.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.888d4e5b37265081fb25895edf21c0f08a079b70a2ec18159b426119a1f58cd4.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.9cf27933b71c0afe465f370b06ee1f03e975681aa7ece7fe291a6b0eb67cb71b.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.c78f2d97ccaf58ed5951a9ec2d36dab3a6c9ed66c1474be08b4e44b6b695d024.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.preflight-review.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
+    ".ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.0ee18f3c878ff199f6e8800e5c69bc3033799bac7c3108e9855e0645efe38198.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.1b3929b36b8d72df6c0436824effcc22339f118fab86125308051606ebc4ff86.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.21735414748dc2d13f2b6129aa9787f7f389867eda263b18115acd7978472036.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.284e88556deda63070be6eb7e57c2e78f03d55e75cb61261af4ef1666e96ad33.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.2c8793b1185f37b01896ad4426404dcc1fecbe647bde8a554be785e34526adab.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.2decd9ac49434c1aaa0246b1b334c89b8ec825cec1adb742954e44c2cc3f8a3a.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.34a119fb6ae7dda65c8de9fd43d6c2f29606d9440e962e8102db039033c41f0f.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.34c7f04309c891fdff86dc5b570f012cce7304d5a8c203bfe7a9e98b2cf3ee27.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.41c18e9eb27202ecf864039b190a59e6322edc92e9636f9d408ba50d659945ea.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.4405d723b6c17758c8deb54e4e8aec53250398e76fd04cdf0c934dbc23162ff9.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.539d3d9d978fc8f8a4709045564166e40288916907116cea7599ba2b283f3850.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.66c12c2b97b58cf8ad81ef742e848f98579b21db75ab76bfd5390ba744042c6a.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.68669347c2a0018ee68309135fd02faec510e8437acda7fdf71fc70ba729b6af.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.68dd22bc11508e3ce9f6b919487876ea1fc90f2089cac4d768467ce5fdc7dcac.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.715f05395d63ac375b4802fc07a9b55764f2bcebedd3b27ad971c27f85d2b834.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7680ea0a18521dd2888e9824ba96158e5fc20abcd4fddc9336c91ae75a5c4e5f.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b523c80d47a31bdcde268ade1f4864a194e38e6ce810ab3d9bbb72b2c0c1e41.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.8327fc4d3ffb0d00a4221b70889f9cc279d52cafb7a0bb186f8d557aa45c5bb3.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.88779bcdd9994e050a8d8957bba7997a47bca1b93c42c7d1dc1549cec31dca28.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.8b61d7c1b85dc8ffb40bf317fd41a3ff1a9fb5e7d7dac75d795ea3625b511e9b.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.8ba4f61389cbd695806936803192c013b42b9546199ea7fc68085844adead436.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.8da546688c5bf64272ba96040f4108123b5273ac8214943cc0d4862e3726c65d.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.92c642de17fdc8ab54066972db65f46d1eacf062aab75d7db1ef23c4649396cc.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9d2a2f1eaad6deb0817f51cbadac1cf1e29ad02fd1f90cae63421e57c0f8d6dc.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9eb9e692b46b75371885398949e8c669a48686aa1cc54887a66acaa392a2bf47.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9f0fe173ba768a24064cbbdf90c02c5aa3ff80b08adb2cf3a0745871526738d3.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.a334b194f90830169de161a6d5d944d7be24b6ccbb042773edcdf9f7f2205944.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.a371e021238c6529f521fff45fc5d146b7c3945d0094e51e3601891e2f4145d1.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.a78af9c29b50a222e455966f39ee8447328e0eafd919dfbd7a8581ca399bbf31.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.c330585aa659a9d4bda8116e23e715c35c86df9cae87b3a3203576fa4bced4cb.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.c8b60decb5d764a887c51ab0f9381120d0b9ad6dc1847ebf9de1508d7991c27d.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.ca8b430930b4b5877ca67a574bde95c3943a6febd8dd53cdc5b729e139d7b85d.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.cb9d4935d49ca65289e9c4447dffd9dd041e266e2b308499a3a1a285e1e278ba.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.d0e1388664e814dd62fa369dffac42464fc7618d4fee2bc1948103e3b88d57a7.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.da21c73d401fbde1997ac80b8744dd759bc5749945e14e91d7c95b1d8acc5b58.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.e40ad3eaf91875705592c297423a91e98d089c0454f36a9880c154cefe7fe177.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.eb69e14c716292973d75a1ca89de22d2e89454f06e07d4c897da36cc857aa4b1.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.eeae04f76c17a1c756b557ff2a61517dceb7857f2036ace8d76a815fe961bf79.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.faa3fd402ac687383bf52587c0caf401aacae276e62465e5e7baa8f7d3edc82c.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.39f479ebdb9a26337b5e5e3ea34f7b9f9ebf51d624e1421201c01a2211f9a637.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.40955850eef2a807f0009ede1d89e441cfb5c253be4bf3e55d2fd589ac1b6097.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.41259e00309dd36f0ba480648068a3d60ca989db5f287f9b64b1776249b103c3.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.b206a7484233791fb7a104cbc28986b6de3f43445cbee15b3e1b945fcfa2d108.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1032-cross-wi-review-fixes.verification-attempt.f275c04f64c7629d52a9b5fb684a8f645829a5766d99157b3fa74fc1c43296ef.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.047c1745d96d6095f0fedf26f396e0cc4f98f3995f005931e9b4bcdca4393374.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.04e72be0fc0b082d63d7e3bfb57b234d7e4a33ab98adbf4c37d0a591374b95cd.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.13e3f79420ea18b8287a18b46c24e64bf1be7323f990bf1c4603a3657adee9c3.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.1a1052db305252f78466d9ff88a9a043882375c89404ead4d6c252d6f3eab6f1.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.2a9e2868b3cbf93db19e50ef7e0a7cb6cd1749ce141282010f5b46368ed74075.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.3bc6456291a5388d985570679a6017773cd8d2f5a10b453a7f9ebbe445265683.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.56eabaacac843b6e5993f14995578f8ecde0c920494a1a5a51b3cc30722263ae.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.61a7db58b9f7ff844c7df8e2b4e0045393911a2ee533961106c00c4cf06302a4.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.68e1709ef3fdebb3d1b4695e8d1cdd33a3b8acd5101449ec85621d34beb8ca0b.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.6e98a531bb94d6a8c9652fad54ff97c81b804677a5aa9858312dc2b1855ab54c.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.6fa0f43e8708185ae6c0b71e51725c92683483be18dbb99331bdab6d69552c7d.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.7fae974df31aeb7ce9839414ea3dcc1013bd9c0e589ab5d0c5411d6077a39f2f.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.8fec03a5183e45e9979ecb9fac911e9a30621a046875f93a3137ab47d991f9c9.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.9252c9475069e6aa62cd1cba48dfd1ea6e4cdb5682699b7d4ad8182e6e9c0d72.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.9dc2a6b07927ef94674b8f60513a8dc9e49598a7f0f60688b4f181b11527b0a3.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.ad3b0eb56f9e43561d963dd03ed38186140a674ccfed2a3eb6f4adfec46f1c95.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.b052cc92f23d53eaa4945f8295d78009cf88495e8a8756173653528d135c3be5.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.b39a53f7a2adbed6b2778aa3048a927eb21078732c5332760c2fff11482cac1a.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.c5239f2b836f9a2e60bd41f9616179a989d69dc5771a1ee32036d791fb0e30a6.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.c5be2f3a53b2b928347c827f001dbd7e2946c855c90ce8a9d585274e0484749f.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.dcbcdcbacc3009856b17c2383d1419be3ab185f78aa530205bb972f33c9c754f.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e71ae9289fbb6c0887bb75266040c3547e5231369575a35122c5738f1ebde450.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.contract.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.events.jsonl",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.md",
+    ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.approach.json",
+    ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.archive.json",
+    ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.contract.json",
+    ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.outcome.json",
+    ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.summary.json"
+  ],
+  "checkpointAt": "2026-09-25T01:21:38Z",
+  "checkpointContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "recorded": true,
+      "recordedAt": "2026-09-25T01:21:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0cdca7ba813e653b97297b3a14cc70794f4c0d1fe1508751925d775c46395304",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:6989626c2b996a8f2720b664166963a9ee246af7ba14a77619ac69f33b0201a9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "reason": "Independent review found a same-repository-id clone could be paired with a different CoordinationStore and run against a stale target. This is within the existing repository-identity scope and source paths; the additive acceptance and scenario make that binding explicit.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T03:10:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e23d75bc0601f110093983ebd47cb5d8a8a1480b6441ae7bc2980e932098f9f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:6989626c2b996a8f2720b664166963a9ee246af7ba14a77619ac69f33b0201a9",
+      "reason": "Hosted CI exposed a bounded governance-integrity defect in the selected recovery lineage: valid active successors cannot yet satisfy pre-merge parity, and retired/not_verified predecessors are incorrectly required to have successful verification evidence. Add targeted gate behavior and regressions so merge can proceed without fabricating terminal receipts.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T03:48:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c9862507e5b1dfe406e98e8b27f35a9e92ecbab281c518be4185cc5ed09f1929",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:eb3b8a78454a2002b695acb3305c05c80d2c5d4c36662ee84bb733ed4891802d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+      "reason": "Address independent review finding: retirement receipts must not suppress required locale parity rows; add explicit acceptance and fail-closed coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T07:34:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aeeacb9f1c7d2c2534374e98c52f1fcb91e741dcaab8ac55345e9da49aa7dfa9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:eb3b8a78454a2002b695acb3305c05c80d2c5d4c36662ee84bb733ed4891802d",
+      "reason": "Incorporate independently reviewed in-scope invalidation and coordination-store safety gaps before extending implementation; retain the current single-WI serial workflow.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T08:47:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6d198ff315f8fa793747251481ac8657b12708bf065eb8b02c50a499e46f785a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:379be95122e13625d2244fba64a3cadcd8e2877601b4461663ced5ffcde6d0d8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+      "reason": "An independent review and failing API regressions showed that registration workItemId must be validated and bound to the request target before any Contract path is formed. This additive criterion makes the existing coordination identity scope explicit without widening file scope or authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T10:00:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac052daef57e1dc480b8ff6676b54364fb3e3c4fa00747d764ad585752653c5e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:7507f5559ac793ef1cfdceec2beb9d37dae43b440f822d407d970d6548822c72",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:379be95122e13625d2244fba64a3cadcd8e2877601b4461663ced5ffcde6d0d8",
+      "reason": "Bind the independently reviewed registration identity-before-path-resolution defect to an executable required scenario so fresh verification and Summary coverage prove both request entry points.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T10:03:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f30d6736f7706882c19a55f10d8febe6df00a9380322d7a535af39b22a7e79e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:e53d3a8869c64120867e761aaebe8daeef86199cbebbe76fbe60b3e30d6d6c3d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:7507f5559ac793ef1cfdceec2beb9d37dae43b440f822d407d970d6548822c72",
+      "reason": "Independent PR review found that active Contract validation follows a symlinked ancestor outside the repository; bind this in-scope repository identity defect to an executable regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T11:05:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c3ccfe970040cf6e04d813eaa571d0a0863be4638bb5ee1c6e47f424ff684a7f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:5eb0dfb60616df829926f6d4a237e2eecda06bfbfa50eb6bf0137ce47acd232a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:e53d3a8869c64120867e761aaebe8daeef86199cbebbe76fbe60b3e30d6d6c3d",
+      "reason": "Independent review found a directory-handle swap race that can redirect Contract reads outside the repository; add a required deterministic regression before repair.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T11:48:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:37b5fceabc7a867c029bb71558dcc890fe1d27b59636b313472d0a1f7ca24add",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 23,
+      "contractHash": "sha256:1e79be42d8514b8b92c4830105179077d680599909acc9c85ce65be6a7a09f01",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:5eb0dfb60616df829926f6d4a237e2eecda06bfbfa50eb6bf0137ce47acd232a",
+      "reason": "Second independent review found an ABA move-out/open/move-back race in the active Contract directory binding; bind the deterministic regression and all Contract consumers to exact registered digests within WI-1033.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T12:21:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e1bf6dd89aab18a578e8d8fc84dc9871b1caf9346c2d49e47c90a7c9b22d6ea6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:98998babd331656379f6f18c3b4ad45bee1a1358498a73242f351eb13f8cb98d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:1e79be42d8514b8b92c4830105179077d680599909acc9c85ce65be6a7a09f01",
+      "reason": "The independent directory ABA review includes a Windows-only rename-denial test, but the existing Windows CI job does not run repository library unit tests. Bind the exact CI paths and require hosted execution before claiming platform coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T13:11:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f0942717b61ee5c07d889cb68dbea29f7f76dd2fe1494a95db6bd860bc10cae8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 25,
+      "contractHash": "sha256:a170b7029e8f6816d26eca5e02286f1a58d5e7773fe703b25e122dbe636db7e6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:98998babd331656379f6f18c3b4ad45bee1a1358498a73242f351eb13f8cb98d",
+      "reason": "Amend the current WI after independent review identified that an unbound CompositionCommand environment overlay can change a Contract-required check while program and args still match. This adds only the missing required-check identity constraint and preserves the current Contract schema fail-closed boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T15:04:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7188469734c9a192e18bc2c4f12bef5dca69c5b16b062b25276d4168117775b1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 29,
+      "contractHash": "sha256:29ab3c0bdcc87ec77a73c8443603333a55f21624e63a0d29051aa43fde4c1750",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:a170b7029e8f6816d26eca5e02286f1a58d5e7773fe703b25e122dbe636db7e6",
+      "reason": "Independent review identified untested executable environment, persisted attempt integrity, symlinked read-set, and composition cleanup boundaries within the existing trusted-check/reuse/cleanup scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T15:58:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:948f6f83dc50395dd57a705e4fdab954184ad7cbdb3d94bd8fc6a1ff3a5c2ace",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 29,
+      "contractHash": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:29ab3c0bdcc87ec77a73c8443603333a55f21624e63a0d29051aa43fde4c1750",
+      "reason": "Include the shared bounded executor implementation required by the already approved Runtime-controlled composition environment behavior; objective and acceptance intent remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T16:50:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95411e8329a355ed5c939d5649b19a0846f6c453aa4496c3ddffbe66ff8ec149",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:323796c08555f8b597f6e2be99c6058fc6502f78421c7c944fcdc0baec32f7b6",
+  "createdAt": "2026-09-25T00:59:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The user explicitly authorized completing WI-1033 corrections, verification, independent PR review, merge, exact cleanup, and then a separate serial Task 8, stopping before release for a full user review. This rebinds the same bounded decision to the current unchanged Contract and scope; it does not claim verification, independent review, merge, or release approval.",
+    "recordedAt": "2026-09-25T18:46:40Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:85d602f8a908fa0bbd650e2c9081b8d354d3cd0d2704dd64671d9f12100cd05d",
+    "schemaVersion": 1,
+    "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
+  "preflightAt": "2026-09-25T18:49:16Z",
+  "preflightContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:85d602f8a908fa0bbd650e2c9081b8d354d3cd0d2704dd64671d9f12100cd05d",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::unbounded_external_reads_execute_again_but_independent_node_reuses",
+        "crates/cockpit-verification/tests/composition.rs::relative_executable_uses_isolated_worktree_bytes_and_changes_identity",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276.json"
+      ],
+      "expected": "Missing or untrusted read-sets disable reuse; changing a readable source or the launched relative executable with unchanged JSON re-runs the affected node.",
+      "required": true,
+      "scenario": "trusted_read_set_and_executable_identity",
+      "status": "verified",
+      "verificationPlan": "Run the composition identity regression tests and real CLI acceptance for undeclared readable inputs and relative executables; assert the affected process is spawned instead of reused."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::caller_labels_cannot_forge_required_contract_checks",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::composition_rejects_a_missing_required_contract_check_before_spawn",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::non_integration_owner_cannot_start_composition",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::required_check_environment_overlay_is_rejected_when_unbound_by_contract"
+      ],
+      "expected": "A non-owner, incomplete or forged required-check set, caller satisfaction claim, or unbound command-environment overlay is rejected before an attempt or process starts.",
+      "required": true,
+      "scenario": "integration_owner_and_complete_required_checks",
+      "status": "verified",
+      "verificationPlan": "Run the integration-owner and required-check admission regressions with incomplete, forged-label, caller-satisfied, and non-empty unbound environment inputs; assert every rejection records zero spawned processes and cite the current Runtime verification receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/coordination_store_lock_tests.rs::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event",
+        "crates/cockpit-repository/tests/coordination_store.rs::interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once",
+        "crates/cockpit-repository/tests/coordination_store.rs::retry_completes_registration_after_event_was_durable_before_interruption",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A fresh process reconciles one durable event after child death, while a live lock owner remains protected.",
+      "required": true,
+      "scenario": "crash_reconciliation_and_live_lock_safety",
+      "status": "verified",
+      "verificationPlan": "Kill a real child after invalidation is durable and before registration completion; retry in a fresh process and assert exactly one impact event, restored registration, and no eviction of a separate live lock owner."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::outcome_publication_rejects_parent_symlink_escape",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::dependency_inspection_rejects_published_evidence_through_parent_symlink",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Final and parent symlink escapes are rejected without accepting outside bytes or appending a success event.",
+      "required": true,
+      "scenario": "registered_worktree_evidence_containment",
+      "status": "verified",
+      "verificationPlan": "Run filesystem regressions for a final evidence symlink and an escaping parent-directory symlink at registration, publication, and inspection boundaries; compare event bytes before and after rejection."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::action_dependency_selection_is_provider_scoped",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Admission uses only the exact provider/outcome pair; a same-named outcome from another provider cannot affect it.",
+      "required": true,
+      "scenario": "provider_scoped_outcome_selection",
+      "status": "verified",
+      "verificationPlan": "Register two providers publishing the same outcome id and exercise actions selecting each exact pair; assert the unselected provider event never changes admission."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale",
+        "crates/cockpit-verification/tests/composition.rs::inherited_environment_change_invalidates_reuse_across_real_processes",
+        "tests/acceptance/cross_wi_coordination_processes.py; receipt output firstCompositionProcesses=1, secondCompositionProcesses=0, changedEnvironmentProcesses=1",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276.json"
+      ],
+      "expected": "An exact repeat reduces composition processes from one to zero; changing an observed input with unchanged JSON launches affected work and reuses only proven-unaffected nodes.",
+      "required": true,
+      "scenario": "observed_input_change_reexecutes_affected_node",
+      "status": "verified",
+      "verificationPlan": "Run the real CLI composition twice unchanged and once after changing a runtime-observed source or environment while composition JSON remains byte-identical; count spawned processes and reused nodes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_cli.rs::coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes",
+        "crates/cockpit-mcp/tests/collaboration_rpc.rs::coordination_rpc_projections_preserve_exact_persisted_store_bytes",
+        "crates/cockpit-mcp/tests/collaboration_rpc.rs::coordination_schema_binds_provider_consumer_and_resume_identities_per_action",
+        "tests/ci/repository_gate_manifest_test.py",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "CLI/MCP identities match; read queries leave durable bytes unchanged, while explicit writes are visible to a fresh process.",
+      "required": true,
+      "scenario": "mcp_identity_and_query_write_boundary",
+      "status": "verified",
+      "verificationPlan": "Run MCP/CLI parity regressions; compare coordination paths and bytes around inspect/status/outcome/dependency reads, then use explicit write actions and a fresh process to prove persisted events are observable."
+    },
+    {
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py; Runtime attempt e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276 project-command-5 output: passed, linkedWorktrees=2, registrations=2, deduplicatedEvents=1, firstCompositionProcesses=1, secondCompositionProcesses=0, changedEnvironmentProcesses=1",
+        "Sentinel candidate read-only probe: ai-cockpit 0.2.113; candidate runtimeDigest=sha256:63273e49d19efffe63240d337d6ebd12ae02cacd35dfc3387b6e99ac6c6145f3; compatibility=COMPATIBLE; doctor=ok; agent doctor=VERIFIED; readiness=ready_on_base; HEAD eb0986172e17e845bfba499a20d12fa9987e05e7 unchanged; git-status digest e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 unchanged; .ai byte digest 91b40b2d34e16390eabdceb6ebba14a282f3fe0e2c607160cada5075427ab7ca unchanged; coordination store absent before/after",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Linked-worktree real-process acceptance and the serial path pass; candidate Sentinel inspection changes no protected byte or lifecycle state.",
+      "required": true,
+      "scenario": "real_multi_worktree_serial_path_and_sentinel_compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the registered multi-process linked-worktree acceptance and ordinary serial path; inspect Sentinel with the candidate binary and compare its Git tree, Contract/evidence, lifecycle Runtime identity, and coordination bytes before and after."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::admitted_composition_rejects_a_different_clone_even_with_matching_repository_id",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A separate clone with a copied matching repository ID is rejected before spawning a composition command because its Git common directory differs from the CoordinationStore binding.",
+      "required": true,
+      "scenario": "composition_store_repository_identity_binding",
+      "status": "verified",
+      "verificationPlan": "Run admitted_composition_rejects_a_different_clone_even_with_matching_repository_id and assert the specific common-directory blocker and absence of the command side-effect marker."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance pending recovery lineage regression",
+        "tests/ci/governance_integrity_gate_test.sh::governance recovery suffix successor-lineage regression",
+        "tests/ci/governance_integrity_gate_test.sh::governance structured superseded-close regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A digest-bound valid recovery successor that is not yet terminal is represented as in-progress with its recovery receipt and historical verification evidence; it does not require a premature close. Once the selected successor is terminal, the predecessor projects as recovered.",
+      "required": true,
+      "scenario": "premerge_recovery_lineage_parity",
+      "status": "verified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for an active successor, missing or foreign recovery binding, and a terminal successor; assert only the valid active lineage is accepted as pending and the closed lineage as recovered."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance retirement compatibility regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A valid replaced/retired archive with no verification receipt is represented using the retirement receipt and not_verified claim without being marked successful; missing or malformed retirement remains blocked.",
+      "required": true,
+      "scenario": "retired_work_item_not_verified_projection",
+      "status": "verified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for valid replaced/not_verified, missing retirement, and malformed retirement; assert the valid record passes with no verification claim and invalid records fail closed."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance retired parity omission regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A valid retired/replaced Work Item with a retirement receipt passes only when every required locale has a parity row referencing the receipt and stating not_verified; removing any locale row, or all rows, fails closed with missing_parity_entry.",
+      "required": true,
+      "scenario": "retired_work_item_requires_all_locale_parity_rows",
+      "status": "verified",
+      "verificationPlan": "Run tests/ci/governance_integrity_gate_test.sh with valid three-locale retirement rows, then remove one row per locale and all locale rows in separate fixtures; assert each omission reports missing_parity_entry and valid rows do not claim passed verification evidence."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::removing_provider_output_preserves_transitive_invalidation",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::legacy_impact_without_outcome_ids_still_invalidates_transitive_consumers",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "When a provider advances generation and removes an output, the durable automatic invalidation still names the removed output, blocks direct and multi-level consumers, and leaves unrelated consumers admissible.",
+      "required": true,
+      "scenario": "removed_provider_outcome_invalidates_transitive_consumers",
+      "status": "verified",
+      "verificationPlan": "Run a collaboration-admission regression with provider A output consumed by B, B output consumed by C, then re-register A at a newer generation without the output; assert A invalidation retains the removed ID, B/C are blocked, and unrelated work remains admitted."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_transition_rejects_traversal_and_mismatched_record_identity",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Traversal IDs and stored request records with a mismatched embedded request ID are rejected before any file outside the exact request path is changed.",
+      "required": true,
+      "scenario": "coordination_request_identity_is_path_safe",
+      "status": "verified",
+      "verificationPlan": "Run coordination-store regressions with a traversal request ID targeting a valid request-shaped record outside requests/ and with a request file whose embedded requestId differs; assert errors and byte-for-byte unchanged target records."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_creation_accepts_only_the_requested_initial_state",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Only Requested can be supplied when creating a coordination request; all later lifecycle states require the valid transition API.",
+      "required": true,
+      "scenario": "coordination_request_creation_requires_requested_state",
+      "status": "verified",
+      "verificationPlan": "Run a coordination-store regression that attempts creation in Resumed and SafelyPaused states, asserts both are rejected with no durable request, and confirms a Requested request can still transition through the valid lifecycle."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_creation_rejects_registration_target_mismatch_before_fact_validation",
+        "crates/cockpit-repository/tests/coordination_store.rs::request_transition_rejects_registration_traversal_before_fact_validation",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Request creation and state transitions reject a traversal or mismatched embedded registration Work Item ID before Contract fact lookup; rejected request bytes remain unchanged.",
+      "required": true,
+      "scenario": "registration_identity_before_contract_resolution",
+      "status": "verified",
+      "verificationPlan": "Run coordination-store API regressions for both request creation and transition using a safe alias registration path containing a traversal-shaped embedded Work Item ID; assert the identity mismatch error is returned before Contract fact validation and that transition request bytes are unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/coordination_store.rs::registration_rejects_a_contract_reached_through_a_symlinked_ancestor"
+      ],
+      "expected": "A valid matching Contract reachable only through a symlinked active-directory ancestor outside the repository is rejected before a registration or impact event is persisted.",
+      "required": true,
+      "scenario": "coordination_contract_ancestor_symlink_escape",
+      "status": "verified",
+      "verificationPlan": "Run the focused Unix coordination-store regression with an exact-copy external Contract behind a symlinked ancestor; assert registration is rejected and registration/event bytes remain absent or unchanged."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/coordination_store.rs::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A Contract read rejects an opened active-directory handle moved outside the repository even if its former in-repository pathname is replaced with a valid-looking directory.",
+      "required": true,
+      "scenario": "coordination_contract_open_directory_swap_escape",
+      "status": "verified",
+      "verificationPlan": "Deterministically open the active directory, move that directory outside the root, install an in-repository replacement at the old path, then continue the Contract read through the already-open handle; assert rejection before registration/event persistence and unchanged durable bytes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::opened_active_directory_swap_back_race_is_rejected",
+        "crates/cockpit-repository/src/collaboration.rs::opened_active_directory_swap_back_is_rejected_without_timestamp_resolution",
+        "crates/cockpit-repository/src/collaboration.rs::verification_evidence_validation_rejects_a_swapped_digest_bound_contract",
+        "crates/cockpit-repository/src/coordination_store.rs::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Moving the already-open active directory outside, opening its Contract through the handle, then restoring it before the next path/identity check cannot make unbound Contract bytes admissible.",
+      "required": true,
+      "scenario": "coordination_contract_swap_back_race",
+      "status": "verified",
+      "verificationPlan": "Use a deterministic injected leaf-open interleaving to rename active outside, open the leaf through the held directory handle, restore the same directory before post-checks, then assert rejection through ancestor mutation detection and registration-digest binding; assert no registration/event bytes change. Also prove verification-evidence validation cannot bypass the digest-bound Contract reader."
+    },
+    {
+      "evidence": [],
+      "expected": "Windows holds deny directory rename during the registered Contract read even when timestamp tokens are forced constant; the Windows CI job actually executes this regression.",
+      "required": true,
+      "scenario": "windows_directory_rename_guard_runs_in_ci",
+      "status": "unverified",
+      "verificationPlan": "Extend the existing windows-runtime job to run `cargo test --locked -p cockpit-repository --lib`; add a repository gate-manifest assertion for that command; verify hosted Windows CI runs the test and it observes rename blocked before read admission."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::inherited_path_cannot_substitute_a_composition_verifier",
+        "crates/cockpit-verification/tests/composition.rs::installed_toolchain_change_with_stale_json_reexecutes_reusable_node",
+        "crates/cockpit-verification/tests/composition.rs::unbound_command_path_override_fails_before_spawn",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "A fake executable earlier on inherited PATH and inherited toolchain overrides cannot make a Contract-required check pass; unbound executable/environment identities fail before a successful receipt.",
+      "required": true,
+      "scenario": "required_check_runtime_environment_binding",
+      "status": "verified",
+      "verificationPlan": "Run a separate CLI process with hostile inherited PATH and toolchain variables; assert the declared verifier is resolved and executed only through the Runtime-controlled context, or composition is rejected before the fake executable runs."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "Flipping the pass flag of a persisted failed or in-progress attempt cannot cause a later composition to skip the required process.",
+      "required": true,
+      "scenario": "tampered_composition_attempt_is_not_reused",
+      "status": "verified",
+      "verificationPlan": "Persist a failed composition, alter only its record pass flag while preserving identity, rerun identical input, and assert the node executes again and the new attempt reflects the actual result."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::read_set_under_a_parent_symlink_is_not_reusable",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "A read-set beneath a symlinked parent is unobservable for reuse and outside bytes never certify a reusable node.",
+      "required": true,
+      "scenario": "composition_read_set_parent_symlink_disables_reuse",
+      "status": "verified",
+      "verificationPlan": "Create a linked worktree input whose parent component is a symlink to an external directory; repeat composition and assert each run executes and no prior node receipt is reused."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::persistence_error_after_worktree_creation_cleans_the_temporary_worktree",
+        "crates/cockpit-verification/tests/composition.rs::retry_reconciles_an_interrupted_owner_after_process_exit",
+        "crates/cockpit-verification/tests/composition.rs::retry_does_not_remove_a_worktree_owned_by_a_live_process",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "Persistence failures clean created temporary worktrees; retry reconciles abandoned attempts but preserves resources owned by a live process.",
+      "required": true,
+      "scenario": "composition_persistence_failure_and_crash_cleanup",
+      "status": "verified",
+      "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-25T18:47:24.601352+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-10",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:361aea95ac651002376537cd6c08b8863df00961b320a42d4955e9862cadc424",
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

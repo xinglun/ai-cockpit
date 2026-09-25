@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Rebinds the user's explicit authorization to continue WI-1033 through merge and exact cleanup, stopping before release, to the current Contract and repository snapshot. Confirms only this bounded continuation review; it is not an additional start confirmation, does not claim comprehensive code review, and does not assert any verification has passed.",
+  "recordedAt": "2026-09-25T09:07:41Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:58e81386fa67f6ac03475f6541fb53ec27724d2e60d555d868e9a1f10af2c075",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

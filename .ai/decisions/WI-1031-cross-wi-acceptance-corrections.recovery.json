@@ -1,0 +1,30 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user authorization in the current Codex task on 2026-09-25 Asia/Tokyo",
+  "decidedAt": "2026-09-24T18:51:53Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json",
+    ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/independent-review.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/spec.md"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:b9083f7d7ace886c1dcb258421ac341083ffadffb4e23193861de53e88b5d47c",
+  "predecessorEventsDigest": "sha256:9611d3ea9f5c6d5a2ce29632e0562ef8a60fb9eec13660b619b70a2929bc0abc",
+  "predecessorOutcomeDigest": "sha256:ebd39ee1baef3e3ef1b36f0ee18cd27829186d005b41901fe51863b47db5b90b",
+  "predecessorSummaryDigest": "sha256:96e45a2fe030a273a7cc36f69074f3ebc1a7f2aff9bdba65e48b23769d06e6d4",
+  "predecessorWorkItemId": "WI-1031-cross-wi-acceptance-corrections",
+  "reason": "The independent source review found in-scope Important issues after WI-1031 had been archived. Preserve the immutable predecessor and continue the same integration objective serially through a recovery successor; no release or publication is authorized.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor Contract, plan and test-first fixes; verify with real linked worktrees and processes plus the canonical Runtime CLI/Cargo/CI gate; obtain PR review, merge and exact cleanup; stop before release for the user's review.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1032-cross-wi-review-fixes",
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections"
+}
