@@ -343,6 +343,110 @@ fn request_transition_rejects_tampered_target_work_item_path() {
 }
 
 #[test]
+fn request_creation_rejects_registration_target_mismatch_before_fact_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+
+    let alias_path = store.registration_path("WI-ALIAS");
+    let mut tampered_registration =
+        serde_json::to_value(&registration).expect("serialize registration fixture");
+    tampered_registration["workItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &alias_path,
+        serde_json::to_vec_pretty(&tampered_registration)
+            .expect("serialize traversal registration fixture"),
+    )
+    .expect("write registration with traversal identity under safe alias path");
+
+    let mut request = coordination_request(
+        root.path(),
+        "request-traversal-registration",
+        CoordinationRequestState::Requested,
+    );
+    request.target_work_item_id = "WI-ALIAS".into();
+    let error = store
+        .request_coordination(request)
+        .expect_err("a mismatched embedded registration ID must be rejected first");
+    assert!(
+        error
+            .to_string()
+            .contains("coordination request target differs from registration identity"),
+        "identity mismatch must be rejected before registration facts use the embedded ID: {error}"
+    );
+    assert!(
+        !store
+            .root()
+            .join("requests/request-traversal-registration.json")
+            .exists(),
+        "rejected request creation must not persist a request record"
+    );
+}
+
+#[test]
+fn request_transition_rejects_registration_traversal_before_fact_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+    store
+        .request_coordination(coordination_request(
+            root.path(),
+            "request-traversal-registration",
+            CoordinationRequestState::Requested,
+        ))
+        .expect("create valid request");
+
+    let alias_path = store.registration_path("WI-ALIAS");
+    let mut tampered_registration =
+        serde_json::to_value(&registration).expect("serialize registration fixture");
+    tampered_registration["workItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &alias_path,
+        serde_json::to_vec_pretty(&tampered_registration)
+            .expect("serialize traversal registration fixture"),
+    )
+    .expect("write registration with traversal identity under safe alias path");
+
+    let request_path = store
+        .root()
+        .join("requests/request-traversal-registration.json");
+    let mut request: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    request["targetWorkItemId"] = serde_json::json!("WI-ALIAS");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&request).expect("serialize request with safe alias target"),
+    )
+    .expect("write request with safe alias target");
+    let request_before = fs::read(&request_path).expect("read tampered request before transition");
+
+    let error = store
+        .transition_request(
+            "request-traversal-registration",
+            CoordinationRequestState::Acknowledged,
+        )
+        .expect_err("a traversal registration identity must be rejected first");
+    assert!(
+        error
+            .to_string()
+            .contains("coordination request target differs from registration identity"),
+        "identity mismatch must be rejected before registration facts use the embedded ID: {error}"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read tampered request after transition"),
+        request_before,
+        "a rejected traversal registration identity must leave request bytes unchanged"
+    );
+}
+
+#[test]
 fn request_creation_accepts_only_the_requested_initial_state() {
     let root = repository();
     let store = store(root.path());

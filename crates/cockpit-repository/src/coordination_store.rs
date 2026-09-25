@@ -389,6 +389,11 @@ impl CoordinationStore {
         self.with_lock(|| {
             let registration_path = self.registration_path(&request.target_work_item_id);
             let registration: WorktreeRegistration = self.read_json(&registration_path)?;
+            if registration.work_item_id != request.target_work_item_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "coordination request target differs from registration identity".into(),
+                ));
+            }
             self.validate_registration_facts(&registration)?;
             if registration.repository_id != request.repository_id {
                 return Err(CoordinationError::RecoveryRequired(
@@ -449,12 +454,12 @@ impl CoordinationStore {
             }
             let registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(&request.target_work_item_id))?;
-            self.validate_registration_facts(&registration)?;
             if registration.work_item_id != request.target_work_item_id {
                 return Err(CoordinationError::RecoveryRequired(
                     "coordination request target differs from registration identity".into(),
                 ));
             }
+            self.validate_registration_facts(&registration)?;
             if registration.repository_id != request.repository_id {
                 return Err(CoordinationError::RecoveryRequired(
                     "coordination request repository identity differs from registration".into(),
@@ -629,6 +634,7 @@ impl CoordinationStore {
         &self,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        validate_registration(registration)?;
         let worktree = Path::new(&registration.worktree_path);
         let canonical_worktree = fs::canonicalize(worktree).map_err(|source| {
             CoordinationError::RecoveryRequired(format!(
