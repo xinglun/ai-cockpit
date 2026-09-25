@@ -25,7 +25,7 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
-独立复审发现目录句柄交换竞态之前，Runtime 曾在提交 `6f5c4aaf` 上完成 34/34 节点的完整 canonical verification；该回执现为历史证据，不能绑定当前树。之后 Runtime 曾在 `faa3eb4` 上完成 35/35 节点，但该回执早于必需检查环境 overlay 的 Contract 修订，因此同样不再是当前证据。独立复审证明未绑定的环境 overlay 可以让匹配的必需命令以 `forged-pass` 成功；新增回归先复现了这一点，窄范围拦截随后使 admission 套件 38/38 通过（发生在 Contract 修订之前）。Contract 现有 25 项验收标准、20 个场景，并要求 CI 实际执行 Windows 专属的目录重命名拒绝回归。本地 Windows 行为仍需等 hosted CI 执行，尚未验证。当前证据新鲜度以 Runtime 为准。在本页记录的检查点，修订后完整 canonical verification、hosted CI、合并和精确清理仍待完成；不宣称发布。
+独立复审发现目录句柄交换竞态之前，Runtime 曾在提交 `6f5c4aaf` 上完成 34/34 节点的完整 canonical verification；该回执现为历史证据，不能绑定当前树。之后 Runtime 曾在 `faa3eb4` 上完成 35/35 节点，但该回执早于必需检查环境 overlay 的 Contract 修订，因此同样不再是当前证据。独立复审证明未绑定的环境 overlay 可以让匹配的必需命令以 `forged-pass` 成功；新增回归先复现了这一点，窄范围拦截随后使 admission 套件 38/38 通过（发生在 Contract 修订之前）。Contract 现有 29 项验收标准、24 个场景，并要求 CI 实际执行 Windows 专属的目录重命名拒绝回归。Hosted CI run `36155139121` 的 governance-integrity 和 Windows-runtime job 失败；诊断附件指出 WI-1031 缺少 close 证据、三语 parity 过期、日文 parity 缺少 WI-1032/WI-1033 行，以及 Windows library tests 缺少 `tempfile` 依赖。当前证据新鲜度以 Runtime 为准。在本页记录的检查点，修订后完整 canonical verification、成功的 hosted CI、独立复审、合并和精确清理仍待完成；不宣称发布。
 
 ## 范围
 
@@ -42,7 +42,7 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 验收与验证
 
-参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。二十个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
+参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。二十四个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
 
 ## 交付边界
 

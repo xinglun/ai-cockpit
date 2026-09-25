@@ -25,7 +25,7 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
-Before independent review found directory-handle swap races, a full Runtime canonical verification passed 34/34 nodes on commit `6f5c4aaf`; that receipt is historical and does not bind this tree. A later full gate passed 35/35 nodes on `faa3eb4`, but it predates the required-check environment amendment and is also historical. Independent review demonstrated that an unbound environment overlay could make a matching required command pass with `forged-pass`; the new regression reproduced that behavior, and the narrow guard then passed the focused admission suite (38/38) before the amendment. The Contract now has 25 acceptance criteria and 20 scenarios, including execution of the Windows-only rename-denial regression in CI. Windows behavior and the workflow change remain unverified until hosted CI runs. Runtime is authoritative for current evidence freshness. A fresh canonical run on the amended tree, hosted CI, merge, and exact cleanup remain pending at this documentation checkpoint; no release is claimed.
+Before independent review found directory-handle swap races, a full Runtime canonical verification passed 34/34 nodes on commit `6f5c4aaf`; that receipt is historical and does not bind this tree. A later full gate passed 35/35 nodes on `faa3eb4`, but it predates the required-check environment amendment and is also historical. Independent review demonstrated that an unbound environment overlay could make a matching required command pass with `forged-pass`; the new regression reproduced that behavior, and the narrow guard then passed the focused admission suite (38/38) before the amendment. The Contract now has 29 acceptance criteria and 24 scenarios, including execution of the Windows-only rename-denial regression in CI. Hosted CI run `36155139121` failed the governance-integrity and Windows-runtime jobs; its diagnostic artifact identified missing WI-1031 close evidence, stale three-locale parity, missing Japanese WI-1032/WI-1033 rows, and a `tempfile` dependency missing from Windows library tests. Runtime is authoritative for current evidence freshness. Fresh canonical verification on the amended tree, successful hosted CI, independent review, merge, and exact cleanup remain pending; no release is claimed.
 
 ## Scope
 
@@ -42,7 +42,7 @@ Task 8, the Runtime snapshot-binding behavior across commits, is a separate seri
 
 ## Acceptance and verification
 
-See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twenty required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
+See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twenty-four required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
 
 ## Delivery boundary
 

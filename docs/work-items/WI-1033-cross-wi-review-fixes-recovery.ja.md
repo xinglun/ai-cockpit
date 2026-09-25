@@ -25,7 +25,7 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
-独立 review が directory-handle swap race を見つける前に、Runtime canonical verification は commit `6f5c4aaf` で 34/34 node を通過しました。この receipt は履歴 evidence であり、現在の tree には bind されません。その後 `faa3eb4` で 35/35 node を通過しましたが、必須 check の環境 overlay に関する Contract amendment より前の receipt のため、現在の証拠ではありません。独立 review は、未束縛の環境 overlay によって一致する必須 command が `forged-pass` で成功できることを確認しました。追加 regression はこの問題を再現し、限定的な拒否修正後に admission suite は 38/38 pass しました（Contract amendment 前）。Contract は 25 acceptance criteria と 20 scenario になり、Windows 専用 rename-denial regression を CI で実行することも求めます。Windows の動作は hosted CI 実行まで未検証です。現在の evidence freshness は Runtime を参照してください。このページの記録時点では、修正後の完全な canonical verification、hosted CI、merge、正確な cleanup は未完了で、Release は主張しません。
+独立 review が directory-handle swap race を見つける前に、Runtime canonical verification は commit `6f5c4aaf` で 34/34 node を通過しました。この receipt は履歴 evidence であり、現在の tree には bind されません。その後 `faa3eb4` で 35/35 node を通過しましたが、必須 check の環境 overlay に関する Contract amendment より前の receipt のため、現在の証拠ではありません。独立 review は、未束縛の環境 overlay によって一致する必須 command が `forged-pass` で成功できることを確認しました。追加 regression はこの問題を再現し、限定的な拒否修正後に admission suite は 38/38 pass しました（Contract amendment 前）。Contract は 29 acceptance criteria と 24 scenario になり、Windows 専用 rename-denial regression を CI で実行することも求めます。Hosted CI run `36155139121` では governance-integrity と Windows-runtime job が失敗しました。diagnostic artifact は WI-1031 の close evidence 不足、三言語 parity の stale 状態、日本語 parity の WI-1032/WI-1033 行不足、および Windows library test の `tempfile` 依存不足を報告しています。現在の evidence freshness は Runtime を参照してください。このページの記録時点では、修正後の完全な canonical verification、成功した hosted CI、独立 review、merge、正確な cleanup は未完了で、Release は主張しません。
 
 ## Scope
 
@@ -42,7 +42,7 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## 受け入れと検証
 
-[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 20 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
+[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 24 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
 
 ## Delivery boundary
 
