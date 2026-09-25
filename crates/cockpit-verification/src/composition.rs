@@ -3,9 +3,9 @@ use cockpit_core::Digest;
 use cockpit_protocol::{CompositionBinding, RuntimeCapabilityError};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
-use std::ffi::OsString;
-use std::fs::{self, OpenOptions};
-use std::io::Write;
+use std::ffi::{CString, OsString};
+use std::fs::{self, File, OpenOptions};
+use std::io::{Read, Write};
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
@@ -172,6 +172,8 @@ pub struct CompositionAttempt {
     pub cleanup: Option<CompositionCleanup>,
     #[serde(default)]
     pub recorded_at_unix_nanos: u128,
+    #[serde(default)]
+    pub owner_pid: Option<u32>,
 }
 
 fn composition_schema_version() -> u32 {
@@ -197,6 +199,10 @@ pub enum CompositionError {
     },
     #[error("composition state serialization failed: {0}")]
     Serialization(String),
+    #[error("composition attempt {attempt_id} is still owned by live process {owner_pid}")]
+    ActiveAttempt { attempt_id: String, owner_pid: u32 },
+    #[error("composition attempt {attempt_id} has no verifiable owner; preserving its worktree")]
+    UnknownAttemptOwner { attempt_id: String },
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
@@ -209,6 +215,8 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
     let predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
+    let predecessor =
+        reconcile_abandoned_attempt(&input.repository_root, &input.state_dir, predecessor)?;
     let recorded_at_unix_nanos = now_unix_nanos();
     let attempt_id = new_attempt_id(&input, recorded_at_unix_nanos);
     let reuse_decision = predecessor.as_ref().map_or(
@@ -234,6 +242,7 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         failure: Some("in_progress".into()),
         cleanup: None,
         recorded_at_unix_nanos,
+        owner_pid: Some(std::process::id()),
     };
 
     // This snapshot is the recovery boundary: an interrupted parent leaves a
@@ -263,6 +272,18 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         )?;
         return Ok(attempt);
     }
+    if input
+        .commands
+        .iter()
+        .any(|command| controlled_command_environment(command).is_none())
+    {
+        fail_without_worktree(
+            &input.state_dir,
+            &mut attempt,
+            "unbound_runtime_environment_override",
+        )?;
+        return Ok(attempt);
+    }
 
     let unique = unique_composition_parent();
     let worktree = unique.join("composition");
@@ -270,7 +291,13 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         path: unique.clone(),
         source,
     })?;
+    let mut worktree_guard = CompositionWorktreeGuard::new(
+        input.repository_root.clone(),
+        worktree.clone(),
+        unique.clone(),
+    );
     attempt.isolated_worktree = worktree.to_string_lossy().into_owned();
+    persist_attempt(&input.state_dir, &attempt)?;
     let added = git_command(
         &input.repository_root,
         &[
@@ -283,15 +310,11 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
     );
     if !added.success {
         attempt.failure = Some(format!("worktree_add_failed:{}", bounded(&added.stderr)));
-        attempt.cleanup = Some(cleanup_worktree(
-            &input.repository_root,
-            &worktree,
-            &unique,
-            false,
-        ));
+        attempt.cleanup = Some(worktree_guard.cleanup());
         persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
+    worktree_guard.mark_registered();
 
     for head in &input.binding.participant_heads {
         let result = git_command(
@@ -311,28 +334,40 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
             attempt.text_conflicts.push(bounded(&result.stderr));
             attempt.failure = Some("text_conflict_or_merge_failure".into());
             let _ = git_command(&worktree, &["merge", "--abort"]);
-            attempt.cleanup = Some(cleanup_worktree(
-                &input.repository_root,
-                &worktree,
-                &unique,
-                true,
-            ));
+            attempt.cleanup = Some(worktree_guard.cleanup());
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
     }
 
-    let observed_identity = observe_composition_identity(&worktree, &input);
-    let identity_observed = observed_identity.is_some();
-    if let Some(identity) = observed_identity {
-        input.identity = identity;
-        attempt.identity = input.identity.clone();
+    let commands_bound = input.commands.iter().all(|command| {
+        controlled_command_environment(command).is_some_and(|environment| {
+            resolve_executable(&worktree, &command.program, &environment).is_some()
+        })
+    });
+    if !commands_bound {
+        attempt.failure = Some("composition_executable_unbound".into());
+        attempt.cleanup = Some(worktree_guard.cleanup());
+        persist_attempt(&input.state_dir, &attempt)?;
+        return Ok(attempt);
     }
+
+    let (identity_observed, runtime_toolchain_digest) =
+        if let Some(observed) = observe_composition_identity(&worktree, &input) {
+            input.identity = observed.identity;
+            attempt.identity = input.identity.clone();
+            (true, Some(observed.runtime_toolchain_digest))
+        } else {
+            (false, None)
+        };
     let predecessor_id = predecessor
         .as_ref()
         .map(|previous| previous.attempt_id.as_str());
     let mut node_identities_observed = true;
-    let mut all_nodes_reused = predecessor.is_some() && identity_observed;
+    let mut all_nodes_reused = predecessor
+        .as_ref()
+        .is_some_and(is_reusable_terminal_attempt)
+        && identity_observed;
     attempt.reuse_decision = ReuseDecision {
         kind: if identity_observed {
             ReuseDecisionKind::Execute
@@ -345,12 +380,33 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
     persist_attempt(&input.state_dir, &attempt)?;
 
     for command in &input.commands {
-        let current_identity =
-            observed_node_identity(&worktree, &input, command, &attempt.execution_records);
+        let environment = controlled_command_environment(command)
+            .expect("command environment was checked before any process started");
+        let Some(executable) = resolve_executable(&worktree, &command.program, &environment) else {
+            node_identities_observed = false;
+            all_nodes_reused = false;
+            attempt.failure = Some(format!(
+                "composition_executable_became_unbound:{}",
+                command.node_id
+            ));
+            break;
+        };
+        let current_identity = observed_node_identity(
+            &worktree,
+            &input,
+            command,
+            &attempt.execution_records,
+            &executable,
+            &environment,
+            runtime_toolchain_digest.as_ref(),
+        );
         if current_identity.is_none() {
             node_identities_observed = false;
         }
         let reusable = if identity_observed
+            && predecessor
+                .as_ref()
+                .is_some_and(is_reusable_terminal_attempt)
             && input
                 .reusable_node_ids
                 .iter()
@@ -379,7 +435,14 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
             continue;
         }
         all_nodes_reused = false;
-        let record = execute_node(&worktree, command, &input, current_identity);
+        let record = execute_node(
+            &worktree,
+            command,
+            &input,
+            &executable,
+            &environment,
+            current_identity,
+        );
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
@@ -421,12 +484,15 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         },
         predecessor_attempt_id: predecessor_id.map(str::to_owned),
     };
-    attempt.cleanup = Some(cleanup_worktree(
-        &input.repository_root,
-        &worktree,
-        &unique,
-        true,
-    ));
+    attempt.cleanup = Some(worktree_guard.cleanup());
+    if !attempt
+        .cleanup
+        .as_ref()
+        .is_some_and(|cleanup| cleanup.removed)
+    {
+        attempt.passed = false;
+        attempt.failure = Some("composition_cleanup_failed".into());
+    }
     persist_attempt(&input.state_dir, &attempt)?;
     Ok(attempt)
 }
@@ -561,6 +627,12 @@ fn load_latest_attempt(
         })?;
         let candidate: CompositionAttempt = serde_json::from_slice(&bytes)
             .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        if path.file_stem().and_then(|stem| stem.to_str()) != Some(candidate.attempt_id.as_str()) {
+            return Err(CompositionError::Serialization(format!(
+                "composition attempt filename does not match embedded identity: {}",
+                path.display()
+            )));
+        }
         if !same_composition_lineage(&candidate.binding, binding) {
             continue;
         }
@@ -579,6 +651,189 @@ fn same_composition_lineage(previous: &CompositionBinding, current: &Composition
         && previous.target_branch == current.target_branch
         && previous.participant_work_items == current.participant_work_items
         && previous.verifier == current.verifier
+}
+
+fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
+    attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.passed
+        && attempt.failure.is_none()
+        && attempt.preconditions.iter().all(|item| item.satisfied)
+        && !attempt.isolated_worktree.is_empty()
+        && attempt.text_conflicts.is_empty()
+        && attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
+        && !attempt.execution_records.is_empty()
+        && attempt.processes_spawned
+            == attempt
+                .execution_records
+                .iter()
+                .filter(|record| record.spawned)
+                .count()
+        && attempt.execution_records.iter().all(|record| {
+            record.passed
+                && !record.timed_out
+                && record.exit_code == Some(0)
+                && (record.spawned ^ record.reused)
+                && if record.reused {
+                    record.predecessor_attempt_id.is_some()
+                } else {
+                    record.predecessor_attempt_id.is_none()
+                }
+        })
+}
+
+fn reconcile_abandoned_attempt(
+    repository_root: &Path,
+    state_dir: &Path,
+    previous: Option<CompositionAttempt>,
+) -> Result<Option<CompositionAttempt>, CompositionError> {
+    let Some(mut attempt) = previous else {
+        return Ok(None);
+    };
+    let cleanup_pending = attempt.failure.as_deref() == Some("in_progress")
+        || attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| !cleanup.removed)
+        || (!attempt.isolated_worktree.is_empty() && attempt.cleanup.is_none());
+    if !cleanup_pending {
+        return Ok(Some(attempt));
+    }
+    let Some(owner_pid) = attempt.owner_pid else {
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
+    };
+    if process_is_alive(owner_pid) {
+        return Err(CompositionError::ActiveAttempt {
+            attempt_id: attempt.attempt_id,
+            owner_pid,
+        });
+    }
+
+    let cleanup = if attempt.isolated_worktree.is_empty() {
+        CompositionCleanup {
+            attempted: false,
+            removed: true,
+            error: None,
+        }
+    } else {
+        let (worktree, parent) =
+            validated_composition_paths(&attempt, owner_pid).ok_or_else(|| {
+                CompositionError::Serialization(format!(
+                    "interrupted composition path is outside its owned temporary namespace: {}",
+                    attempt.isolated_worktree
+                ))
+            })?;
+        let registered = worktree_is_registered(repository_root, &worktree)?;
+        cleanup_worktree(repository_root, &worktree, &parent, registered)
+    };
+    if !cleanup.removed {
+        return Err(CompositionError::Serialization(format!(
+            "interrupted composition cleanup could not be proven complete: {}",
+            cleanup.error.as_deref().unwrap_or("unknown cleanup error")
+        )));
+    }
+    attempt.cleanup = Some(cleanup);
+    if attempt.failure.as_deref() == Some("in_progress") {
+        attempt.failure = Some("interrupted_owner_terminated".into());
+    }
+    persist_attempt(state_dir, &attempt)?;
+    Ok(Some(attempt))
+}
+
+fn validated_composition_paths(
+    attempt: &CompositionAttempt,
+    owner_pid: u32,
+) -> Option<(PathBuf, PathBuf)> {
+    let worktree = PathBuf::from(&attempt.isolated_worktree);
+    if !worktree.is_absolute()
+        || worktree.file_name().and_then(|name| name.to_str()) != Some("composition")
+    {
+        return None;
+    }
+    let parent = worktree.parent()?.to_path_buf();
+    let parent_name = parent.file_name()?.to_str()?;
+    let suffix = parent_name.strip_prefix("ai-cockpit-composition-")?;
+    let (pid, timestamp) = suffix.split_once('-')?;
+    if pid.parse::<u32>().ok()? != owner_pid || timestamp.parse::<u128>().ok()? == 0 {
+        return None;
+    }
+    let canonical_temp = fs::canonicalize(std::env::temp_dir()).ok()?;
+    let canonical_parent_parent = fs::canonicalize(parent.parent()?).ok()?;
+    if canonical_parent_parent != canonical_temp {
+        return None;
+    }
+    if let Ok(metadata) = fs::symlink_metadata(&parent)
+        && (!metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    if let Ok(metadata) = fs::symlink_metadata(&worktree)
+        && (!metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return None;
+    }
+    Some((worktree, parent))
+}
+
+fn worktree_is_registered(
+    repository_root: &Path,
+    worktree: &Path,
+) -> Result<bool, CompositionError> {
+    let listed = git_command(repository_root, &["worktree", "list", "--porcelain"]);
+    if !listed.success {
+        return Err(CompositionError::Serialization(format!(
+            "cannot verify interrupted worktree registration: {}",
+            bounded(&listed.stderr)
+        )));
+    }
+    let expected = fs::canonicalize(worktree).unwrap_or_else(|_| worktree.to_path_buf());
+    Ok(listed.stdout.lines().any(|line| {
+        line.strip_prefix("worktree ").is_some_and(|path| {
+            let listed = PathBuf::from(path);
+            fs::canonicalize(&listed).unwrap_or(listed) == expected
+        })
+    }))
+}
+
+#[cfg(unix)]
+fn process_is_alive(pid: u32) -> bool {
+    // SAFETY: `kill(pid, 0)` performs no signal delivery and only probes the
+    // process table. A permission error is treated as live, failing closed.
+    let result = unsafe { libc::kill(pid as libc::pid_t, 0) };
+    if result == 0 {
+        return true;
+    }
+    !matches!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(code) if code == libc::ESRCH
+    )
+}
+
+#[cfg(windows)]
+fn process_is_alive(pid: u32) -> bool {
+    use windows_sys::Win32::Foundation::{
+        CloseHandle, ERROR_INVALID_PARAMETER, GetLastError, STILL_ACTIVE,
+    };
+    use windows_sys::Win32::System::Threading::{
+        GetExitCodeProcess, OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION,
+    };
+
+    // SAFETY: The returned process handle is checked and always closed. Any
+    // inability to inspect a process is treated as live to avoid unsafe cleanup.
+    unsafe {
+        let handle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, 0, pid);
+        if handle.is_null() {
+            return GetLastError() != ERROR_INVALID_PARAMETER;
+        }
+        let mut exit_code = 0;
+        let inspected = GetExitCodeProcess(handle, &mut exit_code) != 0;
+        CloseHandle(handle);
+        !inspected || exit_code == STILL_ACTIVE
+    }
 }
 
 fn reused_record(
@@ -607,20 +862,22 @@ fn execute_node(
     worktree: &Path,
     command: &CompositionCommand,
     input: &CompositionInput,
+    executable: &ResolvedExecutable,
+    environment: &BTreeMap<String, String>,
     identity_digest: Option<Digest>,
 ) -> CompositionExecutionRecord {
     let identity_digest = identity_digest
         .unwrap_or_else(|| Digest::sha256_bytes(b"unknown-composition-node-identity"));
     let verification_command = VerificationCommand::new(
         &command.node_id,
-        &command.program,
+        &executable.launch_path.to_string_lossy(),
         command.args.clone(),
         VerificationReusePolicy::NeverReuse,
     )
     .with_current_dir(worktree)
+    .with_cleared_environment()
     .with_environment(
-        command
-            .environment
+        environment
             .iter()
             .map(|(key, value)| (OsString::from(key), OsString::from(value)))
             .collect(),
@@ -680,10 +937,15 @@ fn execute_node(
     }
 }
 
+struct ObservedCompositionIdentity {
+    identity: CompositionIdentity,
+    runtime_toolchain_digest: Digest,
+}
+
 fn observe_composition_identity(
     worktree: &Path,
     input: &CompositionInput,
-) -> Option<CompositionIdentity> {
+) -> Option<ObservedCompositionIdentity> {
     let source = git_text(worktree, &["rev-parse", "HEAD^{tree}"])?;
     let lockfiles = git_text(worktree, &["ls-tree", "-r", "--name-only", "HEAD"])?
         .lines()
@@ -698,11 +960,19 @@ fn observe_composition_identity(
         .collect::<Vec<_>>();
     let configuration_digest = digest_paths(worktree, &configuration_paths)?;
     let interface_digest = digest_serialized(&input.binding.contract_digests)?;
+    let runtime_environment = controlled_command_environment(input.commands.first()?)?;
+    let runtime_toolchain_digest =
+        observe_runtime_toolchain_digest(worktree, &runtime_environment)?;
     let toolchain = input
         .commands
         .iter()
-        .map(|command| executable_digest(worktree, &command.program, &command.environment))
+        .map(|command| {
+            let environment = controlled_command_environment(command)?;
+            let executable = resolve_executable(worktree, &command.program, &environment)?;
+            Some(executable.digest)
+        })
         .collect::<Option<Vec<_>>>()?;
+    let observed_toolchain_digest = digest_serialized(&(&toolchain, &runtime_toolchain_digest))?;
     let environment_digest = observed_environment_digest(&input.commands)?;
     let generated_paths = input
         .commands
@@ -711,18 +981,363 @@ fn observe_composition_identity(
         .collect::<BTreeSet<_>>()
         .into_iter()
         .collect::<Vec<_>>();
-    Some(CompositionIdentity {
-        source_digest: Digest::sha256_bytes(source.as_bytes()),
-        dependency_digest: lockfile_digest.clone(),
-        interface_digest,
-        configuration_digest,
-        toolchain_digest: digest_serialized(&toolchain)?,
-        lockfile_digest,
-        generated_input_digest: digest_paths(worktree, &generated_paths)?,
-        environment_digest,
-        verifier_digest: digest_serialized(&toolchain)?,
-        command_digest: composition_commands_digest(&input.commands),
+    Some(ObservedCompositionIdentity {
+        identity: CompositionIdentity {
+            source_digest: Digest::sha256_bytes(source.as_bytes()),
+            dependency_digest: lockfile_digest.clone(),
+            interface_digest,
+            configuration_digest,
+            toolchain_digest: observed_toolchain_digest.clone(),
+            lockfile_digest,
+            generated_input_digest: digest_paths(worktree, &generated_paths)?,
+            environment_digest,
+            verifier_digest: observed_toolchain_digest,
+            command_digest: composition_commands_digest(&input.commands),
+        },
+        runtime_toolchain_digest,
     })
+}
+
+fn observe_runtime_toolchain_digest(
+    worktree: &Path,
+    environment: &BTreeMap<String, String>,
+) -> Option<Digest> {
+    let home = environment
+        .get("HOME")
+        .or_else(|| environment.get("USERPROFILE"))?;
+    let home = fs::canonicalize(home).ok()?;
+    if !home.is_dir() {
+        return None;
+    }
+
+    let mut cargo_configuration = Vec::new();
+    for path in [".cargo/config", ".cargo/config.toml"] {
+        let bytes = read_optional_regular_file_beneath(&home, Path::new(path))?;
+        cargo_configuration.push((path, bytes.as_deref().map(Digest::sha256_bytes)));
+    }
+
+    let workspace_channel = read_workspace_toolchain_channel(worktree)?;
+    let rustup_home = home.join(".rustup");
+    let rustup_metadata = match fs::symlink_metadata(&rustup_home) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            if workspace_channel.is_some() {
+                return None;
+            }
+            return digest_serialized(&("no-rustup-install", cargo_configuration));
+        }
+        Err(_) => return None,
+    };
+    if rustup_metadata.file_type().is_symlink() || !rustup_metadata.is_dir() {
+        return None;
+    }
+
+    let settings = read_regular_file_beneath(&home, Path::new(".rustup/settings.toml"))?;
+    let default_channel = parse_rustup_default_toolchain(&settings)?;
+    let requested_channel = workspace_channel.unwrap_or(default_channel);
+    if !is_safe_toolchain_channel(&requested_channel) {
+        return None;
+    }
+
+    let rustup_home = fs::canonicalize(rustup_home).ok()?;
+    if !rustup_home.starts_with(&home) {
+        return None;
+    }
+    let installed_toolchain = resolve_rustup_toolchain_directory(&rustup_home, &requested_channel)?;
+    let toolchain_root = PathBuf::from("toolchains").join(&installed_toolchain);
+    let bin_root = toolchain_root.join("bin");
+    let rustlib_root = toolchain_root.join("lib/rustlib");
+    if !require_real_directory_beneath(&rustup_home, &bin_root)?
+        || !require_real_directory_beneath(&rustup_home, &rustlib_root)?
+    {
+        return None;
+    }
+
+    let mut installed_files = Vec::new();
+    let bin_path = rustup_home.join(&bin_root);
+    let mut bin_entries = fs::read_dir(&bin_path)
+        .ok()?
+        .map(|entry| entry.ok())
+        .collect::<Option<Vec<_>>>()?;
+    bin_entries.sort_by_key(|entry| entry.file_name());
+    if bin_entries.is_empty() {
+        return None;
+    }
+    for entry in bin_entries {
+        let file_type = entry.file_type().ok()?;
+        if file_type.is_symlink() || !file_type.is_file() {
+            return None;
+        }
+        let name = entry.file_name().into_string().ok()?;
+        let relative = bin_root.join(&name);
+        let bytes = read_regular_file_beneath(&rustup_home, &relative)?;
+        installed_files.push((
+            relative.to_string_lossy().into_owned(),
+            Digest::sha256_bytes(&bytes),
+        ));
+    }
+
+    let rustlib_path = rustup_home.join(&rustlib_root);
+    let mut rustlib_entries = fs::read_dir(&rustlib_path)
+        .ok()?
+        .map(|entry| entry.ok())
+        .collect::<Option<Vec<_>>>()?;
+    rustlib_entries.sort_by_key(|entry| entry.file_name());
+    let mut has_components = false;
+    let mut has_manifest = false;
+    for entry in rustlib_entries {
+        let file_type = entry.file_type().ok()?;
+        if file_type.is_dir() {
+            continue;
+        }
+        if file_type.is_symlink() || !file_type.is_file() {
+            return None;
+        }
+        let name = entry.file_name().into_string().ok()?;
+        if name == "components" {
+            has_components = true;
+        }
+        if name.starts_with("manifest-") {
+            has_manifest = true;
+        }
+        let relative = rustlib_root.join(&name);
+        let bytes = read_regular_file_beneath(&rustup_home, &relative)?;
+        installed_files.push((
+            relative.to_string_lossy().into_owned(),
+            Digest::sha256_bytes(&bytes),
+        ));
+    }
+    if !has_components || !has_manifest {
+        return None;
+    }
+
+    let settings_digest = Digest::sha256_bytes(&settings);
+    digest_serialized(&(
+        "rustup-toolchain-v1",
+        cargo_configuration,
+        settings_digest,
+        requested_channel,
+        installed_toolchain,
+        installed_files,
+    ))
+}
+
+fn read_optional_regular_file_beneath(root: &Path, relative: &Path) -> Option<Option<Vec<u8>>> {
+    match fs::symlink_metadata(root.join(relative)) {
+        Ok(metadata) => {
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return None;
+            }
+            read_regular_file_beneath(root, relative).map(Some)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => Some(None),
+        Err(_) => None,
+    }
+}
+
+fn read_workspace_toolchain_channel(worktree: &Path) -> Option<Option<String>> {
+    let toml = read_optional_regular_file_beneath(worktree, Path::new("rust-toolchain.toml"))?;
+    let plain = read_optional_regular_file_beneath(worktree, Path::new("rust-toolchain"))?;
+    match (toml, plain) {
+        (Some(toml), Some(plain)) => {
+            let toml = parse_toolchain_toml_channel(&toml)?;
+            let plain = parse_toolchain_file_channel(&plain)?;
+            if toml == plain {
+                Some(Some(toml))
+            } else {
+                None
+            }
+        }
+        (Some(toml), None) => Some(Some(parse_toolchain_toml_channel(&toml)?)),
+        (None, Some(plain)) => Some(Some(parse_toolchain_file_channel(&plain)?)),
+        (None, None) => Some(None),
+    }
+}
+
+fn parse_toolchain_toml_channel(bytes: &[u8]) -> Option<String> {
+    let text = std::str::from_utf8(bytes).ok()?;
+    let mut section = "";
+    let mut channel = None;
+    for raw_line in text.lines() {
+        let line = strip_toml_comment(raw_line).trim();
+        if line.is_empty() {
+            continue;
+        }
+        if line.starts_with('[') && line.ends_with(']') {
+            section = line.strip_prefix('[')?.strip_suffix(']')?.trim();
+            continue;
+        }
+        if section != "toolchain" {
+            continue;
+        }
+        let (key, value) = line.split_once('=')?;
+        if key.trim() == "channel" {
+            if channel.is_some() {
+                return None;
+            }
+            channel = Some(parse_toml_channel_string(value.trim())?);
+        }
+    }
+    channel
+}
+
+fn parse_toolchain_file_channel(bytes: &[u8]) -> Option<String> {
+    let text = std::str::from_utf8(bytes).ok()?;
+    let mut channel = None;
+    for raw_line in text.lines() {
+        let line = strip_toml_comment(raw_line).trim();
+        if line.is_empty() {
+            continue;
+        }
+        if channel.is_some() {
+            return None;
+        }
+        channel = Some(line.to_owned());
+    }
+    let channel = channel?;
+    is_safe_toolchain_channel(&channel).then_some(channel)
+}
+
+fn parse_rustup_default_toolchain(bytes: &[u8]) -> Option<String> {
+    let text = std::str::from_utf8(bytes).ok()?;
+    let mut section = "";
+    let mut default_channel = None;
+    for raw_line in text.lines() {
+        let line = strip_toml_comment(raw_line).trim();
+        if line.is_empty() {
+            continue;
+        }
+        if line.starts_with('[') && line.ends_with(']') {
+            section = line.strip_prefix('[')?.strip_suffix(']')?.trim();
+            if section != "overrides" {
+                return None;
+            }
+            continue;
+        }
+        if section == "overrides" {
+            return None;
+        }
+        let (key, value) = line.split_once('=')?;
+        match key.trim() {
+            "default_toolchain" => {
+                if default_channel.is_some() {
+                    return None;
+                }
+                default_channel = Some(parse_toml_channel_string(value.trim())?);
+            }
+            "profile" => {
+                parse_toml_channel_string(value.trim())?;
+            }
+            "version" => {
+                let value = value.trim();
+                if value.parse::<u64>().is_err() {
+                    parse_toml_channel_string(value)?;
+                }
+            }
+            _ => return None,
+        }
+    }
+    let channel = default_channel?;
+    is_safe_toolchain_channel(&channel).then_some(channel)
+}
+
+fn parse_toml_channel_string(value: &str) -> Option<String> {
+    let value = value.strip_prefix('"')?;
+    let end = value.find('"')?;
+    if !value[end + 1..].trim().is_empty() {
+        return None;
+    }
+    let channel = value[..end].to_owned();
+    is_safe_toolchain_channel(&channel).then_some(channel)
+}
+
+fn strip_toml_comment(line: &str) -> &str {
+    let mut quoted = false;
+    let mut escaped = false;
+    for (index, character) in line.char_indices() {
+        if escaped {
+            escaped = false;
+            continue;
+        }
+        if quoted && character == '\\' {
+            escaped = true;
+            continue;
+        }
+        if character == '"' {
+            quoted = !quoted;
+        } else if character == '#' && !quoted {
+            return &line[..index];
+        }
+    }
+    line
+}
+
+fn is_safe_toolchain_channel(channel: &str) -> bool {
+    !channel.is_empty()
+        && channel != "."
+        && channel != ".."
+        && channel
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'+' | b'-' | b'_'))
+}
+
+fn resolve_rustup_toolchain_directory(rustup_home: &Path, channel: &str) -> Option<String> {
+    let toolchains = Path::new("toolchains");
+    if !require_real_directory_beneath(rustup_home, toolchains)? {
+        return None;
+    }
+    let mut exact = None;
+    let mut aliases = Vec::new();
+    for entry in fs::read_dir(rustup_home.join(toolchains)).ok()? {
+        let entry = entry.ok()?;
+        let name = entry.file_name().into_string().ok()?;
+        let is_exact = name == channel;
+        if !is_exact && !name.starts_with(&format!("{channel}-")) {
+            continue;
+        }
+        let file_type = entry.file_type().ok()?;
+        if file_type.is_symlink() || !file_type.is_dir() {
+            return None;
+        }
+        if is_exact {
+            if exact.replace(name).is_some() {
+                return None;
+            }
+        } else {
+            aliases.push(name);
+        }
+    }
+    if let Some(exact) = exact {
+        Some(exact)
+    } else if aliases.len() == 1 {
+        aliases.pop()
+    } else {
+        None
+    }
+}
+
+fn require_real_directory_beneath(root: &Path, relative: &Path) -> Option<bool> {
+    let components = relative
+        .components()
+        .map(|component| match component {
+            Component::Normal(value) => Some(value),
+            _ => None,
+        })
+        .collect::<Option<Vec<_>>>()?;
+    if components.is_empty() {
+        return None;
+    }
+    let mut path = root.to_path_buf();
+    for component in components {
+        path.push(component);
+        match fs::symlink_metadata(&path) {
+            Ok(metadata) if !metadata.file_type().is_symlink() && metadata.is_dir() => {}
+            Ok(_) => return None,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Some(false),
+            Err(_) => return None,
+        }
+    }
+    Some(true)
 }
 
 fn observed_node_identity(
@@ -730,7 +1345,11 @@ fn observed_node_identity(
     input: &CompositionInput,
     command: &CompositionCommand,
     execution_records: &[CompositionExecutionRecord],
+    executable: &ResolvedExecutable,
+    environment: &BTreeMap<String, String>,
+    runtime_toolchain_digest: Option<&Digest>,
 ) -> Option<Digest> {
+    let runtime_toolchain_digest = runtime_toolchain_digest?;
     let dependencies = command
         .depends_on
         .iter()
@@ -744,15 +1363,13 @@ fn observed_node_identity(
             Some((dependency, &record.identity_digest, &record.output_digest))
         })
         .collect::<Option<Vec<_>>>()?;
-    let executable_path = resolve_executable(worktree, &command.program, &command.environment)?;
-    let executable = digest_executable(&executable_path)?;
-    let observed_paths = deterministic_command_read_paths(command, &executable_path)?;
+    let observed_paths = deterministic_command_read_paths(command, &executable.identity_path)?;
     let mut input_paths = command.input_paths.clone();
     input_paths.extend(observed_paths);
     input_paths.sort();
     input_paths.dedup();
     let paths_digest = digest_paths(worktree, &input_paths)?;
-    let environment = observed_environment_digest(std::slice::from_ref(command))?;
+    let environment = digest_serialized(environment)?;
     let bytes = serde_json::to_vec(&(
         &command.node_id,
         &command.program,
@@ -766,7 +1383,8 @@ fn observed_node_identity(
         &input.binding.target_branch,
         &input.binding.participant_work_items,
         &input.binding.contract_digests,
-        executable,
+        &executable.digest,
+        runtime_toolchain_digest,
         paths_digest,
         environment,
     ))
@@ -821,87 +1439,339 @@ fn digest_paths(root: &Path, paths: &[String]) -> Option<Digest> {
     for value in paths {
         let path = Path::new(value);
         if path.is_absolute()
-            || path.components().any(|component| {
-                matches!(
-                    component,
-                    Component::ParentDir | Component::RootDir | Component::Prefix(_)
-                )
-            })
+            || path
+                .components()
+                .any(|component| !matches!(component, Component::Normal(_)))
             || path.as_os_str().is_empty()
         {
             return None;
         }
-        let candidate = root.join(path);
-        let metadata = fs::symlink_metadata(&candidate).ok()?;
-        if !metadata.file_type().is_file() {
-            return None;
-        }
-        let bytes = fs::read(&candidate).ok()?;
+        let bytes = read_regular_file_beneath(root, path)?;
         observed.push((value, Digest::sha256_bytes(&bytes)));
     }
     digest_serialized(&observed)
 }
 
-fn observed_environment_digest(commands: &[CompositionCommand]) -> Option<Digest> {
-    let mut environment = BTreeMap::<String, String>::new();
-    for (key, value) in std::env::vars_os() {
-        environment.insert(key.into_string().ok()?, value.into_string().ok()?);
+fn read_regular_file_beneath(root: &Path, relative: &Path) -> Option<Vec<u8>> {
+    #[cfg(unix)]
+    {
+        use std::os::fd::{AsRawFd, FromRawFd};
+        use std::os::unix::ffi::OsStrExt;
+
+        let root = fs::canonicalize(root).ok()?;
+        let root_handle = File::open(root).ok()?;
+        if !root_handle.metadata().ok()?.is_dir() {
+            return None;
+        }
+        let components = relative
+            .components()
+            .map(|component| match component {
+                Component::Normal(value) => Some(value),
+                _ => None,
+            })
+            .collect::<Option<Vec<_>>>()?;
+        if components.is_empty() {
+            return None;
+        }
+        let mut directories = vec![root_handle];
+        for component in &components[..components.len() - 1] {
+            let name = CString::new(component.as_bytes()).ok()?;
+            // SAFETY: `name` is NUL-terminated and the parent descriptor is
+            // held open in `directories`; O_NOFOLLOW rejects symlinked
+            // ancestors rather than resolving them outside the worktree.
+            let descriptor = unsafe {
+                libc::openat(
+                    directories.last()?.as_raw_fd(),
+                    name.as_ptr(),
+                    libc::O_RDONLY | libc::O_CLOEXEC | libc::O_DIRECTORY | libc::O_NOFOLLOW,
+                )
+            };
+            if descriptor < 0 {
+                return None;
+            }
+            // SAFETY: `openat` returned a new owned descriptor.
+            let directory = unsafe { File::from_raw_fd(descriptor) };
+            if !directory.metadata().ok()?.is_dir() {
+                return None;
+            }
+            directories.push(directory);
+        }
+        let name = CString::new(components.last()?.as_bytes()).ok()?;
+        // SAFETY: the final component is opened relative to a held directory
+        // descriptor, and O_NOFOLLOW prevents a final-component symlink.
+        let descriptor = unsafe {
+            libc::openat(
+                directories.last()?.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW | libc::O_NONBLOCK,
+            )
+        };
+        if descriptor < 0 {
+            return None;
+        }
+        // SAFETY: `openat` returned a new owned descriptor.
+        let mut file = unsafe { File::from_raw_fd(descriptor) };
+        if !file.metadata().ok()?.is_file() {
+            return None;
+        }
+        let mut bytes = Vec::new();
+        file.read_to_end(&mut bytes).ok()?;
+        Some(bytes)
     }
-    let overlays = commands
+    #[cfg(not(unix))]
+    {
+        let root = fs::canonicalize(root).ok()?;
+        let mut candidate = root.clone();
+        let components = relative
+            .components()
+            .map(|component| match component {
+                Component::Normal(value) => Some(value),
+                _ => None,
+            })
+            .collect::<Option<Vec<_>>>()?;
+        if components.is_empty() {
+            return None;
+        }
+        for (index, component) in components.iter().enumerate() {
+            candidate.push(component);
+            let metadata = fs::symlink_metadata(&candidate).ok()?;
+            if metadata.file_type().is_symlink()
+                || (index + 1 == components.len() && !metadata.is_file())
+                || (index + 1 < components.len() && !metadata.is_dir())
+            {
+                return None;
+            }
+        }
+        if !fs::canonicalize(&candidate).ok()?.starts_with(root) {
+            return None;
+        }
+        let mut file = File::open(candidate).ok()?;
+        if !file.metadata().ok()?.is_file() {
+            return None;
+        }
+        let mut bytes = Vec::new();
+        file.read_to_end(&mut bytes).ok()?;
+        Some(bytes)
+    }
+}
+
+fn observed_environment_digest(commands: &[CompositionCommand]) -> Option<Digest> {
+    let environments = commands
         .iter()
-        .map(|command| (&command.node_id, &command.environment))
-        .collect::<Vec<_>>();
-    let bytes = serde_json::to_vec(&(environment, overlays)).ok()?;
-    Some(Digest::sha256_bytes(&bytes))
+        .map(|command| Some((&command.node_id, controlled_command_environment(command)?)))
+        .collect::<Option<Vec<_>>>()?;
+    digest_serialized(&environments)
+}
+
+#[derive(Clone, Debug)]
+struct ResolvedExecutable {
+    launch_path: PathBuf,
+    identity_path: PathBuf,
+    digest: Digest,
 }
 
 fn resolve_executable(
     worktree: &Path,
     program: &str,
     environment: &BTreeMap<String, String>,
-) -> Option<PathBuf> {
+) -> Option<ResolvedExecutable> {
     let program_path = Path::new(program);
     let candidate = if program_path.is_absolute() {
         program_path.to_path_buf()
     } else if program_path.components().count() > 1 {
         worktree.join(program_path)
     } else {
-        let path = environment
-            .get("PATH")
-            .map(OsString::from)
-            .or_else(|| std::env::var_os("PATH"))?;
+        let path = OsString::from(environment.get("PATH")?);
         let directories = std::env::split_paths(&path).collect::<Vec<_>>();
         if directories.iter().any(|directory| !directory.is_absolute()) {
-            // Relative PATH entries can be resolved against different working
-            // directories by the parent and child launch paths. Do not claim
-            // an executable identity when that ambiguity exists.
             return None;
         }
         directories
             .into_iter()
-            .map(|directory| directory.join(program))
-            .find(|path| path.is_file())?
+            .flat_map(|directory| executable_candidates(&directory, program))
+            .find(|path| is_executable_file(path))?
     };
-    let canonical = fs::canonicalize(candidate).ok()?;
-    let metadata = fs::metadata(&canonical).ok()?;
-    if !metadata.is_file() {
+    if !is_executable_file(&candidate) {
         return None;
     }
-    Some(canonical)
+    let identity_path = fs::canonicalize(&candidate).ok()?;
+    let canonical_worktree = fs::canonicalize(worktree).ok()?;
+    let trusted_roots = trusted_executable_directories();
+    let inside_worktree = identity_path.starts_with(&canonical_worktree);
+    let inside_trusted_root = trusted_roots
+        .iter()
+        .any(|directory| identity_path.starts_with(directory));
+    if !inside_worktree && !inside_trusted_root {
+        return None;
+    }
+    let digest = digest_executable(&identity_path)?;
+    Some(ResolvedExecutable {
+        launch_path: candidate,
+        identity_path,
+        digest,
+    })
+}
+
+fn executable_candidates(directory: &Path, program: &str) -> Vec<PathBuf> {
+    let candidate = directory.join(program);
+    #[cfg(windows)]
+    if candidate.extension().is_none() {
+        return vec![
+            candidate.with_extension("exe"),
+            candidate.with_extension("com"),
+        ];
+    }
+    vec![candidate]
+}
+
+fn is_executable_file(path: &Path) -> bool {
+    let Ok(metadata) = fs::metadata(path) else {
+        return false;
+    };
+    if !metadata.is_file() {
+        return false;
+    }
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        metadata.permissions().mode() & 0o111 != 0
+    }
+    #[cfg(not(unix))]
+    {
+        true
+    }
+}
+
+fn trusted_executable_directories() -> Vec<PathBuf> {
+    let mut candidates = Vec::new();
+    #[cfg(unix)]
+    {
+        if let Some(home) = std::env::var_os("HOME") {
+            candidates.push(PathBuf::from(home).join(".cargo/bin"));
+        }
+        candidates.extend(
+            [
+                "/usr/bin",
+                "/bin",
+                "/usr/local/bin",
+                "/opt/homebrew/bin",
+                "/opt/local/bin",
+            ]
+            .into_iter()
+            .map(PathBuf::from),
+        );
+    }
+    #[cfg(windows)]
+    {
+        if let Some(profile) = std::env::var_os("USERPROFILE") {
+            candidates.push(PathBuf::from(profile).join(".cargo/bin"));
+        }
+        if let Some(system_root) = std::env::var_os("SystemRoot") {
+            candidates.push(PathBuf::from(&system_root).join("System32"));
+            candidates.push(PathBuf::from(system_root));
+        }
+    }
+    let mut result = Vec::new();
+    for candidate in candidates {
+        if let Ok(directory) = fs::canonicalize(candidate)
+            && directory.is_dir()
+            && !result.contains(&directory)
+        {
+            result.push(directory);
+        }
+    }
+    result
+}
+
+fn controlled_command_environment(
+    command: &CompositionCommand,
+) -> Option<BTreeMap<String, String>> {
+    if command
+        .environment
+        .keys()
+        .any(|key| is_runtime_controlled_environment_key(key))
+    {
+        return None;
+    }
+    let directories = trusted_executable_directories();
+    if directories.is_empty() {
+        return None;
+    }
+    let mut environment = BTreeMap::new();
+    environment.insert(
+        "PATH".into(),
+        std::env::join_paths(&directories)
+            .ok()?
+            .into_string()
+            .ok()?,
+    );
+    #[cfg(unix)]
+    if let Some(home) = std::env::var_os("HOME") {
+        let home = fs::canonicalize(home).ok()?;
+        environment.insert("HOME".into(), home.to_string_lossy().into_owned());
+    }
+    #[cfg(windows)]
+    {
+        let system_root = fs::canonicalize(std::env::var_os("SystemRoot")?).ok()?;
+        environment.insert(
+            "SystemRoot".into(),
+            system_root.to_string_lossy().into_owned(),
+        );
+        environment.insert("WINDIR".into(), system_root.to_string_lossy().into_owned());
+        if let Some(profile) = std::env::var_os("USERPROFILE") {
+            let profile = fs::canonicalize(profile).ok()?;
+            environment.insert("USERPROFILE".into(), profile.to_string_lossy().into_owned());
+        }
+    }
+    let temporary = fs::canonicalize(std::env::temp_dir()).ok()?;
+    #[cfg(unix)]
+    environment.insert("TMPDIR".into(), temporary.to_string_lossy().into_owned());
+    #[cfg(windows)]
+    {
+        environment.insert("TEMP".into(), temporary.to_string_lossy().into_owned());
+        environment.insert("TMP".into(), temporary.to_string_lossy().into_owned());
+    }
+    environment.insert("LANG".into(), "C".into());
+    environment.insert("LC_ALL".into(), "C".into());
+    environment.extend(command.environment.clone());
+    Some(environment)
+}
+
+fn is_runtime_controlled_environment_key(key: &str) -> bool {
+    let key = key.to_ascii_uppercase();
+    matches!(
+        key.as_str(),
+        "PATH"
+            | "HOME"
+            | "USERPROFILE"
+            | "SYSTEMROOT"
+            | "WINDIR"
+            | "CARGO_HOME"
+            | "RUSTUP_HOME"
+            | "RUSTUP_TOOLCHAIN"
+            | "RUSTC"
+            | "RUSTDOC"
+            | "RUSTFLAGS"
+            | "CARGO_ENCODED_RUSTFLAGS"
+            | "CARGO_BUILD_TARGET"
+            | "CARGO_TARGET_DIR"
+            | "RUSTC_WRAPPER"
+            | "RUSTC_WORKSPACE_WRAPPER"
+            | "RUSTC_BOOTSTRAP"
+            | "DYLD_INSERT_LIBRARIES"
+            | "DYLD_LIBRARY_PATH"
+            | "DYLD_FRAMEWORK_PATH"
+            | "LD_PRELOAD"
+            | "LD_LIBRARY_PATH"
+            | "LIBPATH"
+            | "SHLIB_PATH"
+    ) || key.starts_with("DYLD_")
+        || key.starts_with("LD_")
 }
 
 fn digest_executable(executable: &Path) -> Option<Digest> {
     let bytes = fs::read(executable).ok()?;
     Some(Digest::sha256_bytes(&bytes))
-}
-
-fn executable_digest(
-    worktree: &Path,
-    program: &str,
-    environment: &BTreeMap<String, String>,
-) -> Option<Digest> {
-    let executable = resolve_executable(worktree, program, environment)?;
-    digest_executable(&executable)
 }
 
 fn is_lockfile(path: &str) -> bool {
@@ -923,13 +1793,13 @@ fn is_lockfile(path: &str) -> bool {
 }
 
 fn is_configuration_file(path: &str) -> bool {
+    let path = Path::new(path);
     matches!(
-        Path::new(path)
-            .file_name()
+        path.file_name()
             .and_then(|name| name.to_str())
             .unwrap_or_default(),
         "Cargo.toml" | "rust-toolchain" | "rust-toolchain.toml" | "Makefile" | "Dockerfile"
-    )
+    ) || matches!(path.to_str(), Some(".cargo/config" | ".cargo/config.toml"))
 }
 
 fn git_text(root: &Path, args: &[&str]) -> Option<String> {
@@ -999,6 +1869,53 @@ fn unique_composition_parent() -> PathBuf {
     ))
 }
 
+struct CompositionWorktreeGuard {
+    repository_root: PathBuf,
+    worktree: PathBuf,
+    parent: PathBuf,
+    registered: bool,
+    armed: bool,
+}
+
+impl CompositionWorktreeGuard {
+    fn new(repository_root: PathBuf, worktree: PathBuf, parent: PathBuf) -> Self {
+        Self {
+            repository_root,
+            worktree,
+            parent,
+            registered: false,
+            armed: true,
+        }
+    }
+
+    fn mark_registered(&mut self) {
+        self.registered = true;
+    }
+
+    fn cleanup(&mut self) -> CompositionCleanup {
+        self.armed = false;
+        cleanup_worktree(
+            &self.repository_root,
+            &self.worktree,
+            &self.parent,
+            self.registered,
+        )
+    }
+}
+
+impl Drop for CompositionWorktreeGuard {
+    fn drop(&mut self) {
+        if self.armed {
+            let _ = cleanup_worktree(
+                &self.repository_root,
+                &self.worktree,
+                &self.parent,
+                self.registered,
+            );
+        }
+    }
+}
+
 fn cleanup_worktree(
     repository_root: &Path,
     worktree: &Path,
@@ -1006,6 +1923,7 @@ fn cleanup_worktree(
     worktree_registered: bool,
 ) -> CompositionCleanup {
     let mut errors = Vec::new();
+    let mut remove_parent = !worktree_registered;
     if worktree_registered {
         let removed = git_command(
             repository_root,
@@ -1016,14 +1934,17 @@ fn cleanup_worktree(
                 worktree.to_str().unwrap_or_default(),
             ],
         );
-        if !removed.success {
+        if removed.success {
+            remove_parent = true;
+        } else {
             errors.push(format!(
                 "git_worktree_remove_failed:{}",
                 bounded(&removed.stderr)
             ));
         }
     }
-    if let Err(error) = fs::remove_dir_all(parent)
+    if remove_parent
+        && let Err(error) = fs::remove_dir_all(parent)
         && error.kind() != std::io::ErrorKind::NotFound
     {
         errors.push(format!("parent_remove_failed:{error}"));
@@ -1037,6 +1958,7 @@ fn cleanup_worktree(
 
 struct GitOutput {
     success: bool,
+    stdout: String,
     stderr: String,
 }
 
@@ -1049,10 +1971,12 @@ fn git_command(root: &Path, args: &[&str]) -> GitOutput {
     {
         Ok(output) => GitOutput {
             success: output.status.success(),
+            stdout: String::from_utf8_lossy(&output.stdout).into_owned(),
             stderr: bounded_bytes(&output.stderr),
         },
         Err(error) => GitOutput {
             success: false,
+            stdout: String::new(),
             stderr: error.to_string(),
         },
     }

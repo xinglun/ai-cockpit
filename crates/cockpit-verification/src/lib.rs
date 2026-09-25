@@ -755,6 +755,7 @@ pub struct VerificationCommand {
     reuse_candidate: Option<ReuseCandidate>,
     logical_identity: Option<(String, Vec<String>)>,
     environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+    clear_environment: bool,
     resource_weight: usize,
     timeout_seconds: u64,
 }
@@ -776,6 +777,7 @@ impl VerificationCommand {
             reuse_candidate: None,
             logical_identity: None,
             environment: Vec::new(),
+            clear_environment: false,
             resource_weight: 1,
             timeout_seconds: DEFAULT_EXECUTION_SECONDS,
         }
@@ -824,6 +826,13 @@ impl VerificationCommand {
         self
     }
 
+    /// Start the child with an empty environment before applying the explicit
+    /// values supplied through `with_environment`.
+    pub fn with_cleared_environment(mut self) -> Self {
+        self.clear_environment = true;
+        self
+    }
+
     /// Assign a resource weight used by the bounded scheduler. Zero is
     /// rejected at execution time so malformed plans fail closed.
     pub fn with_resource_weight(mut self, weight: usize) -> Self {
@@ -857,12 +866,19 @@ impl VerificationCommand {
             .map_or((&self.program, &self.args), |(program, args)| {
                 (program, args)
             });
+        let environment = self
+            .environment
+            .iter()
+            .map(|(key, value)| (key.as_encoded_bytes(), value.as_encoded_bytes()))
+            .collect::<Vec<_>>();
         let identity = serde_json::to_vec(&(
             program,
             args,
             current_dir,
             self.resource_weight,
             self.timeout_seconds,
+            self.clear_environment,
+            environment,
         ))
         .expect("verification command identity is serializable");
         Digest::sha256_bytes(&identity).to_string()
@@ -2393,6 +2409,9 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     let deadline_ms =
         unix_epoch_millis().saturating_add(u128::from(timeout_seconds).saturating_mul(1_000));
     let mut process = Command::new(&command.program);
+    if command.clear_environment {
+        process.env_clear();
+    }
     process
         .args(&command.args)
         .envs(command.environment.iter().cloned())
