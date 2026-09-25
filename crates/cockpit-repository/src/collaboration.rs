@@ -1105,24 +1105,29 @@ fn transitive_invalidated_outcomes(
         else {
             continue;
         };
-        let outcome_ids = if event.outcome_ids.is_empty() {
-            provider
-                .declaration
-                .provided_outcomes
-                .iter()
-                .map(|outcome| outcome.outcome_id.clone())
-                .collect::<Vec<_>>()
+        if event.outcome_ids.is_empty() {
+            // Legacy events mean "all outcomes", including names removed
+            // from the provider's current registration. Recover the affected
+            // keys from consumer declarations so invalidation can still
+            // propagate through downstream consumers after that removal.
+            for consumer in &projection.registrations {
+                for dependency in &consumer.declaration.consumed_outcomes {
+                    let key = provider_outcome_key(dependency);
+                    if key.provider_work_item_id == provider.work_item_id {
+                        pending.push_back((event.clone(), key));
+                    }
+                }
+            }
         } else {
-            event.outcome_ids.clone()
-        };
-        for outcome_id in outcome_ids {
-            pending.push_back((
-                event.clone(),
-                ProviderOutcomeKey {
-                    provider_work_item_id: provider.work_item_id.clone(),
-                    outcome_id,
-                },
-            ));
+            for outcome_id in &event.outcome_ids {
+                pending.push_back((
+                    event.clone(),
+                    ProviderOutcomeKey {
+                        provider_work_item_id: provider.work_item_id.clone(),
+                        outcome_id: outcome_id.clone(),
+                    },
+                ));
+            }
         }
     }
 

@@ -1985,6 +1985,111 @@ fn removing_provider_output_preserves_transitive_invalidation() {
 }
 
 #[test]
+fn legacy_impact_without_outcome_ids_still_invalidates_transitive_consumers() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            1,
+            declaration(root.path(), &[("base", OutcomeStage::ComposableHead)], &[]),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-B",
+            1,
+            declaration(
+                root.path(),
+                &[("build", OutcomeStage::ComposableHead)],
+                &[("WI-A", "base", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-C",
+            1,
+            declaration(
+                root.path(),
+                &[("package", OutcomeStage::ComposableHead)],
+                &[("WI-B", "build", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-D",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[("WI-C", "package", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-UNRELATED",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .unwrap();
+
+    report_impact(&store, impact(root.path(), "WI-A", 1, "legacy-impact-WI-A")).unwrap();
+    let legacy_event_path = store.root().join("events/legacy-impact-WI-A.json");
+    let mut legacy_event: serde_json::Value =
+        serde_json::from_slice(&fs::read(&legacy_event_path).expect("legacy event bytes"))
+            .expect("legacy event JSON");
+    assert_eq!(legacy_event["outcomeIds"], serde_json::json!([]));
+    legacy_event
+        .as_object_mut()
+        .expect("legacy event object")
+        .remove("outcomeIds");
+    fs::write(
+        &legacy_event_path,
+        serde_json::to_vec_pretty(&legacy_event).expect("serialize old event shape"),
+    )
+    .expect("write old event shape without outcomeIds");
+
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            2,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("provider generation removes the old output");
+    recover_impact(&store, "auto-impact-WI-A-2", "WI-B", 1)
+        .expect("isolate the pre-existing legacy event from the new explicit event");
+
+    for work_item_id in ["WI-C", "WI-D"] {
+        assert!(
+            !admit_collaboration_action(&store, work_item_id, 1, composition_action(work_item_id))
+                .unwrap()
+                .allowed,
+            "legacy all-outcomes impact must invalidate transitive consumer {work_item_id} after the provider removes its output"
+        );
+    }
+    assert!(
+        admit_collaboration_action(
+            &store,
+            "WI-UNRELATED",
+            1,
+            composition_action("WI-UNRELATED")
+        )
+        .unwrap()
+        .allowed,
+        "a legacy provider impact must not block unrelated work"
+    );
+}
+
+#[test]
 fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
     let root = repository();
     let store = store(root.path());
