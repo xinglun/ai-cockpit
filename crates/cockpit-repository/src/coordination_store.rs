@@ -659,12 +659,13 @@ impl CoordinationStore {
                 registration.work_item_id
             )));
         }
-        crate::read_contract(&contract_path).map_err(|error| {
+        let contract = crate::read_contract(&contract_path).map_err(|error| {
             CoordinationError::RecoveryRequired(format!(
                 "active Contract is invalid for {}: {error}",
                 registration.work_item_id
             ))
         })?;
+        validate_contract_registration_identity(registration, &contract)?;
         let actual_contract_digest = crate::contract_digest(&contract_path).map_err(|error| {
             CoordinationError::RecoveryRequired(format!(
                 "active Contract digest is unavailable for {}: {error}",
@@ -911,6 +912,21 @@ impl CoordinationStore {
         drop(lock);
         result
     }
+}
+
+pub(crate) fn validate_contract_registration_identity(
+    registration: &WorktreeRegistration,
+    contract: &cockpit_protocol::Contract,
+) -> Result<(), CoordinationError> {
+    if contract.work_item_id != registration.work_item_id
+        || contract.repository_id != registration.repository_id.to_string()
+    {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "registered Contract identity mismatch for {}",
+            registration.work_item_id
+        )));
+    }
+    Ok(())
 }
 
 fn open_lock_file(path: &Path) -> Result<File, CoordinationError> {

@@ -710,6 +710,49 @@ fn registration_identity_is_rejected_before_persistence_when_observed_facts_diff
 }
 
 #[test]
+fn registration_rejects_a_contract_with_a_different_declared_identity() {
+    for (field, replacement) in [
+        ("workItemId", serde_json::json!("WI-OTHER")),
+        (
+            "repositoryId",
+            serde_json::json!("sha256:foreign-repository"),
+        ),
+    ] {
+        let root = repository();
+        let store = store(root.path());
+        let work_item_id = "WI-IDENTITY";
+        let _contract_digest = contract_digest(root.path(), work_item_id);
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        contract[field] = replacement;
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).expect("serialize Contract"),
+        )
+        .expect("write misbound Contract");
+
+        let mut registration = registration(root.path(), work_item_id, 1);
+        registration.contract_digest =
+            cockpit_protocol::digest_json(&contract).expect("misbound Contract digest");
+        let result = store.register(registration);
+
+        assert!(
+            matches!(result, Err(CoordinationError::RecoveryRequired(_))),
+            "Contract {field} mismatch must fail closed"
+        );
+        assert!(
+            !store.registration_path(work_item_id).exists(),
+            "Contract {field} mismatch must not persist a registration"
+        );
+    }
+}
+
+#[test]
 fn read_only_inspection_does_not_create_coordination_storage() {
     let root = repository();
     let git = GitRepository::discover(root.path()).expect("discover");

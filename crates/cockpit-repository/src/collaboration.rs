@@ -1066,6 +1066,7 @@ fn read_registered_contract(
             registration.work_item_id
         ))
     })?;
+    crate::coordination_store::validate_contract_registration_identity(registration, &contract)?;
     let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
         CoordinationError::RecoveryRequired(format!(
             "registered Contract JSON is invalid for {}: {error}",
