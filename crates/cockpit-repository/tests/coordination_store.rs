@@ -269,6 +269,80 @@ fn request_transition_rejects_traversal_and_mismatched_record_identity() {
 }
 
 #[test]
+fn request_transition_rejects_tampered_target_work_item_path() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+    store
+        .request_coordination(coordination_request(
+            root.path(),
+            "tampered-target",
+            CoordinationRequestState::Requested,
+        ))
+        .expect("create valid request");
+
+    let escaped_registration_path = store.root().join("events/victim.json");
+    fs::write(
+        &escaped_registration_path,
+        serde_json::to_vec_pretty(&registration).expect("serialize registration fixture"),
+    )
+    .expect("place valid registration-shaped data outside registrations directory");
+
+    let request_path = store.root().join("requests/tampered-target.json");
+    let mut tampered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    tampered["targetWorkItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize tampered request"),
+    )
+    .expect("tamper persisted target identity");
+    let request_before = fs::read(&request_path).expect("read request before transition");
+
+    let result =
+        store.transition_request("tampered-target", CoordinationRequestState::Acknowledged);
+    assert!(
+        result.is_err(),
+        "stored target identity must not escape registration path or bind to a different Work Item"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read request after transition"),
+        request_before,
+        "a rejected tampered target must leave the request unchanged"
+    );
+
+    let alias_registration_path = store.registration_path("WI-ALIAS");
+    fs::write(
+        &alias_registration_path,
+        serde_json::to_vec_pretty(&registration).expect("serialize aliased registration"),
+    )
+    .expect("write registration whose stored identity differs from its path");
+    tampered["targetWorkItemId"] = serde_json::json!("WI-ALIAS");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize aliased request"),
+    )
+    .expect("tamper persisted target to a valid path with a different registration identity");
+    let aliased_request_before = fs::read(&request_path).expect("read aliased request before");
+
+    let aliased_result =
+        store.transition_request("tampered-target", CoordinationRequestState::Acknowledged);
+    assert!(
+        aliased_result.is_err(),
+        "loaded registration identity must match the stored request target"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read aliased request after"),
+        aliased_request_before,
+        "a rejected registration identity mismatch must leave the request unchanged"
+    );
+}
+
+#[test]
 fn request_creation_accepts_only_the_requested_initial_state() {
     let root = repository();
     let store = store(root.path());

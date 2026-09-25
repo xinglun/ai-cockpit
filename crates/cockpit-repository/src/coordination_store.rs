@@ -442,9 +442,19 @@ impl CoordinationStore {
                     "coordination request ID differs from stored record identity".into(),
                 ));
             }
+            if !valid_component(&request.target_work_item_id) {
+                return Err(CoordinationError::RecoveryRequired(
+                    "invalid coordination request target identity".into(),
+                ));
+            }
             let registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(&request.target_work_item_id))?;
             self.validate_registration_facts(&registration)?;
+            if registration.work_item_id != request.target_work_item_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "coordination request target differs from registration identity".into(),
+                ));
+            }
             if registration.repository_id != request.repository_id {
                 return Err(CoordinationError::RecoveryRequired(
                     "coordination request repository identity differs from registration".into(),

@@ -34,7 +34,7 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 - If a gap is found, add the failing regression first, implement the narrow repair, commit it separately, then re-query Runtime because the repository snapshot changed.
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.
 - Add a failing provider-registration regression where an old output is removed at a newer generation; prove the persisted event retains the old output ID and invalidation reaches direct and multi-level consumers.
-- Add failing coordination-store regressions for traversal/mismatched request identities and non-Requested creation states; assert no target bytes or request records change on rejection.
+- Add failing coordination-store regressions for traversal/mismatched request identities, including the persisted target Work Item ID and registration-to-target binding, plus non-Requested creation states; assert no target bytes or request records change on rejection.
 - Implement only after observing each regression fail for the expected reason; rerun the focused `collaboration_admission` and `coordination_store` integration suites after each fix.
 
 ### 3. Run canonical and object-project compatibility evidence

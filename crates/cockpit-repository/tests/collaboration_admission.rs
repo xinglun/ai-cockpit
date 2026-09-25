@@ -1954,6 +1954,34 @@ fn removing_provider_output_preserves_transitive_invalidation() {
         .allowed,
         "unrelated work remains admissible"
     );
+
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            3,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("provider may advance again after removing its output");
+    let later_projection = collaboration_projection(&store).unwrap();
+    let historical_invalidation = later_projection
+        .events
+        .iter()
+        .find(|event| event.event_id == "auto-impact-WI-A-2")
+        .expect("removed-output invalidation remains readable after another generation");
+    assert_eq!(
+        historical_invalidation.outcome_ids,
+        vec!["base"],
+        "advancing the provider must not erase the removed output from its historical invalidation"
+    );
+    for work_item_id in ["WI-B", "WI-C", "WI-D"] {
+        assert!(
+            !admit_collaboration_action(&store, work_item_id, 1, composition_action(work_item_id))
+                .unwrap()
+                .allowed,
+            "historical removed-output invalidation must continue through {work_item_id}"
+        );
+    }
 }
 
 #[test]
