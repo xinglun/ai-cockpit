@@ -2,7 +2,8 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
-    OutcomeStage, ProvidedOutcome, ResourceClaim, ResourceClaimMode, ResourceReservation,
+    CoordinationIntent, CoordinationRequest, CoordinationRequestState, OutcomeStage,
+    ProvidedOutcome, ResourceClaim, ResourceClaimMode, ResourceReservation,
     RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use cockpit_repository::{
@@ -155,6 +156,23 @@ fn reservation(
     }
 }
 
+fn coordination_request(
+    root: &Path,
+    request_id: &str,
+    state: CoordinationRequestState,
+) -> CoordinationRequest {
+    CoordinationRequest {
+        schema_version: 1,
+        request_id: request_id.into(),
+        repository_id: repository_id(root),
+        target_work_item_id: "WI-REQUEST".into(),
+        target_generation: 1,
+        intent: CoordinationIntent::RequestSafePause,
+        state,
+        reason: "test coordination request".into(),
+    }
+}
+
 #[test]
 fn duplicate_registration_and_event_are_idempotent() {
     let root = repository();
@@ -183,6 +201,115 @@ fn duplicate_registration_and_event_are_idempotent() {
         serde_json::json!({
             "target/evidence.json": Digest::sha256_bytes(b"{}\n").to_string()
         })
+    );
+}
+
+#[test]
+fn request_transition_rejects_traversal_and_mismatched_record_identity() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-REQUEST", 1))
+        .expect("register request target");
+
+    let escaped_path = store.root().join("events/victim.json");
+    let escaped_record = coordination_request(
+        root.path(),
+        "victim-record",
+        CoordinationRequestState::Requested,
+    );
+    fs::write(
+        &escaped_path,
+        serde_json::to_vec_pretty(&escaped_record).expect("serialize escaped request"),
+    )
+    .expect("write request-shaped record outside requests directory");
+    let escaped_before = fs::read(&escaped_path).expect("read escaped request before transition");
+    let traversal_result =
+        store.transition_request("../events/victim", CoordinationRequestState::Acknowledged);
+    assert!(
+        traversal_result.is_err(),
+        "request IDs must be validated before they become filesystem paths"
+    );
+    assert_eq!(
+        fs::read(&escaped_path).expect("read escaped request after transition"),
+        escaped_before,
+        "a rejected traversal must not modify the out-of-directory record"
+    );
+
+    let stored = coordination_request(
+        root.path(),
+        "stored-request",
+        CoordinationRequestState::Requested,
+    );
+    store
+        .request_coordination(stored)
+        .expect("create valid request");
+    let request_path = store.root().join("requests/stored-request.json");
+    let mut mismatched: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    mismatched["requestId"] = serde_json::json!("different-record");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&mismatched).expect("serialize mismatched request"),
+    )
+    .expect("write mismatched identity fixture");
+    let mismatched_before = fs::read(&request_path).expect("read mismatched request before");
+    let mismatched_result =
+        store.transition_request("stored-request", CoordinationRequestState::Acknowledged);
+    assert!(
+        mismatched_result.is_err(),
+        "the file identity must match the requested coordination ID"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read mismatched request after"),
+        mismatched_before,
+        "a rejected embedded-ID mismatch must leave its record unchanged"
+    );
+}
+
+#[test]
+fn request_creation_accepts_only_the_requested_initial_state() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-REQUEST", 1))
+        .expect("register request target");
+
+    for (request_id, state) in [
+        ("request-resumed", CoordinationRequestState::Resumed),
+        ("request-paused", CoordinationRequestState::SafelyPaused),
+    ] {
+        let result =
+            store.request_coordination(coordination_request(root.path(), request_id, state));
+        assert!(
+            result.is_err(),
+            "request creation must reject pre-acknowledged state {state:?}"
+        );
+    }
+    assert!(
+        store
+            .inspect()
+            .expect("inspect rejected requests")
+            .requests
+            .is_empty(),
+        "rejected initial states must not create durable request records"
+    );
+
+    let requested = coordination_request(
+        root.path(),
+        "request-valid",
+        CoordinationRequestState::Requested,
+    );
+    store
+        .request_coordination(requested)
+        .expect("Requested remains the valid initial state");
+    assert_eq!(
+        store
+            .transition_request("request-valid", CoordinationRequestState::Acknowledged)
+            .expect("valid request follows the transition API")
+            .state,
+        CoordinationRequestState::Acknowledged
     );
 }
 

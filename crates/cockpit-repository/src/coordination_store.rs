@@ -145,6 +145,7 @@ impl CoordinationStore {
         self.with_lock(|| {
             let path = self.registration_path(&registration.work_item_id);
             let mut identity_changed = false;
+            let mut invalidated_outcome_ids = BTreeSet::new();
             if path.exists() {
                 let existing: WorktreeRegistration = self.read_json(&path)?;
                 if existing == registration {
@@ -161,6 +162,22 @@ impl CoordinationStore {
                     || existing.branch != registration.branch
                     || existing.contract_digest != registration.contract_digest
                     || existing.declaration != registration.declaration;
+                if identity_changed {
+                    invalidated_outcome_ids.extend(
+                        existing
+                            .declaration
+                            .provided_outcomes
+                            .iter()
+                            .map(|outcome| outcome.outcome_id.clone()),
+                    );
+                    invalidated_outcome_ids.extend(
+                        registration
+                            .declaration
+                            .provided_outcomes
+                            .iter()
+                            .map(|outcome| outcome.outcome_id.clone()),
+                    );
+                }
             }
             if identity_changed {
                 let event = CoordinationEvent {
@@ -176,7 +193,7 @@ impl CoordinationStore {
                     source: "registration-identity-changed".into(),
                     evidence_refs: Vec::new(),
                     evidence_digests: BTreeMap::new(),
-                    outcome_ids: Vec::new(),
+                    outcome_ids: invalidated_outcome_ids.into_iter().collect(),
                 };
                 let event_path = self
                     .root
@@ -364,6 +381,11 @@ impl CoordinationStore {
                 "invalid coordination request identity".into(),
             ));
         }
+        if request.state != CoordinationRequestState::Requested {
+            return Err(CoordinationError::RecoveryRequired(
+                "coordination requests must start in Requested state".into(),
+            ));
+        }
         self.with_lock(|| {
             let registration_path = self.registration_path(&request.target_work_item_id);
             let registration: WorktreeRegistration = self.read_json(&registration_path)?;
@@ -404,12 +426,22 @@ impl CoordinationStore {
         state: CoordinationRequestState,
     ) -> Result<CoordinationRequest, CoordinationError> {
         self.runtime.validate_candidate()?;
+        if !valid_component(request_id) {
+            return Err(CoordinationError::RecoveryRequired(
+                "invalid coordination request identity".into(),
+            ));
+        }
         self.with_lock(|| {
             let path = self
                 .root
                 .join("requests")
                 .join(format!("{request_id}.json"));
             let mut request: CoordinationRequest = self.read_json(&path)?;
+            if request.request_id != request_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "coordination request ID differs from stored record identity".into(),
+                ));
+            }
             let registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(&request.target_work_item_id))?;
             self.validate_registration_facts(&registration)?;
@@ -706,6 +738,13 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        if event.repository_id != registration.repository_id
+            || event.generation > registration.generation
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "event repository or generation does not match its provider registration".into(),
+            ));
+        }
         if !event.evidence_digests.is_empty() {
             let references = event.evidence_refs.iter().collect::<BTreeSet<_>>();
             let digested_references = event.evidence_digests.keys().collect::<BTreeSet<_>>();
@@ -715,13 +754,20 @@ impl CoordinationStore {
                 ));
             }
         }
-        if event.outcome_ids.iter().any(|outcome_id| {
-            !registration
-                .declaration
-                .provided_outcomes
-                .iter()
-                .any(|outcome| outcome.outcome_id == *outcome_id)
-        }) {
+        let automatic_identity_invalidation = event.kind
+            == cockpit_protocol::CoordinationEventKind::Impact
+            && event.source == "registration-identity-changed"
+            && event.event_id == format!("auto-impact-{}-{}", event.work_item_id, event.generation);
+        if event.generation == registration.generation
+            && !automatic_identity_invalidation
+            && event.outcome_ids.iter().any(|outcome_id| {
+                !registration
+                    .declaration
+                    .provided_outcomes
+                    .iter()
+                    .any(|outcome| outcome.outcome_id == *outcome_id)
+            })
+        {
             return Err(CoordinationError::RecoveryRequired(
                 "event outcome identity is not declared by the registered provider".into(),
             ));

@@ -1859,6 +1859,104 @@ fn impact_propagates_through_three_dependency_levels_only() {
 }
 
 #[test]
+fn removing_provider_output_preserves_transitive_invalidation() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            1,
+            declaration(root.path(), &[("base", OutcomeStage::ComposableHead)], &[]),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-B",
+            1,
+            declaration(
+                root.path(),
+                &[("build", OutcomeStage::ComposableHead)],
+                &[("WI-A", "base", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-C",
+            1,
+            declaration(
+                root.path(),
+                &[("package", OutcomeStage::ComposableHead)],
+                &[("WI-B", "build", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-D",
+            1,
+            declaration(
+                root.path(),
+                &[],
+                &[("WI-C", "package", OutcomeStage::ComposableHead)],
+            ),
+        ))
+        .unwrap();
+    store
+        .register(registration(
+            root.path(),
+            "WI-UNRELATED",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .unwrap();
+
+    store
+        .register(registration(
+            root.path(),
+            "WI-A",
+            2,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("new provider generation may remove a published output");
+
+    let projection = collaboration_projection(&store).unwrap();
+    let invalidation = projection
+        .events
+        .iter()
+        .find(|event| event.event_id == "auto-impact-WI-A-2")
+        .expect("provider identity change persists an invalidation event");
+    assert_eq!(
+        invalidation.outcome_ids,
+        vec!["base"],
+        "the event must retain the removed output identity"
+    );
+    for work_item_id in ["WI-B", "WI-C", "WI-D"] {
+        assert!(
+            !admit_collaboration_action(&store, work_item_id, 1, composition_action(work_item_id))
+                .unwrap()
+                .allowed,
+            "removed output must invalidate transitive consumer {work_item_id}"
+        );
+    }
+    assert!(
+        admit_collaboration_action(
+            &store,
+            "WI-UNRELATED",
+            1,
+            composition_action("WI-UNRELATED")
+        )
+        .unwrap()
+        .allowed,
+        "unrelated work remains admissible"
+    );
+}
+
+#[test]
 fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
     let root = repository();
     let store = store(root.path());

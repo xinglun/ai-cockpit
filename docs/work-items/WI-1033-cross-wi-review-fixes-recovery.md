@@ -25,12 +25,13 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
-The earlier Runtime verification receipt passed 31 nodes for the then-current Contract and eight required scenarios. It is historical, not current evidence: a later amendment brought the Contract to 15 acceptance criteria and 11 scenarios, and the latest retirement-parity review added a 16th criterion and 12th scenario. Review fixes also changed the repository snapshot. Hosted CI exposed governance-integrity projection gaps for active recovery lineage and replaced/not_verified archives; the current Work Item adds targeted gate regressions rather than fabricating close or verification receipts. Final canonical gates and Runtime-bound verification remain pending; query Runtime for current freshness. The added identity scenario rejects a separate clone even when it carries a copied repository ID.
+The latest full Runtime verification passed 32 nodes on commit `6577f3c0`, but that receipt is now historical: the Contract has since been amended to 19 acceptance criteria and 15 scenarios, and the three newly reviewed defects changed source. Focused local suites currently pass (36 collaboration-admission and 20 coordination-store tests); final canonical gates and Runtime-bound verification remain pending. The added coverage includes invalidation after provider-output removal, path-safe request identity, and enforcing Requested as the initial state. Query Runtime for current freshness; do not treat the earlier 31-node/eight-scenario receipt or the 32-node run as current evidence.
 
 ## Scope
 
 - Revalidate trusted registration/composition identity (including matching the execution repository's Git common directory to the CoordinationStore), required-check completeness, crash and live-lock safety, evidence containment, provider-scoped dependencies, actual CLI reuse, MCP identity parity, and the read-only query/write boundary.
 - Prove real multi-process linked-worktree behavior and preserve ordinary single-WI serial execution.
+- Preserve invalidation for removed provider outputs through dependency chains, and reject unsafe or pre-acknowledged coordination requests.
 - Inspect Sentinel with the candidate CLI without writing its source, Contract/evidence, lifecycle Runtime, or coordination store.
 - Maintain English, Simplified Chinese, and Japanese projections and reference parity.
 
@@ -40,7 +41,7 @@ Task 8, the Runtime snapshot-binding behavior across commits, is a separate seri
 
 ## Acceptance and verification
 
-See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twelve required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
+See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All fifteen required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
 
 ## Delivery boundary
 

@@ -21,7 +21,7 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 
 - Add this specification and plan in the WI-1033 worktree.
 - Activate the Runtime-generated recovery scaffold with the same bounded intent and source scope.
-- Declare all sixteen acceptance criteria, the twelve required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
+- Declare all nineteen acceptance criteria, the fifteen required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
 - Cover the retirement-parity invariant: every required locale row binds the retirement receipt and not_verified state; any missing locale fails closed without inventing successful verification evidence.
 - Run Runtime preflight and checkpoint only when the current Runtime admits them. Preserve any rejection without retrying unchanged inputs.
 
@@ -33,6 +33,9 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 - Run focused negative and positive tests for trust identity, complete required-check coverage, crash recovery/live lock safety, evidence containment, provider/outcome selection, actual reuse, MCP identity, and query/write persistence.
 - If a gap is found, add the failing regression first, implement the narrow repair, commit it separately, then re-query Runtime because the repository snapshot changed.
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.
+- Add a failing provider-registration regression where an old output is removed at a newer generation; prove the persisted event retains the old output ID and invalidation reaches direct and multi-level consumers.
+- Add failing coordination-store regressions for traversal/mismatched request identities and non-Requested creation states; assert no target bytes or request records change on rejection.
+- Implement only after observing each regression fail for the expected reason; rerun the focused `collaboration_admission` and `coordination_store` integration suites after each fix.
 
 ### 3. Run canonical and object-project compatibility evidence
 

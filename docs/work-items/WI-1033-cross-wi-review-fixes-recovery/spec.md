@@ -15,6 +15,7 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 - Run the candidate CLI against Sentinel read-only and compare repository, Contract/evidence, lifecycle Runtime, and coordination state before and after.
 - Keep every required scenario explicit, with an observable expected result and a concrete verification plan.
 - Correct the repository governance-integrity gate so active recovery lineages and replaced/not_verified archives are represented without premature close or fabricated verification evidence.
+- Preserve invalidation for removed provider outputs through transitive consumers; harden coordination-request path identity and require the Requested creation state.
 - Use the repository's canonical Runtime CLI + Cargo/CI gate. The documentation command is bash tests/docs/documentation_acceptance.sh.
 - Maintain accurate English, Simplified Chinese, and Japanese Work Item projections and corresponding reference-parity rows.
 - Preserve the predecessor chain WI-1031 → WI-1032 → WI-1033. Resolve only those historical close obligations that the Runtime explicitly admits after current evidence is complete.
@@ -43,6 +44,9 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 14. The governance-integrity gate recognizes a valid predecessor recovery decision as an in-progress linked lineage until its selected successor is terminal; parity binds the recovery receipt and historical verification evidence without requiring a premature close receipt, then projects recovered only after successor closure.
 15. A valid retired/replaced archived Work Item projects its retirement receipt and not_verified state without requiring or claiming successful verification evidence; malformed or missing retirement evidence remains fail closed.
 16. For retired/replaced Work Items that require parity projection, a valid retirement receipt still requires one English, Simplified Chinese, and Japanese parity row each; every row references the retirement receipt and states not_verified, no missing locale is silently exempted, and no successful verification evidence is required or claimed.
+17. When a provider registration changes or removes outputs, the durable invalidation includes the union of prior and current outcome IDs; removal still blocks direct and transitive consumers while unrelated work remains admissible.
+18. Coordination-request transitions reject unsafe path IDs before resolving a file and reject a stored record whose embedded request ID differs from the requested ID; rejection leaves target bytes unchanged.
+19. Coordination-request creation accepts only the initial Requested state; later lifecycle states can be reached only through valid transitions.
 
 ## Required scenario expectations
 
@@ -60,6 +64,9 @@ The Runtime at entry is 0.2.113. The repository base is origin/main at b57561dab
 | premerge_recovery_lineage_parity | A valid active successor is represented as an in-progress lineage with recovery and historical verification evidence, without a premature close; after successor closure the predecessor is recovered. | Test active successor, missing/foreign recovery binding, and terminal successor fixtures; accept only valid pending lineage and closed recovery. |
 | retired_work_item_not_verified_projection | A valid replaced/not_verified archive is represented with its retirement receipt and no success claim; missing or malformed retirement evidence fails closed. | Test valid replaced/not_verified, missing retirement, and malformed retirement fixtures; require no verification claim for the valid retirement. |
 | retired_work_item_requires_all_locale_parity_rows | A valid retired/replaced Work Item passes only when all required English, Simplified Chinese, and Japanese rows reference the retirement receipt and state not_verified; any row that also cites a successful verification receipt is rejected, as are missing locale rows. | Run the governance-integrity gate with valid three-locale rows, add the verification receipt path to each locale row and require rejection, then remove each locale row separately and all rows; require the contradiction finding or missing_parity_entry and no successful verification claim. |
+| removed_provider_outcome_invalidates_transitive_consumers | After a provider advances generation and removes an output, the durable invalidation retains the removed ID, blocks direct and multi-level consumers, and leaves unrelated work admissible. | Re-register provider A at a newer generation without its old output after B and C consume that output transitively; inspect the persisted impact event and assert B/C are blocked while unrelated work remains admitted. |
+| coordination_request_identity_is_path_safe | Traversal IDs and request records with a mismatched embedded ID are rejected before any file outside the exact request path changes. | Attempt a traversal ID against a valid request-shaped record outside requests/ and a normal ID whose stored requestId differs; assert errors and unchanged bytes. |
+| coordination_request_creation_requires_requested_state | Only Requested is accepted at creation; later states require valid lifecycle transitions. | Attempt creation in Resumed and SafelyPaused states, assert no request is persisted, then prove a Requested record follows the valid transition API. |
 
 ## Verification
 
