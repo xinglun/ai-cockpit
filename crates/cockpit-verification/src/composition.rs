@@ -3,7 +3,9 @@ use cockpit_core::Digest;
 use cockpit_protocol::{CompositionBinding, RuntimeCapabilityError};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
-use std::ffi::{CString, OsString};
+#[cfg(unix)]
+use std::ffi::CString;
+use std::ffi::OsString;
 use std::fs::{self, File, OpenOptions};
 use std::io::{Read, Write};
 use std::path::{Component, Path, PathBuf};
@@ -832,7 +834,7 @@ fn process_is_alive(pid: u32) -> bool {
         let mut exit_code = 0;
         let inspected = GetExitCodeProcess(handle, &mut exit_code) != 0;
         CloseHandle(handle);
-        !inspected || exit_code == STILL_ACTIVE
+        !inspected || exit_code == STILL_ACTIVE as u32
     }
 }
 
