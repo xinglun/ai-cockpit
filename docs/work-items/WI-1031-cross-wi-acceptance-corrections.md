@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: close_pending
 authority: human-authorized
 lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 
 ## Intent
 
-Close the remaining behavioral gaps found in the independent review of the cross-Work-Item collaboration changes. This follow-up is in progress; it does not claim the requested behavior has passed or is ready for release.
+Runtime currently projects this archived Work Item as historically verified with a human close decision pending. Its selected recovery lineage continues through WI-1032 and WI-1033. Do not treat the archive as terminally closed until Runtime records the exact admitted lineage close.
 
 ## Scope
 

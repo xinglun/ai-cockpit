@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: close_pending
 authority: human-authorized
 lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 
 ## 意图
 
-收敛跨 Work Item 协作改造独立审查发现的行为缺口。本 WI 仍在进行中；这里不宣称相关行为已经通过，也不表示可以发布。
+Runtime 当前将此归档项投影为历史验证通过、人工 close 待处理。其选定恢复链经 WI-1032 继续到 WI-1033。在 Runtime 记录准确且获准的 lineage close 前，不要将归档项表示为已终态关闭。
 
 ## 范围
 

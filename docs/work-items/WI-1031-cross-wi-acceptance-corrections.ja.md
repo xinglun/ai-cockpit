@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: close_pending
 authority: human-authorized
 lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
 
 ## 意図
 
-Work Item 横断の協調機能に対する独立レビューで判明した動作上の不足を解消する。この WI は実施中であり、対象動作が合格した、またはリリース可能であるとは主張しない。
+Runtime は現在、この archived Work Item を historical verification 済み、human close pending と projection しています。選択された recovery lineage は WI-1032、WI-1033 へ続きます。Runtime が正確な lineage close を記録するまでは、archive を terminally closed と表示しません。
 
 ## 範囲
 

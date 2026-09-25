@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: replaced
 authority: human-authorized
 lastVerifiedBy: WI-1032-cross-wi-review-fixes
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1032-cross-wi-review-fixes
 
 ## 意図
 
-Work Item 横断の協調機能に対する独立レビューの限定的な後続修正を完了します。この projection は実施中であり、完全な検証、受け入れ、リリース準備完了を示しません。
+Runtime はこの Work Item を WI-1033 に置き換えられたものとして archive し、verification claim を not_verified としました。元の Contract、Summary、失敗した precondition evidence は保持されています。以下のローカル開発 evidence は履歴情報であり、WI-1032 が Runtime verification に合格したことを示しません。
 
 ## 範囲
 

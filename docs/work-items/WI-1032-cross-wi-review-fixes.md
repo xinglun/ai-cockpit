@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: replaced
 authority: human-authorized
 lastVerifiedBy: WI-1032-cross-wi-review-fixes
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1032-cross-wi-review-fixes
 
 ## Intent
 
-Complete the bounded follow-up to the independent review of cross-Work-Item collaboration. This projection is in progress; it does not claim full verification, acceptance, or release readiness.
+Runtime archived this Work Item as replaced by WI-1033, with verification claim not_verified. The original Contract, Summary, and failed precondition evidence remain preserved. Local development evidence below is historical context, not proof that WI-1032 passed Runtime verification.
 
 ## Scope
 

@@ -8,7 +8,7 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: in_progress
+status: replaced
 authority: human-authorized
 lastVerifiedBy: WI-1032-cross-wi-review-fixes
 ---
@@ -17,7 +17,7 @@ lastVerifiedBy: WI-1032-cross-wi-review-fixes
 
 ## 意图
 
-完成跨 Work Item 协作独立审查的有限后续修复。本投影仍为进行中，不表示完整验证、验收或已具备发布条件。
+Runtime 已将此 Work Item 归档为被 WI-1033 替代，verification claim 为 not_verified。原始 Contract、Summary 和失败的前置条件 evidence 均已保留。下述本地开发 evidence 仅作历史背景，不代表 WI-1032 已通过 Runtime 验证。
 
 ## 范围
 
