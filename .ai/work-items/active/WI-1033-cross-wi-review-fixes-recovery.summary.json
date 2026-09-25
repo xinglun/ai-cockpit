@@ -283,6 +283,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 30,
+      "contractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+      "reason": "A current Runtime retry was authorized and all 35 declared checks passed, but the Runtime rejected the formal receipt because consuming the retry marker made its bound decision appear stale during Outcome projection. Extend this same recovery Work Item only for the one-time retry-consumption lifecycle path and its regression; preserve the existing user-approved objective and stop-before-release boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T20:53:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b67cd35f871ff017f157167c2ea929bc72733cb868d724678ce0218b55effab2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
@@ -309,13 +329,17 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-25T19:55:53Z",
+  "preflightAt": "2026-09-25T20:33:42Z",
   "preflightContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:b67cd35f871ff017f157167c2ea929bc72733cb868d724678ce0218b55effab2",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
+  "recoveryRetryContractDigest": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+  "recoveryRetryDecisionDigest": "sha256:94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -603,6 +627,14 @@
       "scenario": "composition_persistence_failure_and_crash_cleanup",
       "status": "verified",
       "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
+    },
+    {
+      "evidence": [],
+      "expected": "A one-time authorized retry followed by passing typed verification produces a current verified/green Outcome; subsequent read-only status/outcome calls accept the consumed receipt without deleting history, while invalid retry evidence remains rejected.",
+      "required": true,
+      "scenario": "consumed_retry_receipt_remains_valid_after_verification",
+      "status": "unverified",
+      "verificationPlan": "Add a focused repository lifecycle regression that records a digest-bound retry, completes passing typed verification, then queries Outcome/status after the retry marker is consumed; assert the current evidence and receipt remain valid, no second retry is pending, and invalid receipt cases stay fail-closed."
     }
   ],
   "state": "checkpointed",
@@ -749,6 +781,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-25T20:53:33Z"
+  },
   "verificationRecoveryReconciled": "sha256:defb315f0d12a3f2da0efdc19c25a733a7ba18cef23dbdef42f6238c3d2d546e",
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }

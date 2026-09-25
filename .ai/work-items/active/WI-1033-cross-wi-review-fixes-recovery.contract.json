@@ -28,7 +28,8 @@
     "Contract-required composition checks must use a Runtime-controlled executable resolution and child environment; inherited PATH, loader, or toolchain overrides cannot silently substitute another command. If the executable and environment cannot be bound to the verification context, reject before attempt/process creation rather than accept the check.",
     "Reuse requires a coherent predecessor attempt with a successful terminal state and internally consistent process receipts; an in-progress, failed, or tampered attempt cannot become reusable by changing only a pass flag.",
     "A declared composition read-set may not follow any symlinked ancestor or consume bytes outside its worktree; incomplete or escaping observations disable reuse.",
-    "Temporary composition worktrees are cleaned on ordinary persistence errors, and interrupted attempts are reconciled on retry only after proving no live owner remains."
+    "Temporary composition worktrees are cleaned on ordinary persistence errors, and interrupted attempts are reconciled on retry only after proving no live owner remains.",
+    "After an explicitly authorized retry records passing verification, the retry receipt remains valid as consumed history: a fresh Runtime status and Outcome query accept the current verified/green projection, while malformed, foreign, stale, or tampered retry evidence still fails closed."
   ],
   "authority": "authorized",
   "baseRevision": "b57561dab0893a1e4dba486305cae8ed486c61bd",
@@ -40,7 +41,8 @@
     "Task 8 per-commit Runtime snapshot binding is a separate serial Work Item after this WI is integrated and cleaned up",
     "Sentinel source or lifecycle writes and global Agent or MCP configuration changes",
     "Runtime installation or upgrade release preparation tags and public publication",
-    "Broad collaboration redesign or weakened gates and evidence requirements"
+    "Broad collaboration redesign or weakened gates and evidence requirements",
+    "General redesign of verification recovery beyond preserving and validating the exact consumed one-time retry receipt."
   ],
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
@@ -246,6 +248,14 @@
       "scenario": "composition_persistence_failure_and_crash_cleanup",
       "status": "unverified",
       "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
+    },
+    {
+      "evidence": [],
+      "expected": "A one-time authorized retry followed by passing typed verification produces a current verified/green Outcome; subsequent read-only status/outcome calls accept the consumed receipt without deleting history, while invalid retry evidence remains rejected.",
+      "required": true,
+      "scenario": "consumed_retry_receipt_remains_valid_after_verification",
+      "status": "unverified",
+      "verificationPlan": "Add a focused repository lifecycle regression that records a digest-bound retry, completes passing typed verification, then queries Outcome/status after the retry marker is consumed; assert the current evidence and receipt remain valid, no second retry is pending, and invalid receipt cases stay fail-closed."
     }
   ],
   "scope": [
@@ -298,14 +308,16 @@
     "tests/ci/governance_integrity_gate_test.sh",
     ".github/workflows/ci.yml",
     "tests/ci/repository_gate_manifest_test.py",
-    "crates/cockpit-verification/src/lib.rs"
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs"
   ],
   "sources": [
     "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md",
     "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md",
     "docs/work-items/WI-1032-cross-wi-review-fixes/independent-review.md",
     "crates/cockpit-repository/src/collaboration.rs registered Contract readers, verification evidence validation, and deterministic directory-handle interleaving regressions",
-    "crates/cockpit-verification/src/lib.rs Runtime-bound child environment isolation and command environment identity"
+    "crates/cockpit-verification/src/lib.rs Runtime-bound child environment isolation and command environment identity",
+    "crates/cockpit-repository/src/lifecycle.rs: record_verification_evidence consumes retry bindings before refreshing the active Outcome; outcome projection then revalidates the same append-only retry receipt."
   ],
   "state": "implementation_active",
   "verification": [
@@ -319,7 +331,8 @@
     "bash tests/ci/governance_integrity_gate_test.sh",
     "cargo test --locked -p cockpit-repository --test collaboration_admission",
     "cargo test --locked -p cockpit-repository --test coordination_store",
-    "cargo test --locked -p cockpit-repository --lib registered_worktree_file_tests"
+    "cargo test --locked -p cockpit-repository --lib registered_worktree_file_tests",
+    "cargo test --locked -p cockpit-repository --lib consumed_retry_receipt_remains_valid_after_verification"
   ],
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }

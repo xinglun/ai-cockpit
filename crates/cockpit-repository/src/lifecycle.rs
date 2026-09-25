@@ -2941,25 +2941,105 @@ fn retry_recovery_binding_matches(
     candidate_path: Option<&Path>,
     contract_path: &Path,
 ) -> Result<bool, ObserverError> {
+    let pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let consumed = summary
+        .get("recoveryRetryConsumed")
+        .filter(|value| value.is_object());
     if receipt.decision != "retry"
         || summary["state"] != serde_json::json!("checkpointed")
-        || summary["recoveryRetryPending"] != serde_json::json!(true)
+        || (!pending && consumed.is_none())
+    {
+        return Ok(false);
+    }
+    let (expected_relative_path, expected_decision_digest) = if pending {
+        (
+            summary["recoveryRetryDecisionPath"].as_str(),
+            summary["recoveryRetryDecisionDigest"].as_str(),
+        )
+    } else {
+        let consumed = consumed.expect("consumed retry object checked above");
+        let Some(object) = consumed.as_object() else {
+            return Ok(false);
+        };
+        const CONSUMED_FIELDS: [&str; 9] = [
+            "schemaVersion",
+            "decisionPath",
+            "decisionDigest",
+            "contractDigest",
+            "verificationEvidenceDigest",
+            "repositorySnapshotDigest",
+            "runtimeVersion",
+            "runtimeDigest",
+            "consumedAt",
+        ];
+        if object.len() != CONSUMED_FIELDS.len()
+            || CONSUMED_FIELDS
+                .iter()
+                .any(|field| !object.contains_key(*field))
+            || consumed["schemaVersion"] != serde_json::json!(1)
+        {
+            return Ok(false);
+        }
+        let Some(consumed_at) = consumed["consumedAt"].as_str() else {
+            return Ok(false);
+        };
+        if chrono::DateTime::parse_from_rfc3339(consumed_at).is_err() {
+            return Ok(false);
+        }
+        let evidence_path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        if !is_regular_non_symlink(&evidence_path).is_ok_and(|is_file| is_file) {
+            return Ok(false);
+        }
+        let evidence = read_json(&evidence_path)?;
+        let evidence_digest =
+            cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State {
+                path: evidence_path.clone(),
+                message: error.to_string(),
+            })?;
+        let current_contract_digest = contract_digest(contract_path)?;
+        if summary["verificationRecoveryReconciled"]
+            != serde_json::json!(evidence_digest.to_string())
+            || consumed["verificationEvidenceDigest"]
+                != serde_json::json!(evidence_digest.to_string())
+            || consumed["contractDigest"] != serde_json::json!(current_contract_digest.to_string())
+            || consumed["repositorySnapshotDigest"] != evidence["repositorySnapshotDigest"]
+            || consumed["runtimeVersion"] != evidence["runtimeVersion"]
+            || consumed["runtimeDigest"] != evidence["runtimeDigest"]
+            || evidence["workItemId"] != serde_json::json!(work_item_id)
+            || evidence["repositoryId"] != serde_json::json!(repository_id(root).to_string())
+            || evidence["contractDigest"] != serde_json::json!(current_contract_digest.to_string())
+            || evidence["passed"] != serde_json::json!(true)
+        {
+            return Ok(false);
+        }
+        (
+            consumed["decisionPath"].as_str(),
+            consumed["decisionDigest"].as_str(),
+        )
+    };
+    let Some(expected_relative_path) = expected_relative_path else {
+        return Ok(false);
+    };
+    let Some(expected_decision_digest) = expected_decision_digest else {
+        return Ok(false);
+    };
+    let relative = Path::new(expected_relative_path);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| !matches!(component, std::path::Component::Normal(_)))
     {
         return Ok(false);
     }
     let candidate_path = match candidate_path {
         Some(path) => path.to_path_buf(),
-        None => {
-            let Some(relative) = summary["recoveryRetryDecisionPath"].as_str() else {
-                return Ok(false);
-            };
-            let path = root.join(relative);
-            if !path.starts_with(root) {
-                return Ok(false);
-            }
-            path
-        }
+        None => root.join(relative),
     };
+    if !candidate_path.starts_with(root) {
+        return Ok(false);
+    }
     let Some(file_name) = candidate_path.file_name().and_then(|value| value.to_str()) else {
         return Ok(false);
     };
@@ -2970,8 +3050,7 @@ fn retry_recovery_binding_matches(
     {
         return Ok(false);
     }
-    let expected_path = summary["recoveryRetryDecisionPath"].as_str();
-    if expected_path != Some(repository_relative_path(root, &candidate_path).as_str()) {
+    if expected_relative_path != repository_relative_path(root, &candidate_path) {
         return Ok(false);
     }
     let value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
@@ -2982,7 +3061,7 @@ fn retry_recovery_binding_matches(
         path: root.join(".ai/decisions"),
         message: error.to_string(),
     })?;
-    if summary["recoveryRetryDecisionDigest"] != serde_json::json!(digest.to_string()) {
+    if expected_decision_digest != digest.to_string() {
         return Ok(false);
     }
     // `record_recovery_decision` has no candidate path because it consumes a
@@ -3022,6 +3101,7 @@ fn retry_contract_transition_is_bound(
     }
     if summary["recoveryRetryContractDigest"]
         .as_str()
+        .or_else(|| summary["recoveryRetryConsumed"]["contractDigest"].as_str())
         .is_some_and(|value| value == current_digest.to_string())
     {
         return Ok(true);
@@ -6250,6 +6330,38 @@ fn record_verification_internal(
         // subsequent preflight demand a receipt bound to the already-advanced
         // Summary and strand an otherwise valid retry.
         if reconcile_blocked_outcome {
+            if recovery_retry_pending {
+                let decision_path = summary["recoveryRetryDecisionPath"]
+                    .as_str()
+                    .filter(|value| !value.trim().is_empty())
+                    .ok_or_else(|| ObserverError::State {
+                        path: summary_path.clone(),
+                        message: "pending retry is missing its exact decision path".into(),
+                    })?;
+                let decision_digest = summary["recoveryRetryDecisionDigest"]
+                    .as_str()
+                    .filter(|value| valid_sha256_digest(value))
+                    .ok_or_else(|| ObserverError::State {
+                        path: summary_path.clone(),
+                        message: "pending retry is missing its exact decision digest".into(),
+                    })?;
+                let verification_evidence_digest = cockpit_protocol::digest_json(&evidence)
+                    .map_err(|error| ObserverError::State {
+                        path: evidence_path.clone(),
+                        message: error.to_string(),
+                    })?;
+                summary["recoveryRetryConsumed"] = serde_json::json!({
+                    "schemaVersion": 1,
+                    "decisionPath": decision_path,
+                    "decisionDigest": decision_digest,
+                    "contractDigest": contract_digest(&contract_path)?.to_string(),
+                    "verificationEvidenceDigest": verification_evidence_digest.to_string(),
+                    "repositorySnapshotDigest": evidence["repositorySnapshotDigest"],
+                    "runtimeVersion": evidence["runtimeVersion"],
+                    "runtimeDigest": evidence["runtimeDigest"],
+                    "consumedAt": now(),
+                });
+            }
             let summary_object = summary
                 .as_object_mut()
                 .expect("Work Item Summary is an object");
@@ -6544,5 +6656,221 @@ fn redact_verification_receipt(receipt: &serde_json::Value) -> serde_json::Value
             serde_json::Value::Array(values.iter().map(redact_verification_receipt).collect())
         }
         other => other.clone(),
+    }
+}
+
+#[cfg(test)]
+mod recovery_retry_consumption_tests {
+    use super::*;
+    use crate::{
+        RepositoryVerificationPolicy, finish_work_item_with_runtime, outcome_v2_with_runtime,
+        require_verification_preconditions, run_repository_verification,
+        work_item_status_snapshot_with_runtime,
+    };
+    use std::process::Command;
+
+    fn repository() -> tempfile::TempDir {
+        let directory = tempfile::tempdir().expect("repository tempdir");
+        let output = Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .output()
+            .expect("git init");
+        assert!(
+            output.status.success(),
+            "git init failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        attach(directory.path()).expect("attach repository");
+        directory
+    }
+
+    #[test]
+    fn consumed_retry_receipt_remains_valid_after_verification() {
+        let directory = repository();
+        let root = directory.path();
+        let work_item_id = "WI-CONSUMED-RETRY";
+        let prior_runtime = RuntimeContext {
+            runtime_version: "0.2.113-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"prior-runtime-binary"),
+        };
+        let runtime = RuntimeContext {
+            runtime_version: prior_runtime.runtime_version.clone(),
+            protocol_version: prior_runtime.protocol_version,
+            runtime_digest: Digest::sha256_bytes(b"rebuilt-runtime-binary"),
+        };
+        start_work_item_with_options(
+            root,
+            work_item_id,
+            "preserve a consumed retry receipt",
+            "fresh read-only projections accept the exact completed retry",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["retry consumption is identity-bound".into()],
+                required_evidence_classes: vec!["verification".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        preflight_work_item_with_runtime(root, &contract_path, &prior_runtime)
+            .expect("preflight before the first verification");
+        checkpoint_work_item(root, work_item_id).expect("checkpoint");
+
+        let blocked = finish_work_item_with_runtime(root, work_item_id, &prior_runtime)
+            .expect_err("finish without verification must persist a blocked Outcome");
+        assert!(blocked.to_string().contains("verification"));
+
+        let summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let contract: serde_json::Value = read_json(&contract_path).expect("Contract");
+        let summary: serde_json::Value = read_json(&summary_path).expect("Summary");
+        let outcome_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.outcome.json"));
+        let outcome: serde_json::Value = read_json(&outcome_path).expect("blocked Outcome");
+        let mut retry = serde_json::json!({
+            "schemaVersion": 1,
+            "decisionId": "work-item-recovery",
+            "decision": "retry",
+            "workItemId": work_item_id,
+            "repositoryId": repository_id(root).to_string(),
+            "predecessorWorkItemId": work_item_id,
+            "predecessorContractDigest": cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest")
+                .to_string(),
+            "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary)
+                .expect("Summary digest")
+                .to_string(),
+            "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome)
+                .expect("Outcome digest")
+                .to_string(),
+            "runtimeVersion": prior_runtime.runtime_version,
+            "runtimeDigest": prior_runtime.runtime_digest.to_string(),
+            "actor": "human:test",
+            "authoritySource": "test",
+            "reason": "retry the one failed lifecycle verification",
+            "evidenceRefs": [],
+            "policyRefs": [],
+            "decidedAt": now(),
+            "resumeCondition": "one replacement verification succeeds"
+        });
+        let events_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.events.jsonl"));
+        if events_path.is_file() {
+            retry["predecessorEventsDigest"] = serde_json::json!(
+                Digest::sha256_bytes(&fs::read(&events_path).expect("Events bytes")).to_string()
+            );
+        }
+        record_recovery_decision(root, work_item_id, &retry, &prior_runtime)
+            .expect("record the exact one-time retry");
+        amend_work_item_contract(
+            root,
+            work_item_id,
+            &serde_json::json!({
+                "sourcesAppend": [{
+                    "path": "src/revision.rs",
+                    "reason": "the replacement verification must bind the amended Contract"
+                }]
+            }),
+            "bind the retry to the additive lifecycle Contract amendment",
+        )
+        .expect("append the authorized Contract amendment");
+
+        let initial_snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("initial snapshot");
+        require_verification_preconditions(root, work_item_id, &runtime, &initial_snapshot)
+            .expect("the current retry admits its one replacement verification");
+        #[cfg(windows)]
+        let (program, args) = ("cmd", vec!["/C".into(), "exit 0".into()]);
+        #[cfg(not(windows))]
+        let (program, args) = ("sh", vec!["-c".into(), "exit 0".into()]);
+        let run = run_repository_verification(
+            root,
+            &RepositoryVerificationRequest {
+                node_id: "retry-consumption-check".into(),
+                program: program.into(),
+                args,
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: Some(work_item_id.into()),
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .expect("replacement verification process");
+        let mut verification_receipt =
+            serde_json::to_value(&run.receipt).expect("verification receipt JSON");
+        verification_receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+        verification_receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+        record_verification_with_runtime(
+            root,
+            work_item_id,
+            &verification_receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect("successful retry must persist a green Outcome projection");
+
+        let summary: serde_json::Value = read_json(&summary_path).expect("consumed Summary");
+        assert_ne!(summary["recoveryRetryPending"], serde_json::json!(true));
+        assert!(summary["recoveryRetryConsumed"].is_object());
+        let outcome =
+            outcome_v2_with_runtime(root, work_item_id, &runtime).expect("fresh Outcome query");
+        assert_eq!(outcome.state, OutcomeState::Verified);
+        assert_eq!(outcome.decision_state, Some(DecisionState::Green));
+        let status = work_item_status_snapshot_with_runtime(root, work_item_id, &runtime)
+            .expect("fresh status query");
+        assert!(
+            !status.blocking,
+            "status must remain non-blocking: {status:?}"
+        );
+        assert!(
+            !status
+                .unknowns
+                .iter()
+                .any(|unknown| unknown == "recovery_decision_invalid"),
+            "consumed retry must not become invalid in status: {status:?}"
+        );
+
+        fs::create_dir_all(root.join("src")).expect("source directory");
+        fs::write(root.join("src/changed.rs"), "// new generation\n")
+            .expect("change source snapshot");
+        let changed_snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("changed snapshot");
+        let second_attempt =
+            require_verification_preconditions(root, work_item_id, &runtime, &changed_snapshot)
+                .expect_err("consumed retry must not authorize a second stale-snapshot run");
+        assert!(second_attempt.to_string().contains("preflight result"));
+
+        let consumed_path = root.join(
+            summary["recoveryRetryConsumed"]["decisionPath"]
+                .as_str()
+                .expect("consumed receipt path"),
+        );
+        fs::write(&consumed_path, b"{}\n").expect("tamper only the test receipt");
+        let tampered = outcome_v2_with_runtime(root, work_item_id, &runtime)
+            .expect("invalid receipt remains a visible Outcome");
+        assert_eq!(tampered.decision_state, Some(DecisionState::Red));
+        assert!(
+            tampered
+                .unknowns
+                .iter()
+                .any(|unknown| { unknown == "recovery_decision_invalid" })
+        );
     }
 }
