@@ -709,14 +709,6 @@ impl CoordinationStore {
                 registration.work_item_id
             ))
         })?;
-        let contract =
-            crate::parse_contract_bytes(&contract_bytes, &contract_path).map_err(|error| {
-                CoordinationError::RecoveryRequired(format!(
-                    "active Contract is invalid for {}: {error}",
-                    registration.work_item_id
-                ))
-            })?;
-        validate_contract_registration_identity(registration, &contract)?;
         let contract_json: serde_json::Value =
             serde_json::from_slice(&contract_bytes).map_err(|error| {
                 CoordinationError::RecoveryRequired(format!(
@@ -737,6 +729,14 @@ impl CoordinationStore {
                 registration.work_item_id
             )));
         }
+        let contract =
+            crate::parse_contract_bytes(&contract_bytes, &contract_path).map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "active Contract is invalid for {}: {error}",
+                    registration.work_item_id
+                ))
+            })?;
+        validate_contract_registration_identity(registration, &contract)?;
         for outcome in &registration.declaration.provided_outcomes {
             if outcome.published_head != registration.head {
                 return Err(CoordinationError::RecoveryRequired(format!(

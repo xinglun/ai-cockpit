@@ -14,10 +14,15 @@ use cockpit_verification::{
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
-use std::io::Read;
+use std::io::{self, Read};
 use std::path::{Component, Path};
 use std::process::Command;
 use thiserror::Error;
+
+#[cfg(test)]
+thread_local! {
+    static DIRECTORY_CHANGE_TOKEN_OVERRIDE: std::cell::Cell<Option<DirectoryChangeToken>> = const { std::cell::Cell::new(None) };
+}
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -313,10 +318,7 @@ fn verification_evidence_is_complete(
     {
         return false;
     }
-    let contract_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{}.contract.json", provider.work_item_id));
-    let Ok(contract) = crate::read_contract(&contract_path) else {
+    let Ok(contract) = read_registered_contract(provider) else {
         return false;
     };
     let Ok(git) = GitRepository::discover(root) else {
@@ -339,13 +341,32 @@ fn verification_evidence_is_complete(
 
 /// Read outcome evidence through directory handles rooted at the registered
 /// worktree. Every parent is opened without following symlinks and the leaf is
-/// opened with no-follow semantics, so a path cannot escape between a path
-/// check and the read. The canonical path containment check is retained as a
-/// second invariant for the registered-worktree boundary.
+/// opened with no-follow semantics. Parent containment is checked against the
+/// identity of the exact opened directory handle before and after opening the
+/// leaf. Native directory-mutation witnesses reject rename/delete interleavings
+/// without treating filesystem timestamps as mutation counters.
 pub(crate) fn open_registered_worktree_file(
     root: &Path,
     reference: &str,
 ) -> Result<fs::File, String> {
+    Ok(open_registered_worktree_file_with_context(root, reference)?.file)
+}
+
+fn open_registered_worktree_file_with_context(
+    root: &Path,
+    reference: &str,
+) -> Result<OpenedRegisteredWorktreeFile, String> {
+    open_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
+}
+
+fn open_registered_worktree_file_with_opener<F>(
+    root: &Path,
+    reference: &str,
+    open_leaf: F,
+) -> Result<OpenedRegisteredWorktreeFile, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
     if reference.is_empty()
         || reference.contains('\\')
         || reference
@@ -386,38 +407,437 @@ pub(crate) fn open_registered_worktree_file(
             )
         })?;
     let mut display_path = canonical_root.clone();
+    let mut directory_chain = vec![OpenedDirectoryGuard::capture(
+        &parent,
+        &display_path,
+        reference,
+    )?];
     for component in parents {
         let name = component
             .to_str()
             .ok_or_else(|| format!("evidence path component is not valid UTF-8: {reference}"))?;
         display_path.push(name);
-        parent = crate::open_cap_directory_nofollow_strict(&parent, name, &display_path).map_err(
-            |error| {
+        let child = crate::open_cap_directory_nofollow_strict(&parent, name, &display_path)
+            .map_err(|error| {
                 format!(
                     "evidence parent is not safely contained at {}: {error}",
                     display_path.display()
                 )
-            },
-        )?;
+            })?;
+        directory_chain.push(OpenedDirectoryGuard::capture(
+            &child,
+            &display_path,
+            reference,
+        )?);
+        parent = child;
     }
     display_path.push(leaf);
-    let canonical_evidence = fs::canonicalize(&display_path).map_err(|error| {
+    open_registered_worktree_leaf(
+        &canonical_root,
+        parent,
+        directory_chain,
+        &display_path,
+        leaf,
+        reference,
+        open_leaf,
+    )
+}
+
+struct OpenedRegisteredWorktreeFile {
+    file: fs::File,
+    canonical_root: std::path::PathBuf,
+    directory_chain: Vec<OpenedDirectoryGuard>,
+    reference: String,
+    mutation_observer: DirectoryMutationObserver,
+}
+
+struct OpenedDirectoryGuard {
+    directory: Dir,
+    display_path: std::path::PathBuf,
+    identity: (u64, u64),
+    change_token: DirectoryChangeToken,
+    #[cfg(windows)]
+    _rename_guard: fs::File,
+}
+
+impl OpenedDirectoryGuard {
+    fn capture(directory: &Dir, display_path: &Path, reference: &str) -> Result<Self, String> {
+        let handle = directory
+            .try_clone()
+            .map_err(|error| {
+                format!("cannot clone opened evidence directory {reference}: {error}")
+            })?
+            .into_std_file();
+        let metadata = handle.metadata().map_err(|error| {
+            format!("cannot inspect opened evidence directory {reference}: {error}")
+        })?;
+        if !metadata.is_dir() {
+            return Err(format!(
+                "opened evidence parent is not a directory: {reference}"
+            ));
+        }
+        let identity = file_identity(&handle).map_err(|error| {
+            format!("cannot identify opened evidence directory {reference}: {error}")
+        })?;
+        #[cfg(windows)]
+        let rename_guard = {
+            let guard = open_directory_rename_guard(display_path).map_err(|error| {
+                format!("cannot protect opened evidence directory {reference}: {error}")
+            })?;
+            if file_identity(&guard).map_err(|error| {
+                format!("cannot identify protected evidence directory {reference}: {error}")
+            })? != identity
+            {
+                return Err(format!(
+                    "protected evidence directory does not match the opened handle: {reference}"
+                ));
+            }
+            guard
+        };
+        Ok(Self {
+            directory: directory.try_clone().map_err(|error| {
+                format!("cannot retain opened evidence directory {reference}: {error}")
+            })?,
+            display_path: display_path.to_path_buf(),
+            identity,
+            change_token: directory_change_token(&handle).map_err(|error| {
+                format!("cannot observe opened evidence directory {reference}: {error}")
+            })?,
+            #[cfg(windows)]
+            _rename_guard: rename_guard,
+        })
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct DirectoryChangeToken([i64; 4]);
+
+#[cfg(target_os = "linux")]
+struct DirectoryMutationObserver {
+    instance: std::os::fd::OwnedFd,
+    _directories: Vec<fs::File>,
+}
+
+#[cfg(target_os = "linux")]
+impl DirectoryMutationObserver {
+    fn start(directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        let raw_instance = unsafe { libc::inotify_init1(libc::IN_CLOEXEC | libc::IN_NONBLOCK) };
+        if raw_instance < 0 {
+            return Err(format!(
+                "cannot create directory mutation observer for {reference}: {}",
+                io::Error::last_os_error()
+            ));
+        }
+        let instance = unsafe { OwnedFd::from_raw_fd(raw_instance) };
+        let mut directories = Vec::with_capacity(directory_chain.len());
+        for guard in directory_chain {
+            let directory = guard
+                .directory
+                .try_clone()
+                .map_err(|error| format!("cannot retain observed directory {reference}: {error}"))?
+                .into_std_file();
+            let descriptor_path =
+                std::ffi::CString::new(format!("/proc/self/fd/{}", directory.as_raw_fd()))
+                    .map_err(|error| format!("invalid directory descriptor path: {error}"))?;
+            let mask = libc::IN_MOVE_SELF | libc::IN_DELETE_SELF | libc::IN_UNMOUNT;
+            let watch = unsafe {
+                libc::inotify_add_watch(instance.as_raw_fd(), descriptor_path.as_ptr(), mask)
+            };
+            if watch < 0 {
+                return Err(format!(
+                    "cannot observe directory rename for {reference}: {}",
+                    io::Error::last_os_error()
+                ));
+            }
+            directories.push(directory);
+        }
+        Ok(Self {
+            instance,
+            _directories: directories,
+        })
+    }
+
+    fn verify_unchanged(&self, reference: &str) -> Result<(), String> {
+        use std::os::fd::AsRawFd;
+
+        let mut buffer = [0u8; 4096];
+        loop {
+            let count = unsafe {
+                libc::read(
+                    self.instance.as_raw_fd(),
+                    buffer.as_mut_ptr().cast(),
+                    buffer.len(),
+                )
+            };
+            if count < 0 {
+                let error = io::Error::last_os_error();
+                if error.kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                if error.kind() == io::ErrorKind::WouldBlock {
+                    return Ok(());
+                }
+                return Err(format!(
+                    "cannot read directory mutation events for {reference}: {error}"
+                ));
+            }
+            if count == 0 {
+                return Err(format!(
+                    "directory mutation observer closed before validation: {reference}"
+                ));
+            }
+            let count = count as usize;
+            let header_size = std::mem::size_of::<libc::inotify_event>();
+            let mut offset = 0;
+            while offset < count {
+                if count - offset < header_size {
+                    return Err(format!(
+                        "malformed directory mutation event for {reference}"
+                    ));
+                }
+                let mask = u32::from_ne_bytes(
+                    buffer[offset + 4..offset + 8]
+                        .try_into()
+                        .expect("fixed inotify event mask width"),
+                );
+                let name_len = u32::from_ne_bytes(
+                    buffer[offset + 12..offset + 16]
+                        .try_into()
+                        .expect("fixed inotify event name width"),
+                ) as usize;
+                let event_size = header_size.checked_add(name_len).ok_or_else(|| {
+                    format!("directory mutation event length overflow for {reference}")
+                })?;
+                if event_size > count - offset {
+                    return Err(format!(
+                        "truncated directory mutation event for {reference}"
+                    ));
+                }
+                return Err(format!(
+                    "registered evidence directory was renamed, deleted, or unmounted while being read: {reference} (mask {mask:#x})"
+                ));
+            }
+        }
+    }
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+struct DirectoryMutationObserver {
+    queue: std::os::fd::OwnedFd,
+    _directories: Vec<fs::File>,
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+impl DirectoryMutationObserver {
+    fn start(directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        let raw_queue = unsafe { libc::kqueue() };
+        if raw_queue < 0 {
+            return Err(format!(
+                "cannot create directory mutation observer for {reference}: {}",
+                io::Error::last_os_error()
+            ));
+        }
+        let queue = unsafe { OwnedFd::from_raw_fd(raw_queue) };
+        let mut directories = Vec::with_capacity(directory_chain.len());
+        for guard in directory_chain {
+            let directory = guard
+                .directory
+                .try_clone()
+                .map_err(|error| format!("cannot retain observed directory {reference}: {error}"))?
+                .into_std_file();
+            let mut change: libc::kevent = unsafe { std::mem::zeroed() };
+            change.ident = directory.as_raw_fd() as libc::uintptr_t;
+            change.filter = libc::EVFILT_VNODE;
+            change.flags = (libc::EV_ADD | libc::EV_CLEAR) as u16;
+            change.fflags = (libc::NOTE_RENAME | libc::NOTE_DELETE) as u32;
+            let result = unsafe {
+                libc::kevent(
+                    queue.as_raw_fd(),
+                    &change,
+                    1,
+                    std::ptr::null_mut(),
+                    0,
+                    std::ptr::null(),
+                )
+            };
+            if result < 0 {
+                return Err(format!(
+                    "cannot observe directory rename for {reference}: {}",
+                    io::Error::last_os_error()
+                ));
+            }
+            directories.push(directory);
+        }
+        Ok(Self {
+            queue,
+            _directories: directories,
+        })
+    }
+
+    fn verify_unchanged(&self, reference: &str) -> Result<(), String> {
+        use std::os::fd::AsRawFd;
+
+        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
+        let timeout = libc::timespec {
+            tv_sec: 0,
+            tv_nsec: 0,
+        };
+        loop {
+            let result = unsafe {
+                libc::kevent(
+                    self.queue.as_raw_fd(),
+                    std::ptr::null(),
+                    0,
+                    &mut event,
+                    1,
+                    &timeout,
+                )
+            };
+            if result < 0 {
+                let error = io::Error::last_os_error();
+                if error.kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return Err(format!(
+                    "cannot read directory mutation events for {reference}: {error}"
+                ));
+            }
+            if result == 0 {
+                return Ok(());
+            }
+            return Err(format!(
+                "registered evidence directory was renamed or deleted while being read: {reference} (flags {:#x})",
+                event.fflags
+            ));
+        }
+    }
+}
+
+#[cfg(windows)]
+struct DirectoryMutationObserver;
+
+#[cfg(windows)]
+impl DirectoryMutationObserver {
+    fn start(_directory_chain: &[OpenedDirectoryGuard], _reference: &str) -> Result<Self, String> {
+        // OpenedDirectoryGuard holds handles that deny FILE_SHARE_DELETE, so Windows
+        // prevents the rename interleaving instead of observing it after the fact.
+        Ok(Self)
+    }
+
+    fn verify_unchanged(&self, _reference: &str) -> Result<(), String> {
+        Ok(())
+    }
+}
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+struct DirectoryMutationObserver;
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+impl DirectoryMutationObserver {
+    fn start(_directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        Err(format!(
+            "directory mutation observation is unsupported on this platform: {reference}"
+        ))
+    }
+
+    fn verify_unchanged(&self, _reference: &str) -> Result<(), String> {
+        Ok(())
+    }
+}
+
+#[cfg(windows)]
+fn open_directory_rename_guard(path: &Path) -> io::Result<fs::File> {
+    use std::os::windows::fs::OpenOptionsExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_READ, FILE_SHARE_WRITE,
+    };
+
+    fs::OpenOptions::new()
+        .read(true)
+        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE)
+        .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+        .open(path)
+}
+
+fn open_leaf_nofollow(parent: &Dir, leaf: &str) -> io::Result<fs::File> {
+    let mut options = CapOpenOptions::new();
+    options.read(true).follow(FollowSymlinks::No);
+    parent
+        .open_with(leaf, &options)
+        .map(cap_std::fs::File::into_std)
+}
+
+fn open_registered_worktree_leaf<F>(
+    canonical_root: &Path,
+    parent: Dir,
+    directory_chain: Vec<OpenedDirectoryGuard>,
+    display_path: &Path,
+    leaf: &str,
+    reference: &str,
+    open_leaf: F,
+) -> Result<OpenedRegisteredWorktreeFile, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
+    let mutation_observer = DirectoryMutationObserver::start(&directory_chain, reference)?;
+    mutation_observer.verify_unchanged(reference)?;
+    verify_opened_directory_chain(canonical_root, &directory_chain, reference)?;
+
+    let canonical_evidence = fs::canonicalize(display_path).map_err(|error| {
         format!(
             "cannot resolve outcome evidence {}: {error}",
             display_path.display()
         )
     })?;
-    if !canonical_evidence.starts_with(&canonical_root) {
+    if !canonical_evidence.starts_with(canonical_root) {
         return Err(format!(
             "outcome evidence escapes registered worktree: {reference}"
         ));
     }
-    let mut options = CapOpenOptions::new();
-    options.read(true).follow(FollowSymlinks::No);
-    let file = parent
-        .open_with(leaf, &options)
-        .map_err(|error| format!("cannot safely open outcome evidence {reference}: {error}"))?
-        .into_std();
+    let file = open_leaf(&parent, leaf)
+        .map_err(|error| format!("cannot safely open outcome evidence {reference}: {error}"))?;
+    verify_opened_directory_chain(canonical_root, &directory_chain, reference)?;
+    mutation_observer.verify_unchanged(reference)?;
     let metadata = file
         .metadata()
         .map_err(|error| format!("cannot inspect outcome evidence {reference}: {error}"))?;
@@ -426,17 +846,218 @@ pub(crate) fn open_registered_worktree_file(
             "outcome evidence is not a regular file: {reference}"
         ));
     }
-    Ok(file)
+    Ok(OpenedRegisteredWorktreeFile {
+        file,
+        canonical_root: canonical_root.to_path_buf(),
+        directory_chain,
+        reference: reference.to_owned(),
+        mutation_observer,
+    })
+}
+
+fn verify_opened_directory_chain(
+    canonical_root: &Path,
+    directory_chain: &[OpenedDirectoryGuard],
+    reference: &str,
+) -> Result<(), String> {
+    for guard in directory_chain {
+        let canonical_path = fs::canonicalize(&guard.display_path).map_err(|error| {
+            format!(
+                "cannot resolve outcome evidence parent {}: {error}",
+                guard.display_path.display()
+            )
+        })?;
+        if !canonical_path.starts_with(canonical_root) {
+            return Err(format!(
+                "outcome evidence parent escapes registered worktree: {reference}"
+            ));
+        }
+        let path_metadata = fs::symlink_metadata(&guard.display_path).map_err(|error| {
+            format!(
+                "cannot inspect outcome evidence parent {}: {error}",
+                guard.display_path.display()
+            )
+        })?;
+        if path_metadata.file_type().is_symlink() || !path_metadata.is_dir() {
+            return Err(format!(
+                "outcome evidence parent is not a contained directory: {reference}"
+            ));
+        }
+        let opened_file = guard
+            .directory
+            .try_clone()
+            .map_err(|error| {
+                format!("cannot clone opened evidence directory {reference}: {error}")
+            })?
+            .into_std_file();
+        let displayed_file = open_directory_for_identity(&guard.display_path).map_err(|error| {
+            format!("cannot inspect outcome evidence parent {reference}: {error}")
+        })?;
+        let opened_metadata = opened_file.metadata().map_err(|error| {
+            format!("cannot inspect opened evidence parent {reference}: {error}")
+        })?;
+        let displayed_metadata = displayed_file.metadata().map_err(|error| {
+            format!("cannot inspect displayed evidence parent {reference}: {error}")
+        })?;
+        if !opened_metadata.is_dir()
+            || !displayed_metadata.is_dir()
+            || file_identity(&opened_file).map_err(|error| {
+                format!("cannot identify opened evidence parent {reference}: {error}")
+            })? != guard.identity
+            || file_identity(&displayed_file).map_err(|error| {
+                format!("cannot identify displayed evidence parent {reference}: {error}")
+            })? != guard.identity
+            || directory_change_token(&opened_file).map_err(|error| {
+                format!("cannot observe opened evidence parent {reference}: {error}")
+            })? != guard.change_token
+            || directory_change_token(&displayed_file).map_err(|error| {
+                format!("cannot observe displayed evidence parent {reference}: {error}")
+            })? != guard.change_token
+        {
+            return Err(format!(
+                "opened outcome evidence directory changed or no longer matches its contained path: {reference}"
+            ));
+        }
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn open_directory_for_identity(path: &Path) -> io::Result<fs::File> {
+    fs::File::open(path)
+}
+
+#[cfg(windows)]
+fn open_directory_for_identity(path: &Path) -> io::Result<fs::File> {
+    use std::os::windows::fs::OpenOptionsExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT,
+    };
+
+    fs::OpenOptions::new()
+        .read(true)
+        .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+        .open(path)
+}
+
+#[cfg(not(any(unix, windows)))]
+fn open_directory_for_identity(_path: &Path) -> io::Result<fs::File> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "directory handle identity is not supported on this platform",
+    ))
+}
+
+#[cfg(unix)]
+fn file_identity(file: &fs::File) -> io::Result<(u64, u64)> {
+    use std::os::unix::fs::MetadataExt;
+
+    let metadata = file.metadata()?;
+    Ok((metadata.dev(), metadata.ino()))
+}
+
+#[cfg(windows)]
+fn file_identity(file: &fs::File) -> io::Result<(u64, u64)> {
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::Storage::FileSystem::{
+        BY_HANDLE_FILE_INFORMATION, GetFileInformationByHandle,
+    };
+
+    let mut information = BY_HANDLE_FILE_INFORMATION::default();
+    let succeeded = unsafe { GetFileInformationByHandle(file.as_raw_handle(), &mut information) };
+    if succeeded == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    let file_index =
+        (u64::from(information.nFileIndexHigh) << 32) | u64::from(information.nFileIndexLow);
+    Ok((u64::from(information.dwVolumeSerialNumber), file_index))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn file_identity(_file: &fs::File) -> io::Result<(u64, u64)> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "file handle identity is not supported on this platform",
+    ))
+}
+
+#[cfg(unix)]
+fn directory_change_token(file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    #[cfg(test)]
+    if let Some(token) = DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(std::cell::Cell::get) {
+        return Ok(token);
+    }
+
+    use std::os::unix::fs::MetadataExt;
+
+    let metadata = file.metadata()?;
+    Ok(DirectoryChangeToken([
+        metadata.ctime(),
+        metadata.ctime_nsec(),
+        metadata.mtime(),
+        metadata.mtime_nsec(),
+    ]))
+}
+
+#[cfg(windows)]
+fn directory_change_token(file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    #[cfg(test)]
+    if let Some(token) = DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(std::cell::Cell::get) {
+        return Ok(token);
+    }
+
+    use std::mem::size_of;
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_BASIC_INFO, FileBasicInfo, GetFileInformationByHandleEx,
+    };
+
+    let mut information = FILE_BASIC_INFO::default();
+    let succeeded = unsafe {
+        GetFileInformationByHandleEx(
+            file.as_raw_handle(),
+            FileBasicInfo,
+            (&mut information as *mut FILE_BASIC_INFO).cast(),
+            size_of::<FILE_BASIC_INFO>() as u32,
+        )
+    };
+    if succeeded == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(DirectoryChangeToken([
+        information.ChangeTime,
+        information.LastWriteTime,
+        0,
+        0,
+    ]))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn directory_change_token(_file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "directory change observation is not supported on this platform",
+    ))
 }
 
 pub(crate) fn read_registered_worktree_file(
     root: &Path,
     reference: &str,
 ) -> Result<Vec<u8>, String> {
-    let mut file = open_registered_worktree_file(root, reference)?;
+    let mut opened = open_registered_worktree_file_with_context(root, reference)?;
     let mut bytes = Vec::new();
-    file.read_to_end(&mut bytes)
+    opened
+        .file
+        .read_to_end(&mut bytes)
         .map_err(|error| format!("cannot read outcome evidence {reference}: {error}"))?;
+    verify_opened_directory_chain(
+        &opened.canonical_root,
+        &opened.directory_chain,
+        &opened.reference,
+    )?;
+    opened
+        .mutation_observer
+        .verify_unchanged(&opened.reference)?;
     Ok(bytes)
 }
 
@@ -1060,16 +1681,9 @@ fn read_registered_contract(
         ))
     })?;
     let path = root.join(&reference);
-    let contract = crate::parse_contract_bytes(&bytes, &path).map_err(|error| {
-        CoordinationError::RecoveryRequired(format!(
-            "registered Contract is invalid for {}: {error}",
-            registration.work_item_id
-        ))
-    })?;
-    crate::coordination_store::validate_contract_registration_identity(registration, &contract)?;
     let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
         CoordinationError::RecoveryRequired(format!(
-            "registered Contract JSON is invalid for {}: {error}",
+            "registered Contract digest is unavailable for {}: {error}",
             registration.work_item_id
         ))
     })?;
@@ -1085,6 +1699,13 @@ fn read_registered_contract(
             registration.work_item_id
         )));
     }
+    let contract = crate::parse_contract_bytes(&bytes, &path).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract is invalid for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    crate::coordination_store::validate_contract_registration_identity(registration, &contract)?;
     Ok(contract)
 }
 
@@ -1789,4 +2410,193 @@ fn collect_cycles(
         }
     }
     stack.pop();
+}
+
+#[cfg(all(test, unix))]
+mod registered_worktree_file_tests {
+    use super::*;
+
+    #[test]
+    fn opened_active_directory_swap_cannot_redirect_contract_read() {
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("original contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                fs::create_dir_all(&active_path).expect("install an in-repository replacement");
+                fs::write(active_path.join(leaf), b"replacement contract bytes")
+                    .expect("replacement contract");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                parent
+                    .open_with(leaf, &options)
+                    .map(cap_std::fs::File::into_std)
+            });
+        assert!(
+            result.is_err(),
+            "persistent directory swap must not admit the moved directory handle"
+        );
+    }
+
+    #[test]
+    fn opened_active_directory_swap_back_race_is_rejected() {
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let mut opened_while_outside = Vec::new();
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                let mut file = parent
+                    .open_with(leaf, &options)
+                    .expect("open the leaf through the held outside directory handle")
+                    .into_std();
+                file.read_to_end(&mut opened_while_outside)
+                    .expect("read the leaf while the directory is outside");
+                fs::rename(&moved_active, &active_path)
+                    .expect("restore the same directory before checks");
+                Ok(file)
+            });
+
+        assert_eq!(opened_while_outside, b"outside contract bytes");
+        assert!(
+            result.is_err(),
+            "move-out/open/move-back must not admit bytes read while outside the repository"
+        );
+    }
+
+    #[test]
+    fn opened_active_directory_swap_back_is_rejected_without_timestamp_resolution() {
+        struct CoarseTimestampOverride;
+        impl CoarseTimestampOverride {
+            fn set() -> Self {
+                DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| {
+                    token.set(Some(DirectoryChangeToken([0; 4])));
+                });
+                Self
+            }
+        }
+        impl Drop for CoarseTimestampOverride {
+            fn drop(&mut self) {
+                DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| token.set(None));
+            }
+        }
+
+        let _coarse_timestamps = CoarseTimestampOverride::set();
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                let mut file = parent
+                    .open_with(leaf, &options)
+                    .expect("open leaf through held outside directory handle")
+                    .into_std();
+                let mut bytes = Vec::new();
+                file.read_to_end(&mut bytes)
+                    .expect("read leaf while directory is outside");
+                fs::rename(&moved_active, &active_path)
+                    .expect("restore same directory before post-checks");
+                Ok(file)
+            });
+
+        assert!(
+            result.is_err(),
+            "rename detection must not depend on timestamp granularity"
+        );
+    }
+}
+
+#[cfg(all(test, windows))]
+mod registered_worktree_file_windows_tests {
+    use super::*;
+
+    struct CoarseTimestampOverride;
+
+    impl CoarseTimestampOverride {
+        fn set() -> Self {
+            DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| {
+                token.set(Some(DirectoryChangeToken([0; 4])));
+            });
+            Self
+        }
+    }
+
+    impl Drop for CoarseTimestampOverride {
+        fn drop(&mut self) {
+            DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| token.set(None));
+        }
+    }
+
+    #[test]
+    fn opened_directory_handles_prevent_swap_back_even_without_timestamp_resolution() {
+        let _coarse_timestamps = CoarseTimestampOverride::set();
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"registered contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let mut rename_was_blocked = false;
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                match fs::rename(&active_path, &moved_active) {
+                    Err(error) => {
+                        rename_was_blocked = true;
+                        Err(error)
+                    }
+                    Ok(()) => {
+                        let mut options = CapOpenOptions::new();
+                        options.read(true).follow(FollowSymlinks::No);
+                        let file = parent
+                            .open_with(leaf, &options)
+                            .expect("open Contract through the held directory handle")
+                            .into_std();
+                        fs::rename(&moved_active, &active_path)
+                            .expect("restore moved directory before post-checks");
+                        Ok(file)
+                    }
+                }
+            });
+
+        assert!(
+            rename_was_blocked,
+            "held directory handles must deny rename"
+        );
+        assert!(
+            result.is_err(),
+            "a blocked move must not admit the open attempt"
+        );
+        assert!(active_path.join(leaf).is_file());
+        assert!(!moved_active.exists());
+    }
 }
