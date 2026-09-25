@@ -266,6 +266,23 @@ fn verification_evidence_is_complete(
     provider: &WorktreeRegistration,
     outcome: &cockpit_protocol::ProvidedOutcome,
 ) -> bool {
+    verification_evidence_is_complete_with_reader(
+        projection,
+        provider,
+        outcome,
+        read_registered_worktree_file,
+    )
+}
+
+fn verification_evidence_is_complete_with_reader<F>(
+    projection: &CollaborationProjection,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    mut read_file: F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
     let root = Path::new(&provider.worktree_path);
     let expected_reference = format!(".ai/evidence/{}.verification.json", provider.work_item_id);
     if !outcome
@@ -291,7 +308,7 @@ fn verification_evidence_is_complete(
     }) else {
         return false;
     };
-    let Ok(bytes) = read_registered_worktree_file(root, &expected_reference) else {
+    let Ok(bytes) = read_file(root, &expected_reference) else {
         return false;
     };
     if publication.evidence_digests.get(&expected_reference)
@@ -318,7 +335,7 @@ fn verification_evidence_is_complete(
     {
         return false;
     }
-    let Ok(contract) = read_registered_contract(provider) else {
+    let Ok(contract) = read_registered_contract_with_reader(provider, &mut read_file) else {
         return false;
     };
     let Ok(git) = GitRepository::discover(root) else {
@@ -666,8 +683,8 @@ impl DirectoryMutationObserver {
             let mut change: libc::kevent = unsafe { std::mem::zeroed() };
             change.ident = directory.as_raw_fd() as libc::uintptr_t;
             change.filter = libc::EVFILT_VNODE;
-            change.flags = (libc::EV_ADD | libc::EV_CLEAR) as u16;
-            change.fflags = (libc::NOTE_RENAME | libc::NOTE_DELETE) as u32;
+            change.flags = libc::EV_ADD | libc::EV_CLEAR;
+            change.fflags = libc::NOTE_RENAME | libc::NOTE_DELETE;
             let result = unsafe {
                 libc::kevent(
                     queue.as_raw_fd(),
@@ -1044,7 +1061,18 @@ pub(crate) fn read_registered_worktree_file(
     root: &Path,
     reference: &str,
 ) -> Result<Vec<u8>, String> {
-    let mut opened = open_registered_worktree_file_with_context(root, reference)?;
+    read_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
+}
+
+pub(crate) fn read_registered_worktree_file_with_opener<F>(
+    root: &Path,
+    reference: &str,
+    open_leaf: F,
+) -> Result<Vec<u8>, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
+    let mut opened = open_registered_worktree_file_with_opener(root, reference, open_leaf)?;
     let mut bytes = Vec::new();
     opened
         .file
@@ -1669,12 +1697,24 @@ pub fn run_admitted_composition(
 fn read_registered_contract(
     registration: &WorktreeRegistration,
 ) -> Result<cockpit_protocol::Contract, CoordinationError> {
+    read_registered_contract_with_reader(registration, &mut |root, reference| {
+        read_registered_worktree_file(root, reference)
+    })
+}
+
+fn read_registered_contract_with_reader<F>(
+    registration: &WorktreeRegistration,
+    read_file: &mut F,
+) -> Result<cockpit_protocol::Contract, CoordinationError>
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
     let root = Path::new(&registration.worktree_path);
     let reference = format!(
         ".ai/work-items/active/{}.contract.json",
         registration.work_item_id
     );
-    let bytes = read_registered_worktree_file(root, &reference).map_err(|error| {
+    let bytes = read_file(root, &reference).map_err(|error| {
         CoordinationError::RecoveryRequired(format!(
             "registered Contract is not safely readable for {}: {error}",
             registration.work_item_id
@@ -2529,6 +2569,179 @@ mod registered_worktree_file_tests {
         assert!(
             result.is_err(),
             "rename detection must not depend on timestamp granularity"
+        );
+    }
+
+    #[test]
+    fn verification_evidence_validation_rejects_a_swapped_digest_bound_contract() {
+        let root = tempfile::tempdir().expect("repository root");
+        let run_git = |args: &[&str]| {
+            assert!(
+                Command::new("git")
+                    .args(args)
+                    .current_dir(root.path())
+                    .status()
+                    .expect("git command")
+                    .success()
+            );
+        };
+        run_git(&["init", "-q"]);
+        run_git(&["config", "user.email", "test@example.invalid"]);
+        run_git(&["config", "user.name", "Verification evidence test"]);
+        fs::write(root.path().join("README.md"), "initial\n").expect("README");
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "initial"]);
+        run_git(&["branch", "-M", "main"]);
+        crate::attach(root.path()).expect("attach repository");
+        let work_item_id = "WI-VERIFICATION-CONTRACT-SWAP";
+        crate::start_work_item_with_options(
+            root.path(),
+            work_item_id,
+            "verification evidence reader test",
+            "require the registered Contract reader during evidence validation",
+            &[".ai/**".into(), "README.md".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                out_of_scope: vec!["target/**".into()],
+                acceptance_criteria: vec!["Contract identity remains digest bound".into()],
+                ..crate::WorkItemStartOptions::default()
+            },
+        )
+        .expect("start provider Work Item");
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        crate::preflight_work_item(root.path(), &contract_path).expect("preflight");
+        crate::checkpoint_work_item(root.path(), work_item_id).expect("checkpoint");
+        let receipt = cockpit_verification::execute_bounded(
+            vec![cockpit_verification::VerificationCommand::new(
+                "verification-contract-reader",
+                "sh",
+                vec!["-c".into(), "true".into()],
+                cockpit_verification::VerificationReusePolicy::NeverReuse,
+            )],
+            1,
+        )
+        .expect("execute verification receipt");
+        let runtime_digest = cockpit_core::Digest::sha256_bytes(b"test-runtime");
+        crate::record_verification(
+            root.path(),
+            work_item_id,
+            &serde_json::to_value(receipt).expect("serialize verification receipt"),
+            "0.2.113",
+            &runtime_digest,
+        )
+        .expect("record typed verification evidence");
+
+        let evidence_reference = format!(".ai/evidence/{work_item_id}.verification.json");
+        let evidence_bytes =
+            fs::read(root.path().join(&evidence_reference)).expect("verification evidence bytes");
+        let git = GitRepository::discover(root.path()).expect("discover repository");
+        let topology = git.topology().expect("repository topology");
+        let contract_value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        let contract_digest =
+            cockpit_protocol::digest_json(&contract_value).expect("registered Contract digest");
+        let runtime = RuntimeCapabilityBinding {
+            schema_version: 1,
+            runtime_version: "0.2.113".into(),
+            runtime_digest,
+            capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+        };
+        let outcome = cockpit_protocol::ProvidedOutcome {
+            outcome_id: "api".into(),
+            interface_contract: "api-v1".into(),
+            behavior_contract: "stable behavior".into(),
+            published_head: topology.head.clone().expect("head"),
+            stage: cockpit_protocol::OutcomeStage::ComposableHead,
+            evidence_refs: vec![evidence_reference.clone()],
+        };
+        let provider = WorktreeRegistration {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            repository_id: crate::repository_id(root.path()),
+            work_item_id: work_item_id.into(),
+            contract_digest,
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("branch"),
+            head: outcome.published_head.clone(),
+            generation: 1,
+            declaration: cockpit_protocol::CollaborationDeclaration {
+                provided_outcomes: vec![outcome.clone()],
+                ..cockpit_protocol::CollaborationDeclaration::default()
+            },
+            runtime,
+        };
+        let publication = CoordinationEvent {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            event_id: "verified-api-publication".into(),
+            repository_id: provider.repository_id.clone(),
+            work_item_id: work_item_id.into(),
+            generation: 1,
+            kind: cockpit_protocol::CoordinationEventKind::OutcomePublished,
+            source: "test-verification-publication".into(),
+            evidence_refs: vec![evidence_reference.clone()],
+            evidence_digests: BTreeMap::from([(
+                evidence_reference,
+                cockpit_core::Digest::sha256_bytes(&evidence_bytes),
+            )]),
+            outcome_ids: vec!["api".into()],
+        };
+        let projection = CollaborationProjection {
+            registrations: vec![provider.clone()],
+            events: vec![publication],
+            ..CollaborationProjection::default()
+        };
+
+        assert!(verification_evidence_is_complete(
+            &projection,
+            &provider,
+            &outcome
+        ));
+
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        let moved_active = outside.path().join("active");
+        let mut opened_contract_bytes = Vec::new();
+        let accepted = verification_evidence_is_complete_with_reader(
+            &projection,
+            &provider,
+            &outcome,
+            |repository_root, reference| {
+                if reference.ends_with(".contract.json") {
+                    read_registered_worktree_file_with_opener(
+                        repository_root,
+                        reference,
+                        |parent, leaf| {
+                            fs::rename(&active_path, &moved_active)
+                                .expect("move Contract directory outside repository");
+                            let mut options = CapOpenOptions::new();
+                            options.read(true).follow(FollowSymlinks::No);
+                            let mut file = parent
+                                .open_with(leaf, &options)
+                                .expect("open Contract through moved directory handle")
+                                .into_std();
+                            file.read_to_end(&mut opened_contract_bytes)
+                                .expect("read Contract while outside");
+                            fs::rename(&moved_active, &active_path)
+                                .expect("restore Contract directory before checks");
+                            Ok(file)
+                        },
+                    )
+                } else {
+                    read_registered_worktree_file(repository_root, reference)
+                }
+            },
+        );
+
+        assert_eq!(
+            opened_contract_bytes,
+            fs::read(&contract_path).expect("Contract bytes")
+        );
+        assert!(
+            !accepted,
+            "verification evidence must not admit bytes when the registered Contract reader rejects the move-out/open/move-back race"
         );
     }
 }

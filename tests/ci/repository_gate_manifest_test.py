@@ -19,11 +19,14 @@ manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 assert "name: upload repository gate diagnostics" in workflow_text
 assert "name: repository-gate-diagnostics" in workflow_text
 assert "target/repository-gate-diagnostics/*.log" in workflow_text
+windows_runtime_job = workflow_text.split("  windows-runtime:\n", 1)[1].split(
+    "\n  v1-behavioral-oracle:\n", 1
+)[0]
 assert (
     "- name: verify Windows directory-handle containment regressions\n"
     "        run: cargo test --locked -p cockpit-repository --lib"
-    in workflow_text
-), "Windows CI must execute repository library regressions for directory-handle containment"
+    in windows_runtime_job
+), "the windows-runtime job must execute repository library containment regressions"
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
 entries = manifest["gates"]

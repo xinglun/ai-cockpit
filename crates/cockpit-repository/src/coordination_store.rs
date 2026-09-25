@@ -134,6 +134,19 @@ impl CoordinationStore {
         &self,
         registration: WorktreeRegistration,
     ) -> Result<WorktreeRegistration, CoordinationError> {
+        self.register_with_contract_reader(registration, |root, reference| {
+            crate::collaboration::read_registered_worktree_file(root, reference)
+        })
+    }
+
+    fn register_with_contract_reader<F>(
+        &self,
+        registration: WorktreeRegistration,
+        mut read_contract: F,
+    ) -> Result<WorktreeRegistration, CoordinationError>
+    where
+        F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+    {
         self.runtime.validate_candidate()?;
         validate_registration(&registration)?;
         if !registration.runtime.same_identity(&self.runtime) {
@@ -141,7 +154,7 @@ impl CoordinationStore {
                 cockpit_protocol::RuntimeCapabilityError::IdentityMismatch,
             ));
         }
-        self.validate_registration_facts(&registration)?;
+        self.validate_registration_facts_with_contract_reader(&registration, &mut read_contract)?;
         self.with_lock(|| {
             let path = self.registration_path(&registration.work_item_id);
             let mut identity_changed = false;
@@ -634,6 +647,22 @@ impl CoordinationStore {
         &self,
         registration: &WorktreeRegistration,
     ) -> Result<(), CoordinationError> {
+        self.validate_registration_facts_with_contract_reader(
+            registration,
+            &mut |root, reference| {
+                crate::collaboration::read_registered_worktree_file(root, reference)
+            },
+        )
+    }
+
+    fn validate_registration_facts_with_contract_reader<F>(
+        &self,
+        registration: &WorktreeRegistration,
+        read_contract: &mut F,
+    ) -> Result<(), CoordinationError>
+    where
+        F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+    {
         validate_registration(registration)?;
         let worktree = Path::new(&registration.worktree_path);
         let canonical_worktree = fs::canonicalize(worktree).map_err(|source| {
@@ -699,16 +728,13 @@ impl CoordinationStore {
             ".ai/work-items/active/{}.contract.json",
             registration.work_item_id
         );
-        let contract_bytes = crate::collaboration::read_registered_worktree_file(
-            &topology.repository_root,
-            &contract_reference,
-        )
-        .map_err(|error| {
-            CoordinationError::RecoveryRequired(format!(
-                "active Contract is not safely contained for {}: {error}",
-                registration.work_item_id
-            ))
-        })?;
+        let contract_bytes = read_contract(&topology.repository_root, &contract_reference)
+            .map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "active Contract is not safely contained for {}: {error}",
+                    registration.work_item_id
+                ))
+            })?;
         let contract_json: serde_json::Value =
             serde_json::from_slice(&contract_bytes).map_err(|error| {
                 CoordinationError::RecoveryRequired(format!(
@@ -1177,4 +1203,177 @@ fn valid_request_transition(from: CoordinationRequestState, to: CoordinationRequ
             CoordinationRequestState::Resumed
         )
     )
+}
+
+#[cfg(all(test, unix))]
+mod registered_worktree_file_tests {
+    use super::*;
+    use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
+    use cockpit_protocol::{COLLABORATION_CAPABILITY, CollaborationDeclaration};
+    use std::io::Read;
+
+    fn run(root: &Path, args: &[&str]) {
+        assert!(
+            std::process::Command::new("git")
+                .args(args)
+                .current_dir(root)
+                .status()
+                .expect("git command")
+                .success()
+        );
+    }
+
+    fn repository() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("repository root");
+        run(root.path(), &["init", "-q"]);
+        run(
+            root.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        run(root.path(), &["config", "user.name", "Coordination test"]);
+        fs::write(root.path().join("README.md"), "initial\n").expect("README");
+        run(root.path(), &["add", "."]);
+        run(root.path(), &["commit", "-qm", "initial"]);
+        run(root.path(), &["branch", "-M", "main"]);
+        crate::attach(root.path()).expect("attach repository");
+        crate::start_work_item_with_options(
+            root.path(),
+            "WI-REGISTERED-SWAP-BACK",
+            "coordination registration race test",
+            "reject a moved Contract before durable publication",
+            &[".ai/**".into(), "README.md".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                out_of_scope: vec!["target/**".into()],
+                acceptance_criteria: vec!["rejected Contract reads leave storage unchanged".into()],
+                ..crate::WorkItemStartOptions::default()
+            },
+        )
+        .expect("start test Work Item");
+        root
+    }
+
+    fn runtime() -> RuntimeCapabilityBinding {
+        RuntimeCapabilityBinding {
+            schema_version: 1,
+            runtime_version: "0.2.113".into(),
+            runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+            capability: COLLABORATION_CAPABILITY.into(),
+        }
+    }
+
+    fn registration(root: &Path, generation: u64) -> WorktreeRegistration {
+        let work_item_id = "WI-REGISTERED-SWAP-BACK";
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        let topology = GitRepository::discover(root)
+            .expect("discover repository")
+            .topology()
+            .expect("repository topology");
+        WorktreeRegistration {
+            schema_version: COLLABORATION_SCHEMA_VERSION,
+            repository_id: crate::repository_id(root),
+            work_item_id: work_item_id.into(),
+            contract_digest: cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("branch"),
+            head: topology.head.expect("head"),
+            generation,
+            declaration: CollaborationDeclaration::default(),
+            runtime: runtime(),
+        }
+    }
+
+    fn file_bytes(directory: &Path) -> BTreeMap<String, Vec<u8>> {
+        fs::read_dir(directory)
+            .expect("record directory")
+            .map(|entry| {
+                let entry = entry.expect("record entry");
+                (
+                    entry.file_name().to_string_lossy().into_owned(),
+                    fs::read(entry.path()).expect("record bytes"),
+                )
+            })
+            .collect()
+    }
+
+    #[test]
+    fn swap_back_during_registration_leaves_registration_and_event_bytes_unchanged() {
+        let root = repository();
+        let git = GitRepository::discover(root.path()).expect("discover");
+        let store = CoordinationStore::open(&git, runtime()).expect("coordination store");
+        let original = registration(root.path(), 1);
+        store
+            .register(original.clone())
+            .expect("initial registration");
+        let registration_path = store.registration_path(&original.work_item_id);
+        let original_registration_bytes = fs::read(&registration_path).expect("registration");
+        let events_path = store.root().join("events");
+        let original_event_bytes = file_bytes(&events_path);
+
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active/WI-REGISTERED-SWAP-BACK.contract.json");
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        contract["verification"] = serde_json::json!([{
+            "check": "cargo test --locked -p cockpit-repository",
+            "required": true
+        }]);
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).expect("serialize updated Contract"),
+        )
+        .expect("update test Contract");
+        let replacement_bytes = fs::read(&contract_path).expect("updated Contract bytes");
+        let replacement = registration(root.path(), 2);
+        assert_ne!(replacement.contract_digest, original.contract_digest);
+
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        let moved_active = outside.path().join("active");
+        let mut opened_while_outside = Vec::new();
+        let result =
+            store.register_with_contract_reader(replacement, |repository_root, reference| {
+                crate::collaboration::read_registered_worktree_file_with_opener(
+                    repository_root,
+                    reference,
+                    |parent, leaf| {
+                        fs::rename(&active_path, &moved_active)
+                            .expect("move opened active directory");
+                        let mut options = cap_std::fs::OpenOptions::new();
+                        options.read(true).follow(FollowSymlinks::No);
+                        let mut file = parent
+                            .open_with(leaf, &options)
+                            .expect("open Contract through moved directory handle")
+                            .into_std();
+                        file.read_to_end(&mut opened_while_outside)
+                            .expect("read Contract while outside");
+                        fs::rename(&moved_active, &active_path).expect("restore active directory");
+                        Ok(file)
+                    },
+                )
+            });
+
+        assert_eq!(opened_while_outside, replacement_bytes);
+        assert!(
+            matches!(result, Err(CoordinationError::RecoveryRequired(_))),
+            "the Contract read must be rejected before registration publication: {result:?}"
+        );
+        assert_eq!(
+            fs::read(&registration_path).expect("registration after rejection"),
+            original_registration_bytes,
+            "rejected re-registration must preserve the old registration bytes"
+        );
+        assert_eq!(
+            file_bytes(&events_path),
+            original_event_bytes,
+            "rejected re-registration must not publish an impact event"
+        );
+    }
 }
