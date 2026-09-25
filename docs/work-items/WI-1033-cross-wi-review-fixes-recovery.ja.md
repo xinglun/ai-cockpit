@@ -25,13 +25,13 @@ WI-1033 は WI-1032 の Runtime-bound recovery successor です。Runtime は WI
 
 先行する WI-1031 は有効な historical verification を持ちますが、human close は未完了です。履歴 bytes は不変のままとし、Runtime が終端 evidence をそろえた場合だけ selected successor lineage を処理します。
 
-最新の完全な Runtime verification は commit `6577f3c0` で 32 node を通過しましたが、現在は履歴 evidence です。その後 Contract を 19 acceptance criteria と 15 scenario に amend し、今回の三つの review gap の修正で source も変わりました。対象を絞った local test は現在 pass（collaboration-admission 36 件、coordination-store 20 件）ですが、最終 canonical gate と Runtime-bound verification は未完了です。追加範囲は provider output 削除後の invalidation 伝播、path-safe な coordination request identity、作成時に Requested を必須とする lifecycle を含みます。以前の 31-node/8-scenario receipt と 32-node run は現在の evidence ではありません。freshness は Runtime を照会してください。
+最新の完全な Runtime verification は commit `55c4a15f` で 34 node を通過しましたが、現在は履歴 evidence です。その後 Contract を 20 acceptance criteria と 16 scenario に amend し、独立 review で registration path の解決順序に追加の gap が見つかって source と test が変わりました。negative test は修正前に問題を再現し、修正後の focused suite は pass（collaboration-admission 36 件、coordination-store 23 件）しましたが、最終 canonical verification は未完了です。追加範囲には provider output 削除後の invalidation 伝播、request/registration identity の path safety、Requested 初期状態の強制を含みます。以前の完全な run は現在の evidence ではありません。freshness は Runtime を照会してください。
 
 ## Scope
 
 - 信頼できる registration/composition identity（execution repository と CoordinationStore の Git common directory 一致を含む）、必須 check の完全性、crash と live-lock の安全性、evidence containment、provider 単位の dependency、CLI の実際の reuse、MCP identity parity、read-only query/write 境界を再検証します。
 - 実プロセスの複数 linked-worktree 動作を証明し、通常の単一 WI serial execution を維持します。
-- provider output の削除後も依存 chain に invalidation を伝播し、安全でない request ID や初期状態を bypass する request を拒否します。
+- provider output の削除後も依存 chain に invalidation を伝播し、安全でない request や初期状態を bypass する request を拒否します。Contract facts を参照する前に読み込んだ registration identity を target に束縛します。
 - 候補 CLI で Sentinel を検査します。source、Contract/evidence、lifecycle Runtime、coordination store には書き込みません。
 - 英語、簡体字中国語、日本語の Work Item projection と reference parity を維持します。
 
@@ -41,7 +41,7 @@ Task 8（commit ごとの Runtime snapshot binding）は指定どおり後続の
 
 ## 受け入れと検証
 
-[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 15 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
+[仕様](WI-1033-cross-wi-review-fixes-recovery/spec.md)と[実施計画](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)を参照してください。必須 16 scenario には、明確な expected result と verification plan を宣言します。canonical documentation gate は `bash tests/docs/documentation_acceptance.sh` です。
 
 ## Delivery boundary
 

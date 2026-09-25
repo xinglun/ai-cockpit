@@ -42,8 +42,10 @@ ai-cockpit work-item coordination publish-outcome --repo <path> --id <wi> --gene
 consumer generation の完全一致で idempotent になり、古い generation を拒否します。
 impact は影響を受けた consumer だけを止め、無関係な WI は継続できます。pause の
 request、acknowledged、safely paused、unavailable/expired、resumed は区別します。
-各 state transition は filesystem path の解決前に request ID と保存済み target WI ID を検証し、
-読み込んだ registration 内の WI identity が target と一致することも確認します。改ざんまたは
+各 state transition は、まず呼び出し元の request ID を検証してから request record を読み込みます。
+読み込み後は保存済み target WI ID を安全な path component として検証してから registration path を
+解決します。registration を読み込んだ後、埋め込み workItemId が安全な target と一致することを
+先に確認し、その後に registration facts の検証や Contract path の解決を行います。改ざんまたは
 identity が一致しない record は拒否され、request bytes は変更されません。
 
 request-scoped observation が保証するのはその request 内の一貫性だけであり、process 間で

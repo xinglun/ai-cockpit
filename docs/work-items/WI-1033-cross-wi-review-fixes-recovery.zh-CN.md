@@ -25,13 +25,13 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
-最近一次完整 Runtime 验证在提交 `6577f3c0` 上通过了 32 个节点，但现在只是历史证据：Contract 后来增补到 19 项验收标准、15 个场景，且本轮审查确认的三个缺口又改变了源码。目前针对性本地测试通过（collaboration-admission 36 项、coordination-store 20 项）；最终 canonical gates 与 Runtime 绑定验证仍待完成。新增覆盖包括提供者删除产出后的影响传播、协调请求身份的路径安全，以及创建时必须处于 Requested 初态。此前 31 节点/8 场景回执和 32 节点运行都不能代表当前状态；新鲜度以 Runtime 查询为准。
+最近一次完整 Runtime 验证在提交 `55c4a15f` 上通过了 34 个节点，但现在只是历史证据：Contract 后来增补到 20 项验收标准、16 个场景，独立复审又发现 registration 路径解析顺序缺口，源码与测试随之变化。新的负例先复现了问题；针对性测试现已通过（collaboration-admission 36 项、coordination-store 23 项），最终 canonical verification 仍待完成。新增覆盖包括提供者删除产出后的影响传播、请求及 registration 身份路径安全，以及创建时必须处于 Requested 初态。此前的完整运行都不能代表当前状态；新鲜度以 Runtime 查询为准。
 
 ## 范围
 
 - 重新核验受信登记/组合身份（包括执行仓库与 CoordinationStore 的 Git common directory 一致）、必需检查完整性、崩溃与活动锁安全、证据边界、按 provider 区分的依赖、CLI 实际复用、MCP 身份 parity 及只读查询/写入边界。
 - 证明真实多进程 linked-worktree 行为，并保留普通单 WI 串行执行。
-- 保留提供者删除产出后的跨依赖链失效；拒绝不安全或绕过确认初态的协调请求。
+- 保留提供者删除产出后的跨依赖链失效；拒绝不安全或绕过确认初态的协调请求，并在查询 Contract facts 前绑定加载到的 registration 身份。
 - 使用候选 CLI 检查 Sentinel，且不写入其源码、Contract/evidence、生命周期 Runtime 或协调存储。
 - 维护英文、简体中文和日文投影与 reference parity。
 
@@ -41,7 +41,7 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 验收与验证
 
-参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。十五个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
+参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。十六个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
 
 ## 交付边界
 

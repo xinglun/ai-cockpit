@@ -64,9 +64,11 @@ Impact events are deduplicated by event identity. An impact blocks only
 affected consumers; unrelated Work Items continue. Pause requests are distinct
 from acknowledgement, safe pause, unavailable/expired, and resume. A request
 from an older execution generation cannot control a newer one.
-Each transition validates the request ID and stored target Work Item ID before
-resolving filesystem paths, then checks that the loaded registration's Work
-Item identity matches that target. Tampered or mismatched records are rejected
+Each transition validates the caller-supplied request ID before reading its
+record. After reading, it validates the stored target Work Item ID before
+resolving the registration path. Once the registration is loaded, its embedded
+Work Item ID must match the safe target before registration facts are checked
+or a Contract path is resolved. Tampered or mismatched records are rejected
 without changing the request bytes.
 
 Publishing an outcome is an explicit write for the current registration

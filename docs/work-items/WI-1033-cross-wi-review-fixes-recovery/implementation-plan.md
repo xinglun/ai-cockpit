@@ -15,13 +15,25 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 - Do not release, publish, create or move tags, or upgrade the Runtime.
 - Task 8 (Runtime snapshot binding across commits) is a separate serial Work Item after this one is integrated and cleaned up.
 
+## Task 8 handoff: observed governance friction
+
+These findings are evidence-backed follow-up inputs, not changes to WI-1033's implementation scope. Preserve Runtime authority and exact evidence binding; reduce repeated work only when equivalence is proven.
+
+| Observed friction | Evidence in this Work Item | Candidate Task 8 improvement and guardrail |
+| --- | --- | --- |
+| A source commit makes prior Runtime verification stale, even when the change is narrow; refreshing evidence reruns the full gate. | On `55c4a15f`, the Runtime executed 34/34 nodes in 564,740 ms, spawned 34 processes, reused 0, and produced evidence that became stale after the registration-order fix and Contract amendment. | Bind reusable checks to declared content inputs and affected nodes, not a blanket commit identity; reuse only when repository, Runtime, Contract, check command, policy, and every observed input still match. Required/protected checks remain fresh-only. |
+| A prior broad user authorization is repeatedly presented as a new preflight confirmation after snapshot changes. | Preflight requested `confirm_review` for changed snapshots despite the existing authorization to continue through merge and exact cleanup, stopping before release; an identity-bound Runtime receipt still had to be appended for each exact snapshot. | Separate persistent bounded authority from snapshot-specific evidence. Permit automatic append-only rebinding only while Work Item, Contract authority/scope, base, and stop boundary remain identical; require a new human decision when any of those change. Never treat the rebind as verification or review evidence. |
+| `preflight` and `status` can present different next actions around a failed lifecycle projection. | Preflight exposed `rerun_affected_checks` while status still blocked `run_verification` on `lifecycle_gate_failed`; only the official retry receipt restored a coherent verification action. | Have preflight, status, and command admission consume one versioned admission result with the same blocker set and explain the exact recovery transition. Keep blocked Outcomes append-only. |
+| Required-scenario mapping failure can be discovered only after a long canonical run. | The first 34-node verification passed, but `finish` failed because three already-passing required scenarios lacked Summary coverage mappings. | Validate mapping completeness before expensive process execution; show the exact missing scenario-to-test/evidence entries. Do not infer a mapping or mark a scenario verified automatically without evidence. |
+| `amend` and `revalidate-amendment` have overlapping semantics that are easy to mis-sequence. | `work-item amend` already appended a `contract_amendment_revalidation` checkpoint; an immediate separate `revalidate-amendment` was then rejected because Contract bytes had not changed again. | Make CLI help and output say whether amendment includes revalidation, and expose the one valid next action. Preserve the append-only checkpoint and do not ask the operator to retry an unchanged command. |
+
 ## Remaining work
 
 ### 1. Establish the recovery Contract before implementation admission
 
 - Add this specification and plan in the WI-1033 worktree.
 - Activate the Runtime-generated recovery scaffold with the same bounded intent and source scope.
-- Declare all nineteen acceptance criteria, the fifteen required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
+- Declare all twenty acceptance criteria, the sixteen required scenarios with both expected results and verification plans, required evidence classes, and the correct canonical docs command.
 - Cover the retirement-parity invariant: every required locale row binds the retirement receipt and not_verified state; any missing locale fails closed without inventing successful verification evidence.
 - Run Runtime preflight and checkpoint only when the current Runtime admits them. Preserve any rejection without retrying unchanged inputs.
 
@@ -34,7 +46,7 @@ Complete Runtime-bound acceptance and lifecycle closure for the already implemen
 - If a gap is found, add the failing regression first, implement the narrow repair, commit it separately, then re-query Runtime because the repository snapshot changed.
 - Do not restate classification-function tests as proof of process reuse; count real spawned processes.
 - Add a failing provider-registration regression where an old output is removed at a newer generation; prove the persisted event retains the old output ID and invalidation reaches direct and multi-level consumers.
-- Add failing coordination-store regressions for traversal/mismatched request identities, including the persisted target Work Item ID and registration-to-target binding, plus non-Requested creation states; assert no target bytes or request records change on rejection.
+- Add failing coordination-store regressions for traversal/mismatched request identities, including a traversal-shaped embedded registration Work Item ID on both creation and transition; assert registration identity is rejected before Contract fact lookup and request bytes stay unchanged, alongside non-Requested creation-state coverage.
 - Implement only after observing each regression fail for the expected reason; rerun the focused `collaboration_admission` and `coordination_store` integration suites after each fix.
 
 ### 3. Run canonical and object-project compatibility evidence

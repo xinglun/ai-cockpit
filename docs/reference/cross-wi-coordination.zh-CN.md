@@ -45,8 +45,10 @@ ai-cockpit work-item composition --repo <path> --id <wi> --generation <n> --inpu
 查询不会修复、消费、确认或创建目录。恢复消费按事件、提供方代次和消费者
 代次幂等；旧代次会被拒绝。影响事件按身份去重，只阻塞受影响消费者，无关 WI
 继续执行。暂停请求、确认、安全暂停、不可用/过期和恢复是不同状态。
-每次状态迁移都会在解析文件路径前校验 request ID 和记录中的目标 WI ID，并确认读取到的
-registration 内部 WI 身份与该目标一致。被篡改或身份不匹配的记录会被拒绝，请求字节保持不变。
+每次状态迁移先校验调用方提供的 request ID，再读取请求记录；读取后先将记录中的 target WI ID
+校验为安全路径组件，再解析 registration 路径。加载 registration 后，必须先确认其内嵌
+workItemId 与安全 target 完全一致，然后才核验 registration facts 或解析 Contract 路径。
+被篡改或身份不匹配的记录会被拒绝，请求字节保持不变。
 
 请求级观察只保证当前请求内的一致性，不会跨进程传递协作事件。新进程只能看到显式
 写入已经持久化的事件。

@@ -66,7 +66,7 @@ identity 及观察到的状态。同时保留 receipt 绑定的原因、证据�
 | --- | --- | --- |
 | WI-1031-cross-wi-acceptance-corrections | 进行中 | 历史验证：`.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`；所选恢复决定：`.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`。所选后继链仍未关闭；Runtime Outcome 仍为黄色。 |
 | WI-1032-cross-wi-review-fixes | 已替代 | 退休回执：`.ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json`；验证声明：`not_verified`；原 evidence 已保留。见当前[恢复后继项](../work-items/WI-1033-cross-wi-review-fixes-recovery.zh-CN.md)。 |
-| WI-1033-cross-wi-review-fixes-recovery | 进行中 → 验证关闭后已实现 | 生命周期绑定引用（不是当前完成证据）：`.ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.contract.json`、`.ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.finalize.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.close.json`。`6577f3c0` 上的 32 节点运行在 Contract 扩展到 19 项验收/15 个场景且源码变化后已过期；最终验证、独立审查、hosted CI、合并和精确清理仍待完成，不宣称发布。 |
+| WI-1033-cross-wi-review-fixes-recovery | 进行中 → 验证关闭后已实现 | 生命周期绑定引用（不是当前完成证据）：`.ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.contract.json`、`.ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.finalize.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.close.json`。`55c4a15f` 上的 34 节点运行在 Contract 扩展到 20 项验收/16 个场景且 registration 路径顺序的源码与测试变化后已过期；最终验证、独立审查、hosted CI、合并和精确清理仍待完成，不宣称发布。 |
 | 面向读者的入口和语言切换 | 已实现 | 根 README 与 route README 在 English、简体中文和日本語之间互链。 |
 | 目的、问题、架构和功能概览 | 已实现 | 设计思想、架构和功能路线描述当前 Runtime 及其责任方。 |
 | 共享 Runtime 与 request-scoped repository context | 已实现 | 显式 `--repo` 绑定和 repository isolation tests 保持 context 与 evidence 隔离。 |
