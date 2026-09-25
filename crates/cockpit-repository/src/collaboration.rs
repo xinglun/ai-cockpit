@@ -607,35 +607,32 @@ impl DirectoryMutationObserver {
             }
             let count = count as usize;
             let header_size = std::mem::size_of::<libc::inotify_event>();
-            let mut offset = 0;
-            while offset < count {
-                if count - offset < header_size {
-                    return Err(format!(
-                        "malformed directory mutation event for {reference}"
-                    ));
-                }
-                let mask = u32::from_ne_bytes(
-                    buffer[offset + 4..offset + 8]
-                        .try_into()
-                        .expect("fixed inotify event mask width"),
-                );
-                let name_len = u32::from_ne_bytes(
-                    buffer[offset + 12..offset + 16]
-                        .try_into()
-                        .expect("fixed inotify event name width"),
-                ) as usize;
-                let event_size = header_size.checked_add(name_len).ok_or_else(|| {
-                    format!("directory mutation event length overflow for {reference}")
-                })?;
-                if event_size > count - offset {
-                    return Err(format!(
-                        "truncated directory mutation event for {reference}"
-                    ));
-                }
+            if count < header_size {
                 return Err(format!(
-                    "registered evidence directory was renamed, deleted, or unmounted while being read: {reference} (mask {mask:#x})"
+                    "malformed directory mutation event for {reference}"
                 ));
             }
+            let mask = u32::from_ne_bytes(
+                buffer[4..8]
+                    .try_into()
+                    .expect("fixed inotify event mask width"),
+            );
+            let name_len = u32::from_ne_bytes(
+                buffer[12..16]
+                    .try_into()
+                    .expect("fixed inotify event name width"),
+            ) as usize;
+            let event_size = header_size.checked_add(name_len).ok_or_else(|| {
+                format!("directory mutation event length overflow for {reference}")
+            })?;
+            if event_size > count {
+                return Err(format!(
+                    "truncated directory mutation event for {reference}"
+                ));
+            }
+            return Err(format!(
+                "registered evidence directory was renamed, deleted, or unmounted while being read: {reference} (mask {mask:#x})"
+            ));
         }
     }
 }

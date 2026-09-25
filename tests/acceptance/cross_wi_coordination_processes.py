@@ -95,6 +95,10 @@ def main() -> None:
 
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-cross-wi-") as temporary:
         temporary_path = Path(temporary)
+        composition_tmp_one = temporary_path / "composition-tmp-one"
+        composition_tmp_two = temporary_path / "composition-tmp-two"
+        composition_tmp_one.mkdir()
+        composition_tmp_two.mkdir()
         root = temporary_path / "root"
         worktree_a = temporary_path / "wi-a"
         worktree_b = temporary_path / "wi-b"
@@ -291,15 +295,15 @@ def main() -> None:
             str(composition_path),
         ]
         first = json.loads(
-            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "one"})
+            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_one)})
         )
         composition_bytes = composition_path.read_bytes()
         second = json.loads(
-            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "one"})
+            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_one)})
         )
         assert composition_path.read_bytes() == composition_bytes
         changed_environment = json.loads(
-            require_cli(binary, composition_args, {"CROSS_WI_COMPOSITION_FLAVOR": "two"})
+            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_two)})
         )
         first_result = first["result"]
         second_result = second["result"]
