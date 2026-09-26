@@ -7047,4 +7047,125 @@ mod recovery_retry_consumption_tests {
                 .any(|unknown| { unknown == "recovery_decision_invalid" })
         );
     }
+
+    #[test]
+    fn verification_after_failed_finish_requires_retry() {
+        let directory = repository();
+        let root = directory.path();
+        let work_item_id = "WI-FAILED-FINISH-VERIFY-GATE";
+        let runtime = RuntimeContext {
+            runtime_version: "0.2.113-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"failed-finish-verification-runtime"),
+        };
+        start_work_item_with_options(
+            root,
+            work_item_id,
+            "require explicit recovery after a failed finish",
+            "ordinary verification cannot overwrite a failed lifecycle projection",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec![
+                    "verification after a failed finish requires a Runtime retry".into(),
+                ],
+                required_evidence_classes: vec!["verification".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight before checkpoint");
+        checkpoint_work_item(root, work_item_id).expect("checkpoint");
+        finish_work_item_with_runtime(root, work_item_id, &runtime)
+            .expect_err("finish without verification must persist its failure");
+
+        let active = root.join(".ai/work-items/active");
+        let summary_path = active.join(format!("{work_item_id}.summary.json"));
+        let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+        let verification_path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        let summary_before = fs::read(&summary_path).expect("failed Summary bytes");
+        let outcome_before = fs::read(&outcome_path).expect("failed Outcome bytes");
+        let verification_before = fs::read(&verification_path).ok();
+        let snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("current snapshot");
+        let spawned_marker = root.join(".unapproved-verification-spawned");
+        #[cfg(windows)]
+        let (program, args) = (
+            "cmd",
+            vec![
+                "/C".into(),
+                "echo spawned > .unapproved-verification-spawned".into(),
+            ],
+        );
+        #[cfg(not(windows))]
+        let (program, args) = (
+            "sh",
+            vec![
+                "-c".into(),
+                "printf spawned > .unapproved-verification-spawned".into(),
+            ],
+        );
+        let admission = require_verification_preconditions(root, work_item_id, &runtime, &snapshot);
+        if admission.is_ok() {
+            run_repository_verification(
+                root,
+                &RepositoryVerificationRequest {
+                    node_id: "unapproved-followup-verification".into(),
+                    program: program.into(),
+                    args,
+                    scope: vec!["src/**".into()],
+                    stage: "task".into(),
+                    runner: "local".into(),
+                    runtime_digest: runtime.runtime_digest.to_string(),
+                    base_commit: None,
+                    workers: 1,
+                    work_item_id: Some(work_item_id.into()),
+                    timeout_seconds: None,
+                    policy: RepositoryVerificationPolicy::NeverReuse,
+                },
+            )
+            .expect("the deliberately attempted unapproved child process");
+        }
+
+        assert!(
+            admission.is_err(),
+            "ordinary verification after persisted finish failure must require an explicit retry"
+        );
+        let rejection = admission
+            .as_ref()
+            .expect_err("verification must be blocked")
+            .to_string();
+        assert!(
+            rejection.contains("admission=NeedsHumanDecision")
+                && rejection.contains("lifecycle_gate_failed"),
+            "the Work Item action admission must explain the persisted lifecycle blocker: {rejection}"
+        );
+        assert!(
+            !spawned_marker.exists(),
+            "the verifier child must not start without a pending retry"
+        );
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary after rejected verification"),
+            summary_before,
+            "rejected verification must not change Summary recovery markers"
+        );
+        assert_eq!(
+            fs::read(&outcome_path).expect("Outcome after rejected verification"),
+            outcome_before,
+            "rejected verification must preserve the failed Outcome"
+        );
+        assert_eq!(
+            fs::read(&verification_path).ok(),
+            verification_before,
+            "rejected verification must preserve current verification evidence"
+        );
+    }
 }
