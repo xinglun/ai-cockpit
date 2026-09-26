@@ -1145,8 +1145,13 @@ fn work_item_status_snapshot_with_snapshot(
 
     let acceptance_total = contract.acceptance_criteria.len() as u64;
     let acceptance_evidence = summary["acceptanceEvidence"]
-        .as_object()
+        .as_array()
         .map(|value| value.len() as u64)
+        .or_else(|| {
+            summary["acceptanceEvidence"]
+                .as_object()
+                .map(|value| value.len() as u64)
+        })
         .unwrap_or_default();
     let mut progress_facts = BTreeMap::new();
     progress_facts.insert("acceptanceCriteriaDeclared".into(), acceptance_total);

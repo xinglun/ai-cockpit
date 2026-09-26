@@ -8,9 +8,10 @@ use cockpit_repository::{
     close_work_item_with_structured_decision_and_runtime, finish_work_item,
     finish_work_item_with_runtime, outcome_render_input_with_runtime, plan_resource_finalization,
     preflight_work_item, record_recovery_decision, record_resource_finalization,
-    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
-    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
+    record_verification, record_verification_with_runtime, record_work_item_governance_controls,
+    render_human_outcome, repository_id, run_repository_verification, start_work_item,
+    start_work_item_with_options, work_item_status_index_with_runtime,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, path::PathBuf, process::Command};
@@ -2378,4 +2379,59 @@ fn current_archive_without_close_blocks_new_work_item_entry() {
     )
     .expect_err("current archive without close must block entry");
     assert!(error.to_string().contains(work_item_id));
+}
+
+#[test]
+fn status_progress_counts_array_acceptance_evidence_entries() {
+    let directory = repository();
+    let work_item_id = "WI-ACCEPTANCE-PROGRESS";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "count acceptance evidence accurately",
+        "project the number of acceptance IDs with evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec![
+                "A01: first acceptance".into(),
+                "A02: second acceptance".into(),
+            ],
+            ..Default::default()
+        },
+    )
+    .expect("start Work Item");
+
+    record_work_item_governance_controls(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "acceptanceEvidence": [
+                {
+                    "acceptanceId": "A01",
+                    "evidence": [{
+                        "type": "test",
+                        "path": "tests/first.rs",
+                        "locator": "first_acceptance",
+                        "verification": "passed"
+                    }]
+                },
+                {
+                    "acceptanceId": "A02",
+                    "evidence": [{
+                        "type": "test",
+                        "path": "tests/second.rs",
+                        "locator": "second_acceptance",
+                        "verification": "passed"
+                    }]
+                }
+            ]
+        }),
+    )
+    .expect("record acceptance evidence projection");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("status projection");
+    assert_eq!(status.progress_facts["acceptanceCriteriaDeclared"], 2);
+    assert_eq!(status.progress_facts["acceptanceEvidenceEntries"], 2);
 }
