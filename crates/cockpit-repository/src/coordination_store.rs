@@ -236,6 +236,30 @@ impl CoordinationStore {
 
     pub fn publish_event(
         &self,
+        event: CoordinationEvent,
+    ) -> Result<CoordinationEvent, CoordinationError> {
+        if event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished {
+            return Err(CoordinationError::RecoveryRequired(
+                "OutcomePublished events must use the typed publish_outcome entry point".into(),
+            ));
+        }
+        self.publish_event_internal(event)
+    }
+
+    pub(crate) fn publish_validated_outcome_event(
+        &self,
+        event: CoordinationEvent,
+    ) -> Result<CoordinationEvent, CoordinationError> {
+        if event.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished {
+            return Err(CoordinationError::RecoveryRequired(
+                "typed Outcome publication accepts only OutcomePublished events".into(),
+            ));
+        }
+        self.publish_event_internal(event)
+    }
+
+    fn publish_event_internal(
+        &self,
         mut event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
         self.runtime.validate_candidate()?;

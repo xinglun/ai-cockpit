@@ -577,6 +577,37 @@ fn event_publication_rejects_evidence_reached_through_parent_symlink() {
     );
 }
 
+#[test]
+fn generic_event_publication_rejects_outcome_published_without_typed_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let provider = registration_with_outcome(root.path(), "WI-GENERIC-OUTCOME");
+    let repository_id = provider.repository_id.clone();
+    store.register(provider).expect("register provider");
+
+    let result = store.publish_event(CoordinationEvent {
+        schema_version: 1,
+        event_id: "generic-outcome-publication".into(),
+        repository_id,
+        work_item_id: "WI-GENERIC-OUTCOME".into(),
+        generation: 1,
+        kind: CoordinationEventKind::OutcomePublished,
+        source: "untyped-direct-caller".into(),
+        evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: vec!["api".into()],
+    });
+
+    assert!(
+        matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("publish_outcome")),
+        "generic publication must require the typed, evidence-validating entry point: {result:?}"
+    );
+    assert!(
+        store.inspect().expect("inspect store").events.is_empty(),
+        "rejected generic OutcomePublished events must not be persisted"
+    );
+}
+
 #[cfg(unix)]
 #[test]
 fn inspection_reports_registration_evidence_reached_through_parent_symlink() {
