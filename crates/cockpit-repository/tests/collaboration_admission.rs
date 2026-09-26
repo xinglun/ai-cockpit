@@ -221,24 +221,12 @@ fn record_typed_verification(root: &Path, work_item_id: &str) {
 
 fn publish_verification_outcome(
     store: &CoordinationStore,
-    root: &Path,
+    _root: &Path,
     work_item_id: &str,
     generation: u64,
     outcome_id: &str,
 ) {
-    store
-        .publish_event(CoordinationEvent {
-            schema_version: 1,
-            event_id: format!("verification-{work_item_id}-{generation}-{outcome_id}"),
-            repository_id: repository_id(root),
-            work_item_id: work_item_id.into(),
-            generation,
-            kind: CoordinationEventKind::OutcomePublished,
-            source: "verified-outcome-publication".into(),
-            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
-            evidence_digests: Default::default(),
-            outcome_ids: vec![outcome_id.into()],
-        })
+    publish_outcome(store, work_item_id, generation, outcome_id)
         .expect("publish generation-bound verification outcome");
 }
 
@@ -1047,18 +1035,7 @@ fn impact_blocks_only_affected_consumers_and_unrelated_work_continues() {
             ),
         ))
         .unwrap();
-    store
-        .publish_event(CoordinationEvent {
-            kind: CoordinationEventKind::OutcomePublished,
-            event_id: "published-1".into(),
-            repository_id: repository_id(root.path()),
-            work_item_id: "WI-PROVIDER".into(),
-            generation: 1,
-            source: "provider-outcome".into(),
-            outcome_ids: Vec::new(),
-            ..impact(root.path(), "WI-PROVIDER", 1, "published-template")
-        })
-        .unwrap();
+    publish_outcome(&store, "WI-PROVIDER", 1, "api").unwrap();
     assert!(
         admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"),)
             .unwrap()
@@ -1165,6 +1142,23 @@ fn verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_recei
             .any(|blocker| blocker == "dependency_evidence_missing:WI-PROVIDER:api"),
         "a publication must not survive a byte-level evidence change: {:?}",
         mutated_evidence.blockers
+    );
+
+    publish_outcome(&store, "WI-PROVIDER", 1, "api")
+        .expect("the current generation must be able to republish its new evidence bytes");
+    let publications = store.inspect().expect("inspect append-only publications");
+    assert_eq!(
+        publications.events.len(),
+        2,
+        "republishing must preserve the old event and append a new exact binding"
+    );
+    let rebound_evidence =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("admission after republishing current evidence");
+    assert!(
+        rebound_evidence.allowed,
+        "the newest exact evidence binding must satisfy the dependency: {:?}",
+        rebound_evidence.blockers
     );
 }
 

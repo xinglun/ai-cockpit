@@ -283,39 +283,58 @@ fn verification_evidence_is_complete_with_reader<F>(
 where
     F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
 {
+    projection.events.iter().any(|publication| {
+        verification_evidence_matches_publication(publication, provider, outcome, &mut read_file)
+    })
+}
+
+fn verification_evidence_matches_publication<F>(
+    publication: &CoordinationEvent,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    read_file: &mut F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
     let root = Path::new(&provider.worktree_path);
     let expected_reference = format!(".ai/evidence/{}.verification.json", provider.work_item_id);
-    if !outcome
-        .evidence_refs
-        .iter()
-        .any(|reference| reference == &expected_reference)
+    let declared_references = outcome.evidence_refs.iter().collect::<BTreeSet<_>>();
+    if publication.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished
+        || publication.repository_id != provider.repository_id
+        || publication.work_item_id != provider.work_item_id
+        || publication.generation != provider.generation
+        || !publication
+            .outcome_ids
+            .iter()
+            .any(|outcome_id| outcome_id == &outcome.outcome_id)
+        || outcome.published_head != provider.head
+        || !declared_references.contains(&&expected_reference)
+        || declared_references.len() != outcome.evidence_refs.len()
+        || publication.evidence_refs != outcome.evidence_refs
+        || publication.evidence_digests.len() != declared_references.len()
+        || publication
+            .evidence_digests
+            .keys()
+            .any(|reference| !declared_references.contains(reference))
     {
         return false;
     }
-    let Some(publication) = projection.events.iter().find(|event| {
-        event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished
-            && event.repository_id == provider.repository_id
-            && event.work_item_id == provider.work_item_id
-            && event.generation == provider.generation
-            && event
-                .outcome_ids
-                .iter()
-                .any(|outcome_id| outcome_id == &outcome.outcome_id)
-            && event
-                .evidence_refs
-                .iter()
-                .any(|reference| reference == &expected_reference)
-    }) else {
-        return false;
-    };
-    let Ok(bytes) = read_file(root, &expected_reference) else {
-        return false;
-    };
-    if publication.evidence_digests.get(&expected_reference)
-        != Some(&cockpit_core::Digest::sha256_bytes(&bytes))
-    {
-        return false;
+    let mut observed_evidence = BTreeMap::new();
+    for reference in &outcome.evidence_refs {
+        let Ok(bytes) = read_file(root, reference) else {
+            return false;
+        };
+        if publication.evidence_digests.get(reference)
+            != Some(&cockpit_core::Digest::sha256_bytes(&bytes))
+        {
+            return false;
+        }
+        observed_evidence.insert(reference, bytes);
     }
+    let Some(bytes) = observed_evidence.get(&expected_reference) else {
+        return false;
+    };
     let Ok(envelope) = serde_json::from_slice::<crate::VerificationEvidenceV2>(&bytes) else {
         return false;
     };
@@ -335,7 +354,7 @@ where
     {
         return false;
     }
-    let Ok(contract) = read_registered_contract_with_reader(provider, &mut read_file) else {
+    let Ok(contract) = read_registered_contract_with_reader(provider, read_file) else {
         return false;
     };
     let Ok(git) = GitRepository::discover(root) else {
@@ -2226,7 +2245,7 @@ pub fn publish_outcome(
     generation: u64,
     outcome_id: &str,
 ) -> Result<CoordinationEvent, CoordinationError> {
-    let mut projection = collaboration_projection(store)?;
+    let projection = collaboration_projection(store)?;
     if !projection.unknowns.is_empty() {
         return Err(CoordinationError::RecoveryRequired(format!(
             "cannot publish an outcome while coordination facts are unknown: {}",
@@ -2327,14 +2346,18 @@ pub fn publish_outcome(
             })
     });
     if verification_required {
-        projection.events.push(event.clone());
-        if !verification_evidence_is_complete(&projection, &provider, outcome) {
+        if !verification_evidence_matches_publication(
+            &event,
+            &provider,
+            outcome,
+            &mut read_registered_worktree_file,
+        ) {
             return Err(CoordinationError::RecoveryRequired(format!(
                 "outcome {outcome_id} requires a current successful verification receipt before publication"
             )));
         }
     }
-    store.publish_event(event)
+    store.publish_validated_outcome_event(event)
 }
 
 pub fn recover_impact(
