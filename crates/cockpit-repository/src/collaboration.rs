@@ -361,7 +361,7 @@ where
     let Some(bytes) = observed_evidence.get(&expected_reference) else {
         return false;
     };
-    let Ok(envelope) = serde_json::from_slice::<crate::VerificationEvidenceV2>(&bytes) else {
+    let Ok(envelope) = serde_json::from_slice::<crate::VerificationEvidenceV2>(bytes) else {
         return false;
     };
     if envelope.work_item_id != provider.work_item_id

@@ -67,6 +67,11 @@ pub struct RecoveryReport {
     pub unknowns: Vec<String>,
 }
 
+struct ObservedEventEvidence {
+    digests: BTreeMap<String, Digest>,
+    bytes: BTreeMap<String, Vec<u8>>,
+}
+
 #[derive(Clone, Debug)]
 pub struct CoordinationStore {
     root: PathBuf,
@@ -300,15 +305,14 @@ impl CoordinationStore {
                     actual: event.generation,
                 });
             }
-            let (observed_digests, observed_evidence) =
-                self.observed_event_evidence_bytes(&event, registration)?;
-            if event.evidence_digests != observed_digests {
+            let observed = self.observed_event_evidence_bytes(&event, registration)?;
+            if event.evidence_digests != observed.digests {
                 return Err(CoordinationError::RecoveryRequired(
                     "event evidence digest does not match current file bytes".into(),
                 ));
             }
-            event.evidence_digests = observed_digests;
-            validate_publication(&event, &inspection, registration, &observed_evidence)?;
+            event.evidence_digests = observed.digests;
+            validate_publication(&event, &inspection, registration, &observed.bytes)?;
             self.append_event_under_lock(event)
         })
     }
@@ -942,14 +946,14 @@ impl CoordinationStore {
         registration: &WorktreeRegistration,
     ) -> Result<BTreeMap<String, Digest>, CoordinationError> {
         self.observed_event_evidence_bytes(event, registration)
-            .map(|(digests, _)| digests)
+            .map(|observed| observed.digests)
     }
 
     fn observed_event_evidence_bytes(
         &self,
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
-    ) -> Result<(BTreeMap<String, Digest>, BTreeMap<String, Vec<u8>>), CoordinationError> {
+    ) -> Result<ObservedEventEvidence, CoordinationError> {
         self.validate_event_facts(event, registration)?;
         let root = Path::new(&registration.worktree_path);
         let mut digests = BTreeMap::new();
@@ -965,7 +969,10 @@ impl CoordinationStore {
             digests.insert(reference.clone(), Digest::sha256_bytes(&bytes));
             evidence.insert(reference.clone(), bytes);
         }
-        Ok((digests, evidence))
+        Ok(ObservedEventEvidence {
+            digests,
+            bytes: evidence,
+        })
     }
 
     fn read_reservations(&self) -> Result<Vec<ResourceReservation>, CoordinationError> {
