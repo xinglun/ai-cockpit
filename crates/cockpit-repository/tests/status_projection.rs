@@ -7,11 +7,11 @@ use cockpit_repository::{
     checkpoint_work_item, close_work_item_with_structured_decision,
     close_work_item_with_structured_decision_and_runtime, finish_work_item,
     finish_work_item_with_runtime, outcome_render_input_with_runtime, plan_resource_finalization,
-    preflight_work_item, record_recovery_decision, record_resource_finalization,
-    record_verification, record_verification_with_runtime, record_work_item_governance_controls,
-    render_human_outcome, repository_id, run_repository_verification, start_work_item,
-    start_work_item_with_options, work_item_status_index_with_runtime,
-    work_item_status_snapshot_with_runtime,
+    preflight_work_item, preflight_work_item_with_runtime_report, record_recovery_decision,
+    record_resource_finalization, record_verification, record_verification_with_runtime,
+    record_work_item_governance_controls, render_human_outcome, repository_id,
+    run_repository_verification, start_work_item, start_work_item_with_options,
+    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, path::PathBuf, process::Command};
@@ -2434,4 +2434,196 @@ fn status_progress_counts_array_acceptance_evidence_entries() {
         .expect("status projection");
     assert_eq!(status.progress_facts["acceptanceCriteriaDeclared"], 2);
     assert_eq!(status.progress_facts["acceptanceEvidenceEntries"], 2);
+}
+
+#[test]
+fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-INCOMPLETE-SCENARIO";
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "keep finish admission aligned with governance controls",
+        "a verified execution does not replace required scenario evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["the required scenario is explicitly verified".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start Work Item");
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "required scenario remains unverified",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "the missing scenario keeps finish unavailable",
+                "verificationPlan": "run the focused status-projection regression"
+            }]
+        }),
+        "declare required scenario before preflight",
+    )
+    .expect("declare required scenario");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "scenario-status-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("run verification");
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &serde_json::to_value(&run.receipt).expect("verification receipt"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+
+    let controls = cockpit_repository::validate_work_item_governance_controls_with_runtime(
+        directory.path(),
+        work_item_id,
+        &current_runtime,
+    )
+    .expect("governance controls");
+    assert_eq!(controls.state, "unknown", "{controls:#?}");
+    assert_eq!(controls.scenario_coverage, "unknown", "{controls:#?}");
+    let incomplete_outcome =
+        outcome_render_input_with_runtime(directory.path(), work_item_id, &current_runtime)
+            .expect("incomplete Outcome");
+    assert!(
+        render_human_outcome(&incomplete_outcome, "en")
+            .contains("Scenario-coverage evidence is insufficient")
+    );
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &current_runtime)
+            .expect("status projection");
+    let refreshed_preflight =
+        preflight_work_item_with_runtime_report(directory.path(), &contract_path, &current_runtime)
+            .expect("preflight re-evaluates current action admission");
+    assert_eq!(
+        refreshed_preflight
+            .action_admission
+            .as_ref()
+            .expect("preflight action admission"),
+        &status,
+        "preflight and status must share the same admission and recovery action"
+    );
+    assert!(
+        !status.safe_actions.iter().any(|action| action == "finish"),
+        "finish must not be admitted while required scenario controls are blocked: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "record_governance_controls")
+    );
+    cockpit_repository::require_current_action_admission(
+        directory.path(),
+        work_item_id,
+        "record_governance_controls",
+        &current_runtime,
+    )
+    .expect("Runtime must admit the explicit controls write");
+    assert_eq!(
+        status
+            .action_explanation
+            .as_ref()
+            .expect("action explanation")
+            .recommended_action
+            .as_deref(),
+        Some("record_governance_controls")
+    );
+    let contract_bytes_before_finish = fs::read(&contract_path).expect("Contract bytes");
+    let finish_error =
+        finish_work_item_with_runtime(directory.path(), work_item_id, &current_runtime)
+            .expect_err("finish must reject the same incomplete governance controls");
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after rejected finish"),
+        contract_bytes_before_finish,
+        "rejected finish must preserve the Contract"
+    );
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("action explanation")
+        .admission_digest
+        .to_string();
+    assert!(
+        finish_error
+            .to_string()
+            .contains("scenario_coverage_insufficient"),
+        "unexpected finish rejection: {finish_error}"
+    );
+    assert!(
+        finish_error
+            .to_string()
+            .contains("record_governance_controls")
+    );
+    assert!(finish_error.to_string().contains(&admission_digest));
+    record_work_item_governance_controls(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverage": [{
+                "scenario": "required scenario remains unverified",
+                "required": true,
+                "status": "verified",
+                "evidence": ["tests/status_projection.rs::status_does_not_admit_finish_when_required_scenario_controls_are_incomplete"],
+                "expected": "the missing scenario keeps finish unavailable",
+                "verificationPlan": "run the focused status-projection regression"
+            }]
+        }),
+    )
+    .expect("record required scenario evidence");
+    let resolved =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &current_runtime)
+            .expect("resolved status projection");
+    let resolved_outcome =
+        outcome_render_input_with_runtime(directory.path(), work_item_id, &current_runtime)
+            .expect("resolved Outcome");
+    assert!(
+        !render_human_outcome(&resolved_outcome, "en")
+            .contains("Scenario-coverage evidence is insufficient")
+    );
+    assert!(
+        resolved
+            .safe_actions
+            .iter()
+            .any(|action| action == "finish")
+    );
+    assert_eq!(
+        resolved
+            .action_explanation
+            .as_ref()
+            .expect("resolved action explanation")
+            .recommended_action
+            .as_deref(),
+        Some("finish")
+    );
+    finish_work_item_with_runtime(directory.path(), work_item_id, &current_runtime)
+        .expect("finish is admitted after required controls are recorded");
 }

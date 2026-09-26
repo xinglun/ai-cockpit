@@ -15,6 +15,12 @@ generated records. At handoff, give the separate human Outcome required by
 `AGENTS.md`. Queries are read-only; `preflight` is an explicit, idempotent
 write and does not run verification.
 
+When fresh status recommends `record_governance_controls`, record only the
+explicitly supplied evidence with `work-item controls --repo <repository>
+--id <work-item> --input <json>` (or MCP `work_item_controls`). Both write
+surfaces re-check current Runtime action admission. Re-query status afterward;
+required controls that remain incomplete do not admit `finish`.
+
 ## Serial and cross-Work-Item use
 
 One Work Item runs serially by default. `compatible: false` /

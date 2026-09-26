@@ -4821,15 +4821,24 @@ pub(crate) fn check_verification_preconditions(
 
 fn is_test_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
+    let file_name = normalized.rsplit('/').next().unwrap_or(&normalized);
+    let spec_source_name = [
+        ".rs", ".py", ".js", ".jsx", ".ts", ".tsx", ".go", ".java", ".kt", ".swift", ".sh", ".rb",
+        ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
+    ]
+    .iter()
+    .any(|extension| {
+        file_name.strip_suffix(extension).is_some_and(|stem| {
+            stem == "spec" || stem.ends_with("_spec") || stem.ends_with(".spec")
+        })
+    });
     normalized.starts_with("tests/")
         || normalized.starts_with("test/")
         || normalized.contains("/tests/")
         || normalized.contains("/test/")
         || normalized.contains("/spec/")
-        || normalized
-            .rsplit('/')
-            .next()
-            .is_some_and(|name| name.contains("test") || name.contains("spec"))
+        || file_name.contains("test")
+        || spec_source_name
 }
 
 fn is_coverage_path(path: &str) -> bool {
@@ -4933,23 +4942,11 @@ fn assertion_count(lines: &[String]) -> usize {
 
 fn contains_test_bypass(text: &str) -> bool {
     let text = text.to_ascii_lowercase();
-    let removes_tests = text.lines().any(|line| {
-        let line = line.trim();
-        (line.contains("delete")
-            || line.contains("remove")
-            || line.contains("disable")
-            || line.contains("skip"))
-            && line.contains("test")
-    });
-    let claims_success = text
-        .lines()
-        .any(|line| line.contains("pass") || line.contains("green") || line.contains("ci"));
-    removes_tests && claims_success
-        || text.lines().any(|line| {
-            line.contains("continue-on-error: true")
-                || line.contains("allow_failure: true")
-                || line.contains("|| true")
-        })
+    text.lines().any(|line| {
+        line.contains("continue-on-error: true")
+            || line.contains("allow_failure: true")
+            || line.contains("|| true")
+    })
 }
 
 fn assignment(line: &str) -> Option<(String, String)> {

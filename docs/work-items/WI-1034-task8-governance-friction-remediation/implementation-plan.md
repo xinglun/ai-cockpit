@@ -9,6 +9,22 @@
 - 每个阶段记录：完成/总验收项、关联 OBS、提交 SHA、Runtime digest、检查命令及结果、未决项。百分比仅按验收项数量计算；无可靠时长样本不报 ETA。当前有效授权与边界不变时继续，不重复问“是否开始”。
 - 不发布、不打 tag、不升级版本。最终停在用户全面 review、决定是否 release 的边界。
 
+## 治理摩擦完整盘点
+
+本轮先将此前独立审查、执行过程与用户明确边界合并核对到活动 Contract 的 19 个 Acceptance ID；下表是问题域到验收项的覆盖索引，不新增 Contract 意图或权限。逐条预期、失败条件和测试入口见下方 Stage 与 OBS 矩阵。
+
+| 治理摩擦域 | 必须覆盖的 Contract ID | 明确验收边界 |
+| --- | --- | --- |
+| commit/snapshot 变化使 Runtime 证据陈旧；同版本不同 Runtime 二进制容易混用 | A01, A02, A14 | 分离 source、Contract、Runtime digest 与授权；只重做必要的新鲜证据，不重复索要仍有效的授权；每个最终流程固定候选二进制 digest |
+| 查询、preflight、验证和拒绝结果之间职责/状态不一致 | A03, A04, A05, A07, A08 | 查询只读；preflight 显式且幂等；各入口共享版本化准入/下一动作；失败保留原执行与诊断 |
+| required check 缺失或实现支持文件太晚才暴露 | A06, A11 | spawn 前核对完整覆盖；同 intent 的必要 scope 可治理增补，新意图/权限不得借 amendment 偷渡 |
+| Agent 看不到能力或把可选并行误当串行禁用；只展示未实际验收 | A09, A16 | manifest、MCP schema、指南之后立即跑真实多进程/多 worktree验收；无 parallel 声明仍可串行，未满足并行条件则拒绝 |
+| 长执行中断、诊断难读/丢失，或把文本命中误判为测试绕过 | A10, A15, A17 | spawn 前与逐节点持久化；真实中断不显示通过/可复用；摘要去重但保留原始节点证据；诊断文案与真实绕过分别验收 |
+| merge/close lineage、三语投影、平台 gate 与 hosted 证据不能互相证明 | A12, A13, A18 | staged candidate 与 receipt/parity 精确绑定；Windows job 真正执行；close 状态、三语文档与 readyOnBase 一致 |
+| 单 WI 串行治理、进度汇报和 release 边界造成重复门禁或流程漂移 | A19 | 一个 WI 串行实现与分层提交；按有证据的验收项报告；PR 独立审查、合并清理后停止在发布前，不发布/打 tag |
+
+完整性约束：上表覆盖 A01…A19 共 19 项；不得将已有修复、历史绿色 CI 或“有命令/有字段”计作本轮验收。仓库没有 Makefile 或受支持 Make 入口，因此 canonical 路径固定为 repository-bound Runtime CLI、Cargo 和 gate manifest/CI；不能为通过通用模板而新增 Make，也不能以门禁例外代替缺少的真实证据。
+
 ## 源码与验收入口盘点
 
 首轮实现范围以 Runtime Contract 为准。当前已定位的主路径如下；新增路径必须先经 Contract scope 检查：
@@ -46,6 +62,8 @@
 
 提交前运行针对性 repository tests 与 fmt。提交后重新查询 Runtime；明确记录 HEAD、source snapshot digest、Contract digest、Runtime executable digest 四者，验证一次提交没有把内容身份误当作变更。
 
+截至 2026-09-27 的只读 Runtime 核对：HEAD `7ace37a6a59f7057b0de1d4a4a5e579d3d987244`，source snapshot `sha256:36c62c1f2efe617b9619ecc4337e1d3e8b23c3911302f6dc6d12e7a008ad40f7`，Contract `sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25`，当前候选 Runtime `0.2.113 / sha256:acf5e1175bde3414240738ab9314798fda74c723d7597aa4cce767ea2bac198b`（doctor=ok、agent doctor=VERIFIED）。现有 `snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits`、`empty_commit_preserves_source_identity_and_current_verification_evidence`、`snapshot_digest_is_stable_when_the_same_source_change_is_committed` 覆盖治理提交/空提交/源码变化边界；旧 verification 仍绑定 Runtime `e4fe327e…` 与 snapshot `e4f57c00…`，因此此处只记录身份现状，不将旧 receipt 计作当前通过，最终结论等待唯一的当前候选 canonical verification。
+
 ### Stage 2 — 一致准入、前置覆盖、恢复路径与 scope 早发现（审查提交 2）
 
 覆盖 OBS-04/05/06/07/08/11。预计检查 `cockpit-repository` admission/preflight/lifecycle、CLI help/output 与对应测试。
@@ -53,6 +71,7 @@
 红测与通过条件：
 
 - status、preflight 与被拒绝命令共享同一版本化 admission/blocker/next-action 结果；同一事实不出现互相矛盾的允许/拒绝理由。
+- 必需 scenario/control 证据未齐时，status 不得列出 `finish`；`work-item controls`/MCP `work_item_controls` 仅在 fresh Runtime admission 允许时写入；拒绝需回传同一 admission digest 和恢复动作。可选且尚未声明的 intent alignment 维持 unknown，不制造额外人类门禁。
 - checkpoint WI 的 preflight 过期或缺失時，status 给出可执行 `run_preflight`；未刷新拒绝 verify、刷新且快照仍匹配后才允许，不增加第二次 start confirmation。
 - 任一 required scenario/check/evidence 映射缺失，在 spawn 前拒绝，精确报告缺项且启动进程数为 0；不得由调用方布尔值代替覆盖证明。
 - amend 的自动 revalidation 与显式 `revalidate-amendment` 语义一致，help/结果给出唯一后续动作；同一 Contract 不要求无效重复 revalidation。
@@ -61,26 +80,42 @@
 
 依次跑相应 repository integration tests 与 CLI tests。记录“拒绝时零 spawn”作为验收证据。
 
+2026-09-27 收敛复核发现 A04 一处实现遗漏：Outcome 报必需 scenario evidence 不足时，旧 Status 仍把 `finish` 列为 safe action；finish 的 controls gate 也只拒绝 error finding，未覆盖 unknown required-scenario 状态。已改为共享 finish-control gap 判定；status 在 verified-but-incomplete 时撤销 finish、推荐 `record_governance_controls`，CLI/MCP 写入口重新计算 Runtime admission，finish 拒绝回传 status admission digest；可选且未声明的 intent alignment 仍为 unknown、但不新建阻塞门禁。新增 repository regression 覆盖 preflight/status 投影一致、写 controls 后恢复 finish、拒绝不改变 scope；CLI lifecycle 与 MCP controls 分别覆盖准入成功/归档后拒绝。首轮 `cargo test --locked --workspace` 唯一失败为 `source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish` 仍断言旧的底层错误文本；按当前 A04 入口改为核对 Status 不含 `finish`、拒绝含 `evidence_stale` 与同一 admission digest。该测试定向重跑通过，随后第二轮全 workspace 通过（退出码 0）。之后全量 Clippy 首次发现 `scope_amendment` 中 Unix/Windows 两分支的参数相同，已去掉冗余条件；对应 CLI 回归和全 workspace/all-targets/all-features Clippy 重跑通过（退出码 0）。`cockpit-repository` 的 `status_projection`、`lifecycle_entry`、`governance_controls`、`scenario_matrix_next_action`、`collaboration_admission`、`recovery_decision`，`cockpit-cli` 的 `lifecycle`、`preflight`，以及 `cockpit-mcp` 的 `rpc`/`collaboration_rpc` 均通过；本轮源码快照的 canonical Runtime verification 仍待最终候选阶段，旧 receipt 不计当前通过。
+
 ### Stage 3 — 协作 admission、串行回退与 Agent 能力发现（审查提交 3）
 
 覆盖 OBS-09/16。预计检查 `.ai/agent-interface.json`、`cockpit-protocol`、`cockpit-agent`、`cockpit-mcp`、普通 WI guide、serial/parallel admission tests 与现有 linked-worktree process acceptance。
 
 实现边界与验收：
 
-1. 仅用当前 manifest 已支持的 capabilities 字符串扩充发现面；不向 deny-unknown interface object 加新字段，不改全局配置。旧 `0.2.113` parser 和当前 candidate 都必须能读该 manifest。
+1. 仅用当前 manifest 已支持的 capabilities 字符串扩充发现面；不向 deny-unknown interface object 加新字段，不改全局配置。旧 `0.2.113` parser 和当前 candidate 都必须能读该 manifest。CI 的兼容运行时从不可变基线 v0.2.113（commit 73f8bd2b86338f8025ef12ba9fff15bf45ef5782）构建，不能把该输入做成可选；不跟随合并后的默认分支，以免“旧 Runtime”实际包含新能力。
 2. MCP `tools/list` 必须返回对应协作工具和完整参数 schema；能力文档必须告诉 Agent 如何发现 Runtime 准入、隔离 linked worktree、登记/续租 lease、报告/去重影响、暂停/确认/安全暂停/恢复，并说明 stale generation 如何拒绝。
 3. 单 WI、没有 parallel 声明时，serial readiness 明确为允许/可继续；并行请求缺少兼容声明、隔离 checkout 或 lease 时 fail closed。不能以 `compatible:false` 将可选 parallel 缺失投影成 serial 禁止。
 4. 能力暴露完成后立即做独立的“发现与使用验收”，不能等到最后只检查文档存在：解析 manifest、调用 agent doctor、MCP tools/list schema 断言、按 guide 走单 WI 串行正例/并行未声明负例，并运行真实多进程、多 linked worktree 协调验收。保存实际返回的 tool names/schema、binary digest 和进程计数。
+5. Agent 默认读取集保持在既有硬预算内：详细流程放在参考手册，普通 WI guide 保留最短可执行入口；运行 `tests/docs/governance_cost_baseline_test.py`，不得通过提高 `MAXIMUM_BYTES` 消除超限。
 
 验收失败即本阶段未完成，不进入下一阶段。无权限或工具缺失须列为明确 blocker，不以模拟工具列表代替。
+
+Stage 3 当前候选实测：`cross_wi_coordination_processes.py` 返回 `state=passed`；Runtime `0.2.113` binary digest `sha256:acf5e1175bde3414240738ab9314798fda74c723d7597aa4cce767ea2bac198b`。两 linked worktree 并发登记成功，重复 impact event 只保留一个；串行正例获准并 spawn 1 个进程，未声明并行 lease 被拒；composition 首次 1、相同输入再次 0、观察到环境变化后 1。MCP `tools/list` 返回的工具名为 `blockers`, `capability_show`, `delegated_evidence_list`, `evidence_get`, `knowledge_query`, `preflight`, `repository_observe`, `safe_actions`, `status`, `verify`, `work_item_composition`, `work_item_controls`, `work_item_coordination`, `work_item_get`, `work_item_list`, `work_item_outcome`, `work_item_parallel`, `work_item_recover`, `work_item_recover_selected_lineage`, `work_item_start`, `work_item_status`, `work_item_validate`；完整 coordination input schema 随 acceptance JSON 输出，schema digest 为 `sha256:bb20cd6825ca19f4a8be31812c4bbde3694f5de320162352a5f4039401884f5e`。gate runner 已补为将此成功输出写入 `target/repository-gate-diagnostics/conformance_cross_wi_coordination_processes.log`，并把路径/digest放入 gate report/receipt；空输出或超 32 KiB 被截断均 fail closed，CI 上传该日志。runner 有完整输出、摘要一致性和截断拒绝回归。固定旧 Runtime 同为版本 `0.2.113`、digest `sha256:0c13b850e0b844ae33d718244f04f2dd4e0a4e56f4faa10e4cffef9f28c632ab`：可读 manifest，但不暴露 coordination/composition tools；不同 digest 未被误判为候选能力。此为本地进程验收与 gate-runner 回归；最终 manifest gate 与 hosted Windows 仍待最终候选验证。
+
+2026-09-27 用当前最终候选重新执行上述发现与使用验收：`target/release/ai-cockpit` 为 `0.2.113 / sha256:ce862280d5a21f6f89a6280fc99221549a437756523e46fc31da2ce32e0e3380`；`--legacy-binary target/legacy-runtime/release/ai-cockpit` 为同版本、不同 digest `sha256:0c13b850e0b844ae33d718244f04f2dd4e0a4e56f4faa10e4cffef9f28c632ab`。结果 `state=passed`：2 linked worktrees、2 个并发登记、重复事件去重为 1；单 WI 串行执行 1 个进程且获准，未声明并行 lease 被拒；composition 相同输入从 1 个进程复用至 0，运行环境变化后重新执行 1 个。MCP coordination schema 完整；旧 Runtime 可读 manifest 但不广告 coordination/composition tools。此候选运行的完整 stdout 由命令返回；需由 canonical gate runner 再执行并持久化诊断/receipt，才能作为正式 gate artifact。
 
 ### Stage 4 — bounded execution、耐中断记录与诊断保真（审查提交 4）
 
 覆盖 OBS-10/15/17。预计检查 `cockpit-verification` bounded executor、composition/lifecycle attempt store、lint aggregation、test-weakening analyzer 及相关测试。
 
+2026-09-27 scope revalidation：Contract quality report 暴露 Stage 4 实际调用的
+`crates/cockpit-verification/tests/composition.rs` 与 `execution.rs` 未被初始
+scope 覆盖。通过 Runtime `work-item amend` 仅追加
+`crates/cockpit-verification/tests/**`；Acceptance、intent、authority 和停止边界未变。
+Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下一动作；该动作需由
+包含本轮 analyzer 修正的候选 Runtime 执行。
+
+同日复核发现 test-weakening 扫描器把文档 `spec.md` 与夹具清理/decision 断言的词面组合误判为绕过。已将测试路径识别限制到测试目录及常见测试源码命名，并将绕过判断收敛到明确可执行标记；新增配对负/正例：文档 spec 和夹具清理不触发，动态构造的 `cargo test || true` 仍触发。`cargo test --locked -p cockpit-repository --test governance_signals` 当前通过 8/8；完整 Workspace 验证也在当前候选上通过，包含原有 xit/skip 正例。候选 preflight 不再报告 `test_weakening`。后续计划文档更新会改变仓库快照，因此这些结果需在文档更新后重新绑定最终 Runtime verification。
+
 红测与通过条件：
 
-- 子进程 spawn 前 durable attempt envelope 绑定 WI/Contract/source/Runtime digest；各节点完成即落盘；SIGINT/强制中断后 attempt 明确 interrupted、保留 signal 和清理结果，不可投影成 passed 或 reuse。
+- 子进程 spawn 前 durable attempt envelope 绑定 WI/Contract/source/Runtime digest；各节点完成即落盘；SIGINT/强制中断后 attempt 明确 `command_interrupted`/`interrupted_owner_terminated`，持久化 signal 和清理结果，不可投影成 passed 或 reuse。新 signal 字段需提升 Composition attempt schema；旧版记录保留可读，但不得因此继续复用。
 - 同一 lint 根因的人类摘要去重、可读；每个 crate/node 仍保留 raw bytes、exit status 和独立结果，不折叠不同失败。
 - 诊断字符串里的 “remove”等词不构成 test weakening；真实 skip/绕过（如 xit）仍由强制 gate 拒绝，错误报告包含匹配文本与来源。
 
@@ -96,6 +131,8 @@
 - hosted gate 仅接受精确 staged candidate 上的有效 recovery/retirement/archive/close receipts 和三语 parity；工作区未提交 receipt 不能冒充 hosted evidence；不得生成成功 close/verification receipt。
 - 每个受影响的平台测试依赖在对应 target 可用；Unix-only import 受 cfg 约束、整数类型正确、路径按 `Path` 语义比对。manifest 有精确测试行，Windows hosted job 实际执行并作为 gate evidence。
 
+当前全仓 Runtime readiness 另有既存 lineage：`readyOnBase=false`，`unclosedArchivedWorkItems` 与 `historicalDebt` 均明确列出 `WI-1031-cross-wi-acceptance-corrections`（`legacy_missing_or_invalid_finalization`）。这与投影中的未关闭列表一致，不能伪称已修复；保留其 archive/evidence 不变，仅在 Runtime 查询证明 Task 8 的当前 PR/merge/close 被它实际阻断时再停下报告，不在本 WI 中擅自创建或恢复另一条历史 Work Item。
+
 先运行本地 manifest/docs regression，再运行相关 Windows target checks；若仓库没有可用本地 Windows runner，以 GitHub Windows job 为必要阻塞验收，不以交叉编译替代执行测试。
 
 ### Stage 6 — 全量追踪、canonical 验证、独立审查与合并清理（审查提交 6 / 收敛）
@@ -109,12 +146,14 @@
 3. `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`
 4. `python3 tests/ci/repository_gate_manifest_test.py`
 5. release candidate `cargo build --locked --release -p cockpit-cli --bin ai-cockpit`
-6. `python3 tests/acceptance/cross_wi_coordination_processes.py --binary target/release/ai-cockpit`（扩展后的真实并发和串行验收）
+6. `python3 tests/acceptance/cross_wi_coordination_processes.py --binary target/release/ai-cockpit --legacy-binary target/legacy-runtime/release/ai-cockpit`（扩展后的真实并发、串行和旧 Runtime 兼容验收）
 7. `bash tests/docs/documentation_acceptance.sh`
 8. `bash tests/ci/governance_integrity_gate_test.sh`
 9. Manifest 中所有新增/受影响 gate，包含 Windows 实际测试 job。
 
 若 Contract canonical commands 有变化，以 Runtime 核准的命令为准，不静默替换。随后对最终 committed tree 构建唯一候选 Runtime；用该 executable digest 运行最终 preflight/verification/status/Outcome，并确认 hosted PR quality gate 对应相同 merge candidate。候选源码再改动即回到相应阶段、重跑受影响 gate，并重新绑定 Runtime evidence。
+
+2026-09-27 当前候选本地收敛记录：Runtime `verify --repo … --work-item WI-1035-task8-governance-friction-remediation --stage task` 执行 13/13 workspace crate、spawn 13、复用 0、超时 0，`passed=true`，耗时 `342933 ms`；receipt 绑定候选 Runtime digest `sha256:ce862280d5a21f6f89a6280fc99221549a437756523e46fc31da2ce32e0e3380` 与 source snapshot `sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e`。此外 `cargo fmt --all -- --check`、`git diff --check`、`cargo clippy --locked --workspace --all-targets --all-features -- -D warnings` 及 `python3 tests/ci/repository_gate_manifest_test.py` 均退出码 0；`tests/docs/governance_cost_baseline_test.py` 报当前 Agent 输入 12769 bytes，相对基线减少 42.2%。因为本段实施计划更新属于仓库源码快照的一部分，前述 Runtime verify 不再声称绑定此更新后的快照；更新后需重新运行并确认 exact digest。Hosted strict gate runner、PR Windows job、完整 19 项证据矩阵及其正式 Runtime projection 仍待完成。
 
 依据 Runtime 当前 safeActions 推进 PR/独立审查、合并、精确 worktree/branch cleanup 和 successor lineage 收尾；每一步都查询并保存回执。最终交付独立 Outcome，分开描述实现、CI、review、merge、cleanup、lineage 和发布状态；只停在用户 release review 前，不创建 tag/Release。
 

@@ -11,6 +11,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime, record_resource_finalization,
     record_verification_with_runtime, render_human_outcome, run_repository_verification,
     set_evidence_retention_policy, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -375,9 +376,26 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
     start(&directory, "WI-110-RUNTIME");
     plan(&directory, "WI-110-RUNTIME");
     record_typed(&directory, "WI-110-RUNTIME", &current);
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
+            .expect("foreign-runtime status");
+    assert!(!status.safe_actions.iter().any(|action| action == "finish"));
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("foreign-runtime action explanation")
+        .admission_digest
+        .to_string();
     let error = finish_work_item_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
         .expect_err("foreign runtime evidence must not finish");
-    assert!(error.to_string().contains("valid current receipt"));
+    assert!(
+        error
+            .to_string()
+            .contains("current action admission rejected requested action \"finish\""),
+        "finish must return the Runtime's current admission refusal: {error}"
+    );
+    assert!(error.to_string().contains("evidence_contradictory"));
+    assert!(error.to_string().contains(&admission_digest));
     let outcome = outcome_v2_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
         .expect("foreign-runtime outcome");
     assert_eq!(outcome.decision_state, Some(DecisionState::Red));

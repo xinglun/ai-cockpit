@@ -226,11 +226,7 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
         "--command",
         program,
         if cfg!(unix) { "--args=-c" } else { "--args=/C" },
-        if cfg!(unix) {
-            "--args=exit 0"
-        } else {
-            "--args=exit 0"
-        },
+        "--args=exit 0",
     ]);
     assert!(
         accepted.status.success(),

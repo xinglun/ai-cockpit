@@ -717,7 +717,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "work_item_controls",
-            "Record explicitly supplied Work Item governance controls.",
+            "Record explicitly supplied Work Item governance controls only when a fresh Runtime status admits record_governance_controls.",
         ),
         (
             "work_item_recover",
@@ -1638,9 +1638,8 @@ pub fn handle_request_for_repo(
         }),
         "preflight" => require_compatible(repo, runtime)
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
-        "work_item_controls" => {
-            require_compatible(repo, runtime).and_then(|_| work_item_controls(repo, &arguments))
-        }
+        "work_item_controls" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_controls(repo, &arguments, runtime)),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
         "work_item_recover_selected_lineage" => require_compatible(repo, runtime)
@@ -1746,7 +1745,11 @@ fn preflight_for_repo(
     serde_json::to_value(result).map_err(|error| error.to_string())
 }
 
-fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
+fn work_item_controls(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let work_item_id = arguments
         .get("workItemId")
         .or_else(|| arguments.get("id"))
@@ -1757,6 +1760,13 @@ fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .get("controls")
         .or_else(|| arguments.get("input"))
         .ok_or("controls argument is required")?;
+    cockpit_repository::require_current_action_admission(
+        repo,
+        work_item_id,
+        "record_governance_controls",
+        runtime,
+    )
+    .map_err(|error| error.to_string())?;
     cockpit_repository::record_work_item_governance_controls(repo, work_item_id, controls)
         .map_err(|error| error.to_string())
 }

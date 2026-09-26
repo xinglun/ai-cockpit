@@ -2942,6 +2942,12 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Controls { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
+                cockpit_repository::require_current_action_admission(
+                    &repo,
+                    &id,
+                    "record_governance_controls",
+                    &runtime_context,
+                )?;
                 let controls: serde_json::Value = serde_json::from_slice(
                     &std::fs::read(&input).context("read governance controls input")?,
                 )

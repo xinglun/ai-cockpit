@@ -485,6 +485,29 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
         "stderr: {}",
         String::from_utf8_lossy(&started.stderr)
     );
+    let controls_path = std::env::temp_dir().join(format!(
+        "cockpit-controls-input-{}-{}.json",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::write(
+        &controls_path,
+        br#"{"intentAlignment":{"state":"resolved","evidence":["tests/lifecycle.rs"]}}"#,
+    )
+    .expect("governance controls input");
+    let controls_path_text = controls_path.to_string_lossy().into_owned();
+    run(
+        binary,
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            "WI-TEST",
+            "--input",
+            &controls_path_text,
+        ],
+        &repo,
+    );
     common::plan(binary, &repo, "WI-TEST");
     assert!(
         repo.join(".ai/work-items/active/WI-TEST.contract.json")
@@ -540,6 +563,24 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
     let archived = run(binary, &["archive", "--id", "WI-TEST"], &repo);
     assert_eq!(archived["outcome"]["workItemId"], "WI-TEST");
     assert_eq!(archived["outcome"]["verification"]["status"], "verified");
+    let controls_after_archive = run_output(
+        binary,
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            "WI-TEST",
+            "--input",
+            &controls_path_text,
+        ],
+        &repo,
+    );
+    assert!(!controls_after_archive.status.success());
+    assert!(
+        String::from_utf8_lossy(&controls_after_archive.stderr)
+            .contains("record_governance_controls")
+    );
+    fs::remove_file(controls_path).expect("remove test input");
     common::record_deleted(binary, &repo, "WI-TEST");
     assert!(
         !repo

@@ -1086,10 +1086,16 @@ fn governance_reason_keys(
             ) {
                 keys.push("acceptance_evidence_insufficient".into());
             }
+            let optional_alignment_is_unrecorded = report.intent_alignment == "unknown"
+                && report
+                    .unknowns
+                    .iter()
+                    .any(|unknown| unknown == "intent_alignment_missing");
             if !matches!(
                 report.intent_alignment.as_str(),
                 "resolved" | "not_applicable"
-            ) {
+            ) && !optional_alignment_is_unrecorded
+            {
                 keys.push("intent_alignment_insufficient".into());
             }
             if !matches!(

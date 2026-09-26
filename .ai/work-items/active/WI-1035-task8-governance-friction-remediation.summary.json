@@ -1,33 +1,253 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A01",
+      "evidence": [
+        {
+          "locator": "contract_preflight::snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits; lifecycle empty-commit/source-change regression",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A02",
+      "evidence": [
+        {
+          "locator": "preflight_review::bounded_human_review_survives_snapshot_refresh_but_not_contract_change; collaboration_consistency::displayed_option_state_and_runtime_transition_stay_consistent_through_resume",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A03",
+      "evidence": [
+        {
+          "locator": "preflight_review::repeated_identical_preflight_does_not_rewrite_summary_or_observation_cache; CLI/MCP preflight byte/idempotency tests",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A04",
+      "evidence": [
+        {
+          "locator": "cockpit-cli::preflight_and_status_share_versioned_action_admission; scenario_matrix_next_action admission agreement",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A05",
+      "evidence": [
+        {
+          "locator": "scenario_matrix_next_action::checkpointed_stale_preflight_projects_preflight_recovery; cockpit-cli::checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A06",
+      "evidence": [
+        {
+          "locator": "collaboration_admission::missing_one_of_two_required_checks_blocks_before_spawn; missing scenario/check mapping rejected before launch",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A07",
+      "evidence": [
+        {
+          "locator": "cockpit-cli::amend_cli_reports_automatic_revalidation_and_the_single_next_action",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A08",
+      "evidence": [
+        {
+          "locator": "verification_attempts::formal_receipt_rejected/successful/stale attempt Outcome/status projections",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A09",
+      "evidence": [
+        {
+          "locator": "Stage 3 / OBS-09: interface, MCP, multi-process and linked-worktree acceptance",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; discovery and use acceptance pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "Stage 4 / OBS-10: durable attempt and real interruption acceptance",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; real subprocess execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "scope_amendment::out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "Stage 5 / OBS-12: staged candidate and locale parity gate tests",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; hosted gate evidence pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "Stage 5 / OBS-13: supported-target and Windows hosted tests",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; hosted Windows execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "Stage 1 / OBS-14: exact executable digest binding",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; final candidate digest binding pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "Stage 4 / OBS-15: deduplicated human and complete node diagnostics",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; current-candidate execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "Stage 3 / OBS-16: serial readiness and parallel fail-closed tests",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; current-candidate execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "Stage 4 / OBS-17: diagnostic-text and actual bypass paired tests",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; canonical gate execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A18",
+      "evidence": [
+        {
+          "locator": "Stage 5 / OBS-18: close projection and lineage consistency",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; current-candidate execution pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A19",
+      "evidence": [
+        {
+          "locator": "All stages / OBS-19: one-WI serial flow, evidence-based progress and no repeated start confirmation",
+          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+          "type": "plan",
+          "verification": "planned; final acceptance pending"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
-    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.5d66bb6492ea66b7ea881b408e16bcc8aa1c285ec8eef509c4b91d11afe3e2b3.json",
-    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.retirement.json",
-    ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
-    ".ai/decisions/WI-1034-task8-governance-friction-remediation.retirement.json",
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.contract.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.events.jsonl",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.md",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.f4d786e73ccedb2fa4cfeaa108e28e81ef904bf6c57adeb29575a8f08806d40f.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.995e98da1d25590ac92e1ec29cee6eedc9cdb793e39091958097cf1a48508a9f.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.f6c45803f5aa2de4db40a8ab7bc67d8b4340aaa8c4d8bd63da0c6904fdc6772c.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.0aff987b8f64f4a8ff6bbfe1abd470d71e2fe7a8a8141123ea9ea58ce7b88d34.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.36a2429abe555d075ba1bb5246f6ec9a7a4228f20222afb7cf2b3cae611d9e0a.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.6069975727f6f7dba876017982c21b2b94d43e9dcc332e34ecf562fb69828e3a.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.734bf438fa7e947ba2c3127e533c1d7b1f146bd1b3557d83e2d4c1c870c4c9f6.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.d13cf38888d80da429467321a28c9bd1575e43f4c0cac1ee89ba8020f6b21a75.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.f85ba18c017386c2c823b32e673accf637d367310b20713750bc8136d64c1852.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.approach.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.archive.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.contract.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.events.jsonl",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.summary.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.task-report.json",
-    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.task-report.md",
-    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.approach.json",
-    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.archive.json",
-    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.contract.json",
-    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.outcome.json",
-    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.summary.json"
+    "agents/skills/ordinary-work-item.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md"
   ],
   "checkpointAt": "2026-09-26T14:39:46Z",
-  "checkpointContractDigest": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+  "checkpointContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -63,20 +283,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1035-task8-governance-friction-remediation"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+      "previousContractHash": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+      "reason": "A11 and Stage 4 require the verification crate integration tests already named by this Work Item acceptance matrix; add only the missing test-support path, without changing intent, authority, acceptance criteria, or release boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T22:49:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0fb7456104f049d4977073bc729d0f7ad2135650c78fe3c351611ce8f1f5eb0d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:ab295f1d2a3f460720ce994da63538d10a18254fe9a289caea14a62552c5b2eb",
+  "checkpointRepositorySnapshotDigest": "sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e",
   "createdAt": "2026-09-26T14:32:17Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+    "contractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "Continue under the user's existing explicit Task 8 authorization through independent PR review, merge, and cleanup; stop before release. This is not verification evidence or release approval.",
-    "recordedAt": "2026-09-26T15:35:07Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The user selected option 1 and authorized continuing Task 8 under this amended Contract, including required verification support paths. Continue through independent PR review, merge, and cleanup; stop before release. This decision is not verification evidence or release approval.",
+    "recordedAt": "2026-09-26T23:02:07Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:328967bd5e9f7edc00445a83077f02696537f9f1903332dfeda6f3945eebbf7e",
+    "repositorySnapshotDigest": "sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e",
     "schemaVersion": 1,
     "workItemId": "WI-1035-task8-governance-friction-remediation"
   },
@@ -90,13 +330,24 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
   "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-26T15:35:16Z",
-  "preflightContractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:328967bd5e9f7edc00445a83077f02696537f9f1903332dfeda6f3945eebbf7e",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-26T23:09:28Z",
+  "preflightContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-09-26T22:25:36Z",
+    "contractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+    "decisionDigest": "sha256:a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001",
+    "decisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001.json",
+    "repositorySnapshotDigest": "sha256:98caac9e650b1efa4c18bcdf21e52f02a294f86e0cd2b0f7b4c6c4dde476b3d3",
+    "runtimeDigest": "sha256:acd3bd21cd0e1d9f76803dbfc293b36b7281d7bec1c1c6ec04ad5c74c0eff590",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:42496fdbb5ea371d9946d32339622da34e2128d305b4a5cffe07af641d5aab36"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -253,11 +504,61 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-26T15:35:07.717818+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-26T14:44:35Z"
-  },
+  "updatedAt": "2026-09-26T23:02:31.299908+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:714d84e5938ba58b29fb413447c8504246373fa6011be764eb4132f8b04627c5",
   "workItemId": "WI-1035-task8-governance-friction-remediation"
 }

@@ -13,6 +13,7 @@ use cockpit_repository::{
     require_verification_preconditions, revalidate_contract_amendment, run_repository_verification,
     scaffold_work_item, set_work_item_intelligence, start_work_item_with_options, status,
     validate_scenario_coverage_values, work_item_start_advisory,
+    work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
 use serde_json::json;
@@ -1893,9 +1894,28 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
             .iter()
             .any(|unknown| unknown == "evidence_stale")
     );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("status reflects stale verification evidence");
+    assert!(
+        !status.safe_actions.iter().any(|action| action == "finish"),
+        "stale verification evidence must remove finish admission"
+    );
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("status action explanation")
+        .admission_digest
+        .to_string();
     let error = finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect_err("source mutation must block finish");
-    assert!(error.to_string().contains("current repository snapshot"));
+    assert!(
+        error
+            .to_string()
+            .contains("current action admission rejected requested action \"finish\""),
+        "finish must use the current Runtime refusal: {error}"
+    );
+    assert!(error.to_string().contains("evidence_stale"));
+    assert!(error.to_string().contains(&admission_digest));
 }
 
 #[test]

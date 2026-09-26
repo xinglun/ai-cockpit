@@ -10,21 +10,21 @@ use super::{
     acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
     atomic_json, atomic_write, attach, attached_profile_digest, close_decision_is_valid_for_status,
     ensure_resource_finalization_base_binding, git_text, git_worktree_records,
-    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
-    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
-    persist_blocked_lifecycle_outcome, read_contract, read_evidence_retention_policy, read_json,
-    read_resource_finalization_receipt, recovery_scaffold_exists, reject_duplicate_json_keys,
-    repository_id, repository_readiness, repository_relative_path,
-    require_explicit_resource_finalization_plan, require_green_governance,
-    require_green_governance_with_runtime, required_verification_checks,
+    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
+    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
+    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome, read_contract,
+    read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
+    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
+    repository_relative_path, require_explicit_resource_finalization_plan,
+    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
-    validate_checkpoint_evidence_bindings, validate_contract_summary_controls,
-    validate_contract_summary_controls_with_runtime, validate_historical_finalization,
+    validate_checkpoint_evidence_bindings, validate_historical_finalization,
     validate_recovery_archive_manifest_binding, validate_required_evidence_classes,
     validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
-    validate_start_entry, validate_work_item_id, verification_evidence_state,
-    verify_archive_manifest, write_task_outcome_artifacts,
+    validate_start_entry, validate_work_item_governance_controls,
+    validate_work_item_governance_controls_with_runtime, validate_work_item_id,
+    verification_evidence_state, verify_archive_manifest, write_task_outcome_artifacts,
 };
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
@@ -2268,6 +2268,9 @@ fn finish_work_item_internal_unlocked(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    if let Some(runtime) = current_runtime {
+        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
+    }
     if contract.checkpoint_policy.is_some() {
         let current_contract_hash = contract_digest(&contract_path)?.to_string();
         if summary["checkpointContractDigest"] != serde_json::json!(current_contract_hash) {
@@ -2333,28 +2336,18 @@ fn finish_work_item_internal_unlocked(
             message: "verification receipt is stale for the current repository snapshot".into(),
         });
     }
-    let contract_value = read_json(&contract_path)?;
     let controls = if let Some(runtime) = current_runtime {
-        validate_contract_summary_controls_with_runtime(
-            &contract,
-            &contract_value,
-            &summary,
-            runtime,
-        )
+        validate_work_item_governance_controls_with_runtime(&root, work_item_id, runtime)?
     } else {
-        validate_contract_summary_controls(&contract, &contract_value, &summary)
+        validate_work_item_governance_controls(&root, work_item_id)?
     };
-    if controls.state == "blocked" {
+    let governance_control_gaps = governance_controls_gaps_for_finish(&controls);
+    if !governance_control_gaps.is_empty() {
         return Err(ObserverError::State {
             path: contract_path,
             message: format!(
-                "Contract/Summary governance controls are blocked: {}",
-                controls
-                    .findings
-                    .iter()
-                    .map(|item| item.code.as_str())
-                    .collect::<Vec<_>>()
-                    .join(", ")
+                "Contract/Summary governance controls do not admit finish: {}",
+                governance_control_gaps.join(", ")
             ),
         });
     }
@@ -2420,9 +2413,6 @@ fn finish_work_item_internal_unlocked(
         )?;
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
-    }
-    if let Some(runtime) = current_runtime {
-        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
     }
     let timestamp = now();
     // A prior failed `finish` persists a blocked projection so recovery is

@@ -395,6 +395,10 @@ review when the returned state is yellow, red, unknown, or not ready.
   state, and the file SHA-256, all bound to the current Contract digest. Missing,
   changed, malformed, or foreign evidence is rejected or reported stale; a
   scenario marked verified alone never satisfies a custom evidence class.
+  `record_governance_controls` is a Runtime-admitted write action for an active
+  Work Item. If verified work still lacks required controls, status withholds
+  `finish` and recommends recording the missing evidence; refresh status after
+  the write to obtain the next action.
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
   identity-bound `retry`, `successor`, or `supersede` decision. `supersede`
   requires an already-bound successor Work Item and archives the predecessor

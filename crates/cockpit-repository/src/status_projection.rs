@@ -1086,6 +1086,9 @@ fn work_item_status_snapshot_with_snapshot(
         .unwrap_or(&active)
         .join(format!("{work_item_id}.summary.json"));
     let summary = read_json(&summary_path).unwrap_or_else(|_| serde_json::json!({}));
+    let governance_controls =
+        super::validate_work_item_governance_controls_with_runtime(&root, work_item_id, runtime)?;
+    let governance_control_gaps = super::governance_controls_gaps_for_finish(&governance_controls);
     let close_decision_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
@@ -1115,13 +1118,16 @@ fn work_item_status_snapshot_with_snapshot(
             .unwrap_or(if archived { "archived" } else { "unknown" })
             .to_string()
     };
-    let governance_state = match outcome.decision_state {
+    let mut governance_state = match outcome.decision_state {
         Some(DecisionState::Green) => "green",
         Some(DecisionState::Yellow) => "yellow",
         Some(DecisionState::Red) => "red",
         None => "unknown",
     }
     .to_string();
+    if governance_state == "green" && !governance_control_gaps.is_empty() {
+        governance_state = "yellow".into();
+    }
     let verification = match outcome.state {
         OutcomeState::Verified => "verified",
         OutcomeState::Partial => "partial",
@@ -1179,6 +1185,7 @@ fn work_item_status_snapshot_with_snapshot(
     if historical {
         unknowns.push("legacy_evidence_historical".into());
     }
+    unknowns.extend(governance_control_gaps.iter().cloned());
     if historical_recovery_resolved {
         unknowns.push("historical_close_decision_preserved".into());
     } else if archived && !close_decision_valid {
@@ -1426,6 +1433,12 @@ fn work_item_status_snapshot_with_snapshot(
         match lifecycle_phase.as_str() {
             "implementation_active" => vec!["run_preflight".into()],
             "checkpointed" if verification != "verified" => vec!["run_verification".into()],
+            "checkpointed" if !governance_control_gaps.is_empty() => {
+                vec![
+                    "record_governance_controls".into(),
+                    "run_verification".into(),
+                ]
+            }
             // A verified checkpoint is ready for finish, while the existing
             // verification entrypoint still admits an explicit revalidation
             // or receipt-reuse request. Keep finish first so the projection's
@@ -1462,6 +1475,9 @@ fn work_item_status_snapshot_with_snapshot(
         if preflight_recovery_available {
             safe_actions.insert(0, "run_preflight".into());
         }
+    }
+    if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
+        safe_actions.push("record_governance_controls".into());
     }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());

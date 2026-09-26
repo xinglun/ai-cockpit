@@ -322,6 +322,71 @@ pub struct GovernanceControlsReport {
     pub findings: Vec<GovernanceFinding>,
 }
 
+/// Return the governance-control gaps that prevent a Work Item from being
+/// finished.  This predicate is shared by status admission and the finish
+/// operation so an Outcome warning cannot coexist with an admitted finish.
+pub fn governance_controls_gaps_for_finish(report: &GovernanceControlsReport) -> Vec<String> {
+    let mut gaps = Vec::new();
+    for (state, acceptable, code) in [
+        (
+            report.scenario_coverage.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "scenario_coverage_insufficient",
+        ),
+        (
+            report.acceptance_evidence.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "acceptance_evidence_insufficient",
+        ),
+        (
+            report.evidence_classes.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "evidence_classes_insufficient",
+        ),
+        (
+            report.final_dimensions.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "final_dimensions_insufficient",
+        ),
+    ] {
+        if !acceptable.contains(&state) {
+            gaps.push(code.to_owned());
+        }
+    }
+    let optional_alignment_is_unrecorded = report.intent_alignment == "unknown"
+        && report
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "intent_alignment_missing");
+    if !matches!(
+        report.intent_alignment.as_str(),
+        "resolved" | "not_applicable"
+    ) && !optional_alignment_is_unrecorded
+    {
+        gaps.push("intent_alignment_insufficient".into());
+    }
+    let material_unknowns = report
+        .unknowns
+        .iter()
+        .filter(|unknown| unknown.as_str() != "intent_alignment_missing")
+        .count();
+    if report.state == "blocked" || material_unknowns > 0 {
+        gaps.extend(
+            report
+                .findings
+                .iter()
+                .filter(|finding| finding.severity == "error")
+                .map(|finding| finding.code.clone()),
+        );
+        if report.state == "unknown" && material_unknowns > 0 {
+            gaps.push("governance_controls_unknown".into());
+        }
+    }
+    gaps.sort();
+    gaps.dedup();
+    gaps
+}
+
 fn evidence_class_projection_report(
     state: EvidenceState,
 ) -> (String, Vec<String>, Vec<GovernanceFinding>) {

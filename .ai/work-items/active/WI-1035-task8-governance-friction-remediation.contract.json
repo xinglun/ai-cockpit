@@ -229,7 +229,8 @@
     "docs/work-items/WI-1035-task8-governance-friction-remediation.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-verification/tests/**"
   ],
   "sources": [
     {
