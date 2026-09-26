@@ -212,6 +212,31 @@ is a review finding, not a fact the Agent may repair by inference. Risk policy
 decides whether scenario coverage is required; the Runtime remains yellow/red
 until human-owned declarations and fresh evidence are present.
 
+### Serial fallback and cross-Work-Item coordination
+
+One Work Item runs serially by default. A parallel compatibility result of
+`compatible: false` / `parallel_compatibility_not_declared` denies only parallel
+execution; it does not deny an otherwise admitted serial action. Parallel work
+requires explicit compatibility and concurrency declarations, separate
+linked worktrees, registration, a current slot lease, and refreshed dependency
+admission before affected actions. Use Runtime `work-item --help`, coordination
+and slot help, and the actual MCP `tools/list` schema to discover supported
+operations. A manifest capability or a legacy parser accepting the manifest
+does not prove that Runtime supports coordination writes.
+
+Coordination inspection is read-only. Registration, impact/outcome writes,
+pause request/acknowledgement/safe-pause, resume/re-evaluation, event recovery,
+lease operations, and composition use explicit mutation actions. Keep requests
+and leases bound to the active generation; reject stale generations, preserve
+resolved events, and let unrelated work continue only after its own refreshed
+admission. The repository-bound installed Runtime remains the lifecycle owner;
+candidate-only collaboration behavior must be explicitly advertised and
+implemented. If the
+current Runtime lacks those tools, do not silently ignore or imitate the
+protocol—continue serially if admitted, or stop if parallel coordination is
+required. See the [ordinary Work Item guide](../../agents/skills/ordinary-work-item.md)
+for the actionable discovery sequence.
+
 Agent Risk and checkpoint controls use the same Rust lifecycle validator.
 Typed required verification declarations are consumed at preflight, verify,
 finish, archive, and close; missing, duplicate, failed, or invalidated gates

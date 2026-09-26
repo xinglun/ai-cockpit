@@ -225,6 +225,107 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         verify["inputSchema"]["properties"]["command"]["type"],
         "string"
     );
+    let coordination = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_coordination")
+        .expect("coordination tool");
+    let coordination_schema = &coordination["inputSchema"];
+    let registration = &coordination_schema["properties"]["registration"];
+    assert_eq!(registration["additionalProperties"], false);
+    assert_eq!(
+        registration["required"],
+        serde_json::json!([
+            "repositoryId",
+            "workItemId",
+            "contractDigest",
+            "worktreePath",
+            "branch",
+            "head",
+            "generation",
+            "declaration",
+            "runtime"
+        ])
+    );
+    assert_eq!(registration["properties"]["workItemId"]["type"], "string");
+    assert_eq!(registration["properties"]["generation"]["minimum"], 1);
+    assert_eq!(
+        registration["properties"]["runtime"]["properties"]["runtimeDigest"]["type"],
+        "string"
+    );
+    let event = &coordination_schema["properties"]["event"];
+    assert_eq!(event["additionalProperties"], false);
+    assert_eq!(event["properties"]["kind"]["type"], "string");
+    assert_eq!(
+        event["properties"]["kind"]["enum"],
+        serde_json::json!([
+            "outcome_published",
+            "interface_changed",
+            "resource_changed",
+            "execution_changed",
+            "verification_changed",
+            "impact"
+        ])
+    );
+    assert_eq!(
+        event["properties"]["evidenceDigests"]["additionalProperties"]["type"],
+        "string"
+    );
+    assert_eq!(
+        event["required"],
+        serde_json::json!([
+            "eventId",
+            "repositoryId",
+            "workItemId",
+            "generation",
+            "kind",
+            "source"
+        ])
+    );
+    let request = &coordination_schema["properties"]["request"];
+    assert_eq!(request["additionalProperties"], false);
+    assert_eq!(request["properties"]["intent"]["type"], "string");
+    assert_eq!(
+        request["properties"]["state"]["enum"],
+        serde_json::json!([
+            "requested",
+            "acknowledged",
+            "safely_paused",
+            "unavailable",
+            "expired",
+            "resumed"
+        ])
+    );
+    let action_variants = coordination_schema["oneOf"]
+        .as_array()
+        .expect("coordination action variants");
+    assert_eq!(
+        action_variants
+            .iter()
+            .filter(|variant| variant["properties"]["action"]["const"].is_null())
+            .count(),
+        1,
+        "only the default inspect action omits the action discriminator"
+    );
+    let mut actions = action_variants
+        .iter()
+        .filter_map(|variant| variant["properties"]["action"]["const"].as_str())
+        .collect::<Vec<_>>();
+    actions.push("inspect");
+    actions.sort_unstable();
+    actions.dedup();
+    assert_eq!(
+        actions,
+        [
+            "acknowledge",
+            "inspect",
+            "publish-outcome",
+            "recover",
+            "register",
+            "report-impact",
+            "request-pause",
+            "resume"
+        ]
+    );
     let start = listed
         .iter()
         .find(|tool| tool["name"] == "work_item_start")

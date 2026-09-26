@@ -54,6 +54,29 @@ def require_cli(
     return result.stdout
 
 
+def mcp_tools(binary: Path, repo: Path) -> tuple[list[dict], dict]:
+    requests = [
+        {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}},
+        {"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}},
+    ]
+    result = subprocess.run(
+        [str(binary), "mcp", "--repo", str(repo)],
+        input="\n".join(json.dumps(request) for request in requests) + "\n",
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"MCP tools/list failed: {result.stderr}")
+    responses = [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
+    by_id = {response.get("id"): response for response in responses}
+    initialize = by_id.get(1, {}).get("result", {})
+    tools = by_id.get(2, {}).get("result", {}).get("tools")
+    if not isinstance(tools, list):
+        raise RuntimeError(f"MCP tools/list returned no tool array: {result.stdout}")
+    return tools, initialize.get("serverInfo", {})
+
+
 def digest_bytes(value: bytes) -> str:
     return "sha256:" + hashlib.sha256(value).hexdigest()
 
@@ -83,6 +106,12 @@ def main() -> None:
         type=Path,
         default=Path("target/release/ai-cockpit"),
         help="CLI binary; defaults to the canonical release build",
+    )
+    parser.add_argument(
+        "--legacy-binary",
+        type=Path,
+        required=True,
+        help="fixed-lifecycle Runtime used to prove read compatibility is not capability support",
     )
     args = parser.parse_args()
     binary = args.binary.resolve()
@@ -159,6 +188,146 @@ def main() -> None:
                     "registration and composition identity are verified",
                 ],
             )
+
+        # Capability metadata is discoverability only. Verify the actual MCP
+        # tool surface and its strict nested argument schemas before exercising
+        # the write APIs through real CLI processes below.
+        manifest = json.loads((worktree_a / ".ai/agent-interface.json").read_text())
+        capabilities = set(manifest.get("capabilities", []))
+        assert {"work-item-coordination", "work-item-parallel"} <= capabilities
+        listed_tools, server_info = mcp_tools(binary, worktree_a)
+        listed_by_name = {tool["name"]: tool for tool in listed_tools}
+        assert {"work_item_coordination", "work_item_parallel", "work_item_composition"} <= set(listed_by_name)
+        coordination_tool_schema = listed_by_name["work_item_coordination"]["inputSchema"]
+        coordination_schema = listed_by_name["work_item_coordination"]["inputSchema"]
+        for property_name in ["registration", "event", "request"]:
+            nested = coordination_schema["properties"][property_name]
+            assert nested["type"] == "object", (property_name, nested)
+            assert nested["additionalProperties"] is False, (property_name, nested)
+            assert nested["properties"], (property_name, nested)
+        registration_schema = coordination_schema["properties"]["registration"]
+        assert registration_schema["properties"]["runtime"]["properties"]["runtimeDigest"]["pattern"]
+        assert registration_schema["properties"]["declaration"]["properties"]["providedOutcomes"]["items"]["properties"]["stage"]["enum"] == [
+            "interface_stable", "composable_head", "merged_target"
+        ]
+        assert set(registration_schema["required"]) == {
+            "repositoryId", "workItemId", "contractDigest", "worktreePath",
+            "branch", "head", "generation", "declaration", "runtime"
+        }
+        event_schema = coordination_schema["properties"]["event"]
+        assert event_schema["properties"]["kind"]["enum"] == [
+            "outcome_published", "interface_changed", "resource_changed",
+            "execution_changed", "verification_changed", "impact"
+        ]
+        request_schema = coordination_schema["properties"]["request"]
+        assert request_schema["properties"]["intent"]["enum"] == [
+            "wait_for_dependency", "request_safe_pause",
+            "adjust_integration_order", "resume_re_evaluate"
+        ]
+        assert request_schema["properties"]["state"]["enum"] == [
+            "requested", "acknowledged", "safely_paused", "unavailable", "expired", "resumed"
+        ]
+        implicit_action_variants = [
+            variant for variant in coordination_schema["oneOf"]
+            if "action" not in variant.get("properties", {})
+        ]
+        assert len(implicit_action_variants) == 1
+        coordination_actions = {
+            variant["properties"]["action"]["const"]
+            for variant in coordination_schema["oneOf"]
+            if "action" in variant.get("properties", {})
+        }
+        coordination_actions.add("inspect")
+        assert coordination_actions == {
+            "inspect", "register", "report-impact", "publish-outcome",
+            "request-pause", "acknowledge", "resume", "recover"
+        }
+
+        legacy_observation = None
+        if args.legacy_binary is not None:
+            legacy_binary = args.legacy_binary.resolve()
+            legacy_doctor = run_cli(
+                legacy_binary,
+                ["agent", "doctor", "--repo", str(worktree_a), "--json"],
+            )
+            legacy_doctor_report = json.loads(legacy_doctor.stdout)
+            assert legacy_doctor_report["manifest"]["state"] == "valid", legacy_doctor_report
+            assert not legacy_doctor_report["problems"], legacy_doctor_report
+            assert legacy_doctor_report["state"] in {"VERIFIED", "ATTACHED"}, legacy_doctor_report
+            legacy_tools, legacy_info = mcp_tools(legacy_binary, worktree_a)
+            legacy_names = {tool["name"] for tool in legacy_tools}
+            assert "work_item_coordination" not in legacy_names
+            assert "work_item_composition" not in legacy_names
+            assert legacy_info.get("version") == server_info.get("version"), (
+                "the compatibility fixture is expected to demonstrate same-version, "
+                "different-binary semantics",
+                legacy_info,
+                server_info,
+            )
+            assert legacy_info.get("runtimeDigest") != server_info.get("runtimeDigest")
+            legacy_observation = {
+                "manifestReadable": True,
+                "agentDoctorState": legacy_doctor_report["state"],
+                "agentDoctorExitCode": legacy_doctor.returncode,
+                "runtimeVersion": legacy_info.get("version"),
+                "runtimeDigest": legacy_info.get("runtimeDigest"),
+                "coordinationToolAdvertised": False,
+                "compositionToolAdvertised": False,
+                "sameVersion": True,
+                "differentRuntimeDigest": True,
+            }
+
+        # A single-WI serial execution remains available without any parallel
+        # boundary or slot lease. Parallel eligibility is not serial readiness.
+        serial_root = temporary_path / "serial-root"
+        serial_root.mkdir()
+        git(serial_root, "init", "-q")
+        git(serial_root, "config", "user.email", "acceptance@example.invalid")
+        git(serial_root, "config", "user.name", "Acceptance")
+        (serial_root / "README.md").write_text("serial acceptance\n")
+        git(serial_root, "add", ".")
+        git(serial_root, "commit", "-qm", "initial")
+        git(serial_root, "branch", "-M", "main")
+        require_cli(binary, ["attach", "--repo", str(serial_root)])
+        require_cli(
+            binary,
+            [
+                "start", "--repo", str(serial_root), "--id", "WI-SERIAL",
+                "--intent", "single WI serial fallback acceptance",
+                "--goal", "prove ordinary serial execution does not require parallel eligibility",
+                "--scope", "README.md", "--out-of-scope", "target/**",
+                "--authority", "authorized",
+                "--acceptance", "one serial verification is admitted without a parallel boundary",
+                "--verification", "true", "--prepare",
+            ],
+        )
+        serial_inspect = json.loads(
+            require_cli(binary, ["work-item", "inspect", "--repo", str(serial_root), "--id", "WI-SERIAL"])
+        )
+        assert serial_inspect["compatibility"]["compatible"] is False
+        assert "parallel_compatibility_not_declared" in serial_inspect["compatibility"]["reasons"]
+        denied_slot = run_cli(
+            binary,
+            ["work-item", "slot", "acquire", "--repo", str(serial_root), "--id", "WI-SERIAL"],
+        )
+        assert denied_slot.returncode != 0
+        assert "concurrency boundary is not declared" in denied_slot.stderr
+        serial_status = json.loads(
+            require_cli(
+                binary,
+                ["work-item", "status", "--repo", str(serial_root), "--id", "WI-SERIAL", "--json"],
+            )
+        )
+        assert serial_status["humanDecisionRequired"] is False
+        assert "run_verification" in serial_status["safeActions"]
+        serial_verify = json.loads(
+            require_cli(
+                binary,
+                ["verify", "--repo", str(serial_root), "--work-item", "WI-SERIAL", "--command", "true"],
+            )
+        )
+        assert serial_verify["passed"] is True, serial_verify
+        assert serial_verify["processesSpawned"] == 1, serial_verify
 
         # Bind WI-B's composition command to the actual Contract required check.
         contract_b = worktree_b / ".ai/work-items/active/WI-B.contract.json"
@@ -309,6 +478,7 @@ def main() -> None:
         second_result = second["result"]
         changed_environment_result = changed_environment["result"]
         assert first_result["passed"] is True, first
+        assert first_result["schemaVersion"] == 2, first_result
         assert second_result["passed"] is True, second
         assert first_result["processesSpawned"] == 1, first_result
         assert second_result["processesSpawned"] == 0, second_result
@@ -336,6 +506,18 @@ def main() -> None:
                     "firstCompositionProcesses": first_result["processesSpawned"],
                     "secondCompositionProcesses": second_result["processesSpawned"],
                     "changedEnvironmentProcesses": changed_environment_result["processesSpawned"],
+                    "manifestCapabilities": sorted(capabilities),
+                    "mcpToolNames": sorted(listed_by_name),
+                    "mcpCoordinationSchemaComplete": True,
+                    "mcpCoordinationSchemaDigest": digest_json(coordination_tool_schema),
+                    "mcpCoordinationSchema": coordination_tool_schema,
+                    "currentRuntimeVersion": server_info.get("version"),
+                    "currentRuntimeDigest": server_info.get("runtimeDigest"),
+                    "legacyRuntimeReadCompatibility": legacy_observation,
+                    "serialAllowedWithoutParallelDeclaration": serial_verify["passed"],
+                    "serialAdmissionObserved": "run_verification" in serial_status["safeActions"],
+                    "serialProcesses": serial_verify["processesSpawned"],
+                    "undeclaredParallelLeaseRejected": denied_slot.returncode != 0,
                 }
             )
         )

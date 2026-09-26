@@ -120,6 +120,163 @@ fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
     properties
 }
 
+fn string_array_schema() -> Value {
+    json!({"type": "array", "items": {"type": "string"}})
+}
+
+fn digest_schema() -> Value {
+    json!({"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"})
+}
+
+fn enum_schema(values: &[&str]) -> Value {
+    json!({"type": "string", "enum": values})
+}
+
+fn runtime_binding_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "runtimeVersion": {"type": "string", "minLength": 1},
+            "runtimeDigest": digest_schema(),
+            "capability": {"type": "string", "const": "cross_wi_coordination_v1"}
+        },
+        "required": ["runtimeVersion", "runtimeDigest", "capability"],
+        "additionalProperties": false
+    })
+}
+
+fn collaboration_declaration_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "providedOutcomes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "outcomeId": {"type": "string", "minLength": 1},
+                        "interfaceContract": {"type": "string", "minLength": 1},
+                        "behaviorContract": {"type": "string", "minLength": 1},
+                        "publishedHead": {"type": "string", "minLength": 1},
+                        "stage": enum_schema(&["interface_stable", "composable_head", "merged_target"]),
+                        "evidenceRefs": string_array_schema()
+                    },
+                    "required": ["outcomeId", "interfaceContract", "behaviorContract", "publishedHead", "stage"],
+                    "additionalProperties": false
+                }
+            },
+            "consumedOutcomes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "providerWorkItemId": {"type": "string", "minLength": 1},
+                        "outcomeId": {"type": "string", "minLength": 1},
+                        "minimumStage": enum_schema(&["interface_stable", "composable_head", "merged_target"]),
+                        "verificationRequired": {"type": "boolean"}
+                    },
+                    "required": ["providerWorkItemId", "outcomeId", "minimumStage", "verificationRequired"],
+                    "additionalProperties": false
+                }
+            },
+            "resourceClaims": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "resourceId": {"type": "string", "minLength": 1},
+                        "mode": enum_schema(&["exclusive", "shared"]),
+                        "serial": {"type": "boolean"}
+                    },
+                    "required": ["resourceId", "mode", "serial"],
+                    "additionalProperties": false
+                }
+            },
+            "integrationResponsibility": {
+                "type": "object",
+                "properties": {
+                    "responsibleWorkItemId": {"type": "string", "minLength": 1},
+                    "targetBranch": {"type": "string", "minLength": 1},
+                    "compositionOrder": string_array_schema(),
+                    "rationale": {"type": "string", "minLength": 1}
+                },
+                "required": ["responsibleWorkItemId", "targetBranch", "rationale"],
+                "additionalProperties": false
+            },
+            "compositionVerification": {
+                "type": "object",
+                "properties": {
+                    "compatibilityConstraints": string_array_schema(),
+                    "requiredScenarios": string_array_schema(),
+                    "reusableNodes": string_array_schema()
+                },
+                "additionalProperties": false
+            }
+        },
+        "required": ["integrationResponsibility", "compositionVerification"],
+        "additionalProperties": false
+    })
+}
+
+fn worktree_registration_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "repositoryId": digest_schema(),
+            "workItemId": {"type": "string", "minLength": 1},
+            "contractDigest": digest_schema(),
+            "worktreePath": {"type": "string", "minLength": 1},
+            "branch": {"type": "string", "minLength": 1},
+            "head": {"type": "string", "minLength": 1},
+            "generation": {"type": "integer", "minimum": 1},
+            "declaration": collaboration_declaration_schema(),
+            "runtime": runtime_binding_schema()
+        },
+        "required": ["repositoryId", "workItemId", "contractDigest", "worktreePath", "branch", "head", "generation", "declaration", "runtime"],
+        "additionalProperties": false
+    })
+}
+
+fn coordination_event_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "eventId": {"type": "string", "minLength": 1},
+            "repositoryId": digest_schema(),
+            "workItemId": {"type": "string", "minLength": 1},
+            "generation": {"type": "integer", "minimum": 1},
+            "kind": enum_schema(&["outcome_published", "interface_changed", "resource_changed", "execution_changed", "verification_changed", "impact"]),
+            "source": {"type": "string", "minLength": 1},
+            "evidenceRefs": string_array_schema(),
+            "evidenceDigests": {"type": "object", "additionalProperties": digest_schema()},
+            "outcomeIds": string_array_schema()
+        },
+        "required": ["eventId", "repositoryId", "workItemId", "generation", "kind", "source"],
+        "additionalProperties": false
+    })
+}
+
+fn coordination_request_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "requestId": {"type": "string", "minLength": 1},
+            "repositoryId": digest_schema(),
+            "targetWorkItemId": {"type": "string", "minLength": 1},
+            "targetGeneration": {"type": "integer", "minimum": 1},
+            "intent": enum_schema(&["wait_for_dependency", "request_safe_pause", "adjust_integration_order", "resume_re_evaluate"]),
+            "state": enum_schema(&["requested", "acknowledged", "safely_paused", "unavailable", "expired", "resumed"]),
+            "reason": {"type": "string", "minLength": 1}
+        },
+        "required": ["requestId", "repositoryId", "targetWorkItemId", "targetGeneration", "intent", "state", "reason"],
+        "additionalProperties": false
+    })
+}
+
 fn coordination_parameter_properties() -> serde_json::Map<String, Value> {
     let mut properties = serde_json::Map::new();
     for spec in cockpit_protocol::work_item_coordination_parameter_specs() {
@@ -145,6 +302,9 @@ fn coordination_parameter_properties() -> serde_json::Map<String, Value> {
         .get_mut("action")
         .expect("coordination action property spec");
     action["enum"] = json!(cockpit_protocol::work_item_coordination_action_values());
+    properties.insert("registration".into(), worktree_registration_schema());
+    properties.insert("event".into(), coordination_event_schema());
+    properties.insert("request".into(), coordination_request_schema());
     properties
 }
 

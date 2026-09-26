@@ -72,6 +72,30 @@ fn manifest_parent_resolves_repository_context() {
 }
 
 #[test]
+fn checked_in_manifest_advertises_coordination_and_parallel_capabilities() {
+    let repository_root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let manifest_path = repository_root.join(".ai/agent-interface.json");
+    let bytes = fs::read(&manifest_path).expect("checked-in manifest");
+    let manifest: AgentInterfaceManifest =
+        serde_json::from_slice(&bytes).expect("strict manifest parser accepts checked-in manifest");
+
+    assert!(
+        manifest
+            .capabilities
+            .iter()
+            .any(|capability| capability == "work-item-coordination"),
+        "checked-in manifest must advertise Runtime coordination"
+    );
+    assert!(
+        manifest
+            .capabilities
+            .iter()
+            .any(|capability| capability == "work-item-parallel"),
+        "checked-in manifest must preserve optional parallel capability discovery"
+    );
+}
+
+#[test]
 fn missing_manifest_is_unattached() {
     let repository = repository();
     assert!(cockpit_agent::load_agent_context(repository.path()).is_err());

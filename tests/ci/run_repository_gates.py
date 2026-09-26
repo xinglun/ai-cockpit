@@ -129,6 +129,13 @@ def write_gate_receipt(
         "schemaVersion": 1,
         "state": result["state"],
     }
+    for key in (
+        "acceptanceEvidencePath",
+        "acceptanceEvidenceDigest",
+        "acceptanceEvidenceTruncated",
+    ):
+        if key in result:
+            receipt[key] = result[key]
     path = artifact_root / "repository-gate-receipts" / f"{gate['id']}.json"
     write_report(path, receipt)
 
@@ -790,6 +797,31 @@ def main() -> int:
                     else:
                         result["exitCode"] = completed.returncode
                         result["state"] = "passed" if completed.returncode == 0 else "failed"
+                        if (
+                            completed.returncode == 0
+                            and result["id"] == "conformance_cross_wi_coordination_processes"
+                        ):
+                            persisted = persist_gate_diagnostic(
+                                repository, artifact_root, result["id"], completed.stdout
+                            )
+                            if persisted is None or persisted[2]:
+                                result["state"] = "failed"
+                                result["failureCode"] = (
+                                    "acceptance_evidence_missing"
+                                    if persisted is None
+                                    else "acceptance_evidence_truncated"
+                                )
+                                result["remediation"] = (
+                                    "restore complete coordination acceptance JSON output "
+                                    "within the evidence size limit, then rerun this route"
+                                )
+                                failed = True
+                            else:
+                                (
+                                    result["acceptanceEvidencePath"],
+                                    result["acceptanceEvidenceDigest"],
+                                    result["acceptanceEvidenceTruncated"],
+                                ) = persisted
                         if completed.returncode != 0:
                             detail = "\n".join(
                                 part

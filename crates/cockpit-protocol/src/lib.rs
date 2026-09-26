@@ -74,6 +74,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-recovery",
     "work-item-retirement",
     "work-item-finalization",
+    "work-item-coordination",
     "work-item-parallel",
     "evidence",
     "audit",

@@ -1,69 +1,45 @@
 # Ordinary Work Item
 
-## Applicability
+Use this route when Runtime selects ordinary implementation, verification,
+archive, or local cleanup. For failed/stale evidence, follow the selected
+recovery guide.
 
-Use this guide for ordinary repository implementation, declared verification,
-archive, and local cleanup when the current Runtime projection identifies
-`ordinary-work-item`. It is the default route when the current Runtime
-projection selects the ordinary path.
+## Governed work
 
-Do not use it to interpret failed, timed-out, stale, or invalid evidence, or
-when Runtime selects a specialized recovery, external-resource, or
-artifact-acceptance route. Load the selected conditional guide instead.
+Read the active Contract and query `inspect`, `status`, and `doctor` with an
+explicit `--repo`. Runtime `safeActions`, blockers, evidence freshness, and
+action explanation govern each step; this guide is not permission. Change only
+Contract scope, preserve evidence/history, and re-query at lifecycle boundaries.
+Run declared checks. Keep failures and invalidated receipts; never hand-edit
+generated records. At handoff, give the separate human Outcome required by
+`AGENTS.md`. Queries are read-only; `preflight` is an explicit, idempotent
+write and does not run verification.
 
-## Authoritative inputs
+## Serial and cross-Work-Item use
 
-Read the active Contract and Runtime `inspect`, `status`, and `doctor` output
-for the explicit repository path. Use the current `safeActions`, blockers,
-evidence freshness, action explanation, Contract digest, and repository
-snapshot. Use declared verification commands and the relevant Reference page.
-Do not infer permission from this guide or hand-edit generated records.
+One Work Item runs serially by default. `compatible: false` /
+`parallel_compatibility_not_declared` denies only parallel work; continue
+serially when Runtime admits it.
 
-## Operations
+Before parallel work, refresh `inspect`/`status`, check
+`ai-cockpit work-item inspect --repo <repository> --id <work-item>`, and
+discover current CLI help plus MCP `tools/list` schemas. The manifest and
+`agent doctor` do not prove write support. Require declared compatibility,
+isolated linked worktrees in one common Git directory, current registration,
+and a Runtime slot lease. If unsupported, do not emulate constraints: use
+admitted serial work or stop.
 
-1. Confirm the Runtime identity and repository binding, then inspect the
-   current status before touching files.
-2. Make only the Contract-scoped change. Keep tests and evidence intact.
-3. Re-query the Runtime before each lifecycle boundary and follow the action
-   it currently admits; a recommendation is only guidance.
-4. Run the declared checks at the scope required by the change. Preserve
-   command, exit status, logs, and identity for every failure.
-5. At handoff, report implementation, projection, and host delivery as
-   separate Outcome facts.
+Coordination inspection is read-only. Register, report impact, publish an
+outcome, request/acknowledge/safely pause, resume, recover, and acquire or
+relinquish leases only through their explicit Runtime write actions. Bind
+records to the current repository, Contract, Runtime, and generation; reject
+stale requests.
+Refresh dependency admission immediately before affected actions; unrelated
+actions may continue only if their own refreshed admission allows. Recovery
+appends a resolution; retain the original event.
 
-## Success conditions
-
-The current Contract and snapshot are bound, required checks have current
-evidence, no blocker or unresolved human decision remains, and the Runtime
-admits the next operation. The visible Outcome contains the complete status,
-evidence, unknowns or risks, decision, verification, impact, and next action.
-
-## Failure evidence
-
-Keep the exact failing command, exit status, output path, Runtime projection,
-Contract/snapshot digests, and any invalidated receipt. Do not replace a
-yellow or red state with a prose claim of completion. If the failure is a
-verification or evidence failure, switch to
-[`verification-failure-recovery`](verification-failure-recovery.md).
-
-## Query and preflight boundary
-
-`inspect`, `status`, `doctor`, and `work-item outcome` are read-only.
-`preflight` explicitly persists its decision projection, returns changed paths
-as `changedPaths`, and is idempotent for unchanged inputs; it never runs
-verification or repair.
-
-## Continue or stop
-
-Continue only after a fresh Runtime query admits the operation and all
-required inputs are present. Preserve and report unknowns; unknowns alone do
-not stop an operation admitted by the current Runtime. Stop for missing
-authority, contradictory evidence, stale admission, an out-of-scope defect,
-or a human decision required by Runtime. Ask for a real decision when Runtime
-says one is required; do not turn a recommendation into approval.
-
-## Reference
-
-See [agent workflow](../../docs/reference/agent-workflow.md), [how to read
-status](../../docs/reference/how-to-read-cockpit-status.md), and the
-[command reference](../../docs/reference/commands.md).
+The repository-bound installed Runtime owns lifecycle decisions. Candidate
+collaboration writes require tools actually implemented by that candidate;
+readable new fields do not prove compatibility. See the
+[agent workflow](../../docs/reference/agent-workflow.md) for the full discovery
+and safe-pause sequence.
