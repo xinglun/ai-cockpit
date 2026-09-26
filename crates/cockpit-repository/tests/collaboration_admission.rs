@@ -494,6 +494,7 @@ fn admitted_composition_rejects_invalid_command_dependencies_before_launch() {
 fn missing_one_of_two_required_scenarios_blocks_composition() {
     let root = repository();
     let store = store(root.path());
+    let marker = root.path().join("missing-scenario-marker");
     let mut work = declaration(root.path(), &[], &[]);
     work.composition_verification.required_scenarios =
         vec!["api-contract".into(), "docs-contract".into()];
@@ -501,7 +502,7 @@ fn missing_one_of_two_required_scenarios_blocks_composition() {
         .register(registration(root.path(), "WI-CONSUMER", 1, work))
         .expect("register consumer");
 
-    let mut input = composition_input(root.path(), &root.path().join("unused-marker"));
+    let mut input = composition_input(root.path(), &marker);
     input.commands[0].covered_scenarios = vec!["api-contract".into()];
     input.identity.command_digest = composition_commands_digest(&input.commands);
     let result = run_admitted_composition(&store, "WI-CONSUMER", 1, input);
@@ -515,6 +516,45 @@ fn missing_one_of_two_required_scenarios_blocks_composition() {
             .unwrap_err()
             .to_string()
             .contains("required_scenario_uncovered:docs-contract")
+    );
+    assert!(
+        !marker.exists(),
+        "missing scenario coverage must reject before spawning the required check"
+    );
+}
+
+#[test]
+fn missing_one_of_two_required_checks_blocks_before_spawn() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("missing-required-check-marker");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display()), "true".into()],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+
+    let mut input = composition_input(root.path(), &marker);
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let error = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
+        .expect_err("omitting a required check must fail closed")
+        .to_string();
+
+    assert!(
+        error.contains("required_check_set_incomplete:expected=2:actual=1"),
+        "the exact missing required-check count must be actionable: {error}"
+    );
+    assert!(
+        !marker.exists(),
+        "incomplete required-check coverage must reject before spawning any check"
     );
 }
 

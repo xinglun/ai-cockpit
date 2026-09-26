@@ -57,7 +57,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录。`amend` 只应用追加型 Contract 字段并自动记录修订 revalidation；下一步是 `run_preflight`。只有直接修改 Contract 后才使用 `revalidate-amendment`；成功 amend 后无需重复执行。`close` 和 recovery 要求显式 human decision。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |

@@ -1436,11 +1436,11 @@ pub fn record_work_item_governance_controls(
             .insert("decisionEvidence".into(), value.clone());
         let decisions_dir = root.join(".ai/decisions");
         let canonical_path = decisions_dir.join(format!("{work_item_id}.preflight-review.json"));
-        // Decision receipts are append-only. A changed Contract or snapshot
-        // requires a fresh review, but an existing receipt must never be
-        // overwritten (including when the path is a symlink). Keep the first
-        // receipt at the canonical path and bind later receipts to the digest
-        // of their exact JSON value.
+        // Decision receipts are append-only. A changed Contract invalidates
+        // this bounded review, while a source-snapshot change requires fresh
+        // preflight/verification without repeating the same human decision.
+        // An existing receipt must never be overwritten (including when the
+        // path is a symlink); bind later receipts to their exact JSON digest.
         let existing_same = fs::symlink_metadata(&canonical_path)
             .ok()
             .is_some_and(|metadata| {

@@ -223,6 +223,105 @@ fn repeated_preflight_is_idempotent_and_reports_written_paths() {
 }
 
 #[test]
+fn preflight_and_status_share_versioned_action_admission() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-admission-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("attach");
+    assert!(
+        attach.status.success(),
+        "{}",
+        String::from_utf8_lossy(&attach.stderr)
+    );
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&directory)
+        .args([
+            "--id",
+            "WI-PREFLIGHT-ADMISSION",
+            "--intent",
+            "verify shared action admission",
+            "--goal",
+            "keep preflight, status, and rejection aligned",
+            "--scope",
+            "src/**",
+            "--out-of-scope",
+            "target/**",
+            "--acceptance",
+            "action admission is shared",
+            "--authority",
+            "authorized",
+            "--required-evidence",
+            "verification",
+        ])
+        .output()
+        .expect("start");
+    assert!(
+        start.status.success(),
+        "{}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+
+    let preflight = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args([
+            "--contract",
+            ".ai/work-items/active/WI-PREFLIGHT-ADMISSION.contract.json",
+        ])
+        .output()
+        .expect("preflight");
+    assert!(
+        preflight.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preflight.stderr)
+    );
+    let preflight_json: serde_json::Value =
+        serde_json::from_slice(&preflight.stdout).expect("preflight JSON");
+    let status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
+        .arg(&directory)
+        .args(["--id", "WI-PREFLIGHT-ADMISSION", "--json"])
+        .output()
+        .expect("status");
+    assert!(
+        status.status.success(),
+        "{}",
+        String::from_utf8_lossy(&status.stderr)
+    );
+    let status_json: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("status JSON");
+
+    assert_eq!(
+        preflight_json["actionAdmission"], status_json,
+        "preflight must return the same versioned blockers, safe actions, and next-action projection as status"
+    );
+    assert!(status_json["actionExplanation"]["admissionDigest"].is_string());
+    assert!(status_json["actionExplanation"]["recommendedAction"].is_string());
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn preflight_turns_green_after_matching_verification_evidence() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

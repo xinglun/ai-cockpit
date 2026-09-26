@@ -6,9 +6,9 @@ use super::{
     SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeReport, TaskOutcomeReportInput,
     VerificationCaptureMode, VerificationDeclaration, VerificationEvidenceEnvelope,
     WorkItemScaffoldFacts, WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation,
-    WorkItemStartOptions, WorkItemStartRemoteBranch, WorkItemStartWorktree, acquire_lifecycle_lock,
-    append_task_outcome_events, apply_preflight_review_evidence, atomic_json, atomic_write, attach,
-    attached_profile_digest, close_decision_is_valid_for_status,
+    WorkItemStartOptions, WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
+    acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
+    atomic_json, atomic_write, attach, attached_profile_digest, close_decision_is_valid_for_status,
     ensure_resource_finalization_base_binding, git_text, git_worktree_records,
     governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
     now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
@@ -40,6 +40,10 @@ pub struct PreflightResult {
     #[serde(flatten)]
     pub decision: GovernanceDecision,
     pub changed_paths: Vec<String>,
+    /// The same versioned action/blocker/next-step snapshot returned by
+    /// `work-item status`, when this Contract belongs to an active Work Item.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub action_admission: Option<WorkItemStatusSnapshot>,
 }
 
 pub fn start_work_item(
@@ -521,12 +525,8 @@ pub fn start_work_item_prepared(
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let preflight = super::preflight_work_item_with_runtime_report(root, &contract_path, runtime)?;
-    let preflight_value =
-        serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: format!("serialize prepared-start preflight: {error}"),
-        })?;
+    let mut preflight =
+        super::preflight_work_item_with_runtime_report(root, &contract_path, runtime)?;
     let requires_human_confirmation =
         preflight.decision.review_state.as_deref() == Some("needs_human_confirmation");
     let may_checkpoint = matches!(
@@ -553,6 +553,18 @@ pub fn start_work_item_prepared(
     } else {
         ("blocked", None, None)
     };
+    if state == "checkpointed" {
+        preflight.action_admission = Some(super::work_item_status_snapshot_with_runtime(
+            root,
+            work_item_id,
+            runtime,
+        )?);
+    }
+    let preflight_value =
+        serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: format!("serialize prepared-start preflight: {error}"),
+        })?;
     Ok(serde_json::json!({
         "schemaVersion": 1,
         "workItemId": work_item_id,
@@ -1994,6 +2006,15 @@ fn preflight_work_item_internal(
             return Ok(PreflightResult {
                 decision,
                 changed_paths,
+                action_admission: current_runtime
+                    .map(|runtime| {
+                        super::work_item_status_snapshot_with_runtime(
+                            &root,
+                            &contract.work_item_id,
+                            runtime,
+                        )
+                    })
+                    .transpose()?,
             });
         }
         // A source commit after finish can legitimately change the repository
@@ -2030,6 +2051,19 @@ fn preflight_work_item_internal(
     Ok(PreflightResult {
         decision,
         changed_paths,
+        action_admission: if active_contract.is_file() && summary_path.is_file() {
+            current_runtime
+                .map(|runtime| {
+                    super::work_item_status_snapshot_with_runtime(
+                        &root,
+                        &contract.work_item_id,
+                        runtime,
+                    )
+                })
+                .transpose()?
+        } else {
+            None
+        },
     })
 }
 
@@ -5648,7 +5682,10 @@ pub fn persist_verification_attempt(
     if let Some((code, message)) = diagnostic {
         value["diagnostic"] = serde_json::json!({
             "code": code,
-            "message": message,
+            "message": truncate_diagnostic_text(
+                message.to_owned(),
+                MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES,
+            ),
         });
     }
     let attempt_id =
@@ -5974,6 +6011,215 @@ fn verification_attempt_content_digest_matches(attempt: &serde_json::Value) -> b
     object.remove("attemptId");
     cockpit_protocol::digest_json(&unsigned).is_ok_and(|digest| digest == attempt_id)
 }
+
+pub(crate) struct CurrentVerificationAttemptProjection {
+    pub state: String,
+    pub attempt_id: String,
+    pub path: String,
+    pub diagnostic_code: Option<String>,
+    pub diagnostic_message: Option<String>,
+    pub snapshot_digest: String,
+}
+
+/// Find the latest integrity-checked attempt that still applies to the
+/// current repository, Contract, Runtime (when known), and source snapshot.
+/// Invalid or stale files remain untouched and are never projected as current.
+pub(crate) fn current_verification_attempt_projection(
+    root: &Path,
+    work_item_id: &str,
+    contract_path: &Path,
+    snapshot: &RepositorySnapshot,
+    runtime: Option<&RuntimeContext>,
+) -> Result<Option<CurrentVerificationAttemptProjection>, ObserverError> {
+    let evidence_dir = root.join(".ai/evidence");
+    match fs::symlink_metadata(&evidence_dir) {
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_dir() => {
+            return Err(ObserverError::State {
+                path: evidence_dir,
+                message: "verification attempt evidence directory must be a real directory".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    }
+    let entries = match fs::read_dir(&evidence_dir) {
+        Ok(entries) => entries,
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    };
+    let expected_contract_digest = contract_digest(contract_path)?.to_string();
+    let expected_scope_digest = contract_execution_scope_digest(contract_path)?.to_string();
+    let expected_snapshot_digest = snapshot_digest(snapshot)?.to_string();
+    let expected_repository_id = repository_id(root).to_string();
+    let filename_prefix = format!("{work_item_id}.verification-attempt.");
+    let mut candidates = Vec::new();
+
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: evidence_dir.clone(),
+            source,
+        })?;
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else {
+            continue;
+        };
+        let Some(filename_digest) = name
+            .strip_prefix(&filename_prefix)
+            .and_then(|value| value.strip_suffix(".json"))
+        else {
+            continue;
+        };
+        let file_type = entry.file_type().map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        if !file_type.is_file() || file_type.is_symlink() {
+            continue;
+        }
+        let metadata = entry.metadata().map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        if metadata.len() > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES {
+            continue;
+        }
+        let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        let Ok(attempt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            continue;
+        };
+        if !verification_attempt_content_digest_matches(&attempt)
+            || attempt["attemptId"]
+                .as_str()
+                .and_then(|value| value.strip_prefix("sha256:"))
+                != Some(filename_digest)
+            || attempt["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+            || attempt["kind"] != serde_json::json!("verification_attempt")
+            || attempt["workItemId"] != serde_json::json!(work_item_id)
+            || attempt["repositoryId"] != serde_json::json!(expected_repository_id)
+            || attempt["contractDigest"] != serde_json::json!(expected_contract_digest)
+            || attempt["contractExecutionScopeDigest"] != serde_json::json!(expected_scope_digest)
+            || attempt["repositorySnapshotDigest"] != serde_json::json!(expected_snapshot_digest)
+            || !matches!(
+                attempt["state"].as_str(),
+                Some("execution_completed" | "formal_receipt_rejected")
+            )
+            || attempt["passed"] != serde_json::json!(true)
+            || attempt["processesSpawned"].as_u64().unwrap_or_default() == 0
+        {
+            continue;
+        }
+        if let Some(runtime) = runtime
+            && (attempt["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+                || attempt["runtimeDigest"] != serde_json::json!(runtime.runtime_digest))
+        {
+            continue;
+        }
+        let Some(commands) = attempt["commands"].as_array() else {
+            continue;
+        };
+        let Some(records) = attempt["executionRecords"].as_array() else {
+            continue;
+        };
+        let receipt = &attempt["receipt"];
+        if commands.is_empty()
+            || records.is_empty()
+            || receipt["passed"] != serde_json::json!(true)
+            || receipt["workItemId"] != serde_json::json!(work_item_id)
+            || receipt["repositoryId"] != serde_json::json!(expected_repository_id)
+            || receipt["runtimeVersion"] != attempt["runtimeVersion"]
+            || receipt["runtimeDigest"] != attempt["runtimeDigest"]
+            || receipt["executionRecords"] != attempt["executionRecords"]
+            || receipt["processesSpawned"] != attempt["processesSpawned"]
+            || commands.iter().any(|command| {
+                let node_id = command.get("nodeId").and_then(serde_json::Value::as_str);
+                command
+                    .get("commandDigest")
+                    .and_then(serde_json::Value::as_str)
+                    .and_then(|value| value.parse::<Digest>().ok())
+                    .is_none()
+                    || node_id.is_none()
+            })
+            || records.iter().any(|record| {
+                record
+                    .get("commandDigest")
+                    .and_then(serde_json::Value::as_str)
+                    .and_then(|value| value.parse::<Digest>().ok())
+                    .is_none()
+                    || !commands
+                        .iter()
+                        .any(|command| command.get("nodeId") == record.get("nodeId"))
+                    || record["spawned"] != serde_json::json!(true)
+                    || record["passed"] != serde_json::json!(true)
+                    || record["timedOut"] != serde_json::json!(false)
+            })
+        {
+            continue;
+        }
+        let state = attempt["state"].as_str().unwrap_or_default();
+        let diagnostic = attempt.get("diagnostic");
+        let (diagnostic_code, diagnostic_message) = if state == "formal_receipt_rejected" {
+            let Some(code) = diagnostic
+                .and_then(|value| value.get("code"))
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| {
+                    !value.is_empty()
+                        && value.len() <= 128
+                        && value
+                            .bytes()
+                            .all(|byte| byte.is_ascii_alphanumeric() || b"-_".contains(&byte))
+                })
+            else {
+                continue;
+            };
+            let Some(message) = diagnostic
+                .and_then(|value| value.get("message"))
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| value.len() <= MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES)
+            else {
+                continue;
+            };
+            (Some(code.to_owned()), Some(message.to_owned()))
+        } else {
+            (None, None)
+        };
+        let Some(created_at) = attempt.get("createdAt").and_then(serde_json::Value::as_str) else {
+            continue;
+        };
+        let attempt_id = attempt["attemptId"].as_str().unwrap_or_default().to_owned();
+        candidates.push((
+            created_at.to_owned(),
+            attempt_id.clone(),
+            CurrentVerificationAttemptProjection {
+                state: state.to_owned(),
+                attempt_id,
+                path: repository_relative_path(root, &entry.path()),
+                diagnostic_code,
+                diagnostic_message,
+                snapshot_digest: expected_snapshot_digest.clone(),
+            },
+        ));
+    }
+
+    Ok(candidates
+        .into_iter()
+        .max_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(&right.1)))
+        .map(|(_, _, projection)| projection))
+}
+
+const MAX_VERIFICATION_ATTEMPT_RECORD_BYTES: u64 = 4 * 1024 * 1024;
 
 pub fn record_verification_with_snapshot(
     root: &Path,
@@ -6560,6 +6806,7 @@ const MAX_RECOVERY_UNKNOWN_ITEMS: usize = 8;
 const MAX_RECOVERY_UNKNOWN_ENTRY_BYTES: usize = 96;
 const MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES: usize = 1024;
 const MAX_RECOVERY_PROJECTION_MESSAGE_BYTES: usize = 2048;
+const MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES: usize = 1024;
 
 fn truncate_diagnostic_text(mut value: String, max_bytes: usize) -> String {
     if value.len() <= max_bytes {

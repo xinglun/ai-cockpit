@@ -108,10 +108,10 @@ pub use knowledge_projection::{
 };
 pub use lifecycle::*;
 pub(crate) use lifecycle::{
-    RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence, decision_state_name,
-    recovery_decision_error, validate_archived_revalidation_evidence,
-    validate_recovery_predecessor_bindings, validate_recovery_successor_binding,
-    work_item_artifact_path,
+    RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence,
+    current_verification_attempt_projection, decision_state_name, recovery_decision_error,
+    validate_archived_revalidation_evidence, validate_recovery_predecessor_bindings,
+    validate_recovery_successor_binding, work_item_artifact_path,
 };
 pub use outcome_render::{
     FinalizationProjection, HumanDecisionProjection, OUTCOME_DELIVERY_MAX_SEGMENT_CHARS,
@@ -4604,14 +4604,34 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
-    check_verification_preconditions(root, work_item_id, runtime, snapshot)?;
-    action_admission::require_current_action_admission(
+    let admission = action_admission::require_current_action_admission(
         root,
         work_item_id,
         "run_verification",
         runtime,
-    )?;
-    Ok(())
+    );
+    let preconditions = check_verification_preconditions(root, work_item_id, runtime, snapshot);
+    match (admission, preconditions) {
+        (Ok(_), Ok(())) => Ok(()),
+        (Err(admission_error), Ok(())) => Err(admission_error),
+        (Err(admission_error), Err(precondition_error)) => Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+            message: format!(
+                "{admission_error}; additional verification precondition: {precondition_error}"
+            ),
+        }),
+        (Ok(admitted), Err(precondition_error)) => Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+            message: format!(
+                "current action admission allowed nextAction={:?} with admissionDigest={}, but verification precondition rejected: {precondition_error}",
+                admitted.recommended_action, admitted.admission_digest,
+            ),
+        }),
+    }
 }
 
 /// Read-only verification gates shared by the status projection and the
@@ -5371,6 +5391,7 @@ fn apply_preflight_review_evidence(
                 decision.safe_actions.push("continue_to_checkpoint".into());
                 decision.safe_actions.sort();
                 decision.safe_actions.dedup();
+                decision.human_decision_request = None;
             }
         }
         governance_controls::PreflightDecisionEvidenceState::Invalid => {
@@ -10277,21 +10298,45 @@ fn outcome_v2_internal_with_snapshot(
         summary = "This Work Item was superseded as historical evidence; its original bytes were preserved and were not revalidated as a current result.";
         evidence_unknown = Some("historical_evidence_not_current");
     }
+    let current_attempt = current_verification_attempt_projection(
+        &root,
+        work_item_id,
+        &contract_path,
+        snapshot,
+        current_runtime,
+    )?;
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
+    }
+    if let Some(attempt) = current_attempt.as_ref()
+        && attempt.state == "formal_receipt_rejected"
+    {
+        let code = attempt.diagnostic_code.as_deref().unwrap_or("unknown");
+        let message = attempt
+            .diagnostic_message
+            .as_deref()
+            .unwrap_or("diagnostic unavailable");
+        unknowns.push(format!(
+            "verification_attempt_formal_receipt_rejected:{}:{}:{}:snapshot={}:evidence={}",
+            attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
+        ));
     }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());
     }
     unknowns.sort();
     unknowns.dedup();
+    let mut outcome_evidence_refs = vec![evidence_ref.clone()];
+    if let Some(attempt) = current_attempt.as_ref() {
+        outcome_evidence_refs.push(attempt.path.clone());
+    }
     let report = HumanBenefitReport {
         state: OutcomeState::Unknown,
         user_visible_changes: Vec::new(),
         affected_users: Vec::new(),
         unknowns: vec!["user_visible_benefit_not_declared".into()],
-        evidence_refs: vec![evidence_ref.clone()],
+        evidence_refs: outcome_evidence_refs.clone(),
     };
     let summary_path = contract_path
         .parent()
@@ -10327,7 +10372,7 @@ fn outcome_v2_internal_with_snapshot(
         summary: summary.into(),
         acceptance_results: contract.acceptance_criteria,
         unknowns,
-        evidence_refs: vec![evidence_ref],
+        evidence_refs: outcome_evidence_refs,
         human_benefit_report: report,
         task_outcome_report: Some(task_report),
         failed_gate,

@@ -78,6 +78,215 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
 }
 
 #[test]
+fn checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-stale-preflight-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    fs::write(directory.join("README.md"), "initial source\n").expect("README");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let work_item_id = "WI-CLI-STALE-PREFLIGHT";
+    let run_successfully = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(&directory)
+            .current_dir(&directory)
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stdout={}, stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output
+    };
+    run_successfully(&[
+        "start",
+        "--id",
+        work_item_id,
+        "--intent",
+        "verify stale preflight recovery",
+        "--goal",
+        "never execute against a stale checkpoint snapshot",
+        "--scope",
+        "README.md",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: stale verification is stopped before spawn",
+        "--required-evidence",
+        "verification",
+    ]);
+    let contract = directory
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    run_successfully(&[
+        "preflight",
+        "--contract",
+        contract.to_str().expect("Contract path"),
+    ]);
+    run_successfully(&["checkpoint", "--id", work_item_id]);
+
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "initial source",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["README.md"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run_successfully(&[
+        "work-item",
+        "controls",
+        "--id",
+        work_item_id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+    run_successfully(&[
+        "preflight",
+        "--contract",
+        contract.to_str().expect("Contract path"),
+    ]);
+
+    fs::write(directory.join("README.md"), "changed source\n").expect("change README");
+    let status = run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
+    let status: serde_json::Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status["safeActions"]
+            .as_array()
+            .is_some_and(|actions| { actions.iter().any(|action| action == "run_preflight") })
+    );
+    assert_eq!(
+        status["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(status["humanDecisionRequired"], false);
+
+    let rejected = Command::new(binary)
+        .args(["verify", "--work-item", work_item_id, "--command", "cargo"])
+        .arg("--args=--version")
+        .args(["--repo"])
+        .arg(&directory)
+        .current_dir(&directory)
+        .output()
+        .expect("stale verify");
+    assert!(
+        !rejected.status.success(),
+        "stale preflight must reject verify"
+    );
+    let error = String::from_utf8_lossy(&rejected.stderr);
+    assert!(
+        error.contains("run_preflight"),
+        "missing recovery action: {error}"
+    );
+    let attempts = fs::read_dir(directory.join(".ai/evidence"))
+        .expect("attempt directory")
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| {
+                    name.starts_with(&format!("{work_item_id}.verification-attempt."))
+                })
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1, "one rejected attempt must be preserved");
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt bytes"))
+            .expect("attempt JSON");
+    assert_eq!(attempt["state"], "precondition_rejected");
+    assert_eq!(attempt["processesSpawned"], 0);
+
+    run_successfully(&[
+        "preflight",
+        "--contract",
+        contract.to_str().expect("Contract path"),
+    ]);
+    let refreshed_status =
+        run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
+    let refreshed_status: serde_json::Value =
+        serde_json::from_slice(&refreshed_status.stdout).expect("refreshed status JSON");
+    assert_eq!(
+        refreshed_status["humanDecisionRequired"], false,
+        "fresh preflight must not reopen the already authorized start boundary: {refreshed_status:#}"
+    );
+    let accepted = Command::new(binary)
+        .args(["verify", "--work-item", work_item_id, "--command", "cargo"])
+        .arg("--args=--version")
+        .args(["--repo"])
+        .arg(&directory)
+        .current_dir(&directory)
+        .output()
+        .expect("refreshed verify");
+    assert!(
+        accepted.status.success(),
+        "fresh preflight should admit verify without another start decision: stdout={}, stderr={}",
+        String::from_utf8_lossy(&accepted.stdout),
+        String::from_utf8_lossy(&accepted.stderr)
+    );
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&accepted.stdout).expect("receipt JSON");
+    assert_eq!(receipt["processesSpawned"], 1);
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_cli_accepts_policy_authorized_timeout_and_rejects_the_runtime_cap_before_spawn() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-verify-timeout-{}-{}",

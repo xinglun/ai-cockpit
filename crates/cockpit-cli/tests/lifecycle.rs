@@ -157,6 +157,116 @@ fn prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command() 
 }
 
 #[test]
+fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
+    let repo = repository();
+    fs::write(repo.join("README.md"), "baseline\n").expect("baseline");
+    commit_baseline(&repo);
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(run_output(binary, &["attach"], &repo).status.success());
+    let work_item_id = "WI-AMEND-CLI-NEXT-ACTION";
+    let started = run_output(
+        binary,
+        &[
+            "start",
+            "--id",
+            work_item_id,
+            "--intent",
+            "clarify Contract amendment lifecycle",
+            "--goal",
+            "avoid redundant amendment revalidation",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--prepare",
+        ],
+        &repo,
+    );
+    assert!(
+        started.status.success(),
+        "start stderr: {}",
+        String::from_utf8_lossy(&started.stderr)
+    );
+
+    let amendment = tempfile::NamedTempFile::new().expect("amendment input");
+    fs::write(
+        amendment.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "scopeAppend": ["tests/new-required-regression.rs"]
+        }))
+        .expect("amendment JSON"),
+    )
+    .expect("write amendment");
+    let amended = run(
+        binary,
+        &[
+            "work-item",
+            "amend",
+            "--id",
+            work_item_id,
+            "--input",
+            amendment.path().to_str().expect("amendment path"),
+            "--reason",
+            "include the newly discovered in-scope regression path",
+        ],
+        &repo,
+    );
+    assert_eq!(amended["stage"], "contract_amendment_revalidation");
+    assert_eq!(amended["recorded"], true);
+    assert_eq!(
+        amended["nextAction"], "run_preflight",
+        "amend must explain that it already recorded revalidation: {amended:#}"
+    );
+
+    let status = run(
+        binary,
+        &["work-item", "status", "--id", work_item_id, "--json"],
+        &repo,
+    );
+    assert_eq!(
+        status["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(status["humanDecisionRequired"], false);
+
+    let duplicate = run_output(
+        binary,
+        &[
+            "work-item",
+            "revalidate-amendment",
+            "--id",
+            work_item_id,
+            "--reason",
+            "do not repeat a revalidation already recorded by amend",
+        ],
+        &repo,
+    );
+    assert!(!duplicate.status.success());
+    assert!(String::from_utf8_lossy(&duplicate.stderr).contains("must change Contract bytes"));
+
+    let amend_help = Command::new(binary)
+        .args(["work-item", "amend", "--help"])
+        .output()
+        .expect("amend help");
+    assert!(amend_help.status.success());
+    let amend_help = String::from_utf8_lossy(&amend_help.stdout);
+    assert!(amend_help.contains("automatically record amendment revalidation"));
+    assert!(amend_help.contains("run_preflight is the next action"));
+
+    let revalidate_help = Command::new(binary)
+        .args(["work-item", "revalidate-amendment", "--help"])
+        .output()
+        .expect("revalidate help");
+    assert!(revalidate_help.status.success());
+    assert!(
+        String::from_utf8_lossy(&revalidate_help.stdout)
+            .contains("not needed after a successful amend")
+    );
+
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
 fn prepared_start_preserves_human_review_and_does_not_checkpoint() {
     let repo = repository();
     fs::write(repo.join("README.md"), "baseline\n").expect("baseline");

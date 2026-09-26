@@ -353,32 +353,28 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
             &format!(".ai/work-items/active/{id}.contract.json"),
         ],
     );
+    // A new repository snapshot requires fresh preflight and verification,
+    // but it must not ask for the same bounded authorization again when the
+    // Work Item and Contract boundary have not changed.
     assert_eq!(
         after_resume_preflight["reviewState"],
-        "needs_human_confirmation"
+        "human_decision_recorded"
+    );
+    assert!(after_resume_preflight["humanDecisionRequest"].is_null());
+    assert!(
+        after_resume_preflight["safe_actions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "continue_to_checkpoint")
     );
     assert!(
-        after_resume_preflight["unknowns"]
+        !after_resume_preflight["unknowns"]
             .as_array()
             .expect("preflight unknowns")
             .iter()
             .any(|unknown| unknown == "preflight_decision_evidence_invalid")
     );
-
-    // A successful verification changes the governance decision projection.
-    // The Runtime must reject the old receipt and require a fresh decision for
-    // the current evidence before allowing the next lifecycle transition.
-    record_test_data_decision(repo.path(), id);
-    let current = run_json(
-        binary,
-        repo.path(),
-        &[
-            "preflight",
-            "--contract",
-            &format!(".ai/work-items/active/{id}.contract.json"),
-        ],
-    );
-    assert_eq!(current["reviewState"], "human_decision_recorded");
     let resumed_projection = run_json(
         binary,
         repo.path(),

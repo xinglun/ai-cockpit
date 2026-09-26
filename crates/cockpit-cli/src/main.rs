@@ -543,8 +543,7 @@ enum WorkItemCommand {
         #[arg(long)]
         mode: String,
     },
-    /// Append a Contract-amendment revalidation without rewriting the
-    /// immutable before_edit checkpoint.
+    /// Append a revalidation after a direct Contract change; it is not needed after a successful amend.
     RevalidateAmendment {
         #[arg(long)]
         repo: PathBuf,
@@ -553,7 +552,7 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
-    /// Apply only additive Contract fields, then append amendment evidence.
+    /// Apply additive Contract fields and automatically record amendment revalidation; run_preflight is the next action.
     Amend {
         #[arg(long)]
         repo: PathBuf,
@@ -2608,8 +2607,10 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::RevalidateAmendment { repo, id, reason } => {
                 require_compatible(&repo, &runtime_context)?;
-                let record = cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
-                    .context("revalidate amended Contract")?;
+                let mut record =
+                    cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
+                        .context("revalidate amended Contract")?;
+                record["nextAction"] = json!("run_preflight");
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Amend {
@@ -2623,9 +2624,10 @@ fn run() -> Result<()> {
                     &std::fs::read(&input).context("read Contract amendment input")?,
                 )
                 .context("parse Contract amendment input")?;
-                let record =
+                let mut record =
                     cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
                         .context("apply bounded Contract amendment")?;
+                record["nextAction"] = json!("run_preflight");
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::RevalidateArchived {

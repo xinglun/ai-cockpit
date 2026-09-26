@@ -65,7 +65,7 @@ failed/unknown は pass ではありません。
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作ります。`amend` は Contract の追加フィールドだけを適用し、amendment revalidation を自動記録します。次の action は `run_preflight` です。直接 Contract を編集した場合だけ `revalidate-amendment` を使い、成功した `amend` の後に重ねて実行しません。`close` と recovery には明示的な human decision が必要です。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |

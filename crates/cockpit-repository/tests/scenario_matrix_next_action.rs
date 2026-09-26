@@ -515,14 +515,24 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
     let query_error =
         require_current_action_admission(directory.path(), id, "run_verification", &runtime())
             .expect_err("the execution admission must agree with the query");
-    assert!(query_error.to_string().contains("run_verification"));
+    let rejected = query_error.to_string();
+    let explanation = after
+        .action_explanation
+        .as_ref()
+        .expect("current status action explanation");
+    assert!(rejected.contains("run_verification"));
+    assert!(rejected.contains(explanation.admission_digest.as_str()));
+    assert!(rejected.contains(&format!("blockers={:?}", after.blockers)));
+    assert!(rejected.contains(&format!("nextAction={:?}", explanation.recommended_action)));
     let execution_error =
         require_verification_preconditions(directory.path(), id, &runtime(), &changed_snapshot)
             .expect_err("stale verification must stop before process start");
+    let execution_rejected = execution_error.to_string();
+    assert!(execution_rejected.contains("current repository snapshot"));
+    assert!(execution_rejected.contains(explanation.admission_digest.as_str()));
+    assert!(execution_rejected.contains(&format!("blockers={:?}", after.blockers)));
     assert!(
-        execution_error
-            .to_string()
-            .contains("current repository snapshot")
+        execution_rejected.contains(&format!("nextAction={:?}", explanation.recommended_action))
     );
 
     let evidence_directory = repository();
