@@ -544,17 +544,11 @@ pub fn plan_repository_verification(
         command_digests: requests
             .iter()
             .map(|request| {
-                cockpit_verification::VerificationCommand::new(
-                    &request.node_id,
-                    &request.program,
-                    request.args.clone(),
+                build_repository_verification_command(
+                    root,
+                    request,
+                    None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )
-                .with_current_dir(root)
-                .with_timeout_seconds(
-                    request
-                        .timeout_seconds
-                        .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
                 )
                 .command_digest()
             })
