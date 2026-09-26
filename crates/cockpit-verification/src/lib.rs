@@ -5,6 +5,7 @@ pub use composition::{
     CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
     CompositionIdentity, CompositionInput, CompositionPrecondition, ReuseDecision,
     ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
+    run_composition_with_process_gates,
 };
 
 use cockpit_core::Digest;
@@ -15,7 +16,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::io::Read;
 use std::path::PathBuf;
-use std::process::{Command, Stdio};
+use std::process::{Child, Command, Stdio};
 use std::sync::{Arc, Condvar, Mutex, mpsc};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -1980,6 +1981,48 @@ where
         max_workers,
         now_epoch_seconds,
         Some(Arc::new(observer)),
+        None,
+    )
+}
+
+/// A caller-owned gate for accepting a reused composition result. The caller
+/// runs `accept` exactly once while its admission synchronization is held, or
+/// returns an error without accepting the result.
+pub type ProcessAdmissionCheck =
+    Arc<dyn Fn(&str, &mut dyn FnMut() -> Result<(), String>) -> Result<(), String> + Send + Sync>;
+
+/// A caller-owned gate that holds required synchronization through the actual
+/// `Command::spawn` call and invokes `spawn` exactly once after admission.
+pub type ProcessStartGate = Arc<
+    dyn Fn(&str, &mut dyn FnMut() -> Result<Child, String>) -> Result<Child, String> + Send + Sync,
+>;
+
+/// Execute bounded commands with both durable process observation and a
+/// caller-owned gate immediately around child creation.
+pub fn execute_bounded_with_process_observer_and_start_gate<O>(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    observer: O,
+    start_gate: ProcessStartGate,
+) -> Result<VerificationReceipt, ExecutionError>
+where
+    O: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+        Some(Arc::new(observer)),
+        Some(start_gate),
     )
 }
 
@@ -2064,6 +2107,7 @@ fn execute_verification_plan_bounded_with_budget_at(
         max_resource_units,
         now_epoch_seconds,
         None,
+        None,
     )
 }
 
@@ -2075,6 +2119,7 @@ fn execute_verification_plan_bounded_with_observer_at(
     max_resource_units: usize,
     now_epoch_seconds: i64,
     process_observer: Option<ProcessObserver>,
+    process_start_gate: Option<ProcessStartGate>,
 ) -> Result<VerificationReceipt, ExecutionError> {
     if max_workers == 0 {
         return Err(ExecutionError::InvalidWorkerCount);
@@ -2137,6 +2182,7 @@ fn execute_verification_plan_bounded_with_observer_at(
     for _ in 0..worker_count {
         let scheduler = Arc::clone(&scheduler);
         let process_observer = process_observer.clone();
+        let process_start_gate = process_start_gate.clone();
         workers.push(std::thread::spawn(move || -> Result<(), ExecutionError> {
             loop {
                 let command = {
@@ -2157,7 +2203,11 @@ fn execute_verification_plan_bounded_with_observer_at(
                 let Some(command) = command else {
                     return Ok(());
                 };
-                let outcome = execute_captured(&command, process_observer.as_ref());
+                let outcome = execute_captured(
+                    &command,
+                    process_observer.as_ref(),
+                    process_start_gate.as_ref(),
+                );
                 let (lock, ready) = &*scheduler;
                 let mut state = lock.lock().map_err(|_| ExecutionError::WorkerPoisoned)?;
                 state.complete(
@@ -2454,6 +2504,7 @@ struct CaptureWorker {
 fn execute_captured(
     command: &VerificationCommand,
     observer: Option<&ProcessObserver>,
+    process_start_gate: Option<&ProcessStartGate>,
 ) -> ExecutionOutcome {
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
@@ -2482,18 +2533,26 @@ fn execute_captured(
         use windows_sys::Win32::System::Threading::CREATE_SUSPENDED;
         process.creation_flags(CREATE_SUSPENDED);
     }
-    let mut child = match process.spawn() {
+    let mut spawn = || process.spawn().map_err(|error| error.to_string());
+    let child = match process_start_gate {
+        Some(gate) => gate(&command.id, &mut spawn),
+        None => spawn(),
+    };
+    let mut child = match child {
         Ok(child) => child,
         Err(error) => {
             if std::env::var_os("AI_COCKPIT_DEBUG_SPAWN").is_some() {
-                eprintln!("ai-cockpit spawn failed for {:?}: {error}", command.program);
+                eprintln!(
+                    "ai-cockpit process start rejected for {:?}: {error}",
+                    command.program
+                );
             }
             return ExecutionOutcome {
                 spawned: false,
                 passed: false,
                 exit_code: None,
                 stdout: Vec::new(),
-                stderr: Vec::new(),
+                stderr: error.into_bytes(),
                 stdout_truncated: false,
                 stderr_truncated: false,
                 output_digest: None,
@@ -3184,6 +3243,48 @@ mod tests {
             stage: "task".into(),
             runner: "local".into(),
         }
+    }
+
+    #[test]
+    fn process_start_gate_rejection_does_not_spawn_the_child() {
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-process-start-gate-{}-{}.marker",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let _ = std::fs::remove_file(&marker);
+        let command = VerificationCommand::new(
+            "late-admission",
+            "sh",
+            vec![
+                "-c".into(),
+                "printf started > \"$1\"".into(),
+                "sh".into(),
+                marker.to_string_lossy().into_owned(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        );
+        let gate: ProcessStartGate =
+            Arc::new(|_node_id, _spawn| Err("admission changed before spawn".into()));
+
+        let receipt = execute_bounded_with_process_observer_and_start_gate(
+            vec![command],
+            1,
+            |_node_id, _process_group_id, _active| Ok(()),
+            gate,
+        )
+        .expect("a rejected process start remains a durable failed receipt");
+
+        assert_eq!(receipt.processes_spawned, 0);
+        assert!(
+            !marker.exists(),
+            "rejected command must not create its marker"
+        );
+        assert!(
+            !receipt.execution_records[0].spawned,
+            "the receipt must preserve that no child was started"
+        );
+        assert!(!receipt.results[0].passed);
     }
 
     #[test]

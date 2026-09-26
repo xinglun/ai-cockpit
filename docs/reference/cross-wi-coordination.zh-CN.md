@@ -72,7 +72,10 @@ workItemId 与安全 target 完全一致，然后才核验 registration facts �
 
 组合验证会先刷新依赖准入，并在启动任何验证进程前拒绝安全暂停的目标。Runtime
 随后核验目标 topology、每个已登记参与者的 head/Contract、完整的必需检查覆盖和
-前置条件，再在临时 linked worktree 中按声明顺序组合。active Contract 的必需
+前置条件，再在临时 linked worktree 中按声明顺序组合。准备完成后，每个动作边界都会
+重新核验准入及参与者/目标身份；复用节点在共享协调锁内再次核验准入和身份，并持锁直到
+复用记录追加且持久化；实际执行节点则持锁直到子进程创建。先提交的暂停或失效事件会阻止复用
+或启动；任一动作被接受后到达的请求在下一个安全边界生效。active Contract 的必需
 `verification` 检查可声明 `coversScenarios` 和 `coversConstraints`；这些字段由
 Contract digest 与精确必需检查身份绑定。composition 输入中的标签只是描述性断言，不能
 作为覆盖证据；未映射标签或缺少 Contract 映射会在启动进程前 fail closed。它复用共享的有界验证执行器，

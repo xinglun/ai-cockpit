@@ -2,13 +2,15 @@ use cockpit_core::Digest;
 use cockpit_protocol::{COLLABORATION_CAPABILITY, CompositionBinding, RuntimeCapabilityBinding};
 use cockpit_verification::{
     CompositionCommand, CompositionError, CompositionIdentity, CompositionInput,
-    CompositionPrecondition, ReuseDecisionKind, classify_reuse, composition_commands_digest,
-    run_composition,
+    CompositionPrecondition, ProcessAdmissionCheck, ProcessStartGate, ReuseDecisionKind,
+    classify_reuse, composition_commands_digest, run_composition,
+    run_composition_with_process_gates,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{Child, Command};
 use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::{Arc, Mutex, mpsc};
 use std::time::{Duration, Instant};
 
 static NEXT_TEMP_DIR: AtomicU64 = AtomicU64::new(0);
@@ -264,6 +266,54 @@ fn failed_precondition_spawns_zero_expensive_processes_and_persists_attempt() {
 }
 
 #[test]
+fn process_start_gate_rejection_is_persisted_without_running_the_node() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let marker = state.path().join("must-not-start");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command(
+            "late-admission",
+            "sh",
+            &[
+                "-c",
+                "printf started > \"$1\"",
+                "sh",
+                marker.to_str().unwrap(),
+            ],
+        )],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let admission_check: ProcessAdmissionCheck =
+        std::sync::Arc::new(|_node_id: &str, accept| accept());
+    let gate: ProcessStartGate = std::sync::Arc::new(
+        |_node_id: &str, _spawn: &mut dyn FnMut() -> Result<Child, String>| {
+            Err("coordination_safely_paused:late-request".into())
+        },
+    );
+
+    let attempt = run_composition_with_process_gates(composition, admission_check, gate)
+        .expect("denial remains a durable composition attempt");
+
+    assert!(!attempt.passed);
+    assert_eq!(attempt.processes_spawned, 0);
+    assert_eq!(attempt.execution_records.len(), 1);
+    assert!(!attempt.execution_records[0].spawned);
+    assert!(
+        !marker.exists(),
+        "the denied node must not create its marker"
+    );
+    assert!(
+        attempt.execution_records[0]
+            .stderr
+            .contains("coordination_safely_paused")
+    );
+}
+
+#[test]
 fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
@@ -360,6 +410,120 @@ fn repeated_exact_composition_reuses_without_spawning_a_process() {
             .as_deref(),
         Some(first.attempt_id.as_str())
     );
+}
+
+#[test]
+fn admission_change_blocks_reuse_even_when_no_process_would_start() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("state");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("reusable", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    assert!(first.passed);
+
+    let admission_check: ProcessAdmissionCheck = std::sync::Arc::new(|_node_id: &str, _accept| {
+        Err("coordination_safely_paused:late-request".into())
+    });
+    let start_gate: ProcessStartGate = std::sync::Arc::new(
+        |_node_id: &str, _spawn: &mut dyn FnMut() -> Result<Child, String>| {
+            Err("start gate must not run for a reused node".into())
+        },
+    );
+    let blocked = run_composition_with_process_gates(composition, admission_check, start_gate)
+        .expect("a denied reuse is preserved as a failed attempt");
+
+    assert!(!blocked.passed);
+    assert_eq!(blocked.processes_spawned, 0);
+    assert!(blocked.execution_records.is_empty());
+    assert!(
+        blocked
+            .failure
+            .as_deref()
+            .is_some_and(|failure| failure.contains("coordination_safely_paused"))
+    );
+}
+
+#[test]
+fn pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("reuse-pause-race");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("reusable", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    assert!(first.passed);
+
+    let paused = Arc::new(Mutex::new(false));
+    let check_paused = Arc::clone(&paused);
+    let (checked_tx, checked_rx) = mpsc::channel();
+    let (resume_tx, resume_rx) = mpsc::channel();
+    let resume_rx = Mutex::new(resume_rx);
+    let admission_check: ProcessAdmissionCheck = Arc::new(move |_node_id: &str, accept| {
+        let pause_state = check_paused.lock().expect("pause state");
+        if *pause_state {
+            return Err("coordination_safely_paused:late-request".into());
+        }
+        checked_tx
+            .send(())
+            .expect("signal completed admission check");
+        resume_rx
+            .lock()
+            .expect("resume receiver")
+            .recv()
+            .expect("wait for pause commit");
+        accept()
+    });
+    let start_gate: ProcessStartGate = Arc::new(
+        |_node_id: &str, _spawn: &mut dyn FnMut() -> Result<Child, String>| {
+            Err("start gate must not run for a reused node".into())
+        },
+    );
+
+    let runner = std::thread::spawn(move || {
+        run_composition_with_process_gates(composition, admission_check, start_gate)
+            .expect("race attempt is durably recorded")
+    });
+    checked_rx
+        .recv()
+        .expect("reuse admission must be checked before acceptance");
+    let pause_writer_state = Arc::clone(&paused);
+    let (pause_attempting_tx, pause_attempting_rx) = mpsc::channel();
+    let pause_writer = std::thread::spawn(move || {
+        pause_attempting_tx
+            .send(())
+            .expect("signal pause write attempt");
+        *pause_writer_state.lock().expect("pause state") = true;
+    });
+    pause_attempting_rx
+        .recv()
+        .expect("pause writer starts while admission synchronization is held");
+    assert!(matches!(
+        paused.try_lock(),
+        Err(std::sync::TryLockError::WouldBlock)
+    ));
+    resume_tx
+        .send(())
+        .expect("allow the reuse path to continue");
+    let attempt = runner.join().expect("composition worker");
+    pause_writer.join().expect("pause writer");
+
+    assert!(
+        attempt.passed,
+        "the cached receipt is accepted before a concurrent pause can commit"
+    );
+    assert!(attempt.execution_records[0].reused);
+    assert!(*paused.lock().expect("pause state"));
 }
 
 #[test]
@@ -536,7 +700,7 @@ fn persistence_error_after_worktree_creation_cleans_the_temporary_worktree() {
         "sh",
         &[
             "-c",
-            "mv \"$COMPOSITION_STATE_DIR\" \"$COMPOSITION_STATE_BACKUP\" && touch \"$COMPOSITION_STATE_DIR\"",
+            r#"for attempt in "$COMPOSITION_STATE_DIR"/composition-*.json; do i=0; while ! grep -Eq '"activeProcessGroupId": [1-9][0-9]*' "$attempt"; do i=$((i + 1)); [ "$i" -lt 400 ] || exit 77; sleep 0.01; done; done; mv "$COMPOSITION_STATE_DIR" "$COMPOSITION_STATE_BACKUP" && touch "$COMPOSITION_STATE_DIR""#,
         ],
     );
     sabotage.environment.insert(
@@ -548,13 +712,23 @@ fn persistence_error_after_worktree_creation_cleans_the_temporary_worktree() {
         backup.to_string_lossy().into_owned(),
     );
 
-    let result = run_composition(input(
+    let mut composition = input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
         vec![sabotage],
         vec![CompositionPrecondition::satisfied("identity-bound")],
-    ));
+    );
+    composition.timeout_seconds = 10;
+    let result = run_composition(composition);
+    assert!(
+        backup.is_dir(),
+        "sabotage command should move the state directory"
+    );
+    assert!(
+        state.path().is_file(),
+        "sabotage command should replace it with a file"
+    );
     let worktrees_after = run(root.path(), &["worktree", "list", "--porcelain"]);
     let root_identity = fs::canonicalize(root.path()).expect("canonical test repository");
     let leaked_worktrees = worktrees_after
@@ -598,7 +772,10 @@ fn persistence_error_after_worktree_creation_cleans_the_temporary_worktree() {
         fs::remove_dir_all(&backup).expect("remove isolated state backup");
     }
 
-    assert!(result.is_err(), "persistence failure should be preserved");
+    assert!(
+        result.is_err(),
+        "persistence failure should be preserved: {result:?}"
+    );
     assert!(
         leaked_worktrees.is_empty(),
         "temporary worktree leaked after a state persistence failure: {leaked_worktrees:?}"

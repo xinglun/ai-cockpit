@@ -9,14 +9,15 @@ use cockpit_protocol::{
 };
 use cockpit_verification::{
     CompositionAttempt, CompositionError, CompositionInput, CompositionPrecondition,
-    run_composition,
+    ProcessAdmissionCheck, ProcessStartGate, run_composition_with_process_gates,
 };
 use serde::Serialize;
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
 use std::io::{self, Read};
 use std::path::{Component, Path};
-use std::process::Command;
+use std::process::{Child, Command};
+use std::sync::Arc;
 use thiserror::Error;
 
 #[cfg(test)]
@@ -1713,6 +1714,44 @@ pub fn admit_collaboration_action(
     })
 }
 
+fn with_composition_process_start_admission<T, V, F>(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    action: CollaborationAction,
+    validate_identity: V,
+    spawn: F,
+) -> Result<T, String>
+where
+    V: FnOnce() -> Result<(), String>,
+    F: FnOnce() -> Result<T, String>,
+{
+    store
+        .with_lock(|| {
+            let admission = admit_collaboration_action(store, work_item_id, generation, action)
+                .map_err(|error| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "composition process-start admission failed: {error}"
+                    ))
+                })?;
+            if !admission.allowed {
+                let details = admission
+                    .blockers
+                    .iter()
+                    .chain(admission.unknowns.iter())
+                    .cloned()
+                    .collect::<Vec<_>>();
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "composition process start is not admitted: {}",
+                    details.join(", ")
+                )));
+            }
+            validate_identity().map_err(CoordinationError::RecoveryRequired)?;
+            spawn().map_err(CoordinationError::RecoveryRequired)
+        })
+        .map_err(|error| error.to_string())
+}
+
 pub fn run_admitted_composition(
     store: &CoordinationStore,
     work_item_id: &str,
@@ -1736,16 +1775,12 @@ pub fn run_admitted_composition(
                 .collect()
         })
         .unwrap_or_default();
-    let admission = admit_collaboration_action(
-        store,
-        work_item_id,
-        generation,
-        CollaborationAction {
-            kind: CollaborationActionKind::Composition,
-            consumer_work_item_id: work_item_id.into(),
-            outcomes,
-        },
-    )?;
+    let action = CollaborationAction {
+        kind: CollaborationActionKind::Composition,
+        consumer_work_item_id: work_item_id.into(),
+        outcomes,
+    };
+    let admission = admit_collaboration_action(store, work_item_id, generation, action.clone())?;
     if !admission.allowed {
         return Err(CollaborationExecutionError::Blocked {
             work_item_id: work_item_id.into(),
@@ -1767,7 +1802,74 @@ pub fn run_admitted_composition(
     // coordination evidence, so they must be written below the Git common
     // directory rather than the caller's private checkout.
     input.state_dir = store.root().join("compositions");
-    Ok(run_composition(input)?)
+    let check_store = store.clone();
+    let check_work_item_id = work_item_id.to_owned();
+    let check_action = action.clone();
+    let check_input = input.clone();
+    let process_admission_check: ProcessAdmissionCheck = Arc::new(move |_node_id: &str, accept| {
+        with_composition_process_start_admission(
+            &check_store,
+            &check_work_item_id,
+            generation,
+            check_action.clone(),
+            || {
+                validate_composition_identity_for_process_start(
+                    &check_store,
+                    &check_work_item_id,
+                    generation,
+                    &check_input,
+                )
+            },
+            accept,
+        )
+    });
+    let start_store = store.clone();
+    let start_work_item_id = work_item_id.to_owned();
+    let start_action = action;
+    let start_input = input.clone();
+    let process_start_gate: ProcessStartGate = Arc::new(
+        move |_node_id: &str, spawn: &mut dyn FnMut() -> Result<Child, String>| {
+            with_composition_process_start_admission(
+                &start_store,
+                &start_work_item_id,
+                generation,
+                start_action.clone(),
+                || {
+                    validate_composition_identity_for_process_start(
+                        &start_store,
+                        &start_work_item_id,
+                        generation,
+                        &start_input,
+                    )
+                },
+                spawn,
+            )
+        },
+    );
+    Ok(run_composition_with_process_gates(
+        input,
+        process_admission_check,
+        process_start_gate,
+    )?)
+}
+
+fn validate_composition_identity_for_process_start(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: &CompositionInput,
+) -> Result<(), String> {
+    let mut current_input = input.clone();
+    let blockers = verify_composition_identity(store, work_item_id, generation, &mut current_input)
+        .map_err(|error| error.to_string())?;
+    if blockers.is_empty() {
+        Ok(())
+    } else {
+        Err(format!(
+            "composition identity changed before process start: {}",
+            blockers.join(", ")
+        ))
+    }
 }
 
 fn read_registered_contract(
@@ -3158,6 +3260,78 @@ mod outcome_publication_tests {
             "a consumer registered after publication must still require current verification evidence: {:?}",
             reverse_projection.blockers
         );
+    }
+
+    #[test]
+    fn pause_committed_after_initial_admission_blocks_the_process_start_boundary() {
+        let root = repository();
+        let git_repository = GitRepository::discover(root.path()).expect("discover repository");
+        let store = CoordinationStore::open(
+            &git_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open coordination store");
+        store
+            .register(registration(root.path(), "WI-SOLO", false, false))
+            .expect("register composition owner");
+        let action = CollaborationAction {
+            kind: CollaborationActionKind::Composition,
+            consumer_work_item_id: "WI-SOLO".into(),
+            outcomes: Vec::new(),
+        };
+        assert!(
+            admit_collaboration_action(&store, "WI-SOLO", 1, action.clone())
+                .expect("initial admission")
+                .allowed
+        );
+
+        let request = CoordinationRequest {
+            schema_version: 1,
+            request_id: "pause-after-admission".into(),
+            repository_id: crate::repository_id(root.path()),
+            target_work_item_id: "WI-SOLO".into(),
+            target_generation: 1,
+            intent: CoordinationIntent::RequestSafePause,
+            state: CoordinationRequestState::Requested,
+            reason: "pause arrived while composition was preparing".into(),
+        };
+        request_safe_pause(&store, request).expect("request safe pause");
+        acknowledge_pause(
+            &store,
+            "pause-after-admission",
+            CoordinationRequestState::Acknowledged,
+        )
+        .expect("acknowledge pause");
+        acknowledge_pause(
+            &store,
+            "pause-after-admission",
+            CoordinationRequestState::SafelyPaused,
+        )
+        .expect("confirm safe pause");
+
+        let mut spawn_called = false;
+        let result = with_composition_process_start_admission(
+            &store,
+            "WI-SOLO",
+            1,
+            action,
+            || Ok(()),
+            || {
+                spawn_called = true;
+                Err::<(), _>("test spawn should not be reached".into())
+            },
+        );
+        assert!(
+            result
+                .expect_err("the fresh process-start admission must observe the pause")
+                .contains("coordination_safely_paused")
+        );
+        assert!(!spawn_called, "the child spawn closure must not run");
     }
 }
 

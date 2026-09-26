@@ -31,10 +31,17 @@ scan せず、書き込みません。
 ai-cockpit work-item coordination inspect --repo <path>
 ```
 
-Outcome の公開は明示的な write です：
+調整状態を変更する操作は明示的な write です：
 
 ```text
+ai-cockpit work-item coordination register --repo <path> --input registration.json
+ai-cockpit work-item coordination report-impact --repo <path> --input event.json
 ai-cockpit work-item coordination publish-outcome --repo <path> --id <wi> --generation <n> --outcome-id <outcome>
+ai-cockpit work-item coordination request-pause --repo <path> --input request.json
+ai-cockpit work-item coordination acknowledge --repo <path> --request-id <id> --state acknowledged
+ai-cockpit work-item coordination resume --repo <path> --id <wi> --generation <n>
+ai-cockpit work-item coordination recover --repo <path> --event-id <id> --consumer-work-item-id <wi> --consumer-generation <n>
+ai-cockpit work-item composition --repo <path> --id <wi> --generation <n> --input composition.json
 ```
 
 登録、impact 報告、安全な pause、resume、recovery consumption、composition は
@@ -73,7 +80,12 @@ verification dependency を満たせません。
 ```
 
 composition は admission を再確認し、安全に pause された対象を検証プロセス起動前に
-拒否します。Runtime は target topology、参加者の登録済み head/Contract、必須 check
+拒否します。一時 linked worktree の準備後も各 action boundary で admission と参加者/target
+identity を再検証します。再利用 node は共有調整 lock 内で admission と identity を再確認し、
+再利用記録の追加と永続化まで lock を保持します。実行 node も同じ lock を child process
+生成まで保持します。pause または impact が先に確定した場合は再利用/起動を拒否し、いずれかの
+action 受理後に到着した request は次の安全境界で反映します。
+Runtime は target topology、参加者の登録済み head/Contract、必須 check
 の一意で完全な coverage を検証し、観測事実から前提条件を計算します。active Contract の
 必須 `verification` check は `coversScenarios` と `coversConstraints` を宣言できます。
 Contract digest と正確な必須 check identity に束縛された値だけを coverage として扱います。

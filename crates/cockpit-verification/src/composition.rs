@@ -1,4 +1,7 @@
-use crate::{VerificationCommand, VerificationReusePolicy, execute_bounded_with_process_observer};
+use crate::{
+    ProcessAdmissionCheck, ProcessStartGate, VerificationCommand, VerificationReusePolicy,
+    execute_bounded_with_process_observer, execute_bounded_with_process_observer_and_start_gate,
+};
 use cockpit_core::Digest;
 use cockpit_protocol::{CompositionBinding, RuntimeCapabilityError};
 use serde::{Deserialize, Serialize};
@@ -236,6 +239,26 @@ pub enum CompositionError {
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
+    run_composition_inner(input, None, None)
+}
+
+pub fn run_composition_with_process_gates(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+) -> Result<CompositionAttempt, CompositionError> {
+    run_composition_inner(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+    )
+}
+
+fn run_composition_inner(
+    input: CompositionInput,
+    process_admission_check: Option<ProcessAdmissionCheck>,
+    process_start_gate: Option<ProcessStartGate>,
+) -> Result<CompositionAttempt, CompositionError> {
     let mut input = input;
     input.binding.verifier.validate_candidate()?;
     validate_binding(&input.binding)?;
@@ -463,8 +486,45 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
             None
         };
         if let Some(record) = reusable {
-            attempt.execution_records.push(record);
-            persist_attempt(&input.state_dir, &attempt)?;
+            let mut accepted = false;
+            let mut persistence_error = None;
+            let admission_result = {
+                let mut accept_reuse = || {
+                    accepted = true;
+                    attempt.execution_records.push(record.clone());
+                    match persist_attempt(&input.state_dir, &attempt) {
+                        Ok(()) => Ok(()),
+                        Err(error) => {
+                            persistence_error = Some(error);
+                            Err("failed to persist accepted composition reuse".into())
+                        }
+                    }
+                };
+                if let Some(check) = &process_admission_check {
+                    check(&command.node_id, &mut accept_reuse)
+                } else {
+                    accept_reuse()
+                }
+            };
+            if let Some(error) = persistence_error {
+                return Err(error);
+            }
+            if let Err(error) = admission_result {
+                attempt.failure = Some(format!(
+                    "composition_reuse_not_admitted:{}:{error}",
+                    command.node_id
+                ));
+                persist_attempt(&input.state_dir, &attempt)?;
+                break;
+            }
+            if !accepted {
+                attempt.failure = Some(format!(
+                    "composition_reuse_not_admitted:{}:admission gate did not accept the cached result",
+                    command.node_id
+                ));
+                persist_attempt(&input.state_dir, &attempt)?;
+                break;
+            }
             continue;
         }
         all_nodes_reused = false;
@@ -472,13 +532,16 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         attempt.active_process_group_id = None;
         persist_attempt(&input.state_dir, &attempt)?;
         let record = execute_node(
-            &worktree,
             command,
-            &input,
-            &executable,
-            &environment,
-            current_identity,
-            &attempt,
+            NodeExecutionContext {
+                worktree: &worktree,
+                input: &input,
+                executable: &executable,
+                environment: &environment,
+                identity_digest: current_identity,
+                attempt: &attempt,
+                process_start_gate: process_start_gate.as_ref(),
+            },
         );
         attempt.active_execution_node = None;
         attempt.active_process_group_id = None;
@@ -1110,15 +1173,29 @@ fn reused_record(
     }
 }
 
-fn execute_node(
-    worktree: &Path,
-    command: &CompositionCommand,
-    input: &CompositionInput,
-    executable: &ResolvedExecutable,
-    environment: &BTreeMap<String, String>,
+struct NodeExecutionContext<'a> {
+    worktree: &'a Path,
+    input: &'a CompositionInput,
+    executable: &'a ResolvedExecutable,
+    environment: &'a BTreeMap<String, String>,
     identity_digest: Option<Digest>,
-    attempt: &CompositionAttempt,
+    attempt: &'a CompositionAttempt,
+    process_start_gate: Option<&'a ProcessStartGate>,
+}
+
+fn execute_node(
+    command: &CompositionCommand,
+    context: NodeExecutionContext<'_>,
 ) -> CompositionExecutionRecord {
+    let NodeExecutionContext {
+        worktree,
+        input,
+        executable,
+        environment,
+        identity_digest,
+        attempt,
+        process_start_gate,
+    } = context;
     let identity_digest = identity_digest
         .unwrap_or_else(|| Digest::sha256_bytes(b"unknown-composition-node-identity"));
     let verification_command = VerificationCommand::new(
@@ -1140,23 +1217,30 @@ fn execute_node(
     let attempt_id = attempt.attempt_id.clone();
     let owner_pid = attempt.owner_pid.unwrap_or(std::process::id());
     let expected_node_id = command.node_id.clone();
-    match execute_bounded_with_process_observer(
-        vec![verification_command],
-        1,
-        move |node_id, process_group_id, active| {
-            if node_id != expected_node_id {
-                return Err(format!("unexpected active verification node: {node_id}"));
-            }
-            update_active_process_record(
-                &state_dir,
-                &attempt_id,
-                owner_pid,
-                node_id,
-                process_group_id,
-                active,
-            )
-        },
-    ) {
+    let observer = move |node_id: &str, process_group_id: u32, active: bool| {
+        if node_id != expected_node_id {
+            return Err(format!("unexpected active verification node: {node_id}"));
+        }
+        update_active_process_record(
+            &state_dir,
+            &attempt_id,
+            owner_pid,
+            node_id,
+            process_group_id,
+            active,
+        )
+    };
+    let receipt = if let Some(process_start_gate) = process_start_gate {
+        execute_bounded_with_process_observer_and_start_gate(
+            vec![verification_command],
+            1,
+            observer,
+            process_start_gate.clone(),
+        )
+    } else {
+        execute_bounded_with_process_observer(vec![verification_command], 1, observer)
+    };
+    match receipt {
         Ok(receipt) => {
             let execution = receipt
                 .execution_records

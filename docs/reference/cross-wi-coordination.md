@@ -96,10 +96,17 @@ mixed identity fields are rejected.
 ## Composition verification
 
 Composition first refreshes dependency admission and rejects a safely paused
-target before any verification process starts. The Runtime then verifies the
-target topology, every registered participant head/Contract, required check
-coverage, and preconditions before building the declared participant order in a
-temporary linked worktree. An active Contract's required `verification` check
+target before any verification process starts. After preparing the temporary
+linked worktree, it revalidates admission and participant/target identity at
+each action boundary. Reused nodes are re-admitted and identity-checked under
+the coordination lock through appending and persisting the accepted receipt;
+executed nodes are checked under that lock through child process creation. A
+pause or invalidation committed first therefore blocks reuse or launch, while
+a request arriving after either action is accepted takes effect at the next
+safe boundary. The Runtime verifies the target topology, every
+registered participant head/Contract, required check coverage, and
+preconditions before building the declared participant order. An active
+Contract's required `verification` check
 may declare `coversScenarios` and `coversConstraints`; those fields are bound
 by the Contract digest and exact required-check identity. Composition-input
 labels are descriptive assertions only, never coverage evidence: an unmapped

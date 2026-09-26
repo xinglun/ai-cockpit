@@ -1233,7 +1233,7 @@ impl CoordinationStore {
         })
     }
 
-    fn with_lock<T, F>(&self, operation: F) -> Result<T, CoordinationError>
+    pub(crate) fn with_lock<T, F>(&self, operation: F) -> Result<T, CoordinationError>
     where
         F: FnOnce() -> Result<T, CoordinationError>,
     {
