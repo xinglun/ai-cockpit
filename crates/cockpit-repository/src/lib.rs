@@ -5876,6 +5876,50 @@ fn verification_evidence_state(
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Unknown),
     };
+    verification_evidence_state_from_value(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        evidence,
+    )
+}
+
+/// Validate an already safely-read verification receipt without reopening its
+/// path. Callers that bind an event digest must use these exact bytes for both
+/// digest and semantic validation so a path swap cannot substitute a second
+/// receipt between the two checks.
+pub(crate) fn verification_evidence_state_from_bytes(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    bytes: &[u8],
+) -> Result<EvidenceState, ObserverError> {
+    let evidence = match serde_json::from_slice(bytes) {
+        Ok(value) => value,
+        Err(_) => return Ok(EvidenceState::Unknown),
+    };
+    verification_evidence_state_from_value(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        evidence,
+    )
+}
+
+fn verification_evidence_state_from_value(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    evidence: serde_json::Value,
+) -> Result<EvidenceState, ObserverError> {
     let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Contradictory),

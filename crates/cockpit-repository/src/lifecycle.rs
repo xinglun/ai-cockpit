@@ -6496,6 +6496,83 @@ fn refresh_active_outcome_verification_binding(
 /// produced a fresh, identity-bound verification.  Failure events remain
 /// append-only; this file is only the current projection consumed by
 /// `finish`/`archive` and must no longer strand the repaired lifecycle.
+const MAX_RECOVERY_UNKNOWN_ITEMS: usize = 8;
+const MAX_RECOVERY_UNKNOWN_ENTRY_BYTES: usize = 96;
+const MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES: usize = 1024;
+const MAX_RECOVERY_PROJECTION_MESSAGE_BYTES: usize = 2048;
+
+fn truncate_diagnostic_text(mut value: String, max_bytes: usize) -> String {
+    if value.len() <= max_bytes {
+        return value;
+    }
+    let ellipsis = "…";
+    let mut end = max_bytes.saturating_sub(ellipsis.len());
+    while !value.is_char_boundary(end) {
+        end -= 1;
+    }
+    value.truncate(end);
+    value.push_str(ellipsis);
+    value
+}
+
+fn bounded_recovery_unknowns(unknowns: &[String]) -> String {
+    let rendered = unknowns
+        .iter()
+        .take(MAX_RECOVERY_UNKNOWN_ITEMS)
+        .map(|unknown| {
+            truncate_diagnostic_text(format!("{unknown:?}"), MAX_RECOVERY_UNKNOWN_ENTRY_BYTES)
+        })
+        .collect::<Vec<_>>();
+    let omitted = unknowns.len().saturating_sub(rendered.len());
+    let suffix = if omitted == 0 {
+        String::new()
+    } else {
+        format!(" (+{omitted} omitted)")
+    };
+    truncate_diagnostic_text(
+        format!("[{}]{suffix}", rendered.join(", ")),
+        MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES,
+    )
+}
+
+fn bounded_recovery_projection_message(message: String) -> String {
+    truncate_diagnostic_text(message, MAX_RECOVERY_PROJECTION_MESSAGE_BYTES)
+}
+
+fn recovery_projection_rejection(
+    evidence_path: PathBuf,
+    outcome: &OutcomeV2,
+    evidence: &serde_json::Value,
+    snapshot_digest: &Digest,
+) -> Option<ObserverError> {
+    if outcome.state == OutcomeState::Verified
+        && outcome.decision_state == Some(DecisionState::Green)
+    {
+        return None;
+    }
+
+    let bounded_unknowns = bounded_recovery_unknowns(&outcome.unknowns);
+    let bounded_evidence_field = |name: &str| {
+        evidence[name]
+            .as_str()
+            .filter(|value| value.len() <= 128)
+            .unwrap_or("<missing-or-invalid>")
+    };
+    Some(ObserverError::State {
+        path: evidence_path,
+        message: bounded_recovery_projection_message(format!(
+            "fresh recovery verification did not produce a green Outcome projection (state={:?}, decision_state={:?}, unknowns={}, current_snapshot={}, evidence_snapshot={}, evidence_contract={}, evidence_runtime={})",
+            outcome.state,
+            outcome.decision_state,
+            bounded_unknowns,
+            snapshot_digest,
+            bounded_evidence_field("repositorySnapshotDigest"),
+            bounded_evidence_field("contractDigest"),
+            bounded_evidence_field("runtimeDigest"),
+        )),
+    })
+}
+
 fn refresh_active_outcome_after_recovery_verification(
     root: &Path,
     work_item_id: &str,
@@ -6524,28 +6601,10 @@ fn refresh_active_outcome_after_recovery_verification(
         current_runtime,
         Some((snapshot, snapshot_digest)),
     )?;
-    if outcome.state != OutcomeState::Verified
-        || outcome.decision_state != Some(DecisionState::Green)
+    if let Some(error) =
+        recovery_projection_rejection(evidence_path.clone(), &outcome, &evidence, snapshot_digest)
     {
-        let bounded_evidence_field = |name: &str| {
-            evidence[name]
-                .as_str()
-                .filter(|value| value.len() <= 128)
-                .unwrap_or("<missing-or-invalid>")
-        };
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: format!(
-                "fresh recovery verification did not produce a green Outcome projection (state={:?}, decision_state={:?}, unknowns={:?}, current_snapshot={}, evidence_snapshot={}, evidence_contract={}, evidence_runtime={})",
-                outcome.state,
-                outcome.decision_state,
-                outcome.unknowns,
-                snapshot_digest,
-                bounded_evidence_field("repositorySnapshotDigest"),
-                bounded_evidence_field("contractDigest"),
-                bounded_evidence_field("runtimeDigest"),
-            ),
-        });
+        return Err(error);
     }
     let task_report = outcome
         .task_outcome_report
@@ -6682,6 +6741,90 @@ mod recovery_retry_consumption_tests {
         work_item_status_snapshot_with_runtime,
     };
     use std::process::Command;
+
+    #[test]
+    fn recovery_rejection_diagnostics_are_bounded() {
+        let unknowns = (0..100)
+            .map(|index| format!("untrusted-{index}-{}", "x".repeat(2048)))
+            .collect::<Vec<_>>();
+        let rendered_unknowns = bounded_recovery_unknowns(&unknowns);
+        assert!(
+            rendered_unknowns.len() <= MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES,
+            "unknown list must have a strict byte bound: {} bytes",
+            rendered_unknowns.len()
+        );
+        assert!(
+            rendered_unknowns.contains("+92 omitted"),
+            "truncation must report omitted unknowns: {rendered_unknowns}"
+        );
+        let rendered_message = bounded_recovery_projection_message("x".repeat(10_000));
+        assert!(
+            rendered_message.len() <= MAX_RECOVERY_PROJECTION_MESSAGE_BYTES,
+            "the final recovery diagnostic must have a strict byte bound"
+        );
+    }
+
+    #[test]
+    fn recovery_rejection_diagnostics_are_bounded_for_rejected_projection() {
+        let unknowns = (0..100)
+            .map(|index| format!("untrusted-{index}-{}", "x".repeat(2048)))
+            .collect::<Vec<_>>();
+        let outcome = OutcomeV2 {
+            schema_version: 2,
+            repository_id: "repository".into(),
+            work_item_id: "WI-RECOVERY-DIAGNOSTIC".into(),
+            state: OutcomeState::NotReady,
+            decision_state: Some(DecisionState::Yellow),
+            summary: "verification is not current".into(),
+            acceptance_results: Vec::new(),
+            unknowns,
+            evidence_refs: Vec::new(),
+            human_benefit_report: cockpit_protocol::HumanBenefitReport {
+                state: OutcomeState::Unknown,
+                user_visible_changes: Vec::new(),
+                affected_users: Vec::new(),
+                unknowns: Vec::new(),
+                evidence_refs: Vec::new(),
+            },
+            task_outcome_report: None,
+            failed_gate: None,
+            recovery_condition: None,
+            recovery_decision: None,
+            historical_status: None,
+            governance_reasons: Vec::new(),
+            finalization: None,
+        };
+        let evidence = serde_json::json!({
+            "repositorySnapshotDigest": "sha256:current",
+            "contractDigest": "sha256:contract",
+            "runtimeDigest": "sha256:runtime"
+        });
+        let snapshot_digest = Digest::sha256_bytes(b"current snapshot");
+
+        let error = recovery_projection_rejection(
+            PathBuf::from(".ai/evidence/WI-RECOVERY-DIAGNOSTIC.verification.json"),
+            &outcome,
+            &evidence,
+            &snapshot_digest,
+        )
+        .expect("a non-green recovery projection must be rejected");
+        let ObserverError::State { message, .. } = error else {
+            panic!("rejected projection must preserve its structured state error");
+        };
+        assert!(
+            message.len() <= MAX_RECOVERY_PROJECTION_MESSAGE_BYTES,
+            "the composed rejected-projection diagnostic must be bounded: {} bytes",
+            message.len()
+        );
+        assert!(
+            message.contains("+92 omitted"),
+            "the composed diagnostic must report omitted unknowns: {message}"
+        );
+        assert!(
+            !message.contains(&"x".repeat(128)),
+            "the composed diagnostic must truncate each untrusted unknown entry"
+        );
+    }
 
     fn repository() -> tempfile::TempDir {
         let directory = tempfile::tempdir().expect("repository tempdir");

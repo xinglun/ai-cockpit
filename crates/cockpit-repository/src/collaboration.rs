@@ -298,6 +298,33 @@ where
     F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
 {
     let root = Path::new(&provider.worktree_path);
+    let mut observed_evidence = BTreeMap::new();
+    for reference in &outcome.evidence_refs {
+        let Ok(bytes) = read_file(root, reference) else {
+            return false;
+        };
+        observed_evidence.insert(reference.clone(), bytes);
+    }
+    verification_evidence_matches_publication_with_bytes(
+        publication,
+        provider,
+        outcome,
+        &observed_evidence,
+        read_file,
+    )
+}
+
+fn verification_evidence_matches_publication_with_bytes<F>(
+    publication: &CoordinationEvent,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    observed_evidence: &BTreeMap<String, Vec<u8>>,
+    read_file: &mut F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
+    let root = Path::new(&provider.worktree_path);
     let expected_reference = format!(".ai/evidence/{}.verification.json", provider.work_item_id);
     let declared_references = outcome.evidence_refs.iter().collect::<BTreeSet<_>>();
     if publication.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished
@@ -313,6 +340,7 @@ where
         || declared_references.len() != outcome.evidence_refs.len()
         || publication.evidence_refs != outcome.evidence_refs
         || publication.evidence_digests.len() != declared_references.len()
+        || observed_evidence.len() != declared_references.len()
         || publication
             .evidence_digests
             .keys()
@@ -320,17 +348,15 @@ where
     {
         return false;
     }
-    let mut observed_evidence = BTreeMap::new();
     for reference in &outcome.evidence_refs {
-        let Ok(bytes) = read_file(root, reference) else {
+        let Some(bytes) = observed_evidence.get(reference) else {
             return false;
         };
         if publication.evidence_digests.get(reference)
-            != Some(&cockpit_core::Digest::sha256_bytes(&bytes))
+            != Some(&cockpit_core::Digest::sha256_bytes(bytes))
         {
             return false;
         }
-        observed_evidence.insert(reference, bytes);
     }
     let Some(bytes) = observed_evidence.get(&expected_reference) else {
         return false;
@@ -371,8 +397,15 @@ where
         protocol_version: 1,
         runtime_digest: provider.runtime.runtime_digest.clone(),
     };
-    crate::verification_evidence_state(root, &contract, &snapshot, false, Some(&runtime))
-        .is_ok_and(|state| state == cockpit_core::EvidenceState::Complete)
+    crate::verification_evidence_state_from_bytes(
+        root,
+        &contract,
+        &snapshot,
+        false,
+        Some(&runtime),
+        bytes,
+    )
+    .is_ok_and(|state| state == cockpit_core::EvidenceState::Complete)
 }
 
 /// Read outcome evidence through directory handles rooted at the registered
@@ -2245,6 +2278,19 @@ pub fn publish_outcome(
     generation: u64,
     outcome_id: &str,
 ) -> Result<CoordinationEvent, CoordinationError> {
+    publish_outcome_with_pre_append(store, work_item_id, generation, outcome_id, || {})
+}
+
+fn publish_outcome_with_pre_append<F>(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    outcome_id: &str,
+    before_append: F,
+) -> Result<CoordinationEvent, CoordinationError>
+where
+    F: FnOnce(),
+{
     let projection = collaboration_projection(store)?;
     if !projection.unknowns.is_empty() {
         return Err(CoordinationError::RecoveryRequired(format!(
@@ -2335,29 +2381,47 @@ pub fn publish_outcome(
         provider_work_item_id: work_item_id.into(),
         outcome_id: outcome_id.into(),
     };
-    let verification_required = projection.registrations.iter().any(|consumer| {
-        consumer
-            .declaration
-            .consumed_outcomes
-            .iter()
-            .any(|dependency| {
-                provider_outcome_key(dependency) == published_key
-                    && dependency.verification_required
-            })
-    });
-    if verification_required {
-        if !verification_evidence_matches_publication(
-            &event,
-            &provider,
-            outcome,
-            &mut read_registered_worktree_file,
-        ) {
-            return Err(CoordinationError::RecoveryRequired(format!(
-                "outcome {outcome_id} requires a current successful verification receipt before publication"
-            )));
-        }
-    }
-    store.publish_validated_outcome_event(event)
+    before_append();
+    store.publish_validated_outcome_event(
+        event,
+        |publication, inspection, current_provider, bound_evidence| {
+            if current_provider != &provider {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "provider registration for {work_item_id} changed while preparing publication"
+                )));
+            }
+            if !inspection.unknowns.is_empty() {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "cannot publish an outcome while coordination facts are unknown: {}",
+                    inspection.unknowns.join(", ")
+                )));
+            }
+            let verification_required = inspection.registrations.iter().any(|consumer| {
+                consumer
+                    .declaration
+                    .consumed_outcomes
+                    .iter()
+                    .any(|dependency| {
+                        provider_outcome_key(dependency) == published_key
+                            && dependency.verification_required
+                    })
+            });
+            if verification_required
+                && !verification_evidence_matches_publication_with_bytes(
+                    publication,
+                    current_provider,
+                    outcome,
+                    bound_evidence,
+                    &mut read_registered_worktree_file,
+                )
+            {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "outcome {outcome_id} requires a current successful verification receipt before publication"
+                )));
+            }
+            Ok(())
+        },
+    )
 }
 
 pub fn recover_impact(
@@ -2607,7 +2671,7 @@ mod registered_worktree_file_tests {
     }
 
     #[test]
-    fn verification_evidence_validation_rejects_a_swapped_digest_bound_contract() {
+    fn outcome_verification_uses_event_bound_bytes_and_digest_bound_contract() {
         let root = tempfile::tempdir().expect("repository root");
         let run_git = |args: &[&str]| {
             assert!(
@@ -2734,6 +2798,87 @@ mod registered_worktree_file_tests {
             &outcome
         ));
 
+        let bound_reference = outcome.evidence_refs[0].clone();
+        let mut invalid_bound_value: serde_json::Value =
+            serde_json::from_slice(&evidence_bytes).expect("verification evidence JSON");
+        invalid_bound_value["receiptDigest"] =
+            serde_json::json!(format!("sha256:{}", "0".repeat(64)));
+        let invalid_bound_bytes =
+            serde_json::to_vec(&invalid_bound_value).expect("invalid bound evidence JSON");
+        fs::write(root.path().join(&bound_reference), &invalid_bound_bytes)
+            .expect("write invalid event-bound evidence");
+        let mut invalid_publication = projection.events[0].clone();
+        invalid_publication.event_id = "invalid-bound-verification-publication".into();
+        invalid_publication.evidence_digests = BTreeMap::from([(
+            bound_reference.clone(),
+            cockpit_core::Digest::sha256_bytes(&invalid_bound_bytes),
+        )]);
+        let invalid_projection = CollaborationProjection {
+            registrations: vec![provider.clone()],
+            events: vec![invalid_publication.clone()],
+            ..CollaborationProjection::default()
+        };
+        let accepted_different_path_bytes = verification_evidence_is_complete_with_reader(
+            &invalid_projection,
+            &provider,
+            &outcome,
+            |repository_root, reference| {
+                if reference == bound_reference {
+                    let bound_bytes = read_registered_worktree_file(repository_root, reference)?;
+                    fs::write(repository_root.join(reference), &evidence_bytes)
+                        .map_err(|error| error.to_string())?;
+                    Ok(bound_bytes)
+                } else {
+                    read_registered_worktree_file(repository_root, reference)
+                }
+            },
+        );
+        assert!(
+            !accepted_different_path_bytes,
+            "semantic verification must use the exact digest-bound evidence bytes, not reopen a swapped path"
+        );
+        let store = CoordinationStore::open(&git, provider.runtime.clone())
+            .expect("open typed publication store");
+        store
+            .register(provider.clone())
+            .expect("register typed publication provider");
+        fs::write(root.path().join(&bound_reference), &invalid_bound_bytes)
+            .expect("restore invalid event-bound evidence before publication");
+        let publication_result = store.publish_validated_outcome_event(
+            invalid_publication,
+            |event, _inspection, current_provider, bound_evidence| {
+                fs::write(root.path().join(&bound_reference), &evidence_bytes)
+                    .expect("replace path after the store reads digest-bound bytes");
+                if verification_evidence_matches_publication_with_bytes(
+                    event,
+                    current_provider,
+                    &outcome,
+                    bound_evidence,
+                    &mut read_registered_worktree_file,
+                ) {
+                    Ok(())
+                } else {
+                    Err(CoordinationError::RecoveryRequired(
+                        "bound receipt is not a current successful verification".into(),
+                    ))
+                }
+            },
+        );
+        assert!(
+            publication_result.is_err(),
+            "typed publication must reject when only the post-read replacement is semantically valid"
+        );
+        assert!(
+            store
+                .inspect()
+                .expect("inspect rejected typed publication")
+                .events
+                .is_empty(),
+            "invalid bound evidence must not leave a durable publication"
+        );
+        fs::write(root.path().join(&bound_reference), &evidence_bytes)
+            .expect("restore valid evidence for the Contract race regression");
+
         let outside = tempfile::tempdir().expect("outside directory");
         let active_path = root.path().join(".ai/work-items/active");
         let moved_active = outside.path().join("active");
@@ -2776,6 +2921,220 @@ mod registered_worktree_file_tests {
         assert!(
             !accepted,
             "verification evidence must not admit bytes when the registered Contract reader rejects the move-out/open/move-back race"
+        );
+    }
+}
+
+#[cfg(test)]
+mod outcome_publication_tests {
+    use super::*;
+    use cockpit_protocol::{
+        CollaborationDeclaration, ConsumedOutcome, IntegrationResponsibility, OutcomeStage,
+        ProvidedOutcome, RuntimeCapabilityBinding,
+    };
+
+    fn git(root: &Path, args: &[&str]) {
+        assert!(
+            Command::new("git")
+                .args(args)
+                .current_dir(root)
+                .status()
+                .expect("git command")
+                .success()
+        );
+    }
+
+    fn repository() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("repository root");
+        git(root.path(), &["init", "-q"]);
+        git(
+            root.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(
+            root.path(),
+            &["config", "user.name", "Outcome publication test"],
+        );
+        fs::write(root.path().join("README.md"), "initial\n").expect("README");
+        fs::create_dir_all(root.path().join("target")).expect("target directory");
+        fs::write(root.path().join("target/outcome.json"), "{}\n").expect("outcome evidence");
+        git(root.path(), &["add", "."]);
+        git(root.path(), &["commit", "-qm", "initial"]);
+        git(root.path(), &["branch", "-M", "main"]);
+        crate::attach(root.path()).expect("attach repository");
+        root
+    }
+
+    fn registration(
+        root: &Path,
+        work_item_id: &str,
+        provider: bool,
+        consumer: bool,
+    ) -> WorktreeRegistration {
+        crate::start_work_item_with_options(
+            root,
+            work_item_id,
+            "outcome publication concurrency test",
+            "serialize verification-required registration with outcome publication",
+            &[".ai/**".into(), "README.md".into(), "target/**".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec![
+                    "publication is bound to current coordination facts".into(),
+                ],
+                ..crate::WorkItemStartOptions::default()
+            },
+        )
+        .expect("start test Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract_value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        let contract_digest =
+            cockpit_protocol::digest_json(&contract_value).expect("Contract digest");
+        let topology = GitRepository::discover(root)
+            .expect("discover repository")
+            .topology()
+            .expect("repository topology");
+        let head = topology.head.expect("head");
+        let provided_outcomes = if provider {
+            vec![ProvidedOutcome {
+                outcome_id: "api".into(),
+                interface_contract: "api-v1".into(),
+                behavior_contract: "stable behavior".into(),
+                published_head: head.clone(),
+                stage: OutcomeStage::ComposableHead,
+                evidence_refs: vec!["target/outcome.json".into()],
+            }]
+        } else {
+            Vec::new()
+        };
+        let consumed_outcomes = if consumer {
+            vec![ConsumedOutcome {
+                provider_work_item_id: "WI-PROVIDER".into(),
+                outcome_id: "api".into(),
+                minimum_stage: OutcomeStage::ComposableHead,
+                verification_required: true,
+            }]
+        } else {
+            Vec::new()
+        };
+        let declaration = CollaborationDeclaration {
+            provided_outcomes,
+            consumed_outcomes,
+            resource_claims: Vec::new(),
+            integration_responsibility: IntegrationResponsibility {
+                responsible_work_item_id: work_item_id.into(),
+                target_branch: "main".into(),
+                composition_order: Vec::new(),
+                rationale: "deterministic publication race test".into(),
+            },
+            composition_verification: Default::default(),
+        };
+        WorktreeRegistration {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            repository_id: crate::repository_id(root),
+            work_item_id: work_item_id.into(),
+            contract_digest,
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("branch"),
+            head,
+            generation: 1,
+            declaration,
+            runtime: RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        }
+    }
+
+    #[test]
+    fn publish_outcome_observes_consumer_registered_before_locked_append() {
+        let root = repository();
+        let git_repository = GitRepository::discover(root.path()).expect("discover repository");
+        let store = CoordinationStore::open(
+            &git_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open coordination store");
+        store
+            .register(registration(root.path(), "WI-PROVIDER", true, false))
+            .expect("register provider");
+        let consumer = registration(root.path(), "WI-CONSUMER", false, true);
+
+        let result = publish_outcome_with_pre_append(&store, "WI-PROVIDER", 1, "api", || {
+            store
+                .register(consumer)
+                .expect("register verification-required consumer at the prepared-event boundary");
+        });
+
+        assert!(
+            matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("verification receipt")),
+            "typed publication must include a consumer committed immediately before the append transaction: {result:?}"
+        );
+        assert!(
+            store
+                .inspect()
+                .expect("inspect coordination store")
+                .events
+                .is_empty(),
+            "a publication rejected by a newly registered verification requirement must not append an event"
+        );
+
+        // The opposite lock order is also coherent: if publication commits
+        // first, a later verification-required registration observes the
+        // event but cannot treat its non-verification evidence as sufficient.
+        let reverse_root = repository();
+        let reverse_repository =
+            GitRepository::discover(reverse_root.path()).expect("discover reverse-order repo");
+        let reverse_store = CoordinationStore::open(
+            &reverse_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open reverse-order coordination store");
+        reverse_store
+            .register(registration(
+                reverse_root.path(),
+                "WI-PROVIDER",
+                true,
+                false,
+            ))
+            .expect("register reverse-order provider");
+        publish_outcome(&reverse_store, "WI-PROVIDER", 1, "api")
+            .expect("publish before the consumer requires verification");
+        reverse_store
+            .register(registration(
+                reverse_root.path(),
+                "WI-CONSUMER",
+                false,
+                true,
+            ))
+            .expect("register reverse-order consumer");
+        let reverse_projection =
+            collaboration_projection(&reverse_store).expect("inspect reverse lock order");
+        assert!(
+            reverse_projection
+                .blockers
+                .get("WI-CONSUMER")
+                .is_some_and(|blockers| blockers
+                    .iter()
+                    .any(|blocker| { blocker == "dependency_evidence_missing:WI-PROVIDER:api" })),
+            "a consumer registered after publication must still require current verification evidence: {:?}",
+            reverse_projection.blockers
         );
     }
 }

@@ -246,16 +246,71 @@ impl CoordinationStore {
         self.publish_event_internal(event)
     }
 
-    pub(crate) fn publish_validated_outcome_event(
+    pub(crate) fn publish_validated_outcome_event<F>(
         &self,
-        event: CoordinationEvent,
-    ) -> Result<CoordinationEvent, CoordinationError> {
+        mut event: CoordinationEvent,
+        validate_publication: F,
+    ) -> Result<CoordinationEvent, CoordinationError>
+    where
+        F: FnOnce(
+            &CoordinationEvent,
+            &CoordinationInspection,
+            &WorktreeRegistration,
+            &BTreeMap<String, Vec<u8>>,
+        ) -> Result<(), CoordinationError>,
+    {
         if event.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished {
             return Err(CoordinationError::RecoveryRequired(
                 "typed Outcome publication accepts only OutcomePublished events".into(),
             ));
         }
-        self.publish_event_internal(event)
+        self.runtime.validate_candidate()?;
+        validate_event(&event)?;
+        self.with_lock(|| {
+            // Registration writers use the same exclusive lock. Re-read the
+            // current complete registration projection while holding it, so
+            // the verification requirement and event append share one
+            // linearization point.
+            let inspection = self.inspect()?;
+            if !inspection.unknowns.is_empty() {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "cannot publish an outcome while coordination facts are unknown: {}",
+                    inspection.unknowns.join(", ")
+                )));
+            }
+            let registration = inspection
+                .registrations
+                .iter()
+                .find(|registration| registration.work_item_id == event.work_item_id)
+                .ok_or_else(|| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "outcome publisher requires a current registration for {}",
+                        event.work_item_id
+                    ))
+                })?;
+            if registration.repository_id != event.repository_id {
+                return Err(CoordinationError::RecoveryRequired(
+                    "event repository identity differs from registration".into(),
+                ));
+            }
+            if registration.generation != event.generation {
+                return Err(CoordinationError::StaleGeneration {
+                    work_item_id: event.work_item_id.clone(),
+                    expected: registration.generation,
+                    actual: event.generation,
+                });
+            }
+            let (observed_digests, observed_evidence) =
+                self.observed_event_evidence_bytes(&event, registration)?;
+            if event.evidence_digests != observed_digests {
+                return Err(CoordinationError::RecoveryRequired(
+                    "event evidence digest does not match current file bytes".into(),
+                ));
+            }
+            event.evidence_digests = observed_digests;
+            validate_publication(&event, &inspection, registration, &observed_evidence)?;
+            self.append_event_under_lock(event)
+        })
     }
 
     fn publish_event_internal(
@@ -287,20 +342,27 @@ impl CoordinationStore {
                 ));
             }
             event.evidence_digests = observed_digests;
-            let path = self
-                .root
-                .join("events")
-                .join(format!("{}.json", event.event_id));
-            if path.exists() {
-                let existing: CoordinationEvent = self.read_json(&path)?;
-                if existing == event {
-                    return Ok(existing);
-                }
-                return Err(CoordinationError::DuplicateIdentity(event.event_id.clone()));
-            }
-            self.atomic_write(&path, &event)?;
-            Ok(event)
+            self.append_event_under_lock(event)
         })
+    }
+
+    fn append_event_under_lock(
+        &self,
+        event: CoordinationEvent,
+    ) -> Result<CoordinationEvent, CoordinationError> {
+        let path = self
+            .root
+            .join("events")
+            .join(format!("{}.json", event.event_id));
+        if path.exists() {
+            let existing: CoordinationEvent = self.read_json(&path)?;
+            if existing == event {
+                return Ok(existing);
+            }
+            return Err(CoordinationError::DuplicateIdentity(event.event_id.clone()));
+        }
+        self.atomic_write(&path, &event)?;
+        Ok(event)
     }
 
     pub fn reserve_resources(
@@ -879,9 +941,19 @@ impl CoordinationStore {
         event: &CoordinationEvent,
         registration: &WorktreeRegistration,
     ) -> Result<BTreeMap<String, Digest>, CoordinationError> {
+        self.observed_event_evidence_bytes(event, registration)
+            .map(|(digests, _)| digests)
+    }
+
+    fn observed_event_evidence_bytes(
+        &self,
+        event: &CoordinationEvent,
+        registration: &WorktreeRegistration,
+    ) -> Result<(BTreeMap<String, Digest>, BTreeMap<String, Vec<u8>>), CoordinationError> {
         self.validate_event_facts(event, registration)?;
         let root = Path::new(&registration.worktree_path);
         let mut digests = BTreeMap::new();
+        let mut evidence = BTreeMap::new();
         for reference in &event.evidence_refs {
             let bytes = crate::collaboration::read_registered_worktree_file(root, reference)
                 .map_err(|error| {
@@ -891,8 +963,9 @@ impl CoordinationStore {
                     ))
                 })?;
             digests.insert(reference.clone(), Digest::sha256_bytes(&bytes));
+            evidence.insert(reference.clone(), bytes);
         }
-        Ok(digests)
+        Ok((digests, evidence))
     }
 
     fn read_reservations(&self) -> Result<Vec<ResourceReservation>, CoordinationError> {
