@@ -36,11 +36,15 @@
     "The canonical Runtime multi-node verification receipt, including its complete CoverageManifest and execution records, can consume the one explicitly authorized retry and produce a current verified/green Outcome; fresh read-only Outcome/status queries accept it, a second retry is not authorized, and invalid receipts remain fail-closed.",
     "Verification-required Outcome publication validates semantic verification state from the exact receipt bytes whose digest the event binds; deterministic replace/restore interleavings cannot substitute different bytes, and an invalid bound receipt cannot be durably published.",
     "The set of current verification-required consumers is read under the CoordinationStore lock and kept atomic with typed Outcome publication; overlapping registration/publication operations linearize, so a consumer committed before publication cannot be omitted from its verification decision.",
-    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error."
+    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error.",
+    "For the Cargo workspace route, each coverage-manifest command digest is built from the same canonical repository root used by the executable action plan; lexical path aliases must not create a false identity mismatch on any supported platform.",
+    "A persisted coordination recovery suppresses direct or transitive invalidation only after its schema, repository identity, exact consumption identity, referenced event/provider generation and kind, observed provider snapshot, and current consumer registration generation are validated; malformed or foreign recovery records remain unknown and do not unblock consumers.",
+    "After a composition owner is interrupted, retry must not remove its temporary worktree while a verifier child or process group can still be alive; if child termination cannot be established, preserve the worktree and fail closed.",
+    "Outcome projection must validate a composition attempt's coherent terminal receipt before reporting passed or reusable checks; changing only a pass flag on an in-progress or inconsistent attempt cannot create a passed human-visible state.",
+    "When a checkpointed Work Item lacks a preflight bound to its current repository snapshot or Contract, status withholds run_verification and exposes run_preflight; after a fresh preflight it exposes run_verification without introducing a new human start-confirmation gate."
   ],
-  "createdAt": "2026-09-26T03:29:16Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:b52d356f1b077b6ffe98d1d2d13693be663dfddea8ade10f4938d2f3983c4b61",
+  "evidenceDigest": "sha256:0c4731e2fc988fc8fd502af32582f853f4fd447137301a8e93548d5d9d2ebc24",
   "evidenceRefs": [
     ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
   ],
@@ -58,15 +62,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+      "repositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     },
     "format": "ai-cockpit.task-outcome",
@@ -110,7 +114,7 @@
             ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -155,8 +159,8 @@
     "status": "verified",
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
-  "taskReportDigest": "sha256:e06dc4d6f3912eef3f7a3a00f1dff79c31ba223b2f27baeb13a1dce97ce84211",
-  "taskReportMarkdownDigest": "sha256:6c38d16586239e7db2685441fed56ea0cd85e2ea3e7427fbb90b0f4ea597b799",
+  "taskReportDigest": "sha256:b1550311ccee7a7968222fb9c9af8ef861e336a54cf0e901bdfb327e6b08888f",
+  "taskReportMarkdownDigest": "sha256:8afc1b24ff15c6dff366106c4eee84206e46f52bc836f246daff48d46c9540c6",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

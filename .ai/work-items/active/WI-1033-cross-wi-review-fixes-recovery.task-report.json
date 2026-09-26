@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+    "repositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
   "format": "ai-cockpit.task-outcome",
@@ -48,7 +48,7 @@
           ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],

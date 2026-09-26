@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-25T01:21:38Z",
-  "checkpointContractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+  "checkpointContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -399,7 +399,7 @@
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+  "checkpointRepositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
   "createdAt": "2026-09-25T00:59:30Z",
   "decisionEvidence": {
     "contractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
@@ -423,9 +423,9 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-26T08:33:49Z",
+  "preflightAt": "2026-09-26T08:45:47Z",
   "preflightContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
   "preflightState": "yellow",
   "protocolVersion": 1,
@@ -823,48 +823,66 @@
       "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/verification_service.rs::cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_manifest"
+      ],
       "expected": "A workspace coverage manifest and its executable node plans bind identical command digests when the caller supplies a lexical path alias, including on Windows.",
       "required": true,
       "scenario": "workspace_verification_command_identity_is_canonical",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Plan the Cargo workspace through a noncanonical root such as root/. and compare every manifest digest with the corresponding action identity; run this regression in the canonical CI matrix including Windows."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::tampered_historical_provider_snapshot_cannot_suppress_invalidation",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::tampered_recovery_identity_cannot_suppress_invalidation"
+      ],
       "expected": "Only a recovery record validated against its exact event and repository/current registration identities suppresses invalidation; malformed, copied, stale-generation, or mismatched records remain unknown and leave direct and transitive consumers blocked.",
       "required": true,
       "scenario": "recovery_records_are_validated_before_invalidation_suppression",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Persist a valid cross-generation recovery, then independently tamper schema, repository, consumption ID, event/provider identity, recorded provider snapshot, and consumer identity/generation; assert inspect reports each invalid record and admission still observes the invalidation."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-verification/tests/composition.rs::retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
+        "crates/cockpit-verification/tests/composition.rs::retry_reconciles_an_interrupted_owner_after_process_exit"
+      ],
       "expected": "A dead composition owner is insufficient to clean its temporary worktree while its spawned verifier process group remains alive; once that exact group is gone, retry can reconcile and clean safely.",
       "required": true,
       "scenario": "interrupted_verifier_process_group_prevents_worktree_cleanup",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "On Unix, launch a real verifier child that records its PID, kills the composition owner, and remains alive; assert a fresh retry preserves the worktree and rejects cleanup, terminate that exact process group, then retry and assert cleanup. On Windows, retain job-object kill-on-close coverage."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::shared_outcome_does_not_trust_a_tampered_composition_pass_flag",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::shared_outcome_projects_composition_cleanup_and_actual_reuse"
+      ],
       "expected": "A tampered, in-progress, or internally inconsistent composition attempt is never projected as passed or reusable; valid successful terminal attempts remain visible.",
       "required": true,
       "scenario": "composition_outcome_requires_coherent_terminal_attempt",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Persist a failed or in-progress attempt, alter only its top-level pass flag, query the read-only Outcome projection, and assert it reports unknown/invalid with no reusable checks; retain passing, stale-applicability, and not-merged regressions."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/scenario_matrix_next_action.rs::checkpointed_stale_preflight_projects_preflight_recovery"
+      ],
       "expected": "A checkpointed Work Item with missing or stale preflight binding exposes run_preflight rather than run_verification; after the fresh preflight succeeds, run_verification is admitted without another start confirmation.",
       "required": true,
       "scenario": "checkpointed_stale_preflight_projects_preflight_recovery",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "In the scenario-matrix integration test, checkpoint a Work Item, change its source snapshot, assert status withholds run_verification and exposes run_preflight, execute preflight, then assert status admits run_verification; preserve the existing fail-closed execution-precondition assertion."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-26T08:35:26.281011+00:00",
+  "updatedAt": "2026-09-26T08:50:03.825832+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -955,6 +973,10 @@
       "result": "passed"
     },
     {
+      "check": "project-command-18",
+      "result": "passed"
+    },
+    {
       "check": "project-command-2-package-cockpit-agent",
       "result": "passed"
     },
@@ -1035,10 +1057,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-26T07:02:10Z"
-  },
+  "verificationRecoveryReconciled": "sha256:0c4731e2fc988fc8fd502af32582f853f4fd447137301a8e93548d5d9d2ebc24",
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }
