@@ -105,6 +105,26 @@ fn timeout_terminates_the_process_tree_and_fails_closed() {
     assert!(started.elapsed() < std::time::Duration::from_secs(5));
 }
 
+#[cfg(unix)]
+#[test]
+fn signal_termination_is_recorded_and_never_becomes_reusable_success() {
+    let command = always_command(
+        "signal-termination",
+        "sh",
+        vec!["-c".into(), "kill -INT $$".into()],
+    );
+
+    let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute signal termination");
+
+    assert!(!receipt.passed);
+    assert!(receipt.receipt_candidates.is_empty());
+    let record = &receipt.execution_records[0];
+    let serialized = serde_json::to_value(record).expect("serialize execution record");
+    assert_eq!(serialized["terminationSignal"], 2);
+    assert_eq!(record.exit_code, None);
+    assert!(!record.timed_out);
+}
+
 fn diagnostic_command() -> VerificationCommand {
     #[cfg(windows)]
     {

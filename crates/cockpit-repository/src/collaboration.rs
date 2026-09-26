@@ -1846,6 +1846,7 @@ pub fn run_admitted_composition(
             )
         },
     );
+    let _owner_interruption_guard = cockpit_verification::OwnerInterruptionGuard::install()?;
     Ok(run_composition_with_process_gates(
         input,
         process_admission_check,

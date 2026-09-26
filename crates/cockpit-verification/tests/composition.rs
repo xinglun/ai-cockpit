@@ -867,9 +867,11 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     if std::env::var_os("COMPOSITION_CRASH_CHILD").is_some() {
         let root = PathBuf::from(std::env::var_os("COMPOSITION_CRASH_ROOT").expect("root"));
         let state = PathBuf::from(std::env::var_os("COMPOSITION_CRASH_STATE").expect("state"));
+        let _owner_interruption_guard = cockpit_verification::OwnerInterruptionGuard::install()
+            .expect("install owner interruption handler");
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
         let state_arg = state.to_string_lossy().into_owned();
-        let _ = run_composition(input(
+        let attempt = run_composition(input(
             &root,
             &state,
             binding(&base, vec![base.clone(), base.clone()]),
@@ -878,14 +880,18 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
                 "sh",
                 &[
                     "-c",
-                    "while ! /usr/bin/grep -Eq '\"activeProcessGroupId\"[[:space:]]*:[[:space:]]*[0-9]+' \"$1\"/*.json; do /bin/sleep 0.01; done; /usr/bin/python3 -c 'import os,sys,time; error=None\ntry:\n held=open(os.path.join(os.getcwd(),\"README.md\"),\"rb\"); os.setsid(); os.chdir(\"/\")\nexcept Exception as exc:\n error=repr(exc); os.chdir(\"/\")\nopen(sys.argv[1]+\".error\",\"w\").write(error or \"none\"); open(sys.argv[1],\"w\").write(str(os.getpid())); time.sleep(60)' \"$1/escaped.pid\" >/dev/null 2>&1 & while [ ! -s \"$1/escaped.pid\" ]; do /bin/sleep 0.01; done; kill -9 \"$PPID\"",
+                    "while ! /usr/bin/grep -Eq '\"activeProcessGroupId\"[[:space:]]*:[[:space:]]*[0-9]+' \"$1\"/*.json; do /bin/sleep 0.01; done; /usr/bin/python3 -c 'import os,sys,time; error=None\ntry:\n held=open(os.path.join(os.getcwd(),\"README.md\"),\"rb\"); os.setsid(); os.chdir(\"/\")\nexcept Exception as exc:\n error=repr(exc); os.chdir(\"/\")\nopen(sys.argv[1]+\".error\",\"w\").write(error or \"none\"); open(sys.argv[1],\"w\").write(str(os.getpid())); time.sleep(60)' \"$1/escaped.pid\" >/dev/null 2>&1 & while [ ! -s \"$1/escaped.pid\" ]; do /bin/sleep 0.01; done; kill -INT \"$PPID\"",
                     "sh",
                     &state_arg,
                 ],
             )],
             vec![CompositionPrecondition::satisfied("identity-bound")],
-        ));
-        panic!("composition owner should have been terminated by its child command");
+        ))
+        .expect("owner-interrupted composition attempt");
+        assert_eq!(attempt.owner_termination_signal, Some(2));
+        assert!(!attempt.passed);
+        assert!(attempt.cleanup.is_none());
+        return;
     }
 
     let root = repository();
@@ -915,8 +921,8 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         std::thread::sleep(Duration::from_millis(10));
     };
     assert!(
-        !status.success(),
-        "the child command should terminate its owner"
+        status.success(),
+        "the owner should persist its SIGINT attempt before exiting"
     );
 
     let attempt_path = fs::read_dir(state.path())
@@ -932,14 +938,13 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
             .expect("attempt JSON");
     assert_eq!(interrupted["ownerPid"], owner_pid);
+    assert_eq!(interrupted["ownerTerminationSignal"], 2);
     assert_eq!(
-        interrupted["activeExecutionNode"], "terminate-owner",
-        "interrupted verifier identity must remain durable"
+        interrupted["executionRecords"][0]["nodeId"], "terminate-owner",
+        "completed interrupted verifier identity must remain durable"
     );
-    assert!(
-        interrupted["activeProcessGroupId"].as_u64().is_some(),
-        "interrupted verifier process group must remain durable"
-    );
+    assert!(interrupted["activeExecutionNode"].is_null());
+    assert!(interrupted["activeProcessGroupId"].is_null());
     let worktree = PathBuf::from(
         interrupted["isolatedWorktree"]
             .as_str()
@@ -973,7 +978,8 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     assert!(
         matches!(
             legacy_retry,
-            Err(CompositionError::UnknownAttemptOwner { .. })
+            Err(CompositionError::UnknownAttemptOwner { .. }
+                | CompositionError::ActiveVerifierDescendant { .. })
         ),
         "legacy interrupted attempts without process observations must fail closed"
     );
@@ -1051,7 +1057,11 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     assert_eq!(retry.processes_spawned, 1);
     interrupted = serde_json::from_slice(&fs::read(&attempt_path).expect("reconciled attempt"))
         .expect("reconciled attempt JSON");
-    assert_eq!(interrupted["failure"], "interrupted_owner_terminated");
+    assert_eq!(
+        interrupted["failure"],
+        "interrupted_owner_terminated:signal=2"
+    );
+    assert_eq!(interrupted["ownerTerminationSignal"], 2);
     assert_eq!(interrupted["cleanup"]["removed"], true);
     assert!(
         !worktree.exists(),
@@ -1063,6 +1073,10 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
             .any(|line| line.strip_prefix("worktree ").is_some_and(|path| {
                 fs::canonicalize(path).ok() == fs::canonicalize(&worktree).ok()
             }))
+    );
+    assert_eq!(
+        interrupted["ownerTerminationSignal"], 2,
+        "the durable attempt must retain the owner's observed SIGINT"
     );
 }
 
@@ -1720,6 +1734,118 @@ fn timed_out_node_is_durable_and_reports_cleanup() {
             .join(format!("{}.json", attempt.attempt_id))
             .exists()
     );
+}
+
+#[cfg(unix)]
+#[test]
+fn signal_terminated_node_is_durable_and_not_reusable() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("signal-state");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("signal", "sh", &["-c", "kill -INT $$"])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("signal-terminated composition attempt");
+
+    assert!(!attempt.passed);
+    assert_eq!(
+        attempt.failure.as_deref(),
+        Some("command_interrupted:signal=2")
+    );
+    assert_eq!(attempt.processes_spawned, 1);
+    assert_eq!(attempt.execution_records[0].termination_signal, Some(2));
+    assert!(!attempt.execution_records[0].reused);
+    assert!(
+        attempt
+            .cleanup
+            .as_ref()
+            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed)
+    );
+    let durable: serde_json::Value = serde_json::from_slice(
+        &fs::read(state.path().join(format!("{}.json", attempt.attempt_id)))
+            .expect("durable signal attempt"),
+    )
+    .expect("signal attempt JSON");
+    assert_eq!(durable["schemaVersion"], 2);
+    assert_eq!(durable["executionRecords"][0]["terminationSignal"], 2);
+    assert_eq!(durable["passed"], false);
+}
+
+#[test]
+fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("legacy-composition-state");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("check", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first_path = state.path().join(format!("{}.json", first.attempt_id));
+    let mut legacy: serde_json::Value =
+        serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
+            .expect("first attempt JSON");
+    legacy["schemaVersion"] = serde_json::json!(1);
+    fs::write(
+        &first_path,
+        serde_json::to_vec_pretty(&legacy).expect("legacy attempt bytes"),
+    )
+    .expect("retain legacy attempt as v1");
+
+    let second = run_composition(composition).expect("run without legacy reuse");
+
+    assert!(second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(!second.execution_records[0].reused);
+    let preserved: serde_json::Value =
+        serde_json::from_slice(&fs::read(&first_path).expect("preserved legacy bytes"))
+            .expect("preserved legacy JSON");
+    assert_eq!(preserved["schemaVersion"], 1);
+}
+
+#[test]
+fn composition_attempt_without_schema_version_is_not_reused() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("missing-composition-schema-state");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("check", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first_path = state.path().join(format!("{}.json", first.attempt_id));
+    let mut historical: serde_json::Value =
+        serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
+            .expect("first attempt JSON");
+    historical
+        .as_object_mut()
+        .expect("attempt object")
+        .remove("schemaVersion");
+    fs::write(
+        &first_path,
+        serde_json::to_vec_pretty(&historical).expect("historical attempt bytes"),
+    )
+    .expect("retain pre-version history");
+
+    let second = run_composition(composition).expect("run without historical reuse");
+
+    assert!(second.passed);
+    assert_eq!(second.processes_spawned, 1);
+    assert!(!second.execution_records[0].reused);
+    let preserved: serde_json::Value =
+        serde_json::from_slice(&fs::read(&first_path).expect("preserved history bytes"))
+            .expect("preserved history JSON");
+    assert!(preserved.get("schemaVersion").is_none());
 }
 
 #[cfg(unix)]

@@ -3,8 +3,8 @@ pub mod gate_plan;
 
 pub use composition::{
     CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
-    CompositionIdentity, CompositionInput, CompositionPrecondition, ReuseDecision,
-    ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
+    CompositionIdentity, CompositionInput, CompositionPrecondition, OwnerInterruptionGuard,
+    ReuseDecision, ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
     run_composition_with_process_gates,
 };
 
@@ -431,6 +431,8 @@ pub struct VerificationExecutionRecord {
     pub spawned: bool,
     pub passed: bool,
     pub exit_code: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub termination_signal: Option<i32>,
     #[serde(rename = "stdout")]
     pub stdout_hex: String,
     #[serde(rename = "stderr")]
@@ -2256,6 +2258,7 @@ fn execute_verification_plan_bounded_with_observer_at(
                 spawned: outcome.spawned,
                 passed: outcome.passed,
                 exit_code: outcome.exit_code,
+                termination_signal: outcome.termination_signal,
                 stdout_hex: encode_hex(&outcome.stdout),
                 stderr_hex: encode_hex(&outcome.stderr),
                 stdout_truncated: outcome.stdout_truncated,
@@ -2465,6 +2468,7 @@ struct ExecutionOutcome {
     spawned: bool,
     passed: bool,
     exit_code: Option<i32>,
+    termination_signal: Option<i32>,
     stdout: Vec<u8>,
     stderr: Vec<u8>,
     stdout_truncated: bool,
@@ -2482,6 +2486,7 @@ struct ExecutionOutcome {
 struct OutputIdentity<'a> {
     success: bool,
     exit_code: Option<i32>,
+    termination_signal: Option<i32>,
     stdout: &'a [u8],
     stderr: &'a [u8],
     stdout_truncated: bool,
@@ -2551,6 +2556,7 @@ fn execute_captured(
                 spawned: false,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: error.into_bytes(),
                 stdout_truncated: false,
@@ -2575,6 +2581,7 @@ fn execute_captured(
                 spawned: true,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: Vec::new(),
                 stdout_truncated: false,
@@ -2597,6 +2604,7 @@ fn execute_captured(
             spawned: true,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: Vec::new(),
             stderr: Vec::new(),
             stdout_truncated: false,
@@ -2627,6 +2635,10 @@ fn execute_captured(
     let (status, mut timed_out) = loop {
         match child.try_wait() {
             Ok(Some(status)) => break (Some(status), false),
+            Ok(None) if composition::owner_interruption_signal().is_some() => {
+                terminate_process_tree(&mut child, child_id);
+                break (child.wait().ok(), false);
+            }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
                 terminate_process_tree(&mut child, child_id);
@@ -2654,6 +2666,7 @@ fn execute_captured(
             spawned: true,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
@@ -2666,6 +2679,7 @@ fn execute_captured(
             deadline_ms,
         };
     };
+    let termination_signal = status_termination_signal(&status);
     if stdout.failed || stderr.failed {
         return ExecutionOutcome {
             spawned: true,
@@ -2675,6 +2689,7 @@ fn execute_captured(
             // being torn down. Never expose that code as a successful-looking
             // exit status.
             exit_code: (!timed_out).then(|| status.code()).flatten(),
+            termination_signal,
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
@@ -2690,6 +2705,7 @@ fn execute_captured(
     let identity = OutputIdentity {
         success: status.success() && !timed_out && observer_error.is_none(),
         exit_code: status.code(),
+        termination_signal,
         stdout: &stdout.bytes,
         stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
@@ -2703,6 +2719,7 @@ fn execute_captured(
         spawned: true,
         passed: status.success() && !timed_out && observer_error.is_none(),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
+        termination_signal,
         stdout: stdout.bytes,
         stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
@@ -2728,6 +2745,7 @@ fn observer_failed_outcome(
         spawned: true,
         passed: false,
         exit_code: None,
+        termination_signal: None,
         stdout: Vec::new(),
         stderr,
         stdout_truncated: false,
@@ -2739,6 +2757,18 @@ fn observer_failed_outcome(
         timeout_seconds,
         deadline_ms,
     }
+}
+
+#[cfg(unix)]
+fn status_termination_signal(status: &std::process::ExitStatus) -> Option<i32> {
+    use std::os::unix::process::ExitStatusExt;
+
+    status.signal()
+}
+
+#[cfg(not(unix))]
+fn status_termination_signal(_status: &std::process::ExitStatus) -> Option<i32> {
+    None
 }
 
 fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
@@ -3349,6 +3379,7 @@ mod tests {
                 spawned: true,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: Vec::new(),
                 stdout_truncated: false,

@@ -15,12 +15,95 @@ use std::io::Read;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+#[cfg(unix)]
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicI32, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
-pub const COMPOSITION_SCHEMA_VERSION: u32 = 1;
+pub const COMPOSITION_SCHEMA_VERSION: u32 = 2;
+const COMPOSITION_BINDING_SCHEMA_VERSION: u32 = 1;
 const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
+
+static OWNER_INTERRUPTION_SIGNAL: AtomicI32 = AtomicI32::new(0);
+
+#[cfg(unix)]
+struct OwnerInterruptionHandlerState {
+    active_guards: usize,
+    previous_action: Option<libc::sigaction>,
+}
+
+#[cfg(unix)]
+static OWNER_INTERRUPTION_HANDLER_STATE: Mutex<OwnerInterruptionHandlerState> =
+    Mutex::new(OwnerInterruptionHandlerState {
+        active_guards: 0,
+        previous_action: None,
+    });
+
+#[cfg(unix)]
+extern "C" fn record_owner_interruption_signal(signal: libc::c_int) {
+    OWNER_INTERRUPTION_SIGNAL.store(signal, Ordering::SeqCst);
+}
+
+/// Captures SIGINT while an admitted composition is active so it can stop the
+/// verifier, persist the signal, and clean up before returning to the caller.
+pub struct OwnerInterruptionGuard;
+
+impl OwnerInterruptionGuard {
+    pub fn install() -> Result<Self, CompositionError> {
+        #[cfg(unix)]
+        {
+            let mut state = OWNER_INTERRUPTION_HANDLER_STATE
+                .lock()
+                .map_err(|error| CompositionError::InterruptionHandler(error.to_string()))?;
+            if state.active_guards == 0 {
+                OWNER_INTERRUPTION_SIGNAL.store(0, Ordering::SeqCst);
+                let mut action: libc::sigaction = unsafe { std::mem::zeroed() };
+                action.sa_sigaction = record_owner_interruption_signal as *const () as usize;
+                action.sa_flags = 0;
+                unsafe {
+                    libc::sigemptyset(&mut action.sa_mask);
+                }
+                let mut previous_action: libc::sigaction = unsafe { std::mem::zeroed() };
+                let result =
+                    unsafe { libc::sigaction(libc::SIGINT, &action, &mut previous_action) };
+                if result != 0 {
+                    return Err(CompositionError::InterruptionHandler(
+                        std::io::Error::last_os_error().to_string(),
+                    ));
+                }
+                state.previous_action = Some(previous_action);
+            }
+            state.active_guards += 1;
+        }
+        Ok(Self)
+    }
+}
+
+impl Drop for OwnerInterruptionGuard {
+    fn drop(&mut self) {
+        #[cfg(unix)]
+        if let Ok(mut state) = OWNER_INTERRUPTION_HANDLER_STATE.lock()
+            && state.active_guards > 0
+        {
+            state.active_guards -= 1;
+            if state.active_guards == 0 {
+                if let Some(previous_action) = state.previous_action.take() {
+                    unsafe {
+                        libc::sigaction(libc::SIGINT, &previous_action, std::ptr::null_mut());
+                    }
+                }
+                OWNER_INTERRUPTION_SIGNAL.store(0, Ordering::SeqCst);
+            }
+        }
+    }
+}
+
+pub(crate) fn owner_interruption_signal() -> Option<i32> {
+    let signal = OWNER_INTERRUPTION_SIGNAL.load(Ordering::SeqCst);
+    (signal != 0).then_some(signal)
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -144,6 +227,8 @@ pub struct CompositionExecutionRecord {
     pub reused: bool,
     pub passed: bool,
     pub exit_code: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub termination_signal: Option<i32>,
     pub stdout: String,
     pub stderr: String,
     pub output_digest: Digest,
@@ -163,7 +248,7 @@ pub struct CompositionCleanup {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompositionAttempt {
-    #[serde(default = "composition_schema_version")]
+    #[serde(default = "legacy_composition_schema_version")]
     pub schema_version: u32,
     pub attempt_id: String,
     pub binding: CompositionBinding,
@@ -176,6 +261,8 @@ pub struct CompositionAttempt {
     pub reuse_decision: ReuseDecision,
     pub passed: bool,
     pub failure: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub owner_termination_signal: Option<i32>,
     #[serde(default)]
     pub cleanup: Option<CompositionCleanup>,
     #[serde(default)]
@@ -198,8 +285,8 @@ impl CompositionAttempt {
     }
 }
 
-fn composition_schema_version() -> u32 {
-    COMPOSITION_SCHEMA_VERSION
+fn legacy_composition_schema_version() -> u32 {
+    1
 }
 fn default_composition_timeout() -> u64 {
     crate::DEFAULT_EXECUTION_SECONDS
@@ -221,6 +308,8 @@ pub enum CompositionError {
     },
     #[error("composition state serialization failed: {0}")]
     Serialization(String),
+    #[error("composition interruption handler could not be installed: {0}")]
+    InterruptionHandler(String),
     #[error("composition attempt {attempt_id} is still owned by live process {owner_pid}")]
     ActiveAttempt { attempt_id: String, owner_pid: u32 },
     #[error("composition attempt {attempt_id} has no verifiable owner; preserving its worktree")]
@@ -293,6 +382,7 @@ fn run_composition_inner(
         reuse_decision,
         passed: false,
         failure: Some("in_progress".into()),
+        owner_termination_signal: None,
         cleanup: None,
         recorded_at_unix_nanos,
         owner_pid: Some(std::process::id()),
@@ -436,6 +526,10 @@ fn run_composition_inner(
     persist_attempt(&input.state_dir, &attempt)?;
 
     for command in &input.commands {
+        if let Some(signal) = owner_interruption_signal() {
+            persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+            break;
+        }
         let environment = controlled_command_environment(command)
             .expect("command environment was checked before any process started");
         let Some(executable) = resolve_executable(&worktree, &command.program, &environment) else {
@@ -549,17 +643,28 @@ fn run_composition_inner(
         let passed = record.passed;
         attempt.execution_records.push(record);
         persist_attempt(&input.state_dir, &attempt)?;
+        if let Some(signal) = owner_interruption_signal() {
+            persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+            break;
+        }
         if !passed {
-            let exit_code = attempt
+            let failed_record = attempt
                 .execution_records
                 .last()
-                .and_then(|item| item.exit_code);
-            attempt.failure = Some(format!("command_failed:exit={exit_code:?}"));
+                .expect("failed command was just persisted");
+            attempt.failure = Some(if let Some(signal) = failed_record.termination_signal {
+                format!("command_interrupted:signal={signal}")
+            } else {
+                format!("command_failed:exit={:?}", failed_record.exit_code)
+            });
             persist_attempt(&input.state_dir, &attempt)?;
             break;
         }
     }
 
+    if let Some(signal) = owner_interruption_signal() {
+        persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+    }
     attempt.passed = (attempt.failure.is_none()
         || attempt.failure.as_deref() == Some("in_progress"))
         && attempt.execution_records.len() == input.commands.len()
@@ -649,7 +754,7 @@ pub fn composition_commands_digest(commands: &[CompositionCommand]) -> Digest {
 }
 
 fn validate_binding(binding: &CompositionBinding) -> Result<(), CompositionError> {
-    if binding.schema_version != COMPOSITION_SCHEMA_VERSION
+    if binding.schema_version != COMPOSITION_BINDING_SCHEMA_VERSION
         || binding.binding_id.trim().is_empty()
         || binding.target_branch.trim().is_empty()
         || binding.target_sha.len() != 40
@@ -774,6 +879,7 @@ fn same_composition_lineage(previous: &CompositionBinding, current: &Composition
 
 fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
     attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.owner_termination_signal.is_none()
         && attempt.passed
         && attempt.failure.is_none()
         && attempt.preconditions.iter().all(|item| item.satisfied)
@@ -803,6 +909,17 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
                     record.predecessor_attempt_id.is_none()
                 }
         })
+}
+
+fn persist_owner_interruption(
+    state_dir: &Path,
+    attempt: &mut CompositionAttempt,
+    signal: i32,
+) -> Result<(), CompositionError> {
+    attempt.owner_termination_signal = Some(signal);
+    attempt.passed = false;
+    attempt.failure = Some(format!("composition_interrupted:owner_signal={signal}"));
+    persist_attempt(state_dir, attempt)
 }
 
 fn reconcile_abandoned_attempt(
@@ -909,7 +1026,9 @@ fn reconcile_abandoned_attempt(
         )));
     }
     attempt.cleanup = Some(cleanup);
-    if attempt.failure.as_deref() == Some("in_progress") {
+    if let Some(signal) = attempt.owner_termination_signal {
+        attempt.failure = Some(format!("interrupted_owner_terminated:signal={signal}"));
+    } else if attempt.failure.as_deref() == Some("in_progress") {
         attempt.failure = Some("interrupted_owner_terminated".into());
     }
     persist_attempt(state_dir, &attempt)?;
@@ -1165,6 +1284,7 @@ fn reused_record(
         reused: true,
         passed: true,
         exit_code: previous.exit_code,
+        termination_signal: previous.termination_signal,
         stdout: previous.stdout.clone(),
         stderr: previous.stderr.clone(),
         output_digest: previous.output_digest.clone(),
@@ -1269,6 +1389,7 @@ fn execute_node(
                 reused: false,
                 passed: result.is_some_and(|result| result.passed),
                 exit_code: execution.and_then(|record| record.exit_code),
+                termination_signal: execution.and_then(|record| record.termination_signal),
                 stdout,
                 stderr,
                 output_digest,
@@ -1285,6 +1406,7 @@ fn execute_node(
             reused: false,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: String::new(),
             stderr: bounded(&error.to_string()),
             output_digest: Digest::sha256_bytes(error.to_string().as_bytes()),
