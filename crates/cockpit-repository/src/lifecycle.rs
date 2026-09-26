@@ -32,6 +32,16 @@ use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
+/// The persisted preflight decision plus the repository-relative files this
+/// explicit write operation actually changed.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PreflightResult {
+    #[serde(flatten)]
+    pub decision: GovernanceDecision,
+    pub changed_paths: Vec<String>,
+}
+
 pub fn start_work_item(
     root: &Path,
     work_item_id: &str,
@@ -511,18 +521,18 @@ pub fn start_work_item_prepared(
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let preflight = super::preflight_work_item_with_runtime(root, &contract_path, runtime)?;
+    let preflight = super::preflight_work_item_with_runtime_report(root, &contract_path, runtime)?;
     let preflight_value =
         serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
             path: contract_path.clone(),
             message: format!("serialize prepared-start preflight: {error}"),
         })?;
     let requires_human_confirmation =
-        preflight.review_state.as_deref() == Some("needs_human_confirmation");
+        preflight.decision.review_state.as_deref() == Some("needs_human_confirmation");
     let may_checkpoint = matches!(
-        &preflight.state,
+        &preflight.decision.state,
         cockpit_core::DecisionState::Green | cockpit_core::DecisionState::Yellow
-    ) && preflight.blockers.is_empty()
+    ) && preflight.decision.blockers.is_empty()
         && !requires_human_confirmation;
     let (state, checkpoint, checkpoint_error) = if may_checkpoint {
         match checkpoint_work_item(root, work_item_id) {
@@ -557,7 +567,7 @@ pub fn start_work_item_prepared(
         } else if requires_human_confirmation {
             vec!["present_preflight_review_and_wait_for_human_decision".to_owned()]
         } else {
-            preflight.safe_actions.clone()
+            preflight.decision.safe_actions.clone()
         },
     }))
 }
@@ -1864,6 +1874,15 @@ pub fn preflight_work_item(
     root: &Path,
     contract_path: &Path,
 ) -> Result<GovernanceDecision, ObserverError> {
+    Ok(preflight_work_item_report(root, contract_path)?.decision)
+}
+
+/// Evaluate and persist preflight, returning the paths actually changed by
+/// this explicit write operation.
+pub fn preflight_work_item_report(
+    root: &Path,
+    contract_path: &Path,
+) -> Result<PreflightResult, ObserverError> {
     preflight_work_item_internal(root, contract_path, None)
 }
 
@@ -1875,6 +1894,15 @@ pub fn preflight_work_item_with_runtime(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
+    Ok(preflight_work_item_with_runtime_report(root, contract_path, runtime)?.decision)
+}
+
+/// Runtime-bound preflight report for CLI/MCP write adapters.
+pub fn preflight_work_item_with_runtime_report(
+    root: &Path,
+    contract_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<PreflightResult, ObserverError> {
     preflight_work_item_internal(root, contract_path, Some(runtime))
 }
 
@@ -1882,7 +1910,7 @@ fn preflight_work_item_internal(
     root: &Path,
     contract_path: &Path,
     current_runtime: Option<&RuntimeContext>,
-) -> Result<GovernanceDecision, ObserverError> {
+) -> Result<PreflightResult, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -1900,7 +1928,7 @@ fn preflight_work_item_internal(
         }
     })?;
     let repository_context = RepositoryExecutionContext::capture(&root)?;
-    let observation_context = repository_context.observe_phase_with_contract(
+    let observation_context = repository_context.observe_phase_with_contract_uncached(
         ObservationPhase::BeforeGovernance,
         current_runtime,
         &contract_path,
@@ -1913,16 +1941,10 @@ fn preflight_work_item_internal(
         current_runtime,
         Some(&observation_context),
     )?;
-    let decision = apply_preflight_review_evidence(
-        &root,
-        &contract,
-        &snapshot,
-        raw_decision.clone(),
-        false,
-        None,
-    )?;
+    let decision = apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
+    let mut changed_paths = Vec::new();
     let active = root.join(".ai/work-items/active");
     let active_contract = active.join(format!("{}.contract.json", contract.work_item_id));
     let summary_path = active.join(format!("{}.summary.json", contract.work_item_id));
@@ -1956,27 +1978,23 @@ fn preflight_work_item_internal(
         // callers can inspect the candidate decision before `start` supplies
         // the human governance fields and activates the item.
         if current_state == "not_ready" {
-            let state = decision_state_name(decision.state.clone());
-            let decision_value =
-                serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
-                    path: active_contract.clone(),
-                    message: error.to_string(),
-                })?;
-            summary["preflightState"] = state.into();
-            summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-                .map_err(|error| ObserverError::State {
-                    path: active_contract.clone(),
-                    message: error.to_string(),
-                })?
-                .to_string()
-                .into();
-            summary["preflightRepositorySnapshotDigest"] =
-                snapshot_digest(&snapshot)?.to_string().into();
-            summary["preflightContractDigest"] =
-                contract_digest(&active_contract)?.to_string().into();
-            summary["preflightAt"] = now().into();
-            atomic_json(&summary_path, &summary)?;
-            return Ok(decision);
+            if update_preflight_summary(
+                &summary_path,
+                &active_contract,
+                &mut summary,
+                &decision,
+                &raw_decision,
+                &snapshot,
+            )? {
+                changed_paths.push(format!(
+                    ".ai/work-items/active/{}.summary.json",
+                    contract.work_item_id
+                ));
+            }
+            return Ok(PreflightResult {
+                decision,
+                changed_paths,
+            });
         }
         // A source commit after finish can legitimately change the repository
         // snapshot without changing the Work Item's intent or checkpoint. In
@@ -1995,27 +2013,76 @@ fn preflight_work_item_internal(
                 ),
             });
         }
-        let state = decision_state_name(decision.state.clone());
-        let decision_value =
-            serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
-                path: active_contract.clone(),
-                message: error.to_string(),
-            })?;
-        summary["preflightState"] = state.into();
-        summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-            .map_err(|error| ObserverError::State {
-                path: active_contract.clone(),
-                message: error.to_string(),
-            })?
-            .to_string()
-            .into();
-        summary["preflightRepositorySnapshotDigest"] =
-            snapshot_digest(&snapshot)?.to_string().into();
-        summary["preflightContractDigest"] = contract_digest(&active_contract)?.to_string().into();
-        summary["preflightAt"] = now().into();
-        atomic_json(&summary_path, &summary)?;
+        if update_preflight_summary(
+            &summary_path,
+            &active_contract,
+            &mut summary,
+            &decision,
+            &raw_decision,
+            &snapshot,
+        )? {
+            changed_paths.push(format!(
+                ".ai/work-items/active/{}.summary.json",
+                contract.work_item_id
+            ));
+        }
     }
-    Ok(decision)
+    Ok(PreflightResult {
+        decision,
+        changed_paths,
+    })
+}
+
+fn update_preflight_summary(
+    summary_path: &Path,
+    active_contract: &Path,
+    summary: &mut serde_json::Value,
+    decision: &GovernanceDecision,
+    raw_decision: &GovernanceDecision,
+    snapshot: &RepositorySnapshot,
+) -> Result<bool, ObserverError> {
+    let decision_value =
+        serde_json::to_value(raw_decision).map_err(|error| ObserverError::State {
+            path: active_contract.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    let next_fields = [
+        (
+            "preflightState",
+            serde_json::Value::String(decision_state_name(decision.state.clone()).into()),
+        ),
+        (
+            "preflightDecisionDigest",
+            serde_json::Value::String(
+                cockpit_protocol::digest_json(&decision_value)
+                    .map_err(|error| ObserverError::State {
+                        path: active_contract.to_path_buf(),
+                        message: error.to_string(),
+                    })?
+                    .to_string(),
+            ),
+        ),
+        (
+            "preflightRepositorySnapshotDigest",
+            serde_json::Value::String(snapshot_digest(snapshot)?.to_string()),
+        ),
+        (
+            "preflightContractDigest",
+            serde_json::Value::String(contract_digest(active_contract)?.to_string()),
+        ),
+    ];
+    let changed = next_fields
+        .iter()
+        .any(|(key, value)| summary.get(*key) != Some(value));
+    if !changed {
+        return Ok(false);
+    }
+    for (key, value) in next_fields {
+        summary[key] = value;
+    }
+    summary["preflightAt"] = now().into();
+    atomic_json(summary_path, summary)?;
+    Ok(true)
 }
 
 pub(super) fn decision_state_name(state: DecisionState) -> &'static str {
@@ -2059,8 +2126,7 @@ fn require_green_or_yellow_preflight_governance(
 ) -> Result<(), ObserverError> {
     let decision =
         governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
-    let decision =
-        super::apply_preflight_review_evidence(root, contract, snapshot, decision, false, None)?;
+    let decision = super::apply_preflight_review_evidence(root, contract, decision, false)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {
@@ -6248,14 +6314,8 @@ fn record_verification_internal(
             current_runtime,
             None,
         )?;
-        let decision = apply_preflight_review_evidence(
-            &root,
-            &contract,
-            &refreshed_snapshot,
-            raw_decision.clone(),
-            false,
-            None,
-        )?;
+        let decision =
+            apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
         let reconcile_blocked_outcome = recovery_retry_pending
             || contract_amendment_pending
             || (!prior_evidence_present && decision.state != DecisionState::Red);

@@ -56,7 +56,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 派生投影 | `knowledge query` | 仅通过显式查询物化或复用仓库本地 `.ai/knowledge/` 索引；报告 `projection.writeBoundary=repository-local-derived`，不会改变治理权威记录。 |
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
-| 治理 | `preflight` | 读取 Contract，返回 green/yellow/red decision 与 `reviewState`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
+| 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
 | Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录；`close` 和 recovery 都要求显式 human decision。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
@@ -233,6 +233,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   返回严格状态报告，并使用 0（verified）、1（degraded）、2（配置错误）、3（需要人工介入）退出码。
   如果 managed section 或 ownership record 被修改，`repair` 和 `detach` 会 fail closed；任何命令都不会写入全局 Agent/MCP 配置。
 - `preflight --contract` 通常指向 `start` 生成的 `.ai/work-items/active/<id>.contract.json`。
+- `inspect`、`status`、`doctor` 和 `work-item outcome` 是只读查询。`preflight` 是显式治理写入入口：持久化评估结果/投影，通过 `changedPaths` 返回实际变更路径；相同输入没有写入时返回空列表。它不会运行验证或修复。
 - `work-item new` 生成的骨架状态是 `not_ready`。对它执行 `preflight` 会有意返回
   `yellow` 与 `reviewState: needs_human_confirmation`；补齐人工字段后必须重新 preflight 才能 checkpoint。
 - `close --human-decision approved|confirmed|rejected` 是 human decision 记录，不是 verification evidence。

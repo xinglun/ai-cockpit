@@ -16,9 +16,9 @@ use cockpit_repository::{
     archive_historical_work_item_with_runtime, archive_work_item_with_runtime, attach,
     checkpoint_work_item, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, plan_resource_finalization_with_runtime, preflight_work_item_with_runtime,
-    prepare_archive_outcome_delivery, record_resource_finalization,
-    resolve_archived_verification_route, resolve_verification_route,
+    generate_knowledge, plan_resource_finalization_with_runtime,
+    preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
+    record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
     retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
     start_work_item_with_options, verify_resource_finalization,
 };
@@ -1486,9 +1486,10 @@ fn run() -> Result<()> {
         }
         CommandKind::Preflight { repo, contract } => {
             require_compatible(&repo, &runtime_context)?;
-            let decision = preflight_work_item_with_runtime(&repo, &contract, &runtime_context)
-                .context("evaluate and record preflight decision")?;
-            println!("{}", serde_json::to_string_pretty(&decision)?);
+            let result =
+                preflight_work_item_with_runtime_report(&repo, &contract, &runtime_context)
+                    .context("evaluate and record preflight decision")?;
+            println!("{}", serde_json::to_string_pretty(&result)?);
         }
         CommandKind::Observe { repo } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;

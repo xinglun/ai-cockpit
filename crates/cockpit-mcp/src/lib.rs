@@ -553,7 +553,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "preflight",
-            "Evaluate a repository-relative Contract before implementation.",
+            "Evaluate and explicitly persist preflight for a repository-relative Contract; repeated identical input is idempotent and the response lists changedPaths.",
         ),
         (
             "work_item_controls",
@@ -1580,10 +1580,10 @@ fn preflight_for_repo(
         .and_then(Value::as_str)
         .ok_or("contract argument is required")?;
     let contract_path = repository_path(repo, contract_path)?;
-    let decision =
-        cockpit_repository::preflight_work_item_with_runtime(repo, &contract_path, runtime)
+    let result =
+        cockpit_repository::preflight_work_item_with_runtime_report(repo, &contract_path, runtime)
             .map_err(|error| error.to_string())?;
-    serde_json::to_value(decision).map_err(|error| error.to_string())
+    serde_json::to_value(result).map_err(|error| error.to_string())
 }
 
 fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {

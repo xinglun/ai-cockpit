@@ -46,6 +46,13 @@ yellow or red state with a prose claim of completion. If the failure is a
 verification or evidence failure, switch to
 [`verification-failure-recovery`](verification-failure-recovery.md).
 
+## Query and preflight boundary
+
+`inspect`, `status`, `doctor`, and `work-item outcome` are read-only.
+`preflight` explicitly persists its decision projection, returns changed paths
+as `changedPaths`, and is idempotent for unchanged inputs; it never runs
+verification or repair.
+
 ## Continue or stop
 
 Continue only after a fresh Runtime query admits the operation and all

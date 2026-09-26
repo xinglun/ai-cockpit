@@ -113,6 +113,116 @@ fn preflight_reports_yellow_when_required_evidence_is_missing() {
 }
 
 #[test]
+fn repeated_preflight_is_idempotent_and_reports_written_paths() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-preflight-idempotent-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let attach = Command::new(binary)
+        .args(["attach", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("attach");
+    assert!(
+        attach.status.success(),
+        "{}",
+        String::from_utf8_lossy(&attach.stderr)
+    );
+    let start = Command::new(binary)
+        .args(["start", "--repo"])
+        .arg(&directory)
+        .args([
+            "--id",
+            "WI-PREFLIGHT-IDEMPOTENT",
+            "--intent",
+            "verify preflight writes",
+            "--goal",
+            "repeat preflight without incidental writes",
+            "--scope",
+            "src/**",
+            "--out-of-scope",
+            "target/**",
+            "--acceptance",
+            "preflight is idempotent",
+            "--authority",
+            "authorized",
+            "--required-evidence",
+            "verification",
+        ])
+        .output()
+        .expect("start");
+    assert!(
+        start.status.success(),
+        "{}",
+        String::from_utf8_lossy(&start.stderr)
+    );
+
+    let observer_cache = directory.join(".ai/decisions/observer-snapshot.json");
+    let observer_cache_before = fs::read(&observer_cache).ok();
+    let summary = directory.join(".ai/work-items/active/WI-PREFLIGHT-IDEMPOTENT.summary.json");
+    let contract = ".ai/work-items/active/WI-PREFLIGHT-IDEMPOTENT.contract.json";
+    let first = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract", contract])
+        .output()
+        .expect("first preflight");
+    assert!(
+        first.status.success(),
+        "{}",
+        String::from_utf8_lossy(&first.stderr)
+    );
+    let first_json: serde_json::Value = serde_json::from_slice(&first.stdout).expect("first JSON");
+    assert!(
+        first_json["changedPaths"]
+            .as_array()
+            .expect("first changedPaths")
+            .iter()
+            .any(|path| path == ".ai/work-items/active/WI-PREFLIGHT-IDEMPOTENT.summary.json")
+    );
+    let summary_after_first = fs::read(&summary).expect("first summary");
+    let observer_cache_after_first = fs::read(&observer_cache).ok();
+    assert_eq!(observer_cache_after_first, observer_cache_before);
+
+    std::thread::sleep(std::time::Duration::from_millis(5));
+    let second = Command::new(binary)
+        .args(["preflight", "--repo"])
+        .arg(&directory)
+        .args(["--contract", contract])
+        .output()
+        .expect("second preflight");
+    assert!(
+        second.status.success(),
+        "{}",
+        String::from_utf8_lossy(&second.stderr)
+    );
+    let second_json: serde_json::Value =
+        serde_json::from_slice(&second.stdout).expect("second JSON");
+    assert_eq!(second_json["changedPaths"], serde_json::json!([]));
+    assert_eq!(
+        fs::read(&summary).expect("second summary"),
+        summary_after_first
+    );
+    assert_eq!(fs::read(&observer_cache).ok(), observer_cache_after_first);
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn preflight_turns_green_after_matching_verification_evidence() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

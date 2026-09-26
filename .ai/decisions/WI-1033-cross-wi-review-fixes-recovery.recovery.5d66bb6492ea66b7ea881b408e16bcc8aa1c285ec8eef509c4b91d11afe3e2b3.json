@@ -1,0 +1,29 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "Explicit user authorization in this task on 2026-09-26: create a new Task 8 Work Item for the governance frictions after merge and cleanup; continue to the pre-release review boundary without another start-confirmation gate.",
+  "decidedAt": "2026-09-26T13:57:07Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/996",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "agents/skills/ordinary-work-item.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "predecessorEventsDigest": "sha256:1cd6d97ccf81d84ab6cd6092dd6325f7bda3e0727f4bbdf722305cf77c063988",
+  "predecessorOutcomeDigest": "sha256:6255e2173b6b9d19a35a32b57b8383c0cec7a8ab4a36352af3763be9b8dbfddf",
+  "predecessorSummaryDigest": "sha256:1d9812f986437433d64cbf0bd06612d4bc800b43136f93336782e5c658d6cc0b",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "WI-1033 is merged on synchronized main at 488d5606cb67811722b2e23410dd6f66421f475b, but its verification is not claimed as passed. Task 8 is the explicitly requested successor for the bounded governance friction inventory and remediation, preserving the predecessor's exact evidence and history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Task 8 completes Runtime-admitted implementation, canonical local and hosted verification, independent PR review, merge, exact cleanup, and linked historical closure as admitted; stop before any release or publication.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1034-task8-governance-friction-remediation",
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

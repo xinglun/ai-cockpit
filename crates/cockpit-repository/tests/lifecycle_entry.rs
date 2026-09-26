@@ -1899,6 +1899,107 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
 }
 
 #[test]
+fn empty_commit_preserves_source_identity_and_current_verification_evidence() {
+    let directory = repository();
+    let work_item_id = "WI-EMPTY-COMMIT-SOURCE-IDENTITY";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve verified source identity across an empty commit",
+        "a no-op commit must not stale evidence bound to unchanged source bytes",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"empty-commit-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let verification_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "empty-commit-source-identity".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification");
+    let mut receipt =
+        serde_json::to_value(&verification_run.receipt).expect("verification receipt");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &verification_run.final_snapshot,
+    )
+    .expect("record verification");
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let evidence_before_empty_commit = fs::read(&evidence_path).expect("evidence bytes");
+    let source_digest_before_empty_commit =
+        cockpit_repository::snapshot_digest(&verification_run.final_snapshot)
+            .expect("source digest");
+
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=Test",
+            "commit",
+            "--allow-empty",
+            "-m",
+            "empty commit preserves source identity",
+        ],
+    );
+
+    let current_snapshot = GitRepository::discover(directory.path())
+        .expect("repository")
+        .snapshot()
+        .expect("snapshot after empty commit");
+    assert_eq!(
+        cockpit_repository::snapshot_digest(&current_snapshot).expect("current source digest"),
+        source_digest_before_empty_commit
+    );
+    assert_eq!(
+        fs::read(&evidence_path).expect("preserved evidence"),
+        evidence_before_empty_commit
+    );
+    let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("preflight after empty commit");
+    assert_eq!(preflight.state, DecisionState::Green, "{preflight:#?}");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("finish with unchanged source evidence");
+}
+
+#[test]
 fn finish_ready_allows_reverification_after_committing_changed_source() {
     let directory = repository();
     let work_item_id = "WI-FINISH-READY-COMMIT-RETRY";

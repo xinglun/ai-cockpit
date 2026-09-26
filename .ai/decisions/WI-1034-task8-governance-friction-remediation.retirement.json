@@ -1,0 +1,38 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:5b9334e364b5508cd19562c01b12648abc79f6b7fc289b58bc07fd861847db70",
+  "artifacts": {
+    "approach": {
+      "digest": "sha256:cf7270a133ad81007cc6b893487a27b6acabf193d75fc9ecfeeafc2baf589be6",
+      "path": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.approach.json"
+    },
+    "contract": {
+      "digest": "sha256:6f86ed01ffd5b0aa64736d6078861291820c71c13e101c7a6473d7a23cc16a02",
+      "path": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:0596f77c90e945ee7308c55faafa10c2b0c26624a7fb73e2985f8b42b8b18003",
+      "path": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ee5e959749638e211684d3b0c911abc2710552f360993c2737c27986a51570d0",
+      "path": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.summary.json"
+    }
+  },
+  "authoritySource": "Explicit user authorization in this task to continue Task 8 serially through the pre-release review boundary.",
+  "contractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Preserve the not-yet-implemented WI-1034 Task 8 scaffold as replaced/not_verified because its immutable acceptance criteria used invalid OBS-NN labels instead of Runtime-supported stable IDs; continue the same objective in its repository-bound successor.",
+  "recordedAt": "2026-09-26T14:32:55Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:89d6cc1fd68296b44609f05acf7db4f42544f50822aa6d61e2f11d223de03548",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "summaryDigest": "sha256:e582a2d224dc197a2b118e0d862954e913146c167b14bc1be117ed35e03d9531",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1034-task8-governance-friction-remediation"
+}

@@ -482,6 +482,13 @@ fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
         "not_started"
     );
     assert_eq!(result["preflight"]["state"], "green");
+    assert!(
+        result["preflight"]["changedPaths"]
+            .as_array()
+            .expect("preflight changed paths")
+            .iter()
+            .any(|path| path == ".ai/work-items/active/WI-MCP-AUTO-START.summary.json")
+    );
     assert_eq!(result["checkpoint"]["state"], "checkpointed");
     let contract: serde_json::Value = serde_json::from_slice(
         &fs::read(
@@ -2292,9 +2299,39 @@ fn mcp_preflight_reuses_derived_signals_without_disclosing_change_text() {
         &test_runtime_context(),
     );
     assert_eq!(preflight["result"]["structuredContent"]["state"], "yellow");
+    assert!(
+        preflight["result"]["structuredContent"]["changedPaths"]
+            .as_array()
+            .expect("changed paths")
+            .iter()
+            .any(|path| path == ".ai/work-items/active/WI-MCP-SIGNALS.summary.json")
+    );
     assert_eq!(
         preflight["result"]["structuredContent"]["unknowns"],
         serde_json::json!(["repository_material_untrusted"])
+    );
+    let summary_path = directory.join(".ai/work-items/active/WI-MCP-SIGNALS.summary.json");
+    let summary_before_repeat = fs::read(&summary_path).expect("summary");
+    let repeated_preflight = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":9,
+            "method":"tools/call",
+            "params":{
+                "name":"preflight",
+                "arguments":{"contract":".ai/work-items/active/WI-MCP-SIGNALS.contract.json"}
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(
+        repeated_preflight["result"]["structuredContent"]["changedPaths"],
+        serde_json::json!([])
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("repeated summary"),
+        summary_before_repeat
     );
 
     let observation = cockpit_mcp::handle_request_for_repo(

@@ -1,0 +1,263 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.5d66bb6492ea66b7ea881b408e16bcc8aa1c285ec8eef509c4b91d11afe3e2b3.json",
+    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.retirement.json",
+    ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
+    ".ai/decisions/WI-1034-task8-governance-friction-remediation.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.contract.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.events.jsonl",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.task-report.md",
+    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json",
+    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.archive.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.contract.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.summary.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.task-report.json",
+    ".ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.task-report.md",
+    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.approach.json",
+    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.archive.json",
+    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.contract.json",
+    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.outcome.json",
+    ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.summary.json"
+  ],
+  "checkpointAt": "2026-09-26T14:39:46Z",
+  "checkpointContractDigest": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+      "recorded": true,
+      "recordedAt": "2026-09-26T14:39:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab295f1d2a3f460720ce994da63538d10a18254fe9a289caea14a62552c5b2eb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+      "previousContractHash": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+      "reason": "Add the current WI's three required locale projections and three reference-parity entries to the existing same-intent Task 8 documentation scope; Runtime verification preconditions require these exact paths. No intent, authority, or release boundary changes.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T14:44:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab295f1d2a3f460720ce994da63538d10a18254fe9a289caea14a62552c5b2eb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ab295f1d2a3f460720ce994da63538d10a18254fe9a289caea14a62552c5b2eb",
+  "createdAt": "2026-09-26T14:32:17Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Continue under the user's existing explicit Task 8 authorization through independent PR review, merge, and cleanup; stop before release. This is not verification evidence or release approval.",
+    "recordedAt": "2026-09-26T15:35:07Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:328967bd5e9f7edc00445a83077f02696537f9f1903332dfeda6f3945eebbf7e",
+    "schemaVersion": 1,
+    "workItemId": "WI-1035-task8-governance-friction-remediation"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-1034-task8-governance-friction-remediation/spec.md#目的与执行边界"
+    ],
+    "reason": "与用户明确批准的 Task 8 意图和 release-stop 边界一致；此项只判定计划意图对齐，不声称收益或实现已验证。",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
+  "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
+  "preflightAt": "2026-09-26T15:35:16Z",
+  "preflightContractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:328967bd5e9f7edc00445a83077f02696537f9f1903332dfeda6f3945eebbf7e",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A no-op commit leaves source identity and applicable evidence stable, while a real source-content change invalidates only dependent evidence.",
+      "required": true,
+      "scenario": "OBS-01 same-tree commit and actual source-content change",
+      "status": "unverified",
+      "verificationPlan": "Add and run snapshot/lifecycle regressions for dirty-to-commit, empty commit, and real source change; compare source, Contract, Runtime, preflight, and verification identities."
+    },
+    {
+      "evidence": [],
+      "expected": "Snapshot-only change requires fresh preflight and verification without requesting the same bounded human authorization again; a changed authority boundary requires a new decision.",
+      "required": true,
+      "scenario": "OBS-02 authorization remains distinct from freshness",
+      "status": "unverified",
+      "verificationPlan": "Add repository lifecycle regressions for snapshot refresh and changed scope/authority/base/stop boundary, including decision-receipt bindings."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated inspect/status/doctor/outcome queries do not change repository bytes; repeated unchanged preflight reports no changed paths and does not execute checks.",
+      "required": true,
+      "scenario": "OBS-03 read-only queries and idempotent explicit preflight",
+      "status": "unverified",
+      "verificationPlan": "Add byte-for-byte before/after query tests and repeated-preflight changed-path/process-count assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "Status, preflight, and a rejected operation expose the same admission version, blockers, and actionable recovery route for the same facts.",
+      "required": true,
+      "scenario": "OBS-04 consistent versioned action admission",
+      "status": "unverified",
+      "verificationPlan": "Add cross-surface repository/CLI tests that compare normalized admission identity and blocker/next-action fields."
+    },
+    {
+      "evidence": [],
+      "expected": "Stale/missing preflight rejects verification and points to run_preflight; a fresh matching preflight restores verification without a second start confirmation.",
+      "required": true,
+      "scenario": "OBS-05 stale or missing preflight recovery",
+      "status": "unverified",
+      "verificationPlan": "Add checkpointed Work Item tests for stale snapshot and Contract, refresh, rejection before refresh, and admission after refresh."
+    },
+    {
+      "evidence": [],
+      "expected": "Removing any required scenario/check/evidence mapping produces a named rejection before any verification process starts.",
+      "required": true,
+      "scenario": "OBS-06 complete scenario-to-check coverage before spawn",
+      "status": "unverified",
+      "verificationPlan": "Use an instrumented subprocess counter in composition/verification integration tests and assert zero spawns for each missing mapping."
+    },
+    {
+      "evidence": [],
+      "expected": "Amendment output/help explains whether revalidation is already recorded; unchanged Contract does not require an invalid duplicate revalidation command.",
+      "required": true,
+      "scenario": "OBS-07 amendment revalidation command semantics",
+      "status": "unverified",
+      "verificationPlan": "Add CLI help/output and lifecycle tests for amendment checkpoint creation, repeated command rejection/explanation, and next action."
+    },
+    {
+      "evidence": [],
+      "expected": "A rejected formal receipt preserves execution evidence and names bounded failing predicates; verification, Outcome, and status agree on rejected and passing cases.",
+      "required": true,
+      "scenario": "OBS-08 formal receipt rejection diagnosis and projection",
+      "status": "unverified",
+      "verificationPlan": "Add end-to-end CLI tests for formal receipt rejection and success, asserting preserved attempt identity, diagnostic limits, and query projections."
+    },
+    {
+      "evidence": [],
+      "expected": "An Agent discovers supported capabilities from the local manifest, MCP tool schemas, and ordinary-work-item guide, then uses coordination and serial fallback correctly.",
+      "required": true,
+      "scenario": "OBS-09 real collaboration capability discovery and usage",
+      "status": "unverified",
+      "verificationPlan": "After interface/docs changes, immediately run old/current manifest parsing, agent doctor, MCP tools/list schema assertions, and real multi-process linked-worktree plus serial CLI acceptance."
+    },
+    {
+      "evidence": [],
+      "expected": "An attempt envelope is durable before spawn, each completed node is persisted, and real interruption retains signal and cleanup state without passed/reusable projection.",
+      "required": true,
+      "scenario": "OBS-10 interrupted verification remains durable and non-passing",
+      "status": "unverified",
+      "verificationPlan": "Extend subprocess acceptance to wait for the pre-spawn checkpoint, send SIGINT, restart/query Runtime, and inspect durable attempt and cleanup records."
+    },
+    {
+      "evidence": [],
+      "expected": "Required implementation support paths are visible during planning/preflight; additive same-intent paths are distinguished from new intent/authority before expensive verification.",
+      "required": true,
+      "scenario": "OBS-11 early discovery of required support-file scope",
+      "status": "unverified",
+      "verificationPlan": "Add scope planning/preflight regressions for missing supporting paths, additive amendment, and changed intent/authority."
+    },
+    {
+      "evidence": [],
+      "expected": "Hosted gates validate exact candidate receipts and all required locale parity rows; missing/unstaged evidence fails closed and no success receipt is synthesized.",
+      "required": true,
+      "scenario": "OBS-12 exact staged-candidate lineage and locale parity",
+      "status": "unverified",
+      "verificationPlan": "Add gate-manifest and quality-route regressions for each missing lineage/parity row, then verify the actual hosted PR gate on the candidate SHA."
+    },
+    {
+      "evidence": [],
+      "expected": "Affected tests compile and run on supported targets; Windows path comparisons use path semantics and Windows hosted tests are required evidence.",
+      "required": true,
+      "scenario": "OBS-13 platform-specific dependency and path behavior",
+      "status": "unverified",
+      "verificationPlan": "Add the platform regression to the canonical manifest/workflow and observe the corresponding hosted Windows job execute and pass."
+    },
+    {
+      "evidence": [],
+      "expected": "Equal version strings with different executable digests cannot mix lifecycle or hosted evidence; final lifecycle uses one explicit candidate digest.",
+      "required": true,
+      "scenario": "OBS-14 Runtime executable digest binding",
+      "status": "unverified",
+      "verificationPlan": "Add tests with same-version/different-digest Runtime contexts; build the final candidate and compare every lifecycle/hosted receipt binding."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated identical lint root causes have one readable human summary while all node-specific statuses/raw bytes and distinct failures remain available.",
+      "required": true,
+      "scenario": "OBS-15 readable deduplicated lint diagnostics with raw evidence",
+      "status": "unverified",
+      "verificationPlan": "Add multi-node verification aggregation tests with repeated and distinct diagnostics, including preservation of raw bytes and exit states."
+    },
+    {
+      "evidence": [],
+      "expected": "A single serial Work Item without parallel metadata remains ready; an explicit parallel request without compatibility/isolation fails closed.",
+      "required": true,
+      "scenario": "OBS-16 single-WI serial readiness independent of optional parallel declaration",
+      "status": "unverified",
+      "verificationPlan": "Extend parallel_boundary and CLI admission tests with serial positive and parallel negative cases, plus a valid declared-parallel case."
+    },
+    {
+      "evidence": [],
+      "expected": "Diagnostic wording alone does not trigger weakening, while an actual skipped/bypassed test still fails the policy gate with source details.",
+      "required": true,
+      "scenario": "OBS-17 test weakening distinguishes diagnostic prose from bypass behavior",
+      "status": "unverified",
+      "verificationPlan": "Keep/add paired diagnostic-text negative and actual xit/skip positive tests and ensure the policy regression is in canonical CI."
+    },
+    {
+      "evidence": [],
+      "expected": "close_pending transitions to terminal state without reverting archived docs; all three locale projections agree and readyOnBase reconciles with pending-close lineage.",
+      "required": true,
+      "scenario": "OBS-18 consistent tri-language close and ready-on-base projection",
+      "status": "unverified",
+      "verificationPlan": "Add Runtime lifecycle tests using en/zh-CN/ja close projections and assert readiness/pending archive lists across before/after states."
+    },
+    {
+      "evidence": [],
+      "expected": "One WI exposes sequential stages and measured acceptance progress; valid unchanged user authority is reused without invented ETA or another start request.",
+      "required": true,
+      "scenario": "OBS-19 serial progress reporting without repeated authorization prompts",
+      "status": "unverified",
+      "verificationPlan": "Review ordinary-work-item guide and Outcome process against the 7-stage/19-OBS matrix; verify current Runtime receipts and user-facing progress include evidence and blockers."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-26T15:35:07.717818+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-26T14:44:35Z"
+  },
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

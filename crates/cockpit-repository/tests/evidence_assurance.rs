@@ -103,6 +103,42 @@ fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContex
 }
 
 #[test]
+fn same_runtime_version_with_different_binary_digest_rejects_verification_reuse() {
+    let directory = repository();
+    let work_item_id = "WI-SAME-VERSION-DIGEST";
+    let installed = runtime("installed-binary");
+    let candidate = runtime("candidate-binary");
+    assert_eq!(installed.runtime_version, candidate.runtime_version);
+    assert_ne!(installed.runtime_digest, candidate.runtime_digest);
+
+    start(&directory, work_item_id);
+    record_typed(&directory, work_item_id, &installed);
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let evidence_before = fs::read(&evidence_path).expect("installed-runtime verification");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+
+    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &candidate)
+        .expect("candidate-runtime preflight");
+
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(
+        decision
+            .blockers
+            .iter()
+            .any(|blocker| { blocker.contains("verification") || blocker.contains("evidence") }),
+        "expected the old executable's verification evidence to be rejected: {decision:#?}"
+    );
+    assert_eq!(
+        fs::read(&evidence_path).expect("preserved verification"),
+        evidence_before
+    );
+}
+
+#[test]
 fn strict_evidence_rejects_unknown_envelope_and_nested_fields() {
     let cases: [EvidenceMutation; 9] = [
         ("unknown-envelope", |evidence: &mut Value| {

@@ -64,7 +64,7 @@ failed/unknown は pass ではありません。
 | Derived projection | `knowledge query` | 明示的な query のみで repository-local `.ai/knowledge/` index を materialize/reuse し、`projection.writeBoundary=repository-local-derived` を返す。governance authority は変更しない。 |
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
-| Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
+| Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
 | Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
@@ -256,6 +256,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   は strict state report を返し、0（verified）、1（degraded）、2（configuration error）、3（human intervention）の exit code を使います。
   managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
+- `inspect`、`status`、`doctor`、`work-item outcome` は read-only query です。`preflight` は明示的な governance write entry で、評価結果/projection を永続化し、実際に変更した path を `changedPaths` で返します。同じ入力で書き込みがなければ空配列です。verification や repair は実行しません。
 - `work-item new` は `not_ready` の skeleton を作ります。これを `preflight` すると意図的に
   `yellow` と `reviewState: needs_human_confirmation` になり、人の項目を埋めてから再度 preflight して checkpoint します。
 - `close --human-decision approved|confirmed|rejected` は human decision record であり verification evidence ではありません。

@@ -3,7 +3,7 @@ use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item, preflight_work_item,
     record_verification, record_work_item_governance_controls, start_work_item_with_options,
 };
-use std::{fs, process::Command};
+use std::{fs, process::Command, thread, time::Duration};
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -110,6 +110,36 @@ fn valid_preflight_decision_evidence_is_persisted_and_bound() {
 }
 
 #[test]
+fn repeated_identical_preflight_does_not_rewrite_summary_or_observation_cache() {
+    let directory = repository();
+    let contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-PREFLIGHT.contract.json");
+    let summary = directory
+        .path()
+        .join(".ai/work-items/active/WI-PREFLIGHT.summary.json");
+    let observation_cache = directory
+        .path()
+        .join(".ai/decisions/observer-snapshot.json");
+    let summary_before = fs::read(&summary).expect("initial summary");
+    let observation_cache_before = fs::read(&observation_cache).ok();
+
+    thread::sleep(Duration::from_millis(5));
+    preflight_work_item(directory.path(), &contract).expect("repeat identical preflight");
+
+    assert_eq!(
+        fs::read(&summary).expect("summary after repeated preflight"),
+        summary_before,
+        "unchanged preflight inputs must not rewrite the Summary timestamp or bytes"
+    );
+    assert_eq!(
+        fs::read(&observation_cache).ok(),
+        observation_cache_before,
+        "preflight must not persist request-scoped observations"
+    );
+}
+
+#[test]
 fn refreshed_preflight_decision_is_append_only_after_snapshot_change() {
     let directory = repository();
     let first = receipt(&directory);
@@ -189,7 +219,7 @@ fn foreign_or_stale_preflight_decision_evidence_is_rejected_without_writes() {
 }
 
 #[test]
-fn bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse() {
+fn bounded_human_review_survives_snapshot_refresh_but_not_contract_change() {
     let directory = repository();
     add_human_review_requirement(&directory);
     let contract = directory
@@ -207,6 +237,7 @@ fn bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse() {
         &serde_json::json!({"decisionEvidence": receipt(&directory)}),
     )
     .expect("record bound review");
+    let original_snapshot_digest = receipt(&directory)["repositorySnapshotDigest"].clone();
     let confirmed = preflight_work_item(directory.path(), &contract).expect("re-preflight");
     assert_eq!(
         confirmed.review_state.as_deref(),
@@ -214,13 +245,53 @@ fn bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse() {
     );
     checkpoint_work_item(directory.path(), "WI-PREFLIGHT").expect("checkpoint after review");
 
-    fs::write(directory.path().join("src.rs"), b"changed after review\n").unwrap();
+    fs::create_dir_all(directory.path().join("crates")).unwrap();
+    fs::write(
+        directory.path().join("crates/reviewed-after.rs"),
+        b"changed after review\n",
+    )
+    .unwrap();
     let stale = preflight_work_item(directory.path(), &contract).expect("stale preflight");
     assert_eq!(
         stale.review_state.as_deref(),
+        Some("human_decision_recorded"),
+        "snapshot refresh should preserve bounded authorization: {stale:#?}"
+    );
+    assert_eq!(
+        stale.outcome_state, "verification_pending",
+        "preserving authorization must not reuse verification for a changed source snapshot"
+    );
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-PREFLIGHT.summary.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_ne!(
+        summary["preflightRepositorySnapshotDigest"],
+        original_snapshot_digest
+    );
+
+    let mut changed_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).unwrap()).unwrap();
+    changed_contract["scope"]
+        .as_array_mut()
+        .unwrap()
+        .push(serde_json::json!("docs/**"));
+    fs::write(
+        &contract,
+        serde_json::to_vec_pretty(&changed_contract).unwrap(),
+    )
+    .unwrap();
+    let changed_boundary = preflight_work_item(directory.path(), &contract)
+        .expect("preflight after Contract authority changes");
+    assert_eq!(
+        changed_boundary.review_state.as_deref(),
         Some("needs_human_confirmation")
     );
-    assert!(checkpoint_work_item(directory.path(), "WI-PREFLIGHT").is_err());
 }
 
 #[test]

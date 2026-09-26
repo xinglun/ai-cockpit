@@ -1510,15 +1510,14 @@ pub(crate) enum PreflightDecisionEvidenceState {
 }
 
 /// Inspect the active Summary and its repository-local receipt without
-/// mutating either file. A malformed, stale, foreign, or partially written
-/// receipt is deliberately distinguishable from an absent receipt so callers
-/// can stop rather than silently treat tampering as a missing optional field.
+/// mutating either file. A review receipt is durable authorization for the
+/// exact Contract boundary; source-snapshot freshness is evaluated separately
+/// by preflight and verification. A malformed, foreign, or partially written
+/// receipt remains distinguishable from an absent receipt.
 pub(crate) fn preflight_decision_evidence_state(
     root: &Path,
     work_item_id: &str,
     contract_digest: &Digest,
-    preflight_decision_digest: &Digest,
-    snapshot_digest: &Digest,
 ) -> PreflightDecisionEvidenceState {
     let summary_path = root
         .join(".ai/work-items/active")
@@ -1554,8 +1553,6 @@ pub(crate) fn preflight_decision_evidence_state(
         && evidence.work_item_id == work_item_id
         && evidence.repository_id == repository_id(root).to_string()
         && evidence.contract_digest == *contract_digest
-        && evidence.preflight_decision_digest == *preflight_decision_digest
-        && evidence.repository_snapshot_digest == *snapshot_digest
         && chrono::DateTime::parse_from_rfc3339(&evidence.recorded_at).is_ok()
         && !evidence.recorded_by.trim().is_empty()
         && !evidence.reason.trim().is_empty()
