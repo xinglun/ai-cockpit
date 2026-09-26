@@ -1,13 +1,7 @@
 {
-  "changedPaths": [
-    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b108e9725097d883805c53f6d79d27d0365fd314955b58816495aebe18a5750.json",
-    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9729a02a901b1149b984f18510b061fd936644fa14bf7b87b8ab368eb8a1c756.json",
-    ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.3babd8ab63d4cc8997de48814591004081d18bfbd4673c90dadc7c761bd84512.json",
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-09-25T01:21:38Z",
-  "checkpointContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "checkpointContractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -345,18 +339,18 @@
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
+  "checkpointRepositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
   "createdAt": "2026-09-25T00:59:30Z",
   "decisionEvidence": {
     "contractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "Rebind the user's existing authorization for WI-1033 through independent PR review, merge, and exact cleanup, followed by the separate serial Task 8; stop before release. This is snapshot-specific authorization evidence only, not verification, review, merge, or release approval.",
-    "recordedAt": "2026-09-26T01:43:35Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Rebind the explicit user authorization to continue WI-1033 through independent PR review, merge, and exact cleanup, then perform Task 8 as a separate serial Work Item. Stop before release. This is not verification, review approval, merge approval, or release approval.",
+    "recordedAt": "2026-09-26T03:28:57Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e31dcdc69927ec602f3cf27a2293fb74690643392365d1fc82eb015fa32b1aa4",
+    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
     "schemaVersion": 1,
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
@@ -369,17 +363,24 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-26T01:44:21Z",
+  "preflightAt": "2026-09-26T03:29:03Z",
   "preflightContractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:e31dcdc69927ec602f3cf27a2293fb74690643392365d1fc82eb015fa32b1aa4",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
-  "recoveryRetryContractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
-  "recoveryRetryDecisionDigest": "sha256:94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32.json",
-  "recoveryRetryPending": true,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-09-26T03:19:04Z",
+    "contractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+    "decisionDigest": "sha256:94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32",
+    "decisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32.json",
+    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+    "runtimeDigest": "sha256:064411bb3dd93972d539f079779f70c2cd6cc8d10e88d74b60040d57217b3099",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:b52d356f1b077b6ffe98d1d2d13693be663dfddea8ade10f4938d2f3983c4b61"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -715,40 +716,55 @@
       "verificationPlan": "Publish once, update evidence bytes while keeping generation/head/Contract fixed, then publish again; assert the second event is validated against its own digest, both events remain, and current admission uses the new exact binding."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.2334617a582adb4835c7e737e63973737a21170faea2d64ed818cdc6a853717b.json",
+        ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+        "fresh Runtime work-item status query: verification=verified, blockers=[], finish admitted"
+      ],
       "expected": "A passing canonical multi-node Runtime verification with CoverageManifest consumes exactly one authorized retry, persists current evidence, and yields verified/green fresh Outcome and non-blocking status; a second retry and invalid receipts remain rejected.",
       "required": true,
       "scenario": "canonical_retry_projection_accepts_aggregate_receipt",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run the focused lifecycle regression with a multi-node typed receipt, then run one canonical Runtime CLI verification for the authorized retry after the root cause is repaired; query Outcome/status and assert exact snapshot/runtime bindings, one-time consumption, and green projections."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::registered_worktree_file_tests::outcome_verification_uses_event_bound_bytes_and_digest_bound_contract",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
       "expected": "Semantic receipt validation consumes the exact bytes bound by the proposed publication; swapping the path to a different valid receipt after the digest-bound read cannot make an invalid bound receipt pass.",
       "required": true,
       "scenario": "outcome_verification_uses_event_bound_bytes",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Deterministically replace the receipt path after the publisher reads the proposed event bytes but before semantic validation; assert the validator rejects the original invalid bound bytes and no publication is appended."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::publish_outcome_observes_consumer_registered_before_locked_append",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
       "expected": "A verification-required consumer registered before the publication transaction is included in its decision; registration and publication have a single serialized order with no unchecked gap.",
       "required": true,
       "scenario": "verification_required_consumer_registration_is_atomic_with_publication",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Pause a typed publication at the prepared-event boundary, register a consumer requiring verification, then continue; assert the current locked registration set is re-read, missing or invalid proof rejects with no event, and the reverse serialized order remains coherent."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded",
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
       "expected": "Untrusted unknown entries cannot make a rejected retry-projection diagnostic unbounded; truncation reports omitted entries.",
       "required": true,
       "scenario": "recovery_rejection_diagnostics_are_bounded",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-26T01:44:03.785123+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-26T03:29:16Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -808,6 +824,34 @@
     },
     {
       "check": "project-command-10",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-11",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-12",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-13",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-14",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-15",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-16",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-17",
       "result": "passed"
     },
     {
@@ -891,11 +935,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-26T01:41:16Z"
-  },
-  "verificationRecoveryReconciled": "sha256:defb315f0d12a3f2da0efdc19c25a733a7ba18cef23dbdef42f6238c3d2d546e",
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }

@@ -28,10 +28,19 @@
     "Contract-required composition checks must use a Runtime-controlled executable resolution and child environment; inherited PATH, loader, or toolchain overrides cannot silently substitute another command. If the executable and environment cannot be bound to the verification context, reject before attempt/process creation rather than accept the check.",
     "Reuse requires a coherent predecessor attempt with a successful terminal state and internally consistent process receipts; an in-progress, failed, or tampered attempt cannot become reusable by changing only a pass flag.",
     "A declared composition read-set may not follow any symlinked ancestor or consume bytes outside its worktree; incomplete or escaping observations disable reuse.",
-    "Temporary composition worktrees are cleaned on ordinary persistence errors, and interrupted attempts are reconciled on retry only after proving no live owner remains."
+    "Temporary composition worktrees are cleaned on ordinary persistence errors, and interrupted attempts are reconciled on retry only after proving no live owner remains.",
+    "After an explicitly authorized retry records passing verification, the retry receipt remains valid as consumed history: a fresh Runtime status and Outcome query accept the current verified/green projection, while malformed, foreign, stale, or tampered retry evidence still fails closed.",
+    "Composition read-set bytes are accepted only when every opened ancestor remains bound beneath the registered worktree through the complete read; a deterministic move-out-and-replace race is rejected before outside bytes can affect reuse identity on each supported platform.",
+    "The public generic CoordinationStore::publish_event path rejects OutcomePublished events; the typed outcome publisher validates the complete set of declared evidence references and required verification before appending, and rejected events leave durable event bytes unchanged.",
+    "Same-generation republishing validates the proposed OutcomePublished event against current evidence bytes, accepts a correctly bound new event after evidence changes, preserves the old event as history, and rejects stale or incomplete evidence.",
+    "The canonical Runtime multi-node verification receipt, including its complete CoverageManifest and execution records, can consume the one explicitly authorized retry and produce a current verified/green Outcome; fresh read-only Outcome/status queries accept it, a second retry is not authorized, and invalid receipts remain fail-closed.",
+    "Verification-required Outcome publication validates semantic verification state from the exact receipt bytes whose digest the event binds; deterministic replace/restore interleavings cannot substitute different bytes, and an invalid bound receipt cannot be durably published.",
+    "The set of current verification-required consumers is read under the CoordinationStore lock and kept atomic with typed Outcome publication; overlapping registration/publication operations linearize, so a consumer committed before publication cannot be omitted from its verification decision.",
+    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error."
   ],
+  "createdAt": "2026-09-26T03:29:16Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:defb315f0d12a3f2da0efdc19c25a733a7ba18cef23dbdef42f6238c3d2d546e",
+  "evidenceDigest": "sha256:b52d356f1b077b6ffe98d1d2d13693be663dfddea8ade10f4938d2f3983c4b61",
   "evidenceRefs": [
     ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
   ],
@@ -49,15 +58,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
+      "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     },
     "format": "ai-cockpit.task-outcome",
@@ -65,43 +74,7 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b108e9725097d883805c53f6d79d27d0365fd314955b58816495aebe18a5750.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9729a02a901b1149b984f18510b061fd936644fa14bf7b87b8ab368eb8a1c756.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.3babd8ab63d4cc8997de48814591004081d18bfbd4673c90dadc7c761bd84512.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        }
-      ],
+      "deliveredChanges": [],
       "evidence": [
         {
           "evidenceRefs": [
@@ -122,14 +95,22 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
       "outcomeSummary": [
         {
           "evidenceRefs": [
             ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -174,8 +155,8 @@
     "status": "verified",
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
-  "taskReportDigest": "sha256:8d2ffecc2677cc68b7ca112145ec3ad44112b27c38477ee2a067008037fb7935",
-  "taskReportMarkdownDigest": "sha256:24880977930b56e45a8ae91f23f1aa43efdcad05e84bf6bcda8f43a48232cb1d",
+  "taskReportDigest": "sha256:e06dc4d6f3912eef3f7a3a00f1dff79c31ba223b2f27baeb13a1dce97ce84211",
+  "taskReportMarkdownDigest": "sha256:6c38d16586239e7db2685441fed56ea0cd85e2ea3e7427fbb90b0f4ea597b799",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -14,11 +14,7 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b108e9725097d883805c53f6d79d27d0365fd314955b58816495aebe18a5750.json
-- Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9729a02a901b1149b984f18510b061fd936644fa14bf7b87b8ab368eb8a1c756.json
-- Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.3babd8ab63d4cc8997de48814591004081d18bfbd4673c90dadc7c761bd84512.json
-- Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json
+- None
 
 ## Findings
 

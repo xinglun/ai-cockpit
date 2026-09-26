@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
+    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
   "format": "ai-cockpit.task-outcome",
@@ -12,43 +12,7 @@
   "schemaVersion": 1,
   "sections": {
     "avoidedImpact": [],
-    "deliveredChanges": [
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.7b108e9725097d883805c53f6d79d27d0365fd314955b58816495aebe18a5750.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.preflight-review.9729a02a901b1149b984f18510b061fd936644fa14bf7b87b8ab368eb8a1c756.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.3babd8ab63d4cc8997de48814591004081d18bfbd4673c90dadc7c761bd84512.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
-      }
-    ],
+    "deliveredChanges": [],
     "evidence": [
       {
         "evidenceRefs": [
@@ -69,14 +33,22 @@
     "humanDecisions": [],
     "interventions": [],
     "limitations": [],
-    "nonRiskExplanations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
     "outcomeSummary": [
       {
         "evidenceRefs": [
           ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
