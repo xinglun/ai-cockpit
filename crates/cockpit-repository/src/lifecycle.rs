@@ -6527,10 +6527,24 @@ fn refresh_active_outcome_after_recovery_verification(
     if outcome.state != OutcomeState::Verified
         || outcome.decision_state != Some(DecisionState::Green)
     {
+        let bounded_evidence_field = |name: &str| {
+            evidence[name]
+                .as_str()
+                .filter(|value| value.len() <= 128)
+                .unwrap_or("<missing-or-invalid>")
+        };
         return Err(ObserverError::State {
             path: evidence_path,
-            message: "fresh recovery verification did not produce a green Outcome projection"
-                .into(),
+            message: format!(
+                "fresh recovery verification did not produce a green Outcome projection (state={:?}, decision_state={:?}, unknowns={:?}, current_snapshot={}, evidence_snapshot={}, evidence_contract={}, evidence_runtime={})",
+                outcome.state,
+                outcome.decision_state,
+                outcome.unknowns,
+                snapshot_digest,
+                bounded_evidence_field("repositorySnapshotDigest"),
+                bounded_evidence_field("contractDigest"),
+                bounded_evidence_field("runtimeDigest"),
+            ),
         });
     }
     let task_report = outcome
@@ -6852,6 +6866,23 @@ mod recovery_retry_consumption_tests {
             .expect("git repository")
             .snapshot()
             .expect("changed snapshot");
+        let projection_error = refresh_active_outcome_after_recovery_verification(
+            root,
+            work_item_id,
+            Some(&runtime),
+            &changed_snapshot,
+            &crate::snapshot_digest(&changed_snapshot).expect("changed snapshot digest"),
+        )
+        .expect_err("a changed source snapshot must keep the old verification blocked");
+        let projection_message = projection_error.to_string();
+        assert!(
+            projection_message.contains("state=NotReady")
+                && projection_message.contains("decision_state=Some(Yellow)")
+                && projection_message.contains("evidence_stale")
+                && projection_message.contains("current_snapshot=")
+                && projection_message.contains("evidence_snapshot="),
+            "recovery rejection must expose the computed projection state, not mask it: {projection_message}"
+        );
         let second_attempt =
             require_verification_preconditions(root, work_item_id, &runtime, &changed_snapshot)
                 .expect_err("consumed retry must not authorize a second stale-snapshot run");

@@ -303,20 +303,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 34,
+      "contractHash": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+      "reason": "Append in-scope independent-review containment, publication integrity, republication, and canonical retry-projection acceptance; no release authority or new scope outside the approved collaboration lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T22:31:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:16e7153a2dd385366a69fe4f0c837c18336dde1e3caf7c0f4eaf886a273d3c88",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
   "createdAt": "2026-09-25T00:59:30Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+    "contractDigest": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "The user already authorized WI-1033 through merge and exact cleanup, followed by the separate serial Task 8, stopping before release. This append-only receipt rebinds that same bounded authorization to the exact current preflight and unchanged Contract/scope. It is not a new start gate and does not assert verification, independent review, merge, or release.",
-    "recordedAt": "2026-09-25T20:00:03Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Rebind the user's existing authorization for WI-1033 through independent PR review, merge, and exact cleanup, followed by the separate serial Task 8; stop before release. This is snapshot-specific authorization evidence only, not verification, review, merge, or release approval.",
+    "recordedAt": "2026-09-26T01:12:52Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a1f37e1a0b76a89ac948d3b22a760bccddc557a67aea6c16cd9f4ad46a4a7e81",
+    "repositorySnapshotDigest": "sha256:43ad4a9f8abfa1d24cfd51f7a71ce6139f8081e02fb815403f73d54437cd0264",
     "schemaVersion": 1,
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
@@ -329,14 +349,14 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-25T20:33:42Z",
-  "preflightContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "preflightAt": "2026-09-26T01:13:19Z",
+  "preflightContractDigest": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:b67cd35f871ff017f157167c2ea929bc72733cb868d724678ce0218b55effab2",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:43ad4a9f8abfa1d24cfd51f7a71ce6139f8081e02fb815403f73d54437cd0264",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
-  "recoveryRetryContractDigest": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+  "recoveryRetryContractDigest": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
   "recoveryRetryDecisionDigest": "sha256:94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32",
   "recoveryRetryDecisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32.json",
   "recoveryRetryPending": true,
@@ -573,11 +593,13 @@
       "verificationPlan": "Use a deterministic injected leaf-open interleaving to rename active outside, open the leaf through the held directory handle, restore the same directory before post-checks, then assert rejection through ancestor mutation detection and registration-digest binding; assert no registration/event bytes change. Also prove verification-evidence validation cannot bypass the digest-bound Contract reader."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "GitHub Actions run 36192757703 at head be819f8171cf1e3a28900cfeb608c5b566641413: windows-runtime job step 'verify Windows directory-handle containment regressions' succeeded; https://github.com/xinglun/ai-cockpit/actions/runs/36192757703/job/108262459103"
+      ],
       "expected": "Windows holds deny directory rename during the registered Contract read even when timestamp tokens are forced constant; the Windows CI job actually executes this regression.",
       "required": true,
       "scenario": "windows_directory_rename_guard_runs_in_ci",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Extend the existing windows-runtime job to run `cargo test --locked -p cockpit-repository --lib`; add a repository gate-manifest assertion for that command; verify hosted Windows CI runs the test and it observes rename blocked before read admission."
     },
     {
@@ -629,16 +651,60 @@
       "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.7ef377dceb8c1116a7aea0b419db206980e84a2c5098345670971f49924831ec.json#project-command-11: exitCode=0, passed=true; overall formal receipt was separately rejected"
+      ],
       "expected": "A one-time authorized retry followed by passing typed verification produces a current verified/green Outcome; subsequent read-only status/outcome calls accept the consumed receipt without deleting history, while invalid retry evidence remains rejected.",
       "required": true,
       "scenario": "consumed_retry_receipt_remains_valid_after_verification",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Add a focused repository lifecycle regression that records a digest-bound retry, completes passing typed verification, then queries Outcome/status after the retry marker is consumed; assert the current evidence and receipt remain valid, no second retry is pending, and invalid receipt cases stay fail-closed."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/src/composition.rs::moving_an_open_read_set_parent_outside_during_read_is_not_trusted",
+        "cargo test --locked -p cockpit-verification --lib: 9 passed (macOS)"
+      ],
+      "expected": "A deterministic move-out-and-replace interleaving during a read-set read is rejected on each supported platform; no bytes from the relocated ancestor are returned as trusted identity.",
+      "required": true,
+      "scenario": "composition_read_set_move_out_during_read",
+      "status": "verified",
+      "verificationPlan": "Add a deterministic test hook/barrier between opening ancestors and completing the read, move the opened ancestor outside the worktree and replace its former path, then assert the read fails and the outside bytes never enter a digest or reuse decision."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::generic_event_publication_rejects_outcome_published_without_typed_validation",
+        "cargo test --locked -p cockpit-repository --test coordination_store: 25 passed"
+      ],
+      "expected": "The generic public store API cannot append OutcomePublished; a typed publisher must bind all declared evidence and satisfy verification-required consumers before durable publication.",
+      "required": true,
+      "scenario": "generic_outcome_publication_is_rejected",
+      "status": "verified",
+      "verificationPlan": "Call CoordinationStore::publish_event directly with a publication that omits a declared evidence reference; assert rejection and byte-identical event storage, then exercise the typed valid publisher."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_receipt",
+        "cargo test --locked -p cockpit-repository --test collaboration_admission: 38 passed"
+      ],
+      "expected": "Changing published evidence bytes without changing provider generation allows a new exact-digest publication; the old event remains immutable and cannot shadow the proposed current event.",
+      "required": true,
+      "scenario": "same_generation_outcome_republication_uses_current_evidence",
+      "status": "verified",
+      "verificationPlan": "Publish once, update evidence bytes while keeping generation/head/Contract fixed, then publish again; assert the second event is validated against its own digest, both events remain, and current admission uses the new exact binding."
+    },
+    {
+      "evidence": [],
+      "expected": "A passing canonical multi-node Runtime verification with CoverageManifest consumes exactly one authorized retry, persists current evidence, and yields verified/green fresh Outcome and non-blocking status; a second retry and invalid receipts remain rejected.",
+      "required": true,
+      "scenario": "canonical_retry_projection_accepts_aggregate_receipt",
+      "status": "unverified",
+      "verificationPlan": "Run the focused lifecycle regression with a multi-node typed receipt, then run one canonical Runtime CLI verification for the authorized retry after the root cause is repaired; query Outcome/status and assert exact snapshot/runtime bindings, one-time consumption, and green projections."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-25T20:01:53.627846+00:00",
+  "updatedAt": "2026-09-26T01:12:52.053338+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -782,9 +848,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+    "contractHash": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-25T20:53:33Z"
+    "recordedAt": "2026-09-25T22:31:48Z"
   },
   "verificationRecoveryReconciled": "sha256:defb315f0d12a3f2da0efdc19c25a733a7ba18cef23dbdef42f6238c3d2d546e",
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"

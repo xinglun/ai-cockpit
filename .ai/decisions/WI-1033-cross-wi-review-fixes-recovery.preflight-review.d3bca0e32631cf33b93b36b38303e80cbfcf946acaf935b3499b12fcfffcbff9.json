@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Bind the user’s existing explicit authorization to the additive in-scope review fixes and current Contract/snapshot; continue this WI through independent review, merge, and exact cleanup, then Task 8. Stop before release. This records no verification, review, merge, or release result.",
+  "recordedAt": "2026-09-25T22:36:35Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bc1fe6267ece59a3aebf53805055d41306204294b8c89fbe286d1e818772e7fa",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

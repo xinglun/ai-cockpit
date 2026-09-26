@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Rebind the user's existing explicit authorization to continue this unchanged WI-1033 Contract through independent review, merge, and exact cleanup; no release or scope expansion is authorized by this receipt.",
+  "recordedAt": "2026-09-25T21:54:37Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:16e7153a2dd385366a69fe4f0c837c18336dde1e3caf7c0f4eaf886a273d3c88",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}
