@@ -58,6 +58,7 @@ fn assert_checkpointed_preflight_recovery(
     id: &str,
     stale_contract: bool,
     stale_yellow_without_decision: bool,
+    stale_red_preflight: bool,
 ) {
     let directory = repository();
     start_work_item_with_options(
@@ -77,7 +78,7 @@ fn assert_checkpointed_preflight_recovery(
     preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
     checkpoint_work_item(directory.path(), id).expect("checkpoint");
 
-    if stale_yellow_without_decision {
+    if stale_yellow_without_decision || stale_red_preflight {
         // Model a checkpointed legacy projection whose prior yellow preflight
         // no longer has a usable review receipt. The next action is to refresh
         // the preflight; the stale state must not create a second start gate.
@@ -85,11 +86,16 @@ fn assert_checkpointed_preflight_recovery(
         let mut summary: Value =
             serde_json::from_slice(&fs::read(&summary_path).expect("read Summary"))
                 .expect("Summary JSON");
-        summary["preflightState"] = serde_json::json!("yellow");
-        summary
-            .as_object_mut()
-            .expect("Summary object")
-            .remove("decisionEvidence");
+        if stale_yellow_without_decision {
+            summary["preflightState"] = serde_json::json!("yellow");
+            summary
+                .as_object_mut()
+                .expect("Summary object")
+                .remove("decisionEvidence");
+        }
+        if stale_red_preflight {
+            summary["preflightState"] = serde_json::json!("red");
+        }
         fs::write(
             &summary_path,
             serde_json::to_vec_pretty(&summary).expect("serialize Summary"),
@@ -134,6 +140,8 @@ fn assert_checkpointed_preflight_recovery(
             .and_then(|explanation| explanation.recommended_action.as_deref()),
         Some("run_preflight")
     );
+    require_current_action_admission(directory.path(), id, "run_preflight", &runtime())
+        .expect("the same fresh admission must authorize the stale-preflight refresh");
 
     preflight_work_item(directory.path(), &contract_path).expect("refresh preflight");
     let refreshed = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
@@ -582,9 +590,14 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
 
 #[test]
 fn checkpointed_stale_preflight_projects_preflight_recovery() {
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-SNAPSHOT", false, false);
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-CONTRACT", true, false);
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-YELLOW", false, true);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-SNAPSHOT", false, false, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-CONTRACT", true, false, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-YELLOW", false, true, false);
+}
+
+#[test]
+fn checkpointed_stale_red_preflight_projects_preflight_recovery() {
+    assert_checkpointed_preflight_recovery("WI-STALE-RED-PREFLIGHT", false, false, true);
 }
 
 #[test]

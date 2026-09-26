@@ -113,9 +113,6 @@ fn preflight_can_recover_verification_precondition(
     error: &ObserverError,
     summary: &serde_json::Value,
 ) -> bool {
-    if summary["preflightState"] == "red" {
-        return false;
-    }
     matches!(
         error,
         ObserverError::State { message, .. }
@@ -123,8 +120,8 @@ fn preflight_can_recover_verification_precondition(
                 message.as_str(),
                 "verification requires a preflight result for the current repository snapshot"
                     | "verification requires a preflight result for the current Contract"
-                    | "verification requires a recorded non-red preflight result"
-            )
+            ) || (message == "verification requires a recorded non-red preflight result"
+                && summary["preflightState"] != "red")
     )
 }
 
