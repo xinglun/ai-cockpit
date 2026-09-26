@@ -36,7 +36,12 @@
     "The canonical Runtime multi-node verification receipt, including its complete CoverageManifest and execution records, can consume the one explicitly authorized retry and produce a current verified/green Outcome; fresh read-only Outcome/status queries accept it, a second retry is not authorized, and invalid receipts remain fail-closed.",
     "Verification-required Outcome publication validates semantic verification state from the exact receipt bytes whose digest the event binds; deterministic replace/restore interleavings cannot substitute different bytes, and an invalid bound receipt cannot be durably published.",
     "The set of current verification-required consumers is read under the CoordinationStore lock and kept atomic with typed Outcome publication; overlapping registration/publication operations linearize, so a consumer committed before publication cannot be omitted from its verification decision.",
-    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error."
+    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error.",
+    "For the Cargo workspace route, each coverage-manifest command digest is built from the same canonical repository root used by the executable action plan; lexical path aliases must not create a false identity mismatch on any supported platform.",
+    "A persisted coordination recovery suppresses direct or transitive invalidation only after its schema, repository identity, exact consumption identity, referenced event/provider generation and kind, observed provider snapshot, and current consumer registration generation are validated; malformed or foreign recovery records remain unknown and do not unblock consumers.",
+    "After a composition owner is interrupted, retry must not remove its temporary worktree while a verifier child or process group can still be alive; if child termination cannot be established, preserve the worktree and fail closed.",
+    "Outcome projection must validate a composition attempt's coherent terminal receipt before reporting passed or reusable checks; changing only a pass flag on an in-progress or inconsistent attempt cannot create a passed human-visible state.",
+    "When a checkpointed Work Item lacks a preflight bound to its current repository snapshot or Contract, status withholds run_verification and exposes run_preflight; after a fresh preflight it exposes run_verification without introducing a new human start-confirmation gate."
   ],
   "authority": "authorized",
   "baseRevision": "b57561dab0893a1e4dba486305cae8ed486c61bd",
@@ -319,6 +324,46 @@
       "scenario": "recovery_rejection_diagnostics_are_bounded",
       "status": "unverified",
       "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
+    },
+    {
+      "evidence": [],
+      "expected": "A workspace coverage manifest and its executable node plans bind identical command digests when the caller supplies a lexical path alias, including on Windows.",
+      "required": true,
+      "scenario": "workspace_verification_command_identity_is_canonical",
+      "status": "unverified",
+      "verificationPlan": "Plan the Cargo workspace through a noncanonical root such as root/. and compare every manifest digest with the corresponding action identity; run this regression in the canonical CI matrix including Windows."
+    },
+    {
+      "evidence": [],
+      "expected": "Only a recovery record validated against its exact event and repository/current registration identities suppresses invalidation; malformed, copied, stale-generation, or mismatched records remain unknown and leave direct and transitive consumers blocked.",
+      "required": true,
+      "scenario": "recovery_records_are_validated_before_invalidation_suppression",
+      "status": "unverified",
+      "verificationPlan": "Persist a valid cross-generation recovery, then independently tamper schema, repository, consumption ID, event/provider identity, recorded provider snapshot, and consumer identity/generation; assert inspect reports each invalid record and admission still observes the invalidation."
+    },
+    {
+      "evidence": [],
+      "expected": "A dead composition owner is insufficient to clean its temporary worktree while its spawned verifier process group remains alive; once that exact group is gone, retry can reconcile and clean safely.",
+      "required": true,
+      "scenario": "interrupted_verifier_process_group_prevents_worktree_cleanup",
+      "status": "unverified",
+      "verificationPlan": "On Unix, launch a real verifier child that records its PID, kills the composition owner, and remains alive; assert a fresh retry preserves the worktree and rejects cleanup, terminate that exact process group, then retry and assert cleanup. On Windows, retain job-object kill-on-close coverage."
+    },
+    {
+      "evidence": [],
+      "expected": "A tampered, in-progress, or internally inconsistent composition attempt is never projected as passed or reusable; valid successful terminal attempts remain visible.",
+      "required": true,
+      "scenario": "composition_outcome_requires_coherent_terminal_attempt",
+      "status": "unverified",
+      "verificationPlan": "Persist a failed or in-progress attempt, alter only its top-level pass flag, query the read-only Outcome projection, and assert it reports unknown/invalid with no reusable checks; retain passing, stale-applicability, and not-merged regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "A checkpointed Work Item with missing or stale preflight binding exposes run_preflight rather than run_verification; after the fresh preflight succeeds, run_verification is admitted without another start confirmation.",
+      "required": true,
+      "scenario": "checkpointed_stale_preflight_projects_preflight_recovery",
+      "status": "unverified",
+      "verificationPlan": "In the scenario-matrix integration test, checkpoint a Work Item, change its source snapshot, assert status withholds run_verification and exposes run_preflight, execute preflight, then assert status admits run_verification; preserve the existing fail-closed execution-precondition assertion."
     }
   ],
   "scope": [
@@ -372,7 +417,10 @@
     ".github/workflows/ci.yml",
     "tests/ci/repository_gate_manifest_test.py",
     "crates/cockpit-verification/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs"
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
   ],
   "sources": [
     "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md",
@@ -384,7 +432,19 @@
     "crates/cockpit-verification/src/composition.rs and crates/cockpit-verification/tests/composition.rs: prove read-set directory handles remain bound beneath the worktree through the complete byte read, including deterministic move-out races.",
     "crates/cockpit-repository/src/coordination_store.rs and crates/cockpit-repository/tests/coordination_store.rs: reject incomplete OutcomePublished events through the generic store API and preserve bytes on rejection.",
     "crates/cockpit-repository/src/collaboration.rs and crates/cockpit-repository/tests/collaboration_admission.rs: validate same-generation outcome republication against the exact current event and evidence digest while retaining prior events.",
-    "crates/cockpit-repository/src/lifecycle.rs: exercise consumed retry projection with the canonical multi-node Runtime verification receipt and fresh Outcome/status queries."
+    "crates/cockpit-repository/src/lifecycle.rs: exercise consumed retry projection with the canonical multi-node Runtime verification receipt and fresh Outcome/status queries.",
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "reason": "The Windows CI failure exposed that this regression file is required to prove exact Runtime workspace verification command identity on every supported platform."
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "reason": "Independent review found that checkpointed verification precondition failures remove run_verification without exposing the current-snapshot preflight recovery action."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+      "reason": "Regression coverage binds stale-preflight status projection to the executable recovery and subsequent verification action."
+    }
   ],
   "state": "implementation_active",
   "verification": [
@@ -405,7 +465,8 @@
     "cargo test --locked -p cockpit-repository --test collaboration_admission same_generation_outcome_republication_uses_current_evidence",
     "cargo test --locked -p cockpit-repository --lib outcome_verification_uses_event_bound_bytes",
     "cargo test --locked -p cockpit-repository --lib publish_outcome_observes_consumer_registered_before_locked_append",
-    "cargo test --locked -p cockpit-repository --lib recovery_rejection_diagnostics_are_bounded"
+    "cargo test --locked -p cockpit-repository --lib recovery_rejection_diagnostics_are_bounded",
+    "cargo test --locked -p cockpit-repository --test scenario_matrix_next_action checkpointed_stale_preflight_projects_preflight_recovery"
   ],
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }

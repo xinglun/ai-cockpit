@@ -87,6 +87,11 @@ composition input の label は説明用 assertion にすぎず、coverage の�
 executor で有限 timeout と bounded output を使い、起動前に in-progress attempt を
 保存し、各 node、timeout、中断からの復旧情報、cleanup 結果を保存します。全 identity
 が一致する node だけを再利用します。呼び出し側の identity digest は reuse を許可せず、
+実行中 node と verifier process group の identity も永続化します。process group の停止を
+確認できるまで retry は一時 worktree を保持します。Unix では同じユーザーの process cwd と
+worktree 内の open file handle も確認し、tree を参照する detached session の子孫を検出します。
+検査が不完全なら fail closed です。Windows では executor の kill-on-close process job が
+子孫を管理します。Outcome は整合した terminal receipt に限って passed または reusable checks を示します。
 Runtime は target tree、lock/configuration files、解決された executable、有効な環境、
 宣言された入力ファイルを観測します。観測済み executable、command、有効 environment、
 宣言入力 bytes、upstream receipt が成功済み predecessor と一致する場合だけ再利用し、

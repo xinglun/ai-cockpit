@@ -1954,6 +1954,35 @@ pub fn execute_bounded_at(
     )
 }
 
+/// Execute bounded verification commands while reporting each child process
+/// group's start and finish to a caller-owned durable observer. The callback
+/// runs after process creation and before the command is allowed to complete;
+/// a callback failure fails that command closed.
+pub fn execute_bounded_with_process_observer<F>(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    observer: F,
+) -> Result<VerificationReceipt, ExecutionError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+        Some(Arc::new(observer)),
+    )
+}
+
 /// Execute with independent worker and resource limits. Resource units are
 /// reserved before a process starts and released only after it completes;
 /// dependency readiness and protected-node semantics remain unchanged.
@@ -2029,6 +2058,24 @@ fn execute_verification_plan_bounded_with_budget_at(
     max_resource_units: usize,
     now_epoch_seconds: i64,
 ) -> Result<VerificationReceipt, ExecutionError> {
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_resource_units,
+        now_epoch_seconds,
+        None,
+    )
+}
+
+type ProcessObserver = Arc<dyn Fn(&str, u32, bool) -> Result<(), String> + Send + Sync>;
+
+fn execute_verification_plan_bounded_with_observer_at(
+    plan: VerificationExecutionPlan,
+    max_workers: usize,
+    max_resource_units: usize,
+    now_epoch_seconds: i64,
+    process_observer: Option<ProcessObserver>,
+) -> Result<VerificationReceipt, ExecutionError> {
     if max_workers == 0 {
         return Err(ExecutionError::InvalidWorkerCount);
     }
@@ -2089,6 +2136,7 @@ fn execute_verification_plan_bounded_with_budget_at(
     let mut workers = Vec::with_capacity(worker_count);
     for _ in 0..worker_count {
         let scheduler = Arc::clone(&scheduler);
+        let process_observer = process_observer.clone();
         workers.push(std::thread::spawn(move || -> Result<(), ExecutionError> {
             loop {
                 let command = {
@@ -2109,7 +2157,7 @@ fn execute_verification_plan_bounded_with_budget_at(
                 let Some(command) = command else {
                     return Ok(());
                 };
-                let outcome = execute_captured(&command);
+                let outcome = execute_captured(&command, process_observer.as_ref());
                 let (lock, ready) = &*scheduler;
                 let mut state = lock.lock().map_err(|_| ExecutionError::WorkerPoisoned)?;
                 state.complete(
@@ -2403,7 +2451,10 @@ struct CaptureWorker {
     cancel: mpsc::Sender<()>,
 }
 
-fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
+fn execute_captured(
+    command: &VerificationCommand,
+    observer: Option<&ProcessObserver>,
+) -> ExecutionOutcome {
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
     let deadline_ms =
@@ -2499,6 +2550,16 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             deadline_ms,
         };
     }
+    if let Some(observer) = observer
+        && let Err(error) = observer(&command.id, child_id, true)
+    {
+        terminate_process_tree(&mut child, child_id);
+        let _ = child.wait();
+        let _ = observer(&command.id, child_id, false);
+        #[cfg(windows)]
+        drop(process_tree);
+        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+    }
     let stdout = child.stdout.take();
     let stderr = child.stderr.take();
     let stdout_worker = stdout.map(capture_stream_async);
@@ -2523,6 +2584,9 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     terminate_descendants(child_id);
     let stdout = receive_capture(stdout_worker);
     let stderr = receive_capture(stderr_worker);
+    let observer_error = observer.and_then(|observer| observer(&command.id, child_id, false).err());
+    let mut stderr_bytes = stderr.bytes;
+    append_observer_error(&mut stderr_bytes, observer_error.as_deref());
     if stdout.timed_out || stderr.timed_out {
         timed_out = true;
     }
@@ -2532,7 +2596,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             passed: false,
             exit_code: None,
             stdout: stdout.bytes,
-            stderr: stderr.bytes,
+            stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
             stderr_truncated: stderr.truncated,
             output_digest: None,
@@ -2553,7 +2617,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             // exit status.
             exit_code: (!timed_out).then(|| status.code()).flatten(),
             stdout: stdout.bytes,
-            stderr: stderr.bytes,
+            stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
             stderr_truncated: stderr.truncated,
             output_digest: None,
@@ -2565,10 +2629,10 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         };
     }
     let identity = OutputIdentity {
-        success: status.success(),
+        success: status.success() && !timed_out && observer_error.is_none(),
         exit_code: status.code(),
         stdout: &stdout.bytes,
-        stderr: &stderr.bytes,
+        stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
         stderr_truncated: stderr.truncated,
         timed_out,
@@ -2578,10 +2642,10 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         .map(|bytes| Digest::sha256_bytes(&bytes).to_string());
     ExecutionOutcome {
         spawned: true,
-        passed: status.success() && !timed_out,
+        passed: status.success() && !timed_out && observer_error.is_none(),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
         stdout: stdout.bytes,
-        stderr: stderr.bytes,
+        stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
         stderr_truncated: stderr.truncated,
         output_digest,
@@ -2591,6 +2655,42 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         timeout_seconds,
         deadline_ms,
     }
+}
+
+fn observer_failed_outcome(
+    started: Instant,
+    timeout_seconds: u64,
+    deadline_ms: u128,
+    error: String,
+) -> ExecutionOutcome {
+    let mut stderr = Vec::new();
+    append_observer_error(&mut stderr, Some(&error));
+    ExecutionOutcome {
+        spawned: true,
+        passed: false,
+        exit_code: None,
+        stdout: Vec::new(),
+        stderr,
+        stdout_truncated: false,
+        stderr_truncated: false,
+        output_digest: None,
+        output_truncated: false,
+        timed_out: false,
+        elapsed_ms: started.elapsed().as_millis(),
+        timeout_seconds,
+        deadline_ms,
+    }
+}
+
+fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
+    let Some(error) = error else {
+        return;
+    };
+    let prefix = b"\nprocess_observer_failed: ";
+    let remaining = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(stderr.len());
+    stderr.extend_from_slice(&prefix[..prefix.len().min(remaining)]);
+    let remaining = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(stderr.len());
+    stderr.extend_from_slice(&error.as_bytes()[..error.len().min(remaining)]);
 }
 
 fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {

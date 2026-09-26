@@ -337,20 +337,80 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 37,
+      "contractHash": "sha256:f5095343f44835c15c291ea5f6b854f6ac77bd2ed73c9d052a1ba43892dfb870",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+      "reason": "Amend the existing scope to include the regression file that the hosted gate found missing; this supports the already-approved canonical command-identity acceptance and does not widen product behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T03:49:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 41,
+      "contractHash": "sha256:7ccd7f826cf6679d0816bd7a232fe3af3fa575394a64ab078f6ce462d0b40a4b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:f5095343f44835c15c291ea5f6b854f6ac77bd2ed73c9d052a1ba43892dfb870",
+      "reason": "Close current-PR review findings and hosted verification failure with focused acceptance evidence. All affected code and test paths are already inside the active WI-1033 Contract scope; this additive amendment narrows the required proofs and does not add a new capability or authorize merge or release.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T04:05:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3245a2a6ef72d1a5033e394314e95f2de3a23c9ecbcac635ee0249d88641a9d1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 42,
+      "contractHash": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:7ccd7f826cf6679d0816bd7a232fe3af3fa575394a64ab078f6ce462d0b40a4b",
+      "reason": "Implement the previously approved minimal recovery projection in WI-1033: stale or missing current-snapshot preflight must expose the executable preflight action, then verification after refresh; keep the new start-confirmation gate out of scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T07:02:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec2a2b157fff90261fd1be50ca64a5bfafa1427de68f2c89b8820bfb55e3601d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
   "createdAt": "2026-09-25T00:59:30Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+    "contractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Rebind the explicit user authorization to continue WI-1033 through independent PR review, merge, and exact cleanup, then perform Task 8 as a separate serial Work Item. Stop before release. This is not verification, review approval, merge approval, or release approval.",
-    "recordedAt": "2026-09-26T03:28:57Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The user explicitly granted a one-time exception to bypass the stuck preflight confirmation for this bounded WI-1033 continuation. Continue through canonical verification, independent PR review, merge, and exact cleanup, then Task 8 as a separate serial Work Item; stop before release. This records existing authority only, does not waive verification, hosted checks, or independent review, and is not release approval.",
+    "recordedAt": "2026-09-26T08:35:02Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+    "repositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
     "schemaVersion": 1,
     "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
   },
@@ -363,11 +423,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
   "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
-  "preflightAt": "2026-09-26T03:29:03Z",
-  "preflightContractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
-  "preflightState": "green",
+  "preflightAt": "2026-09-26T08:33:49Z",
+  "preflightContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
   "recoveryRetryConsumed": {
@@ -761,10 +821,50 @@
       "scenario": "recovery_rejection_diagnostics_are_bounded",
       "status": "verified",
       "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
+    },
+    {
+      "evidence": [],
+      "expected": "A workspace coverage manifest and its executable node plans bind identical command digests when the caller supplies a lexical path alias, including on Windows.",
+      "required": true,
+      "scenario": "workspace_verification_command_identity_is_canonical",
+      "status": "unverified",
+      "verificationPlan": "Plan the Cargo workspace through a noncanonical root such as root/. and compare every manifest digest with the corresponding action identity; run this regression in the canonical CI matrix including Windows."
+    },
+    {
+      "evidence": [],
+      "expected": "Only a recovery record validated against its exact event and repository/current registration identities suppresses invalidation; malformed, copied, stale-generation, or mismatched records remain unknown and leave direct and transitive consumers blocked.",
+      "required": true,
+      "scenario": "recovery_records_are_validated_before_invalidation_suppression",
+      "status": "unverified",
+      "verificationPlan": "Persist a valid cross-generation recovery, then independently tamper schema, repository, consumption ID, event/provider identity, recorded provider snapshot, and consumer identity/generation; assert inspect reports each invalid record and admission still observes the invalidation."
+    },
+    {
+      "evidence": [],
+      "expected": "A dead composition owner is insufficient to clean its temporary worktree while its spawned verifier process group remains alive; once that exact group is gone, retry can reconcile and clean safely.",
+      "required": true,
+      "scenario": "interrupted_verifier_process_group_prevents_worktree_cleanup",
+      "status": "unverified",
+      "verificationPlan": "On Unix, launch a real verifier child that records its PID, kills the composition owner, and remains alive; assert a fresh retry preserves the worktree and rejects cleanup, terminate that exact process group, then retry and assert cleanup. On Windows, retain job-object kill-on-close coverage."
+    },
+    {
+      "evidence": [],
+      "expected": "A tampered, in-progress, or internally inconsistent composition attempt is never projected as passed or reusable; valid successful terminal attempts remain visible.",
+      "required": true,
+      "scenario": "composition_outcome_requires_coherent_terminal_attempt",
+      "status": "unverified",
+      "verificationPlan": "Persist a failed or in-progress attempt, alter only its top-level pass flag, query the read-only Outcome projection, and assert it reports unknown/invalid with no reusable checks; retain passing, stale-applicability, and not-merged regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "A checkpointed Work Item with missing or stale preflight binding exposes run_preflight rather than run_verification; after the fresh preflight succeeds, run_verification is admitted without another start confirmation.",
+      "required": true,
+      "scenario": "checkpointed_stale_preflight_projects_preflight_recovery",
+      "status": "unverified",
+      "verificationPlan": "In the scenario-matrix integration test, checkpoint a Work Item, change its source snapshot, assert status withholds run_verification and exposes run_preflight, execute preflight, then assert status admits run_verification; preserve the existing fail-closed execution-precondition assertion."
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-09-26T03:29:16Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-26T08:35:26.281011+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -935,5 +1035,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-26T07:02:10Z"
+  },
   "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
 }

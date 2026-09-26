@@ -16,6 +16,12 @@ repository service 是领域边界，CLI 和 MCP 只是适配器，Outcome 是�
 executable、命令、有效环境、声明输入字节和依赖 receipt 一致时才复用；节点输入未知时
 禁用复用。Outcome 分开展示适用性、真实合并、清理和复用事实。
 
+组合验证中断时会持久记录活动 verifier 进程组。只要该进程组仍存活或状态未知，重试就
+会保留临时 worktree。Unix 还会检查同一用户的进程 cwd 和 worktree 下的打开文件句柄；脱离
+session、仍引用该树的后代同样会阻止清理，检查不完整时 fail closed。Windows 则由 bounded
+executor 的 kill-on-close process job 管理后代。Outcome 只有在终态记录内部一致时才展示
+通过或可复用检查。
+
 组合覆盖来自 digest 绑定的必需 `verification` 检查，可用 `coversScenarios` 或
 `coversConstraints` 声明语义；调用方标签不能授予覆盖。执行仓库必须与协调存储属于同一
 Git common directory，因此复制 repository id 的独立 clone 会被拒绝。

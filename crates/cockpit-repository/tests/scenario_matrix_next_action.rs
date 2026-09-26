@@ -54,6 +54,100 @@ fn state_message(error: cockpit_repository::ObserverError) -> String {
     }
 }
 
+fn assert_checkpointed_preflight_recovery(
+    id: &str,
+    stale_contract: bool,
+    stale_yellow_without_decision: bool,
+) {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "recover stale preflight admission",
+        "keep verification gated on the current preflight",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = contract(directory.path(), id);
+    preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+
+    if stale_yellow_without_decision {
+        // Model a checkpointed legacy projection whose prior yellow preflight
+        // no longer has a usable review receipt. The next action is to refresh
+        // the preflight; the stale state must not create a second start gate.
+        let summary_path = contract_path.with_file_name(format!("{id}.summary.json"));
+        let mut summary: Value =
+            serde_json::from_slice(&fs::read(&summary_path).expect("read Summary"))
+                .expect("Summary JSON");
+        summary["preflightState"] = serde_json::json!("yellow");
+        summary
+            .as_object_mut()
+            .expect("Summary object")
+            .remove("decisionEvidence");
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&summary).expect("serialize Summary"),
+        )
+        .expect("write legacy yellow Summary fixture");
+    }
+
+    if stale_contract {
+        let mut value: Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("read Contract"))
+                .expect("parse Contract");
+        value["goal"] = serde_json::json!("Contract changed after the prior preflight");
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&value).expect("serialize Contract"),
+        )
+        .expect("write changed Contract");
+    } else {
+        fs::create_dir_all(directory.path().join("src")).expect("create source directory");
+        fs::write(directory.path().join("src/lib.rs"), "// snapshot changed\n")
+            .expect("change source snapshot");
+    }
+
+    let stale = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("stale-preflight status");
+    assert!(
+        stale.safe_actions.contains(&"run_preflight".into()),
+        "stale preflight must expose its executable recovery: {stale:?}"
+    );
+    assert!(
+        !stale.safe_actions.contains(&"run_verification".into()),
+        "verification must remain withheld until preflight is refreshed: {stale:?}"
+    );
+    assert!(
+        !stale.human_decision_required,
+        "a stale yellow preflight must expose its refresh without becoming a new start-confirmation gate: {stale:?}"
+    );
+    assert_eq!(
+        stale
+            .action_explanation
+            .as_ref()
+            .and_then(|explanation| explanation.recommended_action.as_deref()),
+        Some("run_preflight")
+    );
+
+    preflight_work_item(directory.path(), &contract_path).expect("refresh preflight");
+    let refreshed = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("refreshed status");
+    assert!(
+        refreshed.safe_actions.contains(&"run_verification".into()),
+        "a current preflight must restore the verification action: {refreshed:?}"
+    );
+    assert!(
+        !refreshed.safe_actions.contains(&"run_preflight".into()),
+        "a current preflight must not keep recommending itself: {refreshed:?}"
+    );
+}
+
 fn scenario_matrix() -> Value {
     let matrix_path = concat!(
         env!("CARGO_MANIFEST_DIR"),
@@ -474,6 +568,13 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
             .to_string()
             .contains("evidence_classes_missing")
     );
+}
+
+#[test]
+fn checkpointed_stale_preflight_projects_preflight_recovery() {
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-SNAPSHOT", false, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-CONTRACT", true, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-YELLOW", false, true);
 }
 
 #[test]

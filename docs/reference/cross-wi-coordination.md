@@ -112,7 +112,13 @@ the Contract-required check. It uses the
 shared bounded verifier for finite
 timeouts and bounded output, persists an in-progress attempt before spawning,
 persists every node, and records timeout/interruption-safe state and cleanup
-results. Caller-supplied identity digests do not authorize reuse: Runtime
+results. It durably records the active node and verifier process-group identity.
+Retry preserves the temporary worktree until that group is proven stopped. On
+Unix it also checks same-user process working directories and open file handles
+under the worktree, catching detached session descendants that still use the
+tree; incomplete process inspection fails closed. On Windows, the executor's
+kill-on-close process job owns descendants. Outcome reports `passed` or
+reusable checks only for a coherent terminal receipt. Caller-supplied identity digests do not authorize reuse: Runtime
 observes the target tree, lock and configuration files, resolved executables,
 effective environment, and declared input files. A node is reusable only when
 its observed executable, command, effective environment, declared input-file

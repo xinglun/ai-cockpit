@@ -416,10 +416,20 @@ pub fn plan_repository_verification(
         });
     }
 
+    // The coverage manifest and the later execution plan must hash the same
+    // current directory.  `plan_repository_verification_action` canonicalizes
+    // the repository root before building its command identity; do the same
+    // here so lexical aliases (and platform-specific canonical path forms)
+    // cannot produce a manifest that disagrees with the executed command.
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+
     let mut metadata_command = Command::new("cargo");
     metadata_command
         .args(["metadata", "--no-deps", "--format-version", "1"])
-        .current_dir(root)
+        .current_dir(&root)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
     if root.join("Cargo.lock").is_file() {
@@ -545,7 +555,7 @@ pub fn plan_repository_verification(
             .iter()
             .map(|request| {
                 build_repository_verification_command(
-                    root,
+                    &root,
                     request,
                     None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,

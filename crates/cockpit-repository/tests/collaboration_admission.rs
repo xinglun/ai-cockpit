@@ -234,13 +234,23 @@ fn registration(
     root: &Path,
     work_item_id: &str,
     generation: u64,
-    declaration: CollaborationDeclaration,
+    mut declaration: CollaborationDeclaration,
 ) -> WorktreeRegistration {
     let contract_digest = contract_digest(root, work_item_id);
     let topology = GitRepository::discover(root)
         .expect("discover")
         .topology()
         .expect("topology");
+    if declaration
+        .integration_responsibility
+        .responsible_work_item_id
+        == "WI-CONSUMER"
+        && work_item_id != "WI-CONSUMER"
+    {
+        declaration
+            .integration_responsibility
+            .responsible_work_item_id = work_item_id.into();
+    }
     WorktreeRegistration {
         schema_version: 1,
         repository_id: repository_id(root),
@@ -392,6 +402,60 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
     assert_eq!(second_projection.reusable_checks, vec!["marker"]);
     assert!(!second_projection.human_decision_required);
+}
+
+#[test]
+fn shared_outcome_does_not_trust_a_tampered_composition_pass_flag() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("tampered-composition-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["false".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "false".into();
+    input.commands[0].args.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let attempt =
+        run_admitted_composition(&store, "WI-CONSUMER", 1, input).expect("failed composition");
+    assert!(!attempt.passed);
+
+    let attempt_path = fs::read_dir(store.root().join("compositions"))
+        .expect("composition records")
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .expect("persisted attempt");
+    let mut tampered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
+            .expect("attempt JSON");
+    tampered["passed"] = serde_json::json!(true);
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize tampered attempt"),
+    )
+    .expect("persist tampering");
+
+    let projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+
+    assert_ne!(
+        projection.composition_state, "passed",
+        "a contradictory terminal record must not project as a successful composition"
+    );
+    assert!(
+        projection.reusable_checks.is_empty(),
+        "incoherent attempts must not project reusable checks"
+    );
 }
 
 #[test]
@@ -757,6 +821,20 @@ fn non_integration_owner_cannot_start_composition() {
             consumer_declaration,
         ))
         .expect("register non-owner consumer");
+
+    let admission =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("query non-owner composition admission");
+    assert!(
+        !admission.allowed,
+        "the admission projection must reject a non-owner before execution"
+    );
+    assert!(
+        admission
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("composition_integration_owner_mismatch:"))
+    );
 
     let mut input = composition_input(root.path(), &marker);
     input.identity.command_digest = composition_commands_digest(&input.commands);
@@ -2146,6 +2224,155 @@ fn recovered_impact_is_consumed_for_the_matching_consumer_generation() {
             .unwrap();
     assert!(admission.allowed);
     assert!(!admission.affected);
+}
+
+#[test]
+fn tampered_recovery_identity_cannot_suppress_invalidation() {
+    let root = repository();
+    let store = store(root.path());
+    register_provider_and_consumer(&store, root.path(), OutcomeStage::ComposableHead);
+    let mut event = impact(root.path(), "WI-PROVIDER", 1, "impact-recovery-validation");
+    event.outcome_ids = vec!["api".into()];
+    report_impact(&store, event).expect("publish invalidation");
+    recover_impact(&store, "impact-recovery-validation", "WI-CONSUMER", 1)
+        .expect("record valid recovery");
+
+    let recovery_path = store
+        .root()
+        .join("recoveries/recovery-impact-recovery-validation-WI-CONSUMER-1.json");
+    let valid: serde_json::Value =
+        serde_json::from_slice(&fs::read(&recovery_path).expect("recovery bytes"))
+            .expect("recovery JSON");
+    for (field, replacement) in [
+        ("schemaVersion", serde_json::json!(99)),
+        (
+            "repositoryId",
+            serde_json::json!(format!("sha256:{}", "a".repeat(64))),
+        ),
+        ("consumptionId", serde_json::json!("recovery-copied")),
+        ("eventId", serde_json::json!("other-impact")),
+        ("providerWorkItemId", serde_json::json!("WI-OTHER")),
+        ("providerGeneration", serde_json::json!(2)),
+        ("currentProviderGeneration", serde_json::json!(Some(2))),
+        ("currentProviderHead", serde_json::json!("foreign-head")),
+        (
+            "currentProviderContractDigest",
+            serde_json::json!(format!("sha256:{}", "b".repeat(64))),
+        ),
+        ("consumerWorkItemId", serde_json::json!("WI-OTHER")),
+        ("consumerGeneration", serde_json::json!(2)),
+    ] {
+        let mut tampered = valid.clone();
+        tampered[field] = replacement;
+        fs::write(
+            &recovery_path,
+            serde_json::to_vec_pretty(&tampered).expect("serialize tampered recovery"),
+        )
+        .expect("write tampered recovery");
+
+        let inspection = store.inspect().expect("inspect tampered recovery");
+        assert!(
+            !inspection.unknowns.is_empty(),
+            "tampered {field} must be reported as unknown"
+        );
+        assert!(
+            inspection.recoveries.is_empty(),
+            "tampered {field} must not enter the trusted projection"
+        );
+        let admission = admit_collaboration_action(
+            &store,
+            "WI-CONSUMER",
+            1,
+            outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
+        )
+        .expect("admission remains queryable");
+        assert!(
+            !admission.allowed,
+            "tampered {field} must not suppress the provider invalidation"
+        );
+        assert!(
+            admission
+                .blockers
+                .iter()
+                .any(|blocker| blocker.starts_with("dependency_impact:")),
+            "tampered {field} must preserve the dependency impact blocker"
+        );
+        fs::write(
+            &recovery_path,
+            serde_json::to_vec_pretty(&valid).expect("serialize valid recovery"),
+        )
+        .expect("restore original recovery for next case");
+        assert!(
+            admit_collaboration_action(
+                &store,
+                "WI-CONSUMER",
+                1,
+                outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
+            )
+            .expect("valid recovery admission")
+            .allowed,
+            "restoring valid {field} binding must consume the event"
+        );
+    }
+}
+
+#[test]
+fn tampered_historical_provider_snapshot_cannot_suppress_invalidation() {
+    let root = repository();
+    let store = store(root.path());
+    register_provider_and_consumer(&store, root.path(), OutcomeStage::ComposableHead);
+    let mut event = impact(root.path(), "WI-PROVIDER", 1, "impact-historical-snapshot");
+    event.outcome_ids = vec!["api".into()];
+    report_impact(&store, event).expect("publish invalidation");
+
+    store
+        .register(registration(
+            root.path(),
+            "WI-PROVIDER",
+            2,
+            declaration(root.path(), &[("api", OutcomeStage::ComposableHead)], &[]),
+        ))
+        .expect("advance provider generation");
+    recover_impact(&store, "impact-historical-snapshot", "WI-CONSUMER", 1)
+        .expect("record recovery against the advanced provider");
+
+    let recovery_path = store
+        .root()
+        .join("recoveries/recovery-impact-historical-snapshot-WI-CONSUMER-1.json");
+    let mut tampered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&recovery_path).expect("recovery bytes"))
+            .expect("recovery JSON");
+    assert_eq!(tampered["currentProviderGeneration"], 2);
+    tampered["currentProviderGeneration"] = serde_json::json!(1);
+    tampered["currentProviderHead"] = serde_json::json!("forged-historical-head");
+    tampered["currentProviderContractDigest"] =
+        serde_json::json!(digest("forged-historical-contract").to_string());
+    fs::write(
+        &recovery_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize tampered recovery"),
+    )
+    .expect("persist tampered historical snapshot");
+
+    let inspection = store.inspect().expect("inspect tampered recovery");
+    assert!(
+        !inspection.unknowns.is_empty(),
+        "an unverifiable historical provider snapshot must be unknown"
+    );
+    assert!(inspection.recoveries.is_empty());
+    let admission = admit_collaboration_action(
+        &store,
+        "WI-CONSUMER",
+        1,
+        outcome_action("WI-CONSUMER", &[("WI-PROVIDER", "api")]),
+    )
+    .expect("query admission after tampering");
+    assert!(!admission.allowed);
+    assert!(
+        admission
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("dependency_impact:"))
+    );
 }
 
 #[test]

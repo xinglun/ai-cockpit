@@ -691,6 +691,7 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         let root = PathBuf::from(std::env::var_os("COMPOSITION_CRASH_ROOT").expect("root"));
         let state = PathBuf::from(std::env::var_os("COMPOSITION_CRASH_STATE").expect("state"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
+        let state_arg = state.to_string_lossy().into_owned();
         let _ = run_composition(input(
             &root,
             &state,
@@ -698,7 +699,12 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
             vec![command(
                 "terminate-owner",
                 "sh",
-                &["-c", "kill -9 \"$PPID\""],
+                &[
+                    "-c",
+                    "while ! /usr/bin/grep -Eq '\"activeProcessGroupId\"[[:space:]]*:[[:space:]]*[0-9]+' \"$1\"/*.json; do /bin/sleep 0.01; done; /usr/bin/python3 -c 'import os,sys,time; error=None\ntry:\n held=open(os.path.join(os.getcwd(),\"README.md\"),\"rb\"); os.setsid(); os.chdir(\"/\")\nexcept Exception as exc:\n error=repr(exc); os.chdir(\"/\")\nopen(sys.argv[1]+\".error\",\"w\").write(error or \"none\"); open(sys.argv[1],\"w\").write(str(os.getpid())); time.sleep(60)' \"$1/escaped.pid\" >/dev/null 2>&1 & while [ ! -s \"$1/escaped.pid\" ]; do /bin/sleep 0.01; done; kill -9 \"$PPID\"",
+                    "sh",
+                    &state_arg,
+                ],
             )],
             vec![CompositionPrecondition::satisfied("identity-bound")],
         ));
@@ -749,6 +755,14 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
             .expect("attempt JSON");
     assert_eq!(interrupted["ownerPid"], owner_pid);
+    assert_eq!(
+        interrupted["activeExecutionNode"], "terminate-owner",
+        "interrupted verifier identity must remain durable"
+    );
+    assert!(
+        interrupted["activeProcessGroupId"].as_u64().is_some(),
+        "interrupted verifier process group must remain durable"
+    );
     let worktree = PathBuf::from(
         interrupted["isolatedWorktree"]
             .as_str()
@@ -759,6 +773,93 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         worktree.is_dir(),
         "interrupted worktree should remain for recovery"
     );
+
+    let observed_attempt = interrupted.clone();
+    let interrupted_object = interrupted
+        .as_object_mut()
+        .expect("interrupted attempt object");
+    interrupted_object.remove("processObservationSchemaVersion");
+    interrupted_object.remove("activeExecutionNode");
+    interrupted_object.remove("activeProcessGroupId");
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&interrupted).expect("serialize legacy attempt"),
+    )
+    .expect("simulate pre-observer interrupted attempt");
+    let legacy_retry = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![base.clone(), base.clone()]),
+        Vec::new(),
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ));
+    assert!(
+        matches!(
+            legacy_retry,
+            Err(CompositionError::UnknownAttemptOwner { .. })
+        ),
+        "legacy interrupted attempts without process observations must fail closed"
+    );
+    assert!(
+        worktree.is_dir(),
+        "unknown legacy process state must preserve its worktree"
+    );
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&observed_attempt).expect("restore observed attempt"),
+    )
+    .expect("restore process observations");
+
+    let escaped_process_id = fs::read_to_string(state.path().join("escaped.pid"))
+        .expect("detached verifier descendant pid")
+        .trim()
+        .parse::<u32>()
+        .expect("detached verifier descendant process id");
+    assert_eq!(
+        fs::read_to_string(state.path().join("escaped.pid.error"))
+            .expect("detached verifier setup result"),
+        "none",
+        "detached verifier must open a worktree file and leave its working directory"
+    );
+    struct DetachedProcessGuard(u32);
+    impl Drop for DetachedProcessGuard {
+        fn drop(&mut self) {
+            unsafe {
+                libc::kill(self.0 as libc::pid_t, libc::SIGKILL);
+            }
+        }
+    }
+    let _escaped_process_guard = DetachedProcessGuard(escaped_process_id);
+    let blocked = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![base.clone(), base.clone()]),
+        Vec::new(),
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ));
+    assert!(
+        matches!(
+            blocked,
+            Err(CompositionError::ActiveVerifierDescendant { process_id, .. })
+                if process_id == escaped_process_id
+        ),
+        "a verifier that escaped its original process group must still protect the worktree: {blocked:?}"
+    );
+    assert!(
+        worktree.is_dir(),
+        "live detached verifier lost its worktree"
+    );
+    unsafe {
+        libc::kill(escaped_process_id as libc::pid_t, libc::SIGKILL);
+    }
+    let escaped_deadline = Instant::now() + Duration::from_secs(5);
+    while unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) } == 0 {
+        assert!(
+            Instant::now() < escaped_deadline,
+            "detached verifier did not exit after termination"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
 
     let retry = run_composition(input(
         root.path(),
@@ -785,6 +886,149 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
             .any(|line| line.strip_prefix("worktree ").is_some_and(|path| {
                 fs::canonicalize(path).ok() == fs::canonicalize(&worktree).ok()
             }))
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
+    if std::env::var_os("COMPOSITION_ORPHAN_CHILD").is_some() {
+        let root = PathBuf::from(std::env::var_os("COMPOSITION_ORPHAN_ROOT").expect("root"));
+        let state = PathBuf::from(std::env::var_os("COMPOSITION_ORPHAN_STATE").expect("state"));
+        let pid_file =
+            PathBuf::from(std::env::var_os("COMPOSITION_ORPHAN_PID_FILE").expect("pid file"));
+        let base = run(&root, &["rev-parse", "refs/heads/main"]);
+        let state_arg = state.to_string_lossy().into_owned();
+        let pid_file_arg = pid_file.to_string_lossy().into_owned();
+        let script = "printf '%s\\n' \"$$\" > \"$2\"; while ! /usr/bin/grep -Eq '\"activeProcessGroupId\"[[:space:]]*:[[:space:]]*[0-9]+' \"$1\"/*.json; do /bin/sleep 0.01; done; kill -9 \"$PPID\"; exec /bin/sleep 60";
+        let _ = run_composition(input(
+            &root,
+            &state,
+            binding(&base, vec![base.clone(), base.clone()]),
+            vec![command(
+                "orphan-verifier",
+                "sh",
+                &["-c", script, "sh", &state_arg, &pid_file_arg],
+            )],
+            vec![CompositionPrecondition::satisfied("identity-bound")],
+        ));
+        panic!("the verifier command should terminate its composition owner");
+    }
+
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("orphan-verifier-state");
+    let pid_file = state.path().join("orphan-verifier.pid");
+    let mut child = Command::new(std::env::current_exe().expect("test executable"))
+        .args([
+            "--exact",
+            "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
+        ])
+        .env("COMPOSITION_ORPHAN_CHILD", "1")
+        .env("COMPOSITION_ORPHAN_ROOT", root.path())
+        .env("COMPOSITION_ORPHAN_STATE", state.path())
+        .env("COMPOSITION_ORPHAN_PID_FILE", &pid_file)
+        .spawn()
+        .expect("spawn killable composition owner");
+    let owner_pid = child.id();
+    let deadline = Instant::now() + Duration::from_secs(20);
+    let status = loop {
+        if let Some(status) = child.try_wait().expect("check owner process") {
+            break status;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "composition owner did not terminate"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    assert!(
+        !status.success(),
+        "verifier command should terminate its owner"
+    );
+
+    let attempt_path = fs::read_dir(state.path())
+        .expect("state directory")
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .expect("durable interrupted attempt");
+    let interrupted: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
+            .expect("attempt JSON");
+    assert_eq!(interrupted["ownerPid"], owner_pid);
+    let process_group_id = interrupted["activeProcessGroupId"]
+        .as_u64()
+        .expect("durable active verifier process group") as u32;
+    assert_eq!(
+        fs::read_to_string(&pid_file)
+            .expect("verifier pid file")
+            .trim(),
+        process_group_id.to_string()
+    );
+    let worktree = PathBuf::from(
+        interrupted["isolatedWorktree"]
+            .as_str()
+            .expect("durable worktree path"),
+    );
+    assert!(
+        worktree.is_dir(),
+        "interrupted worktree must remain recoverable"
+    );
+
+    struct ProcessGroupGuard(u32);
+    impl Drop for ProcessGroupGuard {
+        fn drop(&mut self) {
+            unsafe {
+                libc::kill(-(self.0 as libc::pid_t), libc::SIGKILL);
+            }
+        }
+    }
+    let process_group_guard = ProcessGroupGuard(process_group_id);
+    let retry_input = input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![base.clone(), base.clone()]),
+        Vec::new(),
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let blocked = run_composition(retry_input.clone());
+    assert!(matches!(
+        blocked,
+        Err(CompositionError::ActiveVerifierProcessGroup {
+            process_group_id: active_group,
+            ..
+        }) if active_group == process_group_id
+    ));
+    assert!(
+        worktree.is_dir(),
+        "live verifier group worktree must be preserved"
+    );
+
+    unsafe {
+        libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL);
+    }
+    let group_deadline = Instant::now() + Duration::from_secs(5);
+    while unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) } == 0 {
+        assert!(
+            Instant::now() < group_deadline,
+            "verifier process group did not exit"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    drop(process_group_guard);
+
+    let _ = run_composition(retry_input).expect("retry reconciles after verifier exit");
+    let reconciled: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("reconciled attempt"))
+            .expect("reconciled attempt JSON");
+    assert_eq!(reconciled["cleanup"]["removed"], true);
+    assert!(
+        !worktree.exists(),
+        "dead verifier worktree should be cleaned on retry"
     );
 }
 

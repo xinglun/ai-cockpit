@@ -1513,10 +1513,13 @@ fn composition_facts(
     root: &Path,
     attempt: &CompositionAttempt,
 ) -> (String, String, String, Vec<String>) {
-    let composition_state = if attempt.passed {
+    let coherent_success = attempt.is_coherent_successful_terminal();
+    let composition_state = if coherent_success {
         "passed"
     } else if attempt.failure.as_deref() == Some("in_progress") {
         "in_progress"
+    } else if attempt.passed {
+        "unknown"
     } else {
         "failed"
     };
@@ -1527,12 +1530,16 @@ fn composition_facts(
         Some(_) => "not_observed",
         None => "unknown",
     };
-    let reusable_checks = attempt
-        .execution_records
-        .iter()
-        .filter(|record| record.reused)
-        .map(|record| record.node_id.clone())
-        .collect();
+    let reusable_checks = if coherent_success {
+        attempt
+            .execution_records
+            .iter()
+            .filter(|record| record.reused)
+            .map(|record| record.node_id.clone())
+            .collect()
+    } else {
+        Vec::new()
+    };
     (
         composition_state.into(),
         target_merge_state,
@@ -1639,6 +1646,21 @@ pub fn admit_collaboration_action(
             action.consumer_work_item_id
         ));
     } else if let Some(registration) = registration {
+        if action.kind == CollaborationActionKind::Composition
+            && registration
+                .declaration
+                .integration_responsibility
+                .responsible_work_item_id
+                != work_item_id
+        {
+            blockers.push(format!(
+                "composition_integration_owner_mismatch:caller={work_item_id}:owner={}",
+                registration
+                    .declaration
+                    .integration_responsibility
+                    .responsible_work_item_id
+            ));
+        }
         if !action.outcomes.is_empty() {
             for key in &action.outcomes {
                 if !registration

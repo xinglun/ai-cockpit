@@ -25,12 +25,13 @@ WI-1033 是 WI-1032 的 Runtime 绑定恢复后继项。Runtime 已将 WI-1032 �
 
 较早的 WI-1031 归档项有有效的历史验证，但仍待人工 close。其字节保持不可变；只有 Runtime 收齐终态 evidence 后，才能通过所选 successor lineage 处理。
 
-独立复审发现目录句柄交换竞态之前，Runtime 曾在提交 `6f5c4aaf` 上完成 34/34 节点的完整 canonical verification；该回执现为历史证据，不能绑定当前树。之后 Runtime 曾在 `faa3eb4` 上完成 35/35 节点，但该回执早于必需检查环境 overlay 的 Contract 修订，因此同样不再是当前证据。独立复审证明未绑定的环境 overlay 可以让匹配的必需命令以 `forged-pass` 成功；新增回归先复现了这一点，窄范围拦截随后使 admission 套件 38/38 通过（发生在 Contract 修订之前）。Contract 现有 29 项验收标准、24 个场景，并要求 CI 实际执行 Windows 专属的目录重命名拒绝回归。Hosted CI run `36155139121` 的 governance-integrity 和 Windows-runtime job 失败；诊断附件指出 WI-1031 缺少 close 证据、三语 parity 过期、日文 parity 缺少 WI-1032/WI-1033 行，以及 Windows library tests 缺少 `tempfile` 依赖。当前证据新鲜度以 Runtime 为准。在本页记录的检查点，修订后完整 canonical verification、成功的 hosted CI、独立复审、合并和精确清理仍待完成；不宣称发布。
+独立复审发现目录句柄交换竞态之前，Runtime 曾在提交 `6f5c4aaf` 上完成 34/34 节点的完整 canonical verification；该回执现为历史证据，不能绑定当前树。之后 Runtime 曾在 `faa3eb4` 上完成 35/35 节点，但该回执早于必需检查环境 overlay 的 Contract 修订，因此同样不再是当前证据。独立复审证明未绑定的环境 overlay 可以让匹配的必需命令以 `forged-pass` 成功；新增回归先复现了这一点，窄范围拦截随后使 admission 套件 38/38 通过（发生在 Contract 修订之前）。当前 Contract 有 42 项验收标准和 37 个必需场景，包括 Windows 专属目录重命名拒绝回归的 CI 执行，以及 checkpointed stale-preflight 恢复路径。Hosted CI run `36215373771` 在 head `b57068c` 上的 quality scope 检查和 Windows runtime job 失败；本地 Contract 增补现已覆盖遗漏的回归文件与 canonical-root alias 场景。当前证据新鲜度以 Runtime 为准。修订后完整 canonical verification、成功的 hosted CI、独立复审、合并和精确清理仍待完成；不宣称发布。
 
 ## 范围
 
 - 重新核验受信登记/组合身份（包括执行仓库与 CoordinationStore 的 Git common directory 一致）、必需检查完整性及环境绑定（拒绝 Contract 未声明的调用方 overlay）、崩溃与活动锁安全、证据边界、按 provider 区分的依赖、CLI 实际复用、MCP 身份 parity 及只读查询/写入边界。
 - 证明真实多进程 linked-worktree 行为，并保留普通单 WI 串行执行。
+- checkpointed Work Item 的 preflight 缺失或绑定过期时，展示 `run_preflight` 并暂缓 `run_verification`；刷新后再开放验证，不把已授权的开始变成第二道人类确认门禁。
 - 保留提供者删除产出后的跨依赖链失效；拒绝不安全或绕过确认初态的协调请求，并在查询 Contract facts 前绑定加载到的 registration 身份。
 - 使用候选 CLI 检查 Sentinel，且不写入其源码、Contract/evidence、生命周期 Runtime 或协调存储。
 - 在现有 Windows CI job 中运行 repository 库级 containment 回归，并由 gate-manifest 回归固定该步骤。
@@ -42,7 +43,7 @@ Task 8（跨提交的 Runtime snapshot binding）按要求作为后续独立串�
 
 ## 验收与验证
 
-参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。二十四个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
+参见[规格](WI-1033-cross-wi-review-fixes-recovery/spec.md)和[实施计划](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md)。37 个必需场景均声明了明确的预期结果和验证计划。文档 canonical gate 为 `bash tests/docs/documentation_acceptance.sh`。
 
 ## 交付边界
 

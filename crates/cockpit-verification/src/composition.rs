@@ -1,4 +1,4 @@
-use crate::{VerificationCommand, VerificationReusePolicy, execute_bounded};
+use crate::{VerificationCommand, VerificationReusePolicy, execute_bounded_with_process_observer};
 use cockpit_core::Digest;
 use cockpit_protocol::{CompositionBinding, RuntimeCapabilityError};
 use serde::{Deserialize, Serialize};
@@ -7,13 +7,16 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::CString;
 use std::ffi::OsString;
 use std::fs::{self, File, OpenOptions};
-use std::io::{Read, Write};
+#[cfg(unix)]
+use std::io::Read;
+use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 pub const COMPOSITION_SCHEMA_VERSION: u32 = 1;
+const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -176,6 +179,20 @@ pub struct CompositionAttempt {
     pub recorded_at_unix_nanos: u128,
     #[serde(default)]
     pub owner_pid: Option<u32>,
+    #[serde(default)]
+    pub process_observation_schema_version: u32,
+    #[serde(default)]
+    pub active_execution_node: Option<String>,
+    #[serde(default)]
+    pub active_process_group_id: Option<u32>,
+}
+
+impl CompositionAttempt {
+    /// Whether this attempt is internally coherent enough to be projected or
+    /// reused as a successful terminal composition.
+    pub fn is_coherent_successful_terminal(&self) -> bool {
+        is_reusable_terminal_attempt(self)
+    }
 }
 
 fn composition_schema_version() -> u32 {
@@ -205,6 +222,17 @@ pub enum CompositionError {
     ActiveAttempt { attempt_id: String, owner_pid: u32 },
     #[error("composition attempt {attempt_id} has no verifiable owner; preserving its worktree")]
     UnknownAttemptOwner { attempt_id: String },
+    #[error(
+        "composition attempt {attempt_id} still has active verifier process group {process_group_id}; preserving its worktree"
+    )]
+    ActiveVerifierProcessGroup {
+        attempt_id: String,
+        process_group_id: u32,
+    },
+    #[error(
+        "composition attempt {attempt_id} still has verifier process {process_id} using its worktree; preserving it"
+    )]
+    ActiveVerifierDescendant { attempt_id: String, process_id: u32 },
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
@@ -245,6 +273,9 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         cleanup: None,
         recorded_at_unix_nanos,
         owner_pid: Some(std::process::id()),
+        process_observation_schema_version: PROCESS_OBSERVATION_SCHEMA_VERSION,
+        active_execution_node: None,
+        active_process_group_id: None,
     };
 
     // This snapshot is the recovery boundary: an interrupted parent leaves a
@@ -289,7 +320,7 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
 
     let unique = unique_composition_parent();
     let worktree = unique.join("composition");
-    fs::create_dir_all(&unique).map_err(|source| CompositionError::Io {
+    create_private_composition_parent(&unique).map_err(|source| CompositionError::Io {
         path: unique.clone(),
         source,
     })?;
@@ -437,6 +468,9 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
             continue;
         }
         all_nodes_reused = false;
+        attempt.active_execution_node = Some(command.node_id.clone());
+        attempt.active_process_group_id = None;
+        persist_attempt(&input.state_dir, &attempt)?;
         let record = execute_node(
             &worktree,
             command,
@@ -444,7 +478,10 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
             &executable,
             &environment,
             current_identity,
+            &attempt,
         );
+        attempt.active_execution_node = None;
+        attempt.active_process_group_id = None;
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
@@ -486,6 +523,23 @@ pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, Co
         },
         predecessor_attempt_id: predecessor_id.map(str::to_owned),
     };
+    match verifier_process_using_worktree(&worktree) {
+        Ok(Some(process_id)) => {
+            attempt.passed = false;
+            attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
+            worktree_guard.preserve();
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        Err(error) => {
+            attempt.passed = false;
+            attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
+            worktree_guard.preserve();
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        Ok(None) => {}
+    }
     attempt.cleanup = Some(worktree_guard.cleanup());
     if !attempt
         .cleanup
@@ -666,6 +720,8 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
             .cleanup
             .as_ref()
             .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
+        && attempt.active_execution_node.is_none()
+        && attempt.active_process_group_id.is_none()
         && !attempt.execution_records.is_empty()
         && attempt.processes_spawned
             == attempt
@@ -715,22 +771,73 @@ fn reconcile_abandoned_attempt(
         });
     }
 
-    let cleanup = if attempt.isolated_worktree.is_empty() {
-        CompositionCleanup {
-            attempted: false,
-            removed: true,
-            error: None,
+    if attempt.failure.as_deref() == Some("in_progress")
+        && attempt.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
+    {
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
+    }
+
+    match (
+        attempt.active_execution_node.as_deref(),
+        attempt.active_process_group_id,
+    ) {
+        (Some(_), Some(process_group_id)) if process_group_is_alive(process_group_id) => {
+            return Err(CompositionError::ActiveVerifierProcessGroup {
+                attempt_id: attempt.attempt_id,
+                process_group_id,
+            });
         }
+        (Some(_), Some(_)) => {
+            attempt.active_execution_node = None;
+            attempt.active_process_group_id = None;
+        }
+        (Some(_), None) | (None, Some(_)) => {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: attempt.attempt_id,
+            });
+        }
+        (None, None) => {}
+    }
+
+    let validated_paths = if attempt.isolated_worktree.is_empty() {
+        None
     } else {
-        let (worktree, parent) =
+        Some(
             validated_composition_paths(&attempt, owner_pid).ok_or_else(|| {
                 CompositionError::Serialization(format!(
                     "interrupted composition path is outside its owned temporary namespace: {}",
                     attempt.isolated_worktree
                 ))
-            })?;
+            })?,
+        )
+    };
+    if let Some((worktree, _)) = &validated_paths {
+        match verifier_process_using_worktree(worktree) {
+            Ok(Some(process_id)) => {
+                return Err(CompositionError::ActiveVerifierDescendant {
+                    attempt_id: attempt.attempt_id,
+                    process_id,
+                });
+            }
+            Err(_) => {
+                return Err(CompositionError::UnknownAttemptOwner {
+                    attempt_id: attempt.attempt_id,
+                });
+            }
+            Ok(None) => {}
+        }
+    }
+    let cleanup = if let Some((worktree, parent)) = validated_paths {
         let registered = worktree_is_registered(repository_root, &worktree)?;
         cleanup_worktree(repository_root, &worktree, &parent, registered)
+    } else {
+        CompositionCleanup {
+            attempted: false,
+            removed: true,
+            error: None,
+        }
     };
     if !cleanup.removed {
         return Err(CompositionError::Serialization(format!(
@@ -838,6 +945,149 @@ fn process_is_alive(pid: u32) -> bool {
     }
 }
 
+#[cfg(unix)]
+fn process_group_is_alive(process_group_id: u32) -> bool {
+    // SAFETY: a negative pid probes the process group without delivering a signal.
+    let result = unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) };
+    if result == 0 {
+        return true;
+    }
+    !matches!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(code) if code == libc::ESRCH
+    )
+}
+
+#[cfg(target_os = "linux")]
+fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
+    use std::os::unix::fs::MetadataExt;
+
+    let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+    let proc_entries = fs::read_dir("/proc").map_err(|error| error.to_string())?;
+    for entry in proc_entries {
+        let entry = entry.map_err(|error| error.to_string())?;
+        let Some(process_id) = entry
+            .file_name()
+            .to_str()
+            .and_then(|name| name.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        if process_id == std::process::id() {
+            continue;
+        }
+        let process_dir = entry.path();
+        let metadata = match fs::metadata(&process_dir) {
+            Ok(metadata) if metadata.uid() == unsafe { libc::getuid() } => metadata,
+            Ok(_) => continue,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => return Err(error.to_string()),
+        };
+        let _ = metadata;
+        let cwd = process_dir.join("cwd");
+        match fs::read_link(&cwd) {
+            Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
+            Ok(_) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                return Err(format!(
+                    "cannot inspect process {process_id} working directory"
+                ));
+            }
+            Err(error) => return Err(error.to_string()),
+        }
+        let descriptors = process_dir.join("fd");
+        let descriptors = match fs::read_dir(&descriptors) {
+            Ok(descriptors) => descriptors,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                return Err(format!(
+                    "cannot inspect process {process_id} file descriptors"
+                ));
+            }
+            Err(error) => return Err(error.to_string()),
+        };
+        for descriptor in descriptors {
+            let descriptor = descriptor.map_err(|error| error.to_string())?;
+            match fs::read_link(descriptor.path()) {
+                Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
+                Ok(_) => {}
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                    return Err(format!("cannot inspect process {process_id} open files"));
+                }
+                Err(error) => return Err(error.to_string()),
+            }
+        }
+    }
+    Ok(None)
+}
+
+#[cfg(target_os = "macos")]
+fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
+    let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+    let user_id = unsafe { libc::getuid() }.to_string();
+    let output = Command::new("lsof")
+        .args(["-nP", "-Fpn", "-a", "-u", &user_id, "+D"])
+        .arg(&worktree)
+        .output()
+        .map_err(|error| format!("cannot inspect open worktree files: {error}"))?;
+    let mut process_id = None;
+    for line in String::from_utf8_lossy(&output.stdout).lines() {
+        if let Some(value) = line.strip_prefix('p') {
+            process_id = value.parse::<u32>().ok();
+        } else if let Some(value) = line.strip_prefix('n')
+            && path_is_within(&worktree, Path::new(value))
+        {
+            return Ok(process_id);
+        }
+    }
+    if !output.status.success() && !(output.status.code() == Some(1) && output.stdout.is_empty()) {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(format!(
+            "lsof exited with status {:?}: {}",
+            output.status.code(),
+            stderr.trim()
+        ));
+    }
+    Ok(None)
+}
+
+#[cfg(all(unix, not(any(target_os = "linux", target_os = "macos"))))]
+fn verifier_process_using_worktree(_worktree: &Path) -> Result<Option<u32>, String> {
+    Err("process working-directory inspection is unsupported on this Unix platform".into())
+}
+
+#[cfg(windows)]
+fn verifier_process_using_worktree(_worktree: &Path) -> Result<Option<u32>, String> {
+    // The executor's Windows Job Object owns descendants and kills them when
+    // the parent handle closes; no separate worktree-path scan is necessary.
+    Ok(None)
+}
+
+#[cfg(not(any(unix, windows)))]
+fn verifier_process_using_worktree(_worktree: &Path) -> Result<Option<u32>, String> {
+    Err("process working-directory inspection is unsupported on this platform".into())
+}
+
+fn path_is_within(root: &Path, candidate: &Path) -> bool {
+    let candidate = candidate.to_string_lossy();
+    let candidate = candidate.strip_suffix(" (deleted)").unwrap_or(&candidate);
+    Path::new(candidate) == root || Path::new(candidate).starts_with(root)
+}
+
+#[cfg(windows)]
+fn process_group_is_alive(process_group_id: u32) -> bool {
+    // The bounded executor owns a kill-on-close Job Object on Windows; the
+    // observed process identifier is therefore the strongest portable probe.
+    process_is_alive(process_group_id)
+}
+
+#[cfg(not(any(unix, windows)))]
+fn process_group_is_alive(_process_group_id: u32) -> bool {
+    true
+}
+
 fn reused_record(
     previous: &CompositionExecutionRecord,
     command: &CompositionCommand,
@@ -867,6 +1117,7 @@ fn execute_node(
     executable: &ResolvedExecutable,
     environment: &BTreeMap<String, String>,
     identity_digest: Option<Digest>,
+    attempt: &CompositionAttempt,
 ) -> CompositionExecutionRecord {
     let identity_digest = identity_digest
         .unwrap_or_else(|| Digest::sha256_bytes(b"unknown-composition-node-identity"));
@@ -885,7 +1136,27 @@ fn execute_node(
             .collect(),
     )
     .with_timeout_seconds(input.timeout_seconds);
-    match execute_bounded(vec![verification_command], 1) {
+    let state_dir = input.state_dir.clone();
+    let attempt_id = attempt.attempt_id.clone();
+    let owner_pid = attempt.owner_pid.unwrap_or(std::process::id());
+    let expected_node_id = command.node_id.clone();
+    match execute_bounded_with_process_observer(
+        vec![verification_command],
+        1,
+        move |node_id, process_group_id, active| {
+            if node_id != expected_node_id {
+                return Err(format!("unexpected active verification node: {node_id}"));
+            }
+            update_active_process_record(
+                &state_dir,
+                &attempt_id,
+                owner_pid,
+                node_id,
+                process_group_id,
+                active,
+            )
+        },
+    ) {
         Ok(receipt) => {
             let execution = receipt
                 .execution_records
@@ -937,6 +1208,43 @@ fn execute_node(
             predecessor_attempt_id: None,
         },
     }
+}
+
+fn update_active_process_record(
+    state_dir: &Path,
+    attempt_id: &str,
+    owner_pid: u32,
+    node_id: &str,
+    process_group_id: u32,
+    active: bool,
+) -> Result<(), String> {
+    let path = state_dir.join(format!("{attempt_id}.json"));
+    let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
+    if !metadata.file_type().is_file() {
+        return Err("composition attempt is not a regular file".into());
+    }
+    let bytes = fs::read(&path).map_err(|error| error.to_string())?;
+    let mut attempt: CompositionAttempt =
+        serde_json::from_slice(&bytes).map_err(|error| error.to_string())?;
+    if attempt.attempt_id != attempt_id
+        || attempt.owner_pid != Some(owner_pid)
+        || attempt.active_execution_node.as_deref() != Some(node_id)
+    {
+        return Err("composition active-process identity changed".into());
+    }
+    if active {
+        if attempt.active_process_group_id.is_some() {
+            return Err("composition already records an active process group".into());
+        }
+        attempt.active_process_group_id = Some(process_group_id);
+    } else {
+        if attempt.active_process_group_id != Some(process_group_id) {
+            return Err("composition active process group does not match".into());
+        }
+        attempt.active_process_group_id = None;
+        attempt.active_execution_node = None;
+    }
+    persist_attempt(state_dir, &attempt).map_err(|error| error.to_string())
 }
 
 struct ObservedCompositionIdentity {
@@ -2157,6 +2465,19 @@ fn unique_composition_parent() -> PathBuf {
     ))
 }
 
+fn create_private_composition_parent(path: &Path) -> std::io::Result<()> {
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::DirBuilderExt;
+        let mut builder = fs::DirBuilder::new();
+        builder.mode(0o700).create(path)
+    }
+    #[cfg(not(unix))]
+    {
+        fs::create_dir(path)
+    }
+}
+
 struct CompositionWorktreeGuard {
     repository_root: PathBuf,
     worktree: PathBuf,
@@ -2188,6 +2509,10 @@ impl CompositionWorktreeGuard {
             &self.parent,
             self.registered,
         )
+    }
+
+    fn preserve(&mut self) {
+        self.armed = false;
     }
 }
 

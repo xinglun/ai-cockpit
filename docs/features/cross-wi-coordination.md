@@ -26,6 +26,14 @@ effective environment, declared input bytes, and dependency receipts; unknown
 node inputs disable it. Outcome exposes applicability, actual merge, cleanup,
 and reuse facts separately.
 
+An interrupted composition durably records its active verifier process group.
+Retry preserves the temporary worktree while the group is alive or its state is
+unknown. On Unix it also checks same-user process working directories and open
+file handles under the worktree, so detached session descendants still using
+the tree block cleanup; incomplete inspection fails closed. On Windows the
+bounded executor's kill-on-close process job contains descendants. Outcome
+reports success or reusable checks only from a coherent terminal attempt.
+
 Composition coverage comes from digest-bound required `verification` checks
 that declare `coversScenarios` or `coversConstraints`; caller labels do not
 grant coverage. The execution repository must share the coordination store's

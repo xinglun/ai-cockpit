@@ -87,6 +87,7 @@ impl CoordinationStore {
         let store = Self::open_read_only(repository, runtime)?;
         for directory in [
             "registrations",
+            "registration-history",
             "events",
             "reservations",
             "requests",
@@ -167,6 +168,7 @@ impl CoordinationStore {
             if path.exists() {
                 let existing: WorktreeRegistration = self.read_json(&path)?;
                 if existing == registration {
+                    self.persist_registration_snapshot(&registration)?;
                     return Ok(existing);
                 }
                 if existing.generation >= registration.generation {
@@ -197,6 +199,7 @@ impl CoordinationStore {
                     );
                 }
             }
+            self.persist_registration_snapshot(&registration)?;
             if identity_changed {
                 let event = CoordinationEvent {
                     schema_version: COLLABORATION_SCHEMA_VERSION,
@@ -700,7 +703,9 @@ impl CoordinationStore {
             Ok(())
         })?;
         self.read_directory("recoveries", &mut inspection.unknowns, |path| {
-            inspection.recoveries.push(self.read_json(path)?);
+            let recovery: CoordinationRecovery = self.read_json(path)?;
+            self.validate_recovery_facts(path, &recovery)?;
+            inspection.recoveries.push(recovery);
             Ok(())
         })?;
         inspection
@@ -938,6 +943,149 @@ impl CoordinationStore {
             })?;
         }
         Ok(())
+    }
+
+    fn validate_recovery_facts(
+        &self,
+        path: &Path,
+        recovery: &CoordinationRecovery,
+    ) -> Result<(), CoordinationError> {
+        validate_recovery_identity(recovery)?;
+        if path.file_stem().and_then(|stem| stem.to_str()) != Some(recovery.consumption_id.as_str())
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery filename does not match its consumption identity".into(),
+            ));
+        }
+        let expected_consumption_id = format!(
+            "recovery-{}-{}-{}",
+            recovery.event_id, recovery.consumer_work_item_id, recovery.consumer_generation
+        );
+        if recovery.consumption_id != expected_consumption_id {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery consumption identity does not match its event and consumer".into(),
+            ));
+        }
+
+        let event_path = self
+            .root
+            .join("events")
+            .join(format!("{}.json", recovery.event_id));
+        let event: CoordinationEvent = self.read_json(&event_path)?;
+        validate_event(&event)?;
+        let provider_path = self.registration_path(&recovery.provider_work_item_id);
+        let provider: WorktreeRegistration = self.read_json(&provider_path)?;
+        self.validate_registration_facts(&provider)?;
+        self.validate_event_facts(&event, &provider)?;
+        if event.event_id != recovery.event_id
+            || event.repository_id != recovery.repository_id
+            || provider.repository_id != recovery.repository_id
+            || event.work_item_id != recovery.provider_work_item_id
+            || event.generation != recovery.provider_generation
+            || event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery does not match its invalidation event and provider".into(),
+            ));
+        }
+
+        let consumer_path = self.registration_path(&recovery.consumer_work_item_id);
+        let consumer: WorktreeRegistration = self.read_json(&consumer_path)?;
+        self.validate_registration_facts(&consumer)?;
+        if consumer.repository_id != recovery.repository_id
+            || recovery.consumer_generation > consumer.generation
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery consumer identity or generation is inconsistent".into(),
+            ));
+        }
+
+        let Some(observed_provider_generation) = recovery.current_provider_generation else {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery is missing its observed provider generation".into(),
+            ));
+        };
+        let Some(observed_provider_head) = recovery.current_provider_head.as_deref() else {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery is missing its observed provider head".into(),
+            ));
+        };
+        let Some(observed_contract_digest) = recovery.current_provider_contract_digest.as_ref()
+        else {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery is missing its observed provider Contract digest".into(),
+            ));
+        };
+        if observed_provider_generation < event.generation
+            || observed_provider_generation > provider.generation
+            || !valid_component(observed_provider_head)
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery provider snapshot is inconsistent with current registration".into(),
+            ));
+        }
+        let history_path = self.registration_history_path(
+            &recovery.provider_work_item_id,
+            observed_provider_generation,
+        );
+        let historical_provider: WorktreeRegistration = self
+            .read_json(&history_path)
+            .map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "recovery provider snapshot has no verifiable immutable registration history: {error}"
+                ))
+            })?;
+        validate_registration(&historical_provider)?;
+        if !historical_provider.runtime.same_identity(&self.runtime)
+            || historical_provider.repository_id != recovery.repository_id
+            || historical_provider.work_item_id != recovery.provider_work_item_id
+            || historical_provider.generation != observed_provider_generation
+            || historical_provider.head != observed_provider_head
+            || historical_provider.contract_digest != *observed_contract_digest
+        {
+            return Err(CoordinationError::RecoveryRequired(
+                "recovery provider snapshot does not match its immutable registration history"
+                    .into(),
+            ));
+        }
+        Ok(())
+    }
+
+    fn registration_history_path(&self, work_item_id: &str, generation: u64) -> PathBuf {
+        self.root
+            .join("registration-history")
+            .join(work_item_id)
+            .join(format!("{generation}.json"))
+    }
+
+    fn persist_registration_snapshot(
+        &self,
+        registration: &WorktreeRegistration,
+    ) -> Result<(), CoordinationError> {
+        let path =
+            self.registration_history_path(&registration.work_item_id, registration.generation);
+        let parent = path.parent().expect("registration history has parent");
+        fs::create_dir_all(parent).map_err(|source| CoordinationError::Io {
+            path: parent.to_path_buf(),
+            source,
+        })?;
+        match fs::symlink_metadata(&path) {
+            Ok(_) => {
+                let existing: WorktreeRegistration = self.read_json(&path)?;
+                if existing == *registration {
+                    Ok(())
+                } else {
+                    Err(CoordinationError::RecoveryRequired(format!(
+                        "immutable registration history already differs for {} generation {}",
+                        registration.work_item_id, registration.generation
+                    )))
+                }
+            }
+            Err(error) if error.kind() == ErrorKind::NotFound => {
+                self.atomic_write(&path, registration)
+            }
+            Err(source) => Err(CoordinationError::Io { path, source }),
+        }
     }
 
     fn observed_event_evidence_digests(
@@ -1240,6 +1388,22 @@ fn validate_event(event: &CoordinationEvent) -> Result<(), CoordinationError> {
     {
         return Err(CoordinationError::RecoveryRequired(
             "invalid or duplicate event outcome identity".into(),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_identity(recovery: &CoordinationRecovery) -> Result<(), CoordinationError> {
+    if recovery.schema_version != COLLABORATION_SCHEMA_VERSION
+        || !valid_component(&recovery.consumption_id)
+        || !valid_component(&recovery.event_id)
+        || !valid_component(&recovery.provider_work_item_id)
+        || !valid_component(&recovery.consumer_work_item_id)
+        || recovery.provider_generation == 0
+        || recovery.consumer_generation == 0
+    {
+        return Err(CoordinationError::RecoveryRequired(
+            "invalid coordination recovery identity".into(),
         ));
     }
     Ok(())

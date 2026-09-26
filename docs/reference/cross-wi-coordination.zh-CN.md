@@ -80,7 +80,11 @@ Contract digest 与精确必需检查身份绑定。composition 输入中的标�
 `VerificationCheck` 没有环境声明字段，因此调用方提供的值无法绑定到该检查。Runtime 观察有效环境
 用于身份和复用，不代表授权 overlay 改写 Contract 要求的检查。
 具有有限超时和有界输出；启动进程前先落盘 in-progress attempt，逐节点落盘，并记录
-超时、父进程中断可恢复状态和清理结果。调用方提供的 identity digest 不授权复用：
+超时、父进程中断可恢复状态和清理结果。Runtime 会持久记录活动 node 和 verifier 进程组身份。
+只有确认进程组已停止后重试才会清理临时 worktree。Unix 还会检查同一用户的进程 cwd 和
+worktree 下的打开文件句柄，以拦截仍在引用该树的 detached session 后代；检查不完整时
+fail closed。Windows 由 executor 的 kill-on-close process job 管理后代。只有终态 receipt
+内部一致，Outcome 才展示通过或可复用检查。调用方提供的 identity digest 不授权复用：
 Runtime 会观察目标 tree、锁文件和配置文件、实际解析的 executable、有效进程环境及
 声明的输入文件。只有实际观察到的 executable、命令、有效环境、声明输入文件字节和
 上游 receipt 与成功前序节点一致时才复用；缺少或无法观察的节点输入会禁用复用。

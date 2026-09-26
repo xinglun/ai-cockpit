@@ -25,12 +25,13 @@ WI-1033 is the Runtime-bound recovery successor to WI-1032. Runtime archived WI-
 
 The earlier WI-1031 archive has valid historical verification but a pending human close. Its bytes remain immutable; the selected successor lineage must be resolved only when Runtime has the complete terminal evidence.
 
-Before independent review found directory-handle swap races, a full Runtime canonical verification passed 34/34 nodes on commit `6f5c4aaf`; that receipt is historical and does not bind this tree. A later full gate passed 35/35 nodes on `faa3eb4`, but it predates the required-check environment amendment and is also historical. Independent review demonstrated that an unbound environment overlay could make a matching required command pass with `forged-pass`; the new regression reproduced that behavior, and the narrow guard then passed the focused admission suite (38/38) before the amendment. The Contract now has 29 acceptance criteria and 24 scenarios, including execution of the Windows-only rename-denial regression in CI. Hosted CI run `36155139121` failed the governance-integrity and Windows-runtime jobs; its diagnostic artifact identified missing WI-1031 close evidence, stale three-locale parity, missing Japanese WI-1032/WI-1033 rows, and a `tempfile` dependency missing from Windows library tests. Runtime is authoritative for current evidence freshness. Fresh canonical verification on the amended tree, successful hosted CI, independent review, merge, and exact cleanup remain pending; no release is claimed.
+Before independent review found directory-handle swap races, a full Runtime canonical verification passed 34/34 nodes on commit `6f5c4aaf`; that receipt is historical and does not bind this tree. A later full gate passed 35/35 nodes on `faa3eb4`, but it predates the required-check environment amendment and is also historical. Independent review demonstrated that an unbound environment overlay could make a matching required command pass with `forged-pass`; the new regression reproduced that behavior, and the narrow guard then passed the focused admission suite (38/38) before the amendment. The active Contract now has 42 acceptance criteria and 37 required scenarios, including execution of the Windows-only rename-denial regression in CI and the checkpointed stale-preflight recovery path. Hosted CI run `36215373771` failed the quality scope check and Windows runtime job on head `b57068c`; the local in-scope amendments cover the omitted regression file and canonical-root alias case. Runtime is authoritative for current evidence freshness. Fresh canonical verification on the amended tree, successful hosted CI, independent review, merge, and exact cleanup remain pending; no release is claimed.
 
 ## Scope
 
 - Revalidate trusted registration/composition identity (including matching the execution repository's Git common directory to the CoordinationStore), required-check completeness and environment binding (rejecting caller overlays not declared by the Contract), crash and live-lock safety, evidence containment, provider-scoped dependencies, actual CLI reuse, MCP identity parity, and the read-only query/write boundary.
 - Prove real multi-process linked-worktree behavior and preserve ordinary single-WI serial execution.
+- When a checkpointed preflight is missing or stale, expose `run_preflight` and withhold `run_verification` until refresh; do not turn an already authorized start into another confirmation gate.
 - Preserve invalidation for removed provider outputs through dependency chains, and reject unsafe or pre-acknowledged coordination requests; bind loaded registration identity before Contract fact lookup.
 - Inspect Sentinel with the candidate CLI without writing its source, Contract/evidence, lifecycle Runtime, or coordination store.
 - Run repository library containment regressions in the existing Windows CI job and pin that job step in the gate-manifest regression.
@@ -42,7 +43,7 @@ Task 8, the Runtime snapshot-binding behavior across commits, is a separate seri
 
 ## Acceptance and verification
 
-See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All twenty-four required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
+See the [specification](WI-1033-cross-wi-review-fixes-recovery/spec.md) and [implementation plan](WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md). All 37 required scenarios carry explicit expected results and verification plans. The canonical documentation gate is `bash tests/docs/documentation_acceptance.sh`.
 
 ## Delivery boundary
 
