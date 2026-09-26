@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to continue all Work Items through PR merge and cleanup, stopping before release",
+  "decidedAt": "2026-09-25T05:35:15Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.c5239f2b836f9a2e60bd41f9616179a989d69dc5771a1ee32036d791fb0e30a6.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+  "predecessorEventsDigest": "sha256:3a62879e341ca0777fd51d97c4978561090278e42a41854e93c99e7185f5ebc7",
+  "predecessorOutcomeDigest": "sha256:fada8fdbc47dd8b362e98984d0d6d5d2af04d23279d228604065bf5e7dcc5e81",
+  "predecessorSummaryDigest": "sha256:2a4eb1350813ecc757e70b74a5aa93622d44481d7319caa5fdcd87180a1f33f4",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The prior verification evidence predates the reviewed source, test, and documentation changes and is bound to an older repository snapshot. This append-only retry reopens the same Contract for one fresh Runtime-bound verification; it does not widen scope or claim verification success.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Obtain current-snapshot verification for the active Contract, then refresh any required preflight decision before finish; stop if Runtime rejects the next action.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

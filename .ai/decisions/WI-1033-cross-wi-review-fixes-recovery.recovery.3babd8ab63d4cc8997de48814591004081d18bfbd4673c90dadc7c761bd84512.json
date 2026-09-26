@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to proceed through the pre-release boundary",
+  "decidedAt": "2026-09-25T19:34:29Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.3d2d9eaee9f5e511f300ba440c0d11aa039364f8c62a7332189b27339b3fc16c.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "predecessorEventsDigest": "sha256:c0b0955beca390742f3d406b8630b88fc2f94e8d8b3741f2c88aa95432127d9b",
+  "predecessorOutcomeDigest": "sha256:22a484db450121d483309b9a5b34c5bca26cc84e90ce4e02e9a3cdeb5e71d095",
+  "predecessorSummaryDigest": "sha256:8fb9244f7529d52f985d19eb41b088cb4f249625d2320e1eed07cefda039b207",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The current source-built Runtime is 0.2.113 with executable digest sha256:f3803d10b5e4821773b88cb190650499b24889af8175fa51c21bad930574e423; the earlier hosted Linux candidate for run 36177143896 was the same version with digest sha256:a4eba1c4f69adf0c49fef593531c49863ef9b4e1139c782d812c312f893a86d0. Runtime classified the existing verification as contradictory across executable identities. The user explicitly authorized continuing this Work Item through merge and cleanup, then Task 8, stopping before release. This append-only retry is limited to producing fresh evidence under the current source-built Runtime, preserves all prior receipts, and claims no verification, review, merge, or release result.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the full canonical WI-1033 verification with the current Runtime on the exact committed snapshot; preserve prior attempts, and continue only after Runtime accepts fresh evidence and hosted CI passes on the exact pushed head.",
+  "runtimeDigest": "sha256:f3803d10b5e4821773b88cb190650499b24889af8175fa51c21bad930574e423",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:812894e7e276fc04ca65f17cdf34f2f7e2acaa61b916eafdf9970fe9c074ccdc",
+  "reason": "This receipt rebinds the user's existing authorization to complete WI-1032 through PR review, merge, and cleanup, with release excluded, to the current source snapshot after Task 7. It adds no scope and records no new human approval, verification, review, hosted check, merge, cleanup, or release result.",
+  "recordedAt": "2026-09-24T23:34:08Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:040abd9f28653c935d35f0fef2f1c958d2a9c58b6d2d8c4befa7913fddd242e5",
+  "schemaVersion": 1,
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

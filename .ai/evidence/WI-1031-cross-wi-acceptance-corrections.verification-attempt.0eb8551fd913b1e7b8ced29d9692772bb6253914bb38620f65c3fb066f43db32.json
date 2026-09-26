@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:0eb8551fd913b1e7b8ced29d9692772bb6253914bb38620f65c3fb066f43db32",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "coordination_store"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:fbc729543cff5ab411203bee1869a2b4f6e87211d58f2c36892f3ff9ab9491b0",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:0070ae0e9948602bc0f6cc33e1b7e92170865459ed24a213cc76cad3ae7f4a8b",
+  "contractExecutionScopeDigest": "sha256:cbf05e33be99b5a669962fbdd7a4a69e0f97f452ed530a4b85f837ae82f5ff6e",
+  "createdAt": "2026-09-24T14:38:23Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-cross-wi-acceptance-corrections/ai-cockpit/.ai/work-items/active/WI-1031-cross-wi-acceptance-corrections.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9010101f6794bd65be5a6b762518f480729ef94d8fb73c2460b04ee65b3b7754",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections"
+}

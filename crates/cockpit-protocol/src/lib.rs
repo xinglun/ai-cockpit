@@ -27,11 +27,13 @@ pub use interface_description::{
     WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_MCP_LANGUAGE,
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_SURFACE,
     WORK_ITEM_OUTCOME_VIEW_DESCRIPTION, WORK_ITEM_OUTCOME_VIEW_FULL,
-    WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_VALUES, WorkItemOutcomeLanguage,
-    WorkItemOutcomeQueryArgs, WorkItemOutcomeView, capability_show_format_is_valid,
-    capability_show_interface_specs, capability_show_language_is_valid,
-    capability_show_parameter_spec, normalize_work_item_outcome_language,
-    render_interface_description_markdown, work_item_outcome_interface_description,
+    WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_VALUES, WorkItemCoordinationActionSpec,
+    WorkItemCoordinationParameterSpec, WorkItemOutcomeLanguage, WorkItemOutcomeQueryArgs,
+    WorkItemOutcomeView, capability_show_format_is_valid, capability_show_interface_specs,
+    capability_show_language_is_valid, capability_show_parameter_spec,
+    normalize_work_item_outcome_language, render_interface_description_markdown,
+    work_item_coordination_action_specs, work_item_coordination_action_values,
+    work_item_coordination_parameter_specs, work_item_outcome_interface_description,
     work_item_outcome_interface_specs, work_item_outcome_language_is_valid,
     work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec,
     work_item_outcome_parameter_spec_by_canonical, work_item_outcome_query_command,
@@ -2486,6 +2488,15 @@ pub struct VerificationCheck {
     pub check: String,
     #[serde(default)]
     pub required: bool,
+    /// Scenario identities this exact Contract check is declared to verify.
+    /// Composition admission derives coverage from this digest-bound field;
+    /// command-input labels are descriptive only.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub covers_scenarios: Vec<String>,
+    /// Compatibility-constraint identities this exact Contract check is
+    /// declared to verify.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub covers_constraints: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3534,6 +3545,14 @@ pub struct ConsumedOutcome {
     pub verification_required: bool,
 }
 
+/// The globally unambiguous identity of an outcome declared by one provider.
+#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProviderOutcomeKey {
+    pub provider_work_item_id: String,
+    pub outcome_id: String,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ResourceClaimMode {
@@ -3610,6 +3629,16 @@ pub struct CoordinationEvent {
     pub source: String,
     #[serde(default)]
     pub evidence_refs: Vec<String>,
+    /// Exact file content digests observed when this event was appended.
+    /// Legacy events deserialize without bindings and cannot satisfy evidence
+    /// requirements that need a current publication.
+    #[serde(default)]
+    pub evidence_digests: BTreeMap<String, Digest>,
+    /// Empty preserves the legacy meaning of invalidating all provider
+    /// outcomes. A non-empty list narrows the event to these declared output
+    /// identities so action admission can remain outcome-specific.
+    #[serde(default)]
+    pub outcome_ids: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

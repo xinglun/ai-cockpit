@@ -9,11 +9,13 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_VIEW_VALUES,
     WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
     WorkItemAdmissionState, WorkItemStatusSnapshot, normalize_work_item_outcome_language,
-    render_interface_description_markdown, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs, work_item_outcome_mcp_request_parameter_specs,
-    work_item_outcome_parameter_spec_by_canonical,
+    render_interface_description_markdown, work_item_coordination_action_specs,
+    work_item_coordination_action_values, work_item_coordination_parameter_specs,
+    work_item_outcome_interface_description, work_item_outcome_interface_specs,
+    work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec_by_canonical,
 };
 use serde_json::json;
+use std::collections::BTreeSet;
 
 fn surface<'a>(
     description: &'a cockpit_protocol::InterfaceDescription,
@@ -388,6 +390,83 @@ fn outcome_description_and_markdown_are_deterministic() {
         assert!(first_markdown.contains("full"));
         assert!(first_markdown.contains("delivery"));
     }
+}
+
+#[test]
+fn coordination_interface_specs_bind_one_identity_contract_per_action_variant() {
+    let parameters = work_item_coordination_parameter_specs();
+    let names = parameters
+        .iter()
+        .map(|parameter| parameter.name)
+        .collect::<BTreeSet<_>>();
+    assert_eq!(names.len(), parameters.len(), "MCP properties are unique");
+    for (mcp_name, cli_name) in [
+        ("providerWorkItemId", "id"),
+        ("providerGeneration", "generation"),
+        ("outcomeId", "outcome-id"),
+        ("eventId", "event-id"),
+        ("consumerWorkItemId", "consumer-work-item-id"),
+        ("consumerGeneration", "consumer-generation"),
+    ] {
+        assert_eq!(
+            parameters
+                .iter()
+                .find(|parameter| parameter.name == mcp_name)
+                .expect("coordination parameter")
+                .cli_name,
+            Some(cli_name),
+            "CLI/MCP binding for {mcp_name}"
+        );
+    }
+    assert_eq!(
+        work_item_coordination_action_values(),
+        [
+            "inspect",
+            "register",
+            "report-impact",
+            "publish-outcome",
+            "request-pause",
+            "acknowledge",
+            "resume",
+            "recover"
+        ]
+    );
+
+    let actions = work_item_coordination_action_specs();
+    let publish = actions
+        .iter()
+        .filter(|action| action.action == "publish-outcome")
+        .collect::<Vec<_>>();
+    assert_eq!(
+        publish.len(),
+        2,
+        "one canonical and one legacy publish form"
+    );
+    assert!(publish.iter().any(|action| {
+        !action.legacy_alias
+            && action.required_parameters
+                == ["providerWorkItemId", "providerGeneration", "outcomeId"]
+            && action.allowed_parameters
+                == ["providerWorkItemId", "providerGeneration", "outcomeId"]
+    }));
+    assert!(publish.iter().any(|action| {
+        action.legacy_alias
+            && action.required_parameters == ["workItemId", "generation", "outcomeId"]
+    }));
+
+    let resume = actions
+        .iter()
+        .find(|action| action.action == "resume")
+        .expect("resume action");
+    assert_eq!(resume.required_parameters, ["workItemId", "generation"]);
+    let recover = actions
+        .iter()
+        .find(|action| action.action == "recover")
+        .expect("recover action");
+    assert_eq!(
+        recover.required_parameters,
+        ["eventId", "consumerWorkItemId", "consumerGeneration"]
+    );
 }
 
 #[test]

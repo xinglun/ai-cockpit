@@ -1,0 +1,22 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "User authorization in the current Codex task: continue through the pre-release boundary (2026-09-25 Asia/Tokyo).",
+  "decidedAt": "2026-09-25T00:59:08Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1032-cross-wi-review-fixes.verification-attempt.f275c04f64c7629d52a9b5fb684a8f645829a5766d99157b3fa74fc1c43296ef.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "predecessorSummaryDigest": "sha256:adf9f240df77212b76b8d13245b9e4c811276a257a2ac8ef95d3095bd5f2b277",
+  "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
+  "reason": "Runtime 0.2.113 rejects all eight required unverified scenarios because their existing Contract entries have no expected result. The supported additive amend API cannot repair existing entries. Create a same-objective recovery successor that declares verifiable expected results and preserves this predecessor and its failed precondition evidence as immutable history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the same bounded WI-1032 remediation scope with complete required scenario declarations, correct the canonical documentation gate command, run the declared Rust/Runtime and real-process verification, obtain independent PR review, merge and perform exact cleanup; stop before any release. Keep the separate Task 8 snapshot-binding investigation in its own serial Work Item.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

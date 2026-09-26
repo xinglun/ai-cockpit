@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "Explicit user instruction in this thread to continue remediation through PR merge and cleanup, then stop before release for review.",
+  "decidedAt": "2026-09-25T20:33:05Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.c5dc201850c70a383d4cd69786461714192c50dd15e4f3259857be9d84ae11e1.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36183698877"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+  "predecessorEventsDigest": "sha256:c0b0955beca390742f3d406b8630b88fc2f94e8d8b3741f2c88aa95432127d9b",
+  "predecessorOutcomeDigest": "sha256:3db8a736f5e4ed17696539050c74e97aaad1e972751d4afa5631561d2b471315",
+  "predecessorSummaryDigest": "sha256:2586fc17f81eedeca1e4b8273489c864641308c585bfc29ee8441402142d6df1",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The preserved verification receipt and prior retry are bound to an earlier repository snapshot and Runtime binary. The current reviewed source commit is ba43f6f7002328b030e573ba53a8cce7198b88a6, with the Linux Clippy and Runtime-observed environment acceptance corrections. This append-only retry reopens the same Contract for fresh verification under the current candidate Runtime; it does not widen scope or claim success.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "A fresh Runtime-bound verification passes for the exact committed source snapshot using the recorded candidate Runtime identity, and hosted checks bind required cross-platform evidence to that commit; then refresh status and proceed only through Runtime-admitted preflight/finish. Stop before release.",
+  "runtimeDigest": "sha256:6638bbe9ace589a2408285506c4ee99511e3fb1859b9be6b25096cfefd3fb90b",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

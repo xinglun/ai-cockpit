@@ -1222,6 +1222,7 @@ pub fn render_collaboration_outcome(
             "状态",
             "实现状态",
             "组合验证",
+            "组合适用性",
             "目标合并",
             "清理",
             "提供方",
@@ -1240,6 +1241,7 @@ pub fn render_collaboration_outcome(
             "状態",
             "実装状態",
             "構成検証",
+            "構成適用性",
             "対象マージ",
             "クリーンアップ",
             "提供元",
@@ -1258,6 +1260,7 @@ pub fn render_collaboration_outcome(
             "State",
             "Implementation state",
             "Composition verification",
+            "Composition applicability",
             "Target merge",
             "Cleanup",
             "Providers",
@@ -1277,7 +1280,7 @@ pub fn render_collaboration_outcome(
         .as_deref()
         .unwrap_or("not observed");
     format!(
-        "{}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- integration owner/order: {}/{}\n",
+        "{}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- integration owner/order: {}/{}\n",
         labels.0,
         projection.work_item_id,
         labels.1,
@@ -1287,28 +1290,30 @@ pub fn render_collaboration_outcome(
         labels.3,
         projection.composition_state,
         labels.4,
-        projection.target_merge_state,
+        projection.composition_applicability,
         labels.5,
-        projection.cleanup_state,
+        projection.target_merge_state,
         labels.6,
-        projection.providers.join(", "),
+        projection.cleanup_state,
         labels.7,
-        projection.consumers.join(", "),
+        projection.providers.join(", "),
         labels.8,
-        projection.waiting_edges.join(", "),
+        projection.consumers.join(", "),
         labels.9,
-        projection.invalidated_event_ids.join(", "),
+        projection.waiting_edges.join(", "),
         labels.10,
-        projection.blockers.join(", "),
+        projection.invalidated_event_ids.join(", "),
         labels.11,
-        projection.unknowns.join(", "),
+        projection.blockers.join(", "),
         labels.12,
-        projection.human_decision_required,
+        projection.unknowns.join(", "),
         labels.13,
-        projection.revalidation,
+        projection.human_decision_required,
         labels.14,
-        projection.reusable_checks.join(", "),
+        projection.revalidation,
         labels.15,
+        projection.reusable_checks.join(", "),
+        labels.16,
         projection.next_action,
         owner,
         projection.composition_order.join(" -> "),
@@ -3729,19 +3734,29 @@ mod render_tests {
             Path::new("/repo"),
             "WI-42",
         );
+        let receipt_args = receipt.argv.as_ref().expect("receipt command");
+        let expected_receipt_prefix = vec![
+            "ai-cockpit",
+            "work-item",
+            "finalize",
+            "--repo",
+            "/repo",
+            "--id",
+            "WI-42",
+            "--input",
+        ];
+        let expected_receipt_path = Path::new("/repo")
+            .join(".ai")
+            .join("decisions")
+            .join("WI-42.finalize.json");
+        assert_eq!(receipt_args.len(), expected_receipt_prefix.len() + 1);
         assert_eq!(
-            receipt.argv,
-            Some(vec![
-                "ai-cockpit".into(),
-                "work-item".into(),
-                "finalize".into(),
-                "--repo".into(),
-                "/repo".into(),
-                "--id".into(),
-                "WI-42".into(),
-                "--input".into(),
-                "/repo/.ai/decisions/WI-42.finalize.json".into(),
-            ])
+            &receipt_args[..expected_receipt_prefix.len()],
+            expected_receipt_prefix
+        );
+        assert_eq!(
+            Path::new(receipt_args.last().expect("receipt input path")),
+            expected_receipt_path.as_path()
         );
         let retained = finalization_action_projection_for_context(
             "retain_resources_and_follow_close_rules",

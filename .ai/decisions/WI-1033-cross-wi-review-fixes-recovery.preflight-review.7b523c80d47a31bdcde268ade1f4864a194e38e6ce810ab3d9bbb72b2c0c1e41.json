@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The user explicitly authorized all corresponding work through PR merge and cleanup, stopping before release for review. This identity-bound receipt records that existing bounded decision for the current Contract and preflight snapshot; it does not assert unverified user benefit or add a second start-confirmation gate.",
+  "recordedAt": "2026-09-25T06:49:17Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:aeeacb9f1c7d2c2534374e98c52f1fcb91e741dcaab8ac55345e9da49aa7dfa9",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

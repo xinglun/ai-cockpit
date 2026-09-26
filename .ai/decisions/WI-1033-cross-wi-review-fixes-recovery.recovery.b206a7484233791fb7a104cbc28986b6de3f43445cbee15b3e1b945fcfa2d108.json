@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to proceed through the pre-release boundary",
+  "decidedAt": "2026-09-25T08:31:58Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.summary.json",
+    ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:eb3b8a78454a2002b695acb3305c05c80d2c5d4c36662ee84bb733ed4891802d",
+  "predecessorEventsDigest": "sha256:8fd01e38e1b34bbcfe74a32daf918fd8cc6595cdb802c4be8398136d48559f6c",
+  "predecessorOutcomeDigest": "sha256:583e5e77df482216bca39a9fc595d06c7820f4ff1bbf090afc7a1fa2061e077d",
+  "predecessorSummaryDigest": "sha256:3a83dce79338105c0f4d76f78cba0742c40c02d88b8bd0872673bd32d847ea23",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The current Runtime blocks continuation after finish.preflight failed. The user already authorized this Work Item through merge and exact cleanup, stopping before release. This append-only retry reopens the same Work Item on its current snapshot, preserves the blocked predecessor Outcome, and authorizes fresh Runtime-bound verification only; it does not claim verification success or broaden scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh Runtime-bound task verification passes for the current repository snapshot; then preflight and finish are recomputed before independent review and merge. Stop before release.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

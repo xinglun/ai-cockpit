@@ -2,8 +2,9 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
-    ResourceClaim, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
-    WorktreeRegistration,
+    CoordinationIntent, CoordinationRequest, CoordinationRequestState, OutcomeStage,
+    ProvidedOutcome, ResourceClaim, ResourceClaimMode, ResourceReservation,
+    RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use cockpit_repository::{
     CoordinationError, CoordinationStore, WorkItemStartOptions, attach, repository_id,
@@ -109,6 +110,29 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
     }
 }
 
+fn registration_with_outcome(root: &Path, work_item_id: &str) -> WorktreeRegistration {
+    let mut value = registration(root, work_item_id, 1);
+    value.declaration.provided_outcomes = vec![ProvidedOutcome {
+        outcome_id: "api".into(),
+        interface_contract: "api-v1".into(),
+        behavior_contract: "stable behavior".into(),
+        published_head: value.head.clone(),
+        stage: OutcomeStage::ComposableHead,
+        evidence_refs: vec!["target/evidence.json".into()],
+    }];
+    value
+}
+
+#[cfg(unix)]
+fn replace_target_directory_with_external_symlink(root: &Path, outside: &Path) {
+    use std::os::unix::fs::symlink;
+
+    let target = root.join("target");
+    let backup = root.join("target-before-parent-symlink");
+    fs::rename(&target, &backup).expect("preserve target directory");
+    symlink(outside, target).expect("link target directory outside worktree");
+}
+
 fn reservation(
     root: &Path,
     work_item_id: &str,
@@ -132,6 +156,23 @@ fn reservation(
     }
 }
 
+fn coordination_request(
+    root: &Path,
+    request_id: &str,
+    state: CoordinationRequestState,
+) -> CoordinationRequest {
+    CoordinationRequest {
+        schema_version: 1,
+        request_id: request_id.into(),
+        repository_id: repository_id(root),
+        target_work_item_id: "WI-REQUEST".into(),
+        target_generation: 1,
+        intent: CoordinationIntent::RequestSafePause,
+        state,
+        reason: "test coordination request".into(),
+    }
+}
+
 #[test]
 fn duplicate_registration_and_event_are_idempotent() {
     let root = repository();
@@ -149,9 +190,476 @@ fn duplicate_registration_and_event_are_idempotent() {
         kind: CoordinationEventKind::Impact,
         source: "test".into(),
         evidence_refs: vec!["target/evidence.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
-    assert_eq!(store.publish_event(event.clone()).unwrap(), event);
-    assert_eq!(store.publish_event(event.clone()).unwrap(), event);
+    let published = store.publish_event(event.clone()).unwrap();
+    assert_eq!(store.publish_event(event.clone()).unwrap(), published);
+    let serialized = serde_json::to_value(published).expect("serialized event");
+    assert_eq!(
+        serialized["evidenceDigests"],
+        serde_json::json!({
+            "target/evidence.json": Digest::sha256_bytes(b"{}\n").to_string()
+        })
+    );
+}
+
+#[test]
+fn request_transition_rejects_traversal_and_mismatched_record_identity() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-REQUEST", 1))
+        .expect("register request target");
+
+    let escaped_path = store.root().join("events/victim.json");
+    let escaped_record = coordination_request(
+        root.path(),
+        "victim-record",
+        CoordinationRequestState::Requested,
+    );
+    fs::write(
+        &escaped_path,
+        serde_json::to_vec_pretty(&escaped_record).expect("serialize escaped request"),
+    )
+    .expect("write request-shaped record outside requests directory");
+    let escaped_before = fs::read(&escaped_path).expect("read escaped request before transition");
+    let traversal_result =
+        store.transition_request("../events/victim", CoordinationRequestState::Acknowledged);
+    assert!(
+        traversal_result.is_err(),
+        "request IDs must be validated before they become filesystem paths"
+    );
+    assert_eq!(
+        fs::read(&escaped_path).expect("read escaped request after transition"),
+        escaped_before,
+        "a rejected traversal must not modify the out-of-directory record"
+    );
+
+    let stored = coordination_request(
+        root.path(),
+        "stored-request",
+        CoordinationRequestState::Requested,
+    );
+    store
+        .request_coordination(stored)
+        .expect("create valid request");
+    let request_path = store.root().join("requests/stored-request.json");
+    let mut mismatched: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    mismatched["requestId"] = serde_json::json!("different-record");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&mismatched).expect("serialize mismatched request"),
+    )
+    .expect("write mismatched identity fixture");
+    let mismatched_before = fs::read(&request_path).expect("read mismatched request before");
+    let mismatched_result =
+        store.transition_request("stored-request", CoordinationRequestState::Acknowledged);
+    assert!(
+        mismatched_result.is_err(),
+        "the file identity must match the requested coordination ID"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read mismatched request after"),
+        mismatched_before,
+        "a rejected embedded-ID mismatch must leave its record unchanged"
+    );
+}
+
+#[test]
+fn request_transition_rejects_tampered_target_work_item_path() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+    store
+        .request_coordination(coordination_request(
+            root.path(),
+            "tampered-target",
+            CoordinationRequestState::Requested,
+        ))
+        .expect("create valid request");
+
+    let escaped_registration_path = store.root().join("events/victim.json");
+    fs::write(
+        &escaped_registration_path,
+        serde_json::to_vec_pretty(&registration).expect("serialize registration fixture"),
+    )
+    .expect("place valid registration-shaped data outside registrations directory");
+
+    let request_path = store.root().join("requests/tampered-target.json");
+    let mut tampered: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    tampered["targetWorkItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize tampered request"),
+    )
+    .expect("tamper persisted target identity");
+    let request_before = fs::read(&request_path).expect("read request before transition");
+
+    let result =
+        store.transition_request("tampered-target", CoordinationRequestState::Acknowledged);
+    assert!(
+        result.is_err(),
+        "stored target identity must not escape registration path or bind to a different Work Item"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read request after transition"),
+        request_before,
+        "a rejected tampered target must leave the request unchanged"
+    );
+
+    let alias_registration_path = store.registration_path("WI-ALIAS");
+    fs::write(
+        &alias_registration_path,
+        serde_json::to_vec_pretty(&registration).expect("serialize aliased registration"),
+    )
+    .expect("write registration whose stored identity differs from its path");
+    tampered["targetWorkItemId"] = serde_json::json!("WI-ALIAS");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&tampered).expect("serialize aliased request"),
+    )
+    .expect("tamper persisted target to a valid path with a different registration identity");
+    let aliased_request_before = fs::read(&request_path).expect("read aliased request before");
+
+    let aliased_result =
+        store.transition_request("tampered-target", CoordinationRequestState::Acknowledged);
+    assert!(
+        aliased_result.is_err(),
+        "loaded registration identity must match the stored request target"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read aliased request after"),
+        aliased_request_before,
+        "a rejected registration identity mismatch must leave the request unchanged"
+    );
+}
+
+#[test]
+fn request_creation_rejects_registration_target_mismatch_before_fact_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+
+    let alias_path = store.registration_path("WI-ALIAS");
+    let mut tampered_registration =
+        serde_json::to_value(&registration).expect("serialize registration fixture");
+    tampered_registration["workItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &alias_path,
+        serde_json::to_vec_pretty(&tampered_registration)
+            .expect("serialize traversal registration fixture"),
+    )
+    .expect("write registration with traversal identity under safe alias path");
+
+    let mut request = coordination_request(
+        root.path(),
+        "request-traversal-registration",
+        CoordinationRequestState::Requested,
+    );
+    request.target_work_item_id = "WI-ALIAS".into();
+    let error = store
+        .request_coordination(request)
+        .expect_err("a mismatched embedded registration ID must be rejected first");
+    assert!(
+        error
+            .to_string()
+            .contains("coordination request target differs from registration identity"),
+        "identity mismatch must be rejected before registration facts use the embedded ID: {error}"
+    );
+    assert!(
+        !store
+            .root()
+            .join("requests/request-traversal-registration.json")
+            .exists(),
+        "rejected request creation must not persist a request record"
+    );
+}
+
+#[test]
+fn request_transition_rejects_registration_traversal_before_fact_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration(root.path(), "WI-REQUEST", 1);
+    store
+        .register(registration.clone())
+        .expect("register request target");
+    store
+        .request_coordination(coordination_request(
+            root.path(),
+            "request-traversal-registration",
+            CoordinationRequestState::Requested,
+        ))
+        .expect("create valid request");
+
+    let alias_path = store.registration_path("WI-ALIAS");
+    let mut tampered_registration =
+        serde_json::to_value(&registration).expect("serialize registration fixture");
+    tampered_registration["workItemId"] = serde_json::json!("../events/victim");
+    fs::write(
+        &alias_path,
+        serde_json::to_vec_pretty(&tampered_registration)
+            .expect("serialize traversal registration fixture"),
+    )
+    .expect("write registration with traversal identity under safe alias path");
+
+    let request_path = store
+        .root()
+        .join("requests/request-traversal-registration.json");
+    let mut request: serde_json::Value =
+        serde_json::from_slice(&fs::read(&request_path).expect("read request"))
+            .expect("parse request");
+    request["targetWorkItemId"] = serde_json::json!("WI-ALIAS");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&request).expect("serialize request with safe alias target"),
+    )
+    .expect("write request with safe alias target");
+    let request_before = fs::read(&request_path).expect("read tampered request before transition");
+
+    let error = store
+        .transition_request(
+            "request-traversal-registration",
+            CoordinationRequestState::Acknowledged,
+        )
+        .expect_err("a traversal registration identity must be rejected first");
+    assert!(
+        error
+            .to_string()
+            .contains("coordination request target differs from registration identity"),
+        "identity mismatch must be rejected before registration facts use the embedded ID: {error}"
+    );
+    assert_eq!(
+        fs::read(&request_path).expect("read tampered request after transition"),
+        request_before,
+        "a rejected traversal registration identity must leave request bytes unchanged"
+    );
+}
+
+#[test]
+fn request_creation_accepts_only_the_requested_initial_state() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-REQUEST", 1))
+        .expect("register request target");
+
+    for (request_id, state) in [
+        ("request-resumed", CoordinationRequestState::Resumed),
+        ("request-paused", CoordinationRequestState::SafelyPaused),
+    ] {
+        let result =
+            store.request_coordination(coordination_request(root.path(), request_id, state));
+        assert!(
+            result.is_err(),
+            "request creation must reject pre-acknowledged state {state:?}"
+        );
+    }
+    assert!(
+        store
+            .inspect()
+            .expect("inspect rejected requests")
+            .requests
+            .is_empty(),
+        "rejected initial states must not create durable request records"
+    );
+
+    let requested = coordination_request(
+        root.path(),
+        "request-valid",
+        CoordinationRequestState::Requested,
+    );
+    store
+        .request_coordination(requested)
+        .expect("Requested remains the valid initial state");
+    assert_eq!(
+        store
+            .transition_request("request-valid", CoordinationRequestState::Acknowledged)
+            .expect("valid request follows the transition API")
+            .state,
+        CoordinationRequestState::Acknowledged
+    );
+}
+
+#[test]
+fn event_publication_rejects_a_caller_supplied_digest_that_differs_from_file_bytes() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-A", 1))
+        .expect("register provider");
+
+    let event: CoordinationEvent = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "eventId": "event-wrong-digest",
+        "repositoryId": repository_id(root.path()),
+        "workItemId": "WI-A",
+        "generation": 1,
+        "kind": "impact",
+        "source": "test",
+        "evidenceRefs": ["target/evidence.json"],
+        "evidenceDigests": {"target/evidence.json": digest("wrong")},
+        "outcomeIds": []
+    }))
+    .expect("parse evidence-digest event");
+
+    let error = store
+        .publish_event(event)
+        .expect_err("caller-supplied digest must not override observed evidence bytes");
+    assert!(
+        error.to_string().contains("evidence digest"),
+        "unexpected publication error: {error}"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn registration_rejects_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration_with_outcome(root.path(), "WI-PARENT-LINK");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let result = store.register(registration);
+
+    assert!(
+        result.is_err(),
+        "registration must reject an evidence file reached through a symlinked parent"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn event_publication_rejects_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-EVENT-PARENT-LINK", 1))
+        .expect("register provider");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let result = store.publish_event(CoordinationEvent {
+        schema_version: 1,
+        event_id: "outside-parent-event".into(),
+        repository_id: repository_id(root.path()),
+        work_item_id: "WI-EVENT-PARENT-LINK".into(),
+        generation: 1,
+        kind: CoordinationEventKind::Impact,
+        source: "parent-symlink-test".into(),
+        evidence_refs: vec!["target/evidence.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
+    });
+
+    assert!(
+        result.is_err(),
+        "event publication must not digest evidence reached through a parent symlink"
+    );
+    assert!(
+        store.inspect().expect("inspect store").events.is_empty(),
+        "rejected outside evidence must not persist an event"
+    );
+}
+
+#[test]
+fn generic_event_publication_rejects_outcome_published_without_typed_validation() {
+    let root = repository();
+    let store = store(root.path());
+    let provider = registration_with_outcome(root.path(), "WI-GENERIC-OUTCOME");
+    let repository_id = provider.repository_id.clone();
+    store.register(provider).expect("register provider");
+
+    let result = store.publish_event(CoordinationEvent {
+        schema_version: 1,
+        event_id: "generic-outcome-publication".into(),
+        repository_id,
+        work_item_id: "WI-GENERIC-OUTCOME".into(),
+        generation: 1,
+        kind: CoordinationEventKind::OutcomePublished,
+        source: "untyped-direct-caller".into(),
+        evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: vec!["api".into()],
+    });
+
+    assert!(
+        matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("publish_outcome")),
+        "generic publication must require the typed, evidence-validating entry point: {result:?}"
+    );
+    assert!(
+        store.inspect().expect("inspect store").events.is_empty(),
+        "rejected generic OutcomePublished events must not be persisted"
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn inspection_reports_registration_evidence_reached_through_parent_symlink() {
+    let root = repository();
+    let store = store(root.path());
+    let registration = registration_with_outcome(root.path(), "WI-INSPECT-PARENT-LINK");
+    fs::write(
+        store.registration_path(&registration.work_item_id),
+        serde_json::to_vec_pretty(&registration).expect("serialize registration"),
+    )
+    .expect("write registered record");
+    let outside = tempfile::tempdir().expect("outside evidence directory");
+    fs::write(outside.path().join("evidence.json"), "outside evidence\n")
+        .expect("write outside evidence");
+    replace_target_directory_with_external_symlink(root.path(), outside.path());
+
+    let inspection = store
+        .inspect()
+        .expect("inspection preserves unknown record");
+
+    assert!(
+        inspection
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.contains("evidence")),
+        "inspection must surface a registration whose evidence parent is a symlink: {inspection:?}"
+    );
+    assert!(inspection.registrations.is_empty());
+}
+
+#[test]
+fn coordination_event_round_trips_outcome_specific_invalidation() {
+    let value = serde_json::json!({
+        "schemaVersion": 1,
+        "eventId": "impact-api",
+        "repositoryId": digest("repository"),
+        "workItemId": "WI-PROVIDER",
+        "generation": 1,
+        "kind": "impact",
+        "source": "api-contract-changed",
+        "evidenceRefs": [],
+        "outcomeIds": ["api"]
+    });
+    let parsed = serde_json::from_value::<CoordinationEvent>(value.clone());
+    assert!(
+        parsed.is_ok(),
+        "the event protocol must represent which provided outcome changed: {parsed:?}"
+    );
+    assert_eq!(
+        serde_json::to_value(parsed.unwrap()).expect("serialize event")["outcomeIds"],
+        value["outcomeIds"]
+    );
 }
 
 #[test]
@@ -178,6 +686,121 @@ fn registration_identity_change_appends_an_impact_event() {
     assert_eq!(event.kind, CoordinationEventKind::Impact);
     assert_eq!(event.generation, 2);
     assert_eq!(event.source, "registration-identity-changed");
+}
+
+#[test]
+fn interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once() {
+    let root = repository();
+    let store = store(root.path());
+    let original = registration(root.path(), "WI-RECOVER-IMPACT", 1);
+    store
+        .register(original.clone())
+        .expect("register original identity");
+
+    fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "changed identity"]);
+    let updated = registration(root.path(), "WI-RECOVER-IMPACT", 2);
+    let event_path = store
+        .root()
+        .join("events/auto-impact-WI-RECOVER-IMPACT-2.json");
+    fs::create_dir_all(&event_path).expect("inject event write interruption");
+
+    assert!(
+        store.register(updated.clone()).is_err(),
+        "a failed impact write must not report registration success"
+    );
+    let persisted: WorktreeRegistration = serde_json::from_slice(
+        &fs::read(store.registration_path("WI-RECOVER-IMPACT")).expect("registration record"),
+    )
+    .expect("registration JSON");
+    assert_eq!(
+        persisted, original,
+        "new repository facts must not become authoritative before the impact event"
+    );
+
+    fs::remove_dir(&event_path).expect("remove injected failure");
+    assert_eq!(
+        store
+            .register(updated.clone())
+            .expect("retry identical registration after interruption"),
+        updated
+    );
+    let inspection = store.inspect().expect("inspect reconciled store");
+    assert_eq!(
+        inspection
+            .events
+            .iter()
+            .filter(|event| event.event_id == "auto-impact-WI-RECOVER-IMPACT-2")
+            .count(),
+        1
+    );
+}
+
+#[test]
+fn retry_completes_registration_after_event_was_durable_before_interruption() {
+    let root = repository();
+    let store = store(root.path());
+    store
+        .register(registration(root.path(), "WI-CRASH-WINDOW", 1))
+        .expect("register original identity");
+    fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
+    run(root.path(), &["add", "."]);
+    run(root.path(), &["commit", "-qm", "changed identity"]);
+    let updated = registration(root.path(), "WI-CRASH-WINDOW", 2);
+
+    // Model process death at the exact durable boundary: the deterministic
+    // impact record exists, while registration remains at generation one.
+    let event = CoordinationEvent {
+        schema_version: 1,
+        event_id: "auto-impact-WI-CRASH-WINDOW-2".into(),
+        repository_id: updated.repository_id.clone(),
+        work_item_id: updated.work_item_id.clone(),
+        generation: updated.generation,
+        kind: CoordinationEventKind::Impact,
+        source: "registration-identity-changed".into(),
+        evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
+    };
+    let event_path = store
+        .root()
+        .join("events/auto-impact-WI-CRASH-WINDOW-2.json");
+    fs::write(
+        &event_path,
+        serde_json::to_vec_pretty(&event).expect("serialize impact event"),
+    )
+    .expect("persist impact before simulated interruption");
+    let still_old: WorktreeRegistration = serde_json::from_slice(
+        &fs::read(store.registration_path("WI-CRASH-WINDOW")).expect("old registration"),
+    )
+    .expect("old registration JSON");
+    assert_eq!(still_old.generation, 1);
+
+    assert_eq!(
+        store
+            .register(updated.clone())
+            .expect("retry after impact persisted"),
+        updated
+    );
+    let inspection = store.inspect().expect("inspect resumed registration");
+    assert_eq!(
+        inspection
+            .events
+            .iter()
+            .filter(|event| event.event_id == "auto-impact-WI-CRASH-WINDOW-2")
+            .count(),
+        1
+    );
+    assert_eq!(
+        inspection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == "WI-CRASH-WINDOW")
+            .unwrap()
+            .generation,
+        2
+    );
 }
 
 #[test]
@@ -230,6 +853,8 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
         kind: CoordinationEventKind::Impact,
         source: "late-process".into(),
         evidence_refs: Vec::new(),
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
     assert!(matches!(
         store.publish_event(late),
@@ -262,6 +887,8 @@ fn recovery_consumes_only_matching_event_and_is_idempotent() {
         kind: CoordinationEventKind::Impact,
         source: "recovery-test".into(),
         evidence_refs: vec!["evidence/impact.json".into()],
+        evidence_digests: Default::default(),
+        outcome_ids: Vec::new(),
     };
     store.publish_event(event.clone()).expect("publish event");
 
@@ -416,6 +1043,95 @@ fn registration_identity_is_rejected_before_persistence_when_observed_facts_diff
         );
         assert!(!store.registration_path("WI-IDENTITY").exists());
     }
+}
+
+#[test]
+fn registration_rejects_a_contract_with_a_different_declared_identity() {
+    for (field, replacement) in [
+        ("workItemId", serde_json::json!("WI-OTHER")),
+        (
+            "repositoryId",
+            serde_json::json!("sha256:foreign-repository"),
+        ),
+    ] {
+        let root = repository();
+        let store = store(root.path());
+        let work_item_id = "WI-IDENTITY";
+        let _contract_digest = contract_digest(root.path(), work_item_id);
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        contract[field] = replacement;
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).expect("serialize Contract"),
+        )
+        .expect("write misbound Contract");
+
+        let mut registration = registration(root.path(), work_item_id, 1);
+        registration.contract_digest =
+            cockpit_protocol::digest_json(&contract).expect("misbound Contract digest");
+        let result = store.register(registration);
+
+        assert!(
+            matches!(result, Err(CoordinationError::RecoveryRequired(_))),
+            "Contract {field} mismatch must fail closed"
+        );
+        assert!(
+            !store.registration_path(work_item_id).exists(),
+            "Contract {field} mismatch must not persist a registration"
+        );
+    }
+}
+
+#[cfg(unix)]
+#[test]
+fn registration_rejects_a_contract_reached_through_a_symlinked_ancestor() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository();
+    let store = store(root.path());
+    let work_item_id = "WI-CONTRACT-PARENT-SYMLINK";
+    let registration = registration(root.path(), work_item_id, 1);
+    let work_items = root.path().join(".ai/work-items");
+    let active = work_items.join("active");
+    let contract_name = format!("{work_item_id}.contract.json");
+    let contract_bytes = fs::read(active.join(&contract_name)).expect("Contract bytes");
+
+    // Keep an exact, valid copy outside the repository. The old path-based
+    // checks followed this ancestor symlink and accepted the matching bytes.
+    let outside = tempfile::tempdir().expect("external directory");
+    let external_active = outside.path().join("active");
+    fs::create_dir_all(&external_active).expect("external active directory");
+    fs::write(external_active.join(contract_name), contract_bytes)
+        .expect("external matching Contract");
+
+    let original_active = work_items.join("active-original");
+    fs::rename(&active, &original_active).expect("preserve active Contracts");
+    symlink(&external_active, &active).expect("symlink active ancestor outside repository");
+
+    let error = store
+        .register(registration)
+        .expect_err("Contract ancestor symlink must be rejected");
+    assert!(
+        matches!(error, CoordinationError::RecoveryRequired(_)),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !store.registration_path(work_item_id).exists(),
+        "rejected registration must not be persisted"
+    );
+    assert!(
+        fs::read_dir(store.root().join("events"))
+            .expect("events directory")
+            .next()
+            .is_none(),
+        "rejected registration must not append an impact event"
+    );
 }
 
 #[test]

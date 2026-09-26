@@ -1,0 +1,203 @@
+{
+  "acceptanceCriteria": [
+    "复用身份必须由 Runtime 根据实际 target tree、执行器/工具链和影响执行的环境计算或核验；未观测输入不得授权复用；实际环境变化但 JSON 摘要未更新时必须拒绝复用或重新执行。",
+    "组合准入必须覆盖声明的 required scenarios、compatibility constraints、composition order、required participants 及传递依赖闭包；必须支持从消费者 feature worktree 指定真实 main target，并拒绝遗漏的必需节点。",
+    "verification_required 只能由匹配 Work Item、generation、head、Contract digest 且有效成功的受支持 receipt 满足；说明性文件、空 JSON、过期证据不能通过。MergedTarget 必须核验真实目标分支合并事实。",
+    "影响事件登记具备崩溃后重试恢复；按 outcome 过滤同 WI 动作阻塞，并沿三层依赖传播失效。",
+    "Outcome 分离临时组合通过与目标真实合并，保留历史通过同时显式标记过期；暂停的 Outcome 与执行准入共享同一决策。",
+    "普通单 WI 路径必须继续支持单进程串行生命周期和 canonical verification；没有协作声明或登记时不得要求跨 WI 协调状态。",
+    "Publishing an outcome uses explicit CLI and MCP write actions that validate the current registration, generation, outcome identity, and required verification receipt; the appended event binds the exact evidence bytes, read-only inspection does not publish or repair, and stale or mutated evidence cannot satisfy verification_required."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+  "createdAt": "2026-09-24T11:42:51Z",
+  "goal": "让运行时从真实仓库与执行事实构造协作准入和复用身份，验证完整依赖与证据要求，保证影响事件可恢复，并使 Outcome 准确表达合并、过期与暂停状态",
+  "intent": "修复跨 WI 协作闭环中经独立验收确认的复用身份、必需检查与证据、影响一致性及 Outcome 状态缺口",
+  "mode": "implementation",
+  "outOfScope": [
+    "不发布、不创建或移动 tag、不升级 Runtime、不改写 WI-1030 历史 Contract/archive/evidence、不扩大到无关协作架构、不修改全局 Agent/MCP 配置或 Provider 资源"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f0ed81f5074114861ff0daeefcb1f74aca5f024c1c65c243394abb8afd0400d7",
+  "requiredEvidenceClasses": [],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "description": "Runtime-observed execution identity, not caller-declared digest, authorizes reuse.",
+      "evidence": [],
+      "expected": "Changing an observed environment or toolchain input while leaving composition JSON unchanged prevents reuse and re-executes the affected node or fails closed.",
+      "required": true,
+      "scenario": "observed_execution_inputs_prevent_stale_json_reuse",
+      "status": "unverified",
+      "verificationPlan": "Add a negative Rust regression and a real CLI/process acceptance that mutates an observed execution input without changing the JSON identity; assert no stale zero-process reuse."
+    },
+    {
+      "description": "Required scenarios, constraints, order, participants, and dependency closure define complete check coverage.",
+      "evidence": [],
+      "expected": "When two checks are required and only one is supplied, composition is rejected before spawning a process.",
+      "required": true,
+      "scenario": "all_required_composition_checks_are_covered",
+      "status": "unverified",
+      "verificationPlan": "Add a Rust negative test and assert zero process starts when one required node is omitted from a two-node declaration."
+    },
+    {
+      "description": "Target refs are resolved from repository facts, not the caller's current branch.",
+      "evidence": [],
+      "expected": "A consumer feature worktree can resolve and compose against the actual main branch and its current SHA without treating the consumer checkout as the target.",
+      "required": true,
+      "scenario": "consumer_worktree_resolves_actual_main_target",
+      "status": "unverified",
+      "verificationPlan": "Add a linked-worktree regression with a feature checkout and a distinct main target ref; verify the resolved target SHA and composition base."
+    },
+    {
+      "description": "Explanatory evidence references cannot stand in for verification receipts.",
+      "evidence": [],
+      "expected": "Empty JSON, arbitrary files, failed, stale, or mismatched receipts are rejected; only a supported successful receipt matching Work Item, generation, head, Contract digest, and verification identity satisfies the dependency.",
+      "required": true,
+      "scenario": "verification_dependency_requires_bound_successful_receipt",
+      "status": "unverified",
+      "verificationPlan": "Add table-driven negative and positive dependency-admission tests for receipt schema, state, identity, and freshness."
+    },
+    {
+      "description": "Temporary composition success is not target integration.",
+      "evidence": [],
+      "expected": "MergedTarget is denied until the declared target history or supported provider evidence proves the participant is merged.",
+      "required": true,
+      "scenario": "merged_target_requires_actual_merge_fact",
+      "status": "unverified",
+      "verificationPlan": "Add Git-graph tests for unmerged and truly merged participants, plus a mismatched target receipt negative."
+    },
+    {
+      "description": "The human-facing projection distinguishes temporary composition from actual target merge.",
+      "evidence": [],
+      "expected": "A successful temporary composition with no real target merge reports composition passed and target merge not merged or not observed.",
+      "required": true,
+      "scenario": "temporary_composition_does_not_project_as_target_merge",
+      "status": "unverified",
+      "verificationPlan": "Add Outcome projection tests where an isolated composition succeeds while the target branch remains unchanged."
+    },
+    {
+      "description": "Latest-by-time alone does not establish current applicability.",
+      "evidence": [],
+      "expected": "The historical successful attempt remains available but current applicability is stale when target/head/Contract identity changes.",
+      "required": true,
+      "scenario": "historical_composition_is_stale_after_target_advances",
+      "status": "unverified",
+      "verificationPlan": "Persist a successful attempt, advance the target or change current identity, and assert projection retains history while marking it stale."
+    },
+    {
+      "description": "Execution and human-visible state use one refreshed admission decision.",
+      "evidence": [],
+      "expected": "A safely paused current generation is blocked by action admission and shown as blocked in Outcome; unrelated work remains allowed.",
+      "required": true,
+      "scenario": "paused_admission_and_outcome_share_decision",
+      "status": "unverified",
+      "verificationPlan": "Add projection/admission regression tests for a safely paused target generation and a distinct runnable Work Item."
+    },
+    {
+      "description": "Registration identity changes and invalidation events are recoverable as one logical operation.",
+      "evidence": [],
+      "expected": "An interruption between registration and event persistence followed by an identical registration retry yields exactly one valid impact event and no consumer admission gap.",
+      "required": true,
+      "scenario": "registration_retry_recovers_interrupted_impact_write",
+      "status": "unverified",
+      "verificationPlan": "Inject a deterministic storage failure at the registration/event boundary, retry the same registration, and verify idempotent event reconciliation and fail-closed intermediate admission."
+    },
+    {
+      "description": "Dependency blockers are scoped to the action's consumed outcome IDs.",
+      "evidence": [],
+      "expected": "Two actions in one consumer Work Item can name different outcomes; only the action consuming the invalidated outcome is blocked.",
+      "required": true,
+      "scenario": "same_work_item_actions_filter_impacted_outcomes",
+      "status": "unverified",
+      "verificationPlan": "Register two outcome dependencies, invalidate one, and assert action-level admission independently for each outcome ID."
+    },
+    {
+      "description": "Impact is evaluated through transitive dependency closure.",
+      "evidence": [],
+      "expected": "An invalidation at the first provider propagates through second- and third-level consumers until the affected chain is explicitly revalidated.",
+      "required": true,
+      "scenario": "impact_propagates_through_three_dependency_levels",
+      "status": "unverified",
+      "verificationPlan": "Build a three-level registered dependency graph, publish an invalidation at level one, and verify level two and level three are blocked while an unrelated branch remains allowed."
+    },
+    {
+      "description": "Cross-WI behavior remains opt-in and does not remove ordinary serial execution.",
+      "evidence": [],
+      "expected": "An ordinary single Work Item with no collaboration declaration or coordination records remains able to follow the existing serial lifecycle and canonical verification gate, without waiting for cross-WI state.",
+      "required": true,
+      "scenario": "ordinary_single_work_item_path_remains_serial",
+      "status": "unverified",
+      "verificationPlan": "Add a Rust and/or existing process-acceptance regression that exercises the normal single-WI path without coordination state, verifies one-at-a-time execution and successful lifecycle admission, and keeps the canonical Runtime CLI plus Cargo/CI route unchanged."
+    }
+  ],
+  "scope": [
+    "仅修复 WI-1030 独立验收列出的事实与复用身份、组合检查覆盖与成果证据、影响登记恢复与按成果准入、Outcome 当前适用性及暂停状态；保留历史档案，新增反例回归和必要文档/CI 映射；在 dedicated worktree 中按协议存储、依赖协调、组合/复用、投影文档串行实施并分审查提交",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections/**",
+    "docs/reference/cross-wi-coordination.*",
+    "docs/features/cross-wi-coordination.*",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/src/collaboration.rs",
+    "crates/cockpit-repository/src/coordination_store.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/collaboration_admission.rs",
+    "crates/cockpit-repository/tests/coordination_store.rs",
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/composition.rs",
+    "tests/acceptance/cross_wi_coordination_processes.py",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.zh-CN.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/collaboration_cli.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/collaboration_rpc.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "sources": [
+    "user independent acceptance feedback, 2026-09-24",
+    ".ai/work-items/archive/WI-1030-cross-wi-behavioral-closure.contract.json",
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-repository/src/collaboration.rs",
+    "crates/cockpit-repository/src/coordination_store.rs",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections/spec.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections/implementation-plan.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.zh-CN.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.ja.md",
+    "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/collaboration_cli.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/collaboration_rpc.rs",
+    "docs/reference/cross-wi-coordination.md",
+    "docs/reference/cross-wi-coordination.zh-CN.md",
+    "docs/reference/cross-wi-coordination.ja.md",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "python3 tests/acceptance/cross_wi_coordination_processes.py",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "canonical Runtime CLI/Cargo/CI gate on exact merge candidate",
+    "cargo test --locked -p cockpit-cli --test collaboration_outcome_parity",
+    "cargo test --locked -p cockpit-cli --test collaboration_cli",
+    "cargo test --locked -p cockpit-mcp --test collaboration_rpc",
+    "cargo test --locked -p cockpit-repository --test collaboration_admission"
+  ],
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections"
+}

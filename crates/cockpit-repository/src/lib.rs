@@ -67,8 +67,8 @@ pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
     CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
     acknowledge_pause, admit_collaboration_action, collaboration_outcome_projection,
-    collaboration_projection, recover_impact, refresh_dependency_state, report_impact,
-    request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+    collaboration_projection, publish_outcome, recover_impact, refresh_dependency_state,
+    report_impact, request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
@@ -416,10 +416,20 @@ pub fn plan_repository_verification(
         });
     }
 
+    // The coverage manifest and the later execution plan must hash the same
+    // current directory.  `plan_repository_verification_action` canonicalizes
+    // the repository root before building its command identity; do the same
+    // here so lexical aliases (and platform-specific canonical path forms)
+    // cannot produce a manifest that disagrees with the executed command.
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+
     let mut metadata_command = Command::new("cargo");
     metadata_command
         .args(["metadata", "--no-deps", "--format-version", "1"])
-        .current_dir(root)
+        .current_dir(&root)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
     if root.join("Cargo.lock").is_file() {
@@ -544,17 +554,11 @@ pub fn plan_repository_verification(
         command_digests: requests
             .iter()
             .map(|request| {
-                cockpit_verification::VerificationCommand::new(
-                    &request.node_id,
-                    &request.program,
-                    request.args.clone(),
+                build_repository_verification_command(
+                    &root,
+                    request,
+                    None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
-                )
-                .with_current_dir(root)
-                .with_timeout_seconds(
-                    request
-                        .timeout_seconds
-                        .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
                 )
                 .command_digest()
             })
@@ -5693,12 +5697,19 @@ pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, O
         path: path.into(),
         source,
     })?;
-    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+    parse_contract_bytes(&bytes, path)
+}
+
+pub(crate) fn parse_contract_bytes(
+    bytes: &[u8],
+    path: &Path,
+) -> Result<cockpit_protocol::Contract, ObserverError> {
+    reject_duplicate_json_keys(bytes).map_err(|message| ObserverError::State {
         path: path.to_path_buf(),
         message: format!("invalid Contract JSON: {message}"),
     })?;
     let value: serde_json::Value =
-        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+        serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
@@ -5869,6 +5880,50 @@ fn verification_evidence_state(
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Unknown),
     };
+    verification_evidence_state_from_value(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        evidence,
+    )
+}
+
+/// Validate an already safely-read verification receipt without reopening its
+/// path. Callers that bind an event digest must use these exact bytes for both
+/// digest and semantic validation so a path swap cannot substitute a second
+/// receipt between the two checks.
+pub(crate) fn verification_evidence_state_from_bytes(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    bytes: &[u8],
+) -> Result<EvidenceState, ObserverError> {
+    let evidence = match serde_json::from_slice(bytes) {
+        Ok(value) => value,
+        Err(_) => return Ok(EvidenceState::Unknown),
+    };
+    verification_evidence_state_from_value(
+        root,
+        contract,
+        snapshot,
+        archived,
+        current_runtime,
+        evidence,
+    )
+}
+
+fn verification_evidence_state_from_value(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    archived: bool,
+    current_runtime: Option<&RuntimeContext>,
+    evidence: serde_json::Value,
+) -> Result<EvidenceState, ObserverError> {
     let envelope = match serde_json::from_value::<VerificationEvidenceEnvelope>(evidence.clone()) {
         Ok(value) => value,
         Err(_) => return Ok(EvidenceState::Contradictory),
@@ -12739,7 +12794,10 @@ fn collect_files(
 mod environment_identity_tests {
     use super::{effective_verification_environment, execution_environment_digest_from_values};
     use crate::execution_context::merge_execution_environment;
-    use std::{ffi::OsString, path::Path};
+    use std::{
+        ffi::OsString,
+        path::{Path, PathBuf},
+    };
 
     fn digest(values: &[(&str, &str)]) -> String {
         execution_environment_digest_from_values(
@@ -12864,11 +12922,9 @@ mod environment_identity_tests {
         let target = environment
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
-            .map(|(_, value)| value.to_string_lossy());
-        assert_eq!(
-            target.as_deref(),
-            Some("/Users/tester/.cache/ai-cockpit-verify-target")
-        );
+            .map(|(_, value)| PathBuf::from(value.to_owned()));
+        let expected_target = Path::new("/Users/tester").join(".cache/ai-cockpit-verify-target");
+        assert_eq!(target.as_deref(), Some(expected_target.as_path()));
         assert!(
             environment
                 .iter()

@@ -2941,25 +2941,105 @@ fn retry_recovery_binding_matches(
     candidate_path: Option<&Path>,
     contract_path: &Path,
 ) -> Result<bool, ObserverError> {
+    let pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let consumed = summary
+        .get("recoveryRetryConsumed")
+        .filter(|value| value.is_object());
     if receipt.decision != "retry"
         || summary["state"] != serde_json::json!("checkpointed")
-        || summary["recoveryRetryPending"] != serde_json::json!(true)
+        || (!pending && consumed.is_none())
+    {
+        return Ok(false);
+    }
+    let (expected_relative_path, expected_decision_digest) = if pending {
+        (
+            summary["recoveryRetryDecisionPath"].as_str(),
+            summary["recoveryRetryDecisionDigest"].as_str(),
+        )
+    } else {
+        let consumed = consumed.expect("consumed retry object checked above");
+        let Some(object) = consumed.as_object() else {
+            return Ok(false);
+        };
+        const CONSUMED_FIELDS: [&str; 9] = [
+            "schemaVersion",
+            "decisionPath",
+            "decisionDigest",
+            "contractDigest",
+            "verificationEvidenceDigest",
+            "repositorySnapshotDigest",
+            "runtimeVersion",
+            "runtimeDigest",
+            "consumedAt",
+        ];
+        if object.len() != CONSUMED_FIELDS.len()
+            || CONSUMED_FIELDS
+                .iter()
+                .any(|field| !object.contains_key(*field))
+            || consumed["schemaVersion"] != serde_json::json!(1)
+        {
+            return Ok(false);
+        }
+        let Some(consumed_at) = consumed["consumedAt"].as_str() else {
+            return Ok(false);
+        };
+        if chrono::DateTime::parse_from_rfc3339(consumed_at).is_err() {
+            return Ok(false);
+        }
+        let evidence_path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        if !is_regular_non_symlink(&evidence_path).is_ok_and(|is_file| is_file) {
+            return Ok(false);
+        }
+        let evidence = read_json(&evidence_path)?;
+        let evidence_digest =
+            cockpit_protocol::digest_json(&evidence).map_err(|error| ObserverError::State {
+                path: evidence_path.clone(),
+                message: error.to_string(),
+            })?;
+        let current_contract_digest = contract_digest(contract_path)?;
+        if summary["verificationRecoveryReconciled"]
+            != serde_json::json!(evidence_digest.to_string())
+            || consumed["verificationEvidenceDigest"]
+                != serde_json::json!(evidence_digest.to_string())
+            || consumed["contractDigest"] != serde_json::json!(current_contract_digest.to_string())
+            || consumed["repositorySnapshotDigest"] != evidence["repositorySnapshotDigest"]
+            || consumed["runtimeVersion"] != evidence["runtimeVersion"]
+            || consumed["runtimeDigest"] != evidence["runtimeDigest"]
+            || evidence["workItemId"] != serde_json::json!(work_item_id)
+            || evidence["repositoryId"] != serde_json::json!(repository_id(root).to_string())
+            || evidence["contractDigest"] != serde_json::json!(current_contract_digest.to_string())
+            || evidence["passed"] != serde_json::json!(true)
+        {
+            return Ok(false);
+        }
+        (
+            consumed["decisionPath"].as_str(),
+            consumed["decisionDigest"].as_str(),
+        )
+    };
+    let Some(expected_relative_path) = expected_relative_path else {
+        return Ok(false);
+    };
+    let Some(expected_decision_digest) = expected_decision_digest else {
+        return Ok(false);
+    };
+    let relative = Path::new(expected_relative_path);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| !matches!(component, std::path::Component::Normal(_)))
     {
         return Ok(false);
     }
     let candidate_path = match candidate_path {
         Some(path) => path.to_path_buf(),
-        None => {
-            let Some(relative) = summary["recoveryRetryDecisionPath"].as_str() else {
-                return Ok(false);
-            };
-            let path = root.join(relative);
-            if !path.starts_with(root) {
-                return Ok(false);
-            }
-            path
-        }
+        None => root.join(relative),
     };
+    if !candidate_path.starts_with(root) {
+        return Ok(false);
+    }
     let Some(file_name) = candidate_path.file_name().and_then(|value| value.to_str()) else {
         return Ok(false);
     };
@@ -2970,8 +3050,7 @@ fn retry_recovery_binding_matches(
     {
         return Ok(false);
     }
-    let expected_path = summary["recoveryRetryDecisionPath"].as_str();
-    if expected_path != Some(repository_relative_path(root, &candidate_path).as_str()) {
+    if expected_relative_path != repository_relative_path(root, &candidate_path) {
         return Ok(false);
     }
     let value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
@@ -2982,7 +3061,7 @@ fn retry_recovery_binding_matches(
         path: root.join(".ai/decisions"),
         message: error.to_string(),
     })?;
-    if summary["recoveryRetryDecisionDigest"] != serde_json::json!(digest.to_string()) {
+    if expected_decision_digest != digest.to_string() {
         return Ok(false);
     }
     // `record_recovery_decision` has no candidate path because it consumes a
@@ -3022,6 +3101,7 @@ fn retry_contract_transition_is_bound(
     }
     if summary["recoveryRetryContractDigest"]
         .as_str()
+        .or_else(|| summary["recoveryRetryConsumed"]["contractDigest"].as_str())
         .is_some_and(|value| value == current_digest.to_string())
     {
         return Ok(true);
@@ -6250,6 +6330,38 @@ fn record_verification_internal(
         // subsequent preflight demand a receipt bound to the already-advanced
         // Summary and strand an otherwise valid retry.
         if reconcile_blocked_outcome {
+            if recovery_retry_pending {
+                let decision_path = summary["recoveryRetryDecisionPath"]
+                    .as_str()
+                    .filter(|value| !value.trim().is_empty())
+                    .ok_or_else(|| ObserverError::State {
+                        path: summary_path.clone(),
+                        message: "pending retry is missing its exact decision path".into(),
+                    })?;
+                let decision_digest = summary["recoveryRetryDecisionDigest"]
+                    .as_str()
+                    .filter(|value| valid_sha256_digest(value))
+                    .ok_or_else(|| ObserverError::State {
+                        path: summary_path.clone(),
+                        message: "pending retry is missing its exact decision digest".into(),
+                    })?;
+                let verification_evidence_digest = cockpit_protocol::digest_json(&evidence)
+                    .map_err(|error| ObserverError::State {
+                        path: evidence_path.clone(),
+                        message: error.to_string(),
+                    })?;
+                summary["recoveryRetryConsumed"] = serde_json::json!({
+                    "schemaVersion": 1,
+                    "decisionPath": decision_path,
+                    "decisionDigest": decision_digest,
+                    "contractDigest": contract_digest(&contract_path)?.to_string(),
+                    "verificationEvidenceDigest": verification_evidence_digest.to_string(),
+                    "repositorySnapshotDigest": evidence["repositorySnapshotDigest"],
+                    "runtimeVersion": evidence["runtimeVersion"],
+                    "runtimeDigest": evidence["runtimeDigest"],
+                    "consumedAt": now(),
+                });
+            }
             let summary_object = summary
                 .as_object_mut()
                 .expect("Work Item Summary is an object");
@@ -6384,6 +6496,83 @@ fn refresh_active_outcome_verification_binding(
 /// produced a fresh, identity-bound verification.  Failure events remain
 /// append-only; this file is only the current projection consumed by
 /// `finish`/`archive` and must no longer strand the repaired lifecycle.
+const MAX_RECOVERY_UNKNOWN_ITEMS: usize = 8;
+const MAX_RECOVERY_UNKNOWN_ENTRY_BYTES: usize = 96;
+const MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES: usize = 1024;
+const MAX_RECOVERY_PROJECTION_MESSAGE_BYTES: usize = 2048;
+
+fn truncate_diagnostic_text(mut value: String, max_bytes: usize) -> String {
+    if value.len() <= max_bytes {
+        return value;
+    }
+    let ellipsis = "…";
+    let mut end = max_bytes.saturating_sub(ellipsis.len());
+    while !value.is_char_boundary(end) {
+        end -= 1;
+    }
+    value.truncate(end);
+    value.push_str(ellipsis);
+    value
+}
+
+fn bounded_recovery_unknowns(unknowns: &[String]) -> String {
+    let rendered = unknowns
+        .iter()
+        .take(MAX_RECOVERY_UNKNOWN_ITEMS)
+        .map(|unknown| {
+            truncate_diagnostic_text(format!("{unknown:?}"), MAX_RECOVERY_UNKNOWN_ENTRY_BYTES)
+        })
+        .collect::<Vec<_>>();
+    let omitted = unknowns.len().saturating_sub(rendered.len());
+    let suffix = if omitted == 0 {
+        String::new()
+    } else {
+        format!(" (+{omitted} omitted)")
+    };
+    truncate_diagnostic_text(
+        format!("[{}]{suffix}", rendered.join(", ")),
+        MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES,
+    )
+}
+
+fn bounded_recovery_projection_message(message: String) -> String {
+    truncate_diagnostic_text(message, MAX_RECOVERY_PROJECTION_MESSAGE_BYTES)
+}
+
+fn recovery_projection_rejection(
+    evidence_path: PathBuf,
+    outcome: &OutcomeV2,
+    evidence: &serde_json::Value,
+    snapshot_digest: &Digest,
+) -> Option<ObserverError> {
+    if outcome.state == OutcomeState::Verified
+        && outcome.decision_state == Some(DecisionState::Green)
+    {
+        return None;
+    }
+
+    let bounded_unknowns = bounded_recovery_unknowns(&outcome.unknowns);
+    let bounded_evidence_field = |name: &str| {
+        evidence[name]
+            .as_str()
+            .filter(|value| value.len() <= 128)
+            .unwrap_or("<missing-or-invalid>")
+    };
+    Some(ObserverError::State {
+        path: evidence_path,
+        message: bounded_recovery_projection_message(format!(
+            "fresh recovery verification did not produce a green Outcome projection (state={:?}, decision_state={:?}, unknowns={}, current_snapshot={}, evidence_snapshot={}, evidence_contract={}, evidence_runtime={})",
+            outcome.state,
+            outcome.decision_state,
+            bounded_unknowns,
+            snapshot_digest,
+            bounded_evidence_field("repositorySnapshotDigest"),
+            bounded_evidence_field("contractDigest"),
+            bounded_evidence_field("runtimeDigest"),
+        )),
+    })
+}
+
 fn refresh_active_outcome_after_recovery_verification(
     root: &Path,
     work_item_id: &str,
@@ -6412,14 +6601,10 @@ fn refresh_active_outcome_after_recovery_verification(
         current_runtime,
         Some((snapshot, snapshot_digest)),
     )?;
-    if outcome.state != OutcomeState::Verified
-        || outcome.decision_state != Some(DecisionState::Green)
+    if let Some(error) =
+        recovery_projection_rejection(evidence_path.clone(), &outcome, &evidence, snapshot_digest)
     {
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: "fresh recovery verification did not produce a green Outcome projection"
-                .into(),
-        });
+        return Err(error);
     }
     let task_report = outcome
         .task_outcome_report
@@ -6544,5 +6729,443 @@ fn redact_verification_receipt(receipt: &serde_json::Value) -> serde_json::Value
             serde_json::Value::Array(values.iter().map(redact_verification_receipt).collect())
         }
         other => other.clone(),
+    }
+}
+
+#[cfg(test)]
+mod recovery_retry_consumption_tests {
+    use super::*;
+    use crate::{
+        RepositoryVerificationPolicy, finish_work_item_with_runtime, outcome_v2_with_runtime,
+        require_verification_preconditions, run_repository_verification,
+        work_item_status_snapshot_with_runtime,
+    };
+    use std::process::Command;
+
+    #[test]
+    fn recovery_rejection_diagnostics_are_bounded() {
+        let unknowns = (0..100)
+            .map(|index| format!("untrusted-{index}-{}", "x".repeat(2048)))
+            .collect::<Vec<_>>();
+        let rendered_unknowns = bounded_recovery_unknowns(&unknowns);
+        assert!(
+            rendered_unknowns.len() <= MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES,
+            "unknown list must have a strict byte bound: {} bytes",
+            rendered_unknowns.len()
+        );
+        assert!(
+            rendered_unknowns.contains("+92 omitted"),
+            "truncation must report omitted unknowns: {rendered_unknowns}"
+        );
+        let rendered_message = bounded_recovery_projection_message("x".repeat(10_000));
+        assert!(
+            rendered_message.len() <= MAX_RECOVERY_PROJECTION_MESSAGE_BYTES,
+            "the final recovery diagnostic must have a strict byte bound"
+        );
+    }
+
+    #[test]
+    fn recovery_rejection_diagnostics_are_bounded_for_rejected_projection() {
+        let unknowns = (0..100)
+            .map(|index| format!("untrusted-{index}-{}", "x".repeat(2048)))
+            .collect::<Vec<_>>();
+        let outcome = OutcomeV2 {
+            schema_version: 2,
+            repository_id: "repository".into(),
+            work_item_id: "WI-RECOVERY-DIAGNOSTIC".into(),
+            state: OutcomeState::NotReady,
+            decision_state: Some(DecisionState::Yellow),
+            summary: "verification is not current".into(),
+            acceptance_results: Vec::new(),
+            unknowns,
+            evidence_refs: Vec::new(),
+            human_benefit_report: cockpit_protocol::HumanBenefitReport {
+                state: OutcomeState::Unknown,
+                user_visible_changes: Vec::new(),
+                affected_users: Vec::new(),
+                unknowns: Vec::new(),
+                evidence_refs: Vec::new(),
+            },
+            task_outcome_report: None,
+            failed_gate: None,
+            recovery_condition: None,
+            recovery_decision: None,
+            historical_status: None,
+            governance_reasons: Vec::new(),
+            finalization: None,
+        };
+        let evidence = serde_json::json!({
+            "repositorySnapshotDigest": "sha256:current",
+            "contractDigest": "sha256:contract",
+            "runtimeDigest": "sha256:runtime"
+        });
+        let snapshot_digest = Digest::sha256_bytes(b"current snapshot");
+
+        let error = recovery_projection_rejection(
+            PathBuf::from(".ai/evidence/WI-RECOVERY-DIAGNOSTIC.verification.json"),
+            &outcome,
+            &evidence,
+            &snapshot_digest,
+        )
+        .expect("a non-green recovery projection must be rejected");
+        let ObserverError::State { message, .. } = error else {
+            panic!("rejected projection must preserve its structured state error");
+        };
+        assert!(
+            message.len() <= MAX_RECOVERY_PROJECTION_MESSAGE_BYTES,
+            "the composed rejected-projection diagnostic must be bounded: {} bytes",
+            message.len()
+        );
+        assert!(
+            message.contains("+92 omitted"),
+            "the composed diagnostic must report omitted unknowns: {message}"
+        );
+        assert!(
+            !message.contains(&"x".repeat(128)),
+            "the composed diagnostic must truncate each untrusted unknown entry"
+        );
+    }
+
+    fn repository() -> tempfile::TempDir {
+        let directory = tempfile::tempdir().expect("repository tempdir");
+        let output = Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(directory.path())
+            .output()
+            .expect("git init");
+        assert!(
+            output.status.success(),
+            "git init failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        attach(directory.path()).expect("attach repository");
+        directory
+    }
+
+    #[test]
+    fn consumed_retry_receipt_remains_valid_after_verification() {
+        let directory = repository();
+        let root = directory.path();
+        let work_item_id = "WI-CONSUMED-RETRY";
+        let prior_runtime = RuntimeContext {
+            runtime_version: "0.2.113-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"prior-runtime-binary"),
+        };
+        let runtime = RuntimeContext {
+            runtime_version: prior_runtime.runtime_version.clone(),
+            protocol_version: prior_runtime.protocol_version,
+            runtime_digest: Digest::sha256_bytes(b"rebuilt-runtime-binary"),
+        };
+        start_work_item_with_options(
+            root,
+            work_item_id,
+            "preserve a consumed retry receipt",
+            "fresh read-only projections accept the exact completed retry",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec!["retry consumption is identity-bound".into()],
+                required_evidence_classes: vec!["verification".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        preflight_work_item_with_runtime(root, &contract_path, &prior_runtime)
+            .expect("preflight before the first verification");
+        checkpoint_work_item(root, work_item_id).expect("checkpoint");
+
+        let blocked = finish_work_item_with_runtime(root, work_item_id, &prior_runtime)
+            .expect_err("finish without verification must persist a blocked Outcome");
+        assert!(blocked.to_string().contains("verification"));
+
+        let summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let contract: serde_json::Value = read_json(&contract_path).expect("Contract");
+        let summary: serde_json::Value = read_json(&summary_path).expect("Summary");
+        let outcome_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.outcome.json"));
+        let outcome: serde_json::Value = read_json(&outcome_path).expect("blocked Outcome");
+        let mut retry = serde_json::json!({
+            "schemaVersion": 1,
+            "decisionId": "work-item-recovery",
+            "decision": "retry",
+            "workItemId": work_item_id,
+            "repositoryId": repository_id(root).to_string(),
+            "predecessorWorkItemId": work_item_id,
+            "predecessorContractDigest": cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest")
+                .to_string(),
+            "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary)
+                .expect("Summary digest")
+                .to_string(),
+            "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome)
+                .expect("Outcome digest")
+                .to_string(),
+            "runtimeVersion": prior_runtime.runtime_version,
+            "runtimeDigest": prior_runtime.runtime_digest.to_string(),
+            "actor": "human:test",
+            "authoritySource": "test",
+            "reason": "retry the one failed lifecycle verification",
+            "evidenceRefs": [],
+            "policyRefs": [],
+            "decidedAt": now(),
+            "resumeCondition": "one replacement verification succeeds"
+        });
+        let events_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.events.jsonl"));
+        if events_path.is_file() {
+            retry["predecessorEventsDigest"] = serde_json::json!(
+                Digest::sha256_bytes(&fs::read(&events_path).expect("Events bytes")).to_string()
+            );
+        }
+        record_recovery_decision(root, work_item_id, &retry, &prior_runtime)
+            .expect("record the exact one-time retry");
+        amend_work_item_contract(
+            root,
+            work_item_id,
+            &serde_json::json!({
+                "sourcesAppend": [{
+                    "path": "src/revision.rs",
+                    "reason": "the replacement verification must bind the amended Contract"
+                }]
+            }),
+            "bind the retry to the additive lifecycle Contract amendment",
+        )
+        .expect("append the authorized Contract amendment");
+
+        let initial_snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("initial snapshot");
+        require_verification_preconditions(root, work_item_id, &runtime, &initial_snapshot)
+            .expect("the current retry admits its one replacement verification");
+        #[cfg(windows)]
+        let (program, args) = ("cmd", vec!["/C".into(), "exit 0".into()]);
+        #[cfg(not(windows))]
+        let (program, args) = ("sh", vec!["-c".into(), "exit 0".into()]);
+        let run = run_repository_verification(
+            root,
+            &RepositoryVerificationRequest {
+                node_id: "retry-consumption-check".into(),
+                program: program.into(),
+                args,
+                scope: vec!["src/**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: Some(work_item_id.into()),
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .expect("replacement verification process");
+        let mut verification_receipt =
+            serde_json::to_value(&run.receipt).expect("verification receipt JSON");
+        verification_receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+        verification_receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+        record_verification_with_runtime(
+            root,
+            work_item_id,
+            &verification_receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect("successful retry must persist a green Outcome projection");
+
+        let summary: serde_json::Value = read_json(&summary_path).expect("consumed Summary");
+        assert_ne!(summary["recoveryRetryPending"], serde_json::json!(true));
+        assert!(summary["recoveryRetryConsumed"].is_object());
+        let outcome =
+            outcome_v2_with_runtime(root, work_item_id, &runtime).expect("fresh Outcome query");
+        assert_eq!(outcome.state, OutcomeState::Verified);
+        assert_eq!(outcome.decision_state, Some(DecisionState::Green));
+        let status = work_item_status_snapshot_with_runtime(root, work_item_id, &runtime)
+            .expect("fresh status query");
+        assert!(
+            !status.blocking,
+            "status must remain non-blocking: {status:?}"
+        );
+        assert!(
+            !status
+                .unknowns
+                .iter()
+                .any(|unknown| unknown == "recovery_decision_invalid"),
+            "consumed retry must not become invalid in status: {status:?}"
+        );
+
+        fs::create_dir_all(root.join("src")).expect("source directory");
+        fs::write(root.join("src/changed.rs"), "// new generation\n")
+            .expect("change source snapshot");
+        let changed_snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("changed snapshot");
+        let projection_error = refresh_active_outcome_after_recovery_verification(
+            root,
+            work_item_id,
+            Some(&runtime),
+            &changed_snapshot,
+            &crate::snapshot_digest(&changed_snapshot).expect("changed snapshot digest"),
+        )
+        .expect_err("a changed source snapshot must keep the old verification blocked");
+        let projection_message = projection_error.to_string();
+        assert!(
+            projection_message.contains("state=NotReady")
+                && projection_message.contains("decision_state=Some(Yellow)")
+                && projection_message.contains("evidence_stale")
+                && projection_message.contains("current_snapshot=")
+                && projection_message.contains("evidence_snapshot="),
+            "recovery rejection must expose the computed projection state, not mask it: {projection_message}"
+        );
+        let second_attempt =
+            require_verification_preconditions(root, work_item_id, &runtime, &changed_snapshot)
+                .expect_err("consumed retry must not authorize a second stale-snapshot run");
+        assert!(second_attempt.to_string().contains("preflight result"));
+
+        let consumed_path = root.join(
+            summary["recoveryRetryConsumed"]["decisionPath"]
+                .as_str()
+                .expect("consumed receipt path"),
+        );
+        fs::write(&consumed_path, b"{}\n").expect("tamper only the test receipt");
+        let tampered = outcome_v2_with_runtime(root, work_item_id, &runtime)
+            .expect("invalid receipt remains a visible Outcome");
+        assert_eq!(tampered.decision_state, Some(DecisionState::Red));
+        assert!(
+            tampered
+                .unknowns
+                .iter()
+                .any(|unknown| { unknown == "recovery_decision_invalid" })
+        );
+    }
+
+    #[test]
+    fn verification_after_failed_finish_requires_retry() {
+        let directory = repository();
+        let root = directory.path();
+        let work_item_id = "WI-FAILED-FINISH-VERIFY-GATE";
+        let runtime = RuntimeContext {
+            runtime_version: "0.2.113-test".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"failed-finish-verification-runtime"),
+        };
+        start_work_item_with_options(
+            root,
+            work_item_id,
+            "require explicit recovery after a failed finish",
+            "ordinary verification cannot overwrite a failed lifecycle projection",
+            &["src/**".into()],
+            &WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec![
+                    "verification after a failed finish requires a Runtime retry".into(),
+                ],
+                required_evidence_classes: vec!["verification".into()],
+                ..WorkItemStartOptions::default()
+            },
+        )
+        .expect("start Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight before checkpoint");
+        checkpoint_work_item(root, work_item_id).expect("checkpoint");
+        finish_work_item_with_runtime(root, work_item_id, &runtime)
+            .expect_err("finish without verification must persist its failure");
+
+        let active = root.join(".ai/work-items/active");
+        let summary_path = active.join(format!("{work_item_id}.summary.json"));
+        let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+        let verification_path = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json"));
+        let summary_before = fs::read(&summary_path).expect("failed Summary bytes");
+        let outcome_before = fs::read(&outcome_path).expect("failed Outcome bytes");
+        let verification_before = fs::read(&verification_path).ok();
+        let snapshot = cockpit_git::GitRepository::discover(root)
+            .expect("git repository")
+            .snapshot()
+            .expect("current snapshot");
+        let spawned_marker = root.join(".unapproved-verification-spawned");
+        #[cfg(windows)]
+        let (program, args) = (
+            "cmd",
+            vec![
+                "/C".into(),
+                "echo spawned > .unapproved-verification-spawned".into(),
+            ],
+        );
+        #[cfg(not(windows))]
+        let (program, args) = (
+            "sh",
+            vec![
+                "-c".into(),
+                "printf spawned > .unapproved-verification-spawned".into(),
+            ],
+        );
+        let admission = require_verification_preconditions(root, work_item_id, &runtime, &snapshot);
+        if admission.is_ok() {
+            run_repository_verification(
+                root,
+                &RepositoryVerificationRequest {
+                    node_id: "unapproved-followup-verification".into(),
+                    program: program.into(),
+                    args,
+                    scope: vec!["src/**".into()],
+                    stage: "task".into(),
+                    runner: "local".into(),
+                    runtime_digest: runtime.runtime_digest.to_string(),
+                    base_commit: None,
+                    workers: 1,
+                    work_item_id: Some(work_item_id.into()),
+                    timeout_seconds: None,
+                    policy: RepositoryVerificationPolicy::NeverReuse,
+                },
+            )
+            .expect("the deliberately attempted unapproved child process");
+        }
+
+        assert!(
+            admission.is_err(),
+            "ordinary verification after persisted finish failure must require an explicit retry"
+        );
+        let rejection = admission
+            .as_ref()
+            .expect_err("verification must be blocked")
+            .to_string();
+        assert!(
+            rejection.contains("admission=NeedsHumanDecision")
+                && rejection.contains("lifecycle_gate_failed"),
+            "the Work Item action admission must explain the persisted lifecycle blocker: {rejection}"
+        );
+        assert!(
+            !spawned_marker.exists(),
+            "the verifier child must not start without a pending retry"
+        );
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary after rejected verification"),
+            summary_before,
+            "rejected verification must not change Summary recovery markers"
+        );
+        assert_eq!(
+            fs::read(&outcome_path).expect("Outcome after rejected verification"),
+            outcome_before,
+            "rejected verification must preserve the failed Outcome"
+        );
+        assert_eq!(
+            fs::read(&verification_path).ok(),
+            verification_before,
+            "rejected verification must preserve current verification evidence"
+        );
     }
 }

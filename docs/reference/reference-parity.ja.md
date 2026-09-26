@@ -69,6 +69,9 @@ matrix は次の 4 state だけを使います。
 
 | Reference concern | Rust Runtime status | Evidence と boundary |
 | --- | --- | --- |
+| WI-1031-cross-wi-acceptance-corrections | In progress | Historical verification: `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; 選択された recovery: `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`。選択された successor lineage はまだ close されておらず、Runtime Outcome は yellow。 |
+| WI-1032-cross-wi-review-fixes | Replaced | Retirement receipt: `.ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json`; verification claim: `not_verified`; 元 evidence は保持。現在の[recovery successor](../work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md)を参照。 |
+| WI-1033-cross-wi-review-fixes-recovery | 進行中 → 検証済みクローズ後に実装済み | 次の lifecycle path は予約済み参照であり、現在の完了証拠ではありません: `.ai/work-items/archive/WI-1033-cross-wi-review-fixes-recovery.contract.json`、`.ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.finalize.json`、`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.close.json`。active Contract は 41 criteria/35 scenario で、canonical command identity、recovery fact validation、中断 verifier process group の保護、整合した Outcome projection を含みます。Runtime は現在 checkpointed/yellow、verification evidence stale と報告します。これらの review findings に対する macOS focused regression は pass しました。完全な canonical gate、Sentinel の read-only 互換性証拠、PR 独立 review、hosted CI、merge、正確な cleanup、履歴 lineage close は未完了です。Release は主張しません。 |
 | Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |
 | Purpose、problem、architecture、capability overview | Implemented | philosophy、architecture、capability route が current Runtime と責任範囲を説明する。 |
 | Shared Runtime と request-scoped repository context | Implemented | 明示的な `--repo` binding と repository isolation tests で context/evidence を分離する。 |

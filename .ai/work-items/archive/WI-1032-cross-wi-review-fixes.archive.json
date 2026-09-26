@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-25T01:00:47Z",
+  "files": {
+    "approachDigest": "sha256:a8535d5bc941c425176bee262903b449f7d315b5cc2317a52b53ae45085cfd35",
+    "approachPath": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.approach.json",
+    "contractDigest": "sha256:86ad1ee099f8ea8513f7e8f22ade268b226ea5b82690a73eb4036d8b8dbe299f",
+    "contractPath": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.contract.json",
+    "outcomeDigest": "sha256:265fc50715f6337ba3c69e02dcdc5d05b4dc882a214cce0fc31fb621b559a9a2",
+    "outcomePath": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.outcome.json",
+    "summaryDigest": "sha256:466f04577d777b247bf59d4fd09f02e7461b9a01bcfbb773af51308d5779396a",
+    "summaryPath": ".ai/work-items/archive/WI-1032-cross-wi-review-fixes.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

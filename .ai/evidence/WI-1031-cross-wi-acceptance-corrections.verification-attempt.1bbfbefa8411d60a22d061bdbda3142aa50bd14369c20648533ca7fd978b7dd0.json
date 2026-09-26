@@ -1,0 +1,47 @@
+{
+  "attemptId": "sha256:1bbfbefa8411d60a22d061bdbda3142aa50bd14369c20648533ca7fd978b7dd0",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "collaboration_admission",
+        "selected_outcome_admission_ignores_unselected_outcome_merge_blocker"
+      ],
+      "baseCommit": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+      "commandDigest": "sha256:7703f04d6a81f2fafc67a191db469e3bba1a63e907a0cb9d596598648e894be1",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:41d2811a8da75d78b6f0d69086cc966e48ac4078b14f7b0a8441b15acdcd9319",
+  "contractExecutionScopeDigest": "sha256:5788499ec0d9b54b76d01bacc94ad94acea0212ae69814db393b76a93cb600e0",
+  "createdAt": "2026-09-24T14:09:06Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-cross-wi-acceptance-corrections/ai-cockpit/.ai/work-items/active/WI-1031-cross-wi-acceptance-corrections.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:28876af7d1327cdb8a393004521e109b00f73464f2c7bdb4de62c62508e9a3ab",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections"
+}

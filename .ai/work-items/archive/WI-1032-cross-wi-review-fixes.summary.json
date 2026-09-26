@@ -1,0 +1,168 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-1032-cross-wi-review-fixes.contract.json",
+    ".ai/work-items/active/WI-1032-cross-wi-review-fixes.summary.json"
+  ],
+  "checkpointAt": "2026-09-24T19:33:40Z",
+  "checkpointContractDigest": "sha256:ba4a22da73168900e1d5394f1a12ed8bb862b006e5a9250754eed70d6e4d10d1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:ba4a22da73168900e1d5394f1a12ed8bb862b006e5a9250754eed70d6e4d10d1",
+      "recorded": true,
+      "recordedAt": "2026-09-24T19:33:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:12d01af86bd1c6c06fc297704f24d93eacf574af3fb10cc44aaa6af51577b558",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1032-cross-wi-review-fixes"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:f02fd1c4b0ce05c8328b3a049c0eb701b802b632e70e55a213571ac890e54fee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ba4a22da73168900e1d5394f1a12ed8bb862b006e5a9250754eed70d6e4d10d1",
+      "previousContractHash": "sha256:ba4a22da73168900e1d5394f1a12ed8bb862b006e5a9250754eed70d6e4d10d1",
+      "reason": "The current repository-bound Runtime verification precondition requires the three locale Work Item projection pages and parity rows. This was included in the authorized full projection delivery but omitted as an explicit Contract acceptance and verification command; append it without rewriting earlier Contract or evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-24T19:39:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f0e5e64fd7a3a6ea4441de3b7cf82d1fa1f94f49164f4a9106a3b1d6ee5e078b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1032-cross-wi-review-fixes"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ba4a22da73168900e1d5394f1a12ed8bb862b006e5a9250754eed70d6e4d10d1",
+      "previousContractHash": "sha256:f02fd1c4b0ce05c8328b3a049c0eb701b802b632e70e55a213571ac890e54fee",
+      "reason": "The approved successor scope was passed through start --scope as comma-bearing prose, which the CLI split and the Runtime path matcher cannot match. Append the exact 40 current non-.ai source and documentation paths already enumerated by the WI-1032 specification and approved recovery objective. Do not widen directory scope or alter the predecessor archive/evidence bytes; this corrects the machine-readable path map without changing intent, base, authority, or exclusions.",
+      "recorded": true,
+      "recordedAt": "2026-09-24T22:24:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c0d283be23d3f61527fe23906c175532dd45b0f87e0a5a1b4382a6a4ac3c2fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1032-cross-wi-review-fixes"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:12d01af86bd1c6c06fc297704f24d93eacf574af3fb10cc44aaa6af51577b558",
+  "createdAt": "2026-09-24T18:52:45Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:812894e7e276fc04ca65f17cdf34f2f7e2acaa61b916eafdf9970fe9c074ccdc",
+    "reason": "This receipt rebinds the user's existing authorization to complete WI-1032 through PR review, merge, and cleanup, with release excluded, to the current source snapshot after Task 7 and its lint-only test-helper correction. It adds no scope and records no new human approval, verification, review, hosted check, merge, cleanup, or release result.",
+    "recordedAt": "2026-09-24T23:48:31Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c288f95db53f9664b0b2a40824de8be3036122018b82e667e5edd03ae231788a",
+    "schemaVersion": 1,
+    "workItemId": "WI-1032-cross-wi-review-fixes"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "user-approved design and serial implementation/merge authorization in the current task",
+      "docs/work-items/WI-1032-cross-wi-review-fixes/spec.md",
+      "docs/work-items/WI-1032-cross-wi-review-fixes/independent-review.md"
+    ],
+    "reason": "The user asked for a trustworthy cross-WI collaboration loop, including actionable impact/coordination, evidence-backed composition, and preservation of ordinary single-WI serial execution. The user also stated that both AI Cockpit and Sentinel need the capability, with Sentinel implementation handled later in its own serial Work Item. This alignment records intended benefit only; it does not claim measured impact or completed verification.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:b9083f7d7ace886c1dcb258421ac341083ffadffb4e23193861de53e88b5d47c",
+  "predecessorWorkItemId": "WI-1031-cross-wi-acceptance-corrections",
+  "preflightAt": "2026-09-24T23:53:28Z",
+  "preflightContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "preflightDecisionDigest": "sha256:812894e7e276fc04ca65f17cdf34f2f7e2acaa61b916eafdf9970fe9c074ccdc",
+  "preflightRepositorySnapshotDigest": "sha256:c288f95db53f9664b0b2a40824de8be3036122018b82e667e5edd03ae231788a",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "trusted_read_set_and_executable_identity",
+      "status": "unverified",
+      "verificationPlan": "Run repository composition identity regressions and prove undeclared readable inputs and changed relative executables cannot reuse stale results."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "integration_owner_and_complete_required_checks",
+      "status": "unverified",
+      "verificationPlan": "Run admission regressions proving a non-owner and incomplete or caller-forged checks are rejected before process spawn."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "crash_reconciliation_and_live_lock_safety",
+      "status": "unverified",
+      "verificationPlan": "Kill a real child process after impact persistence and prove a fresh process reconciles one event without evicting a live lock owner."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "registered_worktree_evidence_containment",
+      "status": "unverified",
+      "verificationPlan": "Run filesystem regressions for final and parent symlinks escaping the registered worktree and assert no event is appended."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "provider_scoped_outcome_selection",
+      "status": "unverified",
+      "verificationPlan": "Use two providers with the same outcome identifier and assert action admission selects only the exact provider and outcome pair."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "observed_input_change_reexecutes_affected_node",
+      "status": "unverified",
+      "verificationPlan": "Run real CLI composition twice unchanged and once after changing an observed source or environment while keeping JSON byte-identical; count spawned processes and reusable nodes."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "mcp_identity_and_query_write_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run MCP CLI parity tests and compare durable coordination bytes before and after read queries; verify only explicit write actions persist events."
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "real_multi_worktree_serial_path_and_sentinel_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the registered multiple-process linked-worktree acceptance and ordinary serial path, then inspect Sentinel with the candidate CLI and verify its protected state is byte-identical."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-24T23:48:48.199912+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-24T22:24:01Z"
+  },
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

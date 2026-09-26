@@ -1,0 +1,150 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "observed_execution_inputs_prevent_stale_json_reuse",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale",
+        "crates/cockpit-verification/tests/composition.rs::replacing_the_same_toolchain_executable_invalidates_reuse",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6484366c80d1dd9d12e37b5e4325210eff52a21e2d1937feeea3b54dd44658fd.json",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f340514c9d587a76e1c5bec7773b0c035f765ff7449f4d0b0ccf5b6d6b7e338c.json"
+      ],
+      "expected": "Changing an observed environment or toolchain input while leaving composition JSON unchanged prevents reuse and re-executes the affected node or fails closed.",
+      "verificationPlan": "Add a negative Rust regression and a real CLI/process acceptance that mutates an observed execution input without changing the JSON identity; assert no stale zero-process reuse."
+    },
+    {
+      "scenario": "all_required_composition_checks_are_covered",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::missing_one_of_two_required_scenarios_blocks_composition",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::composition_requires_the_dependency_closure_in_declared_order",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "When two checks are required and only one is supplied, composition is rejected before spawning a process.",
+      "verificationPlan": "Add a Rust negative test and assert zero process starts when one required node is omitted from a two-node declaration."
+    },
+    {
+      "scenario": "consumer_worktree_resolves_actual_main_target",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::feature_worktree_can_compose_against_the_declared_main_target",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "A consumer feature worktree can resolve and compose against the actual main branch and its current SHA without treating the consumer checkout as the target.",
+      "verificationPlan": "Add a linked-worktree regression with a feature checkout and a distinct main target ref; verify the resolved target SHA and composition base."
+    },
+    {
+      "scenario": "verification_dependency_requires_bound_successful_receipt",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_receipt",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::outcome_publication_rejects_malformed_and_identity_mismatched_receipts",
+        "crates/cockpit-cli/tests/collaboration_cli.rs::publish_outcome_cli_binds_selected_generation_to_exact_evidence_bytes",
+        "crates/cockpit-mcp/tests/collaboration_rpc.rs::publish_outcome_mcp_action_uses_the_same_bound_write_path",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.ca5e0e22d2e12b9134d4c17eee74636509456c7695a6d31a2419a83d37999d9e.json",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.98f4ab5bca20adb87e13361c1bd9d8c321a9501dc5c568208511a49edba82d67.json"
+      ],
+      "expected": "Empty JSON, arbitrary files, failed, stale, or mismatched receipts are rejected; only a supported successful receipt matching Work Item, generation, head, Contract digest, and verification identity satisfies the dependency.",
+      "verificationPlan": "Add table-driven negative and positive dependency-admission tests for receipt schema, state, identity, and freshness."
+    },
+    {
+      "scenario": "merged_target_requires_actual_merge_fact",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::merged_target_stage_requires_actual_target_ancestry",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "MergedTarget is denied until the declared target history or supported provider evidence proves the participant is merged.",
+      "verificationPlan": "Add Git-graph tests for unmerged and truly merged participants, plus a mismatched target receipt negative."
+    },
+    {
+      "scenario": "temporary_composition_does_not_project_as_target_merge",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::feature_worktree_can_compose_against_the_declared_main_target",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "A successful temporary composition with no real target merge reports composition passed and target merge not merged or not observed.",
+      "verificationPlan": "Add Outcome projection tests where an isolated composition succeeds while the target branch remains unchanged."
+    },
+    {
+      "scenario": "historical_composition_is_stale_after_target_advances",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::feature_worktree_can_compose_against_the_declared_main_target",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "The historical successful attempt remains available but current applicability is stale when target/head/Contract identity changes.",
+      "verificationPlan": "Persist a successful attempt, advance the target or change current identity, and assert projection retains history while marking it stale."
+    },
+    {
+      "scenario": "paused_admission_and_outcome_share_decision",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::safely_paused_composition_is_rejected_before_spawn_and_unrelated_work_continues",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::old_pause_request_cannot_control_a_new_execution_generation",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "A safely paused current generation is blocked by action admission and shown as blocked in Outcome; unrelated work remains allowed.",
+      "verificationPlan": "Add projection/admission regression tests for a safely paused target generation and a distinct runnable Work Item."
+    },
+    {
+      "scenario": "registration_retry_recovers_interrupted_impact_write",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once",
+        "crates/cockpit-repository/tests/coordination_store.rs::retry_completes_registration_after_event_was_durable_before_interruption",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.c12af69a0140101c89bfb2e5ba64bdfd83050817cba3485dea8fd31388035c5b.json"
+      ],
+      "expected": "An interruption between registration and event persistence followed by an identical registration retry yields exactly one valid impact event and no consumer admission gap.",
+      "verificationPlan": "Inject a deterministic storage failure at the registration/event boundary, retry the same registration, and verify idempotent event reconciliation and fail-closed intermediate admission."
+    },
+    {
+      "scenario": "same_work_item_actions_filter_impacted_outcomes",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::same_work_item_admission_filters_impact_by_consumed_outcome",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "Two actions in one consumer Work Item can name different outcomes; only the action consuming the invalidated outcome is blocked.",
+      "verificationPlan": "Register two outcome dependencies, invalidate one, and assert action-level admission independently for each outcome ID."
+    },
+    {
+      "scenario": "impact_propagates_through_three_dependency_levels",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::impact_propagates_through_three_dependency_levels_only",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.6b21caa444f115e09edc3abf10a995bc3bc3bb3bb11a584a17d0d43b1e4dc293.json"
+      ],
+      "expected": "An invalidation at the first provider propagates through second- and third-level consumers until the affected chain is explicitly revalidated.",
+      "verificationPlan": "Build a three-level registered dependency graph, publish an invalidation at level one, and verify level two and level three are blocked while an unrelated branch remains allowed."
+    },
+    {
+      "scenario": "ordinary_single_work_item_path_remains_serial",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::ordinary_single_work_item_verification_remains_serial_without_coordination_state",
+        "tests/ci/repository_gate_manifest.json",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.f340514c9d587a76e1c5bec7773b0c035f765ff7449f4d0b0ccf5b6d6b7e338c.json",
+        ".ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification-attempt.82120c78bf6056ecacb2587b1a9a06ebe3784e7b33f032dc2c143299999640a9.json",
+        "target/repository-gates-local-after-doc-fix.json#strict-profile:39/39-passed",
+        "target/workspace-package-coverage.json#13/13-executed"
+      ],
+      "expected": "An ordinary single Work Item with no collaboration declaration or coordination records remains able to follow the existing serial lifecycle and canonical verification gate, without waiting for cross-WI state.",
+      "verificationPlan": "Add a Rust and/or existing process-acceptance regression that exercises the normal single-WI path without coordination state, verifies one-at-a-time execution and successful lifecycle admission, and keeps the canonical Runtime CLI plus Cargo/CI route unchanged."
+    }
+  ]
+}

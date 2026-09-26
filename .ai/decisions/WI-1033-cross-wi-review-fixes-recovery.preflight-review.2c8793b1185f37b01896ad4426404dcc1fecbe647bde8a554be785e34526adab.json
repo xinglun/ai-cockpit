@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Recorded from the user's explicit authorization to proceed serially through the pre-release boundary. The Contract and repository snapshot are unchanged; this refreshes only the existing bounded review decision binding after Runtime recomputed the preflight digest. It does not add scope or claim verification, merge, or release approval.",
+  "recordedAt": "2026-09-25T01:46:56Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:571ff88890316e4ccce288d4391a8fe395d84cc28e1f6d3b44da21dfeec47508",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

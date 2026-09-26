@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:812894e7e276fc04ca65f17cdf34f2f7e2acaa61b916eafdf9970fe9c074ccdc",
+  "reason": "The user explicitly approved this design, authorized serial implementation through PR review, merge, and cleanup, and instructed to stop before release for their review. After the Runtime path-scope correction, this receipt applies that existing authorization to the current Contract and repository snapshot. It records no claim that verification, independent PR review, hosted checks, merge, cleanup, or release are complete.",
+  "recordedAt": "2026-09-24T22:27:11Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2c0d283be23d3f61527fe23906c175532dd45b0f87e0a5a1b4382a6a4ac3c2fe",
+  "schemaVersion": 1,
+  "workItemId": "WI-1032-cross-wi-review-fixes"
+}

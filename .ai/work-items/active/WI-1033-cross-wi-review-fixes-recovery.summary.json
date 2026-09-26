@@ -1,0 +1,1062 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-25T01:21:38Z",
+  "checkpointContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "recorded": true,
+      "recordedAt": "2026-09-25T01:21:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0cdca7ba813e653b97297b3a14cc70794f4c0d1fe1508751925d775c46395304",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:6989626c2b996a8f2720b664166963a9ee246af7ba14a77619ac69f33b0201a9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "reason": "Independent review found a same-repository-id clone could be paired with a different CoordinationStore and run against a stale target. This is within the existing repository-identity scope and source paths; the additive acceptance and scenario make that binding explicit.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T03:10:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e23d75bc0601f110093983ebd47cb5d8a8a1480b6441ae7bc2980e932098f9f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:6989626c2b996a8f2720b664166963a9ee246af7ba14a77619ac69f33b0201a9",
+      "reason": "Hosted CI exposed a bounded governance-integrity defect in the selected recovery lineage: valid active successors cannot yet satisfy pre-merge parity, and retired/not_verified predecessors are incorrectly required to have successful verification evidence. Add targeted gate behavior and regressions so merge can proceed without fabricating terminal receipts.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T03:48:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c9862507e5b1dfe406e98e8b27f35a9e92ecbab281c518be4185cc5ed09f1929",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:eb3b8a78454a2002b695acb3305c05c80d2c5d4c36662ee84bb733ed4891802d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+      "reason": "Address independent review finding: retirement receipts must not suppress required locale parity rows; add explicit acceptance and fail-closed coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T07:34:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aeeacb9f1c7d2c2534374e98c52f1fcb91e741dcaab8ac55345e9da49aa7dfa9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:eb3b8a78454a2002b695acb3305c05c80d2c5d4c36662ee84bb733ed4891802d",
+      "reason": "Incorporate independently reviewed in-scope invalidation and coordination-store safety gaps before extending implementation; retain the current single-WI serial workflow.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T08:47:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6d198ff315f8fa793747251481ac8657b12708bf065eb8b02c50a499e46f785a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:379be95122e13625d2244fba64a3cadcd8e2877601b4461663ced5ffcde6d0d8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:d8f3a240d31b889b5d8f787c79bbcb995dd5bc974adfa595bcd32e0649e8f840",
+      "reason": "An independent review and failing API regressions showed that registration workItemId must be validated and bound to the request target before any Contract path is formed. This additive criterion makes the existing coordination identity scope explicit without widening file scope or authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T10:00:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac052daef57e1dc480b8ff6676b54364fb3e3c4fa00747d764ad585752653c5e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:7507f5559ac793ef1cfdceec2beb9d37dae43b440f822d407d970d6548822c72",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:379be95122e13625d2244fba64a3cadcd8e2877601b4461663ced5ffcde6d0d8",
+      "reason": "Bind the independently reviewed registration identity-before-path-resolution defect to an executable required scenario so fresh verification and Summary coverage prove both request entry points.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T10:03:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f30d6736f7706882c19a55f10d8febe6df00a9380322d7a535af39b22a7e79e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:e53d3a8869c64120867e761aaebe8daeef86199cbebbe76fbe60b3e30d6d6c3d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:7507f5559ac793ef1cfdceec2beb9d37dae43b440f822d407d970d6548822c72",
+      "reason": "Independent PR review found that active Contract validation follows a symlinked ancestor outside the repository; bind this in-scope repository identity defect to an executable regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T11:05:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c3ccfe970040cf6e04d813eaa571d0a0863be4638bb5ee1c6e47f424ff684a7f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:5eb0dfb60616df829926f6d4a237e2eecda06bfbfa50eb6bf0137ce47acd232a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:e53d3a8869c64120867e761aaebe8daeef86199cbebbe76fbe60b3e30d6d6c3d",
+      "reason": "Independent review found a directory-handle swap race that can redirect Contract reads outside the repository; add a required deterministic regression before repair.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T11:48:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:37b5fceabc7a867c029bb71558dcc890fe1d27b59636b313472d0a1f7ca24add",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 23,
+      "contractHash": "sha256:1e79be42d8514b8b92c4830105179077d680599909acc9c85ce65be6a7a09f01",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:5eb0dfb60616df829926f6d4a237e2eecda06bfbfa50eb6bf0137ce47acd232a",
+      "reason": "Second independent review found an ABA move-out/open/move-back race in the active Contract directory binding; bind the deterministic regression and all Contract consumers to exact registered digests within WI-1033.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T12:21:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e1bf6dd89aab18a578e8d8fc84dc9871b1caf9346c2d49e47c90a7c9b22d6ea6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:98998babd331656379f6f18c3b4ad45bee1a1358498a73242f351eb13f8cb98d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:1e79be42d8514b8b92c4830105179077d680599909acc9c85ce65be6a7a09f01",
+      "reason": "The independent directory ABA review includes a Windows-only rename-denial test, but the existing Windows CI job does not run repository library unit tests. Bind the exact CI paths and require hosted execution before claiming platform coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T13:11:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f0942717b61ee5c07d889cb68dbea29f7f76dd2fe1494a95db6bd860bc10cae8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 25,
+      "contractHash": "sha256:a170b7029e8f6816d26eca5e02286f1a58d5e7773fe703b25e122dbe636db7e6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:98998babd331656379f6f18c3b4ad45bee1a1358498a73242f351eb13f8cb98d",
+      "reason": "Amend the current WI after independent review identified that an unbound CompositionCommand environment overlay can change a Contract-required check while program and args still match. This adds only the missing required-check identity constraint and preserves the current Contract schema fail-closed boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T15:04:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7188469734c9a192e18bc2c4f12bef5dca69c5b16b062b25276d4168117775b1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 29,
+      "contractHash": "sha256:29ab3c0bdcc87ec77a73c8443603333a55f21624e63a0d29051aa43fde4c1750",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:a170b7029e8f6816d26eca5e02286f1a58d5e7773fe703b25e122dbe636db7e6",
+      "reason": "Independent review identified untested executable environment, persisted attempt integrity, symlinked read-set, and composition cleanup boundaries within the existing trusted-check/reuse/cleanup scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T15:58:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:948f6f83dc50395dd57a705e4fdab954184ad7cbdb3d94bd8fc6a1ff3a5c2ace",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 29,
+      "contractHash": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:29ab3c0bdcc87ec77a73c8443603333a55f21624e63a0d29051aa43fde4c1750",
+      "reason": "Include the shared bounded executor implementation required by the already approved Runtime-controlled composition environment behavior; objective and acceptance intent remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T16:50:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95411e8329a355ed5c939d5649b19a0846f6c453aa4496c3ddffbe66ff8ec149",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 30,
+      "contractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:13c3c1a56540648a08fe9b9467ff5734ca5596f7c4488d436aa7dac27d7cbd3d",
+      "reason": "A current Runtime retry was authorized and all 35 declared checks passed, but the Runtime rejected the formal receipt because consuming the retry marker made its bound decision appear stale during Outcome projection. Extend this same recovery Work Item only for the one-time retry-consumption lifecycle path and its regression; preserve the existing user-approved objective and stop-before-release boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T20:53:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b67cd35f871ff017f157167c2ea929bc72733cb868d724678ce0218b55effab2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 34,
+      "contractHash": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:e0e7c0a5996856b2c3fd3690af2f1d2826638916131cb64fd91a1abd6cc17d12",
+      "reason": "Append in-scope independent-review containment, publication integrity, republication, and canonical retry-projection acceptance; no release authority or new scope outside the approved collaboration lifecycle.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T22:31:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:16e7153a2dd385366a69fe4f0c837c18336dde1e3caf7c0f4eaf886a273d3c88",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 37,
+      "contractHash": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
+      "reason": "Close independently reviewed TOCTOU and registration-lock gaps in typed outcome publication, and bound rejection diagnostics before the authorized canonical verification retry.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T01:41:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e31dcdc69927ec602f3cf27a2293fb74690643392365d1fc82eb015fa32b1aa4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 37,
+      "contractHash": "sha256:f5095343f44835c15c291ea5f6b854f6ac77bd2ed73c9d052a1ba43892dfb870",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+      "reason": "Amend the existing scope to include the regression file that the hosted gate found missing; this supports the already-approved canonical command-identity acceptance and does not widen product behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T03:49:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 41,
+      "contractHash": "sha256:7ccd7f826cf6679d0816bd7a232fe3af3fa575394a64ab078f6ce462d0b40a4b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:f5095343f44835c15c291ea5f6b854f6ac77bd2ed73c9d052a1ba43892dfb870",
+      "reason": "Close current-PR review findings and hosted verification failure with focused acceptance evidence. All affected code and test paths are already inside the active WI-1033 Contract scope; this additive amendment narrows the required proofs and does not add a new capability or authorize merge or release.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T04:05:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3245a2a6ef72d1a5033e394314e95f2de3a23c9ecbcac635ee0249d88641a9d1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    },
+    {
+      "acceptanceCount": 42,
+      "contractHash": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+      "previousContractHash": "sha256:7ccd7f826cf6679d0816bd7a232fe3af3fa575394a64ab078f6ce462d0b40a4b",
+      "reason": "Implement the previously approved minimal recovery projection in WI-1033: stale or missing current-snapshot preflight must expose the executable preflight action, then verification after refresh; keep the new start-confirmation gate out of scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-26T07:02:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ec2a2b157fff90261fd1be50ca64a5bfafa1427de68f2c89b8820bfb55e3601d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
+  "createdAt": "2026-09-25T00:59:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Rebinds the user's one-time authorization to bypass the stuck preflight prompt to the exact current decision digest after canonical verification. Continue WI-1033 through the hosted PR checks, independent review and authorized merge/cleanup, then Task 8 as a separate serial Work Item; stop before release. No verification or review is waived, and this is not release approval.",
+    "recordedAt": "2026-09-26T08:54:05Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
+    "schemaVersion": 1,
+    "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
+  "preflightAt": "2026-09-26T08:52:55Z",
+  "preflightContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-09-26T03:19:04Z",
+    "contractDigest": "sha256:cd954bd0a0d68f5396f00d93530c1ff806d0e930f819d821a7fcf02027570cdf",
+    "decisionDigest": "sha256:94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32",
+    "decisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.94ec4fa5ce08e58a426bf9c28468d56a65419c588d389139747395136743ef32.json",
+    "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+    "runtimeDigest": "sha256:064411bb3dd93972d539f079779f70c2cd6cc8d10e88d74b60040d57217b3099",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:b52d356f1b077b6ffe98d1d2d13693be663dfddea8ade10f4938d2f3983c4b61"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::unbounded_external_reads_execute_again_but_independent_node_reuses",
+        "crates/cockpit-verification/tests/composition.rs::relative_executable_uses_isolated_worktree_bytes_and_changes_identity",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276.json"
+      ],
+      "expected": "Missing or untrusted read-sets disable reuse; changing a readable source or the launched relative executable with unchanged JSON re-runs the affected node.",
+      "required": true,
+      "scenario": "trusted_read_set_and_executable_identity",
+      "status": "verified",
+      "verificationPlan": "Run the composition identity regression tests and real CLI acceptance for undeclared readable inputs and relative executables; assert the affected process is spawned instead of reused."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::caller_labels_cannot_forge_required_contract_checks",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::composition_rejects_a_missing_required_contract_check_before_spawn",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::non_integration_owner_cannot_start_composition",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::required_check_environment_overlay_is_rejected_when_unbound_by_contract"
+      ],
+      "expected": "A non-owner, incomplete or forged required-check set, caller satisfaction claim, or unbound command-environment overlay is rejected before an attempt or process starts.",
+      "required": true,
+      "scenario": "integration_owner_and_complete_required_checks",
+      "status": "verified",
+      "verificationPlan": "Run the integration-owner and required-check admission regressions with incomplete, forged-label, caller-satisfied, and non-empty unbound environment inputs; assert every rejection records zero spawned processes and cite the current Runtime verification receipt."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/coordination_store_lock_tests.rs::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event",
+        "crates/cockpit-repository/tests/coordination_store.rs::interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once",
+        "crates/cockpit-repository/tests/coordination_store.rs::retry_completes_registration_after_event_was_durable_before_interruption",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A fresh process reconciles one durable event after child death, while a live lock owner remains protected.",
+      "required": true,
+      "scenario": "crash_reconciliation_and_live_lock_safety",
+      "status": "verified",
+      "verificationPlan": "Kill a real child after invalidation is durable and before registration completion; retry in a fresh process and assert exactly one impact event, restored registration, and no eviction of a separate live lock owner."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::outcome_publication_rejects_parent_symlink_escape",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::dependency_inspection_rejects_published_evidence_through_parent_symlink",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Final and parent symlink escapes are rejected without accepting outside bytes or appending a success event.",
+      "required": true,
+      "scenario": "registered_worktree_evidence_containment",
+      "status": "verified",
+      "verificationPlan": "Run filesystem regressions for a final evidence symlink and an escaping parent-directory symlink at registration, publication, and inspection boundaries; compare event bytes before and after rejection."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::action_dependency_selection_is_provider_scoped",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Admission uses only the exact provider/outcome pair; a same-named outcome from another provider cannot affect it.",
+      "required": true,
+      "scenario": "provider_scoped_outcome_selection",
+      "status": "verified",
+      "verificationPlan": "Register two providers publishing the same outcome id and exercise actions selecting each exact pair; assert the unselected provider event never changes admission."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale",
+        "crates/cockpit-verification/tests/composition.rs::inherited_environment_change_invalidates_reuse_across_real_processes",
+        "tests/acceptance/cross_wi_coordination_processes.py; receipt output firstCompositionProcesses=1, secondCompositionProcesses=0, changedEnvironmentProcesses=1",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276.json"
+      ],
+      "expected": "An exact repeat reduces composition processes from one to zero; changing an observed input with unchanged JSON launches affected work and reuses only proven-unaffected nodes.",
+      "required": true,
+      "scenario": "observed_input_change_reexecutes_affected_node",
+      "status": "verified",
+      "verificationPlan": "Run the real CLI composition twice unchanged and once after changing a runtime-observed source or environment while composition JSON remains byte-identical; count spawned processes and reused nodes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_cli.rs::coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes",
+        "crates/cockpit-mcp/tests/collaboration_rpc.rs::coordination_rpc_projections_preserve_exact_persisted_store_bytes",
+        "crates/cockpit-mcp/tests/collaboration_rpc.rs::coordination_schema_binds_provider_consumer_and_resume_identities_per_action",
+        "tests/ci/repository_gate_manifest_test.py",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "CLI/MCP identities match; read queries leave durable bytes unchanged, while explicit writes are visible to a fresh process.",
+      "required": true,
+      "scenario": "mcp_identity_and_query_write_boundary",
+      "status": "verified",
+      "verificationPlan": "Run MCP/CLI parity regressions; compare coordination paths and bytes around inspect/status/outcome/dependency reads, then use explicit write actions and a fresh process to prove persisted events are observable."
+    },
+    {
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py; Runtime attempt e0f1de5ca1f688c6bfbf67da9a52c727881d30065f5b0fd1f768d82bbf5fa276 project-command-5 output: passed, linkedWorktrees=2, registrations=2, deduplicatedEvents=1, firstCompositionProcesses=1, secondCompositionProcesses=0, changedEnvironmentProcesses=1",
+        "Sentinel candidate read-only probe: ai-cockpit 0.2.113; candidate runtimeDigest=sha256:63273e49d19efffe63240d337d6ebd12ae02cacd35dfc3387b6e99ac6c6145f3; compatibility=COMPATIBLE; doctor=ok; agent doctor=VERIFIED; readiness=ready_on_base; HEAD eb0986172e17e845bfba499a20d12fa9987e05e7 unchanged; git-status digest e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 unchanged; .ai byte digest 91b40b2d34e16390eabdceb6ebba14a282f3fe0e2c607160cada5075427ab7ca unchanged; coordination store absent before/after",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Linked-worktree real-process acceptance and the serial path pass; candidate Sentinel inspection changes no protected byte or lifecycle state.",
+      "required": true,
+      "scenario": "real_multi_worktree_serial_path_and_sentinel_compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the registered multi-process linked-worktree acceptance and ordinary serial path; inspect Sentinel with the candidate binary and compare its Git tree, Contract/evidence, lifecycle Runtime identity, and coordination bytes before and after."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::admitted_composition_rejects_a_different_clone_even_with_matching_repository_id",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A separate clone with a copied matching repository ID is rejected before spawning a composition command because its Git common directory differs from the CoordinationStore binding.",
+      "required": true,
+      "scenario": "composition_store_repository_identity_binding",
+      "status": "verified",
+      "verificationPlan": "Run admitted_composition_rejects_a_different_clone_even_with_matching_repository_id and assert the specific common-directory blocker and absence of the command side-effect marker."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance pending recovery lineage regression",
+        "tests/ci/governance_integrity_gate_test.sh::governance recovery suffix successor-lineage regression",
+        "tests/ci/governance_integrity_gate_test.sh::governance structured superseded-close regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A digest-bound valid recovery successor that is not yet terminal is represented as in-progress with its recovery receipt and historical verification evidence; it does not require a premature close. Once the selected successor is terminal, the predecessor projects as recovered.",
+      "required": true,
+      "scenario": "premerge_recovery_lineage_parity",
+      "status": "verified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for an active successor, missing or foreign recovery binding, and a terminal successor; assert only the valid active lineage is accepted as pending and the closed lineage as recovered."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance retirement compatibility regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A valid replaced/retired archive with no verification receipt is represented using the retirement receipt and not_verified claim without being marked successful; missing or malformed retirement remains blocked.",
+      "required": true,
+      "scenario": "retired_work_item_not_verified_projection",
+      "status": "verified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for valid replaced/not_verified, missing retirement, and malformed retirement; assert the valid record passes with no verification claim and invalid records fail closed."
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh::governance retired parity omission regression",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A valid retired/replaced Work Item with a retirement receipt passes only when every required locale has a parity row referencing the receipt and stating not_verified; removing any locale row, or all rows, fails closed with missing_parity_entry.",
+      "required": true,
+      "scenario": "retired_work_item_requires_all_locale_parity_rows",
+      "status": "verified",
+      "verificationPlan": "Run tests/ci/governance_integrity_gate_test.sh with valid three-locale retirement rows, then remove one row per locale and all locale rows in separate fixtures; assert each omission reports missing_parity_entry and valid rows do not claim passed verification evidence."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::removing_provider_output_preserves_transitive_invalidation",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::legacy_impact_without_outcome_ids_still_invalidates_transitive_consumers",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "When a provider advances generation and removes an output, the durable automatic invalidation still names the removed output, blocks direct and multi-level consumers, and leaves unrelated consumers admissible.",
+      "required": true,
+      "scenario": "removed_provider_outcome_invalidates_transitive_consumers",
+      "status": "verified",
+      "verificationPlan": "Run a collaboration-admission regression with provider A output consumed by B, B output consumed by C, then re-register A at a newer generation without the output; assert A invalidation retains the removed ID, B/C are blocked, and unrelated work remains admitted."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_transition_rejects_traversal_and_mismatched_record_identity",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Traversal IDs and stored request records with a mismatched embedded request ID are rejected before any file outside the exact request path is changed.",
+      "required": true,
+      "scenario": "coordination_request_identity_is_path_safe",
+      "status": "verified",
+      "verificationPlan": "Run coordination-store regressions with a traversal request ID targeting a valid request-shaped record outside requests/ and with a request file whose embedded requestId differs; assert errors and byte-for-byte unchanged target records."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_creation_accepts_only_the_requested_initial_state",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Only Requested can be supplied when creating a coordination request; all later lifecycle states require the valid transition API.",
+      "required": true,
+      "scenario": "coordination_request_creation_requires_requested_state",
+      "status": "verified",
+      "verificationPlan": "Run a coordination-store regression that attempts creation in Resumed and SafelyPaused states, asserts both are rejected with no durable request, and confirms a Requested request can still transition through the valid lifecycle."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::request_creation_rejects_registration_target_mismatch_before_fact_validation",
+        "crates/cockpit-repository/tests/coordination_store.rs::request_transition_rejects_registration_traversal_before_fact_validation",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Request creation and state transitions reject a traversal or mismatched embedded registration Work Item ID before Contract fact lookup; rejected request bytes remain unchanged.",
+      "required": true,
+      "scenario": "registration_identity_before_contract_resolution",
+      "status": "verified",
+      "verificationPlan": "Run coordination-store API regressions for both request creation and transition using a safe alias registration path containing a traversal-shaped embedded Work Item ID; assert the identity mismatch error is returned before Contract fact validation and that transition request bytes are unchanged."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/coordination_store.rs::registration_rejects_a_contract_reached_through_a_symlinked_ancestor"
+      ],
+      "expected": "A valid matching Contract reachable only through a symlinked active-directory ancestor outside the repository is rejected before a registration or impact event is persisted.",
+      "required": true,
+      "scenario": "coordination_contract_ancestor_symlink_escape",
+      "status": "verified",
+      "verificationPlan": "Run the focused Unix coordination-store regression with an exact-copy external Contract behind a symlinked ancestor; assert registration is rejected and registration/event bytes remain absent or unchanged."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/coordination_store.rs::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A Contract read rejects an opened active-directory handle moved outside the repository even if its former in-repository pathname is replaced with a valid-looking directory.",
+      "required": true,
+      "scenario": "coordination_contract_open_directory_swap_escape",
+      "status": "verified",
+      "verificationPlan": "Deterministically open the active directory, move that directory outside the root, install an in-repository replacement at the old path, then continue the Contract read through the already-open handle; assert rejection before registration/event persistence and unchanged durable bytes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::opened_active_directory_swap_back_race_is_rejected",
+        "crates/cockpit-repository/src/collaboration.rs::opened_active_directory_swap_back_is_rejected_without_timestamp_resolution",
+        "crates/cockpit-repository/src/collaboration.rs::verification_evidence_validation_rejects_a_swapped_digest_bound_contract",
+        "crates/cockpit-repository/src/coordination_store.rs::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Moving the already-open active directory outside, opening its Contract through the handle, then restoring it before the next path/identity check cannot make unbound Contract bytes admissible.",
+      "required": true,
+      "scenario": "coordination_contract_swap_back_race",
+      "status": "verified",
+      "verificationPlan": "Use a deterministic injected leaf-open interleaving to rename active outside, open the leaf through the held directory handle, restore the same directory before post-checks, then assert rejection through ancestor mutation detection and registration-digest binding; assert no registration/event bytes change. Also prove verification-evidence validation cannot bypass the digest-bound Contract reader."
+    },
+    {
+      "evidence": [
+        "GitHub Actions run 36192757703 at head be819f8171cf1e3a28900cfeb608c5b566641413: windows-runtime job step 'verify Windows directory-handle containment regressions' succeeded; https://github.com/xinglun/ai-cockpit/actions/runs/36192757703/job/108262459103"
+      ],
+      "expected": "Windows holds deny directory rename during the registered Contract read even when timestamp tokens are forced constant; the Windows CI job actually executes this regression.",
+      "required": true,
+      "scenario": "windows_directory_rename_guard_runs_in_ci",
+      "status": "verified",
+      "verificationPlan": "Extend the existing windows-runtime job to run `cargo test --locked -p cockpit-repository --lib`; add a repository gate-manifest assertion for that command; verify hosted Windows CI runs the test and it observes rename blocked before read admission."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::inherited_path_cannot_substitute_a_composition_verifier",
+        "crates/cockpit-verification/tests/composition.rs::installed_toolchain_change_with_stale_json_reexecutes_reusable_node",
+        "crates/cockpit-verification/tests/composition.rs::unbound_command_path_override_fails_before_spawn",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "A fake executable earlier on inherited PATH and inherited toolchain overrides cannot make a Contract-required check pass; unbound executable/environment identities fail before a successful receipt.",
+      "required": true,
+      "scenario": "required_check_runtime_environment_binding",
+      "status": "verified",
+      "verificationPlan": "Run a separate CLI process with hostile inherited PATH and toolchain variables; assert the declared verifier is resolved and executed only through the Runtime-controlled context, or composition is rejected before the fake executable runs."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "Flipping the pass flag of a persisted failed or in-progress attempt cannot cause a later composition to skip the required process.",
+      "required": true,
+      "scenario": "tampered_composition_attempt_is_not_reused",
+      "status": "verified",
+      "verificationPlan": "Persist a failed composition, alter only its record pass flag while preserving identity, rerun identical input, and assert the node executes again and the new attempt reflects the actual result."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::read_set_under_a_parent_symlink_is_not_reusable",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "A read-set beneath a symlinked parent is unobservable for reuse and outside bytes never certify a reusable node.",
+      "required": true,
+      "scenario": "composition_read_set_parent_symlink_disables_reuse",
+      "status": "verified",
+      "verificationPlan": "Create a linked worktree input whose parent component is a symlink to an external directory; repeat composition and assert each run executes and no prior node receipt is reused."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/composition.rs::persistence_error_after_worktree_creation_cleans_the_temporary_worktree",
+        "crates/cockpit-verification/tests/composition.rs::retry_reconciles_an_interrupted_owner_after_process_exit",
+        "crates/cockpit-verification/tests/composition.rs::retry_does_not_remove_a_worktree_owned_by_a_live_process",
+        "cargo test --locked -p cockpit-verification --test composition: 27 passed"
+      ],
+      "expected": "Persistence failures clean created temporary worktrees; retry reconciles abandoned attempts but preserves resources owned by a live process.",
+      "required": true,
+      "scenario": "composition_persistence_failure_and_crash_cleanup",
+      "status": "verified",
+      "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.7ef377dceb8c1116a7aea0b419db206980e84a2c5098345670971f49924831ec.json#project-command-11: exitCode=0, passed=true; overall formal receipt was separately rejected"
+      ],
+      "expected": "A one-time authorized retry followed by passing typed verification produces a current verified/green Outcome; subsequent read-only status/outcome calls accept the consumed receipt without deleting history, while invalid retry evidence remains rejected.",
+      "required": true,
+      "scenario": "consumed_retry_receipt_remains_valid_after_verification",
+      "status": "verified",
+      "verificationPlan": "Add a focused repository lifecycle regression that records a digest-bound retry, completes passing typed verification, then queries Outcome/status after the retry marker is consumed; assert the current evidence and receipt remain valid, no second retry is pending, and invalid receipt cases stay fail-closed."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/src/composition.rs::moving_an_open_read_set_parent_outside_during_read_is_not_trusted",
+        "cargo test --locked -p cockpit-verification --lib: 9 passed (macOS)"
+      ],
+      "expected": "A deterministic move-out-and-replace interleaving during a read-set read is rejected on each supported platform; no bytes from the relocated ancestor are returned as trusted identity.",
+      "required": true,
+      "scenario": "composition_read_set_move_out_during_read",
+      "status": "verified",
+      "verificationPlan": "Add a deterministic test hook/barrier between opening ancestors and completing the read, move the opened ancestor outside the worktree and replace its former path, then assert the read fails and the outside bytes never enter a digest or reuse decision."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/coordination_store.rs::generic_event_publication_rejects_outcome_published_without_typed_validation",
+        "cargo test --locked -p cockpit-repository --test coordination_store: 25 passed"
+      ],
+      "expected": "The generic public store API cannot append OutcomePublished; a typed publisher must bind all declared evidence and satisfy verification-required consumers before durable publication.",
+      "required": true,
+      "scenario": "generic_outcome_publication_is_rejected",
+      "status": "verified",
+      "verificationPlan": "Call CoordinationStore::publish_event directly with a publication that omits a declared evidence reference; assert rejection and byte-identical event storage, then exercise the typed valid publisher."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/collaboration_admission.rs::verification_dependency_rejects_empty_json_then_accepts_a_bound_runtime_receipt",
+        "cargo test --locked -p cockpit-repository --test collaboration_admission: 38 passed"
+      ],
+      "expected": "Changing published evidence bytes without changing provider generation allows a new exact-digest publication; the old event remains immutable and cannot shadow the proposed current event.",
+      "required": true,
+      "scenario": "same_generation_outcome_republication_uses_current_evidence",
+      "status": "verified",
+      "verificationPlan": "Publish once, update evidence bytes while keeping generation/head/Contract fixed, then publish again; assert the second event is validated against its own digest, both events remain, and current admission uses the new exact binding."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.2334617a582adb4835c7e737e63973737a21170faea2d64ed818cdc6a853717b.json",
+        ".ai/work-items/active/WI-1033-cross-wi-review-fixes-recovery.outcome.json",
+        "fresh Runtime work-item status query: verification=verified, blockers=[], finish admitted"
+      ],
+      "expected": "A passing canonical multi-node Runtime verification with CoverageManifest consumes exactly one authorized retry, persists current evidence, and yields verified/green fresh Outcome and non-blocking status; a second retry and invalid receipts remain rejected.",
+      "required": true,
+      "scenario": "canonical_retry_projection_accepts_aggregate_receipt",
+      "status": "verified",
+      "verificationPlan": "Run the focused lifecycle regression with a multi-node typed receipt, then run one canonical Runtime CLI verification for the authorized retry after the root cause is repaired; query Outcome/status and assert exact snapshot/runtime bindings, one-time consumption, and green projections."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::registered_worktree_file_tests::outcome_verification_uses_event_bound_bytes_and_digest_bound_contract",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Semantic receipt validation consumes the exact bytes bound by the proposed publication; swapping the path to a different valid receipt after the digest-bound read cannot make an invalid bound receipt pass.",
+      "required": true,
+      "scenario": "outcome_verification_uses_event_bound_bytes",
+      "status": "verified",
+      "verificationPlan": "Deterministically replace the receipt path after the publisher reads the proposed event bytes but before semantic validation; assert the validator rejects the original invalid bound bytes and no publication is appended."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/collaboration.rs::publish_outcome_observes_consumer_registered_before_locked_append",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "A verification-required consumer registered before the publication transaction is included in its decision; registration and publication have a single serialized order with no unchecked gap.",
+      "required": true,
+      "scenario": "verification_required_consumer_registration_is_atomic_with_publication",
+      "status": "verified",
+      "verificationPlan": "Pause a typed publication at the prepared-event boundary, register a consumer requiring verification, then continue; assert the current locked registration set is re-read, missing or invalid proof rejects with no event, and the reverse serialized order remains coherent."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded",
+        "crates/cockpit-repository/src/lifecycle.rs::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection",
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json"
+      ],
+      "expected": "Untrusted unknown entries cannot make a rejected retry-projection diagnostic unbounded; truncation reports omitted entries.",
+      "required": true,
+      "scenario": "recovery_rejection_diagnostics_are_bounded",
+      "status": "verified",
+      "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/verification_service.rs::cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_manifest"
+      ],
+      "expected": "A workspace coverage manifest and its executable node plans bind identical command digests when the caller supplies a lexical path alias, including on Windows.",
+      "required": true,
+      "scenario": "workspace_verification_command_identity_is_canonical",
+      "status": "verified",
+      "verificationPlan": "Plan the Cargo workspace through a noncanonical root such as root/. and compare every manifest digest with the corresponding action identity; run this regression in the canonical CI matrix including Windows."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::tampered_historical_provider_snapshot_cannot_suppress_invalidation",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::tampered_recovery_identity_cannot_suppress_invalidation"
+      ],
+      "expected": "Only a recovery record validated against its exact event and repository/current registration identities suppresses invalidation; malformed, copied, stale-generation, or mismatched records remain unknown and leave direct and transitive consumers blocked.",
+      "required": true,
+      "scenario": "recovery_records_are_validated_before_invalidation_suppression",
+      "status": "verified",
+      "verificationPlan": "Persist a valid cross-generation recovery, then independently tamper schema, repository, consumption ID, event/provider identity, recorded provider snapshot, and consumer identity/generation; assert inspect reports each invalid record and admission still observes the invalidation."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-verification/tests/composition.rs::retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
+        "crates/cockpit-verification/tests/composition.rs::retry_reconciles_an_interrupted_owner_after_process_exit"
+      ],
+      "expected": "A dead composition owner is insufficient to clean its temporary worktree while its spawned verifier process group remains alive; once that exact group is gone, retry can reconcile and clean safely.",
+      "required": true,
+      "scenario": "interrupted_verifier_process_group_prevents_worktree_cleanup",
+      "status": "verified",
+      "verificationPlan": "On Unix, launch a real verifier child that records its PID, kills the composition owner, and remains alive; assert a fresh retry preserves the worktree and rejects cleanup, terminate that exact process group, then retry and assert cleanup. On Windows, retain job-object kill-on-close coverage."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::shared_outcome_does_not_trust_a_tampered_composition_pass_flag",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::shared_outcome_projects_composition_cleanup_and_actual_reuse"
+      ],
+      "expected": "A tampered, in-progress, or internally inconsistent composition attempt is never projected as passed or reusable; valid successful terminal attempts remain visible.",
+      "required": true,
+      "scenario": "composition_outcome_requires_coherent_terminal_attempt",
+      "status": "verified",
+      "verificationPlan": "Persist a failed or in-progress attempt, alter only its top-level pass flag, query the read-only Outcome projection, and assert it reports unknown/invalid with no reusable checks; retain passing, stale-applicability, and not-merged regressions."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+        "crates/cockpit-repository/tests/scenario_matrix_next_action.rs::checkpointed_stale_preflight_projects_preflight_recovery"
+      ],
+      "expected": "A checkpointed Work Item with missing or stale preflight binding exposes run_preflight rather than run_verification; after the fresh preflight succeeds, run_verification is admitted without another start confirmation.",
+      "required": true,
+      "scenario": "checkpointed_stale_preflight_projects_preflight_recovery",
+      "status": "verified",
+      "verificationPlan": "In the scenario-matrix integration test, checkpoint a Work Item, change its source snapshot, assert status withholds run_verification and exposes run_preflight, execute preflight, then assert status admits run_verification; preserve the existing fail-closed execution-precondition assertion."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-26T08:54:26.273180+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-10",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-11",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-12",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-13",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-14",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-15",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-16",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-17",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-18",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-8",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-9",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:0c4731e2fc988fc8fd502af32582f853f4fd447137301a8e93548d5d9d2ebc24",
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

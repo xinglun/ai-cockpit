@@ -120,6 +120,79 @@ fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
     properties
 }
 
+fn coordination_parameter_properties() -> serde_json::Map<String, Value> {
+    let mut properties = serde_json::Map::new();
+    for spec in cockpit_protocol::work_item_coordination_parameter_specs() {
+        let mut property = json!({
+            "type": spec.wire_type,
+            "description": spec.description,
+        });
+        if !spec.enum_values.is_empty() {
+            property["enum"] = json!(spec.enum_values);
+        }
+        if let Some(default) = spec.default {
+            property["default"] = json!(default);
+        }
+        if let Some(minimum) = spec.minimum {
+            property["minimum"] = json!(minimum);
+        }
+        if let Some(minimum_length) = spec.minimum_length {
+            property["minLength"] = json!(minimum_length);
+        }
+        properties.insert(spec.name.into(), property);
+    }
+    let action = properties
+        .get_mut("action")
+        .expect("coordination action property spec");
+    action["enum"] = json!(cockpit_protocol::work_item_coordination_action_values());
+    properties
+}
+
+fn coordination_action_variant_schema(
+    spec: &cockpit_protocol::WorkItemCoordinationActionSpec,
+) -> Value {
+    let parameter_names = cockpit_protocol::work_item_coordination_parameter_specs()
+        .iter()
+        .map(|parameter| parameter.name)
+        .collect::<Vec<_>>();
+    let mut required = spec.required_parameters.to_vec();
+    let excluded = parameter_names
+        .into_iter()
+        .filter(|name| {
+            if *name == "action" {
+                !spec.action_required
+            } else {
+                !spec.allowed_parameters.contains(name)
+            }
+        })
+        .map(|name| json!({"required": [name]}))
+        .collect::<Vec<_>>();
+    let mut properties = serde_json::Map::new();
+    if spec.action_required {
+        required.insert(0, "action");
+        properties.insert("action".into(), json!({"const": spec.action}));
+    }
+    let mut variant = json!({"properties": properties});
+    if !required.is_empty() {
+        variant["required"] = json!(required);
+    }
+    if !excluded.is_empty() {
+        variant["not"] = json!({"anyOf": excluded});
+    }
+    variant
+}
+
+fn work_item_coordination_schema() -> Value {
+    let mut schema = object_schema(Value::Object(coordination_parameter_properties()), &[]);
+    schema["oneOf"] = Value::Array(
+        cockpit_protocol::work_item_coordination_action_specs()
+            .iter()
+            .map(coordination_action_variant_schema)
+            .collect(),
+    );
+    schema
+}
+
 fn outcome_parameter_names() -> Vec<String> {
     let specs = cockpit_protocol::work_item_outcome_mcp_request_parameter_specs();
     specs
@@ -387,22 +460,7 @@ fn mcp_tool_schema(name: &str) -> Value {
             &[],
         ),
         "work_item_parallel" => parallel_tool_schema(),
-        "work_item_coordination" => object_schema(
-            json!({
-                "action": {"type":"string", "enum":["inspect","register","report-impact","request-pause","acknowledge","resume","recover"], "default":"inspect"},
-                "registration": {"type":"object", "description":"Strict Work Item worktree registration."},
-                "event": {"type":"object", "description":"Strict impact event to append."},
-                "request": {"type":"object", "description":"Strict safe-pause request to append."},
-                "requestId": string_property("Coordination request identity."),
-                "state": {"type":"string", "enum":["acknowledged","safely_paused","unavailable","expired"]},
-                "workItemId": string_property("Canonical consumer Work Item identifier."),
-                "generation": {"type":"integer", "minimum":1},
-                "eventId": string_property("Impact event identity."),
-                "consumerWorkItemId": string_property("Consumer Work Item identity for recovery consumption."),
-                "consumerGeneration": {"type":"integer", "minimum":1},
-            }),
-            &[],
-        ),
+        "work_item_coordination" => work_item_coordination_schema(),
         "work_item_composition" => object_schema(
             json!({
                 "workItemId": string_property("Integration-owner Work Item identifier."),
@@ -582,37 +640,31 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             ][..],
         ),
         "work_item_parallel" => Some(&["action", "workItemId", "id", "leaseId"][..]),
-        "work_item_coordination" => Some(
-            &[
-                "action",
-                "registration",
-                "event",
-                "request",
-                "requestId",
-                "state",
-                "workItemId",
-                "generation",
-                "eventId",
-                "consumerWorkItemId",
-                "consumerGeneration",
-            ][..],
-        ),
+        "work_item_coordination" => None,
         "work_item_composition" => Some(&["workItemId", "generation", "input"][..]),
         _ => return Err(format!("unknown tool: {name}")),
     };
     for key in object.keys() {
-        let is_allowed = allowed
-            .map(|fields| fields.contains(&key.as_str()))
-            .unwrap_or_else(|| {
-                if name == "work_item_outcome" {
-                    outcome_parameter_names()
-                        .iter()
-                        .any(|parameter| parameter == key)
-                } else {
-                    capability_parameter_names(cockpit_protocol::capability_show_interface_specs())
+        let is_allowed = if name == "work_item_coordination" {
+            cockpit_protocol::work_item_coordination_parameter_specs()
+                .iter()
+                .any(|parameter| parameter.name == key)
+        } else {
+            allowed
+                .map(|fields| fields.contains(&key.as_str()))
+                .unwrap_or_else(|| {
+                    if name == "work_item_outcome" {
+                        outcome_parameter_names()
+                            .iter()
+                            .any(|parameter| parameter == key)
+                    } else {
+                        capability_parameter_names(
+                            cockpit_protocol::capability_show_interface_specs(),
+                        )
                         .contains(&key.as_str())
-                }
-            });
+                    }
+                })
+        };
         if !is_allowed {
             return Err(format!("invalid arguments for {name}: unknown field {key}"));
         }
@@ -791,35 +843,54 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             }
         }
         "work_item_coordination" => {
+            if object.get("action").is_some_and(|value| !value.is_string()) {
+                return Err(
+                    "invalid arguments for work_item_coordination: action must be a string".into(),
+                );
+            }
             let action = object
                 .get("action")
                 .and_then(Value::as_str)
                 .unwrap_or("inspect");
-            if !matches!(
-                action,
-                "inspect"
-                    | "register"
-                    | "report-impact"
-                    | "request-pause"
-                    | "acknowledge"
-                    | "resume"
-                    | "recover"
-            ) {
+            if !cockpit_protocol::work_item_coordination_action_values().contains(&action) {
                 return Err(format!(
                     "invalid arguments for work_item_coordination: unsupported action {action}"
                 ));
             }
+            let action_required = object.contains_key("action");
+            let matches_variant = cockpit_protocol::work_item_coordination_action_specs()
+                .iter()
+                .filter(|spec| spec.action == action && spec.action_required == action_required)
+                .any(|spec| {
+                    object.keys().all(|key| {
+                        key == "action" || spec.allowed_parameters.contains(&key.as_str())
+                    }) && spec
+                        .required_parameters
+                        .iter()
+                        .all(|parameter| object.contains_key(*parameter))
+                });
+            if !matches_variant {
+                return Err(format!(
+                    "invalid arguments for work_item_coordination action {action}: fields do not match its identity contract"
+                ));
+            }
             match action {
                 "inspect" => {
-                    if object.keys().any(|key| key != "action") {
-                        return Err(
-                            "invalid arguments for work_item_coordination: inspect accepts only action"
-                                .into(),
-                        );
-                    }
+                    // The action-specific contract above admits only an empty
+                    // inspect request or an explicit `action: inspect`.
                 }
                 "register" => require_object(object, "registration", name)?,
                 "report-impact" => require_object(object, "event", name)?,
+                "publish-outcome" => {
+                    let (work_item_id, generation) = if object.contains_key("providerWorkItemId") {
+                        ("providerWorkItemId", "providerGeneration")
+                    } else {
+                        ("workItemId", "generation")
+                    };
+                    require_string(object, work_item_id, name)?;
+                    require_positive_u64(object, generation, name)?;
+                    require_string(object, "outcomeId", name)?;
+                }
                 "request-pause" => require_object(object, "request", name)?,
                 "acknowledge" => {
                     require_string(object, "requestId", name)?;
@@ -960,6 +1031,27 @@ fn work_item_coordination(
             coordination_result(
                 &store,
                 cockpit_repository::report_impact(&store, event)
+                    .map_err(|error| error.to_string())?,
+            )
+        }
+        "publish-outcome" => {
+            let work_item_id = object
+                .get("providerWorkItemId")
+                .or_else(|| object.get("workItemId"))
+                .and_then(Value::as_str)
+                .ok_or("providerWorkItemId is required")?;
+            let generation = object
+                .get("providerGeneration")
+                .or_else(|| object.get("generation"))
+                .and_then(Value::as_u64)
+                .ok_or("providerGeneration is required")?;
+            let outcome_id = object
+                .get("outcomeId")
+                .and_then(Value::as_str)
+                .ok_or("outcomeId is required")?;
+            coordination_result(
+                &store,
+                cockpit_repository::publish_outcome(&store, work_item_id, generation, outcome_id)
                     .map_err(|error| error.to_string())?,
             )
         }

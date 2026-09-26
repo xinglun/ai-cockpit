@@ -119,13 +119,14 @@ fn cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_man
         .and_then(Path::parent)
         .expect("workspace root")
         .to_path_buf();
+    let noncanonical_root = root.join(".");
     let request = request(
         "cargo",
         vec!["test".into(), "--locked".into(), "--workspace".into()],
         RepositoryVerificationPolicy::NeverReuse,
     );
 
-    let plan = plan_repository_verification(&root, &request).expect("workspace plan");
+    let plan = plan_repository_verification(&noncanonical_root, &request).expect("workspace plan");
 
     let manifest = plan.coverage_manifest.expect("coverage manifest");
     assert_eq!(manifest.source_args, request.args);
@@ -143,6 +144,19 @@ fn cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_man
             .collect::<Vec<_>>()
     );
     assert!(manifest.validate().is_ok());
+
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("git repository")
+        .snapshot()
+        .expect("repository snapshot");
+    let first_request = plan.requests.first().expect("package verification request");
+    let planned_node =
+        plan_repository_verification_action(&noncanonical_root, first_request, &snapshot, 0)
+            .expect("planned package verification");
+    assert_eq!(
+        planned_node["identityBinding"]["commandDigest"], manifest.command_digests[0],
+        "coverage must bind the exact command identity used by the executor"
+    );
 }
 
 #[test]

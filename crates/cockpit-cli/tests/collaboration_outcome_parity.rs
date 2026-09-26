@@ -14,6 +14,7 @@ fn projection() -> CollaborationOutcomeProjection {
         composition_order: vec!["WI-PROVIDER".into(), "WI-PARITY".into()],
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state: "not_observed".into(),
+        composition_applicability: "stale".into(),
         target_merge_state: "not_observed".into(),
         cleanup_state: "not_observed".into(),
         revalidation: "required".into(),
@@ -29,12 +30,19 @@ fn projection() -> CollaborationOutcomeProjection {
 fn collaboration_outcome_projection_preserves_semantics_in_all_languages() {
     for language in ["en", "zh", "ja"] {
         let rendered = render_collaboration_outcome(&projection(), language);
+        let applicability_label = match language {
+            "en" => "Composition applicability",
+            "zh" => "组合适用性",
+            "ja" => "構成適用性",
+            _ => unreachable!("supported language"),
+        };
         for semantic in [
             "WI-PARITY",
             "WI-PROVIDER",
             "WI-CONSUMER",
             "impact-1",
             "separate_lifecycle_outcome",
+            "stale",
             "not_observed",
             "required",
             "dependency_impact:WI-PROVIDER",
@@ -42,5 +50,9 @@ fn collaboration_outcome_projection_preserves_semantics_in_all_languages() {
         ] {
             assert!(rendered.contains(semantic), "{language} missing {semantic}");
         }
+        assert!(
+            rendered.contains(applicability_label),
+            "{language} missing composition applicability label"
+        );
     }
 }

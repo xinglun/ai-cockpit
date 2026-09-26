@@ -1,18 +1,29 @@
 use crate::{CoordinationError, CoordinationStore};
+use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
+use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    CoordinationEvent, CoordinationIntent, CoordinationRecovery, CoordinationRequest,
-    CoordinationRequestState, RuntimeCapabilityBinding, RuntimeContext, WorktreeRegistration,
+    ConsumedOutcome, CoordinationEvent, CoordinationIntent, CoordinationRecovery,
+    CoordinationRequest, CoordinationRequestState, ProviderOutcomeKey, RuntimeCapabilityBinding,
+    RuntimeContext, WorktreeRegistration,
 };
 use cockpit_verification::{
     CompositionAttempt, CompositionError, CompositionInput, CompositionPrecondition,
-    composition_commands_digest, run_composition,
+    ProcessAdmissionCheck, ProcessStartGate, run_composition_with_process_gates,
 };
 use serde::Serialize;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
-use std::path::Path;
+use std::io::{self, Read};
+use std::path::{Component, Path};
+use std::process::{Child, Command};
+use std::sync::Arc;
 use thiserror::Error;
+
+#[cfg(test)]
+thread_local! {
+    static DIRECTORY_CHANGE_TOKEN_OVERRIDE: std::cell::Cell<Option<DirectoryChangeToken>> = const { std::cell::Cell::new(None) };
+}
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -54,7 +65,7 @@ pub struct CollaborationAction {
     pub kind: CollaborationActionKind,
     pub consumer_work_item_id: String,
     #[serde(default)]
-    pub outcome_ids: Vec<String>,
+    pub outcomes: Vec<ProviderOutcomeKey>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -72,6 +83,7 @@ pub struct CollaborationOutcomeProjection {
     pub composition_order: Vec<String>,
     pub implementation_state: String,
     pub composition_state: String,
+    pub composition_applicability: String,
     pub target_merge_state: String,
     pub cleanup_state: String,
     pub revalidation: String,
@@ -113,113 +125,30 @@ pub fn collaboration_projection(
         ..CollaborationProjection::default()
     };
 
-    let registration_by_id = projection
-        .registrations
-        .iter()
-        .map(|registration| (registration.work_item_id.as_str(), registration))
-        .collect::<BTreeMap<_, _>>();
+    let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
     let mut affected = BTreeSet::new();
-    for event in &projection.events {
-        for registration in &projection.registrations {
-            if registration.work_item_id == event.work_item_id {
-                continue;
-            }
-            if !event_invalidates(event) || recovery_consumed(&projection, event, registration) {
-                continue;
-            }
-            if registration
-                .declaration
-                .consumed_outcomes
-                .iter()
-                .any(|dependency| dependency.provider_work_item_id == event.work_item_id)
-            {
-                affected.insert(registration.work_item_id.clone());
-            }
-        }
-    }
-    projection.affected_work_items = affected.into_iter().collect();
-
-    let mut provider_stages = BTreeMap::new();
     for registration in &projection.registrations {
-        for outcome in &registration.declaration.provided_outcomes {
-            provider_stages.insert(
-                (
-                    registration.work_item_id.as_str(),
-                    outcome.outcome_id.as_str(),
-                ),
-                outcome.stage,
-            );
+        let mut blockers = dependency_blockers_for_registration(
+            &projection,
+            registration,
+            None,
+            &invalidated_outcomes,
+        );
+        if blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("dependency_impact:"))
+        {
+            affected.insert(registration.work_item_id.clone());
         }
-    }
-    for registration in &projection.registrations {
-        let mut blockers = Vec::new();
-        for dependency in &registration.declaration.consumed_outcomes {
-            let Some(provider) = registration_by_id.get(dependency.provider_work_item_id.as_str())
-            else {
-                blockers.push(format!(
-                    "dependency_missing:{}",
-                    dependency.provider_work_item_id
-                ));
-                continue;
-            };
-            let Some(stage) = provider_stages.get(&(
-                provider.work_item_id.as_str(),
-                dependency.outcome_id.as_str(),
-            )) else {
-                blockers.push(format!(
-                    "outcome_missing:{}:{}",
-                    dependency.provider_work_item_id, dependency.outcome_id
-                ));
-                continue;
-            };
-            if !stage.satisfies(dependency.minimum_stage) {
-                blockers.push(format!(
-                    "dependency_stage:{}:{stage:?}",
-                    dependency.provider_work_item_id
-                ));
-            }
-            if projection.events.iter().any(|event| {
-                event.work_item_id == dependency.provider_work_item_id
-                    && event_invalidates(event)
-                    && !recovery_consumed(&projection, event, registration)
-            }) {
-                blockers.push(format!(
-                    "dependency_impact:{}",
-                    dependency.provider_work_item_id
-                ));
-            }
-            if dependency.verification_required {
-                let provider_outcome = provider
-                    .declaration
-                    .provided_outcomes
-                    .iter()
-                    .find(|outcome| outcome.outcome_id == dependency.outcome_id);
-                if provider_outcome.is_none_or(|outcome| {
-                    outcome.evidence_refs.is_empty()
-                        || outcome.evidence_refs.iter().any(|reference| {
-                            let path = Path::new(&provider.worktree_path).join(reference);
-                            fs::symlink_metadata(path)
-                                .map(|metadata| {
-                                    metadata.file_type().is_symlink() || !metadata.is_file()
-                                })
-                                .unwrap_or(true)
-                        })
-                }) {
-                    blockers.push(format!(
-                        "dependency_evidence_missing:{}:{}",
-                        dependency.provider_work_item_id, dependency.outcome_id
-                    ));
-                }
-            }
-        }
-        blockers.sort();
-        blockers.dedup();
         if !blockers.is_empty() {
+            blockers.sort();
+            blockers.dedup();
             projection
                 .blockers
                 .insert(registration.work_item_id.clone(), blockers);
         }
     }
+    projection.affected_work_items = affected.into_iter().collect();
     projection.cycles = find_cycles(&projection.registrations);
     for cycle in &projection.cycles {
         for work_item_id in cycle {
@@ -235,6 +164,1073 @@ pub fn collaboration_projection(
         blockers.dedup();
     }
     Ok(projection)
+}
+
+fn dependency_blockers_for_registration(
+    projection: &CollaborationProjection,
+    registration: &WorktreeRegistration,
+    selected_outcomes: Option<&BTreeSet<ProviderOutcomeKey>>,
+    invalidated_outcomes: &BTreeMap<ProviderOutcomeKey, Vec<CoordinationEvent>>,
+) -> Vec<String> {
+    let mut blockers = Vec::new();
+    for dependency in &registration.declaration.consumed_outcomes {
+        let key = provider_outcome_key(dependency);
+        if selected_outcomes.is_some_and(|selected| !selected.contains(&key)) {
+            continue;
+        }
+        let Some(provider) = projection
+            .registrations
+            .iter()
+            .find(|provider| provider.work_item_id == dependency.provider_work_item_id)
+        else {
+            blockers.push(format!(
+                "dependency_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+            continue;
+        };
+        let Some(outcome) = provider
+            .declaration
+            .provided_outcomes
+            .iter()
+            .find(|outcome| outcome.outcome_id == dependency.outcome_id)
+        else {
+            blockers.push(format!(
+                "outcome_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+            continue;
+        };
+        if outcome.published_head != provider.head {
+            blockers.push(format!(
+                "outcome_head_mismatch:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+        if !outcome.stage.satisfies(dependency.minimum_stage) {
+            blockers.push(format!(
+                "dependency_stage:{}:{}:{:?}",
+                dependency.provider_work_item_id, dependency.outcome_id, outcome.stage
+            ));
+        }
+        if outcome.stage == cockpit_protocol::OutcomeStage::MergedTarget {
+            match commit_is_ancestor(
+                Path::new(&provider.worktree_path),
+                &provider
+                    .declaration
+                    .integration_responsibility
+                    .target_branch,
+                &outcome.published_head,
+            ) {
+                Some(true) => {}
+                Some(false) => blockers.push(format!(
+                    "outcome_merge_fact_missing:{}:{}",
+                    dependency.provider_work_item_id, dependency.outcome_id
+                )),
+                None => blockers.push(format!(
+                    "outcome_merge_fact_unknown:{}:{}",
+                    dependency.provider_work_item_id, dependency.outcome_id
+                )),
+            }
+        }
+        if invalidated_outcomes.get(&key).is_some_and(|events| {
+            events
+                .iter()
+                .any(|event| !recovery_consumed(projection, event, registration))
+        }) {
+            blockers.push(format!(
+                "dependency_impact:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+        if dependency.verification_required
+            && !verification_evidence_is_complete(projection, provider, outcome)
+        {
+            blockers.push(format!(
+                "dependency_evidence_missing:{}:{}",
+                dependency.provider_work_item_id, dependency.outcome_id
+            ));
+        }
+    }
+    blockers
+}
+
+fn provider_outcome_key(dependency: &ConsumedOutcome) -> ProviderOutcomeKey {
+    ProviderOutcomeKey {
+        provider_work_item_id: dependency.provider_work_item_id.clone(),
+        outcome_id: dependency.outcome_id.clone(),
+    }
+}
+
+fn verification_evidence_is_complete(
+    projection: &CollaborationProjection,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+) -> bool {
+    verification_evidence_is_complete_with_reader(
+        projection,
+        provider,
+        outcome,
+        read_registered_worktree_file,
+    )
+}
+
+fn verification_evidence_is_complete_with_reader<F>(
+    projection: &CollaborationProjection,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    mut read_file: F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
+    projection.events.iter().any(|publication| {
+        verification_evidence_matches_publication(publication, provider, outcome, &mut read_file)
+    })
+}
+
+fn verification_evidence_matches_publication<F>(
+    publication: &CoordinationEvent,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    read_file: &mut F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
+    let root = Path::new(&provider.worktree_path);
+    let mut observed_evidence = BTreeMap::new();
+    for reference in &outcome.evidence_refs {
+        let Ok(bytes) = read_file(root, reference) else {
+            return false;
+        };
+        observed_evidence.insert(reference.clone(), bytes);
+    }
+    verification_evidence_matches_publication_with_bytes(
+        publication,
+        provider,
+        outcome,
+        &observed_evidence,
+        read_file,
+    )
+}
+
+fn verification_evidence_matches_publication_with_bytes<F>(
+    publication: &CoordinationEvent,
+    provider: &WorktreeRegistration,
+    outcome: &cockpit_protocol::ProvidedOutcome,
+    observed_evidence: &BTreeMap<String, Vec<u8>>,
+    read_file: &mut F,
+) -> bool
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
+    let root = Path::new(&provider.worktree_path);
+    let expected_reference = format!(".ai/evidence/{}.verification.json", provider.work_item_id);
+    let declared_references = outcome.evidence_refs.iter().collect::<BTreeSet<_>>();
+    if publication.kind != cockpit_protocol::CoordinationEventKind::OutcomePublished
+        || publication.repository_id != provider.repository_id
+        || publication.work_item_id != provider.work_item_id
+        || publication.generation != provider.generation
+        || !publication
+            .outcome_ids
+            .iter()
+            .any(|outcome_id| outcome_id == &outcome.outcome_id)
+        || outcome.published_head != provider.head
+        || !declared_references.contains(&&expected_reference)
+        || declared_references.len() != outcome.evidence_refs.len()
+        || publication.evidence_refs != outcome.evidence_refs
+        || publication.evidence_digests.len() != declared_references.len()
+        || observed_evidence.len() != declared_references.len()
+        || publication
+            .evidence_digests
+            .keys()
+            .any(|reference| !declared_references.contains(reference))
+    {
+        return false;
+    }
+    for reference in &outcome.evidence_refs {
+        let Some(bytes) = observed_evidence.get(reference) else {
+            return false;
+        };
+        if publication.evidence_digests.get(reference)
+            != Some(&cockpit_core::Digest::sha256_bytes(bytes))
+        {
+            return false;
+        }
+    }
+    let Some(bytes) = observed_evidence.get(&expected_reference) else {
+        return false;
+    };
+    let Ok(envelope) = serde_json::from_slice::<crate::VerificationEvidenceV2>(bytes) else {
+        return false;
+    };
+    if envelope.work_item_id != provider.work_item_id
+        || envelope.repository_id != provider.repository_id.to_string()
+        || envelope.contract_digest.as_ref() != Some(&provider.contract_digest)
+        || envelope.runtime_version != provider.runtime.runtime_version
+        || envelope.runtime_digest != provider.runtime.runtime_digest
+        || !envelope.passed
+        || !matches!(
+            envelope.capture_mode,
+            crate::VerificationCaptureMode::FullCapture
+                | crate::VerificationCaptureMode::RedactedCapture
+        )
+        || envelope.receipt.is_none()
+        || outcome.published_head != provider.head
+    {
+        return false;
+    }
+    let Ok(contract) = read_registered_contract_with_reader(provider, read_file) else {
+        return false;
+    };
+    let Ok(git) = GitRepository::discover(root) else {
+        return false;
+    };
+    let Ok(snapshot) = git.snapshot() else {
+        return false;
+    };
+    if snapshot.head.as_deref() != Some(provider.head.as_str()) {
+        return false;
+    }
+    let runtime = RuntimeContext {
+        runtime_version: provider.runtime.runtime_version.clone(),
+        protocol_version: 1,
+        runtime_digest: provider.runtime.runtime_digest.clone(),
+    };
+    crate::verification_evidence_state_from_bytes(
+        root,
+        &contract,
+        &snapshot,
+        false,
+        Some(&runtime),
+        bytes,
+    )
+    .is_ok_and(|state| state == cockpit_core::EvidenceState::Complete)
+}
+
+/// Read outcome evidence through directory handles rooted at the registered
+/// worktree. Every parent is opened without following symlinks and the leaf is
+/// opened with no-follow semantics. Parent containment is checked against the
+/// identity of the exact opened directory handle before and after opening the
+/// leaf. Native directory-mutation witnesses reject rename/delete interleavings
+/// without treating filesystem timestamps as mutation counters.
+pub(crate) fn open_registered_worktree_file(
+    root: &Path,
+    reference: &str,
+) -> Result<fs::File, String> {
+    Ok(open_registered_worktree_file_with_context(root, reference)?.file)
+}
+
+fn open_registered_worktree_file_with_context(
+    root: &Path,
+    reference: &str,
+) -> Result<OpenedRegisteredWorktreeFile, String> {
+    open_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
+}
+
+fn open_registered_worktree_file_with_opener<F>(
+    root: &Path,
+    reference: &str,
+    open_leaf: F,
+) -> Result<OpenedRegisteredWorktreeFile, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
+    if reference.is_empty()
+        || reference.contains('\\')
+        || reference
+            .split('/')
+            .any(|component| component.is_empty() || matches!(component, "." | ".."))
+    {
+        return Err(format!("invalid relative evidence reference: {reference}"));
+    }
+    let relative = Path::new(reference);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err(format!("invalid relative evidence reference: {reference}"));
+    }
+    let components = relative
+        .components()
+        .map(|component| component.as_os_str().to_owned())
+        .collect::<Vec<_>>();
+    let (leaf, parents) = components
+        .split_last()
+        .ok_or_else(|| format!("empty evidence reference: {reference}"))?;
+    let leaf = leaf
+        .to_str()
+        .ok_or_else(|| format!("evidence reference is not valid UTF-8: {reference}"))?;
+    let canonical_root = fs::canonicalize(root).map_err(|error| {
+        format!(
+            "cannot resolve registered worktree {}: {error}",
+            root.display()
+        )
+    })?;
+    let mut parent =
+        Dir::open_ambient_dir(&canonical_root, cap_std::ambient_authority()).map_err(|error| {
+            format!(
+                "cannot open registered worktree {}: {error}",
+                canonical_root.display()
+            )
+        })?;
+    let mut display_path = canonical_root.clone();
+    let mut directory_chain = vec![OpenedDirectoryGuard::capture(
+        &parent,
+        &display_path,
+        reference,
+    )?];
+    for component in parents {
+        let name = component
+            .to_str()
+            .ok_or_else(|| format!("evidence path component is not valid UTF-8: {reference}"))?;
+        display_path.push(name);
+        let child = crate::open_cap_directory_nofollow_strict(&parent, name, &display_path)
+            .map_err(|error| {
+                format!(
+                    "evidence parent is not safely contained at {}: {error}",
+                    display_path.display()
+                )
+            })?;
+        directory_chain.push(OpenedDirectoryGuard::capture(
+            &child,
+            &display_path,
+            reference,
+        )?);
+        parent = child;
+    }
+    display_path.push(leaf);
+    open_registered_worktree_leaf(
+        &canonical_root,
+        parent,
+        directory_chain,
+        &display_path,
+        leaf,
+        reference,
+        open_leaf,
+    )
+}
+
+struct OpenedRegisteredWorktreeFile {
+    file: fs::File,
+    canonical_root: std::path::PathBuf,
+    directory_chain: Vec<OpenedDirectoryGuard>,
+    reference: String,
+    mutation_observer: DirectoryMutationObserver,
+}
+
+struct OpenedDirectoryGuard {
+    directory: Dir,
+    display_path: std::path::PathBuf,
+    identity: (u64, u64),
+    change_token: DirectoryChangeToken,
+    #[cfg(windows)]
+    _rename_guard: fs::File,
+}
+
+impl OpenedDirectoryGuard {
+    fn capture(directory: &Dir, display_path: &Path, reference: &str) -> Result<Self, String> {
+        let handle = directory
+            .try_clone()
+            .map_err(|error| {
+                format!("cannot clone opened evidence directory {reference}: {error}")
+            })?
+            .into_std_file();
+        let metadata = handle.metadata().map_err(|error| {
+            format!("cannot inspect opened evidence directory {reference}: {error}")
+        })?;
+        if !metadata.is_dir() {
+            return Err(format!(
+                "opened evidence parent is not a directory: {reference}"
+            ));
+        }
+        let identity = file_identity(&handle).map_err(|error| {
+            format!("cannot identify opened evidence directory {reference}: {error}")
+        })?;
+        #[cfg(windows)]
+        let rename_guard = {
+            let guard = open_directory_rename_guard(display_path).map_err(|error| {
+                format!("cannot protect opened evidence directory {reference}: {error}")
+            })?;
+            if file_identity(&guard).map_err(|error| {
+                format!("cannot identify protected evidence directory {reference}: {error}")
+            })? != identity
+            {
+                return Err(format!(
+                    "protected evidence directory does not match the opened handle: {reference}"
+                ));
+            }
+            guard
+        };
+        Ok(Self {
+            directory: directory.try_clone().map_err(|error| {
+                format!("cannot retain opened evidence directory {reference}: {error}")
+            })?,
+            display_path: display_path.to_path_buf(),
+            identity,
+            change_token: directory_change_token(&handle).map_err(|error| {
+                format!("cannot observe opened evidence directory {reference}: {error}")
+            })?,
+            #[cfg(windows)]
+            _rename_guard: rename_guard,
+        })
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+struct DirectoryChangeToken([i64; 4]);
+
+#[cfg(target_os = "linux")]
+struct DirectoryMutationObserver {
+    instance: std::os::fd::OwnedFd,
+    _directories: Vec<fs::File>,
+}
+
+#[cfg(target_os = "linux")]
+impl DirectoryMutationObserver {
+    fn start(directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        let raw_instance = unsafe { libc::inotify_init1(libc::IN_CLOEXEC | libc::IN_NONBLOCK) };
+        if raw_instance < 0 {
+            return Err(format!(
+                "cannot create directory mutation observer for {reference}: {}",
+                io::Error::last_os_error()
+            ));
+        }
+        let instance = unsafe { OwnedFd::from_raw_fd(raw_instance) };
+        let mut directories = Vec::with_capacity(directory_chain.len());
+        for guard in directory_chain {
+            let directory = guard
+                .directory
+                .try_clone()
+                .map_err(|error| format!("cannot retain observed directory {reference}: {error}"))?
+                .into_std_file();
+            let descriptor_path =
+                std::ffi::CString::new(format!("/proc/self/fd/{}", directory.as_raw_fd()))
+                    .map_err(|error| format!("invalid directory descriptor path: {error}"))?;
+            let mask = libc::IN_MOVE_SELF | libc::IN_DELETE_SELF | libc::IN_UNMOUNT;
+            let watch = unsafe {
+                libc::inotify_add_watch(instance.as_raw_fd(), descriptor_path.as_ptr(), mask)
+            };
+            if watch < 0 {
+                return Err(format!(
+                    "cannot observe directory rename for {reference}: {}",
+                    io::Error::last_os_error()
+                ));
+            }
+            directories.push(directory);
+        }
+        Ok(Self {
+            instance,
+            _directories: directories,
+        })
+    }
+
+    fn verify_unchanged(&self, reference: &str) -> Result<(), String> {
+        use std::os::fd::AsRawFd;
+
+        let mut buffer = [0u8; 4096];
+        loop {
+            let count = unsafe {
+                libc::read(
+                    self.instance.as_raw_fd(),
+                    buffer.as_mut_ptr().cast(),
+                    buffer.len(),
+                )
+            };
+            if count < 0 {
+                let error = io::Error::last_os_error();
+                if error.kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                if error.kind() == io::ErrorKind::WouldBlock {
+                    return Ok(());
+                }
+                return Err(format!(
+                    "cannot read directory mutation events for {reference}: {error}"
+                ));
+            }
+            if count == 0 {
+                return Err(format!(
+                    "directory mutation observer closed before validation: {reference}"
+                ));
+            }
+            let count = count as usize;
+            let header_size = std::mem::size_of::<libc::inotify_event>();
+            if count < header_size {
+                return Err(format!(
+                    "malformed directory mutation event for {reference}"
+                ));
+            }
+            let mask = u32::from_ne_bytes(
+                buffer[4..8]
+                    .try_into()
+                    .expect("fixed inotify event mask width"),
+            );
+            let name_len = u32::from_ne_bytes(
+                buffer[12..16]
+                    .try_into()
+                    .expect("fixed inotify event name width"),
+            ) as usize;
+            let event_size = header_size.checked_add(name_len).ok_or_else(|| {
+                format!("directory mutation event length overflow for {reference}")
+            })?;
+            if event_size > count {
+                return Err(format!(
+                    "truncated directory mutation event for {reference}"
+                ));
+            }
+            return Err(format!(
+                "registered evidence directory was renamed, deleted, or unmounted while being read: {reference} (mask {mask:#x})"
+            ));
+        }
+    }
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+struct DirectoryMutationObserver {
+    queue: std::os::fd::OwnedFd,
+    _directories: Vec<fs::File>,
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+impl DirectoryMutationObserver {
+    fn start(directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        let raw_queue = unsafe { libc::kqueue() };
+        if raw_queue < 0 {
+            return Err(format!(
+                "cannot create directory mutation observer for {reference}: {}",
+                io::Error::last_os_error()
+            ));
+        }
+        let queue = unsafe { OwnedFd::from_raw_fd(raw_queue) };
+        let mut directories = Vec::with_capacity(directory_chain.len());
+        for guard in directory_chain {
+            let directory = guard
+                .directory
+                .try_clone()
+                .map_err(|error| format!("cannot retain observed directory {reference}: {error}"))?
+                .into_std_file();
+            let mut change: libc::kevent = unsafe { std::mem::zeroed() };
+            change.ident = directory.as_raw_fd() as libc::uintptr_t;
+            change.filter = libc::EVFILT_VNODE;
+            change.flags = libc::EV_ADD | libc::EV_CLEAR;
+            change.fflags = libc::NOTE_RENAME | libc::NOTE_DELETE;
+            let result = unsafe {
+                libc::kevent(
+                    queue.as_raw_fd(),
+                    &change,
+                    1,
+                    std::ptr::null_mut(),
+                    0,
+                    std::ptr::null(),
+                )
+            };
+            if result < 0 {
+                return Err(format!(
+                    "cannot observe directory rename for {reference}: {}",
+                    io::Error::last_os_error()
+                ));
+            }
+            directories.push(directory);
+        }
+        Ok(Self {
+            queue,
+            _directories: directories,
+        })
+    }
+
+    fn verify_unchanged(&self, reference: &str) -> Result<(), String> {
+        use std::os::fd::AsRawFd;
+
+        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
+        let timeout = libc::timespec {
+            tv_sec: 0,
+            tv_nsec: 0,
+        };
+        loop {
+            let result = unsafe {
+                libc::kevent(
+                    self.queue.as_raw_fd(),
+                    std::ptr::null(),
+                    0,
+                    &mut event,
+                    1,
+                    &timeout,
+                )
+            };
+            if result < 0 {
+                let error = io::Error::last_os_error();
+                if error.kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return Err(format!(
+                    "cannot read directory mutation events for {reference}: {error}"
+                ));
+            }
+            if result == 0 {
+                return Ok(());
+            }
+            return Err(format!(
+                "registered evidence directory was renamed or deleted while being read: {reference} (flags {:#x})",
+                event.fflags
+            ));
+        }
+    }
+}
+
+#[cfg(windows)]
+struct DirectoryMutationObserver;
+
+#[cfg(windows)]
+impl DirectoryMutationObserver {
+    fn start(_directory_chain: &[OpenedDirectoryGuard], _reference: &str) -> Result<Self, String> {
+        // OpenedDirectoryGuard holds handles that deny FILE_SHARE_DELETE, so Windows
+        // prevents the rename interleaving instead of observing it after the fact.
+        Ok(Self)
+    }
+
+    fn verify_unchanged(&self, _reference: &str) -> Result<(), String> {
+        Ok(())
+    }
+}
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+struct DirectoryMutationObserver;
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+impl DirectoryMutationObserver {
+    fn start(_directory_chain: &[OpenedDirectoryGuard], reference: &str) -> Result<Self, String> {
+        Err(format!(
+            "directory mutation observation is unsupported on this platform: {reference}"
+        ))
+    }
+
+    fn verify_unchanged(&self, _reference: &str) -> Result<(), String> {
+        Ok(())
+    }
+}
+
+#[cfg(windows)]
+fn open_directory_rename_guard(path: &Path) -> io::Result<fs::File> {
+    use std::os::windows::fs::OpenOptionsExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_READ, FILE_SHARE_WRITE,
+    };
+
+    fs::OpenOptions::new()
+        .read(true)
+        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE)
+        .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+        .open(path)
+}
+
+fn open_leaf_nofollow(parent: &Dir, leaf: &str) -> io::Result<fs::File> {
+    let mut options = CapOpenOptions::new();
+    options.read(true).follow(FollowSymlinks::No);
+    parent
+        .open_with(leaf, &options)
+        .map(cap_std::fs::File::into_std)
+}
+
+fn open_registered_worktree_leaf<F>(
+    canonical_root: &Path,
+    parent: Dir,
+    directory_chain: Vec<OpenedDirectoryGuard>,
+    display_path: &Path,
+    leaf: &str,
+    reference: &str,
+    open_leaf: F,
+) -> Result<OpenedRegisteredWorktreeFile, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
+    let mutation_observer = DirectoryMutationObserver::start(&directory_chain, reference)?;
+    mutation_observer.verify_unchanged(reference)?;
+    verify_opened_directory_chain(canonical_root, &directory_chain, reference)?;
+
+    let canonical_evidence = fs::canonicalize(display_path).map_err(|error| {
+        format!(
+            "cannot resolve outcome evidence {}: {error}",
+            display_path.display()
+        )
+    })?;
+    if !canonical_evidence.starts_with(canonical_root) {
+        return Err(format!(
+            "outcome evidence escapes registered worktree: {reference}"
+        ));
+    }
+    let file = open_leaf(&parent, leaf)
+        .map_err(|error| format!("cannot safely open outcome evidence {reference}: {error}"))?;
+    verify_opened_directory_chain(canonical_root, &directory_chain, reference)?;
+    mutation_observer.verify_unchanged(reference)?;
+    let metadata = file
+        .metadata()
+        .map_err(|error| format!("cannot inspect outcome evidence {reference}: {error}"))?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(format!(
+            "outcome evidence is not a regular file: {reference}"
+        ));
+    }
+    Ok(OpenedRegisteredWorktreeFile {
+        file,
+        canonical_root: canonical_root.to_path_buf(),
+        directory_chain,
+        reference: reference.to_owned(),
+        mutation_observer,
+    })
+}
+
+fn verify_opened_directory_chain(
+    canonical_root: &Path,
+    directory_chain: &[OpenedDirectoryGuard],
+    reference: &str,
+) -> Result<(), String> {
+    for guard in directory_chain {
+        let canonical_path = fs::canonicalize(&guard.display_path).map_err(|error| {
+            format!(
+                "cannot resolve outcome evidence parent {}: {error}",
+                guard.display_path.display()
+            )
+        })?;
+        if !canonical_path.starts_with(canonical_root) {
+            return Err(format!(
+                "outcome evidence parent escapes registered worktree: {reference}"
+            ));
+        }
+        let path_metadata = fs::symlink_metadata(&guard.display_path).map_err(|error| {
+            format!(
+                "cannot inspect outcome evidence parent {}: {error}",
+                guard.display_path.display()
+            )
+        })?;
+        if path_metadata.file_type().is_symlink() || !path_metadata.is_dir() {
+            return Err(format!(
+                "outcome evidence parent is not a contained directory: {reference}"
+            ));
+        }
+        let opened_file = guard
+            .directory
+            .try_clone()
+            .map_err(|error| {
+                format!("cannot clone opened evidence directory {reference}: {error}")
+            })?
+            .into_std_file();
+        let displayed_file = open_directory_for_identity(&guard.display_path).map_err(|error| {
+            format!("cannot inspect outcome evidence parent {reference}: {error}")
+        })?;
+        let opened_metadata = opened_file.metadata().map_err(|error| {
+            format!("cannot inspect opened evidence parent {reference}: {error}")
+        })?;
+        let displayed_metadata = displayed_file.metadata().map_err(|error| {
+            format!("cannot inspect displayed evidence parent {reference}: {error}")
+        })?;
+        if !opened_metadata.is_dir()
+            || !displayed_metadata.is_dir()
+            || file_identity(&opened_file).map_err(|error| {
+                format!("cannot identify opened evidence parent {reference}: {error}")
+            })? != guard.identity
+            || file_identity(&displayed_file).map_err(|error| {
+                format!("cannot identify displayed evidence parent {reference}: {error}")
+            })? != guard.identity
+            || directory_change_token(&opened_file).map_err(|error| {
+                format!("cannot observe opened evidence parent {reference}: {error}")
+            })? != guard.change_token
+            || directory_change_token(&displayed_file).map_err(|error| {
+                format!("cannot observe displayed evidence parent {reference}: {error}")
+            })? != guard.change_token
+        {
+            return Err(format!(
+                "opened outcome evidence directory changed or no longer matches its contained path: {reference}"
+            ));
+        }
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn open_directory_for_identity(path: &Path) -> io::Result<fs::File> {
+    fs::File::open(path)
+}
+
+#[cfg(windows)]
+fn open_directory_for_identity(path: &Path) -> io::Result<fs::File> {
+    use std::os::windows::fs::OpenOptionsExt;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_FLAG_BACKUP_SEMANTICS, FILE_FLAG_OPEN_REPARSE_POINT,
+    };
+
+    fs::OpenOptions::new()
+        .read(true)
+        .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+        .open(path)
+}
+
+#[cfg(not(any(unix, windows)))]
+fn open_directory_for_identity(_path: &Path) -> io::Result<fs::File> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "directory handle identity is not supported on this platform",
+    ))
+}
+
+#[cfg(unix)]
+fn file_identity(file: &fs::File) -> io::Result<(u64, u64)> {
+    use std::os::unix::fs::MetadataExt;
+
+    let metadata = file.metadata()?;
+    Ok((metadata.dev(), metadata.ino()))
+}
+
+#[cfg(windows)]
+fn file_identity(file: &fs::File) -> io::Result<(u64, u64)> {
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::Storage::FileSystem::{
+        BY_HANDLE_FILE_INFORMATION, GetFileInformationByHandle,
+    };
+
+    let mut information = BY_HANDLE_FILE_INFORMATION::default();
+    let succeeded = unsafe { GetFileInformationByHandle(file.as_raw_handle(), &mut information) };
+    if succeeded == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    let file_index =
+        (u64::from(information.nFileIndexHigh) << 32) | u64::from(information.nFileIndexLow);
+    Ok((u64::from(information.dwVolumeSerialNumber), file_index))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn file_identity(_file: &fs::File) -> io::Result<(u64, u64)> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "file handle identity is not supported on this platform",
+    ))
+}
+
+#[cfg(unix)]
+fn directory_change_token(file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    #[cfg(test)]
+    if let Some(token) = DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(std::cell::Cell::get) {
+        return Ok(token);
+    }
+
+    use std::os::unix::fs::MetadataExt;
+
+    let metadata = file.metadata()?;
+    Ok(DirectoryChangeToken([
+        metadata.ctime(),
+        metadata.ctime_nsec(),
+        metadata.mtime(),
+        metadata.mtime_nsec(),
+    ]))
+}
+
+#[cfg(windows)]
+fn directory_change_token(file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    #[cfg(test)]
+    if let Some(token) = DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(std::cell::Cell::get) {
+        return Ok(token);
+    }
+
+    use std::mem::size_of;
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_BASIC_INFO, FileBasicInfo, GetFileInformationByHandleEx,
+    };
+
+    let mut information = FILE_BASIC_INFO::default();
+    let succeeded = unsafe {
+        GetFileInformationByHandleEx(
+            file.as_raw_handle(),
+            FileBasicInfo,
+            (&mut information as *mut FILE_BASIC_INFO).cast(),
+            size_of::<FILE_BASIC_INFO>() as u32,
+        )
+    };
+    if succeeded == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(DirectoryChangeToken([
+        information.ChangeTime,
+        information.LastWriteTime,
+        0,
+        0,
+    ]))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn directory_change_token(_file: &fs::File) -> io::Result<DirectoryChangeToken> {
+    Err(io::Error::new(
+        io::ErrorKind::Unsupported,
+        "directory change observation is not supported on this platform",
+    ))
+}
+
+pub(crate) fn read_registered_worktree_file(
+    root: &Path,
+    reference: &str,
+) -> Result<Vec<u8>, String> {
+    read_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
+}
+
+pub(crate) fn read_registered_worktree_file_with_opener<F>(
+    root: &Path,
+    reference: &str,
+    open_leaf: F,
+) -> Result<Vec<u8>, String>
+where
+    F: FnOnce(&Dir, &str) -> io::Result<fs::File>,
+{
+    let mut opened = open_registered_worktree_file_with_opener(root, reference, open_leaf)?;
+    let mut bytes = Vec::new();
+    opened
+        .file
+        .read_to_end(&mut bytes)
+        .map_err(|error| format!("cannot read outcome evidence {reference}: {error}"))?;
+    verify_opened_directory_chain(
+        &opened.canonical_root,
+        &opened.directory_chain,
+        &opened.reference,
+    )?;
+    opened
+        .mutation_observer
+        .verify_unchanged(&opened.reference)?;
+    Ok(bytes)
+}
+
+fn transitive_invalidated_outcomes(
+    projection: &CollaborationProjection,
+) -> BTreeMap<ProviderOutcomeKey, Vec<CoordinationEvent>> {
+    let mut pending = VecDeque::new();
+    for event in projection
+        .events
+        .iter()
+        .filter(|event| event_invalidates(event))
+    {
+        let Some(provider) = projection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == event.work_item_id)
+        else {
+            continue;
+        };
+        if event.outcome_ids.is_empty() {
+            // Legacy events mean "all outcomes", including names removed
+            // from the provider's current registration. Recover the affected
+            // keys from consumer declarations so invalidation can still
+            // propagate through downstream consumers after that removal.
+            for consumer in &projection.registrations {
+                for dependency in &consumer.declaration.consumed_outcomes {
+                    let key = provider_outcome_key(dependency);
+                    if key.provider_work_item_id == provider.work_item_id {
+                        pending.push_back((event.clone(), key));
+                    }
+                }
+            }
+        } else {
+            for outcome_id in &event.outcome_ids {
+                pending.push_back((
+                    event.clone(),
+                    ProviderOutcomeKey {
+                        provider_work_item_id: provider.work_item_id.clone(),
+                        outcome_id: outcome_id.clone(),
+                    },
+                ));
+            }
+        }
+    }
+
+    let mut invalidated = BTreeMap::<ProviderOutcomeKey, Vec<CoordinationEvent>>::new();
+    let mut visited = BTreeSet::new();
+    while let Some((root_event, key)) = pending.pop_front() {
+        if !visited.insert((root_event.event_id.clone(), key.clone())) {
+            continue;
+        }
+        let events = invalidated.entry(key.clone()).or_default();
+        if !events
+            .iter()
+            .any(|existing| existing.event_id == root_event.event_id)
+        {
+            events.push(root_event.clone());
+        }
+        for consumer in &projection.registrations {
+            let consumes_invalidated_outcome = consumer
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .any(|dependency| provider_outcome_key(dependency) == key);
+            if !consumes_invalidated_outcome || recovery_consumed(projection, &root_event, consumer)
+            {
+                continue;
+            }
+            for output in &consumer.declaration.provided_outcomes {
+                pending.push_back((
+                    root_event.clone(),
+                    ProviderOutcomeKey {
+                        provider_work_item_id: consumer.work_item_id.clone(),
+                        outcome_id: output.outcome_id.clone(),
+                    },
+                ));
+            }
+        }
+    }
+    invalidated
+}
+
+fn is_outcome_dependency_blocker(blocker: &str) -> bool {
+    [
+        "dependency_missing:",
+        "outcome_missing:",
+        "outcome_head_mismatch:",
+        "dependency_stage:",
+        "outcome_merge_fact_missing:",
+        "outcome_merge_fact_unknown:",
+        "dependency_impact:",
+        "dependency_evidence_missing:",
+    ]
+    .iter()
+    .any(|prefix| blocker.starts_with(prefix))
 }
 
 pub fn collaboration_outcome_projection(
@@ -255,6 +1251,7 @@ pub fn collaboration_outcome_projection(
         composition_order: Vec::new(),
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state: "not_observed".into(),
+        composition_applicability: "not_observed".into(),
         target_merge_state: "not_observed".into(),
         cleanup_state: "not_observed".into(),
         revalidation: "unknown".into(),
@@ -320,18 +1317,20 @@ pub fn collaboration_outcome_projection(
                 .collect::<Vec<_>>()
         })
         .unwrap_or_default();
-    let invalidated_event_ids = projection
-        .events
-        .iter()
-        .filter(|event| {
-            providers
-                .iter()
-                .any(|provider| provider == &event.work_item_id)
-                && event_invalidates(event)
-                && current.is_some_and(|consumer| !recovery_consumed(&projection, event, consumer))
-        })
-        .map(|event| event.event_id.clone())
-        .collect::<Vec<_>>();
+    let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
+    let mut invalidated_ids = BTreeSet::new();
+    if let Some(consumer) = current {
+        for dependency in &consumer.declaration.consumed_outcomes {
+            if let Some(events) = invalidated_outcomes.get(&provider_outcome_key(dependency)) {
+                for event in events {
+                    if !recovery_consumed(&projection, event, consumer) {
+                        invalidated_ids.insert(event.event_id.clone());
+                    }
+                }
+            }
+        }
+    }
+    let invalidated_event_ids = invalidated_ids.into_iter().collect::<Vec<_>>();
     let unhandled_requests = projection
         .requests
         .iter()
@@ -347,31 +1346,63 @@ pub fn collaboration_outcome_projection(
         })
         .cloned()
         .collect::<Vec<_>>();
-    let blockers = projection
-        .blockers
-        .get(work_item_id)
-        .cloned()
-        .unwrap_or_default();
+    let admission = current.map(|registration| {
+        let action = CollaborationAction {
+            kind: CollaborationActionKind::Composition,
+            consumer_work_item_id: work_item_id.into(),
+            outcomes: registration
+                .declaration
+                .consumed_outcomes
+                .iter()
+                .map(provider_outcome_key)
+                .collect(),
+        };
+        admit_collaboration_action(&store, work_item_id, registration.generation, action)
+    });
+    let mut admission_unknowns = Vec::new();
+    let blockers = match admission {
+        Some(Ok(admission)) => {
+            admission_unknowns = admission.unknowns;
+            admission.blockers
+        }
+        Some(Err(error)) => {
+            admission_unknowns.push(format!("collaboration_admission:{error}"));
+            Vec::new()
+        }
+        None => Vec::new(),
+    };
     let mut unknowns = projection.unknowns.clone();
-    let (composition_state, target_merge_state, cleanup_state, reusable_checks) =
-        match latest_composition_attempt(store.root(), work_item_id) {
-            Ok(Some(attempt)) => composition_facts(&attempt),
-            Ok(None) => (
+    unknowns.extend(admission_unknowns);
+    let (
+        (composition_state, target_merge_state, cleanup_state, reusable_checks),
+        composition_applicability,
+    ) = match latest_composition_attempt(store.root(), work_item_id) {
+        Ok(Some(attempt)) => (
+            composition_facts(store.root(), &attempt),
+            composition_applicability(store.root(), &attempt, &projection),
+        ),
+        Ok(None) => (
+            (
                 "not_observed".into(),
                 "not_observed".into(),
                 "not_observed".into(),
                 Vec::new(),
             ),
-            Err(error) => {
-                unknowns.push(format!("composition_projection:{error}"));
+            "not_observed".into(),
+        ),
+        Err(error) => {
+            unknowns.push(format!("composition_projection:{error}"));
+            (
                 (
                     "unknown".into(),
                     "unknown".into(),
                     "unknown".into(),
                     Vec::new(),
-                )
-            }
-        };
+                ),
+                "unknown".into(),
+            )
+        }
+    };
     let state = if !unknowns.is_empty() {
         "unknown"
     } else if !blockers.is_empty() {
@@ -415,6 +1446,7 @@ pub fn collaboration_outcome_projection(
             .unwrap_or_default(),
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state,
+        composition_applicability,
         target_merge_state,
         cleanup_state,
         revalidation: if invalidated_event_ids.is_empty() {
@@ -478,39 +1510,92 @@ fn latest_composition_attempt(
     Ok(latest)
 }
 
-fn composition_facts(attempt: &CompositionAttempt) -> (String, String, String, Vec<String>) {
-    let composition_state = if attempt.passed {
+fn composition_facts(
+    root: &Path,
+    attempt: &CompositionAttempt,
+) -> (String, String, String, Vec<String>) {
+    let coherent_success = attempt.is_coherent_successful_terminal();
+    let composition_state = if coherent_success {
         "passed"
     } else if attempt.failure.as_deref() == Some("in_progress") {
         "in_progress"
+    } else if attempt.passed {
+        "unknown"
     } else {
         "failed"
     };
-    let target_merge_state = if attempt.isolated_worktree.is_empty() {
-        "not_observed"
-    } else if attempt.text_conflicts.is_empty() {
-        "passed"
-    } else {
-        "failed"
-    };
+    let target_merge_state = target_merge_state(root, attempt);
     let cleanup_state = match &attempt.cleanup {
         Some(cleanup) if cleanup.removed => "cleaned",
         Some(cleanup) if cleanup.attempted => "failed",
         Some(_) => "not_observed",
         None => "unknown",
     };
-    let reusable_checks = attempt
-        .execution_records
-        .iter()
-        .filter(|record| record.reused)
-        .map(|record| record.node_id.clone())
-        .collect();
+    let reusable_checks = if coherent_success {
+        attempt
+            .execution_records
+            .iter()
+            .filter(|record| record.reused)
+            .map(|record| record.node_id.clone())
+            .collect()
+    } else {
+        Vec::new()
+    };
     (
         composition_state.into(),
-        target_merge_state.into(),
+        target_merge_state,
         cleanup_state.into(),
         reusable_checks,
     )
+}
+
+fn target_merge_state(root: &Path, attempt: &CompositionAttempt) -> String {
+    let Some(target) = resolve_local_branch(root, &attempt.binding.target_branch) else {
+        return "unknown".into();
+    };
+    if !attempt.text_conflicts.is_empty() {
+        return "not_merged".into();
+    }
+    for participant_head in &attempt.binding.participant_heads {
+        let output = Command::new("git")
+            .args(["merge-base", "--is-ancestor", participant_head, &target])
+            .current_dir(root)
+            .output();
+        match output {
+            Ok(output) if output.status.success() => {}
+            Ok(output) if output.status.code() == Some(1) => return "not_merged".into(),
+            _ => return "unknown".into(),
+        }
+    }
+    "merged".into()
+}
+
+fn composition_applicability(
+    root: &Path,
+    attempt: &CompositionAttempt,
+    projection: &CollaborationProjection,
+) -> String {
+    let Some(target_head) = resolve_local_branch(root, &attempt.binding.target_branch) else {
+        return "unknown".into();
+    };
+    if target_head != attempt.binding.target_sha {
+        return "stale".into();
+    }
+    for (index, work_item_id) in attempt.binding.participant_work_items.iter().enumerate() {
+        let Some(registration) = projection
+            .registrations
+            .iter()
+            .find(|registration| &registration.work_item_id == work_item_id)
+        else {
+            return "unknown".into();
+        };
+        if attempt.binding.participant_heads.get(index) != Some(&registration.head)
+            || attempt.binding.contract_digests.get(index) != Some(&registration.contract_digest)
+        {
+            return "stale".into();
+        }
+    }
+    "current".into()
 }
 
 fn recovery_consumed(
@@ -562,17 +1647,45 @@ pub fn admit_collaboration_action(
             action.consumer_work_item_id
         ));
     } else if let Some(registration) = registration {
-        if !action.outcome_ids.is_empty() {
-            for outcome_id in &action.outcome_ids {
+        if action.kind == CollaborationActionKind::Composition
+            && registration
+                .declaration
+                .integration_responsibility
+                .responsible_work_item_id
+                != work_item_id
+        {
+            blockers.push(format!(
+                "composition_integration_owner_mismatch:caller={work_item_id}:owner={}",
+                registration
+                    .declaration
+                    .integration_responsibility
+                    .responsible_work_item_id
+            ));
+        }
+        if !action.outcomes.is_empty() {
+            for key in &action.outcomes {
                 if !registration
                     .declaration
                     .consumed_outcomes
                     .iter()
-                    .any(|dependency| dependency.outcome_id == *outcome_id)
+                    .any(|dependency| provider_outcome_key(dependency) == *key)
                 {
-                    blockers.push(format!("action_outcome_not_declared:{outcome_id}"));
+                    blockers.push(format!(
+                        "action_outcome_not_declared:{}:{}",
+                        key.provider_work_item_id, key.outcome_id
+                    ));
                 }
             }
+            let selected = action.outcomes.iter().cloned().collect::<BTreeSet<_>>();
+            let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
+            let outcome_blockers = dependency_blockers_for_registration(
+                &projection,
+                registration,
+                Some(&selected),
+                &invalidated_outcomes,
+            );
+            blockers.retain(|blocker| !is_outcome_dependency_blocker(blocker));
+            blockers.extend(outcome_blockers);
         }
         for request in &projection.requests {
             if request.target_work_item_id == work_item_id
@@ -583,17 +1696,9 @@ pub fn admit_collaboration_action(
             }
         }
     }
-    let affected = projection
-        .affected_work_items
+    let affected = blockers
         .iter()
-        .any(|candidate| candidate == work_item_id);
-    if affected
-        && !blockers
-            .iter()
-            .any(|blocker| blocker.starts_with("dependency_impact:"))
-    {
-        blockers.push("dependency_impact:current_events".into());
-    }
+        .any(|blocker| blocker.starts_with("dependency_impact:"));
     blockers.sort();
     blockers.dedup();
     unknowns.sort();
@@ -609,13 +1714,51 @@ pub fn admit_collaboration_action(
     })
 }
 
+fn with_composition_process_start_admission<T, V, F>(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    action: CollaborationAction,
+    validate_identity: V,
+    spawn: F,
+) -> Result<T, String>
+where
+    V: FnOnce() -> Result<(), String>,
+    F: FnOnce() -> Result<T, String>,
+{
+    store
+        .with_lock(|| {
+            let admission = admit_collaboration_action(store, work_item_id, generation, action)
+                .map_err(|error| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "composition process-start admission failed: {error}"
+                    ))
+                })?;
+            if !admission.allowed {
+                let details = admission
+                    .blockers
+                    .iter()
+                    .chain(admission.unknowns.iter())
+                    .cloned()
+                    .collect::<Vec<_>>();
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "composition process start is not admitted: {}",
+                    details.join(", ")
+                )));
+            }
+            validate_identity().map_err(CoordinationError::RecoveryRequired)?;
+            spawn().map_err(CoordinationError::RecoveryRequired)
+        })
+        .map_err(|error| error.to_string())
+}
+
 pub fn run_admitted_composition(
     store: &CoordinationStore,
     work_item_id: &str,
     generation: u64,
     input: CompositionInput,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
-    let outcome_ids = store
+    let outcomes = store
         .inspect()?
         .registrations
         .into_iter()
@@ -625,20 +1768,19 @@ pub fn run_admitted_composition(
                 .declaration
                 .consumed_outcomes
                 .into_iter()
-                .map(|dependency| dependency.outcome_id)
+                .map(|dependency| ProviderOutcomeKey {
+                    provider_work_item_id: dependency.provider_work_item_id,
+                    outcome_id: dependency.outcome_id,
+                })
                 .collect()
         })
         .unwrap_or_default();
-    let admission = admit_collaboration_action(
-        store,
-        work_item_id,
-        generation,
-        CollaborationAction {
-            kind: CollaborationActionKind::Composition,
-            consumer_work_item_id: work_item_id.into(),
-            outcome_ids,
-        },
-    )?;
+    let action = CollaborationAction {
+        kind: CollaborationActionKind::Composition,
+        consumer_work_item_id: work_item_id.into(),
+        outcomes,
+    };
+    let admission = admit_collaboration_action(store, work_item_id, generation, action.clone())?;
     if !admission.allowed {
         return Err(CollaborationExecutionError::Blocked {
             work_item_id: work_item_id.into(),
@@ -660,7 +1802,142 @@ pub fn run_admitted_composition(
     // coordination evidence, so they must be written below the Git common
     // directory rather than the caller's private checkout.
     input.state_dir = store.root().join("compositions");
-    Ok(run_composition(input)?)
+    let check_store = store.clone();
+    let check_work_item_id = work_item_id.to_owned();
+    let check_action = action.clone();
+    let check_input = input.clone();
+    let process_admission_check: ProcessAdmissionCheck = Arc::new(move |_node_id: &str, accept| {
+        with_composition_process_start_admission(
+            &check_store,
+            &check_work_item_id,
+            generation,
+            check_action.clone(),
+            || {
+                validate_composition_identity_for_process_start(
+                    &check_store,
+                    &check_work_item_id,
+                    generation,
+                    &check_input,
+                )
+            },
+            accept,
+        )
+    });
+    let start_store = store.clone();
+    let start_work_item_id = work_item_id.to_owned();
+    let start_action = action;
+    let start_input = input.clone();
+    let process_start_gate: ProcessStartGate = Arc::new(
+        move |_node_id: &str, spawn: &mut dyn FnMut() -> Result<Child, String>| {
+            with_composition_process_start_admission(
+                &start_store,
+                &start_work_item_id,
+                generation,
+                start_action.clone(),
+                || {
+                    validate_composition_identity_for_process_start(
+                        &start_store,
+                        &start_work_item_id,
+                        generation,
+                        &start_input,
+                    )
+                },
+                spawn,
+            )
+        },
+    );
+    Ok(run_composition_with_process_gates(
+        input,
+        process_admission_check,
+        process_start_gate,
+    )?)
+}
+
+fn validate_composition_identity_for_process_start(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: &CompositionInput,
+) -> Result<(), String> {
+    let mut current_input = input.clone();
+    let blockers = verify_composition_identity(store, work_item_id, generation, &mut current_input)
+        .map_err(|error| error.to_string())?;
+    if blockers.is_empty() {
+        Ok(())
+    } else {
+        Err(format!(
+            "composition identity changed before process start: {}",
+            blockers.join(", ")
+        ))
+    }
+}
+
+fn read_registered_contract(
+    registration: &WorktreeRegistration,
+) -> Result<cockpit_protocol::Contract, CoordinationError> {
+    read_registered_contract_with_reader(registration, &mut |root, reference| {
+        read_registered_worktree_file(root, reference)
+    })
+}
+
+fn read_registered_contract_with_reader<F>(
+    registration: &WorktreeRegistration,
+    read_file: &mut F,
+) -> Result<cockpit_protocol::Contract, CoordinationError>
+where
+    F: FnMut(&Path, &str) -> Result<Vec<u8>, String>,
+{
+    let root = Path::new(&registration.worktree_path);
+    let reference = format!(
+        ".ai/work-items/active/{}.contract.json",
+        registration.work_item_id
+    );
+    let bytes = read_file(root, &reference).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract is not safely readable for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    let path = root.join(&reference);
+    let value: serde_json::Value = serde_json::from_slice(&bytes).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract digest is unavailable for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    let actual_digest = cockpit_protocol::digest_json(&value).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract digest cannot be calculated for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    if actual_digest != registration.contract_digest {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "registered Contract digest mismatch for {}",
+            registration.work_item_id
+        )));
+    }
+    let contract = crate::parse_contract_bytes(&bytes, &path).map_err(|error| {
+        CoordinationError::RecoveryRequired(format!(
+            "registered Contract is invalid for {}: {error}",
+            registration.work_item_id
+        ))
+    })?;
+    crate::coordination_store::validate_contract_registration_identity(registration, &contract)?;
+    Ok(contract)
+}
+
+fn parse_required_check_identity(check: &str) -> Option<(String, Vec<String>)> {
+    if check
+        .chars()
+        .any(|character| character.is_control() || matches!(character, '\'' | '"' | '\\'))
+    {
+        return None;
+    }
+    let mut parts = check.split_whitespace();
+    let program = parts.next()?.to_owned();
+    let args = parts.map(str::to_owned).collect();
+    Some((program, args))
 }
 
 fn verify_composition_identity(
@@ -687,19 +1964,52 @@ fn verify_composition_identity(
     if target.generation != generation {
         blockers.push(format!("generation_mismatch:{work_item_id}"));
     }
-    let topology = GitRepository::discover(&input.repository_root)
-        .and_then(|git| git.topology())
+    let integration_owner = &target
+        .declaration
+        .integration_responsibility
+        .responsible_work_item_id;
+    if integration_owner != work_item_id {
+        blockers.push(format!(
+            "composition_integration_owner_mismatch:caller={work_item_id}:owner={integration_owner}"
+        ));
+    }
+    match registrations.get(integration_owner) {
+        None => blockers.push(format!(
+            "composition_integration_owner_registration_missing:{integration_owner}"
+        )),
+        Some(owner_registration)
+            if owner_registration
+                .declaration
+                .integration_responsibility
+                .responsible_work_item_id
+                != *integration_owner =>
+        {
+            blockers.push(format!(
+                "composition_integration_owner_declaration_mismatch:{integration_owner}"
+            ));
+        }
+        Some(_) => {}
+    }
+    let execution_topology = GitRepository::discover(&input.repository_root)
+        .and_then(|repository| repository.topology())
         .map_err(|error| {
             CoordinationError::RecoveryRequired(format!("composition topology: {error}"))
         })?;
+    if execution_topology.common_dir != store.git_common_dir() {
+        blockers.push("composition_repository_common_directory_mismatch".into());
+    }
     if input.binding.repository_id != target.repository_id {
         blockers.push("composition_repository_identity_mismatch".into());
     }
-    if input.binding.target_branch != topology.branch.clone().unwrap_or_default() {
+    if input.binding.target_branch != target.declaration.integration_responsibility.target_branch {
         blockers.push("composition_target_branch_mismatch".into());
     }
-    if input.binding.target_sha != topology.head.clone().unwrap_or_default() {
-        blockers.push("composition_target_head_mismatch".into());
+    if execution_topology.common_dir == store.git_common_dir() {
+        let resolved_target =
+            resolve_local_branch(&input.repository_root, &input.binding.target_branch);
+        if resolved_target.as_deref() != Some(input.binding.target_sha.as_str()) {
+            blockers.push("composition_target_head_mismatch".into());
+        }
     }
     if input.binding.participant_work_items.is_empty()
         || input.binding.participant_work_items.len() != input.binding.participant_heads.len()
@@ -730,7 +2040,115 @@ fn verify_composition_identity(
             ));
         }
     }
+    let required_participants = dependency_closure(&registrations, work_item_id);
+    let declared_participants = input
+        .binding
+        .participant_work_items
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    if declared_participants != required_participants {
+        blockers.push("composition_dependency_closure_incomplete".into());
+    }
+    let composition_order = &target
+        .declaration
+        .integration_responsibility
+        .composition_order;
+    if !composition_order.is_empty() && composition_order != &input.binding.participant_work_items {
+        blockers.push("composition_order_mismatch".into());
+    }
+    let mut required_check_identities = Vec::<(
+        String,
+        (String, Vec<String>),
+        BTreeSet<String>,
+        BTreeSet<String>,
+    )>::new();
+    let mut seen_required_check_identities = BTreeSet::new();
+    for participant_id in &input.binding.participant_work_items {
+        let Some(participant) = registrations.get(participant_id) else {
+            continue;
+        };
+        let contract = read_registered_contract(participant)?;
+        let explicit_required_checks = contract
+            .verification
+            .iter()
+            .filter_map(|declaration| match declaration {
+                cockpit_protocol::VerificationDeclaration::Check(check) if check.required => {
+                    Some(check)
+                }
+                cockpit_protocol::VerificationDeclaration::Legacy(_)
+                | cockpit_protocol::VerificationDeclaration::Check(_) => None,
+            })
+            .filter(|check| !check.check.trim().is_empty())
+            .collect::<Vec<_>>();
+        let complete_required_checks = crate::required_verification_checks(&contract);
+        if complete_required_checks.is_empty() {
+            blockers.push(format!(
+                "required_check_declaration_missing:{participant_id}"
+            ));
+        }
+        let explicit_check_set = explicit_required_checks
+            .iter()
+            .map(|check| check.check.trim().to_owned())
+            .collect::<BTreeSet<_>>();
+        for check in complete_required_checks {
+            if !explicit_check_set.contains(&check) {
+                blockers.push(format!(
+                    "required_check_identity_unresolvable:{participant_id}:{check}"
+                ));
+            }
+        }
+        for check in explicit_required_checks {
+            let check_name = check.check.trim().to_owned();
+            let Some(identity) = parse_required_check_identity(&check_name) else {
+                blockers.push(format!(
+                    "required_check_identity_unresolvable:{participant_id}:{check_name}"
+                ));
+                continue;
+            };
+            if !seen_required_check_identities.insert(identity.clone()) {
+                blockers.push(format!(
+                    "required_check_identity_ambiguous:{participant_id}:{}",
+                    check_name
+                ));
+                continue;
+            }
+            let scenarios = check
+                .covers_scenarios
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            let constraints = check
+                .covers_constraints
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            if scenarios.len() != check.covers_scenarios.len()
+                || check
+                    .covers_scenarios
+                    .iter()
+                    .any(|scenario| scenario.trim().is_empty())
+                || constraints.len() != check.covers_constraints.len()
+                || check
+                    .covers_constraints
+                    .iter()
+                    .any(|constraint| constraint.trim().is_empty())
+            {
+                blockers.push(format!(
+                    "required_check_coverage_invalid:{participant_id}:{check_name}"
+                ));
+                continue;
+            }
+            required_check_identities.push((
+                participant_id.clone(),
+                identity,
+                scenarios,
+                constraints,
+            ));
+        }
+    }
     let mut node_ids = BTreeSet::new();
+    let mut prior_node_ids = BTreeSet::new();
     if input.commands.is_empty() {
         blockers.push("required_checks_empty".into());
     }
@@ -747,10 +2165,146 @@ fn verify_composition_identity(
                 command.node_id
             ));
         }
+        let mut dependencies = BTreeSet::new();
+        for dependency in &command.depends_on {
+            if dependency.trim().is_empty()
+                || !dependencies.insert(dependency)
+                || !prior_node_ids.contains(dependency)
+            {
+                blockers.push(format!(
+                    "composition_dependency_order_invalid:{}:{}",
+                    command.node_id, dependency
+                ));
+            }
+        }
+        prior_node_ids.insert(command.node_id.clone());
     }
-    if input.identity.command_digest != composition_commands_digest(&input.commands) {
-        blockers.push("composition_command_identity_mismatch".into());
+    let mut seen_command_identities = BTreeSet::new();
+    for command in &input.commands {
+        let identity = (command.program.clone(), command.args.clone());
+        if !seen_command_identities.insert(identity.clone()) {
+            blockers.push(format!(
+                "composition_command_identity_ambiguous:{}",
+                command.node_id
+            ));
+        }
     }
+    if input.commands.len() != required_check_identities.len() {
+        blockers.push(format!(
+            "required_check_set_incomplete:expected={}:actual={}",
+            required_check_identities.len(),
+            input.commands.len()
+        ));
+    }
+    let mut covered_scenarios_by_participant = BTreeMap::<String, BTreeSet<String>>::new();
+    let mut covered_constraints_by_participant = BTreeMap::<String, BTreeSet<String>>::new();
+    for (command, (participant_id, required_identity, declared_scenarios, declared_constraints)) in
+        input.commands.iter().zip(&required_check_identities)
+    {
+        if (command.program.clone(), command.args.clone()) == *required_identity {
+            // Required checks have no Contract-owned environment declaration.
+            // A composition caller must not be able to change the behavior of
+            // an otherwise matching check with an unbound environment overlay.
+            if !command.environment.is_empty() {
+                blockers.push(format!(
+                    "required_check_environment_unbound:{}",
+                    command.node_id
+                ));
+            }
+            let scenario_labels = command
+                .covered_scenarios
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            let constraint_labels = command
+                .covered_constraints
+                .iter()
+                .cloned()
+                .collect::<BTreeSet<_>>();
+            if scenario_labels.len() != command.covered_scenarios.len()
+                || scenario_labels
+                    .iter()
+                    .any(|scenario| !declared_scenarios.contains(scenario))
+            {
+                blockers.push(format!(
+                    "composition_scenario_label_unbound:{}",
+                    command.node_id
+                ));
+            }
+            if constraint_labels.len() != command.covered_constraints.len()
+                || constraint_labels
+                    .iter()
+                    .any(|constraint| !declared_constraints.contains(constraint))
+            {
+                blockers.push(format!(
+                    "composition_constraint_label_unbound:{}",
+                    command.node_id
+                ));
+            }
+            covered_scenarios_by_participant
+                .entry(participant_id.clone())
+                .or_default()
+                .extend(declared_scenarios.iter().cloned());
+            covered_constraints_by_participant
+                .entry(participant_id.clone())
+                .or_default()
+                .extend(declared_constraints.iter().cloned());
+        } else {
+            blockers.push(format!(
+                "required_check_identity_mismatch:{}",
+                command.node_id
+            ));
+        }
+    }
+    for participant_id in &input.binding.participant_work_items {
+        let Some(participant) = registrations.get(participant_id) else {
+            continue;
+        };
+        let covered_scenarios = covered_scenarios_by_participant
+            .get(participant_id)
+            .cloned()
+            .unwrap_or_default();
+        let covered_constraints = covered_constraints_by_participant
+            .get(participant_id)
+            .cloned()
+            .unwrap_or_default();
+        for scenario in &participant
+            .declaration
+            .composition_verification
+            .required_scenarios
+        {
+            if !covered_scenarios.contains(scenario) {
+                blockers.push(format!("required_scenario_uncovered:{scenario}"));
+            }
+        }
+        for constraint in &participant
+            .declaration
+            .composition_verification
+            .compatibility_constraints
+        {
+            if !covered_constraints.contains(constraint) {
+                blockers.push(format!("compatibility_constraint_uncovered:{constraint}"));
+            }
+        }
+    }
+    let declared_reusable_nodes = target
+        .declaration
+        .composition_verification
+        .reusable_nodes
+        .iter()
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    for node_id in &declared_reusable_nodes {
+        if !node_ids.contains(node_id) {
+            blockers.push(format!("reusable_node_missing:{node_id}"));
+        }
+    }
+    input.reusable_node_ids = input
+        .commands
+        .iter()
+        .filter(|command| declared_reusable_nodes.contains(&command.node_id))
+        .map(|command| command.node_id.clone())
+        .collect();
     blockers.sort();
     blockers.dedup();
     if blockers.is_empty() {
@@ -766,11 +2320,232 @@ fn verify_composition_identity(
     Ok(blockers)
 }
 
+fn resolve_local_branch(root: &Path, branch: &str) -> Option<String> {
+    let checked = Command::new("git")
+        .args(["check-ref-format", "--branch", branch])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    if !checked.status.success() {
+        return None;
+    }
+    let reference = format!("refs/heads/{branch}^{{commit}}");
+    let output = Command::new("git")
+        .args(["rev-parse", "--verify", "--end-of-options", &reference])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    String::from_utf8(output.stdout)
+        .ok()
+        .map(|value| value.trim().to_owned())
+}
+
+fn commit_is_ancestor(root: &Path, branch: &str, commit: &str) -> Option<bool> {
+    if commit.len() != 40 || !commit.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Some(false);
+    }
+    let target = resolve_local_branch(root, branch)?;
+    let output = Command::new("git")
+        .args(["merge-base", "--is-ancestor", commit, &target])
+        .current_dir(root)
+        .output()
+        .ok()?;
+    match output.status.code() {
+        Some(0) => Some(true),
+        Some(1) => Some(false),
+        _ => None,
+    }
+}
+
+fn dependency_closure(
+    registrations: &BTreeMap<String, WorktreeRegistration>,
+    starting_work_item_id: &str,
+) -> BTreeSet<String> {
+    let mut required = BTreeSet::new();
+    let mut pending = vec![starting_work_item_id.to_owned()];
+    while let Some(work_item_id) = pending.pop() {
+        if !required.insert(work_item_id.clone()) {
+            continue;
+        }
+        if let Some(registration) = registrations.get(&work_item_id) {
+            pending.extend(
+                registration
+                    .declaration
+                    .consumed_outcomes
+                    .iter()
+                    .map(|dependency| dependency.provider_work_item_id.clone()),
+            );
+        }
+    }
+    required
+}
+
 pub fn report_impact(
     store: &CoordinationStore,
     event: CoordinationEvent,
 ) -> Result<CoordinationEvent, CoordinationError> {
+    if event.kind != cockpit_protocol::CoordinationEventKind::Impact {
+        return Err(CoordinationError::RecoveryRequired(
+            "report_impact accepts only Impact events; use publish_outcome for OutcomePublished events"
+                .into(),
+        ));
+    }
     store.publish_event(event)
+}
+
+pub fn publish_outcome(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    outcome_id: &str,
+) -> Result<CoordinationEvent, CoordinationError> {
+    publish_outcome_with_pre_append(store, work_item_id, generation, outcome_id, || {})
+}
+
+fn publish_outcome_with_pre_append<F>(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    outcome_id: &str,
+    before_append: F,
+) -> Result<CoordinationEvent, CoordinationError>
+where
+    F: FnOnce(),
+{
+    let projection = collaboration_projection(store)?;
+    if !projection.unknowns.is_empty() {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "cannot publish an outcome while coordination facts are unknown: {}",
+            projection.unknowns.join(", ")
+        )));
+    }
+    let provider = projection
+        .registrations
+        .iter()
+        .find(|registration| registration.work_item_id == work_item_id)
+        .cloned()
+        .ok_or_else(|| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome publisher requires a current registration for {work_item_id}"
+            ))
+        })?;
+    if provider.generation != generation {
+        return Err(CoordinationError::StaleGeneration {
+            work_item_id: work_item_id.into(),
+            expected: provider.generation,
+            actual: generation,
+        });
+    }
+    let outcome = provider
+        .declaration
+        .provided_outcomes
+        .iter()
+        .find(|outcome| outcome.outcome_id == outcome_id)
+        .ok_or_else(|| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome {outcome_id} is not declared by {work_item_id}"
+            ))
+        })?;
+    if outcome.published_head != provider.head {
+        return Err(CoordinationError::RecoveryRequired(format!(
+            "outcome {outcome_id} head does not match the current registration for {work_item_id}"
+        )));
+    }
+
+    let root = Path::new(&provider.worktree_path);
+    let mut evidence_digests = BTreeMap::new();
+    for reference in &outcome.evidence_refs {
+        let bytes = read_registered_worktree_file(root, reference).map_err(|error| {
+            CoordinationError::RecoveryRequired(format!(
+                "outcome evidence is not safely contained: {reference}: {error}"
+            ))
+        })?;
+        if evidence_digests
+            .insert(
+                reference.clone(),
+                cockpit_core::Digest::sha256_bytes(&bytes),
+            )
+            .is_some()
+        {
+            return Err(CoordinationError::RecoveryRequired(format!(
+                "outcome evidence reference is duplicated: {reference}"
+            )));
+        }
+    }
+    let identity_bytes = serde_json::to_vec(&(
+        &provider.repository_id,
+        work_item_id,
+        generation,
+        outcome_id,
+        &provider.head,
+        &provider.contract_digest,
+        &evidence_digests,
+    ))
+    .map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))?;
+    let identity_digest = cockpit_core::Digest::sha256_bytes(&identity_bytes).to_string();
+    let digest_suffix = identity_digest
+        .strip_prefix("sha256:")
+        .unwrap_or(&identity_digest);
+    let event = CoordinationEvent {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        event_id: format!("outcome-{work_item_id}-{generation}-{outcome_id}-{digest_suffix}"),
+        repository_id: provider.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        generation,
+        kind: cockpit_protocol::CoordinationEventKind::OutcomePublished,
+        source: "runtime-publish-outcome".into(),
+        evidence_refs: outcome.evidence_refs.clone(),
+        evidence_digests,
+        outcome_ids: vec![outcome_id.into()],
+    };
+    let published_key = ProviderOutcomeKey {
+        provider_work_item_id: work_item_id.into(),
+        outcome_id: outcome_id.into(),
+    };
+    before_append();
+    store.publish_validated_outcome_event(
+        event,
+        |publication, inspection, current_provider, bound_evidence| {
+            if current_provider != &provider {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "provider registration for {work_item_id} changed while preparing publication"
+                )));
+            }
+            if !inspection.unknowns.is_empty() {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "cannot publish an outcome while coordination facts are unknown: {}",
+                    inspection.unknowns.join(", ")
+                )));
+            }
+            let verification_required = inspection.registrations.iter().any(|consumer| {
+                consumer
+                    .declaration
+                    .consumed_outcomes
+                    .iter()
+                    .any(|dependency| {
+                        provider_outcome_key(dependency) == published_key
+                            && dependency.verification_required
+                    })
+            });
+            if verification_required
+                && !verification_evidence_matches_publication_with_bytes(
+                    publication,
+                    current_provider,
+                    outcome,
+                    bound_evidence,
+                    &mut read_registered_worktree_file,
+                )
+            {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "outcome {outcome_id} requires a current successful verification receipt before publication"
+                )));
+            }
+            Ok(())
+        },
+    )
 }
 
 pub fn recover_impact(
@@ -839,7 +2614,7 @@ pub fn resume_and_re_evaluate(
         CollaborationAction {
             kind: CollaborationActionKind::Verification,
             consumer_work_item_id: work_item_id.into(),
-            outcome_ids: Vec::new(),
+            outcomes: Vec::new(),
         },
     )
 }
@@ -897,4 +2672,733 @@ fn collect_cycles(
         }
     }
     stack.pop();
+}
+
+#[cfg(all(test, unix))]
+mod registered_worktree_file_tests {
+    use super::*;
+
+    #[test]
+    fn opened_active_directory_swap_cannot_redirect_contract_read() {
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("original contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                fs::create_dir_all(&active_path).expect("install an in-repository replacement");
+                fs::write(active_path.join(leaf), b"replacement contract bytes")
+                    .expect("replacement contract");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                parent
+                    .open_with(leaf, &options)
+                    .map(cap_std::fs::File::into_std)
+            });
+        assert!(
+            result.is_err(),
+            "persistent directory swap must not admit the moved directory handle"
+        );
+    }
+
+    #[test]
+    fn opened_active_directory_swap_back_race_is_rejected() {
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let mut opened_while_outside = Vec::new();
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                let mut file = parent
+                    .open_with(leaf, &options)
+                    .expect("open the leaf through the held outside directory handle")
+                    .into_std();
+                file.read_to_end(&mut opened_while_outside)
+                    .expect("read the leaf while the directory is outside");
+                fs::rename(&moved_active, &active_path)
+                    .expect("restore the same directory before checks");
+                Ok(file)
+            });
+
+        assert_eq!(opened_while_outside, b"outside contract bytes");
+        assert!(
+            result.is_err(),
+            "move-out/open/move-back must not admit bytes read while outside the repository"
+        );
+    }
+
+    #[test]
+    fn opened_active_directory_swap_back_is_rejected_without_timestamp_resolution() {
+        struct CoarseTimestampOverride;
+        impl CoarseTimestampOverride {
+            fn set() -> Self {
+                DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| {
+                    token.set(Some(DirectoryChangeToken([0; 4])));
+                });
+                Self
+            }
+        }
+        impl Drop for CoarseTimestampOverride {
+            fn drop(&mut self) {
+                DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| token.set(None));
+            }
+        }
+
+        let _coarse_timestamps = CoarseTimestampOverride::set();
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"outside contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                fs::rename(&active_path, &moved_active)
+                    .expect("move opened directory outside root");
+                let mut options = CapOpenOptions::new();
+                options.read(true).follow(FollowSymlinks::No);
+                let mut file = parent
+                    .open_with(leaf, &options)
+                    .expect("open leaf through held outside directory handle")
+                    .into_std();
+                let mut bytes = Vec::new();
+                file.read_to_end(&mut bytes)
+                    .expect("read leaf while directory is outside");
+                fs::rename(&moved_active, &active_path)
+                    .expect("restore same directory before post-checks");
+                Ok(file)
+            });
+
+        assert!(
+            result.is_err(),
+            "rename detection must not depend on timestamp granularity"
+        );
+    }
+
+    #[test]
+    fn outcome_verification_uses_event_bound_bytes_and_digest_bound_contract() {
+        let root = tempfile::tempdir().expect("repository root");
+        let run_git = |args: &[&str]| {
+            assert!(
+                Command::new("git")
+                    .args(args)
+                    .current_dir(root.path())
+                    .status()
+                    .expect("git command")
+                    .success()
+            );
+        };
+        run_git(&["init", "-q"]);
+        run_git(&["config", "user.email", "test@example.invalid"]);
+        run_git(&["config", "user.name", "Verification evidence test"]);
+        fs::write(root.path().join("README.md"), "initial\n").expect("README");
+        run_git(&["add", "."]);
+        run_git(&["commit", "-qm", "initial"]);
+        run_git(&["branch", "-M", "main"]);
+        crate::attach(root.path()).expect("attach repository");
+        let work_item_id = "WI-VERIFICATION-CONTRACT-SWAP";
+        crate::start_work_item_with_options(
+            root.path(),
+            work_item_id,
+            "verification evidence reader test",
+            "require the registered Contract reader during evidence validation",
+            &[".ai/**".into(), "README.md".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                out_of_scope: vec!["target/**".into()],
+                acceptance_criteria: vec!["Contract identity remains digest bound".into()],
+                ..crate::WorkItemStartOptions::default()
+            },
+        )
+        .expect("start provider Work Item");
+        let contract_path = root
+            .path()
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        crate::preflight_work_item(root.path(), &contract_path).expect("preflight");
+        crate::checkpoint_work_item(root.path(), work_item_id).expect("checkpoint");
+        let receipt = cockpit_verification::execute_bounded(
+            vec![cockpit_verification::VerificationCommand::new(
+                "verification-contract-reader",
+                "sh",
+                vec!["-c".into(), "true".into()],
+                cockpit_verification::VerificationReusePolicy::NeverReuse,
+            )],
+            1,
+        )
+        .expect("execute verification receipt");
+        let runtime_digest = cockpit_core::Digest::sha256_bytes(b"test-runtime");
+        crate::record_verification(
+            root.path(),
+            work_item_id,
+            &serde_json::to_value(receipt).expect("serialize verification receipt"),
+            "0.2.113",
+            &runtime_digest,
+        )
+        .expect("record typed verification evidence");
+
+        let evidence_reference = format!(".ai/evidence/{work_item_id}.verification.json");
+        let evidence_bytes =
+            fs::read(root.path().join(&evidence_reference)).expect("verification evidence bytes");
+        let git = GitRepository::discover(root.path()).expect("discover repository");
+        let topology = git.topology().expect("repository topology");
+        let contract_value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        let contract_digest =
+            cockpit_protocol::digest_json(&contract_value).expect("registered Contract digest");
+        let runtime = RuntimeCapabilityBinding {
+            schema_version: 1,
+            runtime_version: "0.2.113".into(),
+            runtime_digest,
+            capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+        };
+        let outcome = cockpit_protocol::ProvidedOutcome {
+            outcome_id: "api".into(),
+            interface_contract: "api-v1".into(),
+            behavior_contract: "stable behavior".into(),
+            published_head: topology.head.clone().expect("head"),
+            stage: cockpit_protocol::OutcomeStage::ComposableHead,
+            evidence_refs: vec![evidence_reference.clone()],
+        };
+        let provider = WorktreeRegistration {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            repository_id: crate::repository_id(root.path()),
+            work_item_id: work_item_id.into(),
+            contract_digest,
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("branch"),
+            head: outcome.published_head.clone(),
+            generation: 1,
+            declaration: cockpit_protocol::CollaborationDeclaration {
+                provided_outcomes: vec![outcome.clone()],
+                ..cockpit_protocol::CollaborationDeclaration::default()
+            },
+            runtime,
+        };
+        let publication = CoordinationEvent {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            event_id: "verified-api-publication".into(),
+            repository_id: provider.repository_id.clone(),
+            work_item_id: work_item_id.into(),
+            generation: 1,
+            kind: cockpit_protocol::CoordinationEventKind::OutcomePublished,
+            source: "test-verification-publication".into(),
+            evidence_refs: vec![evidence_reference.clone()],
+            evidence_digests: BTreeMap::from([(
+                evidence_reference,
+                cockpit_core::Digest::sha256_bytes(&evidence_bytes),
+            )]),
+            outcome_ids: vec!["api".into()],
+        };
+        let projection = CollaborationProjection {
+            registrations: vec![provider.clone()],
+            events: vec![publication],
+            ..CollaborationProjection::default()
+        };
+
+        assert!(verification_evidence_is_complete(
+            &projection,
+            &provider,
+            &outcome
+        ));
+
+        let bound_reference = outcome.evidence_refs[0].clone();
+        let mut invalid_bound_value: serde_json::Value =
+            serde_json::from_slice(&evidence_bytes).expect("verification evidence JSON");
+        invalid_bound_value["receiptDigest"] =
+            serde_json::json!(format!("sha256:{}", "0".repeat(64)));
+        let invalid_bound_bytes =
+            serde_json::to_vec(&invalid_bound_value).expect("invalid bound evidence JSON");
+        fs::write(root.path().join(&bound_reference), &invalid_bound_bytes)
+            .expect("write invalid event-bound evidence");
+        let mut invalid_publication = projection.events[0].clone();
+        invalid_publication.event_id = "invalid-bound-verification-publication".into();
+        invalid_publication.evidence_digests = BTreeMap::from([(
+            bound_reference.clone(),
+            cockpit_core::Digest::sha256_bytes(&invalid_bound_bytes),
+        )]);
+        let invalid_projection = CollaborationProjection {
+            registrations: vec![provider.clone()],
+            events: vec![invalid_publication.clone()],
+            ..CollaborationProjection::default()
+        };
+        let accepted_different_path_bytes = verification_evidence_is_complete_with_reader(
+            &invalid_projection,
+            &provider,
+            &outcome,
+            |repository_root, reference| {
+                if reference == bound_reference {
+                    let bound_bytes = read_registered_worktree_file(repository_root, reference)?;
+                    fs::write(repository_root.join(reference), &evidence_bytes)
+                        .map_err(|error| error.to_string())?;
+                    Ok(bound_bytes)
+                } else {
+                    read_registered_worktree_file(repository_root, reference)
+                }
+            },
+        );
+        assert!(
+            !accepted_different_path_bytes,
+            "semantic verification must use the exact digest-bound evidence bytes, not reopen a swapped path"
+        );
+        let store = CoordinationStore::open(&git, provider.runtime.clone())
+            .expect("open typed publication store");
+        store
+            .register(provider.clone())
+            .expect("register typed publication provider");
+        fs::write(root.path().join(&bound_reference), &invalid_bound_bytes)
+            .expect("restore invalid event-bound evidence before publication");
+        let publication_result = store.publish_validated_outcome_event(
+            invalid_publication,
+            |event, _inspection, current_provider, bound_evidence| {
+                fs::write(root.path().join(&bound_reference), &evidence_bytes)
+                    .expect("replace path after the store reads digest-bound bytes");
+                if verification_evidence_matches_publication_with_bytes(
+                    event,
+                    current_provider,
+                    &outcome,
+                    bound_evidence,
+                    &mut read_registered_worktree_file,
+                ) {
+                    Ok(())
+                } else {
+                    Err(CoordinationError::RecoveryRequired(
+                        "bound receipt is not a current successful verification".into(),
+                    ))
+                }
+            },
+        );
+        assert!(
+            publication_result.is_err(),
+            "typed publication must reject when only the post-read replacement is semantically valid"
+        );
+        assert!(
+            store
+                .inspect()
+                .expect("inspect rejected typed publication")
+                .events
+                .is_empty(),
+            "invalid bound evidence must not leave a durable publication"
+        );
+        fs::write(root.path().join(&bound_reference), &evidence_bytes)
+            .expect("restore valid evidence for the Contract race regression");
+
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        let moved_active = outside.path().join("active");
+        let mut opened_contract_bytes = Vec::new();
+        let accepted = verification_evidence_is_complete_with_reader(
+            &projection,
+            &provider,
+            &outcome,
+            |repository_root, reference| {
+                if reference.ends_with(".contract.json") {
+                    read_registered_worktree_file_with_opener(
+                        repository_root,
+                        reference,
+                        |parent, leaf| {
+                            fs::rename(&active_path, &moved_active)
+                                .expect("move Contract directory outside repository");
+                            let mut options = CapOpenOptions::new();
+                            options.read(true).follow(FollowSymlinks::No);
+                            let mut file = parent
+                                .open_with(leaf, &options)
+                                .expect("open Contract through moved directory handle")
+                                .into_std();
+                            file.read_to_end(&mut opened_contract_bytes)
+                                .expect("read Contract while outside");
+                            fs::rename(&moved_active, &active_path)
+                                .expect("restore Contract directory before checks");
+                            Ok(file)
+                        },
+                    )
+                } else {
+                    read_registered_worktree_file(repository_root, reference)
+                }
+            },
+        );
+
+        assert_eq!(
+            opened_contract_bytes,
+            fs::read(&contract_path).expect("Contract bytes")
+        );
+        assert!(
+            !accepted,
+            "verification evidence must not admit bytes when the registered Contract reader rejects the move-out/open/move-back race"
+        );
+    }
+}
+
+#[cfg(test)]
+mod outcome_publication_tests {
+    use super::*;
+    use cockpit_protocol::{
+        CollaborationDeclaration, ConsumedOutcome, IntegrationResponsibility, OutcomeStage,
+        ProvidedOutcome, RuntimeCapabilityBinding,
+    };
+
+    fn git(root: &Path, args: &[&str]) {
+        assert!(
+            Command::new("git")
+                .args(args)
+                .current_dir(root)
+                .status()
+                .expect("git command")
+                .success()
+        );
+    }
+
+    fn repository() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("repository root");
+        git(root.path(), &["init", "-q"]);
+        git(
+            root.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(
+            root.path(),
+            &["config", "user.name", "Outcome publication test"],
+        );
+        fs::write(root.path().join("README.md"), "initial\n").expect("README");
+        fs::create_dir_all(root.path().join("target")).expect("target directory");
+        fs::write(root.path().join("target/outcome.json"), "{}\n").expect("outcome evidence");
+        git(root.path(), &["add", "."]);
+        git(root.path(), &["commit", "-qm", "initial"]);
+        git(root.path(), &["branch", "-M", "main"]);
+        crate::attach(root.path()).expect("attach repository");
+        root
+    }
+
+    fn registration(
+        root: &Path,
+        work_item_id: &str,
+        provider: bool,
+        consumer: bool,
+    ) -> WorktreeRegistration {
+        crate::start_work_item_with_options(
+            root,
+            work_item_id,
+            "outcome publication concurrency test",
+            "serialize verification-required registration with outcome publication",
+            &[".ai/**".into(), "README.md".into(), "target/**".into()],
+            &crate::WorkItemStartOptions {
+                authority: "authorized".into(),
+                acceptance_criteria: vec![
+                    "publication is bound to current coordination facts".into(),
+                ],
+                ..crate::WorkItemStartOptions::default()
+            },
+        )
+        .expect("start test Work Item");
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract_value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+                .expect("Contract JSON");
+        let contract_digest =
+            cockpit_protocol::digest_json(&contract_value).expect("Contract digest");
+        let topology = GitRepository::discover(root)
+            .expect("discover repository")
+            .topology()
+            .expect("repository topology");
+        let head = topology.head.expect("head");
+        let provided_outcomes = if provider {
+            vec![ProvidedOutcome {
+                outcome_id: "api".into(),
+                interface_contract: "api-v1".into(),
+                behavior_contract: "stable behavior".into(),
+                published_head: head.clone(),
+                stage: OutcomeStage::ComposableHead,
+                evidence_refs: vec!["target/outcome.json".into()],
+            }]
+        } else {
+            Vec::new()
+        };
+        let consumed_outcomes = if consumer {
+            vec![ConsumedOutcome {
+                provider_work_item_id: "WI-PROVIDER".into(),
+                outcome_id: "api".into(),
+                minimum_stage: OutcomeStage::ComposableHead,
+                verification_required: true,
+            }]
+        } else {
+            Vec::new()
+        };
+        let declaration = CollaborationDeclaration {
+            provided_outcomes,
+            consumed_outcomes,
+            resource_claims: Vec::new(),
+            integration_responsibility: IntegrationResponsibility {
+                responsible_work_item_id: work_item_id.into(),
+                target_branch: "main".into(),
+                composition_order: Vec::new(),
+                rationale: "deterministic publication race test".into(),
+            },
+            composition_verification: Default::default(),
+        };
+        WorktreeRegistration {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            repository_id: crate::repository_id(root),
+            work_item_id: work_item_id.into(),
+            contract_digest,
+            worktree_path: topology.repository_root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("branch"),
+            head,
+            generation: 1,
+            declaration,
+            runtime: RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        }
+    }
+
+    #[test]
+    fn publish_outcome_observes_consumer_registered_before_locked_append() {
+        let root = repository();
+        let git_repository = GitRepository::discover(root.path()).expect("discover repository");
+        let store = CoordinationStore::open(
+            &git_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open coordination store");
+        store
+            .register(registration(root.path(), "WI-PROVIDER", true, false))
+            .expect("register provider");
+        let consumer = registration(root.path(), "WI-CONSUMER", false, true);
+
+        let result = publish_outcome_with_pre_append(&store, "WI-PROVIDER", 1, "api", || {
+            store
+                .register(consumer)
+                .expect("register verification-required consumer at the prepared-event boundary");
+        });
+
+        assert!(
+            matches!(&result, Err(CoordinationError::RecoveryRequired(message)) if message.contains("verification receipt")),
+            "typed publication must include a consumer committed immediately before the append transaction: {result:?}"
+        );
+        assert!(
+            store
+                .inspect()
+                .expect("inspect coordination store")
+                .events
+                .is_empty(),
+            "a publication rejected by a newly registered verification requirement must not append an event"
+        );
+
+        // The opposite lock order is also coherent: if publication commits
+        // first, a later verification-required registration observes the
+        // event but cannot treat its non-verification evidence as sufficient.
+        let reverse_root = repository();
+        let reverse_repository =
+            GitRepository::discover(reverse_root.path()).expect("discover reverse-order repo");
+        let reverse_store = CoordinationStore::open(
+            &reverse_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open reverse-order coordination store");
+        reverse_store
+            .register(registration(
+                reverse_root.path(),
+                "WI-PROVIDER",
+                true,
+                false,
+            ))
+            .expect("register reverse-order provider");
+        publish_outcome(&reverse_store, "WI-PROVIDER", 1, "api")
+            .expect("publish before the consumer requires verification");
+        reverse_store
+            .register(registration(
+                reverse_root.path(),
+                "WI-CONSUMER",
+                false,
+                true,
+            ))
+            .expect("register reverse-order consumer");
+        let reverse_projection =
+            collaboration_projection(&reverse_store).expect("inspect reverse lock order");
+        assert!(
+            reverse_projection
+                .blockers
+                .get("WI-CONSUMER")
+                .is_some_and(|blockers| blockers
+                    .iter()
+                    .any(|blocker| { blocker == "dependency_evidence_missing:WI-PROVIDER:api" })),
+            "a consumer registered after publication must still require current verification evidence: {:?}",
+            reverse_projection.blockers
+        );
+    }
+
+    #[test]
+    fn pause_committed_after_initial_admission_blocks_the_process_start_boundary() {
+        let root = repository();
+        let git_repository = GitRepository::discover(root.path()).expect("discover repository");
+        let store = CoordinationStore::open(
+            &git_repository,
+            RuntimeCapabilityBinding {
+                schema_version: 1,
+                runtime_version: "0.2.113".into(),
+                runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+                capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+            },
+        )
+        .expect("open coordination store");
+        store
+            .register(registration(root.path(), "WI-SOLO", false, false))
+            .expect("register composition owner");
+        let action = CollaborationAction {
+            kind: CollaborationActionKind::Composition,
+            consumer_work_item_id: "WI-SOLO".into(),
+            outcomes: Vec::new(),
+        };
+        assert!(
+            admit_collaboration_action(&store, "WI-SOLO", 1, action.clone())
+                .expect("initial admission")
+                .allowed
+        );
+
+        let request = CoordinationRequest {
+            schema_version: 1,
+            request_id: "pause-after-admission".into(),
+            repository_id: crate::repository_id(root.path()),
+            target_work_item_id: "WI-SOLO".into(),
+            target_generation: 1,
+            intent: CoordinationIntent::RequestSafePause,
+            state: CoordinationRequestState::Requested,
+            reason: "pause arrived while composition was preparing".into(),
+        };
+        request_safe_pause(&store, request).expect("request safe pause");
+        acknowledge_pause(
+            &store,
+            "pause-after-admission",
+            CoordinationRequestState::Acknowledged,
+        )
+        .expect("acknowledge pause");
+        acknowledge_pause(
+            &store,
+            "pause-after-admission",
+            CoordinationRequestState::SafelyPaused,
+        )
+        .expect("confirm safe pause");
+
+        let mut spawn_called = false;
+        let result = with_composition_process_start_admission(
+            &store,
+            "WI-SOLO",
+            1,
+            action,
+            || Ok(()),
+            || {
+                spawn_called = true;
+                Err::<(), _>("test spawn should not be reached".into())
+            },
+        );
+        assert!(
+            result
+                .expect_err("the fresh process-start admission must observe the pause")
+                .contains("coordination_safely_paused")
+        );
+        assert!(!spawn_called, "the child spawn closure must not run");
+    }
+}
+
+#[cfg(all(test, windows))]
+mod registered_worktree_file_windows_tests {
+    use super::*;
+
+    struct CoarseTimestampOverride;
+
+    impl CoarseTimestampOverride {
+        fn set() -> Self {
+            DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| {
+                token.set(Some(DirectoryChangeToken([0; 4])));
+            });
+            Self
+        }
+    }
+
+    impl Drop for CoarseTimestampOverride {
+        fn drop(&mut self) {
+            DIRECTORY_CHANGE_TOKEN_OVERRIDE.with(|token| token.set(None));
+        }
+    }
+
+    #[test]
+    fn opened_directory_handles_prevent_swap_back_even_without_timestamp_resolution() {
+        let _coarse_timestamps = CoarseTimestampOverride::set();
+        let root = tempfile::tempdir().expect("repository root");
+        let outside = tempfile::tempdir().expect("outside directory");
+        let active_path = root.path().join(".ai/work-items/active");
+        fs::create_dir_all(&active_path).expect("active directory");
+        let leaf = "WI-test.contract.json";
+        fs::write(active_path.join(leaf), b"registered contract bytes").expect("contract");
+        let moved_active = outside.path().join("active");
+        let reference = ".ai/work-items/active/WI-test.contract.json";
+        let mut rename_was_blocked = false;
+
+        let result =
+            open_registered_worktree_file_with_opener(root.path(), reference, |parent, leaf| {
+                match fs::rename(&active_path, &moved_active) {
+                    Err(error) => {
+                        rename_was_blocked = true;
+                        Err(error)
+                    }
+                    Ok(()) => {
+                        let mut options = CapOpenOptions::new();
+                        options.read(true).follow(FollowSymlinks::No);
+                        let file = parent
+                            .open_with(leaf, &options)
+                            .expect("open Contract through the held directory handle")
+                            .into_std();
+                        fs::rename(&moved_active, &active_path)
+                            .expect("restore moved directory before post-checks");
+                        Ok(file)
+                    }
+                }
+            });
+
+        assert!(
+            rename_was_blocked,
+            "held directory handles must deny rename"
+        );
+        assert!(
+            result.is_err(),
+            "a blocked move must not admit the open attempt"
+        );
+        assert!(active_path.join(leaf).is_file());
+        assert!(!moved_active.exists());
+    }
 }

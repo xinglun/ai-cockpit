@@ -5,6 +5,7 @@ pub use composition::{
     CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
     CompositionIdentity, CompositionInput, CompositionPrecondition, ReuseDecision,
     ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
+    run_composition_with_process_gates,
 };
 
 use cockpit_core::Digest;
@@ -15,7 +16,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::io::Read;
 use std::path::PathBuf;
-use std::process::{Command, Stdio};
+use std::process::{Child, Command, Stdio};
 use std::sync::{Arc, Condvar, Mutex, mpsc};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
@@ -755,6 +756,7 @@ pub struct VerificationCommand {
     reuse_candidate: Option<ReuseCandidate>,
     logical_identity: Option<(String, Vec<String>)>,
     environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+    clear_environment: bool,
     resource_weight: usize,
     timeout_seconds: u64,
 }
@@ -776,6 +778,7 @@ impl VerificationCommand {
             reuse_candidate: None,
             logical_identity: None,
             environment: Vec::new(),
+            clear_environment: false,
             resource_weight: 1,
             timeout_seconds: DEFAULT_EXECUTION_SECONDS,
         }
@@ -824,6 +827,13 @@ impl VerificationCommand {
         self
     }
 
+    /// Start the child with an empty environment before applying the explicit
+    /// values supplied through `with_environment`.
+    pub fn with_cleared_environment(mut self) -> Self {
+        self.clear_environment = true;
+        self
+    }
+
     /// Assign a resource weight used by the bounded scheduler. Zero is
     /// rejected at execution time so malformed plans fail closed.
     pub fn with_resource_weight(mut self, weight: usize) -> Self {
@@ -857,12 +867,19 @@ impl VerificationCommand {
             .map_or((&self.program, &self.args), |(program, args)| {
                 (program, args)
             });
+        let environment = self
+            .environment
+            .iter()
+            .map(|(key, value)| (key.as_encoded_bytes(), value.as_encoded_bytes()))
+            .collect::<Vec<_>>();
         let identity = serde_json::to_vec(&(
             program,
             args,
             current_dir,
             self.resource_weight,
             self.timeout_seconds,
+            self.clear_environment,
+            environment,
         ))
         .expect("verification command identity is serializable");
         Digest::sha256_bytes(&identity).to_string()
@@ -1938,6 +1955,77 @@ pub fn execute_bounded_at(
     )
 }
 
+/// Execute bounded verification commands while reporting each child process
+/// group's start and finish to a caller-owned durable observer. The callback
+/// runs after process creation and before the command is allowed to complete;
+/// a callback failure fails that command closed.
+pub fn execute_bounded_with_process_observer<F>(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    observer: F,
+) -> Result<VerificationReceipt, ExecutionError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+        Some(Arc::new(observer)),
+        None,
+    )
+}
+
+/// A caller-owned gate for accepting a reused composition result. The caller
+/// runs `accept` exactly once while its admission synchronization is held, or
+/// returns an error without accepting the result.
+pub type ProcessAdmissionCheck =
+    Arc<dyn Fn(&str, &mut dyn FnMut() -> Result<(), String>) -> Result<(), String> + Send + Sync>;
+
+/// A caller-owned gate that holds required synchronization through the actual
+/// `Command::spawn` call and invokes `spawn` exactly once after admission.
+pub type ProcessStartGate = Arc<
+    dyn Fn(&str, &mut dyn FnMut() -> Result<Child, String>) -> Result<Child, String> + Send + Sync,
+>;
+
+/// Execute bounded commands with both durable process observation and a
+/// caller-owned gate immediately around child creation.
+pub fn execute_bounded_with_process_observer_and_start_gate<O>(
+    commands: Vec<VerificationCommand>,
+    max_workers: usize,
+    observer: O,
+    start_gate: ProcessStartGate,
+) -> Result<VerificationReceipt, ExecutionError>
+where
+    O: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
+    if max_workers == 0 {
+        return Err(ExecutionError::InvalidWorkerCount);
+    }
+    let now_epoch_seconds = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+        .unwrap_or(0);
+    let plan = plan_verification_commands(commands, now_epoch_seconds)?;
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_workers,
+        now_epoch_seconds,
+        Some(Arc::new(observer)),
+        Some(start_gate),
+    )
+}
+
 /// Execute with independent worker and resource limits. Resource units are
 /// reserved before a process starts and released only after it completes;
 /// dependency readiness and protected-node semantics remain unchanged.
@@ -2013,6 +2101,26 @@ fn execute_verification_plan_bounded_with_budget_at(
     max_resource_units: usize,
     now_epoch_seconds: i64,
 ) -> Result<VerificationReceipt, ExecutionError> {
+    execute_verification_plan_bounded_with_observer_at(
+        plan,
+        max_workers,
+        max_resource_units,
+        now_epoch_seconds,
+        None,
+        None,
+    )
+}
+
+type ProcessObserver = Arc<dyn Fn(&str, u32, bool) -> Result<(), String> + Send + Sync>;
+
+fn execute_verification_plan_bounded_with_observer_at(
+    plan: VerificationExecutionPlan,
+    max_workers: usize,
+    max_resource_units: usize,
+    now_epoch_seconds: i64,
+    process_observer: Option<ProcessObserver>,
+    process_start_gate: Option<ProcessStartGate>,
+) -> Result<VerificationReceipt, ExecutionError> {
     if max_workers == 0 {
         return Err(ExecutionError::InvalidWorkerCount);
     }
@@ -2073,6 +2181,8 @@ fn execute_verification_plan_bounded_with_budget_at(
     let mut workers = Vec::with_capacity(worker_count);
     for _ in 0..worker_count {
         let scheduler = Arc::clone(&scheduler);
+        let process_observer = process_observer.clone();
+        let process_start_gate = process_start_gate.clone();
         workers.push(std::thread::spawn(move || -> Result<(), ExecutionError> {
             loop {
                 let command = {
@@ -2093,7 +2203,11 @@ fn execute_verification_plan_bounded_with_budget_at(
                 let Some(command) = command else {
                     return Ok(());
                 };
-                let outcome = execute_captured(&command);
+                let outcome = execute_captured(
+                    &command,
+                    process_observer.as_ref(),
+                    process_start_gate.as_ref(),
+                );
                 let (lock, ready) = &*scheduler;
                 let mut state = lock.lock().map_err(|_| ExecutionError::WorkerPoisoned)?;
                 state.complete(
@@ -2387,12 +2501,19 @@ struct CaptureWorker {
     cancel: mpsc::Sender<()>,
 }
 
-fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
+fn execute_captured(
+    command: &VerificationCommand,
+    observer: Option<&ProcessObserver>,
+    process_start_gate: Option<&ProcessStartGate>,
+) -> ExecutionOutcome {
     let started = Instant::now();
     let timeout_seconds = command.timeout_seconds;
     let deadline_ms =
         unix_epoch_millis().saturating_add(u128::from(timeout_seconds).saturating_mul(1_000));
     let mut process = Command::new(&command.program);
+    if command.clear_environment {
+        process.env_clear();
+    }
     process
         .args(&command.args)
         .envs(command.environment.iter().cloned())
@@ -2412,18 +2533,26 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         use windows_sys::Win32::System::Threading::CREATE_SUSPENDED;
         process.creation_flags(CREATE_SUSPENDED);
     }
-    let mut child = match process.spawn() {
+    let mut spawn = || process.spawn().map_err(|error| error.to_string());
+    let child = match process_start_gate {
+        Some(gate) => gate(&command.id, &mut spawn),
+        None => spawn(),
+    };
+    let mut child = match child {
         Ok(child) => child,
         Err(error) => {
             if std::env::var_os("AI_COCKPIT_DEBUG_SPAWN").is_some() {
-                eprintln!("ai-cockpit spawn failed for {:?}: {error}", command.program);
+                eprintln!(
+                    "ai-cockpit process start rejected for {:?}: {error}",
+                    command.program
+                );
             }
             return ExecutionOutcome {
                 spawned: false,
                 passed: false,
                 exit_code: None,
                 stdout: Vec::new(),
-                stderr: Vec::new(),
+                stderr: error.into_bytes(),
                 stdout_truncated: false,
                 stderr_truncated: false,
                 output_digest: None,
@@ -2480,6 +2609,16 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             deadline_ms,
         };
     }
+    if let Some(observer) = observer
+        && let Err(error) = observer(&command.id, child_id, true)
+    {
+        terminate_process_tree(&mut child, child_id);
+        let _ = child.wait();
+        let _ = observer(&command.id, child_id, false);
+        #[cfg(windows)]
+        drop(process_tree);
+        return observer_failed_outcome(started, timeout_seconds, deadline_ms, error);
+    }
     let stdout = child.stdout.take();
     let stderr = child.stderr.take();
     let stdout_worker = stdout.map(capture_stream_async);
@@ -2504,6 +2643,9 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     terminate_descendants(child_id);
     let stdout = receive_capture(stdout_worker);
     let stderr = receive_capture(stderr_worker);
+    let observer_error = observer.and_then(|observer| observer(&command.id, child_id, false).err());
+    let mut stderr_bytes = stderr.bytes;
+    append_observer_error(&mut stderr_bytes, observer_error.as_deref());
     if stdout.timed_out || stderr.timed_out {
         timed_out = true;
     }
@@ -2513,7 +2655,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             passed: false,
             exit_code: None,
             stdout: stdout.bytes,
-            stderr: stderr.bytes,
+            stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
             stderr_truncated: stderr.truncated,
             output_digest: None,
@@ -2534,7 +2676,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             // exit status.
             exit_code: (!timed_out).then(|| status.code()).flatten(),
             stdout: stdout.bytes,
-            stderr: stderr.bytes,
+            stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
             stderr_truncated: stderr.truncated,
             output_digest: None,
@@ -2546,10 +2688,10 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         };
     }
     let identity = OutputIdentity {
-        success: status.success(),
+        success: status.success() && !timed_out && observer_error.is_none(),
         exit_code: status.code(),
         stdout: &stdout.bytes,
-        stderr: &stderr.bytes,
+        stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
         stderr_truncated: stderr.truncated,
         timed_out,
@@ -2559,10 +2701,10 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         .map(|bytes| Digest::sha256_bytes(&bytes).to_string());
     ExecutionOutcome {
         spawned: true,
-        passed: status.success() && !timed_out,
+        passed: status.success() && !timed_out && observer_error.is_none(),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
         stdout: stdout.bytes,
-        stderr: stderr.bytes,
+        stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
         stderr_truncated: stderr.truncated,
         output_digest,
@@ -2572,6 +2714,42 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         timeout_seconds,
         deadline_ms,
     }
+}
+
+fn observer_failed_outcome(
+    started: Instant,
+    timeout_seconds: u64,
+    deadline_ms: u128,
+    error: String,
+) -> ExecutionOutcome {
+    let mut stderr = Vec::new();
+    append_observer_error(&mut stderr, Some(&error));
+    ExecutionOutcome {
+        spawned: true,
+        passed: false,
+        exit_code: None,
+        stdout: Vec::new(),
+        stderr,
+        stdout_truncated: false,
+        stderr_truncated: false,
+        output_digest: None,
+        output_truncated: false,
+        timed_out: false,
+        elapsed_ms: started.elapsed().as_millis(),
+        timeout_seconds,
+        deadline_ms,
+    }
+}
+
+fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
+    let Some(error) = error else {
+        return;
+    };
+    let prefix = b"\nprocess_observer_failed: ";
+    let remaining = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(stderr.len());
+    stderr.extend_from_slice(&prefix[..prefix.len().min(remaining)]);
+    let remaining = MAX_CAPTURE_BYTES_PER_STREAM.saturating_sub(stderr.len());
+    stderr.extend_from_slice(&error.as_bytes()[..error.len().min(remaining)]);
 }
 
 fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {
@@ -3065,6 +3243,48 @@ mod tests {
             stage: "task".into(),
             runner: "local".into(),
         }
+    }
+
+    #[test]
+    fn process_start_gate_rejection_does_not_spawn_the_child() {
+        let marker = std::env::temp_dir().join(format!(
+            "ai-cockpit-process-start-gate-{}-{}.marker",
+            std::process::id(),
+            unix_epoch_millis()
+        ));
+        let _ = std::fs::remove_file(&marker);
+        let command = VerificationCommand::new(
+            "late-admission",
+            "sh",
+            vec![
+                "-c".into(),
+                "printf started > \"$1\"".into(),
+                "sh".into(),
+                marker.to_string_lossy().into_owned(),
+            ],
+            VerificationReusePolicy::NeverReuse,
+        );
+        let gate: ProcessStartGate =
+            Arc::new(|_node_id, _spawn| Err("admission changed before spawn".into()));
+
+        let receipt = execute_bounded_with_process_observer_and_start_gate(
+            vec![command],
+            1,
+            |_node_id, _process_group_id, _active| Ok(()),
+            gate,
+        )
+        .expect("a rejected process start remains a durable failed receipt");
+
+        assert_eq!(receipt.processes_spawned, 0);
+        assert!(
+            !marker.exists(),
+            "rejected command must not create its marker"
+        );
+        assert!(
+            !receipt.execution_records[0].spawned,
+            "the receipt must preserve that no child was started"
+        );
+        assert!(!receipt.results[0].passed);
     }
 
     #[test]

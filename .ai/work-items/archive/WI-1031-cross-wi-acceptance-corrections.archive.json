@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-24T18:13:57Z",
+  "files": {
+    "approachDigest": "sha256:63d2c0e78134974291453764701ac4da7a9c17125f6eb09157a2149e7ec03813",
+    "approachPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.approach.json",
+    "contractDigest": "sha256:e04db0ac7a76f03e7540c44b1b538af81d60659b8a24bd4bbc988791f6a5b98f",
+    "contractPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json",
+    "eventsDigest": "sha256:9611d3ea9f5c6d5a2ce29632e0562ef8a60fb9eec13660b619b70a2929bc0abc",
+    "eventsPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.events.jsonl",
+    "outcomeDigest": "sha256:dc7c031411d0c3da92fe463990dd607dd0a69b16d22503fa7604dc9852750759",
+    "outcomePath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.outcome.json",
+    "summaryDigest": "sha256:c134cf180be873a4d3f9441fcba12f2f0879d9ba41a044c550211b2fa98b28ba",
+    "summaryPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.summary.json",
+    "taskReportDigest": "sha256:1177d9d138ac8b3b2925f5475cfc8503174967baed7bdeb749159f0c9d33f232",
+    "taskReportMarkdownDigest": "sha256:ca1f006a5dcb6486441c41c5548d21624fd8e0253b775e5e9efdd0254016f12a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections"
+}

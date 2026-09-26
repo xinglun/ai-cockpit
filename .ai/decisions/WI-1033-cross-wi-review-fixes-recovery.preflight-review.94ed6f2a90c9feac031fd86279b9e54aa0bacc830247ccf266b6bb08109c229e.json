@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user explicitly granted a one-time exception to bypass the stuck preflight confirmation for this bounded WI-1033 continuation. Continue through canonical verification, independent PR review, merge, and exact cleanup, then Task 8 as a separate serial Work Item; stop before release. This records existing authority only, does not waive verification, hosted checks, or independent review, and is not release approval.",
+  "recordedAt": "2026-09-26T08:35:02Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ead0cb9a9dca0a58bcec6e37e1bfefe4e800446b25072725d1b03cf76fc40a15",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b085fc037ea015fff60293ef98f9ee520b69249b1dc291746c4bca93097bf3e5",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Rebind the user's existing authorization for WI-1033 through independent PR review, merge, and exact cleanup, followed by the separate serial Task 8; stop before release. This is snapshot-specific authorization evidence only, not verification, review, merge, or release approval.",
+  "recordedAt": "2026-09-26T01:04:54Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3c026e29f795433eeec87d047d34070570065f87f5cb7ceac91576ce83cbc5f6",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

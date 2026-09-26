@@ -1,0 +1,25 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to proceed through the pre-release boundary",
+  "decidedAt": "2026-09-25T02:04:15Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.c5be2f3a53b2b928347c827f001dbd7e2946c855c90ce8a9d585274e0484749f.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:608160ac76139edf2abc8d373a1c8a6ba4c19aa00e45c3a2f4807a477ff7cbe4",
+  "predecessorEventsDigest": "sha256:18c46fd6597af324c81a963c6f549b5388b3407d51973bbe9dfb6979f4e11d08",
+  "predecessorOutcomeDigest": "sha256:57265a953d45d2dd1b7bdeafaea739214d9bf97323fd46d99ff02af76f5caebb",
+  "predecessorSummaryDigest": "sha256:780e4c1592024faa27d84588decd837b6f612a95e149add0bf258e773c42ebe1",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The Runtime rejected run_verification after the documentation-only commit left the prior receipt stale. The user authorized continuation through the pre-release boundary. This retry reopens the same Contract on the current snapshot and does not widen scope or claim verification success.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "A fresh Runtime-bound task verification passes for the current repository snapshot; then preflight and finish are recomputed before continuing.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

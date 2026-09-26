@@ -109,6 +109,25 @@ pub fn status_with_runtime(
     })
 }
 
+fn preflight_can_recover_verification_precondition(
+    error: &ObserverError,
+    summary: &serde_json::Value,
+) -> bool {
+    if summary["preflightState"] == "red" {
+        return false;
+    }
+    matches!(
+        error,
+        ObserverError::State { message, .. }
+            if matches!(
+                message.as_str(),
+                "verification requires a preflight result for the current repository snapshot"
+                    | "verification requires a preflight result for the current Contract"
+                    | "verification requires a recorded non-red preflight result"
+            )
+    )
+}
+
 /// Readiness is a deterministic, read-only projection used before entering a
 /// new Work Item.  It deliberately does not become a process-global
 /// scheduler: every invocation resolves one repository root and one fresh
@@ -1425,17 +1444,26 @@ fn work_item_status_snapshot_with_snapshot(
         snapshot_ref.and_then(|snapshot| {
             super::check_verification_preconditions(root.as_path(), work_item_id, runtime, snapshot)
                 .err()
-                .map(|error| error.to_string())
         })
     } else {
         None
     };
+    let preflight_recovery_available =
+        verification_precondition_error
+            .as_ref()
+            .is_some_and(|error| {
+                lifecycle_phase == "checkpointed"
+                    && preflight_can_recover_verification_precondition(error, &summary)
+            });
     if verification_precondition_error.is_some() {
         safe_actions.retain(|action| action != "run_verification");
+        if preflight_recovery_available {
+            safe_actions.insert(0, "run_preflight".into());
+        }
     }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());
-        diagnostics.push(error.clone());
+        diagnostics.push(error.to_string());
     }
     unknowns.sort();
     unknowns.dedup();
@@ -1451,6 +1479,7 @@ fn work_item_status_snapshot_with_snapshot(
     // verification or its one replacement execution. That action is a
     // governed evidence collection step, not a human decision boundary.
     let human_decision_required = preflight_human_decision_required
+        && !preflight_recovery_available
         && !safe_actions
             .iter()
             .any(|action| action == "run_verification");

@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit user instruction to continue all corresponding work, merge the PR, and clean up, stopping before release for user review",
+  "decidedAt": "2026-09-25T06:36:07Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification.json",
+    ".ai/evidence/WI-1033-cross-wi-review-fixes-recovery.verification-attempt.047c1745d96d6095f0fedf26f396e0cc4f98f3995f005931e9b4bcdca4393374.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:5a897bc9c24b058523951c2f16539eadaa41d1ae6a5cd1cfa670c6fbc927fecf",
+  "predecessorEventsDigest": "sha256:2c4b5d90bab86a9d12049eec157c1aba314ac20b02bf7f7ecb47637aa0c09736",
+  "predecessorOutcomeDigest": "sha256:973f7c15ded38feabf0ac4aaa5c7bd334f4b8d3f9c256a24997c89b6e84638a7",
+  "predecessorSummaryDigest": "sha256:4d61aebde82b2d6cbf888d203aa84e2da4c0a4c80907c8f3c33074e5d176365b",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "reason": "The previous retry was consumed by a verification receipt bound to the prior source snapshot. Commit 3f9acdd adds Contract identity checks and a regression; the prior passing verification binds snapshot d61ebfe1e0b5d2d9a198a4c884de0a8e598cfaa207a4b863a25551bf3702b002, while the current snapshot is aeeacb9f1c7d2c2534374e98c52f1fcb91e741dcaab8ac55345e9da49aa7dfa9. Runtime attempt 047c1745d96d6095f0fedf26f396e0cc4f98f3995f005931e9b4bcdca4393374 was rejected before spawning a process. This append-only retry reopens the same Work Item and Contract for one fresh Runtime-bound verification; it does not claim success, widen scope, or authorize release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "One fresh Runtime-bound verification passes for the current snapshot; then re-query preflight/status and continue finish, archive, PR review, merge and exact cleanup only as Runtime admits. Stop before release.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

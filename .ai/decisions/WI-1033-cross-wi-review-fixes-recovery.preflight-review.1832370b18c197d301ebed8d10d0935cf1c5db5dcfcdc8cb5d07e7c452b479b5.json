@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f5095343f44835c15c291ea5f6b854f6ac77bd2ed73c9d052a1ba43892dfb870",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Rebind the already explicit user authorization to continue WI-1033 by resolving the two identified hosted CI blockers under the additive amended Contract, then complete independent PR review, merge, and exact cleanup, followed by Task 8 as a separate serial Work Item. Stop before release. This records identity for the same existing authority only; it is not verification, review approval, merge approval, or release approval.",
+  "recordedAt": "2026-09-26T03:54:43Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0fd9342079759724e1e1dd3ac4de7ef91e505e89eb94f97861775ceef737cb28",
+  "schemaVersion": 1,
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}

@@ -1,0 +1,472 @@
+{
+  "acceptanceCriteria": [
+    "未声明或不完整 node read-set 禁止复用；在 composition JSON 不变时更改命令可读源码或被执行的相对 executable 会重跑受影响节点。",
+    "仅登记的 integration owner 可获组合准入；必须从 digest 匹配的真实 Contract 验证声明完整必需检查，伪造标签、遗漏检查或不可信 satisfied 布尔值在任何进程启动前被拒绝。",
+    "真实进程在 invalidation 持久化后、registration 完成前被终止后，可重试协调成功且只存在一份有效影响事件；不一致状态保持 fail-closed，活跃锁持有者不会被驱逐。",
+    "最终 evidence 文件或任意父目录 symlink 越出登记 worktree 时，发布/登记/检查均拒绝，外部字节不成为证据。",
+    "相同 outcomeId 的不同 provider 不会交叉影响动作准入；动作按 provider/outcome 对精确选取。",
+    "真实 CLI 流程证明相同可信输入可从一个验证进程降至零；composition JSON 不变但实际观测输入变化时重跑受影响节点，且只复用读集合确定未变的节点。",
+    "MCP 每个 coordination action 的身份字段语义唯一，并有 CLI/MCP parity 与 gate manifest 回归保护。",
+    "多个真实进程与 linked worktree 的协作验收通过，普通单 WI 串行路径也通过 Runtime CLI + Cargo/CI canonical gate。",
+    "candidate Runtime CLI 对 Sentinel 的只读兼容检查通过，前后 Git tree、Contract/evidence、生命周期 Runtime 和 coordination store 均不变。",
+    "CLI/MCP inspection、status/outcome projection 与 dependency query 不创建或修改持久 coordination 记录；request-scoped observation consistency 不宣称跨进程事件传递，持久变化只经显式 registration、impact/publication、coordination、recovery 写入口发生并由前后字节断言。",
+    "Before Runtime-bound verification, the English, Simplified Chinese, and Japanese Work Item projection pages and their matching reference-parity rows exist, accurately distinguish pending work from verified facts, and pass the documentation acceptance gate.",
+    "Independent PR review, hosted checks, merge, exact cleanup, and Runtime-admitted historical lineage close complete before release; stop before release.",
+    "A composition whose repository root is from a different Git common directory is rejected against the CoordinationStore binding, even when its copied repository ID matches, before any command starts.",
+    "The governance-integrity gate recognizes a valid predecessor recovery decision as an in-progress linked lineage until its selected successor is terminal; parity binds the recovery receipt and historical verification evidence without requiring a premature close receipt, then projects recovered only after successor closure.",
+    "A valid retired/replaced archived Work Item projects its retirement receipt and not_verified state without requiring or claiming successful verification evidence; malformed or missing retirement evidence remains fail closed.",
+    "For retired/replaced Work Items that require parity projection, a valid retirement receipt still requires one English, Simplified Chinese, and Japanese parity row each; every row references the retirement receipt and states not_verified, no missing locale is silently exempted, and no successful verification evidence is required or claimed.",
+    "Provider registration identity changes preserve the union of previous and current outcome IDs in durable invalidation facts, so removal of a published outcome invalidates direct and transitive consumers while unrelated outcomes remain admissible.",
+    "Coordination request transitions reject unsafe request IDs before path resolution and reject records whose embedded request ID differs from the requested identity; rejected attempts leave bytes unchanged.",
+    "New coordination requests must start in Requested state; callers cannot create acknowledged, paused, expired, unavailable, or resumed requests directly.",
+    "Before consulting registration facts or resolving any Contract path, request creation and state transitions reject registrations whose embedded workItemId is unsafe or differs from the request target; traversal-shaped embedded identities do not trigger Contract path resolution, and rejected request bytes remain unchanged.",
+    "Coordination registration must open every active Contract path component without following symlinks, reject ancestor-directory escapes, and validate identity plus digest from the same securely read bytes.",
+    "Contract containment is proven from the exact directory/file handles used for the read; moving an already-open active directory outside the repository and replacing its former path with an in-repository directory cannot make the outside Contract bytes admissible.",
+    "Contract and outcome-evidence bytes are trusted only after matching their immutable registration/event digest. A deterministic move-out/open/move-back interleaving between containment checks must be rejected before parsing or durable publication; every Contract consumer, including verification-evidence validation, uses the same digest-bound reader.",
+    "The Windows CI job executes the repository library unit tests containing the directory-rename denial regression, and the repository gate-manifest regression prevents that Windows protection test from silently dropping out of CI.",
+    "Composition commands for a digest-bound required Contract check may not provide an environment overlay unless that environment is explicitly bound by the Contract; because the current typed VerificationCheck has no environment declaration, any non-empty caller-supplied overlay is rejected before an attempt or process is started.",
+    "Contract-required composition checks must use a Runtime-controlled executable resolution and child environment; inherited PATH, loader, or toolchain overrides cannot silently substitute another command. If the executable and environment cannot be bound to the verification context, reject before attempt/process creation rather than accept the check.",
+    "Reuse requires a coherent predecessor attempt with a successful terminal state and internally consistent process receipts; an in-progress, failed, or tampered attempt cannot become reusable by changing only a pass flag.",
+    "A declared composition read-set may not follow any symlinked ancestor or consume bytes outside its worktree; incomplete or escaping observations disable reuse.",
+    "Temporary composition worktrees are cleaned on ordinary persistence errors, and interrupted attempts are reconciled on retry only after proving no live owner remains.",
+    "After an explicitly authorized retry records passing verification, the retry receipt remains valid as consumed history: a fresh Runtime status and Outcome query accept the current verified/green projection, while malformed, foreign, stale, or tampered retry evidence still fails closed.",
+    "Composition read-set bytes are accepted only when every opened ancestor remains bound beneath the registered worktree through the complete read; a deterministic move-out-and-replace race is rejected before outside bytes can affect reuse identity on each supported platform.",
+    "The public generic CoordinationStore::publish_event path rejects OutcomePublished events; the typed outcome publisher validates the complete set of declared evidence references and required verification before appending, and rejected events leave durable event bytes unchanged.",
+    "Same-generation republishing validates the proposed OutcomePublished event against current evidence bytes, accepts a correctly bound new event after evidence changes, preserves the old event as history, and rejects stale or incomplete evidence.",
+    "The canonical Runtime multi-node verification receipt, including its complete CoverageManifest and execution records, can consume the one explicitly authorized retry and produce a current verified/green Outcome; fresh read-only Outcome/status queries accept it, a second retry is not authorized, and invalid receipts remain fail-closed.",
+    "Verification-required Outcome publication validates semantic verification state from the exact receipt bytes whose digest the event binds; deterministic replace/restore interleavings cannot substitute different bytes, and an invalid bound receipt cannot be durably published.",
+    "The set of current verification-required consumers is read under the CoordinationStore lock and kept atomic with typed Outcome publication; overlapping registration/publication operations linearize, so a consumer committed before publication cannot be omitted from its verification decision.",
+    "Rejected retry-projection diagnostics bound every untrusted unknown and the total message length, reporting omitted entries without allowing Contract data to create an unbounded error.",
+    "For the Cargo workspace route, each coverage-manifest command digest is built from the same canonical repository root used by the executable action plan; lexical path aliases must not create a false identity mismatch on any supported platform.",
+    "A persisted coordination recovery suppresses direct or transitive invalidation only after its schema, repository identity, exact consumption identity, referenced event/provider generation and kind, observed provider snapshot, and current consumer registration generation are validated; malformed or foreign recovery records remain unknown and do not unblock consumers.",
+    "After a composition owner is interrupted, retry must not remove its temporary worktree while a verifier child or process group can still be alive; if child termination cannot be established, preserve the worktree and fail closed.",
+    "Outcome projection must validate a composition attempt's coherent terminal receipt before reporting passed or reusable checks; changing only a pass flag on an in-progress or inconsistent attempt cannot create a passed human-visible state.",
+    "When a checkpointed Work Item lacks a preflight bound to its current repository snapshot or Contract, status withholds run_verification and exposes run_preflight; after a fresh preflight it exposes run_verification without introducing a new human start-confirmation gate."
+  ],
+  "authority": "authorized",
+  "baseRevision": "b57561dab0893a1e4dba486305cae8ed486c61bd",
+  "createdAt": "2026-09-25T00:59:30Z",
+  "goal": "Complete the bounded review-fix acceptance for identity, actual reuse, event recovery, query/write boundaries, then independently review, merge, and clean up; stop before release.",
+  "intent": "Make cross-WI collaboration trustworthy and recoverable across agents while preserving ordinary serial execution.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Task 8 per-commit Runtime snapshot binding is a separate serial Work Item after this WI is integrated and cleaned up",
+    "Sentinel source or lifecycle writes and global Agent or MCP configuration changes",
+    "Runtime installation or upgrade release preparation tags and public publication",
+    "Broad collaboration redesign or weakened gates and evidence requirements",
+    "General redesign of verification recovery beyond preserving and validating the exact consumed one-time retry receipt."
+  ],
+  "predecessorContractDigest": "sha256:20297ce2dcda6edab327052fc31297d2b0987f2ae9260d6c0a1be265bd2a9430",
+  "predecessorWorkItemId": "WI-1032-cross-wi-review-fixes",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1032-cross-wi-review-fixes.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:571ff88890316e4ccce288d4391a8fe395d84cc28e1f6d3b44da21dfeec47508",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Missing or untrusted read-sets disable reuse; changing a readable source or the launched relative executable with unchanged JSON re-runs the affected node.",
+      "required": true,
+      "scenario": "trusted_read_set_and_executable_identity",
+      "status": "unverified",
+      "verificationPlan": "Run the composition identity regression tests and real CLI acceptance for undeclared readable inputs and relative executables; assert the affected process is spawned instead of reused."
+    },
+    {
+      "evidence": [],
+      "expected": "A non-owner or incomplete or forged required-check set is rejected before process spawn.",
+      "required": true,
+      "scenario": "integration_owner_and_complete_required_checks",
+      "status": "unverified",
+      "verificationPlan": "Run integration-owner and required-check admission regressions with incomplete, forged-label, and caller-satisfied inputs; assert each rejection records zero spawned processes."
+    },
+    {
+      "evidence": [],
+      "expected": "A fresh process reconciles one durable event after child death, while a live lock owner remains protected.",
+      "required": true,
+      "scenario": "crash_reconciliation_and_live_lock_safety",
+      "status": "unverified",
+      "verificationPlan": "Kill a real child after invalidation is durable and before registration completion; retry in a fresh process and assert exactly one impact event, restored registration, and no eviction of a separate live lock owner."
+    },
+    {
+      "evidence": [],
+      "expected": "Final and parent symlink escapes are rejected without accepting outside bytes or appending a success event.",
+      "required": true,
+      "scenario": "registered_worktree_evidence_containment",
+      "status": "unverified",
+      "verificationPlan": "Run filesystem regressions for a final evidence symlink and an escaping parent-directory symlink at registration, publication, and inspection boundaries; compare event bytes before and after rejection."
+    },
+    {
+      "evidence": [],
+      "expected": "Admission uses only the exact provider/outcome pair; a same-named outcome from another provider cannot affect it.",
+      "required": true,
+      "scenario": "provider_scoped_outcome_selection",
+      "status": "unverified",
+      "verificationPlan": "Register two providers publishing the same outcome id and exercise actions selecting each exact pair; assert the unselected provider event never changes admission."
+    },
+    {
+      "evidence": [],
+      "expected": "An exact repeat reduces composition processes from one to zero; changing an observed input with unchanged JSON launches affected work and reuses only proven-unaffected nodes.",
+      "required": true,
+      "scenario": "observed_input_change_reexecutes_affected_node",
+      "status": "unverified",
+      "verificationPlan": "Run the real CLI composition twice unchanged and once after changing a runtime-observed source or environment while composition JSON remains byte-identical; count spawned processes and reused nodes."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI/MCP identities match; read queries leave durable bytes unchanged, while explicit writes are visible to a fresh process.",
+      "required": true,
+      "scenario": "mcp_identity_and_query_write_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run MCP/CLI parity regressions; compare coordination paths and bytes around inspect/status/outcome/dependency reads, then use explicit write actions and a fresh process to prove persisted events are observable."
+    },
+    {
+      "evidence": [],
+      "expected": "Linked-worktree real-process acceptance and the serial path pass; candidate Sentinel inspection changes no protected byte or lifecycle state.",
+      "required": true,
+      "scenario": "real_multi_worktree_serial_path_and_sentinel_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the registered multi-process linked-worktree acceptance and ordinary serial path; inspect Sentinel with the candidate binary and compare its Git tree, Contract/evidence, lifecycle Runtime identity, and coordination bytes before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "A separate clone with a copied matching repository ID is rejected before spawning a composition command because its Git common directory differs from the CoordinationStore binding.",
+      "required": true,
+      "scenario": "composition_store_repository_identity_binding",
+      "status": "unverified",
+      "verificationPlan": "Run admitted_composition_rejects_a_different_clone_even_with_matching_repository_id and assert the specific common-directory blocker and absence of the command side-effect marker."
+    },
+    {
+      "evidence": [],
+      "expected": "A digest-bound valid recovery successor that is not yet terminal is represented as in-progress with its recovery receipt and historical verification evidence; it does not require a premature close. Once the selected successor is terminal, the predecessor projects as recovered.",
+      "required": true,
+      "scenario": "premerge_recovery_lineage_parity",
+      "status": "unverified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for an active successor, missing or foreign recovery binding, and a terminal successor; assert only the valid active lineage is accepted as pending and the closed lineage as recovered."
+    },
+    {
+      "evidence": [],
+      "expected": "A valid replaced/retired archive with no verification receipt is represented using the retirement receipt and not_verified claim without being marked successful; missing or malformed retirement remains blocked.",
+      "required": true,
+      "scenario": "retired_work_item_not_verified_projection",
+      "status": "unverified",
+      "verificationPlan": "Run governance_integrity_gate_test.sh fixtures for valid replaced/not_verified, missing retirement, and malformed retirement; assert the valid record passes with no verification claim and invalid records fail closed."
+    },
+    {
+      "evidence": [],
+      "expected": "A valid retired/replaced Work Item with a retirement receipt passes only when every required locale has a parity row referencing the receipt and stating not_verified; removing any locale row, or all rows, fails closed with missing_parity_entry.",
+      "required": true,
+      "scenario": "retired_work_item_requires_all_locale_parity_rows",
+      "status": "unverified",
+      "verificationPlan": "Run tests/ci/governance_integrity_gate_test.sh with valid three-locale retirement rows, then remove one row per locale and all locale rows in separate fixtures; assert each omission reports missing_parity_entry and valid rows do not claim passed verification evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "When a provider advances generation and removes an output, the durable automatic invalidation still names the removed output, blocks direct and multi-level consumers, and leaves unrelated consumers admissible.",
+      "required": true,
+      "scenario": "removed_provider_outcome_invalidates_transitive_consumers",
+      "status": "unverified",
+      "verificationPlan": "Run a collaboration-admission regression with provider A output consumed by B, B output consumed by C, then re-register A at a newer generation without the output; assert A invalidation retains the removed ID, B/C are blocked, and unrelated work remains admitted."
+    },
+    {
+      "evidence": [],
+      "expected": "Traversal IDs and stored request records with a mismatched embedded request ID are rejected before any file outside the exact request path is changed.",
+      "required": true,
+      "scenario": "coordination_request_identity_is_path_safe",
+      "status": "unverified",
+      "verificationPlan": "Run coordination-store regressions with a traversal request ID targeting a valid request-shaped record outside requests/ and with a request file whose embedded requestId differs; assert errors and byte-for-byte unchanged target records."
+    },
+    {
+      "evidence": [],
+      "expected": "Only Requested can be supplied when creating a coordination request; all later lifecycle states require the valid transition API.",
+      "required": true,
+      "scenario": "coordination_request_creation_requires_requested_state",
+      "status": "unverified",
+      "verificationPlan": "Run a coordination-store regression that attempts creation in Resumed and SafelyPaused states, asserts both are rejected with no durable request, and confirms a Requested request can still transition through the valid lifecycle."
+    },
+    {
+      "evidence": [],
+      "expected": "Request creation and state transitions reject a traversal or mismatched embedded registration Work Item ID before Contract fact lookup; rejected request bytes remain unchanged.",
+      "required": true,
+      "scenario": "registration_identity_before_contract_resolution",
+      "status": "unverified",
+      "verificationPlan": "Run coordination-store API regressions for both request creation and transition using a safe alias registration path containing a traversal-shaped embedded Work Item ID; assert the identity mismatch error is returned before Contract fact validation and that transition request bytes are unchanged."
+    },
+    {
+      "evidence": [],
+      "expected": "A valid matching Contract reachable only through a symlinked active-directory ancestor outside the repository is rejected before a registration or impact event is persisted.",
+      "required": true,
+      "scenario": "coordination_contract_ancestor_symlink_escape",
+      "status": "unverified",
+      "verificationPlan": "Run the focused Unix coordination-store regression with an exact-copy external Contract behind a symlinked ancestor; assert registration is rejected and registration/event bytes remain absent or unchanged."
+    },
+    {
+      "evidence": [],
+      "expected": "A Contract read rejects an opened active-directory handle moved outside the repository even if its former in-repository pathname is replaced with a valid-looking directory.",
+      "required": true,
+      "scenario": "coordination_contract_open_directory_swap_escape",
+      "status": "unverified",
+      "verificationPlan": "Deterministically open the active directory, move that directory outside the root, install an in-repository replacement at the old path, then continue the Contract read through the already-open handle; assert rejection before registration/event persistence and unchanged durable bytes."
+    },
+    {
+      "evidence": [],
+      "expected": "Moving the already-open active directory outside, opening its Contract through the handle, then restoring it before the next path/identity check cannot make unbound Contract bytes admissible.",
+      "required": true,
+      "scenario": "coordination_contract_swap_back_race",
+      "status": "unverified",
+      "verificationPlan": "Use a deterministic injected leaf-open interleaving to rename active outside, open the leaf through the held directory handle, restore the same directory before post-checks, then assert rejection through ancestor mutation detection and registration-digest binding; assert no registration/event bytes change. Also prove verification-evidence validation cannot bypass the digest-bound Contract reader."
+    },
+    {
+      "evidence": [],
+      "expected": "Windows holds deny directory rename during the registered Contract read even when timestamp tokens are forced constant; the Windows CI job actually executes this regression.",
+      "required": true,
+      "scenario": "windows_directory_rename_guard_runs_in_ci",
+      "status": "unverified",
+      "verificationPlan": "Extend the existing windows-runtime job to run `cargo test --locked -p cockpit-repository --lib`; add a repository gate-manifest assertion for that command; verify hosted Windows CI runs the test and it observes rename blocked before read admission."
+    },
+    {
+      "evidence": [],
+      "expected": "A fake executable earlier on inherited PATH and inherited toolchain overrides cannot make a Contract-required check pass; unbound executable/environment identities fail before a successful receipt.",
+      "required": true,
+      "scenario": "required_check_runtime_environment_binding",
+      "status": "unverified",
+      "verificationPlan": "Run a separate CLI process with hostile inherited PATH and toolchain variables; assert the declared verifier is resolved and executed only through the Runtime-controlled context, or composition is rejected before the fake executable runs."
+    },
+    {
+      "evidence": [],
+      "expected": "Flipping the pass flag of a persisted failed or in-progress attempt cannot cause a later composition to skip the required process.",
+      "required": true,
+      "scenario": "tampered_composition_attempt_is_not_reused",
+      "status": "unverified",
+      "verificationPlan": "Persist a failed composition, alter only its record pass flag while preserving identity, rerun identical input, and assert the node executes again and the new attempt reflects the actual result."
+    },
+    {
+      "evidence": [],
+      "expected": "A read-set beneath a symlinked parent is unobservable for reuse and outside bytes never certify a reusable node.",
+      "required": true,
+      "scenario": "composition_read_set_parent_symlink_disables_reuse",
+      "status": "unverified",
+      "verificationPlan": "Create a linked worktree input whose parent component is a symlink to an external directory; repeat composition and assert each run executes and no prior node receipt is reused."
+    },
+    {
+      "evidence": [],
+      "expected": "Persistence failures clean created temporary worktrees; retry reconciles abandoned attempts but preserves resources owned by a live process.",
+      "required": true,
+      "scenario": "composition_persistence_failure_and_crash_cleanup",
+      "status": "unverified",
+      "verificationPlan": "Inject a state-write failure after temporary worktree creation and assert cleanup; terminate a real owner process at a durable checkpoint, retry from another process, and assert stale cleanup without removing a live-owner worktree."
+    },
+    {
+      "evidence": [],
+      "expected": "A one-time authorized retry followed by passing typed verification produces a current verified/green Outcome; subsequent read-only status/outcome calls accept the consumed receipt without deleting history, while invalid retry evidence remains rejected.",
+      "required": true,
+      "scenario": "consumed_retry_receipt_remains_valid_after_verification",
+      "status": "unverified",
+      "verificationPlan": "Add a focused repository lifecycle regression that records a digest-bound retry, completes passing typed verification, then queries Outcome/status after the retry marker is consumed; assert the current evidence and receipt remain valid, no second retry is pending, and invalid receipt cases stay fail-closed."
+    },
+    {
+      "evidence": [],
+      "expected": "A deterministic move-out-and-replace interleaving during a read-set read is rejected on each supported platform; no bytes from the relocated ancestor are returned as trusted identity.",
+      "required": true,
+      "scenario": "composition_read_set_move_out_during_read",
+      "status": "unverified",
+      "verificationPlan": "Add a deterministic test hook/barrier between opening ancestors and completing the read, move the opened ancestor outside the worktree and replace its former path, then assert the read fails and the outside bytes never enter a digest or reuse decision."
+    },
+    {
+      "evidence": [],
+      "expected": "The generic public store API cannot append OutcomePublished; a typed publisher must bind all declared evidence and satisfy verification-required consumers before durable publication.",
+      "required": true,
+      "scenario": "generic_outcome_publication_is_rejected",
+      "status": "unverified",
+      "verificationPlan": "Call CoordinationStore::publish_event directly with a publication that omits a declared evidence reference; assert rejection and byte-identical event storage, then exercise the typed valid publisher."
+    },
+    {
+      "evidence": [],
+      "expected": "Changing published evidence bytes without changing provider generation allows a new exact-digest publication; the old event remains immutable and cannot shadow the proposed current event.",
+      "required": true,
+      "scenario": "same_generation_outcome_republication_uses_current_evidence",
+      "status": "unverified",
+      "verificationPlan": "Publish once, update evidence bytes while keeping generation/head/Contract fixed, then publish again; assert the second event is validated against its own digest, both events remain, and current admission uses the new exact binding."
+    },
+    {
+      "evidence": [],
+      "expected": "A passing canonical multi-node Runtime verification with CoverageManifest consumes exactly one authorized retry, persists current evidence, and yields verified/green fresh Outcome and non-blocking status; a second retry and invalid receipts remain rejected.",
+      "required": true,
+      "scenario": "canonical_retry_projection_accepts_aggregate_receipt",
+      "status": "unverified",
+      "verificationPlan": "Run the focused lifecycle regression with a multi-node typed receipt, then run one canonical Runtime CLI verification for the authorized retry after the root cause is repaired; query Outcome/status and assert exact snapshot/runtime bindings, one-time consumption, and green projections."
+    },
+    {
+      "evidence": [],
+      "expected": "Semantic receipt validation consumes the exact bytes bound by the proposed publication; swapping the path to a different valid receipt after the digest-bound read cannot make an invalid bound receipt pass.",
+      "required": true,
+      "scenario": "outcome_verification_uses_event_bound_bytes",
+      "status": "unverified",
+      "verificationPlan": "Deterministically replace the receipt path after the publisher reads the proposed event bytes but before semantic validation; assert the validator rejects the original invalid bound bytes and no publication is appended."
+    },
+    {
+      "evidence": [],
+      "expected": "A verification-required consumer registered before the publication transaction is included in its decision; registration and publication have a single serialized order with no unchecked gap.",
+      "required": true,
+      "scenario": "verification_required_consumer_registration_is_atomic_with_publication",
+      "status": "unverified",
+      "verificationPlan": "Pause a typed publication at the prepared-event boundary, register a consumer requiring verification, then continue; assert the current locked registration set is re-read, missing or invalid proof rejects with no event, and the reverse serialized order remains coherent."
+    },
+    {
+      "evidence": [],
+      "expected": "Untrusted unknown entries cannot make a rejected retry-projection diagnostic unbounded; truncation reports omitted entries.",
+      "required": true,
+      "scenario": "recovery_rejection_diagnostics_are_bounded",
+      "status": "unverified",
+      "verificationPlan": "Feed oversized and numerous unknown strings into the rejected-projection regression and assert per-entry and total message bounds plus an omitted-count marker."
+    },
+    {
+      "evidence": [],
+      "expected": "A workspace coverage manifest and its executable node plans bind identical command digests when the caller supplies a lexical path alias, including on Windows.",
+      "required": true,
+      "scenario": "workspace_verification_command_identity_is_canonical",
+      "status": "unverified",
+      "verificationPlan": "Plan the Cargo workspace through a noncanonical root such as root/. and compare every manifest digest with the corresponding action identity; run this regression in the canonical CI matrix including Windows."
+    },
+    {
+      "evidence": [],
+      "expected": "Only a recovery record validated against its exact event and repository/current registration identities suppresses invalidation; malformed, copied, stale-generation, or mismatched records remain unknown and leave direct and transitive consumers blocked.",
+      "required": true,
+      "scenario": "recovery_records_are_validated_before_invalidation_suppression",
+      "status": "unverified",
+      "verificationPlan": "Persist a valid cross-generation recovery, then independently tamper schema, repository, consumption ID, event/provider identity, recorded provider snapshot, and consumer identity/generation; assert inspect reports each invalid record and admission still observes the invalidation."
+    },
+    {
+      "evidence": [],
+      "expected": "A dead composition owner is insufficient to clean its temporary worktree while its spawned verifier process group remains alive; once that exact group is gone, retry can reconcile and clean safely.",
+      "required": true,
+      "scenario": "interrupted_verifier_process_group_prevents_worktree_cleanup",
+      "status": "unverified",
+      "verificationPlan": "On Unix, launch a real verifier child that records its PID, kills the composition owner, and remains alive; assert a fresh retry preserves the worktree and rejects cleanup, terminate that exact process group, then retry and assert cleanup. On Windows, retain job-object kill-on-close coverage."
+    },
+    {
+      "evidence": [],
+      "expected": "A tampered, in-progress, or internally inconsistent composition attempt is never projected as passed or reusable; valid successful terminal attempts remain visible.",
+      "required": true,
+      "scenario": "composition_outcome_requires_coherent_terminal_attempt",
+      "status": "unverified",
+      "verificationPlan": "Persist a failed or in-progress attempt, alter only its top-level pass flag, query the read-only Outcome projection, and assert it reports unknown/invalid with no reusable checks; retain passing, stale-applicability, and not-merged regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "A checkpointed Work Item with missing or stale preflight binding exposes run_preflight rather than run_verification; after the fresh preflight succeeds, run_verification is admitted without another start confirmation.",
+      "required": true,
+      "scenario": "checkpointed_stale_preflight_projects_preflight_recovery",
+      "status": "unverified",
+      "verificationPlan": "In the scenario-matrix integration test, checkpoint a Work Item, change its source snapshot, assert status withholds run_verification and exposes run_preflight, execute preflight, then assert status admits run_verification; preserve the existing fail-closed execution-precondition assertion."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/collaboration_cli.rs",
+    "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+    "crates/cockpit-interface/src/interface_description.rs",
+    "crates/cockpit-interface/src/lib.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/collaboration_rpc.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-repository/Cargo.toml",
+    "crates/cockpit-repository/src/collaboration.rs",
+    "crates/cockpit-repository/src/coordination_store.rs",
+    "crates/cockpit-repository/src/coordination_store_lock_tests.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/collaboration_admission.rs",
+    "crates/cockpit-repository/tests/coordination_store.rs",
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs",
+    "docs/features/cross-wi-coordination.ja.md",
+    "docs/features/cross-wi-coordination.md",
+    "docs/features/cross-wi-coordination.zh-CN.md",
+    "docs/reference/cross-wi-coordination.ja.md",
+    "docs/reference/cross-wi-coordination.md",
+    "docs/reference/cross-wi-coordination.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.ja.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections.zh-CN.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections/implementation-plan.md",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections/spec.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes.ja.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes.zh-CN.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/implementation-plan.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/independent-review.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/spec.md",
+    "tests/acceptance/cross_wi_coordination_processes.py",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery.md",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery.zh-CN.md",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    ".github/workflows/ci.yml",
+    "tests/ci/repository_gate_manifest_test.py",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+  ],
+  "sources": [
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/spec.md",
+    "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md",
+    "docs/work-items/WI-1032-cross-wi-review-fixes/independent-review.md",
+    "crates/cockpit-repository/src/collaboration.rs registered Contract readers, verification evidence validation, and deterministic directory-handle interleaving regressions",
+    "crates/cockpit-verification/src/lib.rs Runtime-bound child environment isolation and command environment identity",
+    "crates/cockpit-repository/src/lifecycle.rs: record_verification_evidence consumes retry bindings before refreshing the active Outcome; outcome projection then revalidates the same append-only retry receipt.",
+    "crates/cockpit-verification/src/composition.rs and crates/cockpit-verification/tests/composition.rs: prove read-set directory handles remain bound beneath the worktree through the complete byte read, including deterministic move-out races.",
+    "crates/cockpit-repository/src/coordination_store.rs and crates/cockpit-repository/tests/coordination_store.rs: reject incomplete OutcomePublished events through the generic store API and preserve bytes on rejection.",
+    "crates/cockpit-repository/src/collaboration.rs and crates/cockpit-repository/tests/collaboration_admission.rs: validate same-generation outcome republication against the exact current event and evidence digest while retaining prior events.",
+    "crates/cockpit-repository/src/lifecycle.rs: exercise consumed retry projection with the canonical multi-node Runtime verification receipt and fresh Outcome/status queries.",
+    {
+      "path": "crates/cockpit-repository/tests/verification_service.rs",
+      "reason": "The Windows CI failure exposed that this regression file is required to prove exact Runtime workspace verification command identity on every supported platform."
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "reason": "Independent review found that checkpointed verification precondition failures remove run_verification without exposing the current-snapshot preflight recovery action."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+      "reason": "Regression coverage binds stale-preflight status projection to the executable recovery and subsequent verification action."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "cargo build --locked --release -p cockpit-cli --bin ai-cockpit",
+    "python3 tests/acceptance/cross_wi_coordination_processes.py --binary target/release/ai-cockpit",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "cargo test --locked -p cockpit-repository --test collaboration_admission",
+    "cargo test --locked -p cockpit-repository --test coordination_store",
+    "cargo test --locked -p cockpit-repository --lib registered_worktree_file_tests",
+    "cargo test --locked -p cockpit-repository --lib consumed_retry_receipt_remains_valid_after_verification",
+    "cargo test --locked -p cockpit-verification --test composition read_set_move_out_during_read",
+    "cargo test --locked -p cockpit-repository --test coordination_store generic_outcome_publication_is_rejected",
+    "cargo test --locked -p cockpit-repository --test collaboration_admission same_generation_outcome_republication_uses_current_evidence",
+    "cargo test --locked -p cockpit-repository --lib outcome_verification_uses_event_bound_bytes",
+    "cargo test --locked -p cockpit-repository --lib publish_outcome_observes_consumer_registered_before_locked_append",
+    "cargo test --locked -p cockpit-repository --lib recovery_rejection_diagnostics_are_bounded",
+    "cargo test --locked -p cockpit-repository --test scenario_matrix_next_action checkpointed_stale_preflight_projects_preflight_recovery"
+  ],
+  "workItemId": "WI-1033-cross-wi-review-fixes-recovery"
+}
