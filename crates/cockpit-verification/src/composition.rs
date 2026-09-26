@@ -1455,13 +1455,24 @@ fn digest_paths(root: &Path, paths: &[String]) -> Option<Digest> {
 }
 
 fn read_regular_file_beneath(root: &Path, relative: &Path) -> Option<Vec<u8>> {
+    read_regular_file_beneath_with_interleave(root, relative, |_| {})
+}
+
+fn read_regular_file_beneath_with_interleave<F>(
+    root: &Path,
+    relative: &Path,
+    after_open: F,
+) -> Option<Vec<u8>>
+where
+    F: FnOnce(&mut File),
+{
     #[cfg(unix)]
     {
         use std::os::fd::{AsRawFd, FromRawFd};
         use std::os::unix::ffi::OsStrExt;
 
         let root = fs::canonicalize(root).ok()?;
-        let root_handle = File::open(root).ok()?;
+        let root_handle = File::open(&root).ok()?;
         if !root_handle.metadata().ok()?.is_dir() {
             return None;
         }
@@ -1516,45 +1527,320 @@ fn read_regular_file_beneath(root: &Path, relative: &Path) -> Option<Vec<u8>> {
         if !file.metadata().ok()?.is_file() {
             return None;
         }
+        if !read_set_handles_still_match_paths(&root, &components, &directories, &file) {
+            return None;
+        }
+        let mutation_observer = ReadSetMutationObserver::start(&directories)?;
+        if !mutation_observer.verify_unchanged() {
+            return None;
+        }
+        after_open(&mut file);
         let mut bytes = Vec::new();
         file.read_to_end(&mut bytes).ok()?;
-        Some(bytes)
+        (mutation_observer.verify_unchanged()
+            && read_set_handles_still_match_paths(&root, &components, &directories, &file))
+        .then_some(bytes)
     }
     #[cfg(not(unix))]
     {
-        let root = fs::canonicalize(root).ok()?;
-        let mut candidate = root.clone();
-        let components = relative
-            .components()
-            .map(|component| match component {
-                Component::Normal(value) => Some(value),
-                _ => None,
-            })
-            .collect::<Option<Vec<_>>>()?;
-        if components.is_empty() {
+        // This path currently lacks a platform-native handle-bound proof that
+        // parent directories remain contained while the bytes are read. A
+        // path-only check followed by File::open leaves a reparse/rename race,
+        // so inputs on these platforms are deliberately non-reusable.
+        let _ = (root, relative, after_open);
+        None
+    }
+}
+
+#[cfg(target_os = "linux")]
+struct ReadSetMutationObserver {
+    instance: std::os::fd::OwnedFd,
+    _directories: Vec<File>,
+}
+
+#[cfg(target_os = "linux")]
+impl ReadSetMutationObserver {
+    fn start(directories: &[File]) -> Option<Self> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        // SAFETY: inotify_init1 takes no pointers and returns a new descriptor
+        // on success, which is immediately wrapped in OwnedFd.
+        let raw_instance = unsafe { libc::inotify_init1(libc::IN_CLOEXEC | libc::IN_NONBLOCK) };
+        if raw_instance < 0 {
             return None;
         }
-        for (index, component) in components.iter().enumerate() {
-            candidate.push(component);
-            let metadata = fs::symlink_metadata(&candidate).ok()?;
-            if metadata.file_type().is_symlink()
-                || (index + 1 == components.len() && !metadata.is_file())
-                || (index + 1 < components.len() && !metadata.is_dir())
+        // SAFETY: `raw_instance` is a newly owned descriptor from inotify_init1.
+        let instance = unsafe { OwnedFd::from_raw_fd(raw_instance) };
+        let mut retained = Vec::with_capacity(directories.len());
+        for directory in directories {
+            let handle = directory.try_clone().ok()?;
+            let descriptor_path =
+                std::ffi::CString::new(format!("/proc/self/fd/{}", handle.as_raw_fd())).ok()?;
+            let mask = libc::IN_MOVE_SELF | libc::IN_DELETE_SELF | libc::IN_UNMOUNT;
+            // SAFETY: descriptor_path is NUL-terminated and instance is a live
+            // inotify descriptor; the watch follows the held directory handle.
+            if unsafe {
+                libc::inotify_add_watch(instance.as_raw_fd(), descriptor_path.as_ptr(), mask)
+            } < 0
             {
                 return None;
             }
+            retained.push(handle);
         }
-        if !fs::canonicalize(&candidate).ok()?.starts_with(root) {
-            return None;
-        }
-        let mut file = File::open(candidate).ok()?;
-        if !file.metadata().ok()?.is_file() {
-            return None;
-        }
-        let mut bytes = Vec::new();
-        file.read_to_end(&mut bytes).ok()?;
-        Some(bytes)
+        Some(Self {
+            instance,
+            _directories: retained,
+        })
     }
+
+    fn verify_unchanged(&self) -> bool {
+        use std::os::fd::AsRawFd;
+
+        let mut buffer = [0_u8; 4096];
+        loop {
+            // SAFETY: the buffer is writable for its full length and the
+            // inotify descriptor remains owned by self for this call.
+            let count = unsafe {
+                libc::read(
+                    self.instance.as_raw_fd(),
+                    buffer.as_mut_ptr().cast(),
+                    buffer.len(),
+                )
+            };
+            if count < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return error.kind() == std::io::ErrorKind::WouldBlock;
+            }
+            return false;
+        }
+    }
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+struct ReadSetMutationObserver {
+    queue: std::os::fd::OwnedFd,
+    _directories: Vec<File>,
+}
+
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+impl ReadSetMutationObserver {
+    fn start(directories: &[File]) -> Option<Self> {
+        use std::os::fd::{AsRawFd, FromRawFd, OwnedFd};
+
+        // SAFETY: kqueue takes no pointers and returns a new descriptor on
+        // success, which is immediately wrapped in OwnedFd.
+        let raw_queue = unsafe { libc::kqueue() };
+        if raw_queue < 0 {
+            return None;
+        }
+        // SAFETY: `raw_queue` is a newly owned descriptor from kqueue.
+        let queue = unsafe { OwnedFd::from_raw_fd(raw_queue) };
+        let mut retained = Vec::with_capacity(directories.len());
+        for directory in directories {
+            let handle = directory.try_clone().ok()?;
+            // SAFETY: zero is a valid initial representation for kevent before
+            // its fields are populated below.
+            let mut change: libc::kevent = unsafe { std::mem::zeroed() };
+            change.ident = handle.as_raw_fd() as libc::uintptr_t;
+            change.filter = libc::EVFILT_VNODE;
+            change.flags = libc::EV_ADD | libc::EV_CLEAR;
+            change.fflags = libc::NOTE_RENAME | libc::NOTE_DELETE;
+            // SAFETY: change points to one initialized kevent and queue is live.
+            if unsafe {
+                libc::kevent(
+                    queue.as_raw_fd(),
+                    &change,
+                    1,
+                    std::ptr::null_mut(),
+                    0,
+                    std::ptr::null(),
+                )
+            } < 0
+            {
+                return None;
+            }
+            retained.push(handle);
+        }
+        Some(Self {
+            queue,
+            _directories: retained,
+        })
+    }
+
+    fn verify_unchanged(&self) -> bool {
+        use std::os::fd::AsRawFd;
+
+        // SAFETY: zero is a valid output buffer for the kernel to fill.
+        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
+        let timeout = libc::timespec {
+            tv_sec: 0,
+            tv_nsec: 0,
+        };
+        loop {
+            // SAFETY: queue is live, event is writable, and timeout is valid.
+            let result = unsafe {
+                libc::kevent(
+                    self.queue.as_raw_fd(),
+                    std::ptr::null(),
+                    0,
+                    &mut event,
+                    1,
+                    &timeout,
+                )
+            };
+            if result < 0 {
+                if std::io::Error::last_os_error().kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return false;
+            }
+            return result == 0;
+        }
+    }
+}
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+struct ReadSetMutationObserver;
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    ))
+))]
+impl ReadSetMutationObserver {
+    fn start(_directories: &[File]) -> Option<Self> {
+        None
+    }
+
+    fn verify_unchanged(&self) -> bool {
+        false
+    }
+}
+
+#[cfg(unix)]
+fn read_set_handles_still_match_paths(
+    canonical_root: &Path,
+    components: &[&std::ffi::OsStr],
+    directories: &[File],
+    opened_file: &File,
+) -> bool {
+    use std::os::unix::fs::MetadataExt;
+
+    let Some(root_handle) = directories.first() else {
+        return false;
+    };
+    let Ok(root_path) = fs::canonicalize(canonical_root) else {
+        return false;
+    };
+    let Ok(root_display) = File::open(&root_path) else {
+        return false;
+    };
+    let Ok(root_metadata) = root_handle.metadata() else {
+        return false;
+    };
+    let Ok(root_display_metadata) = root_display.metadata() else {
+        return false;
+    };
+    if !root_metadata.is_dir()
+        || !root_display_metadata.is_dir()
+        || root_metadata.dev() != root_display_metadata.dev()
+        || root_metadata.ino() != root_display_metadata.ino()
+        || directories.len() != components.len()
+    {
+        return false;
+    }
+
+    let mut display = root_path.clone();
+    for (index, component) in components[..components.len() - 1].iter().enumerate() {
+        display.push(component);
+        let Ok(canonical) = fs::canonicalize(&display) else {
+            return false;
+        };
+        if !canonical.starts_with(&root_path) {
+            return false;
+        }
+        let Ok(displayed_directory) = File::open(&display) else {
+            return false;
+        };
+        let Ok(opened_metadata) = directories[index + 1].metadata() else {
+            return false;
+        };
+        let Ok(displayed_metadata) = displayed_directory.metadata() else {
+            return false;
+        };
+        if !opened_metadata.is_dir()
+            || !displayed_metadata.is_dir()
+            || opened_metadata.dev() != displayed_metadata.dev()
+            || opened_metadata.ino() != displayed_metadata.ino()
+        {
+            return false;
+        }
+    }
+
+    let Some(leaf) = components.last() else {
+        return false;
+    };
+    display.push(leaf);
+    let Ok(canonical_file) = fs::canonicalize(&display) else {
+        return false;
+    };
+    if !canonical_file.starts_with(&root_path) {
+        return false;
+    }
+    let Ok(path_metadata) = fs::symlink_metadata(&display) else {
+        return false;
+    };
+    if path_metadata.file_type().is_symlink() || !path_metadata.is_file() {
+        return false;
+    }
+    let Ok(displayed_file) = File::open(&display) else {
+        return false;
+    };
+    let Ok(opened_metadata) = opened_file.metadata() else {
+        return false;
+    };
+    let Ok(displayed_metadata) = displayed_file.metadata() else {
+        return false;
+    };
+    opened_metadata.is_file()
+        && displayed_metadata.is_file()
+        && opened_metadata.dev() == displayed_metadata.dev()
+        && opened_metadata.ino() == displayed_metadata.ino()
 }
 
 fn observed_environment_digest(commands: &[CompositionCommand]) -> Option<Digest> {
@@ -2018,5 +2304,85 @@ fn hex_value(value: u8) -> Option<u8> {
         b'a'..=b'f' => Some(value - b'a' + 10),
         b'A'..=b'F' => Some(value - b'A' + 10),
         _ => None,
+    }
+}
+
+#[cfg(all(
+    test,
+    any(
+        target_os = "linux",
+        target_os = "macos",
+        target_os = "ios",
+        target_os = "freebsd",
+        target_os = "openbsd",
+        target_os = "netbsd",
+        target_os = "dragonfly"
+    )
+))]
+mod read_set_containment_tests {
+    use super::read_regular_file_beneath_with_interleave;
+    use std::fs;
+    use std::io::Read;
+    use std::path::{Path, PathBuf};
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    struct TemporaryDirectories(Vec<PathBuf>);
+
+    impl Drop for TemporaryDirectories {
+        fn drop(&mut self) {
+            for path in &self.0 {
+                let _ = fs::remove_dir_all(path);
+            }
+        }
+    }
+
+    #[test]
+    fn moving_an_open_read_set_parent_outside_during_read_is_not_trusted() {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("system clock")
+            .as_nanos();
+        let base = std::env::temp_dir().join(format!(
+            "cockpit-read-set-move-{}-{nonce}",
+            std::process::id()
+        ));
+        let root = base.join("repository");
+        let outside = base.join("outside");
+        fs::create_dir_all(root.join("inputs")).expect("create in-repository input directory");
+        fs::create_dir_all(&outside).expect("create outside directory");
+        let _cleanup = TemporaryDirectories(vec![base.clone()]);
+        fs::write(root.join("inputs/input.txt"), b"opened-before-move\n")
+            .expect("write original input");
+        let moved = outside.join("moved-inputs");
+        let replacement = outside.join("replacement-inputs");
+        let mut bytes_read_while_outside = Vec::new();
+
+        let observed = read_regular_file_beneath_with_interleave(
+            &root,
+            Path::new("inputs/input.txt"),
+            |opened_file| {
+                fs::rename(root.join("inputs"), &moved)
+                    .expect("move opened parent outside the repository");
+                fs::create_dir(root.join("inputs")).expect("replace original parent path");
+                fs::write(root.join("inputs/input.txt"), b"replacement-inside\n")
+                    .expect("write replacement input");
+                opened_file
+                    .read_to_end(&mut bytes_read_while_outside)
+                    .expect("read from the opened handle while its directory is outside");
+                fs::rename(root.join("inputs"), replacement)
+                    .expect("move replacement away from the registered path");
+                fs::rename(&moved, root.join("inputs"))
+                    .expect("restore the original directory after the outside read");
+            },
+        );
+
+        assert_eq!(
+            bytes_read_while_outside, b"opened-before-move\n",
+            "the interleaving must prove that bytes were actually read while the held parent was outside"
+        );
+        assert_eq!(
+            observed, None,
+            "bytes read through a directory moved outside the repository must not enter the reuse identity"
+        );
     }
 }
