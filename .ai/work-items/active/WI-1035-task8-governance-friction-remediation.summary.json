@@ -271,14 +271,7 @@
   "changedPaths": [
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.approach.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
-    ".github/workflows/ci.yml",
-    "crates/cockpit-verification/tests/composition.rs",
-    "tests/ci/cleanup_hosted_runtime_verification_worktree.sh",
-    "tests/ci/hosted_runtime_verification_test.sh",
-    "tests/ci/run_hosted_runtime_verification.sh",
-    "tests/ci/run_workspace_package_tests.sh",
-    "tests/ci/workflow_convergence_test.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    "crates/cockpit-verification/tests/composition.rs"
   ],
   "checkpointAt": "2026-09-26T14:39:46Z",
   "checkpointContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
@@ -379,7 +372,7 @@
       "workItemId": "WI-1035-task8-governance-friction-remediation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:73436fef427d131251e64e0d7a8b1f866c21b5b796f03be4adf8f30aa53de911",
+  "checkpointRepositorySnapshotDigest": "sha256:80e07fd9531326cd56305d5ce59b77c4558a40b074cb7284cc182401e6d44354",
   "createdAt": "2026-09-26T14:32:17Z",
   "decisionEvidence": {
     "contractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
@@ -405,10 +398,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
   "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-27T19:28:06Z",
+  "preflightAt": "2026-09-27T20:20:25Z",
   "preflightContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:73436fef427d131251e64e0d7a8b1f866c21b5b796f03be4adf8f30aa53de911",
+  "preflightRepositorySnapshotDigest": "sha256:80e07fd9531326cd56305d5ce59b77c4558a40b074cb7284cc182401e6d44354",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",

@@ -796,7 +796,7 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
     let second = run_composition(composition).expect("second composition");
 
     assert!(first.passed);
-    assert!(second.passed);
+    assert!(second.passed, "second composition attempt: {second:?}");
     assert_eq!(second.processes_spawned, 1);
     assert!(second.execution_records[0].spawned);
     assert!(!second.execution_records[0].reused);
@@ -1630,7 +1630,9 @@ fn inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse() {
             .expect("spawn separate test process");
         assert!(
             child.status.success(),
-            "child process for flavor {flavor} failed: {}",
+            "child process for flavor {flavor} failed with {:?}; stdout: {}; stderr: {}",
+            child.status,
+            String::from_utf8_lossy(&child.stdout),
             String::from_utf8_lossy(&child.stderr)
         );
     }
