@@ -456,41 +456,39 @@ pub struct DiagnosticSummary {
     pub node_ids: Vec<String>,
 }
 
+type DiagnosticGroups = BTreeMap<(String, Option<String>, String), (usize, BTreeSet<String>)>;
+
 /// Decode and de-duplicate compiler diagnostic roots for human output while
 /// leaving every execution record, including non-UTF8 stderr, untouched.
 pub fn summarize_diagnostics(records: &[VerificationExecutionRecord]) -> Vec<DiagnosticSummary> {
-    let mut grouped =
-        BTreeMap::<(String, Option<String>, String), (usize, BTreeSet<String>)>::new();
+    let mut grouped = DiagnosticGroups::new();
     for record in records {
         let Some(bytes) = decode_hex_bytes(&record.stderr_hex) else {
             continue;
         };
         let text = String::from_utf8_lossy(&bytes);
         let text = strip_ansi_sequences(&text);
-        let mut current_diagnostic = None;
+        let mut current_diagnostic: Option<(String, Option<String>, String)> = None;
         for line in text.lines() {
             if let Some((severity, code, message)) = parse_diagnostic_root(line) {
-                let key = (severity, code, message);
-                let entry = grouped.entry(key.clone()).or_default();
-                entry.0 += 1;
-                entry.1.insert(record.node_id.clone());
-                current_diagnostic = Some(key);
+                if let Some(previous) = current_diagnostic.take() {
+                    record_diagnostic(&mut grouped, previous, &record.node_id);
+                }
+                current_diagnostic = Some((severity, code, message));
                 continue;
             }
-            if let Some(key) = current_diagnostic.as_ref()
-                && key.1.is_none()
+            if let Some((_, code, _)) = current_diagnostic.as_mut()
+                && code.is_none()
                 && (line.contains("#[warn(")
                     || line.contains("#[deny(")
                     || line.contains("#[forbid("))
-                && let Some(code) = clippy_code(line)
-                && let Some((count, nodes)) = grouped.remove(key)
+                && let Some(lint) = clippy_code(line)
             {
-                let updated_key = (key.0.clone(), Some(code), key.2.clone());
-                let entry = grouped.entry(updated_key.clone()).or_default();
-                entry.0 += count;
-                entry.1.extend(nodes);
-                current_diagnostic = Some(updated_key);
+                *code = Some(lint);
             }
+        }
+        if let Some(diagnostic) = current_diagnostic {
+            record_diagnostic(&mut grouped, diagnostic, &record.node_id);
         }
     }
     grouped
@@ -505,6 +503,16 @@ pub fn summarize_diagnostics(records: &[VerificationExecutionRecord]) -> Vec<Dia
             },
         )
         .collect()
+}
+
+fn record_diagnostic(
+    grouped: &mut DiagnosticGroups,
+    diagnostic: (String, Option<String>, String),
+    node_id: &str,
+) {
+    let entry = grouped.entry(diagnostic).or_default();
+    entry.0 += 1;
+    entry.1.insert(node_id.to_owned());
 }
 
 fn decode_hex_bytes(value: &str) -> Option<Vec<u8>> {

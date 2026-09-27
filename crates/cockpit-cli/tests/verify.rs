@@ -38,6 +38,13 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
         "stderr: {}",
         String::from_utf8_lossy(&output.stderr)
     );
+    let progress = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        progress.contains("Verification progress:")
+            && progress.contains("0/1 complete")
+            && progress.contains("1/1 complete, 100%"),
+        "verification should report evidence-based node progress on stderr: {progress}"
+    );
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(json["nodesPlanned"], 1);
     assert_eq!(json["nodesExecuted"], 1);
@@ -467,13 +474,25 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
         std::process::id(),
         NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
     ));
-    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::create_dir_all(&directory).expect("directory");
     fs::write(
         directory.join("Cargo.toml"),
-        "[package]\nname = \"verify-workspace-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+        "[workspace]\nmembers = [\"member-a\", \"member-b\"]\nresolver = \"2\"\n",
     )
     .expect("manifest");
-    fs::write(directory.join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
+    for member in ["member-a", "member-b"] {
+        let member_directory = directory.join(member);
+        fs::create_dir_all(member_directory.join("src")).expect("member directory");
+        fs::write(
+            member_directory.join("Cargo.toml"),
+            format!(
+                "[package]\nname = \"verify-workspace-{member}\"\nversion = \"0.1.0\"\nedition = \"2021\"\n"
+            ),
+        )
+        .expect("member manifest");
+        fs::write(member_directory.join("src/lib.rs"), "pub fn fixture() {}\n")
+            .expect("member source");
+    }
     Command::new("git")
         .args(["init", "-q"])
         .current_dir(&directory)
@@ -482,6 +501,7 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
     let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
         .args(["verify", "--repo"])
         .arg(&directory)
+        .args(["--workers", "1"])
         .output()
         .expect("verify");
     assert!(
@@ -492,10 +512,16 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(
         json["planReceipt"]["coverageManifest"]["workspaceMembers"],
-        serde_json::json!(["verify-workspace-fixture"])
+        serde_json::json!(["verify-workspace-member-a", "verify-workspace-member-b"])
     );
-    assert_eq!(json["executionRecords"].as_array().map(Vec::len), Some(1));
+    assert_eq!(json["executionRecords"].as_array().map(Vec::len), Some(2));
     assert_eq!(json["executionRecords"][0]["exitCode"], 0);
+    assert_eq!(json["executionRecords"][1]["exitCode"], 0);
+    let progress = String::from_utf8_lossy(&output.stderr);
+    assert!(progress.contains("0/2 complete, 0%"), "{progress}");
+    assert!(progress.contains("1/2 complete, 50%"), "{progress}");
+    assert!(progress.contains("2/2 complete, 100%"), "{progress}");
+    assert!(!String::from_utf8_lossy(&output.stdout).contains("Verification progress:"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -775,9 +801,71 @@ fn verify_returns_nonzero_and_structured_receipt_when_command_fails() {
     assert_eq!(receipt["results"][0]["passed"], false);
     assert_eq!(receipt["results"][0]["nodeId"], "project-command-0");
     assert!(
+        String::from_utf8_lossy(&output.stderr)
+            .contains("completed node \"project-command-0\": failed (1/1 complete, 100%)"),
+        "failed nodes must also produce accurate progress: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(
         !String::from_utf8_lossy(&output.stderr)
             .contains("failed verification cannot be recorded as completion evidence")
     );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn verify_cli_surfaces_grouped_diagnostics_for_a_failed_execution() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-diagnostics-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let diagnostic_command = directory.join("diagnostic-command.sh");
+    fs::write(
+        &diagnostic_command,
+        "#!/bin/sh\nprintf '%s\\n' 'warning: duplicate diagnostic' '  --> src/lib.rs:1:1' 'warning: duplicate diagnostic' '  --> src/lib.rs:2:1' '   = note: #[warn(clippy::needless_borrow)] on by default' >&2\nexit 7\n",
+    )
+    .expect("diagnostic command");
+    use std::os::unix::fs::PermissionsExt;
+    fs::set_permissions(&diagnostic_command, fs::Permissions::from_mode(0o700))
+        .expect("make diagnostic command executable");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--command"])
+        .arg(&diagnostic_command)
+        .output()
+        .expect("verify");
+    assert!(!output.status.success());
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("failed verification JSON");
+    assert_eq!(receipt["diagnosticSummary"].as_array().unwrap().len(), 2);
+    let plain = receipt["diagnosticSummary"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|item| item["code"].is_null())
+        .expect("unattributed diagnostic");
+    assert_eq!(plain["occurrences"], 1);
+    let lint = receipt["diagnosticSummary"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|item| item["code"] == "clippy::needless_borrow")
+        .expect("attributed Clippy diagnostic");
+    assert_eq!(lint["occurrences"], 1);
+    assert_eq!(lint["nodeIds"], serde_json::json!(["project-command-0"]));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

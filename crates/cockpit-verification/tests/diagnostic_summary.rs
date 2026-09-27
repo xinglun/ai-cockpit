@@ -100,3 +100,30 @@ fn rustc_style_lint_note_is_attached_to_its_human_readable_root() {
     assert_eq!(summary[0].code.as_deref(), Some("clippy::needless_borrow"));
     assert_eq!(summary[0].message, "this borrow is unnecessary");
 }
+
+#[test]
+fn lint_note_only_reclassifies_its_own_duplicate_warning_occurrence() {
+    let stderr = b"warning: this borrow is unnecessary\n  --> crates/core/src/lib.rs:10:5\nwarning: this borrow is unnecessary\n  --> crates/core/src/lib.rs:20:5\n   = note: `#[warn(clippy::needless_borrow)]` on by default\n";
+    let record = record("cockpit-core", stderr, false, Some(101));
+
+    let summary = summarize_diagnostics(std::slice::from_ref(&record));
+
+    assert_eq!(summary.len(), 2);
+    let plain = summary
+        .iter()
+        .find(|item| item.code.is_none())
+        .expect("unattributed warning remains separate");
+    assert_eq!(plain.severity, "warning");
+    assert_eq!(plain.message, "this borrow is unnecessary");
+    assert_eq!(plain.occurrences, 1);
+    assert_eq!(plain.node_ids, ["cockpit-core"]);
+
+    let lint = summary
+        .iter()
+        .find(|item| item.code.as_deref() == Some("clippy::needless_borrow"))
+        .expect("the lint note classifies only its own warning");
+    assert_eq!(lint.severity, "warning");
+    assert_eq!(lint.message, "this borrow is unnecessary");
+    assert_eq!(lint.occurrences, 1);
+    assert_eq!(lint.node_ids, ["cockpit-core"]);
+}

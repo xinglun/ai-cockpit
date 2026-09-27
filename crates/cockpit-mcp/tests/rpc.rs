@@ -2173,7 +2173,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     let script_path = directory.path().join("fail.js");
     fs::write(
         &script_path,
-        "process.stderr.write('failure'); process.exit(7);\n",
+        "process.stderr.write('warning: duplicate diagnostic\\n   = note: #[warn(clippy::needless_borrow)] on by default\\nwarning: duplicate diagnostic\\n   = note: #[warn(clippy::needless_borrow)] on by default\\n'); process.exit(7);\n",
     )
     .expect("failure script");
     let contract_path = directory.path().join(format!(
@@ -2206,6 +2206,23 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
             .expect("error text")
             .contains("failed verification cannot be recorded as completion evidence")
     );
+    let error_text = response["result"]["content"][0]["text"]
+        .as_str()
+        .expect("error text");
+    let summary_json = error_text
+        .split_once("diagnostic summary: ")
+        .expect("MCP reports its diagnostic projection")
+        .1;
+    let summary: serde_json::Value =
+        serde_json::from_str(summary_json).expect("diagnostic summary JSON");
+    assert_eq!(summary.as_array().unwrap().len(), 1);
+    assert_eq!(summary[0]["code"], "clippy::needless_borrow");
+    assert_eq!(summary[0]["message"], "duplicate diagnostic");
+    assert_eq!(summary[0]["occurrences"], 2);
+    assert_eq!(
+        summary[0]["nodeIds"],
+        serde_json::json!(["project-command-0"])
+    );
 
     let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
         .expect("evidence directory")
@@ -2236,6 +2253,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     assert!(record["stdout"].is_string());
     assert!(record["stderr"].is_string());
     assert_eq!(attempt["receipt"]["workItemId"], work_item_id);
+    assert!(attempt["receipt"].get("diagnosticSummary").is_none());
     assert!(attempt["receipt"]["repositoryId"].is_string());
     assert_eq!(
         attempt["receipt"]["runtimeVersion"],

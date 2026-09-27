@@ -2151,14 +2151,46 @@ fn run() -> Result<()> {
                     final_snapshot: initial_snapshot.clone(),
                 });
             } else {
+                let total_requests = requests.len();
+                let mut completed_requests = 0_usize;
                 for batch in requests.chunks(workers.max(1)) {
                     let batch_runs = std::thread::scope(|scope| {
-                        batch
+                        let (progress_sender, progress_receiver) =
+                            std::sync::mpsc::channel::<(String, Option<bool>)>();
+                        let workers = batch
                             .iter()
                             .map(|request| {
-                                scope.spawn(|| run_repository_verification(&root, request))
+                                let progress_sender = progress_sender.clone();
+                                let repository_root = &root;
+                                scope.spawn(move || {
+                                    let node_id = request.node_id.clone();
+                                    let _ = progress_sender.send((node_id.clone(), None));
+                                    let run = run_repository_verification(repository_root, request);
+                                    let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
+                                    let _ = progress_sender.send((node_id, Some(passed)));
+                                    run
+                                })
                             })
-                            .collect::<Vec<_>>()
+                            .collect::<Vec<_>>();
+                        drop(progress_sender);
+                        for (node_id, passed) in progress_receiver {
+                            if let Some(passed) = passed {
+                                completed_requests = completed_requests.saturating_add(1);
+                                let percent =
+                                    completed_requests.saturating_mul(100) / total_requests.max(1);
+                                let result = if passed { "passed" } else { "failed" };
+                                eprintln!(
+                                    "Verification progress: completed node {node_id:?}: {result} ({completed_requests}/{total_requests} complete, {percent}%)"
+                                );
+                            } else {
+                                let percent =
+                                    completed_requests.saturating_mul(100) / total_requests.max(1);
+                                eprintln!(
+                                    "Verification progress: started node {node_id:?} ({completed_requests}/{total_requests} complete, {percent}%)"
+                                );
+                            }
+                        }
+                        workers
                             .into_iter()
                             .map(|worker| worker.join())
                             .collect::<Vec<_>>()
