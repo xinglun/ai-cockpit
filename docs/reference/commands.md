@@ -184,6 +184,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   one metadata query and partitions `cargo test --locked --workspace` into
   identity-bound package nodes; the formal receipt retains the source command,
   workspace members, metadata digest, exit status, bounded logs, and elapsed time.
+- Executed CLI and MCP `verify` results include a presentation-only
+  `diagnosticSummary` grouped by severity, lint code, and root message, with the
+  occurrence count and affected node IDs. It is derived from bounded stderr
+  bytes using lossy UTF-8 for display; per-node results and raw output bytes
+  remain unchanged in `executionRecords`, and the summary is excluded from the
+  persisted typed verification receipt.
 - MCP `verify` with `planOnly: true` uses the same per-node identity preparation
   and reports the planned action, state, reason, and binding mismatches with
   `processesSpawned: 0`; a subsequent execution must resolve the same actions

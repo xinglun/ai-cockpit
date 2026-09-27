@@ -97,6 +97,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
   metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
   成员、metadata digest、退出状态、有界日志和耗时。
+- CLI 与 MCP 的已执行 `verify` 结果会附带仅用于展示的 `diagnosticSummary`，按 severity、lint code 和根因消息分组，并给出出现次数与受影响节点 ID。摘要从有界 stderr 原始字节派生，使用有损 UTF-8 解码；逐节点结果及原始输出字节在 `executionRecords` 中保持不变，摘要不会写入严格类型化的持久化 verification receipt。
 - `verify --archived-recovery --work-item <id> --stage pull_request` 是归档 Work Item 在审查后的集成变更使源码证据
   投影过期时使用的 append-only 恢复入口。它只运行一次新的、类型化且绑定覆盖清单的 Runtime 验证，并明确记录替代的
   `evidence_class_projection` 判断。归档 Contract、Summary、Outcome、Events 和历史 verification 字节不会被覆写；

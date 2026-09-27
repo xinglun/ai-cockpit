@@ -2291,6 +2291,9 @@ fn run() -> Result<()> {
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
             output["plannedNodes"] = json!(planned_nodes);
+            output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
+                &run.receipt.execution_records
+            ));
             if !run.receipt.passed {
                 let failed_nodes = run
                     .receipt

@@ -443,6 +443,146 @@ pub struct VerificationExecutionRecord {
     pub elapsed_ms: u128,
 }
 
+/// A human-readable grouping of equivalent compiler diagnostics. This is a
+/// presentation projection only; the original per-node execution records stay
+/// authoritative and retain their complete bounded output bytes.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DiagnosticSummary {
+    pub severity: String,
+    pub code: Option<String>,
+    pub message: String,
+    pub occurrences: usize,
+    pub node_ids: Vec<String>,
+}
+
+/// Decode and de-duplicate compiler diagnostic roots for human output while
+/// leaving every execution record, including non-UTF8 stderr, untouched.
+pub fn summarize_diagnostics(records: &[VerificationExecutionRecord]) -> Vec<DiagnosticSummary> {
+    let mut grouped =
+        BTreeMap::<(String, Option<String>, String), (usize, BTreeSet<String>)>::new();
+    for record in records {
+        let Some(bytes) = decode_hex_bytes(&record.stderr_hex) else {
+            continue;
+        };
+        let text = String::from_utf8_lossy(&bytes);
+        let text = strip_ansi_sequences(&text);
+        let mut current_diagnostic = None;
+        for line in text.lines() {
+            if let Some((severity, code, message)) = parse_diagnostic_root(line) {
+                let key = (severity, code, message);
+                let entry = grouped.entry(key.clone()).or_default();
+                entry.0 += 1;
+                entry.1.insert(record.node_id.clone());
+                current_diagnostic = Some(key);
+                continue;
+            }
+            if let Some(key) = current_diagnostic.as_ref()
+                && key.1.is_none()
+                && (line.contains("#[warn(")
+                    || line.contains("#[deny(")
+                    || line.contains("#[forbid("))
+                && let Some(code) = clippy_code(line)
+                && let Some((count, nodes)) = grouped.remove(key)
+            {
+                let updated_key = (key.0.clone(), Some(code), key.2.clone());
+                let entry = grouped.entry(updated_key.clone()).or_default();
+                entry.0 += count;
+                entry.1.extend(nodes);
+                current_diagnostic = Some(updated_key);
+            }
+        }
+    }
+    grouped
+        .into_iter()
+        .map(
+            |((severity, code, message), (occurrences, node_ids))| DiagnosticSummary {
+                severity,
+                code,
+                message,
+                occurrences,
+                node_ids: node_ids.into_iter().collect(),
+            },
+        )
+        .collect()
+}
+
+fn decode_hex_bytes(value: &str) -> Option<Vec<u8>> {
+    value
+        .as_bytes()
+        .chunks(2)
+        .map(|pair| {
+            let [high, low] = pair else {
+                return None;
+            };
+            let high = ascii_hex_digit(*high)?;
+            let low = ascii_hex_digit(*low)?;
+            Some((high << 4) | low)
+        })
+        .collect()
+}
+
+fn ascii_hex_digit(byte: u8) -> Option<u8> {
+    match byte {
+        b'0'..=b'9' => Some(byte - b'0'),
+        b'a'..=b'f' => Some(byte - b'a' + 10),
+        b'A'..=b'F' => Some(byte - b'A' + 10),
+        _ => None,
+    }
+}
+
+fn strip_ansi_sequences(value: &str) -> String {
+    let mut output = String::with_capacity(value.len());
+    let mut chars = value.chars().peekable();
+    while let Some(character) = chars.next() {
+        if character == '\u{1b}' && chars.peek() == Some(&'[') {
+            chars.next();
+            for character in chars.by_ref() {
+                if ('@'..='~').contains(&character) {
+                    break;
+                }
+            }
+        } else {
+            output.push(character);
+        }
+    }
+    output
+}
+
+fn parse_diagnostic_root(line: &str) -> Option<(String, Option<String>, String)> {
+    let line = line.trim();
+    let (severity, remainder) = ["warning", "error"]
+        .into_iter()
+        .find_map(|severity| line.strip_prefix(severity).map(|rest| (severity, rest)))?;
+    let (code, message) = if let Some(rest) = remainder.strip_prefix('[') {
+        let (code, message) = rest.split_once("]:")?;
+        (Some(code.trim().to_owned()), message.trim())
+    } else {
+        (None, remainder.strip_prefix(':')?.trim())
+    };
+    if message.is_empty() || is_compiler_summary(message) {
+        return None;
+    }
+    Some((severity.to_owned(), code, message.to_owned()))
+}
+
+fn is_compiler_summary(message: &str) -> bool {
+    message.starts_with("could not compile ")
+        || message.starts_with("aborting due to ")
+        || (message.starts_with('`')
+            && message.contains(" generated ")
+            && (message.contains(" warning") || message.contains(" error")))
+}
+
+fn clippy_code(line: &str) -> Option<String> {
+    let suffix = line.split_once("clippy::")?.1;
+    let lint = suffix
+        .chars()
+        .take_while(|character| character.is_ascii_alphanumeric() || *character == '_')
+        .collect::<String>();
+    (!lint.is_empty()).then(|| format!("clippy::{lint}"))
+}
+
 pub const VERIFICATION_COVERAGE_MANIFEST_SCHEMA_VERSION: u32 = 1;
 
 /// Identity-bound coverage facts for a partitioned project verification.  A

@@ -1903,6 +1903,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         verification["runtimeDigest"],
         runtime.runtime_digest.to_string()
     );
+    assert_eq!(verification["diagnosticSummary"], serde_json::json!([]));
     assert_eq!(verification["results"][0]["nodeId"], "project-command-0");
     assert_eq!(verification["results"][0]["protected"], false);
     let evidence: serde_json::Value = serde_json::from_slice(
@@ -1915,6 +1916,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         evidence["runtimeDigest"],
         runtime.runtime_digest.to_string()
     );
+    assert!(evidence["receipt"].get("diagnosticSummary").is_none());
     cockpit_repository::finish_work_item(&directory, "WI-MCP-SIDE-EFFECT")
         .expect("finish after MCP verification");
     assert!(directory.join("Cargo.lock").is_file());

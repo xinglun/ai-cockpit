@@ -119,6 +119,8 @@ Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下�
 - 同一 lint 根因的人类摘要去重、可读；每个 crate/node 仍保留 raw bytes、exit status 和独立结果，不折叠不同失败。
 - 诊断字符串里的 “remove”等词不构成 test weakening；真实 skip/绕过（如 xit）仍由强制 gate 拒绝，错误报告包含匹配文本与来源。
 
+2026-09-27 A15 收敛更正：先前将 CI gate failure-code 去重回归当作 Clippy crate-node 根因去重，覆盖不足。现以 Rust `VerificationExecutionRecord` 为输入生成仅展示用 `diagnosticSummary`，CLI/MCP 返回摘要但持久化 typed receipt 不变；定向库/CLI/MCP 测试已通过，canonical workspace 与 hosted PR/Windows 证据尚待完成。
+
 以真正 subprocess/SIGINT 验收验证持久化时间点，不能只单测分类器或调用 mock。运行对应 Rust suites、CI script tests 与必要的跨平台编译测试。
 
 ### Stage 5 — 状态投影、三语关闭、lineage 与平台 gate（审查提交 5）

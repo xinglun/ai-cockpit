@@ -104,6 +104,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
   Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
   formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。
+- CLI と MCP の実行済み `verify` 結果には表示専用の `diagnosticSummary` が含まれ、severity、lint code、root message ごとにグループ化し、occurrence count と影響を受けた node ID を示します。要約は bounded な生の stderr byte から lossy UTF-8 で生成します。per-node result と生の output byte は `executionRecords` で変更されず、要約は永続化される strict typed verification receipt には含まれません。
 - `verify --archived-recovery --work-item <id> --stage pull_request` は、レビュー済み統合変更後に archived Work Item の
   source evidence projection が stale になった場合の append-only recovery 入口です。新しい typed かつ coverage-bound な
   Runtime verification を一度だけ実行し、置き換える正確な `evidence_class_projection` judgment を記録します。Archived

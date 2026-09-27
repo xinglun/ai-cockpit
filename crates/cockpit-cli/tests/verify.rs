@@ -54,6 +54,7 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
     assert_eq!(json["results"][0]["protected"], false);
     assert_eq!(json["results"][0]["action"], "execute");
     assert_eq!(json["results"][0]["satisfiedBy"], "execution");
+    assert_eq!(json["diagnosticSummary"], serde_json::json!([]));
     assert_eq!(json["passed"], true);
     assert_eq!(json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
     assert!(
@@ -453,6 +454,7 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
     .expect("persisted verification evidence JSON");
     let receipt = evidence.get("receipt").expect("typed receipt field");
     assert!(receipt.get("plannedNodes").is_none());
+    assert!(receipt.get("diagnosticSummary").is_none());
     let _: cockpit_verification::VerificationReceipt =
         serde_json::from_value(receipt.clone()).expect("strict typed verification receipt");
     fs::remove_dir_all(directory).expect("cleanup");

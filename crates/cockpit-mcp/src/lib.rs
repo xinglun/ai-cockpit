@@ -2079,11 +2079,21 @@ fn verify_for_repo(
         output["repositoryId"] =
             Value::String(cockpit_repository::repository_id(&root).to_string());
     }
+    output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
+        &run.receipt.execution_records
+    ));
+    let verification_receipt = {
+        let mut receipt = output.clone();
+        if let Some(object) = receipt.as_object_mut() {
+            object.remove("diagnosticSummary");
+        }
+        receipt
+    };
     if let Some(work_item_id) = work_item_id
         && let Err(error) = cockpit_repository::record_verification_with_runtime(
             &root,
             work_item_id,
-            &output,
+            &verification_receipt,
             runtime,
             &run.final_snapshot,
         )
@@ -2111,7 +2121,7 @@ fn verify_for_repo(
                 },
                 &diagnostic,
             )),
-            Some(&output),
+            Some(&verification_receipt),
         );
         let persistence_note = match persistence {
             Ok(attempt) => format!(
@@ -2122,8 +2132,10 @@ fn verify_for_repo(
                 format!("; verification attempt persistence failed: {persistence_error}")
             }
         };
+        let summary = serde_json::to_string(&output["diagnosticSummary"])
+            .map_err(|serialization_error| serialization_error.to_string())?;
         return Err(format!(
-            "record verification evidence: {diagnostic}{persistence_note}"
+            "record verification evidence: {diagnostic}{persistence_note}; diagnostic summary: {summary}"
         ));
     }
     Ok(output)
