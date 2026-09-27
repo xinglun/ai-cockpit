@@ -6,14 +6,13 @@ recovery guide.
 
 ## Governed work
 
-Read the active Contract and query `inspect`, `status`, and `doctor` with an
-explicit `--repo`. Runtime `safeActions`, blockers, evidence freshness, and
-action explanation govern each step; this guide is not permission. Change only
-Contract scope, preserve evidence/history, and re-query at lifecycle boundaries.
-Run declared checks. Keep failures and invalidated receipts; never hand-edit
-generated records. At handoff, give the separate human Outcome required by
-`AGENTS.md`. Queries are read-only; `preflight` is an explicit, idempotent
-write and does not run verification.
+Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
+Runtime `safeActions`, blockers, freshness, and explanation govern actions;
+this guide is not permission. Stay within Contract scope, preserve
+evidence/history, and re-query at lifecycle boundaries. Run declared checks;
+keep failures and never hand-edit generated records. Queries are read-only;
+`preflight` is explicit, idempotent, and does not verify. At handoff, deliver
+the separate human Outcome required by `AGENTS.md`.
 
 ## Before verification
 
@@ -23,11 +22,10 @@ evidence; otherwise follow Runtime's admitted next action. See the
 [verification evidence reuse procedure](../../docs/reference/agent-workflow.md#verification-evidence-reuse)
 for identity bindings, targeted reruns, and hosted-evidence boundaries.
 
-When fresh status recommends `record_governance_controls`, record only the
-explicitly supplied evidence with `work-item controls --repo <repository>
---id <work-item> --input <json>` (or MCP `work_item_controls`). Both write
-surfaces re-check current Runtime action admission. Re-query status afterward;
-required controls that remain incomplete do not admit `finish`.
+When status admits `record_governance_controls`, submit only explicit evidence
+via `work-item controls --repo <repository> --id <work-item> --input <json>` or
+MCP `work_item_controls`; both re-check admission. Refresh status; incomplete
+required controls block `finish`.
 
 ## Serial and cross-Work-Item use
 
@@ -42,15 +40,18 @@ dependencies, isolated outputs, and bounded resources. CI jobs may fan out as
 siblings only with the same route/source identity and no dependency edge. Keep
 receipt producer-consumer serial; reuse fresh matching receipts.
 
+Before cross-Work-Item use, inspect the local capability manifest, current CLI
+help, and MCP `tools/list` schemas; use `ai-cockpit capability show --repo
+<repository>`. Readable fields or older Runtime versions do not prove support.
+
 Cross-Work-Item fan-out needs supported CLI/MCP, compatible declarations, and
 a Runtime slot lease. If unsupported/unknown, use admitted serial work or stop;
 a negative compatibility result denies fan-out only. See the
 [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
-Coordination inspection is read-only; registration, impact/outcome, pause,
-resume/recovery, and lease mutations use explicit Runtime actions bound to the
-current repository, Contract, Runtime, and generation. Refresh dependency
-admission before affected actions; unrelated work continues only on its own
-refreshed admission. Recovery appends a resolution and retains the event. The
-installed Runtime owns lifecycle decisions; readable fields do not prove
-candidate support, and unsupported constraints must not be ignored or emulated.
+Inspection is read-only. Registration, impact/outcome, pause/resume/recovery,
+and lease mutations are explicit writes bound to repository, Contract, Runtime,
+and generation. Refresh dependency admission before affected actions; unrelated
+work needs its own fresh admission. Recovery appends a resolution and retains
+the event. Runtime owns lifecycle decisions; never infer support from fields or
+ignore/emulate unsupported constraints.

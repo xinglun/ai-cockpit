@@ -130,12 +130,25 @@ def main() -> None:
     )
     ordinary_guide = re.sub(r"\s+", " ", ordinary_guide)
     guide_checks = {
-        "serialByDefault": "One Work Item runs serially by default." in ordinary_guide,
-        "discoversCliAndMcp": "discover current CLI help plus MCP `tools/list` schemas."
-        in ordinary_guide,
+        "serialByDefault": "One Work Item keeps a serial path;" in ordinary_guide,
+        "discoversCliAndMcp": all(
+            phrase in ordinary_guide
+            for phrase in (
+                "capability show --repo <repository>",
+                "current CLI help",
+                "MCP `tools/list` schemas",
+            )
+        ),
         "requiresRuntimeSlotLease": "Runtime slot lease" in ordinary_guide,
-        "serialFallbackWhenUnsupported": "If unsupported, do not emulate constraints: use admitted serial work or stop."
-        in ordinary_guide,
+        "serialFallbackWhenUnsupported": all(
+            phrase in ordinary_guide
+            for phrase in (
+                "If unsupported/unknown, use admitted serial work or stop;",
+                "unsupported constraints",
+                "ignore/emulate unsupported constraints",
+                "never infer support from fields",
+            )
+        ),
     }
     assert all(guide_checks.values()), guide_checks
     runtime = {

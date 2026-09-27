@@ -258,7 +258,7 @@ deferred_repository=$(jq -er '.isolatedRepository' \
   "$tmp/stale-deferred/artifacts/hosted-runtime-worktree-cleanup.json")
 test -d "$deferred_repository"
 git -C "$tmp/stale-deferred/repository" worktree list --porcelain | \
-  rg -F -q "worktree $deferred_repository"
+  grep -F -q "worktree $deferred_repository"
 jq -e --arg repository "$deferred_repository" '.executionRepository == $repository and .verificationState == "passed"' \
   "$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json" >/dev/null
 resolved_repository=$(RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \

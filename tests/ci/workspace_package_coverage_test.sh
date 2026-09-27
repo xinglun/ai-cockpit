@@ -5,6 +5,13 @@ root=$(cd "$(dirname "$0")/../.." && pwd -P)
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/workspace-package-coverage.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
+# This regression runs fake receipt and cargo fixtures. Do not inherit the
+# hosted verification inputs exported by the enclosing CI gate invocation.
+unset AI_COCKPIT_VERIFICATION_RECEIPT \
+  AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+  AI_COCKPIT_RUNTIME_BIN \
+  AI_COCKPIT_VERIFICATION_REPOSITORY
+
 cat >"$tmp/metadata.json" <<'JSON'
 {"packages":[
   {"name":"package-b","source":null,"version":"1.0.0"},

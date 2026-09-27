@@ -1871,7 +1871,7 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
     let parallel_result = serde_json::from_slice::<serde_json::Value>(&parallel_verify.stdout)
         .unwrap_or(serde_json::Value::Null);
     let source_after_parallel =
-        fs::read(&directory.join("tracked.txt")).expect("tracked after parallel attempt");
+        fs::read(directory.join("tracked.txt")).expect("tracked after parallel attempt");
 
     let serial_verify = Command::new(binary)
         .args(["verify", "--repo"])
