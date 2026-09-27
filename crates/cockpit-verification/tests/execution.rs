@@ -108,10 +108,15 @@ fn timeout_terminates_the_process_tree_and_fails_closed() {
 #[cfg(unix)]
 #[test]
 fn signal_termination_is_recorded_and_never_becomes_reusable_success() {
+    // Cargo may launch package tests as background workers, inheriting SIGINT
+    // as ignored. Reset the child disposition so execution sees a real signal.
     let command = always_command(
         "signal-termination",
-        "sh",
-        vec!["-c".into(), "kill -INT $$".into()],
+        "python3",
+        vec![
+            "-c".into(),
+            "import os,signal; signal.signal(signal.SIGINT, signal.SIG_DFL); os.kill(os.getpid(), signal.SIGINT)".into(),
+        ],
     );
 
     let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute signal termination");

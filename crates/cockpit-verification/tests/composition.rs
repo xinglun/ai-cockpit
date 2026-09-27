@@ -1742,11 +1742,21 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     let state = tempdir("signal-state");
+    // Parallel package-test workers may inherit SIGINT as ignored. Reset the
+    // child disposition explicitly so this remains a real signal termination
+    // regardless of how Cargo's test process was launched.
     let attempt = run_composition(input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
-        vec![command("signal", "sh", &["-c", "kill -INT $$"])],
+        vec![command(
+            "signal",
+            "python3",
+            &[
+                "-c",
+                "import os,signal; signal.signal(signal.SIGINT, signal.SIG_DFL); os.kill(os.getpid(), signal.SIGINT)",
+            ],
+        )],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     ))
     .expect("signal-terminated composition attempt");
