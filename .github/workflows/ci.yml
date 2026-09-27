@@ -235,14 +235,23 @@ jobs:
           ROUTE_STAGE: ${{ steps.quality_route.outputs.stage }}
         run: |
           set -euo pipefail
+          verification_repository="$GITHUB_WORKSPACE"
+          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
+            verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
+              --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)
+          fi
+          contract_path="$ROUTE_CONTRACT_PATH"
+          if [[ -n "$contract_path" && "$contract_path" != /* ]]; then
+            contract_path="$verification_repository/$contract_path"
+          fi
           target/release/ai-cockpit \
             gate \
-            --repo "$GITHUB_WORKSPACE" \
-            --contract "$ROUTE_CONTRACT_PATH" \
+            --repo "$verification_repository" \
+            --contract "$contract_path" \
             --stage "$ROUTE_STAGE" \
             --runner hosted \
             --base-revision "$ROUTE_BASE_REVISION" \
-            --report target/rust-contract-quality-gate.json
+            --report "$GITHUB_WORKSPACE/target/rust-contract-quality-gate.json"
       - name: Build legacy Runtime for coordination compatibility
         if: steps.quality_route.outputs.profile != 'light'
         shell: bash
@@ -276,12 +285,8 @@ jobs:
           set -euo pipefail
           verification_repository="$GITHUB_WORKSPACE"
           if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
-            cleanup_record=target/hosted-runtime-worktree-cleanup.json
-            test -f "$cleanup_record" && test ! -L "$cleanup_record"
-            cleanup_state=$(jq -er '.state | strings' "$cleanup_record")
-            if [[ "$cleanup_state" == deferred_for_consumer ]]; then
-              verification_repository=$(jq -er '.isolatedRepository | strings | select(length > 0)' "$cleanup_record")
-            fi
+            verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
+              --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)
           fi
           export AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"
           # The gate consumes GitHub's immutable push/PR context

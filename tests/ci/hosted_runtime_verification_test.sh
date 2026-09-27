@@ -261,6 +261,12 @@ git -C "$tmp/stale-deferred/repository" worktree list --porcelain | \
   rg -F -q "worktree $deferred_repository"
 jq -e --arg repository "$deferred_repository" '.executionRepository == $repository and .verificationState == "passed"' \
   "$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json" >/dev/null
+resolved_repository=$(RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \
+  "$root/tests/ci/cleanup_hosted_runtime_verification_worktree.sh" --resolve \
+    "$tmp/stale-deferred/repository" \
+    "$tmp/stale-deferred/artifacts/hosted-runtime-worktree-cleanup.json")
+test "$resolved_repository" = "$deferred_repository"
+test -d "$deferred_repository"
 python3 - \
   "$tmp/stale-deferred/artifacts/hosted-runtime-verification.json" \
   "$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json" <<'PY'

@@ -153,6 +153,10 @@ assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
 cleanup_runner = Path(sys.argv[3]).with_name("cleanup_hosted_runtime_verification_worktree.sh").read_text(encoding="utf-8")
+quality_gate = workflow.split(
+    "      - name: Evaluate Rust Contract-aware quality gate", 1
+)[1].split("      - name: Build legacy Runtime for coordination compatibility", 1)[0]
+quality_gate_flat = re.sub(r"\s+", " ", quality_gate)
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
 assert "--workers 1" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
@@ -169,6 +173,12 @@ assert 'source_head" != "$worktree_head' in cleanup_runner
 assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
     "name: Evaluate Rust Contract-aware quality gate"
 ), "refresh and verify with the exact hosted Runtime before the Contract gate"
+assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in quality_gate_flat
+assert '--repo "$verification_repository"' in quality_gate_flat
+assert 'contract_path="$ROUTE_CONTRACT_PATH"' in quality_gate_flat
+assert 'contract_path="$verification_repository/$contract_path"' in quality_gate_flat
+assert '--contract "$contract_path"' in quality_gate_flat
+assert '--report "$GITHUB_WORKSPACE/target/rust-contract-quality-gate.json"' in quality_gate_flat
 quality_job = job_block("quality")
 assert quality_job.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < quality_job.index(
     "name: run repository gates exactly once"
@@ -180,13 +190,14 @@ assert quality_job.index("name: Run admitted hosted Work Item verification with 
 repository_gates_step = workflow.split(
     "      - name: run repository gates exactly once", 1
 )[1].split("      - name: verify workspace package coverage receipt", 1)[0]
+repository_gates_step_flat = re.sub(r"\s+", " ", repository_gates_step)
 assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
 assert "AI_COCKPIT_VERIFICATION_ORCHESTRATION" in repository_gates_step
 assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
 assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in repository_gates_step
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in repository_gates_step
-assert '[[ "$cleanup_state" == deferred_for_consumer ]]' in repository_gates_step
-assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step
+assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in repository_gates_step_flat
+assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step_flat
 coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
 assert "hosted_verification_receipt" in coverage_runner.read_text(encoding="utf-8")
 

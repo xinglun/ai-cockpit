@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+resolve_only=false
+if [[ $# -eq 3 && "$1" == --resolve ]]; then
+  resolve_only=true
+  shift
+fi
 if [[ $# -ne 2 ]]; then
-  printf 'usage: %s <source-repository> <cleanup-record>\n' "$0" >&2
+  printf 'usage: %s [--resolve] <source-repository> <cleanup-record>\n' "$0" >&2
   exit 2
 fi
 
@@ -29,6 +34,9 @@ fi
 
 state=$(jq -er '.state' "$cleanup_record")
 if [[ "$state" != deferred_for_consumer ]]; then
+  if [[ "$resolve_only" == true ]]; then
+    printf '%s\n' "$source_repository"
+  fi
   exit 0
 fi
 if [[ "$(jq -er '.cleanupExitCode' "$cleanup_record")" != 0 ]]; then
@@ -79,6 +87,11 @@ if ! git -C "$source_repository" worktree list --porcelain | \
   exit 2
 fi
 
+if [[ "$resolve_only" == true ]]; then
+  printf '%s\n' "$isolated_repository"
+  exit 0
+fi
+
 cleanup_status=0
 git -C "$source_repository" worktree remove --force "$isolated_repository" >/dev/null || cleanup_status=$?
 if [[ "$cleanup_status" == 0 ]]; then
@@ -90,7 +103,7 @@ if [[ "$cleanup_status" == 0 ]]; then
   rmdir "$worktree_parent" || {
     cleanup_status=$?
     printf 'hosted Runtime temporary parent contains unexpected leftovers:\n' >&2
-    find "$worktree_parent" -mindepth 1 -maxdepth 2 -print >&2 || true
+    find "$worktree_parent" -mindepth 1 -maxdepth 2 -print >&2
   }
 fi
 new_state=removed
