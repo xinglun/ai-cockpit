@@ -40,6 +40,26 @@ assert "jq -r '.baseRevision // empty' target/quality-selection.json" in workflo
 assert "work_item_id_required" in resolver
 assert "outputs:" in workflow and "profile:" in workflow
 assert "Verify the route plan is stable across jobs" in workflow
+assert "PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}" in workflow
+assert 'head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"' in workflow
+assert workflow.count("name: Bind source and tested revisions") == 2
+assert 'target/ci-revision-binding.json' in workflow
+assert 'merge_parents[2]' in workflow
+windows_job = workflow[workflow.index("  windows-runtime:"):]
+windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
+assert "fetch-depth: 0" in windows_checkout
+assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
+assert "runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write" in windows_job
+quality_binding = workflow.split(
+    "      - name: Bind source and tested revisions; validate the shared typed quality route", 1
+)[1].split("      - name: verify immutable Runtime shadow", 1)[0]
+assert quality_binding.index("> target/ci-revision-binding.json") < quality_binding.index(
+    'test "$receipt_head" = "$source_revision"'
+), "write revision diagnostics before any source/route binding assertion"
+assert "name: ci-quality-revision-binding" in workflow
+assert "if: always()" in workflow.split(
+    "      - name: Upload quality revision binding", 1
+)[1].split("      - name:", 1)[0]
 
 # The route boundary must reject known illegal lifecycle transitions before
 # repository gates run, with a stable code and remediation rather than a raw

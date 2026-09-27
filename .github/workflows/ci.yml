@@ -34,6 +34,7 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           PR_URL: ${{ github.event.pull_request.html_url }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           GH_TOKEN: ${{ github.token }}
@@ -43,6 +44,7 @@ jobs:
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           if [[ "$EVENT_NAME" == pull_request ]]; then
             base_revision="$(git rev-parse "${PR_BASE_SHA}^{commit}")"
+            head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"
             stage=pull_request
           else
             stage=merge
@@ -127,22 +129,51 @@ jobs:
           path: target
       - name: Make the shared Rust gate-plan tool executable
         run: chmod +x target/release/ai-cockpit
-      - name: Bind the shared typed repository quality route
+      - name: Bind source and tested revisions; validate the shared typed quality route
         id: quality_route
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
-          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          tested_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          source_revision="$tested_revision"
+          [[ "$EVENT_NAME" != pull_request ]] || source_revision="$PR_HEAD_SHA"
+          receipt_head="$(jq -r '.headRevision // empty' target/quality-route.json 2>/dev/null || true)"
+          tested_parents="$(git show -s --format=%P "$tested_revision" 2>/dev/null || true)"
+          jq -n \
+            --arg eventName "$EVENT_NAME" \
+            --arg sourceHeadRevision "$source_revision" \
+            --arg routeHeadRevision "$receipt_head" \
+            --arg testedRevision "$tested_revision" \
+            --arg testedParents "$tested_parents" \
+            '{schemaVersion:1,kind:"ci_revision_binding",eventName:$eventName,sourceHeadRevision:$sourceHeadRevision,routeHeadRevision:$routeHeadRevision,testedRevision:$testedRevision,testedParents:($testedParents|split(" ")|map(select(length>0)))}' \
+            > target/ci-revision-binding.json
+          if [[ "$EVENT_NAME" == pull_request ]]; then
+            source_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"
+            expected_base="$(git rev-parse "${PR_BASE_SHA}^{commit}")"
+            read -r -a merge_parents <<<"$(git rev-list --parents -n 1 "$tested_revision")"
+            test "${merge_parents[1]:-}" = "$expected_base" || {
+              echo 'tested PR merge commit does not bind the declared base revision' >&2
+              exit 1
+            }
+            test "${merge_parents[2]:-}" = "$source_revision" || {
+              echo 'tested PR merge commit does not bind the declared source head' >&2
+              exit 1
+            }
+          fi
           expected_stage=pull_request
           [[ "$EVENT_NAME" == pull_request ]] || expected_stage=merge
-          receipt_head="$(jq -er '.headRevision' target/quality-route.json)"
           receipt_stage="$(jq -er '.stage' target/quality-route.json)"
-          test "$receipt_head" = "$head_revision" || {
-            echo 'quality route receipt is bound to a different checkout' >&2
+          test "$receipt_head" = "$source_revision" || {
+            echo 'quality route receipt is bound to a different source revision' >&2
             exit 1
           }
+          if [[ "$EVENT_NAME" != pull_request ]]; then
+            test "$tested_revision" = "$source_revision"
+          fi
           test "$receipt_stage" = "$expected_stage" || {
             echo 'quality route receipt is bound to a different event stage' >&2
             exit 1
@@ -152,8 +183,17 @@ jobs:
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
           echo "base_revision=$(jq -er '.baseRevision' target/quality-route.json)" >> "$GITHUB_OUTPUT"
           echo "head_revision=$receipt_head" >> "$GITHUB_OUTPUT"
+          echo "tested_revision=$tested_revision" >> "$GITHUB_OUTPUT"
           echo "stage=$receipt_stage" >> "$GITHUB_OUTPUT"
           echo "contract_path=$contract_path" >> "$GITHUB_OUTPUT"
+      - name: Upload quality revision binding
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-quality-revision-binding
+          path: target/ci-revision-binding.json
+          if-no-files-found: warn
+          retention-days: 7
       - name: verify immutable Runtime shadow
         if: steps.quality_route.outputs.profile != 'light' && steps.quality_route.outputs.contract_path != ''
         shell: bash
@@ -289,6 +329,41 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Bind source and tested revisions
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path target | Out-Null
+          $testedRevision = (git rev-parse "$($env:GITHUB_SHA)^{commit}").Trim()
+          $sourceRevision = $testedRevision
+          if ($env:EVENT_NAME -eq 'pull_request') {
+            $sourceRevision = (git rev-parse "$($env:PR_HEAD_SHA)^{commit}").Trim()
+            $expectedBase = (git rev-parse "$($env:PR_BASE_SHA)^{commit}").Trim()
+            $parents = ((git show -s --format=%P $testedRevision).Trim() -split '\s+')
+            if ($parents.Count -ne 2 -or $parents[0] -ne $expectedBase -or $parents[1] -ne $sourceRevision) {
+              throw 'tested PR merge commit does not bind the declared base and source head'
+            }
+          }
+          if ((git cat-file -t $sourceRevision).Trim() -ne 'commit') {
+            throw 'source head is not an available commit'
+          }
+          $binding = [ordered]@{
+            schemaVersion = 1
+            kind = 'ci_revision_binding'
+            eventName = $env:EVENT_NAME
+            sourceHeadRevision = $sourceRevision
+            routeHeadRevision = $sourceRevision
+            testedRevision = $testedRevision
+            testedParents = @(((git show -s --format=%P $testedRevision).Trim() -split '\s+') | Where-Object { $_ })
+          }
+          $binding | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 target/ci-revision-binding.json
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1
@@ -300,6 +375,18 @@ jobs:
         run: cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
       - name: verify Windows directory-handle containment regressions
         run: cargo test --locked -p cockpit-repository --lib
+      - name: verify Windows preflight lifecycle-lock admission
+        run: cargo test --locked -p cockpit-mcp --test rpc runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission -- --exact
+      - name: verify Windows governance-controls lifecycle-lock admission
+        run: cargo test --locked -p cockpit-mcp --test rpc runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write -- --exact
+      - name: upload Windows revision binding
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-revision-binding-windows
+          path: target/ci-revision-binding.json
+          if-no-files-found: warn
+          retention-days: 7
 
   v1-behavioral-oracle:
     needs: route
