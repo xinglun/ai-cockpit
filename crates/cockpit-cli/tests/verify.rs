@@ -1755,7 +1755,7 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
 
 #[cfg(unix)]
 #[test]
-fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
+fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_available() {
     use std::os::unix::fs::PermissionsExt;
 
     let suffix = SystemTime::now()
@@ -1857,7 +1857,7 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
             .expect("checkpoint")
             .success()
     );
-    let verify = Command::new(binary)
+    let parallel_verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)
         .args(["--work-item", "WI-FINAL-SNAPSHOT", "--command"])
@@ -1866,12 +1866,26 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
         .arg(&fast)
         .args(["--workers", "2"])
         .output()
-        .expect("verify");
-    assert!(
-        verify.status.success(),
-        "{}",
-        String::from_utf8_lossy(&verify.stderr)
-    );
+        .expect("parallel verify");
+    let parallel_was_admitted = parallel_verify.status.success();
+    let parallel_result = serde_json::from_slice::<serde_json::Value>(&parallel_verify.stdout)
+        .unwrap_or(serde_json::Value::Null);
+    let source_after_parallel =
+        fs::read(&directory.join("tracked.txt")).expect("tracked after parallel attempt");
+
+    let serial_verify = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-FINAL-SNAPSHOT", "--command"])
+        .arg(&slow)
+        .arg("--command")
+        .arg(&fast)
+        .output()
+        .expect("serial verify");
+    let serial_succeeded = serial_verify.status.success();
+    let serial_error = String::from_utf8_lossy(&serial_verify.stderr).into_owned();
+    let serial_result = serde_json::from_slice::<serde_json::Value>(&serial_verify.stdout)
+        .unwrap_or(serde_json::Value::Null);
 
     let finish = Command::new(binary)
         .args(["finish", "--repo"])
@@ -1879,10 +1893,26 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
         .args(["--id", "WI-FINAL-SNAPSHOT"])
         .output()
         .expect("finish");
+    let finish_succeeded = finish.status.success();
+    let finish_error = String::from_utf8_lossy(&finish.stderr).into_owned();
+    fs::remove_dir_all(&directory).expect("cleanup");
+
     assert!(
-        finish.status.success(),
-        "evidence must bind the snapshot after the slow worker: {}",
-        String::from_utf8_lossy(&finish.stderr)
+        !parallel_was_admitted,
+        "Work Item parallel verification without per-node dependency/output isolation must be rejected"
     );
-    fs::remove_dir_all(directory).expect("cleanup");
+    assert_eq!(parallel_result["state"], "blocked");
+    assert_eq!(parallel_result["gate"], "verification_parallelism");
+    assert_eq!(parallel_result["processesSpawned"], 0);
+    assert_eq!(source_after_parallel, b"before\n");
+    assert!(
+        serial_succeeded,
+        "serial verification remains available: {serial_error}"
+    );
+    assert_eq!(serial_result["passed"], true);
+    assert_eq!(serial_result["processesSpawned"], 2);
+    assert!(
+        finish_succeeded,
+        "serial evidence must bind the final snapshot: {finish_error}"
+    );
 }

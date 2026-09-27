@@ -31,17 +31,21 @@ required controls that remain incomplete do not admit `finish`.
 
 ## Serial and cross-Work-Item use
 
-One Work Item runs serially by default. Keep lifecycle and snapshot-changing
-writes serial. Independent checks may run in parallel on a fixed input snapshot
-only when dependencies are ready, outputs are isolated, and resource limits
-allow it; otherwise serialize. `verify --workers N` bounds workers (`1` is
-serial). Before cross-Work-Item fan-out, discover current CLI help plus MCP
-`tools/list` schemas. Confirm candidate Runtime support and acquire a Runtime
-slot lease. If unsupported, do not emulate constraints: use admitted serial
-work or stop. A negative compatibility result denies fan-out only. Reuse a
-fresh producer receipt instead of rerunning its checks.
-See the [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination)
-for declarations and safe operations.
+One Work Item keeps a serial path; lifecycle and snapshot-changing writes stay
+serial. Work Item-bound `verify` defaults to `--workers 1`; explicit
+`--workers >1` fails closed until Runtime verifies per-node dependency
+readiness and output isolation. Do not split required gates across concurrent
+commands on one checkout.
+
+Parallelize independent checks only on an immutable snapshot, with ready
+dependencies, isolated outputs, and bounded resources. CI jobs may fan out as
+siblings only with the same route/source identity and no dependency edge. Keep
+receipt producer-consumer serial; reuse fresh matching receipts.
+
+Cross-Work-Item fan-out needs supported CLI/MCP, compatible declarations, and
+a Runtime slot lease. If unsupported/unknown, use admitted serial work or stop;
+a negative compatibility result denies fan-out only. See the
+[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
 Coordination inspection is read-only; registration, impact/outcome, pause,
 resume/recovery, and lease mutations use explicit Runtime actions bound to the

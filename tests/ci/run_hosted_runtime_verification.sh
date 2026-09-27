@@ -38,6 +38,8 @@ mkdir -p "$artifact_dir" || exit 2
 status_before="$artifact_dir/hosted-runtime-status-before.json"
 status_after="$artifact_dir/hosted-runtime-status-after.json"
 status_verified="$artifact_dir/hosted-runtime-status-verified.json"
+validation_before="$artifact_dir/hosted-runtime-validation-before.json"
+validation_after="$artifact_dir/hosted-runtime-validation-after.json"
 preflight_output="$artifact_dir/hosted-runtime-preflight.json"
 verification_output="$artifact_dir/hosted-runtime-execution.json"
 formal_receipt_output="$artifact_dir/hosted-runtime-verification.json"
@@ -176,6 +178,23 @@ query_status() {
     --json >"$output" 2>"$error_output"
 }
 
+query_validate() {
+  local output=$1
+  local error_output=$2
+  "$runtime_bin" work-item validate \
+    --repo "$execution_repository" \
+    --id "$work_item_id" \
+    --json >"$output" 2>"$error_output"
+}
+
+validation_report_is_valid() {
+  local report_path=$1
+  jq -e 'type == "object"
+    and (.state | type == "string")
+    and (.unknowns | type == "array")
+    and (.findings | type == "array")' "$report_path" >/dev/null
+}
+
 status_allows() {
   local status_path=$1
   local action=$2
@@ -195,6 +214,21 @@ if ! jq -e --arg id "$work_item_id" '.workItemId == $id and (.safeActions | type
   exit 1
 fi
 initial_actions=$(jq -c '.safeActions' "$status_before") || exit 1
+if ! query_validate "$validation_before" "$artifact_dir/hosted-runtime-validation-before.stderr"; then
+  verification_state=invalidated
+  failure_reason=initial_validation_query_failed
+  write_orchestration_report
+  printf 'candidate Runtime Work Item validation query failed; see %s\n' \
+    "$artifact_dir/hosted-runtime-validation-before.stderr" >&2
+  exit 1
+fi
+if ! validation_report_is_valid "$validation_before"; then
+  verification_state=invalidated
+  failure_reason=validation_report_invalid
+  write_orchestration_report
+  printf 'candidate Runtime returned an invalid Work Item validation report\n' >&2
+  exit 1
+fi
 
 verification_exit=0
 if jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' "$status_before" >/dev/null; then
@@ -313,11 +347,26 @@ else
     printf 'candidate Runtime no longer admits run_verification after status refresh\n' >&2
     exit 1
   fi
+  if ! query_validate "$validation_after" "$artifact_dir/hosted-runtime-validation-after.stderr"; then
+    verification_state=invalidated
+    failure_reason=validation_query_failed
+    write_orchestration_report
+    printf 'candidate Runtime Work Item validation refresh failed; see %s\n' \
+      "$artifact_dir/hosted-runtime-validation-after.stderr" >&2
+    exit 1
+  fi
+  if ! validation_report_is_valid "$validation_after"; then
+    verification_state=invalidated
+    failure_reason=validation_report_invalid
+    write_orchestration_report
+    printf 'candidate Runtime returned an invalid refreshed Work Item validation report\n' >&2
+    exit 1
+  fi
 
   "$runtime_bin" verify \
     --repo "$execution_repository" \
     --work-item "$work_item_id" \
-    --workers 2 >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
+    --workers 1 >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
   if [[ "$verification_exit" != 0 ]]; then
     verification_state=failed
     failure_reason=verification_failed

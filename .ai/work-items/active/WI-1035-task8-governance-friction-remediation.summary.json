@@ -269,22 +269,36 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.223eae9869e3064129f2be6800df151fda7c15b22cec59d7014a78d82f8a70d6.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.02b454d2abd385b5ea440fca77f7aac91165b33813e61c78f9a6babb8367bf55.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.f5e20ae3a859898c9c0005445c430cc8dca49ff5e0acee79f87e7a698ba3aff4.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.1ef7dcdcde09e6d7305a628341d015b818d87c70b3a4b52ec3ff137368157eb9.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.2d6c59a09d71b3a4ad68cdf79f3d7c97de2d56ea5db05d3032b3ba2827fc011d.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.2de5e722f201c97deccdc24375c1940d607e8591902012738f61ec50c10e7cac.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.31f01a56b9209c3ffb3294e1a69390e4b81e8809cfea72b2a518fa21fbbb1321.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.322271cfc5a05ac86720e784618ef36cfc45d01f180a49956b60ff361bf2580b.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.3cadd0f59ec1882487cf423801330fc38590321cc3f75e6c314d6914312e2ef9.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.6ea5c6a106abbee70f63c0766cf33aa3add6d6849ce2380103393c894cc2dac6.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.9b1cc967f9f2337f2507fbb42a7897229eb5c5478d2b22ce283c9f1dc8131375.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.a243e3b33b88f517876c29f07f4103de7fcdac22caa71cf14f90c3f11b21d22c.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.a64abead270651e49e877e43d01eb5e290c02bd07efeb18c4d7ae76f554571f9.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.b3c11c852d3d438d85c454361f1ec972bea2d3ddde58f01a97e51391346180f0.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.d483bb57255592defea8eca8fada99abc1bd4b3d482d30ab38c78203c282cd93.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.e2cd2d76607fc9ded4b1d697fe51655b2f9e994f50ea45b117a5640fde061bf8.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.e594d037943cffa49fc2c891b954e7eded5ffc64e22b65dddfe2b8d14ca95208.json",
     ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
-    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json",
+    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.approach.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
     "agents/skills/ordinary-work-item.md",
-    "crates/cockpit-repository/tests/collaboration_admission.rs",
-    "crates/cockpit-verification/src/composition.rs",
-    "crates/cockpit-verification/tests/composition.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/lib.rs",
     "docs/reference/agent-workflow.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
     "tests/ci/hosted_runtime_verification_test.sh",
     "tests/ci/run_hosted_runtime_verification.sh",
-    "tests/ci/run_workspace_package_tests.sh",
-    "tests/ci/workflow_convergence_test.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    "tests/ci/workflow_convergence_test.sh"
   ],
   "checkpointAt": "2026-09-26T14:39:46Z",
   "checkpointContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
@@ -385,7 +399,7 @@
       "workItemId": "WI-1035-task8-governance-friction-remediation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:3f7e91cab43812dfde66e0d977be52f9917b5354abf536e5270361447fca18d4",
+  "checkpointRepositorySnapshotDigest": "sha256:f7f6bfed3de1bcbab04d452977ac2b351cbd4f456e638069c1c50430a340db39",
   "createdAt": "2026-09-26T14:32:17Z",
   "decisionEvidence": {
     "contractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
@@ -411,11 +425,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
   "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-27T12:18:37Z",
+  "preflightAt": "2026-09-27T17:58:45Z",
   "preflightContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:5e9ddbfa2b18b90f034cf47bde0245021b3431f423efa4de79427801bbad36bd",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f7f6bfed3de1bcbab04d452977ac2b351cbd4f456e638069c1c50430a340db39",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
   "recoveryRetryConsumed": {
@@ -630,6 +644,10 @@
   "updatedAt": "2026-09-27T11:12:04.472012+00:00",
   "verification": [
     {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
       "check": "project-command-0-package-cockpit-agent",
       "result": "passed"
     },
@@ -686,6 +704,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:b38c98414e9da3403d0b1f0d95c5c64b2e753ab82cbbf82fd73ac5a96edcade5",
+  "verificationRecoveryReconciled": "sha256:b250b49d32f4c830ccafe8edcdea8597944a35f60ac241a0e243853827482a2f",
   "workItemId": "WI-1035-task8-governance-friction-remediation"
 }

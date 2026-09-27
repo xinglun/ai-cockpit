@@ -32,7 +32,11 @@ path.write_text(
     "args = sys.argv[1:]\n"
     "log = Path(os.environ['FAKE_LOG'])\n"
     "with log.open('a', encoding='utf-8') as stream: stream.write(json.dumps(args) + '\\n')\n"
-    "if args[:2] == ['work-item', 'status']:\n"
+    "if args[:2] == ['work-item', 'validate']:\n"
+    "    mode = os.environ['FAKE_MODE']\n"
+    "    if mode == 'invalid-validation': print(json.dumps({'state': 'blocked'}))\n"
+    "    else: print(json.dumps({'state': 'blocked', 'unknowns': [], 'findings': []}))\n"
+    "elif args[:2] == ['work-item', 'status']:\n"
     "    state = Path(os.environ['FAKE_STATE'])\n"
     "    count = int(state.read_text() if state.exists() else '0') + 1\n"
     "    state.write_text(str(count))\n"
@@ -57,7 +61,7 @@ path.write_text(
     "elif args and args[0] == 'preflight':\n"
     "    print(json.dumps({'kind': 'preflight', 'state': 'passed'}))\n"
     "elif args and args[0] == 'verify':\n"
-    "    assert args[args.index('--workers') + 1] == '2'\n"
+    "    assert args[args.index('--workers') + 1] == '1'\n"
     "    repository = Path(args[args.index('--repo') + 1])\n"
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
@@ -224,11 +228,13 @@ import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "work-item", "preflight", "work-item", "verify", "work-item"]
-verify = commands[4]
-assert "--workers" in verify and verify[verify.index("--workers") + 1] == "2"
+assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "preflight", "work-item", "work-item", "verify", "work-item"]
+verify = commands[6]
+assert "--workers" in verify and verify[verify.index("--workers") + 1] == "1"
 assert verify[verify.index("--repo") + 1] != str(Path(sys.argv[1]).parents[0] / "repository")
 PY
+jq -e '.state == "blocked" and (.unknowns | type == "array") and (.findings | type == "array")' \
+  "$tmp/stale/artifacts/hosted-runtime-validation-after.json" >/dev/null
 
 run_helper fresh true
 python3 - "$tmp/fresh/commands.jsonl" <<'PY'
@@ -237,7 +243,7 @@ import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "verify", "work-item"]
+assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "work-item", "work-item", "verify", "work-item"]
 PY
 
 run_helper existing-fresh-receipt true
@@ -246,6 +252,8 @@ cmp "$tmp/existing-fresh-receipt/repository/.ai/evidence/WI-HOSTED-TEST.verifica
 jq -e '.verificationState == "reused" and .preflightState == "not_required_existing_fresh_receipt"' \
   "$tmp/existing-fresh-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
 assert_no_commands "$tmp/existing-fresh-receipt/commands.jsonl" preflight verify
+jq -e '.state == "blocked" and (.unknowns | type == "array") and (.findings | type == "array")' \
+  "$tmp/existing-fresh-receipt/artifacts/hosted-runtime-validation-before.json" >/dev/null
 
 run_helper existing-fresh-mismatched-receipt false
 jq -e '.verificationState == "invalidated" and .failureReason == "existing_fresh_receipt_identity_mismatch"' \
@@ -265,5 +273,10 @@ assert_no_commands "$tmp/blocked/commands.jsonl" preflight verify
 
 run_helper blocked-after-preflight false
 assert_no_commands "$tmp/blocked-after-preflight/commands.jsonl" verify
+
+run_helper invalid-validation false
+jq -e '.verificationState == "invalidated" and .failureReason == "validation_report_invalid"' \
+  "$tmp/invalid-validation/artifacts/hosted-runtime-orchestration.json" >/dev/null
+assert_no_commands "$tmp/invalid-validation/commands.jsonl" verify
 
 printf 'hosted Runtime verification orchestration regression passed\n'

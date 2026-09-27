@@ -249,25 +249,30 @@ absent or invalid.
 
 Parallelism applies to independent validation work, not to Work Item lifecycle
 or shared-state mutation. Keep Contract/source snapshot changes and lifecycle
-transitions serial. Validation nodes may fan out only after their prerequisites
-are satisfied and while they share one immutable input identity (base/head,
+transitions serial. Work Item verification defaults to one worker; requests
+above one worker are rejected until Runtime can prove per-node dependency
+readiness and isolated outputs. Preserve a serial single-Work-Item path, and do
+not bypass it by splitting required Work Item gates into concurrent commands on
+the same checkout.
+
+Independent validation nodes may fan out only after their prerequisites are
+satisfied and while they share one immutable input identity (base/head,
 Contract, Runtime, target, and check-relevant environment). Give each worker
 isolated outputs/worktrees and bound CPU, memory, and external-resource use;
 serialize any check that mutates shared state or cannot prove concurrency
-safety. Runtime `verify --workers N` caps node concurrency; the hosted Work Item
-verification in this repository uses an explicit cap of two, while `N=1`
-preserves the serial option. Combine results only after all required nodes
-finish, retaining each node's input identity and failure.
+safety. The hosted Work Item verification in this repository therefore uses
+`--workers 1`. Combine results only after all required nodes finish, retaining
+each node's input identity and failure.
 
-In CI, jobs that consume the same immutable route/source artifacts and have no
-dependency on one another should be siblings in the workflow DAG, so the CI
-runner can execute them concurrently. Keep producer-consumer edges serial: for
-example, hosted Runtime verification must produce its receipt before package
-coverage validates and consumes those exact bytes. Reuse a complete fresh
-receipt for the same identity instead of rerunning its producer; a changed
-identity or missing/invalid evidence requires only the affected checks to run
-again. Concurrency limits and shared runner/resource contention may still
-limit realized speedup, so parallel eligibility is not a promise of a specific
+Independent CI jobs can run as siblings in the workflow DAG when they
+consume the same immutable route/source artifacts and have no dependency on one
+another. Keep producer-consumer edges serial: the package-coverage consumer
+waits for and validates the exact hosted Runtime receipt before consuming it.
+Reuse a complete fresh receipt for the same
+identity instead of rerunning its producer; a changed identity or
+missing/invalid evidence requires only the affected checks to run again.
+Concurrency limits and shared runner/resource contention may still limit
+realized speedup, so parallel eligibility is not a promise of a specific
 wall-clock reduction.
 
 ### Serial fallback and cross-Work-Item coordination

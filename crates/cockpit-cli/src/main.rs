@@ -273,7 +273,10 @@ enum CommandKind {
         command: Vec<String>,
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
-        #[arg(long, default_value_t = 2)]
+        /// Maximum worker count. Work Item verification defaults to serial and
+        /// rejects parallel requests until per-node dependencies and outputs
+        /// can be verified by the Runtime.
+        #[arg(long, default_value_t = 1)]
         workers: usize,
         #[arg(long, default_value = "task")]
         stage: String,
@@ -1948,6 +1951,43 @@ fn run() -> Result<()> {
                     &runtime_context,
                 )
                 .context("check archived verification recovery preconditions")?;
+            }
+            if let Some(work_item_id) = work_item.as_deref()
+                && workers > 1
+                && let Err(error) = cockpit_repository::require_serial_work_item_verification(
+                    &root,
+                    work_item_id,
+                    workers,
+                )
+            {
+                let attempt = cockpit_repository::persist_verification_attempt(
+                    &root,
+                    work_item_id,
+                    &requests,
+                    &initial_snapshot,
+                    &runtime_context,
+                    "precondition_rejected",
+                    Some(("verification_parallelism", &error.to_string())),
+                    None,
+                );
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&json!({
+                        "state": "blocked",
+                        "workItemId": work_item_id,
+                        "gate": "verification_parallelism",
+                        "diagnostic": error.to_string(),
+                        "processesSpawned": 0,
+                        "attempt": match attempt {
+                            Ok(value) => value,
+                            Err(persist_error) => json!({
+                                "state": "persistence_failed",
+                                "diagnostic": persist_error.to_string(),
+                            }),
+                        },
+                    }))?
+                );
+                anyhow::bail!("verification parallelism rejected: {error}");
             }
             let mut planned_requests = Vec::new();
             let mut coverage_manifest = None;

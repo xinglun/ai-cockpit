@@ -116,7 +116,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
   identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。
   timing や cache state が required/protected node を省略することはありません。
-- `verify --workers <n>` は positive worker count を要求し concurrency を制限します。
+- `verify --workers <n>` は positive worker count を要求し、既定値は 1 です。Work Item に bind された `verify` は既定で serial です。Runtime が node ごとの dependency readiness と isolated output を検証できるまでは、明示的な `--workers >1` は fail closed になります。同じ immutable route/source identity を使い、相互依存がなく、output を分離し、resource limit 内に収まる independent CI job は並列実行できます。Receipt の producer-consumer は順序を維持します。
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` は optional な
   `concurrencyBoundary` を Contract に bind します。4 種類の path と `maxWorkers` を検証しますが、
   `maxWorkers` は slot 容量であり `verify --workers` とは別です。

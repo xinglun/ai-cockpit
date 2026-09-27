@@ -63,16 +63,55 @@ for name in validation_jobs:
 assert "\n    needs: quality\n" not in workflow, "independent CI validation must not wait for quality"
 
 ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
-ordinary_guide_text = re.sub(r"\s+", " ", ordinary_guide.read_text(encoding="utf-8").lower())
+ordinary_guide_text = re.sub(r"[\s`]+", " ", ordinary_guide.read_text(encoding="utf-8").lower())
 for required_rule in (
-    "keep lifecycle and snapshot-changing writes serial",
-    "independent checks may run in parallel on a fixed input snapshot",
-    "dependencies are ready",
-    "outputs are isolated",
-    "resource limits allow it",
-    "reuse a fresh producer receipt",
+    "lifecycle and snapshot-changing writes stay serial",
+    "work item-bound verify defaults to --workers 1",
+    "explicit --workers >1 fails closed until runtime verifies per-node dependency readiness and output isolation",
+    "ci jobs may fan out as siblings",
+    "ready dependencies",
+    "isolated outputs",
+    "bounded resources",
+    "keep receipt producer-consumer serial",
+    "reuse fresh matching receipts",
 ):
     assert required_rule in ordinary_guide_text, f"ordinary guide omits parallel boundary: {required_rule}"
+
+workflow_guide = re.sub(
+    r"\s+", " ",
+    (Path(sys.argv[1]).parents[2] / "docs/reference/agent-workflow.md").read_text(encoding="utf-8").lower(),
+)
+for required_rule in (
+    "work item verification defaults to one worker",
+    "requests above one worker are rejected until runtime can prove per-node dependency readiness and isolated outputs",
+    "independent ci jobs can run as siblings",
+    "package-coverage consumer waits for and validates the exact hosted runtime receipt",
+):
+    assert required_rule in workflow_guide, f"agent workflow omits parallel boundary: {required_rule}"
+
+reference_root = Path(sys.argv[1]).parents[2] / "docs/reference"
+command_guidance = {
+    "commands.md": (
+        "work item-bound verification is serial by default",
+        "explicit --workers >1 fails closed",
+        "per-node dependency readiness and isolated outputs",
+    ),
+    "commands.zh-CN.md": (
+        "绑定 work item 的 verify 默认串行",
+        "显式 --workers >1 会 fail closed",
+        "逐节点依赖就绪和隔离输出",
+    ),
+    "commands.ja.md": (
+        "work item に bind された verify は既定で serial です",
+        "明示的な --workers >1 は fail closed",
+        "node ごとの dependency readiness と isolated output",
+    ),
+}
+for filename, required_rules in command_guidance.items():
+    text = re.sub(r"[\s`]+", " ", (reference_root / filename).read_text(encoding="utf-8").lower())
+    for required_rule in required_rules:
+        assert required_rule in text, f"{filename} omits Work Item verification concurrency boundary: {required_rule}"
+
 assert 'merge_parents[2]' in workflow
 windows_job = workflow[workflow.index("  windows-runtime:"):]
 windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
@@ -112,7 +151,7 @@ assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
-assert "--workers 2" in hosted_runner
+assert "--workers 1" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
 assert "run_helper stale true" in hosted_behavior_test and "run_helper fresh true" in hosted_behavior_test
 assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(

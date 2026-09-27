@@ -107,7 +107,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
   repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
   identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。
-- `verify --workers <n>` 要求正数并限制并发。
+- `verify --workers <n>` 要求正数，默认值为 1。绑定 Work Item 的 `verify` 默认串行；在 Runtime 能核验逐节点依赖就绪和隔离输出之前，显式 `--workers >1` 会 fail closed。独立 CI job 在共享同一不可变 route/source identity、彼此无依赖、输出隔离且资源有界时仍可并行。Receipt 的生产者与消费者保持有序串行。
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` 将可选的
   `concurrencyBoundary` 绑定到 Contract。四类路径和 `maxWorkers` 会被验证；后者是 slot 容量，
   不等于 `verify --workers`。

@@ -219,7 +219,13 @@ review when the returned state is yellow, red, unknown, or not ready.
   toolchain, dependency, and policy identities match exactly. Otherwise the
   declared command executes and the result reports the denial/escalation reason.
   Required and protected nodes are never skipped by timing or cache state.
-- `verify --workers <n>` requires a positive worker count and caps concurrency.
+- `verify --workers <n>` requires a positive worker count and defaults to one.
+  Work Item-bound verification is serial by default (`--workers 1`); explicit `--workers >1`
+  fails closed until Runtime can prove per-node dependency readiness and
+  isolated outputs. Independent CI jobs may still run in parallel when they
+  share one immutable route/source identity, have no dependency edge, use
+  isolated outputs, and stay within resource limits. Receipt producers and
+  consumers remain ordered.
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` binds an
   additive Contract `concurrencyBoundary`. Its four path classes and
   `maxWorkers` are validated; `maxWorkers` is a slot capacity and is distinct

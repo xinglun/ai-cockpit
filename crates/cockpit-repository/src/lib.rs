@@ -4662,6 +4662,28 @@ pub fn require_verification_preconditions(
     }
 }
 
+/// Work Item verification stays serial unless the Runtime can prove the
+/// dependency and output-isolation contract for every concurrently scheduled
+/// node. The current request/Contract protocol does not bind those facts, so
+/// an explicit parallel request must fail closed before any check is spawned.
+pub fn require_serial_work_item_verification(
+    root: &Path,
+    work_item_id: &str,
+    workers: usize,
+) -> Result<(), ObserverError> {
+    if workers <= 1 {
+        return Ok(());
+    }
+    validate_work_item_id(work_item_id)?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    Err(ObserverError::State {
+        path: contract_path,
+        message: "parallel Work Item verification is not admitted: the Runtime cannot bind per-node dependency readiness and isolated output paths; use --workers 1 or independent CI jobs with separate workspaces".into(),
+    })
+}
+
 /// Read-only verification gates shared by the status projection and the
 /// execution entrypoint. The status projection calls this while constructing
 /// its action list; the execution wrapper applies fresh action admission
