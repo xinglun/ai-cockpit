@@ -18,7 +18,8 @@
     "A16: OBS-16 — 未声明可选并行时单 WI serial readiness 允许；显式并行但缺兼容声明仍 fail closed。",
     "A17: OBS-17 — 诊断文字不误报 test weakening，真实绕过仍 fail closed 且能给出匹配文本及来源。",
     "A18: OBS-18 — 三语 close_pending→terminal 投影一致，readyOnBase 与未关闭 archive 列表一致或有明确 Runtime lineage 修复。",
-    "A19: OBS-19 — 单主 WI 串行阶段透明；进度只按有证据的验收项报告，不臆测 ETA、不重复请求已覆盖的开始授权。"
+    "A19: OBS-19 — 单主 WI 串行阶段透明；进度只按有证据的验收项报告，不臆测 ETA、不重复请求已覆盖的开始授权。",
+    "A20: OBS-20 — Before starting verification, inspect Runtime freshness and existing receipts; reuse only a passed receipt that Runtime accepts as fresh and whose Work Item, Contract, source snapshot, Runtime executable, verification target, and required coverage match; otherwise follow the admitted next action and preserve prior evidence. Hosted exact-PR-head evidence remains a separate requirement."
   ],
   "authority": "authorized",
   "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
@@ -192,6 +193,14 @@
       "scenario": "OBS-19 serial progress reporting without repeated authorization prompts",
       "status": "unverified",
       "verificationPlan": "Review ordinary-work-item guide and Outcome process against the 7-stage/19-OBS matrix; verify current Runtime receipts and user-facing progress include evidence and blockers."
+    },
+    {
+      "evidence": [],
+      "expected": "An ordinary WI workflow reuses complete fresh matching evidence without spawning verification again; stale, incomplete, or mismatched evidence follows Runtime admission, and local evidence never substitutes for hosted exact-head evidence.",
+      "required": true,
+      "scenario": "OBS-20 verification evidence reuse across ordinary Work Items",
+      "status": "unverified",
+      "verificationPlan": "Update the ordinary WI guide with a mandatory pre-verification evidence inventory and add gate-backed regressions for the guide contract, same-receipt coverage consumption without rerunning package tests, and the separate exact-head hosted verification path."
     }
   ],
   "scope": [
@@ -252,7 +261,8 @@
   ],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "python3 tests/docs/governance_cost_baseline_test.py"
   ],
   "workItemId": "WI-1035-task8-governance-friction-remediation"
 }

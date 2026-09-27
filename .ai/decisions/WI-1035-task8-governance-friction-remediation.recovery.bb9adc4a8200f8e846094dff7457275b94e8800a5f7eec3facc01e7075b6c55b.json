@@ -1,0 +1,28 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-27T05:02:41Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.696088cefa29f9240f2d3291a7bd1cdb687cbf94bf83d3d2592a72963a966a94.json",
+    "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md#Stage-6b"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "agents/skills/verification-failure-recovery.md",
+    "WI-1035 Acceptance A02",
+    "WI-1035 Acceptance A14"
+  ],
+  "predecessorContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+  "predecessorSummaryDigest": "sha256:40a4d09ea9e94e9889ef9740029c523b06ef3dcf5ec8b7898952a89f274ff7ab",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user authorized completion of Task 8 through independent PR review, merge, and cleanup while stopping before release, then explicitly directed that the newly identified governance-process issue be fixed within Task 8. Runtime reports no additional human decision required and currently recommends resolve_blockers. This append-only retry rebinds the preserved historical verification to the exact current candidate Runtime and permits one fresh preflight plus exactly one canonical workspace verification. It does not change scope, request another start confirmation, or authorize release, tagging, or publication.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "With Runtime 0.2.113 sha256:85c58e9e847d497351a5c15d322ffc24c865ce12e57bab50f65a4a2eeec70320, run one fresh repository-bound preflight and exactly one canonical `cargo test --locked --workspace` Work Item verification. Preserve all previous decisions and attempts. Continue only if the current Runtime accepts that evidence; stop before release, tagging, or publication.",
+  "runtimeDigest": "sha256:85c58e9e847d497351a5c15d322ffc24c865ce12e57bab50f65a4a2eeec70320",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}
