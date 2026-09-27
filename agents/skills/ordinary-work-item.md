@@ -31,26 +31,22 @@ required controls that remain incomplete do not admit `finish`.
 
 ## Serial and cross-Work-Item use
 
-Keep lifecycle and snapshot-changing writes serial. Independent checks may run
-in parallel on a fixed input snapshot only when dependencies are ready, outputs
-are isolated, and resource limits allow it; otherwise serialize. `verify
---workers N` caps Runtime workers; use `1` for serial verification. Reuse a fresh
-producer receipt instead of rerunning its checks. A negative parallel
-compatibility result denies fan-out only; continue admitted serial work.
-Cross-Work-Item coordination prerequisites and discovery are in the
-[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
+One Work Item runs serially by default. Keep lifecycle and snapshot-changing
+writes serial. Independent checks may run in parallel on a fixed input snapshot
+only when dependencies are ready, outputs are isolated, and resource limits
+allow it; otherwise serialize. `verify --workers N` bounds workers (`1` is
+serial). Before cross-Work-Item fan-out, discover current CLI help plus MCP
+`tools/list` schemas. Confirm candidate Runtime support and acquire a Runtime
+slot lease. If unsupported, do not emulate constraints: use admitted serial
+work or stop. A negative compatibility result denies fan-out only. Reuse a
+fresh producer receipt instead of rerunning its checks.
+See the [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination)
+for declarations and safe operations.
 
-Coordination inspection is read-only. Register, report impact, publish an
-outcome, request/acknowledge/safely pause, resume, recover, and acquire or
-relinquish leases only through their explicit Runtime write actions. Bind
-records to the current repository, Contract, Runtime, and generation; reject
-stale requests.
-Refresh dependency admission immediately before affected actions; unrelated
-actions may continue only if their own refreshed admission allows. Recovery
-appends a resolution; retain the original event.
-
-The repository-bound installed Runtime owns lifecycle decisions. Candidate
-collaboration writes require tools actually implemented by that candidate;
-readable new fields do not prove compatibility. See the
-[agent workflow](../../docs/reference/agent-workflow.md) for the full discovery
-and safe-pause sequence.
+Coordination inspection is read-only; registration, impact/outcome, pause,
+resume/recovery, and lease mutations use explicit Runtime actions bound to the
+current repository, Contract, Runtime, and generation. Refresh dependency
+admission before affected actions; unrelated work continues only on its own
+refreshed admission. Recovery appends a resolution and retains the event. The
+installed Runtime owns lifecycle decisions; readable fields do not prove
+candidate support, and unsupported constraints must not be ignored or emulated.

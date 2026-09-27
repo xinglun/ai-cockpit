@@ -4,14 +4,14 @@
 
 - 一个 WI、一个分支、一个 worktree；实现串行，不拆并行子 WI。代码提交用于审查分层，不表示并行实现。
 - 所有改动先按本计划失败优先增加回归，再做最小实现；每个提交后显式查询 Runtime，确认新的源树快照与动作准入。不得因 HEAD 改变就推断 source identity 改变，也不得复用旧 Runtime 二进制证据。
-- 首轮提交前先由 Runtime 激活并核准 WI-1035 Contract。Contract 的 Acceptance ID 使用 `A01`…`A20`，`OBS-01`…`OBS-20` 只作追踪标签；运行 Runtime validate 确认 ID 格式后才能 checkpoint。实际触及文件若超出 Contract，停止并通过 Runtime 增补范围、重新 preflight；不靠预先猜测的宽泛 scope 绕过准入。
+- 首轮提交前先由 Runtime 激活并核准 WI-1035 Contract。Contract 的 Acceptance ID 使用 `A01`…`A21`，`OBS-01`…`OBS-21` 只作追踪标签；运行 Runtime validate 确认 ID 格式后才能 checkpoint。实际触及文件若超出 Contract，停止并通过 Runtime 增补范围、重新 preflight；不靠预先猜测的宽泛 scope 绕过准入。
 - `inspect/status/doctor/outcome` 只读；`preflight` 是显式记录入口。失败、超时、过期、旧 Runtime 或 hosted 证据均追加保留。
 - 每个阶段记录：完成/总验收项、关联 OBS、提交 SHA、Runtime digest、检查命令及结果、未决项。百分比仅按验收项数量计算；无可靠时长样本不报 ETA。当前有效授权与边界不变时继续，不重复问“是否开始”。
 - 不发布、不打 tag、不升级版本。最终停在用户全面 review、决定是否 release 的边界。
 
 ## 治理摩擦完整盘点
 
-本轮先将此前独立审查、执行过程与用户明确边界合并核对到活动 Contract 的 20 个 Acceptance ID；其中 A20 是用户批准追加的通用验证证据复用流程，不改变既有意图、scope、authority 或停止边界。下表是问题域到验收项的覆盖索引。逐条预期、失败条件和测试入口见下方 Stage 与 OBS 矩阵。
+本轮先将此前独立审查、执行过程与用户明确边界合并核对到活动 Contract 的 21 个 Acceptance ID；A20 是用户批准追加的通用验证证据复用流程，A21 是用户批准追加的独立验证并行规则，两者都不改变既有意图、scope、authority 或停止边界。下表是问题域到验收项的覆盖索引。逐条预期、失败条件和测试入口见下方 Stage 与 OBS 矩阵。
 
 | 治理摩擦域 | 必须覆盖的 Contract ID | 明确验收边界 |
 | --- | --- | --- |
@@ -23,8 +23,9 @@
 | merge/close lineage、三语投影、平台 gate 与 hosted 证据不能互相证明 | A12, A13, A18 | staged candidate 与 receipt/parity 精确绑定；Windows job 真正执行；close 状态、三语文档与 readyOnBase 一致 |
 | 单 WI 串行治理、进度汇报和 release 边界造成重复门禁或流程漂移 | A19 | 一个 WI 串行实现与分层提交；按有证据的验收项报告；PR 独立审查、合并清理后停止在发布前，不发布/打 tag |
 | 后续 Agent 未盘点有效收据而重复启动已通过的验证 | A20 | 通用 WI 指南要求验证前检查 Runtime freshness、完整身份与覆盖；匹配收据直接复用；只重跑缺失/失效证据；hosted 精确 PR head 单独判断 |
+| 独立验证被串行化或共享工作区/收据造成并发污染 | A21 | 相同不可变输入、隔离工作区/输出及资源上限允许时并行；依赖、共享写入和 producer-consumer 仍串行；完整新鲜收据直接复用 |
 
-完整性约束：上表覆盖 A01…A20 共 20 项；不得将已有修复、历史绿色 CI 或“有命令/有字段”计作本轮验收。仓库没有 Makefile 或受支持 Make 入口，因此 canonical 路径固定为 repository-bound Runtime CLI、Cargo 和 gate manifest/CI；不能为通过通用模板而新增 Make，也不能以门禁例外代替缺少的真实证据。
+完整性约束：上表覆盖 A01…A21 共 21 项；不得将已有修复、历史绿色 CI 或“有命令/有字段”计作本轮验收。仓库没有 Makefile 或受支持 Make 入口，因此 canonical 路径固定为 repository-bound Runtime CLI、Cargo 和 gate manifest/CI；不能为通过通用模板而新增 Make，也不能以门禁例外代替缺少的真实证据。
 
 ## 源码与验收入口盘点
 
@@ -44,11 +45,11 @@
 
 ### Stage 0 — Contract 激活与基线锁定（不改生产代码）
 
-1. 完成 Runtime recovery scaffold 的 WI-1035 Contract：明确意图、20 条 Acceptance ID 与 OBS 映射、受控路径、验收场景、必需证据、CI 命令、停止边界和 predecessor lineage；确认 WI-1034 已被精确保留为 replaced/not_verified。
+1. 完成 Runtime recovery scaffold 的 WI-1035 Contract：明确意图、21 条 Acceptance ID 与 OBS 映射、受控路径、验收场景、必需证据、CI 命令、停止边界和 predecessor lineage；确认 WI-1034 已被精确保留为 replaced/not_verified。
 2. Runtime fresh inspect/status/doctor/agent doctor；按当前能力执行 start/preflight/checkpoint。保留旧失败与历史 recovery/retirement receipt。
 3. 对照主线 source 与 CI 事实复核本计划文件路径；任何新增支持文件由 Runtime 核准后加入 Contract。
 
-退出条件：Runtime 允许修改；20/20 OBS 有映射；所需平台和 canonical gate 均有归属。否则不写实现。
+退出条件：Runtime 允许修改；21/21 OBS 有映射；所需平台和 canonical gate 均有归属。否则不写实现。
 
 ### Stage 1 — 身份、快照、授权与持久化语义（审查提交 1）
 
@@ -85,7 +86,7 @@
 
 ### Stage 3 — 协作 admission、串行回退与 Agent 能力发现（审查提交 3）
 
-覆盖 OBS-09/16/20。预计检查 `.ai/agent-interface.json`、`cockpit-protocol`、`cockpit-agent`、`cockpit-mcp`、普通 WI guide、serial/parallel admission tests 与现有 linked-worktree process acceptance。OBS-20 还要求普通 WI guide 提供验证前证据盘点入口，并用已登记的文档、coverage 和 hosted regressions 保护复用边界。
+覆盖 OBS-09/16/20/21。预计检查 `.ai/agent-interface.json`、`cockpit-protocol`、`cockpit-agent`、`cockpit-mcp`、普通 WI guide、serial/parallel admission tests 与现有 linked-worktree process acceptance。OBS-20 还要求普通 WI guide 提供验证前证据盘点入口，并用已登记的文档、coverage 和 hosted regressions 保护复用边界。
 
 实现边界与验收：
 
@@ -94,6 +95,7 @@
 3. 单 WI、没有 parallel 声明时，serial readiness 明确为允许/可继续；并行请求缺少兼容声明、隔离 checkout 或 lease 时 fail closed。不能以 `compatible:false` 将可选 parallel 缺失投影成 serial 禁止。
 4. 能力暴露完成后立即做独立的“发现与使用验收”，不能等到最后只检查文档存在：解析 manifest、调用 agent doctor、MCP tools/list schema 断言、按 guide 走单 WI 串行正例/并行未声明负例，并运行真实多进程、多 linked worktree 协调验收。保存实际返回的 tool names/schema、binary digest 和进程计数。
 5. Agent 默认读取集保持在既有硬预算内：详细流程放在参考手册，普通 WI guide 保留最短可执行入口；运行 `tests/docs/governance_cost_baseline_test.py`，不得通过提高 `MAXIMUM_BYTES` 消除超限。
+6. 普通验证与 CI 只有在依赖已就绪、输入绑定同一不可变 source/Contract/Runtime、工作区和输出相互隔离、资源上限明确时才并行；生命周期写入、共享状态写入及 formal receipt producer-consumer 保持串行。CI 独立 job 从 route 收据后扇出；quality job 内 hosted receipt、repository gates 和 coverage consumer 按依赖顺序执行。对已 fresh 且完整匹配的收据先复用，不再启动验证；脚本回归要验证源 checkout 未被 hosted Runtime 写入污染。
 
 验收失败即本阶段未完成，不进入下一阶段。无权限或工具缺失须列为明确 blocker，不以模拟工具列表代替。
 
@@ -126,7 +128,7 @@ Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下�
 
 ### Stage 5 — 状态投影、三语关闭、lineage 与平台 gate（审查提交 5）
 
-覆盖 OBS-12/13/18。预计检查 lifecycle/documentation projection、英语/简中/日语模板与验收脚本、gate manifest、quality route/workflow 及 Windows-specific tests。
+覆盖 OBS-12/13/18/21。预计检查 lifecycle/documentation projection、英语/简中/日语模板与验收脚本、gate manifest、quality route/workflow 及 Windows-specific tests。OBS-21 的 CI DAG 与 hosted receipt/coverage 串行边界在此用 workflow convergence 和隔离工作区行为回归复核。
 
 红测与通过条件：
 
@@ -140,7 +142,7 @@ Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下�
 
 ### Stage 6 — 全量追踪、本地/Hosted 分段验收、独立审查与合并清理（审查提交 6 / 收敛）
 
-先做完整性矩阵核对 OBS-01..20，每项都必须链接到：Contract criterion → test/acceptance → CI gate → Runtime evidence。已有修复若不需改码，必须引用本轮实际受保护的回归，而非测试名称或旧报告。
+先做完整性矩阵核对 OBS-01..21，每项都必须链接到：Contract criterion → test/acceptance → CI gate → Runtime evidence。已有修复若不需改码，必须引用本轮实际受保护的回归，而非测试名称或旧报告。
 
 #### Stage 6a — 本地候选与 PR 前检查
 
@@ -191,7 +193,7 @@ A12/A13 依赖精确 staged candidate 的 hosted lineage/receipt/三语 parity �
 
 依据 Runtime 当前 safeActions 推进 PR/独立审查、合并、精确 worktree/branch cleanup 和 successor lineage 收尾；每一步都查询并保存回执。最终交付独立 Outcome，分开描述实现、CI、review、merge、cleanup、lineage 和发布状态；只停在用户 release review 前，不创建 tag/Release。
 
-## 20 项追踪矩阵
+## 21 项追踪矩阵
 
 | OBS | 阶段 | 必须留下的关键证明 |
 | --- | --- | --- |
@@ -215,9 +217,10 @@ A12/A13 依赖精确 staged candidate 的 hosted lineage/receipt/三语 parity �
 | 18 | 5 | 三语 close_pending→terminal、readyOnBase/未关闭清单一致 |
 | 19 | 全阶段 | 单 WI 串行阶段记录、按验收项报进度、无空洞 ETA/重复确认 |
 | 20 | 3/5 | 普通 WI 验证前检查并复用新鲜完整证据；失效时 Runtime 准入定向重跑；hosted exact-head 边界独立 |
+| 21 | 3/5 | 同一不可变输入及隔离输出下并行独立验证/CI jobs；receipt producer-consumer 串行；实际验证源 checkout 不受写污染并复用 fresh receipt |
 
 ## 进度与报告模板
 
-以 7 个阶段分别报告，不把阶段平均值冒充全局完成率。每次更新格式：`Stage n/N：已通过 x/y 条验收（累计 z/20 个 OBS 有当前证据）；当前提交/Runtime digest；正在做；明确 blocker；ETA（只有可测依据时提供，否则未知）`。OBS 只有在本轮测试或当前 gate 证据可复核时才算通过；代码已写、旧 CI 成功、文档已加均不计为验收通过。
+以 7 个阶段分别报告，不把阶段平均值冒充全局完成率。每次更新格式：`Stage n/N：已通过 x/y 条验收（累计 z/21 个 OBS 有当前证据）；当前提交/Runtime digest；正在做；明确 blocker；ETA（只有可测依据时提供，否则未知）`。OBS 只有在本轮测试或当前 gate 证据可复核时才算通过；代码已写、旧 CI 成功、文档已加均不计为验收通过。
 
-最终 Outcome 必须含状态、issue/blocker 数、20 项追踪状态、证据链接/摘要、未知风险、用户决策、验证结果、影响（未经证明的收益标 inference）、下一动作，并声明没有执行 release。
+最终 Outcome 必须含状态、issue/blocker 数、21 项追踪状态、证据链接/摘要、未知风险、用户决策、验证结果、影响（未经证明的收益标 inference）、下一动作，并声明没有执行 release。
