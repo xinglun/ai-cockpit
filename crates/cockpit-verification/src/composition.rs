@@ -1156,6 +1156,11 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
     use std::os::unix::fs::MetadataExt;
 
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+    // Procfs may deny a caller access to its runner/launcher ancestors. Those
+    // processes existed before the private composition directory was created
+    // and cannot have inherited its cwd or file descriptors. Keep inspecting
+    // every other same-user process so escaped verifiers still protect it.
+    let caller_ancestors = linux_process_ancestor_ids(Path::new("/proc"), std::process::id())?;
     let proc_entries = fs::read_dir("/proc").map_err(|error| error.to_string())?;
     for entry in proc_entries {
         let entry = entry.map_err(|error| error.to_string())?;
@@ -1166,7 +1171,7 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         else {
             continue;
         };
-        if process_id == std::process::id() {
+        if process_id == std::process::id() || caller_ancestors.contains(&process_id) {
             continue;
         }
         let process_dir = entry.path();
@@ -1214,6 +1219,34 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         }
     }
     Ok(None)
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_ancestor_ids(proc_root: &Path, process_id: u32) -> Result<BTreeSet<u32>, String> {
+    let mut ancestors = BTreeSet::new();
+    let mut current = process_id;
+    loop {
+        let status_path = proc_root.join(current.to_string()).join("status");
+        let status = match fs::read_to_string(&status_path) {
+            Ok(status) => status,
+            Err(error) if current != process_id && error.kind() == std::io::ErrorKind::NotFound => {
+                break;
+            }
+            Err(error) => return Err(error.to_string()),
+        };
+        let parent = status
+            .lines()
+            .find_map(|line| {
+                line.strip_prefix("PPid:")
+                    .and_then(|value| value.trim().parse::<u32>().ok())
+            })
+            .ok_or_else(|| format!("cannot inspect process {current} parent identity"))?;
+        if parent == 0 || parent == current || !ancestors.insert(parent) {
+            break;
+        }
+        current = parent;
+    }
+    Ok(ancestors)
 }
 
 #[cfg(target_os = "macos")]
@@ -2549,6 +2582,12 @@ fn trusted_executable_directories() -> Vec<PathBuf> {
             candidates.push(PathBuf::from(profile).join(".cargo/bin"));
         }
         if let Some(system_root) = std::env::var_os("SystemRoot") {
+            candidates.push(
+                PathBuf::from(&system_root)
+                    .join("System32")
+                    .join("WindowsPowerShell")
+                    .join("v1.0"),
+            );
             candidates.push(PathBuf::from(&system_root).join("System32"));
             candidates.push(PathBuf::from(system_root));
         }
@@ -2829,6 +2868,33 @@ mod composition_parent_tests {
     }
 }
 
+#[cfg(all(test, target_os = "linux"))]
+mod verifier_process_observation_tests {
+    use super::{
+        create_private_composition_parent, unique_composition_parent,
+        verifier_process_using_worktree,
+    };
+    use std::fs;
+
+    #[test]
+    fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
+        let parent = unique_composition_parent();
+        create_private_composition_parent(&parent).expect("private composition parent");
+        let worktree = parent.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+
+        let observed = verifier_process_using_worktree(&worktree);
+        let removed = fs::remove_dir_all(&parent);
+
+        assert!(removed.is_ok(), "test composition parent is cleaned up");
+        assert_eq!(
+            observed,
+            Ok(None),
+            "an ancestor that cannot have inherited a newly created private worktree must not make its process state unknown"
+        );
+    }
+}
+
 struct CompositionWorktreeGuard {
     repository_root: PathBuf,
     worktree: PathBuf,
@@ -3065,7 +3131,12 @@ mod read_set_containment_tests {
 
 #[cfg(all(test, windows))]
 mod path_containment_tests {
-    use super::path_is_within;
+    use super::{
+        CompositionCommand, controlled_command_environment, path_is_within, resolve_executable,
+        trusted_executable_directories,
+    };
+    use std::collections::BTreeMap;
+    use std::fs;
     use std::path::Path;
 
     #[test]
@@ -3078,5 +3149,34 @@ mod path_containment_tests {
             Path::new(r"C:\Windows\System32"),
             Path::new(r"C:\Windows\System32-evil\cmd.exe")
         ));
+    }
+
+    #[test]
+    fn controlled_composition_environment_can_resolve_windows_powershell() {
+        let system_root = std::env::var_os("SystemRoot").expect("Windows SystemRoot");
+        let powershell_dir =
+            fs::canonicalize(Path::new(&system_root).join(r"System32\WindowsPowerShell\v1.0"))
+                .expect("Windows PowerShell installation directory");
+        let command = CompositionCommand {
+            node_id: "powershell".into(),
+            program: "powershell.exe".into(),
+            args: Vec::new(),
+            depends_on: Vec::new(),
+            environment: BTreeMap::new(),
+            input_paths: Vec::new(),
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
+        };
+        let environment =
+            controlled_command_environment(&command).expect("controlled composition environment");
+
+        assert!(
+            trusted_executable_directories().contains(&powershell_dir),
+            "PowerShell is explicitly trusted without inheriting ambient PATH"
+        );
+        assert!(
+            resolve_executable(&std::env::temp_dir(), &command.program, &environment).is_some(),
+            "Windows composition fixtures can resolve their explicit PowerShell command"
+        );
     }
 }

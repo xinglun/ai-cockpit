@@ -492,7 +492,7 @@ fn successful_exact_identity_allows_reuse_but_command_change_reexecutes() {
 }
 
 #[test]
-fn repeated_exact_composition_reuses_without_spawning_a_process() {
+fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     let state = tempdir("state");
@@ -509,18 +509,26 @@ fn repeated_exact_composition_reuses_without_spawning_a_process() {
 
     assert!(first.passed);
     assert!(second.passed);
-    assert_eq!(second.processes_spawned, 0);
     assert_eq!(second.execution_records.len(), 1);
-    assert!(!second.execution_records[0].spawned);
-    assert!(second.execution_records[0].reused);
-    assert_eq!(
-        second.execution_records[0]
-            .predecessor_attempt_id
-            .as_deref(),
-        Some(first.attempt_id.as_str())
-    );
+    if cfg!(unix) {
+        assert_eq!(second.processes_spawned, 0);
+        assert!(!second.execution_records[0].spawned);
+        assert!(second.execution_records[0].reused);
+        assert_eq!(
+            second.execution_records[0]
+                .predecessor_attempt_id
+                .as_deref(),
+            Some(first.attempt_id.as_str())
+        );
+    } else {
+        assert_eq!(second.processes_spawned, 1);
+        assert!(second.execution_records[0].spawned);
+        assert!(!second.execution_records[0].reused);
+        assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
+    }
 }
 
+#[cfg(unix)]
 #[test]
 fn admission_change_blocks_reuse_even_when_no_process_would_start() {
     let root = repository();
@@ -558,6 +566,7 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
     );
 }
 
+#[cfg(unix)]
 #[test]
 fn pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance() {
     let root = repository();
@@ -1386,10 +1395,17 @@ fn changed_command_only_reexecutes_the_affected_node() {
     let second = run_composition(second_input).expect("second attempt");
 
     assert!(!second.passed);
-    assert_eq!(second.processes_spawned, 1);
-    assert!(!second.execution_records[0].spawned);
-    assert!(second.execution_records[0].reused);
-    assert!(second.execution_records[1].spawned);
+    if cfg!(unix) {
+        assert_eq!(second.processes_spawned, 1);
+        assert!(!second.execution_records[0].spawned);
+        assert!(second.execution_records[0].reused);
+        assert!(second.execution_records[1].spawned);
+    } else {
+        assert_eq!(second.processes_spawned, 2);
+        assert!(second.execution_records[0].spawned);
+        assert!(!second.execution_records[0].reused);
+        assert!(second.execution_records[1].spawned);
+    }
     assert!(!second.execution_records[1].passed);
 }
 
@@ -1437,7 +1453,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     .expect("second attempt");
 
     assert!(second.passed);
-    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     let api_record = second
         .execution_records
         .iter()
@@ -1450,8 +1466,8 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         .unwrap();
     assert!(api_record.spawned);
     assert!(!api_record.reused);
-    assert!(!docs_record.spawned);
-    assert!(docs_record.reused);
+    assert_eq!(docs_record.spawned, !cfg!(unix));
+    assert_eq!(docs_record.reused, cfg!(unix));
 }
 
 #[test]
@@ -1508,7 +1524,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     .expect("second attempt");
 
     assert!(second.passed);
-    assert_eq!(second.processes_spawned, 3);
+    assert_eq!(second.processes_spawned, if cfg!(unix) { 3 } else { 4 });
     for node_id in ["source", "consumer", "transitive"] {
         let record = second
             .execution_records
@@ -1526,8 +1542,8 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         .iter()
         .find(|record| record.node_id == "independent")
         .unwrap();
-    assert!(!independent.spawned);
-    assert!(independent.reused);
+    assert_eq!(independent.spawned, !cfg!(unix));
+    assert_eq!(independent.reused, cfg!(unix));
 }
 
 #[test]
@@ -1622,10 +1638,15 @@ fn inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse() {
     assert_eq!(attempts.len(), 2, "both processes must persist an attempt");
     assert_eq!(attempts[0]["processesSpawned"], 1);
     assert_eq!(
-        attempts[1]["processesSpawned"], 0,
-        "an unrelated inherited variable is absent from the controlled child environment"
+        attempts[1]["processesSpawned"],
+        if cfg!(unix) { 0 } else { 1 },
+        "unobservable Windows read sets execute again instead of reusing"
     );
-    assert_eq!(attempts[1]["executionRecords"][0]["reused"], true);
+    assert_eq!(
+        attempts[1]["executionRecords"][0]["reused"],
+        cfg!(unix),
+        "reuse is permitted only when the platform provides a bounded input-read proof"
+    );
     assert!(
         !attempts[1]["executionRecords"][0]["stdout"]
             .as_str()
@@ -1731,9 +1752,9 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
 
     assert!(first.passed && second.passed);
     assert_eq!(first.processes_spawned, 2);
-    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.processes_spawned, if cfg!(unix) { 1 } else { 2 });
     assert!(!second.execution_records[0].reused);
-    assert!(second.execution_records[1].reused);
+    assert_eq!(second.execution_records[1].reused, cfg!(unix));
     assert!(second.execution_records[1].node_id == "independent");
 }
 

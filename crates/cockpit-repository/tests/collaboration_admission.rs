@@ -397,10 +397,17 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
     let second =
         run_admitted_composition(&store, "WI-CONSUMER", 1, input).expect("second composition");
     assert!(second.passed);
-    assert_eq!(second.processes_spawned, 0);
+    assert_eq!(second.processes_spawned, if cfg!(unix) { 0 } else { 1 });
     let second_projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
-    assert_eq!(second_projection.reusable_checks, vec!["marker"]);
+    assert_eq!(
+        second_projection.reusable_checks,
+        if cfg!(unix) {
+            vec!["marker"]
+        } else {
+            Vec::new()
+        }
+    );
     assert!(!second_projection.human_decision_required);
 }
 
