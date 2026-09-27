@@ -2951,7 +2951,10 @@ mod verifier_process_observation_tests {
         verifier_process_using_worktree,
     };
     use std::fs;
+    use std::sync::Mutex;
     use std::time::Duration;
+
+    static PROCESS_OBSERVATION_TEST_LOCK: Mutex<()> = Mutex::new(());
 
     struct InaccessibleProcess(libc::pid_t);
 
@@ -2967,6 +2970,9 @@ mod verifier_process_observation_tests {
 
     #[test]
     fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
+        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
         let parent = unique_composition_parent();
         create_private_composition_parent(&parent).expect("private composition parent");
         let worktree = parent.join("composition");
@@ -2985,6 +2991,9 @@ mod verifier_process_observation_tests {
 
     #[test]
     fn inaccessible_process_started_before_private_worktree_does_not_block_cleanup() {
+        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
         if unsafe { libc::geteuid() } == 0 {
             return;
         }
