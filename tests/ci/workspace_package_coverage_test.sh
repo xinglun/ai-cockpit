@@ -104,7 +104,18 @@ import sys
 from pathlib import Path
 
 metadata_path, runtime_path, receipt_path, repository = map(Path, sys.argv[1:])
-runtime_path.write_bytes(b"hosted candidate runtime executable fixture")
+runtime_path.write_text(
+    "#!/usr/bin/env python3\n"
+    "import json, os, sys\n"
+    "from pathlib import Path\n"
+    "args = sys.argv[1:]\n"
+    "with Path(os.environ['FAKE_RUNTIME_LOG']).open('a', encoding='utf-8') as log: log.write(json.dumps(args) + '\\n')\n"
+    "expected = ['work-item', 'status', '--repo', str(Path(os.environ['AI_COCKPIT_VERIFICATION_REPOSITORY'])), '--id', 'WI-HOSTED-RECEIPT', '--json']\n"
+    "if args != expected: raise SystemExit('unexpected Runtime status query: ' + repr(args) + '; expected: ' + repr(expected))\n"
+    "print(json.dumps({'workItemId': 'WI-HOSTED-RECEIPT', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'sourceDigests': {'contract': os.environ['FAKE_CURRENT_CONTRACT_DIGEST'], 'repositorySnapshot': os.environ['FAKE_CURRENT_SNAPSHOT_DIGEST']}}))\n",
+    encoding="utf-8",
+)
+runtime_path.chmod(0o755)
 metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 packages = sorted({p["name"] for p in metadata["packages"] if p.get("source") is None})
 runtime_digest = "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest()
@@ -148,6 +159,9 @@ receipt_path.write_bytes(evidence_bytes)
 (repository / ".ai/evidence" / f"{work_item_id}.verification.json").write_bytes(evidence_bytes)
 PY
 PACKAGE_LOG="$tmp/hosted-packages.log" \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
 AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
 AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
 AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
@@ -155,10 +169,78 @@ AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
     --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/hosted-report.json"
 jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' \
   "$tmp/hosted-report.json" >/dev/null
+test "$(wc -l <"$tmp/runtime-status.log" | tr -d ' ')" = 1 || {
+  printf 'coverage did not ask the candidate Runtime to verify receipt freshness\n' >&2
+  exit 1
+}
 test ! -s "$tmp/hosted-packages.log" || {
   printf 'coverage re-ran package checks already present in the matching formal receipt\n' >&2
   exit 1
 }
+
+cp "$tmp/hosted-verification.json" "$tmp/valid-hosted-verification.json"
+python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path = map(Path, sys.argv[1:])
+evidence = json.loads(receipt_path.read_text(encoding="utf-8"))
+evidence["contractDigest"] = "sha256:" + "4" * 64
+encoded = json.dumps(evidence).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/stale-contract-report.json" \
+    >/dev/null 2>&1; then
+  printf 'workspace coverage accepted a receipt bound to a stale Contract digest\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and (.failureDiagnosticTail | contains("current Runtime Contract"))' \
+  "$tmp/stale-contract-report.json" >/dev/null
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+
+python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path = map(Path, sys.argv[1:])
+evidence = json.loads(receipt_path.read_text(encoding="utf-8"))
+stale_snapshot = "sha256:" + "4" * 64
+evidence["repositorySnapshotDigest"] = stale_snapshot
+evidence["receipt"]["planReceipt"]["repositorySnapshotDigest"] = stale_snapshot
+encoded = json.dumps(evidence).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/stale-snapshot-report.json" \
+    >/dev/null 2>&1; then
+  printf 'workspace coverage accepted a receipt bound to a stale source snapshot\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and (.failureDiagnosticTail | contains("current Runtime source snapshot"))' \
+  "$tmp/stale-snapshot-report.json" >/dev/null
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+
 python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
 import json
 import sys

@@ -69,6 +69,7 @@ if [[ "$state" == passed && -n "$hosted_verification_receipt" ]]; then
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -125,6 +126,52 @@ if (
     or receipt.get("repositoryId") != repository_id
 ):
     reject("nested Runtime receipt identity does not match the formal evidence envelope")
+
+try:
+    status_result = subprocess.run(
+        [
+            str(runtime_path),
+            "work-item",
+            "status",
+            "--repo",
+            str(repository_path),
+            "--id",
+            work_item_id,
+            "--json",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+except (OSError, subprocess.TimeoutExpired) as error:
+    reject(f"candidate Runtime freshness query failed: {error}")
+if status_result.returncode != 0:
+    reject(
+        "candidate Runtime rejected the receipt freshness status query: "
+        + status_result.stderr[-2000:]
+    )
+try:
+    current_status = json.loads(status_result.stdout)
+except json.JSONDecodeError:
+    reject("candidate Runtime returned malformed receipt freshness status")
+if (
+    current_status.get("workItemId") != work_item_id
+    or current_status.get("verification") != "verified"
+    or not isinstance(current_status.get("evidenceFreshness"), dict)
+    or current_status["evidenceFreshness"].get("state") != "fresh"
+):
+    reject("candidate Runtime does not accept the formal receipt as fresh")
+current_source_digests = current_status.get("sourceDigests")
+if not isinstance(current_source_digests, dict):
+    reject("candidate Runtime freshness status is missing source identity digests")
+if current_source_digests.get("contract") != contract_digest:
+    reject("formal receipt Contract digest does not match the current Runtime Contract")
+if current_source_digests.get("repositorySnapshot") != snapshot_digest:
+    reject("formal receipt source snapshot does not match the current Runtime source snapshot")
+if "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest() != actual_digest:
+    reject("candidate Runtime executable changed during freshness validation")
+
 if receipt.get("nodesPlanned") != len(expected):
     reject("hosted Runtime receipt does not plan every workspace package")
 results = receipt.get("results")
