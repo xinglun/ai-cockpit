@@ -6,6 +6,7 @@ metadata=""
 cargo_bin=cargo
 report="$root/target/workspace-package-coverage.json"
 hosted_verification_receipt="${AI_COCKPIT_VERIFICATION_RECEIPT:-}"
+hosted_verification_orchestration="${AI_COCKPIT_VERIFICATION_ORCHESTRATION:-}"
 runtime_bin="${AI_COCKPIT_RUNTIME_BIN:-$root/target/release/ai-cockpit}"
 verification_repository="${AI_COCKPIT_VERIFICATION_REPOSITORY:-$root}"
 workers="${WORKSPACE_TEST_WORKERS:-2}"
@@ -32,8 +33,12 @@ tmp=$(mktemp -d "${TMPDIR:-/tmp}/workspace-packages.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 : >"$tmp/planned"
 : >"$tmp/executed"
+: >"$tmp/coverage-required"
+: >"$tmp/hosted-runtime-executed"
+: >"$tmp/coverage-run-executed"
 mkdir -p "$tmp/results"
 state=passed
+receipt_verification_state=not_provided
 failure_phase=""
 failed_package=""
 failed_index=""
@@ -65,7 +70,7 @@ fi
 receipt_mode=false
 if [[ "$state" == passed && -n "$hosted_verification_receipt" ]]; then
   receipt_mode=true
-  if ! python3 - "$metadata" "$hosted_verification_receipt" "$runtime_bin" "$verification_repository" >"$tmp/executed" 2>"$tmp/receipt-diagnostic" <<'PY'
+  if ! python3 - "$metadata" "$hosted_verification_receipt" "$runtime_bin" "$verification_repository" "$hosted_verification_orchestration" >"$tmp/receipt-plan.json" 2>"$tmp/receipt-diagnostic" <<'PY'
 import hashlib
 import json
 import re
@@ -73,7 +78,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-metadata_path, receipt_path, runtime_path, repository_path = map(Path, sys.argv[1:])
+metadata_path, receipt_path, runtime_path, repository_path = map(Path, sys.argv[1:5])
+orchestration_path = Path(sys.argv[5]) if sys.argv[5] else None
 
 def reject(message):
     raise SystemExit(message)
@@ -82,6 +88,8 @@ if receipt_path.is_symlink() or runtime_path.is_symlink() or repository_path.is_
     reject("hosted verification inputs must not be symlinks")
 if not receipt_path.is_file() or not runtime_path.is_file() or not repository_path.is_dir():
     reject("hosted verification inputs are missing or not regular files")
+if orchestration_path is None or orchestration_path.is_symlink() or not orchestration_path.is_file():
+    reject("hosted Runtime orchestration evidence is missing or unsafe")
 
 metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
 expected = sorted({
@@ -91,8 +99,11 @@ expected = sorted({
 })
 artifact_bytes = receipt_path.read_bytes()
 formal = json.loads(artifact_bytes)
+orchestration = json.loads(orchestration_path.read_bytes())
 if not isinstance(formal, dict):
     reject("hosted Runtime evidence is not a JSON object")
+if not isinstance(orchestration, dict):
+    reject("hosted Runtime orchestration evidence is not a JSON object")
 receipt = formal.get("receipt")
 if not isinstance(receipt, dict):
     reject("hosted Runtime evidence is missing its formal receipt envelope")
@@ -126,6 +137,17 @@ if (
     or receipt.get("repositoryId") != repository_id
 ):
     reject("nested Runtime receipt identity does not match the formal evidence envelope")
+verification_state = orchestration.get("verificationState")
+if (
+    orchestration.get("schemaVersion") != 1
+    or orchestration.get("workItemId") != work_item_id
+    or orchestration.get("runtimeDigest") != actual_digest
+    or orchestration.get("formalReceiptDigest")
+    != "sha256:" + hashlib.sha256(artifact_bytes).hexdigest()
+    or orchestration.get("executionRepository") != str(repository_path.resolve())
+    or verification_state not in {"passed", "reused"}
+):
+    reject("hosted Runtime orchestration does not bind this receipt and execution repository")
 
 try:
     status_result = subprocess.run(
@@ -221,6 +243,38 @@ if len(set(all_node_ids)) != len(all_node_ids):
     reject("hosted Runtime receipt contains duplicate verification nodes")
 if sorted(covered) != expected or len(set(covered)) != len(expected):
     reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
+reused_nodes = plan.get("reusedNodes")
+executed_nodes = plan.get("executedNodes")
+if (
+    not isinstance(reused_nodes, list)
+    or any(not isinstance(node, str) for node in reused_nodes)
+    or len(set(reused_nodes)) != len(reused_nodes)
+    or not isinstance(executed_nodes, list)
+    or any(not isinstance(node, str) for node in executed_nodes)
+    or len(set(executed_nodes)) != len(executed_nodes)
+):
+    reject("hosted Runtime plan is missing valid node accounting")
+if (
+    set(reused_nodes).intersection(executed_nodes)
+    or sorted(reused_nodes + executed_nodes) != sorted(all_node_ids)
+    or len(executed_nodes) != nodes_executed
+    or len(reused_nodes) != nodes_reused
+):
+    reject("hosted Runtime plan execution accounting does not match its formal receipt")
+if verification_state == "reused":
+    hosted_runtime_executed = []
+    coverage_required = expected
+else:
+    package_node_ids = {f"project-command-0-package-{package}" for package in expected}
+    reused_packages = {
+        node.removeprefix("project-command-0-package-")
+        for node in reused_nodes
+        if node.startswith("project-command-0-package-")
+    }
+    if not package_node_ids.issubset(set(all_node_ids)):
+        reject("hosted Runtime receipt omits a required package result")
+    hosted_runtime_executed = [package for package in expected if package not in reused_packages]
+    coverage_required = [package for package in expected if package in reused_packages]
 
 evidence_directory = repository_path / ".ai" / "evidence"
 evidence_path = evidence_directory / f"{work_item_id}.verification.json"
@@ -243,19 +297,32 @@ if (
     or evidence.get("repositorySnapshotDigest") != snapshot_digest
 ):
     reject("Runtime-authored formal verification evidence identity is invalid")
-print("\n".join(expected))
+print(json.dumps({"coverageRequired": coverage_required, "hostedRuntimeExecuted": hosted_runtime_executed}))
 PY
   then
     state=failed
     failure_phase=hosted_verification_receipt
     failure_diagnostic_tail=$(tail -c 12000 "$tmp/receipt-diagnostic")
-    : >"$tmp/executed"
+    : >"$tmp/coverage-required"
+    : >"$tmp/hosted-runtime-executed"
+  else
+    receipt_verification_state=$(jq -er '.verificationState' "$hosted_verification_orchestration") || {
+      state=failed
+      failure_phase=hosted_verification_receipt
+      failure_diagnostic_tail="could not read hosted Runtime verification state"
+    }
+    jq -r '.coverageRequired[]' "$tmp/receipt-plan.json" >"$tmp/coverage-required"
+    jq -r '.hostedRuntimeExecuted[]' "$tmp/receipt-plan.json" >"$tmp/hosted-runtime-executed"
   fi
 elif [[ "$state" == passed ]]; then
+  cp "$tmp/planned" "$tmp/coverage-required"
+fi
+
+if [[ "$state" == passed ]]; then
   packages=()
   while IFS= read -r package; do
     packages+=("$package")
-  done <"$tmp/planned"
+  done <"$tmp/coverage-required"
   pids=()
   active=0
   next=0
@@ -303,19 +370,28 @@ fi
 
 # Completion order is intentionally independent from the worker schedule so
 # the report remains deterministic and can be compared across CI runs.
-if [[ "$receipt_mode" != true ]]; then
-  : >"$tmp/executed"
-  if [[ "$state" == passed || -n "$failed_index" ]]; then
-    for index in "${!packages[@]}"; do
-      if [[ -f "$tmp/results/$index.status" ]] && [[ "$(<"$tmp/results/$index.status")" == 0 ]]; then
-        printf '%s\n' "${packages[$index]}" >>"$tmp/executed"
-      fi
-    done
-  fi
+: >"$tmp/coverage-run-executed"
+if [[ "$state" == passed || -n "$failed_index" ]]; then
+  for index in "${!packages[@]}"; do
+    if [[ -f "$tmp/results/$index.status" ]] && [[ "$(<"$tmp/results/$index.status")" == 0 ]]; then
+      printf '%s\n' "${packages[$index]}" >>"$tmp/coverage-run-executed"
+    fi
+  done
 fi
+python3 - "$tmp/planned" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$tmp/executed" <<'PY'
+import sys
+
+planned_path, hosted_path, coverage_path, executed_path = sys.argv[1:]
+def lines(path):
+    return [line for line in open(path, encoding="utf-8").read().splitlines() if line]
+
+completed = set(lines(hosted_path)) | set(lines(coverage_path))
+with open(executed_path, "w", encoding="utf-8") as stream:
+    stream.write("".join(f"{package}\n" for package in lines(planned_path) if package in completed))
+PY
 
 mkdir -p "$(dirname "$report")"
-python3 - "$tmp/planned" "$tmp/executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" <<'PY'
+python3 - "$tmp/planned" "$tmp/executed" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" "$receipt_verification_state" <<'PY'
 import json
 import sys
 
@@ -324,22 +400,27 @@ def lines(path):
 
 planned = lines(sys.argv[1])
 executed = lines(sys.argv[2])
+hosted_runtime_executed = lines(sys.argv[3])
+coverage_run_executed = lines(sys.argv[4])
 report = {
     "executed": executed,
+    "executedByCoverageRunner": coverage_run_executed,
+    "executedByHostedRuntime": hosted_runtime_executed,
     "omitted": sorted(set(planned) - set(executed)),
     "planned": planned,
     "schemaVersion": 1,
-    "state": sys.argv[4],
+    "state": sys.argv[6],
+    "verificationReceiptState": sys.argv[11],
 }
-if sys.argv[5]:
-    report["failurePhase"] = sys.argv[5]
-if sys.argv[6]:
-    report["failedPackage"] = sys.argv[6]
 if sys.argv[7]:
-    report["failedExitCode"] = int(sys.argv[7])
+    report["failurePhase"] = sys.argv[7]
 if sys.argv[8]:
-    report["failureDiagnosticTail"] = sys.argv[8]
-open(sys.argv[3], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    report["failedPackage"] = sys.argv[8]
+if sys.argv[9]:
+    report["failedExitCode"] = int(sys.argv[9])
+if sys.argv[10]:
+    report["failureDiagnosticTail"] = sys.argv[10]
+open(sys.argv[5], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort_keys=True) + "\n")
 PY
 
 if [[ "$state" != passed ]]; then

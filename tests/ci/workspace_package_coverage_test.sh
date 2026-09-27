@@ -139,6 +139,9 @@ receipt = {
         "workItemId": work_item_id,
         "repositoryId": repository_id,
         "repositorySnapshotDigest": snapshot_digest,
+        "executedNodes": [f"project-command-0-package-{package}" for package in packages]
+        + ["project-command-1"],
+        "reusedNodes": [],
         "coverageManifest": {
             "workspaceMembers": packages,
             "nodeIds": [f"project-command-0-package-{package}" for package in packages],
@@ -159,6 +162,37 @@ evidence_bytes = json.dumps(evidence).encode("utf-8")
 receipt_path.write_bytes(evidence_bytes)
 (repository / ".ai/evidence" / f"{work_item_id}.verification.json").write_bytes(evidence_bytes)
 PY
+refresh_hosted_orchestration() {
+  local verification_state=${1:-passed}
+  python3 - "$tmp/runtime-bin" "$tmp/hosted-verification.json" "$tmp/hosted-repository" \
+    "$tmp/hosted-orchestration.json" "$verification_state" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+runtime = Path(sys.argv[1])
+receipt = Path(sys.argv[2])
+repository = Path(sys.argv[3])
+orchestration = Path(sys.argv[4])
+state = sys.argv[5]
+formal_bytes = receipt.read_bytes()
+formal = json.loads(formal_bytes)
+orchestration.write_text(
+    json.dumps({
+        "schemaVersion": 1,
+        "workItemId": formal["workItemId"],
+        "runtimeDigest": "sha256:" + hashlib.sha256(runtime.read_bytes()).hexdigest(),
+        "formalReceiptDigest": "sha256:" + hashlib.sha256(formal_bytes).hexdigest(),
+        "executionRepository": str(repository.resolve()),
+        "verificationState": state,
+    }),
+    encoding="utf-8",
+)
+PY
+}
+refresh_hosted_orchestration passed
+export AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/hosted-orchestration.json"
 PACKAGE_LOG="$tmp/hosted-packages.log" \
 FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
 FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
@@ -170,6 +204,8 @@ AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
     --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/hosted-report.json"
 jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' \
   "$tmp/hosted-report.json" >/dev/null
+jq -e '.verificationReceiptState == "passed" and .executedByHostedRuntime == ["package-a", "package-b"] and .executedByCoverageRunner == []' \
+  "$tmp/hosted-report.json" >/dev/null
 test "$(wc -l <"$tmp/runtime-status.log" | tr -d ' ')" = 1 || {
   printf 'coverage did not ask the candidate Runtime to verify receipt freshness\n' >&2
   exit 1
@@ -178,6 +214,63 @@ test ! -s "$tmp/hosted-packages.log" || {
   printf 'coverage re-ran package checks already present in the matching formal receipt\n' >&2
   exit 1
 }
+
+# When Runtime reused only one package node, the coverage consumer runs just
+# that node and retains the current hosted execution for the other package.
+python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path = map(Path, sys.argv[1:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+receipt = formal["receipt"]
+reused_id = "project-command-0-package-package-b"
+receipt["nodesReused"] = 1
+receipt["nodesExecuted"] = len(receipt["results"]) - 1
+receipt["planReceipt"]["reusedNodes"] = [reused_id]
+receipt["planReceipt"]["executedNodes"] = [
+    result["nodeId"] for result in receipt["results"] if result["nodeId"] != reused_id
+]
+for result in receipt["results"]:
+    result["reused"] = result["nodeId"] == reused_id
+encoded = json.dumps(formal).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+refresh_hosted_orchestration passed
+PACKAGE_LOG="$tmp/partial-hosted-packages.log" \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/partial-hosted-report.json"
+diff -u <(printf '%s\n' package-b) "$tmp/partial-hosted-packages.log"
+jq -e '.state == "passed" and .executed == ["package-a", "package-b"] and .executedByHostedRuntime == ["package-a"] and .executedByCoverageRunner == ["package-b"]' \
+  "$tmp/partial-hosted-report.json" >/dev/null
+
+# A fresh receipt from before this hosted run is reusable Runtime evidence, but
+# it is not proof that this hosted run executed the package checks.  The
+# coverage consumer must run the missing hosted package checks in that case.
+refresh_hosted_orchestration reused
+PACKAGE_LOG="$tmp/reused-hosted-packages.log" \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/hosted-orchestration.json" \
+AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/reused-hosted-report.json"
+diff -u <(printf '%s\n' package-a package-b | sort) <(sort "$tmp/reused-hosted-packages.log")
+jq -e '.state == "passed" and .executed == ["package-a", "package-b"]' \
+  "$tmp/reused-hosted-report.json" >/dev/null
+jq -e '.verificationReceiptState == "reused" and .executedByHostedRuntime == [] and .executedByCoverageRunner == ["package-a", "package-b"]' \
+  "$tmp/reused-hosted-report.json" >/dev/null
 
 cp "$tmp/hosted-verification.json" "$tmp/valid-hosted-verification.json"
 python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
@@ -192,6 +285,7 @@ encoded = json.dumps(evidence).encode("utf-8")
 receipt_path.write_bytes(encoded)
 evidence_path.write_bytes(encoded)
 PY
+refresh_hosted_orchestration passed
 if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
   FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
   FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
@@ -209,6 +303,7 @@ jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and
 cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
 cp "$tmp/valid-hosted-verification.json" \
   "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+refresh_hosted_orchestration passed
 
 python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
 import json
@@ -224,6 +319,7 @@ encoded = json.dumps(evidence).encode("utf-8")
 receipt_path.write_bytes(encoded)
 evidence_path.write_bytes(encoded)
 PY
+refresh_hosted_orchestration passed
 if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
   FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
   FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
@@ -241,6 +337,7 @@ jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and
 cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
 cp "$tmp/valid-hosted-verification.json" \
   "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+refresh_hosted_orchestration passed
 
 python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
 import json
@@ -252,6 +349,7 @@ evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
 evidence["receipt"]["annotation"] = "same identity, different bytes"
 evidence_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
 PY
+refresh_hosted_orchestration passed
 if AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
   AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
@@ -275,6 +373,7 @@ receipt = json.loads(path.read_text(encoding="utf-8"))
 receipt["runtimeDigest"] = "sha256:" + "f" * 64
 path.write_text(json.dumps(receipt), encoding="utf-8")
 PY
+refresh_hosted_orchestration passed
 if AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
   AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \

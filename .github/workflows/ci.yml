@@ -217,6 +217,7 @@ jobs:
         shell: bash
         env:
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
+          AI_COCKPIT_DEFER_WORKTREE_CLEANUP: ${{ steps.quality_route.outputs.profile != 'light' }}
         run: |
           set -euo pipefail
           tests/ci/run_hosted_runtime_verification.sh \
@@ -224,16 +225,6 @@ jobs:
             "$GITHUB_WORKSPACE" \
             "$ROUTE_CONTRACT_PATH" \
             target
-      - name: Upload hosted Work Item verification evidence
-        if: always() && steps.quality_route.outputs.contract_path != ''
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: ci-hosted-runtime-verification
-          path: |
-            target/hosted-runtime-*.json
-            target/hosted-runtime-*.stderr
-          if-no-files-found: warn
-          retention-days: 7
       - name: Evaluate Rust Contract-aware quality gate
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash
@@ -277,10 +268,20 @@ jobs:
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           ROUTE_PROFILE: ${{ steps.quality_route.outputs.profile }}
           AI_COCKPIT_VERIFICATION_RECEIPT: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-verification.json' || '' }}
+          AI_COCKPIT_VERIFICATION_ORCHESTRATION: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-orchestration.json' || '' }}
           AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit
-          AI_COCKPIT_VERIFICATION_REPOSITORY: ${{ github.workspace }}
         run: |
           set -euo pipefail
+          verification_repository="$GITHUB_WORKSPACE"
+          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
+            cleanup_record=target/hosted-runtime-worktree-cleanup.json
+            test -f "$cleanup_record" && test ! -L "$cleanup_record"
+            cleanup_state=$(jq -er '.state | strings' "$cleanup_record")
+            if [[ "$cleanup_state" == deferred_for_consumer ]]; then
+              verification_repository=$(jq -er '.isolatedRepository | strings | select(length > 0)' "$cleanup_record")
+            fi
+          fi
+          export AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"
           # The gate consumes GitHub's immutable push/PR context
           # (GITHUB_EVENT_NAME, GITHUB_REF, GITHUB_SHA) to recognize only the
           # bounded post-merge archive-to-close transition. No bypass context
@@ -301,6 +302,24 @@ jobs:
         if: steps.quality_route.outputs.profile != 'light'
         shell: bash
         run: test -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json
+      - name: Cleanup hosted Runtime verification worktree
+        if: always() && steps.quality_route.outputs.contract_path != ''
+        shell: bash
+        run: |
+          set -euo pipefail
+          tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
+            "$GITHUB_WORKSPACE" \
+            target/hosted-runtime-worktree-cleanup.json
+      - name: Upload hosted Work Item verification evidence
+        if: always() && steps.quality_route.outputs.contract_path != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-hosted-runtime-verification
+          path: |
+            target/hosted-runtime-*.json
+            target/hosted-runtime-*.stderr
+          if-no-files-found: warn
+          retention-days: 7
       - name: verify three-language work-item counterparts
         shell: bash
         run: |

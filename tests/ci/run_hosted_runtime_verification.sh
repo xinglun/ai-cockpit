@@ -71,35 +71,55 @@ initial_actions='[]'
 refreshed_actions='[]'
 
 write_orchestration_report() {
+  local formal_receipt_digest=""
+  if [[ -s "$formal_receipt_output" ]]; then
+    formal_receipt_digest=$(python3 - "$formal_receipt_output" <<'PY'
+import hashlib
+import sys
+from pathlib import Path
+
+print("sha256:" + hashlib.sha256(Path(sys.argv[1]).read_bytes()).hexdigest())
+PY
+) || return 1
+  fi
   jq -n \
     --arg workItemId "$work_item_id" \
     --arg runtimeDigest "$runtime_digest" \
+    --arg executionRepository "$execution_repository" \
+    --arg formalReceiptDigest "$formal_receipt_digest" \
     --arg preflightState "$preflight_state" \
     --arg verificationState "$verification_state" \
     --arg failureReason "$failure_reason" \
     --argjson initialActions "$initial_actions" \
     --argjson refreshedActions "$refreshed_actions" \
-    '{schemaVersion:1,workItemId:$workItemId,runtimeDigest:$runtimeDigest,initialActions:$initialActions,refreshedActions:$refreshedActions,preflightState:$preflightState,verificationState:$verificationState,failureReason:(if $failureReason == "" then null else $failureReason end)}' \
+    '{schemaVersion:1,workItemId:$workItemId,runtimeDigest:$runtimeDigest,executionRepository:$executionRepository,formalReceiptDigest:(if $formalReceiptDigest == "" then null else $formalReceiptDigest end),initialActions:$initialActions,refreshedActions:$refreshedActions,preflightState:$preflightState,verificationState:$verificationState,failureReason:(if $failureReason == "" then null else $failureReason end)}' \
     >"$orchestration_output"
 }
 
 cleanup_execution_worktree() {
   local command_status=$?
   local cleanup_status=0
+  local cleanup_state=removed
+  local defer_cleanup=false
   trap - EXIT
 
-  if [[ -n "$worktree_path" ]]; then
+  if [[ "${AI_COCKPIT_DEFER_WORKTREE_CLEANUP:-false}" == true \
+    && "$command_status" == 0 \
+    && "$verification_state" == passed \
+    && -n "$worktree_path" ]]; then
+    defer_cleanup=true
+    cleanup_state=deferred_for_consumer
+  elif [[ -n "$worktree_path" ]]; then
     if git -C "$source_repository" worktree list --porcelain | awk -v path="$worktree_path" '$1 == "worktree" && substr($0, 10) == path { found = 1 } END { exit !found }'; then
       git -C "$source_repository" worktree remove --force "$worktree_path" >/dev/null || cleanup_status=$?
     elif [[ -d "$worktree_path" ]]; then
       rmdir "$worktree_path" || cleanup_status=$?
     fi
   fi
-  if [[ -n "$worktree_parent" && -d "$worktree_parent" ]]; then
+  if [[ "$defer_cleanup" != true && -n "$worktree_parent" && -d "$worktree_parent" ]]; then
     rmdir "$worktree_parent" || cleanup_status=$?
   fi
 
-  local cleanup_state=removed
   [[ -z "$worktree_path" ]] && cleanup_state=$execution_isolation_state
   [[ "$cleanup_status" == 0 ]] || cleanup_state=failed
   jq -n \
@@ -109,6 +129,10 @@ cleanup_execution_worktree() {
     --argjson cleanupExitCode "$cleanup_status" \
     '{schemaVersion:1,state:$state,sourceRepository:$sourceRepository,isolatedRepository:(if $isolatedRepository == "" then null else $isolatedRepository end),cleanupExitCode:$cleanupExitCode}' \
     >"$cleanup_output" || cleanup_status=$?
+
+  if [[ "$defer_cleanup" == true ]]; then
+    exit "$command_status"
+  fi
 
   if [[ "$cleanup_status" != 0 ]]; then
     printf 'failed to clean hosted Runtime worktree (exit %s): %s\n' "$cleanup_status" "$worktree_path" >&2

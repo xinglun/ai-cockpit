@@ -150,25 +150,39 @@ assert "target/release/ai-cockpit" in hosted_verification
 assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
+cleanup_runner = Path(sys.argv[3]).with_name("cleanup_hosted_runtime_verification_worktree.sh").read_text(encoding="utf-8")
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
 assert "--workers 1" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
+assert 'AI_COCKPIT_DEFER_WORKTREE_CLEANUP:-false' in hosted_runner
+assert "deferred_for_consumer" in hosted_runner
+assert 'formalReceiptDigest' in hosted_runner and 'executionRepository' in hosted_runner
 assert "run_helper stale true" in hosted_behavior_test and "run_helper fresh true" in hosted_behavior_test
+assert "run_helper stale-deferred true true" in hosted_behavior_test
+assert "run_workspace_package_tests.sh" in hosted_behavior_test
+assert "tampered-worktree-cleanup.json" in hosted_behavior_test
+assert 'git -C "$source_repository" worktree remove --force "$isolated_repository"' in cleanup_runner
+assert 'rev-parse --git-common-dir' in cleanup_runner
+assert 'source_head" != "$worktree_head' in cleanup_runner
 assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
     "name: Evaluate Rust Contract-aware quality gate"
 ), "refresh and verify with the exact hosted Runtime before the Contract gate"
 quality_job = job_block("quality")
 assert quality_job.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < quality_job.index(
     "name: run repository gates exactly once"
-) < quality_job.index("name: verify workspace package coverage receipt"), (
-    "hosted receipt production, package gates, and receipt consumption must remain ordered"
+) < quality_job.index("name: verify workspace package coverage receipt") < quality_job.index(
+    "name: Cleanup hosted Runtime verification worktree"
+) < quality_job.index("name: Upload hosted Work Item verification evidence"), (
+    "hosted receipt production, coverage consumption, cleanup, and evidence upload must remain ordered"
 )
 repository_gates_step = workflow.split(
     "      - name: run repository gates exactly once", 1
 )[1].split("      - name: verify workspace package coverage receipt", 1)[0]
 assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
+assert "AI_COCKPIT_VERIFICATION_ORCHESTRATION" in repository_gates_step
 assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
-assert "AI_COCKPIT_VERIFICATION_REPOSITORY" in repository_gates_step
+assert '[[ "$cleanup_state" == deferred_for_consumer ]]' in repository_gates_step
+assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step
 coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
 assert "hosted_verification_receipt" in coverage_runner.read_text(encoding="utf-8")
 

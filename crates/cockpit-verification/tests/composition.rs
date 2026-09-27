@@ -245,7 +245,7 @@ fn input(
             .collect(),
         commands,
         preconditions,
-        timeout_seconds: 1,
+        timeout_seconds: 30,
     }
 }
 
@@ -910,48 +910,57 @@ fn retry_does_not_remove_a_worktree_owned_by_a_live_process() {
         root.path(),
         state.path(),
         binding(&base, vec![base.clone(), base.clone()]),
-        vec![command("slow-owner", "sh", &["-c", "sleep 2"])],
+        vec![command("owner", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     composition.timeout_seconds = 30;
+    let (spawned_tx, spawned_rx) = mpsc::channel();
+    let (release_tx, release_rx) = mpsc::channel();
+    let release_rx = Mutex::new(release_rx);
+    let start_gate: ProcessStartGate = Arc::new(move |_node_id, spawn| {
+        let child = spawn()?;
+        spawned_tx
+            .send(())
+            .map_err(|error| format!("signal that the process was spawned: {error}"))?;
+        release_rx
+            .lock()
+            .map_err(|error| format!("lock process release gate: {error}"))?
+            .recv_timeout(Duration::from_secs(8))
+            .map_err(|error| format!("wait for owner release: {error}"))?;
+        Ok(child)
+    });
+    let admission_check: ProcessAdmissionCheck = Arc::new(|_node_id, accept| accept());
     let root_path = root.path().to_path_buf();
     let state_path = state.path().to_path_buf();
-    let worker = std::thread::spawn(move || run_composition(composition.clone()));
+    let worker = std::thread::spawn(move || {
+        run_composition_with_process_gates(composition, admission_check, start_gate)
+    });
+    spawned_rx
+        .recv_timeout(Duration::from_secs(8))
+        .expect("owner process should reach the deterministic start gate");
 
-    let deadline = Instant::now() + Duration::from_secs(8);
-    let (attempt_path, worktree_path) = loop {
-        let attempt = fs::read_dir(&state_path)
-            .expect("state directory")
-            .flatten()
-            .map(|entry| entry.path())
-            .filter(|path| {
-                path.extension()
-                    .is_some_and(|extension| extension == "json")
+    let (attempt_path, worktree_path) = fs::read_dir(&state_path)
+        .expect("state directory")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .find_map(|path| {
+            let value: serde_json::Value = serde_json::from_slice(&fs::read(&path).ok()?).ok()?;
+            let worktree = value["isolatedWorktree"].as_str()?.to_owned();
+            (!worktree.is_empty()).then_some((path, PathBuf::from(worktree)))
+        })
+        .expect("live owner attempt should record its isolated worktree");
+    let registered = run(&root_path, &["worktree", "list", "--porcelain"])
+        .lines()
+        .any(|line| {
+            line.strip_prefix("worktree ").is_some_and(|path| {
+                fs::canonicalize(path).ok() == fs::canonicalize(&worktree_path).ok()
             })
-            .find_map(|path| {
-                let value: serde_json::Value =
-                    serde_json::from_slice(&fs::read(&path).ok()?).ok()?;
-                let worktree = value["isolatedWorktree"].as_str()?.to_owned();
-                (!worktree.is_empty()).then_some((path, PathBuf::from(worktree)))
-            });
-        if let Some((attempt_path, worktree)) = attempt {
-            let registered = run(&root_path, &["worktree", "list", "--porcelain"])
-                .lines()
-                .any(|line| {
-                    line.strip_prefix("worktree ").is_some_and(|path| {
-                        fs::canonicalize(path).ok() == fs::canonicalize(&worktree).ok()
-                    })
-                });
-            if registered {
-                break (attempt_path, worktree);
-            }
-        }
-        assert!(
-            Instant::now() < deadline,
-            "live attempt never registered a worktree"
-        );
-        std::thread::sleep(Duration::from_millis(10));
-    };
+        });
+    assert!(registered, "live owner's worktree should be registered");
 
     let retry = input(
         root.path(),
@@ -968,6 +977,9 @@ fn retry_does_not_remove_a_worktree_owned_by_a_live_process() {
     assert!(worktree_path.is_dir(), "live owner's worktree was removed");
     assert!(attempt_path.is_file(), "live owner's attempt was replaced");
 
+    release_tx
+        .send(())
+        .expect("release owner process after retry assertions");
     let finished = worker
         .join()
         .expect("owner thread")
@@ -1841,14 +1853,15 @@ fn timed_out_node_is_durable_and_reports_cleanup() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     let state = tempdir("state");
-    let attempt = run_composition(input(
+    let mut composition = input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
         vec![command("timeout", "sh", &["-c", "sleep 2"])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
-    ))
-    .expect("timeout composition attempt");
+    );
+    composition.timeout_seconds = 1;
+    let attempt = run_composition(composition).expect("timeout composition attempt");
 
     assert!(!attempt.passed);
     assert_eq!(attempt.processes_spawned, 1);
@@ -1924,6 +1937,7 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let first = run_composition(composition.clone()).expect("write current attempt");
+    assert!(first.passed, "seed attempt failed: {first:?}");
     let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut legacy: serde_json::Value =
         serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
