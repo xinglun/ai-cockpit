@@ -11,9 +11,13 @@ repository=$2
 contract=$3
 artifact_dir=$4
 repository=$(cd "$repository" && pwd -P) || exit 2
-if [[ "$runtime_bin" != /* ]]; then runtime_bin="$repository/$runtime_bin"; fi
-if [[ "$contract" != /* ]]; then contract="$repository/$contract"; fi
-if [[ "$artifact_dir" != /* ]]; then artifact_dir="$repository/$artifact_dir"; fi
+source_repository=$repository
+execution_repository=$source_repository
+if [[ "$runtime_bin" != /* ]]; then runtime_bin="$source_repository/$runtime_bin"; fi
+if [[ "$contract" != /* ]]; then contract="$source_repository/$contract"; fi
+if [[ "$artifact_dir" != /* ]]; then artifact_dir="$source_repository/$artifact_dir"; fi
+contract_directory=$(cd "$(dirname "$contract")" && pwd -P) || exit 2
+contract="$contract_directory/$(basename "$contract")"
 if [[ ! -x "$runtime_bin" ]]; then
   printf 'candidate Runtime is not executable: %s\n' "$runtime_bin" >&2
   exit 2
@@ -22,6 +26,13 @@ if [[ ! -f "$contract" || -L "$contract" ]]; then
   printf 'Work Item Contract is missing or not a regular file: %s\n' "$contract" >&2
   exit 2
 fi
+case "$contract" in
+  "$source_repository"/*) contract_relative=${contract#"$source_repository"/} ;;
+  *)
+    printf 'Work Item Contract must be inside the source repository: %s\n' "$contract" >&2
+    exit 2
+    ;;
+esac
 mkdir -p "$artifact_dir" || exit 2
 
 status_before="$artifact_dir/hosted-runtime-status-before.json"
@@ -31,6 +42,11 @@ preflight_output="$artifact_dir/hosted-runtime-preflight.json"
 verification_output="$artifact_dir/hosted-runtime-execution.json"
 formal_receipt_output="$artifact_dir/hosted-runtime-verification.json"
 orchestration_output="$artifact_dir/hosted-runtime-orchestration.json"
+cleanup_output="$artifact_dir/hosted-runtime-worktree-cleanup.json"
+
+worktree_parent=""
+worktree_path=""
+execution_isolation_state=not_needed_fresh_receipt
 
 work_item_id=$(jq -er '.workItemId | strings | select(length > 0)' "$contract") || {
   printf 'Contract does not declare a Work Item ID\n' >&2
@@ -65,11 +81,97 @@ write_orchestration_report() {
     >"$orchestration_output"
 }
 
+cleanup_execution_worktree() {
+  local command_status=$?
+  local cleanup_status=0
+  trap - EXIT
+
+  if [[ -n "$worktree_path" ]]; then
+    if git -C "$source_repository" worktree list --porcelain | awk -v path="$worktree_path" '$1 == "worktree" && substr($0, 10) == path { found = 1 } END { exit !found }'; then
+      git -C "$source_repository" worktree remove --force "$worktree_path" >/dev/null || cleanup_status=$?
+    elif [[ -d "$worktree_path" ]]; then
+      rmdir "$worktree_path" || cleanup_status=$?
+    fi
+  fi
+  if [[ -n "$worktree_parent" && -d "$worktree_parent" ]]; then
+    rmdir "$worktree_parent" || cleanup_status=$?
+  fi
+
+  local cleanup_state=removed
+  [[ -z "$worktree_path" ]] && cleanup_state=$execution_isolation_state
+  [[ "$cleanup_status" == 0 ]] || cleanup_state=failed
+  jq -n \
+    --arg state "$cleanup_state" \
+    --arg sourceRepository "$source_repository" \
+    --arg isolatedRepository "$worktree_path" \
+    --argjson cleanupExitCode "$cleanup_status" \
+    '{schemaVersion:1,state:$state,sourceRepository:$sourceRepository,isolatedRepository:(if $isolatedRepository == "" then null else $isolatedRepository end),cleanupExitCode:$cleanupExitCode}' \
+    >"$cleanup_output" || cleanup_status=$?
+
+  if [[ "$cleanup_status" != 0 ]]; then
+    printf 'failed to clean hosted Runtime worktree (exit %s): %s\n' "$cleanup_status" "$worktree_path" >&2
+    exit 1
+  fi
+  exit "$command_status"
+}
+trap cleanup_execution_worktree EXIT
+
+prepare_isolated_execution() {
+  local source_head
+  local untracked
+  execution_isolation_state=preparing
+  if ! git -C "$source_repository" diff --quiet HEAD --; then
+    execution_isolation_state=failed_precondition
+    printf 'source checkout has tracked changes; refusing to verify a different committed snapshot\n' >&2
+    return 1
+  fi
+  untracked=$(git -C "$source_repository" ls-files --others --exclude-standard) || return 1
+  if [[ -n "$untracked" ]]; then
+    execution_isolation_state=failed_precondition
+    printf 'source checkout has untracked files; refusing to verify a different committed snapshot:\n%s\n' "$untracked" >&2
+    return 1
+  fi
+
+  source_head=$(git -C "$source_repository" rev-parse --verify 'HEAD^{commit}') || {
+    execution_isolation_state=failed_to_resolve_source_head
+    return 1
+  }
+  worktree_parent=$(mktemp -d "${RUNNER_TEMP:-${TMPDIR:-/tmp}}/ai-cockpit-hosted-runtime.XXXXXX") || {
+    execution_isolation_state=failed_to_create_parent
+    return 1
+  }
+  worktree_parent=$(cd "$worktree_parent" && pwd -P) || {
+    execution_isolation_state=failed_to_resolve_parent
+    return 1
+  }
+  worktree_path="$worktree_parent/source"
+  if ! git -C "$source_repository" worktree add --detach "$worktree_path" "$source_head" >"$artifact_dir/hosted-runtime-worktree-create.log" 2>&1; then
+    execution_isolation_state=failed_to_create
+    cat "$artifact_dir/hosted-runtime-worktree-create.log" >&2
+    return 1
+  fi
+
+  execution_repository=$worktree_path
+  contract="$execution_repository/$contract_relative"
+  execution_isolation_state=created
+  if ! query_status "$status_before" "$artifact_dir/hosted-runtime-status-before.stderr"; then
+    failure_reason=isolated_initial_status_query_failed
+    printf 'candidate Runtime status query failed in the isolated worktree\n' >&2
+    return 1
+  fi
+  if ! jq -e --arg id "$work_item_id" '.workItemId == $id and (.safeActions | type == "array")' "$status_before" >/dev/null; then
+    failure_reason=isolated_initial_status_identity_or_shape_invalid
+    printf 'candidate Runtime returned an invalid isolated Work Item status projection\n' >&2
+    return 1
+  fi
+  initial_actions=$(jq -c '.safeActions' "$status_before") || return 1
+}
+
 query_status() {
   local output=$1
   local error_output=$2
   "$runtime_bin" work-item status \
-    --repo "$repository" \
+    --repo "$execution_repository" \
     --id "$work_item_id" \
     --json >"$output" 2>"$error_output"
 }
@@ -80,7 +182,7 @@ status_allows() {
   jq -e --arg action "$action" '(.safeActions // []) | index($action) != null' "$status_path" >/dev/null
 }
 
-if ! query_status "$status_before" "$artifact_dir/hosted-runtime-status-before.stderr"; then
+if ! query_status "$status_before" "$artifact_dir/hosted-runtime-status-source.stderr"; then
   failure_reason=initial_status_query_failed
   write_orchestration_report
   printf 'candidate Runtime status query failed; see %s\n' "$artifact_dir/hosted-runtime-status-before.stderr" >&2
@@ -155,11 +257,17 @@ if jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' "
     verification_state=reused
   fi
 else
+  if ! prepare_isolated_execution; then
+    [[ -n "$failure_reason" ]] || failure_reason=isolated_worktree_preparation_failed
+    verification_state=failed
+    write_orchestration_report
+    exit 1
+  fi
   if status_allows "$status_before" run_preflight; then
     preflight_state=admitted
     preflight_exit=0
     "$runtime_bin" preflight \
-      --repo "$repository" \
+      --repo "$execution_repository" \
       --contract "$contract" >"$preflight_output" 2>"$artifact_dir/hosted-runtime-preflight.stderr" || preflight_exit=$?
     if [[ "$preflight_exit" != 0 ]]; then
       preflight_state=failed
@@ -207,14 +315,14 @@ else
   fi
 
   "$runtime_bin" verify \
-    --repo "$repository" \
+    --repo "$execution_repository" \
     --work-item "$work_item_id" \
     --workers 2 >"$verification_output" 2>"$artifact_dir/hosted-runtime-verification.stderr" || verification_exit=$?
   if [[ "$verification_exit" != 0 ]]; then
     verification_state=failed
     failure_reason=verification_failed
   else
-    formal_evidence="$repository/.ai/evidence/$work_item_id.verification.json"
+    formal_evidence="$execution_repository/.ai/evidence/$work_item_id.verification.json"
     if [[ -L "$repository/.ai" || -L "$repository/.ai/evidence" || ! -f "$formal_evidence" || -L "$formal_evidence" ]]; then
       verification_state=invalidated
       failure_reason=formal_verification_evidence_missing_or_unsafe

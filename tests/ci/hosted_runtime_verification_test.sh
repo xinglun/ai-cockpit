@@ -5,14 +5,19 @@ root=$(cd "$(dirname "$0")/../.." && pwd -P)
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/hosted-runtime-verification.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 
-cat >"$tmp/contract.json" <<'JSON'
-{"workItemId":"WI-HOSTED-TEST"}
-JSON
-
 make_runtime() {
   local mode=$1
   local directory="$tmp/$mode"
   mkdir -p "$directory/repository/.ai/evidence"
+  mkdir -p "$directory/repository/.ai/work-items/active"
+  printf 'fixture source\n' >"$directory/repository/README.md"
+  printf '{"workItemId":"WI-HOSTED-TEST"}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  : >"$directory/repository/.ai/evidence/.keep"
+  git -C "$directory/repository" init -q
+  git -C "$directory/repository" config user.name 'Hosted Runtime Test'
+  git -C "$directory/repository" config user.email hosted-runtime@example.invalid
+  git -C "$directory/repository" add README.md .ai
+  git -C "$directory/repository" commit -qm 'hosted Runtime fixture'
   FAKE_MODE="$mode" FAKE_RUNTIME="$directory/runtime" python3 - <<'PY'
 import json
 import os
@@ -35,12 +40,13 @@ path.write_text(
     "    if mode in ('existing-fresh-receipt', 'existing-fresh-mismatched-receipt'):\n"
     "        contract_digest = 'sha256:' + ('4' if mode == 'existing-fresh-mismatched-receipt' else '3') * 64\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': ['run_verification']}))\n"
-    "    elif mode == 'stale' and count == 1: actions = ['run_preflight']\n"
+    "    elif mode == 'stale' and count <= 2: actions = ['run_preflight']\n"
     "    elif mode == 'blocked': actions = []\n"
-    "    elif mode == 'blocked-after-preflight' and count > 1: actions = []\n"
+    "    elif mode == 'blocked-after-preflight' and count >= 3: actions = []\n"
+    "    elif mode == 'blocked-after-preflight' and count <= 2: actions = ['run_preflight']\n"
     "    else: actions = ['run_verification']\n"
     "    if mode in ('existing-fresh-receipt', 'existing-fresh-mismatched-receipt'): pass\n"
-    "    elif count >= 3:\n"
+    "    elif count >= 4:\n"
     "        contract_digest = 'sha256:' + '3' * 64\n"
     "        snapshot_digest = 'sha256:' + '2' * 64\n"
     "        if mode == 'stale-contract-after-verification': contract_digest = 'sha256:' + '4' * 64\n"
@@ -67,6 +73,35 @@ path.write_text(
     encoding="utf-8",
 )
 path.chmod(0o755)
+PY
+}
+
+capture_route_receipt() {
+  python3 - "$root/tests/ci/quality_route.py" "$1" \
+    "$root/tests/ci/repository_gate_manifest.json" "$2" <<'PY'
+import importlib.util
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+route_path, repository, manifest, output = map(Path, sys.argv[1:])
+spec = importlib.util.spec_from_file_location("quality_route", route_path)
+assert spec is not None and spec.loader is not None
+route = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(route)
+head = subprocess.check_output(["git", "-C", str(repository), "rev-parse", "HEAD"], text=True).strip()
+receipt = route.plan_repository_route(
+    repository=repository,
+    manifest_path=manifest,
+    base=head,
+    head=head,
+    stage="pull_request",
+    risk="normal",
+    contract_path=None,
+    requested_profile=None,
+)
+output.write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="utf-8")
 PY
 }
 
@@ -132,10 +167,15 @@ evidence = repository / ".ai" / "evidence" / f"{work_item_id}.verification.json"
 evidence.write_bytes(json.dumps(formal).encode("utf-8"))
 PY
   fi
+  if [[ "$mode" == stale ]]; then
+    capture_route_receipt "$directory/repository" "$directory/route-before.json"
+  fi
   local result=0
   FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
     "$root/tests/ci/run_hosted_runtime_verification.sh" \
-      "$directory/runtime" "$directory/repository" "$tmp/contract.json" "$directory/artifacts" || result=$?
+      "$directory/runtime" "$directory/repository" \
+      "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
+      "$directory/artifacts" || result=$?
   if [[ "$expect_success" == true && "$result" != 0 ]]; then
     printf 'hosted Runtime helper failed unexpectedly for mode %s (exit %s)\n' "$mode" "$result" >&2
     return 1
@@ -143,6 +183,10 @@ PY
   if [[ "$expect_success" == false && "$result" == 0 ]]; then
     printf 'hosted Runtime helper accepted blocked mode %s\n' "$mode" >&2
     return 1
+  fi
+  if [[ "$mode" == stale ]]; then
+    capture_route_receipt "$directory/repository" "$directory/route-after.json"
+    cmp "$directory/route-before.json" "$directory/route-after.json"
   fi
 }
 
@@ -161,21 +205,29 @@ PY
 }
 
 run_helper stale true
+test -z "$(git -C "$tmp/stale/repository" status --porcelain)" || {
+  printf 'hosted verification changed the route-planning checkout\n' >&2
+  git -C "$tmp/stale/repository" status --short >&2
+  exit 1
+}
+worktree_count=$(git -C "$tmp/stale/repository" worktree list --porcelain | awk '/^worktree / { count += 1 } END { print count + 0 }')
+test "$worktree_count" = 1
 jq -e '.kind == "preflight" and .state == "passed"' "$tmp/stale/artifacts/hosted-runtime-preflight.json" >/dev/null
 jq -e '.kind == "verification" and .passed == true' "$tmp/stale/artifacts/hosted-runtime-execution.json" >/dev/null
 jq -e '.workItemId == "WI-HOSTED-TEST" and .passed == true and .receipt.workItemId == .workItemId and .receipt.passed == true' \
   "$tmp/stale/artifacts/hosted-runtime-verification.json" >/dev/null
-cmp "$tmp/stale/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
-  "$tmp/stale/artifacts/hosted-runtime-verification.json"
+jq -e '.state == "removed" and .cleanupExitCode == 0 and .isolatedRepository != null' \
+  "$tmp/stale/artifacts/hosted-runtime-worktree-cleanup.json" >/dev/null
 python3 - "$tmp/stale/commands.jsonl" <<'PY'
 import json
 import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "preflight", "work-item", "verify", "work-item"]
-verify = commands[3]
+assert [command[0] for command in commands] == ["work-item", "work-item", "preflight", "work-item", "verify", "work-item"]
+verify = commands[4]
 assert "--workers" in verify and verify[verify.index("--workers") + 1] == "2"
+assert verify[verify.index("--repo") + 1] != str(Path(sys.argv[1]).parents[0] / "repository")
 PY
 
 run_helper fresh true
@@ -185,7 +237,7 @@ import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "work-item", "verify", "work-item"]
+assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "verify", "work-item"]
 PY
 
 run_helper existing-fresh-receipt true
