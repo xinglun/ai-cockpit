@@ -137,9 +137,13 @@ Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下�
 
 先运行本地 manifest/docs regression，再运行相关 Windows target checks；若仓库没有可用本地 Windows runner，以 GitHub Windows job 为必要阻塞验收，不以交叉编译替代执行测试。
 
-### Stage 6 — 全量追踪、canonical 验证、独立审查与合并清理（审查提交 6 / 收敛）
+### Stage 6 — 全量追踪、本地/Hosted 分段验收、独立审查与合并清理（审查提交 6 / 收敛）
 
 先做完整性矩阵核对 OBS-01..19，每项都必须链接到：Contract criterion → test/acceptance → CI gate → Runtime evidence。已有修复若不需改码，必须引用本轮实际受保护的回归，而非测试名称或旧报告。
+
+#### Stage 6a — 本地候选与 PR 前检查
+
+先冻结源码、测试、文档和 gate 变更并形成最终提交；之后才从这个 committed tree 构建唯一候选 Runtime。所有本地 canonical 检查、Runtime preflight/verification 和独立审查必须绑定该候选及其精确 executable digest。CLI `verify` 在 stderr 逐个报告实际验证节点的启动与完成状态、结果和已完成百分比，stdout 保持机器可读 JSON；它是运行中的事实进度，不替代 Task/WI 百分比。Task/WI 百分比只按已验收的 Contract criteria 计算，不给 ETA。保留单 WI 串行执行能力和治理准入；进度机制不改变既有 Runtime/Contract worker 配置，并发时按收到的真实完成事件更新，不估算。
 
 本地 canonical 检查按 Contract/manifest 执行，至少包括：
 
@@ -153,9 +157,15 @@ Runtime 自动记录 amendment revalidation，并指定 `run_preflight` 为下�
 8. `bash tests/ci/governance_integrity_gate_test.sh`
 9. Manifest 中所有新增/受影响 gate，包含 Windows 实际测试 job。
 
-若 Contract canonical commands 有变化，以 Runtime 核准的命令为准，不静默替换。随后对最终 committed tree 构建唯一候选 Runtime；用该 executable digest 运行最终 preflight/verification/status/Outcome，并确认 hosted PR quality gate 对应相同 merge candidate。候选源码再改动即回到相应阶段、重跑受影响 gate，并重新绑定 Runtime evidence。
+若 Contract canonical commands 有变化，以 Runtime 核准的命令为准，不静默替换。本地检查、A09 真实进程验收和候选 Runtime evidence 全部新鲜且独立审查通过后，Runtime 当前准入允许时创建 PR。
 
-2026-09-27 当前候选本地收敛记录：Runtime `verify --repo … --work-item WI-1035-task8-governance-friction-remediation --stage task` 执行 13/13 workspace crate、spawn 13、复用 0、超时 0，`passed=true`，耗时 `342933 ms`；receipt 绑定候选 Runtime digest `sha256:ce862280d5a21f6f89a6280fc99221549a437756523e46fc31da2ce32e0e3380` 与 source snapshot `sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e`。此外 `cargo fmt --all -- --check`、`git diff --check`、`cargo clippy --locked --workspace --all-targets --all-features -- -D warnings` 及 `python3 tests/ci/repository_gate_manifest_test.py` 均退出码 0；`tests/docs/governance_cost_baseline_test.py` 报当前 Agent 输入 12769 bytes，相对基线减少 42.2%。因为本段实施计划更新属于仓库源码快照的一部分，前述 Runtime verify 不再声称绑定此更新后的快照；更新后需重新运行并确认 exact digest。Hosted strict gate runner、PR Windows job、完整 19 项证据矩阵及其正式 Runtime projection 仍待完成。
+#### Stage 6b — PR Hosted 证据与合并准入
+
+A12/A13 依赖精确 staged candidate 的 hosted lineage/receipt/三语 parity 和 Windows 实际执行，因此只能在 PR CI 针对确切 PR head/candidate 完成后投影为已验收；本地检查不能代替。`.github/workflows/ci.yml` 仅由 `main` push 和 PR 触发，未提供 `workflow_dispatch`；仓库也没有受支持的 hosted-snapshot/预检命令。等效流程为：先完成 6a 本地 canonical 验收和 Runtime 候选绑定，再创建 PR，由真实 PR CI 在精确 head 上执行 canonical hosted/Windows gates，随后读取其实际日志与 artifacts 并记录 Runtime evidence。A12/A13 在 Hosted 证据到达前保持 pending；它们不阻止在其余条件满足时创建 PR，但必须阻止声称完整验收、合并或 close，除非 Runtime 对确切 PR evidence 的新鲜状态明确准入。不得以本地伪造 receipt、旧 CI 记录或人工标记替代。
+
+任何候选源码、测试、文档或 gate 改动都会使相应 snapshot/evidence 失效：回到本地受影响检查；最终树变化后重建候选、重新绑定 Runtime evidence，并让 PR CI 对新 head 运行。只在 Runtime 当前准入时独立审查、合并和精确 cleanup；本 WI 的终点仍是用户 release review 前，不创建 tag/Release。
+
+2026-09-27 历史候选验证（均已被本轮进度实现和计划变更的源码快照取代，不得作为当前通过证据）：早先候选 Runtime digest `sha256:ce862280d5a21f6f89a6280fc99221549a437756523e46fc31da2ce32e0e3380` 绑定 source snapshot `sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e`，13/13 workspace crate 通过，耗时 `342933 ms`；随后候选 Runtime digest `sha256:77ea8eef14d136876e21df6f8966fcc1412004114ca0a6b99d50a1d36bd8a0d7` 绑定 source snapshot `sha256:b8ce6ceafe7b1a94bf9278c5fcb0bcb5fec2447e34766e2967eb8906112a70539`，13/13 crate 通过，耗时 `368140 ms`。第二次运行期间没有逐节点 CLI 进度，促成本段 A19 改善。此后 CLI/测试/本计划再次变化，最终候选及其 Runtime evidence 必须重新生成。之前通过的 `cargo fmt --all -- --check`、全量 Clippy、manifest 和 A09 acceptance 仅是各自快照的历史证据；Hosted strict gate runner、PR Windows job 和最终 19 项 Runtime projection 仍待验收。
 
 依据 Runtime 当前 safeActions 推进 PR/独立审查、合并、精确 worktree/branch cleanup 和 successor lineage 收尾；每一步都查询并保存回执。最终交付独立 Outcome，分开描述实现、CI、review、merge、cleanup、lineage 和发布状态；只停在用户 release review 前，不创建 tag/Release。
 

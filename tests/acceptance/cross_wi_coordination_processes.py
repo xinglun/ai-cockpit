@@ -99,6 +99,15 @@ def runtime_version() -> str:
     return match.group(1)
 
 
+def cli_subcommands(help_text: str) -> set[str]:
+    commands = set()
+    for line in help_text.splitlines():
+        fields = line.split()
+        if line.startswith("  ") and fields and fields[0][0].islower():
+            commands.add(fields[0])
+    return commands
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -115,6 +124,20 @@ def main() -> None:
     )
     args = parser.parse_args()
     binary = args.binary.resolve()
+    repository_root = Path(__file__).resolve().parents[2]
+    ordinary_guide = (repository_root / "agents/skills/ordinary-work-item.md").read_text(
+        encoding="utf-8"
+    )
+    ordinary_guide = re.sub(r"\s+", " ", ordinary_guide)
+    guide_checks = {
+        "serialByDefault": "One Work Item runs serially by default." in ordinary_guide,
+        "discoversCliAndMcp": "discover current CLI help plus MCP `tools/list` schemas."
+        in ordinary_guide,
+        "requiresRuntimeSlotLease": "Runtime slot lease" in ordinary_guide,
+        "serialFallbackWhenUnsupported": "If unsupported, do not emulate constraints: use admitted serial work or stop."
+        in ordinary_guide,
+    }
+    assert all(guide_checks.values()), guide_checks
     runtime = {
         "schemaVersion": 1,
         "runtimeVersion": runtime_version(),
@@ -198,8 +221,34 @@ def main() -> None:
         listed_tools, server_info = mcp_tools(binary, worktree_a)
         listed_by_name = {tool["name"]: tool for tool in listed_tools}
         assert {"work_item_coordination", "work_item_parallel", "work_item_composition"} <= set(listed_by_name)
+        candidate_doctor_result = run_cli(
+            binary,
+            ["agent", "doctor", "--repo", str(worktree_a), "--json"],
+        )
+        candidate_doctor = json.loads(candidate_doctor_result.stdout)
+        assert candidate_doctor["manifest"]["state"] == "valid", candidate_doctor
+        assert candidate_doctor["state"] in {"VERIFIED", "ATTACHED"}, candidate_doctor
+        assert not candidate_doctor["problems"], candidate_doctor
+
+        coordination_help = require_cli(
+            binary, ["work-item", "coordination", "--help"]
+        )
+        coordination_cli_commands = cli_subcommands(coordination_help)
+        assert coordination_cli_commands == {
+            "inspect", "register", "report-impact", "publish-outcome",
+            "request-pause", "acknowledge", "resume", "recover", "help",
+        }, coordination_help
+        slot_help = require_cli(binary, ["work-item", "slot", "--help"])
+        slot_cli_commands = cli_subcommands(slot_help)
+        assert {"acquire", "release", "list"} <= slot_cli_commands, slot_help
+        composition_help = require_cli(binary, ["work-item", "composition", "--help"])
+        assert all(
+            option in composition_help
+            for option in ["--repo", "--id", "--generation", "--input"]
+        ), composition_help
+
         coordination_tool_schema = listed_by_name["work_item_coordination"]["inputSchema"]
-        coordination_schema = listed_by_name["work_item_coordination"]["inputSchema"]
+        coordination_schema = coordination_tool_schema
         for property_name in ["registration", "event", "request"]:
             nested = coordination_schema["properties"][property_name]
             assert nested["type"] == "object", (property_name, nested)
@@ -513,6 +562,13 @@ def main() -> None:
                     "mcpCoordinationSchema": coordination_tool_schema,
                     "currentRuntimeVersion": server_info.get("version"),
                     "currentRuntimeDigest": server_info.get("runtimeDigest"),
+                    "candidateAgentDoctorState": candidate_doctor["state"],
+                    "candidateAgentDoctorExitCode": candidate_doctor_result.returncode,
+                    "candidateAgentDoctorManifestState": candidate_doctor["manifest"]["state"],
+                    "coordinationCliCommands": sorted(coordination_cli_commands),
+                    "slotCliCommands": sorted(slot_cli_commands),
+                    "compositionCliArgsDiscovered": ["--repo", "--id", "--generation", "--input"],
+                    "ordinaryWorkItemGuideChecks": guide_checks,
                     "legacyRuntimeReadCompatibility": legacy_observation,
                     "serialAllowedWithoutParallelDeclaration": serial_verify["passed"],
                     "serialAdmissionObserved": "run_verification" in serial_status["safeActions"],
