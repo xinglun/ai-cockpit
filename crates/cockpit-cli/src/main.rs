@@ -2977,19 +2977,18 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Controls { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
-                cockpit_repository::require_current_action_admission(
-                    &repo,
-                    &id,
-                    "record_governance_controls",
-                    &runtime_context,
-                )?;
                 let controls: serde_json::Value = serde_json::from_slice(
                     &std::fs::read(&input).context("read governance controls input")?,
                 )
                 .context("parse governance controls input")?;
                 let summary =
-                    cockpit_repository::record_work_item_governance_controls(&repo, &id, &controls)
-                        .context("record Work Item governance controls")?;
+                    cockpit_repository::record_work_item_governance_controls_with_runtime(
+                        &repo,
+                        &id,
+                        &controls,
+                        &runtime_context,
+                    )
+                    .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
             }
             WorkItemCommand::Retire { repo, id, input } => {

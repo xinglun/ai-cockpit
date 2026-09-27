@@ -1760,15 +1760,13 @@ fn work_item_controls(
         .get("controls")
         .or_else(|| arguments.get("input"))
         .ok_or("controls argument is required")?;
-    cockpit_repository::require_current_action_admission(
+    cockpit_repository::record_work_item_governance_controls_with_runtime(
         repo,
         work_item_id,
-        "record_governance_controls",
+        controls,
         runtime,
     )
-    .map_err(|error| error.to_string())?;
-    cockpit_repository::record_work_item_governance_controls(repo, work_item_id, controls)
-        .map_err(|error| error.to_string())
+    .map_err(|error| error.to_string())
 }
 
 fn work_item_start(
@@ -2109,13 +2107,13 @@ fn verify_for_repo(
                 .expect("repository-bound verification snapshot"),
             runtime,
             if execution_succeeded {
-                "execution_completed"
+                "formal_receipt_rejected"
             } else {
                 "execution_failed"
             },
             Some((
                 if execution_succeeded {
-                    "verification_recording"
+                    "formal_receipt"
                 } else {
                     "verification_execution"
                 },

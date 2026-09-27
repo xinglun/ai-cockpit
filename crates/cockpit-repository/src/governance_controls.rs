@@ -1317,6 +1317,44 @@ pub fn record_work_item_governance_controls(
     work_item_id: &str,
     controls: &Value,
 ) -> Result<Value, ObserverError> {
+    crate::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+}
+
+/// Re-admit and persist Runtime-originated governance controls while holding
+/// the shared Work Item lifecycle lock. The action check is intentionally
+/// inside the lock so a stale pre-lock decision cannot race `finish`.
+pub fn record_work_item_governance_controls_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+    runtime: &RuntimeContext,
+) -> Result<Value, ObserverError> {
+    crate::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    crate::require_current_action_admission(
+        &root,
+        work_item_id,
+        "record_governance_controls",
+        runtime,
+    )?;
+    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+}
+
+fn record_work_item_governance_controls_unlocked(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+) -> Result<Value, ObserverError> {
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));

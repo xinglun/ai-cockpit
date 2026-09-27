@@ -1932,28 +1932,54 @@ fn preflight_work_item_internal(
     } else {
         root.join(contract_path)
     };
-    let contract = read_contract(&contract_path)?;
+    let requested_contract = read_contract(&contract_path)?;
+    let work_item_id = requested_contract.work_item_id.clone();
+    let active = root.join(".ai/work-items/active");
+    let active_contract = active.join(format!("{work_item_id}.contract.json"));
+    let active_summary = active.join(format!("{work_item_id}.summary.json"));
+    let _lifecycle_lock = if active_contract.is_file() && active_summary.is_file() {
+        Some(acquire_lifecycle_lock(&root, &work_item_id)?)
+    } else {
+        None
+    };
+    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime)
+}
+
+fn preflight_work_item_internal_unlocked(
+    root: &Path,
+    contract_path: &Path,
+    expected_work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<PreflightResult, ObserverError> {
+    let contract = read_contract(contract_path)?;
+    if contract.work_item_id != expected_work_item_id {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: "preflight Contract identity changed while waiting for the lifecycle lock"
+                .into(),
+        });
+    }
     validate_required_evidence_classes(&contract.required_evidence_classes).map_err(|message| {
         ObserverError::State {
-            path: contract_path.clone(),
+            path: contract_path.to_path_buf(),
             message,
         }
     })?;
-    let repository_context = RepositoryExecutionContext::capture(&root)?;
+    let repository_context = RepositoryExecutionContext::capture(root)?;
     let observation_context = repository_context.observe_phase_with_contract_uncached(
         ObservationPhase::BeforeGovernance,
         current_runtime,
-        &contract_path,
+        contract_path,
     )?;
     let snapshot = observation_context.snapshot().clone();
     let raw_decision = governance_decision_for_pre_execution_boundary(
-        &root,
+        root,
         &contract,
         &snapshot,
         current_runtime,
         Some(&observation_context),
     )?;
-    let decision = apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
+    let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
     let mut changed_paths = Vec::new();
@@ -1967,19 +1993,19 @@ fn preflight_work_item_internal(
                 source,
             })?;
         let requested_contract =
-            fs::canonicalize(&contract_path).map_err(|source| ObserverError::Read {
-                path: contract_path.clone(),
+            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.to_path_buf(),
                 source,
             })?;
         if active_contract != requested_contract {
             return Err(ObserverError::State {
-                path: contract_path,
+                path: contract_path.to_path_buf(),
                 message: "preflight contract is not the active Work Item contract".into(),
             });
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
         require_current_retry_recovery_binding(
-            &root,
+            root,
             &contract.work_item_id,
             &summary,
             current_runtime,
@@ -2009,7 +2035,7 @@ fn preflight_work_item_internal(
                 action_admission: current_runtime
                     .map(|runtime| {
                         super::work_item_status_snapshot_with_runtime(
-                            &root,
+                            root,
                             &contract.work_item_id,
                             runtime,
                         )
@@ -2055,7 +2081,7 @@ fn preflight_work_item_internal(
             current_runtime
                 .map(|runtime| {
                     super::work_item_status_snapshot_with_runtime(
-                        &root,
+                        root,
                         &contract.work_item_id,
                         runtime,
                     )
