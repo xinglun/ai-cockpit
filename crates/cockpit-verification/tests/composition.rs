@@ -110,10 +110,67 @@ fn binding(target_sha: &str, participant_heads: Vec<String>) -> CompositionBindi
 }
 
 fn command(node_id: &str, program: &str, args: &[&str]) -> CompositionCommand {
+    #[cfg(windows)]
+    let (program, args): (&str, Vec<String>) = match (program, args) {
+        ("true", []) | ("sh", ["-c", "true"]) => ("cmd.exe", vec!["/C".into(), "exit 0".into()]),
+        ("false", []) | ("sh", ["-c", "false"]) => ("cmd.exe", vec!["/C".into(), "exit 1".into()]),
+        ("sh", ["-c", "exit 17"]) => ("cmd.exe", vec!["/C".into(), "exit 17".into()]),
+        ("sh", ["-c", "test -f required-interface.txt"]) => (
+            "powershell.exe",
+            vec![
+                "-NoProfile".into(),
+                "-Command".into(),
+                "if (Test-Path required-interface.txt) { exit 0 } else { exit 1 }".into(),
+            ],
+        ),
+        ("sh", ["-c", "sleep 2"]) => (
+            "powershell.exe",
+            vec![
+                "-NoProfile".into(),
+                "-Command".into(),
+                "Start-Sleep -Seconds 2".into(),
+            ],
+        ),
+        ("sh", ["-c", command]) if command.starts_with("test \"$COMPOSITION_FLAVOR\"") => (
+            "powershell.exe",
+            vec![
+                "-NoProfile".into(),
+                "-Command".into(),
+                "if ($env:COMPOSITION_FLAVOR -eq 'one') { exit 0 } else { exit 1 }".into(),
+            ],
+        ),
+        ("sh", ["-c", command]) if command.starts_with("touch ") => (
+            "powershell.exe",
+            vec![
+                "-NoProfile".into(),
+                "-Command".into(),
+                format!(
+                    "New-Item -ItemType File -Path '{}' -Force | Out-Null",
+                    command.trim_start_matches("touch ")
+                ),
+            ],
+        ),
+        ("sh", ["-c", script, "sh", path]) if script.starts_with("printf started >") => (
+            "powershell.exe",
+            vec![
+                "-NoProfile".into(),
+                "-Command".into(),
+                format!("Set-Content -NoNewline -Path '{}' -Value started", path),
+            ],
+        ),
+        ("env", []) => ("cmd.exe", vec!["/C".into(), "set".into()]),
+        ("cat", [path]) => ("cmd.exe", vec!["/C".into(), "type".into(), (*path).into()]),
+        // Unknown shell snippets remain unbound instead of being silently
+        // replaced by a successful no-op on Windows.
+        ("sh", _) => ("ai-cockpit-unsupported-shell-command", Vec::new()),
+        (program, args) => (program, args.iter().map(|arg| (*arg).into()).collect()),
+    };
+    #[cfg(not(windows))]
+    let (program, args) = (program, args.iter().map(|arg| (*arg).into()).collect());
     CompositionCommand {
         node_id: node_id.into(),
         program: program.into(),
-        args: args.iter().map(|arg| (*arg).into()).collect(),
+        args,
         depends_on: Vec::new(),
         environment: Default::default(),
         input_paths: vec!["README.md".into()],

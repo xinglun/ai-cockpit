@@ -1266,7 +1266,76 @@ fn verifier_process_using_worktree(_worktree: &Path) -> Result<Option<u32>, Stri
 fn path_is_within(root: &Path, candidate: &Path) -> bool {
     let candidate = candidate.to_string_lossy();
     let candidate = candidate.strip_suffix(" (deleted)").unwrap_or(&candidate);
-    Path::new(candidate) == root || Path::new(candidate).starts_with(root)
+    let candidate = Path::new(candidate);
+    #[cfg(windows)]
+    {
+        let mut candidate_components = candidate.components();
+        root.components().all(|root_component| {
+            candidate_components
+                .next()
+                .is_some_and(|candidate_component| {
+                    windows_components_equal(root_component, candidate_component)
+                })
+        })
+    }
+    #[cfg(not(windows))]
+    {
+        candidate.starts_with(root)
+    }
+}
+
+#[cfg(windows)]
+fn windows_components_equal(
+    left: std::path::Component<'_>,
+    right: std::path::Component<'_>,
+) -> bool {
+    match (left, right) {
+        (std::path::Component::Prefix(left), std::path::Component::Prefix(right)) => {
+            windows_os_str_eq_ignore_case(left.as_os_str(), right.as_os_str())
+        }
+        (std::path::Component::RootDir, std::path::Component::RootDir)
+        | (std::path::Component::CurDir, std::path::Component::CurDir)
+        | (std::path::Component::ParentDir, std::path::Component::ParentDir) => true,
+        (std::path::Component::Normal(left), std::path::Component::Normal(right)) => {
+            windows_os_str_eq_ignore_case(left, right)
+        }
+        _ => false,
+    }
+}
+
+#[cfg(windows)]
+fn windows_os_str_eq_ignore_case(left: &std::ffi::OsStr, right: &std::ffi::OsStr) -> bool {
+    use std::os::windows::ffi::OsStrExt;
+
+    let left = left.encode_wide().collect::<Vec<_>>();
+    let right = right.encode_wide().collect::<Vec<_>>();
+    if left.len() > i32::MAX as usize || right.len() > i32::MAX as usize {
+        return false;
+    }
+    // CompareStringOrdinal uses Windows' ordinal case-insensitive rules for
+    // path components, unlike Rust's lexical Path comparisons.
+    unsafe {
+        compare_string_ordinal(
+            left.as_ptr(),
+            left.len() as i32,
+            right.as_ptr(),
+            right.len() as i32,
+            1,
+        ) == 2
+    }
+}
+
+#[cfg(windows)]
+#[link(name = "kernel32")]
+unsafe extern "system" {
+    #[link_name = "CompareStringOrdinal"]
+    fn compare_string_ordinal(
+        left: *const u16,
+        left_count: i32,
+        right: *const u16,
+        right_count: i32,
+        ignore_case: i32,
+    ) -> i32;
 }
 
 #[cfg(windows)]
@@ -2410,10 +2479,10 @@ fn resolve_executable(
     let identity_path = fs::canonicalize(&candidate).ok()?;
     let canonical_worktree = fs::canonicalize(worktree).ok()?;
     let trusted_roots = trusted_executable_directories();
-    let inside_worktree = identity_path.starts_with(&canonical_worktree);
+    let inside_worktree = path_is_within(&canonical_worktree, &identity_path);
     let inside_trusted_root = trusted_roots
         .iter()
-        .any(|directory| identity_path.starts_with(directory));
+        .any(|directory| path_is_within(directory, &identity_path));
     if !inside_worktree && !inside_trusted_root {
         return None;
     }
@@ -2991,5 +3060,23 @@ mod read_set_containment_tests {
             observed, None,
             "bytes read through a directory moved outside the repository must not enter the reuse identity"
         );
+    }
+}
+
+#[cfg(all(test, windows))]
+mod path_containment_tests {
+    use super::path_is_within;
+    use std::path::Path;
+
+    #[test]
+    fn trusted_windows_path_prefix_ignores_case_but_respects_component_boundaries() {
+        assert!(path_is_within(
+            Path::new(r"C:\Windows\System32"),
+            Path::new(r"c:\windows\system32\cmd.exe")
+        ));
+        assert!(!path_is_within(
+            Path::new(r"C:\Windows\System32"),
+            Path::new(r"C:\Windows\System32-evil\cmd.exe")
+        ));
     }
 }
