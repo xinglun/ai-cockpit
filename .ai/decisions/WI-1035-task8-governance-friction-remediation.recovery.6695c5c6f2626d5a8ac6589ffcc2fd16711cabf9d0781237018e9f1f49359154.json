@@ -1,0 +1,24 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-27T02:22:29Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+  "predecessorSummaryDigest": "sha256:2f3be298337fdeb9213ce659e202cf3080d90f0fb9d941566e0199d312559d14",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user authorized completing Task 8 through independent PR review, merge, and cleanup before entering Task 9, while stopping before release. Runtime currently recommends resolve_blockers and reports no additional human decision required. This append-only retry records the normal recovery path for the changed candidate Runtime identity; it does not bypass governance or alter Task 8 scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Using Runtime 0.2.113 with digest sha256:77ea8eef14d136876e21df6f8966fcc1412004114ca0a6b99d50a1d36bd8a0d7, run a fresh repository-bound preflight if admitted, then exactly one canonical `cargo test --locked --workspace` Work Item verification. Preserve all prior decisions and attempts. Continue only if the current Runtime accepts the resulting evidence; do not release, tag, or publish.",
+  "runtimeDigest": "sha256:77ea8eef14d136876e21df6f8966fcc1412004114ca0a6b99d50a1d36bd8a0d7",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

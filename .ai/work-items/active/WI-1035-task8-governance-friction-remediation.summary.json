@@ -4,10 +4,10 @@
       "acceptanceId": "A01",
       "evidence": [
         {
-          "locator": "contract_preflight::snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits; lifecycle empty-commit/source-change regression",
+          "locator": "contract_preflight::snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits; lifecycle_entry::empty_commit_preserves_source_identity_and_current_verification_evidence",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e; source snapshot sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce"
         }
       ]
     },
@@ -18,7 +18,7 @@
           "locator": "preflight_review::bounded_human_review_survives_snapshot_refresh_but_not_contract_change; collaboration_consistency::displayed_option_state_and_runtime_transition_stay_consistent_through_resume",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -29,7 +29,7 @@
           "locator": "preflight_review::repeated_identical_preflight_does_not_rewrite_summary_or_observation_cache; CLI/MCP preflight byte/idempotency tests",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -40,7 +40,7 @@
           "locator": "cockpit-cli::preflight_and_status_share_versioned_action_admission; scenario_matrix_next_action admission agreement",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -51,7 +51,7 @@
           "locator": "scenario_matrix_next_action::checkpointed_stale_preflight_projects_preflight_recovery; cockpit-cli::checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -59,10 +59,10 @@
       "acceptanceId": "A06",
       "evidence": [
         {
-          "locator": "collaboration_admission::missing_one_of_two_required_checks_blocks_before_spawn; missing scenario/check mapping rejected before launch",
+          "locator": "collaboration_admission::missing_one_of_two_required_checks_blocks_before_spawn; missing required-scenario mapping blocks composition",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -70,10 +70,10 @@
       "acceptanceId": "A07",
       "evidence": [
         {
-          "locator": "cockpit-cli::amend_cli_reports_automatic_revalidation_and_the_single_next_action",
+          "locator": "lifecycle_entry::revalidate_amendment_repairs_only_a_missing_scenario_projection; CLI amend/revalidate help and next-action tests",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -81,10 +81,10 @@
       "acceptanceId": "A08",
       "evidence": [
         {
-          "locator": "verification_attempts::formal_receipt_rejected/successful/stale attempt Outcome/status projections",
+          "locator": "verification_attempts::rejected_formal_receipt_is_projected_with_its_bound_attempt_in_outcome_and_status",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in the current candidate cargo test --locked --workspace receipt; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -92,10 +92,10 @@
       "acceptanceId": "A09",
       "evidence": [
         {
-          "locator": "Stage 3 / OBS-09: interface, MCP, multi-process and linked-worktree acceptance",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; discovery and use acceptance pending"
+          "locator": "current candidate multi-process acceptance: two linked worktrees and registrations, one deduplicated event, composition processes 1 then 0 for reuse, changed-environment rerun 1, serial process 1, undeclared parallel lease rejected",
+          "path": "tests/acceptance/cross_wi_coordination_processes.py",
+          "type": "acceptance",
+          "verification": "passed against Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -103,10 +103,10 @@
       "acceptanceId": "A10",
       "evidence": [
         {
-          "locator": "Stage 4 / OBS-10: durable attempt and real interruption acceptance",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; real subprocess execution pending"
+          "locator": "cockpit-verification::retry_reconciles_an_interrupted_owner_after_process_exit; composition_attempt_without_schema_version_is_not_reused",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in current candidate cargo test --locked --workspace; durable interrupted-attempt and non-reuse regressions; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -114,10 +114,10 @@
       "acceptanceId": "A11",
       "evidence": [
         {
-          "locator": "scope_amendment::out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recovers",
+          "locator": "lifecycle_entry scope amendment and pre-spawn verification preconditions",
           "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
           "type": "verification",
-          "verification": "passed in canonical cargo test --locked --workspace; attempt sha256:4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a; Runtime 0.2.113 sha256:3e12e606425fa12b63ac327ee657927f47e1d6359ca2a8247c73bc60486454ee"
+          "verification": "passed in current candidate cargo test --locked --workspace; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -125,10 +125,10 @@
       "acceptanceId": "A12",
       "evidence": [
         {
-          "locator": "Stage 5 / OBS-12: staged candidate and locale parity gate tests",
+          "locator": "Stage 6b / OBS-12: exact PR-head hosted lineage, receipt, and tri-language parity",
           "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
           "type": "plan",
-          "verification": "planned; hosted gate evidence pending"
+          "verification": "pending; requires actual hosted CI evidence bound to the exact PR head"
         }
       ]
     },
@@ -136,10 +136,10 @@
       "acceptanceId": "A13",
       "evidence": [
         {
-          "locator": "Stage 5 / OBS-13: supported-target and Windows hosted tests",
+          "locator": "Stage 6b / OBS-13: Windows hosted job executes the affected-platform tests on the exact PR head",
           "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
           "type": "plan",
-          "verification": "planned; hosted Windows execution pending"
+          "verification": "pending; requires actual hosted Windows CI evidence bound to the exact PR head"
         }
       ]
     },
@@ -147,10 +147,10 @@
       "acceptanceId": "A14",
       "evidence": [
         {
-          "locator": "Stage 1 / OBS-14: exact executable digest binding",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; final candidate digest binding pending"
+          "locator": "current canonical receipt binds Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e, Contract sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c, and source snapshot sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed; current evidence is tied to the exact candidate executable digest, not the same-version installed binary"
         }
       ]
     },
@@ -158,10 +158,10 @@
       "acceptanceId": "A15",
       "evidence": [
         {
-          "locator": "Stage 4 / OBS-15: deduplicated human and complete node diagnostics",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; current-candidate execution pending"
+          "locator": "diagnostic_summary::repeated_clippy_roots_are_summarized_once_with_node_and_raw_evidence_retained; diagnostic_summary::diagnostic_summary_decodes_non_utf8_without_replacing_raw_bytes; diagnostic_summary::rustc_style_lint_note_is_attached_to_its_human_readable_root",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in current candidate cargo test --locked --workspace; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -169,10 +169,10 @@
       "acceptanceId": "A16",
       "evidence": [
         {
-          "locator": "Stage 3 / OBS-16: serial readiness and parallel fail-closed tests",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; current-candidate execution pending"
+          "locator": "collaboration_admission::ordinary_single_work_item_verification_remains_serial_without_coordination_state; parallel boundary fails closed without declaration",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in current candidate cargo test --locked --workspace; Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     },
@@ -180,10 +180,10 @@
       "acceptanceId": "A17",
       "evidence": [
         {
-          "locator": "Stage 4 / OBS-17: diagnostic-text and actual bypass paired tests",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; canonical gate execution pending"
+          "locator": "governance_integrity_gate_test.sh passed; paired diagnostic-prose and real test-deletion regressions",
+          "path": "tests/ci/governance_integrity_gate_test.sh",
+          "type": "acceptance",
+          "verification": "passed; governance integrity gate regression passed on the Task 8 candidate tree"
         }
       ]
     },
@@ -191,10 +191,10 @@
       "acceptanceId": "A18",
       "evidence": [
         {
-          "locator": "Stage 5 / OBS-18: close projection and lineage consistency",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; current-candidate execution pending"
+          "locator": "13 tri-language routes and 35 reference records; status_projection archived-vs-closed and lifecycle ready-on-base regressions",
+          "path": "tests/docs/documentation_acceptance.sh",
+          "type": "acceptance",
+          "verification": "passed on the Task 8 candidate tree; documentation acceptance and lifecycle regressions succeeded"
         }
       ]
     },
@@ -202,49 +202,25 @@
       "acceptanceId": "A19",
       "evidence": [
         {
-          "locator": "All stages / OBS-19: one-WI serial flow, evidence-based progress and no repeated start confirmation",
-          "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-          "type": "plan",
-          "verification": "planned; final acceptance pending"
+          "locator": "CLI verify progress integration test reports 0/2, 1/2, 2/2 without polluting JSON stdout; current 13/13 candidate run emitted node start/completion progress through 100%; serial single-WI regression passed",
+          "path": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+          "type": "verification",
+          "verification": "passed in current candidate Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
         }
       ]
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.f4d786e73ccedb2fa4cfeaa108e28e81ef904bf6c57adeb29575a8f08806d40f.json",
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.995e98da1d25590ac92e1ec29cee6eedc9cdb793e39091958097cf1a48508a9f.json",
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001.json",
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.f6c45803f5aa2de4db40a8ab7bc67d8b4340aaa8c4d8bd63da0c6904fdc6772c.json",
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.0aff987b8f64f4a8ff6bbfe1abd470d71e2fe7a8a8141123ea9ea58ce7b88d34.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.36a2429abe555d075ba1bb5246f6ec9a7a4228f20222afb7cf2b3cae611d9e0a.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.6069975727f6f7dba876017982c21b2b94d43e9dcc332e34ecf562fb69828e3a.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.734bf438fa7e947ba2c3127e533c1d7b1f146bd1b3557d83e2d4c1c870c4c9f6.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.d13cf38888d80da429467321a28c9bd1575e43f4c0cac1ee89ba8020f6b21a75.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.f85ba18c017386c2c823b32e673accf637d367310b20713750bc8136d64c1852.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.6695c5c6f2626d5a8ac6589ffcc2fd16711cabf9d0781237018e9f1f49359154.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.696088cefa29f9240f2d3291a7bd1cdb687cbf94bf83d3d2592a72963a966a94.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.e153009f42cb82b86ea76c04bb99e7693149807f9a65016ac79989de55a4790b.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.1054122de4cec7f73d0fa1fef725fd55bd5129ef4b4350b8f69d906b89c11a9b.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.59774ebd58655cc652d4bf908e856fb5d69878577c419802d7f2d1d326fcfc39.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.8203105fb56afe57719127b98e41cd72103a4ab1e2fcceaa9564e132ab633d02.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.96e04fded1cd85a253d5251777ab2340c528a02d6176345449d67338b83be695.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.e50ca80502684486be060eee3afe3347de4f07a84043f3aac0f99b34253a2835.json",
     ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
-    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.approach.json",
-    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json",
-    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
-    "agents/skills/ordinary-work-item.md",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/lifecycle.rs",
-    "crates/cockpit-cli/tests/scope_amendment.rs",
-    "crates/cockpit-mcp/src/lib.rs",
-    "crates/cockpit-repository/src/governance_controls.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/src/outcome_render.rs",
-    "crates/cockpit-repository/src/status_projection.rs",
-    "crates/cockpit-repository/tests/evidence_assurance.rs",
-    "crates/cockpit-repository/tests/governance_signals.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md"
+    ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json"
   ],
   "checkpointAt": "2026-09-26T14:39:46Z",
   "checkpointContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
@@ -305,7 +281,7 @@
       "workItemId": "WI-1035-task8-governance-friction-remediation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e",
+  "checkpointRepositorySnapshotDigest": "sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce",
   "createdAt": "2026-09-26T14:32:17Z",
   "decisionEvidence": {
     "contractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
@@ -330,181 +306,196 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
   "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-26T23:09:28Z",
+  "preflightAt": "2026-09-27T03:07:52Z",
   "preflightContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:f62c65b2870d81052e4805dfc16df49e8f3fd79dd6e1ac082c14ab11d5d39d1e",
+  "preflightRepositorySnapshotDigest": "sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
   "recoveryRetryConsumed": {
-    "consumedAt": "2026-09-26T22:25:36Z",
-    "contractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
-    "decisionDigest": "sha256:a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001",
-    "decisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.a195915c9a343d5c7efdc0e18e2d0a95a7daf608f892fa847e2f8a526ad0d001.json",
-    "repositorySnapshotDigest": "sha256:98caac9e650b1efa4c18bcdf21e52f02a294f86e0cd2b0f7b4c6c4dde476b3d3",
-    "runtimeDigest": "sha256:acd3bd21cd0e1d9f76803dbfc293b36b7281d7bec1c1c6ec04ad5c74c0eff590",
+    "consumedAt": "2026-09-27T03:07:52Z",
+    "contractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+    "decisionDigest": "sha256:696088cefa29f9240f2d3291a7bd1cdb687cbf94bf83d3d2592a72963a966a94",
+    "decisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.696088cefa29f9240f2d3291a7bd1cdb687cbf94bf83d3d2592a72963a966a94.json",
+    "repositorySnapshotDigest": "sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce",
+    "runtimeDigest": "sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e",
     "runtimeVersion": "0.2.113",
     "schemaVersion": 1,
-    "verificationEvidenceDigest": "sha256:42496fdbb5ea371d9946d32339622da34e2128d305b4a5cffe07af641d5aab36"
+    "verificationEvidenceDigest": "sha256:e1ad6a41267dc164a9bb0e5b4e3c41fdc2699defba914b163616003822e90264"
   },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
-      "expected": "A no-op commit leaves source identity and applicable evidence stable, while a real source-content change invalidates only dependent evidence.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/contract_preflight.rs::snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/lifecycle_entry.rs::empty_commit_preserves_source_identity_and_current_verification_evidence"
+      ],
       "required": true,
       "scenario": "OBS-01 same-tree commit and actual source-content change",
-      "status": "unverified",
-      "verificationPlan": "Add and run snapshot/lifecycle regressions for dirty-to-commit, empty commit, and real source change; compare source, Contract, Runtime, preflight, and verification identities."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Snapshot-only change requires fresh preflight and verification without requesting the same bounded human authorization again; a changed authority boundary requires a new decision.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/preflight_review.rs::bounded_human_review_survives_snapshot_refresh_but_not_contract_change"
+      ],
       "required": true,
       "scenario": "OBS-02 authorization remains distinct from freshness",
-      "status": "unverified",
-      "verificationPlan": "Add repository lifecycle regressions for snapshot refresh and changed scope/authority/base/stop boundary, including decision-receipt bindings."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Repeated inspect/status/doctor/outcome queries do not change repository bytes; repeated unchanged preflight reports no changed paths and does not execute checks.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/preflight_review.rs::repeated_identical_preflight_does_not_rewrite_summary_or_observation_cache",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-cli/tests/preflight.rs::repeated_preflight_is_idempotent_and_reports_written_paths"
+      ],
       "required": true,
       "scenario": "OBS-03 read-only queries and idempotent explicit preflight",
-      "status": "unverified",
-      "verificationPlan": "Add byte-for-byte before/after query tests and repeated-preflight changed-path/process-count assertions."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Status, preflight, and a rejected operation expose the same admission version, blockers, and actionable recovery route for the same facts.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-cli/tests/preflight.rs::preflight_and_status_share_versioned_action_admission",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+      ],
       "required": true,
       "scenario": "OBS-04 consistent versioned action admission",
-      "status": "unverified",
-      "verificationPlan": "Add cross-surface repository/CLI tests that compare normalized admission identity and blocker/next-action fields."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Stale/missing preflight rejects verification and points to run_preflight; a fresh matching preflight restores verification without a second start confirmation.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-cli/tests/verify.rs"
+      ],
       "required": true,
       "scenario": "OBS-05 stale or missing preflight recovery",
-      "status": "unverified",
-      "verificationPlan": "Add checkpointed Work Item tests for stale snapshot and Contract, refresh, rejection before refresh, and admission after refresh."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Removing any required scenario/check/evidence mapping produces a named rejection before any verification process starts.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/collaboration_admission.rs::missing_one_of_two_required_checks_blocks_before_spawn",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/collaboration_admission.rs::missing_one_of_two_required_scenarios_blocks_composition"
+      ],
       "required": true,
       "scenario": "OBS-06 complete scenario-to-check coverage before spawn",
-      "status": "unverified",
-      "verificationPlan": "Use an instrumented subprocess counter in composition/verification integration tests and assert zero spawns for each missing mapping."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Amendment output/help explains whether revalidation is already recorded; unchanged Contract does not require an invalid duplicate revalidation command.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/lifecycle_entry.rs::revalidate_amendment_repairs_only_a_missing_scenario_projection",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-cli/tests"
+      ],
       "required": true,
       "scenario": "OBS-07 amendment revalidation command semantics",
-      "status": "unverified",
-      "verificationPlan": "Add CLI help/output and lifecycle tests for amendment checkpoint creation, repeated command rejection/explanation, and next action."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "A rejected formal receipt preserves execution evidence and names bounded failing predicates; verification, Outcome, and status agree on rejected and passing cases.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/verification_attempts.rs::rejected_formal_receipt_is_projected_with_its_bound_attempt_in_outcome_and_status"
+      ],
       "required": true,
       "scenario": "OBS-08 formal receipt rejection diagnosis and projection",
-      "status": "unverified",
-      "verificationPlan": "Add end-to-end CLI tests for formal receipt rejection and success, asserting preserved attempt identity, diagnostic limits, and query projections."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "An Agent discovers supported capabilities from the local manifest, MCP tool schemas, and ordinary-work-item guide, then uses coordination and serial fallback correctly.",
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py; current candidate Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e; passed with 2 linked worktrees, 2 registrations, 1 deduplicated event, composition 1→0 reused processes, changed-environment rerun 1, serial process 1, undeclared parallel lease rejected",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#13/13 current-candidate workspace tests; current binary digest 20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e"
+      ],
       "required": true,
       "scenario": "OBS-09 real collaboration capability discovery and usage",
-      "status": "unverified",
-      "verificationPlan": "After interface/docs changes, immediately run old/current manifest parsing, agent doctor, MCP tools/list schema assertions, and real multi-process linked-worktree plus serial CLI acceptance."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "An attempt envelope is durable before spawn, each completed node is persisted, and real interruption retains signal and cleanup state without passed/reusable projection.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-verification/tests/composition.rs::retry_reconciles_an_interrupted_owner_after_process_exit",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-verification/tests/composition.rs::composition_attempt_without_schema_version_is_not_reused"
+      ],
       "required": true,
       "scenario": "OBS-10 interrupted verification remains durable and non-passing",
-      "status": "unverified",
-      "verificationPlan": "Extend subprocess acceptance to wait for the pre-spawn checkpoint, send SIGINT, restart/query Runtime, and inspect durable attempt and cleanup records."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Required implementation support paths are visible during planning/preflight; additive same-intent paths are distinguished from new intent/authority before expensive verification.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/lifecycle_entry.rs::scope amendment and pre-spawn verification preconditions"
+      ],
       "required": true,
       "scenario": "OBS-11 early discovery of required support-file scope",
-      "status": "unverified",
-      "verificationPlan": "Add scope planning/preflight regressions for missing supporting paths, additive amendment, and changed intent/authority."
+      "status": "verified"
     },
     {
       "evidence": [],
-      "expected": "Hosted gates validate exact candidate receipts and all required locale parity rows; missing/unstaged evidence fails closed and no success receipt is synthesized.",
       "required": true,
       "scenario": "OBS-12 exact staged-candidate lineage and locale parity",
-      "status": "unverified",
-      "verificationPlan": "Add gate-manifest and quality-route regressions for each missing lineage/parity row, then verify the actual hosted PR gate on the candidate SHA."
+      "status": "unverified"
     },
     {
       "evidence": [],
-      "expected": "Affected tests compile and run on supported targets; Windows path comparisons use path semantics and Windows hosted tests are required evidence.",
       "required": true,
       "scenario": "OBS-13 platform-specific dependency and path behavior",
-      "status": "unverified",
-      "verificationPlan": "Add the platform regression to the canonical manifest/workflow and observe the corresponding hosted Windows job execute and pass."
+      "status": "unverified"
     },
     {
-      "evidence": [],
-      "expected": "Equal version strings with different executable digests cannot mix lifecycle or hosted evidence; final lifecycle uses one explicit candidate digest.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#Runtime 0.2.113 sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e; receipt binds executable, Contract sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c, and source snapshot sha256:49a85d8a68522284c351a21e6b93182d925dcbf47e5f1c10d09ef2acb031a4ce"
+      ],
       "required": true,
       "scenario": "OBS-14 Runtime executable digest binding",
-      "status": "unverified",
-      "verificationPlan": "Add tests with same-version/different-digest Runtime contexts; build the final candidate and compare every lifecycle/hosted receipt binding."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Repeated identical lint root causes have one readable human summary while all node-specific statuses/raw bytes and distinct failures remain available.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-verification/tests/diagnostic_summary.rs::repeated_clippy_roots_are_summarized_once_with_node_and_raw_evidence_retained",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-verification/tests/diagnostic_summary.rs::diagnostic_summary_decodes_non_utf8_without_replacing_raw_bytes",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-verification/tests/diagnostic_summary.rs::rustc_style_lint_note_is_attached_to_its_human_readable_root"
+      ],
       "required": true,
       "scenario": "OBS-15 readable deduplicated lint diagnostics with raw evidence",
-      "status": "unverified",
-      "verificationPlan": "Add multi-node verification aggregation tests with repeated and distinct diagnostics, including preservation of raw bytes and exit states."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "A single serial Work Item without parallel metadata remains ready; an explicit parallel request without compatibility/isolation fails closed.",
+      "evidence": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/collaboration_admission.rs::ordinary_single_work_item_verification_remains_serial_without_coordination_state",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#crates/cockpit-repository/tests/parallel_boundary.rs::malformed_or_missing_boundary_fails_closed_for_slot_acquisition"
+      ],
       "required": true,
       "scenario": "OBS-16 single-WI serial readiness independent of optional parallel declaration",
-      "status": "unverified",
-      "verificationPlan": "Extend parallel_boundary and CLI admission tests with serial positive and parallel negative cases, plus a valid declared-parallel case."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Diagnostic wording alone does not trigger weakening, while an actual skipped/bypassed test still fails the policy gate with source details.",
+      "evidence": [
+        "crates/cockpit-repository/tests/governance_signals.rs::diagnostic_spec_prose_and_fixture_cleanup_are_not_test_bypasses",
+        "crates/cockpit-repository/tests/governance_signals.rs::deleting_a_security_test_is_test_weakening",
+        "bash tests/ci/governance_integrity_gate_test.sh; terminal result: governance integrity gate regression passed",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#Runtime sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e passed workspace verification"
+      ],
       "required": true,
       "scenario": "OBS-17 test weakening distinguishes diagnostic prose from bypass behavior",
-      "status": "unverified",
-      "verificationPlan": "Keep/add paired diagnostic-text negative and actual xit/skip positive tests and ensure the policy regression is in canonical CI."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "close_pending transitions to terminal state without reverting archived docs; all three locale projections agree and readyOnBase reconciles with pending-close lineage.",
+      "evidence": [
+        "crates/cockpit-repository/tests/status_projection.rs::status_projection_distinguishes_archived_from_valid_closed_decision",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs::start_rejects_clean_branch_ahead_of_discoverable_default_base",
+        "bash tests/docs/documentation_acceptance.sh; passed with 13 tri-language routes and 35 reference records"
+      ],
       "required": true,
       "scenario": "OBS-18 consistent tri-language close and ready-on-base projection",
-      "status": "unverified",
-      "verificationPlan": "Add Runtime lifecycle tests using en/zh-CN/ja close projections and assert readiness/pending archive lists across before/after states."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "One WI exposes sequential stages and measured acceptance progress; valid unchanged user authority is reused without invented ETA or another start request.",
+      "evidence": [
+        "crates/cockpit-cli/tests/verify.rs::verify_workspace_route_emits_coverage_manifest_and_execution_records; serial workers=1 reports 0/2, 1/2, 2/2 and keeps stdout JSON only",
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json#13/13 current-candidate Workspace verification; stderr reported node starts/completions through 100%, runtimeDigest sha256:20d9078c62818aaa7c0816aff8a31a1db47c25b5bc26460c98cfc2160383cf4e",
+        "crates/cockpit-repository/tests/collaboration_admission.rs::ordinary_single_work_item_verification_remains_serial_without_coordination_state",
+        "crates/cockpit-cli/tests/verify.rs::checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh; Runtime status humanDecisionRequired=false after current admitted recovery"
+      ],
       "required": true,
       "scenario": "OBS-19 serial progress reporting without repeated authorization prompts",
-      "status": "unverified",
-      "verificationPlan": "Review ordinary-work-item guide and Outcome process against the 7-stage/19-OBS matrix; verify current Runtime receipts and user-facing progress include evidence and blockers."
+      "status": "verified"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-26T23:02:31.299908+00:00",
+  "updatedAt": "2026-09-27T03:25:26.512059+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -559,6 +550,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:714d84e5938ba58b29fb413447c8504246373fa6011be764eb4132f8b04627c5",
+  "verificationRecoveryReconciled": "sha256:e1ad6a41267dc164a9bb0e5b4e3c41fdc2699defba914b163616003822e90264",
   "workItemId": "WI-1035-task8-governance-friction-remediation"
 }
