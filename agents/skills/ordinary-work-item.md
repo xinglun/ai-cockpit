@@ -31,17 +31,14 @@ required controls that remain incomplete do not admit `finish`.
 
 ## Serial and cross-Work-Item use
 
-One Work Item runs serially by default. `compatible: false` /
-`parallel_compatibility_not_declared` denies only parallel work; continue
-serially when Runtime admits it.
-
-Before parallel work, refresh `inspect`/`status`, check
-`ai-cockpit work-item inspect --repo <repository> --id <work-item>`, and
-discover current CLI help plus MCP `tools/list` schemas. The manifest and
-`agent doctor` do not prove write support. Require declared compatibility,
-isolated linked worktrees in one common Git directory, current registration,
-and a Runtime slot lease. If unsupported, do not emulate constraints: use
-admitted serial work or stop.
+Keep lifecycle and snapshot-changing writes serial. Independent checks may run
+in parallel on a fixed input snapshot only when dependencies are ready, outputs
+are isolated, and resource limits allow it; otherwise serialize. `verify
+--workers N` caps Runtime workers; use `1` for serial verification. Reuse a fresh
+producer receipt instead of rerunning its checks. A negative parallel
+compatibility result denies fan-out only; continue admitted serial work.
+Cross-Work-Item coordination prerequisites and discovery are in the
+[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
 Coordination inspection is read-only. Register, report impact, publish an
 outcome, request/acknowledge/safely pause, resume, recover, and acquire or

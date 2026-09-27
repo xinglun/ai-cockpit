@@ -11,6 +11,7 @@ python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
 import importlib.util
 import json
+import re
 import subprocess
 import tempfile
 import sys
@@ -19,6 +20,13 @@ workflow = Path(sys.argv[1]).read_text(encoding="utf-8")
 route = Path(sys.argv[2]).read_text(encoding="utf-8")
 runner = Path(sys.argv[3]).read_text(encoding="utf-8")
 resolver = Path(sys.argv[4]).read_text(encoding="utf-8") if Path(sys.argv[4]).exists() else ""
+
+def job_block(name):
+    marker = f"  {name}:\n"
+    start = workflow.index(marker, workflow.index("jobs:\n"))
+    remaining = workflow[start + len(marker):]
+    next_job = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
+    return workflow[start:] if next_job is None else workflow[start:start + len(marker) + next_job.start()]
 
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
@@ -44,6 +52,27 @@ assert "PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}" in workflow
 assert 'head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"' in workflow
 assert workflow.count("name: Bind source and tested revisions") == 2
 assert 'target/ci-revision-binding.json' in workflow
+
+# Independent hosted validations fan out from the immutable route artifact;
+# no validation job waits for another validation job.
+validation_jobs = ("quality", "windows-runtime", "v1-behavioral-oracle")
+for name in validation_jobs:
+    block = job_block(name)
+    assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
+    assert "needs: [" not in block, f"{name} must not serialize behind another validation job"
+assert "\n    needs: quality\n" not in workflow, "independent CI validation must not wait for quality"
+
+ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
+ordinary_guide_text = re.sub(r"\s+", " ", ordinary_guide.read_text(encoding="utf-8").lower())
+for required_rule in (
+    "keep lifecycle and snapshot-changing writes serial",
+    "independent checks may run in parallel on a fixed input snapshot",
+    "dependencies are ready",
+    "outputs are isolated",
+    "resource limits allow it",
+    "reuse a fresh producer receipt",
+):
+    assert required_rule in ordinary_guide_text, f"ordinary guide omits parallel boundary: {required_rule}"
 assert 'merge_parents[2]' in workflow
 windows_job = workflow[workflow.index("  windows-runtime:"):]
 windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
@@ -83,12 +112,18 @@ assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
-assert "--workers 1" in hosted_runner
+assert "--workers 2" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
 assert "run_helper stale true" in hosted_behavior_test and "run_helper fresh true" in hosted_behavior_test
 assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
     "name: Evaluate Rust Contract-aware quality gate"
 ), "refresh and verify with the exact hosted Runtime before the Contract gate"
+quality_job = job_block("quality")
+assert quality_job.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < quality_job.index(
+    "name: run repository gates exactly once"
+) < quality_job.index("name: verify workspace package coverage receipt"), (
+    "hosted receipt production, package gates, and receipt consumption must remain ordered"
+)
 repository_gates_step = workflow.split(
     "      - name: run repository gates exactly once", 1
 )[1].split("      - name: verify workspace package coverage receipt", 1)[0]

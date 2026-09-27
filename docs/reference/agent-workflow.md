@@ -245,6 +245,31 @@ rerunning a failed or incomplete hosted workflow, inspect its exact failed
 gate and rerun only when the required evidence for the current head is still
 absent or invalid.
 
+### Parallel validation and CI jobs
+
+Parallelism applies to independent validation work, not to Work Item lifecycle
+or shared-state mutation. Keep Contract/source snapshot changes and lifecycle
+transitions serial. Validation nodes may fan out only after their prerequisites
+are satisfied and while they share one immutable input identity (base/head,
+Contract, Runtime, target, and check-relevant environment). Give each worker
+isolated outputs/worktrees and bound CPU, memory, and external-resource use;
+serialize any check that mutates shared state or cannot prove concurrency
+safety. Runtime `verify --workers N` caps node concurrency; the hosted Work Item
+verification in this repository uses an explicit cap of two, while `N=1`
+preserves the serial option. Combine results only after all required nodes
+finish, retaining each node's input identity and failure.
+
+In CI, jobs that consume the same immutable route/source artifacts and have no
+dependency on one another should be siblings in the workflow DAG, so the CI
+runner can execute them concurrently. Keep producer-consumer edges serial: for
+example, hosted Runtime verification must produce its receipt before package
+coverage validates and consumes those exact bytes. Reuse a complete fresh
+receipt for the same identity instead of rerunning its producer; a changed
+identity or missing/invalid evidence requires only the affected checks to run
+again. Concurrency limits and shared runner/resource contention may still
+limit realized speedup, so parallel eligibility is not a promise of a specific
+wall-clock reduction.
+
 ### Serial fallback and cross-Work-Item coordination
 
 One Work Item runs serially by default. A parallel compatibility result of
