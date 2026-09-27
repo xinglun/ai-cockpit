@@ -344,16 +344,9 @@ jobs:
           $testedRevision = (git rev-parse "$($env:GITHUB_SHA)^{commit}").Trim()
           $sourceRevision = $testedRevision
           if ($env:EVENT_NAME -eq 'pull_request') {
-            $sourceRevision = (git rev-parse "$($env:PR_HEAD_SHA)^{commit}").Trim()
-            $expectedBase = (git rev-parse "$($env:PR_BASE_SHA)^{commit}").Trim()
-            $parents = ((git show -s --format=%P $testedRevision).Trim() -split '\s+')
-            if ($parents.Count -ne 2 -or $parents[0] -ne $expectedBase -or $parents[1] -ne $sourceRevision) {
-              throw 'tested PR merge commit does not bind the declared base and source head'
-            }
+            $sourceRevision = $env:PR_HEAD_SHA
           }
-          if ((git cat-file -t $sourceRevision).Trim() -ne 'commit') {
-            throw 'source head is not an available commit'
-          }
+          $testedParents = @(((git show -s --format=%P $testedRevision).Trim() -split '\s+') | Where-Object { $_ })
           $binding = [ordered]@{
             schemaVersion = 1
             kind = 'ci_revision_binding'
@@ -361,9 +354,19 @@ jobs:
             sourceHeadRevision = $sourceRevision
             routeHeadRevision = $sourceRevision
             testedRevision = $testedRevision
-            testedParents = @(((git show -s --format=%P $testedRevision).Trim() -split '\s+') | Where-Object { $_ })
+            testedParents = $testedParents
           }
           $binding | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 target/ci-revision-binding.json
+          if ($env:EVENT_NAME -eq 'pull_request') {
+            $resolvedSourceRevision = (git rev-parse "$($env:PR_HEAD_SHA)^{commit}").Trim()
+            $expectedBase = (git rev-parse "$($env:PR_BASE_SHA)^{commit}").Trim()
+            if ($testedParents.Count -ne 2 -or $testedParents[0] -ne $expectedBase -or $testedParents[1] -ne $resolvedSourceRevision) {
+              throw 'tested PR merge commit does not bind the declared base and source head'
+            }
+          }
+          if ((git cat-file -t $sourceRevision).Trim() -ne 'commit') {
+            throw 'source head is not an available commit'
+          }
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1

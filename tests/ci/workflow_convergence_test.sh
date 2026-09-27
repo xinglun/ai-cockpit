@@ -50,6 +50,12 @@ windows_checkout = windows_job.split("      - name: Bind source and tested revis
 assert "fetch-depth: 0" in windows_checkout
 assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
 assert "runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write" in windows_job
+windows_binding = windows_job.split("      - name: Bind source and tested revisions", 1)[1].split(
+    "      - uses: dtolnay/rust-toolchain", 1
+)[0]
+assert windows_binding.index("Set-Content -Encoding utf8 target/ci-revision-binding.json") < windows_binding.index(
+    "throw 'tested PR merge commit does not bind"
+), "write Windows revision diagnostics before lineage assertions"
 quality_binding = workflow.split(
     "      - name: Bind source and tested revisions; validate the shared typed quality route", 1
 )[1].split("      - name: verify immutable Runtime shadow", 1)[0]
