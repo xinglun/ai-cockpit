@@ -50,6 +50,14 @@ windows_checkout = windows_job.split("      - name: Bind source and tested revis
 assert "fetch-depth: 0" in windows_checkout
 assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
 assert "runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write" in windows_job
+windows_composition_step = windows_job.split(
+    "      - name: verify Windows process and composition lifecycle boundaries", 1
+)[1].split("      - name:", 1)[0]
+assert "cargo test --locked -p cockpit-verification --lib --test execution --test composition" in windows_composition_step
+windows_upload_step = windows_job.split(
+    "      - name: upload Windows revision binding", 1
+)[1].split("      - name:", 1)[0]
+assert "if: always()" in windows_upload_step
 windows_binding = windows_job.split("      - name: Bind source and tested revisions", 1)[1].split(
     "      - uses: dtolnay/rust-toolchain", 1
 )[0]
@@ -66,6 +74,29 @@ assert "name: ci-quality-revision-binding" in workflow
 assert "if: always()" in workflow.split(
     "      - name: Upload quality revision binding", 1
 )[1].split("      - name:", 1)[0]
+hosted_verification = workflow.split(
+    "      - name: Run admitted hosted Work Item verification with the candidate Runtime", 1
+)[1].split("      - name: Upload hosted Work Item verification evidence", 1)[0]
+assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
+assert "target/release/ai-cockpit" in hosted_verification
+assert "target/hosted-runtime-verification.json" in workflow
+hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
+hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
+assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
+assert "--workers 1" in hosted_runner
+assert 'status_allows "$status_after" run_verification' in hosted_runner
+assert "run_helper stale true" in hosted_behavior_test and "run_helper fresh true" in hosted_behavior_test
+assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
+    "name: Evaluate Rust Contract-aware quality gate"
+), "refresh and verify with the exact hosted Runtime before the Contract gate"
+repository_gates_step = workflow.split(
+    "      - name: run repository gates exactly once", 1
+)[1].split("      - name: verify workspace package coverage receipt", 1)[0]
+assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
+assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
+assert "AI_COCKPIT_VERIFICATION_REPOSITORY" in repository_gates_step
+coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
+assert "hosted_verification_receipt" in coverage_runner.read_text(encoding="utf-8")
 
 # The route boundary must reject known illegal lifecycle transitions before
 # repository gates run, with a stable code and remediation rather than a raw

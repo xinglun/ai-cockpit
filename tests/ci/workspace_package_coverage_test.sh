@@ -92,4 +92,116 @@ fi
 jq -e '.state == "failed" and .failurePhase == "metadata" and .planned == [] and .executed == []' \
   "$tmp/failing-metadata-report.json" >/dev/null
 
+# A hosted Runtime verification receipt can supply the already-executed
+# workspace package results, but only when it is bound to the exact executable
+# and matching formal evidence. This prevents the package tests from running a
+# second time after the Contract gate consumes that receipt.
+mkdir -p "$tmp/hosted-repository/.ai/evidence"
+python3 - "$tmp/metadata.json" "$tmp/runtime-bin" "$tmp/hosted-verification.json" "$tmp/hosted-repository" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+metadata_path, runtime_path, receipt_path, repository = map(Path, sys.argv[1:])
+runtime_path.write_bytes(b"hosted candidate runtime executable fixture")
+metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+packages = sorted({p["name"] for p in metadata["packages"] if p.get("source") is None})
+runtime_digest = "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest()
+repository_id = "sha256:" + "1" * 64
+snapshot_digest = "sha256:" + "2" * 64
+work_item_id = "WI-HOSTED-RECEIPT"
+receipt = {
+    "workItemId": work_item_id,
+    "passed": True,
+    "runtimeDigest": runtime_digest,
+    "runtimeVersion": "0.2.113",
+    "repositoryId": repository_id,
+    "nodesPlanned": len(packages),
+    "nodesExecuted": len(packages),
+    "results": [
+        {"nodeId": f"project-command-0-package-{package}", "passed": True}
+        for package in packages
+    ],
+    "planReceipt": {
+        "workItemId": work_item_id,
+        "repositoryId": repository_id,
+        "repositorySnapshotDigest": snapshot_digest,
+        "coverageManifest": {
+            "workspaceMembers": packages,
+            "nodeIds": [f"project-command-0-package-{package}" for package in packages],
+        },
+    },
+}
+evidence = {
+    "workItemId": work_item_id,
+    "passed": True,
+    "runtimeDigest": runtime_digest,
+    "runtimeVersion": "0.2.113",
+    "contractDigest": "sha256:" + "3" * 64,
+    "repositoryId": repository_id,
+    "repositorySnapshotDigest": snapshot_digest,
+    "receipt": receipt,
+}
+evidence_bytes = json.dumps(evidence).encode("utf-8")
+receipt_path.write_bytes(evidence_bytes)
+(repository / ".ai/evidence" / f"{work_item_id}.verification.json").write_bytes(evidence_bytes)
+PY
+PACKAGE_LOG="$tmp/hosted-packages.log" \
+AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/hosted-report.json"
+jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' \
+  "$tmp/hosted-report.json" >/dev/null
+test ! -s "$tmp/hosted-packages.log" || {
+  printf 'coverage re-ran package checks already present in the matching formal receipt\n' >&2
+  exit 1
+}
+python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path = map(Path, sys.argv[1:])
+evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+evidence["receipt"]["annotation"] = "same identity, different bytes"
+evidence_path.write_text(json.dumps(evidence, indent=2), encoding="utf-8")
+PY
+if AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/divergent-evidence-report.json" \
+    >/dev/null 2>&1; then
+  printf 'workspace coverage accepted non-identical Runtime and coverage evidence bytes\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+  "$tmp/divergent-evidence-report.json" >/dev/null
+cp "$tmp/hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+python3 - "$tmp/hosted-verification.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+receipt = json.loads(path.read_text(encoding="utf-8"))
+receipt["runtimeDigest"] = "sha256:" + "f" * 64
+path.write_text(json.dumps(receipt), encoding="utf-8")
+PY
+if AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/invalid-hosted-report.json" \
+    >/dev/null 2>&1; then
+  printf 'workspace coverage accepted a verification receipt bound to another executable\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+  "$tmp/invalid-hosted-report.json" >/dev/null
+
 printf 'workspace package coverage regression passed\n'

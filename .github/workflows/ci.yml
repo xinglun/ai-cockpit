@@ -212,6 +212,28 @@ jobs:
         run: |
           set -euo pipefail
           test "$(jq -er '.selectedProfile' target/quality-route.json)" = "$ROUTE_PROFILE_FROM_PLAN"
+      - name: Run admitted hosted Work Item verification with the candidate Runtime
+        if: steps.quality_route.outputs.contract_path != ''
+        shell: bash
+        env:
+          ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
+        run: |
+          set -euo pipefail
+          tests/ci/run_hosted_runtime_verification.sh \
+            target/release/ai-cockpit \
+            "$GITHUB_WORKSPACE" \
+            "$ROUTE_CONTRACT_PATH" \
+            target
+      - name: Upload hosted Work Item verification evidence
+        if: always() && steps.quality_route.outputs.contract_path != ''
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-hosted-runtime-verification
+          path: |
+            target/hosted-runtime-*.json
+            target/hosted-runtime-*.stderr
+          if-no-files-found: warn
+          retention-days: 7
       - name: Evaluate Rust Contract-aware quality gate
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash
@@ -254,6 +276,9 @@ jobs:
         env:
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           ROUTE_PROFILE: ${{ steps.quality_route.outputs.profile }}
+          AI_COCKPIT_VERIFICATION_RECEIPT: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-verification.json' || '' }}
+          AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit
+          AI_COCKPIT_VERIFICATION_REPOSITORY: ${{ github.workspace }}
         run: |
           set -euo pipefail
           # The gate consumes GitHub's immutable push/PR context
@@ -373,7 +398,7 @@ jobs:
       - name: verify Windows agent adapter boundaries
         run: cargo test -p cockpit-agent --all-targets
       - name: verify Windows process and composition lifecycle boundaries
-        run: cargo test --locked -p cockpit-verification --test execution --test composition
+        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition
       - name: verify Windows repository boundaries
         run: cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
       - name: verify Windows directory-handle containment regressions

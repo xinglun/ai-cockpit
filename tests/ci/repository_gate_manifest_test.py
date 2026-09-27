@@ -61,7 +61,7 @@ assert (
 ), "the windows-runtime job must execute repository library containment regressions"
 assert (
     "- name: verify Windows process and composition lifecycle boundaries\n"
-    "        run: cargo test --locked -p cockpit-verification --test execution --test composition"
+    "        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition"
     in windows_runtime_job
 ), "the windows-runtime job must execute composition lifecycle regressions"
 assert manifest["schemaVersion"] == 2
