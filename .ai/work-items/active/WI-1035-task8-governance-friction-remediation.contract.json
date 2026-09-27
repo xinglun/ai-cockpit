@@ -19,7 +19,8 @@
     "A17: OBS-17 — 诊断文字不误报 test weakening，真实绕过仍 fail closed 且能给出匹配文本及来源。",
     "A18: OBS-18 — 三语 close_pending→terminal 投影一致，readyOnBase 与未关闭 archive 列表一致或有明确 Runtime lineage 修复。",
     "A19: OBS-19 — 单主 WI 串行阶段透明；进度只按有证据的验收项报告，不臆测 ETA、不重复请求已覆盖的开始授权。",
-    "A20: OBS-20 — Before starting verification, inspect Runtime freshness and existing receipts; reuse only a passed receipt that Runtime accepts as fresh and whose Work Item, Contract, source snapshot, Runtime executable, verification target, and required coverage match; otherwise follow the admitted next action and preserve prior evidence. Hosted exact-PR-head evidence remains a separate requirement."
+    "A20: OBS-20 — Before starting verification, inspect Runtime freshness and existing receipts; reuse only a passed receipt that Runtime accepts as fresh and whose Work Item, Contract, source snapshot, Runtime executable, verification target, and required coverage match; otherwise follow the admitted next action and preserve prior evidence. Hosted exact-PR-head evidence remains a separate requirement.",
+    "A21: OBS-21 — 独立验证节点与 CI jobs 在输入快照固定、依赖已满足、写入/产物隔离且资源受控时并行；生命周期和收据生产—消费依赖保持串行。"
   ],
   "authority": "authorized",
   "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
@@ -201,6 +202,14 @@
       "scenario": "OBS-20 verification evidence reuse across ordinary Work Items",
       "status": "unverified",
       "verificationPlan": "Update the ordinary WI guide with a mandatory pre-verification evidence inventory and add gate-backed regressions for the guide contract, same-receipt coverage consumption without rerunning package tests, and the separate exact-head hosted verification path."
+    },
+    {
+      "evidence": [],
+      "expected": "彼此独立的验证节点和 CI jobs 使用相同不可变提交/Contract/Runtime 输入、独立工作区或输出、明确资源上限时可并行；依赖边、共享写入及 formal receipt producer-consumer 保持串行；相同输入的 fresh receipt 被复用而非重跑。",
+      "required": true,
+      "scenario": "OBS-21 independent validation and CI DAG parallelism",
+      "status": "unverified",
+      "verificationPlan": "在 ordinary Work Item guide 固化可并行条件与串行条件；扩展 workflow convergence regression 检查 route 后独立 job fan-out、hosted receipt 到 package coverage 的顺序及同快照复用；并行运行隔离的回归脚本，确认产物互不覆盖。"
     }
   ],
   "scope": [
@@ -257,6 +266,22 @@
     {
       "path": "AGENTS.md",
       "reason": "Repository-bound Runtime authority, scope, verification, and release-stop constraints."
+    },
+    {
+      "path": "agents/skills/ordinary-work-item.md",
+      "reason": "Agent 使用的 Work Item 验证及并行边界指南。"
+    },
+    {
+      "path": "docs/reference/agent-workflow.md",
+      "reason": "验证证据复用及独立 Work Item/CI 工作流边界。"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "reason": "当前共享路由计划后的 CI job 依赖图和证据消费顺序。"
+    },
+    {
+      "path": "tests/ci/workflow_convergence_test.sh",
+      "reason": "CI job fan-out 和收据生产—消费顺序的 canonical regression。"
     }
   ],
   "state": "implementation_active",

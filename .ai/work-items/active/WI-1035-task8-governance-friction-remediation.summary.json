@@ -231,57 +231,63 @@
           "verification": "passed"
         }
       ]
+    },
+    {
+      "acceptanceId": "A21",
+      "evidence": [
+        {
+          "locator": "Serial and cross-Work-Item use; bounded verify --workers N",
+          "path": "agents/skills/ordinary-work-item.md",
+          "type": "test",
+          "verification": "passed: independent checks require fixed snapshot, ready dependencies, isolated outputs, bounded resources; serial fallback and fresh receipt reuse are specified"
+        },
+        {
+          "locator": "route fan-out, validation job independence, receipt producer-consumer ordering, and --workers 2 cap",
+          "path": "tests/ci/workflow_convergence_test.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "reuse of complete fresh receipt and fail-closed identity mismatch",
+          "path": "tests/ci/hosted_runtime_verification_test.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "matching hosted receipt consumed without rerunning package tests",
+          "path": "tests/ci/workspace_package_coverage_test.sh",
+          "type": "test",
+          "verification": "passed"
+        },
+        {
+          "locator": "workers_bound_parallel_execution_of_multiple_explicit_commands",
+          "path": "crates/cockpit-cli/tests/verify.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-cli --test verify workers_bound_parallel_execution_of_multiple_explicit_commands: 1 passed"
+        }
+      ]
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.bb5af54ae8464b12bb1f839565792cae9b2b6f17ea3923a02e6c3fabd4122e40.json",
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.bb9adc4a8200f8e846094dff7457275b94e8800a5f7eec3facc01e7075b6c55b.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.15b9af3143b97a96bba9585f439429b7b4cf02b79a2ebb3b6ca4c3da5cd992bd.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.1789af5f753ce4846d0035d8233c5364be97a6544b8dbc831217221587caffd0.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.68787f631593237b2cbf378cbc78429d5f8d9f2d19db3fc2293881386f35efeb.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.ba7799b697bc5bd3a1493eacc7800cf38ae282166a79487c4f998997474fac0d.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.dcbd092f46491893767bf2b94ed3f2fd2fe8a89c3f7c0f0ff5455b2afc24b477.json",
-    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.efc0c265ab4c9ca72be6039eb6b339b21e60ff787dd8df23f737312d094d44ff.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.223eae9869e3064129f2be6800df151fda7c15b22cec59d7014a78d82f8a70d6.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.f5e20ae3a859898c9c0005445c430cc8dca49ff5e0acee79f87e7a698ba3aff4.json",
     ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json",
     ".ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json",
-    ".github/workflows/ci.yml",
     "agents/skills/ordinary-work-item.md",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/collaboration_consistency.rs",
-    "crates/cockpit-cli/tests/preflight.rs",
-    "crates/cockpit-cli/tests/verify.rs",
-    "crates/cockpit-cli/tests/work_item_scaffold.rs",
-    "crates/cockpit-mcp/tests/rpc.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/src/status_projection.rs",
-    "crates/cockpit-repository/tests/evidence_assurance.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs",
-    "crates/cockpit-repository/tests/lifecycle_order.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs",
-    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "crates/cockpit-repository/tests/verification_attempts.rs",
+    "crates/cockpit-repository/tests/collaboration_admission.rs",
     "crates/cockpit-verification/src/composition.rs",
     "crates/cockpit-verification/tests/composition.rs",
     "docs/reference/agent-workflow.md",
-    "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
-    "docs/work-items/WI-1034-task8-governance-friction-remediation/spec.md",
-    "docs/work-items/WI-1035-task8-governance-friction-remediation.ja.md",
-    "docs/work-items/WI-1035-task8-governance-friction-remediation.md",
-    "docs/work-items/WI-1035-task8-governance-friction-remediation.zh-CN.md",
     "tests/ci/hosted_runtime_verification_test.sh",
-    "tests/ci/repository_gate_manifest.json",
-    "tests/ci/repository_gate_manifest_test.py",
     "tests/ci/run_hosted_runtime_verification.sh",
     "tests/ci/run_workspace_package_tests.sh",
     "tests/ci/workflow_convergence_test.sh",
-    "tests/ci/workspace_package_coverage_test.sh",
-    "tests/docs/governance_cost_baseline_test.py"
+    "tests/ci/workspace_package_coverage_test.sh"
   ],
   "checkpointAt": "2026-09-26T14:39:46Z",
-  "checkpointContractDigest": "sha256:71a1903eb11d3a1b9962fa2b26cb97e3d8c2c6ecba4b6e050a461df0659b8125",
+  "checkpointContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -357,20 +363,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1035-task8-governance-friction-remediation"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+      "previousContractHash": "sha256:71a1903eb11d3a1b9962fa2b26cb97e3d8c2c6ecba4b6e050a461df0659b8125",
+      "reason": "Codify safe parallel execution of independent validation nodes and CI jobs, preserving serial lifecycle and receipt dependencies",
+      "recorded": true,
+      "recordedAt": "2026-09-27T10:47:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6e0d97c6028928a44bb373a404710fba232775f1e3ef6d3ab806264cee927be6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:6e8c4832b8b0c964f6b168a3ee35b383095d0572035a97de67ab7423915b673c",
+  "checkpointRepositorySnapshotDigest": "sha256:3f7e91cab43812dfde66e0d977be52f9917b5354abf536e5270361447fca18d4",
   "createdAt": "2026-09-26T14:32:17Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:71a1903eb11d3a1b9962fa2b26cb97e3d8c2c6ecba4b6e050a461df0659b8125",
+    "contractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The user explicitly accepted adding the general pre-verification evidence-reuse acceptance to Task 8 and authorized continuing through PR merge and cleanup, stopping before release. This confirms review of the exact amended Contract; it does not approve publication or assert any unverified gate passed.",
-    "recordedAt": "2026-09-27T08:52:36Z",
+    "reason": "The user explicitly authorized continuing Task 8 through PR merge and cleanup, stopping before release, and accepted formalizing parallel validation in this Work Item. This confirms review of the current Contract for implementation and verification; it does not authorize release or publication and does not assert that any check passed.",
+    "recordedAt": "2026-09-27T11:04:51Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b96b044dc678f023ae1d84df1f564c928a9f0203a903696c445d34281fab96c6",
+    "repositorySnapshotDigest": "sha256:455a6dff66cc9ef5270e116fb6cd1cbfba7e082390d1f56dbf3ce6caafcd3a49",
     "schemaVersion": 1,
     "workItemId": "WI-1035-task8-governance-friction-remediation"
   },
@@ -385,10 +411,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:aefa09fe2182da704832c7fb3f3aad93871eeefcdb927cca0a97cd11d2077cb4",
   "predecessorWorkItemId": "WI-1034-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-27T09:22:19Z",
-  "preflightContractDigest": "sha256:71a1903eb11d3a1b9962fa2b26cb97e3d8c2c6ecba4b6e050a461df0659b8125",
+  "preflightAt": "2026-09-27T11:17:52Z",
+  "preflightContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:6e8c4832b8b0c964f6b168a3ee35b383095d0572035a97de67ab7423915b673c",
+  "preflightRepositorySnapshotDigest": "sha256:3f7e91cab43812dfde66e0d977be52f9917b5354abf536e5270361447fca18d4",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.recovery.json",
@@ -584,10 +610,24 @@
       "scenario": "OBS-20 verification evidence reuse across ordinary Work Items",
       "status": "verified",
       "verificationPlan": "Update the ordinary WI guide with a mandatory pre-verification evidence inventory and add gate-backed regressions for the guide contract, same-receipt coverage consumption without rerunning package tests, and the separate exact-head hosted verification path."
+    },
+    {
+      "evidence": [
+        "agents/skills/ordinary-work-item.md: fixed snapshot, ready dependencies, isolated outputs, bounded workers, serial fallback, receipt reuse",
+        "tests/ci/workflow_convergence_test.sh: route fan-out, hosted receipt-to-coverage ordering, --workers 2 resource cap",
+        "tests/ci/hosted_runtime_verification_test.sh: matching fresh receipt reuse and mismatched identity rejection",
+        "tests/ci/workspace_package_coverage_test.sh: exact receipt consumption without duplicate package execution",
+        "crates/cockpit-cli/tests/verify.rs::workers_bound_parallel_execution_of_multiple_explicit_commands: two barrier-synchronized commands execute with workers=2"
+      ],
+      "expected": "彼此独立的验证节点和 CI jobs 使用相同不可变提交/Contract/Runtime 输入、独立工作区或输出、明确资源上限时可并行；依赖边、共享写入及 formal receipt producer-consumer 保持串行；相同输入的 fresh receipt 被复用而非重跑。",
+      "required": true,
+      "scenario": "OBS-21 independent validation and CI DAG parallelism",
+      "status": "verified",
+      "verificationPlan": "在 ordinary Work Item guide 固化可并行条件与串行条件；扩展 workflow convergence regression 检查 route 后独立 job fan-out、hosted receipt 到 package coverage 的顺序及同快照复用；并行运行隔离的回归脚本，确认产物互不覆盖。"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-27T09:13:28.756740+00:00",
+  "updatedAt": "2026-09-27T11:12:04.472012+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -646,6 +686,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3ff2e1943f2e1e276b31802d58eb04d7f6c537d16b5303cef95cb6aad2904c16",
+  "verificationRecoveryReconciled": "sha256:b38c98414e9da3403d0b1f0d95c5c64b2e753ab82cbbf82fd73ac5a96edcade5",
   "workItemId": "WI-1035-task8-governance-friction-remediation"
 }
