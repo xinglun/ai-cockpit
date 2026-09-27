@@ -132,16 +132,21 @@ fn new_work_item_reports_facts_and_keeps_human_decisions_empty() {
         assert_ne!(contract["state"], forbidden);
     }
 
-    let preflight = Command::new(binary)
-        .args(["preflight", "--repo"])
+    let item_status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
         .arg(&root)
-        .args(["--contract"])
-        .arg(&contract_path)
+        .args(["--id", "payment-refund-guard", "--json"])
         .output()
-        .expect("preflight");
-    assert!(preflight.status.success());
-    let decision: serde_json::Value = serde_json::from_slice(&preflight.stdout).expect("decision");
-    assert_ne!(decision["state"], "Green");
+        .expect("Work Item status");
+    assert!(
+        item_status.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&item_status.stderr)
+    );
+    let item_status: serde_json::Value =
+        serde_json::from_slice(&item_status.stdout).expect("Work Item status JSON");
+    assert_eq!(item_status["lifecyclePhase"], "not_ready");
+    assert!(item_status["humanDecisions"].as_array().unwrap().is_empty());
     let status = Command::new(binary)
         .args(["status", "--repo"])
         .arg(&root)

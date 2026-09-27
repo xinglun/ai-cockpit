@@ -118,20 +118,21 @@ fn same_runtime_version_with_different_binary_digest_rejects_verification_reuse(
         .path()
         .join(format!(".ai/evidence/{work_item_id}.verification.json"));
     let evidence_before = fs::read(&evidence_path).expect("installed-runtime verification");
-    let contract_path = directory.path().join(format!(
-        ".ai/work-items/active/{work_item_id}.contract.json"
-    ));
-
-    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &candidate)
-        .expect("candidate-runtime preflight");
-
-    assert_eq!(decision.state, DecisionState::Red);
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &candidate)
+        .expect("candidate-runtime status");
     assert!(
-        decision
-            .blockers
+        status
+            .missing_evidence
             .iter()
-            .any(|blocker| { blocker.contains("verification") || blocker.contains("evidence") }),
-        "expected the old executable's verification evidence to be rejected: {decision:#?}"
+            .any(|evidence| evidence == "evidence_stale"),
+        "the old executable's verification evidence must be stale, not reusable: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "Runtime should admit a fresh candidate-bound verification: {status:#?}"
     );
     assert_eq!(
         fs::read(&evidence_path).expect("preserved verification"),
@@ -369,7 +370,7 @@ fn invalid_created_at_blocks_finish_and_archived_close() {
 }
 
 #[test]
-fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
+fn current_runtime_lifecycle_rejects_same_version_different_digest_evidence() {
     let directory = repository();
     let current = runtime("current");
     let foreign = runtime("foreign");
@@ -379,6 +380,8 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
     let status =
         work_item_status_snapshot_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
             .expect("foreign-runtime status");
+    assert_eq!(status.evidence_freshness.state, "stale_or_invalid");
+    assert!(status.missing_evidence.contains(&"evidence_stale".into()));
     assert!(!status.safe_actions.iter().any(|action| action == "finish"));
     let admission_digest = status
         .action_explanation
@@ -394,11 +397,10 @@ fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
             .contains("current action admission rejected requested action \"finish\""),
         "finish must return the Runtime's current admission refusal: {error}"
     );
-    assert!(error.to_string().contains("evidence_contradictory"));
+    assert!(error.to_string().contains("evidence_stale"));
     assert!(error.to_string().contains(&admission_digest));
     let outcome = outcome_v2_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
-        .expect("foreign-runtime outcome");
-    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+        .expect("rebuilt-runtime outcome");
     assert_ne!(outcome.state, cockpit_protocol::OutcomeState::Verified);
 }
 

@@ -1697,10 +1697,11 @@ fn typed_verification_survives_its_governance_projection_at_preflight_and_finish
     .expect("record verification");
 
     assert_eq!(
-        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-            .expect("post-verification preflight")
-            .state,
-        DecisionState::Green
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("post-verification status")
+            .verification,
+        "verified",
+        "governance projection must preserve current typed verification evidence"
     );
     finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect("governance projection must not stale verification evidence");
@@ -1813,10 +1814,10 @@ fn typed_verification_with_bounded_output_stays_current_at_preflight() {
     .expect("record verification");
 
     assert_eq!(
-        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-            .expect("post-verification preflight")
-            .state,
-        DecisionState::Green,
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("post-verification status")
+            .verification,
+        "verified",
         "bounded diagnostic output is not contradictory evidence"
     );
 }
@@ -2012,9 +2013,9 @@ fn empty_commit_preserves_source_identity_and_current_verification_evidence() {
         fs::read(&evidence_path).expect("preserved evidence"),
         evidence_before_empty_commit
     );
-    let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-        .expect("preflight after empty commit");
-    assert_eq!(preflight.state, DecisionState::Green, "{preflight:#?}");
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("status after empty commit");
+    assert_eq!(status.verification, "verified", "{status:#?}");
     finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect("finish with unchanged source evidence");
 }
@@ -2103,6 +2104,14 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
         ],
     );
 
+    let stale_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("finish-ready stale status");
+    assert!(
+        stale_status.safe_actions.contains(&"run_preflight".into()),
+        "finish-ready snapshot drift must admit its preflight recovery: {stale_status:?}"
+    );
+
     let refreshed = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("finish-ready retry preflight");
     assert_eq!(refreshed.state, DecisionState::Yellow);
@@ -2112,6 +2121,15 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
             .iter()
             .any(|unknown| unknown == "evidence_stale"),
         "the changed source must still require replacement verification: {refreshed:?}"
+    );
+    let current_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("finish-ready refreshed status");
+    assert!(
+        current_status
+            .safe_actions
+            .contains(&"run_verification".into()),
+        "a fresh preflight must admit replacement verification: {current_status:?}"
     );
 
     verify("after-commit");

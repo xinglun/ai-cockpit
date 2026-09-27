@@ -1298,6 +1298,12 @@ fn work_item_status_snapshot_with_snapshot(
         governance_permissions.push("review_evidence".into());
     }
     let contract_digest_value = contract_digest(&contract_path)?;
+    let snapshot_digest_string = snapshot_digest_value.to_string();
+    let contract_digest_string = contract_digest_value.to_string();
+    let preflight_binding_current = summary["preflightRepositorySnapshotDigest"].as_str()
+        == Some(snapshot_digest_string.as_str())
+        && summary["preflightContractDigest"].as_str() == Some(contract_digest_string.as_str())
+        && matches!(summary["preflightState"].as_str(), Some("green" | "yellow"));
     let mut source_digests = BTreeMap::new();
     source_digests.insert("contract".into(), contract_digest_value.clone());
     source_digests.insert("repositorySnapshot".into(), snapshot_digest_value.clone());
@@ -1444,7 +1450,15 @@ fn work_item_status_snapshot_with_snapshot(
             // or receipt-reuse request. Keep finish first so the projection's
             // recommendation remains the ordinary success path.
             "checkpointed" => vec!["finish".into(), "run_verification".into()],
-            "finish_ready" => vec!["archive_when_reviewed".into()],
+            "finish_ready" if verification != "verified" && !preflight_binding_current => {
+                vec!["run_preflight".into()]
+            }
+            "finish_ready" if verification != "verified" => {
+                vec!["run_verification".into(), "run_preflight".into()]
+            }
+            // An explicitly requested preflight is an idempotent re-observation
+            // even after finish; keep archive as the recommended next action.
+            "finish_ready" => vec!["archive_when_reviewed".into(), "run_preflight".into()],
             "archived" => vec!["read_outcome".into()],
             "closed" => Vec::new(),
             _ if verification != "verified" => vec!["run_verification".into()],
@@ -1467,7 +1481,7 @@ fn work_item_status_snapshot_with_snapshot(
         verification_precondition_error
             .as_ref()
             .is_some_and(|error| {
-                lifecycle_phase == "checkpointed"
+                matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
                     && preflight_can_recover_verification_precondition(error, &summary)
             });
     if verification_precondition_error.is_some() {

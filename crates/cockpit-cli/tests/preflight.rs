@@ -401,36 +401,46 @@ fn preflight_turns_green_after_matching_verification_evidence() {
         .output()
         .expect("verify");
     assert!(verify.status.success());
-    let contract = directory.join(".ai/work-items/active/WI-PREFLIGHT.contract.json");
     let output = Command::new(binary)
-        .args(["preflight", "--repo"])
+        .args(["work-item", "status", "--repo"])
         .arg(&directory)
-        .args(["--contract"])
-        .arg(contract)
+        .args(["--id", "WI-PREFLIGHT", "--json"])
         .output()
-        .expect("preflight");
-    assert!(output.status.success());
-    let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
-    assert_eq!(json["state"], "green");
-    assert!(json["unknowns"].as_array().expect("unknowns").is_empty());
-    fs::remove_file(directory.join(".ai/project.json")).expect("remove profile");
-    let stale = Command::new(binary)
-        .args(["preflight", "--repo"])
-        .arg(&directory)
-        .args(["--contract"])
-        .arg(directory.join(".ai/work-items/active/WI-PREFLIGHT.contract.json"))
-        .output()
-        .expect("stale preflight");
-    assert!(stale.status.success());
-    let stale_json: serde_json::Value = serde_json::from_slice(&stale.stdout).expect("JSON");
-    assert_eq!(stale_json["state"], "red");
+        .expect("status after verification");
     assert!(
-        stale_json["blockers"]
-            .as_array()
-            .expect("blockers")
-            .iter()
-            .any(|value| value == "stale_contract")
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
     );
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(json["governanceState"], "green");
+    assert_eq!(json["verification"], "verified");
+    assert_eq!(json["evidenceFreshness"]["state"], "fresh");
+    assert!(!json["blocking"].as_bool().unwrap());
+    assert!(json["blockers"].as_array().expect("blockers").is_empty());
+    assert!(
+        !json["unknowns"]
+            .as_array()
+            .expect("unknowns")
+            .iter()
+            .any(|value| value == "evidence_stale"),
+        "current verification evidence must not remain stale: {json:#?}"
+    );
+    assert!(
+        json["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "finish")
+    );
+    assert!(
+        !json["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "run_preflight")
+    );
+    assert_eq!(json["actionExplanation"]["admissionState"], "allowed");
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

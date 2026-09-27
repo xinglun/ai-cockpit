@@ -13,9 +13,9 @@ use cockpit_git::GitRepository;
 use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
-    plan_resource_finalization, preflight_work_item, record_verification,
-    require_current_action_admission, require_verification_preconditions, scaffold_work_item,
-    start_work_item_with_options, work_item_status_snapshot_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime_report,
+    record_verification, require_current_action_admission, require_verification_preconditions,
+    scaffold_work_item, start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -154,6 +154,44 @@ fn assert_checkpointed_preflight_recovery(
         !refreshed.safe_actions.contains(&"run_preflight".into()),
         "a current preflight must not keep recommending itself: {refreshed:?}"
     );
+}
+
+#[test]
+fn runtime_bound_preflight_rejects_when_fresh_admission_allows_verification_only() {
+    let directory = repository();
+    let id = "WI-PREFLIGHT-ADMISSION-RECHECK";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "recheck preflight admission under lock",
+        "reject a preflight after Runtime has advanced to verification",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = contract(directory.path(), id);
+    let runtime = runtime();
+    preflight_work_item_with_runtime_report(directory.path(), &contract_path, &runtime)
+        .expect("initial admitted preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), id).expect("checkpoint");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime)
+        .expect("fresh status");
+    assert!(status.safe_actions.contains(&"run_verification".into()));
+    assert!(!status.safe_actions.contains(&"run_preflight".into()));
+
+    let error = preflight_work_item_with_runtime_report(directory.path(), &contract_path, &runtime)
+        .expect_err("fresh Runtime admission must reject a redundant preflight");
+    let message = state_message(error);
+    assert!(
+        message.contains("current action admission rejected"),
+        "{message}"
+    );
+    assert!(message.contains("run_preflight"), "{message}");
 }
 
 fn scenario_matrix() -> Value {

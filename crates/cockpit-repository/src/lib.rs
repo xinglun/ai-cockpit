@@ -5954,15 +5954,16 @@ fn verification_evidence_state_from_value(
         }
     }
 
+    let runtime_digest_changed =
+        current_runtime.is_some_and(|runtime| envelope.runtime_digest != runtime.runtime_digest);
     if let Some(runtime) = current_runtime
         && (envelope.runtime_version != runtime.runtime_version
-            || envelope.runtime_digest != runtime.runtime_digest)
+            || (archived && runtime_digest_changed))
     {
         // A retry receipt is the explicit authorization to replace evidence
-        // produced by the previous Runtime executable.  Classify that
-        // transition as stale so preflight can lead directly to the bounded
-        // replacement verification; foreign or tampered evidence without a
-        // retry remains contradictory and fail-closed.
+        // produced by a different Runtime version (or to reinterpret archived
+        // evidence under another executable). Same-version executable
+        // rebuilds are handled after full receipt validation below.
         let retry_pending = !archived
             && root
                 .join(".ai/work-items/active")
@@ -6068,6 +6069,14 @@ fn verification_evidence_state_from_value(
         {
             return Ok(EvidenceState::Contradictory);
         }
+    }
+    // A same-version rebuild has a different executable identity, so its
+    // predecessor receipt can never authorize current verification. Once the
+    // old receipt has passed its full structural, identity, and digest checks,
+    // however, it is stale rather than contradictory and can be replaced by
+    // a fresh preflight/verification without a separate retry decision.
+    if runtime_digest_changed {
+        return Ok(EvidenceState::Stale);
     }
     Ok(EvidenceState::Complete)
 }

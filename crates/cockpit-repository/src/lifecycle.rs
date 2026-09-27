@@ -15,8 +15,9 @@ use super::{
     outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome, read_contract,
     read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
     recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
-    repository_relative_path, require_explicit_resource_finalization_plan,
-    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
+    repository_relative_path, require_current_action_admission,
+    require_explicit_resource_finalization_plan, require_green_governance,
+    require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
     validate_checkpoint_evidence_bindings, validate_historical_finalization,
@@ -2004,6 +2005,14 @@ fn preflight_work_item_internal_unlocked(
             });
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
+        if let Some(runtime) = current_runtime {
+            require_current_action_admission(
+                root,
+                &contract.work_item_id,
+                "run_preflight",
+                runtime,
+            )?;
+        }
         require_current_retry_recovery_binding(
             root,
             &contract.work_item_id,
@@ -5625,6 +5634,60 @@ pub fn persist_verification_attempt(
     diagnostic: Option<(&str, &str)>,
     receipt: Option<&serde_json::Value>,
 ) -> Result<serde_json::Value, ObserverError> {
+    persist_verification_attempt_internal(
+        root,
+        work_item_id,
+        requests,
+        snapshot,
+        runtime,
+        state,
+        diagnostic,
+        receipt,
+        None,
+    )
+}
+
+/// Persist a terminal receipt-rejection attempt that explicitly supersedes
+/// the execution-only attempt for the same completed verification. The link
+/// preserves append-only history while making the final outcome independent
+/// of wall-clock timestamp precision or digest sort order.
+#[allow(clippy::too_many_arguments)]
+pub fn persist_verification_attempt_superseding(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    state: &str,
+    diagnostic: Option<(&str, &str)>,
+    receipt: Option<&serde_json::Value>,
+    supersedes_attempt_id: &str,
+) -> Result<serde_json::Value, ObserverError> {
+    persist_verification_attempt_internal(
+        root,
+        work_item_id,
+        requests,
+        snapshot,
+        runtime,
+        state,
+        diagnostic,
+        receipt,
+        Some(supersedes_attempt_id),
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn persist_verification_attempt_internal(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    state: &str,
+    diagnostic: Option<(&str, &str)>,
+    receipt: Option<&serde_json::Value>,
+    supersedes_attempt_id: Option<&str>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     if state.trim().is_empty() {
         return Err(ObserverError::State {
@@ -5650,6 +5713,17 @@ pub fn persist_verification_attempt(
     let contract_scope_digest_value = contract_execution_scope_digest(&contract_path)
         .ok()
         .map(|digest| serde_json::json!(digest));
+    if let Some(supersedes_attempt_id) = supersedes_attempt_id {
+        validate_verification_attempt_supersession(
+            &root,
+            work_item_id,
+            snapshot,
+            runtime,
+            &contract_digest_value,
+            &contract_scope_digest_value,
+            supersedes_attempt_id,
+        )?;
+    }
     let command_values = requests
         .iter()
         .map(|request| verification_attempt_command_value(&root, request))
@@ -5695,6 +5769,9 @@ pub fn persist_verification_attempt(
         "receipt": bound_receipt,
         "createdAt": now(),
     });
+    if let Some(supersedes_attempt_id) = supersedes_attempt_id {
+        value["supersedesAttemptId"] = serde_json::json!(supersedes_attempt_id);
+    }
     if let Some((code, message)) = diagnostic {
         value["diagnostic"] = serde_json::json!({
             "code": code,
@@ -5756,6 +5833,66 @@ pub fn persist_verification_attempt(
         "processesSpawned": processes_spawned,
         "passed": passed,
     }))
+}
+
+#[allow(clippy::too_many_arguments)]
+fn validate_verification_attempt_supersession(
+    root: &Path,
+    work_item_id: &str,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    contract_digest_value: &Option<serde_json::Value>,
+    contract_scope_digest_value: &Option<serde_json::Value>,
+    supersedes_attempt_id: &str,
+) -> Result<(), ObserverError> {
+    if !valid_sha256_digest(supersedes_attempt_id) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "superseded verification attempt ID must be a SHA-256 digest".into(),
+        });
+    }
+    let suffix = supersedes_attempt_id
+        .strip_prefix("sha256:")
+        .expect("valid SHA-256 digest has prefix");
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification-attempt.{suffix}.json"));
+    let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    if metadata.file_type().is_symlink()
+        || !metadata.is_file()
+        || metadata.len() > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "superseded verification attempt must be a bounded regular file".into(),
+        });
+    }
+    let previous: serde_json::Value = read_json(&path)?;
+    if !verification_attempt_content_digest_matches(&previous)
+        || previous["attemptId"] != serde_json::json!(supersedes_attempt_id)
+        || previous["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+        || previous["kind"] != serde_json::json!("verification_attempt")
+        || previous["state"] != serde_json::json!("execution_completed")
+        || previous["workItemId"] != serde_json::json!(work_item_id)
+        || previous["repositoryId"] != serde_json::json!(repository_id(root))
+        || previous.get("contractDigest").cloned() != *contract_digest_value
+        || previous.get("contractExecutionScopeDigest").cloned() != *contract_scope_digest_value
+        || previous["repositorySnapshotDigest"] != serde_json::json!(snapshot_digest(snapshot)?)
+        || previous["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+        || previous["runtimeDigest"] != serde_json::json!(runtime.runtime_digest)
+        || previous["passed"] != serde_json::json!(true)
+        || previous["processesSpawned"].as_u64().unwrap_or_default() == 0
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "superseded verification attempt is not a valid matching execution completion"
+                .into(),
+        });
+    }
+    Ok(())
 }
 
 /// Load one prior successful execution whose execution identity is unchanged.
@@ -6217,7 +6354,10 @@ pub(crate) fn current_verification_attempt_projection(
         let attempt_id = attempt["attemptId"].as_str().unwrap_or_default().to_owned();
         candidates.push((
             created_at.to_owned(),
-            attempt_id.clone(),
+            attempt
+                .get("supersedesAttemptId")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned),
             CurrentVerificationAttemptProjection {
                 state: state.to_owned(),
                 attempt_id,
@@ -6229,9 +6369,28 @@ pub(crate) fn current_verification_attempt_projection(
         ));
     }
 
+    let completed_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "execution_completed")
+        .map(|(_, _, projection)| projection.attempt_id.clone())
+        .collect::<BTreeSet<_>>();
+    let superseded_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "formal_receipt_rejected")
+        .filter_map(|(_, supersedes, _)| supersedes.as_ref())
+        .filter(|attempt_id| completed_attempt_ids.contains(*attempt_id))
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    candidates
+        .retain(|(_, _, projection)| !superseded_attempt_ids.contains(&projection.attempt_id));
+
     Ok(candidates
         .into_iter()
-        .max_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(&right.1)))
+        .max_by(|left, right| {
+            left.0
+                .cmp(&right.0)
+                .then_with(|| left.2.attempt_id.cmp(&right.2.attempt_id))
+        })
         .map(|(_, _, projection)| projection))
 }
 

@@ -2367,7 +2367,7 @@ fn run() -> Result<()> {
                 // it into completion evidence.  A later governance/schema
                 // rejection must therefore retain the child results for a
                 // safe reclassification or reuse decision.
-                let _attempt = cockpit_repository::persist_verification_attempt(
+                let execution_attempt = cockpit_repository::persist_verification_attempt(
                     &root,
                     &work_item,
                     &requests,
@@ -2378,6 +2378,10 @@ fn run() -> Result<()> {
                     Some(&verification_receipt),
                 )
                 .context("persist verification attempt")?;
+                let execution_attempt_id = execution_attempt["attemptId"]
+                    .as_str()
+                    .context("persisted verification attempt has no identity")?
+                    .to_owned();
                 if archived_recovery {
                     if let Err(error) = cockpit_repository::record_archived_verification_recovery_with_runtime(
                         &root,
@@ -2399,7 +2403,7 @@ fn run() -> Result<()> {
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
-                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
+                        let recovery_attempt = cockpit_repository::persist_verification_attempt_superseding(
                             &root,
                             &work_item,
                             &requests,
@@ -2408,6 +2412,7 @@ fn run() -> Result<()> {
                             "formal_receipt_rejected",
                             Some(("formal_receipt", &error.to_string())),
                             Some(&verification_receipt),
+                            &execution_attempt_id,
                         );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!("could not persist receipt rejection attempt: {persist_error}");
@@ -2422,16 +2427,18 @@ fn run() -> Result<()> {
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
-                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
-                            &root,
-                            &work_item,
-                            &requests,
-                            &initial_snapshot,
-                            &runtime_context,
-                            "formal_receipt_rejected",
-                            Some(("formal_receipt", &error.to_string())),
-                            Some(&verification_receipt),
-                        );
+                        let recovery_attempt =
+                            cockpit_repository::persist_verification_attempt_superseding(
+                                &root,
+                                &work_item,
+                                &requests,
+                                &initial_snapshot,
+                                &runtime_context,
+                                "formal_receipt_rejected",
+                                Some(("formal_receipt", &error.to_string())),
+                                Some(&verification_receipt),
+                                &execution_attempt_id,
+                            );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!(
                                 "could not persist receipt rejection attempt: {persist_error}"

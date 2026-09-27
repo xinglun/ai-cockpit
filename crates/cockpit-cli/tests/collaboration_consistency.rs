@@ -344,43 +344,46 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
     );
     assert_eq!(resumed["passed"], true);
     assert!(evidence.is_file(), "resume must publish current evidence");
-    let after_resume_preflight = run_json(
-        binary,
-        repo.path(),
-        &[
-            "preflight",
-            "--contract",
-            &format!(".ai/work-items/active/{id}.contract.json"),
-        ],
-    );
-    // A new repository snapshot requires fresh preflight and verification,
-    // but it must not ask for the same bounded authorization again when the
-    // Work Item and Contract boundary have not changed.
-    assert_eq!(
-        after_resume_preflight["reviewState"],
-        "human_decision_recorded"
-    );
-    assert!(after_resume_preflight["humanDecisionRequest"].is_null());
-    assert!(
-        after_resume_preflight["safe_actions"]
-            .as_array()
-            .expect("safe actions")
-            .iter()
-            .any(|action| action == "continue_to_checkpoint")
-    );
-    assert!(
-        !after_resume_preflight["unknowns"]
-            .as_array()
-            .expect("preflight unknowns")
-            .iter()
-            .any(|unknown| unknown == "preflight_decision_evidence_invalid")
-    );
+    // The candidate Runtime now admits verification/finish directly, so do
+    // not force a redundant preflight just to inspect the persisted decision.
+    // Status remains read-only and must not report that the recorded review
+    // became invalid after the verification snapshot changed.
     let resumed_projection = run_json(
         binary,
         repo.path(),
         &["work-item", "status", "--id", id, "--json"],
     );
+    assert_eq!(resumed_projection["governanceState"], "green");
     assert_eq!(resumed_projection["lifecyclePhase"], "checkpointed");
     assert_eq!(resumed_projection["verification"], "verified");
     assert_eq!(resumed_projection["evidenceFreshness"]["state"], "fresh");
+    assert!(
+        resumed_projection["blockers"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    assert_eq!(
+        resumed_projection["actionExplanation"]["admissionState"],
+        "allowed"
+    );
+    assert!(
+        resumed_projection["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "finish")
+    );
+    assert!(
+        !resumed_projection["humanDecisionRequired"]
+            .as_bool()
+            .unwrap()
+    );
+    assert!(
+        !resumed_projection["unknowns"]
+            .as_array()
+            .expect("status unknowns")
+            .iter()
+            .any(|unknown| unknown == "preflight_decision_evidence_invalid")
+    );
 }

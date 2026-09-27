@@ -224,8 +224,8 @@ fn runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission() {
     assert!(child.wait().expect("wait for preflight child").success());
     let result = fs::read_to_string(result_path).expect("preflight child result");
     assert!(
-        result.contains("preflight is invalid from state \"closed\""),
-        "preflight must re-read the active lifecycle state after acquiring the lock: {result}"
+        result.contains("current action admission rejected requested action \"run_preflight\""),
+        "preflight must re-read Runtime action admission after acquiring the lock: {result}"
     );
     assert_eq!(
         fs::read(

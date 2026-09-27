@@ -1,16 +1,20 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
-use cockpit_protocol::RuntimeContext;
+use cockpit_protocol::{RuntimeContext, digest_json};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
     checkpoint_work_item, load_reusable_verification_attempt, outcome_v2_with_runtime,
-    persist_verification_attempt, preflight_work_item, record_verification_with_runtime,
-    run_repository_verification, start_work_item_with_options,
+    persist_verification_attempt, persist_verification_attempt_superseding, preflight_work_item,
+    record_verification_with_runtime, run_repository_verification, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::VerificationCommand;
 use serde_json::json;
-use std::{fs, path::Path, process::Command};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -148,6 +152,36 @@ fn attempt_receipt(
     })
 }
 
+fn rebind_attempt_timestamp(
+    root: &Path,
+    persisted: &serde_json::Value,
+    created_at: &str,
+) -> (String, PathBuf) {
+    let original_path = root.join(persisted["path"].as_str().expect("attempt path"));
+    let mut attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&original_path).expect("attempt bytes"))
+            .expect("attempt JSON");
+    attempt["createdAt"] = json!(created_at);
+    attempt
+        .as_object_mut()
+        .expect("attempt object")
+        .remove("attemptId");
+    let attempt_id = digest_json(&attempt).expect("attempt digest").to_string();
+    attempt["attemptId"] = json!(&attempt_id);
+    let suffix = attempt_id.strip_prefix("sha256:").unwrap_or(&attempt_id);
+    let rebound_path = original_path
+        .parent()
+        .expect("evidence directory")
+        .join(format!("WI-ATTEMPT.verification-attempt.{suffix}.json"));
+    fs::write(
+        &rebound_path,
+        serde_json::to_vec_pretty(&attempt).expect("serialize rebound attempt"),
+    )
+    .expect("write rebound attempt");
+    fs::remove_file(original_path).expect("remove fixture's prior attempt identity");
+    (attempt_id, rebound_path)
+}
+
 #[test]
 fn precondition_attempt_is_durable_without_spawning_a_process() {
     let directory = repository();
@@ -280,6 +314,80 @@ fn rejected_formal_receipt_is_projected_with_its_bound_attempt_in_outcome_and_st
         )
         .expect("attempt JSON")["repositorySnapshotDigest"],
         serde_json::json!(cockpit_repository::snapshot_digest(&snapshot).expect("snapshot digest"))
+    );
+}
+
+#[test]
+fn rejection_supersedes_execution_when_equal_timestamps_sort_against_it() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    let receipt = attempt_receipt(root, &request, true);
+    let execution = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "execution_completed",
+        None,
+        Some(&receipt),
+    )
+    .expect("persist successful execution");
+    let (execution_id, execution_path) =
+        rebind_attempt_timestamp(root, &execution, "2026-09-27T00:00:00Z");
+
+    // Force the old (createdAt, attemptId) ordering to select execution_completed.
+    // The explicit supersession edge must still make the terminal rejection win.
+    let mut selected_rejection = None;
+    for sequence in 0..128 {
+        let diagnostic = format!("completion evidence was rejected {sequence}");
+        let rejection = persist_verification_attempt_superseding(
+            root,
+            "WI-ATTEMPT",
+            std::slice::from_ref(&request),
+            &snapshot,
+            &runtime(),
+            "formal_receipt_rejected",
+            Some(("formal_receipt", &diagnostic)),
+            Some(&receipt),
+            &execution_id,
+        )
+        .expect("persist receipt rejection superseding execution");
+        let (rejection_id, rejection_path) =
+            rebind_attempt_timestamp(root, &rejection, "2026-09-27T00:00:00Z");
+        if rejection_id < execution_id {
+            selected_rejection = Some((rejection_id, rejection_path, diagnostic));
+            break;
+        }
+        fs::remove_file(rejection_path).expect("remove non-selected fixture attempt");
+    }
+    let (rejection_id, rejection_path, diagnostic) =
+        selected_rejection.expect("find a digest ordering that prefers execution");
+    let execution_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(execution_path).expect("rebound execution attempt"))
+            .expect("execution attempt JSON");
+    let rejection_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(rejection_path).expect("rebound rejection attempt"))
+            .expect("rejection attempt JSON");
+    assert_eq!(execution_json["createdAt"], rejection_json["createdAt"]);
+    assert!(rejection_id < execution_id);
+    assert_eq!(rejection_json["supersedesAttemptId"], execution_id);
+
+    let outcome = outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime())
+        .expect("Outcome projection after tied attempts");
+    let expected = format!(
+        "verification_attempt_formal_receipt_rejected:{rejection_id}:formal_receipt:{diagnostic}:snapshot="
+    );
+    assert!(
+        outcome
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.starts_with(&expected))
     );
 }
 

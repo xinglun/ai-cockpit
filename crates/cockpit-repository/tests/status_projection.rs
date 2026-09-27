@@ -2520,16 +2520,31 @@ fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete()
     let status =
         work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &current_runtime)
             .expect("status projection");
-    let refreshed_preflight =
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("action explanation")
+        .admission_digest
+        .to_string();
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let summary_before_rejected_preflight =
+        fs::read(&summary_path).expect("summary before rejected preflight");
+    let preflight_error =
         preflight_work_item_with_runtime_report(directory.path(), &contract_path, &current_runtime)
-            .expect("preflight re-evaluates current action admission");
+            .expect_err("preflight is not an admitted action after verification is available");
+    assert!(
+        preflight_error
+            .to_string()
+            .contains("current action admission rejected requested action \"run_preflight\""),
+        "preflight must return the shared Runtime admission refusal: {preflight_error}"
+    );
+    assert!(preflight_error.to_string().contains(&admission_digest));
     assert_eq!(
-        refreshed_preflight
-            .action_admission
-            .as_ref()
-            .expect("preflight action admission"),
-        &status,
-        "preflight and status must share the same admission and recovery action"
+        fs::read(&summary_path).expect("summary after rejected preflight"),
+        summary_before_rejected_preflight,
+        "a rejected preflight must not write a replacement projection"
     );
     assert!(
         !status.safe_actions.iter().any(|action| action == "finish"),
@@ -2540,6 +2555,12 @@ fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete()
             .safe_actions
             .iter()
             .any(|action| action == "record_governance_controls")
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
     );
     cockpit_repository::require_current_action_admission(
         directory.path(),
@@ -2566,12 +2587,6 @@ fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete()
         contract_bytes_before_finish,
         "rejected finish must preserve the Contract"
     );
-    let admission_digest = status
-        .action_explanation
-        .as_ref()
-        .expect("action explanation")
-        .admission_digest
-        .to_string();
     assert!(
         finish_error
             .to_string()

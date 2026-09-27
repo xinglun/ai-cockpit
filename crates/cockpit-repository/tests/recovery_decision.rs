@@ -150,6 +150,20 @@ fn current_runtime() -> RuntimeContext {
     }
 }
 
+fn assert_action_admitted(root: &Path, id: &str, action: &str, runtime: &RuntimeContext) {
+    let status = work_item_status_snapshot_with_runtime(root, id, runtime)
+        .expect("current Work Item status");
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|safe_action| safe_action == action),
+        "Runtime must admit {action} for {id}: {status:#?}"
+    );
+    require_current_action_admission(root, id, action, runtime)
+        .unwrap_or_else(|error| panic!("Runtime action admission must agree with status: {error}"));
+}
+
 fn git(root: &Path, args: &[&str]) {
     assert!(
         Command::new("git")
@@ -1192,15 +1206,7 @@ fn future_dated_stale_retry_does_not_strand_current_runtime_recovery() {
     )
     .expect("clock-skewed recovery");
 
-    let decision = preflight_work_item_with_runtime(
-        directory.path(),
-        &directory
-            .path()
-            .join(format!(".ai/work-items/active/{id}.contract.json")),
-        &runtime,
-    )
-    .expect("future stale retry must not strand the current receipt");
-    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    assert_action_admitted(directory.path(), id, "run_verification", &runtime);
 }
 
 #[test]
@@ -1306,13 +1312,23 @@ fn pending_retry_remains_idempotent_after_same_version_runtime_rebuild() {
     record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &rebuilt_runtime)
         .expect("the exact pending retry marker remains idempotent after a same-version rebuild");
 
-    let contract_path = directory
-        .path()
-        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
-    let decision =
-        preflight_work_item_with_runtime(directory.path(), &contract_path, &rebuilt_runtime)
-            .expect("rebuilt Runtime should consume the current pending retry marker");
-    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &rebuilt_runtime)
+            .expect("status after same-version rebuild");
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "the current Runtime action, rather than a redundant preflight, must remain admitted: {status:#?}"
+    );
+    require_current_action_admission(
+        directory.path(),
+        "WI-BLOCKED",
+        "run_verification",
+        &rebuilt_runtime,
+    )
+    .expect("same-version rebuild retains current verification admission");
 }
 
 #[test]
@@ -1346,13 +1362,11 @@ fn pending_retry_survives_finalize_plan_but_rejects_unbound_contract_mutation() 
     )
     .expect("finalize-plan should preserve the authorized retry");
 
+    assert_action_admitted(directory.path(), id, "run_verification", &runtime);
+
     let contract_path = directory
         .path()
         .join(".ai/work-items/active/WI-BLOCKED.contract.json");
-    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
-        .expect("preflight should consume the retry after finalize-plan");
-    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
-
     let mut contract: serde_json::Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
     contract["title"] = json!("unbound contract mutation");
@@ -1364,8 +1378,17 @@ fn pending_retry_survives_finalize_plan_but_rejects_unbound_contract_mutation() 
     let error = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
         .expect_err("unbound Contract mutation must invalidate the pending retry");
     assert!(
-        error.to_string().contains("retry_binding_missing"),
+        error.to_string().contains("recovery_decision_invalid"),
         "unexpected error: {error}"
+    );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime)
+        .expect("status after unbound Contract mutation");
+    assert!(status.blockers.contains(&"governance_red".into()));
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
     );
 }
 
@@ -1409,12 +1432,7 @@ fn pending_retry_survives_a_bounded_contract_amendment() {
     )
     .expect("bounded Contract amendment");
 
-    let contract_path = directory
-        .path()
-        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
-    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
-        .expect("preflight should consume the retry after a bounded amendment");
-    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    assert_action_admitted(directory.path(), id, "run_verification", &runtime);
 }
 
 #[test]
@@ -1450,6 +1468,202 @@ fn retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight() {
     assert_eq!(recovered["preflightState"], "red");
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+}
+
+#[test]
+fn same_version_runtime_rebuild_marks_old_receipt_stale_without_retry_recovery() {
+    let directory = repository();
+    let previous_runtime = current_runtime();
+    let candidate_runtime = RuntimeContext {
+        runtime_version: previous_runtime.runtime_version.clone(),
+        protocol_version: previous_runtime.protocol_version,
+        runtime_digest: Digest::sha256_bytes(b"rebuilt-runtime-same-version"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "same-version-runtime-rebuild".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: previous_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("previous-runtime verification");
+    record_verification_with_runtime(
+        directory.path(),
+        "WI-BLOCKED",
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &previous_runtime,
+        &snapshot,
+    )
+    .expect("record previous-runtime evidence");
+
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(summary_path).unwrap()).unwrap();
+    assert_ne!(
+        summary.get("recoveryRetryPending"),
+        Some(&json!(true)),
+        "a same-version executable rebuild must not require a retry decision"
+    );
+
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &candidate_runtime)
+            .expect("status before candidate action");
+    assert!(
+        !status.blockers.contains(&"governance_red".into()),
+        "a valid prior receipt from a rebuilt same-version Runtime is stale, not contradictory"
+    );
+    assert!(status.missing_evidence.contains(&"evidence_stale".into()));
+
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "the candidate must admit a new exact-executable verification, not reuse the old receipt: {status:#?}"
+    );
+}
+
+#[test]
+fn same_version_runtime_rebuild_does_not_hide_a_malformed_old_receipt() {
+    let directory = repository();
+    let previous_runtime = current_runtime();
+    let candidate_runtime = RuntimeContext {
+        runtime_version: previous_runtime.runtime_version.clone(),
+        protocol_version: previous_runtime.protocol_version,
+        runtime_digest: Digest::sha256_bytes(b"rebuilt-runtime-with-invalid-receipt"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "same-version-runtime-malformed-receipt".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: previous_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("previous-runtime verification");
+    record_verification_with_runtime(
+        directory.path(),
+        "WI-BLOCKED",
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &previous_runtime,
+        &snapshot,
+    )
+    .expect("record previous-runtime evidence");
+
+    let evidence_path = directory
+        .path()
+        .join(".ai/evidence/WI-BLOCKED.verification.json");
+    let mut evidence: serde_json::Value =
+        serde_json::from_slice(&fs::read(&evidence_path).unwrap()).unwrap();
+    evidence["receipt"]["passed"] = json!(false);
+    evidence["receiptDigest"] = json!(
+        cockpit_protocol::digest_json(&evidence["receipt"])
+            .expect("recompute receipt digest")
+            .to_string()
+    );
+    fs::write(
+        &evidence_path,
+        serde_json::to_vec_pretty(&evidence).unwrap(),
+    )
+    .unwrap();
+
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &candidate_runtime)
+            .expect("status with malformed predecessor receipt");
+    assert!(
+        status.blockers.contains(&"governance_red".into())
+            && status
+                .missing_evidence
+                .contains(&"evidence_contradictory".into()),
+        "same-version Runtime rebuild must not downgrade a malformed receipt to stale: {status:#?}"
+    );
+}
+
+#[test]
+fn different_runtime_version_still_requires_an_explicit_retry_recovery() {
+    let directory = repository();
+    let previous_runtime = current_runtime();
+    let candidate_runtime = RuntimeContext {
+        runtime_version: "0.2.32".into(),
+        protocol_version: previous_runtime.protocol_version,
+        runtime_digest: Digest::sha256_bytes(b"runtime-0.2.32"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "different-runtime-version".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: previous_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("previous-version verification");
+    record_verification_with_runtime(
+        directory.path(),
+        "WI-BLOCKED",
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &previous_runtime,
+        &snapshot,
+    )
+    .expect("record previous-version evidence");
+
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &candidate_runtime)
+            .expect("status after Runtime version change");
+    assert!(
+        status.blockers.contains(&"governance_red".into())
+            && status
+                .missing_evidence
+                .contains(&"evidence_contradictory".into()),
+        "a Runtime version change must retain the explicit recovery boundary: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
+    );
 }
 
 #[test]
@@ -1526,17 +1740,22 @@ fn retry_recovery_classifies_previous_runtime_evidence_as_stale_before_verify() 
     record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &current_runtime)
         .expect("retry recovery");
 
-    let contract_path = directory
-        .path()
-        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
-    let decision =
-        preflight_work_item_with_runtime(directory.path(), &contract_path, &current_runtime)
-            .expect("preflight remains recoverable before replacement verification");
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &current_runtime)
+            .expect("status before replacement verification");
     assert!(
-        !decision.blockers.contains(&"evidence_contradictory".into()),
+        !status
+            .missing_evidence
+            .contains(&"evidence_contradictory".into()),
         "runtime transition should be stale under an explicit retry"
     );
-    assert!(decision.unknowns.contains(&"evidence_stale".into()));
+    assert!(status.missing_evidence.contains(&"evidence_stale".into()));
+    assert_action_admitted(
+        directory.path(),
+        "WI-BLOCKED",
+        "run_verification",
+        &current_runtime,
+    );
 }
 
 #[test]
@@ -1666,17 +1885,9 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
         "fresh verification must not leave a stale retry path projection"
     );
 
-    let decision = preflight_work_item_with_runtime(
-        directory.path(),
-        &directory
-            .path()
-            .join(format!(".ai/work-items/active/{id}.contract.json")),
-        &runtime,
-    )
-    .expect("fresh preflight after verification");
-    assert_eq!(decision.state, cockpit_core::DecisionState::Green);
+    assert_action_admitted(directory.path(), id, "finish", &runtime);
     finish_work_item_with_runtime(directory.path(), id, &runtime)
-        .expect("finish after retry verification and preflight");
+        .expect("finish after retry verification");
 }
 
 #[test]
@@ -1764,14 +1975,7 @@ fn retry_after_previous_completion_appends_a_new_completion_without_rewriting_hi
         &snapshot,
     )
     .expect("record verification");
-    preflight_work_item_with_runtime(
-        directory.path(),
-        &directory
-            .path()
-            .join(format!(".ai/work-items/active/{id}.contract.json")),
-        &runtime,
-    )
-    .expect("fresh preflight");
+    assert_action_admitted(directory.path(), id, "finish", &runtime);
     finish_work_item_with_runtime(directory.path(), id, &runtime)
         .expect("retry finish must append after a previous completion");
 
@@ -1794,9 +1998,6 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
     let directory = repository();
     let id = "WI-BLOCKED";
     let runtime = current_runtime();
-    let contract_path = directory
-        .path()
-        .join(format!(".ai/work-items/active/{id}.contract.json"));
 
     let initial_snapshot = cockpit_git::GitRepository::discover(directory.path())
         .expect("git repository")
@@ -1866,15 +2067,14 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
     )
     .expect("contract amendment");
 
-    let stale_preflight =
-        preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
-            .expect("stale predecessor evidence should remain recoverable");
-    assert_ne!(stale_preflight.state, cockpit_core::DecisionState::Red);
+    let stale_status = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime)
+        .expect("stale predecessor evidence should remain recoverable");
     assert!(
-        !stale_preflight
-            .blockers
+        !stale_status
+            .missing_evidence
             .contains(&"evidence_contradictory".into())
     );
+    assert_action_admitted(directory.path(), id, "run_verification", &runtime);
 
     let refreshed_snapshot = cockpit_git::GitRepository::discover(directory.path())
         .expect("git repository")
@@ -1907,9 +2107,7 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
     )
     .expect("fresh verification should reconcile the amendment");
 
-    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
-        .expect("fresh verification should restore green preflight");
-    assert_eq!(decision.state, cockpit_core::DecisionState::Green);
+    assert_action_admitted(directory.path(), id, "finish", &runtime);
 }
 
 #[test]

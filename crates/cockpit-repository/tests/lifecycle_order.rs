@@ -5,7 +5,7 @@ use cockpit_repository::{
     archive_work_item, attach, checkpoint_work_item, finish_work_item, plan_resource_finalization,
     preflight_work_item, preflight_work_item_with_runtime, record_verification,
     record_verification_with_runtime, revalidate_contract_amendment, run_repository_verification,
-    start_work_item_with_options,
+    start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
 
@@ -392,8 +392,13 @@ fn runtime_bound_verification_keeps_governance_bound_to_current_runtime() {
     let summary: serde_json::Value =
         serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
     assert_eq!(summary["preflightState"], "green");
-    preflight_work_item_with_runtime(directory.path(), &contract_path, &current_runtime)
-        .expect("post-verification preflight remains valid");
+    assert_eq!(
+        work_item_status_snapshot_with_runtime(directory.path(), id, &current_runtime)
+            .expect("post-verification status")
+            .verification,
+        "verified",
+        "the current Runtime-bound receipt remains valid without a redundant preflight"
+    );
     finish_work_item(directory.path(), id).expect("finish after runtime-bound verification");
 }
 

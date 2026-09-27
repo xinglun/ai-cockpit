@@ -205,11 +205,6 @@ fn checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh()
         "--input",
         controls.path().to_str().expect("controls path"),
     ]);
-    run_successfully(&[
-        "preflight",
-        "--contract",
-        contract.to_str().expect("Contract path"),
-    ]);
 
     fs::write(directory.join("README.md"), "changed source\n").expect("change README");
     let status = run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
@@ -464,6 +459,173 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
     assert!(receipt.get("diagnosticSummary").is_none());
     let _: cockpit_verification::VerificationReceipt =
         serde_json::from_value(receipt.clone()).expect("strict typed verification receipt");
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn cli_rejected_formal_receipt_supersedes_execution_attempt_in_outcome() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-rejected-receipt-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let work_item_id = "WI-CLI-REJECTED-RECEIPT";
+    let run = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(&directory)
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stdout={}, stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output
+    };
+    run(&[
+        "start",
+        "--id",
+        work_item_id,
+        "--intent",
+        "preserve receipt rejection in Outcome",
+        "--goal",
+        "show the final formal receipt decision, not only execution completion",
+        "--scope",
+        "README.md",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: rejected receipt is visible in Outcome",
+        "--required-evidence",
+        "verification",
+    ]);
+    fs::write(directory.join("README.md"), "rejected receipt fixture\n").expect("README");
+    run(&[
+        "preflight",
+        "--contract",
+        &format!(".ai/work-items/active/{work_item_id}.contract.json"),
+    ]);
+    run(&["checkpoint", "--id", work_item_id]);
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "rejected receipt fixture",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["README.md"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run(&[
+        "work-item",
+        "controls",
+        "--id",
+        work_item_id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+
+    cockpit_repository::set_evidence_retention_policy(
+        &directory,
+        work_item_id,
+        cockpit_protocol::EvidenceRetention {
+            classification: cockpit_protocol::DataClassification::SecretProhibited,
+            persistence: cockpit_protocol::EvidencePersistence::NoPersistence,
+            retention_days: Some(1),
+            expires_at: None,
+            disposal_action: "external_owner".into(),
+        },
+        &cockpit_protocol::RuntimeContext {
+            runtime_version: env!("CARGO_PKG_VERSION").into(),
+            protocol_version: 1,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"rejected-receipt-test"),
+        },
+    )
+    .expect("record no-persistence policy");
+
+    let rejected = Command::new(binary)
+        .args([
+            "verify",
+            "--work-item",
+            work_item_id,
+            "--command",
+            "true",
+            "--repo",
+        ])
+        .arg(&directory)
+        .output()
+        .expect("run verification that cannot promote a formal receipt");
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("no_persistence"));
+
+    let outcome = run(&["work-item", "outcome", "--id", work_item_id, "--json"]);
+    let outcome: serde_json::Value = serde_json::from_slice(&outcome.stdout).expect("Outcome JSON");
+    let unknowns = outcome["unknowns"]
+        .as_array()
+        .unwrap_or_else(|| panic!("Outcome unknowns missing: {outcome:#}"));
+    assert!(
+        unknowns.iter().any(|unknown| {
+            unknown.as_str().is_some_and(|value| {
+                value.starts_with("verification_attempt_formal_receipt_rejected:")
+                    && value.contains("no_persistence")
+            })
+        }),
+        "Outcome must expose the CLI receipt rejection rather than execution completion: {unknowns:?}"
+    );
+
+    let evidence_dir = directory.join(".ai/evidence");
+    let attempts = fs::read_dir(&evidence_dir)
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains("verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("attempt record"),
+            )
+            .expect("attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    let completed = attempts
+        .iter()
+        .find(|attempt| attempt["state"] == "execution_completed")
+        .expect("durable execution attempt");
+    let receipt_rejected = attempts
+        .iter()
+        .find(|attempt| attempt["state"] == "formal_receipt_rejected")
+        .expect("durable receipt rejection");
+    assert_eq!(
+        receipt_rejected["supersedesAttemptId"], completed["attemptId"],
+        "the rejection must explicitly supersede the execution-only projection"
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
