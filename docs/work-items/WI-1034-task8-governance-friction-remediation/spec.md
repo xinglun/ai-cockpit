@@ -48,6 +48,7 @@ Task 8 的当前实现 WI 是 WI-1035。WI-1033 → WI-1034 → WI-1035 保持�
 | --- | --- | --- |
 | OBS-18 | WI-1031 Runtime status 的 safe action 是 `close_after_review`，但 close 因三语文档 frontmatter 已是 `status: close_pending` 而要求等于 `in_progress` 被拒绝；global inspect 又同时显示 `readyOnBase=true` 和 `unclosedArchivedWorkItems=[WI-1031…]`。 | 正确建模 prearchive、close_pending、terminal projection 阶段；保留归档字节，不要求倒退成 in_progress；`readyOnBase` 与未关闭列表必须一致或解释可执行 lineage 修复。加英语/简中/日语真实 close projection 回归。 |
 | OBS-19 | 用户多次追问计划共有几个 task、耗时、是否收敛、何时能合并及百分比；已明确授权仍出现重复确认门槛。 | 把“一个主 WI、串行提交/阶段”说清。进度只按计划阶段/验收项完成数报告，附证据和 blocker；ETA 无数据时标未知；授权在原边界不变时继续有效，不重复请求开始确认。 |
+| OBS-20 | 后续 Agent 启动验证前没有盘点现有 formal receipt；即使 Runtime、Contract、source snapshot、候选 Runtime 和必需检查集合均未改变且已有通过证据，也可能再次启动昂贵验证。不同类别证据（尤其本地与 hosted）还可能被混用。 | 普通 WI 指南必须要求每次验证前查询 Runtime freshness 并检查现有 receipt 的 WI/repository/Contract/source/Runtime/plan/target/coverage 绑定。只有完整且 Runtime 接受为 fresh/verified 的证据才可复用；否则保留旧证据并按 Runtime admission 定向重跑。精确 PR-head hosted 结果独立判断，coverage 消费同一 formal receipt，不重复执行其 package checks。 |
 
 ## 架构与不变量
 
@@ -61,7 +62,7 @@ Task 8 的当前实现 WI 是 WI-1035。WI-1033 → WI-1034 → WI-1035 保持�
 
 ## 成功判定
 
-- OBS-01 至 OBS-19 每项均映射到已通过的回归/真实接受证据，或经证据确认无需代码修改且已有受 gate 保护的测试；没有“只改展示字段”的交付。
+- OBS-01 至 OBS-20 每项均映射到已通过的回归/真实接受证据，或经证据确认无需代码修改且已有受 gate 保护的测试；没有“只改展示字段”的交付。
 - agent 可从 `.ai/agent-interface.json` 和真实 MCP `tools/list` 发现协作能力、从普通 WI 指南获得使用/退回串行的方法；真实并发多进程、多 linked worktree 验收通过；真实单 WI 串行也通过。
 - Runtime/Cargo 本地 canonical 检查和 GitHub PR/merge SHA 的 canonical quality gate 成功；独立 PR review、精确 cleanup、WI lineage/文档投影按 Runtime 完成；不发布、不打 tag、不升级公开版本。
 - 向用户交付独立可见 Outcome，明确实现、verification、review、merge、cleanup、历史 lineage 与 release 状态各自事实。最终状态是“等待用户全面 review，发布未授权/未执行”。

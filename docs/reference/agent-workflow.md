@@ -212,6 +212,39 @@ is a review finding, not a fact the Agent may repair by inference. Risk policy
 decides whether scenario coverage is required; the Runtime remains yellow/red
 until human-owned declarations and fresh evidence are present.
 
+### Verification evidence reuse
+
+Before every verification invocation, query the repository-bound Runtime's
+`work-item status` and `work-item validate`, then inspect the current formal
+receipt and any receipt consumed by downstream coverage. Reuse is justified
+only when Runtime reports `verification=verified` and
+`evidenceFreshness.state=fresh`, Runtime accepts the formal receipt, and its
+Work Item/repository identity, Contract digest, source snapshot, Runtime
+executable digest, verification plan and target, and complete required
+check/scenario set match the requested action. Include relevant toolchain or
+environment identity when that check binds it. Consumers must use the same
+formal receipt bytes. If all predicates hold, proceed without spawning those
+checks again.
+
+Freshness alone does not prove that every acceptance item is covered. Map each
+remaining missing item to its declared evidence class and check before deciding
+what to run. If evidence is absent, stale, invalid, incomplete, or bound to
+different inputs, preserve the old receipt and follow Runtime's currently
+admitted next action. Re-run only checks whose required evidence is missing or
+invalidated; do not repeat a complete unrelated suite to satisfy a different
+gap. Changes to source content, Contract, Runtime executable, plan, target, or
+a check-relevant environment invalidate only dependent evidence, subject to
+the canonical gate's required scope.
+
+Hosted checks are a separate evidence class. Reuse them only when the recorded
+run is for the exact current PR head and every required job succeeded. A local
+receipt never substitutes for hosted evidence. In CI, the package-coverage
+consumer must validate and consume the exact formal Runtime receipt produced
+for that head; it must not launch those package tests a second time. Before
+rerunning a failed or incomplete hosted workflow, inspect its exact failed
+gate and rerun only when the required evidence for the current head is still
+absent or invalid.
+
 ### Serial fallback and cross-Work-Item coordination
 
 One Work Item runs serially by default. A parallel compatibility result of

@@ -15,6 +15,14 @@ generated records. At handoff, give the separate human Outcome required by
 `AGENTS.md`. Queries are read-only; `preflight` is an explicit, idempotent
 write and does not run verification.
 
+## Before verification
+
+Before launching a declared check, inspect Runtime `work-item status` and
+`work-item validate` and inventory its formal receipt. Reuse only fresh, complete
+evidence; otherwise follow Runtime's admitted next action. See the
+[verification evidence reuse procedure](../../docs/reference/agent-workflow.md#verification-evidence-reuse)
+for identity bindings, targeted reruns, and hosted-evidence boundaries.
+
 When fresh status recommends `record_governance_controls`, record only the
 explicitly supplied evidence with `work-item controls --repo <repository>
 --id <work-item> --input <json>` (or MCP `work_item_controls`). Both write
