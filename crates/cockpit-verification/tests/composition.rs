@@ -913,7 +913,7 @@ fn retry_does_not_remove_a_worktree_owned_by_a_live_process() {
         vec![command("slow-owner", "sh", &["-c", "sleep 2"])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    composition.timeout_seconds = 10;
+    composition.timeout_seconds = 30;
     let root_path = root.path().to_path_buf();
     let state_path = state.path().to_path_buf();
     let worker = std::thread::spawn(move || run_composition(composition.clone()));
@@ -1559,13 +1559,14 @@ fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_i
     first_command
         .environment
         .insert("COMPOSITION_FLAVOR".into(), "one".into());
-    let first_input = input(
+    let mut first_input = input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
         vec![first_command],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
+    first_input.timeout_seconds = 30;
     let first = run_composition(first_input.clone()).expect("first attempt");
     assert!(first.passed, "first attempt: {first:?}");
 

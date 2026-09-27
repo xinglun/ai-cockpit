@@ -19,8 +19,8 @@ use cockpit_repository::{
     generate_knowledge, plan_resource_finalization_with_runtime,
     preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
     record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
-    retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
-    start_work_item_with_options, verify_resource_finalization,
+    retire_active_work_item_with_runtime, run_repository_verification_with_process_observer,
+    scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -33,6 +33,10 @@ use std::{
     fs,
     path::{Path, PathBuf},
     process::Command,
+    sync::{
+        Arc,
+        atomic::{AtomicUsize, Ordering},
+    },
 };
 
 mod runtime_identity;
@@ -2119,6 +2123,7 @@ fn run() -> Result<()> {
             }
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
+            let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
             let mut execution_elapsed_ms = 0_u128;
@@ -2162,10 +2167,17 @@ fn run() -> Result<()> {
                             .map(|request| {
                                 let progress_sender = progress_sender.clone();
                                 let repository_root = &root;
+                                let process_concurrency = Arc::clone(&process_concurrency);
                                 scope.spawn(move || {
                                     let node_id = request.node_id.clone();
                                     let _ = progress_sender.send((node_id.clone(), None));
-                                    let run = run_repository_verification(repository_root, request);
+                                    let run = run_repository_verification_with_process_observer(
+                                        repository_root,
+                                        request,
+                                        move |_node_id, _process_id, started| {
+                                            process_concurrency.observe(started)
+                                        },
+                                    );
                                     let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
                                     let _ = progress_sender.send((node_id, Some(passed)));
                                     run
@@ -2220,6 +2232,7 @@ fn run() -> Result<()> {
                 }
             }
             let mut run = merge_verification_runs(runs).context("merge verification runs")?;
+            run.receipt.max_concurrent_processes = process_concurrency.peak();
             run.receipt.planning_elapsed_ms = planning_elapsed_ms;
             run.receipt.execution_elapsed_ms = execution_elapsed_ms;
             if requires_aggregate_snapshot {
@@ -3459,6 +3472,33 @@ fn emit_isolation_manifest<W: std::io::Write>(
         cockpit_isolation::scan_tree_to_jsonl(root, destination).context("scan isolation tree")?;
     }
     Ok(())
+}
+
+#[derive(Default)]
+struct ProcessConcurrencyObservation {
+    active: AtomicUsize,
+    peak: AtomicUsize,
+}
+
+impl ProcessConcurrencyObservation {
+    fn observe(&self, started: bool) -> std::result::Result<(), String> {
+        if started {
+            let active = self.active.fetch_add(1, Ordering::AcqRel).saturating_add(1);
+            self.peak.fetch_max(active, Ordering::AcqRel);
+            return Ok(());
+        }
+
+        self.active
+            .fetch_update(Ordering::AcqRel, Ordering::Acquire, |active| {
+                active.checked_sub(1)
+            })
+            .map(|_| ())
+            .map_err(|_| "verification process completed without a matching start event".into())
+    }
+
+    fn peak(&self) -> usize {
+        self.peak.load(Ordering::Acquire)
+    }
 }
 
 fn merge_verification_runs(

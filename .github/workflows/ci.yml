@@ -398,7 +398,7 @@ jobs:
       - name: verify Windows agent adapter boundaries
         run: cargo test -p cockpit-agent --all-targets
       - name: verify Windows process and composition lifecycle boundaries
-        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition
+        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1
       - name: verify Windows repository boundaries
         run: cargo test -p cockpit-repository --test receipt_store --test verification_context --test verification_service
       - name: verify Windows directory-handle containment regressions

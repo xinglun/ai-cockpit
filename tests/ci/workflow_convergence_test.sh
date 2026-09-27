@@ -82,7 +82,7 @@ assert "runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_re
 windows_composition_step = windows_job.split(
     "      - name: verify Windows process and composition lifecycle boundaries", 1
 )[1].split("      - name:", 1)[0]
-assert "cargo test --locked -p cockpit-verification --lib --test execution --test composition" in windows_composition_step
+assert "cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1" in windows_composition_step
 windows_upload_step = windows_job.split(
     "      - name: upload Windows revision binding", 1
 )[1].split("      - name:", 1)[0]

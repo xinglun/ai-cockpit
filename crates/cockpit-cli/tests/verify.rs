@@ -1248,6 +1248,16 @@ fn workers_bound_parallel_execution_of_multiple_explicit_commands() {
         .expect("verify");
 
     assert!(output.status.success());
+    let receipt: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(receipt["nodesExecuted"], 2);
+    assert_eq!(receipt["processesSpawned"], 2);
+    assert!(
+        receipt["maxConcurrentProcesses"]
+            .as_u64()
+            .unwrap_or_default()
+            >= 2,
+        "aggregate verification receipt must report the real overlap across independent requests: {receipt}"
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

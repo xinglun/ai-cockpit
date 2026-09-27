@@ -1159,10 +1159,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
     // Procfs may deny a caller access to its runner/launcher ancestors. Those
     // processes existed before the private composition directory was created
     // and cannot have inherited its cwd or file descriptors. Keep inspecting
-    // every other same-user process so escaped verifiers still protect it.
+    // every process that could have inherited or opened this private path so
+    // escaped verifiers still protect it.
     let caller_ancestors = linux_process_ancestor_ids(Path::new("/proc"), std::process::id())?;
+    let private_created_at = private_worktree_created_at_unix_nanos(&worktree);
     let proc_entries = fs::read_dir("/proc").map_err(|error| error.to_string())?;
-    for entry in proc_entries {
+    'processes: for entry in proc_entries {
         let entry = entry.map_err(|error| error.to_string())?;
         let Some(process_id) = entry
             .file_name()
@@ -1188,6 +1190,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(_) => {}
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
             Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                if private_created_at.is_some_and(|created_at| {
+                    linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                        .unwrap_or(false)
+                }) {
+                    continue 'processes;
+                }
                 return Err(format!(
                     "cannot inspect process {process_id} working directory"
                 ));
@@ -1199,6 +1207,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(descriptors) => descriptors,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
             Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                if private_created_at.is_some_and(|created_at| {
+                    linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                        .unwrap_or(false)
+                }) {
+                    continue 'processes;
+                }
                 return Err(format!(
                     "cannot inspect process {process_id} file descriptors"
                 ));
@@ -1212,6 +1226,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 Ok(_) => {}
                 Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
                 Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                    if private_created_at.is_some_and(|created_at| {
+                        linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                            .unwrap_or(false)
+                    }) {
+                        continue 'processes;
+                    }
                     return Err(format!("cannot inspect process {process_id} open files"));
                 }
                 Err(error) => return Err(error.to_string()),
@@ -1219,6 +1239,62 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         }
     }
     Ok(None)
+}
+
+#[cfg(target_os = "linux")]
+fn private_worktree_created_at_unix_nanos(worktree: &Path) -> Option<u128> {
+    if worktree.file_name()?.to_str()? != "composition" {
+        return None;
+    }
+    let parent_name = worktree.parent()?.file_name()?.to_str()?;
+    let suffix = parent_name.strip_prefix("ai-cockpit-composition-")?;
+    let mut components = suffix.split('-');
+    components.next()?.parse::<u32>().ok()?;
+    let created_at = components.next()?.parse::<u128>().ok()?;
+    components.next()?.parse::<u64>().ok()?;
+    components.next().is_none().then_some(created_at)
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_started_before(
+    proc_root: &Path,
+    process_id: u32,
+    private_created_at_unix_nanos: u128,
+) -> Result<bool, String> {
+    let stat_path = proc_root.join(process_id.to_string()).join("stat");
+    let stat = match fs::read_to_string(&stat_path) {
+        Ok(stat) => stat,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(true),
+        Err(error) => return Err(error.to_string()),
+    };
+    let command_end = stat
+        .rfind(')')
+        .ok_or_else(|| format!("cannot inspect process {process_id} start identity"))?;
+    // Fields after the closing command name begin with field 3 (state); field
+    // 22 (starttime) is therefore the twentieth whitespace-delimited value.
+    let start_ticks = stat[command_end + 1..]
+        .split_whitespace()
+        .nth(19)
+        .and_then(|value| value.parse::<u128>().ok())
+        .ok_or_else(|| format!("cannot inspect process {process_id} start time"))?;
+    let boot_time_seconds = fs::read_to_string(proc_root.join("stat"))
+        .map_err(|error| error.to_string())?
+        .lines()
+        .find_map(|line| line.strip_prefix("btime "))
+        .and_then(|value| value.parse::<u128>().ok())
+        .ok_or_else(|| "cannot inspect Linux boot time".to_owned())?;
+    // SAFETY: sysconf is a read-only query for the kernel clock-tick rate.
+    let ticks_per_second = unsafe { libc::sysconf(libc::_SC_CLK_TCK) };
+    if ticks_per_second <= 0 {
+        return Err("cannot inspect Linux process clock-tick rate".into());
+    }
+    let process_started_at = boot_time_seconds
+        .saturating_mul(1_000_000_000)
+        .saturating_add(start_ticks.saturating_mul(1_000_000_000) / ticks_per_second as u128);
+    // /proc/stat's boot-time epoch has one-second resolution. Require a full
+    // two-second separation before treating an inaccessible process as
+    // pre-existing; recent or unobservable processes remain fail-closed.
+    Ok(process_started_at.saturating_add(2_000_000_000) < private_created_at_unix_nanos)
 }
 
 #[cfg(target_os = "linux")]
@@ -2875,6 +2951,19 @@ mod verifier_process_observation_tests {
         verifier_process_using_worktree,
     };
     use std::fs;
+    use std::time::Duration;
+
+    struct InaccessibleProcess(libc::pid_t);
+
+    impl Drop for InaccessibleProcess {
+        fn drop(&mut self) {
+            // SAFETY: this test owns the child PID returned by fork.
+            unsafe {
+                libc::kill(self.0, libc::SIGKILL);
+                libc::waitpid(self.0, std::ptr::null_mut(), 0);
+            }
+        }
+    }
 
     #[test]
     fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
@@ -2891,6 +2980,72 @@ mod verifier_process_observation_tests {
             observed,
             Ok(None),
             "an ancestor that cannot have inherited a newly created private worktree must not make its process state unknown"
+        );
+    }
+
+    #[test]
+    fn inaccessible_process_started_before_private_worktree_does_not_block_cleanup() {
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+        // SAFETY: the test child uses only async-signal-safe libc calls after
+        // fork, and exits before this test returns.
+        let child_pid = unsafe { libc::fork() };
+        assert!(child_pid >= 0, "fork test process");
+        if child_pid == 0 {
+            // SAFETY: the child owns the write end and does not use Rust APIs.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(111);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(112);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let child = InaccessibleProcess(child_pid);
+        // SAFETY: the parent closes the unused write end and waits for the
+        // child's readiness byte before creating the private directory.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the read descriptor is
+        // open in the parent.
+        assert_eq!(
+            unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) },
+            1
+        );
+        // SAFETY: the parent owns the read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        assert_eq!(ready, b'R');
+        std::thread::sleep(Duration::from_millis(3_100));
+
+        let parent = unique_composition_parent();
+        create_private_composition_parent(&parent).expect("private composition parent");
+        let worktree = parent.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+        let observed = verifier_process_using_worktree(&worktree);
+        drop(child);
+        let removed = fs::remove_dir_all(&parent);
+
+        assert!(removed.is_ok(), "test composition parent is cleaned up");
+        assert_eq!(
+            observed,
+            Ok(None),
+            "an inaccessible process that predates the private worktree cannot own its cwd or inherited file descriptors"
         );
     }
 }

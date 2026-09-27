@@ -172,11 +172,22 @@ if current_source_digests.get("repositorySnapshot") != snapshot_digest:
 if "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest() != actual_digest:
     reject("candidate Runtime executable changed during freshness validation")
 
-if receipt.get("nodesPlanned") != len(expected):
-    reject("hosted Runtime receipt does not plan every workspace package")
 results = receipt.get("results")
-if not isinstance(results, list) or len(results) != len(expected):
-    reject("hosted Runtime receipt has incomplete package results")
+nodes_planned = receipt.get("nodesPlanned")
+nodes_executed = receipt.get("nodesExecuted")
+nodes_reused = receipt.get("nodesReused")
+if (
+    not isinstance(results, list)
+    or not isinstance(nodes_planned, int)
+    or isinstance(nodes_planned, bool)
+    or not isinstance(nodes_executed, int)
+    or isinstance(nodes_executed, bool)
+    or not isinstance(nodes_reused, int)
+    or isinstance(nodes_reused, bool)
+    or nodes_planned != len(results)
+    or nodes_executed + nodes_reused != nodes_planned
+):
+    reject("hosted Runtime receipt has incomplete or inconsistent node accounting")
 plan = receipt.get("planReceipt")
 if (
     not isinstance(plan, dict)
@@ -193,15 +204,21 @@ if (
     or sorted(coverage.get("nodeIds", [])) != expected_nodes
 ):
     reject("hosted Runtime plan does not bind the complete Cargo workspace package set")
+all_node_ids = []
 covered = []
 for result in results:
     node_id = result.get("nodeId") if isinstance(result, dict) else None
-    if not isinstance(node_id, str) or not node_id.startswith("project-command-0-package-"):
-        reject("hosted Runtime receipt contains a non-package verification node")
-    package = node_id.removeprefix("project-command-0-package-")
+    if not isinstance(node_id, str) or not node_id:
+        reject("hosted Runtime receipt contains an invalid verification node identity")
     if result.get("passed") is not True:
-        reject(f"hosted Runtime package verification failed: {package}")
+        reject(f"hosted Runtime verification node failed: {node_id}")
+    all_node_ids.append(node_id)
+    if not node_id.startswith("project-command-0-package-"):
+        continue
+    package = node_id.removeprefix("project-command-0-package-")
     covered.append(package)
+if len(set(all_node_ids)) != len(all_node_ids):
+    reject("hosted Runtime receipt contains duplicate verification nodes")
 if sorted(covered) != expected or len(set(covered)) != len(expected):
     reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
 

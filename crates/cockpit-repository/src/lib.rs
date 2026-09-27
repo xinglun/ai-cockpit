@@ -1291,7 +1291,26 @@ pub fn run_repository_verification(
     root: &Path,
     request: &RepositoryVerificationRequest,
 ) -> Result<RepositoryVerificationRun, ObserverError> {
+    run_repository_verification_with_process_observer(
+        root,
+        request,
+        |_node_id, _process_id, _started| Ok(()),
+    )
+}
+
+/// Execute one repository verification request while forwarding child process
+/// start/finish events to a caller-owned observer. This lets callers aggregate
+/// actual process concurrency across multiple independent requests.
+pub fn run_repository_verification_with_process_observer<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    process_observer: F,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
     let service_started = Instant::now();
+    let process_observer = Arc::new(process_observer);
     let stage = validate_verification_request(root, request)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1315,11 +1334,16 @@ pub fn run_repository_verification(
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
-    let mut receipt = cockpit_verification::execute_bounded(vec![command], request.workers)
-        .map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
+    let observer = Arc::clone(&process_observer);
+    let mut receipt = cockpit_verification::execute_bounded_with_process_observer(
+        vec![command],
+        request.workers,
+        move |node_id, process_id, started| observer(node_id, process_id, started),
+    )
+    .map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
     if let Some(reason) = store_unavailable_reason.take()
         && let Some(result) = receipt
             .results
@@ -1399,12 +1423,16 @@ pub fn run_repository_verification(
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
             )
         };
-        receipt = cockpit_verification::execute_bounded(vec![command], request.workers).map_err(
-            |error| ObserverError::State {
-                path: root.clone(),
-                message: error.to_string(),
-            },
-        )?;
+        let observer = Arc::clone(&process_observer);
+        receipt = cockpit_verification::execute_bounded_with_process_observer(
+            vec![command],
+            request.workers,
+            move |node_id, process_id, started| observer(node_id, process_id, started),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
         if let Some(result) = receipt.results.first_mut() {
             result.reason = "post_planning_binding_drift".into();
         }

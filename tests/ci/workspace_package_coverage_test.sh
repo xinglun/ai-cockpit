@@ -128,12 +128,13 @@ receipt = {
     "runtimeDigest": runtime_digest,
     "runtimeVersion": "0.2.113",
     "repositoryId": repository_id,
-    "nodesPlanned": len(packages),
-    "nodesExecuted": len(packages),
+    "nodesPlanned": len(packages) + 1,
+    "nodesExecuted": len(packages) + 1,
+    "nodesReused": 0,
     "results": [
         {"nodeId": f"project-command-0-package-{package}", "passed": True}
         for package in packages
-    ],
+    ] + [{"nodeId": "project-command-1", "passed": True}],
     "planReceipt": {
         "workItemId": work_item_id,
         "repositoryId": repository_id,
