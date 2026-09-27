@@ -218,6 +218,7 @@ jobs:
         env:
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           AI_COCKPIT_DEFER_WORKTREE_CLEANUP: ${{ steps.quality_route.outputs.profile != 'light' }}
+          CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: ${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh
         run: |
           set -euo pipefail
           tests/ci/run_hosted_runtime_verification.sh \
@@ -270,6 +271,7 @@ jobs:
           AI_COCKPIT_VERIFICATION_RECEIPT: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-verification.json' || '' }}
           AI_COCKPIT_VERIFICATION_ORCHESTRATION: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-orchestration.json' || '' }}
           AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit
+          CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: ${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh
         run: |
           set -euo pipefail
           verification_repository="$GITHUB_WORKSPACE"

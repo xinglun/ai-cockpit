@@ -147,6 +147,8 @@ hosted_verification = workflow.split(
 )[1].split("      - name: Upload hosted Work Item verification evidence", 1)[0]
 assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
 assert "target/release/ai-cockpit" in hosted_verification
+assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
+assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in hosted_verification
 assert "target/hosted-runtime-verification.json" in workflow
 hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
 hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
@@ -181,6 +183,8 @@ repository_gates_step = workflow.split(
 assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
 assert "AI_COCKPIT_VERIFICATION_ORCHESTRATION" in repository_gates_step
 assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
+assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in repository_gates_step
+assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in repository_gates_step
 assert '[[ "$cleanup_state" == deferred_for_consumer ]]' in repository_gates_step
 assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step
 coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
