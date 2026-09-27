@@ -1368,7 +1368,25 @@ fn node_without_observable_inputs_executes_again_instead_of_reusing() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let first = run_composition(composition.clone()).expect("first attempt");
-    let second = run_composition(composition).expect("second attempt");
+    assert!(
+        first.passed,
+        "first attempt failed before retry: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
+        first.failure,
+        first.cleanup,
+        first.owner_pid,
+        first.active_execution_node,
+        first.active_process_group_id
+    );
+    let second = run_composition(composition).unwrap_or_else(|error| {
+        panic!(
+            "second attempt failed: {error}; first attempt state: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
+            first.failure,
+            first.cleanup,
+            first.owner_pid,
+            first.active_execution_node,
+            first.active_process_group_id
+        )
+    });
 
     assert!(first.passed && second.passed);
     assert_eq!(second.processes_spawned, 1);
