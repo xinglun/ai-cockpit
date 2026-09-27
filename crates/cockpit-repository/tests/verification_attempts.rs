@@ -318,7 +318,7 @@ fn rejected_formal_receipt_is_projected_with_its_bound_attempt_in_outcome_and_st
 }
 
 #[test]
-fn rejection_supersedes_execution_when_equal_timestamps_sort_against_it() {
+fn persisted_rejection_supersedes_execution_with_equal_timestamps() {
     let directory = repository();
     let root = directory.path();
     let snapshot = GitRepository::discover(root)
@@ -341,33 +341,21 @@ fn rejection_supersedes_execution_when_equal_timestamps_sort_against_it() {
     let (execution_id, execution_path) =
         rebind_attempt_timestamp(root, &execution, "2026-09-27T00:00:00Z");
 
-    // Force the old (createdAt, attemptId) ordering to select execution_completed.
-    // The explicit supersession edge must still make the terminal rejection win.
-    let mut selected_rejection = None;
-    for sequence in 0..128 {
-        let diagnostic = format!("completion evidence was rejected {sequence}");
-        let rejection = persist_verification_attempt_superseding(
-            root,
-            "WI-ATTEMPT",
-            std::slice::from_ref(&request),
-            &snapshot,
-            &runtime(),
-            "formal_receipt_rejected",
-            Some(("formal_receipt", &diagnostic)),
-            Some(&receipt),
-            &execution_id,
-        )
-        .expect("persist receipt rejection superseding execution");
-        let (rejection_id, rejection_path) =
-            rebind_attempt_timestamp(root, &rejection, "2026-09-27T00:00:00Z");
-        if rejection_id < execution_id {
-            selected_rejection = Some((rejection_id, rejection_path, diagnostic));
-            break;
-        }
-        fs::remove_file(rejection_path).expect("remove non-selected fixture attempt");
-    }
-    let (rejection_id, rejection_path, diagnostic) =
-        selected_rejection.expect("find a digest ordering that prefers execution");
+    let diagnostic = "completion evidence was rejected";
+    let rejection = persist_verification_attempt_superseding(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "formal_receipt_rejected",
+        Some(("formal_receipt", diagnostic)),
+        Some(&receipt),
+        &execution_id,
+    )
+    .expect("persist receipt rejection superseding execution");
+    let (rejection_id, rejection_path) =
+        rebind_attempt_timestamp(root, &rejection, "2026-09-27T00:00:00Z");
     let execution_json: serde_json::Value =
         serde_json::from_slice(&fs::read(execution_path).expect("rebound execution attempt"))
             .expect("execution attempt JSON");
@@ -375,7 +363,9 @@ fn rejection_supersedes_execution_when_equal_timestamps_sort_against_it() {
         serde_json::from_slice(&fs::read(rejection_path).expect("rebound rejection attempt"))
             .expect("rejection attempt JSON");
     assert_eq!(execution_json["createdAt"], rejection_json["createdAt"]);
-    assert!(rejection_id < execution_id);
+    assert_eq!(execution_json["state"], "execution_completed");
+    assert_eq!(rejection_json["state"], "formal_receipt_rejected");
+    assert_eq!(rejection_json["diagnostic"]["code"], "formal_receipt");
     assert_eq!(rejection_json["supersedesAttemptId"], execution_id);
 
     let outcome = outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime())

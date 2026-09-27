@@ -6174,6 +6174,34 @@ pub(crate) struct CurrentVerificationAttemptProjection {
     pub snapshot_digest: String,
 }
 
+fn select_current_verification_attempt_projection(
+    mut candidates: Vec<(String, Option<String>, CurrentVerificationAttemptProjection)>,
+) -> Option<CurrentVerificationAttemptProjection> {
+    let completed_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "execution_completed")
+        .map(|(_, _, projection)| projection.attempt_id.clone())
+        .collect::<BTreeSet<_>>();
+    let superseded_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "formal_receipt_rejected")
+        .filter_map(|(_, supersedes, _)| supersedes.as_ref())
+        .filter(|attempt_id| completed_attempt_ids.contains(*attempt_id))
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    candidates
+        .retain(|(_, _, projection)| !superseded_attempt_ids.contains(&projection.attempt_id));
+
+    candidates
+        .into_iter()
+        .max_by(|left, right| {
+            left.0
+                .cmp(&right.0)
+                .then_with(|| left.2.attempt_id.cmp(&right.2.attempt_id))
+        })
+        .map(|(_, _, projection)| projection)
+}
+
 /// Find the latest integrity-checked attempt that still applies to the
 /// current repository, Contract, Runtime (when known), and source snapshot.
 /// Invalid or stale files remain untouched and are never projected as current.
@@ -6369,29 +6397,7 @@ pub(crate) fn current_verification_attempt_projection(
         ));
     }
 
-    let completed_attempt_ids = candidates
-        .iter()
-        .filter(|(_, _, projection)| projection.state == "execution_completed")
-        .map(|(_, _, projection)| projection.attempt_id.clone())
-        .collect::<BTreeSet<_>>();
-    let superseded_attempt_ids = candidates
-        .iter()
-        .filter(|(_, _, projection)| projection.state == "formal_receipt_rejected")
-        .filter_map(|(_, supersedes, _)| supersedes.as_ref())
-        .filter(|attempt_id| completed_attempt_ids.contains(*attempt_id))
-        .cloned()
-        .collect::<BTreeSet<_>>();
-    candidates
-        .retain(|(_, _, projection)| !superseded_attempt_ids.contains(&projection.attempt_id));
-
-    Ok(candidates
-        .into_iter()
-        .max_by(|left, right| {
-            left.0
-                .cmp(&right.0)
-                .then_with(|| left.2.attempt_id.cmp(&right.2.attempt_id))
-        })
-        .map(|(_, _, projection)| projection))
+    Ok(select_current_verification_attempt_projection(candidates))
 }
 
 const MAX_VERIFICATION_ATTEMPT_RECORD_BYTES: u64 = 4 * 1024 * 1024;
@@ -7223,6 +7229,39 @@ mod recovery_retry_consumption_tests {
         work_item_status_snapshot_with_runtime,
     };
     use std::process::Command;
+
+    #[test]
+    fn explicit_supersession_overrides_tied_attempt_digest_order() {
+        let execution_id = format!("sha256:{}", "f".repeat(64));
+        let rejection_id = format!("sha256:{}", "0".repeat(64));
+        let projection = |state: &str, attempt_id: &str| CurrentVerificationAttemptProjection {
+            state: state.into(),
+            attempt_id: attempt_id.into(),
+            path: ".ai/evidence/attempt.json".into(),
+            diagnostic_code: None,
+            diagnostic_message: None,
+            snapshot_digest: "sha256:snapshot".into(),
+        };
+
+        let selected = select_current_verification_attempt_projection(vec![
+            (
+                "2026-09-27T00:00:00Z".into(),
+                None,
+                projection("execution_completed", &execution_id),
+            ),
+            (
+                "2026-09-27T00:00:00Z".into(),
+                Some(execution_id),
+                projection("formal_receipt_rejected", &rejection_id),
+            ),
+        ]);
+        let Some(selected) = selected else {
+            panic!("an unsuperseded rejection must remain the current attempt");
+        };
+
+        assert_eq!(selected.state, "formal_receipt_rejected");
+        assert_eq!(selected.attempt_id, rejection_id);
+    }
 
     #[test]
     fn recovery_rejection_diagnostics_are_bounded() {
