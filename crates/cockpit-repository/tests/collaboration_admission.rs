@@ -384,7 +384,7 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
 
     let first = run_admitted_composition(&store, "WI-CONSUMER", 1, input.clone())
         .expect("first composition");
-    assert!(first.passed);
+    assert!(first.passed, "first composition failed: {first:?}");
     let first_projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
     assert_eq!(first_projection.composition_state, "passed");
@@ -1085,7 +1085,10 @@ fn feature_worktree_can_compose_against_the_declared_main_target() {
     let attempt = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
         .expect("feature worktree may target main");
 
-    assert!(attempt.passed);
+    assert!(
+        attempt.passed,
+        "feature-to-main composition failed: {attempt:?}"
+    );
     assert_eq!(attempt.binding.target_branch, "main");
     let projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());

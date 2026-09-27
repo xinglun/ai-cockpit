@@ -192,6 +192,25 @@ fn input(
     }
 }
 
+fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
+    for entry in fs::read_dir(state_dir).expect("attempt state directory") {
+        let path = entry.expect("attempt entry").path();
+        if path.extension().is_none_or(|extension| extension != "json") {
+            continue;
+        }
+        let Ok(bytes) = fs::read(&path) else {
+            continue;
+        };
+        let Ok(attempt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            continue;
+        };
+        if attempt["attemptId"].as_str() == Some(attempt_id) {
+            return path;
+        }
+    }
+    panic!("attempt record not found for {attempt_id}");
+}
+
 #[test]
 fn exact_composition_uses_real_linked_worktree_and_finds_interface_error() {
     let root = repository();
@@ -257,12 +276,55 @@ fn failed_precondition_spawns_zero_expensive_processes_and_persists_attempt() {
     assert_eq!(attempt.processes_spawned, 0);
     assert!(attempt.execution_records.is_empty());
     assert!(!sentinel.exists());
+    assert!(attempt_record_path(state.path(), &attempt.attempt_id).exists());
+}
+
+#[test]
+fn attempt_record_filename_is_portable_and_preserves_logical_identity() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("portable-attempt-name");
+    #[cfg(windows)]
+    let portable_name_command = command("portable-name", "cmd", &["/C", "exit 0"]);
+    #[cfg(not(windows))]
+    let portable_name_command = command("portable-name", "sh", &["-c", "true"]);
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![portable_name_command],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+
     assert!(
-        state
-            .path()
-            .join(format!("{}.json", attempt.attempt_id))
-            .exists()
+        attempt.passed,
+        "portable filename attempt failed: {attempt:?}"
     );
+    let entries = fs::read_dir(state.path())
+        .expect("attempt state directory")
+        .map(|entry| entry.expect("attempt entry").path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(entries.len(), 1, "one attempt record is expected");
+    let file_name = entries[0]
+        .file_name()
+        .and_then(|name| name.to_str())
+        .expect("UTF-8 attempt filename");
+    assert!(
+        file_name
+            .chars()
+            .all(|character| character.is_ascii_alphanumeric()
+                || matches!(character, '.' | '-' | '_')),
+        "attempt filename must use portable characters: {file_name}"
+    );
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(&entries[0]).expect("persisted attempt bytes"))
+            .expect("persisted attempt JSON");
+    assert_eq!(persisted["attemptId"], attempt.attempt_id);
 }
 
 #[test]
@@ -329,18 +391,8 @@ fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
     std::thread::sleep(std::time::Duration::from_millis(1));
     let second = run_composition(composition.clone()).expect("retry attempt");
     assert_ne!(first.attempt_id, second.attempt_id);
-    assert!(
-        state
-            .path()
-            .join(format!("{}.json", first.attempt_id))
-            .exists()
-    );
-    assert!(
-        state
-            .path()
-            .join(format!("{}.json", second.attempt_id))
-            .exists()
-    );
+    assert!(attempt_record_path(state.path(), &first.attempt_id).exists());
+    assert!(attempt_record_path(state.path(), &second.attempt_id).exists());
     assert_eq!(
         classify_reuse(&first, &composition).kind,
         ReuseDecisionKind::Unknown
@@ -541,7 +593,7 @@ fn failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag() {
 
     let failed = run_composition(composition.clone()).expect("failed attempt is recorded");
     assert!(!failed.passed);
-    let attempt_path = state.path().join(format!("{}.json", failed.attempt_id));
+    let attempt_path = attempt_record_path(state.path(), &failed.attempt_id);
     let mut persisted: serde_json::Value =
         serde_json::from_slice(&fs::read(&attempt_path).expect("persisted attempt bytes"))
             .expect("persisted attempt JSON");
@@ -1728,12 +1780,7 @@ fn timed_out_node_is_durable_and_reports_cleanup() {
             .as_ref()
             .is_some_and(|cleanup| cleanup.attempted)
     );
-    assert!(
-        state
-            .path()
-            .join(format!("{}.json", attempt.attempt_id))
-            .exists()
-    );
+    assert!(attempt_record_path(state.path(), &attempt.attempt_id).exists());
 }
 
 #[cfg(unix)]
@@ -1776,7 +1823,7 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
             .is_some_and(|cleanup| cleanup.attempted && cleanup.removed)
     );
     let durable: serde_json::Value = serde_json::from_slice(
-        &fs::read(state.path().join(format!("{}.json", attempt.attempt_id)))
+        &fs::read(attempt_record_path(state.path(), &attempt.attempt_id))
             .expect("durable signal attempt"),
     )
     .expect("signal attempt JSON");
@@ -1798,7 +1845,7 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let first = run_composition(composition.clone()).expect("write current attempt");
-    let first_path = state.path().join(format!("{}.json", first.attempt_id));
+    let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut legacy: serde_json::Value =
         serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
             .expect("first attempt JSON");
@@ -1820,6 +1867,37 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
     assert_eq!(preserved["schemaVersion"], 1);
 }
 
+#[cfg(unix)]
+#[test]
+fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("legacy-attempt-filename");
+    let composition = input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("legacy-name", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    );
+    let first = run_composition(composition.clone()).expect("first attempt");
+    assert!(first.passed, "first attempt failed: {first:?}");
+    let portable_path = attempt_record_path(state.path(), &first.attempt_id);
+    let legacy_path = state.path().join(format!("{}.json", first.attempt_id));
+    fs::rename(&portable_path, &legacy_path).expect("simulate historical Unix filename");
+
+    let second = run_composition(composition).expect("attempt should read legacy filename");
+
+    assert!(second.passed, "second attempt failed: {second:?}");
+    assert_eq!(second.processes_spawned, 0);
+    assert!(second.execution_records[0].reused);
+    assert!(
+        legacy_path.is_file(),
+        "historical attempt bytes are retained"
+    );
+    assert!(attempt_record_path(state.path(), &second.attempt_id).is_file());
+}
+
 #[test]
 fn composition_attempt_without_schema_version_is_not_reused() {
     let root = repository();
@@ -1833,7 +1911,7 @@ fn composition_attempt_without_schema_version_is_not_reused() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let first = run_composition(composition.clone()).expect("write current attempt");
-    let first_path = state.path().join(format!("{}.json", first.attempt_id));
+    let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut historical: serde_json::Value =
         serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
             .expect("first attempt JSON");

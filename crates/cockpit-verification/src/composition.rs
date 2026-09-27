@@ -17,7 +17,7 @@ use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 #[cfg(unix)]
 use std::sync::Mutex;
-use std::sync::atomic::{AtomicI32, Ordering};
+use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
@@ -25,6 +25,7 @@ pub const COMPOSITION_SCHEMA_VERSION: u32 = 2;
 const COMPOSITION_BINDING_SCHEMA_VERSION: u32 = 1;
 const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
+static NEXT_COMPOSITION_PARENT_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 static OWNER_INTERRUPTION_SIGNAL: AtomicI32 = AtomicI32::new(0);
 
@@ -851,7 +852,7 @@ fn load_latest_attempt(
         })?;
         let candidate: CompositionAttempt = serde_json::from_slice(&bytes)
             .map_err(|error| CompositionError::Serialization(error.to_string()))?;
-        if path.file_stem().and_then(|stem| stem.to_str()) != Some(candidate.attempt_id.as_str()) {
+        if !attempt_record_filename_matches(&path, &candidate.attempt_id) {
             return Err(CompositionError::Serialization(format!(
                 "composition attempt filename does not match embedded identity: {}",
                 path.display()
@@ -1048,8 +1049,18 @@ fn validated_composition_paths(
     let parent = worktree.parent()?.to_path_buf();
     let parent_name = parent.file_name()?.to_str()?;
     let suffix = parent_name.strip_prefix("ai-cockpit-composition-")?;
-    let (pid, timestamp) = suffix.split_once('-')?;
-    if pid.parse::<u32>().ok()? != owner_pid || timestamp.parse::<u128>().ok()? == 0 {
+    let (pid, suffix) = suffix.split_once('-')?;
+    let mut components = suffix.split('-');
+    let timestamp = components.next()?.parse::<u128>().ok()?;
+    let sequence_is_valid = match components.next() {
+        Some(sequence) => sequence.parse::<u64>().is_ok(),
+        None => true,
+    };
+    if pid.parse::<u32>().ok()? != owner_pid
+        || timestamp == 0
+        || !sequence_is_valid
+        || components.next().is_some()
+    {
         return None;
     }
     let canonical_temp = fs::canonicalize(std::env::temp_dir()).ok()?;
@@ -1424,7 +1435,7 @@ fn update_active_process_record(
     process_group_id: u32,
     active: bool,
 ) -> Result<(), String> {
-    let path = state_dir.join(format!("{attempt_id}.json"));
+    let path = attempt_record_path(state_dir, attempt_id);
     let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
     if !metadata.file_type().is_file() {
         return Err("composition attempt is not a regular file".into());
@@ -2627,8 +2638,12 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
         path: state_dir.to_path_buf(),
         source,
     })?;
-    let path = state_dir.join(format!("{}.json", attempt.attempt_id));
-    let temporary = state_dir.join(format!(".{}.{}.tmp", attempt.attempt_id, now_unix_nanos()));
+    let path = attempt_record_path(state_dir, &attempt.attempt_id);
+    let temporary = state_dir.join(format!(
+        ".{}.{}.tmp",
+        portable_attempt_stem(&attempt.attempt_id),
+        now_unix_nanos()
+    ));
     let bytes = serde_json::to_vec_pretty(attempt)
         .map_err(|error| CompositionError::Serialization(error.to_string()))?;
     let mut file = OpenOptions::new()
@@ -2651,6 +2666,49 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
     fs::rename(&temporary, &path).map_err(|source| CompositionError::Io { path, source })
 }
 
+fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
+    let portable = state_dir.join(format!("{}.json", portable_attempt_stem(attempt_id)));
+    if portable.exists() {
+        return portable;
+    }
+    #[cfg(unix)]
+    {
+        // Preserve and continue updating attempt records written by earlier
+        // Unix Runtime versions, whose filenames used the logical ID verbatim.
+        let legacy = state_dir.join(format!("{attempt_id}.json"));
+        if legacy.exists() {
+            return legacy;
+        }
+    }
+    portable
+}
+
+fn attempt_record_filename_matches(path: &Path, attempt_id: &str) -> bool {
+    let Some(file_name) = path.file_name().and_then(|name| name.to_str()) else {
+        return false;
+    };
+    if file_name == format!("{}.json", portable_attempt_stem(attempt_id)) {
+        return true;
+    }
+    #[cfg(unix)]
+    {
+        file_name == format!("{attempt_id}.json")
+    }
+    #[cfg(not(unix))]
+    {
+        false
+    }
+}
+
+fn portable_attempt_stem(attempt_id: &str) -> String {
+    let mut stem = String::with_capacity("composition-".len() + attempt_id.len() * 2);
+    stem.push_str("composition-");
+    for byte in attempt_id.bytes() {
+        stem.push_str(&format!("{byte:02x}"));
+    }
+    stem
+}
+
 fn new_attempt_id(input: &CompositionInput, timestamp: u128) -> String {
     let identity =
         serde_json::to_vec(&(&input.binding, &input.identity, timestamp)).unwrap_or_default();
@@ -2664,10 +2722,13 @@ fn now_unix_nanos() -> u128 {
 }
 
 fn unique_composition_parent() -> PathBuf {
+    composition_parent_path(std::process::id(), now_unix_nanos())
+}
+
+fn composition_parent_path(owner_pid: u32, timestamp: u128) -> PathBuf {
+    let sequence = NEXT_COMPOSITION_PARENT_SEQUENCE.fetch_add(1, Ordering::Relaxed);
     std::env::temp_dir().join(format!(
-        "ai-cockpit-composition-{}-{}",
-        std::process::id(),
-        now_unix_nanos()
+        "ai-cockpit-composition-{owner_pid}-{timestamp}-{sequence}"
     ))
 }
 
@@ -2681,6 +2742,21 @@ fn create_private_composition_parent(path: &Path) -> std::io::Result<()> {
     #[cfg(not(unix))]
     {
         fs::create_dir(path)
+    }
+}
+
+#[cfg(test)]
+mod composition_parent_tests {
+    use super::composition_parent_path;
+    use std::collections::BTreeSet;
+
+    #[test]
+    fn concurrent_composition_parents_remain_unique_at_the_same_clock_tick() {
+        let paths = (0..32)
+            .map(|_| composition_parent_path(1234, 1_800_000_000_000_000_000))
+            .collect::<BTreeSet<_>>();
+
+        assert_eq!(paths.len(), 32, "same-tick parents must not collide");
     }
 }
 
