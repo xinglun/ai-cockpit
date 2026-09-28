@@ -340,8 +340,159 @@ if [[ "$state" == passed ]]; then
         runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
         runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
         process_observer_runner="$root/tests/ci/run_process_observer_test_runner.sh"
+        runner_config_diagnostic=$(
+          python3 - "$root" "$host_target" "$process_observer_runner" 2>&1 <<'PY'
+import ast
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+try:
+    import tomllib
+except ImportError:
+    print("Python 3.11 or newer is required to inspect Cargo runner configuration", file=sys.stderr)
+    raise SystemExit(1)
+
+repository = Path(sys.argv[1])
+host_target = sys.argv[2]
+required_runner = sys.argv[3]
+rustc = os.environ.get("RUSTC", "rustc")
+
+cfg_result = subprocess.run(
+    [rustc, "--print", "cfg", "--target", host_target],
+    check=False,
+    capture_output=True,
+    text=True,
+)
+if cfg_result.returncode != 0:
+    print(cfg_result.stderr.strip() or "rustc could not report host cfg values", file=sys.stderr)
+    raise SystemExit(1)
+
+cfg_flags = set()
+cfg_pairs = set()
+for line in cfg_result.stdout.splitlines():
+    if "=" not in line:
+        cfg_flags.add(line)
+        continue
+    key, encoded_value = line.split("=", 1)
+    try:
+        value = ast.literal_eval(encoded_value)
+    except (SyntaxError, ValueError):
+        print(f"rustc reported an invalid cfg value: {line}", file=sys.stderr)
+        raise SystemExit(1)
+    if not isinstance(value, str):
+        print(f"rustc reported a non-string cfg value: {line}", file=sys.stderr)
+        raise SystemExit(1)
+    cfg_pairs.add((key, value))
+
+token_pattern = re.compile(r'\s*([A-Za-z_][A-Za-z0-9_]*|"(?:\\.|[^"\\])*"|=|[(),])')
+
+def parse_cfg(expression):
+    tokens = []
+    position = 0
+    while position < len(expression):
+        if not expression[position:].strip():
+            break
+        match = token_pattern.match(expression, position)
+        if match is None:
+            raise ValueError(f"unsupported cfg selector syntax: {expression}")
+        tokens.append(match.group(1))
+        position = match.end()
+
+    def parse_node(index):
+        if index >= len(tokens):
+            raise ValueError(f"incomplete cfg selector: {expression}")
+        name = tokens[index]
+        if name in {"all", "any", "not"} and index + 1 < len(tokens) and tokens[index + 1] == "(":
+            children = []
+            index += 2
+            while index < len(tokens) and tokens[index] != ")":
+                child, index = parse_node(index)
+                children.append(child)
+                if index < len(tokens) and tokens[index] == ",":
+                    index += 1
+                elif index < len(tokens) and tokens[index] != ")":
+                    raise ValueError(f"invalid cfg selector: {expression}")
+            if index >= len(tokens):
+                raise ValueError(f"unterminated cfg selector: {expression}")
+            if name == "not" and len(children) != 1:
+                raise ValueError(f"cfg not() must have one expression: {expression}")
+            return (name, children), index + 1
+        if index + 1 < len(tokens) and tokens[index + 1] == "=":
+            if index + 2 >= len(tokens) or not tokens[index + 2].startswith('"'):
+                raise ValueError(f"invalid cfg key/value selector: {expression}")
+            value = ast.literal_eval(tokens[index + 2])
+            return ("pair", name, value), index + 3
+        return ("flag", name), index + 1
+
+    tree, final_position = parse_node(0)
+    if final_position != len(tokens):
+        raise ValueError(f"trailing cfg selector input: {expression}")
+    return tree
+
+def matches_cfg(tree):
+    kind = tree[0]
+    if kind == "all":
+        return all(matches_cfg(child) for child in tree[1])
+    if kind == "any":
+        return any(matches_cfg(child) for child in tree[1])
+    if kind == "not":
+        return not matches_cfg(tree[1][0])
+    if kind == "pair":
+        return (tree[1], tree[2]) in cfg_pairs
+    return tree[1] in cfg_flags
+
+config_files = []
+for directory in (repository, *repository.parents):
+    config_files.extend((directory / ".cargo/config.toml", directory / ".cargo/config"))
+cargo_home = Path(os.environ.get("CARGO_HOME") or (Path.home() / ".cargo"))
+config_files.extend((cargo_home / "config.toml", cargo_home / "config"))
+
+seen = set()
+for config_path in config_files:
+    resolved_path = config_path.resolve()
+    if resolved_path in seen or not config_path.is_file():
+        continue
+    seen.add(resolved_path)
+    try:
+        configuration = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError) as error:
+        print(f"cannot inspect Cargo configuration {config_path}: {error}", file=sys.stderr)
+        raise SystemExit(1)
+    targets = configuration.get("target", {})
+    if not isinstance(targets, dict):
+        print(f"Cargo target configuration is not a table in {config_path}", file=sys.stderr)
+        raise SystemExit(1)
+    for selector, settings in targets.items():
+        if not isinstance(settings, dict) or "runner" not in settings:
+            continue
+        applies = selector == host_target
+        if selector.startswith("cfg(") and selector.endswith(")"):
+            try:
+                applies = matches_cfg(parse_cfg(selector[4:-1]))
+            except (ValueError, SyntaxError) as error:
+                print(f"cannot resolve Cargo runner selector {selector!r} in {config_path}: {error}", file=sys.stderr)
+                raise SystemExit(1)
+        if not applies:
+            continue
+        configured = settings["runner"]
+        if configured not in (required_runner, [required_runner]):
+            print(
+                f"configured Cargo target runner in {config_path} for {selector!r} conflicts with the required process observer runner",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+PY
+        )
+        runner_config_status=$?
         configured_runner="${!runner_variable:-}"
-        if [[ -n "$configured_runner" && "$configured_runner" != "$process_observer_runner" ]]; then
+        if ((runner_config_status != 0)); then
+          state=failed
+          failure_phase=runner_setup
+          failure_diagnostic_tail=$(tail -c 12000 <<<"$runner_config_diagnostic")
+        elif [[ -n "$configured_runner" && "$configured_runner" != "$process_observer_runner" ]]; then
           state=failed
           failure_phase=runner_setup
           failure_diagnostic_tail="${runner_variable} must use ${process_observer_runner} for safe process-observer isolation"

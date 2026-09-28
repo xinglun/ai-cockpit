@@ -55,7 +55,11 @@ fake_rustc="$tmp/bin/rustc"
 fake_cargo="$tmp/bin/cargo"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
-  'printf "host: x86_64-unknown-linux-gnu\\n"' >"$fake_rustc"
+  'case "${1-}" in' \
+  '  -vV) printf "host: x86_64-unknown-linux-gnu\\n" ;;' \
+  '  --print) printf "unix\\ntarget_arch=\\\"x86_64\\\"\\ntarget_os=\\\"linux\\\"\\n" ;;' \
+  '  *) exit 2 ;;' \
+  'esac' >"$fake_rustc"
 printf '%s\n' \
   '#!/usr/bin/env bash' \
   'set -euo pipefail' \
@@ -77,6 +81,46 @@ RUSTC="$fake_rustc" \
     --report "$tmp/workspace-runner-report.json"
 jq -e '.state == "passed" and .executed == ["fixture-package"]' \
   "$tmp/workspace-runner-report.json" >/dev/null
+
+# A Cargo runner for another platform must not block the host package gate.
+mkdir -p "$tmp/cargo-home-other-target"
+printf '%s\n' \
+  "[target.'cfg(windows)']" \
+  "runner = \"$tmp/bin/custom-cargo-runner\"" \
+  >"$tmp/cargo-home-other-target/config.toml"
+CARGO_HOME="$tmp/cargo-home-other-target" \
+  RUSTC="$fake_rustc" \
+  EXPECTED_RUNNER="$runner" \
+  WORKSPACE_TEST_WORKERS=1 \
+  WORKSPACE_TEST_THREADS=4 \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/workspace-metadata.json" \
+    --cargo "$fake_cargo" \
+    --report "$tmp/workspace-other-target-runner-report.json"
+jq -e '.state == "passed" and .executed == ["fixture-package"]' \
+  "$tmp/workspace-other-target-runner-report.json" >/dev/null
+
+# A target runner supplied by Cargo TOML must not be silently shadowed by the
+# process-observer runner injected by the package gate.
+mkdir -p "$tmp/cargo-home"
+printf '%s\n' \
+  "[target.'cfg(unix)']" \
+  "runner = \"$tmp/bin/custom-cargo-runner\"" \
+  >"$tmp/cargo-home/config.toml"
+if CARGO_HOME="$tmp/cargo-home" \
+  RUSTC="$fake_rustc" \
+  EXPECTED_RUNNER="$runner" \
+  WORKSPACE_TEST_WORKERS=1 \
+  WORKSPACE_TEST_THREADS=4 \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/workspace-metadata.json" \
+    --cargo "$fake_cargo" \
+    --report "$tmp/workspace-configured-runner-report.json"; then
+  printf 'workspace package runner silently replaced a TOML-configured Cargo runner\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("configured Cargo target runner"))' \
+  "$tmp/workspace-configured-runner-report.json" >/dev/null
 
 # Process-observer targets scan process state outside their own test binary.
 # They must wait for package tests holding shared locks, even when Cargo runs

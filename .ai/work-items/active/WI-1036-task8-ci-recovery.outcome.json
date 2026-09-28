@@ -8,7 +8,7 @@
   ],
   "createdAt": "2026-09-28T03:32:28Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:50a291b48836170afb4d643f4057fa814889a2c925e9d20098ad22dba9da3e47",
+  "evidenceDigest": "sha256:dd9dcea2f7f49e38839c8890d0f32ce347a38e3d7486ff9bf7049e71b32418a8",
   "evidenceRefs": [
     ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:4c1ad9bbb31faf04bd25668ca883e2c7450d532ccd6f570c3063bb985d127c4c",
+      "repositorySnapshotDigest": "sha256:f3e238140daa37fa84bd66f54120b0aa7c5e791311544609fc5e11409a45f51b",
       "workItemId": "WI-1036-task8-ci-recovery"
     },
     "format": "ai-cockpit.task-outcome",
@@ -165,7 +165,7 @@
     "status": "verified",
     "workItemId": "WI-1036-task8-ci-recovery"
   },
-  "taskReportDigest": "sha256:e5221b632194e70595cc221bee53a55638ba9c6d3f279febd1a317b4d0fae7a7",
+  "taskReportDigest": "sha256:c162a41c0bcfee8b23b622e3e19e573378d70da8fe980e6fc97a0b4c121ed024",
   "taskReportMarkdownDigest": "sha256:721f446daf99d957441e3b2a47922d0ba0da9f1c9c3b7c78b1f5dbc0f8b70649",
   "unknowns": [
     "user_visible_benefit_not_declared"

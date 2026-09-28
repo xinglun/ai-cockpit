@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4c1ad9bbb31faf04bd25668ca883e2c7450d532ccd6f570c3063bb985d127c4c",
+    "repositorySnapshotDigest": "sha256:f3e238140daa37fa84bd66f54120b0aa7c5e791311544609fc5e11409a45f51b",
     "workItemId": "WI-1036-task8-ci-recovery"
   },
   "format": "ai-cockpit.task-outcome",
