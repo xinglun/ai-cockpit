@@ -38,6 +38,9 @@ assert_sensitive_runner "composition-0123456789abcdef" 1 \
 assert_sensitive_runner "collaboration_admission-0123456789abcdef" 1 \
   $'--test-threads=1\n--exact\ntarget_test' \
   --test-threads 4 --exact target_test
+assert_sensitive_runner "cockpit_verification-0123456789abcdef" 1 \
+  $'--test-threads=1\n--nocapture\nobserver_scenario' \
+  --nocapture --test-threads=4 observer_scenario
 
 ordinary="$tmp/bin/ordinary_test-0123456789abcdef"
 write_fake_test_binary "$ordinary"
@@ -45,6 +48,35 @@ OBSERVED_THREADS="$tmp/ordinary-threads" OBSERVED_ARGS="$tmp/ordinary-args" RUST
   "$runner" "$ordinary" --test-threads=4 ordinary_filter
 test "$(<"$tmp/ordinary-threads")" = 8
 diff -u <(printf '%s\n' --test-threads=4 ordinary_filter) "$tmp/ordinary-args"
+
+# The canonical package runner must select the host target and propagate the
+# process-observer Cargo runner into every package test invocation.
+fake_rustc="$tmp/bin/rustc"
+fake_cargo="$tmp/bin/cargo"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'printf "host: x86_64-unknown-linux-gnu\\n"' >"$fake_rustc"
+printf '%s\n' \
+  '#!/usr/bin/env bash' \
+  'set -euo pipefail' \
+  '[[ "${1-}" == test ]] || exit 2' \
+  '[[ "${CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER-}" == "$EXPECTED_RUNNER" ]] || { printf "observer runner was not propagated\\n" >&2; exit 3; }' \
+  'target_seen=false' \
+  'while (($#)); do if [[ "$1" == --target && "${2-}" == x86_64-unknown-linux-gnu ]]; then target_seen=true; break; fi; shift; done' \
+  '[[ "$target_seen" == true ]] || { printf "workspace test did not select the runner target\\n" >&2; exit 4; }' \
+  >"$fake_cargo"
+chmod +x "$fake_rustc" "$fake_cargo"
+printf '%s\n' '{"packages":[{"name":"fixture-package","source":null}]}' >"$tmp/workspace-metadata.json"
+RUSTC="$fake_rustc" \
+  EXPECTED_RUNNER="$runner" \
+  WORKSPACE_TEST_WORKERS=1 \
+  WORKSPACE_TEST_THREADS=4 \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/workspace-metadata.json" \
+    --cargo "$fake_cargo" \
+    --report "$tmp/workspace-runner-report.json"
+jq -e '.state == "passed" and .executed == ["fixture-package"]' \
+  "$tmp/workspace-runner-report.json" >/dev/null
 
 # Process-observer targets scan process state outside their own test binary.
 # They must wait for package tests holding shared locks, even when Cargo runs
@@ -55,7 +87,7 @@ if command -v flock >/dev/null 2>&1 || command -v python3 >/dev/null 2>&1; then
   mock_bin="$tmp/lock-bin"
   ordinary_hold="$tmp/bin/ordinary-hold-0123456789abcdef"
   ordinary_parallel="$tmp/bin/ordinary-parallel-0123456789abcdef"
-  sensitive_probe="$tmp/bin/composition-probe-0123456789abcdef"
+  sensitive_probe="$tmp/bin/cockpit_verification-probe-0123456789abcdef"
   mkdir -p "$mock_bin"
   if real_lock=$(command -v flock 2>/dev/null); then
     lock_tool=flock

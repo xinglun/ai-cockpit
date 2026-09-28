@@ -12,7 +12,7 @@ test_argument_count=$#
 
 lock_mode=shared
 case "${test_binary##*/}" in
-  collaboration_admission-*|composition-*)
+  collaboration_admission-*|cockpit_verification-*|composition-*)
     lock_mode=exclusive
     ;;
 esac

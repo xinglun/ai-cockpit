@@ -323,17 +323,44 @@ if [[ "$state" == passed ]]; then
   while IFS= read -r package; do
     packages+=("$package")
   done <"$tmp/coverage-required"
+  package_count=${#packages[@]}
+  if ((package_count > 0)); then
+    rustc_bin="${RUSTC:-rustc}"
+    if ! rustc_info=$("$rustc_bin" -vV 2>&1); then
+      state=failed
+      failure_phase=runner_setup
+      failure_diagnostic_tail=$(tail -c 12000 <<<"$rustc_info")
+    else
+      host_target=$(sed -n 's/^host: //p' <<<"$rustc_info")
+      if [[ -z "$host_target" ]]; then
+        state=failed
+        failure_phase=runner_setup
+        failure_diagnostic_tail="rustc -vV did not report a host target"
+      else
+        runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
+        runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
+        process_observer_runner="$root/tests/ci/run_process_observer_test_runner.sh"
+        configured_runner="${!runner_variable:-}"
+        if [[ -n "$configured_runner" && "$configured_runner" != "$process_observer_runner" ]]; then
+          state=failed
+          failure_phase=runner_setup
+          failure_diagnostic_tail="${runner_variable} must use ${process_observer_runner} for safe process-observer isolation"
+        else
+          export "${runner_variable}=${process_observer_runner}"
+        fi
+      fi
+    fi
+  fi
   pids=()
   active=0
   next=0
-  package_count=${#packages[@]}
   while { [[ "$state" == passed ]] && ((next < package_count)) || ((active > 0)); }; do
     while [[ "$state" == passed ]] && ((next < package_count && active < workers)); do
       package=${packages[$next]}
       index=$next
       (
         set +e
-        (cd "$root" && "$cargo_bin" test -p "$package" --all-targets -- --test-threads="$test_threads") \
+        (cd "$root" && "$cargo_bin" test -p "$package" --target "$host_target" --all-targets -- --test-threads="$test_threads") \
           >"$tmp/results/$index.log" 2>&1
         result=$?
         printf '%s\n' "$result" >"$tmp/results/$index.status"
@@ -424,7 +451,8 @@ open(sys.argv[5], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort
 PY
 
 if [[ "$state" != passed ]]; then
-  printf 'workspace package coverage failed: package=%s exitCode=%s\n' "$failed_package" "$failed_exit_code" >&2
+  printf 'workspace package coverage failed: phase=%s package=%s exitCode=%s\n' \
+    "$failure_phase" "$failed_package" "$failed_exit_code" >&2
   exit 1
 fi
 printf 'workspace package coverage passed: %s packages\n' "$(wc -l <"$tmp/executed" | tr -d ' ')"

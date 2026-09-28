@@ -63,28 +63,13 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.22c302a8d6e3b6f8cf85a52d27db88d9165d5b189b5cbeef52f076aec13642d5.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.36914ce6d06e041f6cc15c8ea3c28dc78c857795f972ecc742ad8aa99253a278.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.40ccb75a4b8bcbbdba5b36326040f35cb50d64563200088ed170d52d91361251.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.988908a40662b72269fa6ca81b32d3ad79b55739f6cb46551a50185946257b75.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f24479268f4579d62fa3588a6c8d92ff1ecbf493bf74da09565c0d7570334dbb.json",
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.0d050d38ffea17405579b1728102e343f7dd0fb1df21719414c5ebd1ef229ae2.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.1b176c69534b1a5e4278f3983881659046e0579600c1b5b0a545a4c2e0297ecd.json",
     ".ai/evidence/WI-1036-task8-ci-recovery.verification.json",
-    ".ai/work-items/active/WI-1036-task8-ci-recovery.contract.json",
     ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-1036-task8-ci-recovery.ja.md",
-    "docs/work-items/WI-1036-task8-ci-recovery.md",
-    "docs/work-items/WI-1036-task8-ci-recovery.zh-CN.md",
     "tests/ci/process_observer_test_runner_test.sh",
-    "tests/ci/repository_gate_manifest_test.py",
     "tests/ci/run_process_observer_test_runner.sh",
-    "tests/ci/run_repository_gates.py",
-    "tests/docs/documentation_acceptance.sh"
+    "tests/ci/run_workspace_package_tests.sh"
   ],
   "checkpointAt": "2026-09-28T01:48:28Z",
   "checkpointContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
@@ -145,7 +130,7 @@
       "workItemId": "WI-1036-task8-ci-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+  "checkpointRepositorySnapshotDigest": "sha256:4c1ad9bbb31faf04bd25668ca883e2c7450d532ccd6f570c3063bb985d127c4c",
   "createdAt": "2026-09-28T01:32:14Z",
   "intentAlignment": {
     "evidence": [
@@ -158,10 +143,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
   "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-28T02:47:02Z",
+  "preflightAt": "2026-09-28T03:30:52Z",
   "preflightContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+  "preflightRepositorySnapshotDigest": "sha256:4c1ad9bbb31faf04bd25668ca883e2c7450d532ccd6f570c3063bb985d127c4c",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",
@@ -198,8 +183,8 @@
       "verificationPlan": "Run the repository gate manifest regression against an isolated fixture containing the missing receipt case."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-28T02:49:38.138523+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-28T03:32:28Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -214,6 +199,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ec1b0b955ecb612d8b09d264be50ba6daf4bc3ffe119f8a86fa4dc6ed76bbed2",
   "workItemId": "WI-1036-task8-ci-recovery"
 }
