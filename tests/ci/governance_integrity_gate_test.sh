@@ -827,6 +827,191 @@ printf 'governance confirmed-decision regression passed\n'
 run_case missing-work-item 1 missing_work_item
 run_case missing-evidence 1 missing_evidence
 run_case missing-close 1 missing_terminal_decision
+
+# An ordinary archive without resourceContext may wait for formal close only
+# in the exact pull_request merge checkout that introduces its Contract.
+pr_base_spec="$tmp/pr-event-empty-base.json"
+pr_event_repo="$tmp/pr-event-introduced-archive"
+pr_event_source="$tmp/pr-event-archive-source"
+python3 - "$pr_base_spec" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    json.dumps({"currentRelease": "9.9.9", "workItems": []}) + "\n",
+    encoding="utf-8",
+)
+PY
+build_fixture "$pr_base_spec" "$pr_event_repo"
+build_fixture "$fixtures/missing-close.json" "$pr_event_source"
+git -C "$pr_event_repo" init -q -b main
+git -C "$pr_event_repo" config user.name Fixture
+git -C "$pr_event_repo" config user.email fixture@example.invalid
+git -C "$pr_event_repo" add .
+git -C "$pr_event_repo" commit -qm 'fixture PR base without archived work item'
+pr_base_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -qb codex/pr-introduced-archive
+python3 - "$pr_event_repo" "$pr_event_source" <<'PY'
+import shutil
+import sys
+from pathlib import Path
+
+target, source = map(Path, sys.argv[1:])
+work_item = "WI-900-release-v9-9-9"
+for relative, pattern in (
+    (".ai/work-items/archive", f"{work_item}.*"),
+    (".ai/evidence", f"{work_item}.*"),
+    ("docs/work-items", f"{work_item}.*"),
+):
+    for item in (source / relative).glob(pattern):
+        destination = target / item.relative_to(source)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, destination)
+for name in (
+    "reference-parity.md",
+    "reference-parity.zh-CN.md",
+    "reference-parity.ja.md",
+):
+    shutil.copy2(source / "docs/reference" / name, target / "docs/reference" / name)
+PY
+git -C "$pr_event_repo" add .
+git -C "$pr_event_repo" commit -qm 'fixture PR introduces ordinary archived work item'
+pr_head_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -q main
+git -C "$pr_event_repo" merge --no-ff -qm 'fixture PR merge ref' codex/pr-introduced-archive
+pr_merge_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout --detach -q
+
+write_pr_event() {
+  local output=$1 number=$2 base=$3 head=$4
+  python3 - "$output" "$number" "$base" "$head" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+output, number, base, head = sys.argv[1:]
+number = int(number)
+value = {
+    "number": number,
+    "repository": {"default_branch": "main", "full_name": "example/fixture"},
+    "pull_request": {
+        "number": number,
+        "base": {"ref": "main", "sha": base},
+        "head": {"ref": "codex/pr-introduced-archive", "sha": head},
+    },
+}
+Path(output).write_text(json.dumps(value) + "\n", encoding="utf-8")
+PY
+}
+
+expect_pr_gate_code() {
+  local name=$1 expected=$2 number=$3 event_path=$4 merge_sha=$5 report=$6
+  local actual
+  set +e
+  env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+    GITHUB_EVENT_NAME=pull_request \
+    GITHUB_REF="refs/pull/$number/merge" \
+    GITHUB_BASE_REF=main \
+    GITHUB_SHA="$merge_sha" \
+    GITHUB_EVENT_PATH="$event_path" \
+    python3 "$gate" --repo "$pr_event_repo" --report "$report" >/dev/null
+  actual=$?
+  set -e
+  [[ "$actual" -eq "$expected" ]] || {
+    printf 'PR merge fixture %s: expected exit %s, got %s\n' \
+      "$name" "$expected" "$actual" >&2
+    exit 1
+  }
+}
+
+assert_pr_lifecycle_finding() {
+  local report=$1 expected_state=$2 expected_finding=$3
+  python3 - "$report" "$expected_state" "$expected_finding" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+expected_state, expected_finding = sys.argv[2:]
+item = next(
+    row for row in report["inventory"]
+    if row["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert item["lifecycleState"] == expected_state, item
+assert any(
+    row["workItemId"] == "WI-900-release-v9-9-9"
+    and row["code"] == expected_finding
+    for row in report["findings"]
+) is (expected_finding != "none"), report["findings"]
+PY
+}
+
+pr_event="$tmp/pr-event.json"
+write_pr_event "$pr_event" 999 "$pr_base_sha" "$pr_head_sha"
+pr_event_report="$tmp/pr-event-report.json"
+expect_pr_gate_code exact-introduced-archive 0 999 "$pr_event" "$pr_merge_sha" "$pr_event_report"
+assert_pr_lifecycle_finding "$pr_event_report" awaiting_merge_close none
+printf 'exact PR-introduced archive lifecycle regression passed\n'
+
+wrong_base_event="$tmp/pr-event-wrong-base.json"
+write_pr_event "$wrong_base_event" 999 "0000000000000000000000000000000000000000" "$pr_head_sha"
+wrong_base_report="$tmp/pr-event-wrong-base-report.json"
+expect_pr_gate_code mismatched-base 1 999 "$wrong_base_event" "$pr_merge_sha" "$wrong_base_report"
+assert_pr_lifecycle_finding "$wrong_base_report" closure_missing missing_terminal_decision
+
+wrong_head_event="$tmp/pr-event-wrong-head.json"
+write_pr_event "$wrong_head_event" 999 "$pr_base_sha" "$pr_base_sha"
+wrong_head_report="$tmp/pr-event-wrong-head-report.json"
+expect_pr_gate_code mismatched-head 1 999 "$wrong_head_event" "$pr_merge_sha" "$wrong_head_report"
+assert_pr_lifecycle_finding "$wrong_head_report" closure_missing missing_terminal_decision
+
+malformed_event="$tmp/pr-event-malformed.json"
+python3 - "$malformed_event" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text("{malformed event", encoding="utf-8")
+PY
+malformed_report="$tmp/pr-event-malformed-report.json"
+expect_pr_gate_code malformed-event 1 999 "$malformed_event" "$pr_merge_sha" "$malformed_report"
+assert_pr_lifecycle_finding "$malformed_report" closure_missing missing_terminal_decision
+
+# A matching PR event is insufficient when the archived Contract was already
+# present in the base commit and the PR changes only an unrelated file.
+git -C "$pr_event_repo" checkout -q main
+git -C "$pr_event_repo" checkout -qb codex/archive-not-introduced
+printf 'unrelated change\n' > "$pr_event_repo/unrelated.txt"
+git -C "$pr_event_repo" add unrelated.txt
+git -C "$pr_event_repo" commit -qm 'fixture unrelated PR change'
+not_introduced_head="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -q main
+not_introduced_base="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" merge --no-ff -qm 'fixture unrelated PR merge ref' codex/archive-not-introduced
+not_introduced_merge="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout --detach -q
+not_introduced_event="$tmp/pr-event-not-introduced.json"
+write_pr_event "$not_introduced_event" 1000 "$not_introduced_base" "$not_introduced_head"
+not_introduced_report="$tmp/pr-event-not-introduced-report.json"
+expect_pr_gate_code archive-not-introduced 1 1000 "$not_introduced_event" "$not_introduced_merge" "$not_introduced_report"
+assert_pr_lifecycle_finding "$not_introduced_report" closure_missing missing_terminal_decision
+
+# Without PR event identity, a detached checkout of the same unclosed archive
+# is still blocked.
+non_pr_report="$tmp/pr-event-absent-report.json"
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$pr_event_repo" --report "$non_pr_report" >/dev/null
+non_pr_code=$?
+set -e
+[[ "$non_pr_code" -eq 1 ]] || {
+  printf 'non-PR archive checkout must remain blocked, got %s\n' "$non_pr_code" >&2
+  exit 1
+}
+assert_pr_lifecycle_finding "$non_pr_report" closure_missing missing_terminal_decision
+printf 'PR event mismatch and fail-closed lifecycle regressions passed\n'
+
 run_case historical-exemption 0 none
 run_case unknown-issue 1 unknown_problem
 run_case ambiguous-current 1 ambiguous_short_id

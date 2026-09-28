@@ -1,0 +1,106 @@
+{
+  "acceptanceCriteria": [
+    "A01: An ordinary archived Work Item added by the exact current PR may project as awaiting_merge_close only when the pull-request event base/head and checked-out merge parents match and the Contract is introduced by that PR.",
+    "A02: Older unclosed archived Work Items, mismatched or malformed pull-request events, and non-PR checkouts remain blocking.",
+    "A03: The exact two-parent default-branch merge introducing the archive may pass the immediate transition; a later non-merge default-branch commit without a real close remains blocking.",
+    "A04: The three WI-1036 parity rows identify its archived Contract and accurately show archived-but-awaiting-merge status without claiming terminal completion.",
+    "A05: Focused governance and documentation checks pass; hosted CI passes on the exact corrective head and PR #997 head; integrate, clean, close the Task 8 lineage, then start Task 9 only when Runtime reports readyOnBase. Stop before release."
+  ],
+  "authority": "authorized",
+  "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+  "createdAt": "2026-09-28T05:08:07Z",
+  "goal": "Allow only an exact PR-introduced archive and its exact default-branch merge transition to await formal close; preserve fail-closed behavior for older archives, mismatched PR events, direct pushes, and later unclosed states.",
+  "intent": "Repair the exact pre-merge CI lifecycle gate that blocks PR #997 because an archived Work Item cannot be formally closed before merge.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Task 9 migration of PowerShell",
+    " shell",
+    " Python",
+    " or any other non-Rust scripts.",
+    "Unrelated Task 8 findings",
+    " generic governance redesign",
+    " and unrelated CI changes.",
+    "Skipping required checks or creating a formal close decision before integration.",
+    "Release",
+    " version change",
+    " tag creation",
+    " or publication."
+  ],
+  "predecessorContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "predecessorWorkItemId": "WI-1036-task8-ci-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1036-task8-ci-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Only a pull_request merge checkout whose event base and head match the merge parents and whose diff introduces this archive is treated as awaiting_merge_close.",
+      "required": true,
+      "scenario": "exact PR-introduced archive awaits formal close",
+      "status": "unverified",
+      "verificationPlan": "Add an actual synthetic Git merge-ref fixture with exact event bindings; run the focused governance gate suite."
+    },
+    {
+      "evidence": [],
+      "expected": "Older unclosed archives and malformed, mismatched, direct-push, or non-PR contexts remain blocking.",
+      "required": true,
+      "scenario": "older or mismatched archive remains blocked",
+      "status": "unverified",
+      "verificationPlan": "Add negative fixture cases for old archive, wrong base/head, malformed event, direct push, and non-PR context; run the focused governance gate suite."
+    },
+    {
+      "evidence": [],
+      "expected": "The exact two-parent default-branch merge introducing the archive can pass the immediate transition; a later non-merge commit without a real close is blocked.",
+      "required": true,
+      "scenario": "exact default-branch merge transition is bounded",
+      "status": "unverified",
+      "verificationPlan": "Run the existing and new real-Git transition fixtures, including the immediate merge and subsequent direct commit cases."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Chinese, and Japanese parity rows point to the archived WI-1036 Contract and state archived but awaiting PR merge without claiming terminal completion.",
+      "required": true,
+      "scenario": "tri-language parity describes archived awaiting-merge state",
+      "status": "unverified",
+      "verificationPlan": "Update and inspect all three parity rows, then run bash tests/docs/documentation_acceptance.sh."
+    },
+    {
+      "evidence": [],
+      "expected": "Focused gate and documentation checks pass locally; hosted CI passes for the corrective head and PR #997 before integration.",
+      "required": true,
+      "scenario": "focused and hosted verification protects the exact change",
+      "status": "unverified",
+      "verificationPlan": "Run the declared focused checks and require hosted CI on exact corrective and PR #997 heads; do not release."
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-1037-task8-pr-lifecycle-gate.md",
+    "docs/work-items/WI-1037-task8-pr-lifecycle-gate.zh-CN.md",
+    "docs/work-items/WI-1037-task8-pr-lifecycle-gate.ja.md",
+    "docs/superpowers/plans/2026-09-28-wi-1037-pr-lifecycle-gate.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36377627838",
+    "https://github.com/xinglun/ai-cockpit/pull/997",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/reference/agent-workflow.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

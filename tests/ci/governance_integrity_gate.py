@@ -520,6 +520,116 @@ def merge_commit_introduces_archived_work_item(
     return any(line.split("\t", 1)[0] == "A" for line in diff.stdout.splitlines())
 
 
+def pull_request_merge_introduces_archived_work_item(
+    repo: Path, work_item: str
+) -> bool:
+    """Recognize only the exact PR merge checkout that adds an archived WI.
+
+    An ordinary archived Work Item has no provider finalization receipt before
+    merge.  Permit that one PR-check state only when the event payload, merge
+    ref, advertised SHA, Git parents, default branch, and archive-path diff all
+    identify the same integration.  Resource-bound archives continue through
+    their existing Contract-bound path.
+    """
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        return False
+    event_path_value = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_path_value:
+        return False
+    event_path = Path(event_path_value)
+    if event_path.is_symlink() or not event_path.is_file():
+        return False
+    try:
+        event = load_json(event_path)
+    except ValueError:
+        return False
+    repository = event.get("repository")
+    pull_request = event.get("pull_request")
+    if not isinstance(repository, dict) or not isinstance(pull_request, dict):
+        return False
+    default_branch = repository.get("default_branch")
+    event_number = event.get("number")
+    pull_request_number = pull_request.get("number")
+    base = pull_request.get("base")
+    head_ref = pull_request.get("head")
+    if not isinstance(base, dict) or not isinstance(head_ref, dict):
+        return False
+    base_branch = base.get("ref")
+    base_sha = base.get("sha")
+    pull_request_head = head_ref.get("sha")
+    if (
+        not isinstance(default_branch, str)
+        or not default_branch
+        or base_branch != default_branch
+        or not isinstance(event_number, int)
+        or isinstance(event_number, bool)
+        or event_number < 1
+        or not isinstance(pull_request_number, int)
+        or isinstance(pull_request_number, bool)
+        or pull_request_number != event_number
+        or not isinstance(head_ref.get("ref"), str)
+        or not head_ref["ref"]
+        or os.environ.get("GITHUB_REF") != f"refs/pull/{event_number}/merge"
+        or os.environ.get("GITHUB_BASE_REF") not in (None, base_branch)
+        or not isinstance(base_sha, str)
+        or re.fullmatch(r"[0-9a-f]{40}", base_sha) is None
+        or not isinstance(pull_request_head, str)
+        or re.fullmatch(r"[0-9a-f]{40}", pull_request_head) is None
+    ):
+        return False
+    checked_out_head = subprocess.run(
+        ["git", "rev-parse", "HEAD^{commit}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    head = checked_out_head.stdout.strip()
+    if (
+        checked_out_head.returncode != 0
+        or re.fullmatch(r"[0-9a-f]{40}", head) is None
+        or os.environ.get("GITHUB_SHA") != head
+    ):
+        return False
+    parents = subprocess.run(
+        ["git", "rev-list", "--parents", "-n1", head],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    ).stdout.strip().split()
+    if (
+        len(parents) != 3
+        or parents[0] != head
+        or parents[1] != base_sha
+        or parents[2] != pull_request_head
+    ):
+        return False
+    archive_path = f".ai/work-items/archive/{work_item}.contract.json"
+    archive_contract = repo / archive_path
+    if not archive_contract.is_file() or archive_contract.is_symlink():
+        return False
+    diff = subprocess.run(
+        [
+            "git",
+            "diff",
+            "--no-renames",
+            "--name-status",
+            base_sha,
+            head,
+            "--",
+            archive_path,
+        ],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if diff.returncode != 0:
+        return False
+    return any(line.split("\t", 1)[0] == "A" for line in diff.stdout.splitlines())
+
+
 def premerge_finalize_state(
     repo: Path, work_item: str, value: dict[str, Any]
 ) -> tuple[bool, str]:
@@ -2167,6 +2277,11 @@ def main() -> int:
                         / ".ai/work-items/archive"
                         / f"{work_item}.contract.json"
                     )
+                    resource_context_path = (
+                        repo
+                        / ".ai/decisions"
+                        / f"{work_item}.resource-context.json"
+                    )
                     if archived_contract_path.is_file() and not archived_contract_path.is_symlink():
                         archived_contract_digest = (
                             "sha256:"
@@ -2186,7 +2301,17 @@ def main() -> int:
                         else None
                     )
                     provider = context.get("provider") if isinstance(context, dict) else None
-                    if (
+                    ordinary_pr_transition = (
+                        context is None
+                        and not resource_context_path.exists()
+                        and not resource_context_path.is_symlink()
+                        and archived_contract_path.is_file()
+                        and not archived_contract_path.is_symlink()
+                        and pull_request_merge_introduces_archived_work_item(
+                            repo, work_item
+                        )
+                    )
+                    resource_bound_transition = (
                         isinstance(context, dict)
                         and isinstance(base_branch, str)
                         and base_branch
@@ -2199,7 +2324,8 @@ def main() -> int:
                                 repo, work_item, base_branch
                             )
                         )
-                    ):
+                    )
+                    if ordinary_pr_transition or resource_bound_transition:
                         record["lifecycleState"] = "awaiting_merge_close"
                     else:
                         record["lifecycleState"] = "closure_missing"

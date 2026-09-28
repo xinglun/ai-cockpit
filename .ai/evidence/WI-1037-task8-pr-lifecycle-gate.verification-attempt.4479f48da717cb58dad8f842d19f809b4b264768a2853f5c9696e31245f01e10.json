@@ -1,0 +1,172 @@
+{
+  "attemptId": "sha256:4479f48da717cb58dad8f842d19f809b4b264768a2853f5c9696e31245f01e10",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:c084ace04bc88ce0041f6a97caba48c5a58f73e0c6f326a434463981e7f8bd47",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "contractExecutionScopeDigest": "sha256:35f97e4453a28dacd91954b9c86f80fa76358054397a0ff8e18a1c6595a07517",
+  "createdAt": "2026-09-28T05:52:11Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:8a411239b5c4ca56fe364e54be535e8103cafa5f11b543490160ee508787dbd5",
+      "deadlineMs": 1790575019570,
+      "elapsedMs": 11663,
+      "exitCode": 1,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "4552524f523a20646f63732f776f726b2d6974656d732f57492d313033352d7461736b382d676f7665726e616e63652d6672696374696f6e2d72656d6564696174696f6e2e6d643a207465726d696e616c20576f726b204974656d2072657461696e7320636f6e646974696f6e616c20706172697479207374617475730a",
+      "stderrTruncated": false,
+      "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333138392c202266696c6573223a207b222e61692f524541444d452e6d64223a20313830342c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203733382c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313934322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333036367d2c2022726564756374696f6e4279746573223a20383839322c2022726564756374696f6e50657263656e74223a2034302e337d0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 11878,
+      "executionElapsedMs": 11663,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+      "runtimeVersion": "0.2.113",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 11878,
+    "executionElapsedMs": 11663,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:8a411239b5c4ca56fe364e54be535e8103cafa5f11b543490160ee508787dbd5",
+        "deadlineMs": 1790575019570,
+        "elapsedMs": 11663,
+        "exitCode": 1,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "4552524f523a20646f63732f776f726b2d6974656d732f57492d313033352d7461736b382d676f7665726e616e63652d6672696374696f6e2d72656d6564696174696f6e2e6d643a207465726d696e616c20576f726b204974656d2072657461696e7320636f6e646974696f6e616c20706172697479207374617475730a",
+        "stderrTruncated": false,
+        "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333138392c202266696c6573223a207b222e61692f524541444d452e6d64223a20313830342c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203733382c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313934322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333036367d2c2022726564756374696f6e4279746573223a20383839322c2022726564756374696f6e50657263656e74223a2034302e337d0a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 23,
+    "filesRead": 23,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/superpowers/plans/2026-09-28-wi-1037-pr-lifecycle-gate.md",
+        "docs/work-items/WI-1037-task8-pr-lifecycle-gate.ja.md",
+        "docs/work-items/WI-1037-task8-pr-lifecycle-gate.md",
+        "docs/work-items/WI-1037-task8-pr-lifecycle-gate.zh-CN.md",
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 11663,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c45fcf97981afdfb57b392aa1e5bb167b386b88f2bbf272677c223dd7e2fc06e",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:d469492457340ee67d83f1a14d6e9697c1780506c7018ab63b5c756f4ac26663",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+    "runtimeVersion": "0.2.113",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c45fcf97981afdfb57b392aa1e5bb167b386b88f2bbf272677c223dd7e2fc06e",
+  "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The human explicitly authorized completing the bounded Task 8 correction, merging and cleaning Task 8, then proceeding to Task 9; stop before release for human review. This receipt binds that authorization to WI-1037 and does not authorize release.",
+  "recordedAt": "2026-09-28T05:26:58Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
+  "schemaVersion": 1,
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

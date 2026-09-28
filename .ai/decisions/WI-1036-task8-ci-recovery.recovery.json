@@ -1,0 +1,30 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "Explicit user authorization in the current Codex task to complete Task 8 through PR merge and cleanup before starting Task 9, stopping before release.",
+  "decidedAt": "2026-09-28T05:05:39Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36377627838",
+    "https://github.com/xinglun/ai-cockpit/pull/997",
+    ".ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "predecessorEventsDigest": "sha256:75b1b405ad28660ca303ed9859eaaf8e7c3e1988ebac89dcd2d83ecd095e0a8f",
+  "predecessorOutcomeDigest": "sha256:b31c460e39fca740f01a69e2014b697527d1d10c902e113cd65bc68378fa4179",
+  "predecessorSummaryDigest": "sha256:47a5ed785c2dc2683d3b7f00954cf5f477f610d1d05085cdfef83345efecb05f",
+  "predecessorWorkItemId": "WI-1036-task8-ci-recovery",
+  "reason": "Exact-head required CI run 36377627838 blocks PR #997 only because docs_governance_integrity requires a close decision for archived WI-1036 before merge. The formal close follows merge; permit only the exact current PR pre-merge state while preserving post-merge close and parity checks. This successor is limited to that release-blocking lifecycle-gate defect.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Add lifecycle-gate regressions and the smallest correct implementation; preserve current and historical failure evidence; run focused tests and canonical CI on exact candidate heads; integrate through the Task 8 PR chain; close WI-1036 and resolve its predecessor lineage; only then start Task 9. Do not release, tag, or publish.",
+  "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1037-task8-pr-lifecycle-gate",
+  "workItemId": "WI-1036-task8-ci-recovery"
+}
