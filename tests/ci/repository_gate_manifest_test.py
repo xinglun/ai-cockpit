@@ -4,6 +4,7 @@ from __future__ import annotations
 import importlib.util
 import hashlib
 import json
+import os
 import signal
 import shlex
 import subprocess
@@ -212,6 +213,9 @@ assert runner.failure_code(
 # reject both a missing receipt and a receipt from another gate.
 with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temporary:
     receipt_fixture = Path(temporary)
+    receipt_environment = os.environ.copy()
+    receipt_environment.pop("AI_COCKPIT_GATE_STAGE", None)
+    receipt_environment.pop("AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST", None)
     missing_receipt = subprocess.run(
         [
             "bash",
@@ -223,6 +227,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temp
         check=False,
         capture_output=True,
         text=True,
+        env=receipt_environment,
     )
     assert missing_receipt.returncode != 0
     assert "invalid promotion receipt" in missing_receipt.stderr
@@ -258,6 +263,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temp
         check=False,
         capture_output=True,
         text=True,
+        env=receipt_environment,
     )
     assert wrong_gate.returncode != 0
     assert "gate identity is invalid" in wrong_gate.stderr
