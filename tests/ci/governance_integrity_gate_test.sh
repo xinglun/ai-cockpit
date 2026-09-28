@@ -1240,10 +1240,31 @@ subprocess.run(["git", "checkout", "-q", "main"], cwd=repo, check=True)
 subprocess.run(["git", "merge", "--no-ff", "-qm", "reviewed fixture merge", "codex/fixture"], cwd=repo, check=True)
 PY
 post_merge_transition_head="$(git -C "$post_merge_transition_repo" rev-parse HEAD)"
+post_merge_transition_event="$tmp/post-merge-transition-event.json"
+python3 - "$post_merge_transition_repo" "$post_merge_transition_head" "$post_merge_transition_event" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo, head, event_path = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3])
+parents = subprocess.run(
+    ["git", "rev-list", "--parents", "-n1", head],
+    cwd=repo,
+    check=True,
+    capture_output=True,
+    text=True,
+).stdout.split()
+event_path.write_text(
+    json.dumps({"before": parents[1], "after": head, "ref": "refs/heads/main"}) + "\n",
+    encoding="utf-8",
+)
+PY
 set +e
 GITHUB_EVENT_NAME=push \
 GITHUB_REF=refs/heads/main \
 GITHUB_SHA="$post_merge_transition_head" \
+GITHUB_EVENT_PATH="$post_merge_transition_event" \
 python3 "$gate" --repo "$post_merge_transition_repo" --report "$post_merge_transition_report" >/dev/null
 post_merge_transition_code=$?
 set -e
@@ -1308,6 +1329,247 @@ assert any(
 ), report["findings"]
 PY
 printf 'post-merge transition expiry regression passed\n'
+
+# Ordinary Work Items have no provider finalization receipt.  Only the exact
+# default-branch push merge that first introduces their archive may use the
+# short awaiting-merge-close transition; malformed identities and later
+# commits remain blocked.
+ordinary_base_repo="$tmp/ordinary-transition-base"
+build_fixture "$fixtures/awaiting-merge-close.json" "$ordinary_base_repo"
+ordinary_archive_commit="$(python3 - "$ordinary_base_repo" <<'PY'
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+work_item = "WI-901-corrective-after-baseline"
+subprocess.run(["git", "checkout", "-q", "main"], cwd=repo, check=True)
+contract_path = repo / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract.pop("resourceContext", None)
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+resource_decision = repo / ".ai/decisions" / f"{work_item}.finalize.json"
+resource_decision.unlink(missing_ok=True)
+subprocess.run(["git", "add", str(contract_path.relative_to(repo))], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "fixture ordinary archived contract"], cwd=repo, check=True)
+archive_commit = subprocess.run(
+    ["git", "rev-parse", "main"], cwd=repo, check=True, capture_output=True, text=True
+).stdout.strip()
+
+for relative in (
+    f".ai/work-items/archive/{work_item}.archive.json",
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/work-items/archive/{work_item}.outcome.json",
+    f".ai/work-items/archive/{work_item}.summary.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+):
+    (repo / relative).unlink(missing_ok=True)
+for relative in (
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+):
+    path = repo / relative
+    path.write_text(
+        "\n".join(
+            line for line in path.read_text(encoding="utf-8").splitlines()
+            if work_item not in line
+        ) + "\n",
+        encoding="utf-8",
+    )
+subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
+subprocess.run(["git", "commit", "-qm", "fixture base without ordinary archive"], cwd=repo, check=True)
+print(archive_commit)
+PY
+)"
+
+python3 - "$ordinary_base_repo" "$ordinary_archive_commit" "$gate" "$tmp" <<'PY'
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+base_repo = Path(sys.argv[1])
+archive_commit, gate = sys.argv[2:4]
+tmp = Path(sys.argv[4])
+work_item = "WI-901-corrective-after-baseline"
+restore_paths = [
+    f".ai/work-items/archive/{work_item}.archive.json",
+    f".ai/work-items/archive/{work_item}.contract.json",
+    f".ai/work-items/archive/{work_item}.outcome.json",
+    f".ai/work-items/archive/{work_item}.summary.json",
+    f".ai/evidence/{work_item}.verification.json",
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+
+def git(repo: Path, *args: str) -> str:
+    result = subprocess.run(
+        ["git", *args], cwd=repo, check=True, capture_output=True, text=True
+    )
+    return result.stdout.strip()
+
+def make_repo(name: str) -> Path:
+    target = tmp / name
+    shutil.copytree(base_repo, target)
+    return target
+
+def copy_repo(name: str, source: Path) -> Path:
+    target = tmp / name
+    shutil.copytree(source, target)
+    return target
+
+def add_archive_branch(repo: Path, branch: str) -> None:
+    git(repo, "checkout", "-qb", branch, "main")
+    git(repo, "checkout", archive_commit, "--", *restore_paths)
+    git(repo, "add", *restore_paths)
+    git(repo, "commit", "-qm", "fixture adds ordinary archived Work Item")
+
+def check(
+    repo: Path,
+    label: str,
+    expected_code: int,
+    expected_state: str,
+    expected_finding: bool,
+    advertised_sha: str | None,
+    ref: str = "refs/heads/main",
+    event_before_sha: str | None = None,
+    omit_event_before: bool = False,
+) -> None:
+    report_path = tmp / f"ordinary-{label}.json"
+    env = {key: value for key, value in os.environ.items() if not key.startswith("GITHUB_")}
+    env.update({"GITHUB_EVENT_NAME": "push", "GITHUB_REF": ref})
+    head = git(repo, "rev-parse", "HEAD")
+    parents = git(repo, "rev-list", "--parents", "-n1", head).split()
+    event = {"after": head, "ref": ref}
+    if not omit_event_before:
+        event["before"] = parents[1] if event_before_sha is None else event_before_sha
+    event_path = tmp / f"ordinary-{label}-event.json"
+    event_path.write_text(json.dumps(event) + "\n", encoding="utf-8")
+    env["GITHUB_EVENT_PATH"] = str(event_path)
+    if advertised_sha is not None:
+        env["GITHUB_SHA"] = advertised_sha
+    result = subprocess.run(
+        [sys.executable, gate, "--repo", str(repo), "--report", str(report_path)],
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == expected_code, (
+        label, result.returncode, result.stdout, result.stderr
+    )
+    report = __import__("json").loads(report_path.read_text(encoding="utf-8"))
+    item = next(row for row in report["inventory"] if row["workItemId"] == work_item)
+    assert item["lifecycleState"] == expected_state, (label, item)
+    has_missing = any(
+        finding["workItemId"] == work_item
+        and finding["code"] == "missing_terminal_decision"
+        for finding in report["findings"]
+    )
+    assert has_missing is expected_finding, (label, report["findings"])
+
+merge_repo = make_repo("ordinary-exact-merge")
+add_archive_branch(merge_repo, "codex/ordinary-archive")
+git(merge_repo, "checkout", "main")
+git(merge_repo, "merge", "--no-ff", "-m", "fixture ordinary archive merge", "codex/ordinary-archive")
+merge_head = git(merge_repo, "rev-parse", "HEAD")
+parents = git(merge_repo, "rev-list", "--parents", "-n1", "HEAD").split()
+assert len(parents) == 3 and parents[0] == merge_head, parents
+check(merge_repo, "exact-merge", 0, "awaiting_merge_close", False, merge_head)
+archive_path = f".ai/work-items/archive/{work_item}.contract.json"
+assert subprocess.run(
+    ["git", "cat-file", "-e", f"{archive_commit}:{archive_path}"],
+    cwd=merge_repo,
+    check=False,
+).returncode == 0, "the push-before fixture must contain the archived Contract"
+check(
+    merge_repo,
+    "stale-push-before-already-had-archive",
+    1,
+    "closure_missing",
+    True,
+    merge_head,
+    event_before_sha=archive_commit,
+)
+check(
+    merge_repo,
+    "missing-push-before",
+    1,
+    "closure_missing",
+    True,
+    merge_head,
+    omit_event_before=True,
+)
+check(
+    merge_repo,
+    "malformed-push-before",
+    1,
+    "closure_missing",
+    True,
+    merge_head,
+    event_before_sha="",
+)
+check(merge_repo, "mismatched-sha", 1, "closure_missing", True, "0" * 40)
+check(merge_repo, "missing-sha", 1, "closure_missing", True, None)
+check(merge_repo, "empty-sha", 1, "closure_missing", True, "")
+check(merge_repo, "wrong-default-branch", 1, "closure_missing", True, merge_head, "refs/heads/release")
+
+later_repo = copy_repo("ordinary-later-commit", merge_repo)
+git(later_repo, "checkout", "main")
+(later_repo / "later.txt").write_text("ordinary follow-up\n", encoding="utf-8")
+git(later_repo, "add", "later.txt")
+git(later_repo, "commit", "-qm", "fixture later ordinary main commit")
+check(later_repo, "later-commit", 1, "closure_missing", True, git(later_repo, "rev-parse", "HEAD"))
+
+old_archive_repo = copy_repo("ordinary-already-in-base", merge_repo)
+git(old_archive_repo, "checkout", "-qb", "codex/unrelated-after-archive", "main")
+(old_archive_repo / "unrelated.txt").write_text("unrelated\n", encoding="utf-8")
+git(old_archive_repo, "add", "unrelated.txt")
+git(old_archive_repo, "commit", "-qm", "fixture unrelated branch")
+git(old_archive_repo, "checkout", "main")
+git(old_archive_repo, "merge", "--no-ff", "-m", "fixture unrelated merge", "codex/unrelated-after-archive")
+check(old_archive_repo, "archive-already-in-base", 1, "closure_missing", True, git(old_archive_repo, "rev-parse", "HEAD"))
+
+one_parent_repo = make_repo("ordinary-one-parent-addition")
+git(one_parent_repo, "checkout", "main")
+git(one_parent_repo, "checkout", archive_commit, "--", *restore_paths)
+git(one_parent_repo, "add", *restore_paths)
+git(one_parent_repo, "commit", "-qm", "fixture one-parent archive addition")
+check(one_parent_repo, "one-parent", 1, "closure_missing", True, git(one_parent_repo, "rev-parse", "HEAD"))
+
+three_parent_repo = make_repo("ordinary-three-parent-merge")
+add_archive_branch(three_parent_repo, "codex/ordinary-archive-three-parent")
+git(three_parent_repo, "checkout", "-qb", "codex/ordinary-auxiliary", "main")
+(three_parent_repo / "auxiliary.txt").write_text("independent parent\n", encoding="utf-8")
+git(three_parent_repo, "add", "auxiliary.txt")
+git(three_parent_repo, "commit", "-qm", "fixture auxiliary parent")
+git(three_parent_repo, "checkout", "main")
+git(
+    three_parent_repo,
+    "merge",
+    "--no-ff",
+    "-m",
+    "fixture three-parent merge",
+    "codex/ordinary-archive-three-parent",
+    "codex/ordinary-auxiliary",
+)
+three_parent_head = git(three_parent_repo, "rev-parse", "HEAD")
+parents = git(three_parent_repo, "rev-list", "--parents", "-n1", "HEAD").split()
+assert len(parents) == 4 and parents[0] == three_parent_head, parents
+check(three_parent_repo, "three-parent", 1, "closure_missing", True, three_parent_head)
+PY
+printf 'ordinary mainline merge transition regressions passed\n'
 
 # An immutable retry is not a terminal decision.  Without a successor (or a
 # normal finalize/close chain), the gate must keep the predecessor open and

@@ -1,0 +1,98 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1039-task8-ordinary-merge-transition.preflight-review.ad316546d757f56e906b052557a032b527a89188b29ddf10e3528ac1bd400323.json",
+    ".ai/decisions/WI-1039-task8-ordinary-merge-transition.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.1972b02274c1f41d23425f82e08bad19d3b9a6f3f14a7aa1d7317ae7a161e4b3.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.456f3cf15527c04759ccb78dc59842cc23852a3fdea2d43851641d18daedb23d.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.4ed34efb8652bbd292a85bd8e8708043cd3d377ab0492595eab80d9f09f59b5d.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.55c234bfe590957933762787d5f7658c45c1bf7ad3111fb744b56d64af9291c6.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.d65ec19fc64fdfb67cc3e448afcb27c34981aefa4fc12ccc35350924076851aa.json",
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json",
+    ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.contract.json",
+    ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json",
+    "docs/superpowers/plans/2026-09-28-wi-1039-task8-ordinary-merge-transition.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-09-28T11:50:56Z",
+  "checkpointContractDigest": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5571147d46df982858a4dad54377929ce53a9ab743dc574c25a9ef9ece8b99be",
+      "recorded": true,
+      "recordedAt": "2026-09-28T11:50:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3991b9109d2b371737afb6c2590d9bd132a94cdf6b9b8bec5722d36d5054444e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1039-task8-ordinary-merge-transition"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5571147d46df982858a4dad54377929ce53a9ab743dc574c25a9ef9ece8b99be",
+      "previousContractHash": "sha256:5571147d46df982858a4dad54377929ce53a9ab743dc574c25a9ef9ece8b99be",
+      "reason": "Independent review found that exact merge HEAD identity did not bind the default branch push payload before SHA to the merge first parent. Add an explicit acceptance boundary for this in-scope lifecycle transition before the regression/fix pass.",
+      "recorded": true,
+      "recordedAt": "2026-09-28T12:24:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3991b9109d2b371737afb6c2590d9bd132a94cdf6b9b8bec5722d36d5054444e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1039-task8-ordinary-merge-transition"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d3aa3c10eb6d8405e72548eb4818c70781895b523c0b5770f9498a706b3ef35f",
+  "createdAt": "2026-09-28T11:26:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The Work Item owner explicitly authorized completing Task 8, including this in-scope corrective review fix, PR merge, and cleanup, and instructed the agent to stop before release for human review. This confirms the amended Contract for WI-1039 only; it does not authorize Task 9 or release now.",
+    "recordedAt": "2026-09-28T12:25:40Z",
+    "recordedBy": "human:xinglun",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3991b9109d2b371737afb6c2590d9bd132a94cdf6b9b8bec5722d36d5054444e",
+    "schemaVersion": 1,
+    "workItemId": "WI-1039-task8-ordinary-merge-transition"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1039-task8-ordinary-merge-transition.contract.json",
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh"
+    ],
+    "reason": "The intended user-visible benefit is that an ordinary Work Item merged directly to the actual default branch can reach its close transition when the push event, exact HEAD, and two-parent merge facts agree. The implementation preserves fail-closed behavior for wrong or later SHAs, old archive state, incorrect target branches, and the existing PR/resource-bound routes.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-28T12:34:22Z",
+  "preflightContractDigest": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d3aa3c10eb6d8405e72548eb4818c70781895b523c0b5770f9498a706b3ef35f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-28T12:37:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1039-task8-ordinary-merge-transition"
+}
