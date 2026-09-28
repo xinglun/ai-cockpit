@@ -570,7 +570,8 @@ def pull_request_merge_introduces_archived_work_item(
         or not isinstance(head_ref.get("ref"), str)
         or not head_ref["ref"]
         or os.environ.get("GITHUB_REF") != f"refs/pull/{event_number}/merge"
-        or os.environ.get("GITHUB_BASE_REF") not in (None, base_branch)
+        or os.environ.get("GITHUB_BASE_REF") != base_branch
+        or os.environ.get("GITHUB_HEAD_REF") != head_ref["ref"]
         or not isinstance(base_sha, str)
         or re.fullmatch(r"[0-9a-f]{40}", base_sha) is None
         or not isinstance(pull_request_head, str)
@@ -1596,6 +1597,7 @@ def recovery_successor_owns_parity_projection(
         except ValueError:
             return False
         scope = contract.get("scope")
+        changed_paths = summary.get("changedPaths")
         return (
             contract.get("workItemId") == successor
             and contract.get("predecessorWorkItemId") == predecessor
@@ -1604,6 +1606,10 @@ def recovery_successor_owns_parity_projection(
             and isinstance(scope, list)
             and required_paths.issubset(
                 {path for path in scope if isinstance(path, str)}
+            )
+            and isinstance(changed_paths, list)
+            and required_paths.issubset(
+                {path for path in changed_paths if isinstance(path, str)}
             )
         )
     return False

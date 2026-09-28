@@ -907,15 +907,23 @@ PY
 
 expect_pr_gate_code() {
   local name=$1 expected=$2 number=$3 event_path=$4 merge_sha=$5 report=$6
+  local base_ref=${7:-main}
+  local head_ref=${8:-codex/pr-introduced-archive}
+  local actual_sha=${9:-$merge_sha}
+  local actual_ref=${10:-refs/pull/$number/merge}
   local actual
+  local -a env_assignments=(
+    GITHUB_EVENT_NAME=pull_request
+    GITHUB_REF="$actual_ref"
+    GITHUB_SHA="$actual_sha"
+    GITHUB_EVENT_PATH="$event_path"
+  )
+  [[ "$base_ref" == unset ]] || env_assignments+=(GITHUB_BASE_REF="$base_ref")
+  [[ "$head_ref" == unset ]] || env_assignments+=(GITHUB_HEAD_REF="$head_ref")
   set +e
   env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
-    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
-    GITHUB_EVENT_NAME=pull_request \
-    GITHUB_REF="refs/pull/$number/merge" \
-    GITHUB_BASE_REF=main \
-    GITHUB_SHA="$merge_sha" \
-    GITHUB_EVENT_PATH="$event_path" \
+    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_HEAD_REF \
+    "${env_assignments[@]}" \
     python3 "$gate" --repo "$pr_event_repo" --report "$report" >/dev/null
   actual=$?
   set -e
@@ -953,6 +961,37 @@ pr_event_report="$tmp/pr-event-report.json"
 expect_pr_gate_code exact-introduced-archive 0 999 "$pr_event" "$pr_merge_sha" "$pr_event_report"
 assert_pr_lifecycle_finding "$pr_event_report" awaiting_merge_close none
 printf 'exact PR-introduced archive lifecycle regression passed\n'
+
+missing_base_ref_report="$tmp/pr-event-missing-base-ref-report.json"
+expect_pr_gate_code missing-base-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$missing_base_ref_report" unset codex/pr-introduced-archive
+assert_pr_lifecycle_finding "$missing_base_ref_report" closure_missing missing_terminal_decision
+
+mismatched_base_ref_report="$tmp/pr-event-mismatched-base-ref-report.json"
+expect_pr_gate_code mismatched-base-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_base_ref_report" release codex/pr-introduced-archive
+assert_pr_lifecycle_finding "$mismatched_base_ref_report" closure_missing missing_terminal_decision
+
+missing_head_ref_report="$tmp/pr-event-missing-head-ref-report.json"
+expect_pr_gate_code missing-head-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$missing_head_ref_report" main unset
+assert_pr_lifecycle_finding "$missing_head_ref_report" closure_missing missing_terminal_decision
+
+mismatched_head_ref_report="$tmp/pr-event-mismatched-head-ref-report.json"
+expect_pr_gate_code mismatched-head-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_head_ref_report" main codex/other-branch
+assert_pr_lifecycle_finding "$mismatched_head_ref_report" closure_missing missing_terminal_decision
+
+mismatched_sha_report="$tmp/pr-event-mismatched-sha-report.json"
+expect_pr_gate_code mismatched-github-sha 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_sha_report" main codex/pr-introduced-archive "$pr_head_sha"
+assert_pr_lifecycle_finding "$mismatched_sha_report" closure_missing missing_terminal_decision
+
+mismatched_merge_ref_report="$tmp/pr-event-mismatched-merge-ref-report.json"
+expect_pr_gate_code mismatched-merge-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_merge_ref_report" main codex/pr-introduced-archive "$pr_merge_sha" \
+  refs/pull/1000/merge
+assert_pr_lifecycle_finding "$mismatched_merge_ref_report" closure_missing missing_terminal_decision
 
 wrong_base_event="$tmp/pr-event-wrong-base.json"
 write_pr_event "$wrong_base_event" 999 "0000000000000000000000000000000000000000" "$pr_head_sha"
@@ -2461,8 +2500,7 @@ contract.update(
 summary = json.loads(
     (archive / f"{predecessor}.summary.json").read_text(encoding="utf-8")
 )
-summary.pop("changedPaths", None)
-summary.update({"workItemId": successor})
+summary.update({"changedPaths": parity_paths, "workItemId": successor})
 (active / f"{successor}.summary.json").write_text(
     json.dumps(summary, indent=2) + "\n", encoding="utf-8"
 )
@@ -2531,6 +2569,57 @@ predecessor = next(
 )
 assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
 PY
+
+# Contract scope alone is insufficient: the identity-bound Summary must also
+# declare every parity ledger owned by the selected successor.
+for summary_variant in missing partial; do
+    summary_repo="$tmp/postarchive-summary-$summary_variant"
+    summary_report="$tmp/postarchive-summary-$summary_variant-report.json"
+    cp -R "$recovered_repo" "$summary_repo"
+    python3 - "$summary_repo" "$summary_variant" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+variant = sys.argv[2]
+summary = repo / ".ai/work-items/active/WI-902-parity-projection-recovery.summary.json"
+value = json.loads(summary.read_text(encoding="utf-8"))
+parity_paths = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+if variant == "missing":
+    value.pop("changedPaths", None)
+else:
+    value["changedPaths"] = parity_paths[:2]
+summary.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+    set +e
+    env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+      -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_HEAD_REF \
+      python3 "$gate" --repo "$summary_repo" --report "$summary_report" >/dev/null
+    summary_code=$?
+    set -e
+    [[ "$summary_code" -eq 1 ]] || {
+      printf 'successor Summary %s parity paths: expected exit 1, got %s\n' \
+        "$summary_variant" "$summary_code" >&2
+      exit 1
+    }
+    python3 - "$summary_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    item for item in report["findings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
+]
+assert len(findings) == 3, findings
+PY
+done
 
 # A successor receipt must not waive a parity ledger outside its Contract.
 unowned_repo="$tmp/postarchive-unowned-parity-recovery"
