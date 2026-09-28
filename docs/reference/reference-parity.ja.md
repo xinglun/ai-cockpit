@@ -69,7 +69,7 @@ matrix は次の 4 state だけを使います。
 
 | Reference concern | Rust Runtime status | Evidence と boundary |
 | --- | --- | --- |
-| WI-1031-cross-wi-acceptance-corrections | In progress | Historical verification: `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; 選択された recovery: `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`。選択された successor lineage はまだ close されておらず、Runtime Outcome は yellow。 |
+| WI-1031-cross-wi-acceptance-corrections | Implemented | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json`; verification `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; close `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json`; recovery `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`. |
 | WI-1032-cross-wi-review-fixes | Replaced | Retirement receipt: `.ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json`; verification claim: `not_verified`; 元 evidence は保持。現在の[recovery successor](../work-items/WI-1033-cross-wi-review-fixes-recovery.ja.md)を参照。 |
 | WI-1033-cross-wi-review-fixes-recovery | Replaced | Retirement receipt: `.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.retirement.json`; verification claim: `not_verified`。選択された recovery receipt `.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.5d66bb6492ea66b7ea881b408e16bcc8aa1c285ec8eef509c4b91d11afe3e2b3.json` は archive 済みの WI-1034 successor を指し、その retirement は現在の Task 8 WI-1035 を指します。前駆のチェック結果は履歴としてのみ保持し、現在の受入証拠とはしません。 |
 | Reader-first entry と language switching | Implemented | root と route README は English、Simplified Chinese、日本語で相互リンクする。 |

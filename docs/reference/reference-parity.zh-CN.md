@@ -64,7 +64,7 @@ identity 及观察到的状态。同时保留 receipt 绑定的原因、证据�
 
 | 参考关注点 | Rust Runtime 状态 | 证据与边界 |
 | --- | --- | --- |
-| WI-1031-cross-wi-acceptance-corrections | 进行中 | 历史验证：`.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`；所选恢复决定：`.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`。所选后继链仍未关闭；Runtime Outcome 仍为黄色。 |
+| WI-1031-cross-wi-acceptance-corrections | 已实现 | [Work Item](../work-items/WI-1031-cross-wi-acceptance-corrections.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json`; verification `.ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json`; close `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json`; recovery `.ai/decisions/WI-1031-cross-wi-acceptance-corrections.recovery.json`. |
 | WI-1032-cross-wi-review-fixes | 已替代 | 退休回执：`.ai/decisions/WI-1032-cross-wi-review-fixes.retirement.json`；验证声明：`not_verified`；原 evidence 已保留。见当前[恢复后继项](../work-items/WI-1033-cross-wi-review-fixes-recovery.zh-CN.md)。 |
 | WI-1033-cross-wi-review-fixes-recovery | 已替代 | 退休回执：`.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.retirement.json`；验证声明：`not_verified`。所选恢复回执 `.ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.5d66bb6492ea66b7ea881b408e16bcc8aa1c285ec8eef509c4b91d11afe3e2b3.json` 指向已归档的 WI-1034 后继，其退休记录再指向当前 Task 8 WI-1035。前驱记录中的检查结果仅保留为历史，不是当前验收证据。 |
 | 面向读者的入口和语言切换 | 已实现 | 根 README 与 route README 在 English、简体中文和日本語之间互链。 |
