@@ -1,9 +1,46 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:34982fe00db626097bbd57fe086a3101d6a1f0a94a1b2c412dae1f970d67c71d",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:c084ace04bc88ce0041f6a97caba48c5a58f73e0c6f326a434463981e7f8bd47",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "contractExecutionScopeDigest": "sha256:35f97e4453a28dacd91954b9c86f80fa76358054397a0ff8e18a1c6595a07517",
   "createdAt": "2026-09-28T06:24:17Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:921f7cc8b7cccd46ef75b8c9b5f5788c543c61ea367b089a0add899e3410bf4a",
+      "deadlineMs": 1790576941646,
+      "elapsedMs": 15085,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "7b22626173656c696e654279746573223a2032323038312c202263757272656e744279746573223a2031333138392c202266696c6573223a207b222e61692f524541444d452e6d64223a20313830342c20222e61692f6167656e742d696e746572666163652e6a736f6e223a203733382c20224147454e54532e6d64223a20353633392c20226167656e74732f736b696c6c732f524541444d452e6d64223a20313934322c20226167656e74732f736b696c6c732f6f7264696e6172792d776f726b2d6974656d2e6d64223a20333036367d2c2022726564756374696f6e4279746573223a20383839322c2022726564756374696f6e50657263656e74223a2034302e337d0a776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a7265666572656e636520636f6d70617269736f6e206d6574616461746120636865636b207061737365640a67657474696e672d737461727465642073656d616e74696320636865636b73207061737365643a203133207472692d6c616e677561676520726f7574657320616e64203335207265666572656e6365207265636f7264730a76616c6964617465642032372063757272656e7420636f6d6d616e64206578616d706c65730a646f63756d656e746174696f6e20616363657074616e6365207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -115,10 +152,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-1037-task8-pr-lifecycle-gate"
   },
-  "receiptDigest": "sha256:f5b7b5092fd711f8fe8f116d5ef08e7518b2a9835a16e476d603e7b464dc0cc0",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
   "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
   "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-1037-task8-pr-lifecycle-gate"
 }
