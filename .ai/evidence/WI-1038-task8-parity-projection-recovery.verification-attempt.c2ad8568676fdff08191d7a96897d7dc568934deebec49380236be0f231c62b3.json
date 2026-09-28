@@ -1,0 +1,73 @@
+{
+  "attemptId": "sha256:c2ad8568676fdff08191d7a96897d7dc568934deebec49380236be0f231c62b3",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:f4755dc193ddefa98cb92ee4a2f70b8742953fed9e7bc02000bec218d70d9cea",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:f33f7387b5ae861e69113cd2352c363ab136b211599d3025942f3ef981a8450e",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:21473a24925a3631f16ff0819519fe931efd174019c2c452fdc812171ea4cbf0",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+  "contractExecutionScopeDigest": "sha256:136022433a5c78f74ea8c1de5d25cf93ae66022bdf11910c442cfabf4cb91992",
+  "createdAt": "2026-09-28T08:13:52Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1037-pr-lifecycle-gate/ai-cockpit/.ai/work-items/active/WI-1038-task8-parity-projection-recovery.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:150fa33455bf6eafaf0d8fc17e90920861903a7caf42447fbc48f32c00be1698",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1038-task8-parity-projection-recovery"
+}
