@@ -1,0 +1,190 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
+      "workItemId": "WI-1036-task8-ci-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.0d050d38ffea17405579b1728102e343f7dd0fb1df21719414c5ebd1ef229ae2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.1b176c69534b1a5e4278f3983881659046e0579600c1b5b0a545a4c2e0297ecd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/process_observer_test_runner_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_process_observer_test_runner.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/997",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:sei-rinn via Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review. at 2026-09-28T00:47:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Repair only the three CI failure classes observed on PR #997: composition process-state failures, closed Work Item documentation-promotion timing, and the CI manifest missing-receipt diagnostic. Preserve all required gates and evidence, integrate the fix, clean up, and stop before release."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1036-task8-ci-recovery"
+  },
+  "finalReportDigest": "sha256:6d7a30a7a841735ab7a8972181d40d2e672f345fc08fde22ccdc7692556bb136",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:25f0a7e9ce5fefca1f21243416e85221928a546e4fb4c24f808130a488f15242",
+    "branch": "codex/wi-1036-task8-ci-recovery",
+    "branchRef": "refs/heads/codex/wi-1036-task8-ci-recovery",
+    "capturedAt": "2026-09-28T10:33:00Z",
+    "contractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+    "headRevision": "92d31b7df1af2490620b4d95c7e73fc8f81a1df0",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "workItemId": "WI-1036-task8-ci-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit1",
+    "worktreeId": "sha256:1eb76d7b5da0a5dd5718c0361eb3504def0bbaf17ca2a16ea9bbc141f7908425",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1036-task8-ci-recovery/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:7ee23e29e7b5cfac82546590bc5dba8c195c7d8194518eef83029c4a29ee5439",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:sei-rinn",
+    "authoritySource": "Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review.",
+    "decidedAt": "2026-09-28T00:47:36Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/997",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+      ".ai/work-items/archive/WI-1036-task8-ci-recovery.archive.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #997 is merged as 481f728 and successor WI-1037/WI-1038 post-merge closure is being recorded. Record the authorized post-merge close. Preserve historical verification as not revalidated and user-visible benefit as unknown; this does not claim merge-commit CI green or authorize release.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-28T10:33:00Z",
+  "workItemId": "WI-1036-task8-ci-recovery"
+}

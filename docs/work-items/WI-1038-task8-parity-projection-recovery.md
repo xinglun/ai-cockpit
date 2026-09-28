@@ -4,9 +4,12 @@ workItemId: WI-1038-task8-parity-projection-recovery
 title: Task 8 parity projection recovery
 description: Repair the late immutable WI-1037 parity registration through its exact Runtime-bound successor, preserving the historical ordering warning and fail-closed behavior for unowned recovery.
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1038-task8-parity-projection-recovery
+terminalArchive: .ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1038-task8-parity-projection-recovery.close.json
 ---
 
 [简体中文](WI-1038-task8-parity-projection-recovery.zh-CN.md) · [日本語](WI-1038-task8-parity-projection-recovery.ja.md)

@@ -4,9 +4,12 @@ workItemId: WI-1037-task8-pr-lifecycle-gate
 title: Task 8 PR 生命周期门禁修正
 description: 仅修复阻碍 Task 8 收尾的 PR 生命周期门禁；合并并清理 Task 8 后进入 Task 9，在发布前停止。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1037-task8-pr-lifecycle-gate
+terminalArchive: .ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json
+terminalVerification: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json
+terminalDecision: .ai/decisions/WI-1037-task8-pr-lifecycle-gate.close.json
 ---
 
 [English](WI-1037-task8-pr-lifecycle-gate.md) · [日本語](WI-1037-task8-pr-lifecycle-gate.ja.md)

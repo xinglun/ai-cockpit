@@ -4,9 +4,12 @@ workItemId: WI-1036-task8-ci-recovery
 title: Task 8 CI 收尾
 description: 仅解决 PR #997 中观察到的三类 CI 失败，保留必需门禁，合并并清理 Task 8，在发布前停止。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1036-task8-ci-recovery
+terminalArchive: .ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1036-task8-ci-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1036-task8-ci-recovery.close.json
 ---
 
 [English](WI-1036-task8-ci-recovery.md) · [日本語](WI-1036-task8-ci-recovery.ja.md)

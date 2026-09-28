@@ -1,0 +1,260 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b806081524161286ca1b725ebdf332a73ff5e8eb8581684cbeb40a8b69261a97",
+      "workItemId": "WI-1038-task8-parity-projection-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1037-task8-pr-lifecycle-gate.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1038-task8-parity-projection-recovery.verification-attempt.5cebbd531f4695a24d77581b9d79b2e347589bec73b68d6e4b8b296ff46ce646.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1038-task8-parity-projection-recovery.verification-attempt.c2ad8568676fdff08191d7a96897d7dc568934deebec49380236be0f231c62b3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1038-task8-parity-projection-recovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-28-wi-1038-parity-projection-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1038-task8-parity-projection-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1038-task8-parity-projection-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1038-task8-parity-projection-recovery.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/997",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:sei-rinn via Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review. at 2026-09-28T00:47:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "All three language ledgers accurately represent archived-but-awaiting-merge status while preserving predecessor archive/evidence bytes; focused and exact-head hosted gates pass so the Task 8 PR can merge."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1038-task8-parity-projection-recovery"
+  },
+  "finalReportDigest": "sha256:59dc478d08db2cb77b272308daac0e3980db5a77bd3f1aa148013a83d1d990ab",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:befe7c67ec1662a42c34e3f437dcad7bbff82fd5f0b9f9e7ee36532d637531f9",
+    "branch": "codex/wi-1037-pr-lifecycle-gate",
+    "branchRef": "refs/heads/codex/wi-1037-pr-lifecycle-gate",
+    "capturedAt": "2026-09-28T10:31:43Z",
+    "contractDigest": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+    "headRevision": "6ef8ed0aff8a97599c1638dae44b43b504232513",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "workItemId": "WI-1038-task8-parity-projection-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit2",
+    "worktreeId": "sha256:8faf0d963ff568fe17f9f272ed070a51e0fdcd370f153f4cac2e55b8a80c96fe",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1037-pr-lifecycle-gate/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:cb101dd486a45f9e06611d2da95cf250ad73bb8fba670551d6b2e8e962918d44",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:sei-rinn",
+    "authoritySource": "Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review.",
+    "decidedAt": "2026-09-28T00:47:36Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/997",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+      ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.archive.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #997 is merged as 481f728. Record the authorized post-merge close for this archived Task 8 successor. Preserve historical verification as not revalidated and the undeclared user-visible benefit as unknown; this decision does not claim CI green or authorize release.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-28T10:31:43Z",
+  "workItemId": "WI-1038-task8-parity-projection-recovery"
+}
