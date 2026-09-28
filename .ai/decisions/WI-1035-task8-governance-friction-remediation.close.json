@@ -1,0 +1,197 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b709063aede94c9c7d6467efd53a501745a2a64ab427791b49eebc21b6ed8a2c",
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.0f95284cbce0c980e05ef12a35b765a1d41d91342fa85eb6f164bdf464a5ad3d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.509c94db758c8e37fc320ab20d2d9b7bdc19900bd5ada3a7d5c19ee8014e6403.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.65c609a72a73d31615b36186a8c881aba3fa7e54ea671fa30d59d56896fca8db.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.7cf409e63549e217cf50059b24db29babc700c29083c7c0ee586e823bfcf9613.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.8daf16728339a69ed29a16b2a91f814bf1b1059eac973c3a1ff0d769e8c70280.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.93dbfca14805fc1e92ff30c63157e4c7967ae1082a71258af39a108b3191ef6f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.dd5f3bfcda198432ee38df6992dcb6a8390ea25776bf8e830999bef6fd07094a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user (current conversation) via Explicit user instruction authorizing completion of Task 8, PR merge, and cleanup, with a stop before release for comprehensive review. at 2026-09-28T00:47:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json"
+          ],
+          "inference": false,
+          "text": "形成可由 Runtime 真实准入、执行、恢复、发现和验收的跨 WI 协作闭环；所有 19 项均有本轮回归或真实 CI 证据；合并清理后停在用户全面 review 和 release 决定之前。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1035-task8-governance-friction-remediation"
+  },
+  "finalReportDigest": "sha256:e2ce7e913936e4b789323e31140add02dad15666cadb4c1c8cf429c2cde77629",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:1e53a412730ce99a9627adfe0c45cbeca5a4dbebfbe827f8ed460d1944189805",
+    "branch": "codex/wi-1035-task8-governance-friction-remediation",
+    "branchRef": "refs/heads/codex/wi-1035-task8-governance-friction-remediation",
+    "capturedAt": "2026-09-28T00:47:47Z",
+    "contractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+    "headRevision": "49a932cc857c786697cc15d18eb771624f88f648",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:b288d968a00b22c54898336f2c1e3d20229a925875c0161178ee4faaf97df550",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "workItemId": "WI-1035-task8-governance-friction-remediation",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:617f0307b22125e4734772184c309ba40e1d78bdaed0eecabe2e8bd85eb39d50",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:cbd59537cb3fec723cf36a42cc1128f0d0f1aa485455764f526fd2b5fa7e35a4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user (current conversation)",
+    "authoritySource": "Explicit user instruction authorizing completion of Task 8, PR merge, and cleanup, with a stop before release for comprehensive review.",
+    "decidedAt": "2026-09-28T00:47:36Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json"
+    ],
+    "policyRefs": [],
+    "reason": "Confirm only the user-authorized lifecycle closure. This does not claim the user has completed the comprehensive review, does not resolve the undeclared user-visible-benefit unknown, and does not authorize release.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-28T00:47:47Z",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}
