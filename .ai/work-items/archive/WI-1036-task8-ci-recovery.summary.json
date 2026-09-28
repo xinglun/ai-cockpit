@@ -63,11 +63,12 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.ab24a3c592e64335f440296ef7305ed3007f0b68c54d1ba0b1a8ef34080a5889.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.b8fce52be6f7c71ff5004c458fb9d3c3600577fd515c8c202b5c1b944bde67b5.json",
     ".ai/evidence/WI-1036-task8-ci-recovery.verification.json",
-    ".ai/work-items/active/WI-1036-task8-ci-recovery.outcome.json",
-    ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json",
-    ".ai/work-items/active/WI-1036-task8-ci-recovery.task-report.json",
+    ".ai/work-items/archive/WI-1036-task8-ci-recovery.outcome.json",
+    ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json",
+    ".ai/work-items/archive/WI-1036-task8-ci-recovery.task-report.json",
     "tests/ci/process_observer_test_runner_test.sh",
     "tests/ci/run_workspace_package_tests.sh"
   ],
@@ -130,7 +131,7 @@
       "workItemId": "WI-1036-task8-ci-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f3e238140daa37fa84bd66f54120b0aa7c5e791311544609fc5e11409a45f51b",
+  "checkpointRepositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
   "createdAt": "2026-09-28T01:32:14Z",
   "intentAlignment": {
     "evidence": [
@@ -143,10 +144,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
   "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
-  "preflightAt": "2026-09-28T03:47:45Z",
+  "preflightAt": "2026-09-28T04:17:08Z",
   "preflightContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:f3e238140daa37fa84bd66f54120b0aa7c5e791311544609fc5e11409a45f51b",
+  "preflightRepositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",

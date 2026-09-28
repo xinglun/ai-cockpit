@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f3e238140daa37fa84bd66f54120b0aa7c5e791311544609fc5e11409a45f51b",
+    "repositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
     "workItemId": "WI-1036-task8-ci-recovery"
   },
   "format": "ai-cockpit.task-outcome",
@@ -15,49 +15,49 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.0d050d38ffea17405579b1728102e343f7dd0fb1df21719414c5ebd1ef229ae2.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.1b176c69534b1a5e4278f3983881659046e0579600c1b5b0a545a4c2e0297ecd.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1036-task8-ci-recovery.verification.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: tests/ci/process_observer_test_runner_test.sh"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: tests/ci/run_process_observer_test_runner.sh"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
@@ -116,7 +116,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.contract.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json"
         ],
         "inference": false,
         "text": "Repair only the three CI failure classes observed on PR #997: composition process-state failures, closed Work Item documentation-promotion timing, and the CI manifest missing-receipt diagnostic. Preserve all required gates and evidence, integrate the fix, clean up, and stop before release."
@@ -125,7 +125,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1036-task8-ci-recovery.contract.json"
+          ".ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
