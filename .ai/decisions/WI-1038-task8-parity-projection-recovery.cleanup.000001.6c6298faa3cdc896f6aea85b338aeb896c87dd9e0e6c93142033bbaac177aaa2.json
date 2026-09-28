@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:cb101dd486a45f9e06611d2da95cf250ad73bb8fba670551d6b2e8e962918d44",
+  "branchRef": "refs/heads/codex/wi-1037-pr-lifecycle-gate",
+  "contractDigest": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+  "headRevision": "6ef8ed0aff8a97599c1638dae44b43b504232513",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-28T14:55:35Z",
+  "operationId": "sha256:8bc5729a34dfa66d16e4cfa7e581660319ac911d927bbd69841f035a65b999c7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1038-task8-parity-projection-recovery",
+  "worktreeId": "sha256:8faf0d963ff568fe17f9f272ed070a51e0fdcd370f153f4cac2e55b8a80c96fe"
+}

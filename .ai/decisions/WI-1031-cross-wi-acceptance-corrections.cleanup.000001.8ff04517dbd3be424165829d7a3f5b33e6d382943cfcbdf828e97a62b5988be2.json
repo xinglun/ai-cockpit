@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:709cb29ef124b793b7c2da5f9767f5b3170a7b272b8c17cdcc7f92b4f188ab76",
+  "branchRef": "refs/heads/codex/wi-cross-wi-acceptance-corrections",
+  "contractDigest": "sha256:b9083f7d7ace886c1dcb258421ac341083ffadffb4e23193861de53e88b5d47c",
+  "headRevision": "d2fb05acb7153aeefa29c71609e5a3c9ec0b1878",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-28T14:55:25Z",
+  "operationId": "sha256:aba1fd6c6ce691315c0e5d0c0a49bf429e6ff4f35ba03b356b6310a344d3ef5b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1031-cross-wi-acceptance-corrections",
+  "worktreeId": "sha256:33e14a6d2d3c9b208435409bf9fa62323c39aa909329db2ecdf0395b96324b12"
+}
