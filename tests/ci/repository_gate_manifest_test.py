@@ -346,6 +346,104 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert report["route"]["receiptDigest"] == receipt["receiptDigest"]
     assert [gate["id"] for gate in report["gates"]] == ["fixture_true"]
 
+    # Terminal documentation projection is post-merge work: the PR route must
+    # expose deferred gates without claiming they passed, while retaining the
+    # ordinary documentation acceptance checks and requiring all three gates
+    # on the synchronized-main route.
+    stage_manifest = json.loads(fixture_manifest.read_text(encoding="utf-8"))
+    stage_manifest["gates"] = sorted([
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] == 'merge'",
+                "promotion",
+            ],
+            "id": "docs_closed_work_item_promotion",
+            "minimumProfile": "light",
+        },
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] in {'pull_request', 'merge'}",
+                "documentation-acceptance",
+            ],
+            "dependsOn": ["docs_closed_work_item_promotion"],
+            "id": "docs_acceptance",
+            "minimumProfile": "light",
+        },
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] == 'merge'",
+                "status-consistency",
+            ],
+            "id": "docs_work_item_status_consistency",
+            "minimumProfile": "light",
+        },
+    ], key=lambda gate: gate["id"])
+    stage_manifest_path = fixture / "stage-manifest.json"
+    stage_manifest_path.write_text(
+        json.dumps(stage_manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    def run_stage_route(stage: str) -> dict[str, object]:
+        stage_receipt = route.plan_repository_route(
+            repository=repository,
+            manifest_path=stage_manifest_path,
+            base=base,
+            head=head,
+            stage=stage,
+            risk="normal",
+            contract_path=None,
+            requested_profile=None,
+        )
+        stage_receipt_path = fixture / f"{stage}-route.json"
+        stage_receipt_path.write_text(
+            json.dumps(stage_receipt, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        stage_report_path = fixture / f"{stage}-report.json"
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(root / "tests/ci/run_repository_gates.py"),
+                "--repo",
+                str(repository),
+                "--manifest",
+                str(stage_manifest_path),
+                "--route-receipt",
+                str(stage_receipt_path),
+                "--report",
+                str(stage_report_path),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert completed.returncode == 0, completed.stdout + completed.stderr
+        return json.loads(stage_report_path.read_text(encoding="utf-8"))
+
+    premerge_report = run_stage_route("pull_request")
+    premerge_states = {gate["id"]: gate["state"] for gate in premerge_report["gates"]}
+    assert premerge_report["state"] == "passed"
+    assert premerge_states["docs_closed_work_item_promotion"] == "not_applicable"
+    assert premerge_states["docs_work_item_status_consistency"] == "not_applicable"
+    assert premerge_states["docs_acceptance"] == "passed"
+    assert premerge_report["launchedGateIds"] == ["docs_acceptance"]
+
+    merge_report = run_stage_route("merge")
+    merge_states = {gate["id"]: gate["state"] for gate in merge_report["gates"]}
+    assert merge_report["state"] == "passed"
+    assert all(state == "passed" for state in merge_states.values())
+    assert set(merge_report["launchedGateIds"]) == set(merge_states)
+
     # A non-light Contract route must carry a green Rust Contract gate report
     # bound to the same Contract file, base revision, repository identity, and
     # provider stage before command execution is accepted.
@@ -886,7 +984,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         manifest_path=single_promotion_manifest,
         base=base,
         head=head,
-        stage="pull_request",
+        stage="merge",
         risk="normal",
         contract_path=None,
         requested_profile=None,

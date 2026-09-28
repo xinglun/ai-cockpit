@@ -1,0 +1,219 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A01",
+      "evidence": [
+        {
+          "locator": "36 composition integration tests passed under the cross-process observer runner; see .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.40ccb75a4b8bcbbdba5b36326040f35cb50d64563200088ed170d52d91361251.json",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A02",
+      "evidence": [
+        {
+          "locator": "pull_request emits explicit not_applicable projection gates; merge stage executes promotion and status consistency",
+          "path": "tests/ci/run_repository_gates.py",
+          "type": "implementation",
+          "verification": "passed"
+        },
+        {
+          "locator": "stage-specific route regression passed; see .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json",
+          "path": "tests/ci/repository_gate_manifest_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A03",
+      "evidence": [
+        {
+          "locator": "missing receipt reaches invalid promotion receipt diagnostic; see .ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json",
+          "path": "tests/ci/repository_gate_manifest_test.py",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A04",
+      "evidence": [
+        {
+          "locator": "original exact-head CI failure preserved; targeted correction checks and required CI revalidation pending",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/36363705256",
+          "type": "workflow_run",
+          "verification": "observed_failure; required local checks passed; exact-head CI revalidation pending"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A05",
+      "evidence": [
+        {
+          "locator": "exact-head corrective integration, PR merge, authorized cleanup, then Task 9 start",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/997",
+          "type": "pull_request",
+          "verification": "pending"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.22c302a8d6e3b6f8cf85a52d27db88d9165d5b189b5cbeef52f076aec13642d5.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.36914ce6d06e041f6cc15c8ea3c28dc78c857795f972ecc742ad8aa99253a278.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.40ccb75a4b8bcbbdba5b36326040f35cb50d64563200088ed170d52d91361251.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.988908a40662b72269fa6ca81b32d3ad79b55739f6cb46551a50185946257b75.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f24479268f4579d62fa3588a6c8d92ff1ecbf493bf74da09565c0d7570334dbb.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json",
+    ".ai/evidence/WI-1036-task8-ci-recovery.verification.json",
+    ".ai/work-items/active/WI-1036-task8-ci-recovery.contract.json",
+    ".ai/work-items/active/WI-1036-task8-ci-recovery.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1036-task8-ci-recovery.ja.md",
+    "docs/work-items/WI-1036-task8-ci-recovery.md",
+    "docs/work-items/WI-1036-task8-ci-recovery.zh-CN.md",
+    "tests/ci/process_observer_test_runner_test.sh",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/run_process_observer_test_runner.sh",
+    "tests/ci/run_repository_gates.py",
+    "tests/docs/documentation_acceptance.sh"
+  ],
+  "checkpointAt": "2026-09-28T01:48:28Z",
+  "checkpointContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ce8c17ab6f2ce5d98f70b770f72dfe69198b1dc2482e79b6f8f190bbd60a15de",
+      "recorded": true,
+      "recordedAt": "2026-09-28T01:48:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:74f58d70840f51c04a474cc08aea590657de97d7d290887ffdf1496187bbb4bc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1036-task8-ci-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:345fe74644399ff458ce0d8480f153db191cbdf12185bd35bd967c03f50004d1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce8c17ab6f2ce5d98f70b770f72dfe69198b1dc2482e79b6f8f190bbd60a15de",
+      "previousContractHash": "sha256:ce8c17ab6f2ce5d98f70b770f72dfe69198b1dc2482e79b6f8f190bbd60a15de",
+      "reason": "A02 is already an accepted Task 8 CI recovery criterion; the gate runner must defer only post-merge projection checks on pull requests and still execute them on merge-stage CI.",
+      "recorded": true,
+      "recordedAt": "2026-09-28T02:27:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:85031d9430f02655bab2a4cb94e4009b3481295432d46299d678920ca2935f04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1036-task8-ci-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce8c17ab6f2ce5d98f70b770f72dfe69198b1dc2482e79b6f8f190bbd60a15de",
+      "previousContractHash": "sha256:345fe74644399ff458ce0d8480f153db191cbdf12185bd35bd967c03f50004d1",
+      "reason": "The A01 cross-process ownership fix requires changing the existing Cargo test runner; adding this one implementation file keeps the accepted process-observer CI failure fix within the current WI scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-28T02:30:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:54780f493f78a1932af286bc20913a181be8dc98550388e0152d5355c29312a8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1036-task8-ci-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+  "createdAt": "2026-09-28T01:32:14Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1036-task8-ci-recovery.contract.json",
+      "docs/work-items/WI-1036-task8-ci-recovery.md",
+      ".ai/evidence/WI-1036-task8-ci-recovery.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "preflightAt": "2026-09-28T02:47:02Z",
+  "preflightContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.40ccb75a4b8bcbbdba5b36326040f35cb50d64563200088ed170d52d91361251.json"
+      ],
+      "expected": "A real possible owner continues to block unsafe cleanup or reuse; an unrelated inaccessible process does not create a false ownership result.",
+      "required": true,
+      "scenario": "The composition observer distinguishes a real live-worktree owner from an unrelated process whose descriptors are inaccessible.",
+      "status": "verified",
+      "verificationPlan": "Add the smallest regression reproducing the reported process-state failure, then run the focused cockpit-verification composition tests serially."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json"
+      ],
+      "expected": "Pre-merge validation does not demand the post-merge projection, while the synchronized-main promotion check remains mandatory.",
+      "required": true,
+      "scenario": "Documentation promotion respects the pre-merge versus synchronized-main lifecycle boundary.",
+      "status": "verified",
+      "verificationPlan": "Add a manifest/promotion regression for both lifecycle stages and run the focused documentation-promotion test."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1036-task8-ci-recovery.verification-attempt.f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba.json"
+      ],
+      "expected": "An isolated missing-receipt fixture fails with the invalid-promotion-receipt diagnostic regardless of unrelated repository documentation state.",
+      "required": true,
+      "scenario": "A missing promotion receipt reaches its intended deterministic negative-case diagnostic.",
+      "status": "verified",
+      "verificationPlan": "Run the repository gate manifest regression against an isolated fixture containing the missing receipt case."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-28T02:49:38.138523+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ec1b0b955ecb612d8b09d264be50ba6daf4bc3ffe119f8a86fa4dc6ed76bbed2",
+  "workItemId": "WI-1036-task8-ci-recovery"
+}

@@ -1,0 +1,168 @@
+{
+  "attemptId": "sha256:f7e0bd988402c1ee1c8ecf55b8054c1e8f8a7c82095bf1b0bd82e353dd3f3aba",
+  "commands": [
+    {
+      "args": [],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:124fad1b9599efbe3d8c6be8020c0dcfe17c40bcb7e2d264f2eb16ebc9d06a60",
+      "nodeId": "project-command-0",
+      "program": "tests/ci/repository_gate_manifest_test.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "contractExecutionScopeDigest": "sha256:13d9aa309d5538d13dc8ad1b93bb89bf2cabb59a389a79819c7aa6bdd549a3eb",
+  "createdAt": "2026-09-28T02:37:49Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:619066d5fd9b44f17cc3eb5d01bbd83c2cb6b3ba566828601bc3aaca6fe52e36",
+      "deadlineMs": 1790563362666,
+      "elapsedMs": 6174,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "7265706f7369746f7279206761746520666978747572655f747275653a207061737365640a7265706f7369746f7279206761746520666978747572655f747275653a207061737365640a7265706f7369746f72792067617465206d616e69666573742072656772657373696f6e207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 6418,
+      "executionElapsedMs": 6174,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+      "runtimeVersion": "0.2.113",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 6418,
+    "executionElapsedMs": 6174,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:619066d5fd9b44f17cc3eb5d01bbd83c2cb6b3ba566828601bc3aaca6fe52e36",
+        "deadlineMs": 1790563362666,
+        "elapsedMs": 6174,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "7265706f7369746f7279206761746520666978747572655f747275653a207061737365640a7265706f7369746f7279206761746520666978747572655f747275653a207061737365640a7265706f7369746f72792067617465206d616e69666573742072656772657373696f6e207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 29,
+    "filesRead": 29,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-1036-task8-ci-recovery.ja.md",
+        "docs/work-items/WI-1036-task8-ci-recovery.md",
+        "docs/work-items/WI-1036-task8-ci-recovery.zh-CN.md",
+        "tests/ci/process_observer_test_runner_test.sh",
+        "tests/ci/repository_gate_manifest_test.py",
+        "tests/ci/run_process_observer_test_runner.sh",
+        "tests/ci/run_repository_gates.py",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 6174,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1036-task8-ci-recovery"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:83cde8e5caaaa808020a2ed3a2c67122a8afc9d95d26ca08321d444257a1e818",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+    "runtimeVersion": "0.2.113",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1036-task8-ci-recovery"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4bf3cbfa10f9ea51650516beadc44e174b65ff7e684ef98c103858f0458fb22f",
+  "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-1036-task8-ci-recovery"
+}
