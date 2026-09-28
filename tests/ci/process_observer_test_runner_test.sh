@@ -122,6 +122,57 @@ fi
 jq -e '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("configured Cargo target runner"))' \
   "$tmp/workspace-configured-runner-report.json" >/dev/null
 
+# A conflicting runner in a recursively included Cargo config must not be
+# hidden when the package gate injects the process-observer runner.
+mkdir -p "$tmp/cargo-home-included/nested"
+printf '%s\n' \
+  'include = ["nested/first.toml"]' \
+  >"$tmp/cargo-home-included/config.toml"
+printf '%s\n' \
+  'include = ["../runner.toml"]' \
+  >"$tmp/cargo-home-included/nested/first.toml"
+printf '%s\n' \
+  "[target.'cfg(unix)']" \
+  "runner = \"$tmp/bin/custom-cargo-runner\"" \
+  >"$tmp/cargo-home-included/runner.toml"
+if CARGO_HOME="$tmp/cargo-home-included" \
+  RUSTC="$fake_rustc" \
+  EXPECTED_RUNNER="$runner" \
+  WORKSPACE_TEST_WORKERS=1 \
+  WORKSPACE_TEST_THREADS=4 \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/workspace-metadata.json" \
+    --cargo "$fake_cargo" \
+    --report "$tmp/workspace-included-runner-report.json"; then
+  printf 'workspace package runner silently replaced a Cargo runner from an included config\n' >&2
+  exit 1
+fi
+jq -e \
+  '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("configured Cargo target runner") and contains("runner.toml"))' \
+  "$tmp/workspace-included-runner-report.json" >/dev/null
+
+# An optional include may be absent, but an existing directory is not a
+# configuration file and must fail closed instead of being treated as absent.
+mkdir -p "$tmp/cargo-home-optional-directory/not-a-config.toml"
+printf '%s\n' \
+  'include = [{ path = "not-a-config.toml", optional = true }]' \
+  >"$tmp/cargo-home-optional-directory/config.toml"
+if CARGO_HOME="$tmp/cargo-home-optional-directory" \
+  RUSTC="$fake_rustc" \
+  EXPECTED_RUNNER="$runner" \
+  WORKSPACE_TEST_WORKERS=1 \
+  WORKSPACE_TEST_THREADS=4 \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/workspace-metadata.json" \
+    --cargo "$fake_cargo" \
+    --report "$tmp/workspace-optional-directory-report.json"; then
+  printf 'workspace package runner treated an existing directory as an absent optional Cargo include\n' >&2
+  exit 1
+fi
+jq -e \
+  '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("included Cargo configuration is missing or not a regular file"))' \
+  "$tmp/workspace-optional-directory-report.json" >/dev/null
+
 # Process-observer targets scan process state outside their own test binary.
 # They must wait for package tests holding shared locks, even when Cargo runs
 # separate package binaries concurrently.

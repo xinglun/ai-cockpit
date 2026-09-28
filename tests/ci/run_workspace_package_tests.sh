@@ -451,16 +451,59 @@ cargo_home = Path(os.environ.get("CARGO_HOME") or (Path.home() / ".cargo"))
 config_files.extend((cargo_home / "config.toml", cargo_home / "config"))
 
 seen = set()
-for config_path in config_files:
+
+def inspect_config(config_path, *, required=False):
     resolved_path = config_path.resolve()
-    if resolved_path in seen or not config_path.is_file():
-        continue
+    if resolved_path in seen:
+        return
+    if not config_path.is_file():
+        if required:
+            print(f"included Cargo configuration is missing or not a regular file: {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        return
     seen.add(resolved_path)
     try:
         configuration = tomllib.loads(config_path.read_text(encoding="utf-8"))
     except (OSError, tomllib.TOMLDecodeError) as error:
         print(f"cannot inspect Cargo configuration {config_path}: {error}", file=sys.stderr)
         raise SystemExit(1)
+
+    includes = configuration.get("include", [])
+    if not isinstance(includes, list):
+        print(f"Cargo include configuration is not an array in {config_path}", file=sys.stderr)
+        raise SystemExit(1)
+    for include in includes:
+        optional = False
+        if isinstance(include, str):
+            include_path = include
+        elif isinstance(include, dict):
+            if set(include) - {"path", "optional"}:
+                print(f"Cargo include entry has unsupported fields in {config_path}", file=sys.stderr)
+                raise SystemExit(1)
+            include_path = include.get("path")
+            optional = include.get("optional", False)
+            if not isinstance(optional, bool):
+                print(f"Cargo include optional flag is not a boolean in {config_path}", file=sys.stderr)
+                raise SystemExit(1)
+        else:
+            print(f"Cargo include entry is not a path or table in {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        if not isinstance(include_path, str) or not include_path.endswith(".toml"):
+            print(f"Cargo include path is invalid in {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        included_config = Path(include_path)
+        if not included_config.is_absolute():
+            included_config = config_path.parent / included_config
+        if optional:
+            try:
+                included_config.stat()
+            except FileNotFoundError:
+                continue
+            except OSError as error:
+                print(f"cannot inspect optional Cargo configuration {included_config}: {error}", file=sys.stderr)
+                raise SystemExit(1)
+        inspect_config(included_config, required=True)
+
     targets = configuration.get("target", {})
     if not isinstance(targets, dict):
         print(f"Cargo target configuration is not a table in {config_path}", file=sys.stderr)
@@ -484,6 +527,9 @@ for config_path in config_files:
                 file=sys.stderr,
             )
             raise SystemExit(1)
+
+for config_path in config_files:
+    inspect_config(config_path)
 PY
         )
         runner_config_status=$?
