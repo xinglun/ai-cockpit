@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:7ee23e29e7b5cfac82546590bc5dba8c195c7d8194518eef83029c4a29ee5439",
+  "branchRef": "refs/heads/codex/wi-1036-task8-ci-recovery",
+  "contractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "headRevision": "92d31b7df1af2490620b4d95c7e73fc8f81a1df0",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-28T14:55:35Z",
+  "operationId": "sha256:d63d44acaedee6f2dfc97ce15232c4c1c50385a210577f510dc0432932f7ab2f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1036-task8-ci-recovery",
+  "worktreeId": "sha256:1eb76d7b5da0a5dd5718c0361eb3504def0bbaf17ca2a16ea9bbc141f7908425"
+}

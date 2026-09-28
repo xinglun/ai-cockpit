@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:28981a45cf9255a80ebb393f3debae63433611a93d81ff3efaa46bf18336e101",
+  "branchRef": "refs/heads/codex/wi-1039-task8-ordinary-merge-transition",
+  "contractDigest": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+  "headRevision": "a685ff3d6c8206b22020cbc1bc4e2a7b1333c7cf",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-28T14:55:35Z",
+  "operationId": "sha256:3d2b53919316e6e6b82cf3334f1981f5588584208bea0c829f2c212ce11eb2d6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1039-task8-ordinary-merge-transition",
+  "worktreeId": "sha256:f2d4904e57a2ab696e7fd285b88a4c0fc5a97a2e99a5a653e19e624e88ffbf47"
+}
