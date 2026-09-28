@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-28T00:32:29Z",
+  "files": {
+    "approachDigest": "sha256:b2ee66a2d62e980261d5795b40b850bde170eb6f69b0d4884686a91a367db0c6",
+    "approachPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.approach.json",
+    "contractDigest": "sha256:07d10c499e4883bd353a4b7df9ca5dc9d8c91a733edd4ed94a13ce8cf816c6b9",
+    "contractPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json",
+    "eventsDigest": "sha256:bbe8c32555c8cc8b31da9631525456480a187264a20d4e5b053e0a82d4cd1c3a",
+    "eventsPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.events.jsonl",
+    "outcomeDigest": "sha256:6dad09e31cd8386a7db9366fb1ba7267504d53ed7114a81c444839bf7269265f",
+    "outcomePath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.outcome.json",
+    "summaryDigest": "sha256:9d937c43b0afa93437c4027df5dc9308f1480938fc815998136179d3317b5570",
+    "summaryPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json",
+    "taskReportDigest": "sha256:314bd2b7f8e5bb8f2ec41f91c30abed543992059529ed700b0c5b1909785f38b",
+    "taskReportMarkdownDigest": "sha256:4d860686d868d1ce468c3205e7ddd79d3a1c690ea395c019a769238a1a9a7e25",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

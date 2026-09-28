@@ -1,0 +1,209 @@
+{
+  "acceptanceResults": [
+    "A01: OBS-01 — 同 tree/空 commit 保持 source identity，真实源码变化使相关证据失效；Contract、Runtime digest、preflight、verification 各自独立绑定。",
+    "A02: OBS-02 — snapshot 变化要求新鲜 preflight/verification 但不重问未改变边界的用户授权；scope/authority/base/stop boundary 改变必须重新决策。",
+    "A03: OBS-03 — inspect/status/doctor/outcome 查询逐字节只读；重复 preflight 幂等并报告写入路径，不暗跑验证。",
+    "A04: OBS-04 — status、preflight 和命令拒绝共用版本化 admission、blocker 与下一动作。",
+    "A05: OBS-05 — stale/missing preflight 明确指向 run_preflight；刷新前拒绝验证，刷新且快照匹配后可继续，无重复开始确认。",
+    "A06: OBS-06 — 必需 scenario/check/evidence 覆盖不完整时在 spawn 前拒绝并指出缺项，执行进程数为 0。",
+    "A07: OBS-07 — amend 与 revalidate-amendment 语义/help/下一动作一致，不要求无效重复 revalidation。",
+    "A08: OBS-08 — formal receipt rejection 保留执行记录并给出有界具体诊断；verify、Outcome、status 对成功和拒绝一致。",
+    "A09: OBS-09 — manifest、MCP tools/list 与 WI 指南暴露真实协作能力；发现后立即通过真实并发多进程、多 linked worktree 及串行回退验收。",
+    "A10: OBS-10 — spawn 前持久化 identity-bound attempt，逐节点持久化；真实中断保留 interrupted/signal/cleanup，不投影 passed/reusable。",
+    "A11: OBS-11 — 计划期发现必要支持文件；scope 变化早报告，区分同 intent 增补路径和新增意图/权限。",
+    "A12: OBS-12 — hosted gate 校验精确 staged candidate 的 lineage、receipt、三语 parity；缺项失败，不合成关闭证据。",
+    "A13: OBS-13 — 受影响平台依赖、导入、整数和路径语义有回归，Windows hosted CI 实际执行并纳入 canonical gate。",
+    "A14: OBS-14 — 生命周期与 hosted 验证绑定确切 Runtime executable digest；同版本不同 digest 不混用。",
+    "A15: OBS-15 — 人读 lint 汇总对相同根因去重，保留每节点结果、raw bytes 和不同根因。",
+    "A16: OBS-16 — 未声明可选并行时单 WI serial readiness 允许；显式并行但缺兼容声明仍 fail closed。",
+    "A17: OBS-17 — 诊断文字不误报 test weakening，真实绕过仍 fail closed 且能给出匹配文本及来源。",
+    "A18: OBS-18 — 三语 close_pending→terminal 投影一致，readyOnBase 与未关闭 archive 列表一致或有明确 Runtime lineage 修复。",
+    "A19: OBS-19 — 单主 WI 串行阶段透明；进度只按有证据的验收项报告，不臆测 ETA、不重复请求已覆盖的开始授权。",
+    "A20: OBS-20 — Before starting verification, inspect Runtime freshness and existing receipts; reuse only a passed receipt that Runtime accepts as fresh and whose Work Item, Contract, source snapshot, Runtime executable, verification target, and required coverage match; otherwise follow the admitted next action and preserve prior evidence. Hosted exact-PR-head evidence remains a separate requirement.",
+    "A21: OBS-21 — 独立验证节点与 CI jobs 在输入快照固定、依赖已满足、写入/产物隔离且资源受控时并行；生命周期和收据生产—消费依赖保持串行。"
+  ],
+  "createdAt": "2026-09-28T00:26:34Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:368c5809d72fdf2d41efa7d78172fb39b058ea3cd56efb464bec497d4aff49ec",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b709063aede94c9c7d6467efd53a501745a2a64ab427791b49eebc21b6ed8a2c",
+      "workItemId": "WI-1035-task8-governance-friction-remediation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.0f95284cbce0c980e05ef12a35b765a1d41d91342fa85eb6f164bdf464a5ad3d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.509c94db758c8e37fc320ab20d2d9b7bdc19900bd5ada3a7d5c19ee8014e6403.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.65c609a72a73d31615b36186a8c881aba3fa7e54ea671fa30d59d56896fca8db.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.7cf409e63549e217cf50059b24db29babc700c29083c7c0ee586e823bfcf9613.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.8daf16728339a69ed29a16b2a91f814bf1b1059eac973c3a1ff0d769e8c70280.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.93dbfca14805fc1e92ff30c63157e4c7967ae1082a71258af39a108b3191ef6f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.dd5f3bfcda198432ee38df6992dcb6a8390ea25776bf8e830999bef6fd07094a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1035-task8-governance-friction-remediation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json"
+          ],
+          "inference": false,
+          "text": "形成可由 Runtime 真实准入、执行、恢复、发现和验收的跨 WI 协作闭环；所有 19 项均有本轮回归或真实 CI 证据；合并清理后停在用户全面 review 和 release 决定之前。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1035-task8-governance-friction-remediation"
+  },
+  "taskReportDigest": "sha256:314bd2b7f8e5bb8f2ec41f91c30abed543992059529ed700b0c5b1909785f38b",
+  "taskReportMarkdownDigest": "sha256:4d860686d868d1ce468c3205e7ddd79d3a1c690ea395c019a769238a1a9a7e25",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

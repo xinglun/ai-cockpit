@@ -1,0 +1,59 @@
+{
+  "attemptId": "sha256:7cf409e63549e217cf50059b24db29babc700c29083c7c0ee586e823bfcf9613",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:b3095462328bb465a5dea8c5e5021972d61c08bb54d435bc92bb97a23265a10c",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:bcd540ffbc589bbc4ad7e9a0a02d9817484cb1258c66048d73aaedefbc178081",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/governance_cost_baseline_test.py"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:a3c607c8f61528917645a8812278517f93c48e0bae8ba2a07626261977dea254",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:bcd540ffbc589bbc4ad7e9a0a02d9817484cb1258c66048d73aaedefbc178081",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+  "contractExecutionScopeDigest": "sha256:307413620c9af7d03412f04b56fdc9bd0e30f4b749d7b40c301b58d2576dedaf",
+  "createdAt": "2026-09-27T21:17:39Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:990115721d89bbc9e49ea3a78209277d509cc7d44f733ed9a52f3c01e37d8a4e, issues=[\"evidence_stale\", \"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-10…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f41fdcda3787e1617b23c54079bff5df57c8de33f799de3b7beac1bf91c3968d",
+  "runtimeDigest": "sha256:bcd540ffbc589bbc4ad7e9a0a02d9817484cb1258c66048d73aaedefbc178081",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}
