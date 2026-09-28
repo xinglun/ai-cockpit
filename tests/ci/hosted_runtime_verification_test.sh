@@ -337,7 +337,7 @@ if RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \
   printf 'cleanup accepted a path outside its dedicated temporary parent\n' >&2
   exit 1
 fi
-if ! rg -F -q 'outside its dedicated hosted Runtime temporary parent' \
+if ! grep -F -q 'outside its dedicated hosted Runtime temporary parent' \
   "$tmp/stale-deferred/unsafe-cleanup.log"; then
   cat "$tmp/stale-deferred/unsafe-cleanup.log" >&2
   exit 1
@@ -352,7 +352,7 @@ jq -e '.state == "removed" and .cleanupExitCode == 0' \
   "$tmp/stale-deferred/artifacts/hosted-runtime-worktree-cleanup.json" >/dev/null
 test ! -e "$deferred_repository"
 if git -C "$tmp/stale-deferred/repository" worktree list --porcelain | \
-  rg -F -q "worktree $deferred_repository"; then
+  grep -F -q "worktree $deferred_repository"; then
   printf 'consumer cleanup left the linked worktree registered\n' >&2
   exit 1
 fi
