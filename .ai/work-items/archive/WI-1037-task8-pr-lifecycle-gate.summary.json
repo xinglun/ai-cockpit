@@ -48,10 +48,10 @@
       "acceptanceId": "A05",
       "evidence": [
         {
-          "locator": "Local gate and docs receipts are separately recorded for snapshot sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e; prior exact-head CI run 36385183402 failed docs_governance_integrity, the parity references/tokens are corrected, and a new hosted run is pending.",
-          "path": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
-          "type": "local-and-hosted-verification-status",
-          "verification": "Local focused checks passed. Exact-head hosted CI, integration, cleanup, Task 8 lineage closure, and Task 9 admission remain pending; release is out of scope."
+          "locator": "GitHub Actions run 36386545421 on PR #997, pull_request event, head codex/wi-1035-task8-governance-friction-remediation at 2bfef65dce5e3929453727f259d647326de6a0d9; all four required jobs succeeded. The same SHA is the local corrective head.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/36386545421",
+          "type": "provider",
+          "verification": "Run completed with conclusion success: route, quality, windows-runtime, and v1-behavioral-oracle succeeded. PR #997 is open and clean; this proves hosted verification only, not merge, cleanup, or Task 9 readiness. Earlier failed run 36385183402 is retained as superseded historical evidence."
         }
       ]
     }
@@ -59,7 +59,7 @@
   "changedPaths": [
     ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
     ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json",
-    ".ai/work-items/active/WI-1037-task8-pr-lifecycle-gate.summary.json",
+    ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md"
@@ -145,23 +145,23 @@
       "evidence": [
         ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
         ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.34982fe00db626097bbd57fe086a3101d6a1f0a94a1b2c412dae1f970d67c71d.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/36386545421",
         "https://github.com/xinglun/ai-cockpit/actions/runs/36385183402"
       ],
-      "expected": "Focused gate and documentation checks pass locally; hosted CI passes for the corrective head and PR #997 before integration.",
+      "expected": "Focused gate and documentation checks pass locally; hosted CI passes for the corrective head and PR #997 head before integration.",
       "required": true,
       "scenario": "focused and hosted verification protects the exact change",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run the declared focused checks and require hosted CI on exact corrective and PR #997 heads; do not release."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-28T06:26:03.975267+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-28T06:44:05Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:17d6393f052fbe2e8d2ccf2952b17c2eaa5678adae7a8bb8b8e817be407abf93",
   "workItemId": "WI-1037-task8-pr-lifecycle-gate"
 }

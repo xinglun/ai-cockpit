@@ -1,0 +1,172 @@
+{
+  "acceptanceResults": [
+    "A01: An ordinary archived Work Item added by the exact current PR may project as awaiting_merge_close only when the pull-request event base/head and checked-out merge parents match and the Contract is introduced by that PR.",
+    "A02: Older unclosed archived Work Items, mismatched or malformed pull-request events, and non-PR checkouts remain blocking.",
+    "A03: The exact two-parent default-branch merge introducing the archive may pass the immediate transition; a later non-merge default-branch commit without a real close remains blocking.",
+    "A04: The three WI-1036 parity rows identify its archived Contract and accurately show archived-but-awaiting-merge status without claiming terminal completion.",
+    "A05: Focused governance and documentation checks pass; hosted CI passes on the exact corrective head and PR #997 head; integrate, clean, close the Task 8 lineage, then start Task 9 only when Runtime reports readyOnBase. Stop before release."
+  ],
+  "createdAt": "2026-09-28T06:44:05Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:206c750136d57dc67c7679ffb631872d14d079c16079cd6f24c17d20a42916f1",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+      "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow only an exact PR-introduced archive and its exact default-branch merge transition to await formal close; preserve fail-closed behavior for older archives, mismatched PR events, direct pushes, and later unclosed states."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+  },
+  "taskReportDigest": "sha256:63988c4c27b0013a5616b09fb519a0a41027e7b0d7e6e7492b88ce1f5b45668a",
+  "taskReportMarkdownDigest": "sha256:553a664948921208696b5074dcd7b43d127a1d202959108e7c0c072fbb477ae9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}
