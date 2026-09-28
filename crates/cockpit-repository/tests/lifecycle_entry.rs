@@ -13,6 +13,7 @@ use cockpit_repository::{
     require_verification_preconditions, revalidate_contract_amendment, run_repository_verification,
     scaffold_work_item, set_work_item_intelligence, start_work_item_with_options, status,
     validate_scenario_coverage_values, work_item_start_advisory,
+    work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
 use serde_json::json;
@@ -1696,10 +1697,11 @@ fn typed_verification_survives_its_governance_projection_at_preflight_and_finish
     .expect("record verification");
 
     assert_eq!(
-        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-            .expect("post-verification preflight")
-            .state,
-        DecisionState::Green
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("post-verification status")
+            .verification,
+        "verified",
+        "governance projection must preserve current typed verification evidence"
     );
     finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect("governance projection must not stale verification evidence");
@@ -1812,10 +1814,10 @@ fn typed_verification_with_bounded_output_stays_current_at_preflight() {
     .expect("record verification");
 
     assert_eq!(
-        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
-            .expect("post-verification preflight")
-            .state,
-        DecisionState::Green,
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("post-verification status")
+            .verification,
+        "verified",
         "bounded diagnostic output is not contradictory evidence"
     );
 }
@@ -1893,9 +1895,129 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
             .iter()
             .any(|unknown| unknown == "evidence_stale")
     );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("status reflects stale verification evidence");
+    assert!(
+        !status.safe_actions.iter().any(|action| action == "finish"),
+        "stale verification evidence must remove finish admission"
+    );
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("status action explanation")
+        .admission_digest
+        .to_string();
     let error = finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect_err("source mutation must block finish");
-    assert!(error.to_string().contains("current repository snapshot"));
+    assert!(
+        error
+            .to_string()
+            .contains("current action admission rejected requested action \"finish\""),
+        "finish must use the current Runtime refusal: {error}"
+    );
+    assert!(error.to_string().contains("evidence_stale"));
+    assert!(error.to_string().contains(&admission_digest));
+}
+
+#[test]
+fn empty_commit_preserves_source_identity_and_current_verification_evidence() {
+    let directory = repository();
+    let work_item_id = "WI-EMPTY-COMMIT-SOURCE-IDENTITY";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve verified source identity across an empty commit",
+        "a no-op commit must not stale evidence bound to unchanged source bytes",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"empty-commit-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let verification_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "empty-commit-source-identity".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification");
+    let mut receipt =
+        serde_json::to_value(&verification_run.receipt).expect("verification receipt");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &verification_run.final_snapshot,
+    )
+    .expect("record verification");
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let evidence_before_empty_commit = fs::read(&evidence_path).expect("evidence bytes");
+    let source_digest_before_empty_commit =
+        cockpit_repository::snapshot_digest(&verification_run.final_snapshot)
+            .expect("source digest");
+
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=Test",
+            "commit",
+            "--allow-empty",
+            "-m",
+            "empty commit preserves source identity",
+        ],
+    );
+
+    let current_snapshot = GitRepository::discover(directory.path())
+        .expect("repository")
+        .snapshot()
+        .expect("snapshot after empty commit");
+    assert_eq!(
+        cockpit_repository::snapshot_digest(&current_snapshot).expect("current source digest"),
+        source_digest_before_empty_commit
+    );
+    assert_eq!(
+        fs::read(&evidence_path).expect("preserved evidence"),
+        evidence_before_empty_commit
+    );
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("status after empty commit");
+    assert_eq!(status.verification, "verified", "{status:#?}");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("finish with unchanged source evidence");
 }
 
 #[test]
@@ -1982,6 +2104,14 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
         ],
     );
 
+    let stale_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("finish-ready stale status");
+    assert!(
+        stale_status.safe_actions.contains(&"run_preflight".into()),
+        "finish-ready snapshot drift must admit its preflight recovery: {stale_status:?}"
+    );
+
     let refreshed = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("finish-ready retry preflight");
     assert_eq!(refreshed.state, DecisionState::Yellow);
@@ -1991,6 +2121,15 @@ fn finish_ready_allows_reverification_after_committing_changed_source() {
             .iter()
             .any(|unknown| unknown == "evidence_stale"),
         "the changed source must still require replacement verification: {refreshed:?}"
+    );
+    let current_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime)
+            .expect("finish-ready refreshed status");
+    assert!(
+        current_status
+            .safe_actions
+            .contains(&"run_verification".into()),
+        "a fresh preflight must admit replacement verification: {current_status:?}"
     );
 
     verify("after-commit");

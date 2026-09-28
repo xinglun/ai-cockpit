@@ -1,0 +1,251 @@
+{
+  "acceptanceCriteria": [
+    "OBS-01: 同 tree/空 commit 保持 source identity，真实源码变化使相关证据失效；Contract、Runtime digest、preflight、verification 各自独立绑定。",
+    "OBS-02: snapshot 变化要求新鲜 preflight/verification 但不重问未改变边界的用户授权；scope/authority/base/stop boundary 改变必须重新决策。",
+    "OBS-03: inspect/status/doctor/outcome 查询逐字节只读；重复 preflight 幂等并报告写入路径，不暗跑验证。",
+    "OBS-04: status、preflight 和命令拒绝共用版本化 admission、blocker 与下一动作。",
+    "OBS-05: stale/missing preflight 明确指向 run_preflight；刷新前拒绝验证，刷新且快照匹配后可继续，无重复开始确认。",
+    "OBS-06: 必需 scenario/check/evidence 覆盖不完整时在 spawn 前拒绝并指出缺项，执行进程数为 0。",
+    "OBS-07: amend 与 revalidate-amendment 语义/help/下一动作一致，不要求无效重复 revalidation。",
+    "OBS-08: formal receipt rejection 保留执行记录并给出有界具体诊断；verify、Outcome、status 对成功和拒绝一致。",
+    "OBS-09: manifest、MCP tools/list 与 WI 指南暴露真实协作能力；发现后立即通过真实并发多进程、多 linked worktree 及串行回退验收。",
+    "OBS-10: spawn 前持久化 identity-bound attempt，逐节点持久化；真实中断保留 interrupted/signal/cleanup，不投影 passed/reusable。",
+    "OBS-11: 计划期发现必要支持文件；scope 变化早报告，区分同 intent 增补路径和新增意图/权限。",
+    "OBS-12: hosted gate 校验精确 staged candidate 的 lineage、receipt、三语 parity；缺项失败，不合成关闭证据。",
+    "OBS-13: 受影响平台依赖、导入、整数和路径语义有回归，Windows hosted CI 实际执行并纳入 canonical gate。",
+    "OBS-14: 生命周期与 hosted 验证绑定确切 Runtime executable digest；同版本不同 digest 不混用。",
+    "OBS-15: 人读 lint 汇总对相同根因去重，保留每节点结果、raw bytes 和不同根因。",
+    "OBS-16: 未声明可选并行时单 WI serial readiness 允许；显式并行但缺兼容声明仍 fail closed。",
+    "OBS-17: 诊断文字不误报 test weakening，真实绕过仍 fail closed 且能给出匹配文本及来源。",
+    "OBS-18: 三语 close_pending→terminal 投影一致，readyOnBase 与未关闭 archive 列表一致或有明确 Runtime lineage 修复。",
+    "OBS-19: 单主 WI 串行阶段透明；进度只按有证据的验收项报告，不臆测 ETA、不重复请求已覆盖的开始授权。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+  "createdAt": "2026-09-26T14:01:43Z",
+  "goal": "形成可由 Runtime 真实准入、执行、恢复、发现和验收的跨 WI 协作闭环；所有 19 项均有本轮回归或真实 CI 证据；合并清理后停在用户全面 review 和 release 决定之前。",
+  "intent": "根治 WI-1033 handoff 的 17 项协作治理摩擦及独立复现的 2 项关闭投影与交付沟通摩擦；保持单 WI 串行，实现并验证 Agent 可发现、可实际使用的协作能力。",
+  "mode": "implementation",
+  "outOfScope": [
+    "发布、打 tag、升级公开版本、修改全局 Agent/MCP 配置、拆分并行子 WI、削弱权限/证据/平台 gate、修改无关 WI 历史或伪造验证/关闭证据"
+  ],
+  "predecessorContractDigest": "sha256:412f9a96443141fe9a786eb4112e428f408d3484ecf98aee0d4495cc99eff167",
+  "predecessorWorkItemId": "WI-1033-cross-wi-review-fixes-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1033-cross-wi-review-fixes-recovery.recovery.5d66bb6492ea66b7ea881b408e16bcc8aa1c285ec8eef509c4b91d11afe3e2b3.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:95081b5d15ccfca41263079d9427362904b96406137a0fdd8f62d11ed13fda62",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A no-op commit leaves source identity and applicable evidence stable, while a real source-content change invalidates only dependent evidence.",
+      "required": true,
+      "scenario": "OBS-01 same-tree commit and actual source-content change",
+      "status": "unverified",
+      "verificationPlan": "Add and run snapshot/lifecycle regressions for dirty-to-commit, empty commit, and real source change; compare source, Contract, Runtime, preflight, and verification identities."
+    },
+    {
+      "evidence": [],
+      "expected": "Snapshot-only change requires fresh preflight and verification without requesting the same bounded human authorization again; a changed authority boundary requires a new decision.",
+      "required": true,
+      "scenario": "OBS-02 authorization remains distinct from freshness",
+      "status": "unverified",
+      "verificationPlan": "Add repository lifecycle regressions for snapshot refresh and changed scope/authority/base/stop boundary, including decision-receipt bindings."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated inspect/status/doctor/outcome queries do not change repository bytes; repeated unchanged preflight reports no changed paths and does not execute checks.",
+      "required": true,
+      "scenario": "OBS-03 read-only queries and idempotent explicit preflight",
+      "status": "unverified",
+      "verificationPlan": "Add byte-for-byte before/after query tests and repeated-preflight changed-path/process-count assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "Status, preflight, and a rejected operation expose the same admission version, blockers, and actionable recovery route for the same facts.",
+      "required": true,
+      "scenario": "OBS-04 consistent versioned action admission",
+      "status": "unverified",
+      "verificationPlan": "Add cross-surface repository/CLI tests that compare normalized admission identity and blocker/next-action fields."
+    },
+    {
+      "evidence": [],
+      "expected": "Stale/missing preflight rejects verification and points to run_preflight; a fresh matching preflight restores verification without a second start confirmation.",
+      "required": true,
+      "scenario": "OBS-05 stale or missing preflight recovery",
+      "status": "unverified",
+      "verificationPlan": "Add checkpointed Work Item tests for stale snapshot and Contract, refresh, rejection before refresh, and admission after refresh."
+    },
+    {
+      "evidence": [],
+      "expected": "Removing any required scenario/check/evidence mapping produces a named rejection before any verification process starts.",
+      "required": true,
+      "scenario": "OBS-06 complete scenario-to-check coverage before spawn",
+      "status": "unverified",
+      "verificationPlan": "Use an instrumented subprocess counter in composition/verification integration tests and assert zero spawns for each missing mapping."
+    },
+    {
+      "evidence": [],
+      "expected": "Amendment output/help explains whether revalidation is already recorded; unchanged Contract does not require an invalid duplicate revalidation command.",
+      "required": true,
+      "scenario": "OBS-07 amendment revalidation command semantics",
+      "status": "unverified",
+      "verificationPlan": "Add CLI help/output and lifecycle tests for amendment checkpoint creation, repeated command rejection/explanation, and next action."
+    },
+    {
+      "evidence": [],
+      "expected": "A rejected formal receipt preserves execution evidence and names bounded failing predicates; verification, Outcome, and status agree on rejected and passing cases.",
+      "required": true,
+      "scenario": "OBS-08 formal receipt rejection diagnosis and projection",
+      "status": "unverified",
+      "verificationPlan": "Add end-to-end CLI tests for formal receipt rejection and success, asserting preserved attempt identity, diagnostic limits, and query projections."
+    },
+    {
+      "evidence": [],
+      "expected": "An Agent discovers supported capabilities from the local manifest, MCP tool schemas, and ordinary-work-item guide, then uses coordination and serial fallback correctly.",
+      "required": true,
+      "scenario": "OBS-09 real collaboration capability discovery and usage",
+      "status": "unverified",
+      "verificationPlan": "After interface/docs changes, immediately run old/current manifest parsing, agent doctor, MCP tools/list schema assertions, and real multi-process linked-worktree plus serial CLI acceptance."
+    },
+    {
+      "evidence": [],
+      "expected": "An attempt envelope is durable before spawn, each completed node is persisted, and real interruption retains signal and cleanup state without passed/reusable projection.",
+      "required": true,
+      "scenario": "OBS-10 interrupted verification remains durable and non-passing",
+      "status": "unverified",
+      "verificationPlan": "Extend subprocess acceptance to wait for the pre-spawn checkpoint, send SIGINT, restart/query Runtime, and inspect durable attempt and cleanup records."
+    },
+    {
+      "evidence": [],
+      "expected": "Required implementation support paths are visible during planning/preflight; additive same-intent paths are distinguished from new intent/authority before expensive verification.",
+      "required": true,
+      "scenario": "OBS-11 early discovery of required support-file scope",
+      "status": "unverified",
+      "verificationPlan": "Add scope planning/preflight regressions for missing supporting paths, additive amendment, and changed intent/authority."
+    },
+    {
+      "evidence": [],
+      "expected": "Hosted gates validate exact candidate receipts and all required locale parity rows; missing/unstaged evidence fails closed and no success receipt is synthesized.",
+      "required": true,
+      "scenario": "OBS-12 exact staged-candidate lineage and locale parity",
+      "status": "unverified",
+      "verificationPlan": "Add gate-manifest and quality-route regressions for each missing lineage/parity row, then verify the actual hosted PR gate on the candidate SHA."
+    },
+    {
+      "evidence": [],
+      "expected": "Affected tests compile and run on supported targets; Windows path comparisons use path semantics and Windows hosted tests are required evidence.",
+      "required": true,
+      "scenario": "OBS-13 platform-specific dependency and path behavior",
+      "status": "unverified",
+      "verificationPlan": "Add the platform regression to the canonical manifest/workflow and observe the corresponding hosted Windows job execute and pass."
+    },
+    {
+      "evidence": [],
+      "expected": "Equal version strings with different executable digests cannot mix lifecycle or hosted evidence; final lifecycle uses one explicit candidate digest.",
+      "required": true,
+      "scenario": "OBS-14 Runtime executable digest binding",
+      "status": "unverified",
+      "verificationPlan": "Add tests with same-version/different-digest Runtime contexts; build the final candidate and compare every lifecycle/hosted receipt binding."
+    },
+    {
+      "evidence": [],
+      "expected": "Repeated identical lint root causes have one readable human summary while all node-specific statuses/raw bytes and distinct failures remain available.",
+      "required": true,
+      "scenario": "OBS-15 readable deduplicated lint diagnostics with raw evidence",
+      "status": "unverified",
+      "verificationPlan": "Add multi-node verification aggregation tests with repeated and distinct diagnostics, including preservation of raw bytes and exit states."
+    },
+    {
+      "evidence": [],
+      "expected": "A single serial Work Item without parallel metadata remains ready; an explicit parallel request without compatibility/isolation fails closed.",
+      "required": true,
+      "scenario": "OBS-16 single-WI serial readiness independent of optional parallel declaration",
+      "status": "unverified",
+      "verificationPlan": "Extend parallel_boundary and CLI admission tests with serial positive and parallel negative cases, plus a valid declared-parallel case."
+    },
+    {
+      "evidence": [],
+      "expected": "Diagnostic wording alone does not trigger weakening, while an actual skipped/bypassed test still fails the policy gate with source details.",
+      "required": true,
+      "scenario": "OBS-17 test weakening distinguishes diagnostic prose from bypass behavior",
+      "status": "unverified",
+      "verificationPlan": "Keep/add paired diagnostic-text negative and actual xit/skip positive tests and ensure the policy regression is in canonical CI."
+    },
+    {
+      "evidence": [],
+      "expected": "close_pending transitions to terminal state without reverting archived docs; all three locale projections agree and readyOnBase reconciles with pending-close lineage.",
+      "required": true,
+      "scenario": "OBS-18 consistent tri-language close and ready-on-base projection",
+      "status": "unverified",
+      "verificationPlan": "Add Runtime lifecycle tests using en/zh-CN/ja close projections and assert readiness/pending archive lists across before/after states."
+    },
+    {
+      "evidence": [],
+      "expected": "One WI exposes sequential stages and measured acceptance progress; valid unchanged user authority is reused without invented ETA or another start request.",
+      "required": true,
+      "scenario": "OBS-19 serial progress reporting without repeated authorization prompts",
+      "status": "unverified",
+      "verificationPlan": "Review ordinary-work-item guide and Outcome process against the 7-stage/19-OBS matrix; verify current Runtime receipts and user-facing progress include evidence and blockers."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-repository/Cargo.toml",
+    "crates/cockpit-verification/src/**",
+    "crates/cockpit-verification/Cargo.toml",
+    "crates/cockpit-cli/src/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-cli/Cargo.toml",
+    "crates/cockpit-protocol/src/**",
+    "crates/cockpit-agent/src/**",
+    "crates/cockpit-agent/tests/**",
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-mcp/tests/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".ai/agent-interface.json",
+    "agents/skills/ordinary-work-item.md",
+    "agents/skills/README.md",
+    "docs/work-items/WI-1034-task8-governance-friction-remediation/**",
+    "docs/work-items/WI-1031-cross-wi-acceptance-corrections*",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/ci-quality-gates.md",
+    ".github/workflows/ci.yml",
+    "tests/acceptance/**",
+    "tests/ci/**",
+    "tests/docs/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/spec.md",
+      "reason": "Consolidated audit and bounded requirements for all nineteen Task 8 governance frictions."
+    },
+    {
+      "path": "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md",
+      "reason": "Serial implementation stages, file/test inventory, commit boundaries, and acceptance matrix."
+    },
+    {
+      "path": "docs/work-items/WI-1033-cross-wi-review-fixes-recovery/implementation-plan.md",
+      "reason": "Original seventeen-item Task 8 handoff and evidence references."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Repository-bound Runtime authority, scope, verification, and release-stop constraints."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1034-task8-governance-friction-remediation"
+}

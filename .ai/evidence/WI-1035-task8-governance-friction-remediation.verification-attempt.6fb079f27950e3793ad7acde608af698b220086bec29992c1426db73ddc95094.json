@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:6fb079f27950e3793ad7acde608af698b220086bec29992c1426db73ddc95094",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:df8a5a5f5361feb832287b562fe0866855aeaced2e748c6f6d69aeb15f6f21ff",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:55838a8e3098303d9a83b0cedb0f10c303ad471cfdd43120cc54e1d253e9c586",
+  "contractExecutionScopeDigest": "sha256:d73336f6120793bc99b4a992f40f0607fbd505cb66dc32ad54876d410ee2b6ed",
+  "createdAt": "2026-09-26T14:41:10Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.contract.json: verification preconditions are blocked: documentation_projection_missing:docs/work-items/WI-1035-task8-governance-friction-remediation.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1035-task8-governance-friction-remediation.zh-CN.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1035-task8-governance-friction-remediation.ja.md:must be a regular non-symlink file, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-1035-task8-governance-friction-remediation but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-1035-task8-governance-friction-remediation but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-1035-task8-governance-friction-remediation but found 0"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab295f1d2a3f460720ce994da63538d10a18254fe9a289caea14a62552c5b2eb",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

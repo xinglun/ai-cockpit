@@ -1,0 +1,137 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1037-task8-pr-lifecycle-gate.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification-attempt.5cebbd531f4695a24d77581b9d79b2e347589bec73b68d6e4b8b296ff46ce646.json",
+    ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification-attempt.c2ad8568676fdff08191d7a96897d7dc568934deebec49380236be0f231c62b3.json",
+    ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json",
+    ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.approach.json",
+    ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json",
+    ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/superpowers/plans/2026-09-28-wi-1038-parity-projection-recovery.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.ja.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.zh-CN.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-09-28T07:42:32Z",
+  "checkpointContractDigest": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3a34c4545eb34fc69d6c620a36ff20b560332f371e34865058d0f2e9fdec4aac",
+      "recorded": true,
+      "recordedAt": "2026-09-28T07:42:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1038-task8-parity-projection-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3a34c4545eb34fc69d6c620a36ff20b560332f371e34865058d0f2e9fdec4aac",
+      "previousContractHash": "sha256:3a34c4545eb34fc69d6c620a36ff20b560332f371e34865058d0f2e9fdec4aac",
+      "reason": "Amend scope after verifying the exact archive-ordering cause: the predecessor parity row was committed after immutable verification evidence, so only a successor-bound historical recovery can resolve it without hiding or rewriting that fact.",
+      "recorded": true,
+      "recordedAt": "2026-09-28T07:53:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1038-task8-parity-projection-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b806081524161286ca1b725ebdf332a73ff5e8eb8581684cbeb40a8b69261a97",
+  "createdAt": "2026-09-28T07:08:48Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1038-task8-parity-projection-recovery.contract.json",
+      "docs/reference/reference-parity.md",
+      "docs/reference/reference-parity.zh-CN.md",
+      "docs/reference/reference-parity.ja.md",
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh"
+    ],
+    "reason": "The Work Item owner adopted this user-visible benefit: after Task 8 fixes are merged and cleaned, reviewers can see a trustworthy tri-language lifecycle and historical ordering; the separate release-review boundary remains before publication, without weakening gates for missing valid ownership or verification. This directly aligns the WI-1038 intent and acceptance with the requested Task 8 merge-and-cleanup outcome; it does not claim that merge, cleanup, or release has occurred.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "predecessorWorkItemId": "WI-1037-task8-pr-lifecycle-gate",
+  "preflightAt": "2026-09-28T08:44:37Z",
+  "preflightContractDigest": "sha256:66d788942d3e982497852641511b6788e4153e429f3594df73734cc896c5e659",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b806081524161286ca1b725ebdf332a73ff5e8eb8581684cbeb40a8b69261a97",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1037-task8-pr-lifecycle-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json",
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+      ],
+      "expected": "All three parity ledgers identify WI-1037 as archived and awaiting PR merge and formal close, link its immutable archived Contract, and do not claim terminal completion or pending verification when verification evidence exists.",
+      "required": true,
+      "scenario": "WI-1037 archived lifecycle projection",
+      "status": "verified",
+      "verificationPlan": "Run the focused parity and governance integrity checks; compare each row against the archived WI-1037 Contract, its verification receipt, and the current PR state."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-1038 parity rows remain valid after its archive transition and do not trigger stale pre-archive registration findings.",
+      "reason": "This post-finish archive transition has not occurred, so it is not yet applicable to the local pre-archive finish evidence. It remains mandatory to verify the archived WI-1038 projection with the final exact-head PR check before merge; this status does not claim the transition passed.",
+      "required": true,
+      "scenario": "WI-1038 archive transition projection",
+      "status": "not_applicable",
+      "verificationPlan": "Run the focused governance integrity check before and after the WI-1038 archive candidate is produced, preserving both outputs and checking the exact resulting source snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "Required hosted checks pass on the exact PR #997 head after the final WI-1038 archive and parity projection commits.",
+      "reason": "Exact-head hosted CI is a post-archive integration gate and cannot exist before local finish/archive. It remains a hard pre-merge acceptance requirement: check the actual final PR head and require all configured checks to pass before merge; this status does not claim hosted verification.",
+      "required": true,
+      "scenario": "Task 8 final PR head verification",
+      "status": "not_applicable",
+      "verificationPlan": "After the archive candidate is committed and pushed under the authorized Task 8 PR, inspect PR #997 and require every configured required check to pass for its reported head SHA before merge."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-28T08:45:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1038-task8-parity-projection-recovery"
+}

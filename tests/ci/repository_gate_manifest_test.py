@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
+import os
 import signal
 import shlex
 import subprocess
@@ -16,9 +18,40 @@ root = Path(__file__).resolve().parents[2]
 manifest_path = root / "tests/ci/repository_gate_manifest.json"
 workflow_text = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+acceptance_script = root / "tests/acceptance/cross_wi_coordination_processes.py"
+acceptance_source = acceptance_script.read_text(encoding="utf-8")
+for evidence_field in (
+    '"mcpToolNames"',
+    '"mcpCoordinationSchemaDigest"',
+    '"mcpCoordinationSchema"',
+):
+    assert evidence_field in acceptance_source, (
+        "the process acceptance must return actual MCP tool names and schema "
+        f"for reviewable evidence; missing output field {evidence_field}"
+    )
+missing_legacy_input = subprocess.run(
+    [
+        sys.executable,
+        str(acceptance_script),
+        "--binary",
+        str(root / "target/does-not-exist/ai-cockpit"),
+    ],
+    cwd=root,
+    capture_output=True,
+    text=True,
+    check=False,
+)
+assert missing_legacy_input.returncode == 2, missing_legacy_input.stderr
+assert "required: --legacy-binary" in missing_legacy_input.stderr
 assert "name: upload repository gate diagnostics" in workflow_text
 assert "name: repository-gate-diagnostics" in workflow_text
 assert "target/repository-gate-diagnostics/*.log" in workflow_text
+quality_job = workflow_text.split("  quality:\n", 1)[1].split(
+    "\n  windows-runtime:\n", 1
+)[0]
+assert "fetch-depth: 0" in quality_job, (
+    "the quality job must fetch the immutable legacy Runtime baseline"
+)
 windows_runtime_job = workflow_text.split("  windows-runtime:\n", 1)[1].split(
     "\n  v1-behavioral-oracle:\n", 1
 )[0]
@@ -27,6 +60,11 @@ assert (
     "        run: cargo test --locked -p cockpit-repository --lib"
     in windows_runtime_job
 ), "the windows-runtime job must execute repository library containment regressions"
+assert (
+    "- name: verify Windows process and composition lifecycle boundaries\n"
+    "        run: cargo test --locked -p cockpit-verification --lib --test execution --test composition"
+    in windows_runtime_job
+), "the windows-runtime job must execute composition lifecycle regressions"
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
 entries = manifest["gates"]
@@ -36,6 +74,20 @@ assert ids == sorted(ids), "gate IDs must be deterministic"
 assert len(ids) == len(set(ids)), "duplicate gate ID"
 assert len(commands) == len(set(commands)), "duplicate gate command"
 assert all(entry["minimumProfile"] in manifest["profileOrder"] for entry in entries)
+coordination_acceptance = next(
+    entry for entry in entries if entry["id"] == "conformance_cross_wi_coordination_processes"
+)
+assert coordination_acceptance["command"][-2:] == [
+    "--legacy-binary",
+    "target/legacy-runtime/release/ai-cockpit",
+]
+assert "name: Build legacy Runtime for coordination compatibility" in workflow_text
+legacy_build_step = workflow_text.split(
+    "      - name: Build legacy Runtime for coordination compatibility\n", 1
+)[1].split("\n      - name:", 1)[0]
+assert "LEGACY_RUNTIME_SHA: 73f8bd2b86338f8025ef12ba9fff15bf45ef5782" in legacy_build_step
+assert "git worktree add --detach" in legacy_build_step
+assert "target/legacy-runtime" in legacy_build_step
 workspace_clippy = next(entry for entry in entries if entry["id"] == "workspace_clippy")
 workspace_format = next(entry for entry in entries if entry["id"] == "workspace_format")
 workspace_tests = next(entry for entry in entries if entry["id"] == "workspace_package_tests")
@@ -161,6 +213,9 @@ assert runner.failure_code(
 # reject both a missing receipt and a receipt from another gate.
 with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temporary:
     receipt_fixture = Path(temporary)
+    receipt_environment = os.environ.copy()
+    receipt_environment.pop("AI_COCKPIT_GATE_STAGE", None)
+    receipt_environment.pop("AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST", None)
     missing_receipt = subprocess.run(
         [
             "bash",
@@ -172,6 +227,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temp
         check=False,
         capture_output=True,
         text=True,
+        env=receipt_environment,
     )
     assert missing_receipt.returncode != 0
     assert "invalid promotion receipt" in missing_receipt.stderr
@@ -207,6 +263,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temp
         check=False,
         capture_output=True,
         text=True,
+        env=receipt_environment,
     )
     assert wrong_gate.returncode != 0
     assert "gate identity is invalid" in wrong_gate.stderr
@@ -294,6 +351,104 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert report["state"] == "passed"
     assert report["route"]["receiptDigest"] == receipt["receiptDigest"]
     assert [gate["id"] for gate in report["gates"]] == ["fixture_true"]
+
+    # Terminal documentation projection is post-merge work: the PR route must
+    # expose deferred gates without claiming they passed, while retaining the
+    # ordinary documentation acceptance checks and requiring all three gates
+    # on the synchronized-main route.
+    stage_manifest = json.loads(fixture_manifest.read_text(encoding="utf-8"))
+    stage_manifest["gates"] = sorted([
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] == 'merge'",
+                "promotion",
+            ],
+            "id": "docs_closed_work_item_promotion",
+            "minimumProfile": "light",
+        },
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] in {'pull_request', 'merge'}",
+                "documentation-acceptance",
+            ],
+            "dependsOn": ["docs_closed_work_item_promotion"],
+            "id": "docs_acceptance",
+            "minimumProfile": "light",
+        },
+        {
+            "category": "docs",
+            "command": [
+                sys.executable,
+                "-c",
+                "import os; assert os.environ['AI_COCKPIT_GATE_STAGE'] == 'merge'",
+                "status-consistency",
+            ],
+            "id": "docs_work_item_status_consistency",
+            "minimumProfile": "light",
+        },
+    ], key=lambda gate: gate["id"])
+    stage_manifest_path = fixture / "stage-manifest.json"
+    stage_manifest_path.write_text(
+        json.dumps(stage_manifest, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    def run_stage_route(stage: str) -> dict[str, object]:
+        stage_receipt = route.plan_repository_route(
+            repository=repository,
+            manifest_path=stage_manifest_path,
+            base=base,
+            head=head,
+            stage=stage,
+            risk="normal",
+            contract_path=None,
+            requested_profile=None,
+        )
+        stage_receipt_path = fixture / f"{stage}-route.json"
+        stage_receipt_path.write_text(
+            json.dumps(stage_receipt, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        stage_report_path = fixture / f"{stage}-report.json"
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(root / "tests/ci/run_repository_gates.py"),
+                "--repo",
+                str(repository),
+                "--manifest",
+                str(stage_manifest_path),
+                "--route-receipt",
+                str(stage_receipt_path),
+                "--report",
+                str(stage_report_path),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert completed.returncode == 0, completed.stdout + completed.stderr
+        return json.loads(stage_report_path.read_text(encoding="utf-8"))
+
+    premerge_report = run_stage_route("pull_request")
+    premerge_states = {gate["id"]: gate["state"] for gate in premerge_report["gates"]}
+    assert premerge_report["state"] == "passed"
+    assert premerge_states["docs_closed_work_item_promotion"] == "not_applicable"
+    assert premerge_states["docs_work_item_status_consistency"] == "not_applicable"
+    assert premerge_states["docs_acceptance"] == "passed"
+    assert premerge_report["launchedGateIds"] == ["docs_acceptance"]
+
+    merge_report = run_stage_route("merge")
+    merge_states = {gate["id"]: gate["state"] for gate in merge_report["gates"]}
+    assert merge_report["state"] == "passed"
+    assert all(state == "passed" for state in merge_states.values())
+    assert set(merge_report["launchedGateIds"]) == set(merge_states)
 
     # A non-light Contract route must carry a green Rust Contract gate report
     # bound to the same Contract file, base revision, repository identity, and
@@ -502,6 +657,103 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         )
         return completed, json.loads(single_report.read_text(encoding="utf-8"))
 
+    acceptance_payload = '{"mcpToolNames":["work_item_coordination"],"schema":{}}\n'
+    acceptance_run, acceptance_report = run_single_gate(
+        [sys.executable, "-c", f"print({acceptance_payload!r}, end='')"],
+        "conformance_cross_wi_coordination_processes",
+        "acceptance-evidence-report.json",
+    )
+    assert acceptance_run.returncode == 0
+    acceptance_gate = acceptance_report["gates"][0]
+    assert acceptance_gate["acceptanceEvidenceTruncated"] is False
+    acceptance_path = repository / acceptance_gate["acceptanceEvidencePath"]
+    assert acceptance_path.read_text(encoding="utf-8") == acceptance_payload
+    assert acceptance_gate["acceptanceEvidenceDigest"] == "sha256:" + hashlib.sha256(
+        acceptance_payload.encode("utf-8")
+    ).hexdigest()
+    acceptance_receipt = json.loads(
+        (
+            fixture
+            / "repository-gate-receipts/conformance_cross_wi_coordination_processes.json"
+        ).read_text(encoding="utf-8")
+    )
+    assert acceptance_receipt["acceptanceEvidencePath"] == acceptance_gate[
+        "acceptanceEvidencePath"
+    ]
+    assert acceptance_receipt["acceptanceEvidenceDigest"] == acceptance_gate[
+        "acceptanceEvidenceDigest"
+    ]
+    truncated_acceptance_run, truncated_acceptance_report = run_single_gate(
+        [sys.executable, "-c", "print('x' * 33000, end='')"],
+        "conformance_cross_wi_coordination_processes",
+        "truncated-acceptance-report.json",
+    )
+    assert truncated_acceptance_run.returncode == 1
+    assert truncated_acceptance_report["gates"][0]["state"] == "failed"
+    assert (
+        truncated_acceptance_report["gates"][0]["failureCode"]
+        == "acceptance_evidence_truncated"
+    )
+
+    def run_multiple_gates(gates: list[dict], report_name: str):
+        fixture_manifest.write_text(
+            json.dumps(
+                {
+                    "schemaVersion": 2,
+                    "profileOrder": ["light", "standard", "strict"],
+                    "unknownProfile": "strict",
+                    "pathProfiles": {
+                        "light": ["docs/**"],
+                        "standard": ["src/**"],
+                        "strict": [".github/**"],
+                    },
+                    "releaseOwnedPatterns": ["release/**"],
+                    "stageFloors": {
+                        "task": "light",
+                        "pre_ci": "light",
+                        "pull_request": "light",
+                        "merge": "strict",
+                        "release": "strict",
+                    },
+                    "gates": gates,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        planned = route.plan_repository_route(
+            repository=repository,
+            manifest_path=fixture_manifest,
+            base=base,
+            head=head,
+            stage="pull_request",
+            risk="normal",
+            contract_path=None,
+            requested_profile=None,
+        )
+        receipt_path.write_text(json.dumps(planned, sort_keys=True), encoding="utf-8")
+        multiple_report = fixture / report_name
+        completed = subprocess.run(
+            [
+                sys.executable,
+                str(root / "tests/ci/run_repository_gates.py"),
+                "--repo",
+                str(repository),
+                "--manifest",
+                str(fixture_manifest),
+                "--route-receipt",
+                str(receipt_path),
+                "--report",
+                str(multiple_report),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        return completed, json.loads(multiple_report.read_text(encoding="utf-8"))
+
     missing_run, missing_report = run_single_gate(
         ["tests/missing-gate"], "fixture_missing", "missing-report.json"
     )
@@ -548,6 +800,38 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert structured_report["failureRoots"][0]["diagnosticPath"] == structured_result[
         "diagnosticPath"
     ]
+
+    shared_failure_gates = [
+        {
+            "category": "fixture",
+            "command": [
+                sys.executable,
+                "-c",
+                f"print('lifecycle_transition_stale {suffix}'); raise SystemExit(1)",
+            ],
+            "id": f"fixture_stale_{suffix}",
+            "minimumProfile": "light",
+        }
+        for suffix in ("alpha", "beta")
+    ]
+    shared_failure_run, shared_failure_report = run_multiple_gates(
+        shared_failure_gates, "shared-failure-report.json"
+    )
+    assert shared_failure_run.returncode == 1
+    assert len(shared_failure_report["failureRoots"]) == 1
+    assert shared_failure_report["failureRoots"][0]["code"] == "lifecycle_transition_stale"
+    assert len(shared_failure_report["gates"]) == 2
+    assert {gate["failureCode"] for gate in shared_failure_report["gates"]} == {
+        "lifecycle_transition_stale"
+    }
+    shared_results = {gate["id"]: gate for gate in shared_failure_report["gates"]}
+    for suffix in ("alpha", "beta"):
+        result = shared_results[f"fixture_stale_{suffix}"]
+        diagnostic_path = Path(result["diagnosticPath"])
+        assert diagnostic_path.is_file()
+        assert suffix in diagnostic_path.read_text(encoding="utf-8")
+    assert len({gate["diagnosticPath"] for gate in shared_failure_report["gates"]}) == 2
+    assert len({gate["diagnosticDigest"] for gate in shared_failure_report["gates"]}) == 2
 
     dependency_manifest = fixture / "dependency-manifest.json"
     dependency_manifest.write_text(
@@ -706,7 +990,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         manifest_path=single_promotion_manifest,
         base=base,
         head=head,
-        stage="pull_request",
+        stage="merge",
         risk="normal",
         contract_path=None,
         requested_profile=None,

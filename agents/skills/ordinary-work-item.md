@@ -1,62 +1,57 @@
 # Ordinary Work Item
 
-## Applicability
+Use this route when Runtime selects ordinary implementation, verification,
+archive, or local cleanup. For failed/stale evidence, follow the selected
+recovery guide.
 
-Use this guide for ordinary repository implementation, declared verification,
-archive, and local cleanup when the current Runtime projection identifies
-`ordinary-work-item`. It is the default route when the current Runtime
-projection selects the ordinary path.
+## Governed work
 
-Do not use it to interpret failed, timed-out, stale, or invalid evidence, or
-when Runtime selects a specialized recovery, external-resource, or
-artifact-acceptance route. Load the selected conditional guide instead.
+Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
+Runtime `safeActions`, blockers, freshness, and explanation govern actions;
+this guide is not permission. Stay within Contract scope, preserve
+evidence/history, and re-query at lifecycle boundaries. Run declared checks;
+keep failures and never hand-edit generated records. Queries are read-only;
+`preflight` is explicit, idempotent, and does not verify. At handoff, deliver
+the separate human Outcome required by `AGENTS.md`.
 
-## Authoritative inputs
+## Before verification
 
-Read the active Contract and Runtime `inspect`, `status`, and `doctor` output
-for the explicit repository path. Use the current `safeActions`, blockers,
-evidence freshness, action explanation, Contract digest, and repository
-snapshot. Use declared verification commands and the relevant Reference page.
-Do not infer permission from this guide or hand-edit generated records.
+Before launching a declared check, inspect Runtime `work-item status` and
+`work-item validate` and inventory its formal receipt. Reuse only fresh, complete
+evidence; otherwise follow Runtime's admitted next action. See the
+[verification evidence reuse procedure](../../docs/reference/agent-workflow.md#verification-evidence-reuse)
+for identity bindings, targeted reruns, and hosted-evidence boundaries.
 
-## Operations
+When status admits `record_governance_controls`, submit only explicit evidence
+via `work-item controls --repo <repository> --id <work-item> --input <json>` or
+MCP `work_item_controls`; both re-check admission. Refresh status; incomplete
+required controls block `finish`.
 
-1. Confirm the Runtime identity and repository binding, then inspect the
-   current status before touching files.
-2. Make only the Contract-scoped change. Keep tests and evidence intact.
-3. Re-query the Runtime before each lifecycle boundary and follow the action
-   it currently admits; a recommendation is only guidance.
-4. Run the declared checks at the scope required by the change. Preserve
-   command, exit status, logs, and identity for every failure.
-5. At handoff, report implementation, projection, and host delivery as
-   separate Outcome facts.
+## Serial and cross-Work-Item use
 
-## Success conditions
+One Work Item keeps a serial path; lifecycle and snapshot-changing writes stay
+serial. Work Item-bound `verify` defaults to `--workers 1`; explicit
+`--workers >1` fails closed until Runtime verifies per-node dependency
+readiness and output isolation. Do not split required gates across concurrent
+commands on one checkout.
 
-The current Contract and snapshot are bound, required checks have current
-evidence, no blocker or unresolved human decision remains, and the Runtime
-admits the next operation. The visible Outcome contains the complete status,
-evidence, unknowns or risks, decision, verification, impact, and next action.
+Parallelize independent checks only on an immutable snapshot, with ready
+dependencies, isolated outputs, and bounded resources. CI jobs may fan out as
+siblings only with the same route/source identity and no dependency edge. Keep
+receipt producer-consumer serial; reuse fresh matching receipts.
 
-## Failure evidence
+Before cross-Work-Item use, inspect the local capability manifest, current CLI
+help, and MCP `tools/list` schemas; use `ai-cockpit capability show --repo
+<repository>`. Readable fields or older Runtime versions do not prove support.
 
-Keep the exact failing command, exit status, output path, Runtime projection,
-Contract/snapshot digests, and any invalidated receipt. Do not replace a
-yellow or red state with a prose claim of completion. If the failure is a
-verification or evidence failure, switch to
-[`verification-failure-recovery`](verification-failure-recovery.md).
+Cross-Work-Item fan-out needs supported CLI/MCP, compatible declarations, and
+a Runtime slot lease. If unsupported/unknown, use admitted serial work or stop;
+a negative compatibility result denies fan-out only. See the
+[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
-## Continue or stop
-
-Continue only after a fresh Runtime query admits the operation and all
-required inputs are present. Preserve and report unknowns; unknowns alone do
-not stop an operation admitted by the current Runtime. Stop for missing
-authority, contradictory evidence, stale admission, an out-of-scope defect,
-or a human decision required by Runtime. Ask for a real decision when Runtime
-says one is required; do not turn a recommendation into approval.
-
-## Reference
-
-See [agent workflow](../../docs/reference/agent-workflow.md), [how to read
-status](../../docs/reference/how-to-read-cockpit-status.md), and the
-[command reference](../../docs/reference/commands.md).
+Inspection is read-only. Registration, impact/outcome, pause/resume/recovery,
+and lease mutations are explicit writes bound to repository, Contract, Runtime,
+and generation. Refresh dependency admission before affected actions; unrelated
+work needs its own fresh admission. Recovery appends a resolution and retains
+the event. Runtime owns lifecycle decisions; never infer support from fields or
+ignore/emulate unsupported constraints.

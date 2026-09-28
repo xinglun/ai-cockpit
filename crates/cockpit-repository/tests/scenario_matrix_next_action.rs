@@ -13,9 +13,9 @@ use cockpit_git::GitRepository;
 use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
-    plan_resource_finalization, preflight_work_item, record_verification,
-    require_current_action_admission, require_verification_preconditions, scaffold_work_item,
-    start_work_item_with_options, work_item_status_snapshot_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime_report,
+    record_verification, require_current_action_admission, require_verification_preconditions,
+    scaffold_work_item, start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -58,6 +58,7 @@ fn assert_checkpointed_preflight_recovery(
     id: &str,
     stale_contract: bool,
     stale_yellow_without_decision: bool,
+    stale_red_preflight: bool,
 ) {
     let directory = repository();
     start_work_item_with_options(
@@ -77,7 +78,7 @@ fn assert_checkpointed_preflight_recovery(
     preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
     checkpoint_work_item(directory.path(), id).expect("checkpoint");
 
-    if stale_yellow_without_decision {
+    if stale_yellow_without_decision || stale_red_preflight {
         // Model a checkpointed legacy projection whose prior yellow preflight
         // no longer has a usable review receipt. The next action is to refresh
         // the preflight; the stale state must not create a second start gate.
@@ -85,11 +86,16 @@ fn assert_checkpointed_preflight_recovery(
         let mut summary: Value =
             serde_json::from_slice(&fs::read(&summary_path).expect("read Summary"))
                 .expect("Summary JSON");
-        summary["preflightState"] = serde_json::json!("yellow");
-        summary
-            .as_object_mut()
-            .expect("Summary object")
-            .remove("decisionEvidence");
+        if stale_yellow_without_decision {
+            summary["preflightState"] = serde_json::json!("yellow");
+            summary
+                .as_object_mut()
+                .expect("Summary object")
+                .remove("decisionEvidence");
+        }
+        if stale_red_preflight {
+            summary["preflightState"] = serde_json::json!("red");
+        }
         fs::write(
             &summary_path,
             serde_json::to_vec_pretty(&summary).expect("serialize Summary"),
@@ -134,6 +140,8 @@ fn assert_checkpointed_preflight_recovery(
             .and_then(|explanation| explanation.recommended_action.as_deref()),
         Some("run_preflight")
     );
+    require_current_action_admission(directory.path(), id, "run_preflight", &runtime())
+        .expect("the same fresh admission must authorize the stale-preflight refresh");
 
     preflight_work_item(directory.path(), &contract_path).expect("refresh preflight");
     let refreshed = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
@@ -146,6 +154,44 @@ fn assert_checkpointed_preflight_recovery(
         !refreshed.safe_actions.contains(&"run_preflight".into()),
         "a current preflight must not keep recommending itself: {refreshed:?}"
     );
+}
+
+#[test]
+fn runtime_bound_preflight_rejects_when_fresh_admission_allows_verification_only() {
+    let directory = repository();
+    let id = "WI-PREFLIGHT-ADMISSION-RECHECK";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "recheck preflight admission under lock",
+        "reject a preflight after Runtime has advanced to verification",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = contract(directory.path(), id);
+    let runtime = runtime();
+    preflight_work_item_with_runtime_report(directory.path(), &contract_path, &runtime)
+        .expect("initial admitted preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), id).expect("checkpoint");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime)
+        .expect("fresh status");
+    assert!(status.safe_actions.contains(&"run_verification".into()));
+    assert!(!status.safe_actions.contains(&"run_preflight".into()));
+
+    let error = preflight_work_item_with_runtime_report(directory.path(), &contract_path, &runtime)
+        .expect_err("fresh Runtime admission must reject a redundant preflight");
+    let message = state_message(error);
+    assert!(
+        message.contains("current action admission rejected"),
+        "{message}"
+    );
+    assert!(message.contains("run_preflight"), "{message}");
 }
 
 fn scenario_matrix() -> Value {
@@ -515,14 +561,24 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
     let query_error =
         require_current_action_admission(directory.path(), id, "run_verification", &runtime())
             .expect_err("the execution admission must agree with the query");
-    assert!(query_error.to_string().contains("run_verification"));
+    let rejected = query_error.to_string();
+    let explanation = after
+        .action_explanation
+        .as_ref()
+        .expect("current status action explanation");
+    assert!(rejected.contains("run_verification"));
+    assert!(rejected.contains(explanation.admission_digest.as_str()));
+    assert!(rejected.contains(&format!("blockers={:?}", after.blockers)));
+    assert!(rejected.contains(&format!("nextAction={:?}", explanation.recommended_action)));
     let execution_error =
         require_verification_preconditions(directory.path(), id, &runtime(), &changed_snapshot)
             .expect_err("stale verification must stop before process start");
+    let execution_rejected = execution_error.to_string();
+    assert!(execution_rejected.contains("current repository snapshot"));
+    assert!(execution_rejected.contains(explanation.admission_digest.as_str()));
+    assert!(execution_rejected.contains(&format!("blockers={:?}", after.blockers)));
     assert!(
-        execution_error
-            .to_string()
-            .contains("current repository snapshot")
+        execution_rejected.contains(&format!("nextAction={:?}", explanation.recommended_action))
     );
 
     let evidence_directory = repository();
@@ -572,9 +628,14 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
 
 #[test]
 fn checkpointed_stale_preflight_projects_preflight_recovery() {
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-SNAPSHOT", false, false);
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-CONTRACT", true, false);
-    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-YELLOW", false, true);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-SNAPSHOT", false, false, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-CONTRACT", true, false, false);
+    assert_checkpointed_preflight_recovery("WI-STALE-PREFLIGHT-YELLOW", false, true, false);
+}
+
+#[test]
+fn checkpointed_stale_red_preflight_projects_preflight_recovery() {
+    assert_checkpointed_preflight_recovery("WI-STALE-RED-PREFLIGHT", false, false, true);
 }
 
 #[test]

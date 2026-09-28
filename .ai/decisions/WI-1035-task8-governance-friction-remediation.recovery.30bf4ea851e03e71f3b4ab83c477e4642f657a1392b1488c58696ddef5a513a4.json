@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-28T01:31:38Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1035-task8-governance-friction-remediation.archive.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.close.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36363705256",
+    "https://github.com/xinglun/ai-cockpit/pull/997"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+  "predecessorEventsDigest": "sha256:bbe8c32555c8cc8b31da9631525456480a187264a20d4e5b053e0a82d4cd1c3a",
+  "predecessorOutcomeDigest": "sha256:e9d1a383f861f25dd3ef96cb91b1a6394705fcbf95ef8cd8da751e15c128c898",
+  "predecessorSummaryDigest": "sha256:7107446416bbee8afccb7a57ac4f0ec1ceddd1086c34aecb2aab67681e594be8",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user authorized a dedicated corrective successor Work Item for Task 8 after PR #997 required CI checks failed. The observed failures to remediate are seven composition-test failures in cockpit-verification, the closed Work Item documentation-promotion gate failure, and the ci_manifest_regression failure in run 36363705256. Root causes remain to be confirmed under the successor Contract; preserve original failures and PR #997, add focused negative regressions, do not weaken or skip gates, and stop before release, tag, or publication.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Runtime creates WI-1036-task8-ci-recovery as the successor. Complete its Contract and comprehensive serial implementation plan in this linked worktree, then run fresh preflight and act only on admitted checks. Fix the observed PR CI failures without weakening gates; preserve prior receipts and do not rerun the 14-node hosted verification unless current Runtime evidence requires it. Continue Task 8 through passing CI, PR review, merge, and cleanup under prior authorization, then Task 9 only after Task 8 is complete. Stop before release, tag, or publication.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1036-task8-ci-recovery",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

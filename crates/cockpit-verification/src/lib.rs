@@ -3,8 +3,8 @@ pub mod gate_plan;
 
 pub use composition::{
     CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
-    CompositionIdentity, CompositionInput, CompositionPrecondition, ReuseDecision,
-    ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
+    CompositionIdentity, CompositionInput, CompositionPrecondition, OwnerInterruptionGuard,
+    ReuseDecision, ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
     run_composition_with_process_gates,
 };
 
@@ -431,6 +431,8 @@ pub struct VerificationExecutionRecord {
     pub spawned: bool,
     pub passed: bool,
     pub exit_code: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub termination_signal: Option<i32>,
     #[serde(rename = "stdout")]
     pub stdout_hex: String,
     #[serde(rename = "stderr")]
@@ -439,6 +441,154 @@ pub struct VerificationExecutionRecord {
     pub stderr_truncated: bool,
     pub timed_out: bool,
     pub elapsed_ms: u128,
+}
+
+/// A human-readable grouping of equivalent compiler diagnostics. This is a
+/// presentation projection only; the original per-node execution records stay
+/// authoritative and retain their complete bounded output bytes.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DiagnosticSummary {
+    pub severity: String,
+    pub code: Option<String>,
+    pub message: String,
+    pub occurrences: usize,
+    pub node_ids: Vec<String>,
+}
+
+type DiagnosticGroups = BTreeMap<(String, Option<String>, String), (usize, BTreeSet<String>)>;
+
+/// Decode and de-duplicate compiler diagnostic roots for human output while
+/// leaving every execution record, including non-UTF8 stderr, untouched.
+pub fn summarize_diagnostics(records: &[VerificationExecutionRecord]) -> Vec<DiagnosticSummary> {
+    let mut grouped = DiagnosticGroups::new();
+    for record in records {
+        let Some(bytes) = decode_hex_bytes(&record.stderr_hex) else {
+            continue;
+        };
+        let text = String::from_utf8_lossy(&bytes);
+        let text = strip_ansi_sequences(&text);
+        let mut current_diagnostic: Option<(String, Option<String>, String)> = None;
+        for line in text.lines() {
+            if let Some((severity, code, message)) = parse_diagnostic_root(line) {
+                if let Some(previous) = current_diagnostic.take() {
+                    record_diagnostic(&mut grouped, previous, &record.node_id);
+                }
+                current_diagnostic = Some((severity, code, message));
+                continue;
+            }
+            if let Some((_, code, _)) = current_diagnostic.as_mut()
+                && code.is_none()
+                && (line.contains("#[warn(")
+                    || line.contains("#[deny(")
+                    || line.contains("#[forbid("))
+                && let Some(lint) = clippy_code(line)
+            {
+                *code = Some(lint);
+            }
+        }
+        if let Some(diagnostic) = current_diagnostic {
+            record_diagnostic(&mut grouped, diagnostic, &record.node_id);
+        }
+    }
+    grouped
+        .into_iter()
+        .map(
+            |((severity, code, message), (occurrences, node_ids))| DiagnosticSummary {
+                severity,
+                code,
+                message,
+                occurrences,
+                node_ids: node_ids.into_iter().collect(),
+            },
+        )
+        .collect()
+}
+
+fn record_diagnostic(
+    grouped: &mut DiagnosticGroups,
+    diagnostic: (String, Option<String>, String),
+    node_id: &str,
+) {
+    let entry = grouped.entry(diagnostic).or_default();
+    entry.0 += 1;
+    entry.1.insert(node_id.to_owned());
+}
+
+fn decode_hex_bytes(value: &str) -> Option<Vec<u8>> {
+    value
+        .as_bytes()
+        .chunks(2)
+        .map(|pair| {
+            let [high, low] = pair else {
+                return None;
+            };
+            let high = ascii_hex_digit(*high)?;
+            let low = ascii_hex_digit(*low)?;
+            Some((high << 4) | low)
+        })
+        .collect()
+}
+
+fn ascii_hex_digit(byte: u8) -> Option<u8> {
+    match byte {
+        b'0'..=b'9' => Some(byte - b'0'),
+        b'a'..=b'f' => Some(byte - b'a' + 10),
+        b'A'..=b'F' => Some(byte - b'A' + 10),
+        _ => None,
+    }
+}
+
+fn strip_ansi_sequences(value: &str) -> String {
+    let mut output = String::with_capacity(value.len());
+    let mut chars = value.chars().peekable();
+    while let Some(character) = chars.next() {
+        if character == '\u{1b}' && chars.peek() == Some(&'[') {
+            chars.next();
+            for character in chars.by_ref() {
+                if ('@'..='~').contains(&character) {
+                    break;
+                }
+            }
+        } else {
+            output.push(character);
+        }
+    }
+    output
+}
+
+fn parse_diagnostic_root(line: &str) -> Option<(String, Option<String>, String)> {
+    let line = line.trim();
+    let (severity, remainder) = ["warning", "error"]
+        .into_iter()
+        .find_map(|severity| line.strip_prefix(severity).map(|rest| (severity, rest)))?;
+    let (code, message) = if let Some(rest) = remainder.strip_prefix('[') {
+        let (code, message) = rest.split_once("]:")?;
+        (Some(code.trim().to_owned()), message.trim())
+    } else {
+        (None, remainder.strip_prefix(':')?.trim())
+    };
+    if message.is_empty() || is_compiler_summary(message) {
+        return None;
+    }
+    Some((severity.to_owned(), code, message.to_owned()))
+}
+
+fn is_compiler_summary(message: &str) -> bool {
+    message.starts_with("could not compile ")
+        || message.starts_with("aborting due to ")
+        || (message.starts_with('`')
+            && message.contains(" generated ")
+            && (message.contains(" warning") || message.contains(" error")))
+}
+
+fn clippy_code(line: &str) -> Option<String> {
+    let suffix = line.split_once("clippy::")?.1;
+    let lint = suffix
+        .chars()
+        .take_while(|character| character.is_ascii_alphanumeric() || *character == '_')
+        .collect::<String>();
+    (!lint.is_empty()).then(|| format!("clippy::{lint}"))
 }
 
 pub const VERIFICATION_COVERAGE_MANIFEST_SCHEMA_VERSION: u32 = 1;
@@ -2256,6 +2406,7 @@ fn execute_verification_plan_bounded_with_observer_at(
                 spawned: outcome.spawned,
                 passed: outcome.passed,
                 exit_code: outcome.exit_code,
+                termination_signal: outcome.termination_signal,
                 stdout_hex: encode_hex(&outcome.stdout),
                 stderr_hex: encode_hex(&outcome.stderr),
                 stdout_truncated: outcome.stdout_truncated,
@@ -2465,6 +2616,7 @@ struct ExecutionOutcome {
     spawned: bool,
     passed: bool,
     exit_code: Option<i32>,
+    termination_signal: Option<i32>,
     stdout: Vec<u8>,
     stderr: Vec<u8>,
     stdout_truncated: bool,
@@ -2482,6 +2634,7 @@ struct ExecutionOutcome {
 struct OutputIdentity<'a> {
     success: bool,
     exit_code: Option<i32>,
+    termination_signal: Option<i32>,
     stdout: &'a [u8],
     stderr: &'a [u8],
     stdout_truncated: bool,
@@ -2551,6 +2704,7 @@ fn execute_captured(
                 spawned: false,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: error.into_bytes(),
                 stdout_truncated: false,
@@ -2575,6 +2729,7 @@ fn execute_captured(
                 spawned: true,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: Vec::new(),
                 stdout_truncated: false,
@@ -2597,6 +2752,7 @@ fn execute_captured(
             spawned: true,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: Vec::new(),
             stderr: Vec::new(),
             stdout_truncated: false,
@@ -2627,6 +2783,10 @@ fn execute_captured(
     let (status, mut timed_out) = loop {
         match child.try_wait() {
             Ok(Some(status)) => break (Some(status), false),
+            Ok(None) if composition::owner_interruption_signal().is_some() => {
+                terminate_process_tree(&mut child, child_id);
+                break (child.wait().ok(), false);
+            }
             Ok(None) if Instant::now() < deadline => std::thread::sleep(Duration::from_millis(10)),
             Ok(None) => {
                 terminate_process_tree(&mut child, child_id);
@@ -2654,6 +2814,7 @@ fn execute_captured(
             spawned: true,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
@@ -2666,6 +2827,7 @@ fn execute_captured(
             deadline_ms,
         };
     };
+    let termination_signal = status_termination_signal(&status);
     if stdout.failed || stderr.failed {
         return ExecutionOutcome {
             spawned: true,
@@ -2675,6 +2837,7 @@ fn execute_captured(
             // being torn down. Never expose that code as a successful-looking
             // exit status.
             exit_code: (!timed_out).then(|| status.code()).flatten(),
+            termination_signal,
             stdout: stdout.bytes,
             stderr: stderr_bytes,
             stdout_truncated: stdout.truncated,
@@ -2690,6 +2853,7 @@ fn execute_captured(
     let identity = OutputIdentity {
         success: status.success() && !timed_out && observer_error.is_none(),
         exit_code: status.code(),
+        termination_signal,
         stdout: &stdout.bytes,
         stderr: &stderr_bytes,
         stdout_truncated: stdout.truncated,
@@ -2703,6 +2867,7 @@ fn execute_captured(
         spawned: true,
         passed: status.success() && !timed_out && observer_error.is_none(),
         exit_code: (!timed_out).then(|| status.code()).flatten(),
+        termination_signal,
         stdout: stdout.bytes,
         stderr: stderr_bytes,
         stdout_truncated: stdout.truncated,
@@ -2728,6 +2893,7 @@ fn observer_failed_outcome(
         spawned: true,
         passed: false,
         exit_code: None,
+        termination_signal: None,
         stdout: Vec::new(),
         stderr,
         stdout_truncated: false,
@@ -2739,6 +2905,18 @@ fn observer_failed_outcome(
         timeout_seconds,
         deadline_ms,
     }
+}
+
+#[cfg(unix)]
+fn status_termination_signal(status: &std::process::ExitStatus) -> Option<i32> {
+    use std::os::unix::process::ExitStatusExt;
+
+    status.signal()
+}
+
+#[cfg(not(unix))]
+fn status_termination_signal(_status: &std::process::ExitStatus) -> Option<i32> {
+    None
 }
 
 fn append_observer_error(stderr: &mut Vec<u8>, error: Option<&str>) {
@@ -3349,6 +3527,7 @@ mod tests {
                 spawned: true,
                 passed: false,
                 exit_code: None,
+                termination_signal: None,
                 stdout: Vec::new(),
                 stderr: Vec::new(),
                 stdout_truncated: false,

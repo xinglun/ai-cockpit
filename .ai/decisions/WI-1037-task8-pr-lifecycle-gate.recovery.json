@@ -1,0 +1,31 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, proceed to Task 9 only after readiness, and stop before release for human review.",
+  "decidedAt": "2026-09-28T07:08:32Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36388275473",
+    "https://github.com/xinglun/ai-cockpit/pull/997",
+    ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.archive.json",
+    ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "predecessorEventsDigest": "sha256:08bfc5e2506220eec69e7d2f8905872d27d1d3732b8e496af37bb57c8dd2f7e1",
+  "predecessorOutcomeDigest": "sha256:79a68ffc6b345d401b2386b51e5504b5d824761337a16079a43b3cd35d6eacb2",
+  "predecessorSummaryDigest": "sha256:1a903d57d31bf913f1c88cdd8855766abf54675d0b2b1f2a027750ee319b1b2c",
+  "predecessorWorkItemId": "WI-1037-task8-pr-lifecycle-gate",
+  "reason": "PR #997 exact-head hosted CI run 36388275473 failed docs_governance_integrity because all three parity ledgers still register archived WI-1037 with its pre-archive lifecycle status. WI-1037 is immutable and its Contract includes the three parity documents, so continue this bounded Task 8 correction through an append-only successor; preserve the failed run and all predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Runtime creates WI-1038 as a successor in the same Task 8 recovery lineage. Keep its scope limited to accurate tri-language parity projection for the already archived WI-1037 and any minimal WI-1038 lifecycle rows required by governance. Preserve every prior failure and archive. Run only relevant focused checks plus the Runtime-declared required verification, then archive and require exact-head hosted CI for PR #997 before merging. Close the Task 8 lineage, synchronize and clean only after Runtime admission, start Task 9 only when readyOnBase is true, and do not release, tag, publish, or build a release candidate.",
+  "runtimeDigest": "sha256:ed3504c9d2e8a54688caa2449dbb086d058cec7984b4d2e89e3e0501adfa3d7b",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1038-task8-parity-projection-recovery",
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

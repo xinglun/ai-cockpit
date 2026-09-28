@@ -38,6 +38,13 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
         "stderr: {}",
         String::from_utf8_lossy(&output.stderr)
     );
+    let progress = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        progress.contains("Verification progress:")
+            && progress.contains("0/1 complete")
+            && progress.contains("1/1 complete, 100%"),
+        "verification should report evidence-based node progress on stderr: {progress}"
+    );
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(json["nodesPlanned"], 1);
     assert_eq!(json["nodesExecuted"], 1);
@@ -54,6 +61,7 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
     assert_eq!(json["results"][0]["protected"], false);
     assert_eq!(json["results"][0]["action"], "execute");
     assert_eq!(json["results"][0]["satisfiedBy"], "execution");
+    assert_eq!(json["diagnosticSummary"], serde_json::json!([]));
     assert_eq!(json["passed"], true);
     assert_eq!(json["runtimeVersion"], env!("CARGO_PKG_VERSION"));
     assert!(
@@ -74,6 +82,210 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
             .as_str()
             .is_some_and(|value| value.starts_with("sha256:"))
     );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-stale-preflight-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    fs::write(directory.join("README.md"), "initial source\n").expect("README");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let work_item_id = "WI-CLI-STALE-PREFLIGHT";
+    let run_successfully = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(&directory)
+            .current_dir(&directory)
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stdout={}, stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output
+    };
+    run_successfully(&[
+        "start",
+        "--id",
+        work_item_id,
+        "--intent",
+        "verify stale preflight recovery",
+        "--goal",
+        "never execute against a stale checkpoint snapshot",
+        "--scope",
+        "README.md",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: stale verification is stopped before spawn",
+        "--required-evidence",
+        "verification",
+    ]);
+    let contract = directory
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    run_successfully(&[
+        "preflight",
+        "--contract",
+        contract.to_str().expect("Contract path"),
+    ]);
+    run_successfully(&["checkpoint", "--id", work_item_id]);
+
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "initial source",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["README.md"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run_successfully(&[
+        "work-item",
+        "controls",
+        "--id",
+        work_item_id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+
+    fs::write(directory.join("README.md"), "changed source\n").expect("change README");
+    let status = run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
+    let status: serde_json::Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status["safeActions"]
+            .as_array()
+            .is_some_and(|actions| { actions.iter().any(|action| action == "run_preflight") })
+    );
+    assert_eq!(
+        status["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(status["humanDecisionRequired"], false);
+
+    let rejected = Command::new(binary)
+        .args(["verify", "--work-item", work_item_id, "--command", "cargo"])
+        .arg("--args=--version")
+        .args(["--repo"])
+        .arg(&directory)
+        .current_dir(&directory)
+        .output()
+        .expect("stale verify");
+    assert!(
+        !rejected.status.success(),
+        "stale preflight must reject verify"
+    );
+    let error = String::from_utf8_lossy(&rejected.stderr);
+    assert!(
+        error.contains("run_preflight"),
+        "missing recovery action: {error}"
+    );
+    let attempts = fs::read_dir(directory.join(".ai/evidence"))
+        .expect("attempt directory")
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| {
+                    name.starts_with(&format!("{work_item_id}.verification-attempt."))
+                })
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1, "one rejected attempt must be preserved");
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt bytes"))
+            .expect("attempt JSON");
+    assert_eq!(attempt["state"], "precondition_rejected");
+    assert_eq!(attempt["processesSpawned"], 0);
+
+    run_successfully(&[
+        "preflight",
+        "--contract",
+        contract.to_str().expect("Contract path"),
+    ]);
+    let refreshed_status =
+        run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
+    let refreshed_status: serde_json::Value =
+        serde_json::from_slice(&refreshed_status.stdout).expect("refreshed status JSON");
+    assert_eq!(
+        refreshed_status["humanDecisionRequired"], false,
+        "fresh preflight must not reopen the already authorized start boundary: {refreshed_status:#}"
+    );
+    let accepted = Command::new(binary)
+        .args(["verify", "--work-item", work_item_id, "--command", "cargo"])
+        .arg("--args=--version")
+        .args(["--repo"])
+        .arg(&directory)
+        .current_dir(&directory)
+        .output()
+        .expect("refreshed verify");
+    assert!(
+        accepted.status.success(),
+        "fresh preflight should admit verify without another start decision: stdout={}, stderr={}",
+        String::from_utf8_lossy(&accepted.stdout),
+        String::from_utf8_lossy(&accepted.stderr)
+    );
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&accepted.stdout).expect("receipt JSON");
+    assert_eq!(receipt["processesSpawned"], 1);
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -244,8 +456,176 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
     .expect("persisted verification evidence JSON");
     let receipt = evidence.get("receipt").expect("typed receipt field");
     assert!(receipt.get("plannedNodes").is_none());
+    assert!(receipt.get("diagnosticSummary").is_none());
     let _: cockpit_verification::VerificationReceipt =
         serde_json::from_value(receipt.clone()).expect("strict typed verification receipt");
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn cli_rejected_formal_receipt_supersedes_execution_attempt_in_outcome() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-rejected-receipt-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let work_item_id = "WI-CLI-REJECTED-RECEIPT";
+    let run = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(&directory)
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stdout={}, stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output
+    };
+    run(&[
+        "start",
+        "--id",
+        work_item_id,
+        "--intent",
+        "preserve receipt rejection in Outcome",
+        "--goal",
+        "show the final formal receipt decision, not only execution completion",
+        "--scope",
+        "README.md",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: rejected receipt is visible in Outcome",
+        "--required-evidence",
+        "verification",
+    ]);
+    fs::write(directory.join("README.md"), "rejected receipt fixture\n").expect("README");
+    run(&[
+        "preflight",
+        "--contract",
+        &format!(".ai/work-items/active/{work_item_id}.contract.json"),
+    ]);
+    run(&["checkpoint", "--id", work_item_id]);
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "rejected receipt fixture",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["README.md"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run(&[
+        "work-item",
+        "controls",
+        "--id",
+        work_item_id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+
+    cockpit_repository::set_evidence_retention_policy(
+        &directory,
+        work_item_id,
+        cockpit_protocol::EvidenceRetention {
+            classification: cockpit_protocol::DataClassification::SecretProhibited,
+            persistence: cockpit_protocol::EvidencePersistence::NoPersistence,
+            retention_days: Some(1),
+            expires_at: None,
+            disposal_action: "external_owner".into(),
+        },
+        &cockpit_protocol::RuntimeContext {
+            runtime_version: env!("CARGO_PKG_VERSION").into(),
+            protocol_version: 1,
+            runtime_digest: cockpit_core::Digest::sha256_bytes(b"rejected-receipt-test"),
+        },
+    )
+    .expect("record no-persistence policy");
+
+    let rejected = Command::new(binary)
+        .args([
+            "verify",
+            "--work-item",
+            work_item_id,
+            "--command",
+            "true",
+            "--repo",
+        ])
+        .arg(&directory)
+        .output()
+        .expect("run verification that cannot promote a formal receipt");
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("no_persistence"));
+
+    let outcome = run(&["work-item", "outcome", "--id", work_item_id, "--json"]);
+    let outcome: serde_json::Value = serde_json::from_slice(&outcome.stdout).expect("Outcome JSON");
+    let unknowns = outcome["unknowns"]
+        .as_array()
+        .unwrap_or_else(|| panic!("Outcome unknowns missing: {outcome:#}"));
+    assert!(
+        unknowns.iter().any(|unknown| {
+            unknown.as_str().is_some_and(|value| {
+                value.starts_with("verification_attempt_formal_receipt_rejected:")
+                    && value.contains("no_persistence")
+            })
+        }),
+        "Outcome must expose the CLI receipt rejection rather than execution completion: {unknowns:?}"
+    );
+
+    let evidence_dir = directory.join(".ai/evidence");
+    let attempts = fs::read_dir(&evidence_dir)
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains("verification-attempt.")
+        })
+        .map(|entry| {
+            serde_json::from_slice::<serde_json::Value>(
+                &fs::read(entry.path()).expect("attempt record"),
+            )
+            .expect("attempt JSON")
+        })
+        .collect::<Vec<_>>();
+    let completed = attempts
+        .iter()
+        .find(|attempt| attempt["state"] == "execution_completed")
+        .expect("durable execution attempt");
+    let receipt_rejected = attempts
+        .iter()
+        .find(|attempt| attempt["state"] == "formal_receipt_rejected")
+        .expect("durable receipt rejection");
+    assert_eq!(
+        receipt_rejected["supersedesAttemptId"], completed["attemptId"],
+        "the rejection must explicitly supersede the execution-only projection"
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -256,13 +636,25 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
         std::process::id(),
         NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
     ));
-    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::create_dir_all(&directory).expect("directory");
     fs::write(
         directory.join("Cargo.toml"),
-        "[package]\nname = \"verify-workspace-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+        "[workspace]\nmembers = [\"member-a\", \"member-b\"]\nresolver = \"2\"\n",
     )
     .expect("manifest");
-    fs::write(directory.join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
+    for member in ["member-a", "member-b"] {
+        let member_directory = directory.join(member);
+        fs::create_dir_all(member_directory.join("src")).expect("member directory");
+        fs::write(
+            member_directory.join("Cargo.toml"),
+            format!(
+                "[package]\nname = \"verify-workspace-{member}\"\nversion = \"0.1.0\"\nedition = \"2021\"\n"
+            ),
+        )
+        .expect("member manifest");
+        fs::write(member_directory.join("src/lib.rs"), "pub fn fixture() {}\n")
+            .expect("member source");
+    }
     Command::new("git")
         .args(["init", "-q"])
         .current_dir(&directory)
@@ -271,6 +663,7 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
     let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
         .args(["verify", "--repo"])
         .arg(&directory)
+        .args(["--workers", "1"])
         .output()
         .expect("verify");
     assert!(
@@ -281,10 +674,16 @@ fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(
         json["planReceipt"]["coverageManifest"]["workspaceMembers"],
-        serde_json::json!(["verify-workspace-fixture"])
+        serde_json::json!(["verify-workspace-member-a", "verify-workspace-member-b"])
     );
-    assert_eq!(json["executionRecords"].as_array().map(Vec::len), Some(1));
+    assert_eq!(json["executionRecords"].as_array().map(Vec::len), Some(2));
     assert_eq!(json["executionRecords"][0]["exitCode"], 0);
+    assert_eq!(json["executionRecords"][1]["exitCode"], 0);
+    let progress = String::from_utf8_lossy(&output.stderr);
+    assert!(progress.contains("0/2 complete, 0%"), "{progress}");
+    assert!(progress.contains("1/2 complete, 50%"), "{progress}");
+    assert!(progress.contains("2/2 complete, 100%"), "{progress}");
+    assert!(!String::from_utf8_lossy(&output.stdout).contains("Verification progress:"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -564,9 +963,71 @@ fn verify_returns_nonzero_and_structured_receipt_when_command_fails() {
     assert_eq!(receipt["results"][0]["passed"], false);
     assert_eq!(receipt["results"][0]["nodeId"], "project-command-0");
     assert!(
+        String::from_utf8_lossy(&output.stderr)
+            .contains("completed node \"project-command-0\": failed (1/1 complete, 100%)"),
+        "failed nodes must also produce accurate progress: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(
         !String::from_utf8_lossy(&output.stderr)
             .contains("failed verification cannot be recorded as completion evidence")
     );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn verify_cli_surfaces_grouped_diagnostics_for_a_failed_execution() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-diagnostics-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    let diagnostic_command = directory.join("diagnostic-command.sh");
+    fs::write(
+        &diagnostic_command,
+        "#!/bin/sh\nprintf '%s\\n' 'warning: duplicate diagnostic' '  --> src/lib.rs:1:1' 'warning: duplicate diagnostic' '  --> src/lib.rs:2:1' '   = note: #[warn(clippy::needless_borrow)] on by default' >&2\nexit 7\n",
+    )
+    .expect("diagnostic command");
+    use std::os::unix::fs::PermissionsExt;
+    fs::set_permissions(&diagnostic_command, fs::Permissions::from_mode(0o700))
+        .expect("make diagnostic command executable");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--command"])
+        .arg(&diagnostic_command)
+        .output()
+        .expect("verify");
+    assert!(!output.status.success());
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("failed verification JSON");
+    assert_eq!(receipt["diagnosticSummary"].as_array().unwrap().len(), 2);
+    let plain = receipt["diagnosticSummary"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|item| item["code"].is_null())
+        .expect("unattributed diagnostic");
+    assert_eq!(plain["occurrences"], 1);
+    let lint = receipt["diagnosticSummary"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|item| item["code"] == "clippy::needless_borrow")
+        .expect("attributed Clippy diagnostic");
+    assert_eq!(lint["occurrences"], 1);
+    assert_eq!(lint["nodeIds"], serde_json::json!(["project-command-0"]));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -787,6 +1248,16 @@ fn workers_bound_parallel_execution_of_multiple_explicit_commands() {
         .expect("verify");
 
     assert!(output.status.success());
+    let receipt: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(receipt["nodesExecuted"], 2);
+    assert_eq!(receipt["processesSpawned"], 2);
+    assert!(
+        receipt["maxConcurrentProcesses"]
+            .as_u64()
+            .unwrap_or_default()
+            >= 2,
+        "aggregate verification receipt must report the real overlap across independent requests: {receipt}"
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -1284,7 +1755,7 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
 
 #[cfg(unix)]
 #[test]
-fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
+fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_available() {
     use std::os::unix::fs::PermissionsExt;
 
     let suffix = SystemTime::now()
@@ -1386,7 +1857,7 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
             .expect("checkpoint")
             .success()
     );
-    let verify = Command::new(binary)
+    let parallel_verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)
         .args(["--work-item", "WI-FINAL-SNAPSHOT", "--command"])
@@ -1395,12 +1866,26 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
         .arg(&fast)
         .args(["--workers", "2"])
         .output()
-        .expect("verify");
-    assert!(
-        verify.status.success(),
-        "{}",
-        String::from_utf8_lossy(&verify.stderr)
-    );
+        .expect("parallel verify");
+    let parallel_was_admitted = parallel_verify.status.success();
+    let parallel_result = serde_json::from_slice::<serde_json::Value>(&parallel_verify.stdout)
+        .unwrap_or(serde_json::Value::Null);
+    let source_after_parallel =
+        fs::read(directory.join("tracked.txt")).expect("tracked after parallel attempt");
+
+    let serial_verify = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-FINAL-SNAPSHOT", "--command"])
+        .arg(&slow)
+        .arg("--command")
+        .arg(&fast)
+        .output()
+        .expect("serial verify");
+    let serial_succeeded = serial_verify.status.success();
+    let serial_error = String::from_utf8_lossy(&serial_verify.stderr).into_owned();
+    let serial_result = serde_json::from_slice::<serde_json::Value>(&serial_verify.stdout)
+        .unwrap_or(serde_json::Value::Null);
 
     let finish = Command::new(binary)
         .args(["finish", "--repo"])
@@ -1408,10 +1893,26 @@ fn multi_command_evidence_uses_one_snapshot_after_all_workers_finish() {
         .args(["--id", "WI-FINAL-SNAPSHOT"])
         .output()
         .expect("finish");
+    let finish_succeeded = finish.status.success();
+    let finish_error = String::from_utf8_lossy(&finish.stderr).into_owned();
+    fs::remove_dir_all(&directory).expect("cleanup");
+
     assert!(
-        finish.status.success(),
-        "evidence must bind the snapshot after the slow worker: {}",
-        String::from_utf8_lossy(&finish.stderr)
+        !parallel_was_admitted,
+        "Work Item parallel verification without per-node dependency/output isolation must be rejected"
     );
-    fs::remove_dir_all(directory).expect("cleanup");
+    assert_eq!(parallel_result["state"], "blocked");
+    assert_eq!(parallel_result["gate"], "verification_parallelism");
+    assert_eq!(parallel_result["processesSpawned"], 0);
+    assert_eq!(source_after_parallel, b"before\n");
+    assert!(
+        serial_succeeded,
+        "serial verification remains available: {serial_error}"
+    );
+    assert_eq!(serial_result["passed"], true);
+    assert_eq!(serial_result["processesSpawned"], 2);
+    assert!(
+        finish_succeeded,
+        "serial evidence must bind the final snapshot: {finish_error}"
+    );
 }

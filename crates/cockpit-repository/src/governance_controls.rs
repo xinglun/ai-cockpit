@@ -322,6 +322,71 @@ pub struct GovernanceControlsReport {
     pub findings: Vec<GovernanceFinding>,
 }
 
+/// Return the governance-control gaps that prevent a Work Item from being
+/// finished.  This predicate is shared by status admission and the finish
+/// operation so an Outcome warning cannot coexist with an admitted finish.
+pub fn governance_controls_gaps_for_finish(report: &GovernanceControlsReport) -> Vec<String> {
+    let mut gaps = Vec::new();
+    for (state, acceptable, code) in [
+        (
+            report.scenario_coverage.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "scenario_coverage_insufficient",
+        ),
+        (
+            report.acceptance_evidence.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "acceptance_evidence_insufficient",
+        ),
+        (
+            report.evidence_classes.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "evidence_classes_insufficient",
+        ),
+        (
+            report.final_dimensions.as_str(),
+            &(["verified", "not_applicable"] as [&str; 2]),
+            "final_dimensions_insufficient",
+        ),
+    ] {
+        if !acceptable.contains(&state) {
+            gaps.push(code.to_owned());
+        }
+    }
+    let optional_alignment_is_unrecorded = report.intent_alignment == "unknown"
+        && report
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "intent_alignment_missing");
+    if !matches!(
+        report.intent_alignment.as_str(),
+        "resolved" | "not_applicable"
+    ) && !optional_alignment_is_unrecorded
+    {
+        gaps.push("intent_alignment_insufficient".into());
+    }
+    let material_unknowns = report
+        .unknowns
+        .iter()
+        .filter(|unknown| unknown.as_str() != "intent_alignment_missing")
+        .count();
+    if report.state == "blocked" || material_unknowns > 0 {
+        gaps.extend(
+            report
+                .findings
+                .iter()
+                .filter(|finding| finding.severity == "error")
+                .map(|finding| finding.code.clone()),
+        );
+        if report.state == "unknown" && material_unknowns > 0 {
+            gaps.push("governance_controls_unknown".into());
+        }
+    }
+    gaps.sort();
+    gaps.dedup();
+    gaps
+}
+
 fn evidence_class_projection_report(
     state: EvidenceState,
 ) -> (String, Vec<String>, Vec<GovernanceFinding>) {
@@ -1252,6 +1317,44 @@ pub fn record_work_item_governance_controls(
     work_item_id: &str,
     controls: &Value,
 ) -> Result<Value, ObserverError> {
+    crate::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+}
+
+/// Re-admit and persist Runtime-originated governance controls while holding
+/// the shared Work Item lifecycle lock. The action check is intentionally
+/// inside the lock so a stale pre-lock decision cannot race `finish`.
+pub fn record_work_item_governance_controls_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+    runtime: &RuntimeContext,
+) -> Result<Value, ObserverError> {
+    crate::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = crate::acquire_lifecycle_lock(&root, work_item_id)?;
+    crate::require_current_action_admission(
+        &root,
+        work_item_id,
+        "record_governance_controls",
+        runtime,
+    )?;
+    record_work_item_governance_controls_unlocked(&root, work_item_id, controls)
+}
+
+fn record_work_item_governance_controls_unlocked(
+    root: &Path,
+    work_item_id: &str,
+    controls: &Value,
+) -> Result<Value, ObserverError> {
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -1436,11 +1539,11 @@ pub fn record_work_item_governance_controls(
             .insert("decisionEvidence".into(), value.clone());
         let decisions_dir = root.join(".ai/decisions");
         let canonical_path = decisions_dir.join(format!("{work_item_id}.preflight-review.json"));
-        // Decision receipts are append-only. A changed Contract or snapshot
-        // requires a fresh review, but an existing receipt must never be
-        // overwritten (including when the path is a symlink). Keep the first
-        // receipt at the canonical path and bind later receipts to the digest
-        // of their exact JSON value.
+        // Decision receipts are append-only. A changed Contract invalidates
+        // this bounded review, while a source-snapshot change requires fresh
+        // preflight/verification without repeating the same human decision.
+        // An existing receipt must never be overwritten (including when the
+        // path is a symlink); bind later receipts to their exact JSON digest.
         let existing_same = fs::symlink_metadata(&canonical_path)
             .ok()
             .is_some_and(|metadata| {
@@ -1510,15 +1613,14 @@ pub(crate) enum PreflightDecisionEvidenceState {
 }
 
 /// Inspect the active Summary and its repository-local receipt without
-/// mutating either file. A malformed, stale, foreign, or partially written
-/// receipt is deliberately distinguishable from an absent receipt so callers
-/// can stop rather than silently treat tampering as a missing optional field.
+/// mutating either file. A review receipt is durable authorization for the
+/// exact Contract boundary; source-snapshot freshness is evaluated separately
+/// by preflight and verification. A malformed, foreign, or partially written
+/// receipt remains distinguishable from an absent receipt.
 pub(crate) fn preflight_decision_evidence_state(
     root: &Path,
     work_item_id: &str,
     contract_digest: &Digest,
-    preflight_decision_digest: &Digest,
-    snapshot_digest: &Digest,
 ) -> PreflightDecisionEvidenceState {
     let summary_path = root
         .join(".ai/work-items/active")
@@ -1554,8 +1656,6 @@ pub(crate) fn preflight_decision_evidence_state(
         && evidence.work_item_id == work_item_id
         && evidence.repository_id == repository_id(root).to_string()
         && evidence.contract_digest == *contract_digest
-        && evidence.preflight_decision_digest == *preflight_decision_digest
-        && evidence.repository_snapshot_digest == *snapshot_digest
         && chrono::DateTime::parse_from_rfc3339(&evidence.recorded_at).is_ok()
         && !evidence.recorded_by.trim().is_empty()
         && !evidence.reason.trim().is_empty()

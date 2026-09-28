@@ -120,6 +120,163 @@ fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
     properties
 }
 
+fn string_array_schema() -> Value {
+    json!({"type": "array", "items": {"type": "string"}})
+}
+
+fn digest_schema() -> Value {
+    json!({"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"})
+}
+
+fn enum_schema(values: &[&str]) -> Value {
+    json!({"type": "string", "enum": values})
+}
+
+fn runtime_binding_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "runtimeVersion": {"type": "string", "minLength": 1},
+            "runtimeDigest": digest_schema(),
+            "capability": {"type": "string", "const": "cross_wi_coordination_v1"}
+        },
+        "required": ["runtimeVersion", "runtimeDigest", "capability"],
+        "additionalProperties": false
+    })
+}
+
+fn collaboration_declaration_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "providedOutcomes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "outcomeId": {"type": "string", "minLength": 1},
+                        "interfaceContract": {"type": "string", "minLength": 1},
+                        "behaviorContract": {"type": "string", "minLength": 1},
+                        "publishedHead": {"type": "string", "minLength": 1},
+                        "stage": enum_schema(&["interface_stable", "composable_head", "merged_target"]),
+                        "evidenceRefs": string_array_schema()
+                    },
+                    "required": ["outcomeId", "interfaceContract", "behaviorContract", "publishedHead", "stage"],
+                    "additionalProperties": false
+                }
+            },
+            "consumedOutcomes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "providerWorkItemId": {"type": "string", "minLength": 1},
+                        "outcomeId": {"type": "string", "minLength": 1},
+                        "minimumStage": enum_schema(&["interface_stable", "composable_head", "merged_target"]),
+                        "verificationRequired": {"type": "boolean"}
+                    },
+                    "required": ["providerWorkItemId", "outcomeId", "minimumStage", "verificationRequired"],
+                    "additionalProperties": false
+                }
+            },
+            "resourceClaims": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "resourceId": {"type": "string", "minLength": 1},
+                        "mode": enum_schema(&["exclusive", "shared"]),
+                        "serial": {"type": "boolean"}
+                    },
+                    "required": ["resourceId", "mode", "serial"],
+                    "additionalProperties": false
+                }
+            },
+            "integrationResponsibility": {
+                "type": "object",
+                "properties": {
+                    "responsibleWorkItemId": {"type": "string", "minLength": 1},
+                    "targetBranch": {"type": "string", "minLength": 1},
+                    "compositionOrder": string_array_schema(),
+                    "rationale": {"type": "string", "minLength": 1}
+                },
+                "required": ["responsibleWorkItemId", "targetBranch", "rationale"],
+                "additionalProperties": false
+            },
+            "compositionVerification": {
+                "type": "object",
+                "properties": {
+                    "compatibilityConstraints": string_array_schema(),
+                    "requiredScenarios": string_array_schema(),
+                    "reusableNodes": string_array_schema()
+                },
+                "additionalProperties": false
+            }
+        },
+        "required": ["integrationResponsibility", "compositionVerification"],
+        "additionalProperties": false
+    })
+}
+
+fn worktree_registration_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "repositoryId": digest_schema(),
+            "workItemId": {"type": "string", "minLength": 1},
+            "contractDigest": digest_schema(),
+            "worktreePath": {"type": "string", "minLength": 1},
+            "branch": {"type": "string", "minLength": 1},
+            "head": {"type": "string", "minLength": 1},
+            "generation": {"type": "integer", "minimum": 1},
+            "declaration": collaboration_declaration_schema(),
+            "runtime": runtime_binding_schema()
+        },
+        "required": ["repositoryId", "workItemId", "contractDigest", "worktreePath", "branch", "head", "generation", "declaration", "runtime"],
+        "additionalProperties": false
+    })
+}
+
+fn coordination_event_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "eventId": {"type": "string", "minLength": 1},
+            "repositoryId": digest_schema(),
+            "workItemId": {"type": "string", "minLength": 1},
+            "generation": {"type": "integer", "minimum": 1},
+            "kind": enum_schema(&["outcome_published", "interface_changed", "resource_changed", "execution_changed", "verification_changed", "impact"]),
+            "source": {"type": "string", "minLength": 1},
+            "evidenceRefs": string_array_schema(),
+            "evidenceDigests": {"type": "object", "additionalProperties": digest_schema()},
+            "outcomeIds": string_array_schema()
+        },
+        "required": ["eventId", "repositoryId", "workItemId", "generation", "kind", "source"],
+        "additionalProperties": false
+    })
+}
+
+fn coordination_request_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type": "integer", "default": 1},
+            "requestId": {"type": "string", "minLength": 1},
+            "repositoryId": digest_schema(),
+            "targetWorkItemId": {"type": "string", "minLength": 1},
+            "targetGeneration": {"type": "integer", "minimum": 1},
+            "intent": enum_schema(&["wait_for_dependency", "request_safe_pause", "adjust_integration_order", "resume_re_evaluate"]),
+            "state": enum_schema(&["requested", "acknowledged", "safely_paused", "unavailable", "expired", "resumed"]),
+            "reason": {"type": "string", "minLength": 1}
+        },
+        "required": ["requestId", "repositoryId", "targetWorkItemId", "targetGeneration", "intent", "state", "reason"],
+        "additionalProperties": false
+    })
+}
+
 fn coordination_parameter_properties() -> serde_json::Map<String, Value> {
     let mut properties = serde_json::Map::new();
     for spec in cockpit_protocol::work_item_coordination_parameter_specs() {
@@ -145,6 +302,9 @@ fn coordination_parameter_properties() -> serde_json::Map<String, Value> {
         .get_mut("action")
         .expect("coordination action property spec");
     action["enum"] = json!(cockpit_protocol::work_item_coordination_action_values());
+    properties.insert("registration".into(), worktree_registration_schema());
+    properties.insert("event".into(), coordination_event_schema());
+    properties.insert("request".into(), coordination_request_schema());
     properties
 }
 
@@ -553,11 +713,11 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "preflight",
-            "Evaluate a repository-relative Contract before implementation.",
+            "Evaluate and explicitly persist preflight for a repository-relative Contract; repeated identical input is idempotent and the response lists changedPaths.",
         ),
         (
             "work_item_controls",
-            "Record explicitly supplied Work Item governance controls.",
+            "Record explicitly supplied Work Item governance controls only when a fresh Runtime status admits record_governance_controls.",
         ),
         (
             "work_item_recover",
@@ -1478,9 +1638,8 @@ pub fn handle_request_for_repo(
         }),
         "preflight" => require_compatible(repo, runtime)
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
-        "work_item_controls" => {
-            require_compatible(repo, runtime).and_then(|_| work_item_controls(repo, &arguments))
-        }
+        "work_item_controls" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_controls(repo, &arguments, runtime)),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
         "work_item_recover_selected_lineage" => require_compatible(repo, runtime)
@@ -1580,13 +1739,17 @@ fn preflight_for_repo(
         .and_then(Value::as_str)
         .ok_or("contract argument is required")?;
     let contract_path = repository_path(repo, contract_path)?;
-    let decision =
-        cockpit_repository::preflight_work_item_with_runtime(repo, &contract_path, runtime)
+    let result =
+        cockpit_repository::preflight_work_item_with_runtime_report(repo, &contract_path, runtime)
             .map_err(|error| error.to_string())?;
-    serde_json::to_value(decision).map_err(|error| error.to_string())
+    serde_json::to_value(result).map_err(|error| error.to_string())
 }
 
-fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
+fn work_item_controls(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
     let work_item_id = arguments
         .get("workItemId")
         .or_else(|| arguments.get("id"))
@@ -1597,8 +1760,13 @@ fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .get("controls")
         .or_else(|| arguments.get("input"))
         .ok_or("controls argument is required")?;
-    cockpit_repository::record_work_item_governance_controls(repo, work_item_id, controls)
-        .map_err(|error| error.to_string())
+    cockpit_repository::record_work_item_governance_controls_with_runtime(
+        repo,
+        work_item_id,
+        controls,
+        runtime,
+    )
+    .map_err(|error| error.to_string())
 }
 
 fn work_item_start(
@@ -1909,11 +2077,21 @@ fn verify_for_repo(
         output["repositoryId"] =
             Value::String(cockpit_repository::repository_id(&root).to_string());
     }
+    output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
+        &run.receipt.execution_records
+    ));
+    let verification_receipt = {
+        let mut receipt = output.clone();
+        if let Some(object) = receipt.as_object_mut() {
+            object.remove("diagnosticSummary");
+        }
+        receipt
+    };
     if let Some(work_item_id) = work_item_id
         && let Err(error) = cockpit_repository::record_verification_with_runtime(
             &root,
             work_item_id,
-            &output,
+            &verification_receipt,
             runtime,
             &run.final_snapshot,
         )
@@ -1929,19 +2107,19 @@ fn verify_for_repo(
                 .expect("repository-bound verification snapshot"),
             runtime,
             if execution_succeeded {
-                "execution_completed"
+                "formal_receipt_rejected"
             } else {
                 "execution_failed"
             },
             Some((
                 if execution_succeeded {
-                    "verification_recording"
+                    "formal_receipt"
                 } else {
                     "verification_execution"
                 },
                 &diagnostic,
             )),
-            Some(&output),
+            Some(&verification_receipt),
         );
         let persistence_note = match persistence {
             Ok(attempt) => format!(
@@ -1952,8 +2130,10 @@ fn verify_for_repo(
                 format!("; verification attempt persistence failed: {persistence_error}")
             }
         };
+        let summary = serde_json::to_string(&output["diagnosticSummary"])
+            .map_err(|serialization_error| serialization_error.to_string())?;
         return Err(format!(
-            "record verification evidence: {diagnostic}{persistence_note}"
+            "record verification evidence: {diagnostic}{persistence_note}; diagnostic summary: {summary}"
         ));
     }
     Ok(output)

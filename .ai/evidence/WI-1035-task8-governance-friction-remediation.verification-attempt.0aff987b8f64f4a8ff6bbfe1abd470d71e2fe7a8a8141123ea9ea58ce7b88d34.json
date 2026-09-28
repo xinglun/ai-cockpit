@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:0aff987b8f64f4a8ff6bbfe1abd470d71e2fe7a8a8141123ea9ea58ce7b88d34",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "488d5606cb67811722b2e23410dd6f66421f475b",
+      "commandDigest": "sha256:b3095462328bb465a5dea8c5e5021972d61c08bb54d435bc92bb97a23265a10c",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:17a49640a29b19a4ec537d7e11dd4cc75632e625a0a8b36b6879da10c2dba2aa",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+  "contractExecutionScopeDigest": "sha256:f3ec6c9f38f52b3bce2fd8cbb1158c9a042de1bb94a98c4cbfbbea6bd512979a",
+  "createdAt": "2026-09-26T17:21:45Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"governance_red\"], safeActions=[\"refresh_status\", \"resolve_blockers\", \"stop\"], nextAction=Some(\"resolve_blockers\"), admissionDigest=sha256:45b747fa720d37f8a8dbc3846d64c2e6dc4f0826f4ea1c77a583110ad5b43efb, issues=[\"evidence_contradictory\", \"user_visible_benefit_not_declared\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1034-task8-governance/ai-cockpit/.ai/work-items/active/WI-1035-task8-governance-friction-remediation.summary.json: verification requires a preflight result for the…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5869cab705204d9e69752148b215844f993ed52365d367694089a0947bef24e0",
+  "runtimeDigest": "sha256:17a49640a29b19a4ec537d7e11dd4cc75632e625a0a8b36b6879da10c2dba2aa",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

@@ -15,12 +15,96 @@ use std::io::Read;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+#[cfg(unix)]
+use std::sync::Mutex;
+use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
-pub const COMPOSITION_SCHEMA_VERSION: u32 = 1;
+pub const COMPOSITION_SCHEMA_VERSION: u32 = 2;
+const COMPOSITION_BINDING_SCHEMA_VERSION: u32 = 1;
 const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
+static NEXT_COMPOSITION_PARENT_SEQUENCE: AtomicU64 = AtomicU64::new(0);
+
+static OWNER_INTERRUPTION_SIGNAL: AtomicI32 = AtomicI32::new(0);
+
+#[cfg(unix)]
+struct OwnerInterruptionHandlerState {
+    active_guards: usize,
+    previous_action: Option<libc::sigaction>,
+}
+
+#[cfg(unix)]
+static OWNER_INTERRUPTION_HANDLER_STATE: Mutex<OwnerInterruptionHandlerState> =
+    Mutex::new(OwnerInterruptionHandlerState {
+        active_guards: 0,
+        previous_action: None,
+    });
+
+#[cfg(unix)]
+extern "C" fn record_owner_interruption_signal(signal: libc::c_int) {
+    OWNER_INTERRUPTION_SIGNAL.store(signal, Ordering::SeqCst);
+}
+
+/// Captures SIGINT while an admitted composition is active so it can stop the
+/// verifier, persist the signal, and clean up before returning to the caller.
+pub struct OwnerInterruptionGuard;
+
+impl OwnerInterruptionGuard {
+    pub fn install() -> Result<Self, CompositionError> {
+        #[cfg(unix)]
+        {
+            let mut state = OWNER_INTERRUPTION_HANDLER_STATE
+                .lock()
+                .map_err(|error| CompositionError::InterruptionHandler(error.to_string()))?;
+            if state.active_guards == 0 {
+                OWNER_INTERRUPTION_SIGNAL.store(0, Ordering::SeqCst);
+                let mut action: libc::sigaction = unsafe { std::mem::zeroed() };
+                action.sa_sigaction = record_owner_interruption_signal as *const () as usize;
+                action.sa_flags = 0;
+                unsafe {
+                    libc::sigemptyset(&mut action.sa_mask);
+                }
+                let mut previous_action: libc::sigaction = unsafe { std::mem::zeroed() };
+                let result =
+                    unsafe { libc::sigaction(libc::SIGINT, &action, &mut previous_action) };
+                if result != 0 {
+                    return Err(CompositionError::InterruptionHandler(
+                        std::io::Error::last_os_error().to_string(),
+                    ));
+                }
+                state.previous_action = Some(previous_action);
+            }
+            state.active_guards += 1;
+        }
+        Ok(Self)
+    }
+}
+
+impl Drop for OwnerInterruptionGuard {
+    fn drop(&mut self) {
+        #[cfg(unix)]
+        if let Ok(mut state) = OWNER_INTERRUPTION_HANDLER_STATE.lock()
+            && state.active_guards > 0
+        {
+            state.active_guards -= 1;
+            if state.active_guards == 0 {
+                if let Some(previous_action) = state.previous_action.take() {
+                    unsafe {
+                        libc::sigaction(libc::SIGINT, &previous_action, std::ptr::null_mut());
+                    }
+                }
+                OWNER_INTERRUPTION_SIGNAL.store(0, Ordering::SeqCst);
+            }
+        }
+    }
+}
+
+pub(crate) fn owner_interruption_signal() -> Option<i32> {
+    let signal = OWNER_INTERRUPTION_SIGNAL.load(Ordering::SeqCst);
+    (signal != 0).then_some(signal)
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -144,6 +228,8 @@ pub struct CompositionExecutionRecord {
     pub reused: bool,
     pub passed: bool,
     pub exit_code: Option<i32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub termination_signal: Option<i32>,
     pub stdout: String,
     pub stderr: String,
     pub output_digest: Digest,
@@ -163,7 +249,7 @@ pub struct CompositionCleanup {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompositionAttempt {
-    #[serde(default = "composition_schema_version")]
+    #[serde(default = "legacy_composition_schema_version")]
     pub schema_version: u32,
     pub attempt_id: String,
     pub binding: CompositionBinding,
@@ -176,6 +262,8 @@ pub struct CompositionAttempt {
     pub reuse_decision: ReuseDecision,
     pub passed: bool,
     pub failure: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub owner_termination_signal: Option<i32>,
     #[serde(default)]
     pub cleanup: Option<CompositionCleanup>,
     #[serde(default)]
@@ -198,8 +286,8 @@ impl CompositionAttempt {
     }
 }
 
-fn composition_schema_version() -> u32 {
-    COMPOSITION_SCHEMA_VERSION
+fn legacy_composition_schema_version() -> u32 {
+    1
 }
 fn default_composition_timeout() -> u64 {
     crate::DEFAULT_EXECUTION_SECONDS
@@ -221,6 +309,8 @@ pub enum CompositionError {
     },
     #[error("composition state serialization failed: {0}")]
     Serialization(String),
+    #[error("composition interruption handler could not be installed: {0}")]
+    InterruptionHandler(String),
     #[error("composition attempt {attempt_id} is still owned by live process {owner_pid}")]
     ActiveAttempt { attempt_id: String, owner_pid: u32 },
     #[error("composition attempt {attempt_id} has no verifiable owner; preserving its worktree")]
@@ -293,6 +383,7 @@ fn run_composition_inner(
         reuse_decision,
         passed: false,
         failure: Some("in_progress".into()),
+        owner_termination_signal: None,
         cleanup: None,
         recorded_at_unix_nanos,
         owner_pid: Some(std::process::id()),
@@ -436,6 +527,10 @@ fn run_composition_inner(
     persist_attempt(&input.state_dir, &attempt)?;
 
     for command in &input.commands {
+        if let Some(signal) = owner_interruption_signal() {
+            persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+            break;
+        }
         let environment = controlled_command_environment(command)
             .expect("command environment was checked before any process started");
         let Some(executable) = resolve_executable(&worktree, &command.program, &environment) else {
@@ -549,17 +644,28 @@ fn run_composition_inner(
         let passed = record.passed;
         attempt.execution_records.push(record);
         persist_attempt(&input.state_dir, &attempt)?;
+        if let Some(signal) = owner_interruption_signal() {
+            persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+            break;
+        }
         if !passed {
-            let exit_code = attempt
+            let failed_record = attempt
                 .execution_records
                 .last()
-                .and_then(|item| item.exit_code);
-            attempt.failure = Some(format!("command_failed:exit={exit_code:?}"));
+                .expect("failed command was just persisted");
+            attempt.failure = Some(if let Some(signal) = failed_record.termination_signal {
+                format!("command_interrupted:signal={signal}")
+            } else {
+                format!("command_failed:exit={:?}", failed_record.exit_code)
+            });
             persist_attempt(&input.state_dir, &attempt)?;
             break;
         }
     }
 
+    if let Some(signal) = owner_interruption_signal() {
+        persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
+    }
     attempt.passed = (attempt.failure.is_none()
         || attempt.failure.as_deref() == Some("in_progress"))
         && attempt.execution_records.len() == input.commands.len()
@@ -649,7 +755,7 @@ pub fn composition_commands_digest(commands: &[CompositionCommand]) -> Digest {
 }
 
 fn validate_binding(binding: &CompositionBinding) -> Result<(), CompositionError> {
-    if binding.schema_version != COMPOSITION_SCHEMA_VERSION
+    if binding.schema_version != COMPOSITION_BINDING_SCHEMA_VERSION
         || binding.binding_id.trim().is_empty()
         || binding.target_branch.trim().is_empty()
         || binding.target_sha.len() != 40
@@ -746,7 +852,7 @@ fn load_latest_attempt(
         })?;
         let candidate: CompositionAttempt = serde_json::from_slice(&bytes)
             .map_err(|error| CompositionError::Serialization(error.to_string()))?;
-        if path.file_stem().and_then(|stem| stem.to_str()) != Some(candidate.attempt_id.as_str()) {
+        if !attempt_record_filename_matches(&path, &candidate.attempt_id) {
             return Err(CompositionError::Serialization(format!(
                 "composition attempt filename does not match embedded identity: {}",
                 path.display()
@@ -774,6 +880,7 @@ fn same_composition_lineage(previous: &CompositionBinding, current: &Composition
 
 fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
     attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.owner_termination_signal.is_none()
         && attempt.passed
         && attempt.failure.is_none()
         && attempt.preconditions.iter().all(|item| item.satisfied)
@@ -803,6 +910,17 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
                     record.predecessor_attempt_id.is_none()
                 }
         })
+}
+
+fn persist_owner_interruption(
+    state_dir: &Path,
+    attempt: &mut CompositionAttempt,
+    signal: i32,
+) -> Result<(), CompositionError> {
+    attempt.owner_termination_signal = Some(signal);
+    attempt.passed = false;
+    attempt.failure = Some(format!("composition_interrupted:owner_signal={signal}"));
+    persist_attempt(state_dir, attempt)
 }
 
 fn reconcile_abandoned_attempt(
@@ -909,7 +1027,9 @@ fn reconcile_abandoned_attempt(
         )));
     }
     attempt.cleanup = Some(cleanup);
-    if attempt.failure.as_deref() == Some("in_progress") {
+    if let Some(signal) = attempt.owner_termination_signal {
+        attempt.failure = Some(format!("interrupted_owner_terminated:signal={signal}"));
+    } else if attempt.failure.as_deref() == Some("in_progress") {
         attempt.failure = Some("interrupted_owner_terminated".into());
     }
     persist_attempt(state_dir, &attempt)?;
@@ -929,8 +1049,18 @@ fn validated_composition_paths(
     let parent = worktree.parent()?.to_path_buf();
     let parent_name = parent.file_name()?.to_str()?;
     let suffix = parent_name.strip_prefix("ai-cockpit-composition-")?;
-    let (pid, timestamp) = suffix.split_once('-')?;
-    if pid.parse::<u32>().ok()? != owner_pid || timestamp.parse::<u128>().ok()? == 0 {
+    let (pid, suffix) = suffix.split_once('-')?;
+    let mut components = suffix.split('-');
+    let timestamp = components.next()?.parse::<u128>().ok()?;
+    let sequence_is_valid = match components.next() {
+        Some(sequence) => sequence.parse::<u64>().is_ok(),
+        None => true,
+    };
+    if pid.parse::<u32>().ok()? != owner_pid
+        || timestamp == 0
+        || !sequence_is_valid
+        || components.next().is_some()
+    {
         return None;
     }
     let canonical_temp = fs::canonicalize(std::env::temp_dir()).ok()?;
@@ -1026,8 +1156,15 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
     use std::os::unix::fs::MetadataExt;
 
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+    // Procfs may deny a caller access to its runner/launcher ancestors. Those
+    // processes existed before the private composition directory was created
+    // and cannot have inherited its cwd or file descriptors. Keep inspecting
+    // every process that could have inherited or opened this private path so
+    // escaped verifiers still protect it.
+    let caller_ancestors = linux_process_ancestor_ids(Path::new("/proc"), std::process::id())?;
+    let private_created_at = private_worktree_created_at_unix_nanos(&worktree);
     let proc_entries = fs::read_dir("/proc").map_err(|error| error.to_string())?;
-    for entry in proc_entries {
+    'processes: for entry in proc_entries {
         let entry = entry.map_err(|error| error.to_string())?;
         let Some(process_id) = entry
             .file_name()
@@ -1036,7 +1173,7 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         else {
             continue;
         };
-        if process_id == std::process::id() {
+        if process_id == std::process::id() || caller_ancestors.contains(&process_id) {
             continue;
         }
         let process_dir = entry.path();
@@ -1053,6 +1190,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(_) => {}
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
             Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                if private_created_at.is_some_and(|created_at| {
+                    linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                        .unwrap_or(false)
+                }) {
+                    continue 'processes;
+                }
                 return Err(format!(
                     "cannot inspect process {process_id} working directory"
                 ));
@@ -1064,6 +1207,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(descriptors) => descriptors,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
             Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                if private_created_at.is_some_and(|created_at| {
+                    linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                        .unwrap_or(false)
+                }) {
+                    continue 'processes;
+                }
                 return Err(format!(
                     "cannot inspect process {process_id} file descriptors"
                 ));
@@ -1077,6 +1226,12 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 Ok(_) => {}
                 Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
                 Err(error) if error.kind() == std::io::ErrorKind::PermissionDenied => {
+                    if private_created_at.is_some_and(|created_at| {
+                        linux_process_started_before(Path::new("/proc"), process_id, created_at)
+                            .unwrap_or(false)
+                    }) {
+                        continue 'processes;
+                    }
                     return Err(format!("cannot inspect process {process_id} open files"));
                 }
                 Err(error) => return Err(error.to_string()),
@@ -1084,6 +1239,90 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         }
     }
     Ok(None)
+}
+
+#[cfg(target_os = "linux")]
+fn private_worktree_created_at_unix_nanos(worktree: &Path) -> Option<u128> {
+    if worktree.file_name()?.to_str()? != "composition" {
+        return None;
+    }
+    let parent_name = worktree.parent()?.file_name()?.to_str()?;
+    let suffix = parent_name.strip_prefix("ai-cockpit-composition-")?;
+    let mut components = suffix.split('-');
+    components.next()?.parse::<u32>().ok()?;
+    let created_at = components.next()?.parse::<u128>().ok()?;
+    components.next()?.parse::<u64>().ok()?;
+    components.next().is_none().then_some(created_at)
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_started_before(
+    proc_root: &Path,
+    process_id: u32,
+    private_created_at_unix_nanos: u128,
+) -> Result<bool, String> {
+    let stat_path = proc_root.join(process_id.to_string()).join("stat");
+    let stat = match fs::read_to_string(&stat_path) {
+        Ok(stat) => stat,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(true),
+        Err(error) => return Err(error.to_string()),
+    };
+    let command_end = stat
+        .rfind(')')
+        .ok_or_else(|| format!("cannot inspect process {process_id} start identity"))?;
+    // Fields after the closing command name begin with field 3 (state); field
+    // 22 (starttime) is therefore the twentieth whitespace-delimited value.
+    let start_ticks = stat[command_end + 1..]
+        .split_whitespace()
+        .nth(19)
+        .and_then(|value| value.parse::<u128>().ok())
+        .ok_or_else(|| format!("cannot inspect process {process_id} start time"))?;
+    let boot_time_seconds = fs::read_to_string(proc_root.join("stat"))
+        .map_err(|error| error.to_string())?
+        .lines()
+        .find_map(|line| line.strip_prefix("btime "))
+        .and_then(|value| value.parse::<u128>().ok())
+        .ok_or_else(|| "cannot inspect Linux boot time".to_owned())?;
+    // SAFETY: sysconf is a read-only query for the kernel clock-tick rate.
+    let ticks_per_second = unsafe { libc::sysconf(libc::_SC_CLK_TCK) };
+    if ticks_per_second <= 0 {
+        return Err("cannot inspect Linux process clock-tick rate".into());
+    }
+    let process_started_at = boot_time_seconds
+        .saturating_mul(1_000_000_000)
+        .saturating_add(start_ticks.saturating_mul(1_000_000_000) / ticks_per_second as u128);
+    // /proc/stat's boot-time epoch has one-second resolution. Require a full
+    // two-second separation before treating an inaccessible process as
+    // pre-existing; recent or unobservable processes remain fail-closed.
+    Ok(process_started_at.saturating_add(2_000_000_000) < private_created_at_unix_nanos)
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_ancestor_ids(proc_root: &Path, process_id: u32) -> Result<BTreeSet<u32>, String> {
+    let mut ancestors = BTreeSet::new();
+    let mut current = process_id;
+    loop {
+        let status_path = proc_root.join(current.to_string()).join("status");
+        let status = match fs::read_to_string(&status_path) {
+            Ok(status) => status,
+            Err(error) if current != process_id && error.kind() == std::io::ErrorKind::NotFound => {
+                break;
+            }
+            Err(error) => return Err(error.to_string()),
+        };
+        let parent = status
+            .lines()
+            .find_map(|line| {
+                line.strip_prefix("PPid:")
+                    .and_then(|value| value.trim().parse::<u32>().ok())
+            })
+            .ok_or_else(|| format!("cannot inspect process {current} parent identity"))?;
+        if parent == 0 || parent == current || !ancestors.insert(parent) {
+            break;
+        }
+        current = parent;
+    }
+    Ok(ancestors)
 }
 
 #[cfg(target_os = "macos")]
@@ -1136,7 +1375,76 @@ fn verifier_process_using_worktree(_worktree: &Path) -> Result<Option<u32>, Stri
 fn path_is_within(root: &Path, candidate: &Path) -> bool {
     let candidate = candidate.to_string_lossy();
     let candidate = candidate.strip_suffix(" (deleted)").unwrap_or(&candidate);
-    Path::new(candidate) == root || Path::new(candidate).starts_with(root)
+    let candidate = Path::new(candidate);
+    #[cfg(windows)]
+    {
+        let mut candidate_components = candidate.components();
+        root.components().all(|root_component| {
+            candidate_components
+                .next()
+                .is_some_and(|candidate_component| {
+                    windows_components_equal(root_component, candidate_component)
+                })
+        })
+    }
+    #[cfg(not(windows))]
+    {
+        candidate.starts_with(root)
+    }
+}
+
+#[cfg(windows)]
+fn windows_components_equal(
+    left: std::path::Component<'_>,
+    right: std::path::Component<'_>,
+) -> bool {
+    match (left, right) {
+        (std::path::Component::Prefix(left), std::path::Component::Prefix(right)) => {
+            windows_os_str_eq_ignore_case(left.as_os_str(), right.as_os_str())
+        }
+        (std::path::Component::RootDir, std::path::Component::RootDir)
+        | (std::path::Component::CurDir, std::path::Component::CurDir)
+        | (std::path::Component::ParentDir, std::path::Component::ParentDir) => true,
+        (std::path::Component::Normal(left), std::path::Component::Normal(right)) => {
+            windows_os_str_eq_ignore_case(left, right)
+        }
+        _ => false,
+    }
+}
+
+#[cfg(windows)]
+fn windows_os_str_eq_ignore_case(left: &std::ffi::OsStr, right: &std::ffi::OsStr) -> bool {
+    use std::os::windows::ffi::OsStrExt;
+
+    let left = left.encode_wide().collect::<Vec<_>>();
+    let right = right.encode_wide().collect::<Vec<_>>();
+    if left.len() > i32::MAX as usize || right.len() > i32::MAX as usize {
+        return false;
+    }
+    // CompareStringOrdinal uses Windows' ordinal case-insensitive rules for
+    // path components, unlike Rust's lexical Path comparisons.
+    unsafe {
+        compare_string_ordinal(
+            left.as_ptr(),
+            left.len() as i32,
+            right.as_ptr(),
+            right.len() as i32,
+            1,
+        ) == 2
+    }
+}
+
+#[cfg(windows)]
+#[link(name = "kernel32")]
+unsafe extern "system" {
+    #[link_name = "CompareStringOrdinal"]
+    fn compare_string_ordinal(
+        left: *const u16,
+        left_count: i32,
+        right: *const u16,
+        right_count: i32,
+        ignore_case: i32,
+    ) -> i32;
 }
 
 #[cfg(windows)]
@@ -1165,6 +1473,7 @@ fn reused_record(
         reused: true,
         passed: true,
         exit_code: previous.exit_code,
+        termination_signal: previous.termination_signal,
         stdout: previous.stdout.clone(),
         stderr: previous.stderr.clone(),
         output_digest: previous.output_digest.clone(),
@@ -1269,6 +1578,7 @@ fn execute_node(
                 reused: false,
                 passed: result.is_some_and(|result| result.passed),
                 exit_code: execution.and_then(|record| record.exit_code),
+                termination_signal: execution.and_then(|record| record.termination_signal),
                 stdout,
                 stderr,
                 output_digest,
@@ -1285,6 +1595,7 @@ fn execute_node(
             reused: false,
             passed: false,
             exit_code: None,
+            termination_signal: None,
             stdout: String::new(),
             stderr: bounded(&error.to_string()),
             output_digest: Digest::sha256_bytes(error.to_string().as_bytes()),
@@ -1302,7 +1613,7 @@ fn update_active_process_record(
     process_group_id: u32,
     active: bool,
 ) -> Result<(), String> {
-    let path = state_dir.join(format!("{attempt_id}.json"));
+    let path = attempt_record_path(state_dir, attempt_id);
     let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
     if !metadata.file_type().is_file() {
         return Err("composition attempt is not a regular file".into());
@@ -2277,10 +2588,10 @@ fn resolve_executable(
     let identity_path = fs::canonicalize(&candidate).ok()?;
     let canonical_worktree = fs::canonicalize(worktree).ok()?;
     let trusted_roots = trusted_executable_directories();
-    let inside_worktree = identity_path.starts_with(&canonical_worktree);
+    let inside_worktree = path_is_within(&canonical_worktree, &identity_path);
     let inside_trusted_root = trusted_roots
         .iter()
-        .any(|directory| identity_path.starts_with(directory));
+        .any(|directory| path_is_within(directory, &identity_path));
     if !inside_worktree && !inside_trusted_root {
         return None;
     }
@@ -2347,6 +2658,12 @@ fn trusted_executable_directories() -> Vec<PathBuf> {
             candidates.push(PathBuf::from(profile).join(".cargo/bin"));
         }
         if let Some(system_root) = std::env::var_os("SystemRoot") {
+            candidates.push(
+                PathBuf::from(&system_root)
+                    .join("System32")
+                    .join("WindowsPowerShell")
+                    .join("v1.0"),
+            );
             candidates.push(PathBuf::from(&system_root).join("System32"));
             candidates.push(PathBuf::from(system_root));
         }
@@ -2505,8 +2822,12 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
         path: state_dir.to_path_buf(),
         source,
     })?;
-    let path = state_dir.join(format!("{}.json", attempt.attempt_id));
-    let temporary = state_dir.join(format!(".{}.{}.tmp", attempt.attempt_id, now_unix_nanos()));
+    let path = attempt_record_path(state_dir, &attempt.attempt_id);
+    let temporary = state_dir.join(format!(
+        ".{}.{}.tmp",
+        portable_attempt_stem(&attempt.attempt_id),
+        now_unix_nanos()
+    ));
     let bytes = serde_json::to_vec_pretty(attempt)
         .map_err(|error| CompositionError::Serialization(error.to_string()))?;
     let mut file = OpenOptions::new()
@@ -2529,6 +2850,49 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
     fs::rename(&temporary, &path).map_err(|source| CompositionError::Io { path, source })
 }
 
+fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
+    let portable = state_dir.join(format!("{}.json", portable_attempt_stem(attempt_id)));
+    if portable.exists() {
+        return portable;
+    }
+    #[cfg(unix)]
+    {
+        // Preserve and continue updating attempt records written by earlier
+        // Unix Runtime versions, whose filenames used the logical ID verbatim.
+        let legacy = state_dir.join(format!("{attempt_id}.json"));
+        if legacy.exists() {
+            return legacy;
+        }
+    }
+    portable
+}
+
+fn attempt_record_filename_matches(path: &Path, attempt_id: &str) -> bool {
+    let Some(file_name) = path.file_name().and_then(|name| name.to_str()) else {
+        return false;
+    };
+    if file_name == format!("{}.json", portable_attempt_stem(attempt_id)) {
+        return true;
+    }
+    #[cfg(unix)]
+    {
+        file_name == format!("{attempt_id}.json")
+    }
+    #[cfg(not(unix))]
+    {
+        false
+    }
+}
+
+fn portable_attempt_stem(attempt_id: &str) -> String {
+    let mut stem = String::with_capacity("composition-".len() + attempt_id.len() * 2);
+    stem.push_str("composition-");
+    for byte in attempt_id.bytes() {
+        stem.push_str(&format!("{byte:02x}"));
+    }
+    stem
+}
+
 fn new_attempt_id(input: &CompositionInput, timestamp: u128) -> String {
     let identity =
         serde_json::to_vec(&(&input.binding, &input.identity, timestamp)).unwrap_or_default();
@@ -2542,10 +2906,13 @@ fn now_unix_nanos() -> u128 {
 }
 
 fn unique_composition_parent() -> PathBuf {
+    composition_parent_path(std::process::id(), now_unix_nanos())
+}
+
+fn composition_parent_path(owner_pid: u32, timestamp: u128) -> PathBuf {
+    let sequence = NEXT_COMPOSITION_PARENT_SEQUENCE.fetch_add(1, Ordering::Relaxed);
     std::env::temp_dir().join(format!(
-        "ai-cockpit-composition-{}-{}",
-        std::process::id(),
-        now_unix_nanos()
+        "ai-cockpit-composition-{owner_pid}-{timestamp}-{sequence}"
     ))
 }
 
@@ -2559,6 +2926,136 @@ fn create_private_composition_parent(path: &Path) -> std::io::Result<()> {
     #[cfg(not(unix))]
     {
         fs::create_dir(path)
+    }
+}
+
+#[cfg(test)]
+mod composition_parent_tests {
+    use super::composition_parent_path;
+    use std::collections::BTreeSet;
+
+    #[test]
+    fn concurrent_composition_parents_remain_unique_at_the_same_clock_tick() {
+        let paths = (0..32)
+            .map(|_| composition_parent_path(1234, 1_800_000_000_000_000_000))
+            .collect::<BTreeSet<_>>();
+
+        assert_eq!(paths.len(), 32, "same-tick parents must not collide");
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod verifier_process_observation_tests {
+    use super::{
+        create_private_composition_parent, unique_composition_parent,
+        verifier_process_using_worktree,
+    };
+    use std::fs;
+    use std::sync::Mutex;
+    use std::time::Duration;
+
+    static PROCESS_OBSERVATION_TEST_LOCK: Mutex<()> = Mutex::new(());
+
+    struct InaccessibleProcess(libc::pid_t);
+
+    impl Drop for InaccessibleProcess {
+        fn drop(&mut self) {
+            // SAFETY: this test owns the child PID returned by fork.
+            unsafe {
+                libc::kill(self.0, libc::SIGKILL);
+                libc::waitpid(self.0, std::ptr::null_mut(), 0);
+            }
+        }
+    }
+
+    #[test]
+    fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
+        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
+        let parent = unique_composition_parent();
+        create_private_composition_parent(&parent).expect("private composition parent");
+        let worktree = parent.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+
+        let observed = verifier_process_using_worktree(&worktree);
+        let removed = fs::remove_dir_all(&parent);
+
+        assert!(removed.is_ok(), "test composition parent is cleaned up");
+        assert_eq!(
+            observed,
+            Ok(None),
+            "an ancestor that cannot have inherited a newly created private worktree must not make its process state unknown"
+        );
+    }
+
+    #[test]
+    fn inaccessible_process_started_before_private_worktree_does_not_block_cleanup() {
+        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+        // SAFETY: the test child uses only async-signal-safe libc calls after
+        // fork, and exits before this test returns.
+        let child_pid = unsafe { libc::fork() };
+        assert!(child_pid >= 0, "fork test process");
+        if child_pid == 0 {
+            // SAFETY: the child owns the write end and does not use Rust APIs.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(111);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(112);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let child = InaccessibleProcess(child_pid);
+        // SAFETY: the parent closes the unused write end and waits for the
+        // child's readiness byte before creating the private directory.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the read descriptor is
+        // open in the parent.
+        assert_eq!(
+            unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) },
+            1
+        );
+        // SAFETY: the parent owns the read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        assert_eq!(ready, b'R');
+        std::thread::sleep(Duration::from_millis(3_100));
+
+        let parent = unique_composition_parent();
+        create_private_composition_parent(&parent).expect("private composition parent");
+        let worktree = parent.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+        let observed = verifier_process_using_worktree(&worktree);
+        drop(child);
+        let removed = fs::remove_dir_all(&parent);
+
+        assert!(removed.is_ok(), "test composition parent is cleaned up");
+        assert_eq!(
+            observed,
+            Ok(None),
+            "an inaccessible process that predates the private worktree cannot own its cwd or inherited file descriptors"
+        );
     }
 }
 
@@ -2792,6 +3289,58 @@ mod read_set_containment_tests {
         assert_eq!(
             observed, None,
             "bytes read through a directory moved outside the repository must not enter the reuse identity"
+        );
+    }
+}
+
+#[cfg(all(test, windows))]
+mod path_containment_tests {
+    use super::{
+        CompositionCommand, controlled_command_environment, path_is_within, resolve_executable,
+        trusted_executable_directories,
+    };
+    use std::collections::BTreeMap;
+    use std::fs;
+    use std::path::Path;
+
+    #[test]
+    fn trusted_windows_path_prefix_ignores_case_but_respects_component_boundaries() {
+        assert!(path_is_within(
+            Path::new(r"C:\Windows\System32"),
+            Path::new(r"c:\windows\system32\cmd.exe")
+        ));
+        assert!(!path_is_within(
+            Path::new(r"C:\Windows\System32"),
+            Path::new(r"C:\Windows\System32-evil\cmd.exe")
+        ));
+    }
+
+    #[test]
+    fn controlled_composition_environment_can_resolve_windows_powershell() {
+        let system_root = std::env::var_os("SystemRoot").expect("Windows SystemRoot");
+        let powershell_dir =
+            fs::canonicalize(Path::new(&system_root).join(r"System32\WindowsPowerShell\v1.0"))
+                .expect("Windows PowerShell installation directory");
+        let command = CompositionCommand {
+            node_id: "powershell".into(),
+            program: "powershell.exe".into(),
+            args: Vec::new(),
+            depends_on: Vec::new(),
+            environment: BTreeMap::new(),
+            input_paths: Vec::new(),
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
+        };
+        let environment =
+            controlled_command_environment(&command).expect("controlled composition environment");
+
+        assert!(
+            trusted_executable_directories().contains(&powershell_dir),
+            "PowerShell is explicitly trusted without inheriting ambient PATH"
+        );
+        assert!(
+            resolve_executable(&std::env::temp_dir(), &command.program, &environment).is_some(),
+            "Windows composition fixtures can resolve their explicit PowerShell command"
         );
     }
 }

@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-26T17:30:59Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.01297eda26a75cb28e1619f231abf5ed36c9005ddae496ba9583c380d0fa35c0.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification-attempt.4344f52e8b1cbea9db86c0b2cd8a2741557cd063decbd39f45bbd9f363b3ac0a.json"
+  ],
+  "policyRefs": [
+    "WI-1035 Acceptance A02",
+    "WI-1035 Acceptance A14"
+  ],
+  "predecessorContractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+  "predecessorSummaryDigest": "sha256:e82e66354119b12d61c6ea4ee6a2a43dc28014271af51fdfd7af42238386170c",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user explicitly authorized this Task 8 Work Item through implementation, verification, independent PR review, merge, and cleanup, stopping before release. This bounded retry replaces verification bound to the prior Runtime executable; it does not authorize merge or release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh preflight and one canonical workspace verification under Runtime 0.2.113 sha256:17a49640a29b19a4ec537d7e11dd4cc75632e625a0a8b36b6879da10c2dba2aa; continue only if current Runtime status accepts the exact evidence. Preserve historical attempts and stop before release.",
+  "runtimeDigest": "sha256:17a49640a29b19a4ec537d7e11dd4cc75632e625a0a8b36b6879da10c2dba2aa",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

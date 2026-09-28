@@ -64,8 +64,8 @@ failed/unknown は pass ではありません。
 | Derived projection | `knowledge query` | 明示的な query のみで repository-local `.ai/knowledge/` index を materialize/reuse し、`projection.writeBoundary=repository-local-derived` を返す。governance authority は変更しない。 |
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
-| Governance | `preflight` | Contract を読み green/yellow/red decision と `reviewState` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作る。`close` と recovery には明示的な human decision が必要。 |
+| Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作ります。`amend` は Contract の追加フィールドだけを適用し、amendment revalidation を自動記録します。次の action は `run_preflight` です。直接 Contract を編集した場合だけ `revalidate-amendment` を使い、成功した `amend` の後に重ねて実行しません。`close` と recovery には明示的な human decision が必要です。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
@@ -104,6 +104,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
   Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
   formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。
+- CLI と MCP の実行済み `verify` 結果には表示専用の `diagnosticSummary` が含まれ、severity、lint code、root message ごとにグループ化し、occurrence count と影響を受けた node ID を示します。要約は bounded な生の stderr byte から lossy UTF-8 で生成します。per-node result と生の output byte は `executionRecords` で変更されず、要約は永続化される strict typed verification receipt には含まれません。
 - `verify --archived-recovery --work-item <id> --stage pull_request` は、レビュー済み統合変更後に archived Work Item の
   source evidence projection が stale になった場合の append-only recovery 入口です。新しい typed かつ coverage-bound な
   Runtime verification を一度だけ実行し、置き換える正確な `evidence_class_projection` judgment を記録します。Archived
@@ -115,7 +116,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
   identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。
   timing や cache state が required/protected node を省略することはありません。
-- `verify --workers <n>` は positive worker count を要求し concurrency を制限します。
+- `verify --workers <n>` は positive worker count を要求し、既定値は 1 です。Work Item に bind された `verify` は既定で serial です。Runtime が node ごとの dependency readiness と isolated output を検証できるまでは、明示的な `--workers >1` は fail closed になります。同じ immutable route/source identity を使い、相互依存がなく、output を分離し、resource limit 内に収まる independent CI job は並列実行できます。Receipt の producer-consumer は順序を維持します。
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` は optional な
   `concurrencyBoundary` を Contract に bind します。4 種類の path と `maxWorkers` を検証しますが、
   `maxWorkers` は slot 容量であり `verify --workers` とは別です。
@@ -247,6 +248,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。
   `work-item controls --repo <path> --id <id> --input <json>` は明示された projection field（`evidenceClasses` と identity-bound な `decisionEvidence` review receipt を含む）だけを記録し、lifecycle state、Contract fact、verification receipt は変更しません。
   `evidenceClasses` は Contract の各 non-built-in evidence class を明示的に対応付けます。各項目は current Contract digest、regular かつ symlink でない repository file、locator、`passed` 状態、file SHA-256 に bind されなければなりません。欠落、変更、malformed、foreign な evidence は reject または stale となり、scenario を verified にしただけでは custom evidence class を満たしません。
+  `record_governance_controls` は active Work Item に対する Runtime-admitted write action です。verification 済みでも必須 control の evidence が不足している場合、status は `finish` を許可せず不足 evidence の記録を推奨します。記録後に status を再取得して次の action を確認します。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` は identity-bound な `retry`、`successor`、または `supersede` decision を記録します。`supersede` には bind 済みの successor Work Item が必要で、predecessor を明示的な履歴 `superseded` 状態へ archive します。元の bytes は書き換えません。receipt は predecessor の Contract、Summary、Outcome、存在する場合は event digest と current Runtime identity に bind されなければなりません。既存 receipt は上書きせず、後続 decision は digest suffix ファイルに append されます。recovery receipt だけで verification を green にしたり predecessor を書き換えたりすることはありません。superseded predecessor は現在の成功・失敗ではなく、後続処理は successor が担います。Outcome/archive consumer は current candidate ごとに regular-file/filename 境界、repository/current Runtime identity、predecessor digest、timestamp、decision shape、successor Contract binding を再検証します。invalid または ambiguous な candidate は `recovery_decision_invalid` として fail closed になり、historical archive bytes と projection は immutable のままです。新しい archive の Contract/Summary/Outcome/Events と predecessor digest が一致しなくなった retry は消費済みの履歴として扱い、static gate は recovered の終端状態を作らず実際の finalization path を投影します。一致する blocked retry は引き続き fail closed の recovery です。
 - `work-item revalidate-archived --repo <path> --id <predecessor> --successor <id> --reason <text> --actor <id> --authority-source <source> --resume-condition <text> [--evidence-ref <ref>] [--policy-ref <ref>]` は、archive 後に reviewed Contract が修正された場合の first-class append-only revalidation path です。現在の archive manifest を検証し、historical verification evidence を保持して digest-bind し、predecessor が pending close の間に `not_ready` successor を作成します。successor は自分の start、verification、archive、finalization、明示的な close を完了し、その後に predecessor を close できます。この command は predecessor の Contract、archive、Outcome、Events、verification evidence を書き換えません。malformed、foreign、stale、contradictory な履歴は fail-closed です。
 - predecessor に旧 Runtime の有効な provider PR finalization receipt がある場合、terminal な Contract-amendment successor が cross-version close の正式経路になります。successor の current verification、finalization、human close が bind された後、predecessor `close` は `historicalRevalidation` と `assurance=historical_low` を記録し、旧 receipt の正確な path、digest、sequence を bind します。旧 receipt bytes と provider/PR identity は immutable のまま保持され、`direct_merge_no_pr` へ再分類されません。successor が未解決、または archive、Contract、evidence、receipt、lineage の binding が malformed、foreign、stale、contradictory の場合は、現在 Runtime の identity 検証が引き続き fail-closed になります。
@@ -256,6 +258,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   は strict state report を返し、0（verified）、1（degraded）、2（configuration error）、3（human intervention）の exit code を使います。
   managed section または ownership record が変更されていれば `repair` と `detach` は fail closed し、global Agent/MCP config は変更しません。
 - `preflight --contract` は通常 `start` が作る `.ai/work-items/active/<id>.contract.json` を指します。
+- `inspect`、`status`、`doctor`、`work-item outcome` は read-only query です。`preflight` は明示的な governance write entry で、評価結果/projection を永続化し、実際に変更した path を `changedPaths` で返します。同じ入力で書き込みがなければ空配列です。verification や repair は実行しません。
 - `work-item new` は `not_ready` の skeleton を作ります。これを `preflight` すると意図的に
   `yellow` と `reviewState: needs_human_confirmation` になり、人の項目を埋めてから再度 preflight して checkpoint します。
 - `close --human-decision approved|confirmed|rejected` は human decision record であり verification evidence ではありません。

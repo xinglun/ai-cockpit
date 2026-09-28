@@ -16,11 +16,11 @@ use cockpit_repository::{
     archive_historical_work_item_with_runtime, archive_work_item_with_runtime, attach,
     checkpoint_work_item, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, plan_resource_finalization_with_runtime, preflight_work_item_with_runtime,
-    prepare_archive_outcome_delivery, record_resource_finalization,
-    resolve_archived_verification_route, resolve_verification_route,
-    retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
-    start_work_item_with_options, verify_resource_finalization,
+    generate_knowledge, plan_resource_finalization_with_runtime,
+    preflight_work_item_with_runtime_report, prepare_archive_outcome_delivery,
+    record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
+    retire_active_work_item_with_runtime, run_repository_verification_with_process_observer,
+    scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -33,6 +33,10 @@ use std::{
     fs,
     path::{Path, PathBuf},
     process::Command,
+    sync::{
+        Arc,
+        atomic::{AtomicUsize, Ordering},
+    },
 };
 
 mod runtime_identity;
@@ -269,7 +273,10 @@ enum CommandKind {
         command: Vec<String>,
         #[arg(long, value_delimiter = ',')]
         args: Vec<String>,
-        #[arg(long, default_value_t = 2)]
+        /// Maximum worker count. Work Item verification defaults to serial and
+        /// rejects parallel requests until per-node dependencies and outputs
+        /// can be verified by the Runtime.
+        #[arg(long, default_value_t = 1)]
         workers: usize,
         #[arg(long, default_value = "task")]
         stage: String,
@@ -543,8 +550,7 @@ enum WorkItemCommand {
         #[arg(long)]
         mode: String,
     },
-    /// Append a Contract-amendment revalidation without rewriting the
-    /// immutable before_edit checkpoint.
+    /// Append a revalidation after a direct Contract change; it is not needed after a successful amend.
     RevalidateAmendment {
         #[arg(long)]
         repo: PathBuf,
@@ -553,7 +559,7 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
-    /// Apply only additive Contract fields, then append amendment evidence.
+    /// Apply additive Contract fields and automatically record amendment revalidation; run_preflight is the next action.
     Amend {
         #[arg(long)]
         repo: PathBuf,
@@ -1486,9 +1492,10 @@ fn run() -> Result<()> {
         }
         CommandKind::Preflight { repo, contract } => {
             require_compatible(&repo, &runtime_context)?;
-            let decision = preflight_work_item_with_runtime(&repo, &contract, &runtime_context)
-                .context("evaluate and record preflight decision")?;
-            println!("{}", serde_json::to_string_pretty(&decision)?);
+            let result =
+                preflight_work_item_with_runtime_report(&repo, &contract, &runtime_context)
+                    .context("evaluate and record preflight decision")?;
+            println!("{}", serde_json::to_string_pretty(&result)?);
         }
         CommandKind::Observe { repo } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;
@@ -1945,6 +1952,43 @@ fn run() -> Result<()> {
                 )
                 .context("check archived verification recovery preconditions")?;
             }
+            if let Some(work_item_id) = work_item.as_deref()
+                && workers > 1
+                && let Err(error) = cockpit_repository::require_serial_work_item_verification(
+                    &root,
+                    work_item_id,
+                    workers,
+                )
+            {
+                let attempt = cockpit_repository::persist_verification_attempt(
+                    &root,
+                    work_item_id,
+                    &requests,
+                    &initial_snapshot,
+                    &runtime_context,
+                    "precondition_rejected",
+                    Some(("verification_parallelism", &error.to_string())),
+                    None,
+                );
+                println!(
+                    "{}",
+                    serde_json::to_string_pretty(&json!({
+                        "state": "blocked",
+                        "workItemId": work_item_id,
+                        "gate": "verification_parallelism",
+                        "diagnostic": error.to_string(),
+                        "processesSpawned": 0,
+                        "attempt": match attempt {
+                            Ok(value) => value,
+                            Err(persist_error) => json!({
+                                "state": "persistence_failed",
+                                "diagnostic": persist_error.to_string(),
+                            }),
+                        },
+                    }))?
+                );
+                anyhow::bail!("verification parallelism rejected: {error}");
+            }
             let mut planned_requests = Vec::new();
             let mut coverage_manifest = None;
             for request in requests {
@@ -2119,6 +2163,7 @@ fn run() -> Result<()> {
             }
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
+            let process_concurrency = Arc::new(ProcessConcurrencyObservation::default());
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
             let mut execution_elapsed_ms = 0_u128;
@@ -2151,14 +2196,53 @@ fn run() -> Result<()> {
                     final_snapshot: initial_snapshot.clone(),
                 });
             } else {
+                let total_requests = requests.len();
+                let mut completed_requests = 0_usize;
                 for batch in requests.chunks(workers.max(1)) {
                     let batch_runs = std::thread::scope(|scope| {
-                        batch
+                        let (progress_sender, progress_receiver) =
+                            std::sync::mpsc::channel::<(String, Option<bool>)>();
+                        let workers = batch
                             .iter()
                             .map(|request| {
-                                scope.spawn(|| run_repository_verification(&root, request))
+                                let progress_sender = progress_sender.clone();
+                                let repository_root = &root;
+                                let process_concurrency = Arc::clone(&process_concurrency);
+                                scope.spawn(move || {
+                                    let node_id = request.node_id.clone();
+                                    let _ = progress_sender.send((node_id.clone(), None));
+                                    let run = run_repository_verification_with_process_observer(
+                                        repository_root,
+                                        request,
+                                        move |_node_id, _process_id, started| {
+                                            process_concurrency.observe(started)
+                                        },
+                                    );
+                                    let passed = run.as_ref().is_ok_and(|run| run.receipt.passed);
+                                    let _ = progress_sender.send((node_id, Some(passed)));
+                                    run
+                                })
                             })
-                            .collect::<Vec<_>>()
+                            .collect::<Vec<_>>();
+                        drop(progress_sender);
+                        for (node_id, passed) in progress_receiver {
+                            if let Some(passed) = passed {
+                                completed_requests = completed_requests.saturating_add(1);
+                                let percent =
+                                    completed_requests.saturating_mul(100) / total_requests.max(1);
+                                let result = if passed { "passed" } else { "failed" };
+                                eprintln!(
+                                    "Verification progress: completed node {node_id:?}: {result} ({completed_requests}/{total_requests} complete, {percent}%)"
+                                );
+                            } else {
+                                let percent =
+                                    completed_requests.saturating_mul(100) / total_requests.max(1);
+                                eprintln!(
+                                    "Verification progress: started node {node_id:?} ({completed_requests}/{total_requests} complete, {percent}%)"
+                                );
+                            }
+                        }
+                        workers
                             .into_iter()
                             .map(|worker| worker.join())
                             .collect::<Vec<_>>()
@@ -2188,6 +2272,7 @@ fn run() -> Result<()> {
                 }
             }
             let mut run = merge_verification_runs(runs).context("merge verification runs")?;
+            run.receipt.max_concurrent_processes = process_concurrency.peak();
             run.receipt.planning_elapsed_ms = planning_elapsed_ms;
             run.receipt.execution_elapsed_ms = execution_elapsed_ms;
             if requires_aggregate_snapshot {
@@ -2291,6 +2376,9 @@ fn run() -> Result<()> {
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
             output["plannedNodes"] = json!(planned_nodes);
+            output["diagnosticSummary"] = json!(cockpit_verification::summarize_diagnostics(
+                &run.receipt.execution_records
+            ));
             if !run.receipt.passed {
                 let failed_nodes = run
                     .receipt
@@ -2332,7 +2420,7 @@ fn run() -> Result<()> {
                 // it into completion evidence.  A later governance/schema
                 // rejection must therefore retain the child results for a
                 // safe reclassification or reuse decision.
-                let _attempt = cockpit_repository::persist_verification_attempt(
+                let execution_attempt = cockpit_repository::persist_verification_attempt(
                     &root,
                     &work_item,
                     &requests,
@@ -2343,6 +2431,10 @@ fn run() -> Result<()> {
                     Some(&verification_receipt),
                 )
                 .context("persist verification attempt")?;
+                let execution_attempt_id = execution_attempt["attemptId"]
+                    .as_str()
+                    .context("persisted verification attempt has no identity")?
+                    .to_owned();
                 if archived_recovery {
                     if let Err(error) = cockpit_repository::record_archived_verification_recovery_with_runtime(
                         &root,
@@ -2364,7 +2456,7 @@ fn run() -> Result<()> {
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
-                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
+                        let recovery_attempt = cockpit_repository::persist_verification_attempt_superseding(
                             &root,
                             &work_item,
                             &requests,
@@ -2373,6 +2465,7 @@ fn run() -> Result<()> {
                             "formal_receipt_rejected",
                             Some(("formal_receipt", &error.to_string())),
                             Some(&verification_receipt),
+                            &execution_attempt_id,
                         );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!("could not persist receipt rejection attempt: {persist_error}");
@@ -2387,16 +2480,18 @@ fn run() -> Result<()> {
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
-                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
-                            &root,
-                            &work_item,
-                            &requests,
-                            &initial_snapshot,
-                            &runtime_context,
-                            "formal_receipt_rejected",
-                            Some(("formal_receipt", &error.to_string())),
-                            Some(&verification_receipt),
-                        );
+                        let recovery_attempt =
+                            cockpit_repository::persist_verification_attempt_superseding(
+                                &root,
+                                &work_item,
+                                &requests,
+                                &initial_snapshot,
+                                &runtime_context,
+                                "formal_receipt_rejected",
+                                Some(("formal_receipt", &error.to_string())),
+                                Some(&verification_receipt),
+                                &execution_attempt_id,
+                            );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!(
                                 "could not persist receipt rejection attempt: {persist_error}"
@@ -2607,8 +2702,10 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::RevalidateAmendment { repo, id, reason } => {
                 require_compatible(&repo, &runtime_context)?;
-                let record = cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
-                    .context("revalidate amended Contract")?;
+                let mut record =
+                    cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
+                        .context("revalidate amended Contract")?;
+                record["nextAction"] = json!("run_preflight");
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Amend {
@@ -2622,9 +2719,10 @@ fn run() -> Result<()> {
                     &std::fs::read(&input).context("read Contract amendment input")?,
                 )
                 .context("parse Contract amendment input")?;
-                let record =
+                let mut record =
                     cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
                         .context("apply bounded Contract amendment")?;
+                record["nextAction"] = json!("run_preflight");
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::RevalidateArchived {
@@ -2944,8 +3042,13 @@ fn run() -> Result<()> {
                 )
                 .context("parse governance controls input")?;
                 let summary =
-                    cockpit_repository::record_work_item_governance_controls(&repo, &id, &controls)
-                        .context("record Work Item governance controls")?;
+                    cockpit_repository::record_work_item_governance_controls_with_runtime(
+                        &repo,
+                        &id,
+                        &controls,
+                        &runtime_context,
+                    )
+                    .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
             }
             WorkItemCommand::Retire { repo, id, input } => {
@@ -3409,6 +3512,33 @@ fn emit_isolation_manifest<W: std::io::Write>(
         cockpit_isolation::scan_tree_to_jsonl(root, destination).context("scan isolation tree")?;
     }
     Ok(())
+}
+
+#[derive(Default)]
+struct ProcessConcurrencyObservation {
+    active: AtomicUsize,
+    peak: AtomicUsize,
+}
+
+impl ProcessConcurrencyObservation {
+    fn observe(&self, started: bool) -> std::result::Result<(), String> {
+        if started {
+            let active = self.active.fetch_add(1, Ordering::AcqRel).saturating_add(1);
+            self.peak.fetch_max(active, Ordering::AcqRel);
+            return Ok(());
+        }
+
+        self.active
+            .fetch_update(Ordering::AcqRel, Ordering::Acquire, |active| {
+                active.checked_sub(1)
+            })
+            .map(|_| ())
+            .map_err(|_| "verification process completed without a matching start event".into())
+    }
+
+    fn peak(&self) -> usize {
+        self.peak.load(Ordering::Acquire)
+    }
 }
 
 fn merge_verification_runs(

@@ -11,6 +11,7 @@ python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
 import importlib.util
 import json
+import re
 import subprocess
 import tempfile
 import sys
@@ -19,6 +20,13 @@ workflow = Path(sys.argv[1]).read_text(encoding="utf-8")
 route = Path(sys.argv[2]).read_text(encoding="utf-8")
 runner = Path(sys.argv[3]).read_text(encoding="utf-8")
 resolver = Path(sys.argv[4]).read_text(encoding="utf-8") if Path(sys.argv[4]).exists() else ""
+
+def job_block(name):
+    marker = f"  {name}:\n"
+    start = workflow.index(marker, workflow.index("jobs:\n"))
+    remaining = workflow[start + len(marker):]
+    next_job = re.search(r"(?m)^  [A-Za-z0-9_-]+:\s*$", remaining)
+    return workflow[start:] if next_job is None else workflow[start:start + len(marker) + next_job.start()]
 
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
@@ -40,6 +48,158 @@ assert "jq -r '.baseRevision // empty' target/quality-selection.json" in workflo
 assert "work_item_id_required" in resolver
 assert "outputs:" in workflow and "profile:" in workflow
 assert "Verify the route plan is stable across jobs" in workflow
+assert "PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}" in workflow
+assert 'head_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"' in workflow
+assert workflow.count("name: Bind source and tested revisions") == 2
+assert 'target/ci-revision-binding.json' in workflow
+
+# Independent hosted validations fan out from the immutable route artifact;
+# no validation job waits for another validation job.
+validation_jobs = ("quality", "windows-runtime", "v1-behavioral-oracle")
+for name in validation_jobs:
+    block = job_block(name)
+    assert "\n    needs: route\n" in block, f"{name} must depend on the shared route only"
+    assert "needs: [" not in block, f"{name} must not serialize behind another validation job"
+assert "\n    needs: quality\n" not in workflow, "independent CI validation must not wait for quality"
+
+ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
+ordinary_guide_text = re.sub(r"[\s`]+", " ", ordinary_guide.read_text(encoding="utf-8").lower())
+for required_rule in (
+    "lifecycle and snapshot-changing writes stay serial",
+    "work item-bound verify defaults to --workers 1",
+    "explicit --workers >1 fails closed until runtime verifies per-node dependency readiness and output isolation",
+    "ci jobs may fan out as siblings",
+    "ready dependencies",
+    "isolated outputs",
+    "bounded resources",
+    "keep receipt producer-consumer serial",
+    "reuse fresh matching receipts",
+):
+    assert required_rule in ordinary_guide_text, f"ordinary guide omits parallel boundary: {required_rule}"
+
+workflow_guide = re.sub(
+    r"\s+", " ",
+    (Path(sys.argv[1]).parents[2] / "docs/reference/agent-workflow.md").read_text(encoding="utf-8").lower(),
+)
+for required_rule in (
+    "work item verification defaults to one worker",
+    "requests above one worker are rejected until runtime can prove per-node dependency readiness and isolated outputs",
+    "independent ci jobs can run as siblings",
+    "package-coverage consumer waits for and validates the exact hosted runtime receipt",
+):
+    assert required_rule in workflow_guide, f"agent workflow omits parallel boundary: {required_rule}"
+
+reference_root = Path(sys.argv[1]).parents[2] / "docs/reference"
+command_guidance = {
+    "commands.md": (
+        "work item-bound verification is serial by default",
+        "explicit --workers >1 fails closed",
+        "per-node dependency readiness and isolated outputs",
+    ),
+    "commands.zh-CN.md": (
+        "绑定 work item 的 verify 默认串行",
+        "显式 --workers >1 会 fail closed",
+        "逐节点依赖就绪和隔离输出",
+    ),
+    "commands.ja.md": (
+        "work item に bind された verify は既定で serial です",
+        "明示的な --workers >1 は fail closed",
+        "node ごとの dependency readiness と isolated output",
+    ),
+}
+for filename, required_rules in command_guidance.items():
+    text = re.sub(r"[\s`]+", " ", (reference_root / filename).read_text(encoding="utf-8").lower())
+    for required_rule in required_rules:
+        assert required_rule in text, f"{filename} omits Work Item verification concurrency boundary: {required_rule}"
+
+assert 'merge_parents[2]' in workflow
+windows_job = workflow[workflow.index("  windows-runtime:"):]
+windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
+assert "fetch-depth: 0" in windows_checkout
+assert "runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission" in windows_job
+assert "runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write" in windows_job
+windows_composition_step = windows_job.split(
+    "      - name: verify Windows process and composition lifecycle boundaries", 1
+)[1].split("      - name:", 1)[0]
+assert "cargo test --locked -p cockpit-verification --lib --test execution --test composition -- --test-threads=1" in windows_composition_step
+windows_upload_step = windows_job.split(
+    "      - name: upload Windows revision binding", 1
+)[1].split("      - name:", 1)[0]
+assert "if: always()" in windows_upload_step
+windows_binding = windows_job.split("      - name: Bind source and tested revisions", 1)[1].split(
+    "      - uses: dtolnay/rust-toolchain", 1
+)[0]
+assert windows_binding.index("Set-Content -Encoding utf8 target/ci-revision-binding.json") < windows_binding.index(
+    "throw 'tested PR merge commit does not bind"
+), "write Windows revision diagnostics before lineage assertions"
+quality_binding = workflow.split(
+    "      - name: Bind source and tested revisions; validate the shared typed quality route", 1
+)[1].split("      - name: verify immutable Runtime shadow", 1)[0]
+assert quality_binding.index("> target/ci-revision-binding.json") < quality_binding.index(
+    'test "$receipt_head" = "$source_revision"'
+), "write revision diagnostics before any source/route binding assertion"
+assert "name: ci-quality-revision-binding" in workflow
+assert "if: always()" in workflow.split(
+    "      - name: Upload quality revision binding", 1
+)[1].split("      - name:", 1)[0]
+hosted_verification = workflow.split(
+    "      - name: Run admitted hosted Work Item verification with the candidate Runtime", 1
+)[1].split("      - name: Upload hosted Work Item verification evidence", 1)[0]
+assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
+assert "target/release/ai-cockpit" in hosted_verification
+assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
+assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in hosted_verification
+assert "target/hosted-runtime-verification.json" in workflow
+hosted_runner = Path(sys.argv[3]).with_name("run_hosted_runtime_verification.sh").read_text(encoding="utf-8")
+hosted_behavior_test = Path(sys.argv[3]).with_name("hosted_runtime_verification_test.sh").read_text(encoding="utf-8")
+cleanup_runner = Path(sys.argv[3]).with_name("cleanup_hosted_runtime_verification_worktree.sh").read_text(encoding="utf-8")
+quality_gate = workflow.split(
+    "      - name: Evaluate Rust Contract-aware quality gate", 1
+)[1].split("      - name: Build legacy Runtime for coordination compatibility", 1)[0]
+quality_gate_flat = re.sub(r"\s+", " ", quality_gate)
+assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
+assert "--workers 1" in hosted_runner
+assert 'status_allows "$status_after" run_verification' in hosted_runner
+assert 'AI_COCKPIT_DEFER_WORKTREE_CLEANUP:-false' in hosted_runner
+assert "deferred_for_consumer" in hosted_runner
+assert 'formalReceiptDigest' in hosted_runner and 'executionRepository' in hosted_runner
+assert "run_helper stale true" in hosted_behavior_test and "run_helper fresh true" in hosted_behavior_test
+assert "run_helper stale-deferred true true" in hosted_behavior_test
+assert "run_workspace_package_tests.sh" in hosted_behavior_test
+assert "tampered-worktree-cleanup.json" in hosted_behavior_test
+assert 'git -C "$source_repository" worktree remove --force "$isolated_repository"' in cleanup_runner
+assert 'rev-parse --git-common-dir' in cleanup_runner
+assert 'source_head" != "$worktree_head' in cleanup_runner
+assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
+    "name: Evaluate Rust Contract-aware quality gate"
+), "refresh and verify with the exact hosted Runtime before the Contract gate"
+assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in quality_gate_flat
+assert '--repo "$verification_repository"' in quality_gate_flat
+assert 'contract_path="$ROUTE_CONTRACT_PATH"' in quality_gate_flat
+assert 'contract_path="$verification_repository/$contract_path"' in quality_gate_flat
+assert '--contract "$contract_path"' in quality_gate_flat
+assert '--report "$GITHUB_WORKSPACE/target/rust-contract-quality-gate.json"' in quality_gate_flat
+quality_job = job_block("quality")
+assert quality_job.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < quality_job.index(
+    "name: run repository gates exactly once"
+) < quality_job.index("name: verify workspace package coverage receipt") < quality_job.index(
+    "name: Cleanup hosted Runtime verification worktree"
+) < quality_job.index("name: Upload hosted Work Item verification evidence"), (
+    "hosted receipt production, coverage consumption, cleanup, and evidence upload must remain ordered"
+)
+repository_gates_step = workflow.split(
+    "      - name: run repository gates exactly once", 1
+)[1].split("      - name: verify workspace package coverage receipt", 1)[0]
+repository_gates_step_flat = re.sub(r"\s+", " ", repository_gates_step)
+assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
+assert "AI_COCKPIT_VERIFICATION_ORCHESTRATION" in repository_gates_step
+assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
+assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in repository_gates_step
+assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in repository_gates_step
+assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in repository_gates_step_flat
+assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step_flat
+coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
+assert "hosted_verification_receipt" in coverage_runner.read_text(encoding="utf-8")
 
 # The route boundary must reject known illegal lifecycle transitions before
 # repository gates run, with a stable code and remediation rather than a raw

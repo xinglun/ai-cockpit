@@ -113,9 +113,6 @@ fn preflight_can_recover_verification_precondition(
     error: &ObserverError,
     summary: &serde_json::Value,
 ) -> bool {
-    if summary["preflightState"] == "red" {
-        return false;
-    }
     matches!(
         error,
         ObserverError::State { message, .. }
@@ -123,8 +120,8 @@ fn preflight_can_recover_verification_precondition(
                 message.as_str(),
                 "verification requires a preflight result for the current repository snapshot"
                     | "verification requires a preflight result for the current Contract"
-                    | "verification requires a recorded non-red preflight result"
-            )
+            ) || (message == "verification requires a recorded non-red preflight result"
+                && summary["preflightState"] != "red")
     )
 }
 
@@ -1089,6 +1086,9 @@ fn work_item_status_snapshot_with_snapshot(
         .unwrap_or(&active)
         .join(format!("{work_item_id}.summary.json"));
     let summary = read_json(&summary_path).unwrap_or_else(|_| serde_json::json!({}));
+    let governance_controls =
+        super::validate_work_item_governance_controls_with_runtime(&root, work_item_id, runtime)?;
+    let governance_control_gaps = super::governance_controls_gaps_for_finish(&governance_controls);
     let close_decision_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
@@ -1118,13 +1118,16 @@ fn work_item_status_snapshot_with_snapshot(
             .unwrap_or(if archived { "archived" } else { "unknown" })
             .to_string()
     };
-    let governance_state = match outcome.decision_state {
+    let mut governance_state = match outcome.decision_state {
         Some(DecisionState::Green) => "green",
         Some(DecisionState::Yellow) => "yellow",
         Some(DecisionState::Red) => "red",
         None => "unknown",
     }
     .to_string();
+    if governance_state == "green" && !governance_control_gaps.is_empty() {
+        governance_state = "yellow".into();
+    }
     let verification = match outcome.state {
         OutcomeState::Verified => "verified",
         OutcomeState::Partial => "partial",
@@ -1148,8 +1151,13 @@ fn work_item_status_snapshot_with_snapshot(
 
     let acceptance_total = contract.acceptance_criteria.len() as u64;
     let acceptance_evidence = summary["acceptanceEvidence"]
-        .as_object()
+        .as_array()
         .map(|value| value.len() as u64)
+        .or_else(|| {
+            summary["acceptanceEvidence"]
+                .as_object()
+                .map(|value| value.len() as u64)
+        })
         .unwrap_or_default();
     let mut progress_facts = BTreeMap::new();
     progress_facts.insert("acceptanceCriteriaDeclared".into(), acceptance_total);
@@ -1177,6 +1185,7 @@ fn work_item_status_snapshot_with_snapshot(
     if historical {
         unknowns.push("legacy_evidence_historical".into());
     }
+    unknowns.extend(governance_control_gaps.iter().cloned());
     if historical_recovery_resolved {
         unknowns.push("historical_close_decision_preserved".into());
     } else if archived && !close_decision_valid {
@@ -1289,6 +1298,12 @@ fn work_item_status_snapshot_with_snapshot(
         governance_permissions.push("review_evidence".into());
     }
     let contract_digest_value = contract_digest(&contract_path)?;
+    let snapshot_digest_string = snapshot_digest_value.to_string();
+    let contract_digest_string = contract_digest_value.to_string();
+    let preflight_binding_current = summary["preflightRepositorySnapshotDigest"].as_str()
+        == Some(snapshot_digest_string.as_str())
+        && summary["preflightContractDigest"].as_str() == Some(contract_digest_string.as_str())
+        && matches!(summary["preflightState"].as_str(), Some("green" | "yellow"));
     let mut source_digests = BTreeMap::new();
     source_digests.insert("contract".into(), contract_digest_value.clone());
     source_digests.insert("repositorySnapshot".into(), snapshot_digest_value.clone());
@@ -1424,12 +1439,26 @@ fn work_item_status_snapshot_with_snapshot(
         match lifecycle_phase.as_str() {
             "implementation_active" => vec!["run_preflight".into()],
             "checkpointed" if verification != "verified" => vec!["run_verification".into()],
+            "checkpointed" if !governance_control_gaps.is_empty() => {
+                vec![
+                    "record_governance_controls".into(),
+                    "run_verification".into(),
+                ]
+            }
             // A verified checkpoint is ready for finish, while the existing
             // verification entrypoint still admits an explicit revalidation
             // or receipt-reuse request. Keep finish first so the projection's
             // recommendation remains the ordinary success path.
             "checkpointed" => vec!["finish".into(), "run_verification".into()],
-            "finish_ready" => vec!["archive_when_reviewed".into()],
+            "finish_ready" if verification != "verified" && !preflight_binding_current => {
+                vec!["run_preflight".into()]
+            }
+            "finish_ready" if verification != "verified" => {
+                vec!["run_verification".into(), "run_preflight".into()]
+            }
+            // An explicitly requested preflight is an idempotent re-observation
+            // even after finish; keep archive as the recommended next action.
+            "finish_ready" => vec!["archive_when_reviewed".into(), "run_preflight".into()],
             "archived" => vec!["read_outcome".into()],
             "closed" => Vec::new(),
             _ if verification != "verified" => vec!["run_verification".into()],
@@ -1452,7 +1481,7 @@ fn work_item_status_snapshot_with_snapshot(
         verification_precondition_error
             .as_ref()
             .is_some_and(|error| {
-                lifecycle_phase == "checkpointed"
+                matches!(lifecycle_phase.as_str(), "checkpointed" | "finish_ready")
                     && preflight_can_recover_verification_precondition(error, &summary)
             });
     if verification_precondition_error.is_some() {
@@ -1460,6 +1489,9 @@ fn work_item_status_snapshot_with_snapshot(
         if preflight_recovery_available {
             safe_actions.insert(0, "run_preflight".into());
         }
+    }
+    if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
+        safe_actions.push("record_governance_controls".into());
     }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());

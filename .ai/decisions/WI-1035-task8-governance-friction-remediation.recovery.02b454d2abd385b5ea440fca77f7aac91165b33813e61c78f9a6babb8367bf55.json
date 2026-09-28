@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-27T14:18:52Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.bb9adc4a8200f8e846094dff7457275b94e8800a5f7eec3facc01e7075b6c55b.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36323181902"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "agents/skills/verification-failure-recovery.md",
+    "WI-1035 Acceptance A14"
+  ],
+  "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+  "predecessorSummaryDigest": "sha256:8d178de11152b32b112ab18a61f2ed4bc7389a1ee2ad71d6e24d0570bac3aefc",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user explicitly authorized continuing all Task 8 correspondence through PR merge and cleanup, stopping before release for the user's review. The installed Runtime reports evidence_contradictory because the active verification evidence is bound to a different executable digest. This append-only retry records that authorization to resolve the identity conflict with one fresh verification under the installed Runtime; it preserves all prior attempts and does not authorize release, tagging, or publication.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Proceed only with the installed Runtime's freshly projected next admitted action; preserve prior receipts and attempts; stop if evidence remains contradictory; do not release, tag, or publish.",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

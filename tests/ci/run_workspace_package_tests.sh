@@ -5,6 +5,10 @@ root=$(cd "$(dirname "$0")/../.." && pwd -P)
 metadata=""
 cargo_bin=cargo
 report="$root/target/workspace-package-coverage.json"
+hosted_verification_receipt="${AI_COCKPIT_VERIFICATION_RECEIPT:-}"
+hosted_verification_orchestration="${AI_COCKPIT_VERIFICATION_ORCHESTRATION:-}"
+runtime_bin="${AI_COCKPIT_RUNTIME_BIN:-$root/target/release/ai-cockpit}"
+verification_repository="${AI_COCKPIT_VERIFICATION_REPOSITORY:-$root}"
 workers="${WORKSPACE_TEST_WORKERS:-2}"
 test_threads="${WORKSPACE_TEST_THREADS:-4}"
 while (($#)); do
@@ -29,8 +33,12 @@ tmp=$(mktemp -d "${TMPDIR:-/tmp}/workspace-packages.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
 : >"$tmp/planned"
 : >"$tmp/executed"
+: >"$tmp/coverage-required"
+: >"$tmp/hosted-runtime-executed"
+: >"$tmp/coverage-run-executed"
 mkdir -p "$tmp/results"
 state=passed
+receipt_verification_state=not_provided
 failure_phase=""
 failed_package=""
 failed_index=""
@@ -59,22 +67,497 @@ then
   failure_phase=metadata
   : >"$tmp/planned"
 fi
+receipt_mode=false
+if [[ "$state" == passed && -n "$hosted_verification_receipt" ]]; then
+  receipt_mode=true
+  if ! python3 - "$metadata" "$hosted_verification_receipt" "$runtime_bin" "$verification_repository" "$hosted_verification_orchestration" >"$tmp/receipt-plan.json" 2>"$tmp/receipt-diagnostic" <<'PY'
+import hashlib
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+metadata_path, receipt_path, runtime_path, repository_path = map(Path, sys.argv[1:5])
+orchestration_path = Path(sys.argv[5]) if sys.argv[5] else None
+
+def reject(message):
+    raise SystemExit(message)
+
+if receipt_path.is_symlink() or runtime_path.is_symlink() or repository_path.is_symlink():
+    reject("hosted verification inputs must not be symlinks")
+if not receipt_path.is_file() or not runtime_path.is_file() or not repository_path.is_dir():
+    reject("hosted verification inputs are missing or not regular files")
+if orchestration_path is None or orchestration_path.is_symlink() or not orchestration_path.is_file():
+    reject("hosted Runtime orchestration evidence is missing or unsafe")
+
+metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+expected = sorted({
+    package["name"]
+    for package in metadata["packages"]
+    if package.get("source") is None
+})
+artifact_bytes = receipt_path.read_bytes()
+formal = json.loads(artifact_bytes)
+orchestration = json.loads(orchestration_path.read_bytes())
+if not isinstance(formal, dict):
+    reject("hosted Runtime evidence is not a JSON object")
+if not isinstance(orchestration, dict):
+    reject("hosted Runtime orchestration evidence is not a JSON object")
+receipt = formal.get("receipt")
+if not isinstance(receipt, dict):
+    reject("hosted Runtime evidence is missing its formal receipt envelope")
+work_item_id = formal.get("workItemId")
+if not isinstance(work_item_id, str) or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", work_item_id):
+    raise SystemExit("hosted Runtime verification receipt has an invalid Work Item identity")
+actual_digest = "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest()
+digest_pattern = re.compile(r"^sha256:[0-9a-f]{64}$")
+runtime_version = formal.get("runtimeVersion")
+repository_id = formal.get("repositoryId")
+snapshot_digest = formal.get("repositorySnapshotDigest")
+contract_digest = formal.get("contractDigest")
+if (
+    formal.get("passed") is not True
+    or formal.get("runtimeDigest") != actual_digest
+    or not isinstance(runtime_version, str)
+    or not runtime_version
+    or not isinstance(repository_id, str)
+    or not digest_pattern.fullmatch(repository_id)
+    or not isinstance(snapshot_digest, str)
+    or not digest_pattern.fullmatch(snapshot_digest)
+    or not isinstance(contract_digest, str)
+    or not digest_pattern.fullmatch(contract_digest)
+):
+    reject("formal hosted Runtime evidence is not passing or has invalid identity bindings")
+if (
+    receipt.get("workItemId") != work_item_id
+    or receipt.get("passed") is not True
+    or receipt.get("runtimeDigest") != actual_digest
+    or receipt.get("runtimeVersion") != runtime_version
+    or receipt.get("repositoryId") != repository_id
+):
+    reject("nested Runtime receipt identity does not match the formal evidence envelope")
+verification_state = orchestration.get("verificationState")
+if (
+    orchestration.get("schemaVersion") != 1
+    or orchestration.get("workItemId") != work_item_id
+    or orchestration.get("runtimeDigest") != actual_digest
+    or orchestration.get("formalReceiptDigest")
+    != "sha256:" + hashlib.sha256(artifact_bytes).hexdigest()
+    or orchestration.get("executionRepository") != str(repository_path.resolve())
+    or verification_state not in {"passed", "reused"}
+):
+    reject("hosted Runtime orchestration does not bind this receipt and execution repository")
+
+try:
+    status_result = subprocess.run(
+        [
+            str(runtime_path),
+            "work-item",
+            "status",
+            "--repo",
+            str(repository_path),
+            "--id",
+            work_item_id,
+            "--json",
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+except (OSError, subprocess.TimeoutExpired) as error:
+    reject(f"candidate Runtime freshness query failed: {error}")
+if status_result.returncode != 0:
+    reject(
+        "candidate Runtime rejected the receipt freshness status query: "
+        + status_result.stderr[-2000:]
+    )
+try:
+    current_status = json.loads(status_result.stdout)
+except json.JSONDecodeError:
+    reject("candidate Runtime returned malformed receipt freshness status")
+if (
+    current_status.get("workItemId") != work_item_id
+    or current_status.get("verification") != "verified"
+    or not isinstance(current_status.get("evidenceFreshness"), dict)
+    or current_status["evidenceFreshness"].get("state") != "fresh"
+):
+    reject("candidate Runtime does not accept the formal receipt as fresh")
+current_source_digests = current_status.get("sourceDigests")
+if not isinstance(current_source_digests, dict):
+    reject("candidate Runtime freshness status is missing source identity digests")
+if current_source_digests.get("contract") != contract_digest:
+    reject("formal receipt Contract digest does not match the current Runtime Contract")
+if current_source_digests.get("repositorySnapshot") != snapshot_digest:
+    reject("formal receipt source snapshot does not match the current Runtime source snapshot")
+if "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest() != actual_digest:
+    reject("candidate Runtime executable changed during freshness validation")
+
+results = receipt.get("results")
+nodes_planned = receipt.get("nodesPlanned")
+nodes_executed = receipt.get("nodesExecuted")
+nodes_reused = receipt.get("nodesReused")
+if (
+    not isinstance(results, list)
+    or not isinstance(nodes_planned, int)
+    or isinstance(nodes_planned, bool)
+    or not isinstance(nodes_executed, int)
+    or isinstance(nodes_executed, bool)
+    or not isinstance(nodes_reused, int)
+    or isinstance(nodes_reused, bool)
+    or nodes_planned != len(results)
+    or nodes_executed + nodes_reused != nodes_planned
+):
+    reject("hosted Runtime receipt has incomplete or inconsistent node accounting")
+plan = receipt.get("planReceipt")
+if (
+    not isinstance(plan, dict)
+    or plan.get("workItemId") != work_item_id
+    or plan.get("repositoryId") != repository_id
+    or plan.get("repositorySnapshotDigest") != snapshot_digest
+):
+    reject("hosted Runtime plan receipt is not bound to the formal evidence identity")
+coverage = plan.get("coverageManifest")
+expected_nodes = [f"project-command-0-package-{package}" for package in expected]
+if (
+    not isinstance(coverage, dict)
+    or sorted(coverage.get("workspaceMembers", [])) != expected
+    or sorted(coverage.get("nodeIds", [])) != expected_nodes
+):
+    reject("hosted Runtime plan does not bind the complete Cargo workspace package set")
+all_node_ids = []
+covered = []
+for result in results:
+    node_id = result.get("nodeId") if isinstance(result, dict) else None
+    if not isinstance(node_id, str) or not node_id:
+        reject("hosted Runtime receipt contains an invalid verification node identity")
+    if result.get("passed") is not True:
+        reject(f"hosted Runtime verification node failed: {node_id}")
+    all_node_ids.append(node_id)
+    if not node_id.startswith("project-command-0-package-"):
+        continue
+    package = node_id.removeprefix("project-command-0-package-")
+    covered.append(package)
+if len(set(all_node_ids)) != len(all_node_ids):
+    reject("hosted Runtime receipt contains duplicate verification nodes")
+if sorted(covered) != expected or len(set(covered)) != len(expected):
+    reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
+reused_nodes = plan.get("reusedNodes")
+executed_nodes = plan.get("executedNodes")
+if (
+    not isinstance(reused_nodes, list)
+    or any(not isinstance(node, str) for node in reused_nodes)
+    or len(set(reused_nodes)) != len(reused_nodes)
+    or not isinstance(executed_nodes, list)
+    or any(not isinstance(node, str) for node in executed_nodes)
+    or len(set(executed_nodes)) != len(executed_nodes)
+):
+    reject("hosted Runtime plan is missing valid node accounting")
+if (
+    set(reused_nodes).intersection(executed_nodes)
+    or sorted(reused_nodes + executed_nodes) != sorted(all_node_ids)
+    or len(executed_nodes) != nodes_executed
+    or len(reused_nodes) != nodes_reused
+):
+    reject("hosted Runtime plan execution accounting does not match its formal receipt")
+if verification_state == "reused":
+    hosted_runtime_executed = []
+    coverage_required = expected
+else:
+    package_node_ids = {f"project-command-0-package-{package}" for package in expected}
+    reused_packages = {
+        node.removeprefix("project-command-0-package-")
+        for node in reused_nodes
+        if node.startswith("project-command-0-package-")
+    }
+    if not package_node_ids.issubset(set(all_node_ids)):
+        reject("hosted Runtime receipt omits a required package result")
+    hosted_runtime_executed = [package for package in expected if package not in reused_packages]
+    coverage_required = [package for package in expected if package in reused_packages]
+
+evidence_directory = repository_path / ".ai" / "evidence"
+evidence_path = evidence_directory / f"{work_item_id}.verification.json"
+if (
+    (repository_path / ".ai").is_symlink()
+    or evidence_directory.is_symlink()
+    or evidence_path.is_symlink()
+    or not evidence_path.is_file()
+):
+    reject("Runtime-authored formal verification evidence is missing or unsafe")
+evidence_bytes = evidence_path.read_bytes()
+if artifact_bytes != evidence_bytes:
+    reject("coverage evidence is not byte-identical to Runtime-authored formal evidence")
+evidence = json.loads(evidence_bytes)
+if (
+    evidence.get("workItemId") != work_item_id
+    or evidence.get("passed") is not True
+    or evidence.get("runtimeDigest") != actual_digest
+    or evidence.get("repositoryId") != repository_id
+    or evidence.get("repositorySnapshotDigest") != snapshot_digest
+):
+    reject("Runtime-authored formal verification evidence identity is invalid")
+print(json.dumps({"coverageRequired": coverage_required, "hostedRuntimeExecuted": hosted_runtime_executed}))
+PY
+  then
+    state=failed
+    failure_phase=hosted_verification_receipt
+    failure_diagnostic_tail=$(tail -c 12000 "$tmp/receipt-diagnostic")
+    : >"$tmp/coverage-required"
+    : >"$tmp/hosted-runtime-executed"
+  else
+    receipt_verification_state=$(jq -er '.verificationState' "$hosted_verification_orchestration") || {
+      state=failed
+      failure_phase=hosted_verification_receipt
+      failure_diagnostic_tail="could not read hosted Runtime verification state"
+    }
+    jq -r '.coverageRequired[]' "$tmp/receipt-plan.json" >"$tmp/coverage-required"
+    jq -r '.hostedRuntimeExecuted[]' "$tmp/receipt-plan.json" >"$tmp/hosted-runtime-executed"
+  fi
+elif [[ "$state" == passed ]]; then
+  cp "$tmp/planned" "$tmp/coverage-required"
+fi
+
 if [[ "$state" == passed ]]; then
   packages=()
   while IFS= read -r package; do
     packages+=("$package")
-  done <"$tmp/planned"
+  done <"$tmp/coverage-required"
+  package_count=${#packages[@]}
+  if ((package_count > 0)); then
+    rustc_bin="${RUSTC:-rustc}"
+    if ! rustc_info=$("$rustc_bin" -vV 2>&1); then
+      state=failed
+      failure_phase=runner_setup
+      failure_diagnostic_tail=$(tail -c 12000 <<<"$rustc_info")
+    else
+      host_target=$(sed -n 's/^host: //p' <<<"$rustc_info")
+      if [[ -z "$host_target" ]]; then
+        state=failed
+        failure_phase=runner_setup
+        failure_diagnostic_tail="rustc -vV did not report a host target"
+      else
+        runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
+        runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
+        process_observer_runner="$root/tests/ci/run_process_observer_test_runner.sh"
+        runner_config_diagnostic=$(
+          python3 - "$root" "$host_target" "$process_observer_runner" 2>&1 <<'PY'
+import ast
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+try:
+    import tomllib
+except ImportError:
+    print("Python 3.11 or newer is required to inspect Cargo runner configuration", file=sys.stderr)
+    raise SystemExit(1)
+
+repository = Path(sys.argv[1])
+host_target = sys.argv[2]
+required_runner = sys.argv[3]
+rustc = os.environ.get("RUSTC", "rustc")
+
+cfg_result = subprocess.run(
+    [rustc, "--print", "cfg", "--target", host_target],
+    check=False,
+    capture_output=True,
+    text=True,
+)
+if cfg_result.returncode != 0:
+    print(cfg_result.stderr.strip() or "rustc could not report host cfg values", file=sys.stderr)
+    raise SystemExit(1)
+
+cfg_flags = set()
+cfg_pairs = set()
+for line in cfg_result.stdout.splitlines():
+    if "=" not in line:
+        cfg_flags.add(line)
+        continue
+    key, encoded_value = line.split("=", 1)
+    try:
+        value = ast.literal_eval(encoded_value)
+    except (SyntaxError, ValueError):
+        print(f"rustc reported an invalid cfg value: {line}", file=sys.stderr)
+        raise SystemExit(1)
+    if not isinstance(value, str):
+        print(f"rustc reported a non-string cfg value: {line}", file=sys.stderr)
+        raise SystemExit(1)
+    cfg_pairs.add((key, value))
+
+token_pattern = re.compile(r'\s*([A-Za-z_][A-Za-z0-9_]*|"(?:\\.|[^"\\])*"|=|[(),])')
+
+def parse_cfg(expression):
+    tokens = []
+    position = 0
+    while position < len(expression):
+        if not expression[position:].strip():
+            break
+        match = token_pattern.match(expression, position)
+        if match is None:
+            raise ValueError(f"unsupported cfg selector syntax: {expression}")
+        tokens.append(match.group(1))
+        position = match.end()
+
+    def parse_node(index):
+        if index >= len(tokens):
+            raise ValueError(f"incomplete cfg selector: {expression}")
+        name = tokens[index]
+        if name in {"all", "any", "not"} and index + 1 < len(tokens) and tokens[index + 1] == "(":
+            children = []
+            index += 2
+            while index < len(tokens) and tokens[index] != ")":
+                child, index = parse_node(index)
+                children.append(child)
+                if index < len(tokens) and tokens[index] == ",":
+                    index += 1
+                elif index < len(tokens) and tokens[index] != ")":
+                    raise ValueError(f"invalid cfg selector: {expression}")
+            if index >= len(tokens):
+                raise ValueError(f"unterminated cfg selector: {expression}")
+            if name == "not" and len(children) != 1:
+                raise ValueError(f"cfg not() must have one expression: {expression}")
+            return (name, children), index + 1
+        if index + 1 < len(tokens) and tokens[index + 1] == "=":
+            if index + 2 >= len(tokens) or not tokens[index + 2].startswith('"'):
+                raise ValueError(f"invalid cfg key/value selector: {expression}")
+            value = ast.literal_eval(tokens[index + 2])
+            return ("pair", name, value), index + 3
+        return ("flag", name), index + 1
+
+    tree, final_position = parse_node(0)
+    if final_position != len(tokens):
+        raise ValueError(f"trailing cfg selector input: {expression}")
+    return tree
+
+def matches_cfg(tree):
+    kind = tree[0]
+    if kind == "all":
+        return all(matches_cfg(child) for child in tree[1])
+    if kind == "any":
+        return any(matches_cfg(child) for child in tree[1])
+    if kind == "not":
+        return not matches_cfg(tree[1][0])
+    if kind == "pair":
+        return (tree[1], tree[2]) in cfg_pairs
+    return tree[1] in cfg_flags
+
+config_files = []
+for directory in (repository, *repository.parents):
+    config_files.extend((directory / ".cargo/config.toml", directory / ".cargo/config"))
+cargo_home = Path(os.environ.get("CARGO_HOME") or (Path.home() / ".cargo"))
+config_files.extend((cargo_home / "config.toml", cargo_home / "config"))
+
+seen = set()
+
+def inspect_config(config_path, *, required=False):
+    resolved_path = config_path.resolve()
+    if resolved_path in seen:
+        return
+    if not config_path.is_file():
+        if required:
+            print(f"included Cargo configuration is missing or not a regular file: {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        return
+    seen.add(resolved_path)
+    try:
+        configuration = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError) as error:
+        print(f"cannot inspect Cargo configuration {config_path}: {error}", file=sys.stderr)
+        raise SystemExit(1)
+
+    includes = configuration.get("include", [])
+    if not isinstance(includes, list):
+        print(f"Cargo include configuration is not an array in {config_path}", file=sys.stderr)
+        raise SystemExit(1)
+    for include in includes:
+        optional = False
+        if isinstance(include, str):
+            include_path = include
+        elif isinstance(include, dict):
+            if set(include) - {"path", "optional"}:
+                print(f"Cargo include entry has unsupported fields in {config_path}", file=sys.stderr)
+                raise SystemExit(1)
+            include_path = include.get("path")
+            optional = include.get("optional", False)
+            if not isinstance(optional, bool):
+                print(f"Cargo include optional flag is not a boolean in {config_path}", file=sys.stderr)
+                raise SystemExit(1)
+        else:
+            print(f"Cargo include entry is not a path or table in {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        if not isinstance(include_path, str) or not include_path.endswith(".toml"):
+            print(f"Cargo include path is invalid in {config_path}", file=sys.stderr)
+            raise SystemExit(1)
+        included_config = Path(include_path)
+        if not included_config.is_absolute():
+            included_config = config_path.parent / included_config
+        if optional:
+            try:
+                included_config.stat()
+            except FileNotFoundError:
+                continue
+            except OSError as error:
+                print(f"cannot inspect optional Cargo configuration {included_config}: {error}", file=sys.stderr)
+                raise SystemExit(1)
+        inspect_config(included_config, required=True)
+
+    targets = configuration.get("target", {})
+    if not isinstance(targets, dict):
+        print(f"Cargo target configuration is not a table in {config_path}", file=sys.stderr)
+        raise SystemExit(1)
+    for selector, settings in targets.items():
+        if not isinstance(settings, dict) or "runner" not in settings:
+            continue
+        applies = selector == host_target
+        if selector.startswith("cfg(") and selector.endswith(")"):
+            try:
+                applies = matches_cfg(parse_cfg(selector[4:-1]))
+            except (ValueError, SyntaxError) as error:
+                print(f"cannot resolve Cargo runner selector {selector!r} in {config_path}: {error}", file=sys.stderr)
+                raise SystemExit(1)
+        if not applies:
+            continue
+        configured = settings["runner"]
+        if configured not in (required_runner, [required_runner]):
+            print(
+                f"configured Cargo target runner in {config_path} for {selector!r} conflicts with the required process observer runner",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
+
+for config_path in config_files:
+    inspect_config(config_path)
+PY
+        )
+        runner_config_status=$?
+        configured_runner="${!runner_variable:-}"
+        if ((runner_config_status != 0)); then
+          state=failed
+          failure_phase=runner_setup
+          failure_diagnostic_tail=$(tail -c 12000 <<<"$runner_config_diagnostic")
+        elif [[ -n "$configured_runner" && "$configured_runner" != "$process_observer_runner" ]]; then
+          state=failed
+          failure_phase=runner_setup
+          failure_diagnostic_tail="${runner_variable} must use ${process_observer_runner} for safe process-observer isolation"
+        else
+          export "${runner_variable}=${process_observer_runner}"
+        fi
+      fi
+    fi
+  fi
   pids=()
   active=0
   next=0
-  package_count=${#packages[@]}
   while { [[ "$state" == passed ]] && ((next < package_count)) || ((active > 0)); }; do
     while [[ "$state" == passed ]] && ((next < package_count && active < workers)); do
       package=${packages[$next]}
       index=$next
       (
         set +e
-        (cd "$root" && "$cargo_bin" test -p "$package" --all-targets -- --test-threads="$test_threads") \
+        (cd "$root" && "$cargo_bin" test -p "$package" --target "$host_target" --all-targets -- --test-threads="$test_threads") \
           >"$tmp/results/$index.log" 2>&1
         result=$?
         printf '%s\n' "$result" >"$tmp/results/$index.status"
@@ -111,17 +594,28 @@ fi
 
 # Completion order is intentionally independent from the worker schedule so
 # the report remains deterministic and can be compared across CI runs.
-: >"$tmp/executed"
+: >"$tmp/coverage-run-executed"
 if [[ "$state" == passed || -n "$failed_index" ]]; then
   for index in "${!packages[@]}"; do
     if [[ -f "$tmp/results/$index.status" ]] && [[ "$(<"$tmp/results/$index.status")" == 0 ]]; then
-      printf '%s\n' "${packages[$index]}" >>"$tmp/executed"
+      printf '%s\n' "${packages[$index]}" >>"$tmp/coverage-run-executed"
     fi
   done
 fi
+python3 - "$tmp/planned" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$tmp/executed" <<'PY'
+import sys
+
+planned_path, hosted_path, coverage_path, executed_path = sys.argv[1:]
+def lines(path):
+    return [line for line in open(path, encoding="utf-8").read().splitlines() if line]
+
+completed = set(lines(hosted_path)) | set(lines(coverage_path))
+with open(executed_path, "w", encoding="utf-8") as stream:
+    stream.write("".join(f"{package}\n" for package in lines(planned_path) if package in completed))
+PY
 
 mkdir -p "$(dirname "$report")"
-python3 - "$tmp/planned" "$tmp/executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" <<'PY'
+python3 - "$tmp/planned" "$tmp/executed" "$tmp/hosted-runtime-executed" "$tmp/coverage-run-executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" "$receipt_verification_state" <<'PY'
 import json
 import sys
 
@@ -130,26 +624,32 @@ def lines(path):
 
 planned = lines(sys.argv[1])
 executed = lines(sys.argv[2])
+hosted_runtime_executed = lines(sys.argv[3])
+coverage_run_executed = lines(sys.argv[4])
 report = {
     "executed": executed,
+    "executedByCoverageRunner": coverage_run_executed,
+    "executedByHostedRuntime": hosted_runtime_executed,
     "omitted": sorted(set(planned) - set(executed)),
     "planned": planned,
     "schemaVersion": 1,
-    "state": sys.argv[4],
+    "state": sys.argv[6],
+    "verificationReceiptState": sys.argv[11],
 }
-if sys.argv[5]:
-    report["failurePhase"] = sys.argv[5]
-if sys.argv[6]:
-    report["failedPackage"] = sys.argv[6]
 if sys.argv[7]:
-    report["failedExitCode"] = int(sys.argv[7])
+    report["failurePhase"] = sys.argv[7]
 if sys.argv[8]:
-    report["failureDiagnosticTail"] = sys.argv[8]
-open(sys.argv[3], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort_keys=True) + "\n")
+    report["failedPackage"] = sys.argv[8]
+if sys.argv[9]:
+    report["failedExitCode"] = int(sys.argv[9])
+if sys.argv[10]:
+    report["failureDiagnosticTail"] = sys.argv[10]
+open(sys.argv[5], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort_keys=True) + "\n")
 PY
 
 if [[ "$state" != passed ]]; then
-  printf 'workspace package coverage failed: package=%s exitCode=%s\n' "$failed_package" "$failed_exit_code" >&2
+  printf 'workspace package coverage failed: phase=%s package=%s exitCode=%s\n' \
+    "$failure_phase" "$failed_package" "$failed_exit_code" >&2
   exit 1
 fi
 printf 'workspace package coverage passed: %s packages\n' "$(wc -l <"$tmp/executed" | tr -d ' ')"

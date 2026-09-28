@@ -137,6 +137,26 @@ fn snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits() {
     commit(directory.path(), "governance receipt");
     assert_eq!(source, repository_snapshot_digest(directory.path()));
 
+    assert!(
+        Command::new("git")
+            .args([
+                "-C",
+                directory.path().to_str().expect("path"),
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "empty commit",
+            ])
+            .status()
+            .expect("empty git commit")
+            .success()
+    );
+    assert_eq!(source, repository_snapshot_digest(directory.path()));
+
     fs::write(
         directory.path().join("src.rs"),
         "pub fn value() -> u8 { 2 }\n",

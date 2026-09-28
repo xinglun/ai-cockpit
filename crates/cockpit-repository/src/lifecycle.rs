@@ -6,31 +6,46 @@ use super::{
     SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeReport, TaskOutcomeReportInput,
     VerificationCaptureMode, VerificationDeclaration, VerificationEvidenceEnvelope,
     WorkItemScaffoldFacts, WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation,
-    WorkItemStartOptions, WorkItemStartRemoteBranch, WorkItemStartWorktree, acquire_lifecycle_lock,
-    append_task_outcome_events, apply_preflight_review_evidence, atomic_json, atomic_write, attach,
-    attached_profile_digest, close_decision_is_valid_for_status,
+    WorkItemStartOptions, WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
+    acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
+    atomic_json, atomic_write, attach, attached_profile_digest, close_decision_is_valid_for_status,
     ensure_resource_finalization_base_binding, git_text, git_worktree_records,
-    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
-    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
-    persist_blocked_lifecycle_outcome, read_contract, read_evidence_retention_policy, read_json,
-    read_resource_finalization_receipt, recovery_scaffold_exists, reject_duplicate_json_keys,
-    repository_id, repository_readiness, repository_relative_path,
+    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
+    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
+    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome, read_contract,
+    read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
+    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
+    repository_relative_path, require_current_action_admission,
     require_explicit_resource_finalization_plan, require_green_governance,
     require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
-    validate_checkpoint_evidence_bindings, validate_contract_summary_controls,
-    validate_contract_summary_controls_with_runtime, validate_historical_finalization,
+    validate_checkpoint_evidence_bindings, validate_historical_finalization,
     validate_recovery_archive_manifest_binding, validate_required_evidence_classes,
     validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
-    validate_start_entry, validate_work_item_id, verification_evidence_state,
-    verify_archive_manifest, write_task_outcome_artifacts,
+    validate_start_entry, validate_work_item_governance_controls,
+    validate_work_item_governance_controls_with_runtime, validate_work_item_id,
+    verification_evidence_state, verify_archive_manifest, write_task_outcome_artifacts,
 };
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
+
+/// The persisted preflight decision plus the repository-relative files this
+/// explicit write operation actually changed.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct PreflightResult {
+    #[serde(flatten)]
+    pub decision: GovernanceDecision,
+    pub changed_paths: Vec<String>,
+    /// The same versioned action/blocker/next-step snapshot returned by
+    /// `work-item status`, when this Contract belongs to an active Work Item.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub action_admission: Option<WorkItemStatusSnapshot>,
+}
 
 pub fn start_work_item(
     root: &Path,
@@ -511,18 +526,14 @@ pub fn start_work_item_prepared(
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let preflight = super::preflight_work_item_with_runtime(root, &contract_path, runtime)?;
-    let preflight_value =
-        serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: format!("serialize prepared-start preflight: {error}"),
-        })?;
+    let mut preflight =
+        super::preflight_work_item_with_runtime_report(root, &contract_path, runtime)?;
     let requires_human_confirmation =
-        preflight.review_state.as_deref() == Some("needs_human_confirmation");
+        preflight.decision.review_state.as_deref() == Some("needs_human_confirmation");
     let may_checkpoint = matches!(
-        &preflight.state,
+        &preflight.decision.state,
         cockpit_core::DecisionState::Green | cockpit_core::DecisionState::Yellow
-    ) && preflight.blockers.is_empty()
+    ) && preflight.decision.blockers.is_empty()
         && !requires_human_confirmation;
     let (state, checkpoint, checkpoint_error) = if may_checkpoint {
         match checkpoint_work_item(root, work_item_id) {
@@ -543,6 +554,18 @@ pub fn start_work_item_prepared(
     } else {
         ("blocked", None, None)
     };
+    if state == "checkpointed" {
+        preflight.action_admission = Some(super::work_item_status_snapshot_with_runtime(
+            root,
+            work_item_id,
+            runtime,
+        )?);
+    }
+    let preflight_value =
+        serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: format!("serialize prepared-start preflight: {error}"),
+        })?;
     Ok(serde_json::json!({
         "schemaVersion": 1,
         "workItemId": work_item_id,
@@ -557,7 +580,7 @@ pub fn start_work_item_prepared(
         } else if requires_human_confirmation {
             vec!["present_preflight_review_and_wait_for_human_decision".to_owned()]
         } else {
-            preflight.safe_actions.clone()
+            preflight.decision.safe_actions.clone()
         },
     }))
 }
@@ -1864,6 +1887,15 @@ pub fn preflight_work_item(
     root: &Path,
     contract_path: &Path,
 ) -> Result<GovernanceDecision, ObserverError> {
+    Ok(preflight_work_item_report(root, contract_path)?.decision)
+}
+
+/// Evaluate and persist preflight, returning the paths actually changed by
+/// this explicit write operation.
+pub fn preflight_work_item_report(
+    root: &Path,
+    contract_path: &Path,
+) -> Result<PreflightResult, ObserverError> {
     preflight_work_item_internal(root, contract_path, None)
 }
 
@@ -1875,6 +1907,15 @@ pub fn preflight_work_item_with_runtime(
     contract_path: &Path,
     runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
+    Ok(preflight_work_item_with_runtime_report(root, contract_path, runtime)?.decision)
+}
+
+/// Runtime-bound preflight report for CLI/MCP write adapters.
+pub fn preflight_work_item_with_runtime_report(
+    root: &Path,
+    contract_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<PreflightResult, ObserverError> {
     preflight_work_item_internal(root, contract_path, Some(runtime))
 }
 
@@ -1882,7 +1923,7 @@ fn preflight_work_item_internal(
     root: &Path,
     contract_path: &Path,
     current_runtime: Option<&RuntimeContext>,
-) -> Result<GovernanceDecision, ObserverError> {
+) -> Result<PreflightResult, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -1892,37 +1933,57 @@ fn preflight_work_item_internal(
     } else {
         root.join(contract_path)
     };
-    let contract = read_contract(&contract_path)?;
+    let requested_contract = read_contract(&contract_path)?;
+    let work_item_id = requested_contract.work_item_id.clone();
+    let active = root.join(".ai/work-items/active");
+    let active_contract = active.join(format!("{work_item_id}.contract.json"));
+    let active_summary = active.join(format!("{work_item_id}.summary.json"));
+    let _lifecycle_lock = if active_contract.is_file() && active_summary.is_file() {
+        Some(acquire_lifecycle_lock(&root, &work_item_id)?)
+    } else {
+        None
+    };
+    preflight_work_item_internal_unlocked(&root, &contract_path, &work_item_id, current_runtime)
+}
+
+fn preflight_work_item_internal_unlocked(
+    root: &Path,
+    contract_path: &Path,
+    expected_work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<PreflightResult, ObserverError> {
+    let contract = read_contract(contract_path)?;
+    if contract.work_item_id != expected_work_item_id {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: "preflight Contract identity changed while waiting for the lifecycle lock"
+                .into(),
+        });
+    }
     validate_required_evidence_classes(&contract.required_evidence_classes).map_err(|message| {
         ObserverError::State {
-            path: contract_path.clone(),
+            path: contract_path.to_path_buf(),
             message,
         }
     })?;
-    let repository_context = RepositoryExecutionContext::capture(&root)?;
-    let observation_context = repository_context.observe_phase_with_contract(
+    let repository_context = RepositoryExecutionContext::capture(root)?;
+    let observation_context = repository_context.observe_phase_with_contract_uncached(
         ObservationPhase::BeforeGovernance,
         current_runtime,
-        &contract_path,
+        contract_path,
     )?;
     let snapshot = observation_context.snapshot().clone();
     let raw_decision = governance_decision_for_pre_execution_boundary(
-        &root,
+        root,
         &contract,
         &snapshot,
         current_runtime,
         Some(&observation_context),
     )?;
-    let decision = apply_preflight_review_evidence(
-        &root,
-        &contract,
-        &snapshot,
-        raw_decision.clone(),
-        false,
-        None,
-    )?;
+    let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
+    let mut changed_paths = Vec::new();
     let active = root.join(".ai/work-items/active");
     let active_contract = active.join(format!("{}.contract.json", contract.work_item_id));
     let summary_path = active.join(format!("{}.summary.json", contract.work_item_id));
@@ -1933,19 +1994,27 @@ fn preflight_work_item_internal(
                 source,
             })?;
         let requested_contract =
-            fs::canonicalize(&contract_path).map_err(|source| ObserverError::Read {
-                path: contract_path.clone(),
+            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.to_path_buf(),
                 source,
             })?;
         if active_contract != requested_contract {
             return Err(ObserverError::State {
-                path: contract_path,
+                path: contract_path.to_path_buf(),
                 message: "preflight contract is not the active Work Item contract".into(),
             });
         }
         let mut summary: serde_json::Value = read_json(&summary_path)?;
+        if let Some(runtime) = current_runtime {
+            require_current_action_admission(
+                root,
+                &contract.work_item_id,
+                "run_preflight",
+                runtime,
+            )?;
+        }
         require_current_retry_recovery_binding(
-            &root,
+            root,
             &contract.work_item_id,
             &summary,
             current_runtime,
@@ -1956,27 +2025,32 @@ fn preflight_work_item_internal(
         // callers can inspect the candidate decision before `start` supplies
         // the human governance fields and activates the item.
         if current_state == "not_ready" {
-            let state = decision_state_name(decision.state.clone());
-            let decision_value =
-                serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
-                    path: active_contract.clone(),
-                    message: error.to_string(),
-                })?;
-            summary["preflightState"] = state.into();
-            summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-                .map_err(|error| ObserverError::State {
-                    path: active_contract.clone(),
-                    message: error.to_string(),
-                })?
-                .to_string()
-                .into();
-            summary["preflightRepositorySnapshotDigest"] =
-                snapshot_digest(&snapshot)?.to_string().into();
-            summary["preflightContractDigest"] =
-                contract_digest(&active_contract)?.to_string().into();
-            summary["preflightAt"] = now().into();
-            atomic_json(&summary_path, &summary)?;
-            return Ok(decision);
+            if update_preflight_summary(
+                &summary_path,
+                &active_contract,
+                &mut summary,
+                &decision,
+                &raw_decision,
+                &snapshot,
+            )? {
+                changed_paths.push(format!(
+                    ".ai/work-items/active/{}.summary.json",
+                    contract.work_item_id
+                ));
+            }
+            return Ok(PreflightResult {
+                decision,
+                changed_paths,
+                action_admission: current_runtime
+                    .map(|runtime| {
+                        super::work_item_status_snapshot_with_runtime(
+                            root,
+                            &contract.work_item_id,
+                            runtime,
+                        )
+                    })
+                    .transpose()?,
+            });
         }
         // A source commit after finish can legitimately change the repository
         // snapshot without changing the Work Item's intent or checkpoint. In
@@ -1995,27 +2069,89 @@ fn preflight_work_item_internal(
                 ),
             });
         }
-        let state = decision_state_name(decision.state.clone());
-        let decision_value =
-            serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
-                path: active_contract.clone(),
-                message: error.to_string(),
-            })?;
-        summary["preflightState"] = state.into();
-        summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-            .map_err(|error| ObserverError::State {
-                path: active_contract.clone(),
-                message: error.to_string(),
-            })?
-            .to_string()
-            .into();
-        summary["preflightRepositorySnapshotDigest"] =
-            snapshot_digest(&snapshot)?.to_string().into();
-        summary["preflightContractDigest"] = contract_digest(&active_contract)?.to_string().into();
-        summary["preflightAt"] = now().into();
-        atomic_json(&summary_path, &summary)?;
+        if update_preflight_summary(
+            &summary_path,
+            &active_contract,
+            &mut summary,
+            &decision,
+            &raw_decision,
+            &snapshot,
+        )? {
+            changed_paths.push(format!(
+                ".ai/work-items/active/{}.summary.json",
+                contract.work_item_id
+            ));
+        }
     }
-    Ok(decision)
+    Ok(PreflightResult {
+        decision,
+        changed_paths,
+        action_admission: if active_contract.is_file() && summary_path.is_file() {
+            current_runtime
+                .map(|runtime| {
+                    super::work_item_status_snapshot_with_runtime(
+                        root,
+                        &contract.work_item_id,
+                        runtime,
+                    )
+                })
+                .transpose()?
+        } else {
+            None
+        },
+    })
+}
+
+fn update_preflight_summary(
+    summary_path: &Path,
+    active_contract: &Path,
+    summary: &mut serde_json::Value,
+    decision: &GovernanceDecision,
+    raw_decision: &GovernanceDecision,
+    snapshot: &RepositorySnapshot,
+) -> Result<bool, ObserverError> {
+    let decision_value =
+        serde_json::to_value(raw_decision).map_err(|error| ObserverError::State {
+            path: active_contract.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    let next_fields = [
+        (
+            "preflightState",
+            serde_json::Value::String(decision_state_name(decision.state.clone()).into()),
+        ),
+        (
+            "preflightDecisionDigest",
+            serde_json::Value::String(
+                cockpit_protocol::digest_json(&decision_value)
+                    .map_err(|error| ObserverError::State {
+                        path: active_contract.to_path_buf(),
+                        message: error.to_string(),
+                    })?
+                    .to_string(),
+            ),
+        ),
+        (
+            "preflightRepositorySnapshotDigest",
+            serde_json::Value::String(snapshot_digest(snapshot)?.to_string()),
+        ),
+        (
+            "preflightContractDigest",
+            serde_json::Value::String(contract_digest(active_contract)?.to_string()),
+        ),
+    ];
+    let changed = next_fields
+        .iter()
+        .any(|(key, value)| summary.get(*key) != Some(value));
+    if !changed {
+        return Ok(false);
+    }
+    for (key, value) in next_fields {
+        summary[key] = value;
+    }
+    summary["preflightAt"] = now().into();
+    atomic_json(summary_path, summary)?;
+    Ok(true)
 }
 
 pub(super) fn decision_state_name(state: DecisionState) -> &'static str {
@@ -2059,8 +2195,7 @@ fn require_green_or_yellow_preflight_governance(
 ) -> Result<(), ObserverError> {
     let decision =
         governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
-    let decision =
-        super::apply_preflight_review_evidence(root, contract, snapshot, decision, false, None)?;
+    let decision = super::apply_preflight_review_evidence(root, contract, decision, false)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {
@@ -2168,6 +2303,9 @@ fn finish_work_item_internal_unlocked(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    if let Some(runtime) = current_runtime {
+        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
+    }
     if contract.checkpoint_policy.is_some() {
         let current_contract_hash = contract_digest(&contract_path)?.to_string();
         if summary["checkpointContractDigest"] != serde_json::json!(current_contract_hash) {
@@ -2233,28 +2371,18 @@ fn finish_work_item_internal_unlocked(
             message: "verification receipt is stale for the current repository snapshot".into(),
         });
     }
-    let contract_value = read_json(&contract_path)?;
     let controls = if let Some(runtime) = current_runtime {
-        validate_contract_summary_controls_with_runtime(
-            &contract,
-            &contract_value,
-            &summary,
-            runtime,
-        )
+        validate_work_item_governance_controls_with_runtime(&root, work_item_id, runtime)?
     } else {
-        validate_contract_summary_controls(&contract, &contract_value, &summary)
+        validate_work_item_governance_controls(&root, work_item_id)?
     };
-    if controls.state == "blocked" {
+    let governance_control_gaps = governance_controls_gaps_for_finish(&controls);
+    if !governance_control_gaps.is_empty() {
         return Err(ObserverError::State {
             path: contract_path,
             message: format!(
-                "Contract/Summary governance controls are blocked: {}",
-                controls
-                    .findings
-                    .iter()
-                    .map(|item| item.code.as_str())
-                    .collect::<Vec<_>>()
-                    .join(", ")
+                "Contract/Summary governance controls do not admit finish: {}",
+                governance_control_gaps.join(", ")
             ),
         });
     }
@@ -2320,9 +2448,6 @@ fn finish_work_item_internal_unlocked(
         )?;
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
-    }
-    if let Some(runtime) = current_runtime {
-        super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
     }
     let timestamp = now();
     // A prior failed `finish` persists a blocked projection so recovery is
@@ -5509,6 +5634,60 @@ pub fn persist_verification_attempt(
     diagnostic: Option<(&str, &str)>,
     receipt: Option<&serde_json::Value>,
 ) -> Result<serde_json::Value, ObserverError> {
+    persist_verification_attempt_internal(
+        root,
+        work_item_id,
+        requests,
+        snapshot,
+        runtime,
+        state,
+        diagnostic,
+        receipt,
+        None,
+    )
+}
+
+/// Persist a terminal receipt-rejection attempt that explicitly supersedes
+/// the execution-only attempt for the same completed verification. The link
+/// preserves append-only history while making the final outcome independent
+/// of wall-clock timestamp precision or digest sort order.
+#[allow(clippy::too_many_arguments)]
+pub fn persist_verification_attempt_superseding(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    state: &str,
+    diagnostic: Option<(&str, &str)>,
+    receipt: Option<&serde_json::Value>,
+    supersedes_attempt_id: &str,
+) -> Result<serde_json::Value, ObserverError> {
+    persist_verification_attempt_internal(
+        root,
+        work_item_id,
+        requests,
+        snapshot,
+        runtime,
+        state,
+        diagnostic,
+        receipt,
+        Some(supersedes_attempt_id),
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn persist_verification_attempt_internal(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    state: &str,
+    diagnostic: Option<(&str, &str)>,
+    receipt: Option<&serde_json::Value>,
+    supersedes_attempt_id: Option<&str>,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     if state.trim().is_empty() {
         return Err(ObserverError::State {
@@ -5534,6 +5713,17 @@ pub fn persist_verification_attempt(
     let contract_scope_digest_value = contract_execution_scope_digest(&contract_path)
         .ok()
         .map(|digest| serde_json::json!(digest));
+    if let Some(supersedes_attempt_id) = supersedes_attempt_id {
+        validate_verification_attempt_supersession(
+            &root,
+            work_item_id,
+            snapshot,
+            runtime,
+            &contract_digest_value,
+            &contract_scope_digest_value,
+            supersedes_attempt_id,
+        )?;
+    }
     let command_values = requests
         .iter()
         .map(|request| verification_attempt_command_value(&root, request))
@@ -5579,10 +5769,16 @@ pub fn persist_verification_attempt(
         "receipt": bound_receipt,
         "createdAt": now(),
     });
+    if let Some(supersedes_attempt_id) = supersedes_attempt_id {
+        value["supersedesAttemptId"] = serde_json::json!(supersedes_attempt_id);
+    }
     if let Some((code, message)) = diagnostic {
         value["diagnostic"] = serde_json::json!({
             "code": code,
-            "message": message,
+            "message": truncate_diagnostic_text(
+                message.to_owned(),
+                MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES,
+            ),
         });
     }
     let attempt_id =
@@ -5637,6 +5833,66 @@ pub fn persist_verification_attempt(
         "processesSpawned": processes_spawned,
         "passed": passed,
     }))
+}
+
+#[allow(clippy::too_many_arguments)]
+fn validate_verification_attempt_supersession(
+    root: &Path,
+    work_item_id: &str,
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    contract_digest_value: &Option<serde_json::Value>,
+    contract_scope_digest_value: &Option<serde_json::Value>,
+    supersedes_attempt_id: &str,
+) -> Result<(), ObserverError> {
+    if !valid_sha256_digest(supersedes_attempt_id) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "superseded verification attempt ID must be a SHA-256 digest".into(),
+        });
+    }
+    let suffix = supersedes_attempt_id
+        .strip_prefix("sha256:")
+        .expect("valid SHA-256 digest has prefix");
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification-attempt.{suffix}.json"));
+    let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    if metadata.file_type().is_symlink()
+        || !metadata.is_file()
+        || metadata.len() > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "superseded verification attempt must be a bounded regular file".into(),
+        });
+    }
+    let previous: serde_json::Value = read_json(&path)?;
+    if !verification_attempt_content_digest_matches(&previous)
+        || previous["attemptId"] != serde_json::json!(supersedes_attempt_id)
+        || previous["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+        || previous["kind"] != serde_json::json!("verification_attempt")
+        || previous["state"] != serde_json::json!("execution_completed")
+        || previous["workItemId"] != serde_json::json!(work_item_id)
+        || previous["repositoryId"] != serde_json::json!(repository_id(root))
+        || previous.get("contractDigest").cloned() != *contract_digest_value
+        || previous.get("contractExecutionScopeDigest").cloned() != *contract_scope_digest_value
+        || previous["repositorySnapshotDigest"] != serde_json::json!(snapshot_digest(snapshot)?)
+        || previous["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+        || previous["runtimeDigest"] != serde_json::json!(runtime.runtime_digest)
+        || previous["passed"] != serde_json::json!(true)
+        || previous["processesSpawned"].as_u64().unwrap_or_default() == 0
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "superseded verification attempt is not a valid matching execution completion"
+                .into(),
+        });
+    }
+    Ok(())
 }
 
 /// Load one prior successful execution whose execution identity is unchanged.
@@ -5908,6 +6164,243 @@ fn verification_attempt_content_digest_matches(attempt: &serde_json::Value) -> b
     object.remove("attemptId");
     cockpit_protocol::digest_json(&unsigned).is_ok_and(|digest| digest == attempt_id)
 }
+
+pub(crate) struct CurrentVerificationAttemptProjection {
+    pub state: String,
+    pub attempt_id: String,
+    pub path: String,
+    pub diagnostic_code: Option<String>,
+    pub diagnostic_message: Option<String>,
+    pub snapshot_digest: String,
+}
+
+fn select_current_verification_attempt_projection(
+    mut candidates: Vec<(String, Option<String>, CurrentVerificationAttemptProjection)>,
+) -> Option<CurrentVerificationAttemptProjection> {
+    let completed_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "execution_completed")
+        .map(|(_, _, projection)| projection.attempt_id.clone())
+        .collect::<BTreeSet<_>>();
+    let superseded_attempt_ids = candidates
+        .iter()
+        .filter(|(_, _, projection)| projection.state == "formal_receipt_rejected")
+        .filter_map(|(_, supersedes, _)| supersedes.as_ref())
+        .filter(|attempt_id| completed_attempt_ids.contains(*attempt_id))
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    candidates
+        .retain(|(_, _, projection)| !superseded_attempt_ids.contains(&projection.attempt_id));
+
+    candidates
+        .into_iter()
+        .max_by(|left, right| {
+            left.0
+                .cmp(&right.0)
+                .then_with(|| left.2.attempt_id.cmp(&right.2.attempt_id))
+        })
+        .map(|(_, _, projection)| projection)
+}
+
+/// Find the latest integrity-checked attempt that still applies to the
+/// current repository, Contract, Runtime (when known), and source snapshot.
+/// Invalid or stale files remain untouched and are never projected as current.
+pub(crate) fn current_verification_attempt_projection(
+    root: &Path,
+    work_item_id: &str,
+    contract_path: &Path,
+    snapshot: &RepositorySnapshot,
+    runtime: Option<&RuntimeContext>,
+) -> Result<Option<CurrentVerificationAttemptProjection>, ObserverError> {
+    let evidence_dir = root.join(".ai/evidence");
+    match fs::symlink_metadata(&evidence_dir) {
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_dir() => {
+            return Err(ObserverError::State {
+                path: evidence_dir,
+                message: "verification attempt evidence directory must be a real directory".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    }
+    let entries = match fs::read_dir(&evidence_dir) {
+        Ok(entries) => entries,
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    };
+    let expected_contract_digest = contract_digest(contract_path)?.to_string();
+    let expected_scope_digest = contract_execution_scope_digest(contract_path)?.to_string();
+    let expected_snapshot_digest = snapshot_digest(snapshot)?.to_string();
+    let expected_repository_id = repository_id(root).to_string();
+    let filename_prefix = format!("{work_item_id}.verification-attempt.");
+    let mut candidates = Vec::new();
+
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: evidence_dir.clone(),
+            source,
+        })?;
+        let name = entry.file_name();
+        let Some(name) = name.to_str() else {
+            continue;
+        };
+        let Some(filename_digest) = name
+            .strip_prefix(&filename_prefix)
+            .and_then(|value| value.strip_suffix(".json"))
+        else {
+            continue;
+        };
+        let file_type = entry.file_type().map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        if !file_type.is_file() || file_type.is_symlink() {
+            continue;
+        }
+        let metadata = entry.metadata().map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        if metadata.len() > MAX_VERIFICATION_ATTEMPT_RECORD_BYTES {
+            continue;
+        }
+        let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
+            path: entry.path(),
+            source,
+        })?;
+        let Ok(attempt) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            continue;
+        };
+        if !verification_attempt_content_digest_matches(&attempt)
+            || attempt["attemptId"]
+                .as_str()
+                .and_then(|value| value.strip_prefix("sha256:"))
+                != Some(filename_digest)
+            || attempt["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+            || attempt["kind"] != serde_json::json!("verification_attempt")
+            || attempt["workItemId"] != serde_json::json!(work_item_id)
+            || attempt["repositoryId"] != serde_json::json!(expected_repository_id)
+            || attempt["contractDigest"] != serde_json::json!(expected_contract_digest)
+            || attempt["contractExecutionScopeDigest"] != serde_json::json!(expected_scope_digest)
+            || attempt["repositorySnapshotDigest"] != serde_json::json!(expected_snapshot_digest)
+            || !matches!(
+                attempt["state"].as_str(),
+                Some("execution_completed" | "formal_receipt_rejected")
+            )
+            || attempt["passed"] != serde_json::json!(true)
+            || attempt["processesSpawned"].as_u64().unwrap_or_default() == 0
+        {
+            continue;
+        }
+        if let Some(runtime) = runtime
+            && (attempt["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+                || attempt["runtimeDigest"] != serde_json::json!(runtime.runtime_digest))
+        {
+            continue;
+        }
+        let Some(commands) = attempt["commands"].as_array() else {
+            continue;
+        };
+        let Some(records) = attempt["executionRecords"].as_array() else {
+            continue;
+        };
+        let receipt = &attempt["receipt"];
+        if commands.is_empty()
+            || records.is_empty()
+            || receipt["passed"] != serde_json::json!(true)
+            || receipt["workItemId"] != serde_json::json!(work_item_id)
+            || receipt["repositoryId"] != serde_json::json!(expected_repository_id)
+            || receipt["runtimeVersion"] != attempt["runtimeVersion"]
+            || receipt["runtimeDigest"] != attempt["runtimeDigest"]
+            || receipt["executionRecords"] != attempt["executionRecords"]
+            || receipt["processesSpawned"] != attempt["processesSpawned"]
+            || commands.iter().any(|command| {
+                let node_id = command.get("nodeId").and_then(serde_json::Value::as_str);
+                command
+                    .get("commandDigest")
+                    .and_then(serde_json::Value::as_str)
+                    .and_then(|value| value.parse::<Digest>().ok())
+                    .is_none()
+                    || node_id.is_none()
+            })
+            || records.iter().any(|record| {
+                record
+                    .get("commandDigest")
+                    .and_then(serde_json::Value::as_str)
+                    .and_then(|value| value.parse::<Digest>().ok())
+                    .is_none()
+                    || !commands
+                        .iter()
+                        .any(|command| command.get("nodeId") == record.get("nodeId"))
+                    || record["spawned"] != serde_json::json!(true)
+                    || record["passed"] != serde_json::json!(true)
+                    || record["timedOut"] != serde_json::json!(false)
+            })
+        {
+            continue;
+        }
+        let state = attempt["state"].as_str().unwrap_or_default();
+        let diagnostic = attempt.get("diagnostic");
+        let (diagnostic_code, diagnostic_message) = if state == "formal_receipt_rejected" {
+            let Some(code) = diagnostic
+                .and_then(|value| value.get("code"))
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| {
+                    !value.is_empty()
+                        && value.len() <= 128
+                        && value
+                            .bytes()
+                            .all(|byte| byte.is_ascii_alphanumeric() || b"-_".contains(&byte))
+                })
+            else {
+                continue;
+            };
+            let Some(message) = diagnostic
+                .and_then(|value| value.get("message"))
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| value.len() <= MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES)
+            else {
+                continue;
+            };
+            (Some(code.to_owned()), Some(message.to_owned()))
+        } else {
+            (None, None)
+        };
+        let Some(created_at) = attempt.get("createdAt").and_then(serde_json::Value::as_str) else {
+            continue;
+        };
+        let attempt_id = attempt["attemptId"].as_str().unwrap_or_default().to_owned();
+        candidates.push((
+            created_at.to_owned(),
+            attempt
+                .get("supersedesAttemptId")
+                .and_then(serde_json::Value::as_str)
+                .map(str::to_owned),
+            CurrentVerificationAttemptProjection {
+                state: state.to_owned(),
+                attempt_id,
+                path: repository_relative_path(root, &entry.path()),
+                diagnostic_code,
+                diagnostic_message,
+                snapshot_digest: expected_snapshot_digest.clone(),
+            },
+        ));
+    }
+
+    Ok(select_current_verification_attempt_projection(candidates))
+}
+
+const MAX_VERIFICATION_ATTEMPT_RECORD_BYTES: u64 = 4 * 1024 * 1024;
 
 pub fn record_verification_with_snapshot(
     root: &Path,
@@ -6248,14 +6741,8 @@ fn record_verification_internal(
             current_runtime,
             None,
         )?;
-        let decision = apply_preflight_review_evidence(
-            &root,
-            &contract,
-            &refreshed_snapshot,
-            raw_decision.clone(),
-            false,
-            None,
-        )?;
+        let decision =
+            apply_preflight_review_evidence(&root, &contract, raw_decision.clone(), false)?;
         let reconcile_blocked_outcome = recovery_retry_pending
             || contract_amendment_pending
             || (!prior_evidence_present && decision.state != DecisionState::Red);
@@ -6500,6 +6987,7 @@ const MAX_RECOVERY_UNKNOWN_ITEMS: usize = 8;
 const MAX_RECOVERY_UNKNOWN_ENTRY_BYTES: usize = 96;
 const MAX_RECOVERY_UNKNOWN_DIAGNOSTIC_BYTES: usize = 1024;
 const MAX_RECOVERY_PROJECTION_MESSAGE_BYTES: usize = 2048;
+const MAX_VERIFICATION_ATTEMPT_DIAGNOSTIC_BYTES: usize = 1024;
 
 fn truncate_diagnostic_text(mut value: String, max_bytes: usize) -> String {
     if value.len() <= max_bytes {
@@ -6741,6 +7229,39 @@ mod recovery_retry_consumption_tests {
         work_item_status_snapshot_with_runtime,
     };
     use std::process::Command;
+
+    #[test]
+    fn explicit_supersession_overrides_tied_attempt_digest_order() {
+        let execution_id = format!("sha256:{}", "f".repeat(64));
+        let rejection_id = format!("sha256:{}", "0".repeat(64));
+        let projection = |state: &str, attempt_id: &str| CurrentVerificationAttemptProjection {
+            state: state.into(),
+            attempt_id: attempt_id.into(),
+            path: ".ai/evidence/attempt.json".into(),
+            diagnostic_code: None,
+            diagnostic_message: None,
+            snapshot_digest: "sha256:snapshot".into(),
+        };
+
+        let selected = select_current_verification_attempt_projection(vec![
+            (
+                "2026-09-27T00:00:00Z".into(),
+                None,
+                projection("execution_completed", &execution_id),
+            ),
+            (
+                "2026-09-27T00:00:00Z".into(),
+                Some(execution_id),
+                projection("formal_receipt_rejected", &rejection_id),
+            ),
+        ]);
+        let Some(selected) = selected else {
+            panic!("an unsuperseded rejection must remain the current attempt");
+        };
+
+        assert_eq!(selected.state, "formal_receipt_rejected");
+        assert_eq!(selected.attempt_id, rejection_id);
+    }
 
     #[test]
     fn recovery_rejection_diagnostics_are_bounded() {

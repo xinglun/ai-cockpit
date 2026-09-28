@@ -1,0 +1,25 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-27T01:09:36Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.preflight-review.f4d786e73ccedb2fa4cfeaa108e28e81ef904bf6c57adeb29575a8f08806d40f.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json"
+  ],
+  "policyRefs": [
+    "WI-1035 Acceptance A02",
+    "WI-1035 Acceptance A14"
+  ],
+  "predecessorContractDigest": "sha256:f9bf7503dd0e2e37ffa60244aa9187242ec9bc80cda5f76d4e278dd365f0053c",
+  "predecessorSummaryDigest": "sha256:f3010a9c76927db70b81b4f0441da2fa9fb46db4a632f4c4f38eda96899566cf",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "Under the user's recorded authorization to complete Task 8 through implementation, verification, PR review, merge, and cleanup while stopping before release, and the current request to finish Task 8 before Task 9, this append-only retry rebinds stale evidence to the exact current candidate Runtime. It permits one fresh preflight and exactly one canonical cargo test --locked --workspace verification under Runtime 0.2.113 sha256:85af5e915660a6e93795d289fec6f0ca72c4280fd4e4355b93439061177d3c72. It does not change Contract scope, authorize another start-confirmation prompt, release, tagging, or publication.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one fresh repository-bound preflight and exactly one canonical cargo test --locked --workspace verification under Runtime 0.2.113 sha256:85af5e915660a6e93795d289fec6f0ca72c4280fd4e4355b93439061177d3c72. Continue only if Runtime accepts that exact evidence. Preserve all previous decisions and attempts; stop before release, tagging, or publication.",
+  "runtimeDigest": "sha256:85af5e915660a6e93795d289fec6f0ca72c4280fd4e4355b93439061177d3c72",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

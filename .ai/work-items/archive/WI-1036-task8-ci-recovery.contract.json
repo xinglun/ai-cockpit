@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "A01: Add focused failing regression coverage for the exact composition process-state failures; fix the observer or test scheduling root cause without treating unknown ownership as safe, and pass the targeted cockpit-verification composition suite.",
+    "A02: Make closed Work Item documentation promotion lifecycle-stage-correct: pre-merge CI must not demand post-merge promotion, while the required synchronized-main promotion check remains enforced.",
+    "A03: Make the missing-promotion-receipt regression deterministic and prove it fails for the intended invalid-receipt diagnostic, independent of unrelated live repository documentation state.",
+    "A04: Preserve all original failed CI artifacts and existing passing evidence; run only Runtime-admitted targeted local checks, then prove the corrective PR and PR #997 required CI checks pass on their exact heads without skipping gates.",
+    "A05: Integrate the corrective change into PR #997, merge PR #997 and complete exact local cleanup under the existing user authorization; do not release, tag, or publish, and proceed directly to Task 9 after Task 8 closure."
+  ],
+  "authority": "authorized",
+  "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+  "createdAt": "2026-09-28T01:32:14Z",
+  "goal": "Repair only the three CI failure classes observed on PR #997: composition process-state failures, closed Work Item documentation-promotion timing, and the CI manifest missing-receipt diagnostic. Preserve all required gates and evidence, integrate the fix, clean up, and stop before release.",
+  "intent": "Finish Task 8 CI closeout for PR #997 without widening into new collaboration features.",
+  "mode": "implementation",
+  "outOfScope": [
+    "New collaboration features",
+    " architecture expansion",
+    " or generic governance-guide redesign.",
+    "Unrelated Task 8 findings or Task 9 migration of PowerShell",
+    " shell",
+    " and Python scripts.",
+    "Skipping or weakening any required gate; rerunning the archived 14-node hosted verification unless current Runtime evidence requires it.",
+    "Release",
+    " version/tag creation",
+    " or publication."
+  ],
+  "predecessorContractDigest": "sha256:ac3653d7df8304655ef39aab39fcaf470e0219727092eccea9d3795536bde670",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.30bf4ea851e03e71f3b4ab83c477e4642f657a1392b1488c58696ddef5a513a4.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b709063aede94c9c7d6467efd53a501745a2a64ab427791b49eebc21b6ed8a2c",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A real possible owner continues to block unsafe cleanup or reuse; an unrelated inaccessible process does not create a false ownership result.",
+      "required": true,
+      "scenario": "The composition observer distinguishes a real live-worktree owner from an unrelated process whose descriptors are inaccessible.",
+      "status": "unverified",
+      "verificationPlan": "Add the smallest regression reproducing the reported process-state failure, then run the focused cockpit-verification composition tests serially."
+    },
+    {
+      "evidence": [],
+      "expected": "Pre-merge validation does not demand the post-merge projection, while the synchronized-main promotion check remains mandatory.",
+      "required": true,
+      "scenario": "Documentation promotion respects the pre-merge versus synchronized-main lifecycle boundary.",
+      "status": "unverified",
+      "verificationPlan": "Add a manifest/promotion regression for both lifecycle stages and run the focused documentation-promotion test."
+    },
+    {
+      "evidence": [],
+      "expected": "An isolated missing-receipt fixture fails with the invalid-promotion-receipt diagnostic regardless of unrelated repository documentation state.",
+      "required": true,
+      "scenario": "A missing promotion receipt reaches its intended deterministic negative-case diagnostic.",
+      "status": "unverified",
+      "verificationPlan": "Run the repository gate manifest regression against an isolated fixture containing the missing receipt case."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/process_observer_test_runner_test.sh",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/work-items/WI-1036-task8-ci-recovery.md",
+    "docs/work-items/WI-1036-task8-ci-recovery.zh-CN.md",
+    "docs/work-items/WI-1036-task8-ci-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/run_process_observer_test_runner.sh"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36363705256",
+    "https://github.com/xinglun/ai-cockpit/pull/997",
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "docs/reference/agent-workflow.md",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/run_process_observer_test_runner.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification --test composition",
+    "tests/ci/repository_gate_manifest_test.sh",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "workItemId": "WI-1036-task8-ci-recovery"
+}

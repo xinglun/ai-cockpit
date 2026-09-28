@@ -105,6 +105,31 @@ fn timeout_terminates_the_process_tree_and_fails_closed() {
     assert!(started.elapsed() < std::time::Duration::from_secs(5));
 }
 
+#[cfg(unix)]
+#[test]
+fn signal_termination_is_recorded_and_never_becomes_reusable_success() {
+    // Cargo may launch package tests as background workers, inheriting SIGINT
+    // as ignored. Reset the child disposition so execution sees a real signal.
+    let command = always_command(
+        "signal-termination",
+        "python3",
+        vec![
+            "-c".into(),
+            "import os,signal; signal.signal(signal.SIGINT, signal.SIG_DFL); os.kill(os.getpid(), signal.SIGINT)".into(),
+        ],
+    );
+
+    let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute signal termination");
+
+    assert!(!receipt.passed);
+    assert!(receipt.receipt_candidates.is_empty());
+    let record = &receipt.execution_records[0];
+    let serialized = serde_json::to_value(record).expect("serialize execution record");
+    assert_eq!(serialized["terminationSignal"], 2);
+    assert_eq!(record.exit_code, None);
+    assert!(!record.timed_out);
+}
+
 fn diagnostic_command() -> VerificationCommand {
     #[cfg(windows)]
     {

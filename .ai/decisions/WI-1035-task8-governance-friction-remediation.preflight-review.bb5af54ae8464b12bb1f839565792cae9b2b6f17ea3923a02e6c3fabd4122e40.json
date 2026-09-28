@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:71a1903eb11d3a1b9962fa2b26cb97e3d8c2c6ecba4b6e050a461df0659b8125",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user explicitly accepted adding the general pre-verification evidence-reuse acceptance to Task 8 and authorized continuing through PR merge and cleanup, stopping before release. This confirms review of the exact amended Contract; it does not approve publication or assert any unverified gate passed.",
+  "recordedAt": "2026-09-27T08:52:36Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b96b044dc678f023ae1d84df1f564c928a9f0203a903696c445d34281fab96c6",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

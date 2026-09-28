@@ -11,6 +11,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime, record_resource_finalization,
     record_verification_with_runtime, render_human_outcome, run_repository_verification,
     set_evidence_retention_policy, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -100,6 +101,43 @@ fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContex
     raw["runtimeDigest"] = current.runtime_digest.to_string().into();
     record_verification_with_runtime(directory.path(), id, &raw, current, &run.final_snapshot)
         .expect("record typed evidence")
+}
+
+#[test]
+fn same_runtime_version_with_different_binary_digest_rejects_verification_reuse() {
+    let directory = repository();
+    let work_item_id = "WI-SAME-VERSION-DIGEST";
+    let installed = runtime("installed-binary");
+    let candidate = runtime("candidate-binary");
+    assert_eq!(installed.runtime_version, candidate.runtime_version);
+    assert_ne!(installed.runtime_digest, candidate.runtime_digest);
+
+    start(&directory, work_item_id);
+    record_typed(&directory, work_item_id, &installed);
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let evidence_before = fs::read(&evidence_path).expect("installed-runtime verification");
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &candidate)
+        .expect("candidate-runtime status");
+    assert!(
+        status
+            .missing_evidence
+            .iter()
+            .any(|evidence| evidence == "evidence_stale"),
+        "the old executable's verification evidence must be stale, not reusable: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "Runtime should admit a fresh candidate-bound verification: {status:#?}"
+    );
+    assert_eq!(
+        fs::read(&evidence_path).expect("preserved verification"),
+        evidence_before
+    );
 }
 
 #[test]
@@ -332,19 +370,37 @@ fn invalid_created_at_blocks_finish_and_archived_close() {
 }
 
 #[test]
-fn current_runtime_lifecycle_rejects_foreign_runtime_evidence() {
+fn current_runtime_lifecycle_rejects_same_version_different_digest_evidence() {
     let directory = repository();
     let current = runtime("current");
     let foreign = runtime("foreign");
     start(&directory, "WI-110-RUNTIME");
     plan(&directory, "WI-110-RUNTIME");
     record_typed(&directory, "WI-110-RUNTIME", &current);
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
+            .expect("foreign-runtime status");
+    assert_eq!(status.evidence_freshness.state, "stale_or_invalid");
+    assert!(status.missing_evidence.contains(&"evidence_stale".into()));
+    assert!(!status.safe_actions.iter().any(|action| action == "finish"));
+    let admission_digest = status
+        .action_explanation
+        .as_ref()
+        .expect("foreign-runtime action explanation")
+        .admission_digest
+        .to_string();
     let error = finish_work_item_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
         .expect_err("foreign runtime evidence must not finish");
-    assert!(error.to_string().contains("valid current receipt"));
+    assert!(
+        error
+            .to_string()
+            .contains("current action admission rejected requested action \"finish\""),
+        "finish must return the Runtime's current admission refusal: {error}"
+    );
+    assert!(error.to_string().contains("evidence_stale"));
+    assert!(error.to_string().contains(&admission_digest));
     let outcome = outcome_v2_with_runtime(directory.path(), "WI-110-RUNTIME", &foreign)
-        .expect("foreign-runtime outcome");
-    assert_eq!(outcome.decision_state, Some(DecisionState::Red));
+        .expect("rebuilt-runtime outcome");
     assert_ne!(outcome.state, cockpit_protocol::OutcomeState::Verified);
 }
 

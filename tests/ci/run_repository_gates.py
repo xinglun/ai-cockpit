@@ -24,6 +24,10 @@ from quality_route import (
     validate_route_receipt,
 )
 
+POST_MERGE_DOCUMENTATION_GATES = frozenset(
+    {"docs_closed_work_item_promotion", "docs_work_item_status_consistency"}
+)
+
 
 def load_receipt(path: Path) -> dict[str, Any]:
     if path.is_symlink() or not path.is_file():
@@ -129,6 +133,15 @@ def write_gate_receipt(
         "schemaVersion": 1,
         "state": result["state"],
     }
+    if "notApplicableReason" in result:
+        receipt["notApplicableReason"] = result["notApplicableReason"]
+    for key in (
+        "acceptanceEvidencePath",
+        "acceptanceEvidenceDigest",
+        "acceptanceEvidenceTruncated",
+    ):
+        if key in result:
+            receipt[key] = result[key]
     path = artifact_root / "repository-gate-receipts" / f"{gate['id']}.json"
     write_report(path, receipt)
 
@@ -481,6 +494,7 @@ def main() -> int:
     if not report_path.is_absolute():
         report_path = repository / report_path
     artifact_root = report_path.parent
+    route_stage: str | None = None
 
     try:
         manifest = load_manifest(manifest_path)
@@ -518,6 +532,7 @@ def main() -> int:
                     manifest_path=manifest_path,
                 )
             selected_profile = receipt["selectedProfile"]
+            route_stage = receipt["stage"]
             required_gate_ids = receipt["requiredGateIds"]
             route_binding = {
                 "manifestDigest": receipt["manifestDigest"],
@@ -710,7 +725,13 @@ def main() -> int:
             dependencies = gate.get("dependsOn", [])
             if dependencies:
                 result["dependsOn"] = dependencies
-            if gate["id"] in resume_results:
+            if (
+                route_stage == "pull_request"
+                and gate["id"] in POST_MERGE_DOCUMENTATION_GATES
+            ):
+                result["state"] = "not_applicable"
+                result["notApplicableReason"] = "deferred_until_synchronized_main"
+            elif gate["id"] in resume_results:
                 result = dict(resume_results[gate["id"]])
                 result["reused"] = True
                 reused_gate_ids.append(gate["id"])
@@ -720,6 +741,12 @@ def main() -> int:
                     for dependency in dependencies
                     if dependency in results_by_id
                     and results_by_id[dependency].get("state") != "passed"
+                    and not (
+                        route_stage == "pull_request"
+                        and result["id"] == "docs_acceptance"
+                        and dependency == "docs_closed_work_item_promotion"
+                        and results_by_id[dependency].get("state") == "not_applicable"
+                    )
                 ]
                 if blocked_by:
                     result["blockedBy"] = blocked_by
@@ -746,6 +773,7 @@ def main() -> int:
                                 "AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST": route_binding.get(
                                     "receiptDigest", ""
                                 ),
+                                "AI_COCKPIT_GATE_STAGE": route_stage or "",
                             }
                         )
                         completed = run_gate(
@@ -790,6 +818,31 @@ def main() -> int:
                     else:
                         result["exitCode"] = completed.returncode
                         result["state"] = "passed" if completed.returncode == 0 else "failed"
+                        if (
+                            completed.returncode == 0
+                            and result["id"] == "conformance_cross_wi_coordination_processes"
+                        ):
+                            persisted = persist_gate_diagnostic(
+                                repository, artifact_root, result["id"], completed.stdout
+                            )
+                            if persisted is None or persisted[2]:
+                                result["state"] = "failed"
+                                result["failureCode"] = (
+                                    "acceptance_evidence_missing"
+                                    if persisted is None
+                                    else "acceptance_evidence_truncated"
+                                )
+                                result["remediation"] = (
+                                    "restore complete coordination acceptance JSON output "
+                                    "within the evidence size limit, then rerun this route"
+                                )
+                                failed = True
+                            else:
+                                (
+                                    result["acceptanceEvidencePath"],
+                                    result["acceptanceEvidenceDigest"],
+                                    result["acceptanceEvidenceTruncated"],
+                                ) = persisted
                         if completed.returncode != 0:
                             detail = "\n".join(
                                 part

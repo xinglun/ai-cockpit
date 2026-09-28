@@ -1,0 +1,167 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A01",
+      "evidence": [
+        {
+          "locator": "Focused governance gate run; exact PR-introduced archive fixture passed on repository snapshot sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e.",
+          "path": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
+          "type": "runtime-verification-receipt",
+          "verification": "Runtime 0.2.113 receipt records exit code 0."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A02",
+      "evidence": [
+        {
+          "locator": "Focused gate negative cases for old archive, wrong base/head, malformed event, direct push, and non-PR context.",
+          "path": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
+          "type": "runtime-verification-receipt",
+          "verification": "Runtime 0.2.113 receipt records exit code 0."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A03",
+      "evidence": [
+        {
+          "locator": "Focused real-Git transition fixtures, including exact default-branch merge and later non-merge commit.",
+          "path": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
+          "type": "runtime-verification-receipt",
+          "verification": "Runtime 0.2.113 receipt records exit code 0."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A04",
+      "evidence": [
+        {
+          "locator": "Tri-language WI-1036 parity projection checked by documentation acceptance on the same repository snapshot.",
+          "path": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.34982fe00db626097bbd57fe086a3101d6a1f0a94a1b2c412dae1f970d67c71d.json",
+          "type": "runtime-verification-receipt",
+          "verification": "Runtime 0.2.113 receipt records exit code 0."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A05",
+      "evidence": [
+        {
+          "locator": "GitHub Actions run 36386545421 on PR #997, pull_request event, head codex/wi-1035-task8-governance-friction-remediation at 2bfef65dce5e3929453727f259d647326de6a0d9; all four required jobs succeeded. The same SHA is the local corrective head.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/36386545421",
+          "type": "provider",
+          "verification": "Run completed with conclusion success: route, quality, windows-runtime, and v1-behavioral-oracle succeeded. PR #997 is open and clean; this proves hosted verification only, not merge, cleanup, or Task 9 readiness. Earlier failed run 36385183402 is retained as superseded historical evidence."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
+    ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json",
+    ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-28T05:28:20Z",
+  "checkpointContractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+  "createdAt": "2026-09-28T05:08:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "The human explicitly authorized completing the bounded Task 8 correction, merging and cleaning Task 8, then proceeding to Task 9; stop before release for human review. This receipt binds that authorization to WI-1037 and does not authorize release.",
+    "recordedAt": "2026-09-28T05:26:58Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:10bd2012b5584d889e9f3e68f57fc347530ad1b206823cd86b716eadaba28721",
+    "schemaVersion": 1,
+    "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1037-task8-pr-lifecycle-gate.contract.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36377627838"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:89ca70c4b9d4c46cffc7d29f89c42f448f69b54207bdaa9445fb46e1b0654e59",
+  "predecessorWorkItemId": "WI-1036-task8-ci-recovery",
+  "preflightAt": "2026-09-28T06:24:18Z",
+  "preflightContractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1036-task8-ci-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json"
+      ],
+      "expected": "Only a pull_request merge checkout whose event base and head match the merge parents and whose diff introduces this archive is treated as awaiting_merge_close.",
+      "required": true,
+      "scenario": "exact PR-introduced archive awaits formal close",
+      "status": "verified",
+      "verificationPlan": "Add an actual synthetic Git merge-ref fixture with exact event bindings; run the focused governance gate suite."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json"
+      ],
+      "expected": "Older unclosed archives and malformed, mismatched, direct-push, or non-PR contexts remain blocking.",
+      "required": true,
+      "scenario": "older or mismatched archive remains blocked",
+      "status": "verified",
+      "verificationPlan": "Add negative fixture cases for old archive, wrong base/head, malformed event, direct push, and non-PR context; run the focused governance gate suite."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json"
+      ],
+      "expected": "The exact two-parent default-branch merge introducing the archive can pass the immediate transition; a later non-merge commit without a real close is blocked.",
+      "required": true,
+      "scenario": "exact default-branch merge transition is bounded",
+      "status": "verified",
+      "verificationPlan": "Run the existing and new real-Git transition fixtures, including the immediate merge and subsequent direct commit cases."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.34982fe00db626097bbd57fe086a3101d6a1f0a94a1b2c412dae1f970d67c71d.json"
+      ],
+      "expected": "English, Chinese, and Japanese parity rows point to the archived WI-1036 Contract and state archived but awaiting PR merge without claiming terminal completion.",
+      "required": true,
+      "scenario": "tri-language parity describes archived awaiting-merge state",
+      "status": "verified",
+      "verificationPlan": "Update and inspect all three parity rows, then run bash tests/docs/documentation_acceptance.sh."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json",
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.34982fe00db626097bbd57fe086a3101d6a1f0a94a1b2c412dae1f970d67c71d.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/36386545421",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/36385183402"
+      ],
+      "expected": "Focused gate and documentation checks pass locally; hosted CI passes for the corrective head and PR #997 head before integration.",
+      "required": true,
+      "scenario": "focused and hosted verification protects the exact change",
+      "status": "verified",
+      "verificationPlan": "Run the declared focused checks and require hosted CI on exact corrective and PR #997 heads; do not release."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-28T06:44:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

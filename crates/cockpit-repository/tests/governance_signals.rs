@@ -143,3 +143,43 @@ fn bounded_patch_facts_in_an_oversized_file_are_inspectable() {
             .contains(&"repository_material_inspection_unavailable".into())
     );
 }
+
+#[test]
+fn diagnostic_spec_prose_and_fixture_cleanup_are_not_test_bypasses() {
+    let deleted_specification = derive_governance_signals(&snapshot(text_change(
+        "docs/work-items/WI-EXAMPLE/spec.md",
+        ChangeKind::Deleted,
+        &["The specification describes test policy."],
+        &[],
+    )));
+    assert!(
+        !deleted_specification.test_weakening,
+        "a prose specification is not a test file"
+    );
+
+    let fixture_cleanup = derive_governance_signals(&snapshot(text_change(
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        ChangeKind::Modified,
+        &[],
+        &[
+            "fs::remove_file(controls_path).expect(\"remove test input\");",
+            "assert_eq!(status[\"humanDecisionRequired\"], false);",
+        ],
+    )));
+    assert!(
+        !fixture_cleanup.test_weakening,
+        "test-fixture cleanup and a decision assertion are not a success bypass"
+    );
+
+    let bypass_command = format!("cargo test {} true", "|".repeat(2));
+    let explicit_bypass = derive_governance_signals(&snapshot(text_change(
+        "tests/ci/run_tests.sh",
+        ChangeKind::Modified,
+        &[],
+        &[&bypass_command],
+    )));
+    assert!(
+        explicit_bypass.test_weakening,
+        "an executable success bypass remains a blocking finding"
+    );
+}

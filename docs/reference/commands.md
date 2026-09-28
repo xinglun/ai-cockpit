@@ -68,8 +68,8 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Derived projection | `knowledge query` | Explicitly materializes or reuses a repository-local `.ai/knowledge/` index; reports `projection.writeBoundary=repository-local-derived` and never changes governance authority. |
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
-| Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | Read a request-scoped status projection or write explicit lifecycle and resource-finalization records; `close` and recovery require explicit human decisions. |
+| Governance write entry | `preflight` | Evaluate a Contract and persist its explicit preflight projection. Repeating an unchanged preflight is idempotent and returns `changedPaths`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | Read a request-scoped status projection or write explicit lifecycle and resource-finalization records. `amend` applies additive Contract fields and records amendment revalidation; the next action is `run_preflight`. Use `revalidate-amendment` only after a direct Contract edit, not after successful `amend`. `close` and recovery require explicit human decisions. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
@@ -184,6 +184,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   one metadata query and partitions `cargo test --locked --workspace` into
   identity-bound package nodes; the formal receipt retains the source command,
   workspace members, metadata digest, exit status, bounded logs, and elapsed time.
+- Executed CLI and MCP `verify` results include a presentation-only
+  `diagnosticSummary` grouped by severity, lint code, and root message, with the
+  occurrence count and affected node IDs. It is derived from bounded stderr
+  bytes using lossy UTF-8 for display; per-node results and raw output bytes
+  remain unchanged in `executionRecords`, and the summary is excluded from the
+  persisted typed verification receipt.
 - MCP `verify` with `planOnly: true` uses the same per-node identity preparation
   and reports the planned action, state, reason, and binding mismatches with
   `processesSpawned: 0`; a subsequent execution must resolve the same actions
@@ -213,7 +219,13 @@ review when the returned state is yellow, red, unknown, or not ready.
   toolchain, dependency, and policy identities match exactly. Otherwise the
   declared command executes and the result reports the denial/escalation reason.
   Required and protected nodes are never skipped by timing or cache state.
-- `verify --workers <n>` requires a positive worker count and caps concurrency.
+- `verify --workers <n>` requires a positive worker count and defaults to one.
+  Work Item-bound verification is serial by default (`--workers 1`); explicit `--workers >1`
+  fails closed until Runtime can prove per-node dependency readiness and
+  isolated outputs. Independent CI jobs may still run in parallel when they
+  share one immutable route/source identity, have no dependency edge, use
+  isolated outputs, and stay within resource limits. Receipt producers and
+  consumers remain ordered.
 - `work-item boundary --repo <path> --id <id> --file <boundary.json>` binds an
   additive Contract `concurrencyBoundary`. Its four path classes and
   `maxWorkers` are validated; `maxWorkers` is a slot capacity and is distinct
@@ -395,6 +407,10 @@ review when the returned state is yellow, red, unknown, or not ready.
   state, and the file SHA-256, all bound to the current Contract digest. Missing,
   changed, malformed, or foreign evidence is rejected or reported stale; a
   scenario marked verified alone never satisfies a custom evidence class.
+  `record_governance_controls` is a Runtime-admitted write action for an active
+  Work Item. If verified work still lacks required controls, status withholds
+  `finish` and recommends recording the missing evidence; refresh status after
+  the write to obtain the next action.
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
   identity-bound `retry`, `successor`, or `supersede` decision. `supersede`
   requires an already-bound successor Work Item and archives the predecessor
@@ -449,6 +465,11 @@ review when the returned state is yellow, red, unknown, or not ready.
   Agent or MCP configuration.
 - `preflight --contract` normally points to
   `.ai/work-items/active/<id>.contract.json` generated by `start`.
+- `inspect`, `status`, `doctor`, and `work-item outcome` are read-only queries.
+  `preflight` is an explicit governance write entry: it persists the evaluated
+  decision/projection, reports paths it changed as `changedPaths`, and reports
+  an empty list when identical inputs produce no write. It does not run
+  verification or repair work.
 - `work-item new` creates a `not_ready` skeleton. Running `preflight` on it is
   intentionally yellow with `reviewState: needs_human_confirmation`; fill the
   human fields and rerun preflight before checkpoint.

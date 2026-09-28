@@ -34,9 +34,11 @@ pub fn require_current_action_admission(
                 .join(".ai/work-items/active")
                 .join(format!("{work_item_id}.summary.json")),
             message: format!(
-                "current action admission rejected requested action {requested_action:?}: admission={:?}, safeActions={:?}, admissionDigest={}, issues={:?}",
+                "current action admission rejected requested action {requested_action:?}: admission={:?}, blockers={:?}, safeActions={:?}, nextAction={:?}, admissionDigest={}, issues={:?}",
                 explanation.admission_state,
+                status.blockers,
                 status.safe_actions,
+                explanation.recommended_action,
                 explanation.admission_digest,
                 explanation
                     .issues

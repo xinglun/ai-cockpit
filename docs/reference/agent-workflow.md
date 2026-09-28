@@ -212,6 +212,94 @@ is a review finding, not a fact the Agent may repair by inference. Risk policy
 decides whether scenario coverage is required; the Runtime remains yellow/red
 until human-owned declarations and fresh evidence are present.
 
+### Verification evidence reuse
+
+Before every verification invocation, query the repository-bound Runtime's
+`work-item status` and `work-item validate`, then inspect the current formal
+receipt and any receipt consumed by downstream coverage. Reuse is justified
+only when Runtime reports `verification=verified` and
+`evidenceFreshness.state=fresh`, Runtime accepts the formal receipt, and its
+Work Item/repository identity, Contract digest, source snapshot, Runtime
+executable digest, verification plan and target, and complete required
+check/scenario set match the requested action. Include relevant toolchain or
+environment identity when that check binds it. Consumers must use the same
+formal receipt bytes. If all predicates hold, proceed without spawning those
+checks again.
+
+Freshness alone does not prove that every acceptance item is covered. Map each
+remaining missing item to its declared evidence class and check before deciding
+what to run. If evidence is absent, stale, invalid, incomplete, or bound to
+different inputs, preserve the old receipt and follow Runtime's currently
+admitted next action. Re-run only checks whose required evidence is missing or
+invalidated; do not repeat a complete unrelated suite to satisfy a different
+gap. Changes to source content, Contract, Runtime executable, plan, target, or
+a check-relevant environment invalidate only dependent evidence, subject to
+the canonical gate's required scope.
+
+Hosted checks are a separate evidence class. Reuse them only when the recorded
+run is for the exact current PR head and every required job succeeded. A local
+receipt never substitutes for hosted evidence. In CI, the package-coverage
+consumer must validate and consume the exact formal Runtime receipt produced
+for that head; it must not launch those package tests a second time. Before
+rerunning a failed or incomplete hosted workflow, inspect its exact failed
+gate and rerun only when the required evidence for the current head is still
+absent or invalid.
+
+### Parallel validation and CI jobs
+
+Parallelism applies to independent validation work, not to Work Item lifecycle
+or shared-state mutation. Keep Contract/source snapshot changes and lifecycle
+transitions serial. Work Item verification defaults to one worker; requests
+above one worker are rejected until Runtime can prove per-node dependency
+readiness and isolated outputs. Preserve a serial single-Work-Item path, and do
+not bypass it by splitting required Work Item gates into concurrent commands on
+the same checkout.
+
+Independent validation nodes may fan out only after their prerequisites are
+satisfied and while they share one immutable input identity (base/head,
+Contract, Runtime, target, and check-relevant environment). Give each worker
+isolated outputs/worktrees and bound CPU, memory, and external-resource use;
+serialize any check that mutates shared state or cannot prove concurrency
+safety. The hosted Work Item verification in this repository therefore uses
+`--workers 1`. Combine results only after all required nodes finish, retaining
+each node's input identity and failure.
+
+Independent CI jobs can run as siblings in the workflow DAG when they
+consume the same immutable route/source artifacts and have no dependency on one
+another. Keep producer-consumer edges serial: the package-coverage consumer
+waits for and validates the exact hosted Runtime receipt before consuming it.
+Reuse a complete fresh receipt for the same
+identity instead of rerunning its producer; a changed identity or
+missing/invalid evidence requires only the affected checks to run again.
+Concurrency limits and shared runner/resource contention may still limit
+realized speedup, so parallel eligibility is not a promise of a specific
+wall-clock reduction.
+
+### Serial fallback and cross-Work-Item coordination
+
+One Work Item runs serially by default. A parallel compatibility result of
+`compatible: false` / `parallel_compatibility_not_declared` denies only parallel
+execution; it does not deny an otherwise admitted serial action. Parallel work
+requires explicit compatibility and concurrency declarations, separate
+linked worktrees, registration, a current slot lease, and refreshed dependency
+admission before affected actions. Use Runtime `work-item --help`, coordination
+and slot help, and the actual MCP `tools/list` schema to discover supported
+operations. A manifest capability or a legacy parser accepting the manifest
+does not prove that Runtime supports coordination writes.
+
+Coordination inspection is read-only. Registration, impact/outcome writes,
+pause request/acknowledgement/safe-pause, resume/re-evaluation, event recovery,
+lease operations, and composition use explicit mutation actions. Keep requests
+and leases bound to the active generation; reject stale generations, preserve
+resolved events, and let unrelated work continue only after its own refreshed
+admission. The repository-bound installed Runtime remains the lifecycle owner;
+candidate-only collaboration behavior must be explicitly advertised and
+implemented. If the
+current Runtime lacks those tools, do not silently ignore or imitate the
+protocol—continue serially if admitted, or stop if parallel coordination is
+required. See the [ordinary Work Item guide](../../agents/skills/ordinary-work-item.md)
+for the actionable discovery sequence.
+
 Agent Risk and checkpoint controls use the same Rust lifecycle validator.
 Typed required verification declarations are consumed at preflight, verify,
 finish, archive, and close; missing, duplicate, failed, or invalidated gates

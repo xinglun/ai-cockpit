@@ -50,6 +50,18 @@ fn attach_creates_only_protocol_state_and_is_idempotent() {
     let capabilities = manifest_json["capabilities"]
         .as_array()
         .expect("capabilities array");
+    assert!(
+        capabilities
+            .iter()
+            .any(|value| value.as_str() == Some("work-item-coordination")),
+        "attach must expose the Runtime's cross-Work-Item coordination capability"
+    );
+    assert!(
+        capabilities
+            .iter()
+            .any(|value| value.as_str() == Some("work-item-parallel")),
+        "attach must preserve discoverability of optional parallel slots"
+    );
     for expected in cockpit_protocol::AGENT_INTERFACE_CAPABILITIES {
         assert!(
             capabilities

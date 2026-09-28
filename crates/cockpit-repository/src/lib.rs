@@ -108,10 +108,10 @@ pub use knowledge_projection::{
 };
 pub use lifecycle::*;
 pub(crate) use lifecycle::{
-    RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence, decision_state_name,
-    recovery_decision_error, validate_archived_revalidation_evidence,
-    validate_recovery_predecessor_bindings, validate_recovery_successor_binding,
-    work_item_artifact_path,
+    RECOVERY_DECISION_INVALID, contract_digest, contract_digest_for_evidence,
+    current_verification_attempt_projection, decision_state_name, recovery_decision_error,
+    validate_archived_revalidation_evidence, validate_recovery_predecessor_bindings,
+    validate_recovery_successor_binding, work_item_artifact_path,
 };
 pub use outcome_render::{
     FinalizationProjection, HumanDecisionProjection, OUTCOME_DELIVERY_MAX_SEGMENT_CHARS,
@@ -1291,7 +1291,26 @@ pub fn run_repository_verification(
     root: &Path,
     request: &RepositoryVerificationRequest,
 ) -> Result<RepositoryVerificationRun, ObserverError> {
+    run_repository_verification_with_process_observer(
+        root,
+        request,
+        |_node_id, _process_id, _started| Ok(()),
+    )
+}
+
+/// Execute one repository verification request while forwarding child process
+/// start/finish events to a caller-owned observer. This lets callers aggregate
+/// actual process concurrency across multiple independent requests.
+pub fn run_repository_verification_with_process_observer<F>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    process_observer: F,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+{
     let service_started = Instant::now();
+    let process_observer = Arc::new(process_observer);
     let stage = validate_verification_request(root, request)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1315,11 +1334,16 @@ pub fn run_repository_verification(
     let _execution_identity = prepared.execution_identity;
     let context_input = prepared.context_input;
     let command = prepared.command;
-    let mut receipt = cockpit_verification::execute_bounded(vec![command], request.workers)
-        .map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
+    let observer = Arc::clone(&process_observer);
+    let mut receipt = cockpit_verification::execute_bounded_with_process_observer(
+        vec![command],
+        request.workers,
+        move |node_id, process_id, started| observer(node_id, process_id, started),
+    )
+    .map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
     if let Some(reason) = store_unavailable_reason.take()
         && let Some(result) = receipt
             .results
@@ -1399,12 +1423,16 @@ pub fn run_repository_verification(
                 cockpit_verification::VerificationReusePolicy::NeverReuse,
             )
         };
-        receipt = cockpit_verification::execute_bounded(vec![command], request.workers).map_err(
-            |error| ObserverError::State {
-                path: root.clone(),
-                message: error.to_string(),
-            },
-        )?;
+        let observer = Arc::clone(&process_observer);
+        receipt = cockpit_verification::execute_bounded_with_process_observer(
+            vec![command],
+            request.workers,
+            move |node_id, process_id, started| observer(node_id, process_id, started),
+        )
+        .map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
         if let Some(result) = receipt.results.first_mut() {
             result.reason = "post_planning_binding_drift".into();
         }
@@ -4434,7 +4462,6 @@ fn governance_decision_for_pre_execution_quality_gate(
             pre_execution_quality_state(root, contract, snapshot, None, archived)?
         }
     };
-    let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
     let decision = governance_decision_for_contract_base_internal_with_archive(
         root,
         contract,
@@ -4444,45 +4471,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         Some(pre_execution_evidence),
         None,
     )?;
-    apply_preflight_review_evidence(
-        root,
-        contract,
-        snapshot,
-        decision,
-        archived,
-        canonical_preflight_digest.as_ref(),
-    )
-}
-
-fn canonical_preflight_decision_digest(
-    root: &Path,
-    contract: &cockpit_protocol::Contract,
-    snapshot: &RepositorySnapshot,
-) -> Result<Option<Digest>, ObserverError> {
-    let summary_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{}.summary.json", contract.work_item_id));
-    if !summary_path.is_file() {
-        return Ok(None);
-    }
-    let summary = read_json(&summary_path)?;
-    let expected_contract = contract_digest_for_evidence(root, contract)?;
-    let expected_snapshot = snapshot_digest(snapshot)?;
-    if summary
-        .get("preflightContractDigest")
-        .and_then(serde_json::Value::as_str)
-        != Some(expected_contract.to_string().as_str())
-        || summary
-            .get("preflightRepositorySnapshotDigest")
-            .and_then(serde_json::Value::as_str)
-            != Some(expected_snapshot.to_string().as_str())
-    {
-        return Ok(None);
-    }
-    Ok(summary
-        .get("preflightDecisionDigest")
-        .and_then(serde_json::Value::as_str)
-        .and_then(|value| value.parse::<Digest>().ok()))
+    apply_preflight_review_evidence(root, contract, decision, archived)
 }
 
 /// Evidence that may authorize starting or finishing the current source
@@ -4643,14 +4632,56 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
-    check_verification_preconditions(root, work_item_id, runtime, snapshot)?;
-    action_admission::require_current_action_admission(
+    let admission = action_admission::require_current_action_admission(
         root,
         work_item_id,
         "run_verification",
         runtime,
-    )?;
-    Ok(())
+    );
+    let preconditions = check_verification_preconditions(root, work_item_id, runtime, snapshot);
+    match (admission, preconditions) {
+        (Ok(_), Ok(())) => Ok(()),
+        (Err(admission_error), Ok(())) => Err(admission_error),
+        (Err(admission_error), Err(precondition_error)) => Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+            message: format!(
+                "{admission_error}; additional verification precondition: {precondition_error}"
+            ),
+        }),
+        (Ok(admitted), Err(precondition_error)) => Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+            message: format!(
+                "current action admission allowed nextAction={:?} with admissionDigest={}, but verification precondition rejected: {precondition_error}",
+                admitted.recommended_action, admitted.admission_digest,
+            ),
+        }),
+    }
+}
+
+/// Work Item verification stays serial unless the Runtime can prove the
+/// dependency and output-isolation contract for every concurrently scheduled
+/// node. The current request/Contract protocol does not bind those facts, so
+/// an explicit parallel request must fail closed before any check is spawned.
+pub fn require_serial_work_item_verification(
+    root: &Path,
+    work_item_id: &str,
+    workers: usize,
+) -> Result<(), ObserverError> {
+    if workers <= 1 {
+        return Ok(());
+    }
+    validate_work_item_id(work_item_id)?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    Err(ObserverError::State {
+        path: contract_path,
+        message: "parallel Work Item verification is not admitted: the Runtime cannot bind per-node dependency readiness and isolated output paths; use --workers 1 or independent CI jobs with separate workspaces".into(),
+    })
 }
 
 /// Read-only verification gates shared by the status projection and the
@@ -4840,15 +4871,24 @@ pub(crate) fn check_verification_preconditions(
 
 fn is_test_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
+    let file_name = normalized.rsplit('/').next().unwrap_or(&normalized);
+    let spec_source_name = [
+        ".rs", ".py", ".js", ".jsx", ".ts", ".tsx", ".go", ".java", ".kt", ".swift", ".sh", ".rb",
+        ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
+    ]
+    .iter()
+    .any(|extension| {
+        file_name.strip_suffix(extension).is_some_and(|stem| {
+            stem == "spec" || stem.ends_with("_spec") || stem.ends_with(".spec")
+        })
+    });
     normalized.starts_with("tests/")
         || normalized.starts_with("test/")
         || normalized.contains("/tests/")
         || normalized.contains("/test/")
         || normalized.contains("/spec/")
-        || normalized
-            .rsplit('/')
-            .next()
-            .is_some_and(|name| name.contains("test") || name.contains("spec"))
+        || file_name.contains("test")
+        || spec_source_name
 }
 
 fn is_coverage_path(path: &str) -> bool {
@@ -4952,23 +4992,11 @@ fn assertion_count(lines: &[String]) -> usize {
 
 fn contains_test_bypass(text: &str) -> bool {
     let text = text.to_ascii_lowercase();
-    let removes_tests = text.lines().any(|line| {
-        let line = line.trim();
-        (line.contains("delete")
-            || line.contains("remove")
-            || line.contains("disable")
-            || line.contains("skip"))
-            && line.contains("test")
-    });
-    let claims_success = text
-        .lines()
-        .any(|line| line.contains("pass") || line.contains("green") || line.contains("ci"));
-    removes_tests && claims_success
-        || text.lines().any(|line| {
-            line.contains("continue-on-error: true")
-                || line.contains("allow_failure: true")
-                || line.contains("|| true")
-        })
+    text.lines().any(|line| {
+        line.contains("continue-on-error: true")
+            || line.contains("allow_failure: true")
+            || line.contains("|| true")
+    })
 }
 
 fn assignment(line: &str) -> Option<(String, String)> {
@@ -5204,14 +5232,7 @@ pub fn governance_decision_for_observation_context(
         None,
         Some(observation),
     )?;
-    let decision = apply_preflight_review_evidence(
-        observation.root(),
-        contract,
-        observation.snapshot(),
-        decision,
-        false,
-        None,
-    )?;
+    let decision = apply_preflight_review_evidence(observation.root(), contract, decision, false)?;
     observation.validate_current()?;
     Ok(decision)
 }
@@ -5277,7 +5298,7 @@ fn governance_decision_for_archived_contract_internal(
         evidence_override,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, snapshot, decision, true, None)
+    apply_preflight_review_evidence(root, contract, decision, true)
 }
 
 fn governance_decision_for_contract_internal_with_archive(
@@ -5296,7 +5317,7 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, snapshot, decision, archived, None)
+    apply_preflight_review_evidence(root, contract, decision, archived)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -5389,10 +5410,8 @@ fn governance_decision_for_contract_base_internal_with_archive(
 fn apply_preflight_review_evidence(
     root: &Path,
     contract: &cockpit_protocol::Contract,
-    snapshot: &RepositorySnapshot,
     mut decision: GovernanceDecision,
     archived: bool,
-    canonical_preflight_digest: Option<&Digest>,
 ) -> Result<GovernanceDecision, ObserverError> {
     if archived {
         return Ok(decision);
@@ -5408,28 +5427,7 @@ fn apply_preflight_review_evidence(
         return Ok(decision);
     }
     let contract_digest = contract_digest(&contract_path)?;
-    // Digest the canonical JSON projection, not the Rust struct directly.
-    // serde_json::Value is the wire representation stored in Summary and in
-    // the human decision receipt; hashing two different serialization paths
-    // would make a valid receipt appear stale immediately.
-    let decision_value = serde_json::to_value(&decision).map_err(|error| ObserverError::State {
-        path: contract_path.clone(),
-        message: error.to_string(),
-    })?;
-    let raw_decision_digest =
-        cockpit_protocol::digest_json(&decision_value).map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: error.to_string(),
-        })?;
-    let expected_decision_digest = canonical_preflight_digest.unwrap_or(&raw_decision_digest);
-    let current_snapshot_digest = snapshot_digest(snapshot)?;
-    match preflight_decision_evidence_state(
-        root,
-        &contract.work_item_id,
-        &contract_digest,
-        expected_decision_digest,
-        &current_snapshot_digest,
-    ) {
+    match preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest) {
         governance_controls::PreflightDecisionEvidenceState::Missing => {}
         governance_controls::PreflightDecisionEvidenceState::Valid => {
             if decision.review_state.as_deref() == Some("needs_human_confirmation")
@@ -5440,6 +5438,7 @@ fn apply_preflight_review_evidence(
                 decision.safe_actions.push("continue_to_checkpoint".into());
                 decision.safe_actions.sort();
                 decision.safe_actions.dedup();
+                decision.human_decision_request = None;
             }
         }
         governance_controls::PreflightDecisionEvidenceState::Invalid => {
@@ -5778,8 +5777,7 @@ fn require_green_governance_internal(
             current_runtime,
             None,
         )?;
-        let decision =
-            apply_preflight_review_evidence(root, contract, snapshot, decision, false, None)?;
+        let decision = apply_preflight_review_evidence(root, contract, decision, false)?;
         if decision.state != DecisionState::Green {
             return Err(ObserverError::State {
                 path: contract_path.to_path_buf(),
@@ -6006,15 +6004,16 @@ fn verification_evidence_state_from_value(
         }
     }
 
+    let runtime_digest_changed =
+        current_runtime.is_some_and(|runtime| envelope.runtime_digest != runtime.runtime_digest);
     if let Some(runtime) = current_runtime
         && (envelope.runtime_version != runtime.runtime_version
-            || envelope.runtime_digest != runtime.runtime_digest)
+            || (archived && runtime_digest_changed))
     {
         // A retry receipt is the explicit authorization to replace evidence
-        // produced by the previous Runtime executable.  Classify that
-        // transition as stale so preflight can lead directly to the bounded
-        // replacement verification; foreign or tampered evidence without a
-        // retry remains contradictory and fail-closed.
+        // produced by a different Runtime version (or to reinterpret archived
+        // evidence under another executable). Same-version executable
+        // rebuilds are handled after full receipt validation below.
         let retry_pending = !archived
             && root
                 .join(".ai/work-items/active")
@@ -6120,6 +6119,14 @@ fn verification_evidence_state_from_value(
         {
             return Ok(EvidenceState::Contradictory);
         }
+    }
+    // A same-version rebuild has a different executable identity, so its
+    // predecessor receipt can never authorize current verification. Once the
+    // old receipt has passed its full structural, identity, and digest checks,
+    // however, it is stale rather than contradictory and can be replaced by
+    // a fresh preflight/verification without a separate retry decision.
+    if runtime_digest_changed {
+        return Ok(EvidenceState::Stale);
     }
     Ok(EvidenceState::Complete)
 }
@@ -10347,21 +10354,45 @@ fn outcome_v2_internal_with_snapshot(
         summary = "This Work Item was superseded as historical evidence; its original bytes were preserved and were not revalidated as a current result.";
         evidence_unknown = Some("historical_evidence_not_current");
     }
+    let current_attempt = current_verification_attempt_projection(
+        &root,
+        work_item_id,
+        &contract_path,
+        snapshot,
+        current_runtime,
+    )?;
     let mut unknowns = vec!["user_visible_benefit_not_declared".into()];
     if let Some(code) = evidence_unknown {
         unknowns.push(code.into());
+    }
+    if let Some(attempt) = current_attempt.as_ref()
+        && attempt.state == "formal_receipt_rejected"
+    {
+        let code = attempt.diagnostic_code.as_deref().unwrap_or("unknown");
+        let message = attempt
+            .diagnostic_message
+            .as_deref()
+            .unwrap_or("diagnostic unavailable");
+        unknowns.push(format!(
+            "verification_attempt_formal_receipt_rejected:{}:{}:{}:snapshot={}:evidence={}",
+            attempt.attempt_id, code, message, attempt.snapshot_digest, attempt.path
+        ));
     }
     if contract.acceptance_criteria.is_empty() {
         unknowns.push("acceptanceCriteria".into());
     }
     unknowns.sort();
     unknowns.dedup();
+    let mut outcome_evidence_refs = vec![evidence_ref.clone()];
+    if let Some(attempt) = current_attempt.as_ref() {
+        outcome_evidence_refs.push(attempt.path.clone());
+    }
     let report = HumanBenefitReport {
         state: OutcomeState::Unknown,
         user_visible_changes: Vec::new(),
         affected_users: Vec::new(),
         unknowns: vec!["user_visible_benefit_not_declared".into()],
-        evidence_refs: vec![evidence_ref.clone()],
+        evidence_refs: outcome_evidence_refs.clone(),
     };
     let summary_path = contract_path
         .parent()
@@ -10397,7 +10428,7 @@ fn outcome_v2_internal_with_snapshot(
         summary: summary.into(),
         acceptance_results: contract.acceptance_criteria,
         unknowns,
-        evidence_refs: vec![evidence_ref],
+        evidence_refs: outcome_evidence_refs,
         human_benefit_report: report,
         task_outcome_report: Some(task_report),
         failed_gate,

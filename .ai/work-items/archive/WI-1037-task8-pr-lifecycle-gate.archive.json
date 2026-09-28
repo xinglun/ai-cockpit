@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-28T06:44:52Z",
+  "files": {
+    "approachDigest": "sha256:bd194d4038027ccfe257e6a254442d47c0e252fb64b890b8edd690a30aa28ce5",
+    "approachPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.approach.json",
+    "contractDigest": "sha256:b5a8355f5413a72d68ad5591007241aeea48d5b49136adc623143ab22d8c8b88",
+    "contractPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json",
+    "eventsDigest": "sha256:08bfc5e2506220eec69e7d2f8905872d27d1d3732b8e496af37bb57c8dd2f7e1",
+    "eventsPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.events.jsonl",
+    "outcomeDigest": "sha256:c42441dce4fa9e18a5ad45ed2736c4e6a2588cd65bd65018ab5ce247e9f32c2b",
+    "outcomePath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.outcome.json",
+    "summaryDigest": "sha256:96bcec5d2e1a3820538815e8689f856abf4fb39dc8e6d4658f46c162ca8159ce",
+    "summaryPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json",
+    "taskReportDigest": "sha256:63988c4c27b0013a5616b09fb519a0a41027e7b0d7e6e7492b88ce1f5b45668a",
+    "taskReportMarkdownDigest": "sha256:553a664948921208696b5074dcd7b43d127a1d202959108e7c0c072fbb477ae9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

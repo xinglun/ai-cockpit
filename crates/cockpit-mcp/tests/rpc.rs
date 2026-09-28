@@ -2,9 +2,11 @@ use cockpit_mcp::{handle_request, handle_request_for_repo};
 use std::{
     collections::BTreeSet,
     fs,
-    process::Command,
+    fs::OpenOptions,
+    process::{Child, Command},
     sync::atomic::{AtomicU64, Ordering},
-    time::{SystemTime, UNIX_EPOCH},
+    thread,
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
@@ -39,6 +41,247 @@ fn test_runtime_context() -> cockpit_protocol::RuntimeContext {
         protocol_version: cockpit_protocol::PROTOCOL_VERSION,
         runtime_digest: cockpit_core::Digest::sha256_bytes(b"exact-mcp-test-runtime"),
     }
+}
+
+fn lifecycle_lock_fixture(work_item_id: &str) -> TestTempDir {
+    let directory = TestTempDir::new("cockpit-mcp-lifecycle-lock");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "serialize lifecycle writers",
+        "re-admit after lifecycle serialization",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    cockpit_repository::preflight_work_item_with_runtime_report(
+        directory.path(),
+        &contract_path,
+        &test_runtime_context(),
+    )
+    .expect("initial Runtime-bound preflight");
+    directory
+}
+
+fn lifecycle_lock_file(root: &std::path::Path, work_item_id: &str) -> std::fs::File {
+    let locks = root.join(".ai/locks");
+    fs::create_dir_all(&locks).expect("create lifecycle locks directory");
+    OpenOptions::new()
+        .create(true)
+        .truncate(false)
+        .write(true)
+        .open(locks.join(format!("{work_item_id}.lifecycle.lock")))
+        .expect("open lifecycle lock")
+}
+
+fn spawn_lifecycle_lock_waiter(
+    root: &std::path::Path,
+    operation: &str,
+) -> (Child, std::path::PathBuf, std::path::PathBuf) {
+    let started = root.join(".lifecycle-child-started");
+    let result = root.join(".lifecycle-child-result");
+    let child = Command::new(std::env::current_exe().expect("test executable"))
+        .args([
+            "--exact",
+            "lifecycle_lock_waiter_child_process",
+            "--nocapture",
+        ])
+        .env("COCKPIT_LIFECYCLE_LOCK_CHILD", operation)
+        .env("COCKPIT_LIFECYCLE_LOCK_ROOT", root)
+        .env("COCKPIT_LIFECYCLE_LOCK_STARTED", &started)
+        .env("COCKPIT_LIFECYCLE_LOCK_RESULT", &result)
+        .spawn()
+        .expect("spawn separate lifecycle process");
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !started.is_file() && Instant::now() < deadline {
+        thread::sleep(Duration::from_millis(10));
+    }
+    assert!(started.is_file(), "child process reached the operation");
+    thread::sleep(Duration::from_millis(100));
+    (child, started, result)
+}
+
+fn close_lifecycle_summary(root: &std::path::Path, work_item_id: &str) -> Vec<u8> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("read Summary"))
+            .expect("Summary JSON");
+    summary["state"] = serde_json::Value::String("closed".into());
+    summary["preflightState"] = serde_json::Value::String("closed-sentinel".into());
+    let bytes = serde_json::to_vec_pretty(&summary).expect("serialize Summary");
+    fs::write(&summary_path, &bytes).expect("write closed Summary fixture");
+    bytes
+}
+
+fn preflight_decision_evidence(root: &std::path::Path, work_item_id: &str) -> serde_json::Value {
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+        )
+        .expect("read Summary for decision evidence"),
+    )
+    .expect("Summary JSON");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+        )
+        .expect("read Contract for decision evidence"),
+    )
+    .expect("Contract JSON");
+    serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": work_item_id,
+        "repositoryId": cockpit_repository::repository_id(root),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-09-27T00:00:00Z",
+        "recordedBy": "human:owner",
+        "reason": "bounded implementation review confirmed"
+    })
+}
+
+#[test]
+fn lifecycle_lock_waiter_child_process() {
+    let Ok(operation) = std::env::var("COCKPIT_LIFECYCLE_LOCK_CHILD") else {
+        return;
+    };
+    let root = std::path::PathBuf::from(
+        std::env::var_os("COCKPIT_LIFECYCLE_LOCK_ROOT").expect("child repository"),
+    );
+    fs::write(
+        std::env::var_os("COCKPIT_LIFECYCLE_LOCK_STARTED").expect("child started marker"),
+        b"started",
+    )
+    .expect("write child started marker");
+    let work_item_id = "WI-MCP-LIFECYCLE-LOCK";
+    let result = if operation == "preflight" {
+        let contract = root.join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        cockpit_repository::preflight_work_item_with_runtime_report(
+            &root,
+            &contract,
+            &test_runtime_context(),
+        )
+        .map(|_| ())
+    } else {
+        let controls = serde_json::json!({
+            "decisionEvidence": preflight_decision_evidence(&root, work_item_id)
+        });
+        cockpit_repository::record_work_item_governance_controls_with_runtime(
+            &root,
+            work_item_id,
+            &controls,
+            &test_runtime_context(),
+        )
+        .map(|_| ())
+    };
+    let result = match result {
+        Ok(()) => "admitted".to_owned(),
+        Err(error) => format!("rejected:{error}"),
+    };
+    fs::write(
+        std::env::var_os("COCKPIT_LIFECYCLE_LOCK_RESULT").expect("child result marker"),
+        result,
+    )
+    .expect("write child result");
+}
+
+#[test]
+fn runtime_preflight_waits_for_lifecycle_lock_and_rechecks_admission() {
+    let work_item_id = "WI-MCP-LIFECYCLE-LOCK";
+    let directory = lifecycle_lock_fixture(work_item_id);
+    let lock = lifecycle_lock_file(directory.path(), work_item_id);
+    lock.lock().expect("hold lifecycle lock in parent process");
+    let (mut child, _started, result_path) =
+        spawn_lifecycle_lock_waiter(directory.path(), "preflight");
+    assert!(
+        child.try_wait().expect("inspect child process").is_none(),
+        "Runtime preflight must wait while another process owns the lifecycle lock"
+    );
+
+    let expected_summary = close_lifecycle_summary(directory.path(), work_item_id);
+    drop(lock);
+    assert!(child.wait().expect("wait for preflight child").success());
+    let result = fs::read_to_string(result_path).expect("preflight child result");
+    assert!(
+        result.contains("current action admission rejected requested action \"run_preflight\""),
+        "preflight must re-read Runtime action admission after acquiring the lock: {result}"
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json"))
+        )
+        .expect("read final Summary"),
+        expected_summary,
+        "stale preflight must not overwrite the terminal Summary"
+    );
+}
+
+#[test]
+fn runtime_controls_wait_for_lifecycle_lock_and_recheck_admission_before_receipt_write() {
+    let work_item_id = "WI-MCP-LIFECYCLE-LOCK";
+    let directory = lifecycle_lock_fixture(work_item_id);
+    let lock = lifecycle_lock_file(directory.path(), work_item_id);
+    lock.lock().expect("hold lifecycle lock in parent process");
+    let (mut child, _started, result_path) =
+        spawn_lifecycle_lock_waiter(directory.path(), "controls");
+    assert!(
+        child.try_wait().expect("inspect child process").is_none(),
+        "Runtime controls must wait while another process owns the lifecycle lock"
+    );
+
+    let expected_summary = close_lifecycle_summary(directory.path(), work_item_id);
+    drop(lock);
+    assert!(child.wait().expect("wait for controls child").success());
+    let result = fs::read_to_string(result_path).expect("controls child result");
+    assert!(
+        result
+            .contains("action admission rejected requested action \"record_governance_controls\""),
+        "controls must be re-admitted after acquiring the lock: {result}"
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json"))
+        )
+        .expect("read final Summary"),
+        expected_summary,
+        "stale controls must not overwrite the terminal Summary"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(
+                ".ai/decisions/{work_item_id}.preflight-review.json"
+            ))
+            .exists(),
+        "rejected controls must not append the preflight decision receipt"
+    );
 }
 
 fn downgrade_to_schema_one(root: &std::path::Path) {
@@ -224,6 +467,107 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
     assert_eq!(
         verify["inputSchema"]["properties"]["command"]["type"],
         "string"
+    );
+    let coordination = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_coordination")
+        .expect("coordination tool");
+    let coordination_schema = &coordination["inputSchema"];
+    let registration = &coordination_schema["properties"]["registration"];
+    assert_eq!(registration["additionalProperties"], false);
+    assert_eq!(
+        registration["required"],
+        serde_json::json!([
+            "repositoryId",
+            "workItemId",
+            "contractDigest",
+            "worktreePath",
+            "branch",
+            "head",
+            "generation",
+            "declaration",
+            "runtime"
+        ])
+    );
+    assert_eq!(registration["properties"]["workItemId"]["type"], "string");
+    assert_eq!(registration["properties"]["generation"]["minimum"], 1);
+    assert_eq!(
+        registration["properties"]["runtime"]["properties"]["runtimeDigest"]["type"],
+        "string"
+    );
+    let event = &coordination_schema["properties"]["event"];
+    assert_eq!(event["additionalProperties"], false);
+    assert_eq!(event["properties"]["kind"]["type"], "string");
+    assert_eq!(
+        event["properties"]["kind"]["enum"],
+        serde_json::json!([
+            "outcome_published",
+            "interface_changed",
+            "resource_changed",
+            "execution_changed",
+            "verification_changed",
+            "impact"
+        ])
+    );
+    assert_eq!(
+        event["properties"]["evidenceDigests"]["additionalProperties"]["type"],
+        "string"
+    );
+    assert_eq!(
+        event["required"],
+        serde_json::json!([
+            "eventId",
+            "repositoryId",
+            "workItemId",
+            "generation",
+            "kind",
+            "source"
+        ])
+    );
+    let request = &coordination_schema["properties"]["request"];
+    assert_eq!(request["additionalProperties"], false);
+    assert_eq!(request["properties"]["intent"]["type"], "string");
+    assert_eq!(
+        request["properties"]["state"]["enum"],
+        serde_json::json!([
+            "requested",
+            "acknowledged",
+            "safely_paused",
+            "unavailable",
+            "expired",
+            "resumed"
+        ])
+    );
+    let action_variants = coordination_schema["oneOf"]
+        .as_array()
+        .expect("coordination action variants");
+    assert_eq!(
+        action_variants
+            .iter()
+            .filter(|variant| variant["properties"]["action"]["const"].is_null())
+            .count(),
+        1,
+        "only the default inspect action omits the action discriminator"
+    );
+    let mut actions = action_variants
+        .iter()
+        .filter_map(|variant| variant["properties"]["action"]["const"].as_str())
+        .collect::<Vec<_>>();
+    actions.push("inspect");
+    actions.sort_unstable();
+    actions.dedup();
+    assert_eq!(
+        actions,
+        [
+            "acknowledge",
+            "inspect",
+            "publish-outcome",
+            "recover",
+            "register",
+            "report-impact",
+            "request-pause",
+            "resume"
+        ]
     );
     let start = listed
         .iter()
@@ -482,6 +826,13 @@ fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
         "not_started"
     );
     assert_eq!(result["preflight"]["state"], "green");
+    assert!(
+        result["preflight"]["changedPaths"]
+            .as_array()
+            .expect("preflight changed paths")
+            .iter()
+            .any(|path| path == ".ai/work-items/active/WI-MCP-AUTO-START.summary.json")
+    );
     assert_eq!(result["checkpoint"]["state"], "checkpointed");
     let contract: serde_json::Value = serde_json::from_slice(
         &fs::read(
@@ -1795,6 +2146,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         verification["runtimeDigest"],
         runtime.runtime_digest.to_string()
     );
+    assert_eq!(verification["diagnosticSummary"], serde_json::json!([]));
     assert_eq!(verification["results"][0]["nodeId"], "project-command-0");
     assert_eq!(verification["results"][0]["protected"], false);
     let evidence: serde_json::Value = serde_json::from_slice(
@@ -1807,6 +2159,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         evidence["runtimeDigest"],
         runtime.runtime_digest.to_string()
     );
+    assert!(evidence["receipt"].get("diagnosticSummary").is_none());
     cockpit_repository::finish_work_item(&directory, "WI-MCP-SIDE-EFFECT")
         .expect("finish after MCP verification");
     assert!(directory.join("Cargo.lock").is_file());
@@ -2015,7 +2368,7 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
     let attempt: serde_json::Value =
         serde_json::from_slice(&fs::read(attempts[0].path()).expect("rejected attempt"))
             .expect("rejected attempt JSON");
-    assert_eq!(attempt["state"], "execution_completed");
+    assert_eq!(attempt["state"], "formal_receipt_rejected");
     assert_eq!(attempt["passed"], true);
     assert_eq!(attempt["processesSpawned"], 1);
     let record = &attempt["executionRecords"][0];
@@ -2028,13 +2381,30 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
     assert_eq!(record["stdoutTruncated"], false);
     assert_eq!(record["stderrTruncated"], false);
     assert_eq!(attempt["receipt"]["passed"], true);
-    assert_eq!(attempt["diagnostic"]["code"], "verification_recording");
+    assert_eq!(attempt["diagnostic"]["code"], "formal_receipt");
     assert_eq!(record["nodeId"], "project-command-0");
     assert_eq!(record["spawned"], true);
     assert!(
         record["commandDigest"]
             .as_str()
             .is_some_and(|digest| digest.starts_with("sha256:"))
+    );
+    let outcome = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":12,
+            "method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{"workItemId":work_item_id,"delivery":false}}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(outcome["result"]["isError"], false);
+    assert!(
+        outcome["result"]["structuredContent"]["outcome"]
+            .to_string()
+            .contains("verification_attempt_formal_receipt_rejected"),
+        "MCP Outcome should project the same typed receipt rejection as CLI"
     );
 }
 
@@ -2063,7 +2433,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     let script_path = directory.path().join("fail.js");
     fs::write(
         &script_path,
-        "process.stderr.write('failure'); process.exit(7);\n",
+        "process.stderr.write('warning: duplicate diagnostic\\n   = note: #[warn(clippy::needless_borrow)] on by default\\nwarning: duplicate diagnostic\\n   = note: #[warn(clippy::needless_borrow)] on by default\\n'); process.exit(7);\n",
     )
     .expect("failure script");
     let contract_path = directory.path().join(format!(
@@ -2096,6 +2466,23 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
             .expect("error text")
             .contains("failed verification cannot be recorded as completion evidence")
     );
+    let error_text = response["result"]["content"][0]["text"]
+        .as_str()
+        .expect("error text");
+    let summary_json = error_text
+        .split_once("diagnostic summary: ")
+        .expect("MCP reports its diagnostic projection")
+        .1;
+    let summary: serde_json::Value =
+        serde_json::from_str(summary_json).expect("diagnostic summary JSON");
+    assert_eq!(summary.as_array().unwrap().len(), 1);
+    assert_eq!(summary[0]["code"], "clippy::needless_borrow");
+    assert_eq!(summary[0]["message"], "duplicate diagnostic");
+    assert_eq!(summary[0]["occurrences"], 2);
+    assert_eq!(
+        summary[0]["nodeIds"],
+        serde_json::json!(["project-command-0"])
+    );
 
     let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
         .expect("evidence directory")
@@ -2126,6 +2513,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
     assert!(record["stdout"].is_string());
     assert!(record["stderr"].is_string());
     assert_eq!(attempt["receipt"]["workItemId"], work_item_id);
+    assert!(attempt["receipt"].get("diagnosticSummary").is_none());
     assert!(attempt["receipt"]["repositoryId"].is_string());
     assert_eq!(
         attempt["receipt"]["runtimeVersion"],
@@ -2292,9 +2680,39 @@ fn mcp_preflight_reuses_derived_signals_without_disclosing_change_text() {
         &test_runtime_context(),
     );
     assert_eq!(preflight["result"]["structuredContent"]["state"], "yellow");
+    assert!(
+        preflight["result"]["structuredContent"]["changedPaths"]
+            .as_array()
+            .expect("changed paths")
+            .iter()
+            .any(|path| path == ".ai/work-items/active/WI-MCP-SIGNALS.summary.json")
+    );
     assert_eq!(
         preflight["result"]["structuredContent"]["unknowns"],
         serde_json::json!(["repository_material_untrusted"])
+    );
+    let summary_path = directory.join(".ai/work-items/active/WI-MCP-SIGNALS.summary.json");
+    let summary_before_repeat = fs::read(&summary_path).expect("summary");
+    let repeated_preflight = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":9,
+            "method":"tools/call",
+            "params":{
+                "name":"preflight",
+                "arguments":{"contract":".ai/work-items/active/WI-MCP-SIGNALS.contract.json"}
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(
+        repeated_preflight["result"]["structuredContent"]["changedPaths"],
+        serde_json::json!([])
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("repeated summary"),
+        summary_before_repeat
     );
 
     let observation = cockpit_mcp::handle_request_for_repo(

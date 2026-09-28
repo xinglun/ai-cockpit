@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-28T08:46:14Z",
+  "files": {
+    "approachDigest": "sha256:abd1ffd813a526628dc7f058bff57e89046675019b184d8e7920577539fea32d",
+    "approachPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.approach.json",
+    "contractDigest": "sha256:12b610ff0d944d24d4b2c6dd5906b9ea0e511917064c5b179feb7722be67ed53",
+    "contractPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json",
+    "eventsDigest": "sha256:77065e204611455338358a56cf65fbd63956e58a445b067fba9722c06822afc9",
+    "eventsPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.events.jsonl",
+    "outcomeDigest": "sha256:0bc0a66a86f2af61a9e197f2b087dd83c426213e61dc6d0f547264ca4a386eea",
+    "outcomePath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.outcome.json",
+    "summaryDigest": "sha256:398328ed4434fe8237a3ee6f95dc3206df4c559d73ba258fe3b87ce1a0fa8cef",
+    "summaryPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.summary.json",
+    "taskReportDigest": "sha256:b733a6be8416c2f2268b6cad43a420ddcc7d8d9a2a8bcd5ce96d52b0a97521cc",
+    "taskReportMarkdownDigest": "sha256:f45b2905c51bd28117481888010a92ddec1794443e2267a5d7d48bcc046cf365",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1038-task8-parity-projection-recovery"
+}

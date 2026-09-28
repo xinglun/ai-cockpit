@@ -10,6 +10,8 @@
     "preflight",
     "verify",
     "work-item-scaffold",
+    "work-item-coordination",
+    "work-item-parallel",
     "profile-propose",
     "knowledge",
     "doctor",

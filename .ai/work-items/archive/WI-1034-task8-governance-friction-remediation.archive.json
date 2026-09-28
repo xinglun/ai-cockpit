@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-26T14:32:55Z",
+  "files": {
+    "approachDigest": "sha256:cf7270a133ad81007cc6b893487a27b6acabf193d75fc9ecfeeafc2baf589be6",
+    "approachPath": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.approach.json",
+    "contractDigest": "sha256:6f86ed01ffd5b0aa64736d6078861291820c71c13e101c7a6473d7a23cc16a02",
+    "contractPath": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.contract.json",
+    "outcomeDigest": "sha256:0596f77c90e945ee7308c55faafa10c2b0c26624a7fb73e2985f8b42b8b18003",
+    "outcomePath": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.outcome.json",
+    "summaryDigest": "sha256:ee5e959749638e211684d3b0c911abc2710552f360993c2737c27986a51570d0",
+    "summaryPath": ".ai/work-items/archive/WI-1034-task8-governance-friction-remediation.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1034-task8-governance-friction-remediation.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "workItemId": "WI-1034-task8-governance-friction-remediation"
+}

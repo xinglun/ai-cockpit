@@ -325,7 +325,7 @@ assert "work_item_id_required" in resolver
 assert "no active or exact archived Contract is explicitly bound to this event identity" in resolver
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
-assert "name: Bind the shared typed repository quality route" in ci_workflow
+assert "name: Bind source and tested revisions; validate the shared typed quality route" in ci_workflow
 assert "if: steps.quality_route.outputs.profile != 'light'" in ci_workflow
 assert (
     "if: steps.quality_route.outputs.profile != 'light' && "
@@ -342,7 +342,9 @@ assert (
     "if: always() && steps.quality_route.outputs.profile != 'light' && "
     "hashFiles('target/workspace-package-coverage.json') != ''"
 ) in ci_workflow
-bound_route = ci_workflow.index("name: Bind the shared typed repository quality route")
+bound_route = ci_workflow.index(
+    "name: Bind source and tested revisions; validate the shared typed quality route"
+)
 runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
 rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")

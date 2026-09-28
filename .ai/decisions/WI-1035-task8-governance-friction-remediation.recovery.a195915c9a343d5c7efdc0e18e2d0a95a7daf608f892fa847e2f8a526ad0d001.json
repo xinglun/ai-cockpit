@@ -1,0 +1,25 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization-current-thread",
+  "decidedAt": "2026-09-26T22:18:43Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1035-task8-governance-friction-remediation.recovery.json",
+    ".ai/evidence/WI-1035-task8-governance-friction-remediation.verification.json",
+    "docs/work-items/WI-1034-task8-governance-friction-remediation/implementation-plan.md"
+  ],
+  "policyRefs": [
+    "WI-1035 Acceptance A14"
+  ],
+  "predecessorContractDigest": "sha256:be2f649e83c3bb672eb4e6ce94d2d38348bf32cf61a447f78f5fd9bab3860f25",
+  "predecessorSummaryDigest": "sha256:b80fe5566188a482a4f81ad5fb4b200b76042708c2f9d72f08e1b1789dc8d961",
+  "predecessorWorkItemId": "WI-1035-task8-governance-friction-remediation",
+  "reason": "The user directly authorized continuing this Task 8 through all remaining work, PR merge, and cleanup, stopping before release for the user's review. The existing retry decision is bound to a previous Runtime digest; this retry binds the current 0.2.113 candidate built from the active Task 8 source tree and permits one fresh preflight plus exactly one canonical workspace verification under that exact executable. It does not authorize a release, tag, or publication and does not request another start confirmation.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one fresh repository-bound preflight and exactly one canonical cargo test --locked --workspace verification under Runtime 0.2.113 sha256:acd3bd21cd0e1d9f76803dbfc293b36b7281d7bec1c1c6ec04ad5c74c0eff590. Continue only if the Runtime accepts that exact current evidence; preserve all earlier attempts and decisions. Stop before release, tagging, or publication.",
+  "runtimeDigest": "sha256:acd3bd21cd0e1d9f76803dbfc293b36b7281d7bec1c1c6ec04ad5c74c0eff590",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "WI-1035-task8-governance-friction-remediation"
+}

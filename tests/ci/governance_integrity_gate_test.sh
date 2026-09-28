@@ -827,6 +827,230 @@ printf 'governance confirmed-decision regression passed\n'
 run_case missing-work-item 1 missing_work_item
 run_case missing-evidence 1 missing_evidence
 run_case missing-close 1 missing_terminal_decision
+
+# An ordinary archive without resourceContext may wait for formal close only
+# in the exact pull_request merge checkout that introduces its Contract.
+pr_base_spec="$tmp/pr-event-empty-base.json"
+pr_event_repo="$tmp/pr-event-introduced-archive"
+pr_event_source="$tmp/pr-event-archive-source"
+python3 - "$pr_base_spec" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text(
+    json.dumps({"currentRelease": "9.9.9", "workItems": []}) + "\n",
+    encoding="utf-8",
+)
+PY
+build_fixture "$pr_base_spec" "$pr_event_repo"
+build_fixture "$fixtures/missing-close.json" "$pr_event_source"
+git -C "$pr_event_repo" init -q -b main
+git -C "$pr_event_repo" config user.name Fixture
+git -C "$pr_event_repo" config user.email fixture@example.invalid
+git -C "$pr_event_repo" add .
+git -C "$pr_event_repo" commit -qm 'fixture PR base without archived work item'
+pr_base_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -qb codex/pr-introduced-archive
+python3 - "$pr_event_repo" "$pr_event_source" <<'PY'
+import shutil
+import sys
+from pathlib import Path
+
+target, source = map(Path, sys.argv[1:])
+work_item = "WI-900-release-v9-9-9"
+for relative, pattern in (
+    (".ai/work-items/archive", f"{work_item}.*"),
+    (".ai/evidence", f"{work_item}.*"),
+    ("docs/work-items", f"{work_item}.*"),
+):
+    for item in (source / relative).glob(pattern):
+        destination = target / item.relative_to(source)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(item, destination)
+for name in (
+    "reference-parity.md",
+    "reference-parity.zh-CN.md",
+    "reference-parity.ja.md",
+):
+    shutil.copy2(source / "docs/reference" / name, target / "docs/reference" / name)
+PY
+git -C "$pr_event_repo" add .
+git -C "$pr_event_repo" commit -qm 'fixture PR introduces ordinary archived work item'
+pr_head_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -q main
+git -C "$pr_event_repo" merge --no-ff -qm 'fixture PR merge ref' codex/pr-introduced-archive
+pr_merge_sha="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout --detach -q
+
+write_pr_event() {
+  local output=$1 number=$2 base=$3 head=$4
+  python3 - "$output" "$number" "$base" "$head" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+output, number, base, head = sys.argv[1:]
+number = int(number)
+value = {
+    "number": number,
+    "repository": {"default_branch": "main", "full_name": "example/fixture"},
+    "pull_request": {
+        "number": number,
+        "base": {"ref": "main", "sha": base},
+        "head": {"ref": "codex/pr-introduced-archive", "sha": head},
+    },
+}
+Path(output).write_text(json.dumps(value) + "\n", encoding="utf-8")
+PY
+}
+
+expect_pr_gate_code() {
+  local name=$1 expected=$2 number=$3 event_path=$4 merge_sha=$5 report=$6
+  local base_ref=${7:-main}
+  local head_ref=${8:-codex/pr-introduced-archive}
+  local actual_sha=${9:-$merge_sha}
+  local actual_ref=${10:-refs/pull/$number/merge}
+  local actual
+  local -a env_assignments=(
+    GITHUB_EVENT_NAME=pull_request
+    GITHUB_REF="$actual_ref"
+    GITHUB_SHA="$actual_sha"
+    GITHUB_EVENT_PATH="$event_path"
+  )
+  [[ "$base_ref" == unset ]] || env_assignments+=(GITHUB_BASE_REF="$base_ref")
+  [[ "$head_ref" == unset ]] || env_assignments+=(GITHUB_HEAD_REF="$head_ref")
+  set +e
+  env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_HEAD_REF \
+    "${env_assignments[@]}" \
+    python3 "$gate" --repo "$pr_event_repo" --report "$report" >/dev/null
+  actual=$?
+  set -e
+  [[ "$actual" -eq "$expected" ]] || {
+    printf 'PR merge fixture %s: expected exit %s, got %s\n' \
+      "$name" "$expected" "$actual" >&2
+    exit 1
+  }
+}
+
+assert_pr_lifecycle_finding() {
+  local report=$1 expected_state=$2 expected_finding=$3
+  python3 - "$report" "$expected_state" "$expected_finding" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+expected_state, expected_finding = sys.argv[2:]
+item = next(
+    row for row in report["inventory"]
+    if row["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert item["lifecycleState"] == expected_state, item
+assert any(
+    row["workItemId"] == "WI-900-release-v9-9-9"
+    and row["code"] == expected_finding
+    for row in report["findings"]
+) is (expected_finding != "none"), report["findings"]
+PY
+}
+
+pr_event="$tmp/pr-event.json"
+write_pr_event "$pr_event" 999 "$pr_base_sha" "$pr_head_sha"
+pr_event_report="$tmp/pr-event-report.json"
+expect_pr_gate_code exact-introduced-archive 0 999 "$pr_event" "$pr_merge_sha" "$pr_event_report"
+assert_pr_lifecycle_finding "$pr_event_report" awaiting_merge_close none
+printf 'exact PR-introduced archive lifecycle regression passed\n'
+
+missing_base_ref_report="$tmp/pr-event-missing-base-ref-report.json"
+expect_pr_gate_code missing-base-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$missing_base_ref_report" unset codex/pr-introduced-archive
+assert_pr_lifecycle_finding "$missing_base_ref_report" closure_missing missing_terminal_decision
+
+mismatched_base_ref_report="$tmp/pr-event-mismatched-base-ref-report.json"
+expect_pr_gate_code mismatched-base-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_base_ref_report" release codex/pr-introduced-archive
+assert_pr_lifecycle_finding "$mismatched_base_ref_report" closure_missing missing_terminal_decision
+
+missing_head_ref_report="$tmp/pr-event-missing-head-ref-report.json"
+expect_pr_gate_code missing-head-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$missing_head_ref_report" main unset
+assert_pr_lifecycle_finding "$missing_head_ref_report" closure_missing missing_terminal_decision
+
+mismatched_head_ref_report="$tmp/pr-event-mismatched-head-ref-report.json"
+expect_pr_gate_code mismatched-head-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_head_ref_report" main codex/other-branch
+assert_pr_lifecycle_finding "$mismatched_head_ref_report" closure_missing missing_terminal_decision
+
+mismatched_sha_report="$tmp/pr-event-mismatched-sha-report.json"
+expect_pr_gate_code mismatched-github-sha 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_sha_report" main codex/pr-introduced-archive "$pr_head_sha"
+assert_pr_lifecycle_finding "$mismatched_sha_report" closure_missing missing_terminal_decision
+
+mismatched_merge_ref_report="$tmp/pr-event-mismatched-merge-ref-report.json"
+expect_pr_gate_code mismatched-merge-ref 1 999 "$pr_event" "$pr_merge_sha" \
+  "$mismatched_merge_ref_report" main codex/pr-introduced-archive "$pr_merge_sha" \
+  refs/pull/1000/merge
+assert_pr_lifecycle_finding "$mismatched_merge_ref_report" closure_missing missing_terminal_decision
+
+wrong_base_event="$tmp/pr-event-wrong-base.json"
+write_pr_event "$wrong_base_event" 999 "0000000000000000000000000000000000000000" "$pr_head_sha"
+wrong_base_report="$tmp/pr-event-wrong-base-report.json"
+expect_pr_gate_code mismatched-base 1 999 "$wrong_base_event" "$pr_merge_sha" "$wrong_base_report"
+assert_pr_lifecycle_finding "$wrong_base_report" closure_missing missing_terminal_decision
+
+wrong_head_event="$tmp/pr-event-wrong-head.json"
+write_pr_event "$wrong_head_event" 999 "$pr_base_sha" "$pr_base_sha"
+wrong_head_report="$tmp/pr-event-wrong-head-report.json"
+expect_pr_gate_code mismatched-head 1 999 "$wrong_head_event" "$pr_merge_sha" "$wrong_head_report"
+assert_pr_lifecycle_finding "$wrong_head_report" closure_missing missing_terminal_decision
+
+malformed_event="$tmp/pr-event-malformed.json"
+python3 - "$malformed_event" <<'PY'
+import sys
+from pathlib import Path
+
+Path(sys.argv[1]).write_text("{malformed event", encoding="utf-8")
+PY
+malformed_report="$tmp/pr-event-malformed-report.json"
+expect_pr_gate_code malformed-event 1 999 "$malformed_event" "$pr_merge_sha" "$malformed_report"
+assert_pr_lifecycle_finding "$malformed_report" closure_missing missing_terminal_decision
+
+# A matching PR event is insufficient when the archived Contract was already
+# present in the base commit and the PR changes only an unrelated file.
+git -C "$pr_event_repo" checkout -q main
+git -C "$pr_event_repo" checkout -qb codex/archive-not-introduced
+printf 'unrelated change\n' > "$pr_event_repo/unrelated.txt"
+git -C "$pr_event_repo" add unrelated.txt
+git -C "$pr_event_repo" commit -qm 'fixture unrelated PR change'
+not_introduced_head="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout -q main
+not_introduced_base="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" merge --no-ff -qm 'fixture unrelated PR merge ref' codex/archive-not-introduced
+not_introduced_merge="$(git -C "$pr_event_repo" rev-parse HEAD)"
+git -C "$pr_event_repo" checkout --detach -q
+not_introduced_event="$tmp/pr-event-not-introduced.json"
+write_pr_event "$not_introduced_event" 1000 "$not_introduced_base" "$not_introduced_head"
+not_introduced_report="$tmp/pr-event-not-introduced-report.json"
+expect_pr_gate_code archive-not-introduced 1 1000 "$not_introduced_event" "$not_introduced_merge" "$not_introduced_report"
+assert_pr_lifecycle_finding "$not_introduced_report" closure_missing missing_terminal_decision
+
+# Without PR event identity, a detached checkout of the same unclosed archive
+# is still blocked.
+non_pr_report="$tmp/pr-event-absent-report.json"
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$pr_event_repo" --report "$non_pr_report" >/dev/null
+non_pr_code=$?
+set -e
+[[ "$non_pr_code" -eq 1 ]] || {
+  printf 'non-PR archive checkout must remain blocked, got %s\n' "$non_pr_code" >&2
+  exit 1
+}
+assert_pr_lifecycle_finding "$non_pr_report" closure_missing missing_terminal_decision
+printf 'PR event mismatch and fail-closed lifecycle regressions passed\n'
+
 run_case historical-exemption 0 none
 run_case unknown-issue 1 unknown_problem
 run_case ambiguous-current 1 ambiguous_short_id
@@ -2212,6 +2436,227 @@ findings = [
     for finding in report["findings"]
     if finding["workItemId"] == "WI-901-corrective-after-baseline"
     and finding["code"] == "stale_prearchive_parity_registration"
+]
+assert len(findings) == 3, findings
+PY
+
+# A late parity row on an immutable archived predecessor is recoverable only
+# through a valid successor whose Contract owns every parity ledger. The
+# active Summary may not observe changedPaths until Runtime archive projection.
+# Keep the original ordering visible as a historical warning.
+recovered_repo="$tmp/postarchive-recovered-parity-projection"
+recovered_report="$tmp/postarchive-recovered-parity-report.json"
+cp -R "$postarchive_repo" "$recovered_repo"
+python3 - "$recovered_repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+predecessor = "WI-901-corrective-after-baseline"
+successor = "WI-902-parity-projection-recovery"
+parity_paths = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+project = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))
+recovery_path = repo / ".ai/decisions" / f"{predecessor}.recovery.json"
+recovery_path.write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "decisionId": "work-item-recovery",
+            "workItemId": predecessor,
+            "predecessorWorkItemId": predecessor,
+            "successorWorkItemId": successor,
+            "repositoryId": project["repositoryId"],
+            "decision": "successor",
+            "evidenceRefs": [f".ai/evidence/{predecessor}.verification.json"],
+            "reason": "Repair the late immutable parity projection through its bounded successor.",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+archive = repo / ".ai/work-items/archive"
+active = repo / ".ai/work-items/active"
+active.mkdir(parents=True, exist_ok=True)
+contract = json.loads(
+    (archive / f"{predecessor}.contract.json").read_text(encoding="utf-8")
+)
+contract.update(
+    {
+        "workItemId": successor,
+        "predecessorWorkItemId": predecessor,
+        "repositoryId": project["repositoryId"],
+        "scope": parity_paths,
+    }
+)
+(active / f"{successor}.contract.json").write_text(
+    json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+)
+summary = json.loads(
+    (archive / f"{predecessor}.summary.json").read_text(encoding="utf-8")
+)
+summary.update({"changedPaths": parity_paths, "workItemId": successor})
+(active / f"{successor}.summary.json").write_text(
+    json.dumps(summary, indent=2) + "\n", encoding="utf-8"
+)
+for suffix in ("", ".zh-CN", ".ja"):
+    (repo / "docs/work-items" / f"{successor}{suffix}.md").write_text(
+        f"---\nworkItemId: {successor}\n---\n\n# {successor}\n",
+        encoding="utf-8",
+    )
+    relative = f"docs/reference/reference-parity{suffix}.md"
+    path = repo / relative
+    rows = path.read_text(encoding="utf-8").splitlines()
+    old_index = next(
+        index for index, row in enumerate(rows) if row.startswith("| WI-901 ")
+    )
+    separator = "；" if suffix else ";"
+    quote = chr(96)
+    rows[old_index] = (
+        rows[old_index][:-1]
+        + f"{separator} selected successor recovery {quote}{recovery_path.relative_to(repo)}{quote} |"
+    )
+    status = (
+        "进行中 → 验证关闭后已实现"
+        if suffix == ".zh-CN"
+        else "進行中 → 検証済みクローズ後に実装済み"
+        if suffix == ".ja"
+        else "In progress → Implemented after verified close"
+    )
+    terminal_paths = (
+        f".ai/work-items/archive/{successor}.contract.json",
+        f".ai/evidence/{successor}.verification.json",
+        f".ai/decisions/{successor}.finalize.json",
+        f".ai/decisions/{successor}.close.json",
+    )
+    links = f"{separator} ".join(f"{quote}{item}{quote}" for item in terminal_paths)
+    rows.append(
+        f"| {successor} | {status} | successor owns every parity ledger; {links} |"
+    )
+    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$recovered_repo" --report "$recovered_report" >/dev/null
+set -e
+python3 - "$recovered_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert not any(
+    item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
+    for item in report["findings"]
+), report["findings"]
+warnings = [
+    item
+    for item in report["legacyWarnings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "recovered_postarchive_parity_registration"
+]
+assert len(warnings) == 3, warnings
+predecessor = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
+PY
+
+# Contract scope alone is insufficient: the identity-bound Summary must also
+# declare every parity ledger owned by the selected successor.
+for summary_variant in missing partial; do
+    summary_repo="$tmp/postarchive-summary-$summary_variant"
+    summary_report="$tmp/postarchive-summary-$summary_variant-report.json"
+    cp -R "$recovered_repo" "$summary_repo"
+    python3 - "$summary_repo" "$summary_variant" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+variant = sys.argv[2]
+summary = repo / ".ai/work-items/active/WI-902-parity-projection-recovery.summary.json"
+value = json.loads(summary.read_text(encoding="utf-8"))
+parity_paths = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+if variant == "missing":
+    value.pop("changedPaths", None)
+else:
+    value["changedPaths"] = parity_paths[:2]
+summary.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+    set +e
+    env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+      -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF -u GITHUB_HEAD_REF \
+      python3 "$gate" --repo "$summary_repo" --report "$summary_report" >/dev/null
+    summary_code=$?
+    set -e
+    [[ "$summary_code" -eq 1 ]] || {
+      printf 'successor Summary %s parity paths: expected exit 1, got %s\n' \
+        "$summary_variant" "$summary_code" >&2
+      exit 1
+    }
+    python3 - "$summary_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    item for item in report["findings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
+]
+assert len(findings) == 3, findings
+PY
+done
+
+# A successor receipt must not waive a parity ledger outside its Contract.
+unowned_repo="$tmp/postarchive-unowned-parity-recovery"
+unowned_report="$tmp/postarchive-unowned-parity-report.json"
+cp -R "$recovered_repo" "$unowned_repo"
+python3 - "$unowned_repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+contract = repo / ".ai/work-items/active/WI-902-parity-projection-recovery.contract.json"
+value = json.loads(contract.read_text(encoding="utf-8"))
+value["scope"].remove("docs/reference/reference-parity.ja.md")
+contract.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$unowned_repo" --report "$unowned_report" >/dev/null
+unowned_code=$?
+set -e
+[[ "$unowned_code" -eq 1 ]] || {
+  printf 'unowned successor parity recovery: expected exit 1, got %s\n' \
+    "$unowned_code" >&2
+  exit 1
+}
+python3 - "$unowned_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    item
+    for item in report["findings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
 ]
 assert len(findings) == 3, findings
 PY

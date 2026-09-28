@@ -1,13 +1,20 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
-use cockpit_protocol::RuntimeContext;
+use cockpit_protocol::{RuntimeContext, digest_json};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
-    load_reusable_verification_attempt, persist_verification_attempt, start_work_item_with_options,
+    checkpoint_work_item, load_reusable_verification_attempt, outcome_v2_with_runtime,
+    persist_verification_attempt, persist_verification_attempt_superseding, preflight_work_item,
+    record_verification_with_runtime, run_repository_verification, start_work_item_with_options,
+    work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::VerificationCommand;
 use serde_json::json;
-use std::{fs, path::Path, process::Command};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -145,6 +152,36 @@ fn attempt_receipt(
     })
 }
 
+fn rebind_attempt_timestamp(
+    root: &Path,
+    persisted: &serde_json::Value,
+    created_at: &str,
+) -> (String, PathBuf) {
+    let original_path = root.join(persisted["path"].as_str().expect("attempt path"));
+    let mut attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&original_path).expect("attempt bytes"))
+            .expect("attempt JSON");
+    attempt["createdAt"] = json!(created_at);
+    attempt
+        .as_object_mut()
+        .expect("attempt object")
+        .remove("attemptId");
+    let attempt_id = digest_json(&attempt).expect("attempt digest").to_string();
+    attempt["attemptId"] = json!(&attempt_id);
+    let suffix = attempt_id.strip_prefix("sha256:").unwrap_or(&attempt_id);
+    let rebound_path = original_path
+        .parent()
+        .expect("evidence directory")
+        .join(format!("WI-ATTEMPT.verification-attempt.{suffix}.json"));
+    fs::write(
+        &rebound_path,
+        serde_json::to_vec_pretty(&attempt).expect("serialize rebound attempt"),
+    )
+    .expect("write rebound attempt");
+    fs::remove_file(original_path).expect("remove fixture's prior attempt identity");
+    (attempt_id, rebound_path)
+}
+
 #[test]
 fn precondition_attempt_is_durable_without_spawning_a_process() {
     let directory = repository();
@@ -177,6 +214,304 @@ fn precondition_attempt_is_durable_without_spawning_a_process() {
             .is_empty()
     );
     assert_eq!(stored["diagnostic"]["code"], "verification_preconditions");
+}
+
+#[test]
+fn attempt_diagnostic_is_bounded_without_corrupting_utf8() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    let message = "诊断信息".repeat(2_000);
+    let receipt = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        &[request],
+        &snapshot,
+        &runtime(),
+        "precondition_rejected",
+        Some(("verification_preconditions", &message)),
+        None,
+    )
+    .expect("persist bounded attempt");
+    let stored: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(receipt["path"].as_str().expect("attempt path")))
+            .expect("attempt bytes"),
+    )
+    .expect("attempt JSON");
+    let diagnostic = stored["diagnostic"]["message"]
+        .as_str()
+        .expect("diagnostic message");
+    assert!(
+        diagnostic.len() <= 1_024,
+        "diagnostic was {} bytes",
+        diagnostic.len()
+    );
+    assert!(diagnostic.starts_with("诊断信息"));
+    assert!(diagnostic.ends_with('…'));
+}
+
+#[test]
+fn rejected_formal_receipt_is_projected_with_its_bound_attempt_in_outcome_and_status() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    let receipt = attempt_receipt(root, &request, true);
+    let persisted = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "formal_receipt_rejected",
+        Some(("formal_receipt", "completion evidence was rejected")),
+        Some(&receipt),
+    )
+    .expect("persist rejected formal receipt attempt");
+
+    let outcome =
+        outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime()).expect("Outcome projection");
+    let status = work_item_status_snapshot_with_runtime(root, "WI-ATTEMPT", &runtime())
+        .expect("status projection");
+    let attempt_id = persisted["attemptId"].as_str().expect("attempt ID");
+    let expected_unknown_prefix = format!(
+        "verification_attempt_formal_receipt_rejected:{attempt_id}:formal_receipt:completion evidence was rejected:snapshot="
+    );
+    let attempt_path = persisted["path"].as_str().expect("attempt path");
+
+    let projected_unknown = outcome
+        .unknowns
+        .iter()
+        .find(|unknown| unknown.starts_with(&expected_unknown_prefix))
+        .expect("bounded rejection diagnostic in Outcome");
+    assert_eq!(format!("{:?}", outcome.state), "NotReady");
+    assert_eq!(status.verification, "not_ready");
+    assert!(projected_unknown.contains(attempt_path));
+    assert!(status.unknowns.contains(projected_unknown));
+    assert_eq!(outcome.unknowns, status.unknowns);
+    assert!(
+        outcome
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == attempt_path)
+    );
+    assert!(
+        status
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.contains(attempt_path))
+    );
+    assert_eq!(
+        serde_json::from_slice::<serde_json::Value>(
+            &fs::read(root.join(attempt_path)).expect("attempt evidence")
+        )
+        .expect("attempt JSON")["repositorySnapshotDigest"],
+        serde_json::json!(cockpit_repository::snapshot_digest(&snapshot).expect("snapshot digest"))
+    );
+}
+
+#[test]
+fn persisted_rejection_supersedes_execution_with_equal_timestamps() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    let receipt = attempt_receipt(root, &request, true);
+    let execution = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "execution_completed",
+        None,
+        Some(&receipt),
+    )
+    .expect("persist successful execution");
+    let (execution_id, execution_path) =
+        rebind_attempt_timestamp(root, &execution, "2026-09-27T00:00:00Z");
+
+    let diagnostic = "completion evidence was rejected";
+    let rejection = persist_verification_attempt_superseding(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "formal_receipt_rejected",
+        Some(("formal_receipt", diagnostic)),
+        Some(&receipt),
+        &execution_id,
+    )
+    .expect("persist receipt rejection superseding execution");
+    let (rejection_id, rejection_path) =
+        rebind_attempt_timestamp(root, &rejection, "2026-09-27T00:00:00Z");
+    let execution_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(execution_path).expect("rebound execution attempt"))
+            .expect("execution attempt JSON");
+    let rejection_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(rejection_path).expect("rebound rejection attempt"))
+            .expect("rejection attempt JSON");
+    assert_eq!(execution_json["createdAt"], rejection_json["createdAt"]);
+    assert_eq!(execution_json["state"], "execution_completed");
+    assert_eq!(rejection_json["state"], "formal_receipt_rejected");
+    assert_eq!(rejection_json["diagnostic"]["code"], "formal_receipt");
+    assert_eq!(rejection_json["supersedesAttemptId"], execution_id);
+
+    let outcome = outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime())
+        .expect("Outcome projection after tied attempts");
+    let expected = format!(
+        "verification_attempt_formal_receipt_rejected:{rejection_id}:formal_receipt:{diagnostic}:snapshot="
+    );
+    assert!(
+        outcome
+            .unknowns
+            .iter()
+            .any(|unknown| unknown.starts_with(&expected))
+    );
+}
+
+#[test]
+fn successful_formal_verification_and_attempt_are_projected_consistently() {
+    let directory = repository();
+    let root = directory.path();
+    let contract_path = root.join(".ai/work-items/active/WI-ATTEMPT.contract.json");
+    preflight_work_item(root, &contract_path).expect("preflight");
+    checkpoint_work_item(root, "WI-ATTEMPT").expect("checkpoint");
+    let verification_request = RepositoryVerificationRequest {
+        node_id: "attempt-success".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: runtime().runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
+        policy: RepositoryVerificationPolicy::NeverReuse,
+    };
+    let run = run_repository_verification(root, &verification_request).expect("execute check");
+    let receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    let attempt = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&verification_request),
+        &run.final_snapshot,
+        &runtime(),
+        "execution_completed",
+        None,
+        Some(&receipt),
+    )
+    .expect("persist completed execution");
+    record_verification_with_runtime(
+        root,
+        "WI-ATTEMPT",
+        &receipt,
+        &runtime(),
+        &run.final_snapshot,
+    )
+    .expect("record formal verification");
+
+    let current_snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("current snapshot");
+    let stored_attempt: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(attempt["path"].as_str().expect("attempt path")))
+            .expect("stored attempt"),
+    )
+    .expect("attempt JSON");
+    assert_eq!(
+        stored_attempt["repositorySnapshotDigest"],
+        serde_json::json!(
+            cockpit_repository::snapshot_digest(&current_snapshot).expect("current digest")
+        ),
+        "recording the formal receipt must not stale its execution attempt"
+    );
+
+    let outcome =
+        outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime()).expect("Outcome projection");
+    let status = work_item_status_snapshot_with_runtime(root, "WI-ATTEMPT", &runtime())
+        .expect("status projection");
+    let attempt_path = attempt["path"].as_str().expect("attempt path");
+    assert_eq!(format!("{:?}", outcome.state), "Verified");
+    assert_eq!(status.verification, "verified");
+    assert_eq!(status.unknowns, outcome.unknowns);
+    assert!(
+        outcome
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == attempt_path),
+        "attempt was not projected: state={}, snapshot={}, contract={}, runtime={}, records={}, commands={}, receipt={}",
+        stored_attempt["state"],
+        stored_attempt["repositorySnapshotDigest"],
+        stored_attempt["contractDigest"],
+        stored_attempt["runtimeDigest"],
+        stored_attempt["executionRecords"],
+        stored_attempt["commands"],
+        stored_attempt["receipt"]
+    );
+    assert!(
+        !outcome.unknowns.iter().any(|unknown| {
+            unknown.starts_with("verification_attempt_formal_receipt_rejected:")
+        })
+    );
+}
+
+#[test]
+fn stale_attempt_remains_durable_but_is_not_projected_as_current() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    let persisted = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "formal_receipt_rejected",
+        Some(("formal_receipt", "old snapshot rejection")),
+        Some(&attempt_receipt(root, &request, true)),
+    )
+    .expect("persist attempt");
+    let path = root.join(persisted["path"].as_str().expect("attempt path"));
+    let original_bytes = fs::read(&path).expect("attempt bytes");
+    fs::write(root.join("src/lib.rs"), "pub fn value() -> u8 { 2 }\n").expect("change source");
+
+    let outcome = outcome_v2_with_runtime(root, "WI-ATTEMPT", &runtime())
+        .expect("Outcome projection after source change");
+    assert!(
+        !outcome.unknowns.iter().any(|unknown| {
+            unknown.starts_with("verification_attempt_formal_receipt_rejected:")
+        })
+    );
+    let persisted_path = persisted["path"].as_str().expect("attempt path");
+    assert!(
+        !outcome
+            .evidence_refs
+            .iter()
+            .any(|reference| reference == persisted_path)
+    );
+    assert_eq!(
+        fs::read(path).expect("attempt remains durable"),
+        original_bytes
+    );
 }
 
 #[test]
