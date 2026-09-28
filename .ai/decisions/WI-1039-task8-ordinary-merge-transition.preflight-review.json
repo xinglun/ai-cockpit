@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5571147d46df982858a4dad54377929ce53a9ab743dc574c25a9ef9ece8b99be",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The user explicitly authorized completing Task 8 through PR merge and cleanup and said not to request another start confirmation. This records that existing authorization for the bounded WI-1039 review/continuation only; it does not certify verification, authorize Task 9 before Task 8 closes, or authorize release now.",
+  "recordedAt": "2026-09-28T11:50:14Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:530a7e4a9067171163a9a4cb920b949ae9547bded5d0032a85bcc6d073c92dc4",
+  "schemaVersion": 1,
+  "workItemId": "WI-1039-task8-ordinary-merge-transition"
+}

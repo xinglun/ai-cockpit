@@ -1,0 +1,229 @@
+{
+  "acceptanceResults": [
+    "A01：真实 Git fixture 中，普通（无 resourceContext/resource-context receipt）归档 Contract 被精确的两父 main merge commit 新增，且 push 事件、refs/heads/main、GITHUB_SHA 与 HEAD 一致时，结果为 awaiting_merge_close 且无 missing_terminal_decision。",
+    "A02：同一普通归档在合并后的下一次非合并 main commit 仍失败并报告 missing_terminal_decision。",
+    "A03：错误 GITHUB_SHA、单父/额外父提交、旧归档（base 已存在）或错误默认分支均 fail closed。",
+    "A04：既有 exact PR merge path 与 resource-bound merge path 的通过和负例不回归。",
+    "A05：canonical Runtime/Cargo/CI evidence is bound to exact tested snapshot; do not rerun complete package gates when a complete matching receipt exists. No Task 9 or release action.",
+    "A06：普通默认分支 push 过渡必须从 GITHUB_EVENT_PATH 的 push payload 读取 before，并要求其与候选 merge commit 的第一父提交完全一致；before 缺失、格式无效或不匹配时 fail closed。若 push 前目标分支已含该归档，则陈旧第一父提交不得获得 awaiting_merge_close。既有 PR 事件路径保持不变。"
+  ],
+  "createdAt": "2026-09-28T12:37:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d844af5950c7b1385e1ae68b13b44f1e265679cb55c333ad20273e5c24dead0d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d3aa3c10eb6d8405e72548eb4818c70781895b523c0b5770f9498a706b3ef35f",
+      "workItemId": "WI-1039-task8-ordinary-merge-transition"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1039-task8-ordinary-merge-transition.preflight-review.ad316546d757f56e906b052557a032b527a89188b29ddf10e3528ac1bd400323.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1039-task8-ordinary-merge-transition.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.1972b02274c1f41d23425f82e08bad19d3b9a6f3f14a7aa1d7317ae7a161e4b3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.456f3cf15527c04759ccb78dc59842cc23852a3fdea2d43851641d18daedb23d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.4ed34efb8652bbd292a85bd8e8708043cd3d377ab0492595eab80d9f09f59b5d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.55c234bfe590957933762787d5f7658c45c1bf7ad3111fb744b56d64af9291c6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification-attempt.d65ec19fc64fdfb67cc3e448afcb27c34981aefa4fc12ccc35350924076851aa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-28-wi-1039-task8-ordinary-merge-transition.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.contract.json"
+          ],
+          "inference": false,
+          "text": "仅当精确两父默认分支合并提交引入普通归档 Contract 时，暂时允许 awaiting_merge_close；后续非合并提交、伪造 SHA、旧归档仍阻塞。用真实 Git fixture 证明边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1039-task8-ordinary-merge-transition.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1039-task8-ordinary-merge-transition"
+  },
+  "taskReportDigest": "sha256:b741d5dc6e4ff6e5f2fff2195e40d44911575112c289d07958ce924cf17c6904",
+  "taskReportMarkdownDigest": "sha256:f6398b75433f42c3adf41256803d64b8bd90a8ac815a1d674689af8dfd8a2242",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1039-task8-ordinary-merge-transition.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1039-task8-ordinary-merge-transition"
+}

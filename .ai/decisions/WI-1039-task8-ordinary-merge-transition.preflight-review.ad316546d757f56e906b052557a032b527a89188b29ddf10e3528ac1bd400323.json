@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1079e01ae2bd211b1cb4b4ef8e4882740648d94a9546563dc3c0df8bc2221206",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The Work Item owner explicitly authorized completing Task 8, including this in-scope corrective review fix, PR merge, and cleanup, and instructed the agent to stop before release for human review. This confirms the amended Contract for WI-1039 only; it does not authorize Task 9 or release now.",
+  "recordedAt": "2026-09-28T12:25:40Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3991b9109d2b371737afb6c2590d9bd132a94cdf6b9b8bec5722d36d5054444e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1039-task8-ordinary-merge-transition"
+}

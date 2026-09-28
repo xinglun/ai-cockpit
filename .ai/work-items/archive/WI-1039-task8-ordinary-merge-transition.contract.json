@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "A01：真实 Git fixture 中，普通（无 resourceContext/resource-context receipt）归档 Contract 被精确的两父 main merge commit 新增，且 push 事件、refs/heads/main、GITHUB_SHA 与 HEAD 一致时，结果为 awaiting_merge_close 且无 missing_terminal_decision。",
+    "A02：同一普通归档在合并后的下一次非合并 main commit 仍失败并报告 missing_terminal_decision。",
+    "A03：错误 GITHUB_SHA、单父/额外父提交、旧归档（base 已存在）或错误默认分支均 fail closed。",
+    "A04：既有 exact PR merge path 与 resource-bound merge path 的通过和负例不回归。",
+    "A05：canonical Runtime/Cargo/CI evidence is bound to exact tested snapshot; do not rerun complete package gates when a complete matching receipt exists. No Task 9 or release action.",
+    "A06：普通默认分支 push 过渡必须从 GITHUB_EVENT_PATH 的 push payload 读取 before，并要求其与候选 merge commit 的第一父提交完全一致；before 缺失、格式无效或不匹配时 fail closed。若 push 前目标分支已含该归档，则陈旧第一父提交不得获得 awaiting_merge_close。既有 PR 事件路径保持不变。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8079519530f56e88b13a780e0bb0f7eaf35a6abd",
+  "createdAt": "2026-09-28T11:26:30Z",
+  "goal": "仅当精确两父默认分支合并提交引入普通归档 Contract 时，暂时允许 awaiting_merge_close；后续非合并提交、伪造 SHA、旧归档仍阻塞。用真实 Git fixture 证明边界。",
+  "intent": "补齐普通 Work Item 的主线 push 合并过渡，兑现 WI-1037 A03",
+  "mode": "implementation",
+  "outOfScope": [
+    "Task 9 的 PowerShell、shell、Python 或其他非 Rust 脚本迁移。",
+    "发布、版本更新、tag、公开发布，以及无关治理重构或其他 Work Item。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a40b533a081d7069b09a517791798e50ecc4de2c902628a101703729c331ec09",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/ci/governance_integrity_gate.py：普通归档 Work Item 的 exact default-branch push transition；复用已存在的精确 merge helper，验证事件、HEAD、两父关系、默认分支及 Contract 新增事实。",
+    "tests/ci/governance_integrity_gate_test.sh：增加无 resourceContext 的普通 Work Item 真实 Git 正例与 later non-merge、错误 SHA、归档非新增负例；保留现有 PR 与 resource-bound 回归。",
+    "docs/superpowers/plans/2026-09-28-wi-1039-task8-ordinary-merge-transition.md：一任务 RED/GREEN 实施计划。",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/superpowers/plans/2026-09-28-wi-1039-task8-ordinary-merge-transition.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-1037-task8-pr-lifecycle-gate.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "tests/ci/fixtures/governance-integrity/awaiting-merge-close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "canonical Runtime CLI/Cargo/CI gate on exact candidate; reuse only complete receipts whose Runtime, Contract, and source snapshot bindings match"
+  ],
+  "workItemId": "WI-1039-task8-ordinary-merge-transition"
+}

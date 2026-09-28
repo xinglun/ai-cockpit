@@ -476,8 +476,9 @@ def merge_commit_introduces_archived_work_item(
     therefore an intentional short-lived lifecycle state.  This exception is
     deliberately narrow: it requires GitHub push context, the default branch,
     an exact two-parent HEAD, and an archive Contract newly added by that
-    merge.  A later direct commit or an older unclosed Work Item remains a
-    blocking governance finding.
+    merge.  The advertised push SHA must bind the exact checked-out merge
+    commit, and the push payload's ``before`` SHA must bind its first parent;
+    later commits and old archives remain blocked.
     """
     if os.environ.get("GITHUB_EVENT_NAME") != "push":
         return False
@@ -493,7 +494,7 @@ def merge_commit_introduces_archived_work_item(
     if not re.fullmatch(r"[0-9a-f]{40}", head):
         return False
     advertised_head = os.environ.get("GITHUB_SHA")
-    if advertised_head and advertised_head != head:
+    if not advertised_head or advertised_head != head:
         return False
     parents = subprocess.run(
         ["git", "rev-list", "--parents", "-n1", head],
@@ -503,6 +504,23 @@ def merge_commit_introduces_archived_work_item(
         text=True,
     ).stdout.strip().split()
     if len(parents) != 3 or parents[0] != head:
+        return False
+    event_path_value = os.environ.get("GITHUB_EVENT_PATH")
+    if not event_path_value:
+        return False
+    event_path = Path(event_path_value)
+    if event_path.is_symlink() or not event_path.is_file():
+        return False
+    try:
+        event = load_json(event_path)
+    except ValueError:
+        return False
+    push_before = event.get("before")
+    if (
+        not isinstance(push_before, str)
+        or re.fullmatch(r"[0-9a-f]{40}", push_before) is None
+        or parents[1] != push_before
+    ):
         return False
     archive_path = f".ai/work-items/archive/{work_item}.contract.json"
     archive_contract = repo / archive_path
@@ -2356,6 +2374,18 @@ def main() -> int:
                             repo, work_item
                         )
                     )
+                    ordinary_default_branch = repository_default_branch(repo, "origin")
+                    ordinary_push_transition = (
+                        context is None
+                        and not resource_context_path.exists()
+                        and not resource_context_path.is_symlink()
+                        and archived_contract_path.is_file()
+                        and not archived_contract_path.is_symlink()
+                        and ordinary_default_branch is not None
+                        and merge_commit_introduces_archived_work_item(
+                            repo, work_item, ordinary_default_branch
+                        )
+                    )
                     resource_bound_transition = (
                         isinstance(context, dict)
                         and isinstance(base_branch, str)
@@ -2370,7 +2400,11 @@ def main() -> int:
                             )
                         )
                     )
-                    if ordinary_pr_transition or resource_bound_transition:
+                    if (
+                        ordinary_pr_transition
+                        or ordinary_push_transition
+                        or resource_bound_transition
+                    ):
                         record["lifecycleState"] = "awaiting_merge_close"
                     else:
                         record["lifecycleState"] = "closure_missing"
