@@ -4,9 +4,12 @@ workItemId: WI-1036-task8-ci-recovery
 title: Task 8 CI クローズアウト
 description: PR #997 で観測された3種類の CI failure だけを修正し、必須 gate を維持して Task 8 を merge・cleanup し、release 前に停止する。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1036-task8-ci-recovery
+terminalArchive: .ai/work-items/archive/WI-1036-task8-ci-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1036-task8-ci-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1036-task8-ci-recovery.close.json
 ---
 
 [English](WI-1036-task8-ci-recovery.md) · [简体中文](WI-1036-task8-ci-recovery.zh-CN.md)

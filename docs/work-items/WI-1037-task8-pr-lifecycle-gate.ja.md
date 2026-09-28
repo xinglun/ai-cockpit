@@ -4,9 +4,12 @@ workItemId: WI-1037-task8-pr-lifecycle-gate
 title: Task 8 PR lifecycle gate 修正
 description: Task 8 closeout を妨げる PR lifecycle gate のみを修正する。Task 8 の merge と cleanup 後に Task 9 へ進み、release 前に停止する。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1037-task8-pr-lifecycle-gate
+terminalArchive: .ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json
+terminalVerification: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json
+terminalDecision: .ai/decisions/WI-1037-task8-pr-lifecycle-gate.close.json
 ---
 
 [English](WI-1037-task8-pr-lifecycle-gate.md) · [简体中文](WI-1037-task8-pr-lifecycle-gate.zh-CN.md)

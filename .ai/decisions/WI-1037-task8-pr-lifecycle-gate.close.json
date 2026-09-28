@@ -1,0 +1,183 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+      "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification-attempt.66376c5fc5bdca600c7749a5b22be5110ab3990c3960a553b321408ead4e1fa6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/997",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:sei-rinn via Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review. at 2026-09-28T00:47:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1037-task8-pr-lifecycle-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow only an exact PR-introduced archive and its exact default-branch merge transition to await formal close; preserve fail-closed behavior for older archives, mismatched PR events, direct pushes, and later unclosed states."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+  },
+  "finalReportDigest": "sha256:a1c47a6194a3675e1cbf6d428ef81d7615729bb1ea80e9edfaa26af952bcceb0",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:fb1738feb3707dd8cccd4548fa8ca6e1fe46491b960de504b0691adefd29e63e",
+    "branch": "codex/wi-1037-pr-lifecycle-gate",
+    "branchRef": "refs/heads/codex/wi-1037-pr-lifecycle-gate",
+    "capturedAt": "2026-09-28T10:32:26Z",
+    "contractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+    "headRevision": "6ef8ed0aff8a97599c1638dae44b43b504232513",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+    "runtimeVersion": "0.2.113",
+    "schemaVersion": 1,
+    "workItemId": "WI-1037-task8-pr-lifecycle-gate",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit2",
+    "worktreeId": "sha256:8faf0d963ff568fe17f9f272ed070a51e0fdcd370f153f4cac2e55b8a80c96fe",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1037-pr-lifecycle-gate/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:3e94a352ca1b77adb4b73d65bfd92f5c24d310d53bdb3baa99f055e9c1aca64a",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:sei-rinn",
+    "authoritySource": "Explicit user authorization in this Codex task to complete Task 8 through PR merge and cleanup, then stop before release for human review.",
+    "decidedAt": "2026-09-28T00:47:36Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/997",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36408947807",
+      ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.archive.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #997 is merged as 481f728 and successor WI-1038 has its Runtime close decision. Record the authorized post-merge close. Preserve historical verification as not revalidated and user-visible benefit as unknown; this does not claim merge-commit CI green or authorize release.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-28T10:32:26Z",
+  "workItemId": "WI-1037-task8-pr-lifecycle-gate"
+}

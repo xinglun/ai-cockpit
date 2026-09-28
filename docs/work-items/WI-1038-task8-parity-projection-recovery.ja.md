@@ -4,9 +4,12 @@ workItemId: WI-1038-task8-parity-projection-recovery
 title: Task 8 parity 投影の復旧
 description: Runtime により正確に bind された successor を通じて WI-1037 の不変 archive 後の遅延登録を修正し、履歴上の順序警告を保持する。所有されない recovery は fail closed とする。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1038-task8-parity-projection-recovery
+terminalArchive: .ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json
+terminalDecision: .ai/decisions/WI-1038-task8-parity-projection-recovery.close.json
 ---
 
 [English](WI-1038-task8-parity-projection-recovery.md) · [简体中文](WI-1038-task8-parity-projection-recovery.zh-CN.md)
