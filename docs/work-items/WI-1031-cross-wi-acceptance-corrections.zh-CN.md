@@ -8,9 +8,12 @@ audience:
   - contributor
   - maintainer
   - reviewer
-status: close_pending
+status: implemented
 authority: human-authorized
 lastVerifiedBy: WI-1031-cross-wi-acceptance-corrections
+terminalArchive: .ai/work-items/archive/WI-1031-cross-wi-acceptance-corrections.contract.json
+terminalVerification: .ai/evidence/WI-1031-cross-wi-acceptance-corrections.verification.json
+terminalDecision: .ai/decisions/WI-1031-cross-wi-acceptance-corrections.close.json
 ---
 
 # WI-1031——跨 WI 验收修复
