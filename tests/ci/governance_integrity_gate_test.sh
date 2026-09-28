@@ -2401,6 +2401,177 @@ findings = [
 assert len(findings) == 3, findings
 PY
 
+# A late parity row on an immutable archived predecessor is recoverable only
+# through a valid successor whose Contract owns every parity ledger. The
+# active Summary may not observe changedPaths until Runtime archive projection.
+# Keep the original ordering visible as a historical warning.
+recovered_repo="$tmp/postarchive-recovered-parity-projection"
+recovered_report="$tmp/postarchive-recovered-parity-report.json"
+cp -R "$postarchive_repo" "$recovered_repo"
+python3 - "$recovered_repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+predecessor = "WI-901-corrective-after-baseline"
+successor = "WI-902-parity-projection-recovery"
+parity_paths = [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+project = json.loads((repo / ".ai/project.json").read_text(encoding="utf-8"))
+recovery_path = repo / ".ai/decisions" / f"{predecessor}.recovery.json"
+recovery_path.write_text(
+    json.dumps(
+        {
+            "schemaVersion": 1,
+            "decisionId": "work-item-recovery",
+            "workItemId": predecessor,
+            "predecessorWorkItemId": predecessor,
+            "successorWorkItemId": successor,
+            "repositoryId": project["repositoryId"],
+            "decision": "successor",
+            "evidenceRefs": [f".ai/evidence/{predecessor}.verification.json"],
+            "reason": "Repair the late immutable parity projection through its bounded successor.",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+archive = repo / ".ai/work-items/archive"
+active = repo / ".ai/work-items/active"
+active.mkdir(parents=True, exist_ok=True)
+contract = json.loads(
+    (archive / f"{predecessor}.contract.json").read_text(encoding="utf-8")
+)
+contract.update(
+    {
+        "workItemId": successor,
+        "predecessorWorkItemId": predecessor,
+        "repositoryId": project["repositoryId"],
+        "scope": parity_paths,
+    }
+)
+(active / f"{successor}.contract.json").write_text(
+    json.dumps(contract, indent=2) + "\n", encoding="utf-8"
+)
+summary = json.loads(
+    (archive / f"{predecessor}.summary.json").read_text(encoding="utf-8")
+)
+summary.pop("changedPaths", None)
+summary.update({"workItemId": successor})
+(active / f"{successor}.summary.json").write_text(
+    json.dumps(summary, indent=2) + "\n", encoding="utf-8"
+)
+for suffix in ("", ".zh-CN", ".ja"):
+    (repo / "docs/work-items" / f"{successor}{suffix}.md").write_text(
+        f"---\nworkItemId: {successor}\n---\n\n# {successor}\n",
+        encoding="utf-8",
+    )
+    relative = f"docs/reference/reference-parity{suffix}.md"
+    path = repo / relative
+    rows = path.read_text(encoding="utf-8").splitlines()
+    old_index = next(
+        index for index, row in enumerate(rows) if row.startswith("| WI-901 ")
+    )
+    separator = "；" if suffix else ";"
+    quote = chr(96)
+    rows[old_index] = (
+        rows[old_index][:-1]
+        + f"{separator} selected successor recovery {quote}{recovery_path.relative_to(repo)}{quote} |"
+    )
+    status = (
+        "进行中 → 验证关闭后已实现"
+        if suffix == ".zh-CN"
+        else "進行中 → 検証済みクローズ後に実装済み"
+        if suffix == ".ja"
+        else "In progress → Implemented after verified close"
+    )
+    terminal_paths = (
+        f".ai/work-items/archive/{successor}.contract.json",
+        f".ai/evidence/{successor}.verification.json",
+        f".ai/decisions/{successor}.finalize.json",
+        f".ai/decisions/{successor}.close.json",
+    )
+    links = f"{separator} ".join(f"{quote}{item}{quote}" for item in terminal_paths)
+    rows.append(
+        f"| {successor} | {status} | successor owns every parity ledger; {links} |"
+    )
+    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$recovered_repo" --report "$recovered_report" >/dev/null
+set -e
+python3 - "$recovered_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert not any(
+    item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
+    for item in report["findings"]
+), report["findings"]
+warnings = [
+    item
+    for item in report["legacyWarnings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "recovered_postarchive_parity_registration"
+]
+assert len(warnings) == 3, warnings
+predecessor = next(
+    item
+    for item in report["inventory"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+)
+assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
+PY
+
+# A successor receipt must not waive a parity ledger outside its Contract.
+unowned_repo="$tmp/postarchive-unowned-parity-recovery"
+unowned_report="$tmp/postarchive-unowned-parity-report.json"
+cp -R "$recovered_repo" "$unowned_repo"
+python3 - "$unowned_repo" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+repo = Path(sys.argv[1])
+contract = repo / ".ai/work-items/active/WI-902-parity-projection-recovery.contract.json"
+value = json.loads(contract.read_text(encoding="utf-8"))
+value["scope"].remove("docs/reference/reference-parity.ja.md")
+contract.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$unowned_repo" --report "$unowned_report" >/dev/null
+unowned_code=$?
+set -e
+[[ "$unowned_code" -eq 1 ]] || {
+  printf 'unowned successor parity recovery: expected exit 1, got %s\n' \
+    "$unowned_code" >&2
+  exit 1
+}
+python3 - "$unowned_report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [
+    item
+    for item in report["findings"]
+    if item["workItemId"] == "WI-901-corrective-after-baseline"
+    and item["code"] == "stale_prearchive_parity_registration"
+]
+assert len(findings) == 3, findings
+PY
+
 python3 - "$prearchive_repo" "$prearchive_staged" <<'PY'
 import json
 import shutil

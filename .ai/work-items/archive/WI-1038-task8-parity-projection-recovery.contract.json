@@ -1,0 +1,92 @@
+{
+  "acceptanceCriteria": [
+    "WI-1037 has accurate archived-but-awaiting-PR-merge status in English, Chinese, and Japanese parity rows, each linking the immutable archived Contract and not claiming terminal completion.",
+    "The three rows no longer trigger stale_prearchive_parity_registration, and all predecessor archive/evidence bytes remain unchanged.",
+    "The declared focused documentation and governance checks pass on the exact candidate snapshot.",
+    "Hosted CI passes on the exact final PR #997 head; merge and close the Task 8 lineage only through Runtime-admitted lifecycle actions, then proceed to Task 9 only when readyOnBase is true.",
+    "A late archived WI-1037 parity registration is admitted only when an identity-valid successor recovery binds WI-1038 and WI-1038 owns all three parity ledgers; the gate reports the late historical ordering while keeping malformed, foreign, mismatched, or unowned recovery cases blocking.",
+    "WI-1038 uses the same parity status cell while active and awaiting merge-close, and the focused real-Git lifecycle fixture proves the registered row remains valid through archive and close projection."
+  ],
+  "authority": "authorized",
+  "baseRevision": "488d5606cb67811722b2e23410dd6f66421f475b",
+  "createdAt": "2026-09-28T07:08:48Z",
+  "goal": "All three language ledgers accurately represent archived-but-awaiting-merge status while preserving predecessor archive/evidence bytes; focused and exact-head hosted gates pass so the Task 8 PR can merge.",
+  "intent": "Correct the stale archived lifecycle projection for WI-1037 in the three parity ledgers after the exact PR #997 docs_governance_integrity failure.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing archived WI-1037 Contract",
+    " Summary",
+    " Outcome",
+    " events",
+    " or verification evidence",
+    "Changing governance gate implementation or weakening/skipping checks without a separately demonstrated defect",
+    "Repeating full package verification for an unchanged snapshot",
+    "Task 9 migration",
+    " release candidate construction",
+    " version changes",
+    " tags",
+    " or publication",
+    "No general waiver of prearchive parity ordering; only the exact WI-1037 to WI-1038 recovery lineage may receive the historical correction projection."
+  ],
+  "predecessorContractDigest": "sha256:d15d80dbf6d4b248248b4bd56663d2d8e4a9ec2ebe387062ed40db5ab42b8eb7",
+  "predecessorWorkItemId": "WI-1037-task8-pr-lifecycle-gate",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1037-task8-pr-lifecycle-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f01131126a4abaf2707b7e4eb3a8ab28ee184bc11f00615ef44b65e22e8dc97e",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All three parity ledgers identify WI-1037 as archived and awaiting PR merge and formal close, link its immutable archived Contract, and do not claim terminal completion or pending verification when verification evidence exists.",
+      "required": true,
+      "scenario": "WI-1037 archived lifecycle projection",
+      "status": "unverified",
+      "verificationPlan": "Run the focused parity and governance integrity checks; compare each row against the archived WI-1037 Contract, its verification receipt, and the current PR state."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-1038 parity rows remain valid after its archive transition and do not trigger stale pre-archive registration findings.",
+      "required": true,
+      "scenario": "WI-1038 archive transition projection",
+      "status": "unverified",
+      "verificationPlan": "Run the focused governance integrity check before and after the WI-1038 archive candidate is produced, preserving both outputs and checking the exact resulting source snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "Required hosted checks pass on the exact PR #997 head after the final WI-1038 archive and parity projection commits.",
+      "required": true,
+      "scenario": "Task 8 final PR head verification",
+      "status": "unverified",
+      "verificationPlan": "After the archive candidate is committed and pushed under the authorized Task 8 PR, inspect PR #997 and require every configured required check to pass for its reported head SHA before merge."
+    }
+  ],
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.zh-CN.md",
+    "docs/work-items/WI-1038-task8-parity-projection-recovery.ja.md",
+    "docs/superpowers/plans/2026-09-28-wi-1038-parity-projection-recovery.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36388275473",
+    "https://github.com/xinglun/ai-cockpit/pull/997",
+    ".ai/work-items/archive/WI-1037-task8-pr-lifecycle-gate.contract.json",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-1038-task8-parity-projection-recovery"
+}

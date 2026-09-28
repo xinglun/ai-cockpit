@@ -1570,6 +1570,45 @@ def recovery_successor_binding_is_valid(
     )
 
 
+def recovery_successor_owns_parity_projection(
+    repo: Path, predecessor: str, recovery: dict[str, Any]
+) -> bool:
+    """Require a selected successor to own all parity ledgers in both records."""
+    successor = recovery.get("successorWorkItemId")
+    if not valid_work_item_id(successor) or successor == predecessor:
+        return False
+    try:
+        project = load_json(repo / ".ai/project.json")
+    except ValueError:
+        return False
+    required_paths = {relative for relative, _ in PARITY_DOCS}
+    for directory in ("active", "archive"):
+        work_items = repo / ".ai/work-items" / directory
+        contract_path = work_items / f"{successor}.contract.json"
+        summary_path = work_items / f"{successor}.summary.json"
+        if not repository_contained_regular_file(
+            repo, contract_path
+        ) or not repository_contained_regular_file(repo, summary_path):
+            continue
+        try:
+            contract = load_json(contract_path)
+            summary = load_json(summary_path)
+        except ValueError:
+            return False
+        scope = contract.get("scope")
+        return (
+            contract.get("workItemId") == successor
+            and contract.get("predecessorWorkItemId") == predecessor
+            and contract.get("repositoryId") == project.get("repositoryId")
+            and summary.get("workItemId") == successor
+            and isinstance(scope, list)
+            and required_paths.issubset(
+                {path for path in scope if isinstance(path, str)}
+            )
+        )
+    return False
+
+
 def valid_close_decision(repo: Path, work_item: str, value: dict[str, Any]) -> bool:
     try:
         project = load_json(repo / ".ai/project.json")
@@ -2464,19 +2503,36 @@ def main() -> int:
                             line,
                             evidence,
                         ):
-                            severity = (
-                                "historical"
-                                if historical_retry_receipt
-                                else "error"
-                            )
-                            findings.append(
-                                finding(
-                                    work_item,
-                                    "stale_prearchive_parity_registration",
-                                    parity_doc,
-                                    severity,
+                            if (
+                                recovery_receipt_valid
+                                and recovery_value.get("decision") == "successor"
+                                and recovery_successor_binding_valid
+                                and recovery_successor_owns_parity_projection(
+                                    repo, work_item, recovery_value
                                 )
-                            )
+                            ):
+                                findings.append(
+                                    finding(
+                                        work_item,
+                                        "recovered_postarchive_parity_registration",
+                                        parity_doc,
+                                        "historical",
+                                    )
+                                )
+                            else:
+                                severity = (
+                                    "historical"
+                                    if historical_retry_receipt
+                                    else "error"
+                                )
+                                findings.append(
+                                    finding(
+                                        work_item,
+                                        "stale_prearchive_parity_registration",
+                                        parity_doc,
+                                        severity,
+                                    )
+                                )
                     japanese_parity = parity_doc.endswith(".ja.md")
                     status_tokens = (
                         (implemented, "実装済み")
