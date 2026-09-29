@@ -312,6 +312,54 @@ for path in [Path('docs/reference/contract-fields.md'), Path('docs/reference/con
         if section not in text:
             missing.append(f'{path}: Contract/Summary field mapping omits {section}')
 
+feature_docs = {
+    'docs/reference/commands.md': (
+        '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
+        'check-environment-drift', 'record-environment-drift',
+        'work_item_environment_drift', '0.2.113', 'read-only',
+    ),
+    'docs/reference/commands.ja.md': (
+        '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
+        'check-environment-drift', 'record-environment-drift',
+        'work_item_environment_drift', '0.2.113', '読み取り専用',
+    ),
+    'docs/reference/commands.zh-CN.md': (
+        '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
+        'check-environment-drift', 'record-environment-drift',
+        'work_item_environment_drift', '0.2.113', '只读',
+    ),
+    'docs/reference/contract-fields.md': (
+        'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
+        'reorder', 'expectedContractDigest', 'protected', 'reason',
+    ),
+    'docs/reference/contract-fields.ja.md': (
+        'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
+        'reorder', 'expectedContractDigest', '保護', '理由',
+    ),
+    'docs/reference/contract-fields.zh-CN.md': (
+        'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
+        'reorder', 'expectedContractDigest', '保护', '理由',
+    ),
+    'docs/reference/agent-workflow.md': (
+        'request-scoped', 'record-environment-drift', 'work_item_environment_drift',
+        'serially', '0.2.113',
+    ),
+    'docs/reference/agent-workflow.ja.md': (
+        'request-scoped', 'record-environment-drift', 'work_item_environment_drift',
+        '直列', '0.2.113',
+    ),
+    'docs/reference/agent-workflow.zh-CN.md': (
+        'request-scoped', 'record-environment-drift', 'work_item_environment_drift',
+        '串行', '0.2.113',
+    ),
+}
+for raw_path, markers in feature_docs.items():
+    path = Path(raw_path)
+    text = path.read_text(encoding='utf-8')
+    for marker in markers:
+        if marker not in text:
+            missing.append(f'{path}: amendment/environment-drift guidance omits {marker}')
+
 for phrase in ('WI-03 至 WI-38', 'WI-36 已在本地验收', 'WI-35 负责', 'internal progress plan', 'development checkout'):
     if phrase in public:
         missing.append(f'public documentation contains internal phrase: {phrase}')

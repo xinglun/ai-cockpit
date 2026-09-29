@@ -14,14 +14,11 @@ current facts.
 
 ## Selection rules
 
-The Runtime projection is the source of the current `guideId`, blockers,
-evidence freshness, safe actions, and human-decision requirement. A missing or
-localized guide is a documentation problem and must not change action
-admission. Re-query after a Contract or repository snapshot change because an
-old projection cannot authorize a new state.
+Runtime status selects the current `guideId`, blockers, freshness, safe
+actions, and human-decision requirement. A missing/localized guide is a docs
+defect, not an admission change. Re-query after Contract or snapshot changes;
+an old projection cannot admit a new state.
 
-Each guide has the same compact shape: applicability, authoritative inputs,
-operations, success conditions, failure evidence, and continue-or-stop
-conditions. Protocol fields and command facts belong to the Runtime, schema,
-CLI help, or capability metadata; deeper rationale belongs under
-[`docs/reference`](../../docs/reference/README.md).
+Guides explain admitted operations; Runtime/schema/CLI/capability metadata own
+protocol facts. Use the ordinary route for Contract amendments and environment
+drift; see [`docs/reference`](../../docs/reference/README.md) for semantics.

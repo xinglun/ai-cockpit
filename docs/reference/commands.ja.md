@@ -65,12 +65,35 @@ failed/unknown は pass ではありません。
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | request-scoped status projection を読み、または明示的な lifecycle record を作ります。`amend` は Contract の追加フィールドだけを適用し、amendment revalidation を自動記録します。次の action は `run_preflight` です。直接 Contract を編集した場合だけ `revalidate-amendment` を使い、成功した `amend` の後に重ねて実行しません。`close` と recovery には明示的な human decision が必要です。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence を無効化し、次は `run_preflight` です。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
+| Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | inspect と drift check は読み取り専用です。drift の記録は影響 action 前の明示的な永続 write です。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
 | Audit | `audit export` | repository-bound な安定 event bundle を外部 retention owner へ handoff する。local immutability は主張しない。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
+
+## Contract amendment と environment drift
+
+`work-item amend --repo <repo> --id <id> --request <request.json>` は
+`schemaVersion`、一意な `changeId`、現在の `expectedContractDigest`、空でない
+変更理由 `reason`、順序付き `changes` を持つ `ContractAmendmentRequest` を受け付けます。
+`add`、`set`、`clear`、`remove`、`replace`、`reorder` を使えます。未知または保護された
+path は拒否され、変更後の Contract 全体を検証します。digest 不一致は conflict となり、
+自動 rebase しません。同じ request と `changeId` の再送は元の receipt を返します。
+`work-item amendments` は追記専用履歴の読み取り専用 query です。
+
+`check-environment-drift` は Runtime が観測した drift を読み取り専用で確認します。
+`record-environment-drift` は Work Item と generation を指定して観測 event を共有 repository
+state に明示的に保存します。環境 digest を caller から受け取りません。影響 action の前に
+admission を更新し、無関係な action は個別の fresh admission がある場合だけ続行します。
+recovery は resolution を追記し、event は削除しません。request-scoped observation ledger は
+cross-process event bus ではありません。
+
+MCP は `work_item_amend`、`work_item_amendments`、`work_item_environment_drift` を公開します。
+drift tool は読み取り専用の `action=check` と明示 write の `action=record` を分けます。
+旧 Runtime `0.2.113` はこれらの capability を持ちません。Contract を読めることだけでは
+互換性を証明しません。`tools/list` の実 schema を確認してください。
 
 ## Important options
 
@@ -91,6 +114,8 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
 | `verify` | `workItemId`、`command`、string 配列 `args`、有限な `timeoutSeconds`、boolean の `planOnly` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
+| `work_item_amend`、`work_item_amendments` | amendment は `workItemId` と strict な typed `request` が必須です。history query は `workItemId` のみで読み取り専用です。 | `{"workItemId":"WI-123","request":{...}}` |
+| `work_item_environment_drift` | `action=check|record`、`workItemId`、`generation`。check は読み取り専用、record は観測 event を永続化します。 | `{"action":"check","workItemId":"WI-123","generation":2}` |
 
 人向けの結果には `work_item_outcome` を呼び、その text content を折りたたまず表示します。`--json` は自動化専用です。raw の `work_item_get` は handoff ではありません。`isError: true` は成功した空結果ではなく停止を意味します。MCP は host Agent を設定したり chat に自動投稿したり、intent、authority、acceptance、human decision を補完したりしません。結果が yellow、red、unknown、not_ready の場合、Agent/host は停止して human review を求めなければなりません。
 

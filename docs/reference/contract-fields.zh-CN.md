@@ -25,6 +25,20 @@ capabilityClaims:
 - **部分实现（Partial）**——可以读取或表示，但不保证参考源的全部语义。
 - **外部边界（External）**——事实属于 Agent 宿主、provider、组织或其他系统；Runtime 只能绑定或展示 evidence，不能自行生成。
 
+## 带理由的 Contract 修订
+
+Active Contract 是可以随实施现实调整的计划。`ContractAmendmentRequest` 必须包含唯一的
+`changeId`、当前 `expectedContractDigest`、非空的变更理由 `reason` 和有序变更。支持 `add`、
+`set`、`clear`、`remove`、`replace`、`reorder`：集合操作验证确切元素，`reorder` 必须是全部元素的
+完整排列。整个批次原子应用，并重新校验完整的新 Contract。digest 过期会明确冲突，不会静默
+rebase；相同 request 重试返回原 receipt，同一 ID 用于不同 request 则拒绝。
+
+字段注册表仅允许修改人类拥有的计划字段。repository/Work Item identity、base/snapshot 事实、
+生命周期、Runtime 观察事实以及不可变 receipt/evidence 均受保护。authority、risk、verification
+强度和 gate 修改属于敏感变更，仍须重新经过现有 policy 与授权；给出理由不等于获得权限。提交的
+历史以追加方式绑定 old/new 值、digest、snapshot 和失效检查。`work-item amendments` 只读查询历史；
+修订后必须重新 preflight，并重跑受影响的 verification。
+
 ## Work Item Contract（`*.contract.json`）
 
 | 字段 | Rust Runtime 映射 | 状态 |

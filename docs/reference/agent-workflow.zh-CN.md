@@ -152,6 +152,25 @@ Checkpoint 快照具有明确的时间语义。有效的 `before_edit` 或 amend
 会使 receipt 变 stale，必须从当前 Work Item 重新验证，不能绕过门禁。只有 archive
 成功后才提交归档记录，然后执行 provider finalization 和 hosted checks。
 
+### Contract 修订与环境漂移
+
+Active Contract 是实施计划，现实变化时可以用 `work-item amend --request` 记录调整，并提供唯一
+`changeId`、当前 `expectedContractDigest` 和明确理由。Runtime 会验证完整的新 Contract；旧 digest
+会冲突，不会静默 rebase。identity、生命周期、Runtime 观察事实和 evidence 受保护；authority 或
+gate 等敏感修改仍须经过现有 policy。相同 request 重试返回同一追加式 receipt。`work-item amendments`
+只读查询历史；接受修订后须重新 preflight 并验证受影响的检查。
+
+环境漂移必须来自 Runtime 实际观察的执行事实，不接受调用方自报 digest。CLI
+`check-environment-drift` 和 MCP `work_item_environment_drift` 的 `action=check` 是只读查询。
+受影响动作开始前，应显式运行 `record-environment-drift` 或 MCP `action=record`，将追加式事件写入共享
+repository state 后刷新 admission。request-scoped observation ledger 不是跨进程事件总线；每个消费动作
+前都重新评估依赖，过期 generation fail-closed。无关动作只有各自重新准入后才能继续。恢复时追加
+resolution，并保留原事件。
+
+Runtime `0.2.113` 仍可执行其支持的串行 lifecycle，但不具备 amendment/drift capability。能读取新
+Contract 或 manifest 不代表双向兼容；相关动作必须检查明确声明的 capability。缺少能力时不得模拟约束；
+只有 Runtime 允许时才能退回串行路径，否则停止。
+
 ## 资源收尾边界
 
 新的 Work Item 必须在 `close` 前完成 provider 侧 branch 与 worktree 清理；

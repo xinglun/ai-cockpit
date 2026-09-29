@@ -57,12 +57,31 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | 读取请求级状态投影或写入显式生命周期记录。`amend` 只应用追加型 Contract 字段并自动记录修订 revalidation；下一步是 `run_preflight`。只有直接修改 Contract 后才使用 `revalidate-amendment`；成功 amend 后无需重复执行。`close` 和 recovery 要求显式 human decision。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效，下一步为 `run_preflight`。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
+| 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
 | Audit | `audit export` | 生成绑定 repository 的稳定事件包交给外部保留方；不宣称本地 immutable。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
+
+## Contract 修订与环境漂移
+
+`work-item amend --repo <repo> --id <id> --request <request.json>` 接受
+`ContractAmendmentRequest`：包含 `schemaVersion`、唯一的 `changeId`、当前
+`expectedContractDigest`、非空变更理由 `reason` 和有序 `changes`。操作包括 `add`、`set`、
+`clear`、`remove`、`replace`、`reorder`。未知或受保护路径会被拒绝，Runtime 会校验完整的新
+Contract。digest 不匹配时明确冲突，不会自动 rebase；相同 request 和 `changeId` 重试会返回
+原 receipt。`work-item amendments` 以只读方式查询追加式历史。
+
+`check-environment-drift` 只读检查 Runtime 观察到的漂移。`record-environment-drift` 明确将
+观察事件写入共享 repository state；输入只绑定 Work Item 与 generation，不接受调用方自报的
+环境 digest。受影响动作前必须刷新 admission；无关动作只有在各自重新准入后才能继续。
+恢复通过追加 resolution 完成，不删除旧事件。request-scoped observation ledger 不是跨进程事件总线。
+
+MCP 提供 `work_item_amend`、`work_item_amendments` 和 `work_item_environment_drift`。
+漂移工具区分只读 `action=check` 与显式写入 `action=record`。旧 Runtime `0.2.113` 不支持这些
+capability；能够读取 Contract 不等于双向兼容。调用前应检查 `tools/list` 的实际 schema。
 
 ## 重要选项
 
@@ -85,6 +104,8 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
 | `verify` | 可选 `workItemId`、`command`、字符串数组 `args`、有限的 `timeoutSeconds` 和布尔值 `planOnly`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |
+| `work_item_amend`、`work_item_amendments` | 修订工具需要 `workItemId` 和严格 typed `request`；历史查询只需 `workItemId`，且只读。 | `{"workItemId":"WI-123","request":{...}}` |
+| `work_item_environment_drift` | 需要 `action=check|record`、`workItemId`、`generation`；check 只读，record 持久化观察到的漂移。 | `{"action":"check","workItemId":"WI-123","generation":2}` |
 
 需要面向人的结果时，请调用 `work_item_outcome`，并原样展示其文本内容，不要折叠。只有自动化才使用 `--json`；原始 `work_item_get` 数据不是面向人的交接结果。返回 `isError: true` 表示停止，而不是成功的空结果。MCP 不会配置宿主 Agent、自动发消息到聊天窗口，也不会臆造 intent、authority、acceptance 或 human decision；当结果为 yellow、red、unknown 或 not_ready 时，Agent/宿主必须停止并请求人工审查。
 

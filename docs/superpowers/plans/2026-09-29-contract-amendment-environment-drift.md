@@ -97,7 +97,7 @@
 - [x] Implement runtime-derived environment identity from the execution context; unobservable inputs return unknown/error and fail closed.
 - [x] Persist drift events under the common-directory store/inter-process lock; registration retries reconcile event-before-registration commits and remain action-scoped.
 - [x] Run `cargo test --locked -p cockpit-protocol --test collaboration`, `cargo test --locked -p cockpit-repository --test coordination_store`, and `cargo test --locked -p cockpit-repository --test collaboration_admission`.
-- [ ] Commit shared environment-drift admission as `feat(coordination): persist observed environment drift`.
+- [x] Commit shared environment-drift admission as `feat(coordination): persist observed environment drift` (`15b82d1f`).
 
 ### Task 4: CLI/MCP capability and real concurrent acceptance
 
@@ -114,13 +114,13 @@
 - MCP exposes `work_item_amend`, `work_item_amendments`, and the matching environment-drift coordination action with strict schemas and read/write separation.
 - Agent capability metadata declares the amendment and environment-drift capability; older Runtime identity without those semantics is rejected for affected mutations/admissions.
 
-- [ ] First add a CLI help assertion for the typed amend request and MCP tool-list assertions for `work_item_amend` and `work_item_amendments`; run and confirm these surfaces are absent before implementation.
-- [ ] Add CLI/MCP parity tests for successful writes, validation/conflict errors, identical receipts, read-only history inspection, and capability incompatibility.
-- [ ] Add an OS-process acceptance test that creates multiple linked worktrees, starts independent CLI processes against the common directory, changes observed environment while keeping input JSON unchanged, and proves affected denial before process spawn plus unrelated-action continuation and recovery.
-- [ ] Add a serial single-Work-Item CLI lifecycle assertion with default one-worker behavior.
-- [ ] Register the process acceptance command in `repository_gate_manifest.json` and assert the manifest test sees the registration.
-- [ ] Run `cargo test --locked -p cockpit-cli --test contract_amendment_processes`, the MCP parity test, and `tests/ci/repository_gate_manifest_test.sh`.
-- [ ] Commit CLI/MCP capability and process acceptance as `feat(cli): expose contract amendment and drift controls`.
+- [x] First add a CLI help assertion for the typed amend request and MCP tool-list assertions for `work_item_amend` and `work_item_amendments`; run and confirm these surfaces are absent before implementation.
+- [x] Add CLI/MCP parity tests for successful writes, validation/conflict errors, identical receipts, read-only history inspection, and capability incompatibility.
+- [x] Add an OS-process acceptance test that creates multiple linked worktrees, starts independent CLI processes against the common directory, changes observed environment while keeping input JSON unchanged, and proves affected denial before process spawn plus unrelated-action continuation and recovery.
+- [x] Add a serial single-Work-Item CLI lifecycle assertion with default one-worker behavior.
+- [x] Register the process acceptance command in `repository_gate_manifest.json` and assert the manifest test sees the registration.
+- [x] Run `cargo test --locked -p cockpit-cli --test contract_amendment_processes`, the MCP parity test, and `tests/ci/repository_gate_manifest_test.sh`.
+- [x] Commit CLI/MCP capability and process acceptance as `feat(cli): expose contract amendment and drift controls` (`b6e0ec95`).
 
 ### Task 5: Agent guidance, multilingual references, and canonical verification
 
@@ -133,9 +133,10 @@
 - Modify: `docs/reference/agent-workflow.md`, `docs/reference/agent-workflow.ja.md`, `docs/reference/agent-workflow.zh-CN.md`
 - Test: `tests/docs/documentation_acceptance.sh` and the registered doc-parity tests
 
-- [ ] Document amend operations, protected/sensitive fields, reason/digest conflicts, idempotent retry, evidence invalidation, environment-drift recording, refresh-before-action, serial fallback, and N-1 compatibility in all three languages.
-- [ ] Document that observation/query is read-only and that only explicit Runtime write actions amend or publish drift events; do not describe the request-scoped ledger as cross-process persistence.
-- [ ] Run the Contract-declared checks: `cargo fmt --all -- --check`, `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`, and `cargo test --locked --workspace`.
-- [ ] Run the Runtime gate/preflight for this Work Item, the canonical Rust/CI gate manifest, and the multilingual documentation acceptance on the same reviewed snapshot; preserve any failed receipt and do not claim the release is published.
-- [ ] Re-read this plan and the spec; verify each acceptance criterion maps to a test and each Review Focus case has a negative or process-level regression.
-- [ ] Commit the agent guidance and three-language references as `docs: explain contract amendments and environment drift`.
+- [x] Document amend operations, protected/sensitive fields, reason/digest conflicts, idempotent retry, evidence invalidation, environment-drift recording, refresh-before-action, serial fallback, and N-1 compatibility in all three languages.
+- [x] Document that observation/query is read-only and that only explicit Runtime write actions amend or publish drift events; do not describe the request-scoped ledger as cross-process persistence.
+- [x] Run `AI_COCKPIT_GATE_STAGE=pull_request bash tests/docs/documentation_acceptance.sh`; the multilingual markers, reference parity, and default-reader budget passed on the documented content.
+- [x] Re-read this plan and the spec; verify each acceptance criterion maps to a test and each Review Focus case has a negative or process-level regression.
+- [x] Commit the agent guidance and three-language references as `docs: explain contract amendments and environment drift`.
+- [ ] Run the Contract-declared checks through the Runtime on the committed Work Item snapshot: `cargo fmt --all -- --check`, `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`, and `cargo test --locked --workspace`.
+- [ ] Run the canonical Rust/CI gate manifest and documentation acceptance on that same reviewed snapshot; the PR route must consume its own candidate-Runtime verification receipt for workspace coverage rather than rerunning package tests.

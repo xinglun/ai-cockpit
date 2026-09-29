@@ -26,6 +26,22 @@ Status の意味：
 - **Partial** — 表現または読み取りはできるが、reference の広い semantics は保証しない。
 - **External** — Agent host、provider、organization、または別システムの責任であり、Runtime は evidence を bind/display するだけで生成しない。
 
+## 理由付き Contract amendment
+
+Active Contract は実装中に更新できる計画です。`ContractAmendmentRequest` は一意な
+`changeId`、現在の `expectedContractDigest`、空でない変更理由 `reason`、順序付きの変更を
+要求します。操作は `add`、`set`、`clear`、`remove`、`replace`、`reorder` です。collection
+操作は対象 element を検証し、`reorder` は全要素の完全な permutation を要求します。batch は
+atomic で、変更後の Contract 全体を再検証します。古い digest は conflict とし、暗黙に
+rebase しません。同一 request の再送は元の receipt を返し、同じ ID を別 request に使うと拒否します。
+
+field registry が編集を許可するのは human-owned な計画 field だけです。repository/Work Item
+identity、base/snapshot facts、lifecycle、Runtime-observed facts、immutable receipt/evidence は
+保護対象です。authority、risk、verification strength、gate の変更は sensitive で、既存の policy
+と reauthorization を再実行します。理由は permission ではありません。確定履歴は old/new value、
+digest、snapshot、無効化された check を bind して追記専用で保存します。`work-item amendments`
+は読み取り専用で、amendment 後は preflight と影響する verification が新たに必要です。
+
 ## Work Item Contract（`*.contract.json`）
 
 | Field | Rust Runtime mapping | Status |

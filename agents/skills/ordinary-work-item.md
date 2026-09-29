@@ -6,13 +6,12 @@ recovery guide.
 
 ## Governed work
 
-Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
-Runtime `safeActions`, blockers, freshness, and explanation govern actions;
-this guide is not permission. Stay within Contract scope, preserve
-evidence/history, and re-query at lifecycle boundaries. Run declared checks;
-keep failures and never hand-edit generated records. Queries are read-only;
-`preflight` is explicit, idempotent, and does not verify. At handoff, deliver
-the separate human Outcome required by `AGENTS.md`.
+Read the active Contract and query `inspect`, `status`, and `doctor` with
+`--repo`. Runtime admission governs actions; this guide is not permission.
+Stay in scope, preserve evidence/history, re-query at lifecycle boundaries,
+and keep failures. Never hand-edit generated records. Queries are read-only;
+`preflight` is idempotent and does not verify. At handoff, deliver the separate
+human Outcome required by `AGENTS.md`.
 
 ## Before verification
 
@@ -29,29 +28,30 @@ required controls block `finish`.
 
 ## Serial and cross-Work-Item use
 
-One Work Item keeps a serial path; lifecycle and snapshot-changing writes stay
-serial. Work Item-bound `verify` defaults to `--workers 1`; explicit
-`--workers >1` fails closed until Runtime verifies per-node dependency
-readiness and output isolation. Do not split required gates across concurrent
-commands on one checkout.
+One Work Item is serial by default; `verify` uses one worker. More workers
+require Runtime-proven dependency readiness and output isolation. Parallel
+checks/CI require an immutable shared identity, independent work, and isolated
+outputs; reuse fresh matching receipts.
 
-Parallelize independent checks only on an immutable snapshot, with ready
-dependencies, isolated outputs, and bounded resources. CI jobs may fan out as
-siblings only with the same route/source identity and no dependency edge. Keep
-receipt producer-consumer serial; reuse fresh matching receipts.
-
-Before cross-Work-Item use, inspect the local capability manifest, current CLI
-help, and MCP `tools/list` schemas; use `ai-cockpit capability show --repo
-<repository>`. Readable fields or older Runtime versions do not prove support.
-
-Cross-Work-Item fan-out needs supported CLI/MCP, compatible declarations, and
-a Runtime slot lease. If unsupported/unknown, use admitted serial work or stop;
-a negative compatibility result denies fan-out only. See the
-[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations,
+linked worktrees, registration, a slot lease, and fresh admission before each
+affected action. Check `capability show`, CLI help, and MCP `tools/list`; fields
+or an older Runtime do not prove support. If unavailable, use admitted serial
+work or stop. See the [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
 Inspection is read-only. Registration, impact/outcome, pause/resume/recovery,
-and lease mutations are explicit writes bound to repository, Contract, Runtime,
-and generation. Refresh dependency admission before affected actions; unrelated
-work needs its own fresh admission. Recovery appends a resolution and retains
-the event. Runtime owns lifecycle decisions; never infer support from fields or
-ignore/emulate unsupported constraints.
+lease, and drift-event changes are explicit writes. Recovery appends and keeps
+the event; unrelated actions require their own fresh admission.
+
+## Plan changes and environment drift
+
+Use `work-item amend --request` with a reason and current
+`expectedContractDigest`; `work-item amendments` reads append-only history.
+Identity, lifecycle, observed facts, and evidence are protected; sensitive edits
+re-run policy and invalidate affected checks.
+
+Before dependent actions, check environment drift read-only and explicitly
+record observed changes before refreshing admission. Shared events are durable,
+append-only, and generation-bound; the request-scoped observation ledger is not
+a cross-process bus. Admit unrelated work independently; use serial execution
+when the capability is unavailable. See the [agent workflow](../../docs/reference/agent-workflow.md).
