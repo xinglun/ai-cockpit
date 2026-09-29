@@ -1298,6 +1298,13 @@ fn work_item_status_snapshot_with_snapshot(
         governance_permissions.push("review_evidence".into());
     }
     let contract_digest_value = contract_digest(&contract_path)?;
+    let amendment_review_required = !archived
+        && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
+        && super::governance_controls::preflight_decision_evidence_state(
+            &root,
+            work_item_id,
+            &contract_digest_value,
+        ) != super::governance_controls::PreflightDecisionEvidenceState::Valid;
     let snapshot_digest_string = snapshot_digest_value.to_string();
     let contract_digest_string = contract_digest_value.to_string();
     let preflight_binding_current = summary["preflightRepositorySnapshotDigest"].as_str()
@@ -1510,8 +1517,9 @@ fn work_item_status_snapshot_with_snapshot(
     // A yellow preflight may still explicitly admit the first typed
     // verification or its one replacement execution. That action is a
     // governed evidence collection step, not a human decision boundary.
-    let human_decision_required = preflight_human_decision_required
+    let human_decision_required = (preflight_human_decision_required
         && !preflight_recovery_available
+        || amendment_review_required)
         && !safe_actions
             .iter()
             .any(|action| action == "run_verification");

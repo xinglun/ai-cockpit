@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-29T20:24:03Z",
+  "files": {
+    "contractDigest": "sha256:d152f2cf6d13e188da41666add769cf3794f0d342705b9d4a7917ce485c53d69",
+    "contractPath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.contract.json",
+    "eventsDigest": "sha256:d2b720fe9388618872d2226516df1be32411c2e0b683d5b7edf8e442a996f972",
+    "eventsPath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.events.jsonl",
+    "outcomeDigest": "sha256:7984ee19a41b0dcb5f8236919a8d0bad7036d48c8f1f13ba0c26f54487c378ec",
+    "outcomePath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.outcome.json",
+    "summaryDigest": "sha256:0b31a5cb99d2ebb39ec6ad1e3dc0599b27ce03b95438165a321345ac594d96a2",
+    "summaryPath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json",
+    "taskReportDigest": "sha256:33db79084644b992e97d87bc5d8b0eba02d651cd305f58a49f3ed0260ab1e2f9",
+    "taskReportMarkdownDigest": "sha256:6519d1351db8d545f80c2d4c6e344f7bd63b11b4e519137fa8d68ae52d75cbe7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}

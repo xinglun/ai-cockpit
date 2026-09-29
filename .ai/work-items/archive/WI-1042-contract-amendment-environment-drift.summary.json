@@ -1,0 +1,246 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.18a5956d78ed3cd0e62128e71deedd7385865b1c9b73d565d5d3ce9e815a9e32.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.1bdc245e619b7ef8f7665e8139af6949ce200a2371908265622e5116e008d5ea.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.1f1471d765d533f43fdf81c79bff18ed0ac311212ffd02fee37e5b1713e55597.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.20e57017896bd17c987c237cbe87df216ad989d50a76fc28c1ae2bdc982dceb1.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.373c23bca43b11e2bdb9b4d7dccb4809d0fa1dc773776cbe354da6180c5ce554.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.3def811eebbe6e8d43f81c73f3b65382646b1706148fcafb9f9776450f5631c1.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.5225f120309e79f07f1a6f3d650439f33e7c9206092dbc3b662cdfa898efe099.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.52703e928f76f6dd69f25cd31d9c71d1ab53bd1e57e02492f0a4275c0c452a13.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.6ba1b5b54d02756dbf11863b341acbdcdc04d6c708fddec93b7b59a67e663ce9.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.7764e1422fec8c95561b0191dffb6f5220fb439eabb554b3a96d396ed51a4dfb.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.785495178193ab4154f49247dc4ab0775784e77bf83490bedad2563d9f4958eb.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.7efa22f515a65ee63aae6ef465a0f722d53038c07015109649c5f4845ab666cd.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.ac0f7fe2d17f0594f355288adbef0436e285235e2dc34bd209cb4369d5b42940.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.b3a39c4a8ab83a54f446660a98b76655a2bf5d54487d712ab4b012052809ab6e.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.b4ef3bbdb282635947f721f7409916e520ccc26e6bad7abc5eccb17cb47e44d9.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.cee24bed9dbb12f3b334116b9820dc81deceea92229954e65eb875c24aa56ea0.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.e7e2b0feaa6d3e5137be79735b40f5cb101d1da7469a622d01e09d7fd42fe412.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.f7a9bee4d1a1f36e922f9c60bc6035bd11ff92119855308c07eeb8f533a57abe.json",
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json",
+    ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.contract.json",
+    ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "checkpointAt": "2026-09-29T11:34:39Z",
+  "checkpointContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+  "createdAt": "2026-09-29T09:29:53Z",
+  "intentAlignment": {
+    "evidence": [
+      "User-approved design and execution instruction in the active Codex conversation: allow reasoned Contract amendments during implementation, account for environmental change in parallel work, preserve the serial path, and continue without another confirmation gate."
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-29T20:20:32Z",
+  "preflightContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-09-29T19:15:53Z",
+    "contractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+    "decisionDigest": "sha256:49005c61e238a5e529c8fc00b83cdfff77f2bfc1df639ceda24ea15a54c13853",
+    "decisionPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.json",
+    "repositorySnapshotDigest": "sha256:4ace032e1bddcec30b358bef261425a7d1371f06289c978bbc5cc76812a49f09",
+    "runtimeDigest": "sha256:9bd975b9ccdfb50f78ec1bbf192a4db05b62627bcb454f5155012b0453c7dda3",
+    "runtimeVersion": "1.0.0",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:44af5d534949b4e8b894bad622e51d5c24c8243bcc9791de4959c3bde47b654b"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/contract_amendment.rs (typed operations, invalid batch, protected paths, field sensitivity; covered by fresh formal verification receipt)",
+        "crates/cockpit-repository/tests/contract_amendment.rs (stale digest, invalidation, policy review, audit history; covered by fresh formal verification receipt)"
+      ],
+      "expected": "All supported operations update only registered human-owned fields; identity and Runtime facts remain immutable, while sensitive changes re-run policy and review.",
+      "required": true,
+      "scenario": "schema_aware_plan_amendments_and_protected_facts",
+      "status": "verified",
+      "verificationPlan": "Protocol and repository tests for all operations, invalid paths, digest conflicts, policy effects, and full Contract validation."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/contract_amendment.rs::amendment_recovers_exactly_once_at_every_durable_boundary (prepared journal, Contract replace, Summary projection, commit marker)",
+        "crates/cockpit-repository/tests/contract_amendment.rs (same-change retry, competing writers, audit chain, tamper rejection; covered by fresh formal verification receipt)"
+      ],
+      "expected": "Concurrent and interrupted amendment attempts are idempotent or conflict explicitly; no partial, lost, duplicated, or rewritten audit history is visible.",
+      "required": true,
+      "scenario": "append_only_amendment_audit_and_interruption_recovery",
+      "status": "verified",
+      "verificationPlan": "Crash-injection and two-process tests across every persistence boundary, including same changeId replay."
+    },
+    {
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py (passed 2026-09-30: three linked worktrees, two deduplicated events, affected action denied before spawn, unrelated work continued, changed environment selectively re-executed, append-only recovery)",
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs and crates/cockpit-mcp/tests/collaboration_rpc.rs (formal CLI/MCP coordination regression coverage)"
+      ],
+      "expected": "A changed runtime-observed environment persists across processes; affected actions are denied before side effects, and unrelated outcomes remain admissible.",
+      "required": true,
+      "scenario": "observed_environment_drift_cross_worktree_selective_admission",
+      "status": "verified",
+      "verificationPlan": "Real CLI processes in multiple linked worktrees over one common directory, with changed environment and unchanged submitted Contract JSON."
+    },
+    {
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py (exact installed Runtime 0.2.113 lacks candidate coordination tools; affected writes are denied; serial action remains admitted)",
+        "crates/cockpit-repository/tests/collaboration_admission.rs and crates/cockpit-repository/tests/coordination_store.rs (generation-bound admission and append-only recovery regression coverage; fresh formal verification receipt)"
+      ],
+      "expected": "Runtime 0.2.113 cannot silently ignore amendment or drift constraints; old generations cannot act and recovery is append-only across generation advance.",
+      "required": true,
+      "scenario": "old_runtime_capability_compatibility_and_stale_generation_recovery",
+      "status": "verified",
+      "verificationPlan": "Compatibility tests against the exact 0.2.113 Runtime identity plus stale-generation and recovery regressions."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/contract_amendment_processes.rs::typed_cli_and_mcp_share_receipt_and_read_history_without_writes",
+        "crates/cockpit-mcp/tests/work_item_amendment_parity.rs::tool_list_exposes_amendment_write_and_read_tools",
+        "tests/docs/documentation_acceptance.sh (passed: 13 tri-language routes, 35 reference records, 26 command examples); .ai/agent-interface.json"
+      ],
+      "expected": "CLI and MCP expose equivalent write/read semantics, and agent interface/guidance accurately advertise them.",
+      "required": true,
+      "scenario": "cli_mcp_parity_and_agent_capability_exposure",
+      "status": "verified",
+      "verificationPlan": "CLI/MCP contract tests and manifest/documentation acceptance tests."
+    },
+    {
+      "evidence": [
+        "tests/acceptance/cross_wi_coordination_processes.py (serialAllowedWithoutParallelDeclaration=true, serialAdmissionObserved=true, serialProcesses=1)",
+        "tests/docs/documentation_acceptance.sh (passed English, Japanese, and Simplified Chinese routes; 13 routes and 35 reference records)"
+      ],
+      "expected": "The ordinary single-Work-Item serial path remains available and English, Japanese, and Simplified Chinese guidance agrees.",
+      "required": true,
+      "scenario": "serial_work_item_lifecycle_and_multilingual_guidance",
+      "status": "verified",
+      "verificationPlan": "Serial lifecycle acceptance plus canonical docs parity and documentation acceptance."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-29T20:23:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}

@@ -214,8 +214,8 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
     assert_eq!(amended["stage"], "contract_amendment_revalidation");
     assert_eq!(amended["recorded"], true);
     assert_eq!(
-        amended["nextAction"], "run_preflight",
-        "amend must explain that it already recorded revalidation: {amended:#}"
+        amended["nextAction"], "record_governance_controls",
+        "amend must report the Runtime-admitted human-review action: {amended:#}"
     );
 
     let status = run(
@@ -225,9 +225,9 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
     );
     assert_eq!(
         status["actionExplanation"]["recommendedAction"],
-        "run_preflight"
+        "record_governance_controls"
     );
-    assert_eq!(status["humanDecisionRequired"], false);
+    assert_eq!(status["humanDecisionRequired"], true);
 
     let duplicate = run_output(
         binary,
@@ -251,7 +251,7 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
     assert!(amend_help.status.success());
     let amend_help = String::from_utf8_lossy(&amend_help.stdout);
     assert!(amend_help.contains("automatically record amendment revalidation"));
-    assert!(amend_help.contains("run_preflight is the next action"));
+    assert!(amend_help.contains("query status for the next admitted action"));
 
     let revalidate_help = Command::new(binary)
         .args(["work-item", "revalidate-amendment", "--help"])

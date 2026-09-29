@@ -1,0 +1,159 @@
+{
+  "acceptanceCriteria": [
+    "The amend API supports schema-aware add, set, clear, remove, replace, and reorder operations for all human-owned plan fields, with per-operation reason, expected prior digest, full Contract validation, and all-or-nothing application.",
+    "Identity, observed repository/environment facts, lifecycle state, and immutable evidence cannot be rewritten by generic amend; authority-sensitive or gate-weakening changes trigger the corresponding reauthorization and review gates.",
+    "Each amendment leaves append-only, verifiable old/new values and digests, rationale, sequence, environment/repository snapshot binding, and evidence-impact record; interruption and retry cannot lose or duplicate a committed change.",
+    "Runtime records environment drift explicitly from observed execution facts and fans out relevant invalidations to active Work Items through shared repository state; admission refreshes immediately before affected actions, stale generations cannot execute, and unaffected actions remain admissible.",
+    "CLI and MCP expose equivalent write and read surfaces; single-WI serial lifecycle continues to work; actual concurrent processes in multiple linked worktrees prove drift handling, selective blocking, recovery, and stale-receipt rejection.",
+    "English, Japanese, and Simplified Chinese command and Contract guidance describe amendment and environment-change semantics without claiming unsupported behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "065063c0f2f7eed2b7648eed3353717d1ce08822",
+  "createdAt": "2026-09-29T09:29:53Z",
+  "goal": "Agents can revise any human-owned plan decision with an explicit reason and traceable history. Runtime-observed environment changes refresh shared execution context, invalidate only affected action admissions, and allow unrelated work to continue; authorization and verification are re-evaluated, never bypassed.",
+  "intent": "Enable reality-driven and auditable evolution of active Work Item plans, including coordinated response to environment drift across parallel Work Items.",
+  "mode": "code",
+  "outOfScope": [
+    "release publication or tag mutation",
+    "Task 9 shell or Python migration",
+    "changes to WI-1040 or WI-1041 records",
+    "unrelated historical resource cleanup",
+    "unrelated Runtime or provider redesign",
+    "manual edits to Runtime-generated records or bypassing schema and admission"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d55177f48ad686ade54dd8c8db4cbf1e94b9a4c656e27b11342385bfc07bedda",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All supported operations update only registered human-owned fields; identity and Runtime facts remain immutable, while sensitive changes re-run policy and review.",
+      "required": true,
+      "scenario": "schema_aware_plan_amendments_and_protected_facts",
+      "status": "unverified",
+      "verificationPlan": "Protocol and repository tests for all operations, invalid paths, digest conflicts, policy effects, and full Contract validation."
+    },
+    {
+      "evidence": [],
+      "expected": "Concurrent and interrupted amendment attempts are idempotent or conflict explicitly; no partial, lost, duplicated, or rewritten audit history is visible.",
+      "required": true,
+      "scenario": "append_only_amendment_audit_and_interruption_recovery",
+      "status": "unverified",
+      "verificationPlan": "Crash-injection and two-process tests across every persistence boundary, including same changeId replay."
+    },
+    {
+      "evidence": [],
+      "expected": "A changed runtime-observed environment persists across processes; affected actions are denied before side effects, and unrelated outcomes remain admissible.",
+      "required": true,
+      "scenario": "observed_environment_drift_cross_worktree_selective_admission",
+      "status": "unverified",
+      "verificationPlan": "Real CLI processes in multiple linked worktrees over one common directory, with changed environment and unchanged submitted Contract JSON."
+    },
+    {
+      "evidence": [],
+      "expected": "Runtime 0.2.113 cannot silently ignore amendment or drift constraints; old generations cannot act and recovery is append-only across generation advance.",
+      "required": true,
+      "scenario": "old_runtime_capability_compatibility_and_stale_generation_recovery",
+      "status": "unverified",
+      "verificationPlan": "Compatibility tests against the exact 0.2.113 Runtime identity plus stale-generation and recovery regressions."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP expose equivalent write/read semantics, and agent interface/guidance accurately advertise them.",
+      "required": true,
+      "scenario": "cli_mcp_parity_and_agent_capability_exposure",
+      "status": "unverified",
+      "verificationPlan": "CLI/MCP contract tests and manifest/documentation acceptance tests."
+    },
+    {
+      "evidence": [],
+      "expected": "The ordinary single-Work-Item serial path remains available and English, Japanese, and Simplified Chinese guidance agrees.",
+      "required": true,
+      "scenario": "serial_work_item_lifecycle_and_multilingual_guidance",
+      "status": "unverified",
+      "verificationPlan": "Serial lifecycle acceptance plus canonical docs parity and documentation acceptance."
+    }
+  ],
+  "scope": [
+    "docs/superpowers/specs/**",
+    "docs/superpowers/plans/**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/contract-fields.md",
+    "docs/reference/contract-fields.ja.md",
+    "docs/reference/contract-fields.zh-CN.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "tests/**",
+    ".ai/README.md",
+    ".ai/agent-interface.json",
+    "agents/skills/README.md",
+    "agents/skills/ordinary-work-item.md"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-09-29-contract-amendment-environment-drift-design.md",
+      "reason": "Approved design for schema-aware amendment, durable environment drift, and compatibility boundaries."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-09-29-contract-amendment-environment-drift.md",
+      "reason": "Serial implementation sequence and executable acceptance mapping."
+    },
+    {
+      "path": "docs/reference/contract-fields.md",
+      "reason": "Current human-owned and Runtime-protected Contract field semantics."
+    },
+    {
+      "path": "docs/reference/agent-workflow.md",
+      "reason": "Current Runtime admission, verification, serial fallback, and cross-Work-Item coordination workflow."
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "reason": "Typed Contract, coordination event, and Runtime capability protocol."
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "reason": "Current additive-only amendment and lifecycle evidence behavior."
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "reason": "Existing event impact, action admission, pause, recovery, and composition paths."
+    },
+    {
+      "path": "crates/cockpit-repository/src/coordination_store.rs",
+      "reason": "Existing inter-process store rooted in Git common directory."
+    },
+    {
+      "path": "crates/cockpit-repository/src/execution_context.rs",
+      "reason": "Runtime-observed execution and environment identity boundaries."
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "reason": "Current CLI amendment and coordination entry points."
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "reason": "Current MCP tool schemas and coordination interface; no amendment tool exists yet."
+    },
+    "User-approved requirements in this task conversation: amend the living Contract with traceable reasons, account for environment changes during parallel work, retain serial execution, and stop before release."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}

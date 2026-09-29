@@ -179,8 +179,50 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
         "{}",
         String::from_utf8_lossy(&amended.stderr)
     );
+    let amendment_record: serde_json::Value =
+        serde_json::from_slice(&amended.stdout).expect("amendment receipt");
+    assert_eq!(amendment_record["nextAction"], "record_governance_controls");
     let contract_path = root.join(&contract);
     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
+
+    let summary_path = root.join(format!(".ai/work-items/active/{id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
+            .expect("Summary JSON");
+    let controls = tempfile::NamedTempFile::new().expect("review controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec(&json!({
+            "decisionEvidence": {
+                "schemaVersion": 1,
+                "decisionId": "contract-preflight-review",
+                "decision": "confirm_review",
+                "workItemId": id,
+                "repositoryId": amendment_record["repositoryId"],
+                "contractDigest": amendment_record["newContractDigest"],
+                "preflightDecisionDigest": summary["preflightDecisionDigest"],
+                "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+                "recordedAt": "2026-09-30T00:00:00Z",
+                "recordedBy": "human:test-fixture",
+                "reason": "confirm the same-intent scope amendment before continuing"
+            }
+        }))
+        .expect("review controls JSON"),
+    )
+    .expect("write review controls");
+    let reviewed = invoke(&[
+        "work-item",
+        "controls",
+        "--id",
+        id,
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+    assert!(
+        reviewed.status.success(),
+        "{}",
+        String::from_utf8_lossy(&reviewed.stderr)
+    );
 
     let unauthorized = tempfile::NamedTempFile::new().expect("unauthorized amendment input");
     fs::write(

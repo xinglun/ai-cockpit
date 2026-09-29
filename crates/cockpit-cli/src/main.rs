@@ -559,7 +559,7 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
-    /// Apply additive Contract fields and automatically record amendment revalidation; run_preflight is the next action.
+    /// Amend human-owned Contract fields and automatically record amendment revalidation; query status for the next admitted action.
     Amend {
         #[arg(long)]
         repo: PathBuf,
@@ -2759,7 +2759,8 @@ fn run() -> Result<()> {
                 let mut record =
                     cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
                         .context("revalidate amended Contract")?;
-                record["nextAction"] = json!("run_preflight");
+                record["nextAction"] =
+                    next_admitted_work_item_action(&repo, &id, &runtime_context)?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Amend {
@@ -2802,7 +2803,8 @@ fn run() -> Result<()> {
                         "select exactly one amendment form: --request, or both --input and --reason"
                     ),
                 };
-                record["nextAction"] = json!("run_preflight");
+                record["nextAction"] =
+                    next_admitted_work_item_action(&repo, &id, &runtime_context)?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Amendments { repo, id } => {
@@ -3981,6 +3983,21 @@ fn emit_blocked_lifecycle_handoff(
             cockpit_repository::render_human_outcome(&input, output_language(requested_language),)
         );
     }
+}
+
+fn next_admitted_work_item_action(
+    repo: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value> {
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(repo, work_item_id, runtime)
+            .context("refresh Runtime action admission after Contract amendment")?;
+    let status = serde_json::to_value(status).context("serialize Work Item status")?;
+    Ok(status
+        .pointer("/actionExplanation/recommendedAction")
+        .cloned()
+        .unwrap_or(serde_json::Value::Null))
 }
 
 fn require_compatible(

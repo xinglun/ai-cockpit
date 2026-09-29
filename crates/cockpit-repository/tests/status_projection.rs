@@ -64,6 +64,37 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
+    let active = root.join(".ai/work-items/active");
+    let contract: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.contract.json"))).expect("Contract"),
+    )
+    .expect("Contract JSON");
+    let summary: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let decision_evidence = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(root).to_string(),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-09-30T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "explicitly review the scenario declaration before checkpoint"
+    });
+    record_work_item_governance_controls(
+        root,
+        work_item_id,
+        &json!({"decisionEvidence": decision_evidence}),
+    )
+    .expect("record identity-bound human review");
+}
+
 fn write_unclosed_archive(root: &std::path::Path, id: &str, scope: &[&str]) {
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
@@ -2474,6 +2505,7 @@ fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete()
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
     preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    record_human_preflight_review(directory.path(), work_item_id);
     checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
     let run = run_repository_verification(
         directory.path(),
