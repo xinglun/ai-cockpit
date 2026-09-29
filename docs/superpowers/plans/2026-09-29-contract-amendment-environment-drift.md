@@ -33,6 +33,10 @@
 
 **Files:**
 - Modify: `crates/cockpit-protocol/src/lib.rs`
+- Create: `crates/cockpit-repository/src/contract_amendment.rs`
+- Modify: `crates/cockpit-repository/src/lib.rs`
+- Modify: `crates/cockpit-repository/src/lifecycle.rs`
+- Test: `crates/cockpit-repository/tests/contract_amendment.rs`
 - Test: `crates/cockpit-protocol/tests/contract_amendment.rs`
 
 **Interfaces:**
@@ -41,12 +45,13 @@
 - Produces `apply_contract_amendment(contract: &Contract, request: &ContractAmendmentRequest) -> Result<Contract, Vec<ContractAmendmentError>>`.
 - `path` is a canonical JSON Pointer restricted by an explicit schema registry. `add` appends one valid collection element; `set` assigns an existing typed field; `clear` removes only optional/clearable values; `remove` removes an exact collection element; `replace` changes an existing value; `reorder` requires an exact permutation keyed by that field's typed stable identity.
 
-- [ ] Add protocol tests for every operation over scalar, optional, nested, and collection fields, including order-sensitive batches.
-- [ ] Add negative tests for unknown/protected paths, missing operands, illegal clear, duplicate items, malformed pointers, unsupported schema versions, and invalid cross-field aliases.
-- [ ] Implement the typed request, field classification, operation semantics, and full Contract re-deserialization/validation.
-- [ ] Run `cargo test --locked -p cockpit-protocol --test contract_amendment`; expected: all new protocol tests pass.
+- [ ] First add `typed_request_replaces_goal_without_rewriting_identity` in the repository integration test. It calls the existing amendment API with a JSON `changes` request and expects the active Contract's goal to be replaced.
+- [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment typed_request_replaces_goal_without_rewriting_identity`; expected initial failure is the current `unsupported Contract amendment field changes` result.
+- [ ] Implement the typed request, explicit field classification, operation semantics, and full Contract re-deserialization/validation in `cockpit-protocol`; add protocol tests for scalar, optional, nested, collection, batch-order, and protected-path behavior.
+- [ ] Implement the vertical-slice repository adapter in `contract_amendment.rs` and route both typed requests and legacy append input through it.
+- [ ] Run `cargo test --locked -p cockpit-protocol --test contract_amendment` and `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: all typed-operation and public API cases pass.
 - [ ] Run `cargo fmt --all -- --check`.
-- [ ] Commit protocol and its tests as `feat(protocol): define reasoned contract amendment requests`.
+- [ ] Commit protocol and first amendment path as `feat(protocol): define reasoned contract amendment requests`.
 
 ### Task 2: Recoverable amendment persistence and audit
 
@@ -61,8 +66,9 @@
 - Produces `read_work_item_contract_amendments(root: &Path, work_item_id: &str) -> Result<Vec<ContractAmendmentReceipt>, ObserverError>`; this read does not write or consume records.
 - Existing additive `amend_work_item_contract` remains a compatibility wrapper that translates legacy append input plus `--reason` into the same transaction path.
 
-- [ ] Add repository tests for success, exact-digest conflict, `changeId` idempotency, audit chain validation, invalidated-check listing, and sensitive-field policy evaluation.
+- [ ] Add repository tests for exact-digest conflict, `changeId` idempotency, audit-chain validation, invalidated-check listing, and sensitive-field policy evaluation; expect them to fail against the Task 1 vertical slice.
 - [ ] Add crash-injection tests at each write boundary: prepared journal, Contract replace, Summary projection, and commit marker; assert atomic visibility or fail-closed recovery.
+- [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: new transaction/audit assertions fail before persistent transaction support.
 - [ ] Implement per-Work-Item locking, expected-digest comparison, prospective Contract validation, recoverable transaction states, append-only old/new audit entries, and verification/projection invalidation.
 - [ ] Implement the read-only amendment-history query and archive preservation validation without rewriting archived bytes.
 - [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: recovery, conflict, and audit-chain cases pass.
@@ -84,7 +90,9 @@
 - Extends `CoordinationEvent` with an optional versioned environment binding; legacy event semantics remain unchanged and unsupported versions fail closed.
 - Extends `CoordinationStore` with `record_environment_drift(request, observed_context) -> Result<CoordinationEvent, CoordinationError>` and makes action admission refresh this durable state immediately before evaluating the selected outcomes.
 
-- [ ] Add tests proving submitted JSON cannot spoof the environment digest, event IDs are idempotent, outcome publication does not invalidate, and recovery appends a resolution across provider generations.
+- [ ] First add a protocol test that deserializes an event carrying a versioned `environmentChange` binding and rejects caller-supplied digest data in `EnvironmentDriftRequest`; run it and confirm the current strict coordination schema rejects the unknown binding.
+- [ ] Add repository tests proving event IDs are idempotent, outcome publication does not invalidate, and recovery appends a resolution across provider generations.
+- [ ] Run the focused protocol/repository tests; expected initial failure is absence of the typed environment binding/Runtime observer.
 - [ ] Add tests proving stale affected generation/receipt is denied before execution/reservation, unrelated outcomes in the same Work Item remain admissible, and `SafelyPaused` continues to deny through the shared admission result.
 - [ ] Implement runtime-derived environment identity from the current execution context; if a relevant input cannot be observed, mark it unknown and deny reuse that depends on it.
 - [ ] Persist drift events under the existing common-directory store and inter-process lock; make registration refresh/event commit recoverable and action-scoped.
@@ -106,6 +114,7 @@
 - MCP exposes `work_item_amend`, `work_item_amendments`, and the matching environment-drift coordination action with strict schemas and read/write separation.
 - Agent capability metadata declares the amendment and environment-drift capability; older Runtime identity without those semantics is rejected for affected mutations/admissions.
 
+- [ ] First add a CLI help assertion for the typed amend request and MCP tool-list assertions for `work_item_amend` and `work_item_amendments`; run and confirm these surfaces are absent before implementation.
 - [ ] Add CLI/MCP parity tests for successful writes, validation/conflict errors, identical receipts, read-only history inspection, and capability incompatibility.
 - [ ] Add an OS-process acceptance test that creates multiple linked worktrees, starts independent CLI processes against the common directory, changes observed environment while keeping input JSON unchanged, and proves affected denial before process spawn plus unrelated-action continuation and recovery.
 - [ ] Add a serial single-Work-Item CLI lifecycle assertion with default one-worker behavior.
