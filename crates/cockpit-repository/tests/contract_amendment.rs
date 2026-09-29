@@ -1,7 +1,8 @@
 use cockpit_repository::{
     ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, archive_work_item,
     attach, checkpoint_work_item, finish_work_item, preflight_work_item,
-    read_work_item_contract_amendments, record_verification, start_work_item_with_options,
+    read_work_item_contract_amendments, record_verification, record_work_item_governance_controls,
+    require_verification_preconditions, start_work_item_with_options,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -24,6 +25,33 @@ fn repository() -> tempfile::TempDir {
 
 fn read_json(path: impl AsRef<Path>) -> Value {
     serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+}
+
+fn record_human_preflight_review(root: &Path, work_item_id: &str, contract_path: &Path) {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary = read_json(summary_path);
+    let contract = read_json(contract_path);
+    let decision_evidence = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": work_item_id,
+        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-09-30T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "the reviewed sensitive Contract change is accepted"
+    });
+    record_work_item_governance_controls(
+        root,
+        work_item_id,
+        &json!({"decisionEvidence": decision_evidence}),
+    )
+    .expect("record identity-bound review evidence");
 }
 
 fn start_uncheckpointed(root: &Path, work_item_id: &str) -> std::path::PathBuf {
@@ -497,6 +525,128 @@ fn sensitive_plan_amendment_records_its_policy_review_requirement() {
 }
 
 #[test]
+fn sensitive_amendment_requires_human_review_before_verification() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-SENSITIVE-AMENDMENT-REVIEW-GATE";
+    let contract_path = start_checkpointed(root, work_item_id);
+    let reason = "a scope change requires fresh human review before verification";
+    let request = typed_request(
+        &contract_path,
+        "sensitive-scope-review-gate",
+        reason,
+        "/scope",
+        "replace",
+        json!(["crates/cockpit-repository/**", "crates/cockpit-protocol/**"]),
+    );
+    amend_work_item_contract(root, work_item_id, &request, reason)
+        .expect("sensitive amendment is recorded");
+
+    let decision = preflight_work_item(root, &contract_path).expect("preflight after amendment");
+    assert_eq!(
+        decision.review_state.as_deref(),
+        Some("needs_human_confirmation")
+    );
+    assert!(decision.human_decision_request.is_some());
+
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(root)
+        .expect("discover repository")
+        .snapshot()
+        .expect("capture repository snapshot");
+    let error = require_verification_preconditions(root, work_item_id, &runtime, &snapshot)
+        .expect_err("verification must wait for the required human review");
+    assert!(
+        error
+            .to_string()
+            .contains("contract_amendment_policy_review_required")
+    );
+
+    record_human_preflight_review(root, work_item_id, &contract_path);
+    let reviewed = preflight_work_item(root, &contract_path).expect("preflight after review");
+    assert_eq!(
+        reviewed.review_state.as_deref(),
+        Some("human_decision_recorded")
+    );
+    require_verification_preconditions(root, work_item_id, &runtime, &snapshot)
+        .expect("a valid decision receipt satisfies the current verification preconditions");
+}
+
+#[test]
+fn uncheckpointed_amendment_persists_runtime_capability_requirements() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-UNCP-CAPABILITY-REQUIREMENT";
+    let contract_path = start_uncheckpointed(root, work_item_id);
+    let reason = "the amended Contract requires a Runtime that enforces its journal";
+    let request = typed_request(
+        &contract_path,
+        "uncheckpointed-runtime-capability",
+        reason,
+        "/goal",
+        "replace",
+        json!("persist the amendment capability boundary"),
+    );
+
+    amend_work_item_contract(root, work_item_id, &request, reason)
+        .expect("uncheckpointed amendment is recorded");
+
+    let contract = read_json(&contract_path);
+    assert_eq!(
+        contract["requiredRuntimeCapabilities"],
+        json!([
+            "work-item-contract-amendment",
+            "work-item-environment-drift"
+        ])
+    );
+}
+
+#[test]
+fn amendment_audit_records_each_ordered_operation_value() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-AMENDMENT-ORDERED-AUDIT";
+    let contract_path = start_uncheckpointed(root, work_item_id);
+    let original = read_json(&contract_path);
+    let reason = "record each intermediate value in the ordered amendment batch";
+    let request = json!({
+        "schemaVersion": 1,
+        "changeId": "ordered-goal-values",
+        "expectedContractDigest": cockpit_protocol::digest_json(&original).expect("Contract digest"),
+        "reason": reason,
+        "changes": [
+            {"path": "/goal", "operation": "set", "value": "intermediate goal"},
+            {"path": "/goal", "operation": "replace", "value": "final goal"}
+        ]
+    });
+
+    amend_work_item_contract(root, work_item_id, &request, reason)
+        .expect("ordered batch is recorded");
+
+    let history = read_work_item_contract_amendments(root, work_item_id).expect("history");
+    assert_eq!(
+        history[0].changed_values[0].old_value,
+        original.get("goal").cloned()
+    );
+    assert_eq!(
+        history[0].changed_values[0].new_value,
+        Some(json!("intermediate goal"))
+    );
+    assert_eq!(
+        history[0].changed_values[1].old_value,
+        Some(json!("intermediate goal"))
+    );
+    assert_eq!(
+        history[0].changed_values[1].new_value,
+        Some(json!("final goal"))
+    );
+}
+
+#[test]
 fn post_verification_amendment_receipt_lists_invalidated_required_checks() {
     let directory = repository();
     let root = directory.path();
@@ -520,6 +670,7 @@ fn post_verification_amendment_receipt_lists_invalidated_required_checks() {
     amend_work_item_contract(root, work_item_id, &policy, policy_reason)
         .expect("declare the required check");
     preflight_work_item(root, &contract_path).expect("preflight updated Contract");
+    record_human_preflight_review(root, work_item_id, &contract_path);
     checkpoint_work_item(root, work_item_id).expect("checkpoint updated Contract");
     record_verification(
         root,

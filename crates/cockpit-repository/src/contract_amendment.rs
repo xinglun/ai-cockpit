@@ -2,8 +2,9 @@ use super::ObserverError;
 use cockpit_core::Digest;
 use cockpit_protocol::{
     Contract, ContractAmendmentChange, ContractAmendmentError, ContractAmendmentFieldClass,
-    ContractAmendmentOperation, ContractAmendmentRequest, ContractSource, RuntimeContext,
-    VerificationDeclaration, apply_contract_amendment, contract_amendment_field_class, digest_json,
+    ContractAmendmentOperation, ContractAmendmentRequest, ContractAmendmentValueChange,
+    ContractSource, RuntimeContext, VerificationDeclaration, apply_contract_amendment,
+    apply_contract_amendment_with_trace, contract_amendment_field_class, digest_json,
 };
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::{Value, json};
@@ -450,6 +451,38 @@ pub(crate) fn apply_typed_amendment(
     })
 }
 
+fn apply_runtime_capability_requirements(
+    amended: Value,
+) -> Result<Value, Vec<ContractAmendmentError>> {
+    let mut amended: Contract = serde_json::from_value(amended).map_err(|source| {
+        vec![ContractAmendmentError {
+            code: "contract_schema_invalid".into(),
+            path: String::new(),
+            message: source.to_string(),
+        }]
+    })?;
+    amended.required_runtime_capabilities.extend([
+        "work-item-contract-amendment".to_owned(),
+        "work-item-environment-drift".to_owned(),
+    ]);
+    amended.required_runtime_capabilities.sort();
+    amended.required_runtime_capabilities.dedup();
+    amended.validate().map_err(|errors| {
+        vec![ContractAmendmentError {
+            code: "contract_invariant_failed".into(),
+            path: "/requiredRuntimeCapabilities".into(),
+            message: errors.join("; "),
+        }]
+    })?;
+    serde_json::to_value(amended).map_err(|source| {
+        vec![ContractAmendmentError {
+            code: "contract_serialize_failed".into(),
+            path: String::new(),
+            message: source.to_string(),
+        }]
+    })
+}
+
 pub(crate) fn amendment_error_message(errors: &[ContractAmendmentError]) -> String {
     errors
         .iter()
@@ -709,7 +742,7 @@ fn load_history(
                 "Contract amendment prepared record failed its identity or digest chain",
             ));
         }
-        let derived_contract = apply_typed_amendment(
+        let mut derived_contract = apply_typed_amendment(
             &prepared.prepared.previous_contract,
             &prepared.prepared.request,
         )
@@ -722,6 +755,24 @@ fn load_history(
                 ),
             )
         })?;
+        if prepared
+            .prepared
+            .new_contract
+            .get("requiredRuntimeCapabilities")
+            .and_then(Value::as_array)
+            .is_some_and(|capabilities| !capabilities.is_empty())
+        {
+            derived_contract =
+                apply_runtime_capability_requirements(derived_contract).map_err(|errors| {
+                    state_error(
+                        &directory,
+                        format!(
+                            "prepared amendment Runtime capability requirements are invalid: {}",
+                            amendment_error_message(&errors)
+                        ),
+                    )
+                })?;
+        }
         if derived_contract != prepared.prepared.new_contract {
             return Err(state_error(
                 &directory,
@@ -753,7 +804,7 @@ fn load_history(
                     &prepared.prepared.previous_contract,
                     &prepared.prepared.new_contract,
                     &prepared.prepared.request,
-                )
+                )?
             || receipt.previous_contract_digest != prepared.prepared.previous_contract_digest
             || receipt.new_contract_digest != prepared.prepared.new_contract_digest
             || receipt.repository_snapshot_digest != prepared.prepared.repository_snapshot_digest
@@ -842,30 +893,54 @@ fn changed_values(
     previous: &Value,
     next: &Value,
     request: &ContractAmendmentRequest,
-) -> Vec<ContractAmendmentChangedValue> {
-    request
-        .changes
-        .iter()
-        .map(|change| ContractAmendmentChangedValue {
-            path: change.path.clone(),
-            operation: change.operation,
-            old_value: pointer_value(previous, &change.path).cloned(),
-            new_value: pointer_value(next, &change.path).cloned(),
-        })
-        .collect()
+) -> Result<Vec<ContractAmendmentChangedValue>, ObserverError> {
+    let previous_contract: Contract =
+        serde_json::from_value(previous.clone()).map_err(|error| {
+            state_error(
+                "contract-amendment-audit",
+                format!("invalid previous Contract: {error}"),
+            )
+        })?;
+    let (_, trace) =
+        apply_contract_amendment_with_trace(&previous_contract, request).map_err(|errors| {
+            state_error("contract-amendment-audit", amendment_error_message(&errors))
+        })?;
+    let mut values = trace
+        .into_iter()
+        .map(
+            |ContractAmendmentValueChange {
+                 path,
+                 operation,
+                 old_value,
+                 new_value,
+             }| ContractAmendmentChangedValue {
+                path,
+                operation,
+                old_value,
+                new_value,
+            },
+        )
+        .collect::<Vec<_>>();
+    let old_capabilities = previous.get("requiredRuntimeCapabilities").cloned();
+    let new_capabilities = next.get("requiredRuntimeCapabilities").cloned();
+    if old_capabilities != new_capabilities {
+        values.push(ContractAmendmentChangedValue {
+            path: "/requiredRuntimeCapabilities".into(),
+            operation: ContractAmendmentOperation::Set,
+            old_value: old_capabilities,
+            new_value: new_capabilities,
+        });
+    }
+    Ok(values)
 }
 
-fn pointer_value<'a>(value: &'a Value, path: &str) -> Option<&'a Value> {
-    let mut current = value;
-    for segment in path.strip_prefix('/')?.split('/') {
-        let segment = segment.replace("~1", "/").replace("~0", "~");
-        current = match current {
-            Value::Object(object) => object.get(&segment)?,
-            Value::Array(array) => array.get(segment.parse::<usize>().ok()?)?,
-            _ => return None,
-        };
-    }
-    Some(current)
+pub(crate) fn has_sensitive_amendment(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<bool, ObserverError> {
+    Ok(read_work_item_contract_amendments(root, work_item_id)?
+        .iter()
+        .any(|receipt| receipt.policy_review_required))
 }
 
 fn policy_review_requirements(
@@ -1001,7 +1076,7 @@ fn commit_prepared(
         request_digest: data.request_digest.clone(),
         reason: data.request.reason.clone(),
         legacy_input_digest: data.legacy_input_digest.clone(),
-        changed_values: changed_values(&data.previous_contract, &data.new_contract, &data.request),
+        changed_values: changed_values(&data.previous_contract, &data.new_contract, &data.request)?,
         previous_contract_digest: data.previous_contract_digest.clone(),
         new_contract_digest: data.new_contract_digest.clone(),
         repository_snapshot_digest: data.repository_snapshot_digest.clone(),
@@ -1219,6 +1294,7 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
         ));
     }
     let next_contract = apply_typed_amendment(&previous_contract, request)
+        .and_then(apply_runtime_capability_requirements)
         .map_err(|errors| state_error(&contract_path, amendment_error_message(&errors)))?;
     let required_evidence_classes = next_contract["requiredEvidenceClasses"]
         .as_array()

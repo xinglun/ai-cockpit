@@ -4725,6 +4725,7 @@ pub(crate) fn check_verification_preconditions(
         });
     }
     let summary = read_json(&summary_path)?;
+    require_contract_amendment_policy_review(&root, work_item_id, &contract_path)?;
     if !matches!(
         summary["state"].as_str(),
         Some("checkpointed" | "finish_ready")
@@ -4868,6 +4869,29 @@ pub(crate) fn check_verification_preconditions(
                     .collect::<Vec<_>>()
                     .join(", ")
             ),
+        });
+    }
+    Ok(())
+}
+
+fn require_contract_amendment_policy_review(
+    root: &Path,
+    work_item_id: &str,
+    contract_path: &Path,
+) -> Result<(), ObserverError> {
+    if !contract_amendment::has_sensitive_amendment(root, work_item_id)? {
+        return Ok(());
+    }
+    let current_contract_digest = contract_digest(contract_path)?;
+    if governance_controls::preflight_decision_evidence_state(
+        root,
+        work_item_id,
+        &current_contract_digest,
+    ) != governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: "contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract".into(),
         });
     }
     Ok(())
@@ -5431,7 +5455,70 @@ fn apply_preflight_review_evidence(
         return Ok(decision);
     }
     let contract_digest = contract_digest(&contract_path)?;
-    match preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest) {
+    let evidence_state =
+        preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
+    let sensitive_amendment =
+        contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?;
+    if sensitive_amendment {
+        if evidence_state == governance_controls::PreflightDecisionEvidenceState::Valid {
+            // A valid receipt is bound to this exact Contract and preflight
+            // snapshot. Let the common valid-evidence branch below project
+            // that review as recorded, even when the underlying preflight
+            // decision itself did not independently request human review.
+            if decision.blockers.is_empty() && decision.state != DecisionState::Red {
+                decision.review_state = Some("needs_human_confirmation".into());
+            } else {
+                decision.review_state = Some("human_decision_recorded".into());
+            }
+        } else {
+            decision
+                .unknowns
+                .push("contract_amendment_policy_review_required".into());
+            decision.unknowns.sort();
+            decision.unknowns.dedup();
+            decision.required_checks.push("human_review".into());
+            decision.required_checks.sort();
+            decision.required_checks.dedup();
+            decision
+                .safe_actions
+                .push("record_fresh_preflight_decision".into());
+            decision.safe_actions.sort();
+            decision.safe_actions.dedup();
+            decision.review_state = Some("needs_human_confirmation".into());
+            decision.outcome_state = "needs_human_decision".into();
+            if decision.state != DecisionState::Red && decision.blockers.is_empty() {
+                decision.state = DecisionState::Yellow;
+            }
+            decision.human_decision_request = Some(cockpit_core::HumanDecisionRequest {
+                decision_id: "contract-preflight-review".into(),
+                status: "needs_human_confirmation".into(),
+                what_happened: "A sensitive Contract amendment was recorded and still requires explicit human review.".into(),
+                why_it_matters: "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.".into(),
+                options: vec![
+                    cockpit_core::HumanDecisionOption {
+                        id: "confirm_review".into(),
+                        label: "Confirm the amended plan".into(),
+                        effect: "Record an identity-bound decision for this exact Contract and preflight snapshot.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "amend_contract".into(),
+                        label: "Revise the amended plan".into(),
+                        effect: "Record a further reasoned amendment and rerun preflight.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "stop_work".into(),
+                        label: "Stop the Work Item".into(),
+                        effect: "Leave the item recoverable without starting verification.".into(),
+                    },
+                ],
+                recommended_option: "confirm_review".into(),
+                recommendation_reason: "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.".into(),
+                question: "Do you confirm the current amended Contract for continued work?".into(),
+                resume_condition: "A fresh preflight decision receipt matches the current Contract and repository snapshot.".into(),
+            });
+        }
+    }
+    match evidence_state {
         governance_controls::PreflightDecisionEvidenceState::Missing => {}
         governance_controls::PreflightDecisionEvidenceState::Valid => {
             if decision.review_state.as_deref() == Some("needs_human_confirmation")

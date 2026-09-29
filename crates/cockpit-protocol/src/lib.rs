@@ -11,7 +11,8 @@ pub mod release_plan;
 pub use contract_amendment::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
     ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
-    apply_contract_amendment, contract_amendment_field_class,
+    ContractAmendmentValueChange, apply_contract_amendment, apply_contract_amendment_with_trace,
+    contract_amendment_field_class,
 };
 
 pub use interface_description::{
@@ -3006,6 +3007,11 @@ pub struct Contract {
     pub restricted_write_approval: Option<serde_json::Value>,
     #[serde(default)]
     pub adoption_bootstrap_paths: Vec<String>,
+    /// Runtime features that must be present before lifecycle actions may
+    /// consume this Contract. Amendment transactions add their enforcement
+    /// requirements here so older or partial Runtimes fail closed.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub required_runtime_capabilities: Vec<String>,
 }
 
 impl Contract {
@@ -3018,6 +3024,30 @@ impl Contract {
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
         let is_v2 = self.contract_version == Some(2);
+
+        let mut previous_capability: Option<&str> = None;
+        for capability in &self.required_runtime_capabilities {
+            if capability.trim().is_empty()
+                || capability.trim() != capability
+                || !capability
+                    .bytes()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+            {
+                errors.push(
+                    "requiredRuntimeCapabilities entries must be lowercase capability identifiers"
+                        .into(),
+                );
+            }
+            if !AGENT_INTERFACE_CAPABILITIES.contains(&capability.as_str()) {
+                errors.push(format!(
+                    "requiredRuntimeCapabilities contains unsupported capability {capability:?}"
+                ));
+            }
+            if previous_capability.is_some_and(|previous| previous >= capability.as_str()) {
+                errors.push("requiredRuntimeCapabilities must be unique and sorted".into());
+            }
+            previous_capability = Some(capability);
+        }
 
         if let Some(resource_context) = &self.resource_context
             && let Err(error) = validate_resource_finalization_context(resource_context)

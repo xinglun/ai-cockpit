@@ -26,6 +26,18 @@ pub struct ContractAmendmentChange {
     pub value: Option<Value>,
 }
 
+/// The canonical before/after value for one operation in an ordered
+/// amendment batch. Values are captured at that operation's position, so a
+/// later operation on the same path starts from the earlier operation's
+/// result rather than the batch's original Contract.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct ContractAmendmentValueChange {
+    pub path: String,
+    pub operation: ContractAmendmentOperation,
+    pub old_value: Option<Value>,
+    pub new_value: Option<Value>,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum ContractAmendmentOperation {
@@ -215,6 +227,7 @@ fn protected_or_unknown_field_error(
                 | "preReviewWarnings"
                 | "authorityEvidence"
                 | "restrictedWriteApproval"
+                | "requiredRuntimeCapabilities"
         );
         return Some(if protected {
             error(
@@ -728,6 +741,17 @@ pub fn apply_contract_amendment(
     contract: &Contract,
     request: &ContractAmendmentRequest,
 ) -> Result<Contract, Vec<ContractAmendmentError>> {
+    apply_contract_amendment_with_trace(contract, request).map(|(contract, _)| contract)
+}
+
+/// Apply the ordered amendment atomically and return the value transition for
+/// each operation. Cross-field validation still runs once against the final
+/// prospective Contract, while each trace entry observes the intermediate
+/// document immediately before and after its operation.
+pub fn apply_contract_amendment_with_trace(
+    contract: &Contract,
+    request: &ContractAmendmentRequest,
+) -> Result<(Contract, Vec<ContractAmendmentValueChange>), Vec<ContractAmendmentError>> {
     if request.schema_version != CONTRACT_AMENDMENT_SCHEMA_VERSION {
         return Err(errors(error(
             "unsupported_schema_version",
@@ -765,13 +789,21 @@ pub fn apply_contract_amendment(
     let acceptance_was_present = document
         .get("acceptance")
         .is_some_and(|acceptance| !acceptance.is_null());
+    let mut trace = Vec::with_capacity(request.changes.len());
 
     for change in &request.changes {
         let segments = parse_pointer(&change.path).map_err(errors)?;
         contract_amendment_field_class(&change.path).map_err(errors)?;
+        let old_value = document.pointer(&change.path).cloned();
         amendment_operation(&mut document, change, &segments).map_err(errors)?;
         validate_changed_collection_identities(&document, &segments, &change.path)
             .map_err(errors)?;
+        trace.push(ContractAmendmentValueChange {
+            path: change.path.clone(),
+            operation: change.operation,
+            old_value,
+            new_value: document.pointer(&change.path).cloned(),
+        });
     }
 
     if acceptance_was_present
@@ -788,5 +820,5 @@ pub fn apply_contract_amendment(
             .map(|message| error("contract_invariant_failed", "", message))
             .collect::<Vec<_>>()
     })?;
-    Ok(prospective)
+    Ok((prospective, trace))
 }
