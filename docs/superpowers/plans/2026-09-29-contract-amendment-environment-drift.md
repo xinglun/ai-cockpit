@@ -138,5 +138,7 @@
 - [x] Run `AI_COCKPIT_GATE_STAGE=pull_request bash tests/docs/documentation_acceptance.sh`; the multilingual markers, reference parity, and default-reader budget passed on the documented content.
 - [x] Re-read this plan and the spec; verify each acceptance criterion maps to a test and each Review Focus case has a negative or process-level regression.
 - [x] Commit the agent guidance and three-language references as `docs: explain contract amendments and environment drift`.
+- [x] Preserve the first formal verification failure and correct the two stale acceptance fixtures it exposed: the MCP tool-list inventory and the coordination-lock helper's session-only environment keys. The focused regressions pass.
+- [x] Commit the fixture correction as `test: update amendment and drift regression fixtures`.
 - [ ] Run the Contract-declared checks through the Runtime on the committed Work Item snapshot: `cargo fmt --all -- --check`, `cargo clippy --locked --workspace --all-targets --all-features -- -D warnings`, and `cargo test --locked --workspace`.
 - [ ] Run the canonical Rust/CI gate manifest and documentation acceptance on that same reviewed snapshot; the PR route must consume its own candidate-Runtime verification receipt for workspace coverage rather than rerunning package tests.
