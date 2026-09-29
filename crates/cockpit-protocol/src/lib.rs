@@ -5,7 +5,14 @@ use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
+mod contract_amendment;
 pub mod release_plan;
+
+pub use contract_amendment::{
+    ContractAmendmentChange, ContractAmendmentError, ContractAmendmentFieldClass,
+    ContractAmendmentOperation, ContractAmendmentRequest, apply_contract_amendment,
+    contract_amendment_field_class,
+};
 
 pub use interface_description::{
     CAPABILITY_SHOW_DEFAULT_FORMAT, CAPABILITY_SHOW_DEFAULT_LANGUAGE,

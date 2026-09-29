@@ -12,23 +12,22 @@ use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
     AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
     CapabilityExclusion, CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry,
-    CheckpointEvidence, ConcurrencyBoundary, Contract, ContractSource, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance,
-    EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence, EvidenceRetention,
-    EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost,
-    GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision, OutcomeClaim,
+    CheckpointEvidence, ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance, EvidenceDisposition,
+    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
+    EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost, GovernancePolicy,
+    GovernancePolicyDocument, HumanBenefitReport, HumanDecision, OutcomeClaim,
     OutcomeReleaseProjection, OutcomeReportBindings, OutcomeReportSections, OutcomeState,
     OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceCounters,
     PerformanceDiagnosis, PerformancePhase, PolicyLayer, ProjectGovernanceProjection,
     QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
     ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
     SchemaMigrationStep, SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeEvent,
-    TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
-    WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
-    WorkItemAdmissionState, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
-    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
-    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
-    validate_evidence_retention, validate_protocol_version,
+    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemActionExplanation,
+    WorkItemActionIssue, WorkItemActionIssueKind, WorkItemAdmissionState, WorkItemCompatibility,
+    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
@@ -49,6 +48,7 @@ use thiserror::Error;
 
 mod action_admission;
 mod collaboration;
+mod contract_amendment;
 mod coordination_store;
 mod evidence_store;
 mod execution_context;

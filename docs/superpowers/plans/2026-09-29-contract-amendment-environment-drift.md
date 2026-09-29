@@ -45,12 +45,12 @@
 - Produces `apply_contract_amendment(contract: &Contract, request: &ContractAmendmentRequest) -> Result<Contract, Vec<ContractAmendmentError>>`.
 - `path` is a canonical JSON Pointer restricted by an explicit schema registry. `add` appends one valid collection element; `set` assigns an existing typed field; `clear` removes only optional/clearable values; `remove` removes an exact collection element; `replace` changes an existing value; `reorder` requires an exact permutation keyed by that field's typed stable identity.
 
-- [ ] First add `typed_request_replaces_goal_without_rewriting_identity` in the repository integration test. It calls the existing amendment API with a JSON `changes` request and expects the active Contract's goal to be replaced.
-- [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment typed_request_replaces_goal_without_rewriting_identity`; expected initial failure is the current `unsupported Contract amendment field changes` result.
-- [ ] Implement the typed request, explicit field classification, operation semantics, and full Contract re-deserialization/validation in `cockpit-protocol`; add protocol tests for scalar, optional, nested, collection, batch-order, and protected-path behavior.
-- [ ] Implement the vertical-slice repository adapter in `contract_amendment.rs` and route both typed requests and legacy append input through it.
-- [ ] Run `cargo test --locked -p cockpit-protocol --test contract_amendment` and `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: all typed-operation and public API cases pass.
-- [ ] Run `cargo fmt --all -- --check`.
+- [x] First add `typed_request_replaces_goal_without_rewriting_identity` in the repository integration test. It calls the existing amendment API with a JSON `changes` request and expects the active Contract's goal to be replaced.
+- [x] Run `cargo test --locked -p cockpit-repository --test contract_amendment typed_request_replaces_goal_without_rewriting_identity`; confirmed the initial failure was the current unsupported typed-request field.
+- [x] Implement the typed request, explicit field classification, operation semantics, and full Contract re-deserialization/validation in `cockpit-protocol`; add protocol tests for scalar, optional, nested, collection, batch-order, and protected-path behavior.
+- [x] Implement the vertical-slice repository adapter in `contract_amendment.rs` and route both typed requests and legacy append input through it.
+- [x] Run the focused protocol and repository amendment tests; all typed-operation and public API cases pass. The existing `lifecycle_entry` suite also passes.
+- [x] Run `cargo fmt --all -- --check` and package-scoped Clippy with warnings denied.
 - [ ] Commit protocol and first amendment path as `feat(protocol): define reasoned contract amendment requests`.
 
 ### Task 2: Recoverable amendment persistence and audit
