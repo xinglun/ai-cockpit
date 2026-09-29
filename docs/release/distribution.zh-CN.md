@@ -23,8 +23,11 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 完整审计交接仍可使用 `--view full`（MCP 使用 `view: "full"`）。这是仅展示层的变化：机器 JSON、验证、授权、退出码和持久化证据均不变。
 本发布说明不声称已经完成用户研究，也不声称带来风险拦截收益。
 
-当前发布产物命名为 `ai-cockpit-v0.2.113-<target>.tar.gz`（Windows 使用对应的
-archive）。公开的 `v0.2.113` Release 已成为当前安装基线，公开 Release 和发布后验收已经完成。
+## 并行协作发布说明
+
+v1.0.0 将发布 Task 8 的跨 Work Item 协调与并行验证能力。只有输入身份不可变、没有生产者—消费者依赖、输出隔离且资源受限时，独立验证节点和 CI job 才能并发运行。Work Item 生命周期变更与共享状态写入仍然串行；普通单 WI 串行路径继续受支持。允许并行不代表承诺固定的墙钟时间收益。
+
+v1.0.0 发布产物命名为 `ai-cockpit-v1.0.0-<target>.tar.gz`（Windows 使用对应的 archive）。公开的 `v0.2.113` 是直接前序版本，也是 v1.0.0 N-1 升级验收来源；v1.0.0 仅在公开发布并完成验收后成为当前公开安装基线。
 
 此前公开且绑定身份的 `v0.2.106` Release 作为历史 evidence 保留。`v0.2.111` 候选因五目标 workflow 在公开前取消而作为不可变未发布历史保留，不能复用或作为安装基线。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
 （workflow run `33417057474`）：它是 lightweight tag，没有 provider Release，永远不能复用或作为安装基线。

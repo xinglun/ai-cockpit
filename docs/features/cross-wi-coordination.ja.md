@@ -9,11 +9,10 @@ repository service が domain boundary、CLI と MCP が adapter、Outcome が p
 composition は明示的な write です。Outcome 公開は現在の登録 generation と正確な
 evidence bytes に束縛されます。
 
-対応する topology は同一 Git common directory の linked worktree です。インストール済み
-Runtime `0.2.113` は lifecycle compatibility を担当し、coordination store を読みません。
-候補 Runtime が collaboration capability を advertise した場合だけレコードを書き込み、
-消費できます。古い binary が候補専用 Contract check-coverage field を読み取り、または
-強制すると仮定してはいけません。
+対応する topology は同一 Git common directory の linked worktree です。Runtime v1.0.0 は
+lifecycle compatibility を担当し、coordination store を読み書きします。前の Runtime
+`0.2.113` は通常の単一 Work Item path には引き続き使用できますが、この store は読みません。
+coordination record や Contract check-coverage field の双方向互換性を想定してはいけません。
 
 登録は Git identity、active Contract、head、branch、regular evidence を Runtime が
 再観測してから有効になります。Composition は Git common directory に共有記録を残し、
