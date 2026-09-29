@@ -3441,6 +3441,7 @@ fn default_parallel_slot_lease_schema_version() -> u32 {
 
 pub const COLLABORATION_SCHEMA_VERSION: u32 = 1;
 pub const COLLABORATION_CAPABILITY: &str = "cross_wi_coordination_v1";
+pub const ENVIRONMENT_DRIFT_CAPABILITY: &str = "observed_environment_drift_v1";
 
 /// The candidate-only binding for the collaboration protocol.  The installed
 /// 0.2.105 Runtime owns the existing lifecycle protocol and deliberately does
@@ -3470,6 +3471,8 @@ pub enum RuntimeCapabilityError {
     UnsupportedSchema(u32),
     #[error("runtime capability binding identity mismatch")]
     IdentityMismatch,
+    #[error("environment drift request identity is invalid")]
+    InvalidEnvironmentDriftRequest,
 }
 
 impl RuntimeCapabilityBinding {
@@ -3479,7 +3482,9 @@ impl RuntimeCapabilityBinding {
                 self.schema_version,
             ));
         }
-        if self.capability != COLLABORATION_CAPABILITY {
+        if self.capability != COLLABORATION_CAPABILITY
+            && self.capability != ENVIRONMENT_DRIFT_CAPABILITY
+        {
             return Err(RuntimeCapabilityError::UnsupportedCapability);
         }
         if self.runtime_version == "0.2.105" {
@@ -3498,6 +3503,10 @@ impl RuntimeCapabilityBinding {
             && self.runtime_version == other.runtime_version
             && self.runtime_digest == other.runtime_digest
             && self.capability == other.capability
+    }
+
+    pub fn supports_environment_drift(&self) -> bool {
+        self.capability == ENVIRONMENT_DRIFT_CAPABILITY
     }
 }
 
@@ -3611,6 +3620,62 @@ pub struct WorktreeRegistration {
     pub generation: u64,
     pub declaration: CollaborationDeclaration,
     pub runtime: RuntimeCapabilityBinding,
+    /// Captured by Runtime at registration time. Caller-provided observations
+    /// are ignored by the write entry point; legacy records without a baseline
+    /// cannot admit environment-dependent actions.
+    #[serde(default)]
+    pub environment: Option<EnvironmentObservation>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentObservation {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub environment_digest: Digest,
+    pub observed_inputs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentDriftRequest {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub expected_generation: u64,
+}
+
+impl EnvironmentDriftRequest {
+    pub fn validate(&self) -> Result<(), RuntimeCapabilityError> {
+        if self.schema_version != COLLABORATION_SCHEMA_VERSION
+            || self.expected_generation == 0
+            || self.work_item_id.trim().is_empty()
+            || self.work_item_id.contains('/')
+            || self.work_item_id.contains('\\')
+            || self.work_item_id == "."
+            || self.work_item_id == ".."
+        {
+            return Err(RuntimeCapabilityError::InvalidEnvironmentDriftRequest);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentDriftBinding {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub common_directory_id: Digest,
+    pub provider_generation: u64,
+    pub sequence: u64,
+    pub previous_event_id: Option<String>,
+    pub previous_environment_digest: Digest,
+    pub current_environment_digest: Digest,
+    pub observed_inputs: Vec<String>,
+    pub affected_outcome_ids: Vec<String>,
+    pub event_id: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3647,6 +3712,10 @@ pub struct CoordinationEvent {
     /// identities so action admission can remain outcome-specific.
     #[serde(default)]
     pub outcome_ids: Vec<String>,
+    /// Runtime-derived environment identity. Legacy events remain readable;
+    /// an event carrying an unsupported binding version fails closed.
+    #[serde(default)]
+    pub environment_change: Option<EnvironmentDriftBinding>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

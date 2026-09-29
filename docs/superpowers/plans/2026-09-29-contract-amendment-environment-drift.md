@@ -72,7 +72,7 @@
 - [x] Implement per-Work-Item locking, expected-digest comparison, prospective Contract validation, recoverable transaction states, append-only old/new audit entries, and verification/projection invalidation.
 - [x] Implement the read-only amendment-history query and archive preservation validation without rewriting archived bytes.
 - [x] Run focused amendment, lifecycle, archive, and full `cockpit-repository` tests; recovery, conflict, compatibility, and audit-chain cases pass.
-- [ ] Commit repository amendment persistence as `feat(runtime): persist contract amendments atomically`.
+- [x] Commit repository amendment persistence as `feat(runtime): persist contract amendments atomically` (`02552b96`).
 
 ### Task 3: Runtime-observed environment drift and selective admission
 
@@ -81,22 +81,22 @@
 - Modify: `crates/cockpit-repository/src/execution_context.rs`
 - Modify: `crates/cockpit-repository/src/coordination_store.rs`
 - Modify: `crates/cockpit-repository/src/collaboration.rs`
-- Test: `crates/cockpit-repository/tests/environment_drift.rs`
+- Test: `crates/cockpit-repository/tests/coordination_store.rs`
 - Test: `crates/cockpit-repository/tests/collaboration_admission.rs`
 
 **Interfaces:**
 - Produces `EnvironmentDriftRequest { work_item_id: String, expected_generation: u64 }`; it carries no caller-supplied environment digest.
 - Produces a Runtime-created `EnvironmentDriftBinding` containing repository/common-directory identity, provider generation, prior/current observed environment digests, observed input identities, affected outcome IDs, and event identity.
 - Extends `CoordinationEvent` with an optional versioned environment binding; legacy event semantics remain unchanged and unsupported versions fail closed.
-- Extends `CoordinationStore` with `record_environment_drift(request, observed_context) -> Result<CoordinationEvent, CoordinationError>` and makes action admission refresh this durable state immediately before evaluating the selected outcomes.
+- Extends `CoordinationStore` with `record_environment_drift(request) -> Result<Option<CoordinationEvent>, CoordinationError>`; Runtime captures the observation itself. Read-only `environment_drift_pending`/`admit_collaboration_action` report an unrecorded change without writing, while explicit pre-action refresh persists the event before admission.
 
-- [ ] First add a protocol test that deserializes an event carrying a versioned `environmentChange` binding and rejects caller-supplied digest data in `EnvironmentDriftRequest`; run it and confirm the current strict coordination schema rejects the unknown binding.
-- [ ] Add repository tests proving event IDs are idempotent, outcome publication does not invalidate, and recovery appends a resolution across provider generations.
-- [ ] Run the focused protocol/repository tests; expected initial failure is absence of the typed environment binding/Runtime observer.
-- [ ] Add tests proving stale affected generation/receipt is denied before execution/reservation, unrelated outcomes in the same Work Item remain admissible, and `SafelyPaused` continues to deny through the shared admission result.
-- [ ] Implement runtime-derived environment identity from the current execution context; if a relevant input cannot be observed, mark it unknown and deny reuse that depends on it.
-- [ ] Persist drift events under the existing common-directory store and inter-process lock; make registration refresh/event commit recoverable and action-scoped.
-- [ ] Run `cargo test --locked -p cockpit-repository --test environment_drift` and `cargo test --locked -p cockpit-repository --test collaboration_admission`.
+- [x] Add and run protocol tests for a versioned `environmentChange` binding and rejection of caller-supplied digest data; confirmed the strict schema rejected the binding before implementation.
+- [x] Add repository tests proving event idempotency, outcome-publication separation, cross-generation append-only recovery, and the registration-generation window without losing drift; the new window regression failed before its fix.
+- [x] Run focused protocol/repository tests; typed binding and Runtime observation tests passed.
+- [x] Cover denial before composition spawn and resource reservation, read-only admission without event writes, same-Work-Item outcome selection, unrelated work, and `SafelyPaused` admission.
+- [x] Implement runtime-derived environment identity from the execution context; unobservable inputs return unknown/error and fail closed.
+- [x] Persist drift events under the common-directory store/inter-process lock; registration retries reconcile event-before-registration commits and remain action-scoped.
+- [x] Run `cargo test --locked -p cockpit-protocol --test collaboration`, `cargo test --locked -p cockpit-repository --test coordination_store`, and `cargo test --locked -p cockpit-repository --test collaboration_admission`.
 - [ ] Commit shared environment-drift admission as `feat(coordination): persist observed environment drift`.
 
 ### Task 4: CLI/MCP capability and real concurrent acceptance

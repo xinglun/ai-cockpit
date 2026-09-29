@@ -1,8 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
-    CoordinationIntent, CoordinationRequest, CoordinationRequestState, OutcomeStage,
+    CollaborationDeclaration, ConsumedOutcome, CoordinationEvent, CoordinationEventKind,
+    CoordinationIntent, CoordinationRequest, CoordinationRequestState,
+    ENVIRONMENT_DRIFT_CAPABILITY, EnvironmentDriftRequest, EnvironmentObservation, OutcomeStage,
     ProvidedOutcome, ResourceClaim, ResourceClaimMode, ResourceReservation,
     RuntimeCapabilityBinding, WorktreeRegistration,
 };
@@ -55,7 +56,7 @@ fn binding() -> RuntimeCapabilityBinding {
         schema_version: 1,
         runtime_version: "0.2.113".into(),
         runtime_digest: digest("candidate-runtime"),
-        capability: COLLABORATION_CAPABILITY.into(),
+        capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
 }
 
@@ -107,6 +108,7 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
         generation,
         declaration: CollaborationDeclaration::default(),
         runtime: binding(),
+        environment: None,
     }
 }
 
@@ -178,8 +180,9 @@ fn duplicate_registration_and_event_are_idempotent() {
     let root = repository();
     let store = store(root.path());
     let registration = registration(root.path(), "WI-A", 1);
-    assert_eq!(store.register(registration.clone()).unwrap(), registration);
-    assert_eq!(store.register(registration.clone()).unwrap(), registration);
+    let registered = store.register(registration.clone()).unwrap();
+    assert!(registered.environment.is_some());
+    assert_eq!(store.register(registration.clone()).unwrap(), registered);
 
     let event = CoordinationEvent {
         schema_version: 1,
@@ -192,6 +195,7 @@ fn duplicate_registration_and_event_are_idempotent() {
         evidence_refs: vec!["target/evidence.json".into()],
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     };
     let published = store.publish_event(event.clone()).unwrap();
     assert_eq!(store.publish_event(event.clone()).unwrap(), published);
@@ -201,6 +205,196 @@ fn duplicate_registration_and_event_are_idempotent() {
         serde_json::json!({
             "target/evidence.json": Digest::sha256_bytes(b"{}\n").to_string()
         })
+    );
+}
+
+#[test]
+fn registration_replaces_caller_environment_claim_with_runtime_observation() {
+    let root = repository();
+    let store = store(root.path());
+    let mut registration = registration(root.path(), "WI-ENVIRONMENT", 1);
+    let caller_claim = digest("untrusted-environment-claim");
+    registration.environment = Some(EnvironmentObservation {
+        schema_version: 1,
+        environment_digest: caller_claim.clone(),
+        observed_inputs: vec!["caller-asserted".into()],
+    });
+
+    let persisted = store
+        .register(registration)
+        .expect("runtime observes registration");
+    let observation = persisted
+        .environment
+        .expect("Runtime persists its environment observation");
+    assert_ne!(observation.environment_digest, caller_claim);
+    assert!(
+        observation
+            .observed_inputs
+            .iter()
+            .any(|input| input == "process-environment")
+    );
+}
+
+#[test]
+fn environment_drift_event_is_shared_idempotent_and_recoverable_after_generation_advance() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = registration(root.path(), "WI-ENV-PROVIDER", 1);
+    let head = provider.head.clone();
+    provider.declaration.provided_outcomes = vec![ProvidedOutcome {
+        outcome_id: "api".into(),
+        interface_contract: "api-v1".into(),
+        behavior_contract: "stable API behavior".into(),
+        published_head: head,
+        stage: OutcomeStage::ComposableHead,
+        evidence_refs: vec!["target/evidence.json".into()],
+    }];
+    let registered = store.register(provider.clone()).expect("register provider");
+    let baseline = registered
+        .environment
+        .expect("initial Runtime environment")
+        .environment_digest;
+    let mut consumer = registration(root.path(), "WI-ENV-CONSUMER", 1);
+    consumer.declaration.consumed_outcomes = vec![ConsumedOutcome {
+        provider_work_item_id: provider.work_item_id.clone(),
+        outcome_id: "api".into(),
+        minimum_stage: OutcomeStage::ComposableHead,
+        verification_required: false,
+    }];
+    store
+        .register(consumer)
+        .expect("register consumer before dependency drift");
+    fs::write(
+        root.path().join("Cargo.toml"),
+        "[package]\nname = \"coordination-fixture\"\nversion = \"0.2.0\"\nedition = \"2024\"\n",
+    )
+    .expect("change observed dependency input");
+    let current_environment = cockpit_repository::RepositoryExecutionContext::capture(root.path())
+        .expect("capture current repository context")
+        .observe_environment_identity()
+        .expect("observe current execution environment");
+    assert_ne!(
+        current_environment.environment_digest, baseline,
+        "dependency input changes must alter the Runtime-observed environment identity"
+    );
+
+    let request = EnvironmentDriftRequest {
+        schema_version: 1,
+        work_item_id: provider.work_item_id.clone(),
+        expected_generation: 1,
+    };
+    let event = store
+        .record_environment_drift(&request)
+        .expect("record observed drift")
+        .expect("changed environment emits event");
+    let binding = event
+        .environment_change
+        .as_ref()
+        .expect("typed environment binding");
+    assert_eq!(binding.previous_environment_digest, baseline);
+    assert_ne!(binding.current_environment_digest, baseline);
+    assert_eq!(binding.affected_outcome_ids, ["api"]);
+    let reservation_result = store.reserve_resources(reservation(
+        root.path(),
+        "WI-ENV-CONSUMER",
+        "r-environment-drift",
+        &["src/consumer"],
+    ));
+    assert!(
+        matches!(
+            reservation_result,
+            Err(CoordinationError::RecoveryRequired(_))
+        ),
+        "an affected consumer cannot reserve resources before resolving drift: {reservation_result:?}"
+    );
+    assert!(
+        store
+            .inspect()
+            .expect("inspect reservations")
+            .reservations
+            .is_empty(),
+        "blocked reservation must not persist a lease"
+    );
+    assert_eq!(
+        store
+            .record_environment_drift(&request)
+            .expect("idempotent refresh")
+            .expect("existing drift receipt is returned"),
+        event
+    );
+    assert_eq!(store.inspect().unwrap().events.len(), 1);
+
+    let mut provider_generation_two = provider;
+    provider_generation_two.generation = 2;
+    provider_generation_two.environment = None;
+    store
+        .register(provider_generation_two)
+        .expect("register current provider generation");
+    let recovery = store
+        .recover_event(&event.event_id, "WI-ENV-CONSUMER", 1)
+        .expect("resolve historical drift after current re-observation");
+    assert_eq!(recovery.provider_generation, 1);
+    assert_eq!(recovery.current_provider_generation, Some(2));
+    assert_eq!(store.inspect().unwrap().events.len(), 1);
+    assert_eq!(store.inspect().unwrap().recoveries.len(), 1);
+}
+
+#[test]
+fn generation_advance_preserves_unrecorded_environment_drift_before_replacing_registration() {
+    let root = repository();
+    let store = store(root.path());
+    let mut provider = registration(root.path(), "WI-ENV-GENERATION", 1);
+    provider.declaration.provided_outcomes = vec![ProvidedOutcome {
+        outcome_id: "api".into(),
+        interface_contract: "api-v1".into(),
+        behavior_contract: "stable API behavior".into(),
+        published_head: provider.head.clone(),
+        stage: OutcomeStage::ComposableHead,
+        evidence_refs: vec!["target/evidence.json".into()],
+    }];
+    let registered = store
+        .register(provider.clone())
+        .expect("register generation 1");
+    let baseline = registered
+        .environment
+        .expect("Runtime-observed baseline")
+        .environment_digest;
+
+    fs::write(
+        root.path().join("Cargo.toml"),
+        "[package]\nname = \"coordination-fixture\"\nversion = \"0.3.0\"\nedition = \"2024\"\n",
+    )
+    .expect("change observed environment before generation advance");
+    let mut next_generation = provider;
+    next_generation.generation = 2;
+    next_generation.environment = None;
+    store
+        .register(next_generation)
+        .expect("register generation 2");
+
+    let projection = store.inspect().expect("inspect shared coordination state");
+    let event = projection
+        .events
+        .iter()
+        .find(|event| event.work_item_id == "WI-ENV-GENERATION")
+        .expect("environment drift must be durable before the new baseline replaces it");
+    let binding = event
+        .environment_change
+        .as_ref()
+        .expect("generation transition retains typed environment provenance");
+    assert_eq!(event.generation, 1);
+    assert_eq!(binding.provider_generation, 1);
+    assert_eq!(binding.previous_environment_digest, baseline);
+    assert_ne!(binding.current_environment_digest, baseline);
+    assert_eq!(binding.affected_outcome_ids, ["api"]);
+    assert_eq!(
+        projection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == "WI-ENV-GENERATION")
+            .expect("current registration")
+            .generation,
+        2
     );
 }
 
@@ -565,6 +759,7 @@ fn event_publication_rejects_evidence_reached_through_parent_symlink() {
         evidence_refs: vec!["target/evidence.json".into()],
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     });
 
     assert!(
@@ -596,6 +791,7 @@ fn generic_event_publication_rejects_outcome_published_without_typed_validation(
         evidence_refs: Vec::new(),
         evidence_digests: Default::default(),
         outcome_ids: vec!["api".into()],
+        environment_change: None,
     });
 
     assert!(
@@ -692,9 +888,8 @@ fn registration_identity_change_appends_an_impact_event() {
 fn interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_once() {
     let root = repository();
     let store = store(root.path());
-    let original = registration(root.path(), "WI-RECOVER-IMPACT", 1);
-    store
-        .register(original.clone())
+    let original = store
+        .register(registration(root.path(), "WI-RECOVER-IMPACT", 1))
         .expect("register original identity");
 
     fs::write(root.path().join("changed.txt"), "changed\n").expect("write change");
@@ -720,12 +915,9 @@ fn interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_o
     );
 
     fs::remove_dir(&event_path).expect("remove injected failure");
-    assert_eq!(
-        store
-            .register(updated.clone())
-            .expect("retry identical registration after interruption"),
-        updated
-    );
+    let registered = store
+        .register(updated.clone())
+        .expect("retry identical registration after interruption");
     let inspection = store.inspect().expect("inspect reconciled store");
     assert_eq!(
         inspection
@@ -734,6 +926,14 @@ fn interrupted_identity_change_keeps_old_registration_and_retry_appends_impact_o
             .filter(|event| event.event_id == "auto-impact-WI-RECOVER-IMPACT-2")
             .count(),
         1
+    );
+    assert_eq!(
+        inspection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == "WI-RECOVER-IMPACT")
+            .expect("current registration"),
+        &registered
     );
 }
 
@@ -762,6 +962,7 @@ fn retry_completes_registration_after_event_was_durable_before_interruption() {
         evidence_refs: Vec::new(),
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     };
     let event_path = store
         .root()
@@ -777,12 +978,9 @@ fn retry_completes_registration_after_event_was_durable_before_interruption() {
     .expect("old registration JSON");
     assert_eq!(still_old.generation, 1);
 
-    assert_eq!(
-        store
-            .register(updated.clone())
-            .expect("retry after impact persisted"),
-        updated
-    );
+    let registered = store
+        .register(updated.clone())
+        .expect("retry after impact persisted");
     let inspection = store.inspect().expect("inspect resumed registration");
     assert_eq!(
         inspection
@@ -800,6 +998,14 @@ fn retry_completes_registration_after_event_was_durable_before_interruption() {
             .unwrap()
             .generation,
         2
+    );
+    assert_eq!(
+        inspection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == "WI-CRASH-WINDOW")
+            .unwrap(),
+        &registered
     );
 }
 
@@ -855,6 +1061,7 @@ fn stale_generation_and_corrupt_or_moved_records_require_recovery() {
         evidence_refs: Vec::new(),
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     };
     assert!(matches!(
         store.publish_event(late),
@@ -889,6 +1096,7 @@ fn recovery_consumes_only_matching_event_and_is_idempotent() {
         evidence_refs: vec!["evidence/impact.json".into()],
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     };
     store.publish_event(event.clone()).expect("publish event");
 

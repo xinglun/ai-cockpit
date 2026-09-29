@@ -2,9 +2,9 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::RuntimeContext;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, CompositionBinding, ConsumedOutcome,
-    CoordinationEvent, CoordinationEventKind, CoordinationIntent, CoordinationRequest,
-    CoordinationRequestState, IntegrationResponsibility, OutcomeStage, ProvidedOutcome,
+    CollaborationDeclaration, CompositionBinding, ConsumedOutcome, CoordinationEvent,
+    CoordinationEventKind, CoordinationIntent, CoordinationRequest, CoordinationRequestState,
+    ENVIRONMENT_DRIFT_CAPABILITY, IntegrationResponsibility, OutcomeStage, ProvidedOutcome,
     RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use cockpit_repository::{
@@ -61,7 +61,7 @@ fn runtime() -> RuntimeCapabilityBinding {
         schema_version: 1,
         runtime_version: "0.2.113".into(),
         runtime_digest: digest("candidate-runtime"),
-        capability: COLLABORATION_CAPABILITY.into(),
+        capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
 }
 
@@ -262,6 +262,7 @@ fn registration(
         generation,
         declaration,
         runtime: runtime(),
+        environment: None,
     }
 }
 
@@ -277,6 +278,7 @@ fn impact(root: &Path, work_item_id: &str, generation: u64, id: &str) -> Coordin
         evidence_refs: vec!["target/impact.json".into()],
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     }
 }
 
@@ -1144,6 +1146,64 @@ fn composable_head_satisfies_dependency_without_provider_closure() {
             .unwrap();
     assert!(admission.allowed);
     assert!(admission.blockers.is_empty());
+}
+
+#[test]
+fn observed_environment_drift_is_persisted_and_denies_composition_before_spawn() {
+    let root = repository();
+    let store = store(root.path());
+    register_provider_and_consumer(&store, root.path(), OutcomeStage::ComposableHead);
+    let marker = root.path().join("unexpected-process-started");
+    fs::write(
+        root.path().join("Cargo.toml"),
+        "[package]\nname = \"collaboration-fixture\"\nversion = \"0.9.0\"\n",
+    )
+    .expect("change current dependency input after registration");
+
+    let queried =
+        admit_collaboration_action(&store, "WI-CONSUMER", 1, composition_action("WI-CONSUMER"))
+            .expect("read-only admission query");
+    assert!(
+        !queried.allowed,
+        "unrecorded drift must fail closed in queries"
+    );
+    assert!(
+        queried
+            .unknowns
+            .iter()
+            .any(|unknown| { unknown == "environment_drift_unrecorded:WI-PROVIDER" })
+    );
+    assert!(
+        store
+            .inspect()
+            .expect("inspect before explicit refresh")
+            .events
+            .is_empty(),
+        "a query must not persist the event it reports"
+    );
+
+    let result = run_admitted_composition(
+        &store,
+        "WI-CONSUMER",
+        1,
+        composition_input(root.path(), &marker),
+    );
+
+    assert!(
+        matches!(
+            result,
+            Err(cockpit_repository::CollaborationExecutionError::Blocked { .. })
+        ),
+        "stale provider environment must block before composition: {result:?}"
+    );
+    assert!(
+        !marker.exists(),
+        "no verification process may start on stale input"
+    );
+    let events = store.inspect().expect("read shared drift event").events;
+    assert_eq!(events.len(), 1);
+    assert_eq!(events[0].source, "runtime-observed-environment-drift");
+    assert_eq!(events[0].outcome_ids, ["api"]);
 }
 
 #[test]

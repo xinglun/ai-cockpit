@@ -67,8 +67,9 @@ pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
     CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
     acknowledge_pause, admit_collaboration_action, collaboration_outcome_projection,
-    collaboration_projection, publish_outcome, recover_impact, refresh_dependency_state,
-    report_impact, request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+    collaboration_projection, publish_outcome, recover_impact,
+    refresh_and_admit_collaboration_action, refresh_dependency_state, report_impact,
+    request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
 };
 pub use contract_amendment::{
     ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,

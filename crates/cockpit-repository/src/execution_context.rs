@@ -1,6 +1,8 @@
 use super::project_governance::{ProjectGovernanceFacts, observe_project_governance};
 use super::*;
 
+const MAX_ENVIRONMENT_INPUT_BYTES: u64 = 16 * 1024 * 1024;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationContextInput {
     pub program: String,
@@ -1428,6 +1430,46 @@ impl RepositoryExecutionContext {
         &self.snapshot
     }
 
+    /// Capture the stable command environment and repository dependency state
+    /// that Runtime uses to decide whether collaboration evidence can remain
+    /// applicable. Session-only Agent and shell variables are filtered by the
+    /// same environment identity helper used for verification reuse.
+    pub fn observe_environment_identity(
+        &self,
+    ) -> Result<cockpit_protocol::EnvironmentObservation, ObserverError> {
+        let process_environment_digest = execution_environment_digest(&self.root, "cargo")?;
+        let dependency_inputs_digest = observe_dependency_inputs(&self.root)?;
+        let executable = resolved_executable_identity(&self.root, "cargo").ok_or_else(|| {
+            ObserverError::State {
+                path: self.root.clone(),
+                message: "environment identity cannot resolve the Cargo executable".into(),
+            }
+        })?;
+        let environment_digest = cockpit_protocol::digest_json(&(
+            "observed-environment-v1",
+            process_environment_digest,
+            executable.path,
+            executable.digest,
+            dependency_inputs_digest,
+            std::env::consts::OS,
+            std::env::consts::ARCH,
+        ))
+        .map_err(|error| ObserverError::State {
+            path: self.root.clone(),
+            message: error.to_string(),
+        })?;
+        Ok(cockpit_protocol::EnvironmentObservation {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            environment_digest,
+            observed_inputs: vec![
+                "process-environment".into(),
+                "cargo-executable".into(),
+                "repository-dependency-inputs".into(),
+                "operating-system-and-architecture".into(),
+            ],
+        })
+    }
+
     pub fn observe(&self) -> Result<&RepositoryObservation, ObserverError> {
         if let Some(observation) = self.observation.get() {
             return Ok(observation);
@@ -1575,6 +1617,58 @@ impl RepositoryExecutionContext {
             message: "repository observation was not initialized".into(),
         })
     }
+}
+
+fn observe_dependency_inputs(root: &Path) -> Result<Digest, ObserverError> {
+    const INPUTS: [&str; 10] = [
+        "Cargo.toml",
+        "Cargo.lock",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "pyproject.toml",
+        "poetry.lock",
+        "go.mod",
+        "go.sum",
+    ];
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        }
+    })?;
+    let mut observed = BTreeMap::new();
+    for relative in INPUTS {
+        let path = root.join(relative);
+        let metadata = match fs::symlink_metadata(&path) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                observed.insert(relative, None::<Digest>);
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read { path, source });
+            }
+        };
+        if !metadata.file_type().is_file() {
+            return Err(ObserverError::State {
+                path,
+                message: "dependency identity input is not a regular non-symlink file".into(),
+            });
+        }
+        let bytes = read_cap_file_nofollow_bounded(
+            &root_dir,
+            relative,
+            &path,
+            MAX_ENVIRONMENT_INPUT_BYTES,
+        )?;
+        observed.insert(relative, Some(Digest::sha256_bytes(&bytes)));
+    }
+    cockpit_protocol::digest_json(&observed).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: error.to_string(),
+    })
 }
 
 /// Explicitly owned process session for repeated requests. It is not a

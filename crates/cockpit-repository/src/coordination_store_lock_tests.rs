@@ -113,6 +113,7 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
         generation,
         declaration: CollaborationDeclaration::default(),
         runtime: binding(),
+        environment: None,
     }
 }
 
@@ -131,6 +132,7 @@ fn impact_event(registration: &WorktreeRegistration) -> CoordinationEvent {
         evidence_refs: Vec::new(),
         evidence_digests: BTreeMap::new(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     }
 }
 
