@@ -51,7 +51,7 @@
 - [x] Implement the vertical-slice repository adapter in `contract_amendment.rs` and route both typed requests and legacy append input through it.
 - [x] Run the focused protocol and repository amendment tests; all typed-operation and public API cases pass. The existing `lifecycle_entry` suite also passes.
 - [x] Run `cargo fmt --all -- --check` and package-scoped Clippy with warnings denied.
-- [ ] Commit protocol and first amendment path as `feat(protocol): define reasoned contract amendment requests`.
+- [x] Commit protocol and first amendment path as `feat(protocol): define reasoned contract amendment requests`.
 
 ### Task 2: Recoverable amendment persistence and audit
 
@@ -66,12 +66,12 @@
 - Produces `read_work_item_contract_amendments(root: &Path, work_item_id: &str) -> Result<Vec<ContractAmendmentReceipt>, ObserverError>`; this read does not write or consume records.
 - Existing additive `amend_work_item_contract` remains a compatibility wrapper that translates legacy append input plus `--reason` into the same transaction path.
 
-- [ ] Add repository tests for exact-digest conflict, `changeId` idempotency, audit-chain validation, invalidated-check listing, and sensitive-field policy evaluation; expect them to fail against the Task 1 vertical slice.
-- [ ] Add crash-injection tests at each write boundary: prepared journal, Contract replace, Summary projection, and commit marker; assert atomic visibility or fail-closed recovery.
-- [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: new transaction/audit assertions fail before persistent transaction support.
-- [ ] Implement per-Work-Item locking, expected-digest comparison, prospective Contract validation, recoverable transaction states, append-only old/new audit entries, and verification/projection invalidation.
-- [ ] Implement the read-only amendment-history query and archive preservation validation without rewriting archived bytes.
-- [ ] Run `cargo test --locked -p cockpit-repository --test contract_amendment`; expected: recovery, conflict, and audit-chain cases pass.
+- [x] Add repository tests for exact-digest conflict, `changeId` idempotency, audit-chain validation, invalidated-check listing, and sensitive-field policy evaluation; confirm they fail against the Task 1 vertical slice where behavior is absent.
+- [x] Add crash-injection tests at each write boundary: prepared journal, Contract replace, Summary projection, and commit marker; assert atomic visibility or fail-closed recovery.
+- [x] Run `cargo test --locked -p cockpit-repository --test contract_amendment` test-first; the new cases exposed missing transaction/audit support, and the final suite passes.
+- [x] Implement per-Work-Item locking, expected-digest comparison, prospective Contract validation, recoverable transaction states, append-only old/new audit entries, and verification/projection invalidation.
+- [x] Implement the read-only amendment-history query and archive preservation validation without rewriting archived bytes.
+- [x] Run focused amendment, lifecycle, archive, and full `cockpit-repository` tests; recovery, conflict, compatibility, and audit-chain cases pass.
 - [ ] Commit repository amendment persistence as `feat(runtime): persist contract amendments atomically`.
 
 ### Task 3: Runtime-observed environment drift and selective admission

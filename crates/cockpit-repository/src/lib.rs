@@ -70,6 +70,9 @@ pub use collaboration::{
     collaboration_projection, publish_outcome, recover_impact, refresh_dependency_state,
     report_impact, request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
 };
+pub use contract_amendment::{
+    ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,
+};
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
 };

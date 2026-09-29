@@ -2719,9 +2719,14 @@ fn run() -> Result<()> {
                     &std::fs::read(&input).context("read Contract amendment input")?,
                 )
                 .context("parse Contract amendment input")?;
-                let mut record =
-                    cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
-                        .context("apply bounded Contract amendment")?;
+                let mut record = cockpit_repository::amend_work_item_contract_with_runtime(
+                    &repo,
+                    &id,
+                    &input,
+                    &reason,
+                    &runtime_context,
+                )
+                .context("apply bounded Contract amendment")?;
                 record["nextAction"] = json!("run_preflight");
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
