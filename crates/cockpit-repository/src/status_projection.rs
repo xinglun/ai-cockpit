@@ -125,6 +125,46 @@ fn preflight_can_recover_verification_precondition(
     )
 }
 
+fn human_decision_required(
+    preflight_human_decision_required: bool,
+    preflight_recovery_available: bool,
+    amendment_review_required: bool,
+    safe_actions: &[String],
+) -> bool {
+    (preflight_human_decision_required && !preflight_recovery_available)
+        && !safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
+        || amendment_review_required
+}
+
+#[cfg(test)]
+mod human_decision_tests {
+    use super::human_decision_required;
+
+    #[test]
+    fn pending_amendment_review_stays_human_required_during_preflight_recovery() {
+        let verification_is_admitted = vec!["run_verification".to_owned()];
+        assert!(human_decision_required(
+            true,
+            true,
+            true,
+            &verification_is_admitted,
+        ));
+    }
+
+    #[test]
+    fn admitted_verification_does_not_reopen_an_ordinary_preflight_decision() {
+        let verification_is_admitted = vec!["run_verification".to_owned()];
+        assert!(!human_decision_required(
+            true,
+            false,
+            false,
+            &verification_is_admitted,
+        ));
+    }
+}
+
 /// Readiness is a deterministic, read-only projection used before entering a
 /// new Work Item.  It deliberately does not become a process-global
 /// scheduler: every invocation resolves one repository root and one fresh
@@ -1517,12 +1557,12 @@ fn work_item_status_snapshot_with_snapshot(
     // A yellow preflight may still explicitly admit the first typed
     // verification or its one replacement execution. That action is a
     // governed evidence collection step, not a human decision boundary.
-    let human_decision_required = (preflight_human_decision_required
-        && !preflight_recovery_available
-        || amendment_review_required)
-        && !safe_actions
-            .iter()
-            .any(|action| action == "run_verification");
+    let human_decision_required = human_decision_required(
+        preflight_human_decision_required,
+        preflight_recovery_available,
+        amendment_review_required,
+        &safe_actions,
+    );
     let action_explanation = work_item_action_explanation(
         &contract.repository_id,
         work_item_id,

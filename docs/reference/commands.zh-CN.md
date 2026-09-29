@@ -57,7 +57,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效，下一步为 `run_preflight`。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |

@@ -28,10 +28,12 @@ required controls block `finish`.
 
 ## Serial and cross-Work-Item use
 
-One Work Item is serial by default; `verify` uses one worker. More workers
-require Runtime-proven dependency readiness and output isolation. Parallel
-checks/CI require an immutable shared identity, independent work, and isolated
-outputs; reuse fresh matching receipts.
+Lifecycle and snapshot-changing writes stay serial. Work Item-bound `verify`
+defaults to `--workers 1`; explicit `--workers >1` fails closed until Runtime
+verifies per-node dependency readiness and output isolation. Independent CI
+jobs may fan out as siblings when they have ready dependencies, isolated
+outputs, and bounded resources. Keep receipt producer-consumer serial; reuse
+fresh matching receipts.
 
 Cross-Work-Item work requires supported CLI/MCP, compatible declarations,
 linked worktrees, registration, a slot lease, and fresh admission before each

@@ -1194,6 +1194,124 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
 }
 
 #[test]
+fn checkpointed_sensitive_amendment_never_admits_verification_before_review() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-STATUS-SENSITIVE-AMENDMENT-REVIEW";
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        "keep amendment review in execution admission",
+        "a sensitive amendment cannot start verification before its current-Contract review",
+        &["crates/cockpit-repository/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["unreviewed sensitive amendments block verification".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start Work Item");
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    preflight_work_item(root, &contract_path).expect("initial preflight");
+    checkpoint_work_item(root, work_item_id).expect("checkpoint");
+
+    let prior_run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "pre-amendment-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["crates/cockpit-repository/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("prior verification");
+    record_verification_with_runtime(
+        root,
+        work_item_id,
+        &serde_json::to_value(&prior_run.receipt).expect("verification receipt"),
+        &current_runtime,
+        &prior_run.final_snapshot,
+    )
+    .expect("record prior verification");
+
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("read current Contract"))
+            .expect("parse current Contract");
+    let reason = "scope changed and requires human review before another verifier starts";
+    amend_work_item_contract(
+        root,
+        work_item_id,
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "sensitive-scope-review-admission",
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest")
+                .to_string(),
+            "reason": reason,
+            "changes": [{
+                "path": "/scope",
+                "operation": "replace",
+                "value": ["crates/cockpit-repository/**", "crates/cockpit-protocol/**"]
+            }]
+        }),
+        reason,
+    )
+    .expect("record sensitive amendment");
+
+    let status = work_item_status_snapshot_with_runtime(root, work_item_id, &current_runtime)
+        .expect("project status after amendment");
+    assert_eq!(status.lifecycle_phase, "checkpointed");
+    assert_ne!(
+        status.verification, "verified",
+        "prior evidence is stale after amendment"
+    );
+    assert!(status.human_decision_required, "{status:#?}");
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "an unreviewed amendment must not leave verification in safeActions: {status:#?}"
+    );
+    let error = cockpit_repository::require_current_action_admission(
+        root,
+        work_item_id,
+        "run_verification",
+        &current_runtime,
+    )
+    .expect_err("Runtime must reject verification before any caller can spawn its process");
+    assert!(
+        error
+            .to_string()
+            .contains("rejected requested action \"run_verification\"")
+    );
+
+    preflight_work_item(root, &contract_path)
+        .expect("refresh preflight while review remains pending");
+    let refreshed = work_item_status_snapshot_with_runtime(root, work_item_id, &current_runtime)
+        .expect("project status after preflight refresh");
+    assert!(
+        !refreshed
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "fresh preflight cannot substitute for the required human review: {refreshed:#?}"
+    );
+    assert!(refreshed.human_decision_required, "{refreshed:#?}");
+}
+
+#[test]
 fn status_projection_selects_recovery_guide_for_invalid_verification_evidence() {
     let directory = repository();
     let work_item_id = "WI-STATUS-INVALID-EVIDENCE";
