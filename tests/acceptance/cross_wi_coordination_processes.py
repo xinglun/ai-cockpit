@@ -155,24 +155,33 @@ def main() -> None:
         encoding="utf-8"
     )
     ordinary_guide = re.sub(r"\s+", " ", ordinary_guide)
+    workflow_reference = (repository_root / "docs/reference/agent-workflow.md").read_text(
+        encoding="utf-8"
+    )
+    workflow_reference = re.sub(r"\s+", " ", workflow_reference)
+    combined_guidance = f"{ordinary_guide} {workflow_reference}"
     guide_checks = {
-        "serialByDefault": "One Work Item keeps a serial path;" in ordinary_guide,
+        "serialByDefault": "One Work Item is serial by default;" in ordinary_guide,
         "discoversCliAndMcp": all(
             phrase in ordinary_guide
             for phrase in (
-                "capability show --repo <repository>",
-                "current CLI help",
-                "MCP `tools/list` schemas",
+                "capability show",
+                "CLI help",
+                "MCP `tools/list`",
             )
         ),
-        "requiresRuntimeSlotLease": "Runtime slot lease" in ordinary_guide,
+        "referencesCoordinationWorkflow": (
+            "docs/reference/agent-workflow.md" in ordinary_guide
+            and "### Serial fallback and cross-Work-Item coordination" in workflow_reference
+        ),
+        "requiresRuntimeSlotLease": "current slot lease" in workflow_reference,
         "serialFallbackWhenUnsupported": all(
-            phrase in ordinary_guide
+            phrase in combined_guidance
             for phrase in (
-                "If unsupported/unknown, use admitted serial work or stop;",
-                "unsupported constraints",
-                "ignore/emulate unsupported constraints",
-                "never infer support from fields",
+                "If unavailable, use admitted serial work or stop.",
+                "continue serially if admitted, or stop if parallel coordination is required.",
+                "do not silently ignore or imitate the protocol",
+                "fields or an older Runtime do not prove support",
             )
         ),
     }
