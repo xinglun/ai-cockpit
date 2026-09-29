@@ -3,7 +3,9 @@ use cockpit_protocol::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentOperation,
     ContractAmendmentRequest, PROTOCOL_VERSION, RuntimeContext,
 };
-use cockpit_repository::{WorkItemStartOptions, attach, start_work_item_with_options};
+use cockpit_repository::{
+    WorkItemStartOptions, attach, preflight_work_item, start_work_item_with_options,
+};
 use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -345,4 +347,124 @@ fn inspect_accepts_null_optional_concurrency_boundary_after_amendment() {
         WORK_ITEM_ID,
     ]);
     assert_success(&inspected, "inspect amended Contract with null boundary");
+}
+
+#[test]
+fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
+    let root = repository();
+    let repository_path = root.path().to_str().expect("repository path");
+    let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
+
+    let initial_preflight = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        &contract_relative,
+    ]);
+    assert_success(&initial_preflight, "initial preflight");
+    let checkpoint = run_cli(&[
+        "checkpoint",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+    ]);
+    assert_success(&checkpoint, "checkpoint before amendment");
+
+    let contract_path = root.path().join(&contract_relative);
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("read Contract"))
+        .expect("Contract JSON");
+    let request = ContractAmendmentRequest {
+        schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
+        change_id: "sensitive-scope-change".into(),
+        expected_contract_digest: cockpit_protocol::digest_json(&contract)
+            .expect("Contract digest"),
+        reason: "scope expansion requires human policy review before verification".into(),
+        changes: vec![ContractAmendmentChange {
+            path: "/scope".into(),
+            operation: ContractAmendmentOperation::Replace,
+            value: Some(json!(["README.md", "src/**"])),
+        }],
+    };
+    let request_file = tempfile::NamedTempFile::new().expect("amendment request file");
+    fs::write(
+        request_file.path(),
+        serde_json::to_vec_pretty(&request).expect("serialize amendment request"),
+    )
+    .expect("write amendment request");
+    let amended = run_cli(&[
+        "work-item",
+        "amend",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+        "--request",
+        request_file.path().to_str().expect("request path"),
+    ]);
+    assert_success(&amended, "record sensitive amendment");
+
+    preflight_work_item(root.path(), &contract_path)
+        .expect("fresh preflight remains unable to satisfy amendment review");
+    let status = run_cli(&[
+        "work-item",
+        "status",
+        "--repo",
+        repository_path,
+        "--id",
+        WORK_ITEM_ID,
+        "--json",
+    ]);
+    assert_success(&status, "status after refreshed preflight");
+    let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert_eq!(status["humanDecisionRequired"], true);
+    assert!(
+        !status["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
+            .any(|action| action == "run_verification")
+    );
+
+    let marker = root.path().join("verification-command-started");
+    let mut verify_args = vec![
+        "verify".to_owned(),
+        "--repo".to_owned(),
+        repository_path.to_owned(),
+        "--work-item".to_owned(),
+        WORK_ITEM_ID.to_owned(),
+        "--command".to_owned(),
+    ];
+    #[cfg(unix)]
+    {
+        verify_args.push("sh".into());
+        verify_args.push("--args=-c".into());
+        verify_args.push(format!("--args=printf started > '{}'", marker.display()));
+    }
+    #[cfg(windows)]
+    {
+        verify_args.push("cmd".into());
+        verify_args.push("--args=/C".into());
+        verify_args.push(format!("--args=echo started > \"{}\"", marker.display()));
+    }
+    let verify_args = verify_args.iter().map(String::as_str).collect::<Vec<_>>();
+    let verify = run_cli(&verify_args);
+    assert!(
+        !verify.status.success(),
+        "unreviewed amendment must reject verify"
+    );
+    let diagnostic = format!(
+        "{}{}",
+        String::from_utf8_lossy(&verify.stdout),
+        String::from_utf8_lossy(&verify.stderr)
+    );
+    assert!(
+        diagnostic.contains("contract_amendment_policy_review_required"),
+        "expected the amendment review gate to reject verification, got: {diagnostic}"
+    );
+    assert!(
+        !marker.exists(),
+        "verification command must not start before amendment review"
+    );
 }
