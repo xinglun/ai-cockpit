@@ -1,12 +1,11 @@
 # Cross-Work-Item coordination
 
-This capability is candidate-Runtime-only. Installed Runtime `0.2.113` remains
-the lifecycle owner and is not a reader of coordination records or candidate-
-only check-coverage metadata. The candidate Runtime owns collaboration
-capability discovery, repository-local coordination writes/reads, impact
-admission, and exact composition verification. This is not a bidirectional
-compatibility promise: an older installed binary must not be assumed to parse
-or enforce fields added for candidate composition.
+Runtime v1.0.0 includes this cross-Work-Item coordination capability and owns
+the lifecycle and collaboration interfaces. The preceding Runtime v0.2.113
+continues to support ordinary single-Work-Item lifecycle operations but must
+not be assumed to read coordination records or enforce the newer check-coverage
+metadata. This is not a bidirectional compatibility promise; use v1.0.0 for
+cross-Work-Item coordination and composition verification.
 
 ## Supported boundary
 

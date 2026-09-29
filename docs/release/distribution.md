@@ -24,10 +24,21 @@ step. The complete audit handoff remains available with `--view full` (or MCP
 authorization, exit codes, and persisted evidence are unchanged. No user-study
 or risk-reduction benefit is claimed by this release note.
 
-The current release artifact naming is `ai-cockpit-v0.2.113-<target>.tar.gz` or
-the corresponding Windows archive. The public `v0.2.113` Release is the current
-installation baseline; its public Release and post-release acceptance are
-complete.
+## Parallel collaboration release note
+
+The v1.0.0 release includes Task 8's cross-Work-Item coordination and parallel
+validation capability. Independent validation nodes and CI jobs may run
+concurrently only when they share an immutable input identity, have no
+producer-consumer dependency, and use isolated outputs with bounded resource
+use. Work Item lifecycle changes and shared-state mutations remain serialized;
+the ordinary single-Work-Item serial path remains supported. Parallel
+eligibility does not promise a fixed wall-clock speedup.
+
+The v1.0.0 release artifacts use the name
+`ai-cockpit-v1.0.0-<target>.tar.gz` or the corresponding Windows archive.
+Public `v0.2.113` is the immediate predecessor and the N-1 source for v1.0.0
+upgrade acceptance; v1.0.0 becomes the current public installation baseline
+after publication and acceptance.
 
 The preceding public `v0.2.106` Release remains historical evidence. The failed `v0.2.111`
 candidate remains immutable unpublished history after its five-target workflow

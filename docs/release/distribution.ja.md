@@ -23,8 +23,11 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 完全な audit handoff は `--view full`（MCP は `view: "full"`）で取得できます。これは presentation-only の変更であり、machine JSON、検証、権限、exit code、永続化 evidence は変更しません。
 この release note は user study や risk reduction の効果を主張しません。
 
-現在の Release artifact は `ai-cockpit-v0.2.113-<target>.tar.gz`（Windows は対応する
-archive）という名前です。公開の `v0.2.113` Release が現在の installation baseline であり、公開 Release と post-release acceptance は完了しています。
+## 並行協調のリリースノート
+
+v1.0.0 には Task 8 の Work Item 間調整と並行検証機能が含まれます。入力 identity が不変で、producer-consumer dependency がなく、出力が分離され resource 使用量が制限されている場合に限り、独立した検証 node と CI job を並行実行できます。Work Item lifecycle の変更と共有状態への書き込みは引き続き直列です。通常の単一 Work Item の直列経路も維持します。並行実行可能であることは、一定の wall-clock 短縮を保証しません。
+
+v1.0.0 の Release artifact は `ai-cockpit-v1.0.0-<target>.tar.gz`（Windows は対応する archive）という名前です。公開済み `v0.2.113` は直前の Release であり、v1.0.0 の N-1 upgrade acceptance の入力です。v1.0.0 は公開と acceptance の完了後に現在の public installation baseline になります。
 
 以前の identity-bound な `v0.2.105` Release は historical evidence として保持します。失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な公開失敗履歴で、provider Release がないため再利用も installation baseline 化もしません。`v0.2.77` tag は provider Release のない immutable な公開失敗履歴として保持し、installation baseline にはしません。予約済みの `v0.2.51` tag は immutable な公開失敗試行
 （workflow run `33417057474`）であり、lightweight tag で provider Release はありません。再利用も installation baseline 化もできません。

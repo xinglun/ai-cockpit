@@ -7,9 +7,7 @@ repository service 是领域边界，CLI 和 MCP 只是适配器，Outcome 是�
 只读；登记、影响、成果发布、协调状态迁移、恢复消费和组合验证都是显式写入。成果
 发布绑定当前登记代次和精确证据字节。
 
-支持范围是同一 Git common directory 下的 linked worktree。已安装的 Runtime `0.2.113`
-负责生命周期兼容性且不会读取协作存储；候选 Runtime 必须声明 collaboration capability
-后才可写入或消费这些记录。不能假设旧二进制会读取或执行候选版本新增的 Contract 检查覆盖字段。
+支持范围是同一 Git common directory 下的 linked worktree。Runtime v1.0.0 负责生命周期兼容性，并读取和写入协作存储。前序 Runtime `0.2.113` 仍适用于普通单 WI 路径，但不会读取该存储；不能假设协调记录或 Contract 检查覆盖字段具有双向兼容性。
 
 登记会绑定并重新核验 Git 身份、active Contract、head、branch 和 regular evidence；
 组合记录写入 Git common directory，由有界验证执行器运行。只有实际观察到的

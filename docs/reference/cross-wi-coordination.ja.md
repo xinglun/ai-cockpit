@@ -1,10 +1,10 @@
 # Work Item 間の調整
 
-この機能は候補 Runtime 専用です。インストール済み Runtime `0.2.113` は lifecycle
-owner のままで、調整レコードや候補専用の check-coverage metadata を読みません。
-候補 Runtime は capability discovery、repository-local な読み書き、impact admission、
-正確な composition verification を担当します。これは双方向互換性の約束ではなく、
-古いインストール済み binary が候補用フィールドを parse または強制すると仮定してはいけません。
+Runtime v1.0.0 には Work Item 間調整機能が含まれ、lifecycle と collaboration interface
+を担当します。前の Runtime v0.2.113 は通常の単一 Work Item lifecycle を引き続きサポート
+しますが、調整レコードの読み取りや新しい check-coverage metadata の強制を想定しては
+いけません。双方向互換性の約束ではありません。Work Item 間調整と composition verification
+には v1.0.0 を使用します。
 
 ## 対応範囲
 

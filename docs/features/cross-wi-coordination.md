@@ -12,11 +12,11 @@ and composition are explicit writes. Outcome publication binds the current
 registration generation and exact evidence bytes.
 
 The supported topology is one Git common directory with linked worktrees.
-Installed Runtime `0.2.113` owns lifecycle compatibility and does not read the
-collaboration store. The candidate Runtime must advertise the collaboration
-capability before it may write or consume these records. Candidate-only Contract
-check-coverage fields are not assumed to be readable or enforced by an older
-installed binary.
+Runtime v1.0.0 owns lifecycle compatibility and reads and writes the
+collaboration store. The preceding Runtime `0.2.113` remains suitable for the
+ordinary single-Work-Item path but does not read this store; do not assume
+bidirectional compatibility for coordination records or Contract
+check-coverage fields.
 
 Registration is fact-bound: Runtime rechecks Git identity, active Contracts,
 heads, branches, and regular evidence files before admission. Composition
