@@ -55,6 +55,7 @@ digest、snapshot、無効化された check を bind して追記専用で保�
 | `risk`、`authority` | preflight が使う declaration。repository record は人の identity を認証しない。 | Implemented / External identity boundary |
 | `acceptanceCriteria` | human-owned acceptance。`A1:` のような番号付き criteria は Summary evidence に bind できる。 | Implemented |
 | `requiredEvidenceClasses` | lifecycle completion に必要な evidence class。 | Implemented |
+| `requiredRuntimeCapabilities` | Contract amendment が追加する Runtime 管理の minimum capability marker。generic amendment から保護され、未対応の旧 strict-schema Runtime は Contract を拒否します。 | Implemented |
 | `sources` | legacy string または typed `{path, reason}` reference。 | Implemented |
 | `verification` | legacy verification string または typed `{check, required}` declaration。fresh execution の代わりにはならない。 | Implemented |
 | `baseRevision` | Work Item の開始 revision。snapshot から導く。 | Implemented |

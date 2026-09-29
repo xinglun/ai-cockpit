@@ -25,7 +25,7 @@
 - A batch clears a required field or weakens a gate: the whole batch is rejected or routed to the existing review boundary, with no partial Contract write.
 - A process stops between journal preparation, Contract replacement, projection update, and commit marker: readers recover the exact transaction or deny action; no duplicate/lost amendment results.
 - Environment variables/toolchain change while submitted Contract JSON remains unchanged: a real child Runtime observes and persists drift, denies only affected actions before side effects, and lets unrelated outcomes proceed.
-- An old Runtime can parse a new Contract but lacks the journal/drift capability: compatibility/admission denies affected work rather than ignoring the constraint.
+- The exact old Runtime `0.2.113` receives a Contract amended by the candidate Runtime with `requiredRuntimeCapabilities`; its strict parser rejects the new field before preflight can admit work. Tool-list absence alone is insufficient compatibility evidence.
 
 ---
 
@@ -117,6 +117,7 @@
 - [x] First add a CLI help assertion for the typed amend request and MCP tool-list assertions for `work_item_amend` and `work_item_amendments`; run and confirm these surfaces are absent before implementation.
 - [x] Add CLI/MCP parity tests for successful writes, validation/conflict errors, identical receipts, read-only history inspection, and capability incompatibility.
 - [x] Add an OS-process acceptance test that creates multiple linked worktrees, starts independent CLI processes against the common directory, changes observed environment while keeping input JSON unchanged, and proves affected denial before process spawn plus unrelated-action continuation and recovery.
+- [x] In that registered process gate, amend a real candidate-created Contract, confirm it contains `requiredRuntimeCapabilities`, and invoke exact Runtime `0.2.113` preflight against it; assert explicit unknown-field rejection.
 - [x] Add a serial single-Work-Item CLI lifecycle assertion with default one-worker behavior.
 - [x] Register the process acceptance command in `repository_gate_manifest.json` and assert the manifest test sees the registration.
 - [x] Run `cargo test --locked -p cockpit-cli --test contract_amendment_processes`, the MCP parity test, and `tests/ci/repository_gate_manifest_test.sh`.

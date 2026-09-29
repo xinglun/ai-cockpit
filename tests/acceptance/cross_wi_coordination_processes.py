@@ -408,6 +408,85 @@ def main() -> None:
             assert isinstance(legacy_version, str) and legacy_version
             assert isinstance(candidate_version, str) and candidate_version
             assert legacy_info.get("runtimeDigest") != server_info.get("runtimeDigest")
+
+            # Exercise the actual compatibility boundary, not just tool
+            # discovery: an amended Contract carries a required Runtime
+            # capability marker, and the exact predecessor parser must reject
+            # it rather than silently ignore the new constraint.
+            amended_repo = temporary_path / "legacy-amended-contract"
+            amended_repo.mkdir()
+            git(amended_repo, "init", "-q")
+            git(amended_repo, "config", "user.email", "acceptance@example.invalid")
+            git(amended_repo, "config", "user.name", "Acceptance")
+            (amended_repo / "README.md").write_text("legacy compatibility acceptance\n")
+            git(amended_repo, "add", ".")
+            git(amended_repo, "commit", "-qm", "initial")
+            git(amended_repo, "branch", "-M", "main")
+            require_cli(binary, ["attach", "--repo", str(amended_repo)])
+            work_item_id = "WI-LEGACY-AMENDMENT-CAPABILITY"
+            require_cli(
+                binary,
+                [
+                    "start", "--repo", str(amended_repo), "--id", work_item_id,
+                    "--intent", "test predecessor Contract compatibility",
+                    "--goal", "an amended Contract declares its required Runtime capabilities",
+                    "--scope", "README.md", "--out-of-scope", "target/**",
+                    "--authority", "authorized",
+                    "--acceptance", "the exact predecessor rejects unsupported capabilities",
+                    "--verification", "true", "--prepare",
+                ],
+            )
+            amended_contract = (
+                amended_repo / ".ai/work-items/active" / f"{work_item_id}.contract.json"
+            )
+            amendment_request = temporary_path / "legacy-amendment-request.json"
+            amendment_request.write_text(
+                json.dumps(
+                    {
+                        "schemaVersion": 1,
+                        "changeId": "legacy-capability-boundary",
+                        "expectedContractDigest": contract_digest(amended_contract),
+                        "reason": "test exact predecessor rejection of a newly constrained Contract",
+                        "changes": [
+                            {
+                                "path": "/goal",
+                                "operation": "replace",
+                                "value": "the predecessor cannot execute this amended Contract",
+                            }
+                        ],
+                    }
+                )
+            )
+            require_cli(
+                binary,
+                [
+                    "work-item", "amend", "--repo", str(amended_repo), "--id", work_item_id,
+                    "--request", str(amendment_request),
+                ],
+            )
+            amended_contract_value = json.loads(amended_contract.read_text())
+            assert amended_contract_value["requiredRuntimeCapabilities"] == [
+                "work-item-contract-amendment", "work-item-environment-drift"
+            ], amended_contract_value
+
+            # Use a separate unattached repository so the old Runtime reaches
+            # Contract deserialization instead of stopping at the repository
+            # capability manifest. The Contract itself is the tested boundary.
+            legacy_target = temporary_path / "legacy-preflight-target"
+            legacy_target.mkdir()
+            git(legacy_target, "init", "-q")
+            legacy_preflight = run_cli(
+                legacy_binary,
+                [
+                    "preflight", "--repo", str(legacy_target),
+                    "--contract", str(amended_contract),
+                ],
+            )
+            legacy_preflight_output = legacy_preflight.stdout + legacy_preflight.stderr
+            assert legacy_preflight.returncode != 0, legacy_preflight_output
+            assert "unknown field" in legacy_preflight_output, legacy_preflight_output
+            assert "requiredRuntimeCapabilities" in legacy_preflight_output, legacy_preflight_output
+
             legacy_observation = {
                 "manifestReadable": True,
                 "agentDoctorState": legacy_doctor_report["state"],
@@ -417,6 +496,8 @@ def main() -> None:
                 "runtimeDigest": legacy_info.get("runtimeDigest"),
                 "coordinationToolAdvertised": False,
                 "compositionToolAdvertised": False,
+                "amendedContractCapabilityMarker": amended_contract_value["requiredRuntimeCapabilities"],
+                "amendedContractRejectedByParser": True,
                 "sameVersion": legacy_version == candidate_version,
                 "differentRuntimeDigest": True,
             }

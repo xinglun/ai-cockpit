@@ -80,8 +80,9 @@ Contract。digest 不匹配时明确冲突，不会自动 rebase；相同 reques
 恢复通过追加 resolution 完成，不删除旧事件。request-scoped observation ledger 不是跨进程事件总线。
 
 MCP 提供 `work_item_amend`、`work_item_amendments` 和 `work_item_environment_drift`。
-漂移工具区分只读 `action=check` 与显式写入 `action=record`。旧 Runtime `0.2.113` 不支持这些
-capability；能够读取 Contract 不等于双向兼容。调用前应检查 `tools/list` 的实际 schema。
+漂移工具区分只读 `action=check` 与显式写入 `action=record`。amendment 后的 Contract 会携带受保护的
+`requiredRuntimeCapabilities`；旧 Runtime `0.2.113` 会在 preflight 解析时拒绝该未知字段，不会进入
+action admission。旧版仍可负责自己的生命周期操作，不代表支持 amendment/drift。调用前应检查 `tools/list` 的实际 schema。
 
 ## 重要选项
 

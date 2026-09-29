@@ -52,6 +52,7 @@ rebase；相同 request 重试返回原 receipt，同一 ID 用于不同 request
 | `risk`、`authority` | preflight 使用的风险与权限声明；repository record 不认证个人身份。 | Implemented / External identity boundary |
 | `acceptanceCriteria` | 人类拥有的验收声明；编号 `A1:` 可绑定 Summary evidence。 | Implemented |
 | `requiredEvidenceClasses` | 生命周期完成所需的 evidence 类别。 | Implemented |
+| `requiredRuntimeCapabilities` | Contract amendment 添加并由 Runtime 管理的最低能力标记；禁止通用 amendment 修改，使不支持它的旧 strict-schema Runtime 拒绝该 Contract。 | Implemented |
 | `sources` | 旧字符串或 typed `{path, reason}` 引用。 | Implemented |
 | `verification` | 旧验证字符串或 typed `{check, required}` 声明；声明不能替代新鲜执行。 | Implemented |
 | `baseRevision` | Work Item 起始 revision，由 snapshot 推导。 | Implemented |

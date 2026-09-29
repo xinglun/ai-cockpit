@@ -92,8 +92,9 @@ cross-process event bus ではありません。
 
 MCP は `work_item_amend`、`work_item_amendments`、`work_item_environment_drift` を公開します。
 drift tool は読み取り専用の `action=check` と明示 write の `action=record` を分けます。
-旧 Runtime `0.2.113` はこれらの capability を持ちません。Contract を読めることだけでは
-互換性を証明しません。`tools/list` の実 schema を確認してください。
+amendment 後の Contract には保護された `requiredRuntimeCapabilities` が記録されます。旧 Runtime
+`0.2.113` は preflight で未知 field を拒否し、action admission 前に停止します。旧 lifecycle を
+扱えることは amendment/drift capability のサポートを意味しません。`tools/list` の実 schema を確認してください。
 
 ## Important options
 

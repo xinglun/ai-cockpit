@@ -316,29 +316,35 @@ feature_docs = {
     'docs/reference/commands.md': (
         '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
         'check-environment-drift', 'record-environment-drift',
-        'work_item_environment_drift', '0.2.113', 'read-only',
+        'work_item_environment_drift', '0.2.113', 'requiredRuntimeCapabilities',
+        'rejects', 'read-only',
     ),
     'docs/reference/commands.ja.md': (
         '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
         'check-environment-drift', 'record-environment-drift',
-        'work_item_environment_drift', '0.2.113', '読み取り専用',
+        'work_item_environment_drift', '0.2.113', 'requiredRuntimeCapabilities',
+        '拒否', '読み取り専用',
     ),
     'docs/reference/commands.zh-CN.md': (
         '--request', 'expectedContractDigest', 'changeId', 'work-item amendments',
         'check-environment-drift', 'record-environment-drift',
-        'work_item_environment_drift', '0.2.113', '只读',
+        'work_item_environment_drift', '0.2.113', 'requiredRuntimeCapabilities',
+        '拒绝', '只读',
     ),
     'docs/reference/contract-fields.md': (
         'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
         'reorder', 'expectedContractDigest', 'protected', 'reason',
+        'requiredRuntimeCapabilities',
     ),
     'docs/reference/contract-fields.ja.md': (
         'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
         'reorder', 'expectedContractDigest', '保護', '理由',
+        'requiredRuntimeCapabilities',
     ),
     'docs/reference/contract-fields.zh-CN.md': (
         'ContractAmendmentRequest', 'add', 'set', 'clear', 'remove', 'replace',
         'reorder', 'expectedContractDigest', '保护', '理由',
+        'requiredRuntimeCapabilities',
     ),
     'docs/reference/agent-workflow.md': (
         'request-scoped', 'record-environment-drift', 'work_item_environment_drift',

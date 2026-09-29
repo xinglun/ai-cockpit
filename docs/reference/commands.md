@@ -86,8 +86,10 @@ are `add`, `set`, `clear`, `remove`, `replace`, and `reorder`; unknown or
 protected paths fail closed, the prospective Contract is fully validated, and
 a digest mismatch conflicts rather than rebasing. Replaying the same request
 and `changeId` returns its original receipt. `work-item amendments` is a
-read-only append-only history query. The old Runtime `0.2.113` does not expose
-these new MCP capabilities; Contract readability is not compatibility.
+read-only append-only history query. An amended Contract carries the protected
+`requiredRuntimeCapabilities` marker. The exact old Runtime `0.2.113` rejects
+that unknown field during preflight before action admission; its lifecycle
+compatibility does not imply amendment/drift support.
 
 For coordination, `check-environment-drift` only observes and reports pending
 Runtime-derived drift. `record-environment-drift` explicitly persists the

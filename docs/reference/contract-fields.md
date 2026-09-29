@@ -63,6 +63,7 @@ amendment requires fresh preflight and any affected verification.
 | `risk`, `authority` | Declared risk and authority used by preflight; the repository record does not authenticate a person. | Implemented / External identity boundary |
 | `acceptanceCriteria` | Human-owned acceptance statements; numbered `A1:` criteria can bind Summary evidence. | Implemented |
 | `requiredEvidenceClasses` | Required evidence categories for lifecycle completion. | Implemented |
+| `requiredRuntimeCapabilities` | Runtime-maintained minimum capability marker, added by Contract amendment and protected from generic edits so older strict-schema Runtimes reject unsupported Contracts. | Implemented |
 | `sources` | Legacy source strings or typed `{path, reason}` references. | Implemented |
 | `verification` | Legacy verification strings or typed `{check, required}` declarations; declarations never replace fresh execution. | Implemented |
 | `baseRevision` | Snapshot-derived starting revision for the Work Item. | Implemented |
