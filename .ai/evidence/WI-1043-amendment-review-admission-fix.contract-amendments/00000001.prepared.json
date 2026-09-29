@@ -1,0 +1,184 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1043-amendment-review-admission-fix",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-dbbdfd01f1e8d14b1629edc4ebe53fe01a93e134839a76efcac7600fa20dd003",
+      "expectedContractDigest": "sha256:b187db5f7b65d0f8fd4f0cf95d71a15aab310ef9f6c5bf530eedb2564039b701",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/pull/1003"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825"
+        }
+      ]
+    },
+    "requestDigest": "sha256:e3744c27f57383e06f839dbcd661e730c09a7d159bf5bd6278982a1ab5b5acee",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+        "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+        "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+        "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+        "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge."
+      ],
+      "authority": "authorized",
+      "baseRevision": "065063c0f2f7eed2b7648eed3353717d1ce08822",
+      "createdAt": "2026-09-29T21:01:24Z",
+      "goal": "Prevent Runtime from admitting verification before required review of a sensitive Contract amendment, align command guidance with current Runtime admission in three languages, and restore the canonical CI concurrency guidance assertions.",
+      "intent": "Resolve the independent-review and hosted-CI blockers to WI-1042 without rewriting its immutable archive.",
+      "mode": "code",
+      "outOfScope": [
+        "release",
+        " tag",
+        " publication",
+        " unrelated governance redesign",
+        " rewriting WI-1042 archive or evidence"
+      ],
+      "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+      "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.b1586cb49984ed9e1fac54d0f8056075859dcd5760dc2458da669fc7d590bda4.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "agents/skills/ordinary-work-item.md",
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/ci/workflow_convergence_test.sh"
+      ],
+      "workItemId": "WI-1043-amendment-review-admission-fix"
+    },
+    "previousContractDigest": "sha256:b187db5f7b65d0f8fd4f0cf95d71a15aab310ef9f6c5bf530eedb2564039b701",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+        "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+        "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+        "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+        "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "065063c0f2f7eed2b7648eed3353717d1ce08822",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-09-29T21:01:24Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Prevent Runtime from admitting verification before required review of a sensitive Contract amendment, align command guidance with current Runtime admission in three languages, and restore the canonical CI concurrency guidance assertions.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Resolve the independent-review and hosted-CI blockers to WI-1042 without rewriting its immutable archive.",
+      "mode": "code",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "release",
+        " tag",
+        " publication",
+        " unrelated governance redesign",
+        " rewriting WI-1042 archive or evidence"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+      "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.b1586cb49984ed9e1fac54d0f8056075859dcd5760dc2458da669fc7d590bda4.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/commands.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/commands.zh-CN.md",
+        "agents/skills/ordinary-work-item.md",
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "sources": [
+        "https://github.com/xinglun/ai-cockpit/pull/1003",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/ci/workflow_convergence_test.sh"
+      ],
+      "workItemId": "WI-1043-amendment-review-admission-fix"
+    },
+    "newContractDigest": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+    "previousSummaryDigest": "sha256:0ccd2dea879cf7b1b380862d9dfb5fe6d55b79632786315b6a78dcecf899d02e",
+    "repositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+    "environmentObservationDigest": "sha256:3665912ad149b3f4a131c7bafcd38e1093df03f05456e00907d1b1ba448d3605",
+    "runtime": {
+      "runtimeVersion": "1.0.0",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:ce5dafd1f3af803c032b8206aaa161a5fd2938af8fa2e91ace8fdc39ee6fe68c"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:dbbdfd01f1e8d14b1629edc4ebe53fe01a93e134839a76efcac7600fa20dd003",
+    "preparedAt": "2026-09-29T21:04:08Z"
+  },
+  "preparedDigest": "sha256:e7e1588b29be53218cde94d8e125a0fc686a7a1d0b97602380219fa9a4cc268a"
+}

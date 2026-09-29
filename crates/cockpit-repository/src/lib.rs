@@ -11111,7 +11111,10 @@ fn read_contract_boundary(
         });
     }
     let value = read_json(&path)?;
-    let Some(boundary) = value.get("concurrencyBoundary") else {
+    let Some(boundary) = value
+        .get("concurrencyBoundary")
+        .filter(|boundary| !boundary.is_null())
+    else {
         return Ok(None);
     };
     let boundary: ConcurrencyBoundary =

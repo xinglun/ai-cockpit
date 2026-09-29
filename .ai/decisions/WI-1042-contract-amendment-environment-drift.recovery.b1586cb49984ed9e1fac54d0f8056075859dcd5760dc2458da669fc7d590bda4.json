@@ -1,0 +1,30 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "explicit user authorization in this task to continue without pausing, within the previously authorized delivery-through-merge boundary",
+  "decidedAt": "2026-09-29T21:00:58Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1003",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "agents/skills/ordinary-work-item.md",
+    "docs/reference/governance-integrity-gate.md"
+  ],
+  "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+  "predecessorEventsDigest": "sha256:d2b720fe9388618872d2226516df1be32411c2e0b683d5b7edf8e442a996f972",
+  "predecessorOutcomeDigest": "sha256:071e56918f13223ed6a869befda9d0d86e914867c8b7267f6b3a690ceac1b818",
+  "predecessorSummaryDigest": "sha256:e1a5184bd3f5cb9304221026a6c7ef34fe19fbdd1d87a5e4af7a1e5b47892d82",
+  "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
+  "reason": "WI-1042 is immutably archived and current Runtime status admits only its provider-finalization lifecycle. An independent review found an in-scope admission defect that can admit verification before required sensitive-amendment review; the exact PR CI also fails the ordinary-work-item concurrency-guidance assertion. Preserve WI-1042 history and correct these delivery blockers in a bound recovery successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only on the Runtime-created successor Contract. Correct the sensitive-amendment verification-admission bypass, align the three-language next-action guidance with Runtime admission, and satisfy the CI concurrency-guidance regression. Verify the exact final PR head, merge only with current checks and independent review clear, complete admitted cleanup, and stop before release, tag, or publication.",
+  "runtimeDigest": "sha256:ce5dafd1f3af803c032b8206aaa161a5fd2938af8fa2e91ace8fdc39ee6fe68c",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1043-amendment-review-admission-fix",
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}

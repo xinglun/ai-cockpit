@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The repository owner authorized continuing all bounded corrections in the current Work Item. This confirms review of its current amended scope and permits fresh verification; it does not assert tests, hosted checks, merge, or release have passed.",
+  "recordedAt": "2026-09-29T22:40:07Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d7094814818ee116b8f8d388159badabf9094e0f8d6cb1257017b253fe5188ae",
+  "schemaVersion": 1,
+  "workItemId": "WI-1043-amendment-review-admission-fix"
+}

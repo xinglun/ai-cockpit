@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:e7e1588b29be53218cde94d8e125a0fc686a7a1d0b97602380219fa9a4cc268a",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1043-amendment-review-admission-fix",
+    "sequence": 1,
+    "changeId": "legacy-dbbdfd01f1e8d14b1629edc4ebe53fe01a93e134839a76efcac7600fa20dd003",
+    "requestDigest": "sha256:e3744c27f57383e06f839dbcd661e730c09a7d159bf5bd6278982a1ab5b5acee",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:dbbdfd01f1e8d14b1629edc4ebe53fe01a93e134839a76efcac7600fa20dd003",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1003"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1003"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1003",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b187db5f7b65d0f8fd4f0cf95d71a15aab310ef9f6c5bf530eedb2564039b701",
+    "newContractDigest": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+    "repositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+    "environmentObservationDigest": "sha256:3665912ad149b3f4a131c7bafcd38e1093df03f05456e00907d1b1ba448d3605",
+    "runtimeVersion": "1.0.0",
+    "runtimeDigest": "sha256:ce5dafd1f3af803c032b8206aaa161a5fd2938af8fa2e91ace8fdc39ee6fe68c",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:21335b01dccdad1c6e565fb73b363fc6915c2994acfb112c3e1a6f91dca9fdec",
+    "recordedAt": "2026-09-29T21:04:08Z"
+  }
+}

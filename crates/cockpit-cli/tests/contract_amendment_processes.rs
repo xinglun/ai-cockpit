@@ -307,3 +307,42 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
         "{unsupported}"
     );
 }
+
+#[test]
+fn inspect_accepts_null_optional_concurrency_boundary_after_amendment() {
+    let root = repository();
+    let request = serde_json::to_vec_pretty(&typed_request(root.path()))
+        .expect("serialize amendment request");
+    let request_file = tempfile::NamedTempFile::new().expect("amendment request file");
+    fs::write(request_file.path(), request).expect("write amendment request");
+
+    let amended = run_cli(&[
+        "work-item",
+        "amend",
+        "--repo",
+        root.path().to_str().expect("repository path"),
+        "--id",
+        WORK_ITEM_ID,
+        "--request",
+        request_file.path().to_str().expect("request path"),
+    ]);
+    assert_success(&amended, "amend Work Item before inspect");
+
+    let contract_path = root
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{WORK_ITEM_ID}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(contract_path).expect("read Contract"))
+        .expect("Contract JSON");
+    assert_eq!(contract["concurrencyBoundary"], Value::Null);
+
+    let inspected = run_cli(&[
+        "work-item",
+        "inspect",
+        "--repo",
+        root.path().to_str().expect("repository path"),
+        "--id",
+        WORK_ITEM_ID,
+    ]);
+    assert_success(&inspected, "inspect amended Contract with null boundary");
+}
