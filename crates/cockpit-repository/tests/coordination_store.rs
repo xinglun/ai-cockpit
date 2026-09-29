@@ -340,6 +340,50 @@ fn environment_drift_event_is_shared_idempotent_and_recoverable_after_generation
 }
 
 #[test]
+fn environment_identity_includes_rust_toolchain_and_cargo_configuration() {
+    let root = repository();
+    let baseline = cockpit_repository::RepositoryExecutionContext::capture(root.path())
+        .expect("capture repository context")
+        .observe_environment_identity()
+        .expect("observe baseline environment");
+    assert!(
+        baseline
+            .observed_inputs
+            .iter()
+            .any(|input| input == "rustc-toolchain")
+    );
+
+    fs::create_dir_all(root.path().join(".cargo")).expect("create Cargo config directory");
+    fs::write(
+        root.path().join(".cargo/config.toml"),
+        "[build]\nrustflags = [\"-C\", \"debuginfo=0\"]\n",
+    )
+    .expect("write Cargo config");
+    let cargo_config_changed = cockpit_repository::RepositoryExecutionContext::capture(root.path())
+        .expect("capture Cargo config change")
+        .observe_environment_identity()
+        .expect("observe Cargo config change");
+    assert_ne!(
+        cargo_config_changed.environment_digest, baseline.environment_digest,
+        "Cargo build configuration must affect the environment identity"
+    );
+
+    fs::write(
+        root.path().join("rust-toolchain.toml"),
+        "[toolchain]\nchannel = \"stable\"\n",
+    )
+    .expect("write Rust toolchain selector");
+    let toolchain_changed = cockpit_repository::RepositoryExecutionContext::capture(root.path())
+        .expect("capture toolchain selector change")
+        .observe_environment_identity()
+        .expect("observe toolchain selector change");
+    assert_ne!(
+        toolchain_changed.environment_digest, cargo_config_changed.environment_digest,
+        "Rust toolchain selection must affect the environment identity"
+    );
+}
+
+#[test]
 fn generation_advance_preserves_unrecorded_environment_drift_before_replacing_registration() {
     let root = repository();
     let store = store(root.path());
