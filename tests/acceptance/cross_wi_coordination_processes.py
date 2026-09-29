@@ -77,6 +77,32 @@ def mcp_tools(binary: Path, repo: Path) -> tuple[list[dict], dict]:
     return tools, initialize.get("serverInfo", {})
 
 
+def mcp_tool_call(binary: Path, repo: Path, name: str, arguments: dict) -> dict:
+    request = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {"name": name, "arguments": arguments},
+    }
+    result = subprocess.run(
+        [str(binary), "mcp", "--repo", str(repo)],
+        input=json.dumps(request) + "\n",
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"MCP {name} process failed: {result.stderr}")
+    responses = [json.loads(line) for line in result.stdout.splitlines() if line.strip()]
+    response = responses[0] if responses else {}
+    if response.get("result", {}).get("isError") is True:
+        raise RuntimeError(f"MCP {name} failed: {response}")
+    content = response.get("result", {}).get("structuredContent")
+    if not isinstance(content, dict):
+        raise RuntimeError(f"MCP {name} returned no structured content: {response}")
+    return content
+
+
 def digest_bytes(value: bytes) -> str:
     return "sha256:" + hashlib.sha256(value).hexdigest()
 
@@ -155,7 +181,7 @@ def main() -> None:
         "schemaVersion": 1,
         "runtimeVersion": runtime_version(),
         "runtimeDigest": digest_bytes(binary.read_bytes()),
-        "capability": "cross_wi_coordination_v1",
+        "capability": "observed_environment_drift_v1",
     }
 
     with tempfile.TemporaryDirectory(prefix="ai-cockpit-cross-wi-") as temporary:
@@ -164,14 +190,21 @@ def main() -> None:
         composition_tmp_two = temporary_path / "composition-tmp-two"
         composition_tmp_one.mkdir()
         composition_tmp_two.mkdir()
+        env_marker = temporary_path / "environment-command-started"
+        marker_script = "mark-process.sh"
         root = temporary_path / "root"
         worktree_a = temporary_path / "wi-a"
         worktree_b = temporary_path / "wi-b"
+        worktree_c = temporary_path / "wi-c"
         root.mkdir()
+        (root / marker_script).write_text(f"touch {env_marker}\n")
+        (root / "Cargo.toml").write_text(
+            '[package]\nname = "cross-wi-acceptance"\nversion = "0.1.0"\nedition = "2024"\n'
+        )
+        (root / "README.md").write_text("acceptance\n")
         git(root, "init", "-q")
         git(root, "config", "user.email", "acceptance@example.invalid")
         git(root, "config", "user.name", "Acceptance")
-        (root / "README.md").write_text("acceptance\n")
         git(root, "add", ".")
         git(root, "commit", "-qm", "initial")
         git(root, "branch", "-M", "main")
@@ -182,16 +215,20 @@ def main() -> None:
         git(root, "remote", "set-head", "origin", "main")
         git(root, "worktree", "add", "-qb", "codex/wi-a", str(worktree_a), "main")
         git(root, "worktree", "add", "-qb", "codex/wi-b", str(worktree_b), "main")
+        git(root, "worktree", "add", "-qb", "codex/wi-c", str(worktree_c), "main")
         git(worktree_a, "branch", "--set-upstream-to=origin/main")
         git(worktree_b, "branch", "--set-upstream-to=origin/main")
+        git(worktree_c, "branch", "--set-upstream-to=origin/main")
 
         # Attach each checkout through the CLI, then share only the durable
         # repository identity. Contracts remain distinct and are created by
         # the Runtime in their respective linked worktrees.
         require_cli(binary, ["attach", "--repo", str(worktree_a)])
         require_cli(binary, ["attach", "--repo", str(worktree_b)])
-        for shared_file in ["cockpit.toml", "project.json", "agent-interface.json"]:
-            shutil.copy2(worktree_a / ".ai" / shared_file, worktree_b / ".ai" / shared_file)
+        require_cli(binary, ["attach", "--repo", str(worktree_c)])
+        for checkout in [worktree_b, worktree_c]:
+            for shared_file in ["cockpit.toml", "project.json", "agent-interface.json"]:
+                shutil.copy2(worktree_a / ".ai" / shared_file, checkout / ".ai" / shared_file)
         repository_id = re.search(
             r'^repository_id\s*=\s*"([^"]+)"$',
             (worktree_a / ".ai/cockpit.toml").read_text(),
@@ -201,7 +238,11 @@ def main() -> None:
             raise RuntimeError("attached repository identity is not observable")
         repository_id_value = repository_id.group(1)
 
-        for work_item_id, worktree in [("WI-A", worktree_a), ("WI-B", worktree_b)]:
+        for work_item_id, worktree in [
+            ("WI-A", worktree_a),
+            ("WI-B", worktree_b),
+            ("WI-C", worktree_c),
+        ]:
             require_cli(
                 binary,
                 [
@@ -230,10 +271,34 @@ def main() -> None:
         # the write APIs through real CLI processes below.
         manifest = json.loads((worktree_a / ".ai/agent-interface.json").read_text())
         capabilities = set(manifest.get("capabilities", []))
-        assert {"work-item-coordination", "work-item-parallel"} <= capabilities
+        assert {
+            "work-item-coordination",
+            "work-item-parallel",
+            "work-item-contract-amendment",
+            "work-item-environment-drift",
+        } <= capabilities
         listed_tools, server_info = mcp_tools(binary, worktree_a)
         listed_by_name = {tool["name"]: tool for tool in listed_tools}
-        assert {"work_item_coordination", "work_item_parallel", "work_item_composition"} <= set(listed_by_name)
+        assert {
+            "work_item_coordination",
+            "work_item_parallel",
+            "work_item_composition",
+            "work_item_amend",
+            "work_item_amendments",
+            "work_item_environment_drift",
+        } <= set(listed_by_name)
+        amend_help = require_cli(binary, ["work-item", "amend", "--help"])
+        assert "--request" in amend_help, amend_help
+        assert "--input" in amend_help and "--reason" in amend_help, amend_help
+        for tool_name in ["work_item_amend", "work_item_amendments"]:
+            schema = listed_by_name[tool_name]["inputSchema"]
+            assert schema["additionalProperties"] is False, (tool_name, schema)
+        amendment_schema = listed_by_name["work_item_amend"]["inputSchema"]["properties"]["request"]
+        assert amendment_schema["additionalProperties"] is False, amendment_schema
+        assert amendment_schema["properties"]["changes"]["items"]["additionalProperties"] is False
+        environment_schema = listed_by_name["work_item_environment_drift"]["inputSchema"]
+        assert environment_schema["additionalProperties"] is False, environment_schema
+        assert environment_schema["properties"]["action"]["enum"] == ["check", "record"]
         candidate_doctor_result = run_cli(
             binary,
             ["agent", "doctor", "--repo", str(worktree_a), "--json"],
@@ -249,7 +314,8 @@ def main() -> None:
         coordination_cli_commands = cli_subcommands(coordination_help)
         assert coordination_cli_commands == {
             "inspect", "register", "report-impact", "publish-outcome",
-            "request-pause", "acknowledge", "resume", "recover", "help",
+            "request-pause", "acknowledge", "resume", "recover",
+            "check-environment-drift", "record-environment-drift", "help",
         }, coordination_help
         slot_help = require_cli(binary, ["work-item", "slot", "--help"])
         slot_cli_commands = cli_subcommands(slot_help)
@@ -269,6 +335,7 @@ def main() -> None:
             assert nested["properties"], (property_name, nested)
         registration_schema = coordination_schema["properties"]["registration"]
         assert registration_schema["properties"]["runtime"]["properties"]["runtimeDigest"]["pattern"]
+        assert registration_schema["properties"]["runtime"]["properties"]["capability"]["const"] == "observed_environment_drift_v1"
         assert registration_schema["properties"]["declaration"]["properties"]["providedOutcomes"]["items"]["properties"]["stage"]["enum"] == [
             "interface_stable", "composable_head", "merged_target"
         ]
@@ -320,6 +387,13 @@ def main() -> None:
             legacy_names = {tool["name"] for tool in legacy_tools}
             assert "work_item_coordination" not in legacy_names
             assert "work_item_composition" not in legacy_names
+            assert "work_item_amend" not in legacy_names
+            assert "work_item_amendments" not in legacy_names
+            assert "work_item_environment_drift" not in legacy_names
+            legacy_amend_help = require_cli(
+                legacy_binary, ["work-item", "amend", "--help"]
+            )
+            assert "--request" not in legacy_amend_help, legacy_amend_help
             legacy_version = legacy_info.get("version")
             candidate_version = server_info.get("version")
             assert isinstance(legacy_version, str) and legacy_version
@@ -393,13 +467,39 @@ def main() -> None:
         # Bind WI-B's composition command to the actual Contract required check.
         contract_b = worktree_b / ".ai/work-items/active/WI-B.contract.json"
         contract_value = json.loads(contract_b.read_text())
-        contract_value["verification"] = [{"check": "env", "required": True}]
+        contract_value["verification"] = [{"check": f"sh {marker_script}", "required": True}]
         contract_b.write_text(json.dumps(contract_value, indent=2) + "\n")
+        contract_a = worktree_a / ".ai/work-items/active/WI-A.contract.json"
+        contract_a_value = json.loads(contract_a.read_text())
+        contract_a_value["verification"] = [{"check": "true", "required": True}]
+        contract_a.write_text(json.dumps(contract_a_value, indent=2) + "\n")
+        contract_c = worktree_c / ".ai/work-items/active/WI-C.contract.json"
+        contract_c_value = json.loads(contract_c.read_text())
+        contract_c_value["verification"] = [{"check": "env", "required": True}]
+        contract_c.write_text(json.dumps(contract_c_value, indent=2) + "\n")
 
-        def registration(work_item_id: str, worktree: Path) -> dict:
+        def registration(work_item_id: str, worktree: Path, generation: int = 1) -> dict:
             contract = worktree / ".ai/work-items/active" / f"{work_item_id}.contract.json"
             branch = git(worktree, "branch", "--show-current")
             head = git(worktree, "rev-parse", "HEAD")
+            provided_outcomes = []
+            consumed_outcomes = []
+            if work_item_id == "WI-A":
+                provided_outcomes = [{
+                    "outcomeId": "WI-A-api",
+                    "interfaceContract": "stable process acceptance API",
+                    "behaviorContract": "environment changes invalidate consumers",
+                    "publishedHead": head,
+                    "stage": "composable_head",
+                    "evidenceRefs": [],
+                }]
+            if work_item_id == "WI-B":
+                consumed_outcomes = [{
+                    "providerWorkItemId": "WI-A",
+                    "outcomeId": "WI-A-api",
+                    "minimumStage": "composable_head",
+                    "verificationRequired": False,
+                }]
             return {
                 "schemaVersion": 1,
                 "repositoryId": repository_id_value,
@@ -408,21 +508,26 @@ def main() -> None:
                 "worktreePath": str(worktree.resolve()),
                 "branch": branch,
                 "head": head,
-                "generation": 1,
+                "generation": generation,
                 "declaration": {
-                    "providedOutcomes": [],
-                    "consumedOutcomes": [],
+                    "providedOutcomes": provided_outcomes,
+                    "consumedOutcomes": consumed_outcomes,
                     "resourceClaims": [],
                     "integrationResponsibility": {
                         "responsibleWorkItemId": work_item_id,
                         "targetBranch": "main",
-                        "compositionOrder": [work_item_id],
+                        "compositionOrder": ["WI-A", "WI-B"] if work_item_id == "WI-B" else [work_item_id],
                         "rationale": "process acceptance",
                     },
                     "compositionVerification": {
                         "compatibilityConstraints": [],
                         "requiredScenarios": [],
-                        "reusableNodes": ["required-check"] if work_item_id == "WI-B" else [],
+                        "reusableNodes": (
+                            ["required-check-a"] if work_item_id == "WI-A"
+                            else ["required-check"] if work_item_id == "WI-B"
+                            else ["unrelated-check"] if work_item_id == "WI-C"
+                            else []
+                        ),
                     },
                 },
                 "runtime": runtime,
@@ -430,11 +535,14 @@ def main() -> None:
 
         input_a = temporary_path / "registration-a.json"
         input_b = temporary_path / "registration-b.json"
+        input_c = temporary_path / "registration-c.json"
         input_a.write_text(json.dumps(registration("WI-A", worktree_a)))
         input_b.write_text(json.dumps(registration("WI-B", worktree_b)))
+        input_c.write_text(json.dumps(registration("WI-C", worktree_c)))
         registration_commands = [
             ["work-item", "coordination", "register", "--repo", str(worktree_a), "--input", str(input_a)],
             ["work-item", "coordination", "register", "--repo", str(worktree_b), "--input", str(input_b)],
+            ["work-item", "coordination", "register", "--repo", str(worktree_c), "--input", str(input_c)],
         ]
         processes = [
             subprocess.Popen(
@@ -452,7 +560,7 @@ def main() -> None:
             "schemaVersion": 1,
             "eventId": "impact-concurrent",
             "repositoryId": repository_id_value,
-            "workItemId": "WI-A",
+            "workItemId": "WI-C",
             "generation": 1,
             "kind": "impact",
             "source": "process-acceptance",
@@ -476,17 +584,19 @@ def main() -> None:
         results = [process.communicate() for process in processes]
         assert all(process.returncode == 0 for process in processes), results
 
-        # Run the same composition twice through the real CLI. The input
-        # contains a deliberately false caller precondition; the admitted path
-        # must replace it with facts recomputed from the registrations/Git.
+        # Run the dependent composition twice through real CLI processes. The
+        # input contains a deliberately false caller precondition; Runtime must
+        # replace it with facts recomputed from registrations and Git.
         head_b = git(worktree_b, "rev-parse", "HEAD")
+        head_a = git(worktree_a, "rev-parse", "HEAD")
+        affected_marker = env_marker
         command = {
             "nodeId": "required-check",
-            "program": "env",
-            "args": [],
+            "program": "sh",
+            "args": [marker_script],
             "dependsOn": [],
             "environment": {},
-            "inputPaths": ["README.md"],
+            "inputPaths": ["README.md", marker_script],
             "coveredScenarios": [],
             "coveredConstraints": [],
         }
@@ -499,12 +609,24 @@ def main() -> None:
                 "bindingId": "process-composition",
                 "targetBranch": "main",
                 "targetSha": git(root, "rev-parse", "refs/heads/main"),
-                "participantWorkItems": ["WI-B"],
-                "participantHeads": [head_b],
-                "contractDigests": [contract_digest(contract_b)],
+                "participantWorkItems": ["WI-A", "WI-B"],
+                "participantHeads": [head_a, head_b],
+                "contractDigests": [contract_digest(contract_a), contract_digest(contract_b)],
                 "verifier": runtime,
             },
-            "commands": [command],
+            "commands": [
+                {
+                    "nodeId": "required-check-a",
+                    "program": "true",
+                    "args": [],
+                    "dependsOn": [],
+                    "environment": {},
+                    "inputPaths": ["README.md"],
+                    "coveredScenarios": [],
+                    "coveredConstraints": [],
+                },
+                command,
+            ],
             "preconditions": [
                 {"name": "caller-claim", "satisfied": False, "reason": "not authoritative"}
             ],
@@ -512,6 +634,7 @@ def main() -> None:
         }
         composition_path = temporary_path / "composition.json"
         composition_path.write_text(json.dumps(composition_input))
+        env_marker.unlink(missing_ok=True)
         composition_args = [
             "work-item",
             "composition",
@@ -524,49 +647,168 @@ def main() -> None:
             "--input",
             str(composition_path),
         ]
-        first = json.loads(
-            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_one)})
-        )
+        first = json.loads(require_cli(binary, composition_args))
         composition_bytes = composition_path.read_bytes()
-        second = json.loads(
-            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_one)})
-        )
-        assert composition_path.read_bytes() == composition_bytes
-        changed_environment = json.loads(
-            require_cli(binary, composition_args, {"TMPDIR": str(composition_tmp_two)})
-        )
         first_result = first["result"]
-        second_result = second["result"]
-        changed_environment_result = changed_environment["result"]
         assert first_result["passed"] is True, first
         assert first_result["schemaVersion"] == 2, first_result
-        assert second_result["passed"] is True, second
-        assert first_result["processesSpawned"] == 1, first_result
-        assert second_result["processesSpawned"] == 0, second_result
-        assert second_result["executionRecords"][0]["reused"] is True, second_result
+        assert first_result["processesSpawned"] == 2, first_result
+        assert affected_marker.exists(), "first dependent composition did not execute its process"
+        affected_marker.unlink()
+        registration_bytes = input_a.read_bytes()
+
+        # A Runtime-observed dependency drift is reported without changing the
+        # registration or composition JSON supplied by the caller.
+        cargo_manifest = worktree_a / "Cargo.toml"
+        cargo_manifest.write_text(cargo_manifest.read_text() + "\n# observed environment drift\n")
+        drift_request = temporary_path / "environment-drift.json"
+        drift_request.write_text(json.dumps({
+            "schemaVersion": 1,
+            "workItemId": "WI-A",
+            "expectedGeneration": 1,
+        }))
+        events_before_drift_check = json.loads(require_cli(binary, [
+            "work-item", "coordination", "inspect", "--repo", str(root),
+        ]))["events"]
+        check_drift = json.loads(require_cli(binary, [
+            "work-item", "coordination", "check-environment-drift",
+            "--repo", str(worktree_b), "--input", str(drift_request),
+        ]))
+        assert check_drift["pending"] is True, check_drift
+        mcp_check_drift = mcp_tool_call(
+            binary,
+            worktree_b,
+            "work_item_environment_drift",
+            {"action": "check", "workItemId": "WI-A", "generation": 1},
+        )
+        assert mcp_check_drift == {"pending": True, "writePerformed": False}, mcp_check_drift
+        events_after_drift_check = json.loads(require_cli(binary, [
+            "work-item", "coordination", "inspect", "--repo", str(root),
+        ]))["events"]
+        assert events_after_drift_check == events_before_drift_check, "read-only drift check wrote an event"
+        record_drift = mcp_tool_call(
+            binary,
+            worktree_a,
+            "work_item_environment_drift",
+            {"action": "record", "workItemId": "WI-A", "generation": 1},
+        )
+        drift_event_id = record_drift["result"]["eventId"]
+        assert drift_event_id, record_drift
+        cli_record_retry = json.loads(require_cli(binary, [
+            "work-item", "coordination", "record-environment-drift",
+            "--repo", str(worktree_a), "--input", str(drift_request),
+        ]))
+        assert cli_record_retry["result"]["eventId"] == drift_event_id, cli_record_retry
+        assert input_a.read_bytes() == registration_bytes
+        assert composition_path.read_bytes() == composition_bytes
+
+        # Affected work is denied before the touch process can start, while an
+        # unrelated Work Item continues to execute in the same shared repo.
+        denied = run_cli(binary, composition_args)
+        assert denied.returncode != 0, denied.stdout
+        assert not affected_marker.exists(), "affected command spawned despite drift blocker"
+        affected_denied_before_spawn = denied.returncode != 0 and not affected_marker.exists()
+
+        contract_c = worktree_c / ".ai/work-items/active/WI-C.contract.json"
+        head_c = git(worktree_c, "rev-parse", "HEAD")
+        unrelated_input = {
+            "repositoryRoot": str(worktree_c),
+            "stateDir": str(temporary_path / "caller-state-c"),
+            "binding": {
+                "schemaVersion": 1,
+                "repositoryId": repository_id_value,
+                "bindingId": "unrelated-composition",
+                "targetBranch": "main",
+                "targetSha": git(root, "rev-parse", "refs/heads/main"),
+                "participantWorkItems": ["WI-C"],
+                "participantHeads": [head_c],
+                "contractDigests": [contract_digest(contract_c)],
+                "verifier": runtime,
+            },
+            "commands": [{
+                "nodeId": "unrelated-check",
+                "program": "env",
+                "args": [],
+                "dependsOn": [],
+                "environment": {},
+                "inputPaths": ["README.md"],
+                "coveredScenarios": [],
+                "coveredConstraints": [],
+            }],
+            "preconditions": [],
+            "timeoutSeconds": 1,
+        }
+        unrelated_path = temporary_path / "unrelated-composition.json"
+        unrelated_path.write_text(json.dumps(unrelated_input))
+        unrelated_args = [
+            "work-item", "composition", "--repo", str(worktree_c),
+            "--id", "WI-C", "--generation", "1", "--input", str(unrelated_path),
+        ]
+        unrelated_first = json.loads(require_cli(binary, unrelated_args))
+        unrelated_second = json.loads(require_cli(binary, unrelated_args))
+        changed_environment = json.loads(
+            require_cli(binary, unrelated_args, {"TMPDIR": str(composition_tmp_two)})
+        )
+        unrelated_result = unrelated_first["result"]
+        changed_environment_result = changed_environment["result"]
+        assert unrelated_result["passed"] is True, unrelated_first
+        assert unrelated_result["processesSpawned"] == 1, unrelated_result
+        assert unrelated_second["result"]["processesSpawned"] == 0, unrelated_second
+        assert unrelated_second["result"]["executionRecords"][0]["reused"] is True, unrelated_second
         assert changed_environment_result["passed"] is True, changed_environment
         assert changed_environment_result["processesSpawned"] == 1, changed_environment_result
         assert changed_environment_result["executionRecords"][0]["reused"] is False, changed_environment_result
-        assert (
-            changed_environment_result["identity"]["environmentDigest"]
-            != second_result["identity"]["environmentDigest"]
-        ), changed_environment_result
+        assert changed_environment_result["identity"]["environmentDigest"] != unrelated_second["result"]["identity"]["environmentDigest"]
+        assert unrelated_result["executionRecords"][0]["spawned"] is True, unrelated_first
+
+        # Advance the provider generation with a fresh Runtime observation,
+        # then append a recovery for the original event and consumer generation.
+        registration_a_v2 = temporary_path / "registration-a-generation-2.json"
+        registration_a_v2.write_text(json.dumps(registration("WI-A", worktree_a, 2)))
+        require_cli(binary, [
+            "work-item", "coordination", "register", "--repo", str(worktree_a),
+            "--input", str(registration_a_v2),
+        ])
+        recovery = json.loads(require_cli(binary, [
+            "work-item", "coordination", "recover", "--repo", str(worktree_b),
+            "--event-id", drift_event_id, "--consumer-work-item-id", "WI-B",
+            "--consumer-generation", "1",
+        ]))
+        assert recovery["result"]["eventId"] == drift_event_id, recovery
+
+        # Recovery permits a fresh dependent validation. Give it a new node
+        # identity so the pre-drift receipt cannot be reused for this run.
+        post_recovery_marker = env_marker
+        composition_input["binding"]["bindingId"] = "post-recovery-composition"
+        composition_path.write_text(json.dumps(composition_input))
+        post_recovery_marker.unlink(missing_ok=True)
+        post_recovery = json.loads(require_cli(binary, composition_args))
+        assert post_recovery["result"]["passed"] is True, post_recovery
+        assert post_recovery["result"]["processesSpawned"] == 2, post_recovery
+        assert post_recovery_marker.exists(), "post-recovery validation did not spawn"
 
         inspection = json.loads(
             require_cli(binary, ["work-item", "coordination", "inspect", "--repo", str(root)])
         )
-        assert len(inspection["registrations"]) == 2, inspection
-        assert len(inspection["events"]) == 1, inspection
+        assert len(inspection["registrations"]) == 3, inspection
+        assert len(inspection["events"]) == 2, inspection
         print(
             json.dumps(
                 {
                     "state": "passed",
-                    "linkedWorktrees": 2,
+                    "linkedWorktrees": 3,
                     "registrations": len(inspection["registrations"]),
                     "deduplicatedEvents": len(inspection["events"]),
                     "firstCompositionProcesses": first_result["processesSpawned"],
-                    "secondCompositionProcesses": second_result["processesSpawned"],
-                    "changedEnvironmentProcesses": changed_environment_result["processesSpawned"],
+                    "secondCompositionProcesses": unrelated_second["result"]["processesSpawned"],
+                    "environmentDriftCheckPending": check_drift["pending"],
+                    "mcpEnvironmentDriftReadOnly": mcp_check_drift["writePerformed"] is False,
+                    "mcpEnvironmentDriftEventId": drift_event_id,
+                    "affectedProcessDeniedBeforeSpawn": affected_denied_before_spawn,
+                    "unrelatedProcessContinued": unrelated_result["processesSpawned"] == 1,
+                    "changedEnvironmentReexecutedUnrelatedCheck": changed_environment_result["processesSpawned"] == 1,
+                    "recoveryRecorded": recovery["result"]["eventId"] == drift_event_id,
+                    "postRecoveryProcesses": post_recovery["result"]["processesSpawned"],
                     "manifestCapabilities": sorted(capabilities),
                     "mcpToolNames": sorted(listed_by_name),
                     "mcpCoordinationSchemaComplete": True,

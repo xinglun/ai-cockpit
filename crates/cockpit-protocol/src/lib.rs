@@ -9,9 +9,9 @@ mod contract_amendment;
 pub mod release_plan;
 
 pub use contract_amendment::{
-    ContractAmendmentChange, ContractAmendmentError, ContractAmendmentFieldClass,
-    ContractAmendmentOperation, ContractAmendmentRequest, apply_contract_amendment,
-    contract_amendment_field_class,
+    CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
+    ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
+    apply_contract_amendment, contract_amendment_field_class,
 };
 
 pub use interface_description::{
@@ -83,6 +83,8 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-finalization",
     "work-item-coordination",
     "work-item-parallel",
+    "work-item-contract-amendment",
+    "work-item-environment-drift",
     "evidence",
     "audit",
     "capability-show",

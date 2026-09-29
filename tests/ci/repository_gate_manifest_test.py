@@ -77,6 +77,18 @@ assert all(entry["minimumProfile"] in manifest["profileOrder"] for entry in entr
 coordination_acceptance = next(
     entry for entry in entries if entry["id"] == "conformance_cross_wi_coordination_processes"
 )
+amendment_acceptance = next(
+    entry for entry in entries if entry["id"] == "conformance_contract_amendment_processes"
+)
+assert amendment_acceptance["command"] == [
+    "cargo",
+    "test",
+    "--locked",
+    "-p",
+    "cockpit-cli",
+    "--test",
+    "contract_amendment_processes",
+]
 assert coordination_acceptance["command"][-2:] == [
     "--legacy-binary",
     "target/legacy-runtime/release/ai-cockpit",

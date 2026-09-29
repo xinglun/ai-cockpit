@@ -1,9 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
-    IntegrationResponsibility, OutcomeStage, ProvidedOutcome, RuntimeCapabilityBinding,
-    WorktreeRegistration,
+    CollaborationDeclaration, CoordinationEvent, CoordinationEventKind,
+    ENVIRONMENT_DRIFT_CAPABILITY, IntegrationResponsibility, OutcomeStage, ProvidedOutcome,
+    RuntimeCapabilityBinding, WorktreeRegistration,
 };
 use serde_json::Value;
 use sha2::{Digest as ShaDigest, Sha256};
@@ -52,7 +52,7 @@ fn candidate_runtime() -> RuntimeCapabilityBinding {
         schema_version: 1,
         runtime_version: env!("CARGO_PKG_VERSION").into(),
         runtime_digest: digest,
-        capability: COLLABORATION_CAPABILITY.into(),
+        capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
 }
 
@@ -83,6 +83,7 @@ fn registration(root: &Path) -> WorktreeRegistration {
             ..Default::default()
         },
         runtime: candidate_runtime(),
+        environment: None,
     }
 }
 
@@ -374,6 +375,7 @@ fn coordination_cli_and_mcp_queries_preserve_store_bytes_across_processes() {
         evidence_refs: Vec::new(),
         evidence_digests: Default::default(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     };
     let event_path = root.path().join("impact.json");
     fs::write(&event_path, serde_json::to_vec_pretty(&event).unwrap()).unwrap();
