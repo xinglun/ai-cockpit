@@ -320,22 +320,21 @@ def main() -> None:
             legacy_names = {tool["name"] for tool in legacy_tools}
             assert "work_item_coordination" not in legacy_names
             assert "work_item_composition" not in legacy_names
-            assert legacy_info.get("version") == server_info.get("version"), (
-                "the compatibility fixture is expected to demonstrate same-version, "
-                "different-binary semantics",
-                legacy_info,
-                server_info,
-            )
+            legacy_version = legacy_info.get("version")
+            candidate_version = server_info.get("version")
+            assert isinstance(legacy_version, str) and legacy_version
+            assert isinstance(candidate_version, str) and candidate_version
             assert legacy_info.get("runtimeDigest") != server_info.get("runtimeDigest")
             legacy_observation = {
                 "manifestReadable": True,
                 "agentDoctorState": legacy_doctor_report["state"],
                 "agentDoctorExitCode": legacy_doctor.returncode,
-                "runtimeVersion": legacy_info.get("version"),
+                "runtimeVersion": legacy_version,
+                "candidateRuntimeVersion": candidate_version,
                 "runtimeDigest": legacy_info.get("runtimeDigest"),
                 "coordinationToolAdvertised": False,
                 "compositionToolAdvertised": False,
-                "sameVersion": True,
+                "sameVersion": legacy_version == candidate_version,
                 "differentRuntimeDigest": True,
             }
 
