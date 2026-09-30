@@ -1,0 +1,156 @@
+{
+  "acceptanceCriteria": [
+    "The reviewed version-preparation PR and exact merged source bind package metadata and release documentation consistently to v1.0.0, with strict hosted CI passing.",
+    "The immutable annotated v1.0.0 tag, canonical release workflow run, ReleasePlan, and merged source revision agree exactly.",
+    "The public Release has the repository-declared complete target set and matching manifest, checksums, SBOM, provenance, and archive/executable digests; all published bytes are independently rechecked.",
+    "Downloaded public v1.0.0 passes fresh-install and v0.2.113-to-v1.0.0 N-1 upgrade acceptance with isolation and cleanup receipts; failures remain immutable and are never misreported as success.",
+    "Runtime lifecycle closure, documentation projection, and exact local/remote release resource cleanup are verified; WI-1040 remains recoverable and unchanged.",
+    "The cross-Work-Item process acceptance supports the authorized 0.2.113 legacy Runtime to 1.0.0 candidate transition: it verifies each reported version, preserves distinct binary digests and the legacy capability boundary, and does not require semver equality."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fa94eb6982bcaea76f7812b8062046b1eb108c35",
+  "createdAt": "2026-09-29T05:52:33Z",
+  "goal": "Prepare and merge the versioned release candidate, publish immutable v1.0.0 from the exact reviewed source, complete four-target artifact integrity and public install plus N-1 upgrade acceptance from v0.2.113, then close and clean the exact release Work Item; preserve the checkpointed Task 9 Work Item for continuation afterward.",
+  "intent": "Publish the first v1.x release from the reviewed Task 8 mainline without including Task 9 migration changes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Do not include",
+    " merge",
+    " or discard WI-1040 Task 9 migration changes; do not rewrite or delete prior releases",
+    " tags",
+    " failed evidence",
+    " or histories; do not change global Agent/MCP configuration or weaken release/CI gates; do not publish any version other than the authorized v1.0.0 candidate."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:49311fbb91d982c2903a841da186082c2d90ceaab2b430383a037ce8acabf8a9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v1-0-0",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1002",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v1/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The reviewed version-preparation PR and exact merged main revision consistently identify v1.0.0, with strict hosted checks passing.",
+      "required": true,
+      "scenario": "reviewed_v1_release_candidate_identity",
+      "status": "unverified",
+      "verificationPlan": "Run only release-candidate checks affected by the version change, inspect required hosted CI on the exact PR head, and bind the merged source revision before tagging."
+    },
+    {
+      "evidence": [],
+      "expected": "The annotated v1.0.0 tag, canonical workflow, typed ReleasePlan, Work Item, and merged source revision agree exactly.",
+      "required": true,
+      "scenario": "immutable_tag_and_release_plan_identity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed version PR is merged and main is synchronized, inspect the tag target and workflow/ReleasePlan identity receipts before accepting publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The public release contains every repository-declared target and matching manifest, checksums, SBOM, provenance, archive, and executable digests.",
+      "required": true,
+      "scenario": "public_release_artifact_integrity",
+      "status": "unverified",
+      "verificationPlan": "Independently download and verify every declared public asset and compare it with the immutable workflow evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded public v1.0.0 passes isolated fresh-install and v0.2.113-to-v1.0.0 upgrade acceptance, including cleanup receipts.",
+      "required": true,
+      "scenario": "downloaded_fresh_install_and_n_minus_one_upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the repository's canonical release acceptance route against downloaded immutable public assets; verify installation, upgrade, isolation, and cleanup receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "Any publication or adopter-acceptance failure remains visible and does not rewrite or reuse an immutable tag or historical evidence.",
+      "required": true,
+      "scenario": "failed_release_preserves_immutable_evidence",
+      "status": "unverified",
+      "verificationPlan": "Inspect failure handling and retained tag, workflow, and acceptance evidence; never replace or retarget v1.0.0 if reserved."
+    },
+    {
+      "evidence": [],
+      "expected": "Runtime close, documentation projection, and exact release worktree cleanup are complete while WI-1040 remains recoverable and unchanged; repeated status checks add no cleanup debt.",
+      "required": true,
+      "scenario": "release_close_preserves_task9_and_reaches_fixed_point",
+      "status": "unverified",
+      "verificationPlan": "Complete the Runtime release lifecycle after acceptance, compare WI-1040 before/after without changing its files, inspect exact branch/worktree cleanup, and repeat read-only status/projection checks."
+    }
+  ],
+  "scope": [
+    "Based on origin/main fa94eb6982bcaea76f7812b8062046b1eb108c35",
+    " prepare v1.0.0 version and tri-language release projections in a reviewed PR; run strict local and hosted checks; after merge and synchronized main",
+    " create the exact annotated v1.0.0 tag and dispatch the canonical release workflow with WI-1041 and Task 8 source verification identity; validate all workflow-published target artifacts",
+    " manifest",
+    " checksums",
+    " SBOM",
+    " provenance",
+    " downloaded fresh install",
+    " and v0.2.113-to-v1.0.0 upgrade; complete Runtime archive/finalize/finalize-verify/close and exact release branch/worktree cleanup. Keep Task 9 files and history untouched.",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/features/cross-wi-coordination.md",
+    "docs/features/cross-wi-coordination.zh-CN.md",
+    "docs/features/cross-wi-coordination.ja.md",
+    "docs/reference/cross-wi-coordination.md",
+    "docs/reference/cross-wi-coordination.zh-CN.md",
+    "docs/reference/cross-wi-coordination.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "tests/acceptance/cross_wi_coordination_processes.py"
+  ],
+  "sources": [
+    "User authorization in this conversation to publish v1.x before resuming Task 9.",
+    "origin/main at fa94eb6982bcaea76f7812b8062046b1eb108c35; successful hosted CI run 36441498929.",
+    "Existing public Release v0.2.113 and immutable tag v0.2.113; v1.0.0 is the first requested v1.x candidate.",
+    ".github/workflows/release.yml and docs/reference/ci-release-evidence.md for canonical publication and artifact evidence.",
+    "Archived WI-1025 release contract and docs/work-items/WI-1025-release-v0-2-113.md as historical shape reference only, not current authority.",
+    "The merged adapter interface `.ai/agent-interface.json` declares `work-item-parallel` as a supported surface.",
+    "`docs/reference/agent-workflow.md` documents when independent validation and CI jobs may run concurrently and preserves serialized lifecycle changes; it makes no quantified speedup promise.",
+    "`Cargo.toml` and `Cargo.lock` are the canonical Rust workspace release identity inputs.",
+    "`docs/architecture/versioning.*` and `docs/architecture/release-distribution.*` are the tri-language current-version and release-baseline projections.",
+    "`docs/features/cross-wi-coordination.*` and `docs/reference/cross-wi-coordination.*` describe the Task 8 Runtime compatibility boundary that changes when v1.0.0 is published.",
+    "`docs/reference/commands.*` is generated from the candidate CLI; `docs/reference/reference-comparison-metadata.json` binds its workspace candidate version.",
+    {
+      "path": "tests/acceptance/cross_wi_coordination_processes.py",
+      "reason": "PR CI run 36532859547 failed because the compatibility fixture requires the released legacy Runtime and the v1.0.0 candidate to have equal semver, despite the authorized 0.2.113-to-1.0.0 release transition. Preserve the distinct-runtime-digest and capability-boundary assertions while making the observed version relationship explicit."
+    },
+    {
+      "path": ".ai/evidence/WI-1041-release-v1-0-0.verification-attempt.9d46e4504016263d35c6d966f569f35dcb97fcddaa50619a586a14f63d10c6a5.json",
+      "reason": "Preserved local full-workspace verification timeout after 300 seconds of cold compilation; no test assertion failure was reported."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/version_consistency.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh .github/workflows/release.yml"
+  ],
+  "workItemId": "WI-1041-release-v1-0-0"
+}
