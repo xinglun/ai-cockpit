@@ -255,7 +255,7 @@ fn dependency_blockers_for_registration(
     blockers
 }
 
-fn provider_outcome_key(dependency: &ConsumedOutcome) -> ProviderOutcomeKey {
+pub(crate) fn provider_outcome_key(dependency: &ConsumedOutcome) -> ProviderOutcomeKey {
     ProviderOutcomeKey {
         provider_work_item_id: dependency.provider_work_item_id.clone(),
         outcome_id: dependency.outcome_id.clone(),
@@ -1357,17 +1357,19 @@ pub fn collaboration_outcome_projection(
                 .map(provider_outcome_key)
                 .collect(),
         };
-        admit_collaboration_action(&store, work_item_id, registration.generation, action)
+        evaluate_collaboration_action_from_projection(
+            &projection,
+            work_item_id,
+            registration.generation,
+            action,
+            Vec::new(),
+        )
     });
     let mut admission_unknowns = Vec::new();
     let blockers = match admission {
-        Some(Ok(admission)) => {
+        Some(admission) => {
             admission_unknowns = admission.unknowns;
             admission.blockers
-        }
-        Some(Err(error)) => {
-            admission_unknowns.push(format!("collaboration_admission:{error}"));
-            Vec::new()
         }
         None => Vec::new(),
     };
@@ -1627,6 +1629,109 @@ pub fn admit_collaboration_action(
     action: CollaborationAction,
 ) -> Result<CollaborationAdmission, CoordinationError> {
     let projection = refresh_dependency_state(store, work_item_id, generation)?;
+    let unknowns =
+        environment_refresh_unknowns(store, &projection, work_item_id, generation, &action);
+    Ok(evaluate_collaboration_action_from_projection(
+        &projection,
+        work_item_id,
+        generation,
+        action,
+        unknowns,
+    ))
+}
+
+/// Persist Runtime-observed environment changes and then evaluate the action
+/// under the shared coordination lock. Unlike `admit_collaboration_action`,
+/// this is a write-bearing pre-action boundary.
+pub fn refresh_and_admit_collaboration_action(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    action: CollaborationAction,
+) -> Result<CollaborationAdmission, CoordinationError> {
+    store.with_lock(|| {
+        refresh_and_admit_collaboration_action_under_lock(store, work_item_id, generation, action)
+    })
+}
+
+pub(crate) fn refresh_and_admit_collaboration_action_under_lock(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    action: CollaborationAction,
+) -> Result<CollaborationAdmission, CoordinationError> {
+    let mut projection = refresh_dependency_state(store, work_item_id, generation)?;
+    let mut environment_unknowns = Vec::new();
+    if let Some(registration) = projection
+        .registrations
+        .iter()
+        .find(|registration| registration.work_item_id == work_item_id)
+        .filter(|registration| registration.generation == generation)
+    {
+        let selected_outcomes = action.outcomes.iter().cloned().collect::<BTreeSet<_>>();
+        if !registration.declaration.consumed_outcomes.is_empty()
+            && !registration.runtime.supports_environment_drift()
+        {
+            environment_unknowns.push(format!(
+                "environment_drift_capability_unsupported:{work_item_id}"
+            ));
+        }
+        for dependency in &registration.declaration.consumed_outcomes {
+            let key = provider_outcome_key(dependency);
+            if !selected_outcomes.is_empty() && !selected_outcomes.contains(&key) {
+                continue;
+            }
+            let Some(provider) = projection
+                .registrations
+                .iter()
+                .find(|provider| provider.work_item_id == dependency.provider_work_item_id)
+            else {
+                continue;
+            };
+            if !provider.runtime.supports_environment_drift() {
+                environment_unknowns.push(format!(
+                    "environment_drift_capability_unsupported:{}",
+                    provider.work_item_id
+                ));
+                continue;
+            }
+            let request = cockpit_protocol::EnvironmentDriftRequest {
+                schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+                work_item_id: provider.work_item_id.clone(),
+                expected_generation: provider.generation,
+            };
+            if let Err(error) = store.record_environment_drift_under_lock(&request) {
+                environment_unknowns.push(format!(
+                    "environment_refresh:{}:{error}",
+                    provider.work_item_id
+                ));
+            }
+        }
+        projection = refresh_dependency_state(store, work_item_id, generation)?;
+    }
+    environment_unknowns.extend(environment_refresh_unknowns(
+        store,
+        &projection,
+        work_item_id,
+        generation,
+        &action,
+    ));
+    Ok(evaluate_collaboration_action_from_projection(
+        &projection,
+        work_item_id,
+        generation,
+        action,
+        environment_unknowns,
+    ))
+}
+
+fn evaluate_collaboration_action_from_projection(
+    projection: &CollaborationProjection,
+    work_item_id: &str,
+    generation: u64,
+    action: CollaborationAction,
+    mut extra_unknowns: Vec<String>,
+) -> CollaborationAdmission {
     let registration = projection
         .registrations
         .iter()
@@ -1636,7 +1741,13 @@ pub fn admit_collaboration_action(
         .get(work_item_id)
         .cloned()
         .unwrap_or_default();
+    if action.kind == CollaborationActionKind::ResourceRelease {
+        blockers.retain(|blocker| {
+            !is_outcome_dependency_blocker(blocker) && !blocker.starts_with("dependency_cycle:")
+        });
+    }
     let mut unknowns = projection.unknowns.clone();
+    unknowns.append(&mut extra_unknowns);
     if registration.is_none() {
         unknowns.push(format!("registration_missing:{work_item_id}"));
     } else if registration.is_some_and(|registration| registration.generation != generation) {
@@ -1677,9 +1788,9 @@ pub fn admit_collaboration_action(
                 }
             }
             let selected = action.outcomes.iter().cloned().collect::<BTreeSet<_>>();
-            let invalidated_outcomes = transitive_invalidated_outcomes(&projection);
+            let invalidated_outcomes = transitive_invalidated_outcomes(projection);
             let outcome_blockers = dependency_blockers_for_registration(
-                &projection,
+                projection,
                 registration,
                 Some(&selected),
                 &invalidated_outcomes,
@@ -1691,6 +1802,7 @@ pub fn admit_collaboration_action(
             if request.target_work_item_id == work_item_id
                 && request.target_generation == generation
                 && request.state == CoordinationRequestState::SafelyPaused
+                && action.kind != CollaborationActionKind::ResourceRelease
             {
                 blockers.push(format!("coordination_safely_paused:{}", request.request_id));
             }
@@ -1703,7 +1815,7 @@ pub fn admit_collaboration_action(
     blockers.dedup();
     unknowns.sort();
     unknowns.dedup();
-    Ok(CollaborationAdmission {
+    CollaborationAdmission {
         work_item_id: work_item_id.into(),
         generation,
         allowed: blockers.is_empty() && unknowns.is_empty(),
@@ -1711,7 +1823,7 @@ pub fn admit_collaboration_action(
         blockers,
         unknowns,
         refreshed_events: projection.events.len(),
-    })
+    }
 }
 
 fn with_composition_process_start_admission<T, V, F>(
@@ -1728,12 +1840,17 @@ where
 {
     store
         .with_lock(|| {
-            let admission = admit_collaboration_action(store, work_item_id, generation, action)
-                .map_err(|error| {
-                    CoordinationError::RecoveryRequired(format!(
-                        "composition process-start admission failed: {error}"
-                    ))
-                })?;
+            let admission = refresh_and_admit_collaboration_action_under_lock(
+                store,
+                work_item_id,
+                generation,
+                action,
+            )
+            .map_err(|error| {
+                CoordinationError::RecoveryRequired(format!(
+                    "composition process-start admission failed: {error}"
+                ))
+            })?;
             if !admission.allowed {
                 let details = admission
                     .blockers
@@ -1780,7 +1897,8 @@ pub fn run_admitted_composition(
         consumer_work_item_id: work_item_id.into(),
         outcomes,
     };
-    let admission = admit_collaboration_action(store, work_item_id, generation, action.clone())?;
+    let admission =
+        refresh_and_admit_collaboration_action(store, work_item_id, generation, action.clone())?;
     if !admission.allowed {
         return Err(CollaborationExecutionError::Blocked {
             work_item_id: work_item_id.into(),
@@ -1879,6 +1997,70 @@ fn read_registered_contract(
     read_registered_contract_with_reader(registration, &mut |root, reference| {
         read_registered_worktree_file(root, reference)
     })
+}
+
+fn environment_refresh_unknowns(
+    store: &CoordinationStore,
+    projection: &CollaborationProjection,
+    work_item_id: &str,
+    generation: u64,
+    action: &CollaborationAction,
+) -> Vec<String> {
+    let Some(consumer) = projection
+        .registrations
+        .iter()
+        .find(|registration| registration.work_item_id == work_item_id)
+        .filter(|registration| registration.generation == generation)
+    else {
+        return Vec::new();
+    };
+    if consumer.declaration.consumed_outcomes.is_empty() {
+        return Vec::new();
+    }
+    let mut unknowns = Vec::new();
+    if !consumer.runtime.supports_environment_drift() {
+        unknowns.push(format!(
+            "environment_drift_capability_unsupported:{work_item_id}"
+        ));
+    }
+    let selected_outcomes = action.outcomes.iter().cloned().collect::<BTreeSet<_>>();
+    for dependency in &consumer.declaration.consumed_outcomes {
+        let key = provider_outcome_key(dependency);
+        if !selected_outcomes.is_empty() && !selected_outcomes.contains(&key) {
+            continue;
+        }
+        let Some(provider) = projection
+            .registrations
+            .iter()
+            .find(|provider| provider.work_item_id == dependency.provider_work_item_id)
+        else {
+            continue;
+        };
+        if !provider.runtime.supports_environment_drift() {
+            unknowns.push(format!(
+                "environment_drift_capability_unsupported:{}",
+                provider.work_item_id
+            ));
+            continue;
+        }
+        let request = cockpit_protocol::EnvironmentDriftRequest {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            work_item_id: provider.work_item_id.clone(),
+            expected_generation: provider.generation,
+        };
+        match store.environment_drift_pending(&request) {
+            Ok(true) => unknowns.push(format!(
+                "environment_drift_unrecorded:{}",
+                provider.work_item_id
+            )),
+            Ok(false) => {}
+            Err(error) => unknowns.push(format!(
+                "environment_refresh:{}:{error}",
+                provider.work_item_id
+            )),
+        }
+    }
+    unknowns
 }
 
 fn read_registered_contract_with_reader<F>(
@@ -2501,6 +2683,7 @@ where
         evidence_refs: outcome.evidence_refs.clone(),
         evidence_digests,
         outcome_ids: vec![outcome_id.into()],
+        environment_change: None,
     };
     let published_key = ProviderOutcomeKey {
         provider_work_item_id: work_item_id.into(),
@@ -2608,7 +2791,7 @@ pub fn resume_and_re_evaluate(
     for request_id in request_ids {
         store.transition_request(&request_id, CoordinationRequestState::Resumed)?;
     }
-    admit_collaboration_action(
+    refresh_and_admit_collaboration_action(
         store,
         work_item_id,
         generation,
@@ -2895,6 +3078,7 @@ mod registered_worktree_file_tests {
                 ..cockpit_protocol::CollaborationDeclaration::default()
             },
             runtime,
+            environment: None,
         };
         let publication = CoordinationEvent {
             schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
@@ -2910,6 +3094,7 @@ mod registered_worktree_file_tests {
                 cockpit_core::Digest::sha256_bytes(&evidence_bytes),
             )]),
             outcome_ids: vec!["api".into()],
+            environment_change: None,
         };
         let projection = CollaborationProjection {
             registrations: vec![provider.clone()],
@@ -3174,6 +3359,7 @@ mod outcome_publication_tests {
                 runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
                 capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
             },
+            environment: None,
         }
     }
 

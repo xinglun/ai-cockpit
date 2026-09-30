@@ -5,10 +5,10 @@ use std::io::Read;
 use std::process::{Child, Command, Stdio};
 use std::time::Instant;
 
-const CHILD_MODE: &str = "COCKPIT_COORDINATION_LOCK_TEST_MODE";
-const CHILD_ROOT: &str = "COCKPIT_COORDINATION_LOCK_TEST_ROOT";
-const CHILD_PAYLOAD: &str = "COCKPIT_COORDINATION_LOCK_TEST_PAYLOAD";
-const CHILD_MARKER: &str = "COCKPIT_COORDINATION_LOCK_TEST_MARKER";
+const CHILD_MODE: &str = "CODEX_COCKPIT_COORDINATION_LOCK_TEST_MODE";
+const CHILD_ROOT: &str = "CODEX_COCKPIT_COORDINATION_LOCK_TEST_ROOT";
+const CHILD_PAYLOAD: &str = "CODEX_COCKPIT_COORDINATION_LOCK_TEST_PAYLOAD";
+const CHILD_MARKER: &str = "CODEX_COCKPIT_COORDINATION_LOCK_TEST_MARKER";
 const CHILD_TEST_NAME: &str =
     "coordination_store::lock_recovery_tests::coordination_lock_child_helper";
 
@@ -113,6 +113,7 @@ fn registration(root: &Path, work_item_id: &str, generation: u64) -> WorktreeReg
         generation,
         declaration: CollaborationDeclaration::default(),
         runtime: binding(),
+        environment: None,
     }
 }
 
@@ -131,6 +132,7 @@ fn impact_event(registration: &WorktreeRegistration) -> CoordinationEvent {
         evidence_refs: Vec::new(),
         evidence_digests: BTreeMap::new(),
         outcome_ids: Vec::new(),
+        environment_change: None,
     }
 }
 
@@ -317,6 +319,11 @@ fn killed_lock_owner_releases_coordination_lock_and_registration_retry_reconcile
         .iter()
         .find(|registration| registration.work_item_id == "WI-LOCK-RECOVERY")
         .expect("reconciled registration");
-    assert_eq!(authoritative.generation, 2);
-    assert_eq!(authoritative, &updated);
+    assert_eq!(authoritative.generation, updated.generation);
+    assert_eq!(authoritative.head, updated.head);
+    assert_eq!(authoritative.contract_digest, updated.contract_digest);
+    assert!(authoritative.environment.is_some());
+    let mut expected = updated;
+    expected.environment = authoritative.environment.clone();
+    assert_eq!(authoritative, &expected);
 }

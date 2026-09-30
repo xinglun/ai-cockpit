@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 22] = [
+const TOOL_NAMES: [&str; 25] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -27,6 +27,9 @@ const TOOL_NAMES: [&str; 22] = [
     "work_item_parallel",
     "work_item_coordination",
     "work_item_composition",
+    "work_item_amend",
+    "work_item_amendments",
+    "work_item_environment_drift",
 ];
 
 fn string_property(description: &str) -> Value {
@@ -139,7 +142,7 @@ fn runtime_binding_schema() -> Value {
             "schemaVersion": {"type": "integer", "default": 1},
             "runtimeVersion": {"type": "string", "minLength": 1},
             "runtimeDigest": digest_schema(),
-            "capability": {"type": "string", "const": "cross_wi_coordination_v1"}
+            "capability": {"type": "string", "const": "observed_environment_drift_v1"}
         },
         "required": ["runtimeVersion", "runtimeDigest", "capability"],
         "additionalProperties": false
@@ -351,6 +354,48 @@ fn work_item_coordination_schema() -> Value {
             .collect(),
     );
     schema
+}
+
+fn contract_amendment_request_schema() -> Value {
+    let change = json!({
+        "type": "object",
+        "properties": {
+            "path": string_property("Canonical Contract-relative JSON Pointer."),
+            "operation": {"type":"string", "enum":["add", "set", "clear", "remove", "replace", "reorder"]},
+            "value": {},
+        },
+        "required": ["path", "operation"],
+        "additionalProperties": false,
+    });
+    json!({
+        "type": "object",
+        "properties": {
+            "schemaVersion": {"type":"integer", "const": 1},
+            "changeId": string_property("Stable idempotency key for this recorded plan change."),
+            "expectedContractDigest": {"type":"string", "pattern":"^sha256:[0-9a-f]{64}$"},
+            "reason": string_property("Human-readable rationale explaining why the implementation plan changed."),
+            "changes": {"type":"array", "minItems":1, "items":change},
+        },
+        "required": ["schemaVersion", "changeId", "expectedContractDigest", "reason", "changes"],
+        "additionalProperties": false,
+    })
+}
+
+fn environment_drift_schema() -> Value {
+    json!({
+        "type": "object",
+        "properties": {
+            "action": {"type":"string", "enum":["check", "record"]},
+            "workItemId": string_property("Registered provider Work Item whose environment is re-observed."),
+            "generation": {"type":"integer", "minimum":1},
+        },
+        "required": ["action", "workItemId", "generation"],
+        "additionalProperties": false,
+        "oneOf": [
+            {"properties":{"action":{"const":"check"}}},
+            {"properties":{"action":{"const":"record"}}}
+        ]
+    })
 }
 
 fn outcome_parameter_names() -> Vec<String> {
@@ -629,6 +674,18 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["workItemId", "generation", "input"],
         ),
+        "work_item_amend" => object_schema(
+            json!({
+                "workItemId": string_property("Active Work Item whose implementation Contract is being amended."),
+                "request": contract_amendment_request_schema(),
+            }),
+            &["workItemId", "request"],
+        ),
+        "work_item_amendments" => object_schema(
+            json!({"workItemId": string_property("Work Item whose append-only amendment history is read.")}),
+            &["workItemId"],
+        ),
+        "work_item_environment_drift" => environment_drift_schema(),
         _ => object_schema(json!({}), &[]),
     }
 }
@@ -743,6 +800,18 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "work_item_composition",
             "Refresh collaboration admission and verify an exact composition in an isolated temporary worktree.",
         ),
+        (
+            "work_item_amend",
+            "Apply a strict, reasoned ContractAmendmentRequest and append its immutable receipt.",
+        ),
+        (
+            "work_item_amendments",
+            "Read append-only Contract amendment history without changing repository state.",
+        ),
+        (
+            "work_item_environment_drift",
+            "Check Runtime-observed environment drift read-only, or explicitly record a durable invalidation before dependent actions.",
+        ),
     ];
     descriptions
         .into_iter()
@@ -802,6 +871,9 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_parallel" => Some(&["action", "workItemId", "id", "leaseId"][..]),
         "work_item_coordination" => None,
         "work_item_composition" => Some(&["workItemId", "generation", "input"][..]),
+        "work_item_amend" => Some(&["workItemId", "request"][..]),
+        "work_item_amendments" => Some(&["workItemId"][..]),
+        "work_item_environment_drift" => Some(&["action", "workItemId", "generation"][..]),
         _ => return Err(format!("unknown tool: {name}")),
     };
     for key in object.keys() {
@@ -874,6 +946,35 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             ] {
                 parse_string_array(object, field, name, false, 0)?;
             }
+        }
+        "work_item_amend" => {
+            require_string(object, "workItemId", name)?;
+            let request: cockpit_protocol::ContractAmendmentRequest =
+                serde_json::from_value(object.get("request").cloned().unwrap_or(Value::Null))
+                    .map_err(|error| format!("invalid amendment request: {error}"))?;
+            if request.schema_version != cockpit_protocol::CONTRACT_AMENDMENT_SCHEMA_VERSION
+                || request.change_id.trim().is_empty()
+                || request.reason.trim().is_empty()
+                || request.changes.is_empty()
+            {
+                return Err(format!(
+                    "invalid arguments for {name}: request requires the supported schema, non-empty changeId/reason, and at least one change"
+                ));
+            }
+        }
+        "work_item_amendments" => require_string(object, "workItemId", name)?,
+        "work_item_environment_drift" => {
+            match object.get("action") {
+                Some(Value::String(value)) if value == "check" || value == "record" => {}
+                Some(_) => {
+                    return Err(format!(
+                        "invalid arguments for {name}: action must be check or record"
+                    ));
+                }
+                None => return Err(format!("invalid arguments for {name}: action is required")),
+            }
+            require_string(object, "workItemId", name)?;
+            require_positive_u64(object, "generation", name)?;
         }
         "work_item_status" => {
             if let Some(value) = object.get("all") {
@@ -1122,8 +1223,19 @@ fn collaboration_runtime(
         schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
-        capability: cockpit_protocol::COLLABORATION_CAPABILITY.into(),
+        capability: cockpit_protocol::ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
+}
+
+fn require_candidate_runtime(runtime: &cockpit_protocol::RuntimeContext) -> Result<(), String> {
+    if runtime.runtime_version != env!("CARGO_PKG_VERSION") {
+        return Err(format!(
+            "unsupported_runtime_capability: Runtime {} owns lifecycle only; candidate {} is required for this coordination surface",
+            runtime.runtime_version,
+            env!("CARGO_PKG_VERSION")
+        ));
+    }
+    Ok(())
 }
 
 fn collaboration_store(
@@ -1131,6 +1243,7 @@ fn collaboration_store(
     runtime: &cockpit_protocol::RuntimeContext,
     write: bool,
 ) -> Result<cockpit_repository::CoordinationStore, String> {
+    require_candidate_runtime(runtime)?;
     let git = cockpit_git::GitRepository::discover(repo).map_err(|error| error.to_string())?;
     let binding = collaboration_runtime(runtime);
     if write {
@@ -1139,6 +1252,80 @@ fn collaboration_store(
         cockpit_repository::CoordinationStore::open_read_only(&git, binding)
     }
     .map_err(|error| error.to_string())
+}
+
+fn work_item_amend(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    require_candidate_runtime(runtime)?;
+    let work_item_id = arguments
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId is required")?;
+    let request: cockpit_protocol::ContractAmendmentRequest =
+        serde_json::from_value(arguments.get("request").cloned().unwrap_or(Value::Null))
+            .map_err(|error| format!("invalid amendment request: {error}"))?;
+    let receipt = cockpit_repository::apply_work_item_contract_amendment(
+        repo,
+        work_item_id,
+        &request,
+        runtime,
+    )
+    .map_err(|error| error.to_string())?;
+    serde_json::to_value(receipt).map_err(|error| error.to_string())
+}
+
+fn work_item_amendments(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    require_candidate_runtime(runtime)?;
+    let work_item_id = arguments
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId is required")?;
+    let receipts = cockpit_repository::read_work_item_contract_amendments(repo, work_item_id)
+        .map_err(|error| error.to_string())?;
+    serde_json::to_value(receipts).map_err(|error| error.to_string())
+}
+
+fn work_item_environment_drift(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    require_candidate_runtime(runtime)?;
+    let action = arguments
+        .get("action")
+        .and_then(Value::as_str)
+        .ok_or("action is required")?;
+    let request = cockpit_protocol::EnvironmentDriftRequest {
+        schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+        work_item_id: arguments
+            .get("workItemId")
+            .and_then(Value::as_str)
+            .ok_or("workItemId is required")?
+            .to_owned(),
+        expected_generation: arguments
+            .get("generation")
+            .and_then(Value::as_u64)
+            .ok_or("generation is required")?,
+    };
+    let store = collaboration_store(repo, runtime, action == "record")?;
+    if action == "check" {
+        let pending = store
+            .environment_drift_pending(&request)
+            .map_err(|error| error.to_string())?;
+        Ok(json!({"pending": pending, "writePerformed": false}))
+    } else {
+        let event = store
+            .record_environment_drift(&request)
+            .map_err(|error| error.to_string())?;
+        coordination_result(&store, event)
+    }
 }
 
 fn coordination_result<T: serde::Serialize>(
@@ -1650,6 +1837,11 @@ pub fn handle_request_for_repo(
         }
         "work_item_coordination" => work_item_coordination(repo, &arguments, runtime),
         "work_item_composition" => work_item_composition(repo, &arguments, runtime),
+        "work_item_amend" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_amend(repo, &arguments, runtime)),
+        "work_item_amendments" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_amendments(repo, &arguments, runtime)),
+        "work_item_environment_drift" => work_item_environment_drift(repo, &arguments, runtime),
         _ => unreachable!("tool names and dispatch must stay in sync"),
     };
     match result {

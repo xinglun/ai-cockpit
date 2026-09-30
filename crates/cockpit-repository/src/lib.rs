@@ -12,23 +12,22 @@ use cockpit_protocol::{
     AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
     AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
     CapabilityExclusion, CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry,
-    CheckpointEvidence, ConcurrencyBoundary, Contract, ContractSource, DataClassification,
-    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance,
-    EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence, EvidenceRetention,
-    EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost,
-    GovernancePolicy, GovernancePolicyDocument, HumanBenefitReport, HumanDecision, OutcomeClaim,
+    CheckpointEvidence, ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance, EvidenceDisposition,
+    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
+    EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost, GovernancePolicy,
+    GovernancePolicyDocument, HumanBenefitReport, HumanDecision, OutcomeClaim,
     OutcomeReleaseProjection, OutcomeReportBindings, OutcomeReportSections, OutcomeState,
     OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease, PerformanceCounters,
     PerformanceDiagnosis, PerformancePhase, PolicyLayer, ProjectGovernanceProjection,
     QualityCommand, RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
     ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
     SchemaMigrationStep, SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeEvent,
-    TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
-    WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
-    WorkItemAdmissionState, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
-    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
-    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
-    validate_evidence_retention, validate_protocol_version,
+    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemActionExplanation,
+    WorkItemActionIssue, WorkItemActionIssueKind, WorkItemAdmissionState, WorkItemCompatibility,
+    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
@@ -49,6 +48,7 @@ use thiserror::Error;
 
 mod action_admission;
 mod collaboration;
+mod contract_amendment;
 mod coordination_store;
 mod evidence_store;
 mod execution_context;
@@ -67,8 +67,12 @@ pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
     CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
     acknowledge_pause, admit_collaboration_action, collaboration_outcome_projection,
-    collaboration_projection, publish_outcome, recover_impact, refresh_dependency_state,
-    report_impact, request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+    collaboration_projection, publish_outcome, recover_impact,
+    refresh_and_admit_collaboration_action, refresh_dependency_state, report_impact,
+    request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+};
+pub use contract_amendment::{
+    ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,
@@ -4721,6 +4725,7 @@ pub(crate) fn check_verification_preconditions(
         });
     }
     let summary = read_json(&summary_path)?;
+    require_contract_amendment_policy_review(&root, work_item_id, &contract_path)?;
     if !matches!(
         summary["state"].as_str(),
         Some("checkpointed" | "finish_ready")
@@ -4864,6 +4869,29 @@ pub(crate) fn check_verification_preconditions(
                     .collect::<Vec<_>>()
                     .join(", ")
             ),
+        });
+    }
+    Ok(())
+}
+
+fn require_contract_amendment_policy_review(
+    root: &Path,
+    work_item_id: &str,
+    contract_path: &Path,
+) -> Result<(), ObserverError> {
+    if !contract_amendment::has_sensitive_amendment(root, work_item_id)? {
+        return Ok(());
+    }
+    let current_contract_digest = contract_digest(contract_path)?;
+    if governance_controls::preflight_decision_evidence_state(
+        root,
+        work_item_id,
+        &current_contract_digest,
+    ) != governance_controls::PreflightDecisionEvidenceState::Valid
+    {
+        return Err(ObserverError::State {
+            path: contract_path.to_path_buf(),
+            message: "contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract".into(),
         });
     }
     Ok(())
@@ -5427,7 +5455,70 @@ fn apply_preflight_review_evidence(
         return Ok(decision);
     }
     let contract_digest = contract_digest(&contract_path)?;
-    match preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest) {
+    let evidence_state =
+        preflight_decision_evidence_state(root, &contract.work_item_id, &contract_digest);
+    let sensitive_amendment =
+        contract_amendment::has_sensitive_amendment(root, &contract.work_item_id)?;
+    if sensitive_amendment {
+        if evidence_state == governance_controls::PreflightDecisionEvidenceState::Valid {
+            // A valid receipt is bound to this exact Contract and preflight
+            // snapshot. Let the common valid-evidence branch below project
+            // that review as recorded, even when the underlying preflight
+            // decision itself did not independently request human review.
+            if decision.blockers.is_empty() && decision.state != DecisionState::Red {
+                decision.review_state = Some("needs_human_confirmation".into());
+            } else {
+                decision.review_state = Some("human_decision_recorded".into());
+            }
+        } else {
+            decision
+                .unknowns
+                .push("contract_amendment_policy_review_required".into());
+            decision.unknowns.sort();
+            decision.unknowns.dedup();
+            decision.required_checks.push("human_review".into());
+            decision.required_checks.sort();
+            decision.required_checks.dedup();
+            decision
+                .safe_actions
+                .push("record_fresh_preflight_decision".into());
+            decision.safe_actions.sort();
+            decision.safe_actions.dedup();
+            decision.review_state = Some("needs_human_confirmation".into());
+            decision.outcome_state = "needs_human_decision".into();
+            if decision.state != DecisionState::Red && decision.blockers.is_empty() {
+                decision.state = DecisionState::Yellow;
+            }
+            decision.human_decision_request = Some(cockpit_core::HumanDecisionRequest {
+                decision_id: "contract-preflight-review".into(),
+                status: "needs_human_confirmation".into(),
+                what_happened: "A sensitive Contract amendment was recorded and still requires explicit human review.".into(),
+                why_it_matters: "The amendment reason documents rationale but does not authorize a change to scope, authority, verification, or another sensitive plan decision.".into(),
+                options: vec![
+                    cockpit_core::HumanDecisionOption {
+                        id: "confirm_review".into(),
+                        label: "Confirm the amended plan".into(),
+                        effect: "Record an identity-bound decision for this exact Contract and preflight snapshot.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "amend_contract".into(),
+                        label: "Revise the amended plan".into(),
+                        effect: "Record a further reasoned amendment and rerun preflight.".into(),
+                    },
+                    cockpit_core::HumanDecisionOption {
+                        id: "stop_work".into(),
+                        label: "Stop the Work Item".into(),
+                        effect: "Leave the item recoverable without starting verification.".into(),
+                    },
+                ],
+                recommended_option: "confirm_review".into(),
+                recommendation_reason: "Only an identity-bound human decision can satisfy the review required by a sensitive plan change.".into(),
+                question: "Do you confirm the current amended Contract for continued work?".into(),
+                resume_condition: "A fresh preflight decision receipt matches the current Contract and repository snapshot.".into(),
+            });
+        }
+    }
+    match evidence_state {
         governance_controls::PreflightDecisionEvidenceState::Missing => {}
         governance_controls::PreflightDecisionEvidenceState::Valid => {
             if decision.review_state.as_deref() == Some("needs_human_confirmation")
@@ -11020,7 +11111,10 @@ fn read_contract_boundary(
         });
     }
     let value = read_json(&path)?;
-    let Some(boundary) = value.get("concurrencyBoundary") else {
+    let Some(boundary) = value
+        .get("concurrencyBoundary")
+        .filter(|boundary| !boundary.is_null())
+    else {
         return Ok(None);
     };
     let boundary: ConcurrencyBoundary =

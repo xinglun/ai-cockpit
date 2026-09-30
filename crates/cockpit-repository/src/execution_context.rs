@@ -1,6 +1,8 @@
 use super::project_governance::{ProjectGovernanceFacts, observe_project_governance};
 use super::*;
 
+const MAX_ENVIRONMENT_INPUT_BYTES: u64 = 16 * 1024 * 1024;
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationContextInput {
     pub program: String,
@@ -1428,6 +1430,70 @@ impl RepositoryExecutionContext {
         &self.snapshot
     }
 
+    /// Capture the stable command environment and repository dependency state
+    /// that Runtime uses to decide whether collaboration evidence can remain
+    /// applicable. Session-only Agent and shell variables are filtered by the
+    /// same environment identity helper used for verification reuse.
+    pub fn observe_environment_identity(
+        &self,
+    ) -> Result<cockpit_protocol::EnvironmentObservation, ObserverError> {
+        let process_environment_digest = execution_environment_digest(&self.root, "cargo")?;
+        let dependency_inputs = observe_dependency_inputs(&self.root)?;
+        let executable = resolved_executable_identity(&self.root, "cargo").ok_or_else(|| {
+            ObserverError::State {
+                path: self.root.clone(),
+                message: "environment identity cannot resolve the Cargo executable".into(),
+            }
+        })?;
+        let rustc_program = std::env::var_os("RUSTC")
+            .map(|value| {
+                value.into_string().map_err(|_| ObserverError::State {
+                    path: self.root.clone(),
+                    message: "environment identity cannot decode the RUSTC executable path".into(),
+                })
+            })
+            .transpose()?
+            .or(dependency_inputs.cargo_rustc)
+            .unwrap_or_else(|| "rustc".into());
+        let rustc = resolved_executable_identity(&self.root, &rustc_program).ok_or_else(|| {
+            ObserverError::State {
+                path: self.root.clone(),
+                message: "environment identity cannot resolve the selected Rust compiler".into(),
+            }
+        })?;
+        let toolchain = observe_rustc_toolchain(&self.root, &rustc)?;
+        let environment_digest = cockpit_protocol::digest_json(&(
+            "observed-environment-v2",
+            process_environment_digest,
+            executable.path,
+            executable.digest,
+            dependency_inputs.digest,
+            rustc.path,
+            rustc.digest,
+            toolchain.sysroot,
+            toolchain.compiler_path,
+            toolchain.compiler_digest,
+            toolchain.version_digest,
+            std::env::consts::OS,
+            std::env::consts::ARCH,
+        ))
+        .map_err(|error| ObserverError::State {
+            path: self.root.clone(),
+            message: error.to_string(),
+        })?;
+        Ok(cockpit_protocol::EnvironmentObservation {
+            schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
+            environment_digest,
+            observed_inputs: vec![
+                "process-environment".into(),
+                "cargo-executable".into(),
+                "repository-dependency-and-cargo-configuration-inputs".into(),
+                "rustc-toolchain".into(),
+                "operating-system-and-architecture".into(),
+            ],
+        })
+    }
+
     pub fn observe(&self) -> Result<&RepositoryObservation, ObserverError> {
         if let Some(observation) = self.observation.get() {
             return Ok(observation);
@@ -1575,6 +1641,212 @@ impl RepositoryExecutionContext {
             message: "repository observation was not initialized".into(),
         })
     }
+}
+
+struct DependencyInputObservation {
+    digest: Digest,
+    cargo_rustc: Option<String>,
+}
+
+struct RustcToolchainObservation {
+    sysroot: String,
+    compiler_path: String,
+    compiler_digest: String,
+    version_digest: Digest,
+}
+
+fn observe_dependency_inputs(root: &Path) -> Result<DependencyInputObservation, ObserverError> {
+    const INPUTS: [&str; 14] = [
+        "Cargo.toml",
+        "Cargo.lock",
+        "package.json",
+        "package-lock.json",
+        "pnpm-lock.yaml",
+        "yarn.lock",
+        "pyproject.toml",
+        "poetry.lock",
+        "go.mod",
+        "go.sum",
+        ".cargo/config.toml",
+        ".cargo/config",
+        "rust-toolchain.toml",
+        "rust-toolchain",
+    ];
+    let root_dir = Dir::open_ambient_dir(root, cap_std::ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        }
+    })?;
+    let mut observed = BTreeMap::new();
+    let mut configured_rustc: Option<String> = None;
+    for relative in INPUTS {
+        let path = root.join(relative);
+        let metadata = match fs::symlink_metadata(&path) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                observed.insert(relative, None::<Digest>);
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read { path, source });
+            }
+        };
+        if !metadata.file_type().is_file() {
+            return Err(ObserverError::State {
+                path,
+                message: "dependency identity input is not a regular non-symlink file".into(),
+            });
+        }
+        let bytes = read_cap_file_nofollow_bounded(
+            &root_dir,
+            relative,
+            &path,
+            MAX_ENVIRONMENT_INPUT_BYTES,
+        )?;
+        if matches!(relative, ".cargo/config.toml" | ".cargo/config") {
+            let text = std::str::from_utf8(&bytes).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: format!("Cargo configuration is not UTF-8: {error}"),
+            })?;
+            let configuration: toml::Value =
+                toml::from_str(text).map_err(|error| ObserverError::State {
+                    path: path.clone(),
+                    message: format!("Cargo configuration is invalid: {error}"),
+                })?;
+            if let Some(value) = configuration
+                .get("build")
+                .and_then(|build| build.get("rustc"))
+            {
+                let value = value.as_str().ok_or_else(|| ObserverError::State {
+                    path: path.clone(),
+                    message: "Cargo build.rustc must be an executable path string".into(),
+                })?;
+                if configured_rustc
+                    .replace(value.to_owned())
+                    .is_some_and(|previous| previous != value)
+                {
+                    return Err(ObserverError::State {
+                        path: root.join(".cargo"),
+                        message:
+                            "Cargo configuration files declare conflicting build.rustc executables"
+                                .into(),
+                    });
+                }
+            }
+        }
+        observed.insert(relative, Some(Digest::sha256_bytes(&bytes)));
+    }
+    let digest =
+        cockpit_protocol::digest_json(&observed).map_err(|error| ObserverError::State {
+            path: root.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    Ok(DependencyInputObservation {
+        digest,
+        cargo_rustc: configured_rustc,
+    })
+}
+
+fn observe_rustc_toolchain(
+    root: &Path,
+    rustc: &ResolvedExecutableIdentity,
+) -> Result<RustcToolchainObservation, ObserverError> {
+    let version = run_bounded_toolchain_probe(
+        root,
+        &rustc.path,
+        &["--version", "--verbose"],
+        "Rust compiler version",
+    )?;
+    if !version.lines().any(|line| line.starts_with("release:"))
+        || !version.lines().any(|line| line.starts_with("host:"))
+    {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: "selected Rust compiler returned an incomplete --version --verbose identity"
+                .into(),
+        });
+    }
+    let sysroot = run_bounded_toolchain_probe(
+        root,
+        &rustc.path,
+        &["--print", "sysroot"],
+        "Rust compiler sysroot",
+    )?;
+    let sysroot = sysroot.trim();
+    if sysroot.is_empty() || sysroot.lines().count() != 1 {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: "selected Rust compiler returned an invalid sysroot".into(),
+        });
+    }
+    #[cfg(windows)]
+    let compiler_path = Path::new(sysroot).join("bin/rustc.exe");
+    #[cfg(not(windows))]
+    let compiler_path = Path::new(sysroot).join("bin/rustc");
+    let compiler = resolved_executable_identity(root, &compiler_path.to_string_lossy())
+        .ok_or_else(|| ObserverError::State {
+            path: compiler_path.clone(),
+            message:
+                "selected Rust compiler sysroot does not expose an identifiable rustc executable"
+                    .into(),
+        })?;
+    Ok(RustcToolchainObservation {
+        sysroot: sysroot.into(),
+        compiler_path: compiler.path,
+        compiler_digest: compiler.digest,
+        version_digest: Digest::sha256_bytes(version.as_bytes()),
+    })
+}
+
+fn run_bounded_toolchain_probe(
+    root: &Path,
+    program: &str,
+    args: &[&str],
+    label: &str,
+) -> Result<String, ObserverError> {
+    let command = cockpit_verification::VerificationCommand::new(
+        label,
+        program,
+        args.iter().map(|argument| (*argument).to_owned()).collect(),
+        cockpit_verification::VerificationReusePolicy::NeverReuse,
+    )
+    .with_current_dir(root)
+    .with_timeout_seconds(10);
+    let receipt = cockpit_verification::execute_bounded(vec![command], 1).map_err(|error| {
+        ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!("{label} probe failed: {error}"),
+        }
+    })?;
+    let record = receipt
+        .execution_records
+        .first()
+        .ok_or_else(|| ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!("{label} probe did not produce an execution record"),
+        })?;
+    if !receipt.passed
+        || !record.spawned
+        || !record.passed
+        || record.timed_out
+        || record.stdout_truncated
+        || record.stderr_truncated
+        || record.stdout_hex.len() > 32 * 1024
+    {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!("{label} probe failed or exceeded its bounded output/deadline"),
+        });
+    }
+    let output = hex::decode(&record.stdout_hex).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: format!("{label} probe returned invalid output encoding: {error}"),
+    })?;
+    String::from_utf8(output).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: format!("{label} probe output is not UTF-8: {error}"),
+    })
 }
 
 /// Explicitly owned process session for repeated requests. It is not a

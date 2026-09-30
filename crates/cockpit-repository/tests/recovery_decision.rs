@@ -8,9 +8,10 @@ use cockpit_repository::{
     finish_work_item_with_runtime, outcome_render_input, outcome_render_input_with_runtime,
     outcome_v2, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
     preflight_work_item_with_runtime, record_recovery_decision, record_verification_with_runtime,
-    render_human_outcome, repository_id, require_current_action_admission,
-    revalidate_contract_amendment, run_repository_verification, scaffold_work_item,
-    snapshot_digest, start_work_item_with_options, status, work_item_status_snapshot_with_runtime,
+    record_work_item_governance_controls, render_human_outcome, repository_id,
+    require_current_action_admission, revalidate_contract_amendment, run_repository_verification,
+    scaffold_work_item, snapshot_digest, start_work_item_with_options, status,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -162,6 +163,37 @@ fn assert_action_admitted(root: &Path, id: &str, action: &str, runtime: &Runtime
     );
     require_current_action_admission(root, id, action, runtime)
         .unwrap_or_else(|error| panic!("Runtime action admission must agree with status: {error}"));
+}
+
+fn record_human_preflight_review(root: &Path, work_item_id: &str) {
+    let active = root.join(".ai/work-items/active");
+    let contract: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.contract.json"))).expect("Contract"),
+    )
+    .expect("Contract JSON");
+    let summary: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("Summary"),
+    )
+    .expect("Summary JSON");
+    let decision_evidence = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(root).to_string(),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-09-30T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "explicitly review the amended Contract before retry execution"
+    });
+    record_work_item_governance_controls(
+        root,
+        work_item_id,
+        &json!({"decisionEvidence": decision_evidence}),
+    )
+    .expect("record identity-bound human review");
 }
 
 fn git(root: &Path, args: &[&str]) {
@@ -1431,6 +1463,7 @@ fn pending_retry_survives_a_bounded_contract_amendment() {
         "cover a bounded Contract amendment after retry",
     )
     .expect("bounded Contract amendment");
+    record_human_preflight_review(directory.path(), id);
 
     assert_action_admitted(directory.path(), id, "run_verification", &runtime);
 }

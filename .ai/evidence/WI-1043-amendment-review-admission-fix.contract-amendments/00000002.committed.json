@@ -1,0 +1,136 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:c2dc372bb9184b99127526185fa40d745e5e2db338d90dd5a125196e79d982e8",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1043-amendment-review-admission-fix",
+    "sequence": 2,
+    "changeId": "hosted-gate-review-correction-20260930",
+    "requestDigest": "sha256:9da78705cb0f11b9f57891d2a7acbf61af4df13d7eb069ac6e4be4f8fda70e86",
+    "reason": "The exact PR 1003 hosted quality run failed docs_acceptance because the ordinary read set is 109 bytes over budget and failed conformance_cross_wi_coordination_processes because the guide does not state the required serial-by-default rule. Independent review also reproduced work-item inspect failing on the active Contract's optional concurrencyBoundary:null. Per the user's explicit authorization to continue all corrections through PR merge and cleanup, amend the active plan to include these narrowly related fixes while preserving the original failure evidence.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "agents/skills/ordinary-work-item.md",
+          "tests/ci/workflow_convergence_test.sh"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "agents/skills/ordinary-work-item.md",
+          "tests/ci/workflow_convergence_test.sh",
+          "crates/cockpit-repository/src/lib.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "agents/skills/ordinary-work-item.md",
+          "tests/ci/workflow_convergence_test.sh",
+          "crates/cockpit-repository/src/lib.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "agents/skills/ordinary-work-item.md",
+          "tests/ci/workflow_convergence_test.sh",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-cli/tests/contract_amendment_processes.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1003",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825"
+        ],
+        "newValue": [
+          "https://github.com/xinglun/ai-cockpit/pull/1003",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/36627846825",
+          "https://github.com/xinglun/ai-cockpit/actions/runs/36637656094"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+          "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+          "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+          "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+          "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge."
+        ],
+        "newValue": [
+          "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+          "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+          "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+          "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+          "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge.",
+          "The default ordinary Work Item guide states that one Work Item is serial by default, preserves admitted read-only verification and independent CI fan-out, and remains within the 13,248-byte default read-set budget."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+          "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+          "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+          "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+          "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge.",
+          "The default ordinary Work Item guide states that one Work Item is serial by default, preserves admitted read-only verification and independent CI fan-out, and remains within the 13,248-byte default read-set budget."
+        ],
+        "newValue": [
+          "Sensitive amendment review remains a hard verification admission gate even when stale-preflight recovery is available; before valid human review, status and per-action admission reject run_verification and the regression proves no verification process is started.",
+          "After a valid review receipt, verification may be admitted only after fresh Runtime projection; existing recovery and stale-preflight behavior remains covered.",
+          "English, Japanese, and Simplified Chinese command guidance directs agents to query current Runtime status after amendments and follow its admitted next action.",
+          "The ordinary Work Item guide and workflow-convergence gate agree on serial lifecycle, safe verification parallelism, independent CI fan-out, and fresh receipt reuse; the exact CI regression passes.",
+          "Candidate Runtime 1.0.0 canonical verification passes for the final source snapshot, and the exact PR head has passing hosted checks and an independent review with no unresolved blocker before merge.",
+          "The default ordinary Work Item guide states that one Work Item is serial by default, preserves admitted read-only verification and independent CI fan-out, and remains within the 13,248-byte default read-set budget.",
+          "A Work Item Contract with an optional concurrencyBoundary set to null is treated as having no declared boundary; work-item inspect succeeds after Contract amendment, covered by a real CLI regression."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+    "newContractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+    "repositorySnapshotDigest": "sha256:d7094814818ee116b8f8d388159badabf9094e0f8d6cb1257017b253fe5188ae",
+    "environmentObservationDigest": "sha256:3665912ad149b3f4a131c7bafcd38e1093df03f05456e00907d1b1ba448d3605",
+    "runtimeVersion": "1.0.0",
+    "runtimeDigest": "sha256:0b397e6edd3720de8d94e6135cb60cffb4dc69869c7f8d41d3c7ade2c173e356",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1043-amendment-review-admission-fix.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:21335b01dccdad1c6e565fb73b363fc6915c2994acfb112c3e1a6f91dca9fdec",
+    "journalDigest": "sha256:a980ce8471a2e62d86a81dc893d36956fe8625066dfab7e2b6a6ea821a4a7526",
+    "recordedAt": "2026-09-29T22:35:31Z"
+  }
+}

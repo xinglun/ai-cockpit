@@ -5,7 +5,15 @@ use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
+mod contract_amendment;
 pub mod release_plan;
+
+pub use contract_amendment::{
+    CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
+    ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
+    ContractAmendmentValueChange, apply_contract_amendment, apply_contract_amendment_with_trace,
+    contract_amendment_field_class,
+};
 
 pub use interface_description::{
     CAPABILITY_SHOW_DEFAULT_FORMAT, CAPABILITY_SHOW_DEFAULT_LANGUAGE,
@@ -76,6 +84,8 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-finalization",
     "work-item-coordination",
     "work-item-parallel",
+    "work-item-contract-amendment",
+    "work-item-environment-drift",
     "evidence",
     "audit",
     "capability-show",
@@ -2997,6 +3007,11 @@ pub struct Contract {
     pub restricted_write_approval: Option<serde_json::Value>,
     #[serde(default)]
     pub adoption_bootstrap_paths: Vec<String>,
+    /// Runtime features that must be present before lifecycle actions may
+    /// consume this Contract. Amendment transactions add their enforcement
+    /// requirements here so older or partial Runtimes fail closed.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub required_runtime_capabilities: Vec<String>,
 }
 
 impl Contract {
@@ -3009,6 +3024,30 @@ impl Contract {
     pub fn validate(&self) -> Result<(), Vec<String>> {
         let mut errors = Vec::new();
         let is_v2 = self.contract_version == Some(2);
+
+        let mut previous_capability: Option<&str> = None;
+        for capability in &self.required_runtime_capabilities {
+            if capability.trim().is_empty()
+                || capability.trim() != capability
+                || !capability
+                    .bytes()
+                    .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || byte == b'-')
+            {
+                errors.push(
+                    "requiredRuntimeCapabilities entries must be lowercase capability identifiers"
+                        .into(),
+                );
+            }
+            if !AGENT_INTERFACE_CAPABILITIES.contains(&capability.as_str()) {
+                errors.push(format!(
+                    "requiredRuntimeCapabilities contains unsupported capability {capability:?}"
+                ));
+            }
+            if previous_capability.is_some_and(|previous| previous >= capability.as_str()) {
+                errors.push("requiredRuntimeCapabilities must be unique and sorted".into());
+            }
+            previous_capability = Some(capability);
+        }
 
         if let Some(resource_context) = &self.resource_context
             && let Err(error) = validate_resource_finalization_context(resource_context)
@@ -3434,6 +3473,7 @@ fn default_parallel_slot_lease_schema_version() -> u32 {
 
 pub const COLLABORATION_SCHEMA_VERSION: u32 = 1;
 pub const COLLABORATION_CAPABILITY: &str = "cross_wi_coordination_v1";
+pub const ENVIRONMENT_DRIFT_CAPABILITY: &str = "observed_environment_drift_v1";
 
 /// The candidate-only binding for the collaboration protocol.  The installed
 /// 0.2.105 Runtime owns the existing lifecycle protocol and deliberately does
@@ -3463,6 +3503,8 @@ pub enum RuntimeCapabilityError {
     UnsupportedSchema(u32),
     #[error("runtime capability binding identity mismatch")]
     IdentityMismatch,
+    #[error("environment drift request identity is invalid")]
+    InvalidEnvironmentDriftRequest,
 }
 
 impl RuntimeCapabilityBinding {
@@ -3472,7 +3514,9 @@ impl RuntimeCapabilityBinding {
                 self.schema_version,
             ));
         }
-        if self.capability != COLLABORATION_CAPABILITY {
+        if self.capability != COLLABORATION_CAPABILITY
+            && self.capability != ENVIRONMENT_DRIFT_CAPABILITY
+        {
             return Err(RuntimeCapabilityError::UnsupportedCapability);
         }
         if self.runtime_version == "0.2.105" {
@@ -3491,6 +3535,10 @@ impl RuntimeCapabilityBinding {
             && self.runtime_version == other.runtime_version
             && self.runtime_digest == other.runtime_digest
             && self.capability == other.capability
+    }
+
+    pub fn supports_environment_drift(&self) -> bool {
+        self.capability == ENVIRONMENT_DRIFT_CAPABILITY
     }
 }
 
@@ -3604,6 +3652,62 @@ pub struct WorktreeRegistration {
     pub generation: u64,
     pub declaration: CollaborationDeclaration,
     pub runtime: RuntimeCapabilityBinding,
+    /// Captured by Runtime at registration time. Caller-provided observations
+    /// are ignored by the write entry point; legacy records without a baseline
+    /// cannot admit environment-dependent actions.
+    #[serde(default)]
+    pub environment: Option<EnvironmentObservation>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentObservation {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub environment_digest: Digest,
+    pub observed_inputs: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentDriftRequest {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub work_item_id: String,
+    pub expected_generation: u64,
+}
+
+impl EnvironmentDriftRequest {
+    pub fn validate(&self) -> Result<(), RuntimeCapabilityError> {
+        if self.schema_version != COLLABORATION_SCHEMA_VERSION
+            || self.expected_generation == 0
+            || self.work_item_id.trim().is_empty()
+            || self.work_item_id.contains('/')
+            || self.work_item_id.contains('\\')
+            || self.work_item_id == "."
+            || self.work_item_id == ".."
+        {
+            return Err(RuntimeCapabilityError::InvalidEnvironmentDriftRequest);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct EnvironmentDriftBinding {
+    #[serde(default = "default_collaboration_schema_version")]
+    pub schema_version: u32,
+    pub repository_id: Digest,
+    pub common_directory_id: Digest,
+    pub provider_generation: u64,
+    pub sequence: u64,
+    pub previous_event_id: Option<String>,
+    pub previous_environment_digest: Digest,
+    pub current_environment_digest: Digest,
+    pub observed_inputs: Vec<String>,
+    pub affected_outcome_ids: Vec<String>,
+    pub event_id: String,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -3640,6 +3744,10 @@ pub struct CoordinationEvent {
     /// identities so action admission can remain outcome-specific.
     #[serde(default)]
     pub outcome_ids: Vec<String>,
+    /// Runtime-derived environment identity. Legacy events remain readable;
+    /// an event carrying an unsupported binding version fails closed.
+    #[serde(default)]
+    pub environment_change: Option<EnvironmentDriftBinding>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

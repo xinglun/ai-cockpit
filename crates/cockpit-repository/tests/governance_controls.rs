@@ -72,6 +72,7 @@ fn contract(risk: &str, intent: &str, acceptance: Vec<&str>) -> Contract {
         implementation_surface: None,
         restricted_write_approval: None,
         adoption_bootstrap_paths: Vec::new(),
+        required_runtime_capabilities: Vec::new(),
     }
 }
 

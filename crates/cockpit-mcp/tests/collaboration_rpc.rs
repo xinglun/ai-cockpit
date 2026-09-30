@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    COLLABORATION_CAPABILITY, CollaborationDeclaration, IntegrationResponsibility, OutcomeStage,
-    PROTOCOL_VERSION, ProvidedOutcome, RuntimeCapabilityBinding, RuntimeContext,
+    CollaborationDeclaration, ENVIRONMENT_DRIFT_CAPABILITY, IntegrationResponsibility,
+    OutcomeStage, PROTOCOL_VERSION, ProvidedOutcome, RuntimeCapabilityBinding, RuntimeContext,
     WorktreeRegistration,
 };
 use cockpit_repository::{
@@ -41,7 +41,7 @@ fn repository() -> tempfile::TempDir {
 
 fn runtime() -> RuntimeContext {
     RuntimeContext {
-        runtime_version: "0.2.113".into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
         protocol_version: PROTOCOL_VERSION,
         runtime_digest: Digest::sha256_bytes(b"candidate-mcp"),
     }
@@ -85,8 +85,9 @@ fn outcome_registration(root: &Path) -> WorktreeRegistration {
             schema_version: 1,
             runtime_version: runtime().runtime_version,
             runtime_digest: runtime().runtime_digest,
-            capability: COLLABORATION_CAPABILITY.into(),
+            capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
         },
+        environment: None,
     }
 }
 

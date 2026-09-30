@@ -4,8 +4,8 @@ use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query_with_metrics};
 use cockpit_protocol::{
-    AgentProvider, COLLABORATION_CAPABILITY, ConcurrencyBoundary, CoordinationEvent,
-    CoordinationRequest, CoordinationRequestState, DataClassification, DelegatedEvidence,
+    AgentProvider, ConcurrencyBoundary, CoordinationEvent, CoordinationRequest,
+    CoordinationRequestState, DataClassification, DelegatedEvidence, ENVIRONMENT_DRIFT_CAPABILITY,
     EvidenceAssurance, EvidencePersistence, EvidenceRetention, HumanDecision, ReleasePlan,
     ReleasePlanEnvelope, ReleaseRequestInput, RepositoryConfig, RuntimeCapabilityBinding,
     RuntimeContext, VerificationDeclaration, VerificationStage, VerificationTier,
@@ -559,19 +559,30 @@ enum WorkItemCommand {
         #[arg(long)]
         reason: String,
     },
-    /// Apply additive Contract fields and automatically record amendment revalidation; run_preflight is the next action.
+    /// Amend human-owned Contract fields and automatically record amendment revalidation; query status for the next admitted action.
     Amend {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
         id: String,
-        /// JSON object with additive scopeAppend, outOfScopeAppend,
+        /// Legacy JSON object with additive scopeAppend, outOfScopeAppend,
         /// sourcesAppend, verificationAppend, acceptanceAppend,
         /// requiredEvidenceClassesAppend, scenarioCoverageAppend, and/or scenarioCoveragePlanAppend arrays.
+        #[arg(long, requires = "reason", conflicts_with = "request")]
+        input: Option<PathBuf>,
+        /// Rationale for the legacy additive input adapter.
+        #[arg(long, requires = "input", conflicts_with = "request")]
+        reason: Option<String>,
+        /// Strict ContractAmendmentRequest JSON; supports recorded set/clear/remove/replace/reorder operations.
+        #[arg(long, conflicts_with_all = ["input", "reason"])]
+        request: Option<PathBuf>,
+    },
+    /// Read the append-only history of accepted Contract amendments.
+    Amendments {
         #[arg(long)]
-        input: PathBuf,
+        repo: PathBuf,
         #[arg(long)]
-        reason: String,
+        id: String,
     },
     /// Append a successor revalidation for an archived Contract that was
     /// legitimately amended after its historical verification.  The
@@ -870,6 +881,20 @@ enum WorkItemCoordinationCommand {
         consumer_work_item_id: String,
         #[arg(long)]
         consumer_generation: u64,
+    },
+    /// Check for unrecorded Runtime-observed environment drift without writing.
+    CheckEnvironmentDrift {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
+    },
+    /// Persist Runtime-observed environment drift before a dependent action.
+    RecordEnvironmentDrift {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        input: PathBuf,
     },
 }
 
@@ -1247,7 +1272,7 @@ fn collaboration_runtime(runtime: &RuntimeContext) -> RuntimeCapabilityBinding {
         schema_version: cockpit_protocol::COLLABORATION_SCHEMA_VERSION,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
-        capability: COLLABORATION_CAPABILITY.into(),
+        capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
 }
 
@@ -1367,6 +1392,35 @@ fn run_coordination_command(
                 consumer_generation,
             )
             .context("consume recovered impact")?;
+            coordination_output(&store, serde_json::to_value(result)?)?;
+        }
+        WorkItemCoordinationCommand::CheckEnvironmentDrift { repo, input } => {
+            let request: cockpit_protocol::EnvironmentDriftRequest =
+                read_json_file(&input, "environment drift request")?;
+            let git = GitRepository::discover(&repo).context("discover repository topology")?;
+            let store = cockpit_repository::CoordinationStore::open_read_only(
+                &git,
+                collaboration_runtime(runtime),
+            )
+            .context("open candidate environment drift store read-only")?;
+            let pending = store
+                .environment_drift_pending(&request)
+                .context("check Runtime-observed environment drift")?;
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&json!({"pending": pending}))?
+            );
+        }
+        WorkItemCoordinationCommand::RecordEnvironmentDrift { repo, input } => {
+            let request: cockpit_protocol::EnvironmentDriftRequest =
+                read_json_file(&input, "environment drift request")?;
+            let git = GitRepository::discover(&repo).context("discover repository topology")?;
+            let store =
+                cockpit_repository::CoordinationStore::open(&git, collaboration_runtime(runtime))
+                    .context("open candidate environment drift store for writing")?;
+            let result = store
+                .record_environment_drift(&request)
+                .context("persist Runtime-observed environment drift")?;
             coordination_output(&store, serde_json::to_value(result)?)?;
         }
     }
@@ -2705,7 +2759,8 @@ fn run() -> Result<()> {
                 let mut record =
                     cockpit_repository::revalidate_contract_amendment(&repo, &id, &reason)
                         .context("revalidate amended Contract")?;
-                record["nextAction"] = json!("run_preflight");
+                record["nextAction"] =
+                    next_admitted_work_item_action(&repo, &id, &runtime_context)?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
             }
             WorkItemCommand::Amend {
@@ -2713,17 +2768,50 @@ fn run() -> Result<()> {
                 id,
                 input,
                 reason,
+                request,
             } => {
                 require_compatible(&repo, &runtime_context)?;
-                let input: serde_json::Value = serde_json::from_slice(
-                    &std::fs::read(&input).context("read Contract amendment input")?,
-                )
-                .context("parse Contract amendment input")?;
-                let mut record =
-                    cockpit_repository::amend_work_item_contract(&repo, &id, &input, &reason)
-                        .context("apply bounded Contract amendment")?;
-                record["nextAction"] = json!("run_preflight");
+                let mut record = match (input, reason, request) {
+                    (Some(input), Some(reason), None) => {
+                        let input: serde_json::Value = serde_json::from_slice(
+                            &std::fs::read(&input).context("read Contract amendment input")?,
+                        )
+                        .context("parse Contract amendment input")?;
+                        cockpit_repository::amend_work_item_contract_with_runtime(
+                            &repo,
+                            &id,
+                            &input,
+                            &reason,
+                            &runtime_context,
+                        )
+                        .context("apply legacy additive Contract amendment")?
+                    }
+                    (None, None, Some(request)) => {
+                        let request: cockpit_protocol::ContractAmendmentRequest =
+                            read_json_file(&request, "typed Contract amendment request")?;
+                        serde_json::to_value(
+                            cockpit_repository::apply_work_item_contract_amendment(
+                                &repo,
+                                &id,
+                                &request,
+                                &runtime_context,
+                            )
+                            .context("apply typed Contract amendment")?,
+                        )?
+                    }
+                    _ => anyhow::bail!(
+                        "select exactly one amendment form: --request, or both --input and --reason"
+                    ),
+                };
+                record["nextAction"] =
+                    next_admitted_work_item_action(&repo, &id, &runtime_context)?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
+            }
+            WorkItemCommand::Amendments { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let history = cockpit_repository::read_work_item_contract_amendments(&repo, &id)
+                    .context("read Contract amendment history")?;
+                println!("{}", serde_json::to_string_pretty(&history)?);
             }
             WorkItemCommand::RevalidateArchived {
                 repo,
@@ -3895,6 +3983,21 @@ fn emit_blocked_lifecycle_handoff(
             cockpit_repository::render_human_outcome(&input, output_language(requested_language),)
         );
     }
+}
+
+fn next_admitted_work_item_action(
+    repo: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value> {
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(repo, work_item_id, runtime)
+            .context("refresh Runtime action admission after Contract amendment")?;
+    let status = serde_json::to_value(status).context("serialize Work Item status")?;
+    Ok(status
+        .pointer("/actionExplanation/recommendedAction")
+        .cloned()
+        .unwrap_or(serde_json::Value::Null))
 }
 
 fn require_compatible(

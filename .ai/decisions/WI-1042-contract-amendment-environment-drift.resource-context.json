@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:d9d1e42b41397accc05cfe0eba3db24bc8f0e2022614476e32221fbf4c905456",
+  "contractDigest": "sha256:d152f2cf6d13e188da41666add769cf3794f0d342705b9d4a7917ce485c53d69",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-29T20:38:29Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/amend-contract",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1003",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/amend-contract/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:ce5dafd1f3af803c032b8206aaa161a5fd2938af8fa2e91ace8fdc39ee6fe68c",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}

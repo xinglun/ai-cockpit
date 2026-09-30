@@ -16,7 +16,7 @@ use cockpit_repository::{
     work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
-use serde_json::json;
+use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -65,6 +65,37 @@ fn start_options() -> WorkItemStartOptions {
         acceptance_criteria: vec!["entry remains bounded".into()],
         ..Default::default()
     }
+}
+
+fn record_human_preflight_review(root: &Path, work_item_id: &str) {
+    let active = root.join(".ai/work-items/active");
+    let contract: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.contract.json"))).expect("contract"),
+    )
+    .expect("Contract JSON");
+    let summary: Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{work_item_id}.summary.json"))).expect("summary"),
+    )
+    .expect("Summary JSON");
+    let decision_evidence = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(root).to_string(),
+        "contractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "preflightDecisionDigest": summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-09-30T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "the test explicitly confirms the current amended Contract"
+    });
+    record_work_item_governance_controls(
+        root,
+        work_item_id,
+        &json!({"decisionEvidence": decision_evidence}),
+    )
+    .expect("record identity-bound human review");
 }
 
 #[test]
@@ -860,6 +891,7 @@ fn scenario_coverage_plan_can_fill_only_a_missing_plan() {
         .path()
         .join(".ai/work-items/active/WI-SCENARIO-PLAN.contract.json");
     preflight_work_item(directory.path(), &contract_path).expect("preflight legacy scenario");
+    record_human_preflight_review(directory.path(), "WI-SCENARIO-PLAN");
     checkpoint_work_item(directory.path(), "WI-SCENARIO-PLAN").expect("checkpoint legacy scenario");
     amend_work_item_contract(
         directory.path(),
@@ -1529,6 +1561,7 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
         preflight.state,
         DecisionState::Green | DecisionState::Yellow
     ));
+    record_human_preflight_review(directory.path(), work_item_id);
     checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
 
     let snapshot = GitRepository::discover(directory.path())
@@ -1590,6 +1623,7 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
         "invalidate the prior required check after it was recorded",
     )
     .expect("amend after verification");
+    record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("current preflight after amendment");
     let replacement_snapshot = GitRepository::discover(directory.path())
@@ -2224,6 +2258,7 @@ fn verification_preconditions_accept_complete_repository_bound_custom_evidence()
         DecisionState::Red,
         "custom evidence setup preflight: {preflight:#?}"
     );
+    record_human_preflight_review(directory.path(), work_item_id);
     checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
     let snapshot = GitRepository::discover(directory.path())
         .expect("git repository")
@@ -2877,6 +2912,7 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
         "add an authorized scope without any required verification gates",
     )
     .expect("amend Contract");
+    record_human_preflight_review(directory.path(), work_item_id);
     preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("amended preflight");
     let snapshot = GitRepository::discover(directory.path())

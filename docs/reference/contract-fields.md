@@ -30,6 +30,26 @@ Status meanings:
 - **External** — the fact belongs to an Agent host, provider, organization, or
   another system; the Runtime may bind or display evidence but does not invent it.
 
+## Reasoned Contract amendments
+
+An active Contract is a living implementation plan. `ContractAmendmentRequest`
+requires a unique `changeId`, the current `expectedContractDigest`, a non-empty
+reason, and ordered changes. It supports `add`, `set`, `clear`, `remove`,
+`replace`, and `reorder`: collection operations validate exact elements and
+`reorder` requires a complete permutation. The batch is atomic and the full
+prospective Contract is revalidated. A stale digest conflicts; it is never
+silently rebased. An exact retry returns its original receipt; reusing the ID
+for different request bytes is rejected.
+
+The field registry permits edits only to human-owned plan fields. Repository
+and Work Item identity, base/snapshot facts, lifecycle state, Runtime-observed
+facts, and immutable receipts/evidence are protected. Authority, risk,
+verification strength, and gate changes are sensitive: normal policy and
+reauthorization still apply, and a reason is not permission. Committed history
+is append-only and binds old/new values, digests, snapshot, and invalidated
+checks. `work-item amendments` reads that history without mutation; an accepted
+amendment requires fresh preflight and any affected verification.
+
 ## Work Item Contract (`*.contract.json`)
 
 | Field | Rust Runtime mapping | Status |
@@ -43,6 +63,7 @@ Status meanings:
 | `risk`, `authority` | Declared risk and authority used by preflight; the repository record does not authenticate a person. | Implemented / External identity boundary |
 | `acceptanceCriteria` | Human-owned acceptance statements; numbered `A1:` criteria can bind Summary evidence. | Implemented |
 | `requiredEvidenceClasses` | Required evidence categories for lifecycle completion. | Implemented |
+| `requiredRuntimeCapabilities` | Runtime-maintained minimum capability marker, added by Contract amendment and protected from generic edits so older strict-schema Runtimes reject unsupported Contracts. | Implemented |
 | `sources` | Legacy source strings or typed `{path, reason}` references. | Implemented |
 | `verification` | Legacy verification strings or typed `{check, required}` declarations; declarations never replace fresh execution. | Implemented |
 | `baseRevision` | Snapshot-derived starting revision for the Work Item. | Implemented |

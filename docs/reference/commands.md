@@ -69,12 +69,40 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance write entry | `preflight` | Evaluate a Contract and persist its explicit preflight projection. Repeating an unchanged preflight is idempotent and returns `changedPaths`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | Read a request-scoped status projection or write explicit lifecycle and resource-finalization records. `amend` applies additive Contract fields and records amendment revalidation; the next action is `run_preflight`. Use `revalidate-amendment` only after a direct Contract edit, not after successful `amend`. `close` and recovery require explicit human decisions. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
+| Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | Inspection and drift check are read-only; recording drift is an explicit persistent write before affected actions. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
 | Audit | `audit export` | Produce a stable repository-bound event bundle for an external retention owner; never claim local immutability. |
 | Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
+
+## Contract amendments and environment drift
+
+`work-item amend --repo <repo> --id <id> --request <request.json>` accepts a
+`ContractAmendmentRequest` with `schemaVersion`, unique `changeId`, current
+`expectedContractDigest`, non-empty `reason`, and ordered `changes`. Operations
+are `add`, `set`, `clear`, `remove`, `replace`, and `reorder`; unknown or
+protected paths fail closed, the prospective Contract is fully validated, and
+a digest mismatch conflicts rather than rebasing. Replaying the same request
+and `changeId` returns its original receipt. `work-item amendments` is a
+read-only append-only history query. An amended Contract carries the protected
+`requiredRuntimeCapabilities` marker. The exact old Runtime `0.2.113` rejects
+that unknown field during preflight before action admission; its lifecycle
+compatibility does not imply amendment/drift support.
+
+For coordination, `check-environment-drift` only observes and reports pending
+Runtime-derived drift. `record-environment-drift` explicitly persists the
+observed event to shared repository state; its input names the Work Item and
+expected generation, not a caller-supplied digest. Refresh admission before
+the dependent action. Unrelated actions can continue only with their own fresh
+admission. Recovery appends a resolution; it never deletes the event. The
+request-scoped observation ledger is not cross-process event storage.
+
+MCP exposes equivalent `work_item_amend`, `work_item_amendments`, and
+`work_item_environment_drift` tools. The drift tool separates read-only
+`action=check` from explicit `action=record`. Discover exact schemas through
+`tools/list`; an older Runtime must not silently ignore unsupported constraints.
 
 Before an Agent performs any repository operation, run
 `ai-cockpit agent first-start --repo <path>`. The command is read-only and
@@ -160,6 +188,8 @@ before any repository operation runs.
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
 | `verify` | Optional `workItemId`, `command`, string-array `args`, finite `timeoutSeconds`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
+| `work_item_amend`, `work_item_amendments` | `work_item_amend` requires `workItemId` and a strict typed `request`; `work_item_amendments` requires only `workItemId` and is read-only. | `{"workItemId":"WI-123","request":{"schemaVersion":1,"changeId":"change-1","expectedContractDigest":"sha256:<current-digest>","reason":"Correct the plan","changes":[{"path":"/goal","operation":"replace","value":"updated goal"}]}}` |
+| `work_item_environment_drift` | `action=check|record`, `workItemId`, and `generation`; check is read-only, record persists observed drift. | `{"action":"check","workItemId":"WI-123","generation":2}` |
 
 For a person-facing result, call `work_item_outcome` and surface its text
 content without folding it away. Use `--json` only for automation; raw

@@ -1,8 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
     COLLABORATION_CAPABILITY, CollaborationDeclaration, CompositionBinding, ConsumedOutcome,
-    Contract, IntegrationResponsibility, OutcomeStage, ProvidedOutcome, ResourceClaim,
-    ResourceClaimMode, RuntimeCapabilityBinding, WorktreeRegistration,
+    Contract, CoordinationEvent, EnvironmentDriftRequest, IntegrationResponsibility, OutcomeStage,
+    ProvidedOutcome, ResourceClaim, ResourceClaimMode, RuntimeCapabilityBinding,
+    WorktreeRegistration,
 };
 
 fn digest(label: &str) -> Digest {
@@ -66,6 +67,7 @@ fn collaboration_identities_round_trip_strictly() {
         generation: 2,
         declaration: declaration(),
         runtime: runtime_binding(),
+        environment: None,
     };
     let encoded = serde_json::to_value(&registration).expect("encode");
     let decoded: WorktreeRegistration = serde_json::from_value(encoded.clone()).expect("decode");
@@ -73,6 +75,67 @@ fn collaboration_identities_round_trip_strictly() {
     let mut unknown = encoded;
     unknown["unknownField"] = serde_json::json!(true);
     assert!(serde_json::from_value::<WorktreeRegistration>(unknown).is_err());
+}
+
+#[test]
+fn coordination_event_accepts_runtime_observed_environment_binding() {
+    let event = serde_json::json!({
+        "schemaVersion": 1,
+        "eventId": "environment-drift-WI-PROVIDER-1-test",
+        "repositoryId": digest("repo"),
+        "workItemId": "WI-PROVIDER",
+        "generation": 1,
+        "kind": "execution_changed",
+        "source": "runtime-observed-environment-drift",
+        "evidenceRefs": [],
+        "evidenceDigests": {},
+        "outcomeIds": ["provider-api"],
+        "environmentChange": {
+            "schemaVersion": 1,
+            "repositoryId": digest("repo"),
+            "commonDirectoryId": digest("common-dir"),
+            "providerGeneration": 1,
+            "sequence": 1,
+            "previousEventId": null,
+            "previousEnvironmentDigest": digest("environment-before"),
+            "currentEnvironmentDigest": digest("environment-after"),
+            "observedInputs": ["process-environment", "repository-dependencies"],
+            "affectedOutcomeIds": ["provider-api"],
+            "eventId": "environment-drift-WI-PROVIDER-1-test"
+        }
+    });
+
+    let parsed: CoordinationEvent = serde_json::from_value(event)
+        .expect("coordination events must preserve the Runtime-observed environment binding");
+    let encoded = serde_json::to_value(parsed).expect("encode typed event");
+    assert_eq!(
+        encoded["environmentChange"]["previousEnvironmentDigest"],
+        serde_json::json!(digest("environment-before"))
+    );
+    assert_eq!(
+        encoded["environmentChange"]["currentEnvironmentDigest"],
+        serde_json::json!(digest("environment-after"))
+    );
+    assert_eq!(
+        encoded["environmentChange"]["affectedOutcomeIds"],
+        serde_json::json!(["provider-api"])
+    );
+}
+
+#[test]
+fn environment_drift_request_rejects_caller_supplied_environment_facts() {
+    let request = serde_json::json!({
+        "schemaVersion": 1,
+        "workItemId": "WI-PROVIDER",
+        "expectedGeneration": 1
+    });
+    let parsed: EnvironmentDriftRequest =
+        serde_json::from_value(request.clone()).expect("strict drift request parses");
+    parsed.validate().expect("valid request identity");
+
+    let mut forged = request;
+    forged["currentEnvironmentDigest"] = serde_json::json!(digest("caller-claim"));
+    assert!(serde_json::from_value::<EnvironmentDriftRequest>(forged).is_err());
 }
 
 #[test]

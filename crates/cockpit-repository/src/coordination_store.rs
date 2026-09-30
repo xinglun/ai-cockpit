@@ -2,7 +2,8 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     COLLABORATION_SCHEMA_VERSION, CoordinationEvent, CoordinationRecovery, CoordinationRequest,
-    CoordinationRequestState, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
+    CoordinationRequestState, EnvironmentDriftBinding, EnvironmentDriftRequest,
+    EnvironmentObservation, ResourceClaimMode, ResourceReservation, RuntimeCapabilityBinding,
     WorktreeRegistration,
 };
 use serde::Serialize;
@@ -147,7 +148,7 @@ impl CoordinationStore {
 
     fn register_with_contract_reader<F>(
         &self,
-        registration: WorktreeRegistration,
+        mut registration: WorktreeRegistration,
         mut read_contract: F,
     ) -> Result<WorktreeRegistration, CoordinationError>
     where
@@ -161,9 +162,12 @@ impl CoordinationStore {
             ));
         }
         self.validate_registration_facts_with_contract_reader(&registration, &mut read_contract)?;
+        registration.environment = Some(self.observe_registration_environment(&registration)?);
         self.with_lock(|| {
+            registration.environment = Some(self.observe_registration_environment(&registration)?);
             let path = self.registration_path(&registration.work_item_id);
             let mut identity_changed = false;
+            let mut environment_drift_generation = None;
             let mut invalidated_outcome_ids = BTreeSet::new();
             if path.exists() {
                 let existing: WorktreeRegistration = self.read_json(&path)?;
@@ -182,6 +186,19 @@ impl CoordinationStore {
                     || existing.branch != registration.branch
                     || existing.contract_digest != registration.contract_digest
                     || existing.declaration != registration.declaration;
+                match (&existing.environment, &registration.environment) {
+                    (Some(previous), Some(current))
+                        if previous.environment_digest != current.environment_digest =>
+                    {
+                        environment_drift_generation = Some(existing.generation);
+                    }
+                    (None, Some(_)) | (Some(_), None) | (None, None) => {
+                        // A predecessor without a comparable baseline cannot prove
+                        // that its published outcomes remain applicable.
+                        identity_changed = true;
+                    }
+                    (Some(_), Some(_)) => {}
+                }
                 if identity_changed {
                     invalidated_outcome_ids.extend(
                         existing
@@ -199,7 +216,26 @@ impl CoordinationStore {
                     );
                 }
             }
-            self.persist_registration_snapshot(&registration)?;
+            if let Some(provider_generation) = environment_drift_generation {
+                let request = EnvironmentDriftRequest {
+                    schema_version: COLLABORATION_SCHEMA_VERSION,
+                    work_item_id: registration.work_item_id.clone(),
+                    expected_generation: provider_generation,
+                };
+                if let Some(event) = self.record_environment_drift_under_lock(&request)?
+                    && let Some(binding) = event.environment_change
+                {
+                    registration.environment = Some(EnvironmentObservation {
+                        schema_version: COLLABORATION_SCHEMA_VERSION,
+                        environment_digest: binding.current_environment_digest,
+                        observed_inputs: binding.observed_inputs,
+                    });
+                }
+                // Capture the new baseline as close as possible to the event
+                // commit. A later change is caught by the next action refresh.
+                registration.environment =
+                    Some(self.observe_registration_environment(&registration)?);
+            }
             if identity_changed {
                 let event = CoordinationEvent {
                     schema_version: COLLABORATION_SCHEMA_VERSION,
@@ -215,6 +251,7 @@ impl CoordinationStore {
                     evidence_refs: Vec::new(),
                     evidence_digests: BTreeMap::new(),
                     outcome_ids: invalidated_outcome_ids.into_iter().collect(),
+                    environment_change: None,
                 };
                 let event_path = self
                     .root
@@ -229,6 +266,7 @@ impl CoordinationStore {
                     self.atomic_write(&event_path, &event)?;
                 }
             }
+            self.persist_registration_snapshot(&registration)?;
             // Publish invalidation before making the new registration
             // authoritative. If writing the event fails, the previous
             // registration remains current. If the process stops after the
@@ -246,12 +284,210 @@ impl CoordinationStore {
         &self,
         event: CoordinationEvent,
     ) -> Result<CoordinationEvent, CoordinationError> {
+        if event.environment_change.is_some() {
+            return Err(CoordinationError::RecoveryRequired(
+                "environment drift events must use the Runtime observation entry point".into(),
+            ));
+        }
         if event.kind == cockpit_protocol::CoordinationEventKind::OutcomePublished {
             return Err(CoordinationError::RecoveryRequired(
                 "OutcomePublished events must use the typed publish_outcome entry point".into(),
             ));
         }
         self.publish_event_internal(event)
+    }
+
+    /// Observe the provider's current environment and append a durable,
+    /// outcome-scoped invalidation when it differs from the latest Runtime
+    /// observation. The request contains no caller-authored environment data.
+    pub fn record_environment_drift(
+        &self,
+        request: &EnvironmentDriftRequest,
+    ) -> Result<Option<CoordinationEvent>, CoordinationError> {
+        self.runtime.validate_candidate()?;
+        request.validate()?;
+        if !self.runtime.supports_environment_drift() {
+            return Err(CoordinationError::Runtime(
+                cockpit_protocol::RuntimeCapabilityError::UnsupportedCapability,
+            ));
+        }
+        self.with_lock(|| self.record_environment_drift_under_lock(request))
+    }
+
+    /// Read-only check for an environment change that has not yet been
+    /// materialized as a shared event. It never appends or consumes records.
+    pub fn environment_drift_pending(
+        &self,
+        request: &EnvironmentDriftRequest,
+    ) -> Result<bool, CoordinationError> {
+        self.runtime.validate_candidate()?;
+        request.validate()?;
+        if !self.runtime.supports_environment_drift() {
+            return Err(CoordinationError::Runtime(
+                cockpit_protocol::RuntimeCapabilityError::UnsupportedCapability,
+            ));
+        }
+        let inspection = self.inspect()?;
+        let registration = inspection
+            .registrations
+            .iter()
+            .find(|registration| registration.work_item_id == request.work_item_id)
+            .ok_or_else(|| {
+                CoordinationError::RecoveryRequired(format!(
+                    "environment provider registration is missing for {}",
+                    request.work_item_id
+                ))
+            })?;
+        if registration.generation != request.expected_generation {
+            return Err(CoordinationError::StaleGeneration {
+                work_item_id: request.work_item_id.clone(),
+                expected: registration.generation,
+                actual: request.expected_generation,
+            });
+        }
+        if !registration.runtime.supports_environment_drift() {
+            return Err(CoordinationError::Runtime(
+                cockpit_protocol::RuntimeCapabilityError::UnsupportedCapability,
+            ));
+        }
+        let observed = self.observe_registration_environment(registration)?;
+        let previous = inspection
+            .events
+            .iter()
+            .filter_map(|event| {
+                event
+                    .environment_change
+                    .as_ref()
+                    .map(|binding| (event, binding))
+            })
+            .filter(|(event, binding)| {
+                event.work_item_id == registration.work_item_id
+                    && binding.repository_id == registration.repository_id
+                    && binding.provider_generation == registration.generation
+            })
+            .max_by_key(|(_, binding)| binding.sequence)
+            .map(|(_, binding)| binding.current_environment_digest.clone())
+            .or_else(|| {
+                registration
+                    .environment
+                    .as_ref()
+                    .map(|baseline| baseline.environment_digest.clone())
+            })
+            .ok_or_else(|| {
+                CoordinationError::RecoveryRequired(format!(
+                    "environment baseline is missing for {} generation {}",
+                    registration.work_item_id, registration.generation
+                ))
+            })?;
+        Ok(previous != observed.environment_digest)
+    }
+
+    pub(crate) fn record_environment_drift_under_lock(
+        &self,
+        request: &EnvironmentDriftRequest,
+    ) -> Result<Option<CoordinationEvent>, CoordinationError> {
+        self.runtime.validate_candidate()?;
+        request.validate()?;
+        if !self.runtime.supports_environment_drift() {
+            return Err(CoordinationError::Runtime(
+                cockpit_protocol::RuntimeCapabilityError::UnsupportedCapability,
+            ));
+        }
+        let registration_path = self.registration_path(&request.work_item_id);
+        let registration: WorktreeRegistration = self.read_json(&registration_path)?;
+        self.validate_registration_facts(&registration)?;
+        if registration.generation != request.expected_generation {
+            return Err(CoordinationError::StaleGeneration {
+                work_item_id: request.work_item_id.clone(),
+                expected: registration.generation,
+                actual: request.expected_generation,
+            });
+        }
+        if !registration.runtime.supports_environment_drift() {
+            return Err(CoordinationError::Runtime(
+                cockpit_protocol::RuntimeCapabilityError::UnsupportedCapability,
+            ));
+        }
+        let observed = self.observe_registration_environment(&registration)?;
+        let inspection = self.inspect()?;
+        let previous = inspection
+            .events
+            .iter()
+            .filter_map(|event| {
+                event
+                    .environment_change
+                    .as_ref()
+                    .map(|binding| (event, binding))
+            })
+            .filter(|(event, binding)| {
+                binding.repository_id == registration.repository_id
+                    && binding.provider_generation == registration.generation
+                    && event.work_item_id == registration.work_item_id
+            })
+            .max_by_key(|(_, binding)| binding.sequence);
+        let (previous_digest, previous_event_id, sequence) = match previous {
+            Some((event, binding)) => (
+                binding.current_environment_digest.clone(),
+                Some(event.event_id.clone()),
+                binding.sequence.checked_add(1).ok_or_else(|| {
+                    CoordinationError::RecoveryRequired(
+                        "environment drift sequence exhausted".into(),
+                    )
+                })?,
+            ),
+            None => {
+                let baseline = registration.environment.as_ref().ok_or_else(|| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "environment baseline is missing for {} generation {}",
+                        registration.work_item_id, registration.generation
+                    ))
+                })?;
+                (baseline.environment_digest.clone(), None, 1)
+            }
+        };
+        if previous_digest == observed.environment_digest {
+            return Ok(previous.map(|(event, _)| event.clone()));
+        }
+        let affected_outcome_ids = registration
+            .declaration
+            .provided_outcomes
+            .iter()
+            .map(|outcome| outcome.outcome_id.clone())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect::<Vec<_>>();
+        let event_id = format!(
+            "environment-drift-{}-{}-{sequence}",
+            registration.work_item_id, registration.generation
+        );
+        let binding = EnvironmentDriftBinding {
+            schema_version: COLLABORATION_SCHEMA_VERSION,
+            repository_id: registration.repository_id.clone(),
+            common_directory_id: Digest::sha256_bytes(self.common_dir.to_string_lossy().as_bytes()),
+            provider_generation: registration.generation,
+            sequence,
+            previous_event_id,
+            previous_environment_digest: previous_digest,
+            current_environment_digest: observed.environment_digest,
+            observed_inputs: observed.observed_inputs,
+            affected_outcome_ids: affected_outcome_ids.clone(),
+            event_id: event_id.clone(),
+        };
+        let event = CoordinationEvent {
+            schema_version: COLLABORATION_SCHEMA_VERSION,
+            event_id,
+            repository_id: registration.repository_id.clone(),
+            work_item_id: registration.work_item_id.clone(),
+            generation: registration.generation,
+            kind: cockpit_protocol::CoordinationEventKind::ExecutionChanged,
+            source: "runtime-observed-environment-drift".into(),
+            evidence_refs: Vec::new(),
+            evidence_digests: BTreeMap::new(),
+            outcome_ids: affected_outcome_ids,
+            environment_change: Some(binding),
+        };
+        validate_event(&event)?;
+        self.append_event_under_lock(event).map(Some)
     }
 
     pub(crate) fn publish_validated_outcome_event<F>(
@@ -408,6 +644,34 @@ impl CoordinationStore {
                 ));
             }
             let existing = self.read_reservations()?;
+            let admission =
+                crate::collaboration::refresh_and_admit_collaboration_action_under_lock(
+                    self,
+                    &reservation.work_item_id,
+                    reservation.generation,
+                    crate::collaboration::CollaborationAction {
+                        kind: crate::collaboration::CollaborationActionKind::ResourceReservation,
+                        consumer_work_item_id: reservation.work_item_id.clone(),
+                        outcomes: registration
+                            .declaration
+                            .consumed_outcomes
+                            .iter()
+                            .map(crate::collaboration::provider_outcome_key)
+                            .collect(),
+                    },
+                )?;
+            if !admission.allowed {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "resource reservation is not admitted: {}",
+                    admission
+                        .blockers
+                        .iter()
+                        .chain(admission.unknowns.iter())
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )));
+            }
             for candidate in &existing {
                 for requested in &reservation.resources {
                     for owned in &candidate.resources {
@@ -464,6 +728,29 @@ impl CoordinationStore {
                     expected: registration.generation,
                     actual: generation,
                 });
+            }
+            let admission =
+                crate::collaboration::refresh_and_admit_collaboration_action_under_lock(
+                    self,
+                    work_item_id,
+                    generation,
+                    crate::collaboration::CollaborationAction {
+                        kind: crate::collaboration::CollaborationActionKind::ResourceRelease,
+                        consumer_work_item_id: work_item_id.into(),
+                        outcomes: Vec::new(),
+                    },
+                )?;
+            if !admission.allowed {
+                return Err(CoordinationError::RecoveryRequired(format!(
+                    "resource release is not admitted: {}",
+                    admission
+                        .blockers
+                        .iter()
+                        .chain(admission.unknowns.iter())
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )));
             }
             fs::remove_file(&path).map_err(|source| CoordinationError::Io { path, source })
         })
@@ -623,6 +910,15 @@ impl CoordinationStore {
                     "published outcomes do not require invalidation recovery".into(),
                 ));
             }
+            if let Some(binding) = &event.environment_change {
+                let current = self.observe_registration_environment(&provider_registration)?;
+                if current.environment_digest != binding.current_environment_digest {
+                    return Err(CoordinationError::RecoveryRequired(format!(
+                        "provider environment changed after event {}: recovery requires a fresh matching observation",
+                        event.event_id
+                    )));
+                }
+            }
             let consumer_registration: WorktreeRegistration =
                 self.read_json(&self.registration_path(consumer_work_item_id))?;
             self.validate_registration_facts(&consumer_registration)?;
@@ -748,6 +1044,26 @@ impl CoordinationStore {
                 crate::collaboration::read_registered_worktree_file(root, reference)
             },
         )
+    }
+
+    fn observe_registration_environment(
+        &self,
+        registration: &WorktreeRegistration,
+    ) -> Result<EnvironmentObservation, CoordinationError> {
+        let context =
+            crate::RepositoryExecutionContext::capture(Path::new(&registration.worktree_path))
+                .map_err(|error| {
+                    CoordinationError::RecoveryRequired(format!(
+                        "cannot observe Runtime environment for {}: {error}",
+                        registration.work_item_id
+                    ))
+                })?;
+        context.observe_environment_identity().map_err(|error| {
+            CoordinationError::RecoveryRequired(format!(
+                "cannot observe Runtime environment for {}: {error}",
+                registration.work_item_id
+            ))
+        })
     }
 
     fn validate_registration_facts_with_contract_reader<F>(
@@ -892,6 +1208,22 @@ impl CoordinationStore {
             return Err(CoordinationError::RecoveryRequired(
                 "event repository or generation does not match its provider registration".into(),
             ));
+        }
+        if let Some(binding) = &event.environment_change {
+            let common_directory_id =
+                Digest::sha256_bytes(self.common_dir.to_string_lossy().as_bytes());
+            if binding.repository_id != event.repository_id
+                || binding.common_directory_id != common_directory_id
+                || binding.provider_generation != event.generation
+                || binding.event_id != event.event_id
+                || binding.affected_outcome_ids != event.outcome_ids
+                || event.kind != cockpit_protocol::CoordinationEventKind::ExecutionChanged
+                || event.source != "runtime-observed-environment-drift"
+            {
+                return Err(CoordinationError::RecoveryRequired(
+                    "environment drift binding does not match its event identity".into(),
+                ));
+            }
         }
         if !event.evidence_digests.is_empty() {
             let references = event.evidence_refs.iter().collect::<BTreeSet<_>>();
@@ -1367,6 +1699,28 @@ fn validate_registration(registration: &WorktreeRegistration) -> Result<(), Coor
             "invalid worktree registration identity".into(),
         ));
     }
+    if registration
+        .environment
+        .as_ref()
+        .is_some_and(|environment| {
+            environment.schema_version != COLLABORATION_SCHEMA_VERSION
+                || environment.observed_inputs.is_empty()
+                || environment
+                    .observed_inputs
+                    .iter()
+                    .any(|input| input.trim().is_empty())
+                || environment
+                    .observed_inputs
+                    .iter()
+                    .collect::<BTreeSet<_>>()
+                    .len()
+                    != environment.observed_inputs.len()
+        })
+    {
+        return Err(CoordinationError::RecoveryRequired(
+            "invalid Runtime-observed environment baseline".into(),
+        ));
+    }
     Ok(())
 }
 
@@ -1378,6 +1732,32 @@ fn validate_event(event: &CoordinationEvent) -> Result<(), CoordinationError> {
     {
         return Err(CoordinationError::RecoveryRequired(
             "invalid event identity".into(),
+        ));
+    }
+    if let Some(binding) = &event.environment_change
+        && (binding.schema_version != COLLABORATION_SCHEMA_VERSION
+            || binding.provider_generation != event.generation
+            || binding.sequence == 0
+            || binding.event_id != event.event_id
+            || binding.affected_outcome_ids != event.outcome_ids
+            || binding.observed_inputs.is_empty()
+            || binding
+                .observed_inputs
+                .iter()
+                .any(|input| input.trim().is_empty())
+            || binding
+                .affected_outcome_ids
+                .iter()
+                .any(|outcome_id| !valid_component(outcome_id))
+            || binding
+                .affected_outcome_ids
+                .iter()
+                .collect::<BTreeSet<_>>()
+                .len()
+                != binding.affected_outcome_ids.len())
+    {
+        return Err(CoordinationError::RecoveryRequired(
+            "invalid Runtime-observed environment drift binding".into(),
         ));
     }
     let mut outcome_ids = std::collections::BTreeSet::new();
@@ -1553,6 +1933,7 @@ mod registered_worktree_file_tests {
             generation,
             declaration: CollaborationDeclaration::default(),
             runtime: runtime(),
+            environment: None,
         }
     }
 

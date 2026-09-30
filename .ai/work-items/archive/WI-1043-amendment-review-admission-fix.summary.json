@@ -1,0 +1,199 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.fd7f8cd8b52f89be66c9c5986c7f754aec254672300533ac0772e62c253cb867.json",
+    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification.json",
+    ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.summary.json"
+  ],
+  "checkpointAt": "2026-09-29T21:04:10Z",
+  "checkpointContractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+      "recorded": true,
+      "recordedAt": "2026-09-29T21:04:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d7094814818ee116b8f8d388159badabf9094e0f8d6cb1257017b253fe5188ae",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1043-amendment-review-admission-fix"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+      "previousContractHash": "sha256:d2ae92fee9d9834df98cd20b5e8fc73b9c1990a2b6ad9bb8812c973c287211d8",
+      "reason": "The exact PR 1003 hosted quality run failed docs_acceptance because the ordinary read set is 109 bytes over budget and failed conformance_cross_wi_coordination_processes because the guide does not state the required serial-by-default rule. Independent review also reproduced work-item inspect failing on the active Contract's optional concurrencyBoundary:null. Per the user's explicit authorization to continue all corrections through PR merge and cleanup, amend the active plan to include these narrowly related fixes while preserving the original failure evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-29T22:35:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d7094814818ee116b8f8d388159badabf9094e0f8d6cb1257017b253fe5188ae",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1043-amendment-review-admission-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+  "createdAt": "2026-09-29T21:01:24Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The repository owner authorized continuing all bounded corrections in the current Work Item. This confirms review of its current amended scope and permits fresh verification; it does not assert tests, hosted checks, merge, or release have passed.",
+    "recordedAt": "2026-09-29T22:40:07Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d7094814818ee116b8f8d388159badabf9094e0f8d6cb1257017b253fe5188ae",
+    "schemaVersion": 1,
+    "workItemId": "WI-1043-amendment-review-admission-fix"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "agents/skills/ordinary-work-item.md",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36646584300"
+    ],
+    "reason": "The declared WI intent is implemented: a sensitive Contract amendment cannot admit verification before required review; a process-level CLI regression proves the verification command is not spawned, and the ordinary-work guide now directs agents to follow fresh Runtime admission. Exact-head hosted CI and the final source-bound verification passed. This records intent alignment only and does not claim a separately measured user-visible benefit or authorize release.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+  "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
+  "preflightAt": "2026-09-29T23:48:40Z",
+  "preflightContractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.b1586cb49984ed9e1fac54d0f8056075859dcd5760dc2458da669fc7d590bda4.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-30T00:03:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1043-amendment-review-admission-fix"
+}

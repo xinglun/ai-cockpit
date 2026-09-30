@@ -170,6 +170,27 @@ commit すると receipt は stale になります。現在の Work Item で再�
 いけません。archive 成功後にだけ archive record を commit し、その後 provider finalization
 と hosted checks を行います。
 
+### Contract amendment と environment drift
+
+Active Contract は実装計画であり、変更が必要なら `work-item amend --request` に一意な
+`changeId`、現在の `expectedContractDigest`、具体的な理由を付けて記録します。Runtime は
+変更後の Contract 全体を検証し、古い digest を自動 rebase せず拒否します。identity、lifecycle、
+観測事実、evidence は保護され、authority や gate などの sensitive 変更では既存 policy を再評価
+します。同じ request の retry は同じ append-only receipt を返します。`work-item amendments` は
+読み取り専用で、受理された変更後は fresh preflight と影響する verification が必要です。
+
+Environment drift は Runtime が観測した実行事実から作り、caller 指定の digest は使いません。
+CLI `check-environment-drift` と MCP `work_item_environment_drift` の `action=check` は
+読み取り専用です。影響 action の前に `record-environment-drift` または MCP `action=record` を
+明示実行し、append-only event を共有 repository state に永続化してから admission を更新します。
+request-scoped observation ledger は cross-process event bus ではありません。各 consumer action の
+直前に dependency admission を更新し、generation mismatch は fail-closed にします。無関係な action
+は個別の fresh admission があれば続けられます。recovery は resolution を追記し、元 event を保持します。
+
+Runtime `0.2.113` は対応済みの直列 lifecycle には使えますが、amendment/drift capability は
+提供しません。新 Contract や manifest を読めても双方向互換を意味しません。該当 action には明示的な
+capability が必要です。未対応なら制約を模倣せず、Runtime が認める場合だけ直列で続行します。
+
 ## Resource finalization の境界
 
 新しい Work Item は `close` の前に provider 側の branch と worktree の cleanup を

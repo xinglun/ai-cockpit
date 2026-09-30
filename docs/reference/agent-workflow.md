@@ -294,11 +294,36 @@ and leases bound to the active generation; reject stale generations, preserve
 resolved events, and let unrelated work continue only after its own refreshed
 admission. The repository-bound installed Runtime remains the lifecycle owner;
 candidate-only collaboration behavior must be explicitly advertised and
-implemented. If the
-current Runtime lacks those tools, do not silently ignore or imitate the
-protocol—continue serially if admitted, or stop if parallel coordination is
-required. See the [ordinary Work Item guide](../../agents/skills/ordinary-work-item.md)
+implemented. If the current Runtime lacks those tools, do not silently ignore
+or imitate the protocol—continue serially if admitted, or stop if parallel
+coordination is required. See the [ordinary Work Item guide](../../agents/skills/ordinary-work-item.md)
 for the actionable discovery sequence.
+
+### Contract amendments and environment drift
+
+An active Contract is an implementation plan and may be changed through
+`work-item amend --request` with a reason, unique `changeId`, and the current
+`expectedContractDigest`. The Runtime validates the whole result, rejects stale
+digests without rebasing, protects identity/lifecycle/observed facts/evidence,
+and re-runs policy for sensitive authority or gate changes. Exact retries return
+the same append-only receipt; `work-item amendments` is read-only. Accepted
+changes invalidate affected verification and require fresh preflight.
+
+Environment drift comes from Runtime-observed execution facts, never a
+caller-supplied digest. CLI `check-environment-drift` and MCP
+`work_item_environment_drift` with `action=check` are read-only; explicitly use
+`record-environment-drift` or MCP `action=record` to persist an append-only
+event in shared repository state before an affected action. The request-scoped
+observation ledger is not a cross-process event bus. Refresh dependency
+admission immediately before each consuming action; stale generations fail
+closed, while unrelated work may continue only with its own fresh admission.
+Recovery appends a resolution and retains the original event.
+
+During the compatibility transition, Runtime `0.2.113` remains usable for its
+supported serial lifecycle but does not provide the amendment/drift capability.
+Reading a newer Contract or manifest does not prove bidirectional support.
+Require the advertised capability for those actions; if absent, do not emulate
+the constraint—continue serially when admitted or stop.
 
 Agent Risk and checkpoint controls use the same Rust lifecycle validator.
 Typed required verification declarations are consumed at preflight, verify,

@@ -1,12 +1,12 @@
 use super::{
-    AttachedProfile, CheckpointEvidence, Contract, ContractSource, DecisionState, Digest,
-    EvidencePersistence, EvidenceState, GovernanceDecision, HumanBenefitReport, LifecycleReceipt,
-    ObservationPhase, ObserverError, OutcomeState, OutcomeV2, RecoveryDecisionReceipt,
-    RepositoryExecutionContext, RepositorySnapshot, RepositoryVerificationRequest, RuntimeContext,
+    AttachedProfile, CheckpointEvidence, Contract, DecisionState, Digest, EvidencePersistence,
+    EvidenceState, GovernanceDecision, HumanBenefitReport, LifecycleReceipt, ObservationPhase,
+    ObserverError, OutcomeState, OutcomeV2, RecoveryDecisionReceipt, RepositoryExecutionContext,
+    RepositorySnapshot, RepositoryVerificationRequest, RuntimeContext,
     SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeReport, TaskOutcomeReportInput,
-    VerificationCaptureMode, VerificationDeclaration, VerificationEvidenceEnvelope,
-    WorkItemScaffoldFacts, WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation,
-    WorkItemStartOptions, WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
+    VerificationCaptureMode, VerificationEvidenceEnvelope, WorkItemScaffoldFacts,
+    WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
+    WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
     acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
     atomic_json, atomic_write, attach, attached_profile_digest, close_decision_is_valid_for_status,
     ensure_resource_finalization_base_binding, git_text, git_worktree_records,
@@ -516,11 +516,12 @@ pub fn start_work_item_prepared(
     let source_amendment = if sources.is_empty() {
         None
     } else {
-        Some(amend_work_item_contract(
+        Some(amend_work_item_contract_with_runtime(
             root,
             work_item_id,
             &serde_json::json!({"sourcesAppend": sources}),
             "record source references supplied with the prepared Work Item start",
+            runtime,
         )?)
     };
     let contract_path = root
@@ -1299,6 +1300,83 @@ fn synchronize_scenario_coverage_projection(
     true
 }
 
+pub(crate) fn validate_contract_amendment_revalidation_ready(
+    root: &Path,
+    work_item_id: &str,
+    summary: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let checkpoint_count = summary
+        .get("checkpointCount")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    if checkpoint_count == 0 {
+        return Ok(());
+    }
+    let Some(evidence) = summary
+        .get("checkpointEvidence")
+        .and_then(serde_json::Value::as_array)
+    else {
+        for (field, message) in [
+            (
+                "checkpointContractDigest",
+                "contract amendment requires a legacy checkpoint Contract digest",
+            ),
+            (
+                "checkpointRepositorySnapshotDigest",
+                "contract amendment requires a legacy checkpoint snapshot digest",
+            ),
+            (
+                "checkpointAt",
+                "contract amendment requires a legacy checkpoint timestamp",
+            ),
+        ] {
+            if summary
+                .get(field)
+                .and_then(serde_json::Value::as_str)
+                .is_none_or(|value| value.trim().is_empty())
+            {
+                return Err(ObserverError::State {
+                    path: summary_path,
+                    message: message.into(),
+                });
+            }
+        }
+        if checkpoint_count != 1 {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "contract amendment requires exactly one legacy checkpoint".into(),
+            });
+        }
+        return Ok(());
+    };
+    let before_edit = evidence
+        .iter()
+        .find(|entry| entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_edit"))
+        .cloned()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "contract amendment requires a before_edit checkpoint".into(),
+        })?;
+    serde_json::from_value::<CheckpointEvidence>(before_edit).map_err(|error| {
+        ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("before_edit checkpoint is malformed: {error}"),
+        }
+    })?;
+    if evidence.iter().any(|entry| {
+        entry.get("stage").and_then(serde_json::Value::as_str) == Some("before_finish")
+    }) {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "contract amendment after before_finish requires a recovery Work Item".into(),
+        });
+    }
+    Ok(())
+}
+
 pub fn revalidate_contract_amendment(
     root: &Path,
     work_item_id: &str,
@@ -1458,25 +1536,8 @@ pub fn revalidate_contract_amendment(
     })?;
     let required_checks = checkpoint_required_check_names(&contract);
     let required_checks_passed = checkpoint_passed_check_count(&contract, &summary);
-    let formal_evidence_path = root
-        .join(".ai/evidence")
-        .join(format!("{work_item_id}.verification.json"));
-    let verification_started = summary
-        .get("verification")
-        .and_then(serde_json::Value::as_array)
-        .is_some_and(|entries| {
-            entries.iter().any(|entry| {
-                matches!(
-                    entry.get("result").and_then(serde_json::Value::as_str),
-                    Some("passed" | "failed" | "warning" | "blocked")
-                )
-            })
-        })
-        || fs::symlink_metadata(&formal_evidence_path).is_ok()
-        // A legacy command-only Contract has no typed required gates to
-        // invalidate. Keep the amendment's historical fact, but do not mark
-        // it as a gate invalidation that must contain a non-empty list.
-        ;
+    let verification_started =
+        contract_amendment_verification_started(&root, work_item_id, &summary);
     let record = serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": repository_id(&root),
@@ -1521,26 +1582,96 @@ pub fn revalidate_contract_amendment(
         "invalidatedRequiredChecks": if verification_started { required_checks } else { Vec::new() },
         "recordedAt": now(),
     });
+    if summary["recoveryRetryPending"] == serde_json::json!(true) {
+        // The amendment is the explicit, reasoned Contract transition that
+        // advances this human-authorized retry. Keep its current-Contract
+        // binding in the same atomic Summary projection as invalidation so
+        // an interrupted write can recover without reviving a stale receipt.
+        summary["recoveryRetryContractDigest"] = serde_json::json!(current_contract_hash);
+    }
     atomic_json(&summary_path, &summary)?;
     Ok(record)
 }
 
-/// Apply a bounded, append-only Contract amendment and record its revalidation.
-/// Only additive scope, out-of-scope, source, verification, acceptance,
-/// required-evidence, and scenario-coverage entries are accepted; the Runtime
-/// never lets an amendment rewrite identity, authority, base, mode, or existing
-/// criteria.
+pub(crate) fn contract_amendment_verification_started(
+    root: &Path,
+    work_item_id: &str,
+    summary: &serde_json::Value,
+) -> bool {
+    let formal_evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    summary
+        .get("verification")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|entries| {
+            entries.iter().any(|entry| {
+                matches!(
+                    entry.get("result").and_then(serde_json::Value::as_str),
+                    Some("passed" | "failed" | "warning" | "blocked")
+                )
+            })
+        })
+        || fs::symlink_metadata(&formal_evidence_path).is_ok()
+}
+
+/// Apply a typed, reasoned Contract amendment and record its revalidation.
+/// Legacy additive inputs are translated to the same typed operation path;
+/// repository identity, observed facts, lifecycle state, and evidence remain
+/// outside generic amendment.
 pub fn amend_work_item_contract(
     root: &Path,
     work_item_id: &str,
     input: &serde_json::Value,
     reason: &str,
 ) -> Result<serde_json::Value, ObserverError> {
+    let executable = std::env::current_exe().map_err(|source| ObserverError::Read {
+        path: PathBuf::from("current-executable"),
+        source,
+    })?;
+    let executable_bytes = fs::read(&executable).map_err(|source| ObserverError::Read {
+        path: executable.clone(),
+        source,
+    })?;
+    let runtime = RuntimeContext {
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: Digest::sha256_bytes(&executable_bytes),
+    };
+    amend_work_item_contract_with_runtime(root, work_item_id, input, reason, &runtime)
+}
+
+pub fn amend_work_item_contract_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    input: &serde_json::Value,
+    reason: &str,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
-    if reason.trim().is_empty() {
+    let typed_request =
+        crate::contract_amendment::typed_request_from_value(input).map_err(|error| {
+            ObserverError::State {
+                path: root.join(".ai/work-items/active"),
+                message: format!("invalid typed Contract amendment request: {error}"),
+            }
+        })?;
+    let effective_reason = typed_request
+        .as_ref()
+        .map_or_else(|| reason.to_owned(), |request| request.reason.clone());
+    if effective_reason.trim().is_empty() {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
             message: "contract amendment reason must not be empty".into(),
+        });
+    }
+    if typed_request
+        .as_ref()
+        .is_some_and(|request| !reason.trim().is_empty() && reason.trim() != request.reason.trim())
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "typed request reason conflicts with the amendment reason argument".into(),
         });
     }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -1550,329 +1681,67 @@ pub fn amend_work_item_contract(
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let summary_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{work_item_id}.summary.json"));
-    let original_contract_bytes = fs::read(&path).map_err(|source| ObserverError::Read {
-        path: path.clone(),
-        source,
-    })?;
-    let mut contract = read_json(&path)?;
-    let summary = read_json(&summary_path)?;
-    let retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
-    if retry_pending {
-        let recovery = load_recovery_decision(&root, work_item_id, None)?;
-        if recovery
-            .as_ref()
-            .is_none_or(|decision| decision.decision != "retry")
-        {
-            return Err(recovery_decision_error(
-                root.join(".ai/decisions"),
-                "retry_binding_missing",
-                "pending retry cannot be advanced by a Contract amendment without its exact recovery receipt",
-            ));
-        }
-    }
-    for key in input
-        .as_object()
-        .into_iter()
-        .flat_map(|object| object.keys())
-    {
-        if !matches!(
-            key.as_str(),
-            "scopeAppend"
-                | "outOfScopeAppend"
-                | "sourcesAppend"
-                | "verificationAppend"
-                | "acceptanceAppend"
-                | "requiredEvidenceClassesAppend"
-                | "scenarioCoverageAppend"
-                | "scenarioCoveragePlanAppend"
-        ) {
-            return Err(ObserverError::State {
-                path: path.clone(),
-                message: format!("unsupported Contract amendment field {key}"),
-            });
-        }
-    }
-    let pre_checkpoint_declaration = summary["checkpointCount"] == serde_json::json!(0)
-        && input.as_object().is_some_and(|object| {
-            !object.is_empty()
-                && object.keys().all(|key| {
-                    matches!(
-                        key.as_str(),
-                        "scopeAppend"
-                            | "scenarioCoverageAppend"
-                            | "sourcesAppend"
-                            | "verificationAppend"
-                    )
-                })
-        });
-    for (field, target) in [
-        ("scopeAppend", "scope"),
-        ("outOfScopeAppend", "outOfScope"),
-        ("acceptanceAppend", "acceptanceCriteria"),
-        ("requiredEvidenceClassesAppend", "requiredEvidenceClasses"),
-    ] {
-        let Some(values) = input.get(field) else {
-            continue;
-        };
-        let values = values.as_array().ok_or_else(|| ObserverError::State {
-            path: path.clone(),
-            message: format!("{field} must be an array"),
-        })?;
-        let existing = contract[target]
-            .as_array_mut()
-            .ok_or_else(|| ObserverError::State {
-                path: path.clone(),
-                message: format!("Contract field {target} is not an array"),
-            })?;
-        for value in values {
-            let value = value
-                .as_str()
-                .filter(|value| !value.trim().is_empty())
-                .ok_or_else(|| ObserverError::State {
-                    path: path.clone(),
-                    message: format!("{field} entries must be non-empty strings"),
-                })?;
-            if !existing.iter().any(|entry| entry.as_str() == Some(value)) {
-                existing.push(serde_json::json!(value));
-            }
-        }
-    }
-    for (field, target) in [
-        ("sourcesAppend", "sources"),
-        ("verificationAppend", "verification"),
-    ] {
-        let Some(values) = input.get(field) else {
-            continue;
-        };
-        let values = values.as_array().ok_or_else(|| ObserverError::State {
-            path: path.clone(),
-            message: format!("{field} must be an array"),
-        })?;
-        for value in values {
-            let non_empty = match field {
-                "sourcesAppend" => {
-                    serde_json::from_value::<ContractSource>(value.clone()).map(|source| {
-                        match source {
-                            ContractSource::Legacy(source) => !source.trim().is_empty(),
-                            ContractSource::Structured(source) => {
-                                !source.path.trim().is_empty() && !source.reason.trim().is_empty()
-                            }
-                        }
-                    })
-                }
-                "verificationAppend" => serde_json::from_value::<VerificationDeclaration>(
-                    value.clone(),
-                )
-                .map(|declaration| match declaration {
-                    VerificationDeclaration::Legacy(command) => !command.trim().is_empty(),
-                    VerificationDeclaration::Check(check) => !check.check.trim().is_empty(),
-                }),
-                _ => unreachable!("only source and verification declarations are handled"),
-            }
-            .map_err(|error| ObserverError::State {
-                path: path.clone(),
-                message: format!("{field} contains an invalid declaration: {error}"),
-            })?;
-            if !non_empty {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!("{field} entries must not be empty"),
-                });
-            }
-        }
-        if contract.get(target).is_none_or(serde_json::Value::is_null) {
-            contract[target] = serde_json::json!([]);
-        }
-        let existing = contract[target]
-            .as_array_mut()
-            .ok_or_else(|| ObserverError::State {
-                path: path.clone(),
-                message: format!("Contract field {target} is not an array"),
-            })?;
-        for value in values {
-            if !existing.iter().any(|entry| entry == value) {
-                existing.push(value.clone());
-            }
-        }
-    }
-    let required_evidence_classes = contract["requiredEvidenceClasses"]
-        .as_array()
-        .into_iter()
-        .flatten()
-        .filter_map(serde_json::Value::as_str)
-        .map(str::to_owned)
-        .collect::<Vec<_>>();
-    validate_required_evidence_classes(&required_evidence_classes).map_err(|message| {
-        ObserverError::State {
+    let contract = read_json(&path)?;
+    let is_legacy = typed_request.is_none();
+    let request = match typed_request {
+        Some(request) => request,
+        None => crate::contract_amendment::legacy_request_from_value(
+            &contract,
+            input,
+            &effective_reason,
+        )
+        .map_err(|message| ObserverError::State {
             path: path.clone(),
             message,
-        }
-    })?;
-    if let Some(values) = input.get("scenarioCoverageAppend") {
-        let values = values.as_array().ok_or_else(|| ObserverError::State {
-            path: path.clone(),
-            message: "scenarioCoverageAppend must be an array".into(),
-        })?;
-        if contract
-            .get("scenarioCoverage")
-            .is_none_or(serde_json::Value::is_null)
-        {
-            contract["scenarioCoverage"] = serde_json::json!([]);
-        }
-        let coverage =
-            contract["scenarioCoverage"]
-                .as_array_mut()
-                .ok_or_else(|| ObserverError::State {
-                    path: path.clone(),
-                    message: "Contract field scenarioCoverage is not an array".into(),
-                })?;
-        for value in values {
-            let Some(name) = value.get("scenario").and_then(serde_json::Value::as_str) else {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: "scenarioCoverageAppend entries must contain a scenario string".into(),
-                });
-            };
-            if name.trim().is_empty()
-                || coverage.iter().any(|entry| {
-                    entry.get("scenario").and_then(serde_json::Value::as_str) == Some(name)
-                })
-            {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!(
-                        "scenarioCoverageAppend contains duplicate or empty scenario {name:?}"
-                    ),
-                });
-            }
-            coverage.push(value.clone());
-        }
-        if let Err(errors) =
-            cockpit_protocol::validate_scenario_coverage_projection(&contract["scenarioCoverage"])
-        {
-            return Err(ObserverError::State {
-                path: path.clone(),
-                message: format!("scenarioCoverageAppend is invalid: {}", errors.join(", ")),
-            });
-        }
-    }
-    if let Some(values) = input.get("scenarioCoveragePlanAppend") {
-        let values = values.as_array().ok_or_else(|| ObserverError::State {
-            path: path.clone(),
-            message: "scenarioCoveragePlanAppend must be an array".into(),
-        })?;
-        let coverage =
-            contract["scenarioCoverage"]
-                .as_array_mut()
-                .ok_or_else(|| ObserverError::State {
-                    path: path.clone(),
-                    message:
-                        "scenarioCoveragePlanAppend requires an existing scenarioCoverage array"
-                            .into(),
-                })?;
-        for value in values {
-            let Some(name) = value.get("scenario").and_then(serde_json::Value::as_str) else {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: "scenarioCoveragePlanAppend entries must contain a scenario string"
-                        .into(),
-                });
-            };
-            let Some(plan) = value
-                .get("verificationPlan")
-                .and_then(serde_json::Value::as_str)
-            else {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message:
-                        "scenarioCoveragePlanAppend entries must contain a verificationPlan string"
-                            .into(),
-                });
-            };
-            if plan.trim().is_empty() {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: "scenarioCoveragePlanAppend verificationPlan must be non-empty".into(),
-                });
-            }
-            let Some(existing) = coverage.iter_mut().find(|entry| {
-                entry.get("scenario").and_then(serde_json::Value::as_str) == Some(name)
-            }) else {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!(
-                        "scenarioCoveragePlanAppend names no existing scenario {name:?}"
-                    ),
-                });
-            };
-            if existing
-                .get("verificationPlan")
-                .and_then(serde_json::Value::as_str)
-                .is_some()
-            {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!(
-                        "scenarioCoveragePlanAppend cannot replace an existing verificationPlan for {name:?}"
-                    ),
-                });
-            }
-            existing["verificationPlan"] = serde_json::json!(plan);
-        }
-        if let Err(errors) =
-            cockpit_protocol::validate_scenario_coverage_projection(&contract["scenarioCoverage"])
-        {
-            return Err(ObserverError::State {
-                path: path.clone(),
-                message: format!(
-                    "scenarioCoveragePlanAppend is invalid: {}",
-                    errors.join(", ")
-                ),
-            });
-        }
-    }
-    if pre_checkpoint_declaration {
-        serde_json::from_value::<Contract>(contract.clone()).map_err(|error| {
-            ObserverError::State {
-                path: path.clone(),
-                message: format!("pre-checkpoint Contract declarations are invalid: {error}"),
-            }
-        })?;
-        atomic_json(&path, &contract)?;
-        return Ok(serde_json::json!({
-            "schemaVersion": 1,
-            "repositoryId": repository_id(&root),
-            "workItemId": work_item_id,
-            "stage": "pre_checkpoint_contract_declaration",
-            "recorded": true,
-            "contractHash": contract_digest(&path)?,
-            "recordedAt": now()
-        }));
-    }
-    if contract["scope"].as_array().is_none() {
-        return Err(ObserverError::State {
-            path,
-            message: "Contract scope is malformed".into(),
-        });
-    }
-    atomic_json(&path, &contract)?;
-    let result = match revalidate_contract_amendment(&root, work_item_id, reason) {
-        Ok(result) => result,
-        Err(error) => {
-            atomic_write(&path, &original_contract_bytes)?;
-            return Err(error);
-        }
+        })?,
     };
-    if retry_pending {
-        let mut summary = read_json(&summary_path)?;
-        summary["recoveryRetryContractDigest"] =
-            serde_json::json!(contract_digest(&path)?.to_string());
-        atomic_json(&summary_path, &summary)?;
-    }
-    Ok(result)
+    let legacy_input_digest = if is_legacy {
+        Some(
+            cockpit_protocol::digest_json(&serde_json::json!({
+                "input": input,
+                "reason": effective_reason,
+            }))
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?,
+        )
+    } else {
+        None
+    };
+    let receipt = crate::contract_amendment::apply_work_item_contract_amendment_with_legacy_input(
+        &root,
+        work_item_id,
+        &request,
+        runtime,
+        legacy_input_digest,
+    )?;
+    let mut value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+        path,
+        message: error.to_string(),
+    })?;
+    value["stage"] = serde_json::json!(if value["checkpointed"] == serde_json::json!(true) {
+        "contract_amendment_revalidation"
+    } else {
+        "pre_checkpoint_contract_declaration"
+    });
+    value["recorded"] = serde_json::json!(true);
+    value["contractHash"] = value["newContractDigest"].clone();
+    Ok(value)
+}
+
+pub fn apply_work_item_contract_amendment(
+    root: &Path,
+    work_item_id: &str,
+    request: &cockpit_protocol::ContractAmendmentRequest,
+    runtime: &RuntimeContext,
+) -> Result<crate::contract_amendment::ContractAmendmentReceipt, ObserverError> {
+    crate::contract_amendment::apply_work_item_contract_amendment(
+        root,
+        work_item_id,
+        request,
+        runtime,
+    )
 }
 
 /// Evaluate and persist the preflight decision for an active Work Item.

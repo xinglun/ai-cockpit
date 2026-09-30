@@ -1,0 +1,24 @@
+{
+  "actor": "human user in current Codex task",
+  "authoritySource": "user instruction in this task: explicit authorization to continue without pause",
+  "decidedAt": "2026-09-29T18:23:56Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json",
+    "conversation:explicit user authorization to continue without pause"
+  ],
+  "policyRefs": [
+    ".ai/work-items/active/WI-1042-contract-amendment-environment-drift.contract.json"
+  ],
+  "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
+  "predecessorSummaryDigest": "sha256:4966059d477e39da54c52788d776a3455a37fb2d5713c627fb8974b7b4a6101b",
+  "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
+  "reason": "The installed Runtime 0.2.113 verification receipt is complete but the local candidate Runtime 1.0.0 reports it contradictory because it was produced by a different Runtime identity. Preserve the original receipt and authorize one candidate-Runtime recovery cycle after resolving the verified review findings.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After the in-scope independent-review findings are resolved, run focused regressions and one fresh canonical verification under this local candidate Runtime; continue only on fresh Runtime admission and stop before any release, tag, or publication action.",
+  "runtimeDigest": "sha256:9bd975b9ccdfb50f78ec1bbf192a4db05b62627bcb454f5155012b0453c7dda3",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}
