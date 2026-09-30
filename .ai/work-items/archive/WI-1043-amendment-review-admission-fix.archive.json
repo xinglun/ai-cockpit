@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-30T00:03:26Z",
+  "files": {
+    "contractDigest": "sha256:e18bd519e4a820cbe289c906fa1526cee7473eb7bfcc8c01f788d99f7a24e982",
+    "contractPath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.contract.json",
+    "eventsDigest": "sha256:7006346b7ab8606bc4c2ee7ba6f1006a04c90842f8990dc6b853de155029a1e1",
+    "eventsPath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.events.jsonl",
+    "outcomeDigest": "sha256:7448922ef3dda05037a7ac2052c590da51f02f93a16e33de8476cdcb60b39a7e",
+    "outcomePath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.outcome.json",
+    "summaryDigest": "sha256:edca16a12be8867fe83b466309e4d1f0a89dee5084d6f1a3de147dc6a01cd85e",
+    "summaryPath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.summary.json",
+    "taskReportDigest": "sha256:04342f9d4e3a4286dced68a162cd5bbea1ae0e0b5967e8af15f9e8626766106b",
+    "taskReportMarkdownDigest": "sha256:719147cd2da9cfdb30c32d8f05eff2dd59427fef632754182ff5ba2da949f9c5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1043-amendment-review-admission-fix"
+}

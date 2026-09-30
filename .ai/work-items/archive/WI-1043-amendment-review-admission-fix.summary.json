@@ -1,26 +1,8 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.b1586cb49984ed9e1fac54d0f8056075859dcd5760dc2458da669fc7d590bda4.json",
-    ".ai/decisions/WI-1043-amendment-review-admission-fix.preflight-review.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.contract-amendments/00000001.committed.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.contract-amendments/00000001.prepared.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.contract-amendments/00000002.prepared.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.425d2e386fa5e8b46da21e8bf060074e432b5b150d5d8a6e346005fbba2d4606.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.7a4179ca8ea8c7d213c7c7fb1f5393c6749ed4029c6c4f4eb080f9c7a34c73a7.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.938006ac3194143db134faff3c0f454dbd5fa2f0cfc5558da59ad1a9364f58f5.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.95eb5eed9cf2621940da7c4ff13d4dfaebbd5c07b5042ad8d763993fc515d766.json",
-    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.feb273c1548104b9d0d98e15af3da5a845fec6a19d2498dd8035c9b747012d53.json",
+    ".ai/evidence/WI-1043-amendment-review-admission-fix.verification-attempt.fd7f8cd8b52f89be66c9c5986c7f754aec254672300533ac0772e62c253cb867.json",
     ".ai/evidence/WI-1043-amendment-review-admission-fix.verification.json",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.contract.json",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.events.jsonl",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.outcome.json",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.summary.json",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.task-report.json",
-    ".ai/work-items/active/WI-1043-amendment-review-admission-fix.task-report.md",
-    "agents/skills/ordinary-work-item.md",
-    "crates/cockpit-cli/tests/contract_amendment_processes.rs",
-    "crates/cockpit-repository/src/lib.rs"
+    ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.summary.json"
   ],
   "checkpointAt": "2026-09-29T21:04:10Z",
   "checkpointContractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
@@ -61,7 +43,7 @@
       "workItemId": "WI-1043-amendment-review-admission-fix"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:150272510a9d334834975258d32134cbf744accfbbc5204816e9ee256e8e8537",
+  "checkpointRepositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
   "createdAt": "2026-09-29T21:01:24Z",
   "decisionEvidence": {
     "contractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
@@ -76,19 +58,29 @@
     "schemaVersion": 1,
     "workItemId": "WI-1043-amendment-review-admission-fix"
   },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-cli/tests/contract_amendment_processes.rs",
+      "agents/skills/ordinary-work-item.md",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/36646584300"
+    ],
+    "reason": "The declared WI intent is implemented: a sensitive Contract amendment cannot admit verification before required review; a process-level CLI regression proves the verification command is not spawned, and the ordinary-work guide now directs agents to follow fresh Runtime admission. Exact-head hosted CI and the final source-bound verification passed. This records intent alignment only and does not claim a separately measured user-visible benefit or authorize release.",
+    "state": "resolved"
+  },
   "mode": "code",
   "predecessorContractDigest": "sha256:621c4b2a335bb0455897fc37cfe97f028a6ed4c51de7ef59da3bc83390c32716",
   "predecessorWorkItemId": "WI-1042-contract-amendment-environment-drift",
-  "preflightAt": "2026-09-29T23:08:41Z",
+  "preflightAt": "2026-09-29T23:48:40Z",
   "preflightContractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:150272510a9d334834975258d32134cbf744accfbbc5204816e9ee256e8e8537",
+  "preflightRepositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.b1586cb49984ed9e1fac54d0f8056075859dcd5760dc2458da669fc7d590bda4.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-29T22:40:07.531253+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-30T00:03:09Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -203,6 +195,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:2094c5f840d05eafd3e892538a4db7b97957dabdbfdd63427b12a3665925f296",
   "workItemId": "WI-1043-amendment-review-admission-fix"
 }
