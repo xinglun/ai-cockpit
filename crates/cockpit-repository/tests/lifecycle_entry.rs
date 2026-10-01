@@ -1,25 +1,29 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    EvidenceAssurance, HumanDecision, RuntimeContext, VerificationStage, VerificationTier,
+    CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION, ContractAmendmentAuthorization,
+    ContractAmendmentDecision, ContractAmendmentRequest, EvidenceAssurance, HumanDecision,
+    RuntimeContext, VerificationStage, VerificationTier,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
+    amend_work_item_contract as apply_authorized_amendment, archive_work_item, attach,
+    check_work_item_contract_amendment, checkpoint_work_item,
     close_work_item_with_structured_decision, finish_work_item, finish_work_item_with_runtime,
     load_reusable_verification_attempt, persist_verification_attempt, preflight_work_item,
-    preflight_work_item_with_runtime, record_recovery_decision, record_verification,
-    record_verification_with_runtime, record_work_item_governance_controls, repository_id,
-    require_verification_preconditions, revalidate_contract_amendment, run_repository_verification,
-    scaffold_work_item, set_work_item_intelligence, start_work_item_with_options, status,
-    validate_scenario_coverage_values, work_item_start_advisory,
-    work_item_status_snapshot_with_runtime,
+    preflight_work_item_with_runtime, read_work_item_contract_amendments, record_recovery_decision,
+    record_verification, record_verification_with_runtime, record_work_item_governance_controls,
+    repository_id, require_verification_preconditions, revalidate_contract_amendment,
+    run_repository_verification, scaffold_work_item, set_work_item_intelligence,
+    start_work_item_with_options, status, validate_scenario_coverage_values,
+    work_item_start_advisory, work_item_status_snapshot_with_runtime,
 };
 use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
 use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 fn run(root: &Path, args: &[&str]) {
     let output = Command::new("git")
@@ -65,6 +69,105 @@ fn start_options() -> WorkItemStartOptions {
         acceptance_criteria: vec!["entry remains bounded".into()],
         ..Default::default()
     }
+}
+
+/// Existing lifecycle tests describe plan amendments in the old additive
+/// shorthand. Keep their behavioral coverage, but translate that intent into
+/// an exact request-bound authorization before exercising the public API.
+/// The public adapter's rejection of unbound legacy input is covered directly
+/// by `contract_amendment.rs`.
+fn amend_work_item_contract(
+    root: &Path,
+    work_item_id: &str,
+    additive_input: &Value,
+    reason: &str,
+) -> Result<Value, cockpit_repository::ObserverError> {
+    static NEXT_CHANGE_ID: AtomicU64 = AtomicU64::new(1);
+
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: Value = serde_json::from_slice(
+        &fs::read(&contract_path).expect("read current Contract for typed test amendment"),
+    )
+    .expect("current Contract JSON");
+    let mut changes = Vec::new();
+    for (legacy_field, contract_field) in [
+        ("scopeAppend", "scope"),
+        ("outOfScopeAppend", "outOfScope"),
+        ("sourcesAppend", "sources"),
+        ("verificationAppend", "verification"),
+        ("acceptanceAppend", "acceptanceCriteria"),
+        ("requiredEvidenceClassesAppend", "requiredEvidenceClasses"),
+        ("scenarioCoverageAppend", "scenarioCoverage"),
+    ] {
+        if let Some(values) = additive_input.get(legacy_field) {
+            for value in values
+                .as_array()
+                .expect("legacy test amendment value is an array")
+            {
+                changes.push(json!({
+                    "path": format!("/{contract_field}"),
+                    "operation": "add",
+                    "value": value
+                }));
+            }
+        }
+    }
+    if let Some(values) = additive_input.get("scenarioCoveragePlanAppend") {
+        let coverage = contract["scenarioCoverage"]
+            .as_array()
+            .expect("scenario plan amendment has existing coverage");
+        for value in values
+            .as_array()
+            .expect("scenario plan amendment value is an array")
+        {
+            let scenario = value["scenario"]
+                .as_str()
+                .expect("scenario plan amendment has a scenario name");
+            let index = coverage
+                .iter()
+                .position(|entry| entry["scenario"] == scenario)
+                .expect("scenario plan amendment names an existing scenario");
+            changes.push(json!({
+                "path": format!("/scenarioCoverage/{index}/verificationPlan"),
+                "operation": "set",
+                "value": value["verificationPlan"]
+            }));
+        }
+    }
+
+    let mut request: ContractAmendmentRequest = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "changeId": format!("lifecycle-entry-{}", NEXT_CHANGE_ID.fetch_add(1, Ordering::Relaxed)),
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+            .expect("current Contract digest"),
+        "reason": reason,
+        "changes": changes
+    }))
+    .expect("typed amendment request");
+    let preview = check_work_item_contract_amendment(root, work_item_id, &request)?;
+    request.authorization = Some(ContractAmendmentAuthorization {
+        schema_version: CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: format!("lifecycle-entry-{}", request.change_id),
+        decision: ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:lifecycle-entry-test".into(),
+        authority_source: "explicit lifecycle integration-test authorization".into(),
+        assurance: EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:lifecycle-entry-test".into(),
+        repository_id: preview.repository_id,
+        work_item_id: preview.work_item_id,
+        contract_digest: preview.contract_digest,
+        repository_snapshot_digest: preview.repository_snapshot_digest,
+        request_digest: preview.request_digest,
+        changed_paths: preview.changed_paths,
+    });
+    apply_authorized_amendment(
+        root,
+        work_item_id,
+        &serde_json::to_value(request).expect("request JSON"),
+        reason,
+    )
 }
 
 fn record_human_preflight_review(root: &Path, work_item_id: &str) {
@@ -1043,6 +1146,8 @@ fn contract_amendment_rejects_malformed_declarations_without_writing() {
     let original_contract = fs::read(&contract_path).expect("contract bytes");
     let original_summary = fs::read(&summary_path).expect("summary bytes");
     let original_events = fs::read(&events_path).ok();
+    let original_history =
+        read_work_item_contract_amendments(directory.path(), work_item_id).expect("history");
 
     let invalid_source = amend_work_item_contract(
         directory.path(),
@@ -1056,7 +1161,8 @@ fn contract_amendment_rejects_malformed_declarations_without_writing() {
     assert!(
         invalid_source
             .to_string()
-            .contains("sourcesAppend entries must not be empty")
+            .contains("contract_invariant_failed"),
+        "{invalid_source}"
     );
     assert_eq!(
         fs::read(&contract_path).expect("contract bytes"),
@@ -1067,6 +1173,39 @@ fn contract_amendment_rejects_malformed_declarations_without_writing() {
         original_summary
     );
     assert_eq!(fs::read(&events_path).ok(), original_events);
+    assert_eq!(
+        read_work_item_contract_amendments(directory.path(), work_item_id).expect("history"),
+        original_history
+    );
+
+    let invalid_source_reason = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "sourcesAppend": [{"path": "docs/reference/contract.md", "reason": "  "}]
+        }),
+        "reject a blank source reason",
+    )
+    .expect_err("blank source reason must be rejected");
+    assert!(
+        invalid_source_reason
+            .to_string()
+            .contains("contract_invariant_failed"),
+        "{invalid_source_reason}"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("contract bytes"),
+        original_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary bytes"),
+        original_summary
+    );
+    assert_eq!(fs::read(&events_path).ok(), original_events);
+    assert_eq!(
+        read_work_item_contract_amendments(directory.path(), work_item_id).expect("history"),
+        original_history
+    );
 
     let invalid_verification = amend_work_item_contract(
         directory.path(),
@@ -1080,7 +1219,8 @@ fn contract_amendment_rejects_malformed_declarations_without_writing() {
     assert!(
         invalid_verification
             .to_string()
-            .contains("verificationAppend contains an invalid declaration")
+            .contains("contract_schema_invalid"),
+        "{invalid_verification}"
     );
     assert_eq!(
         fs::read(&contract_path).expect("contract bytes"),
@@ -1091,6 +1231,10 @@ fn contract_amendment_rejects_malformed_declarations_without_writing() {
         original_summary
     );
     assert_eq!(fs::read(&events_path).ok(), original_events);
+    assert_eq!(
+        read_work_item_contract_amendments(directory.path(), work_item_id).expect("history"),
+        original_history
+    );
 }
 
 #[test]

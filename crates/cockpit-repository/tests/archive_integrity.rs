@@ -8,11 +8,11 @@ use cockpit_protocol::{
 use cockpit_repository::{
     ActiveArtifactReconciliationReceipt, ArchivedVerificationRecoveryRequest, WorkItemStartOptions,
     acquire_parallel_slot, amend_work_item_contract, archive_historical_work_item_with_runtime,
-    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
-    export_audit_events, finish_work_item, governance_decision_for_contract,
-    implementation_approach, import_delegated_evidence, plan_resource_finalization,
-    preflight_work_item, reconcile_active_artifacts,
+    archive_work_item, attach, check_work_item_contract_amendment, checkpoint_work_item,
+    close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
+    evidence_state_for_contract, export_audit_events, finish_work_item,
+    governance_decision_for_contract, implementation_approach, import_delegated_evidence,
+    plan_resource_finalization, preflight_work_item, reconcile_active_artifacts,
     record_archived_verification_recovery_with_runtime, record_verification,
     record_verification_with_runtime, record_work_item_governance_controls, release_parallel_slot,
     render_human_outcome, run_repository_verification, set_evidence_retention_policy,
@@ -499,13 +499,46 @@ fn amendment_detects_formal_receipt_when_legacy_summary_has_no_verification_arra
     )
     .expect("verification");
 
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+            .expect("Contract JSON");
+    let reason = "prove amendment invalidation uses the formal receipt as evidence";
+    let mut request: cockpit_protocol::ContractAmendmentRequest =
+        serde_json::from_value(serde_json::json!({
+            "schemaVersion": 1,
+            "changeId": "formal-receipt-invalidation",
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest"),
+            "reason": reason,
+            "changes": [{
+                "path": "/acceptanceCriteria",
+                "operation": "add",
+                "value": "formal receipt is invalidated by a Contract change"
+            }]
+        }))
+        .expect("typed amendment request");
+    let check = check_work_item_contract_amendment(&path, work_item_id, &request)
+        .expect("read-only authorization binding");
+    request.authorization = Some(cockpit_protocol::ContractAmendmentAuthorization {
+        schema_version: cockpit_protocol::CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: "archive-integrity-formal-receipt-amendment".into(),
+        decision: cockpit_protocol::ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:archive-integrity-test".into(),
+        authority_source: "explicit process-level test authorization".into(),
+        assurance: cockpit_protocol::EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:archive-integrity-test".into(),
+        repository_id: check.repository_id,
+        work_item_id: check.work_item_id,
+        contract_digest: check.contract_digest,
+        repository_snapshot_digest: check.repository_snapshot_digest,
+        request_digest: check.request_digest,
+        changed_paths: check.changed_paths,
+    });
     let result = amend_work_item_contract(
         &path,
         work_item_id,
-        &serde_json::json!({
-            "acceptanceAppend": ["formal receipt is invalidated by a Contract change"]
-        }),
-        "prove amendment invalidation uses the formal receipt as evidence",
+        &serde_json::to_value(request).expect("authorized request JSON"),
+        reason,
     )
     .expect("amendment");
     assert_eq!(result["verificationStarted"], true);

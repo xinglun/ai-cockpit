@@ -1,8 +1,10 @@
 use cockpit_repository::{
-    ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, archive_work_item,
-    attach, checkpoint_work_item, finish_work_item, preflight_work_item,
-    read_work_item_contract_amendments, record_verification, record_work_item_governance_controls,
-    require_verification_preconditions, start_work_item_with_options,
+    ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract,
+    amend_work_item_contract_with_runtime, archive_work_item, attach,
+    check_work_item_contract_amendment, checkpoint_work_item, finish_work_item,
+    preflight_work_item, read_work_item_contract_amendments, record_verification,
+    record_work_item_governance_controls, require_verification_preconditions,
+    start_work_item_with_options,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -87,14 +89,258 @@ fn typed_request(
     operation: &str,
     value: Value,
 ) -> Value {
+    typed_request_with_changes(
+        contract_path,
+        change_id,
+        reason,
+        vec![json!({"path": path, "operation": operation, "value": value})],
+    )
+}
+
+fn typed_request_with_changes(
+    contract_path: &Path,
+    change_id: &str,
+    reason: &str,
+    changes: Vec<Value>,
+) -> Value {
     let contract = read_json(contract_path);
-    json!({
+    let mut request: cockpit_protocol::ContractAmendmentRequest = serde_json::from_value(json!({
         "schemaVersion": 1,
         "changeId": change_id,
         "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
         "reason": reason,
-        "changes": [{ "path": path, "operation": operation, "value": value }]
-    })
+        "changes": changes
+    }))
+    .expect("typed request");
+    let root = contract_path
+        .ancestors()
+        .nth(4)
+        .expect("repository root from Contract path");
+    let preview = check_work_item_contract_amendment(
+        root,
+        contract["workItemId"].as_str().expect("Work Item ID"),
+        &request,
+    )
+    .expect("read-only amendment authorization binding");
+    request.authorization = Some(cockpit_protocol::ContractAmendmentAuthorization {
+        schema_version: cockpit_protocol::CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: format!("test-human-decision-{change_id}"),
+        decision: cockpit_protocol::ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:repository-test".into(),
+        authority_source: "explicit process-level test authorization".into(),
+        assurance: cockpit_protocol::EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:repository-test".into(),
+        repository_id: preview.repository_id,
+        work_item_id: preview.work_item_id,
+        contract_digest: preview.contract_digest,
+        repository_snapshot_digest: preview.repository_snapshot_digest,
+        request_digest: preview.request_digest,
+        changed_paths: preview.changed_paths,
+    });
+    serde_json::to_value(request).expect("authorized request JSON")
+}
+
+#[test]
+fn public_runtime_amendment_adapter_rejects_unbound_legacy_input_without_mutation() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-UNBOUND-PUBLIC-AMENDMENT-ADAPTER";
+    let contract_path = start_checkpointed(root, work_item_id);
+    let contract_before = fs::read(&contract_path).expect("Contract before");
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary_before = fs::read(&summary_path).expect("Summary before");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+    };
+
+    let error = amend_work_item_contract_with_runtime(
+        root,
+        work_item_id,
+        &json!({"scopeAppend":["docs/**"]}),
+        "unbound legacy input must not bypass request authorization",
+        &runtime,
+    )
+    .expect_err("the public legacy adapter must reject unbound input");
+
+    assert!(error.to_string().contains("authorization"), "{error}");
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after"),
+        summary_before
+    );
+    assert!(
+        read_work_item_contract_amendments(root, work_item_id)
+            .expect("history remains readable")
+            .is_empty()
+    );
+}
+
+#[test]
+fn public_runtime_amendment_adapter_rejects_unbound_typed_request_without_mutation() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-UNBOUND-TYPED-AMENDMENT-ADAPTER";
+    let contract_path = start_checkpointed(root, work_item_id);
+    let mut request = typed_request(
+        &contract_path,
+        "unbound-typed-change",
+        "unbound typed requests must not bypass authorization",
+        "/goal",
+        "replace",
+        json!("unauthorized plan change"),
+    );
+    request
+        .as_object_mut()
+        .expect("typed request object")
+        .remove("authorization");
+    let contract_before = fs::read(&contract_path).expect("Contract before");
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary_before = fs::read(&summary_path).expect("Summary before");
+    let runtime = cockpit_protocol::RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"test-runtime"),
+    };
+
+    let error = amend_work_item_contract_with_runtime(
+        root,
+        work_item_id,
+        &request,
+        "unbound typed requests must not bypass authorization",
+        &runtime,
+    )
+    .expect_err("the public typed adapter must reject missing authorization");
+
+    assert!(
+        error.to_string().contains("authorization_missing"),
+        "{error}"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after"),
+        summary_before
+    );
+    assert!(
+        read_work_item_contract_amendments(root, work_item_id)
+            .expect("history remains readable")
+            .is_empty()
+    );
+}
+
+#[test]
+fn typed_check_and_apply_reject_invalid_source_and_empty_reason_without_mutation() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-INVALID-TYPED-AMENDMENT-DECLARATIONS";
+    let contract_path = start_uncheckpointed(root, work_item_id);
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let contract_before = fs::read(&contract_path).expect("Contract before");
+    let summary_before = fs::read(&summary_path).expect("Summary before");
+    let history_before =
+        read_work_item_contract_amendments(root, work_item_id).expect("history before");
+    assert!(history_before.is_empty());
+
+    let reason = "reject a whitespace-only source path";
+    let invalid_source = typed_request(
+        &contract_path,
+        "invalid-source-path",
+        reason,
+        "/sources",
+        "add",
+        json!({"path": " \t", "reason": "source path must be present"}),
+    );
+    let invalid_source: cockpit_protocol::ContractAmendmentRequest =
+        serde_json::from_value(invalid_source).expect("authorized source amendment");
+    let check = check_work_item_contract_amendment(root, work_item_id, &invalid_source)
+        .expect("read-only invalid-source check");
+    assert!(!check.allowed);
+    assert!(
+        check
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "contract_invariant_failed")
+    );
+    let error = amend_work_item_contract(
+        root,
+        work_item_id,
+        &serde_json::to_value(&invalid_source).unwrap(),
+        reason,
+    )
+    .expect_err("invalid typed source must not apply");
+    assert!(
+        error.to_string().contains("contract_invariant_failed"),
+        "{error}"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after"),
+        summary_before
+    );
+    assert_eq!(
+        read_work_item_contract_amendments(root, work_item_id).expect("history after"),
+        history_before
+    );
+
+    let empty_reason = typed_request(
+        &contract_path,
+        "empty-amendment-reason",
+        "",
+        "/goal",
+        "replace",
+        json!("a different goal"),
+    );
+    let empty_reason: cockpit_protocol::ContractAmendmentRequest =
+        serde_json::from_value(empty_reason).expect("authorized empty-reason amendment");
+    let check = check_work_item_contract_amendment(root, work_item_id, &empty_reason)
+        .expect("read-only empty-reason check");
+    assert!(!check.allowed);
+    assert!(
+        check
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "missing_reason")
+    );
+    let error = amend_work_item_contract(
+        root,
+        work_item_id,
+        &serde_json::to_value(&empty_reason).unwrap(),
+        "",
+    )
+    .expect_err("empty amendment reason must not apply");
+    assert!(
+        error
+            .to_string()
+            .contains("contract amendment reason must not be empty")
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after"),
+        summary_before
+    );
+    assert_eq!(
+        read_work_item_contract_amendments(root, work_item_id).expect("history after"),
+        history_before
+    );
 }
 
 #[test]
@@ -122,27 +368,19 @@ fn typed_request_replaces_goal_without_rewriting_identity() {
     preflight_work_item(root, &contract_path).expect("initial preflight");
     checkpoint_work_item(root, work_item_id).expect("checkpoint");
     let original = read_json(&contract_path);
-    let expected_digest = cockpit_protocol::digest_json(&original).expect("Contract digest");
     let replacement = "Replace brittle legacy command handling with governed typed amendments";
     let reason = "the implementation plan now requires replacing, not only appending, goals";
 
-    amend_work_item_contract(
-        root,
-        work_item_id,
-        &json!({
-            "schemaVersion": 1,
-            "changeId": "replace-goal-1",
-            "expectedContractDigest": expected_digest,
-            "reason": reason,
-            "changes": [{
-                "path": "/goal",
-                "operation": "replace",
-                "value": replacement
-            }]
-        }),
+    let request = typed_request(
+        &contract_path,
+        "replace-goal-1",
         reason,
-    )
-    .expect("typed reasoned amendment");
+        "/goal",
+        "replace",
+        json!(replacement),
+    );
+    amend_work_item_contract(root, work_item_id, &request, reason)
+        .expect("typed reasoned amendment");
 
     let amended = read_json(&contract_path);
     assert_eq!(amended["goal"], replacement);
@@ -241,19 +479,15 @@ fn retrying_the_same_change_id_returns_the_original_amendment_receipt() {
         .join(format!("{work_item_id}.contract.json"));
     preflight_work_item(root, &contract_path).expect("initial preflight");
     checkpoint_work_item(root, work_item_id).expect("checkpoint");
-    let original = read_json(&contract_path);
     let reason = "retry after an uncertain response without creating a second amendment";
-    let request = json!({
-        "schemaVersion": 1,
-        "changeId": "same-change-retry-1",
-        "expectedContractDigest": cockpit_protocol::digest_json(&original).expect("digest"),
-        "reason": reason,
-        "changes": [{
-            "path": "/goal",
-            "operation": "replace",
-            "value": "Safely retry an already committed amendment"
-        }]
-    });
+    let request = typed_request(
+        &contract_path,
+        "same-change-retry-1",
+        reason,
+        "/goal",
+        "replace",
+        json!("Safely retry an already committed amendment"),
+    );
 
     let first = amend_work_item_contract(root, work_item_id, &request, reason)
         .expect("first amendment commits");
@@ -294,22 +528,22 @@ fn competing_amendments_from_one_contract_digest_allow_only_the_first_commit() {
     let work_item_id = "WI-COMPETING-CONTRACT-AMENDMENTS";
     let contract_path = start_uncheckpointed(root, work_item_id);
     let reason = "concurrent writers must not silently rebase a stale amendment";
-    let contract_digest =
-        cockpit_protocol::digest_json(&read_json(&contract_path)).expect("Contract digest");
-    let first = json!({
-        "schemaVersion": 1,
-        "changeId": "competing-change-first",
-        "expectedContractDigest": contract_digest,
-        "reason": reason,
-        "changes": [{"path":"/goal","operation":"replace","value":"first committed plan"}]
-    });
-    let second = json!({
-        "schemaVersion": 1,
-        "changeId": "competing-change-second",
-        "expectedContractDigest": contract_digest,
-        "reason": reason,
-        "changes": [{"path":"/goal","operation":"replace","value":"must not overwrite first"}]
-    });
+    let first = typed_request(
+        &contract_path,
+        "competing-change-first",
+        reason,
+        "/goal",
+        "replace",
+        json!("first committed plan"),
+    );
+    let second = typed_request(
+        &contract_path,
+        "competing-change-second",
+        reason,
+        "/goal",
+        "replace",
+        json!("must not overwrite first"),
+    );
 
     amend_work_item_contract(root, work_item_id, &first, reason).expect("first amendment commits");
     let conflict = amend_work_item_contract(root, work_item_id, &second, reason)
@@ -613,16 +847,15 @@ fn amendment_audit_records_each_ordered_operation_value() {
     let contract_path = start_uncheckpointed(root, work_item_id);
     let original = read_json(&contract_path);
     let reason = "record each intermediate value in the ordered amendment batch";
-    let request = json!({
-        "schemaVersion": 1,
-        "changeId": "ordered-goal-values",
-        "expectedContractDigest": cockpit_protocol::digest_json(&original).expect("Contract digest"),
-        "reason": reason,
-        "changes": [
-            {"path": "/goal", "operation": "set", "value": "intermediate goal"},
-            {"path": "/goal", "operation": "replace", "value": "final goal"}
-        ]
-    });
+    let request = typed_request_with_changes(
+        &contract_path,
+        "ordered-goal-values",
+        reason,
+        vec![
+            json!({"path": "/goal", "operation": "set", "value": "intermediate goal"}),
+            json!({"path": "/goal", "operation": "replace", "value": "final goal"}),
+        ],
+    );
 
     amend_work_item_contract(root, work_item_id, &request, reason)
         .expect("ordered batch is recorded");

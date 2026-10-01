@@ -516,11 +516,10 @@ pub fn start_work_item_prepared(
     let source_amendment = if sources.is_empty() {
         None
     } else {
-        Some(amend_work_item_contract_with_runtime(
+        Some(record_prepared_start_sources(
             root,
             work_item_id,
-            &serde_json::json!({"sourcesAppend": sources}),
-            "record source references supplied with the prepared Work Item start",
+            sources,
             runtime,
         )?)
     };
@@ -1649,26 +1648,24 @@ pub fn amend_work_item_contract_with_runtime(
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
-    let typed_request =
+    let request =
         crate::contract_amendment::typed_request_from_value(input).map_err(|error| {
             ObserverError::State {
                 path: root.join(".ai/work-items/active"),
                 message: format!("invalid typed Contract amendment request: {error}"),
             }
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "legacy additive amendment input has no request-bound authorization; use a typed authorized request".into(),
         })?;
-    let effective_reason = typed_request
-        .as_ref()
-        .map_or_else(|| reason.to_owned(), |request| request.reason.clone());
-    if effective_reason.trim().is_empty() {
+    if request.reason.trim().is_empty() {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
             message: "contract amendment reason must not be empty".into(),
         });
     }
-    if typed_request
-        .as_ref()
-        .is_some_and(|request| !reason.trim().is_empty() && reason.trim() != request.reason.trim())
-    {
+    if !reason.trim().is_empty() && reason.trim() != request.reason.trim() {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
             message: "typed request reason conflicts with the amendment reason argument".into(),
@@ -1681,40 +1678,11 @@ pub fn amend_work_item_contract_with_runtime(
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
-    let contract = read_json(&path)?;
-    let is_legacy = typed_request.is_none();
-    let request = match typed_request {
-        Some(request) => request,
-        None => crate::contract_amendment::legacy_request_from_value(
-            &contract,
-            input,
-            &effective_reason,
-        )
-        .map_err(|message| ObserverError::State {
-            path: path.clone(),
-            message,
-        })?,
-    };
-    let legacy_input_digest = if is_legacy {
-        Some(
-            cockpit_protocol::digest_json(&serde_json::json!({
-                "input": input,
-                "reason": effective_reason,
-            }))
-            .map_err(|error| ObserverError::State {
-                path: path.clone(),
-                message: error.to_string(),
-            })?,
-        )
-    } else {
-        None
-    };
-    let receipt = crate::contract_amendment::apply_work_item_contract_amendment_with_legacy_input(
+    let receipt = crate::contract_amendment::apply_work_item_contract_amendment(
         &root,
         work_item_id,
         &request,
         runtime,
-        legacy_input_digest,
     )?;
     let mut value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
         path,
@@ -1726,6 +1694,55 @@ pub fn amend_work_item_contract_with_runtime(
         "pre_checkpoint_contract_declaration"
     });
     value["recorded"] = serde_json::json!(true);
+    value["contractHash"] = value["newContractDigest"].clone();
+    Ok(value)
+}
+
+/// Record the source declarations supplied as part of creating a new Work
+/// Item. This narrowly scoped repository-internal bootstrap is intentionally
+/// separate from the public human-owned amendment API.
+fn record_prepared_start_sources(
+    root: &Path,
+    work_item_id: &str,
+    sources: &[String],
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_json(&path)?;
+    let input = serde_json::json!({"sourcesAppend": sources});
+    let reason = "record source references supplied with the prepared Work Item start";
+    let request = crate::contract_amendment::legacy_request_from_value(&contract, &input, reason)
+        .map_err(|message| ObserverError::State {
+        path: path.clone(),
+        message,
+    })?;
+    let legacy_input_digest = cockpit_protocol::digest_json(&serde_json::json!({
+        "input": input,
+        "reason": reason,
+    }))
+    .map_err(|error| ObserverError::State {
+        path: path.clone(),
+        message: error.to_string(),
+    })?;
+    let receipt = crate::contract_amendment::apply_work_item_contract_amendment_with_legacy_input(
+        &root,
+        work_item_id,
+        &request,
+        runtime,
+        Some(legacy_input_digest),
+    )?;
+    let mut value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+        path,
+        message: error.to_string(),
+    })?;
+    value["stage"] = "pre_checkpoint_contract_declaration".into();
+    value["recorded"] = true.into();
     value["contractHash"] = value["newContractDigest"].clone();
     Ok(value)
 }
@@ -7317,16 +7334,47 @@ mod recovery_retry_consumption_tests {
         }
         record_recovery_decision(root, work_item_id, &retry, &prior_runtime)
             .expect("record the exact one-time retry");
+        let amendment_reason = "bind the retry to the typed lifecycle Contract amendment";
+        let mut amendment_request: cockpit_protocol::ContractAmendmentRequest =
+            serde_json::from_value(serde_json::json!({
+                "schemaVersion": 1,
+                "changeId": "retry-source-amendment",
+                "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+                    .expect("Contract digest"),
+                "reason": amendment_reason,
+                "changes": [{
+                    "path": "/sources",
+                    "operation": "add",
+                    "value": {
+                        "path": "src/revision.rs",
+                        "reason": "the replacement verification must bind the amended Contract"
+                    }
+                }]
+            }))
+            .expect("typed retry amendment");
+        let amendment_check =
+            crate::check_work_item_contract_amendment(root, work_item_id, &amendment_request)
+                .expect("read-only amendment binding");
+        amendment_request.authorization = Some(cockpit_protocol::ContractAmendmentAuthorization {
+            schema_version: cockpit_protocol::CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+            decision_id: "retry-source-amendment-authorization".into(),
+            decision: cockpit_protocol::ContractAmendmentDecision::AuthorizeChange,
+            authorized_by: "human:lifecycle-recovery-test".into(),
+            authority_source: "explicit test authorization for retry amendment".into(),
+            assurance: cockpit_protocol::EvidenceAssurance::SelfDeclared,
+            executed_by: "agent:lifecycle-recovery-test".into(),
+            repository_id: amendment_check.repository_id,
+            work_item_id: amendment_check.work_item_id,
+            contract_digest: amendment_check.contract_digest,
+            repository_snapshot_digest: amendment_check.repository_snapshot_digest,
+            request_digest: amendment_check.request_digest,
+            changed_paths: amendment_check.changed_paths,
+        });
         amend_work_item_contract(
             root,
             work_item_id,
-            &serde_json::json!({
-                "sourcesAppend": [{
-                    "path": "src/revision.rs",
-                    "reason": "the replacement verification must bind the amended Contract"
-                }]
-            }),
-            "bind the retry to the additive lifecycle Contract amendment",
+            &serde_json::to_value(amendment_request).expect("authorized request JSON"),
+            amendment_reason,
         )
         .expect("append the authorized Contract amendment");
 

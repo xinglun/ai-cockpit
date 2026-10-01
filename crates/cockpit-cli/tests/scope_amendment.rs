@@ -156,24 +156,75 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
     assert_eq!(attempt["state"], "precondition_rejected");
     assert_eq!(attempt["processesSpawned"], 0);
 
-    let amendment = tempfile::NamedTempFile::new().expect("amendment input");
+    let contract_path = root.join(&contract);
+    let contract_before_check = fs::read(&contract_path).expect("Contract before check");
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&contract_before_check).expect("Contract JSON");
+    let mut amendment = json!({
+        "schemaVersion": 1,
+        "changeId": "include-readme-support-path",
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract_value).expect("Contract digest"),
+        "reason": "include the required README support path within the same intent",
+        "changes": [{ "path": "/scope", "operation": "add", "value": "README.md" }]
+    });
+    let check_input = tempfile::NamedTempFile::new().expect("check input");
     fs::write(
-        amendment.path(),
-        serde_json::to_vec(&json!({"scopeAppend": ["README.md"]})).expect("JSON"),
+        check_input.path(),
+        serde_json::to_vec(&amendment).expect("serialize amendment request"),
     )
-    .expect("write amendment");
-    let amended = Command::new(binary)
-        .args(["work-item", "amend", "--id", id, "--input"])
-        .arg(amendment.path())
-        .args([
-            "--reason",
-            "include the required README support path within the same intent",
-        ])
-        .args(["--repo"])
-        .arg(root)
-        .current_dir(root)
-        .output()
-        .expect("scope amendment");
+    .expect("write check input");
+    let checked = invoke(&[
+        "work-item",
+        "amend-check",
+        "--id",
+        id,
+        "--request",
+        check_input.path().to_str().expect("request path"),
+    ]);
+    assert!(
+        checked.status.success(),
+        "{}",
+        String::from_utf8_lossy(&checked.stderr)
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract remains unchanged by check"),
+        contract_before_check
+    );
+    let check: serde_json::Value = serde_json::from_slice(&checked.stdout).expect("check JSON");
+    assert_eq!(check["blockers"], json!(["authorization_missing"]));
+    assert_eq!(check["changedPaths"], json!(["/scope"]));
+    amendment["authorization"] = json!({
+        "schemaVersion": 1,
+        "decisionId": "human-approval-scope-recovery",
+        "decision": "authorize_change",
+        "authorizedBy": "human:test-authorizer",
+        "authoritySource": "direct user instruction in the scope-recovery process test",
+        "assurance": "self_declared",
+        "executedBy": "agent:scope-amendment-test",
+        "repositoryId": check["repositoryId"],
+        "workItemId": check["workItemId"],
+        "contractDigest": check["contractDigest"],
+        "repositorySnapshotDigest": check["repositorySnapshotDigest"],
+        "requestDigest": check["requestDigest"],
+        "changedPaths": check["changedPaths"]
+    });
+    let authorized_input = tempfile::NamedTempFile::new().expect("authorized amendment input");
+    fs::write(
+        authorized_input.path(),
+        serde_json::to_vec(&amendment).expect("serialize authorized amendment"),
+    )
+    .expect("write authorized amendment");
+    let amended = invoke(&[
+        "work-item",
+        "amend",
+        "--id",
+        id,
+        "--request",
+        authorized_input
+            .path()
+            .to_str()
+            .expect("authorized request path"),
+    ]);
     assert!(
         amended.status.success(),
         "{}",

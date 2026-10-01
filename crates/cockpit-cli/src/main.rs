@@ -577,6 +577,15 @@ enum WorkItemCommand {
         #[arg(long, conflicts_with_all = ["input", "reason"])]
         request: Option<PathBuf>,
     },
+    /// Read-only admission check for one exact typed Contract amendment.
+    AmendCheck {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        request: PathBuf,
+    },
     /// Read the append-only history of accepted Contract amendments.
     Amendments {
         #[arg(long)]
@@ -2772,20 +2781,9 @@ fn run() -> Result<()> {
             } => {
                 require_compatible(&repo, &runtime_context)?;
                 let mut record = match (input, reason, request) {
-                    (Some(input), Some(reason), None) => {
-                        let input: serde_json::Value = serde_json::from_slice(
-                            &std::fs::read(&input).context("read Contract amendment input")?,
-                        )
-                        .context("parse Contract amendment input")?;
-                        cockpit_repository::amend_work_item_contract_with_runtime(
-                            &repo,
-                            &id,
-                            &input,
-                            &reason,
-                            &runtime_context,
-                        )
-                        .context("apply legacy additive Contract amendment")?
-                    }
+                    (Some(_), Some(_), None) => anyhow::bail!(
+                        "legacy additive amendment input has no request-bound authorization; use --request"
+                    ),
                     (None, None, Some(request)) => {
                         let request: cockpit_protocol::ContractAmendmentRequest =
                             read_json_file(&request, "typed Contract amendment request")?;
@@ -2806,6 +2804,15 @@ fn run() -> Result<()> {
                 record["nextAction"] =
                     next_admitted_work_item_action(&repo, &id, &runtime_context)?;
                 println!("{}", serde_json::to_string_pretty(&record)?);
+            }
+            WorkItemCommand::AmendCheck { repo, id, request } => {
+                require_compatible(&repo, &runtime_context)?;
+                let request: cockpit_protocol::ContractAmendmentRequest =
+                    read_json_file(&request, "typed Contract amendment request")?;
+                let check =
+                    cockpit_repository::check_work_item_contract_amendment(&repo, &id, &request)
+                        .context("check typed Contract amendment admission")?;
+                println!("{}", serde_json::to_string_pretty(&check)?);
             }
             WorkItemCommand::Amendments { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;

@@ -1,16 +1,20 @@
 use cockpit_core::Digest;
 use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot};
-use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
+use cockpit_protocol::{
+    CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION, ContractAmendmentAuthorization,
+    ContractAmendmentDecision, ContractAmendmentRequest, EvidenceAssurance, HumanDecision,
+    ResourceFinalizationContext, RuntimeContext,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
-    checkpoint_work_item, close_work_item_with_structured_decision,
-    close_work_item_with_structured_decision_and_runtime, finish_work_item,
-    finish_work_item_with_runtime, outcome_render_input_with_runtime, plan_resource_finalization,
-    preflight_work_item, preflight_work_item_with_runtime_report, record_recovery_decision,
-    record_resource_finalization, record_verification, record_verification_with_runtime,
-    record_work_item_governance_controls, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
+    check_work_item_contract_amendment, checkpoint_work_item,
+    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
+    finish_work_item, finish_work_item_with_runtime, outcome_render_input_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime_report,
+    record_recovery_decision, record_resource_finalization, record_verification,
+    record_verification_with_runtime, record_work_item_governance_controls, render_human_outcome,
+    repository_id, run_repository_verification, start_work_item, start_work_item_with_options,
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
@@ -62,6 +66,53 @@ fn runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"status-runtime"),
     }
+}
+
+fn apply_authorized_amendment(
+    root: &std::path::Path,
+    work_item_id: &str,
+    change_id: &str,
+    reason: &str,
+    changes: Value,
+) {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let mut request: ContractAmendmentRequest = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "changeId": change_id,
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+            .expect("Contract digest"),
+        "reason": reason,
+        "changes": changes
+    }))
+    .expect("typed amendment request");
+    let preview = check_work_item_contract_amendment(root, work_item_id, &request)
+        .expect("read-only amendment authorization binding");
+    request.authorization = Some(ContractAmendmentAuthorization {
+        schema_version: CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: format!("status-projection-{change_id}"),
+        decision: ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:status-projection-test".into(),
+        authority_source: "explicit process-level test authorization".into(),
+        assurance: EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:status-projection-test".into(),
+        repository_id: preview.repository_id,
+        work_item_id: preview.work_item_id,
+        contract_digest: preview.contract_digest,
+        repository_snapshot_digest: preview.repository_snapshot_digest,
+        request_digest: preview.request_digest,
+        changed_paths: preview.changed_paths,
+    });
+    amend_work_item_contract(
+        root,
+        work_item_id,
+        &serde_json::to_value(request).expect("authorized request JSON"),
+        reason,
+    )
+    .expect("authorized test Contract amendment");
 }
 
 fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
@@ -1245,29 +1296,18 @@ fn checkpointed_sensitive_amendment_never_admits_verification_before_review() {
     )
     .expect("record prior verification");
 
-    let contract: serde_json::Value =
-        serde_json::from_slice(&fs::read(&contract_path).expect("read current Contract"))
-            .expect("parse current Contract");
     let reason = "scope changed and requires human review before another verifier starts";
-    amend_work_item_contract(
+    apply_authorized_amendment(
         root,
         work_item_id,
-        &json!({
-            "schemaVersion": 1,
-            "changeId": "sensitive-scope-review-admission",
-            "expectedContractDigest": cockpit_protocol::digest_json(&contract)
-                .expect("Contract digest")
-                .to_string(),
-            "reason": reason,
-            "changes": [{
-                "path": "/scope",
-                "operation": "replace",
-                "value": ["crates/cockpit-repository/**", "crates/cockpit-protocol/**"]
-            }]
-        }),
+        "sensitive-scope-review-admission",
         reason,
-    )
-    .expect("record sensitive amendment");
+        json!([{
+            "path": "/scope",
+            "operation": "replace",
+            "value": ["crates/cockpit-repository/**", "crates/cockpit-protocol/**"]
+        }]),
+    );
 
     let status = work_item_status_snapshot_with_runtime(root, work_item_id, &current_runtime)
         .expect("project status after amendment");
@@ -2024,13 +2064,17 @@ fn only_the_explicitly_named_recovery_successor_may_overlap_archived_scope() {
         .join(format!(".ai/work-items/active/{unrelated}.contract.json"));
     preflight_work_item(directory.path(), &unrelated_contract).expect("initial disjoint preflight");
     checkpoint_work_item(directory.path(), unrelated).expect("checkpoint unrelated Work Item");
-    amend_work_item_contract(
+    apply_authorized_amendment(
         directory.path(),
         unrelated,
-        &json!({"scopeAppend": ["src/**"]}),
+        "append-overlapping-scope",
         "include the newly discovered overlapping source scope",
-    )
-    .expect("append overlapping scope");
+        json!([{
+            "path": "/scope",
+            "operation": "add",
+            "value": "src/**"
+        }]),
+    );
 
     let decision = preflight_work_item(directory.path(), &unrelated_contract)
         .expect("wrong-target overlap must become a blocking decision");
@@ -2603,22 +2647,24 @@ fn status_does_not_admit_finish_when_required_scenario_controls_are_incomplete()
         },
     )
     .expect("start Work Item");
-    amend_work_item_contract(
+    apply_authorized_amendment(
         directory.path(),
         work_item_id,
-        &json!({
-            "scenarioCoverageAppend": [{
+        "declare-required-scenario",
+        "declare required scenario before preflight",
+        json!([{
+            "path": "/scenarioCoverage",
+            "operation": "add",
+            "value": {
                 "scenario": "required scenario remains unverified",
                 "required": true,
                 "status": "unverified",
                 "evidence": [],
                 "expected": "the missing scenario keeps finish unavailable",
                 "verificationPlan": "run the focused status-projection regression"
-            }]
-        }),
-        "declare required scenario before preflight",
-    )
-    .expect("declare required scenario");
+            }
+        }]),
+    );
     let contract_path = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));

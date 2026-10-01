@@ -9,10 +9,11 @@ mod contract_amendment;
 pub mod release_plan;
 
 pub use contract_amendment::{
-    CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
-    ContractAmendmentFieldClass, ContractAmendmentOperation, ContractAmendmentRequest,
-    ContractAmendmentValueChange, apply_contract_amendment, apply_contract_amendment_with_trace,
-    contract_amendment_field_class,
+    CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION, CONTRACT_AMENDMENT_SCHEMA_VERSION,
+    ContractAmendmentAuthorization, ContractAmendmentChange, ContractAmendmentDecision,
+    ContractAmendmentError, ContractAmendmentFieldClass, ContractAmendmentOperation,
+    ContractAmendmentRequest, ContractAmendmentValueChange, apply_contract_amendment,
+    apply_contract_amendment_with_trace, contract_amendment_field_class,
 };
 
 pub use interface_description::{
@@ -3100,6 +3101,35 @@ impl Contract {
         for (index, criterion) in self.acceptance_criteria.iter().enumerate() {
             if criterion.trim().is_empty() {
                 errors.push(format!("acceptanceCriteria[{index}] must be non-empty"));
+            }
+        }
+
+        for (index, source) in self.sources.iter().enumerate() {
+            match source {
+                ContractSource::Legacy(source) if source.trim().is_empty() => {
+                    errors.push(format!("sources[{index}] must be non-empty"));
+                }
+                ContractSource::Structured(source) => {
+                    if source.path.trim().is_empty() {
+                        errors.push(format!("sources[{index}].path must be non-empty"));
+                    }
+                    if source.reason.trim().is_empty() {
+                        errors.push(format!("sources[{index}].reason must be non-empty"));
+                    }
+                }
+                ContractSource::Legacy(_) => {}
+            }
+        }
+
+        for (index, verification) in self.verification.iter().enumerate() {
+            match verification {
+                VerificationDeclaration::Legacy(check) if check.trim().is_empty() => {
+                    errors.push(format!("verification[{index}] must be non-empty"));
+                }
+                VerificationDeclaration::Check(check) if check.check.trim().is_empty() => {
+                    errors.push(format!("verification[{index}].check must be non-empty"));
+                }
+                VerificationDeclaration::Legacy(_) | VerificationDeclaration::Check(_) => {}
             }
         }
 

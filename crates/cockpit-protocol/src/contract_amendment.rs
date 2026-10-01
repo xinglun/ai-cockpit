@@ -1,4 +1,4 @@
-use super::Contract;
+use super::{Contract, EvidenceAssurance};
 use cockpit_core::Digest;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -6,6 +6,34 @@ use std::collections::{BTreeMap, BTreeSet};
 use thiserror::Error;
 
 pub const CONTRACT_AMENDMENT_SCHEMA_VERSION: u32 = 1;
+pub const CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ContractAmendmentDecision {
+    AuthorizeChange,
+}
+
+/// Declared authorization for one exact amendment request. `SelfDeclared`
+/// records provenance supplied by the caller; it is not an authentication
+/// claim or a cryptographic signature.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractAmendmentAuthorization {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub decision: ContractAmendmentDecision,
+    pub authorized_by: String,
+    pub authority_source: String,
+    pub assurance: EvidenceAssurance,
+    pub executed_by: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub request_digest: Digest,
+    pub changed_paths: Vec<String>,
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -15,6 +43,18 @@ pub struct ContractAmendmentRequest {
     pub expected_contract_digest: Digest,
     pub reason: String,
     pub changes: Vec<ContractAmendmentChange>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub authorization: Option<ContractAmendmentAuthorization>,
+}
+
+impl ContractAmendmentRequest {
+    /// Digest the exact requested change independently from its authorization
+    /// envelope, which itself binds this digest.
+    pub fn authorization_request_digest(&self) -> Result<Digest, serde_json::Error> {
+        let mut request = self.clone();
+        request.authorization = None;
+        super::digest_json(&request)
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

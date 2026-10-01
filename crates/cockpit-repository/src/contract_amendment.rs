@@ -1,9 +1,12 @@
-use super::ObserverError;
+use super::{CoordinationError, CoordinationStore, ObserverError};
 use cockpit_core::Digest;
+use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    Contract, ContractAmendmentChange, ContractAmendmentError, ContractAmendmentFieldClass,
-    ContractAmendmentOperation, ContractAmendmentRequest, ContractAmendmentValueChange,
-    ContractSource, RuntimeContext, VerificationDeclaration, apply_contract_amendment,
+    COLLABORATION_CAPABILITY, COLLABORATION_SCHEMA_VERSION, Contract,
+    ContractAmendmentAuthorization, ContractAmendmentChange, ContractAmendmentDecision,
+    ContractAmendmentError, ContractAmendmentFieldClass, ContractAmendmentOperation,
+    ContractAmendmentRequest, ContractAmendmentValueChange, ContractSource, EvidenceAssurance,
+    RuntimeCapabilityBinding, RuntimeContext, VerificationDeclaration, apply_contract_amendment,
     apply_contract_amendment_with_trace, contract_amendment_field_class, digest_json,
 };
 use serde::{Deserialize, Deserializer, Serialize};
@@ -51,6 +54,8 @@ pub struct ContractAmendmentReceipt {
     pub request_digest: Digest,
     pub reason: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub authorization: Option<ContractAmendmentAuthorization>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub legacy_input_digest: Option<Digest>,
     pub changed_values: Vec<ContractAmendmentChangedValue>,
     pub previous_contract_digest: Digest,
@@ -70,6 +75,20 @@ pub struct ContractAmendmentReceipt {
     pub previous_journal_digest: Digest,
     pub journal_digest: Digest,
     pub recorded_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ContractAmendmentCheck {
+    pub schema_version: u32,
+    pub allowed: bool,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub request_digest: Digest,
+    pub changed_paths: Vec<String>,
+    pub blockers: Vec<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -139,11 +158,26 @@ enum AmendmentFailpoint {
 #[cfg(test)]
 thread_local! {
     static AMENDMENT_FAILPOINT: std::cell::Cell<Option<AmendmentFailpoint>> = const { std::cell::Cell::new(None) };
+    static AMENDMENT_SNAPSHOT_MUTATION: std::cell::RefCell<Option<(PathBuf, Vec<u8>)>> = const { std::cell::RefCell::new(None) };
 }
 
 #[cfg(test)]
 fn set_amendment_failpoint(point: AmendmentFailpoint) {
     AMENDMENT_FAILPOINT.with(|value| value.set(Some(point)));
+}
+
+#[cfg(test)]
+fn mutate_snapshot_before_prepared_write(path: PathBuf, contents: Vec<u8>) {
+    AMENDMENT_SNAPSHOT_MUTATION.with(|value| *value.borrow_mut() = Some((path, contents)));
+}
+
+#[cfg(test)]
+fn apply_snapshot_mutation_before_prepared_write(root: &Path) {
+    AMENDMENT_SNAPSHOT_MUTATION.with(|value| {
+        if let Some((path, contents)) = value.borrow_mut().take() {
+            fs::write(root.join(path), contents).expect("mutate source at prepared-write boundary");
+        }
+    });
 }
 
 fn maybe_fail(point: AmendmentFailpoint) -> Result<(), ObserverError> {
@@ -410,6 +444,7 @@ pub(crate) fn legacy_request_from_value(
         expected_contract_digest,
         reason: reason.into(),
         changes,
+        authorization: None,
     })
 }
 
@@ -873,6 +908,264 @@ pub fn read_work_item_contract_amendments(
     Ok(receipts)
 }
 
+/// Explain whether a typed amendment is admissible without writing repository
+/// state. Apply always repeats this check while holding the shared repository
+/// lock, so this read-only result is never itself a write authorization.
+pub fn check_work_item_contract_amendment(
+    root: &Path,
+    work_item_id: &str,
+    request: &ContractAmendmentRequest,
+) -> Result<ContractAmendmentCheck, ObserverError> {
+    super::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let current = super::read_json(&contract_path)?;
+    let contract: Contract = serde_json::from_value(current.clone())
+        .map_err(|error| state_error(&contract_path, format!("invalid Contract: {error}")))?;
+    let repository_id = super::repository_id(&root).to_string();
+    let contract_digest = record_digest(&current, &contract_path)?;
+    let (repository_snapshot_digest, _) = observed_inputs(&root)?;
+    let request_digest = request
+        .authorization_request_digest()
+        .map_err(|error| state_error(&contract_path, format!("request digest failed: {error}")))?;
+    let mut blockers = Vec::new();
+    let mut changed_paths = Vec::new();
+
+    if contract.repository_id != repository_id {
+        blockers.push("repository_identity_mismatch".into());
+    }
+    if contract.work_item_id != work_item_id {
+        blockers.push("work_item_identity_mismatch".into());
+    }
+    if contract_digest != request.expected_contract_digest {
+        blockers.push("contract_digest_conflict".into());
+    } else {
+        match apply_contract_amendment_with_trace(&contract, request) {
+            Ok((_, trace)) => {
+                changed_paths = trace
+                    .iter()
+                    .map(|change| change.path.clone())
+                    .collect::<std::collections::BTreeSet<_>>()
+                    .into_iter()
+                    .collect();
+                if trace.is_empty()
+                    || trace
+                        .iter()
+                        .all(|change| change.old_value == change.new_value)
+                {
+                    blockers.push("no_op_amendment".into());
+                }
+            }
+            Err(errors) => blockers.extend(errors.into_iter().map(|error| error.code)),
+        }
+    }
+
+    match request.authorization.as_ref() {
+        None => blockers.push("authorization_missing".into()),
+        Some(authorization) => {
+            if authorization.schema_version
+                != cockpit_protocol::CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION
+            {
+                blockers.push("authorization_schema_unsupported".into());
+            }
+            if authorization.decision != ContractAmendmentDecision::AuthorizeChange {
+                blockers.push("authorization_decision_unsupported".into());
+            }
+            if authorization.decision_id.trim().is_empty()
+                || authorization.authorized_by.trim().is_empty()
+                || authorization.authority_source.trim().is_empty()
+                || authorization.executed_by.trim().is_empty()
+            {
+                blockers.push("authorization_provenance_incomplete".into());
+            }
+            if authorization.authorized_by == authorization.executed_by {
+                blockers.push("authorizer_executor_not_distinct".into());
+            }
+            if authorization.assurance != EvidenceAssurance::SelfDeclared {
+                blockers.push("authorization_assurance_not_supported".into());
+            }
+            if authorization.repository_id != repository_id {
+                blockers.push("authorization_repository_mismatch".into());
+            }
+            if authorization.work_item_id != work_item_id {
+                blockers.push("authorization_work_item_mismatch".into());
+            }
+            if authorization.contract_digest != contract_digest
+                || authorization.contract_digest != request.expected_contract_digest
+            {
+                blockers.push("authorization_contract_mismatch".into());
+            }
+            if authorization.repository_snapshot_digest != repository_snapshot_digest {
+                blockers.push("authorization_snapshot_mismatch".into());
+            }
+            if authorization.request_digest != request_digest {
+                blockers.push("authorization_request_mismatch".into());
+            }
+            if authorization.changed_paths != changed_paths {
+                blockers.push("authorization_changed_paths_mismatch".into());
+            }
+        }
+    }
+
+    blockers.sort();
+    blockers.dedup();
+    Ok(ContractAmendmentCheck {
+        schema_version: 1,
+        allowed: blockers.is_empty(),
+        repository_id,
+        work_item_id: work_item_id.into(),
+        contract_digest,
+        repository_snapshot_digest,
+        request_digest,
+        changed_paths,
+        blockers,
+    })
+}
+
+fn shared_amendment_store(
+    root: &Path,
+    runtime: &RuntimeContext,
+) -> Result<CoordinationStore, ObserverError> {
+    let git = GitRepository::discover(root)
+        .map_err(|error| state_error(root, format!("repository topology unavailable: {error}")))?;
+    let binding = RuntimeCapabilityBinding {
+        schema_version: COLLABORATION_SCHEMA_VERSION,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        capability: COLLABORATION_CAPABILITY.into(),
+    };
+    CoordinationStore::open(&git, binding)
+        .map_err(|error| state_error(root, format!("shared amendment lock unavailable: {error}")))
+}
+
+fn history_descends_from(
+    receipts: &[ContractAmendmentReceipt],
+    ancestor: &Digest,
+    head: &Digest,
+) -> bool {
+    let mut cursor = ancestor.clone();
+    let mut started = false;
+    for receipt in receipts {
+        if !started {
+            if receipt.previous_contract_digest == cursor {
+                cursor = receipt.new_contract_digest.clone();
+                started = true;
+            }
+        } else if receipt.previous_contract_digest == cursor {
+            cursor = receipt.new_contract_digest.clone();
+        }
+    }
+    started && &cursor == head
+}
+
+fn validate_shared_worktree_amendment_state(
+    root: &Path,
+    work_item_id: &str,
+    expected_contract_digest: &Digest,
+) -> Result<(), ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let local_history = read_history_with_pending(&root, work_item_id)?;
+    if local_history.1.is_some() {
+        return Err(state_error(
+            amendment_directory(&root, work_item_id),
+            "local amendment transaction is pending recovery",
+        ));
+    }
+    let known_ancestors = local_history
+        .0
+        .iter()
+        .flat_map(|receipt| {
+            [
+                receipt.previous_contract_digest.to_string(),
+                receipt.new_contract_digest.to_string(),
+            ]
+        })
+        .collect::<std::collections::BTreeSet<_>>();
+    for record in super::resource_lifecycle::git_worktree_records(&root)? {
+        let Some(path) = record.path else { continue };
+        let peer_root = match fs::canonicalize(&path) {
+            Ok(peer_root) => peer_root,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound && record.prunable => {
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                });
+            }
+        };
+        if peer_root == root {
+            continue;
+        }
+        let contract_path = peer_root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        match fs::symlink_metadata(&contract_path) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: contract_path,
+                    source,
+                });
+            }
+            Ok(metadata) if !metadata.file_type().is_file() => {
+                return Err(state_error(
+                    &contract_path,
+                    "linked Work Item Contract is not a regular file",
+                ));
+            }
+            Ok(_) => {}
+        }
+        let peer_contract = super::read_json(&contract_path)?;
+        let peer_digest = record_digest(&peer_contract, &contract_path)?;
+        let (peer_history, pending) = read_history_with_pending(&peer_root, work_item_id)?;
+        if pending.is_some() {
+            return Err(state_error(
+                &contract_path,
+                "linked worktree has a pending Contract amendment transaction",
+            ));
+        }
+        if &peer_digest == expected_contract_digest
+            || known_ancestors.contains(&peer_digest.to_string())
+        {
+            continue;
+        }
+        if history_descends_from(&peer_history, expected_contract_digest, &peer_digest) {
+            return Err(state_error(
+                &contract_path,
+                "contract_digest_conflict: a linked worktree already applied an amendment from this expected digest",
+            ));
+        }
+        return Err(state_error(
+            &contract_path,
+            "linked worktree Contract diverges without a verifiable amendment lineage",
+        ));
+    }
+    Ok(())
+}
+
+fn with_shared_amendment_lock<T>(
+    root: &Path,
+    runtime: &RuntimeContext,
+    operation: impl FnOnce() -> Result<T, ObserverError>,
+) -> Result<T, ObserverError> {
+    let store = shared_amendment_store(root, runtime)?;
+    store
+        .with_lock(|| {
+            operation().map_err(|error| CoordinationError::RecoveryRequired(error.to_string()))
+        })
+        .map_err(|error| state_error(root, format!("shared amendment operation failed: {error}")))
+}
+
 fn observed_inputs(root: &Path) -> Result<(Digest, Digest), ObserverError> {
     let execution = super::RepositoryExecutionContext::capture(root)?;
     let source_snapshot = super::snapshot_digest(execution.snapshot())?;
@@ -1075,6 +1368,7 @@ fn commit_prepared(
         change_id: data.request.change_id.clone(),
         request_digest: data.request_digest.clone(),
         reason: data.request.reason.clone(),
+        authorization: data.request.authorization.clone(),
         legacy_input_digest: data.legacy_input_digest.clone(),
         changed_values: changed_values(&data.previous_contract, &data.new_contract, &data.request)?,
         previous_contract_digest: data.previous_contract_digest.clone(),
@@ -1199,7 +1493,86 @@ pub fn apply_work_item_contract_amendment(
     request: &ContractAmendmentRequest,
     runtime: &RuntimeContext,
 ) -> Result<ContractAmendmentReceipt, ObserverError> {
-    apply_work_item_contract_amendment_with_legacy_input(root, work_item_id, request, runtime, None)
+    super::validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let request_digest = record_digest(request, Path::new("contract-amendment-request"))?;
+    let (history, pending) = read_history_with_pending(&root, work_item_id)?;
+    if pending.is_none() {
+        if let Some(existing) = history
+            .iter()
+            .find(|receipt| receipt.change_id == request.change_id)
+        {
+            if existing.request_digest == request_digest {
+                return Ok(existing.clone());
+            }
+            return Err(state_error(
+                amendment_directory(&root, work_item_id),
+                format!(
+                    "changeId {} already exists with different request bytes",
+                    request.change_id
+                ),
+            ));
+        }
+        let admission = check_work_item_contract_amendment(&root, work_item_id, request)?;
+        if !admission.allowed {
+            return Err(state_error(
+                root.join(".ai/work-items/active")
+                    .join(format!("{work_item_id}.contract.json")),
+                format!(
+                    "amendment_admission_rejected: {}",
+                    admission.blockers.join(", ")
+                ),
+            ));
+        }
+    }
+    with_shared_amendment_lock(&root, runtime, || {
+        let (mut history, pending) = read_history_with_pending(&root, work_item_id)?;
+        if let Some(pending) = pending {
+            finish_prepared(&root, &pending)?;
+            (history, _) = load_history(&root, work_item_id, false)?;
+        }
+        if let Some(existing) = history
+            .iter()
+            .find(|receipt| receipt.change_id == request.change_id)
+        {
+            if existing.request_digest == request_digest {
+                return Ok(existing.clone());
+            }
+            return Err(state_error(
+                amendment_directory(&root, work_item_id),
+                format!(
+                    "changeId {} already exists with different request bytes",
+                    request.change_id
+                ),
+            ));
+        }
+        let check = check_work_item_contract_amendment(&root, work_item_id, request)?;
+        if !check.allowed {
+            return Err(state_error(
+                root.join(".ai/work-items/active")
+                    .join(format!("{work_item_id}.contract.json")),
+                format!(
+                    "amendment_admission_rejected: {}",
+                    check.blockers.join(", ")
+                ),
+            ));
+        }
+        validate_shared_worktree_amendment_state(
+            &root,
+            work_item_id,
+            &request.expected_contract_digest,
+        )?;
+        apply_work_item_contract_amendment_with_legacy_input(
+            &root,
+            work_item_id,
+            request,
+            runtime,
+            None,
+        )
+    })
 }
 
 pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
@@ -1329,6 +1702,26 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
             legacy_input_digest,
         },
     )?;
+    if let Some(authorization) = request.authorization.as_ref() {
+        if prepared.prepared.repository_snapshot_digest != authorization.repository_snapshot_digest
+        {
+            return Err(state_error(
+                &contract_path,
+                "authorization_snapshot_mismatch: repository changed after amendment authorization",
+            ));
+        }
+        #[cfg(test)]
+        apply_snapshot_mutation_before_prepared_write(&root);
+        let (latest_snapshot_digest, _) = observed_inputs(&root)?;
+        if latest_snapshot_digest != authorization.repository_snapshot_digest
+            || latest_snapshot_digest != prepared.prepared.repository_snapshot_digest
+        {
+            return Err(state_error(
+                &contract_path,
+                "authorization_snapshot_mismatch: repository changed before the amendment transaction was persisted",
+            ));
+        }
+    }
     write_prepared(&root, &prepared)?;
     maybe_fail(AmendmentFailpoint::Prepared)?;
     let receipt = finish_prepared(&root, &prepared)?;
@@ -1338,11 +1731,14 @@ pub(crate) fn apply_work_item_contract_amendment_with_legacy_input(
 
 #[cfg(test)]
 mod tests {
-    use super::{AmendmentFailpoint, set_amendment_failpoint};
+    use super::{
+        AmendmentFailpoint, mutate_snapshot_before_prepared_write, set_amendment_failpoint,
+        validate_shared_worktree_amendment_state,
+    };
     use crate::{
         ContractAmendmentReceipt, WorkItemStartOptions, amend_work_item_contract, attach,
-        checkpoint_work_item, preflight_work_item, read_work_item_contract_amendments,
-        start_work_item_with_options,
+        check_work_item_contract_amendment, checkpoint_work_item, preflight_work_item,
+        read_work_item_contract_amendments, start_work_item_with_options,
     };
     use serde_json::{Value, json};
     use std::fs;
@@ -1361,6 +1757,129 @@ mod tests {
         );
         attach(directory.path()).expect("attach repository");
         directory
+    }
+
+    fn linked_repository() -> (tempfile::TempDir, tempfile::TempDir) {
+        let root_directory = tempfile::tempdir().expect("repository tempdir");
+        let root = root_directory.path();
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(root)
+                .status()
+                .expect("git init")
+                .success()
+        );
+        for (key, value) in [
+            ("user.name", "AI Cockpit test"),
+            ("user.email", "test@example.invalid"),
+        ] {
+            assert!(
+                Command::new("git")
+                    .args(["config", key, value])
+                    .current_dir(root)
+                    .status()
+                    .expect("configure Git identity")
+                    .success()
+            );
+        }
+        fs::write(root.join("README.md"), "linked-worktree fixture\n")
+            .expect("write tracked fixture");
+        assert!(
+            Command::new("git")
+                .args(["add", "README.md"])
+                .current_dir(root)
+                .status()
+                .expect("git add")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args(["commit", "-qm", "fixture"])
+                .current_dir(root)
+                .status()
+                .expect("git commit")
+                .success()
+        );
+        attach(root).expect("attach repository");
+
+        let work_item_id = "WI-AMENDMENT-LINKED-RECOVERY";
+        start_checkpointed(root, work_item_id);
+        let peer_directory = tempfile::tempdir().expect("peer parent tempdir");
+        let peer = peer_directory.path().join("peer");
+        assert!(
+            Command::new("git")
+                .args(["worktree", "add", "--quiet", "-b", "amendment-peer"])
+                .arg(&peer)
+                .arg("HEAD")
+                .current_dir(root)
+                .status()
+                .expect("create linked worktree")
+                .success()
+        );
+        copy_tree(&root.join(".ai"), &peer.join(".ai"));
+        (root_directory, peer_directory)
+    }
+
+    fn copy_tree(source: &Path, destination: &Path) {
+        fs::create_dir_all(destination).expect("create copied directory");
+        for entry in fs::read_dir(source).expect("read source directory") {
+            let entry = entry.expect("read directory entry");
+            let source_path = entry.path();
+            let destination_path = destination.join(entry.file_name());
+            let file_type = entry.file_type().expect("read entry type");
+            if file_type.is_dir() {
+                copy_tree(&source_path, &destination_path);
+            } else if file_type.is_file() {
+                fs::copy(&source_path, &destination_path).expect("copy file");
+            }
+        }
+    }
+
+    fn authorized_goal_amendment(root: &Path, work_item_id: &str, change_id: &str) -> Value {
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract = read_json(&contract_path);
+        let request: cockpit_protocol::ContractAmendmentRequest = serde_json::from_value(json!({
+            "schemaVersion": 1,
+            "changeId": change_id,
+            "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest"),
+            "reason": "recover a prepared amendment before another linked worktree commits",
+            "changes": [{
+                "path": "/goal",
+                "operation": "replace",
+                "value": "amended after linked crash recovery"
+            }]
+        }))
+        .expect("typed request");
+        authorize_request(root, work_item_id, request)
+    }
+
+    fn authorize_request(
+        root: &Path,
+        work_item_id: &str,
+        mut request: cockpit_protocol::ContractAmendmentRequest,
+    ) -> Value {
+        let check = check_work_item_contract_amendment(root, work_item_id, &request)
+            .expect("read-only authorization binding");
+        request.authorization = Some(cockpit_protocol::ContractAmendmentAuthorization {
+            schema_version: cockpit_protocol::CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+            decision_id: format!("test-{}", request.change_id),
+            decision: cockpit_protocol::ContractAmendmentDecision::AuthorizeChange,
+            authorized_by: "human:repository-test".into(),
+            authority_source: "explicit process-level test authorization".into(),
+            assurance: cockpit_protocol::EvidenceAssurance::SelfDeclared,
+            executed_by: "agent:repository-test".into(),
+            repository_id: check.repository_id,
+            work_item_id: check.work_item_id,
+            contract_digest: check.contract_digest,
+            repository_snapshot_digest: check.repository_snapshot_digest,
+            request_digest: check.request_digest,
+            changed_paths: check.changed_paths,
+        });
+        serde_json::to_value(request).expect("authorized amendment request")
     }
 
     fn start_checkpointed(root: &Path, work_item_id: &str) -> PathBuf {
@@ -1387,6 +1906,227 @@ mod tests {
 
     fn read_json(path: impl AsRef<Path>) -> Value {
         serde_json::from_slice(&fs::read(path).expect("read JSON file")).expect("valid JSON")
+    }
+
+    #[test]
+    fn linked_worktree_pending_prepared_transaction_blocks_even_when_digest_matches() {
+        let (root_directory, peer_directory) = linked_repository();
+        let root = root_directory.path();
+        let peer = peer_directory.path().join("peer");
+        let work_item_id = "WI-AMENDMENT-LINKED-RECOVERY";
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let expected_digest = cockpit_protocol::digest_json(&read_json(&contract_path))
+            .expect("expected Contract digest");
+        let peer_request = authorized_goal_amendment(&peer, work_item_id, "linked-crash-pending");
+
+        set_amendment_failpoint(AmendmentFailpoint::Prepared);
+        let interrupted = amend_work_item_contract(
+            &peer,
+            work_item_id,
+            &peer_request,
+            "recover a prepared amendment before another linked worktree commits",
+        )
+        .expect_err("prepared journal is left at the injected process boundary");
+        assert!(interrupted.to_string().contains("injected interruption"));
+        let peer_contract = peer
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        assert_eq!(
+            cockpit_protocol::digest_json(&read_json(&peer_contract)).expect("peer digest"),
+            expected_digest,
+            "crash simulation leaves the old Contract digest in place"
+        );
+
+        let root_contract = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let root_summary = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let peer_summary = peer
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let root_contract_before = fs::read(&root_contract).expect("root Contract bytes");
+        let root_summary_before = fs::read(&root_summary).expect("root Summary bytes");
+        let peer_contract_before = fs::read(&peer_contract).expect("peer Contract bytes");
+        let peer_summary_before = fs::read(&peer_summary).expect("peer Summary bytes");
+        let peer_prepared = peer.join(".ai/evidence").join(format!(
+            "{work_item_id}.contract-amendments/00000001.prepared.json"
+        ));
+        let peer_prepared_before = fs::read(&peer_prepared).expect("pending prepared bytes");
+
+        let root_request = authorized_goal_amendment(root, work_item_id, "root-after-peer-pending");
+        let blocked = amend_work_item_contract(
+            root,
+            work_item_id,
+            &root_request,
+            "recover a prepared amendment before another linked worktree commits",
+        )
+        .expect_err("a peer's pending transaction must block a second amendment");
+        assert!(
+            blocked
+                .to_string()
+                .contains("pending Contract amendment transaction"),
+            "unexpected blocker: {blocked}"
+        );
+        assert_eq!(
+            fs::read(&root_contract).expect("root Contract after rejection"),
+            root_contract_before
+        );
+        assert_eq!(
+            fs::read(&root_summary).expect("root Summary after rejection"),
+            root_summary_before
+        );
+        assert_eq!(
+            fs::read(&peer_contract).expect("peer Contract after rejection"),
+            peer_contract_before
+        );
+        assert_eq!(
+            fs::read(&peer_summary).expect("peer Summary after rejection"),
+            peer_summary_before
+        );
+        assert_eq!(
+            fs::read(&peer_prepared).expect("pending prepared remains"),
+            peer_prepared_before
+        );
+        assert!(
+            !root
+                .join(".ai/evidence")
+                .join(format!(
+                    "{work_item_id}.contract-amendments/00000001.prepared.json"
+                ))
+                .exists(),
+            "the rejected worktree must not create a prepared record"
+        );
+        assert!(
+            !peer
+                .join(".ai/evidence")
+                .join(format!(
+                    "{work_item_id}.contract-amendments/00000001.committed.json"
+                ))
+                .exists(),
+            "the crash-pending transaction remains unresolved without a commit receipt"
+        );
+    }
+
+    #[test]
+    fn snapshot_drift_after_preparation_is_rejected_before_any_receipt_is_written() {
+        let (root_directory, _peer_directory) = linked_repository();
+        let root = root_directory.path();
+        let work_item_id = "WI-AMENDMENT-LINKED-RECOVERY";
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let summary_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.summary.json"));
+        let contract_before = fs::read(&contract_path).expect("Contract bytes before");
+        let summary_before = fs::read(&summary_path).expect("Summary bytes before");
+        let evidence_directory = root
+            .join(".ai/evidence")
+            .join(format!("{work_item_id}.contract-amendments"));
+        assert!(
+            !evidence_directory.exists(),
+            "fixture starts with no amendment journal"
+        );
+        let source_path = root.join("README.md");
+        assert_eq!(
+            fs::read(&source_path).expect("source before"),
+            b"linked-worktree fixture\n"
+        );
+        let request = authorized_goal_amendment(root, work_item_id, "snapshot-toctou");
+
+        mutate_snapshot_before_prepared_write(
+            PathBuf::from("README.md"),
+            b"source changed after prepare and before first durable write\n".to_vec(),
+        );
+        let rejected = amend_work_item_contract(
+            root,
+            work_item_id,
+            &request,
+            "recover a prepared amendment before another linked worktree commits",
+        )
+        .expect_err("snapshot drift must invalidate the authorization before persistence");
+        assert!(
+            rejected.to_string().contains("snapshot"),
+            "unexpected rejection: {rejected}"
+        );
+        assert_eq!(
+            fs::read(&contract_path).expect("Contract bytes after"),
+            contract_before
+        );
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary bytes after"),
+            summary_before
+        );
+        assert_eq!(
+            fs::read(&source_path).expect("source changed by deterministic race hook"),
+            b"source changed after prepare and before first durable write\n"
+        );
+        assert!(
+            !evidence_directory.exists(),
+            "authorization mismatch must not create prepared or committed evidence"
+        );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn linked_worktree_canonicalization_loop_fails_closed() {
+        let (root_directory, peer_directory) = linked_repository();
+        let root = root_directory.path();
+        let peer = peer_directory.path().join("peer");
+        let work_item_id = "WI-AMENDMENT-LINKED-RECOVERY";
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let expected_digest = cockpit_protocol::digest_json(&read_json(&contract_path))
+            .expect("expected Contract digest");
+
+        fs::remove_dir_all(&peer).expect("remove linked worktree directory");
+        std::os::unix::fs::symlink(&peer, &peer).expect("create a self-referential worktree path");
+
+        let error = validate_shared_worktree_amendment_state(root, work_item_id, &expected_digest)
+            .expect_err("non-NotFound peer path resolution errors must not be silently skipped");
+        assert!(
+            error.to_string().contains("linked") || error.to_string().contains("read"),
+            "unexpected resolution failure: {error}"
+        );
+    }
+
+    #[test]
+    fn known_prunable_missing_linked_worktree_is_skipped() {
+        let (root_directory, peer_directory) = linked_repository();
+        let root = root_directory.path();
+        let peer = peer_directory.path().join("peer");
+        let work_item_id = "WI-AMENDMENT-LINKED-RECOVERY";
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let expected_digest = cockpit_protocol::digest_json(&read_json(&contract_path))
+            .expect("expected Contract digest");
+        fs::remove_dir_all(&peer).expect("remove prunable linked worktree");
+
+        let records = crate::resource_lifecycle::git_worktree_records(root)
+            .expect("inspect linked worktrees");
+        let pruned = records
+            .iter()
+            .find(|record| {
+                record.prunable
+                    && record
+                        .path
+                        .as_deref()
+                        .and_then(Path::file_name)
+                        .is_some_and(|name| name == "peer")
+            })
+            .expect("Git retains the missing linked-worktree record");
+        assert!(
+            pruned.prunable,
+            "Git must identify the absent peer as prunable"
+        );
+        validate_shared_worktree_amendment_state(root, work_item_id, &expected_digest)
+            .expect("only the explicitly prunable missing peer is safely skipped");
     }
 
     #[test]
@@ -1436,6 +2176,9 @@ mod tests {
                     "value": "recover this exact planned change once"
                 }]
             });
+            let request: cockpit_protocol::ContractAmendmentRequest =
+                serde_json::from_value(request).expect("typed recovery request");
+            let request = authorize_request(root, &work_item_id, request);
 
             set_amendment_failpoint(failpoint);
             let interruption = amend_work_item_contract(root, &work_item_id, &request, reason)

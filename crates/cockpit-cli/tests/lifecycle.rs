@@ -188,15 +188,73 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
         String::from_utf8_lossy(&started.stderr)
     );
 
-    let amendment = tempfile::NamedTempFile::new().expect("amendment input");
+    let contract_path = repo
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+            .expect("Contract JSON");
+    let mut amendment = serde_json::json!({
+        "schemaVersion": 1,
+        "changeId": "include-newly-required-regression-path",
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "reason": "include the newly discovered in-scope regression path",
+        "changes": [{
+            "path": "/scope",
+            "operation": "add",
+            "value": "tests/new-required-regression.rs"
+        }]
+    });
+    let check_input = tempfile::NamedTempFile::new().expect("amendment check input");
     fs::write(
-        amendment.path(),
-        serde_json::to_vec_pretty(&serde_json::json!({
-            "scopeAppend": ["tests/new-required-regression.rs"]
-        }))
-        .expect("amendment JSON"),
+        check_input.path(),
+        serde_json::to_vec(&amendment).expect("serialize amendment request"),
     )
-    .expect("write amendment");
+    .expect("write amendment check input");
+    let checked = run_output(
+        binary,
+        &[
+            "work-item",
+            "amend-check",
+            "--id",
+            work_item_id,
+            "--request",
+            check_input.path().to_str().expect("check request path"),
+        ],
+        &repo,
+    );
+    assert!(
+        checked.status.success(),
+        "amend-check stderr: {}",
+        String::from_utf8_lossy(&checked.stderr)
+    );
+    let check: serde_json::Value = serde_json::from_slice(&checked.stdout).expect("check JSON");
+    assert_eq!(
+        check["blockers"],
+        serde_json::json!(["authorization_missing"])
+    );
+    assert_eq!(check["changedPaths"], serde_json::json!(["/scope"]));
+    amendment["authorization"] = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "human-approval-lifecycle-scope",
+        "decision": "authorize_change",
+        "authorizedBy": "human:test-authorizer",
+        "authoritySource": "direct user authorization in the CLI lifecycle process test",
+        "assurance": "self_declared",
+        "executedBy": "agent:cockpit-cli-lifecycle-test",
+        "repositoryId": check["repositoryId"],
+        "workItemId": check["workItemId"],
+        "contractDigest": check["contractDigest"],
+        "repositorySnapshotDigest": check["repositorySnapshotDigest"],
+        "requestDigest": check["requestDigest"],
+        "changedPaths": check["changedPaths"]
+    });
+    let authorized_amendment = tempfile::NamedTempFile::new().expect("authorized amendment input");
+    fs::write(
+        authorized_amendment.path(),
+        serde_json::to_vec(&amendment).expect("serialize authorized amendment request"),
+    )
+    .expect("write authorized amendment request");
     let amended = run(
         binary,
         &[
@@ -204,15 +262,32 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
             "amend",
             "--id",
             work_item_id,
-            "--input",
-            amendment.path().to_str().expect("amendment path"),
-            "--reason",
-            "include the newly discovered in-scope regression path",
+            "--request",
+            authorized_amendment
+                .path()
+                .to_str()
+                .expect("authorized amendment path"),
         ],
         &repo,
     );
-    assert_eq!(amended["stage"], "contract_amendment_revalidation");
-    assert_eq!(amended["recorded"], true);
+    assert_eq!(
+        amended["checkpointed"], true,
+        "the amendment must be after the checkpoint and require revalidation"
+    );
+    let history = run(
+        binary,
+        &["work-item", "amendments", "--id", work_item_id],
+        &repo,
+    );
+    let history_entries = history.as_array().expect("amendment history");
+    let recorded_receipt = history_entries
+        .iter()
+        .find(|receipt| receipt["requestDigest"] == amended["requestDigest"])
+        .expect("the successful typed amendment is persisted in history");
+    assert_eq!(
+        recorded_receipt["newContractDigest"],
+        amended["newContractDigest"]
+    );
     assert_eq!(
         amended["nextAction"], "record_governance_controls",
         "amend must report the Runtime-admitted human-review action: {amended:#}"

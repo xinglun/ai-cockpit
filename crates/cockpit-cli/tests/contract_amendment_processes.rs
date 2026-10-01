@@ -1,7 +1,9 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentOperation,
-    ContractAmendmentRequest, PROTOCOL_VERSION, RuntimeContext,
+    CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION, CONTRACT_AMENDMENT_SCHEMA_VERSION,
+    ContractAmendmentAuthorization, ContractAmendmentChange, ContractAmendmentDecision,
+    ContractAmendmentOperation, ContractAmendmentRequest, EvidenceAssurance, PROTOCOL_VERSION,
+    RuntimeContext,
 };
 use cockpit_repository::{
     WorkItemStartOptions, attach, preflight_work_item, start_work_item_with_options,
@@ -10,6 +12,7 @@ use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
+use std::sync::{Arc, Barrier};
 
 const WORK_ITEM_ID: &str = "WI-CLI-AMEND-PARITY";
 
@@ -84,25 +87,157 @@ fn candidate_runtime() -> RuntimeContext {
 }
 
 fn typed_request(root: &Path) -> ContractAmendmentRequest {
+    request_with_goal(
+        root,
+        "plan-change-001",
+        "record and verify the implementation-plan adjustment",
+    )
+}
+
+fn request_with_goal(root: &Path, change_id: &str, goal: &str) -> ContractAmendmentRequest {
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{WORK_ITEM_ID}.contract.json"));
     let contract: Value =
         serde_json::from_slice(&fs::read(contract_path).expect("Contract")).expect("Contract JSON");
-    ContractAmendmentRequest {
-        schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
-        change_id: "plan-change-001".into(),
-        expected_contract_digest: cockpit_protocol::digest_json(&contract)
-            .expect("Contract digest"),
-        reason: "The implementation surfaced a more accurate acceptance plan.".into(),
-        changes: vec![ContractAmendmentChange {
-            path: "/goal".into(),
-            operation: ContractAmendmentOperation::Set,
-            value: Some(json!(
-                "record and verify the implementation-plan adjustment"
-            )),
-        }],
-    }
+    authorize_request(
+        root,
+        ContractAmendmentRequest {
+            schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
+            change_id: change_id.into(),
+            expected_contract_digest: cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest"),
+            reason: "The implementation surfaced a more accurate acceptance plan.".into(),
+            changes: vec![ContractAmendmentChange {
+                path: "/goal".into(),
+                operation: ContractAmendmentOperation::Set,
+                value: Some(json!(goal)),
+            }],
+            authorization: None,
+        },
+    )
+}
+
+fn authorize_request(
+    root: &Path,
+    mut request: ContractAmendmentRequest,
+) -> ContractAmendmentRequest {
+    let preview =
+        cockpit_repository::check_work_item_contract_amendment(root, WORK_ITEM_ID, &request)
+            .expect("read-only amendment preview");
+    assert!(
+        preview
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "authorization_missing")
+    );
+    request.authorization = Some(ContractAmendmentAuthorization {
+        schema_version: CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: "direct-human-decision-test-001".into(),
+        decision: ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:test-authorizer".into(),
+        authority_source: "direct user instruction in process test".into(),
+        assurance: EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:cockpit-process-test".into(),
+        repository_id: preview.repository_id,
+        work_item_id: preview.work_item_id,
+        contract_digest: preview.contract_digest,
+        repository_snapshot_digest: preview.repository_snapshot_digest,
+        request_digest: preview.request_digest,
+        changed_paths: preview.changed_paths,
+    });
+    request
+}
+
+#[test]
+fn typed_amendment_without_bound_human_authorization_is_rejected_without_mutation() {
+    let root = repository();
+    let mut request = typed_request(root.path());
+    request.authorization = None;
+    let request = serde_json::to_value(request).expect("request JSON");
+    let request_directory = tempfile::tempdir().expect("request directory");
+    let request_path = request_directory.path().join("unbound-amendment.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(&request).expect("serialize request"),
+    )
+    .expect("write request");
+
+    let contract_path = root
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{WORK_ITEM_ID}.contract.json"));
+    let summary_path = root
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{WORK_ITEM_ID}.summary.json"));
+    let shared_coordination_root = root.path().join(".git/.ai-cockpit/coordination/v1");
+    let contract_before = fs::read(&contract_path).expect("Contract before");
+    let summary_before = fs::read(&summary_path).expect("Summary before");
+    let history_before = amendment_history_bytes(root.path());
+    assert!(!shared_coordination_root.exists());
+
+    let check = run_cli(&[
+        "work-item",
+        "amend-check",
+        "--repo",
+        root.path().to_str().expect("repository path"),
+        "--id",
+        WORK_ITEM_ID,
+        "--request",
+        request_path.to_str().expect("request path"),
+    ]);
+    assert_success(&check, "read-only amendment check");
+    let check: Value = serde_json::from_slice(&check.stdout).expect("check JSON");
+    assert_eq!(check["allowed"], false, "{check}");
+    assert!(
+        check["blockers"]
+            .as_array()
+            .is_some_and(|items| { items.iter().any(|item| item == "authorization_missing") })
+    );
+    assert_eq!(check["changedPaths"], json!(["/goal"]));
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after check"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after check"),
+        summary_before
+    );
+    assert_eq!(amendment_history_bytes(root.path()), history_before);
+    assert!(
+        !shared_coordination_root.exists(),
+        "read-only check wrote common state"
+    );
+
+    let output = run_cli(&[
+        "work-item",
+        "amend",
+        "--repo",
+        root.path().to_str().expect("repository path"),
+        "--id",
+        WORK_ITEM_ID,
+        "--request",
+        request_path.to_str().expect("request path"),
+    ]);
+
+    assert!(
+        !output.status.success(),
+        "a typed amendment without request-bound human authorization must reject"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after"),
+        contract_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after"),
+        summary_before
+    );
+    assert_eq!(amendment_history_bytes(root.path()), history_before);
+    assert!(
+        !shared_coordination_root.exists(),
+        "rejected apply wrote common state"
+    );
 }
 
 fn mcp_call(root: &Path, runtime: &RuntimeContext, name: &str, arguments: Value) -> Value {
@@ -160,6 +295,49 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
     )
     .expect("write request");
 
+    let contract_path = root
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{WORK_ITEM_ID}.contract.json"));
+    let summary_path = root
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{WORK_ITEM_ID}.summary.json"));
+    let contract_before_check = fs::read(&contract_path).expect("Contract before check");
+    let summary_before_check = fs::read(&summary_path).expect("Summary before check");
+    let history_before_check = amendment_history_bytes(root.path());
+    let check = run_cli(&[
+        "work-item",
+        "amend-check",
+        "--repo",
+        root.path().to_str().expect("repository path"),
+        "--id",
+        WORK_ITEM_ID,
+        "--request",
+        request_path.to_str().expect("request path"),
+    ]);
+    assert_success(&check, "authorized read-only amendment check");
+    let check: Value = serde_json::from_slice(&check.stdout).expect("check JSON");
+    assert_eq!(check["allowed"], true, "{check}");
+    assert_eq!(
+        check["requestDigest"],
+        request
+            .authorization
+            .as_ref()
+            .unwrap()
+            .request_digest
+            .to_string()
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after check"),
+        contract_before_check
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after check"),
+        summary_before_check
+    );
+    assert_eq!(amendment_history_bytes(root.path()), history_before_check);
+
     let cli = run_cli(&[
         "work-item",
         "amend",
@@ -191,6 +369,9 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
     );
     assert_eq!(mcp.pointer("/result/structuredContent"), Some(&cli_receipt));
 
+    let before_legacy_contract = fs::read(&contract_path).expect("Contract before legacy input");
+    let before_legacy_summary = fs::read(&summary_path).expect("Summary before legacy input");
+    let before_legacy_history = amendment_history_bytes(root.path());
     let legacy_input_path = request_directory.path().join("legacy-additive.json");
     fs::write(
         &legacy_input_path,
@@ -209,7 +390,19 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
         "--reason",
         "Retain compatibility for existing additive callers.",
     ]);
-    assert_success(&legacy, "legacy additive CLI amendment");
+    assert!(
+        !legacy.status.success(),
+        "legacy additive path must fail closed"
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("Contract after legacy input"),
+        before_legacy_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after legacy input"),
+        before_legacy_summary
+    );
+    assert_eq!(amendment_history_bytes(root.path()), before_legacy_history);
 
     let mut invalid_request = request_value.clone();
     invalid_request["unrecognized"] = json!(true);
@@ -233,10 +426,6 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
         ..request.clone()
     };
     let stale_value = serde_json::to_value(&stale).expect("stale request JSON");
-    let contract_path = root
-        .path()
-        .join(".ai/work-items/active")
-        .join(format!("{WORK_ITEM_ID}.contract.json"));
     let before_conflict = fs::read(&contract_path).expect("Contract before conflict");
     let conflict = mcp_call(
         root.path(),
@@ -271,7 +460,7 @@ fn typed_cli_and_mcp_share_receipt_and_read_history_without_writes() {
     ]);
     assert_success(&cli_history, "read CLI amendment history");
     let cli_history: Value = serde_json::from_slice(&cli_history.stdout).expect("CLI history");
-    assert_eq!(cli_history.as_array().map(Vec::len), Some(2));
+    assert_eq!(cli_history.as_array().map(Vec::len), Some(1));
     let mcp_history = mcp_call(
         root.path(),
         &runtime,
@@ -375,18 +564,22 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     let contract_path = root.path().join(&contract_relative);
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("read Contract"))
         .expect("Contract JSON");
-    let request = ContractAmendmentRequest {
-        schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
-        change_id: "sensitive-scope-change".into(),
-        expected_contract_digest: cockpit_protocol::digest_json(&contract)
-            .expect("Contract digest"),
-        reason: "scope expansion requires human policy review before verification".into(),
-        changes: vec![ContractAmendmentChange {
-            path: "/scope".into(),
-            operation: ContractAmendmentOperation::Replace,
-            value: Some(json!(["README.md", "src/**"])),
-        }],
-    };
+    let request = authorize_request(
+        root.path(),
+        ContractAmendmentRequest {
+            schema_version: CONTRACT_AMENDMENT_SCHEMA_VERSION,
+            change_id: "sensitive-scope-change".into(),
+            expected_contract_digest: cockpit_protocol::digest_json(&contract)
+                .expect("Contract digest"),
+            reason: "scope expansion requires human policy review before verification".into(),
+            changes: vec![ContractAmendmentChange {
+                path: "/scope".into(),
+                operation: ContractAmendmentOperation::Replace,
+                value: Some(json!(["README.md", "src/**"])),
+            }],
+            authorization: None,
+        },
+    );
     let request_file = tempfile::NamedTempFile::new().expect("amendment request file");
     fs::write(
         request_file.path(),
@@ -466,5 +659,123 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     assert!(
         !marker.exists(),
         "verification command must not start before amendment review"
+    );
+}
+
+#[test]
+fn linked_worktree_processes_cannot_both_apply_from_the_same_contract_digest() {
+    let root = repository();
+    let peer_parent = tempfile::tempdir().expect("peer worktree parent");
+    let peer_path = peer_parent.path().join("peer");
+    let peer_path_string = peer_path.to_str().expect("peer path");
+    git(
+        root.path(),
+        &[
+            "worktree",
+            "add",
+            "-b",
+            "linked-amendment-race",
+            peer_path_string,
+            "HEAD",
+        ],
+    );
+    let root_ai = root.path().join(".ai");
+    let peer_ai = peer_path.join(".ai");
+    fs::create_dir_all(&peer_ai).expect("peer governance directory");
+    for entry in fs::read_dir(&root_ai).expect("root governance entries") {
+        let entry = entry.expect("root governance entry");
+        if entry.file_type().expect("governance entry type").is_file() {
+            fs::copy(entry.path(), peer_ai.join(entry.file_name()))
+                .expect("copy repository-bound governance identity");
+        }
+    }
+    assert_eq!(
+        cockpit_repository::repository_id(root.path()),
+        cockpit_repository::repository_id(&peer_path),
+        "linked worktrees must resolve the same repository identity"
+    );
+    let active = root.path().join(".ai/work-items/active");
+    let peer_active = peer_path.join(".ai/work-items/active");
+    fs::create_dir_all(&peer_active).expect("peer active Work Items");
+    for suffix in ["contract.json", "summary.json"] {
+        let filename = format!("{WORK_ITEM_ID}.{suffix}");
+        fs::copy(active.join(&filename), peer_active.join(&filename))
+            .expect("copy same admitted Work Item state into linked worktree");
+    }
+
+    let request_a = request_with_goal(root.path(), "race-change-a", "race result A");
+    let request_b = request_with_goal(&peer_path, "race-change-b", "race result B");
+    assert_eq!(
+        request_a.expected_contract_digest, request_b.expected_contract_digest,
+        "both processes must start from the same Contract digest"
+    );
+    let requests = tempfile::tempdir().expect("request files");
+    let request_a_path = requests.path().join("request-a.json");
+    let request_b_path = requests.path().join("request-b.json");
+    fs::write(
+        &request_a_path,
+        serde_json::to_vec(&request_a).expect("request A JSON"),
+    )
+    .expect("write request A");
+    fs::write(
+        &request_b_path,
+        serde_json::to_vec(&request_b).expect("request B JSON"),
+    )
+    .expect("write request B");
+
+    let barrier = Arc::new(Barrier::new(3));
+    let spawn = |repository_path: PathBuf, request_path: PathBuf| {
+        let barrier = Arc::clone(&barrier);
+        std::thread::spawn(move || {
+            barrier.wait();
+            Command::new(candidate_binary())
+                .args([
+                    "work-item",
+                    "amend",
+                    "--repo",
+                    repository_path.to_str().expect("repository path"),
+                    "--id",
+                    WORK_ITEM_ID,
+                    "--request",
+                    request_path.to_str().expect("request path"),
+                ])
+                .output()
+                .expect("amendment process")
+        })
+    };
+    let process_a = spawn(root.path().to_path_buf(), request_a_path);
+    let process_b = spawn(peer_path.clone(), request_b_path);
+    barrier.wait();
+    let output_a = process_a.join().expect("process A join");
+    let output_b = process_b.join().expect("process B join");
+    assert_ne!(
+        output_a.status.success(),
+        output_b.status.success(),
+        "exactly one concurrent amendment should commit; A stdout/stderr={}/{}, B stdout/stderr={}/{}",
+        String::from_utf8_lossy(&output_a.stdout),
+        String::from_utf8_lossy(&output_a.stderr),
+        String::from_utf8_lossy(&output_b.stdout),
+        String::from_utf8_lossy(&output_b.stderr),
+    );
+    let rejected = if output_a.status.success() {
+        &output_b
+    } else {
+        &output_a
+    };
+    let diagnostic = String::from_utf8_lossy(&rejected.stderr);
+    assert!(
+        diagnostic.contains("contract_digest_conflict"),
+        "stale linked-worktree request should be rejected by shared admission, got: {diagnostic}"
+    );
+    let receipt_count =
+        cockpit_repository::read_work_item_contract_amendments(root.path(), WORK_ITEM_ID)
+            .expect("root amendment receipts")
+            .len()
+            + cockpit_repository::read_work_item_contract_amendments(&peer_path, WORK_ITEM_ID)
+                .expect("peer amendment receipts")
+                .len();
+    assert_eq!(
+        receipt_count, 1,
+        "only the winning Work Item may append a receipt"
     );
 }

@@ -2571,6 +2571,7 @@ pub(crate) struct GitWorktreeRecord {
     pub(crate) path: Option<PathBuf>,
     pub(crate) head: Option<String>,
     pub(crate) branch_ref: Option<String>,
+    pub(crate) prunable: bool,
 }
 
 fn git_bytes(root: &Path, args: &[&str]) -> Option<Vec<u8>> {
@@ -2604,6 +2605,8 @@ pub(crate) fn git_worktree_records(root: &Path) -> Result<Vec<GitWorktreeRecord>
                 record.head = Some(value.into());
             } else if let Some(value) = line.strip_prefix("branch ") {
                 record.branch_ref = Some(value.into());
+            } else if line.starts_with("prunable ") {
+                record.prunable = true;
             }
         }
         records.push(record);

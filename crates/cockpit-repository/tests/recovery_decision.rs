@@ -1,13 +1,18 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{HumanDecision, OutcomeState, ResourceFinalizationContext, RuntimeContext};
+use cockpit_protocol::{
+    CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION, ContractAmendmentAuthorization,
+    ContractAmendmentDecision, ContractAmendmentRequest, EvidenceAssurance, HumanDecision,
+    OutcomeState, ResourceFinalizationContext, RuntimeContext,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
-    checkpoint_work_item, close_work_item_with_structured_decision,
-    close_work_item_with_structured_decision_and_runtime, finish_work_item,
-    finish_work_item_with_runtime, outcome_render_input, outcome_render_input_with_runtime,
-    outcome_v2, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
-    preflight_work_item_with_runtime, record_recovery_decision, record_verification_with_runtime,
+    check_work_item_contract_amendment, checkpoint_work_item,
+    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
+    finish_work_item, finish_work_item_with_runtime, outcome_render_input,
+    outcome_render_input_with_runtime, outcome_v2, outcome_v2_with_runtime,
+    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
+    record_recovery_decision, record_verification_with_runtime,
     record_work_item_governance_controls, render_human_outcome, repository_id,
     require_current_action_admission, revalidate_contract_amendment, run_repository_verification,
     scaffold_work_item, snapshot_digest, start_work_item_with_options, status,
@@ -149,6 +154,57 @@ fn current_runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"runtime-0.2.31"),
     }
+}
+
+fn amend_acceptance_with_authorized_request(
+    root: &Path,
+    work_item_id: &str,
+    change_id: &str,
+    criterion: &str,
+    reason: &str,
+) {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let mut request: ContractAmendmentRequest = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "changeId": change_id,
+        "expectedContractDigest": cockpit_protocol::digest_json(&contract)
+            .expect("Contract digest"),
+        "reason": reason,
+        "changes": [{
+            "path": "/acceptanceCriteria",
+            "operation": "add",
+            "value": criterion
+        }]
+    }))
+    .expect("typed amendment request");
+    let preview = check_work_item_contract_amendment(root, work_item_id, &request)
+        .expect("read-only amendment authorization binding");
+    request.authorization = Some(ContractAmendmentAuthorization {
+        schema_version: CONTRACT_AMENDMENT_AUTHORIZATION_SCHEMA_VERSION,
+        decision_id: format!("recovery-decision-{change_id}"),
+        decision: ContractAmendmentDecision::AuthorizeChange,
+        authorized_by: "human:recovery-decision-test".into(),
+        authority_source: "explicit process-level test authorization".into(),
+        assurance: EvidenceAssurance::SelfDeclared,
+        executed_by: "agent:recovery-decision-test".into(),
+        repository_id: preview.repository_id,
+        work_item_id: preview.work_item_id,
+        contract_digest: preview.contract_digest,
+        repository_snapshot_digest: preview.repository_snapshot_digest,
+        request_digest: preview.request_digest,
+        changed_paths: preview.changed_paths,
+    });
+    amend_work_item_contract(
+        root,
+        work_item_id,
+        &serde_json::to_value(request).expect("authorized request JSON"),
+        reason,
+    )
+    .expect("authorized bounded Contract amendment");
 }
 
 fn assert_action_admitted(root: &Path, id: &str, action: &str, runtime: &RuntimeContext) {
@@ -1454,15 +1510,13 @@ fn pending_retry_survives_a_bounded_contract_amendment() {
         },
     )
     .expect("finalize-plan");
-    amend_work_item_contract(
+    amend_acceptance_with_authorized_request(
         directory.path(),
         id,
-        &json!({
-            "acceptanceAppend": ["the bounded amendment remains linked to the retry"]
-        }),
+        "pending-retry-bounded-amendment",
+        "the bounded amendment remains linked to the retry",
         "cover a bounded Contract amendment after retry",
-    )
-    .expect("bounded Contract amendment");
+    );
     record_human_preflight_review(directory.path(), id);
 
     assert_action_admitted(directory.path(), id, "run_verification", &runtime);
@@ -2553,17 +2607,13 @@ fn supersede_accepts_a_successor_bound_before_a_predecessor_amendment() {
     record_recovery_decision(root, "WI-BLOCKED", &successor, &runtime).expect("successor receipt");
     let historical_contract_digest = successor["predecessorContractDigest"].clone();
 
-    amend_work_item_contract(
+    amend_acceptance_with_authorized_request(
         root,
         "WI-BLOCKED",
-        &json!({
-            "acceptanceAppend": [
-                "the historical successor binding remains authoritative after a bounded amendment"
-            ]
-        }),
+        "successor-bound-predecessor-amendment",
+        "the historical successor binding remains authoritative after a bounded amendment",
         "cover the amended predecessor cleanup boundary",
-    )
-    .expect("bounded predecessor amendment");
+    );
 
     let contract_path = root.join(".ai/work-items/active/WI-BLOCKED.contract.json");
     let amended_contract = fs::read(&contract_path).expect("amended Contract");

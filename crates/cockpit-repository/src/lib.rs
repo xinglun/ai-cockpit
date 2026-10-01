@@ -72,7 +72,8 @@ pub use collaboration::{
     request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
 };
 pub use contract_amendment::{
-    ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,
+    ContractAmendmentChangedValue, ContractAmendmentCheck, ContractAmendmentReceipt,
+    check_work_item_contract_amendment, read_work_item_contract_amendments,
 };
 pub use coordination_store::{
     CoordinationError, CoordinationInspection, CoordinationStore, RecoveryReport,

@@ -57,6 +57,7 @@ fn request(changes: Vec<ContractAmendmentChange>) -> ContractAmendmentRequest {
         expected_contract_digest: Digest::sha256_bytes(b"fixture-contract"),
         reason: "the accepted implementation plan needs correction".into(),
         changes,
+        authorization: None,
     }
 }
 
@@ -244,4 +245,42 @@ fn field_registry_distinguishes_sensitive_plan_changes() {
         ContractAmendmentFieldClass::SensitivePlanEditable
     );
     assert!(contract_amendment_field_class("/repositoryId").is_err());
+}
+
+#[test]
+fn contract_validate_rejects_empty_source_and_verification_declarations() {
+    let mut value = serde_json::to_value(contract()).expect("Contract JSON");
+    value["sources"] = serde_json::json!([
+        {"path": " \t", "reason": "a path is required"},
+        {"path": "docs/reference/contract.md", "reason": "  "}
+    ]);
+    value["verification"] = serde_json::json!([
+        {"check": " \n", "required": true},
+        "  "
+    ]);
+    let contract: Contract = serde_json::from_value(value).expect("typed Contract");
+
+    let errors = contract
+        .validate()
+        .expect_err("empty declarations must be rejected");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "sources[0].path must be non-empty")
+    );
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "sources[1].reason must be non-empty")
+    );
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "verification[0].check must be non-empty")
+    );
+    assert!(
+        errors
+            .iter()
+            .any(|error| error == "verification[1] must be non-empty")
+    );
 }
