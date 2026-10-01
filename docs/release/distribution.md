@@ -15,6 +15,21 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
+## v1.0.1-rc.1 macOS arm64 prerelease
+
+This opt-in trial candidate is limited to the WI-1050 Contract-amendment
+admission repair and, if published, one macOS arm64 executable plus its
+SHA-256 checksum. It is not a stable release; `v1.0.0` remains the latest
+stable release. Unless fresh evidence proves otherwise before publication,
+the release notes must state that Runtime formal review/verification, hosted
+CI, and non-macOS targets are unverified for this candidate.
+
+If the candidate is defective, withdraw only the exact `v1.0.1-rc.1`
+prerelease with normal GitHub permissions. Remove its exact assets and tag only
+after confirming the provider record matches this candidate. Do not change
+`v1.0.0` or unrelated releases/tags. Preserve the release and verification
+records, and use a new prerelease version for any corrected candidate.
+
 ## Outcome presentation release note
 
 The reader-facing `work-item outcome` command now defaults to a deterministic

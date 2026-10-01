@@ -1,0 +1,592 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:bc42f46e53838186190a76d59d917a5124fe61794e027ca5304fdaa9544d5e76",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1",
+    "sequence": 2,
+    "changeId": "wi1051-complete-contract-2026-10-02",
+    "requestDigest": "sha256:a798098e5c824777bfc77ea2e6229ed70540d2541dfdf8a46509f0c06480c718",
+    "reason": "Apply the user's explicitly selected contract-preflight-review option complete_contract to complete the release plan with the approved Mac-only user benefit, identity-bound acceptance scenarios, truthful unverified states, and rollback/disclosure boundaries. This is a plan amendment only; it is not confirm_review, verification, or release authorization beyond the existing Mac-only prerelease scope.",
+    "authorization": {
+      "schemaVersion": 1,
+      "decisionId": "contract-preflight-review:complete_contract:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+      "decision": "authorize_change",
+      "authorizedBy": "human:user",
+      "authoritySource": "User-selected complete_contract for WI-1051 contract-preflight-review bound to preflightDecisionDigest sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8; authorizes completion of the release plan only, not confirm_review.",
+      "assurance": "self_declared",
+      "executedBy": "agent:codex",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1",
+      "contractDigest": "sha256:119dc867f59a3228429af61962f15e0c0c7ddc98bb5b00a8d5db21c3222b8e88",
+      "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+      "requestDigest": "sha256:14910b34f9ef2e130b6ef754fcbb3aa02f897db58f09725bb4879ddef5324824",
+      "changedPaths": [
+        "/acceptanceCriteria",
+        "/intent",
+        "/outOfScope",
+        "/rollbackPlan",
+        "/scenarioCoverage",
+        "/scope"
+      ]
+    },
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "set",
+        "oldValue": "Publish a single macOS arm64 prerelease for the WI-1050 amendment-admission repair so operators can trial the repair before Task9 migration work proceeds.",
+        "newValue": {
+          "businessGoal": "Let macOS arm64 operators trial the WI-1050 Contract-amendment admission repair before Task9 migration work proceeds, while preserving v1.0.0 as the latest stable release.",
+          "constraints": [
+            "Publish only v1.0.1-rc.1 for macOS arm64, and only when normal GitHub permissions allow.",
+            "Keep v1.0.0 as latest stable.",
+            "Do not claim Runtime review or verification, hosted CI, or non-macOS validation that has not been performed."
+          ],
+          "nonGoals": [
+            "A stable release or moving latest stable away from v1.0.0.",
+            "Publishing or claiming validation for any non-macOS target or hosted cross-platform matrix.",
+            "Task9 script migration or changes to the WI-1050 repair implementation."
+          ],
+          "problem": "The current stable release is v1.0.0 and does not contain the WI-1050 amendment-admission repair, so Mac operators lack a bounded public candidate for trial before Task9.",
+          "rationale": "A macOS-only prerelease lets operators trial the separately authorized repair without conflating it with Task9 or changing the stable release.",
+          "userGoal": "Mac users can obtain and try a prerelease containing the WI-1050 amendment-admission repair; the change is intended to avoid the known self-lock around authorized Contract amendments. This prerelease is a trial build, not a claim of verified stable behavior."
+        }
+      },
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "Cargo.toml and Cargo.lock version metadata for v1.0.1-rc.1.",
+          "Tri-language versioning and distribution docs describing v1.0.0 as latest stable and this macOS-only prerelease as non-stable.",
+          "One GitHub prerelease resource v1.0.1-rc.1 containing only the macOS arm64 executable and its SHA-256 checksum."
+        ],
+        "newValue": [
+          "Include the exact WI-1050 repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88 (tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630) in the release-candidate source without modifying the repair implementation.",
+          "Update Cargo.toml/Cargo.lock version metadata to v1.0.1-rc.1 and update tri-language versioning/distribution documentation to describe the Mac-only prerelease while preserving v1.0.0 as latest stable.",
+          "Publish one GitHub prerelease v1.0.1-rc.1 containing only the macOS arm64 executable and its SHA-256 checksum, with explicit limitations and rollback/removal instructions."
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Stable release or moving latest stable away from v1.0.0.",
+          "Publishing any non-macOS artifact or claiming hosted cross-platform verification.",
+          "Any Task9 script migration content or changes to WI-1050 source files.",
+          "Bypassing GitHub permissions",
+          " rewriting tags",
+          " or globally installing/overwriting Runtime."
+        ],
+        "newValue": [
+          "A stable release or moving latest stable away from v1.0.0.",
+          "Publishing a non-macOS artifact or claiming hosted cross-platform verification.",
+          "Task9 script migration or modification of WI-1050 repair source files.",
+          "Bypassing normal GitHub permissions, rewriting existing tags, or globally installing/overwriting Runtime."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "replace",
+        "oldValue": [
+          "The release candidate source includes the exact WI-1050 repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88 and no Task9 changes.",
+          "The built macOS arm64 binary reports 1.0.1-rc.1 and its SHA-256 checksum matches the published asset.",
+          "GitHub marks v1.0.1-rc.1 prerelease and only the macOS arm64 binary plus checksum are attached; v1.0.0 remains latest stable.",
+          "Release notes disclose Runtime review/verification unresolved and other OS/hosted matrix unverified, and include checksum and rollback/removal instructions."
+        ],
+        "newValue": [
+          "The release-candidate source contains the exact WI-1050 repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88 and tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630, and contains no Task9 changes.",
+          "A fresh macOS arm64 release build reports version 1.0.1-rc.1 and passes an isolated-prefix install/launch smoke check.",
+          "The WI-1050 amendment-admission positive and unauthorized fail-closed/zero-write regression checks are present and pass; supported legacy Contract/amendment receipts remain readable.",
+          "The published v1.0.1-rc.1 is marked prerelease and contains only the macOS arm64 executable plus checksum; a downloaded asset verifies against its SHA-256 checksum.",
+          "v1.0.0 remains the latest stable release.",
+          "Release notes state that Runtime review/verification, hosted CI, and non-macOS targets remain unverified unless separately proven before publication.",
+          "The release record includes instructions to withdraw the prerelease and remove its exact candidate tag/assets using normal GitHub permissions without changing v1.0.0."
+        ]
+      },
+      {
+        "path": "/rollbackPlan",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "constraints": [
+            "No rollback or provider cleanup is performed by this amendment.",
+            "If normal GitHub permissions do not permit withdrawal/removal, stop and report the exact provider refusal."
+          ],
+          "steps": [
+            "If the candidate is defective, keep v1.0.0 as latest stable and withdraw the exact v1.0.1-rc.1 prerelease using normal GitHub permissions.",
+            "Remove only the v1.0.1-rc.1 release assets and candidate tag if the provider record still matches this Work Item and normal permissions allow; do not rewrite or remove v1.0.0 or unrelated tags.",
+            "Preserve the release, verification, and cleanup records; issue any corrected candidate under a new prerelease version rather than replacing the published identity."
+          ]
+        }
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          },
+          {
+            "evidence": [],
+            "expected": "v1.0.0 remains the latest stable release before and after the prerelease operation.",
+            "required": true,
+            "scenario": "stable_release_unchanged",
+            "status": "unverified",
+            "verificationPlan": "Record the initial stable pointer and verify the provider's stable/latest designation still resolves to v1.0.0 after publication."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          },
+          {
+            "evidence": [],
+            "expected": "v1.0.0 remains the latest stable release before and after the prerelease operation.",
+            "required": true,
+            "scenario": "stable_release_unchanged",
+            "status": "unverified",
+            "verificationPlan": "Record the initial stable pointer and verify the provider's stable/latest designation still resolves to v1.0.0 after publication."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          },
+          {
+            "evidence": [],
+            "expected": "v1.0.0 remains the latest stable release before and after the prerelease operation.",
+            "required": true,
+            "scenario": "stable_release_unchanged",
+            "status": "unverified",
+            "verificationPlan": "Record the initial stable pointer and verify the provider's stable/latest designation still resolves to v1.0.0 after publication."
+          },
+          {
+            "evidence": [],
+            "expected": "Release notes clearly limit this to a macOS arm64 trial and disclose any unresolved Runtime review/verification, hosted CI, and non-macOS validation.",
+            "required": true,
+            "scenario": "release_notes_disclose_unverified_boundaries",
+            "status": "unverified",
+            "verificationPlan": "Review the exact published notes against the observed verification receipts and provider data before declaring release acceptance."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          },
+          {
+            "evidence": [],
+            "expected": "v1.0.0 remains the latest stable release before and after the prerelease operation.",
+            "required": true,
+            "scenario": "stable_release_unchanged",
+            "status": "unverified",
+            "verificationPlan": "Record the initial stable pointer and verify the provider's stable/latest designation still resolves to v1.0.0 after publication."
+          },
+          {
+            "evidence": [],
+            "expected": "Release notes clearly limit this to a macOS arm64 trial and disclose any unresolved Runtime review/verification, hosted CI, and non-macOS validation.",
+            "required": true,
+            "scenario": "release_notes_disclose_unverified_boundaries",
+            "status": "unverified",
+            "verificationPlan": "Review the exact published notes against the observed verification receipts and provider data before declaring release acceptance."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The release-candidate source is bound to the exact WI-1050 commit/tree and excludes all Task9 changes.",
+            "required": true,
+            "scenario": "source_commit_scope_and_no_task9",
+            "status": "unverified",
+            "verificationPlan": "Inspect exact Git commit/tree ancestry and changed paths immediately before release; retain the resulting source identity evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "A fresh aarch64-apple-darwin release artifact reports 1.0.1-rc.1 and launches from an isolated install prefix.",
+            "required": true,
+            "scenario": "macos_arm64_build_and_isolated_install",
+            "status": "unverified",
+            "verificationPlan": "Build from the final release candidate source, compare version output, and install/run from a temporary prefix without changing the global Runtime."
+          },
+          {
+            "evidence": [],
+            "expected": "The WI-1050 authorized amendment path succeeds, unauthorized/mismatched requests fail closed without writes, and supported legacy receipts remain readable.",
+            "required": true,
+            "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+            "status": "unverified",
+            "verificationPlan": "Run the named WI-1050 positive, denial/zero-write, and legacy-read regression tests on the exact release source; preserve their actual results without converting local tests into Runtime review."
+          },
+          {
+            "evidence": [],
+            "expected": "The exact GitHub prerelease is marked prerelease and exposes only the macOS arm64 executable and matching SHA-256 checksum.",
+            "required": true,
+            "scenario": "prerelease_asset_identity_and_download_checksum",
+            "status": "unverified",
+            "verificationPlan": "After publication, inspect the provider release record, download the exact asset and checksum, and verify the downloaded bytes against the checksum."
+          },
+          {
+            "evidence": [],
+            "expected": "v1.0.0 remains the latest stable release before and after the prerelease operation.",
+            "required": true,
+            "scenario": "stable_release_unchanged",
+            "status": "unverified",
+            "verificationPlan": "Record the initial stable pointer and verify the provider's stable/latest designation still resolves to v1.0.0 after publication."
+          },
+          {
+            "evidence": [],
+            "expected": "Release notes clearly limit this to a macOS arm64 trial and disclose any unresolved Runtime review/verification, hosted CI, and non-macOS validation.",
+            "required": true,
+            "scenario": "release_notes_disclose_unverified_boundaries",
+            "status": "unverified",
+            "verificationPlan": "Review the exact published notes against the observed verification receipts and provider data before declaring release acceptance."
+          },
+          {
+            "evidence": [],
+            "expected": "The documented withdrawal path targets only v1.0.1-rc.1 and leaves v1.0.0 and unrelated tags untouched.",
+            "required": true,
+            "scenario": "prerelease_withdrawal_and_rollback",
+            "status": "unverified",
+            "verificationPlan": "Review and retain the exact rollback instructions; do not execute provider cleanup unless the candidate actually needs withdrawal and normal permissions allow."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:119dc867f59a3228429af61962f15e0c0c7ddc98bb5b00a8d5db21c3222b8e88",
+    "newContractDigest": "sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045",
+    "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+    "environmentObservationDigest": "sha256:c1e17173423074d7df6723d20e39dad71f188a398c23b885b0e10cb5a9a48b33",
+    "runtimeVersion": "1.0.0",
+    "runtimeDigest": "sha256:1ac5800aa179bb3e4023533d45d8124f03cbf56b641dec65bdb69cada6fef48e",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope",
+      "/scenarioCoverage",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:bea0ee422ef5e5a8e15b0d02b061676f8da4deba174b870ab2998529a2990471",
+    "journalDigest": "sha256:fb03257c088706903452c3326e2b1d6a8b97f68064ce55e7b0e03243dc617080",
+    "recordedAt": "2026-10-01T16:25:41Z"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:fdacbd17413b879abaf82135f07dfda72c038489d41a6a6e4faa3b04841014d1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1",
+    "sequence": 1,
+    "changeId": "legacy-dc3b242b4627c6008796166e2a6183b0568be2b2e6034c97a85420a64cac383e",
+    "requestDigest": "sha256:11113e8592a1f13e584dca82259650af420ff7783f47cd19ab49d8b7c0e75696",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:dc3b242b4627c6008796166e2a6183b0568be2b2e6034c97a85420a64cac383e",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit."
+        ],
+        "newValue": [
+          "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit.",
+          "WI-1050 source commit 09e7eead64bebacda98d71e1907c01e6008a8f88; tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630; Contract sha256:aa177e829534adaa02b657dd199ebf8410ada0d55307f4b447febcc589485073; source snapshot sha256:d376af4a3716049552953b8c2db42a8661c6694e3f3768d42a495a7ff4a9b1b4."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit.",
+          "WI-1050 source commit 09e7eead64bebacda98d71e1907c01e6008a8f88; tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630; Contract sha256:aa177e829534adaa02b657dd199ebf8410ada0d55307f4b447febcc589485073; source snapshot sha256:d376af4a3716049552953b8c2db42a8661c6694e3f3768d42a495a7ff4a9b1b4."
+        ],
+        "newValue": [
+          "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit.",
+          "WI-1050 source commit 09e7eead64bebacda98d71e1907c01e6008a8f88; tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630; Contract sha256:aa177e829534adaa02b657dd199ebf8410ada0d55307f4b447febcc589485073; source snapshot sha256:d376af4a3716049552953b8c2db42a8661c6694e3f3768d42a495a7ff4a9b1b4.",
+          "Read-only tag and GitHub Release inventory on 2026-10-02 found no local/remote tag or Release v1.0.1-rc.1; v1.0.0 is the latest stable."
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a9b05eeb1a3e15d3f51f612deb0a84370c08525915c6d59f1f33504d1222b928",
+    "newContractDigest": "sha256:119dc867f59a3228429af61962f15e0c0c7ddc98bb5b00a8d5db21c3222b8e88",
+    "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+    "environmentObservationDigest": "sha256:9e2f8d3a9fe79115bc9782fe9b884f5f59b4e26b425b58ea330eb3723a2b2c21",
+    "runtimeVersion": "1.0.0",
+    "runtimeDigest": "sha256:1ac5800aa179bb3e4023533d45d8124f03cbf56b641dec65bdb69cada6fef48e",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:bea0ee422ef5e5a8e15b0d02b061676f8da4deba174b870ab2998529a2990471",
+    "recordedAt": "2026-10-01T16:10:21Z"
+  }
+}

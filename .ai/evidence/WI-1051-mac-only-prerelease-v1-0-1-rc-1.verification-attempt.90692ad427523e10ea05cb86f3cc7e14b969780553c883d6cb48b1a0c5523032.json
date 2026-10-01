@@ -1,0 +1,157 @@
+{
+  "attemptId": "sha256:90692ad427523e10ea05cb86f3cc7e14b969780553c883d6cb48b1a0c5523032",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:678fa7448d18a795180cac01d94c60ed262364b21dfa75f84159b8304b745c8b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:7440ddc1c473b26061b372bcbad76b33eb2ca9b464445ee4c9ccce16cacd7fe5",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:a6def824b423bbb04e3fead7cb4cb9b412868ae6e9633a476ce8edb1081102c1",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "build",
+        "--locked",
+        "--release",
+        "--package",
+        "cockpit-cli",
+        "--target",
+        "aarch64-apple-darwin"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:c985d476197b95b049f58873e0aab55355696e563552a304303c325e88b7e861",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "-a",
+        "256",
+        "target/aarch64-apple-darwin/release/ai-cockpit"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:ab409541d0c06073ec10c7ebf601c5b3d10b27adb17a4310e1f54892d22d0061",
+      "nodeId": "project-command-4",
+      "program": "shasum",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "--version"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:f123b9042c2e776a91b44d9f20c1594045852a6dcbc2a83265d94c3a2f3dc5b3",
+      "nodeId": "project-command-5",
+      "program": "target/aarch64-apple-darwin/release/ai-cockpit",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "--help"
+      ],
+      "baseCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "commandDigest": "sha256:6e87810453e270520b3ab20c61d36380d0a50c9d5d14348aa0fadf1ed96a761b",
+      "nodeId": "project-command-6",
+      "program": "target/aarch64-apple-darwin/release/ai-cockpit",
+      "runner": "local",
+      "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+  "contractExecutionScopeDigest": "sha256:357aea984012d64a99e6ade2319cea7840c85bbadba3ef96cafd2d037c26d5c0",
+  "createdAt": "2026-10-01T23:13:44Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi1050-mac-prerelease/ai-cockpit/.ai/work-items/active/WI-1051-mac-only-prerelease-v1-0-1-rc-1.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi1050-mac-prerelease/ai-cockpit/.ai/work-items/active/WI-1051-mac-only-prerelease-v1-0-1-rc-1.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:3cb2f63c5c13ae25d5ad4d8e2c08433d431453e5061c945c625111eade2d735e, issues=[\"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi1050-mac-prerelease/ai-cockpit/.ai/work-items/active/WI-1051-mac-only-prerelease-v1-0-1-rc-1.summary.json: ve…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+  "runtimeDigest": "sha256:e785f0100f000293e6524006cb0b473eef6cc443cb39d6195b6061b4cda57514",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+}

@@ -1,0 +1,147 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1051-mac-only-prerelease-v1-0-1-rc-1.contract.json",
+    ".ai/work-items/active/WI-1051-mac-only-prerelease-v1-0-1-rc-1.summary.json"
+  ],
+  "checkpointAt": "2026-10-01T23:17:00Z",
+  "checkpointContractDigest": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+      "recorded": true,
+      "recordedAt": "2026-10-01T23:17:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:1832b52ec8def98e24bef4daebd90b71a600e74891fd2fa696f5601a26b89c4c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+      "previousContractHash": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+      "reason": "Add the six release Work Item documentation projection paths already required by the repository Runtime so WI-1051 can create truthful in-progress tri-language pages and one parity row per language. This records the exact paths needed to satisfy the existing release projection gate; it does not change acceptance criteria, verification strength, release target, stable-version protection, rollback boundary, or any existing source scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-01T23:33:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+  "createdAt": "2026-10-01T16:08:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "The user selected confirm_review for this exact WI-1051 Contract review at 2026-10-01T22:52Z, relayed through Raydot. This confirms the bounded plan only and does not attest that implementation or verification has passed.",
+    "recordedAt": "2026-10-01T23:07:18Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+    "schemaVersion": 1,
+    "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario source_commit_scope_and_no_task9: binding the exact repair source and excluding Task9 keeps the candidate aligned to the specified Mac repair trial.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario macos_arm64_build_and_isolated_install: an arm64 artifact and isolated install are the bounded delivery route for Mac operators to try the repair without replacing stable Runtime.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario amendment_admission_and_legacy_receipt_compatibility: this scenario describes the repaired amendment-admission behavior and compatibility boundary that motivate the prerelease; it makes no claim that the checks passed.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario prerelease_asset_identity_and_download_checksum: limiting the published asset to the identified Mac binary and matching checksum supports safe trial of the specified repair.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario stable_release_unchanged: keeping v1.0.0 latest stable protects existing stable users while the repair is trialed separately.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario release_notes_disclose_unverified_boundaries: disclosing the Mac-only trial and remaining unknowns lets users decide whether the candidate fits their use.",
+      "Contract sha256:a6e9412e1ac7051ca9084c0c35dea8076ae525415b179c2dce0467b316059045; scenario prerelease_withdrawal_and_rollback: limiting rollback to the candidate preserves v1.0.0 while keeping the trial reversible."
+    ],
+    "reason": "Each declared scenario is directly relevant to the Contract userGoal: let macOS arm64 operators trial the WI-1050 amendment-admission repair while v1.0.0 remains latest stable. These are plan-alignment explanations only; they do not assert execution, verification, publication, or realized user benefit.",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "preflightAt": "2026-10-01T23:04:57Z",
+  "preflightContractDigest": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "reason": "Planned; exact source identity and absence of Task9 changes have not yet been verified.",
+      "required": true,
+      "scenario": "source_commit_scope_and_no_task9",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; the release-candidate build and isolated-prefix smoke have not yet been run.",
+      "required": true,
+      "scenario": "macos_arm64_build_and_isolated_install",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; no release-WI verification receipt is being asserted here.",
+      "required": true,
+      "scenario": "amendment_admission_and_legacy_receipt_compatibility",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; the prerelease and downloaded-asset checksum do not yet exist.",
+      "required": true,
+      "scenario": "prerelease_asset_identity_and_download_checksum",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; the latest-stable pointer has not been rechecked after publication.",
+      "required": true,
+      "scenario": "stable_release_unchanged",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; final release notes have not been published or reviewed.",
+      "required": true,
+      "scenario": "release_notes_disclose_unverified_boundaries",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; this records rollback intent only and does not claim a rollback was exercised.",
+      "required": true,
+      "scenario": "prerelease_withdrawal_and_rollback",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned; the final local RC binary and SHA-256 sidecar have not yet been built and bound to the candidate source.",
+      "required": true,
+      "scenario": "prerelease_local_asset_identity_and_checksum",
+      "status": "unverified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-01T23:17:00Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1832b52ec8def98e24bef4daebd90b71a600e74891fd2fa696f5601a26b89c4c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-01T23:33:12Z"
+  },
+  "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+}

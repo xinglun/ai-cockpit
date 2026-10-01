@@ -14,6 +14,12 @@ capabilityClaims:
 
 # 版本策略
 
+## v1.0.1-rc.1 预发布边界
+
+`v1.0.1-rc.1` 是用于试用 WI-1050 Contract amendment admission 修复的 macOS arm64
+可选候选，不是稳定版本；`v1.0.0` 仍是最新稳定包和安装基线。Cargo 元数据、源码 tag
+和文档都不能证明已经发布；只有匹配的 provider Release 记录才是发布证据。
+
 ## 相邻迁移链
 
 Repository schema migration 是由审核过的相邻边组成的显式链。Runtime 根据当前
@@ -26,7 +32,7 @@ Runtime version、Repository Protocol version 和 repository schema version 是�
 
 ```text
 ai-cockpit --version
-1.0.0
+1.0.1-rc.1
 
 repository:
 protocol_version = 1

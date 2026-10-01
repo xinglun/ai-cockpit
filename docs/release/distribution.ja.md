@@ -15,6 +15,12 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
+## v1.0.1-rc.1 macOS arm64 prerelease
+
+この任意参加型 trial candidate は WI-1050 の Contract amendment admission 修正に限定し、公開する場合は macOS arm64 executable 1 個と SHA-256 checksum のみを含みます。stable release ではなく、最新 stable release は `v1.0.0` のままです。公開前に新しい evidence で確認されない限り、release notes にはこの candidate の Runtime formal review/verification、hosted CI、non-macOS target が未検証であることを明記します。
+
+candidate に欠陥がある場合、通常の GitHub permissions で正確な `v1.0.1-rc.1` prerelease のみを撤回します。provider record がこの candidate と一致することを確認してから、その assets と tag のみを削除します。`v1.0.0` や無関係な release/tag は変更しません。release と verification records を保持し、修正版には新しい prerelease version を使います。
+
 失敗した `v0.2.110` 候補は immutable な公開前履歴として保持し、再利用しません。
 
 ## Outcome presentation release note

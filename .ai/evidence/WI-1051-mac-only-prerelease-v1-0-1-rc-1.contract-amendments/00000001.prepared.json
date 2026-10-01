@@ -1,0 +1,188 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-dc3b242b4627c6008796166e2a6183b0568be2b2e6034c97a85420a64cac383e",
+      "expectedContractDigest": "sha256:a9b05eeb1a3e15d3f51f612deb0a84370c08525915c6d59f1f33504d1222b928",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit."
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "WI-1050 source commit 09e7eead64bebacda98d71e1907c01e6008a8f88; tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630; Contract sha256:aa177e829534adaa02b657dd199ebf8410ada0d55307f4b447febcc589485073; source snapshot sha256:d376af4a3716049552953b8c2db42a8661c6694e3f3768d42a495a7ff4a9b1b4."
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Read-only tag and GitHub Release inventory on 2026-10-02 found no local/remote tag or Release v1.0.1-rc.1; v1.0.0 is the latest stable."
+        }
+      ]
+    },
+    "requestDigest": "sha256:11113e8592a1f13e584dca82259650af420ff7783f47cd19ab49d8b7c0e75696",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "The release candidate source includes the exact WI-1050 repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88 and no Task9 changes.",
+        "The built macOS arm64 binary reports 1.0.1-rc.1 and its SHA-256 checksum matches the published asset.",
+        "GitHub marks v1.0.1-rc.1 prerelease and only the macOS arm64 binary plus checksum are attached; v1.0.0 remains latest stable.",
+        "Release notes disclose Runtime review/verification unresolved and other OS/hosted matrix unverified, and include checksum and rollback/removal instructions."
+      ],
+      "authority": "authorized",
+      "baseRevision": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "createdAt": "2026-10-01T16:08:07Z",
+      "goal": "Prepare and publish v1.0.1-rc.1 as a GitHub prerelease with one macOS arm64 executable and checksum; bind source repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88; disclose unresolved Runtime review and verification, unverified hosted and non-macOS targets, and rollback/removal steps. Keep v1.0.0 as latest stable.",
+      "intent": "Publish a single macOS arm64 prerelease for the WI-1050 amendment-admission repair so operators can trial the repair before Task9 migration work proceeds.",
+      "mode": "release",
+      "outOfScope": [
+        "Stable release or moving latest stable away from v1.0.0.",
+        "Publishing any non-macOS artifact or claiming hosted cross-platform verification.",
+        "Any Task9 script migration content or changes to WI-1050 source files.",
+        "Bypassing GitHub permissions",
+        " rewriting tags",
+        " or globally installing/overwriting Runtime."
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+      "requiredEvidenceClasses": [
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "risk": "high",
+      "scope": [
+        "Cargo.toml and Cargo.lock version metadata for v1.0.1-rc.1.",
+        "Tri-language versioning and distribution docs describing v1.0.0 as latest stable and this macOS-only prerelease as non-stable.",
+        "One GitHub prerelease resource v1.0.1-rc.1 containing only the macOS arm64 executable and its SHA-256 checksum."
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo test --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo build --locked --release --package cockpit-cli --target aarch64-apple-darwin",
+        "shasum -a 256 target/aarch64-apple-darwin/release/ai-cockpit",
+        "target/aarch64-apple-darwin/release/ai-cockpit --version",
+        "target/aarch64-apple-darwin/release/ai-cockpit --help"
+      ],
+      "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+    },
+    "previousContractDigest": "sha256:a9b05eeb1a3e15d3f51f612deb0a84370c08525915c6d59f1f33504d1222b928",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The release candidate source includes the exact WI-1050 repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88 and no Task9 changes.",
+        "The built macOS arm64 binary reports 1.0.1-rc.1 and its SHA-256 checksum matches the published asset.",
+        "GitHub marks v1.0.1-rc.1 prerelease and only the macOS arm64 binary plus checksum are attached; v1.0.0 remains latest stable.",
+        "Release notes disclose Runtime review/verification unresolved and other OS/hosted matrix unverified, and include checksum and rollback/removal instructions."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-01T16:08:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Prepare and publish v1.0.1-rc.1 as a GitHub prerelease with one macOS arm64 executable and checksum; bind source repair commit 09e7eead64bebacda98d71e1907c01e6008a8f88; disclose unresolved Runtime review and verification, unverified hosted and non-macOS targets, and rollback/removal steps. Keep v1.0.0 as latest stable.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Publish a single macOS arm64 prerelease for the WI-1050 amendment-admission repair so operators can trial the repair before Task9 migration work proceeds.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Stable release or moving latest stable away from v1.0.0.",
+        "Publishing any non-macOS artifact or claiming hosted cross-platform verification.",
+        "Any Task9 script migration content or changes to WI-1050 source files.",
+        "Bypassing GitHub permissions",
+        " rewriting tags",
+        " or globally installing/overwriting Runtime."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "Cargo.toml and Cargo.lock version metadata for v1.0.1-rc.1.",
+        "Tri-language versioning and distribution docs describing v1.0.0 as latest stable and this macOS-only prerelease as non-stable.",
+        "One GitHub prerelease resource v1.0.1-rc.1 containing only the macOS arm64 executable and its SHA-256 checksum."
+      ],
+      "sources": [
+        "User authorization delegated to Raydot for one Mac-only prerelease; publish only if normal GitHub permissions permit.",
+        "WI-1050 source commit 09e7eead64bebacda98d71e1907c01e6008a8f88; tree 3c2ac29a38ea1eb8d8e1c856424834761ab16630; Contract sha256:aa177e829534adaa02b657dd199ebf8410ada0d55307f4b447febcc589485073; source snapshot sha256:d376af4a3716049552953b8c2db42a8661c6694e3f3768d42a495a7ff4a9b1b4.",
+        "Read-only tag and GitHub Release inventory on 2026-10-02 found no local/remote tag or Release v1.0.1-rc.1; v1.0.0 is the latest stable."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo test --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo build --locked --release --package cockpit-cli --target aarch64-apple-darwin",
+        "shasum -a 256 target/aarch64-apple-darwin/release/ai-cockpit",
+        "target/aarch64-apple-darwin/release/ai-cockpit --version",
+        "target/aarch64-apple-darwin/release/ai-cockpit --help"
+      ],
+      "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+    },
+    "newContractDigest": "sha256:119dc867f59a3228429af61962f15e0c0c7ddc98bb5b00a8d5db21c3222b8e88",
+    "previousSummaryDigest": "sha256:47e70a5ddba88af128c76751c9ab332c60545cad96c7d37cbd88478f7b2c7f90",
+    "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+    "environmentObservationDigest": "sha256:9e2f8d3a9fe79115bc9782fe9b884f5f59b4e26b425b58ea330eb3723a2b2c21",
+    "runtime": {
+      "runtimeVersion": "1.0.0",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:1ac5800aa179bb3e4023533d45d8124f03cbf56b641dec65bdb69cada6fef48e"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:dc3b242b4627c6008796166e2a6183b0568be2b2e6034c97a85420a64cac383e",
+    "preparedAt": "2026-10-01T16:10:21Z"
+  },
+  "preparedDigest": "sha256:fdacbd17413b879abaf82135f07dfda72c038489d41a6a6e4faa3b04841014d1"
+}

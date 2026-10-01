@@ -14,6 +14,14 @@ capabilityClaims:
 
 # Versioning
 
+## v1.0.1-rc.1 prerelease boundary
+
+The `v1.0.1-rc.1` candidate is an opt-in macOS arm64 trial of the WI-1050
+Contract-amendment admission repair. It is not a stable release; `v1.0.0`
+remains the latest stable package and installation baseline. Cargo metadata,
+source tags, and documentation do not prove publication; only the matching
+provider Release record does.
+
 ## Adjacent migration chain
 
 Repository schema migration is an explicit chain of reviewed adjacent edges.
@@ -29,7 +37,7 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-1.0.0
+1.0.1-rc.1
 
 repository:
 protocol_version = 1

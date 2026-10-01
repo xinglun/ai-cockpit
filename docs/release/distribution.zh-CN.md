@@ -15,6 +15,12 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
+## v1.0.1-rc.1 macOS arm64 预发布候选
+
+此可选试用候选仅包含 WI-1050 Contract amendment admission 修复；若发布，资产仅为一个 macOS arm64 可执行文件及其 SHA-256 checksum。它不是稳定版；`v1.0.0` 仍是最新稳定版。除非发布前有新的 evidence 完成验证，否则发布说明必须明确该候选的 Runtime 正式 review/verification、hosted CI 和非 macOS 目标仍未验证。
+
+如果候选存在缺陷，使用正常 GitHub 权限只撤回精确的 `v1.0.1-rc.1` prerelease。确认 provider 记录确属此候选后，才移除对应 assets 和 tag。不要改动 `v1.0.0` 或无关 release/tag。保留 release 与 verification 记录；修正后的候选必须使用新的 prerelease 版本。
+
 失败的 `v0.2.110` 候选作为不可变发布前历史保留且不复用。
 
 ## Outcome 展示发布说明

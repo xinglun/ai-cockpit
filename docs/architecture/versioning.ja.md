@@ -14,6 +14,13 @@ capabilityClaims:
 
 # バージョニング
 
+## v1.0.1-rc.1 prerelease の境界
+
+`v1.0.1-rc.1` は WI-1050 の Contract amendment admission 修正を試す
+macOS arm64 向けの任意参加型候補です。stable release ではなく、`v1.0.0` が
+最新 stable package と installation baseline のままです。Cargo metadata、source tag、
+文書だけでは公開済みと判断できません。一致する provider Release record のみが公開の証拠です。
+
 ## 隣接 migration chain
 
 Repository schema migration は、review 済みの隣接 edge からなる明示的な chain
@@ -28,7 +35,7 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-1.0.0
+1.0.1-rc.1
 
 repository:
 protocol_version = 1

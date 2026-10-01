@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:13b49ff9ef73a7d35aaa43e7471014466a7ed654793fd47c355dee10e0fc231b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The user selected confirm_review for this exact WI-1051 Contract review at 2026-10-01T22:52Z, relayed through Raydot. This confirms the bounded plan only and does not attest that implementation or verification has passed.",
+  "recordedAt": "2026-10-01T23:07:18Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:476c97d582b94d007108c65cc67d72cf0a73ce81003a4fa951ff25009706035a",
+  "schemaVersion": 1,
+  "workItemId": "WI-1051-mac-only-prerelease-v1-0-1-rc-1"
+}
