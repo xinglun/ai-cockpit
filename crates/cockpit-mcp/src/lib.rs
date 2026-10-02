@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 25] = [
+const TOOL_NAMES: [&str; 27] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,6 +22,8 @@ const TOOL_NAMES: [&str; 25] = [
     "preflight",
     "work_item_controls",
     "work_item_recover",
+    "work_item_closeout_recovery_plan",
+    "work_item_closeout_recover",
     "work_item_recover_selected_lineage",
     "verify",
     "work_item_parallel",
@@ -625,6 +627,13 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => object_schema(
+            json!({
+                "workItemId": string_property("Canonical closed Work Item identifier whose closeout is being inspected or recovered."),
+                "sourceRepo": string_property("Absolute path to the source checkout containing the archived closeout evidence."),
+            }),
+            &["workItemId", "sourceRepo"],
+        ),
         "work_item_recover_selected_lineage" => {
             let mut properties = id_properties;
             properties["receipt"] = json!({
@@ -781,6 +790,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
         (
+            "work_item_closeout_recovery_plan",
+            "Read-only plan that validates an archived closeout in another checkout of the same logical repository; writes neither checkout.",
+        ),
+        (
+            "work_item_closeout_recover",
+            "Explicitly import exact validated closeout evidence from the source checkout into the current destination checkout; this is the write operation.",
+        ),
+        (
             "work_item_recover_selected_lineage",
             "Record append-only recovery for an already selected multi-hop successor lineage without creating a competing successor.",
         ),
@@ -858,6 +875,9 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
+        "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
+            Some(&["workItemId", "sourceRepo"][..])
+        }
         "work_item_recover_selected_lineage" => Some(&["workItemId", "id", "receipt", "input"][..]),
         "verify" => Some(
             &[
@@ -963,6 +983,10 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             }
         }
         "work_item_amendments" => require_string(object, "workItemId", name)?,
+        "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
+            require_string(object, "workItemId", name)?;
+            require_string(object, "sourceRepo", name)?;
+        }
         "work_item_environment_drift" => {
             match object.get("action") {
                 Some(Value::String(value)) if value == "check" || value == "record" => {}
@@ -1829,6 +1853,10 @@ pub fn handle_request_for_repo(
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
+        "work_item_closeout_recovery_plan" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_closeout_recovery_plan(repo, &arguments, runtime)),
+        "work_item_closeout_recover" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_closeout_recover(repo, &arguments, runtime)),
         "work_item_recover_selected_lineage" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover_selected_lineage(repo, &arguments, runtime)),
         "verify" => verify_for_repo(repo, &arguments, runtime),
@@ -2041,6 +2069,52 @@ fn work_item_recover(
         .or_else(|| arguments.get("input"))
         .ok_or("receipt argument is required")?;
     cockpit_repository::record_recovery_decision(repo, work_item_id, receipt, runtime)
+        .map_err(|error| error.to_string())
+}
+
+fn closeout_source_repo(
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<PathBuf, String> {
+    let source = arguments
+        .get("sourceRepo")
+        .and_then(Value::as_str)
+        .ok_or("sourceRepo argument is required")?;
+    let source = PathBuf::from(source);
+    if !source.is_absolute() {
+        return Err("sourceRepo must be an absolute path".into());
+    }
+    require_compatible(&source, runtime)?;
+    Ok(source)
+}
+
+fn work_item_closeout_recovery_plan(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let work_item_id = arguments
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(work_item_id)?;
+    let source = closeout_source_repo(arguments, runtime)?;
+    cockpit_repository::plan_cross_checkout_closeout_recovery(repo, &source, work_item_id, runtime)
+        .map_err(|error| error.to_string())
+}
+
+fn work_item_closeout_recover(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let work_item_id = arguments
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(work_item_id)?;
+    let source = closeout_source_repo(arguments, runtime)?;
+    cockpit_repository::recover_cross_checkout_closeout(repo, &source, work_item_id, runtime)
         .map_err(|error| error.to_string())
 }
 

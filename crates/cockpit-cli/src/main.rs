@@ -695,6 +695,28 @@ enum WorkItemCommand {
         #[arg(long)]
         merge_commit: Option<String>,
     },
+    /// Inspect a verified closeout in another checkout without writing either checkout.
+    CloseoutRecoveryPlan {
+        /// Destination checkout whose missing local closeout is being inspected.
+        #[arg(long)]
+        repo: PathBuf,
+        /// Independent source checkout containing the verified closed Work Item.
+        #[arg(long)]
+        source_repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    /// Import exact verified closeout evidence from another checkout of the same repository.
+    CloseoutRecover {
+        /// Destination checkout whose closeout evidence is incomplete.
+        #[arg(long)]
+        repo: PathBuf,
+        /// Independent source checkout containing the verified closed Work Item.
+        #[arg(long)]
+        source_repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
     Status {
         #[arg(long)]
         repo: PathBuf,
@@ -2982,6 +3004,38 @@ fn run() -> Result<()> {
                     merge_commit.as_deref(),
                 )
                 .context("plan historical finalization recovery")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::CloseoutRecoveryPlan {
+                repo,
+                source_repo,
+                id,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                require_compatible(&source_repo, &runtime_context)?;
+                let result = cockpit_repository::plan_cross_checkout_closeout_recovery(
+                    &repo,
+                    &source_repo,
+                    &id,
+                    &runtime_context,
+                )
+                .context("plan cross-checkout Work Item closeout recovery")?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
+            WorkItemCommand::CloseoutRecover {
+                repo,
+                source_repo,
+                id,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                require_compatible(&source_repo, &runtime_context)?;
+                let result = cockpit_repository::recover_cross_checkout_closeout(
+                    &repo,
+                    &source_repo,
+                    &id,
+                    &runtime_context,
+                )
+                .context("recover cross-checkout Work Item closeout")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
             WorkItemCommand::Status {
