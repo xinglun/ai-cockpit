@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "AI Cockpit"
-description: "面向 AI 辅助工程的、以证据为基础的 repository 治理。"
+description: "面向 AI 编码代理的 repository 治理：明确范围、验证证据与可审计的人类决定。基于 Rust 构建，提供 CLI 和 Model Context Protocol（MCP）接口。"
 audience:
   - adopter
   - contributor
@@ -16,121 +16,81 @@ capabilityClaims:
 
 [English](README.md) | [日本語](README.ja.md)
 
-AI Cockpit 是面向 AI 辅助工程的 repository 治理 runtime。它把 repository
-事实、声明的范围、验证结果和人的选择转化为可复查的有界决定。
+面向 AI 编码代理的 repository 治理。AI Cockpit 明确工作范围，让验证证据可供审查，并单独记录人类决定。它基于 Rust 构建，提供命令行界面，并通过本地适配器支持 Model Context Protocol（MCP）。
 
-## 它解决什么问题
+## 当代理说“完成了”
 
-AI 辅助修改可能超出范围、削弱测试、跳过验证，或让审查者缺少证据。AI Cockpit
-明确记录预期修改、实际 repository 状态、必需检查、未知项和人类决定。
+修改留在声明范围内吗？必需检查确实针对当前 repository 执行了吗？审批仍对应正在审查的修改吗？
 
-## 它如何工作
+工作开始前，人类负责人会记录 [Work Item Contract](docs/getting-started/first-work-item.zh-CN.md)，写明任务、代理可以修改的内容、如何判断完成，以及谁有权批准结果。验证会记录这些检查及 repository 状态的证据。人类决定保持明确且可审计；检查通过不代表批准。
 
-人和工具通过 CLI 或本地 MCP adapter 使用它；repository 状态通过 Repository
-Protocol v1 保存，Rust 治理核心与应用代码保持独立。典型流程是：
+每个 repository 都将自己的治理状态保存在 `.ai/` 目录中。
 
-`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+普通的 repository-only 改动从 `start --prepare` 开始。它会记录 Contract，并执行 preflight（检查 repository 和任务是否具备开始条件）。无需人工决定时，它还会保存 checkpoint，即编辑前的 repository 快照。
 
-`start` 记录由人负责的 Contract，`preflight` 判断是否可以开始，`checkpoint` 是
-实现继续之前的串行门。`verify` 记录新鲜 evidence；`finish` 绑定结果，`archive`
-保存不可变的 Work Item bundle，`close` 记录明确的人类决定。
+实现后，`verify` 记录 Contract 指定检查的证据。`finish` 检查这些证据是否对应当前 repository 状态，然后记录 Work Item Outcome。`archive` 保存 Work Item 记录。
 
-## 30 秒开始
+保留 verification 和审计证据。遵循当前 Work Item 的 Runtime next action。如果工作只使用本地 branch 或 worktree，`close` 会先记录决定，再执行本地清理。如果 PR、branch 或 worktree 由 provider 管理，应先完成并验证已声明的清理，再执行 `close`。不要删除唯一保存证据的 worktree。具体步骤见[Agent 工作流参考](docs/reference/agent-workflow.zh-CN.md)。
 
-Runtime 只安装一份，然后 attach 当前要治理的 repository：
+## 运行真实的首次使用流程
 
-```bash
-ai-cockpit attach --repo /path/to/repository
-ai-cockpit status --repo /path/to/repository
-```
+Apple Silicon macOS 可用以下命令安装已发布的稳定版 v1.0.0，并校验 archive 的 SHA-256。需要 curl、shasum、tar 和 install：
 
-先读[功能与边界](docs/capabilities.zh-CN.md)了解第一个受治理 Work Item，
-再读[发布与分发](docs/release/distribution.zh-CN.md)了解安装和验证。
+~~~bash
+set -eu
+asset=ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0/$asset" -o "$asset"
+printf '%s  %s\n' 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 "$asset" | shasum -a 256 -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
 
-## 一个经过验证的完整案例
+如需在新终端使用该命令，请将 $HOME/.local/bin 加入 shell 启动配置的 PATH。
 
-真实的、范围明确的完整交接案例见[WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)。
-它是本 repository 治理记录的证据，不是关于普遍安全性或产品性能的声明。
+此命令仅适用于 Apple Silicon macOS。Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 的准确制品文件名与校验和见[分发指南](docs/release/distribution.zh-CN.md)。安装后，选择一个你有权操作的 repository。在 POSIX shell 中运行：
 
-- **结果：** 归档记录报告 `state=finish_ready`、`decisionState=green` 和
-  `verification.status=verified`。[关闭决定](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
-  单独记录了 repository owner 的批准；验证通过和获得批准不是同一事实。
-- **关键变化：** 输入是有明确 base 和边界范围的 Outcome 展示层修复。记录的发现保留了
-  验证、生命周期和人工决定的区别，也保留历史、过期、缺失和已替代证据的区别。
-- **证据边界：** [验证证据](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
-  支持已声明的检查以及 repository/Work Item 绑定；[收尾 receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
-  支持记录的合并和 cleanup 事实。两者都不能证明已经发布、普遍安全或产生了用户可见收益。
-- **剩余不确定性：** `user_visible_benefit_not_declared` 保持显式存在。通过当前 Runtime
-  查看历史记录时，还可能显示历史证据尚未重新验证；这是新鲜度限制，不是当前测试失败。
-- **人的下一步：** 归档验证为 green 不会产生新的授权。如果要依据这些证据作出当前决定，
-  应在当前 Runtime 下重新验证，并由人明确作出决定。
+~~~bash
+repo=/path/to/repository
+ai-cockpit --version
+ai-cockpit inspect --repo "$repo"
+ai-cockpit attach --repo "$repo"
+ai-cockpit status --repo "$repo"
+ai-cockpit doctor --repo "$repo"
+~~~
 
-从 checkout 重复执行只读交接查询时，将占位路径替换为实际 repository 路径：
+Windows PowerShell 可设置 repository 路径，并运行相同的首次使用步骤：
 
-```bash
-repo=/path/to/ai-cockpit
-ai-cockpit work-item outcome --repo "$repo" \
-  --id WI-663-wi659-outcome-trust-replacement
-```
+~~~powershell
+$repo = "C:\path\to\repository"
+ai-cockpit --version
+ai-cockpit inspect --repo $repo
+ai-cockpit attach --repo $repo
+ai-cockpit status --repo $repo
+ai-cockpit doctor --repo $repo
+~~~
 
-[首个 Work Item 路线](docs/getting-started/first-work-item.zh-CN.md)进一步把同一案例从输入、
-范围映射到证据、Outcome、人工决定和 cleanup。
+**inspect** 读取 repository 事实。**attach** 初始化 repository 本地 `.ai/` 目录以保存治理状态，不安装 Agent 指令或修改全局 MCP 设置。**status** 汇总 repository 状态和 Runtime 兼容性。**doctor** 检查 repository 是否已 attach、协议版本和 Runtime 兼容性。请检查实际输出：仅安装或 attach 并不代表工作已获批准或验证。[首个 Work Item 路线](docs/getting-started/first-work-item.zh-CN.md)说明完整流程。
 
-## 共享 Runtime，隔离 repository
+## 稳定版与可选预发布版
 
-分别 attach 每个目标 repository：
+默认使用稳定版 v1.0.0。[Release 页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0)列出 v1.0.0 的 Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 制品。v1.0.0 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
 
-```text
-ai-cockpit attach --repo /project-a
-ai-cockpit attach --repo /project-b
-```
+macOS ARM64 v1.0.1-rc.1 是供独立试用的可选预发布版，不是默认安装路径；该预发布版本的正式发布验收检查尚未完成。[预发布页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
 
-binary 可以共享，但每个 repository 都有自己的 `.ai/` Contract、Evidence 和
-Knowledge。所有 repository-bound command 都必须带 `--repo`；Runtime 不保存全局
-current repository 或 active Work Item。
+## 边界
 
-`attach` 只创建最小 repository scaffold（`cockpit.toml`、`project.json`、
-`agent-interface.json`、Work Item 目录、evidence、decisions 和 knowledge），不会安装
-Agent provider instruction。需要治理骨架时显式运行：
+AI Cockpit 记录范围、声明的验证、证据新鲜度和人类决定。它不提供生产 sandbox、不配置 branch protection、不证明外部 provider 身份，也不替代人工 review 或安全策略。检查记录是关于该检查和 repository 状态的证据，并不代表普遍安全或性能提升。
 
-```bash
-ai-cockpit work-item new --repo /project-a \
-  --id payment-refund-guard --mode code
-```
+## 继续阅读
 
-命令会列出已确定推导的事实和仍需人类填写的 `intent`、`scope`、`acceptanceCriteria`、
-`authority`。结果状态是 `not_ready`，脚手架不会声称 approved 或 verified。类似地，
-`profile propose --repo /project-a` 只输出候选 amendment，不改变正式 profile。
-
-如果要让选定的 Agent 宿主发现该 repository，请显式使用 repository-local adapter：
-
-```bash
-ai-cockpit agent list --repo /project-a
-ai-cockpit agent install --repo /project-a --provider codex
-ai-cockpit agent doctor --repo /project-a --json
-```
-
-这只会在选定的 repository surface 和 `.ai/adapters/` 写入受 ownership 保护的内容，
-不会修改全局 Agent/MCP 设置。Discovery、adapter 安装、连接、验证和合规仍是不同状态。
-
-## 三种决定状态
-
-- `green`：已有证据支持当前有边界的下一步动作；
-- `yellow`：证据缺失、过期、矛盾或需要人工确认；
-- `red`：控制失败或权限缺失，操作必须停止。
-
-## 从这里开始
-
-- [文档导航](docs/README.zh-CN.md)——选择采用者、贡献者、审查者、MCP 或维护者路径。
-- [功能与边界](docs/capabilities.zh-CN.md)——查看当前命令能力和外部责任。
-- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/)——可选的治理生命周期交互式指南。
-- [发布与分发](docs/release/distribution.zh-CN.md)——安装、验证、回滚和 MCP 配置。
-
-在源码检出中，贡献者可用 `cargo run -p cockpit-cli -- --help` 查看命令面。公开
-Release 和 Homebrew 是否可用属于独立的发布证据，不能由当前源码检出推断。
-
-## 仍由外部负责
-
-外部 identity、branch protection、生产隔离、provider Release 和 provenance 仍属于
-外部证据或采用者责任。AI Cockpit 提供有界的 repository 治理，不替代人工 review、
-组织自身的安全系统或合规体系。
+- [开始使用](docs/getting-started/README.zh-CN.md)
+- [功能与边界](docs/capabilities.zh-CN.md)
+- [发布与分发](docs/release/distribution.zh-CN.md)
+- [Agent 工作流参考](docs/reference/agent-workflow.zh-CN.md)
+- [贡献指南](CONTRIBUTING.md)

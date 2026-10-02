@@ -1,0 +1,88 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "README in English Chinese and Japanese leads with the adopter problem and explains declared scope verification evidence and human decisions.",
+    "The default installation path uses a real published v1.0.0 asset with verified filename manifest checksum and copyable commands.",
+    "The v1.0.1-rc.1 macOS arm64 build is labeled optional prerelease and formal Runtime acceptance is disclosed as incomplete.",
+    "v0.2.94-specific commands are absent from the main installation path and retained only in a clearly labeled maintainer history section without changing historical evidence.",
+    "The README removes the internal WI-663 record as the primary adopter example and makes no unverified behavioral or performance claims.",
+    "All links commands release assets and localized version boundaries are checked against the same sources."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-02T06:17:49Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "A first-time adopter can understand the product boundary, verify and install a published v1.0.0 artifact, run an honest first CLI example, and distinguish stable v1.0.0 from the optional macOS arm64 v1.0.1-rc.1 prerelease.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Improve AI Cockpit's public repository entry and stable v1.0.0 installation path.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Application or Runtime code; Runtime or MCP behavior; tests or build files; GitHub About metadata; CONTRIBUTING; demo or screenshot capture; marketing or funding submissions; release publication or tags; historical .ai evidence or archive bytes; any path outside the six declared documentation files"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "README.md",
+    "README.zh-CN.md",
+    "README.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [
+    "user:public-entry-brief-2026-10-02",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0",
+    "git:747ae2da29667ceebe33f51fe7bef0db0f4ff9f5"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/getting_started_semantic.sh",
+    "bash tests/docs/parity_status_check.sh",
+    "python3 tests/conformance/reference_inventory_docs_test.py",
+    "git diff --check"
+  ],
+  "workItemId": "WI-1054-public-entry-docs"
+}

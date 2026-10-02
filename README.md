@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "AI Cockpit"
-description: "Evidence-based repository governance for AI-assisted engineering."
+description: "Repository governance for AI coding agents: explicit scope, verification evidence, and auditable human decisions. Built in Rust with CLI and Model Context Protocol (MCP) interfaces."
 audience:
   - adopter
   - contributor
@@ -16,154 +16,81 @@ capabilityClaims:
 
 [中文](README.zh-CN.md) | [日本語](README.ja.md)
 
-AI Cockpit is a repository-governance runtime for AI-assisted engineering. It
-turns repository facts, declared scope, verification results, and human choices
-into bounded decisions that can be reviewed later.
+Repository governance for AI coding agents. AI Cockpit makes scope explicit, keeps verification evidence reviewable, and records human decisions separately. Built in Rust with a command-line interface and a local Model Context Protocol (MCP) adapter.
 
-## The problem it solves
+## When an agent says “done”
 
-AI-assisted changes can exceed scope, weaken tests, skip verification, or leave
-reviewers without enough evidence. AI Cockpit makes the intended change, actual
-repository state, required checks, unknowns, and human decision explicit.
+Did the change stay within scope? Were required checks run against the current repository? Is approval still valid for the change being reviewed?
 
-## How it works
+Before work begins, a human records a [Work Item Contract](docs/getting-started/first-work-item.md). It states the task, what the agent may change, how success is checked, and who can approve the result. Verification records evidence for those checks and the repository state. The human decision stays explicit and auditable; passing checks does not approve the work.
 
-People and tools use the CLI or the local MCP adapter. Repository-facing state is
-stored through Repository Protocol v1; the Rust governance core remains separate
-from application code. The normal path is:
+Each repository stores its own governance state in its `.ai/` directory.
 
-`inspect → attach → start --prepare → implement → verify → finish → review/merge → cleanup → close`
+For an ordinary repository-only change, `start --prepare` records the Contract and runs preflight, a readiness check for the repository and requested work. When no human decision is required, it saves a checkpoint: a repository snapshot taken before editing.
 
-`start --prepare` records the human-owned Contract and lets the Runtime carry
-the cheap preflight/checkpoint path. `verify` records fresh evidence and
-`finish` binds the result. A change is reviewable when scope, a real diff, and
-basic checks are present; it is mergeable only with required verification,
-authorization, and current evidence; it is closed only after merge and exact
-cleanup. A Draft PR is a review surface, not proof of verification or merge
-authorization. The detailed provider/resource lifecycle remains queryable in
-the [Agent workflow reference](docs/reference/agent-workflow.md).
+After implementation, `verify` records evidence for the Contract's declared checks. `finish` checks that the evidence matches the current repository snapshot, then records the Work Item Outcome. `archive` preserves the Work Item record.
 
-## Start in 30 seconds
+Keep verification and audit evidence. Follow the active Work Item's Runtime next action. If work uses only a local branch or worktree, `close` records the decision before that local cleanup. If a provider owns the PR, branch, or worktree, complete and verify its declared cleanup before `close`. Never delete a worktree that holds the only copy of the evidence. See the [Agent workflow reference](docs/reference/agent-workflow.md) for details.
 
-Install the Runtime once, then attach the repository you are working in:
+## Try a real first-use route
 
-```bash
-ai-cockpit attach --repo /path/to/repository
-ai-cockpit status --repo /path/to/repository
-```
+For Apple Silicon macOS, install the published stable v1.0.0 binary with this checksum-verified command. It requires curl, shasum, tar, and install:
 
-Read [Capabilities and boundaries](docs/capabilities.md) for the first governed
-Work Item and [Release and distribution](docs/release/distribution.md) for
-installation and verification.
+~~~bash
+set -eu
+asset=ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0/$asset" -o "$asset"
+printf '%s  %s\n' 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 "$asset" | shasum -a 256 -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
 
-## A verified complete case
+Add $HOME/.local/bin to your shell startup PATH to use the command in new terminals.
 
-The archived [WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
-is a real, bounded example of the full handoff path. It is evidence about this
-repository's governance record, not a claim about universal safety or product
-performance.
+This command targets Apple Silicon macOS only. For Linux ARM64 GNU, Linux x86_64 GNU, or Windows x86_64, use the [distribution guide](docs/release/distribution.md) for exact release assets and checksums. Then choose a repository path you control. In a POSIX shell, run:
 
-- **Result:** The archived record reports `state=finish_ready`,
-  `decisionState=green`, and `verification.status=verified`. The separate
-  [close decision](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
-  records the repository owner's approval; verification and approval are not
-  the same fact.
-- **Key changes:** The input was a presentation-layer Outcome repair on a
-  declared base and bounded scope. Its recorded findings preserve distinct
-  verification, lifecycle, and human-decision states, including historical,
-  stale, missing, and superseded evidence.
-- **Evidence boundary:** The [verification evidence](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
-  supports the declared checks and repository/work-item bindings. The
-  [finalization receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
-  supports the recorded merge and cleanup facts. Neither file proves a release,
-  universal safety, or a user-visible benefit.
-- **Remaining uncertainty:** `user_visible_benefit_not_declared` remains
-  explicit. When the historical record is viewed through the current Runtime,
-  it may also say that historical evidence was not revalidated; that is a
-  freshness limitation, not a current test failure.
-- **Human next step:** No new authorization is implied by the green archived
-  verification. If the evidence is needed for a current decision, revalidate
-  it under the current Runtime and make the decision explicitly.
+~~~bash
+repo=/path/to/repository
+ai-cockpit --version
+ai-cockpit inspect --repo "$repo"
+ai-cockpit attach --repo "$repo"
+ai-cockpit status --repo "$repo"
+ai-cockpit doctor --repo "$repo"
+~~~
 
-To repeat the read-only handoff lookup from a checkout, replace the placeholder
-with the repository path:
+In Windows PowerShell, set the repository path and run the same first-use steps:
 
-```bash
-repo=/path/to/ai-cockpit
-ai-cockpit work-item outcome --repo "$repo" \
-  --id WI-663-wi659-outcome-trust-replacement
-```
+~~~powershell
+$repo = "C:\path\to\repository"
+ai-cockpit --version
+ai-cockpit inspect --repo $repo
+ai-cockpit attach --repo $repo
+ai-cockpit status --repo $repo
+ai-cockpit doctor --repo $repo
+~~~
 
-The [First Work Item walkthrough](docs/getting-started/first-work-item.md)
-maps the same case from input and scope through evidence, Outcome, human
-decision, and cleanup.
+**inspect** reads repository facts. **attach** initializes the repository-local `.ai/` directory for governance state; it does not install Agent instructions or change global MCP settings. **status** summarizes repository state and Runtime compatibility. **doctor** checks repository attachment, protocol version, and Runtime compatibility. Review the output: install or attach alone does not mean work is approved or verified. See the [first Work Item walkthrough](docs/getting-started/first-work-item.md).
 
-## Shared Runtime, isolated repositories
+## Stable release and optional prerelease
 
-Attach each target repository separately:
+Use stable v1.0.0 by default. Its [release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0) lists v1.0.0 artifacts for Apple Silicon macOS, Linux ARM64 GNU, Linux x86_64 GNU, and Windows x86_64. v1.0.0 has no Intel macOS, Linux musl, or Windows ARM64 archive.
 
-```text
-ai-cockpit attach --repo /project-a
-ai-cockpit attach --repo /project-b
-```
+The macOS ARM64 v1.0.1-rc.1 build is an optional prerelease for independent trials. It is not the default installation path; formal release acceptance checks for this prerelease are incomplete. See the [prerelease page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1).
 
-The binary is shared, but each repository keeps its own `.ai/` Contract,
-Evidence, and Knowledge. Every repository-bound command requires `--repo`; the
-Runtime has no global current repository or active Work Item.
+## Boundaries
 
-`attach` creates only the minimum repository scaffold (`cockpit.toml`,
-`project.json`, `agent-interface.json`, Work Item directories, evidence,
-decisions, and knowledge). It does not install Agent-provider instructions.
-When a task needs a governance skeleton, create one explicitly:
+AI Cockpit records scope, declared verification, evidence freshness, and human decisions. It does not provide a production sandbox, configure branch protection, prove external provider identity, or replace human review and security policy. A recorded check is evidence about that check and repository state, not a claim of universal safety or improved performance.
 
-```bash
-ai-cockpit work-item new --repo /project-a \
-  --id payment-refund-guard --mode code
-```
+## Continue
 
-The command reports the snapshot-derived facts it could resolve and the human
-inputs still required (`intent`, `scope`, `acceptanceCriteria`, and
-`authority`). The result is `not_ready`; scaffolding never claims approval or
-verification. `profile propose --repo /project-a` similarly emits a read-only
-candidate amendment and leaves the formal profile unchanged.
-
-To make a selected Agent host aware of the repository, use the explicit
-repository-local adapter flow:
-
-```bash
-ai-cockpit agent list --repo /project-a
-ai-cockpit agent install --repo /project-a --provider codex
-ai-cockpit agent doctor --repo /project-a --json
-```
-
-This writes only an owned section in the selected repository surface and
-`.ai/adapters/`; it never edits global Agent/MCP settings. Discovery, adapter
-installation, connection, verification, and compliance remain separate states.
-
-## Three decision states
-
-- `green`: the required evidence supports the bounded next action;
-- `yellow`: evidence is missing, stale, contradictory, or needs human confirmation;
-- `red`: a required control failed or authority is absent, so the operation stops.
-
-## Start here
-
-- [Documentation map](docs/README.md) — choose an adopter, contributor, reviewer,
-  MCP, or maintainer route.
-- [Capabilities and boundaries](docs/capabilities.md) — see the current command
-  surface and the responsibilities that remain external.
-- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/) — an
-  optional interactive guide to the governance lifecycle.
-- [Release and distribution](docs/release/distribution.md) — installation,
-  verification, rollback, and MCP configuration.
-
-For a source checkout, contributors can inspect the command surface with
-`cargo run -p cockpit-cli -- --help`. Public Release and Homebrew availability
-are separate release evidence and are not implied by this checkout.
-
-## What remains external
-
-External identity, branch protection, production isolation, provider Releases,
-and provenance remain external evidence or adopter responsibility. AI Cockpit
-provides bounded repository governance; it does not replace human review or an
-organization's security and compliance systems.
+- [Getting started](docs/getting-started/README.md)
+- [Capabilities and boundaries](docs/capabilities.md)
+- [Release and distribution](docs/release/distribution.md)
+- [Agent workflow reference](docs/reference/agent-workflow.md)
+- [Contributing](CONTRIBUTING.md)

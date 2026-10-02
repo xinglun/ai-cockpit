@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "Release と配布"
-description: "reader-first の installation、verification、upgrade、rollback、MCP guide。"
+description: "検証済み stable v1.0.0 の install と Runtime 境界。"
 audience:
   - adopter
   - maintainer
@@ -15,15 +15,145 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release と配布
 
+## Stable 版の install：v1.0.0
+
+既定は公開済み stable v1.0.0 Release です。release-manifest.json は Release の JSON 目録です。各 archive の filename、target、byte 数、SHA-256 digest を記載します。この file 自身の SHA-256 は dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013 です。
+
+install 前に、Apple Silicon macOS command は release-manifest.json が v1.0.0 用で aarch64-apple-darwin artifact を記載しているか確認します。次に archive の実測 SHA-256 を manifest と SHA256SUMS の値に照合します。curl、Python 3、shasum、awk、tar、install が必要です。
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+asset="ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz"
+expected="3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3"
+expected_manifest="dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fsSLO "$release_url/$asset"
+curl -fsSLO "$release_url/release-manifest.json"
+curl -fsSLO "$release_url/SHA256SUMS"
+manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
+test "$manifest_actual" = "$expected_manifest"
+python3 - "$asset" "$expected" <<'PY'
+import json
+import sys
+filename, digest = sys.argv[1:]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename), None)
+if manifest.get("version") != "1.0.0" or manifest.get("tag") != "v1.0.0":
+    raise SystemExit("release manifest identity mismatch")
+if record is None or record.get("target") != "aarch64-apple-darwin":
+    raise SystemExit("release manifest target mismatch")
+if record["archive"]["sha256"] != digest:
+    raise SystemExit("release manifest archive checksum mismatch")
+PY
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
+test "$listed" = "$expected"
+test "$actual" = "$expected"
+mkdir -p "$HOME/.local/bin"
+tar -xzf "$asset" ai-cockpit
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+"$HOME/.local/bin/ai-cockpit" --version
+~~~
+
+新しい terminal で `ai-cockpit` が見つからない場合は、`$HOME/.local/bin` を shell 起動時の PATH に追加してください。対応 target：
+
+| Target | Stable v1.0.0 archive | SHA-256 |
+| --- | --- | --- |
+| Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
+| Linux ARM64（GNU） | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
+| Linux x86_64（GNU） | ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz | 467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede |
+| Windows x86_64 | ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip | 7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce |
+
+### Linux GNU install（ARM64、x86_64）
+
+Linux archive は GNU libc（glibc）向けです。musl には対応していません。以下の command は machine architecture に合う artifact を選び、上表の SHA-256 と照合してから $HOME/.local/bin に install します。curl、sha256sum、tar、install が必要です。
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+case "$(uname -m)" in
+  aarch64|arm64)
+    asset="ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz"
+    expected="7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a"
+    ;;
+  x86_64|amd64)
+    asset="ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz"
+    expected="467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede"
+    ;;
+  *)
+    echo "Unsupported Linux architecture: $(uname -m)" >&2
+    exit 1
+    ;;
+esac
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "$release_url/$asset" -o "$asset"
+printf '%s  %s\n' "$expected" "$asset" | sha256sum -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
+
+新しい terminal でも使う場合は、$HOME/.local/bin を shell の起動時 PATH に追加してください。
+
+### Windows x86_64 install
+
+次の PowerShell command は公開済み SHA-256 と archive を照合し、ai-cockpit.exe を user bin directory に install して、その directory を user PATH に追加します。
+
+~~~powershell
+$ErrorActionPreference = "Stop"
+$releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+$archive = "ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip"
+$expected = "7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce"
+$tmpDir = Join-Path $env:TEMP ("ai-cockpit-" + [guid]::NewGuid().ToString())
+New-Item -ItemType Directory -Path $tmpDir | Out-Null
+try {
+  $archivePath = Join-Path $tmpDir $archive
+  Invoke-WebRequest -Uri "$releaseUrl/$archive" -OutFile $archivePath
+  $actual = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+  if ($actual -ne $expected) { throw "Archive SHA-256 mismatch" }
+  Expand-Archive -LiteralPath $archivePath -DestinationPath $tmpDir
+  $destination = Join-Path $env:USERPROFILE "bin"
+  New-Item -ItemType Directory -Force -Path $destination | Out-Null
+  Copy-Item -LiteralPath (Join-Path $tmpDir "ai-cockpit.exe") -Destination $destination
+  $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+  if (($userPath -split ';') -notcontains $destination) {
+    $separator = if ([string]::IsNullOrEmpty($userPath)) { "" } else { ";" }
+    [Environment]::SetEnvironmentVariable("Path", ($userPath + $separator + $destination), "User")
+  }
+  $env:Path = "$destination;$env:Path"
+  & (Join-Path $destination "ai-cockpit.exe") --version
+}
+finally {
+  Remove-Item -LiteralPath $tmpDir -Recurse -Force
+}
+~~~
+
+v1.0.0 には Intel macOS、Linux musl、Windows ARM64 向け Release archive はありません。
+
+macOS ARM64 v1.0.1-rc.1 は独立試用向けの optional prerelease です。stable の install 先ではありません。この prerelease の正式な release acceptance check はまだ完了していません。[v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
+
+install 後は[Getting started](../getting-started/README.ja.md)を参照してください。install は repository を attach せず、work を approval しません。AI Cockpit は scope、verification evidence、human decision を記録します。code review、provider permission、production isolation、組織の security control は別途必要です。
+
+## Maintainer history：過去の release note と手順
+
 失敗した `v0.2.110` 候補は immutable な公開前履歴として保持し、再利用しません。
 
-## Outcome presentation release note
+### Outcome presentation release note
 
 人間向け `work-item outcome` は、結果、主な変更、残る不確実性、人間の次のアクションから成る決定的な四つの summary を既定で表示します。
 完全な audit handoff は `--view full`（MCP は `view: "full"`）で取得できます。これは presentation-only の変更であり、machine JSON、検証、権限、exit code、永続化 evidence は変更しません。
 この release note は user study や risk reduction の効果を主張しません。
 
-## 並行協調のリリースノート
+### 並行協調のリリースノート
 
 v1.0.0 には Task 8 の Work Item 間調整と並行検証機能が含まれます。入力 identity が不変で、producer-consumer dependency がなく、出力が分離され resource 使用量が制限されている場合に限り、独立した検証 node と CI job を並行実行できます。Work Item lifecycle の変更と共有状態への書き込みは引き続き直列です。通常の単一 Work Item の直列経路も維持します。並行実行可能であることは、一定の wall-clock 短縮を保証しません。
 
@@ -57,7 +187,7 @@ source-quality failure を記録しています。どちらにも公開 Release 
  installation baseline ではなく、`v0.2.24`、`v0.2.25`、`v0.2.26` は公開されていない immutable な失敗履歴です。
 `v0.2.32` tag も WI-299 前の adopter finalization binding defect による staged 公開失敗履歴として保持され、公開 Release はなく installation baseline ではありません。
 
-## CI quality gate と Runtime shadow の境界
+### CI quality gate と Runtime shadow の境界
 
 CI は versioned `repository_gate_manifest.json` を canonical gate set とします。型付き
 receipt は changed paths、Contract risk、workflow stage から累積的な `light`、
@@ -80,9 +210,9 @@ Work Item ごとの evidence coverage は claim しません。reference Makefil
 generic CLI `verify --command` semantics は WI-224 の non-`crates/**` scope 外として deferred
 です。
 
-## Candidate の公開
+### Candidate の公開
 
-### 型付き ReleasePlan の境界
+#### 型付き ReleasePlan の境界
 
 すべての release dispatch は、まず `tests/ci/resolve_release_plan.sh` が
 `ai-cockpit release-plan` に委譲して、versioned かつ identity-bound な
@@ -126,13 +256,13 @@ tag の push だけでは公開を開始しません。dispatch-only workflow �
 の欠落、identity 検証に失敗した既存 provider Release、または peeled commit がレビュー済み source commit
 と一致しない tag を拒否します。公開失敗後の tag は永久に保持され、次の candidate は patch version を一つ進めます。
 
-## 開始前
+### 開始前
 
 公開済みの identity-bound Release、対象 repository path、OS に合う archive が必要です。Homebrew install
 には Homebrew、macOS/Linux の manual verification には `shasum` と `awk`、Windows には PowerShell
 を使います。`gh attestation verify` は追加の provenance check として任意です。
 
-## macOS の primary install
+### macOS の primary install
 
 maintained Homebrew tap が利用可能になった後、公開済み release line の Formula を install します。
 
@@ -155,7 +285,7 @@ brew untap xinglun/tap                 # optional
 Homebrew の supported path ではありません。Intel macOS 向けの独立した Release archive は
 直接 artifact install 用として引き続き利用できます。
 
-## Release artifact の verify
+### Release artifact の verify
 
 同じ公開済み GitHub Release から archive、`release-manifest.json`、`SHA256SUMS` を取得します。
 v0.2.94 の checksum file は全十個の archive/SBOM を対象にするため、download した archive だけを検証します。
@@ -182,7 +312,7 @@ CLI と MCP の `verify` JSON は `runtimeVersion` と `runtimeDigest` という
 公開後の acceptance harness（Core 自体ではありません）が Release evidence を受け入れる前に、公開 download binary の
 identity と結び付けます。harness 外で JSON を使う場合の比較責任は caller にあります。
 
-### 以降の candidate に対する artifact-bound SBOM policy
+#### 以降の candidate に対する artifact-bound SBOM policy
 
 失敗した staged v0.2.32 には adopter が使える公開 asset がありません。その失敗履歴は immutable
 なまま保持し、成功した Release として再標識しません。失敗した未公開 v0.2.77 tag も履歴としてのみ保持します。v0.2.94 の公開後は bytes が immutable
@@ -204,7 +334,7 @@ closed public inventory は五つの archive、五つの target SBOM、`release-
 duplicate/missing、digest mismatch は fail closed です。既存の staged/public adopter acceptance
 と attestation gate はこの validation の downstream に残ります。
 
-## Post-release adopter acceptance
+### Post-release adopter acceptance
 
 publication 前に `staged_adopter_acceptance` は download 済み candidate archive、manifest、
 checksums を source `HEAD` に bind し、canonical adopter lifecycle、isolation checks、cleanup
@@ -229,7 +359,7 @@ baseline の代替にはしない。
 GitHub Actions run `32696048024` は `x86_64-unknown-linux-gnu` の hosted Linux acceptance
 evidence として別途保持し、この single-target の永続化 baseline とは区別する。
 
-### 過去の N-1 schema migration 受入れ
+#### 過去の N-1 schema migration 受入れ
 
 schema が変わった基準は、過去の v0.1.1 から v0.2.0 への migration です。
 v0.2.94 は同じ schema の patch Release ですが、N-1 run は同じ harness を使い、compatibility
@@ -306,7 +436,7 @@ stable Node24-compatible baseline を使い、`tests/release/action_runtime_poli
 unpinned、missing ref を fail closed で検査します。将来 action runtime を更新するときは、この policy と
 この release note を同時に更新します。
 
-## Manual archive install
+### Manual archive install
 
 macOS/Linux では対応する `.tar.gz` と `SHA256SUMS` を download し、Rust target を選び、archive を
 verify してから `ai-cockpit` を `$HOME/.local/bin` に置きます。
@@ -349,7 +479,7 @@ $env:Path = "$destination;$env:Path"
 & "$destination\ai-cockpit.exe" --version
 ```
 
-## Rust developer fallback
+### Rust developer fallback
 
 この fallback は現在公開済みの identity-bound な `v0.2.94` tag で利用できます。Workspace は複数 package を含むため `cockpit-cli` を明示します。
 
@@ -359,7 +489,7 @@ cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.94 --lo
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```
 
-## Rollback
+### Rollback
 
 Rollback では、名前付きの過去 Release archive を取得し、manifest と digest を verify してから binary を
 手動で置き換えます。Version を持たない Homebrew Formula は current release を追跡するため、
@@ -370,7 +500,7 @@ peeled source commit は成果物を識別し、workflow dispatch commit は実�
 コードを識別します。高コストな処理の前にローカル tag とリモートの peeled
 tag を検証して両方を記録し、両者を同一に要求したり既存 tag を書き換えたりしません。
 
-## MCP と repository attach
+### MCP と repository attach
 
 Installed runtime から repository を明示して local MCP adapter を起動します。
 

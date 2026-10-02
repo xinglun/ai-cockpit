@@ -1,0 +1,69 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1054-public-entry-docs.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1054-public-entry-docs.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.077125145cd61d5692ab2d033693256248643d82b4d69c26bde5e61149d78899.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.0dd8c517fb239b2b6a28db6c5f67081f410c00faeb2ded7885d1ebe8333f7fc6.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.1c1a628361a3a1e021c508b9d11955fe9c568ceebd73d88052865d521f3b19b9.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.2003f6f826115f19c215ec78edb08b8cfd93a2887b3cef4735ee3fe334a641d2.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.22047e2776eced7db8aaeb9cdfdbdc12217f775e0b89742f5e96327b2bf33598.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.3002c74729f573144734fdf80a5574475125738bb24748569179960cc2c37f85.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.389c4b313d526debe60cc5f72283559e29d1fcf4882f1db6a1a7dbe2907eafbe.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.8c87dc21a0c730f0cfdc87ef2d319c924e60cebdc4bd491deb6a966490dd615e.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.a0bd98cb729856e2941cae674c638af7e98ef87074649876397a379a215858de.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.bac08e3cceef5c060fad3264d9ac6b913c9c5908f39a5b7e3dacaf73ad08763e.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.d3da4c94506bbd4d9f5fe8002d8cccd91b775060164bd944945b3a35d87b1c3c.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification-attempt.e8cd744be13b4fa812adabac98ce2e1b731f26c8e4f6a2c6b1dd973f8c5e2b4c.json",
+    ".ai/evidence/WI-1054-public-entry-docs.verification.json",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.contract.json",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.events.jsonl",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.outcome.json",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.task-report.json",
+    ".ai/work-items/archive/WI-1054-public-entry-docs.task-report.md",
+    "README.ja.md",
+    "README.md",
+    "README.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md"
+  ],
+  "checkpointAt": "2026-10-02T06:17:50Z",
+  "checkpointContractDigest": "sha256:b17e629dddc76759818e7b393d009246d614dff531e6b99d62e8ee04b5b72f5d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8db23a80e65b6cc555320cbba353419bba80d1602462450e0299955e4bca661d",
+  "createdAt": "2026-10-02T06:17:49Z",
+  "mode": "implementation",
+  "preflightAt": "2026-10-02T08:16:00Z",
+  "preflightContractDigest": "sha256:b17e629dddc76759818e7b393d009246d614dff531e6b99d62e8ee04b5b72f5d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8db23a80e65b6cc555320cbba353419bba80d1602462450e0299955e4bca661d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-02T08:11:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1054-public-entry-docs"
+}
