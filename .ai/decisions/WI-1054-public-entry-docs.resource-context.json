@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:82be32e934bf1892b579d32168d9a31ec751a5a97b958f4f4edb189fab7bcb4f",
+  "contractDigest": "sha256:945530ff519d39ce14651c4a4fb6f50b49f6291ed85cb199021c9be8eefa5473",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-02T09:07:04Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1054-public-entry-docs",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1005",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1054-public-entry-docs"
+  },
+  "runtimeDigest": "sha256:7e15777b24480dc88c880698876a0cff03aeb5dfe019a6a68db3ecfbe9409b7f",
+  "runtimeVersion": "1.0.1-rc.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1054-public-entry-docs"
+}
