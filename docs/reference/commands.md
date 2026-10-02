@@ -69,7 +69,7 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance write entry | `preflight` | Evaluate a Contract and persist its explicit preflight projection. Repeating an unchanged preflight is idempotent and returns `changedPaths`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan`, `closeout-recovery-plan`, `closeout-recover` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. Cross-checkout plan is read-only; recovery is a separate explicit write. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | Inspection and drift check are read-only; recording drift is an explicit persistent write before affected actions. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
@@ -78,6 +78,26 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
 
 ## Contract amendments and environment drift
+
+In Runtime `1.0.1-rc.1`, a policy-sensitive CLI amendment request may include a
+request-bound `authorization` object: `schemaVersion`, `decisionId`,
+`decision: "authorize_change"`, `authorizedBy`, `authoritySource`,
+`assurance: "self_declared"`, `executedBy`, `repositoryId`, `workItemId`,
+`contractDigest`, `repositorySnapshotDigest`, `requestDigest`, and
+`changedPaths`. Keep the authorizer and executor distinct. Use the read-only
+`work-item amend-check` result to bind the current repository, Work Item,
+Contract, snapshot, request digest, and exact changed paths; `amend` rechecks
+the request before writing. This declared authority is not host-authenticated
+proof and is not a `confirm_review` decision. The current `tools/list` schema
+for `work_item_amend` does not expose this optional object, so do not infer MCP
+support or send an undeclared field through MCP; use the supported CLI route.
+
+When a sensitive amendment makes the previous preflight stale, run a fresh
+`preflight` only when Runtime admits it. That preflight may create a pending
+review request bound to the current repository, Work Item, Contract digest,
+and repository snapshot. Generating the request records no human decision and
+is not `confirm_review`; verification and execution remain blocked until a
+matching identity-bound human decision is recorded.
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` accepts a
 `ContractAmendmentRequest` with `schemaVersion`, unique `changeId`, current
@@ -103,6 +123,34 @@ MCP exposes equivalent `work_item_amend`, `work_item_amendments`, and
 `work_item_environment_drift` tools. The drift tool separates read-only
 `action=check` from explicit `action=record`. Discover exact schemas through
 `tools/list`; an older Runtime must not silently ignore unsupported constraints.
+
+## Cross-checkout Work Item closeout recovery
+
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source>
+--id <work-item>` is read-only. It validates that the source and destination
+are distinct checkouts with the same Runtime repository identity, then checks
+the archived Contract, verification evidence, close decision, and any
+provider-finalization binding before listing the exact files and digests.
+Provider context may be bound by the archived Runtime resource-context record
+even when the archived Contract's `resourceContext` is null; that binding must
+still be validated and reported.
+
+`work-item closeout-recover` accepts the same arguments and is the explicit
+write operation. It revalidates source and destination state, imports only the
+validated Work Item files, preserves source bytes, rejects conflicting
+destination files, and installs the close decision last. A detected race or
+write failure rolls back only files newly installed by this attempt whose
+inode and bytes still match; changed or unidentifiable paths are preserved and
+reported as incomplete. A process interruption before the close decision may
+leave exact immutable files for recovery, but the item remains unclosed and a
+retry is idempotent. This is not a multi-file filesystem transaction.
+Neither `allowed: true` nor a successful plan grants write authority; require
+fresh Runtime admission and authorization for the exact destination.
+
+MCP provides the matching `work_item_closeout_recovery_plan` (read-only) and
+`work_item_closeout_recover` (explicit write) tools. Both require
+`workItemId` and an absolute `sourceRepo`; the repository-bound MCP server's
+repository is the destination. Discover exact schemas through `tools/list`.
 
 Before an Agent performs any repository operation, run
 `ai-cockpit agent first-start --repo <path>`. The command is read-only and
@@ -186,6 +234,7 @@ before any repository operation runs.
 | `evidence_get` | Exactly one of `path`, `evidencePath`, or `id`. | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_closeout_recovery_plan`, `work_item_closeout_recover` | Both require `workItemId` and absolute `sourceRepo`; the first is read-only and the second explicitly writes validated evidence to the MCP-bound destination checkout. | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | Optional `workItemId`, `command`, string-array `args`, finite `timeoutSeconds`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
 | `work_item_amend`, `work_item_amendments` | `work_item_amend` requires `workItemId` and a strict typed `request`; `work_item_amendments` requires only `workItemId` and is read-only. | `{"workItemId":"WI-123","request":{"schemaVersion":1,"changeId":"change-1","expectedContractDigest":"sha256:<current-digest>","reason":"Correct the plan","changes":[{"path":"/goal","operation":"replace","value":"updated goal"}]}}` |

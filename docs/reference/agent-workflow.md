@@ -584,6 +584,42 @@ never suppress the Runtime-owned ordinary cleanup binding. Result assurance and
 the exact branch/worktree cleanup identity are independent facts, and both must
 remain auditable.
 
+## Cross-checkout closeout recovery
+
+A closed Work Item may have trustworthy archive, verification, provider, and
+close evidence in one checkout while another checkout of the same logical
+repository lacks the local projection. Use
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source>
+--id <work-item>` first. It is read-only and must validate the distinct
+checkout identities, archived Contract, verification evidence, close
+decision, finalization chain, and provider facts. A matching remote URL is not
+repository identity. For historical provider-bound items, validate the
+effective archived resource context even if the archived Contract has
+`resourceContext: null`.
+
+Only a separate `work-item closeout-recover` write may import the exact
+validated evidence. A plan reporting `allowed: true` is not permission: current
+Runtime admission and authorization for that exact destination are still
+required. The write locks the destination Work Item, revalidates the source
+and destination snapshots, atomically installs each immutable file without
+overwriting different bytes, records its recovery receipt, validates the
+resulting projection, and installs the close decision last as the lifecycle
+commit marker. Detected failures roll back only files newly created by this
+attempt whose filesystem identity and bytes still match; externally changed
+or unidentifiable paths are preserved and reported as incomplete. A process
+interruption before the close marker can leave exact files behind, but the
+Work Item remains unclosed; the next read must not project it as recovered,
+and a fresh plan plus idempotent retry can complete it. This is a recoverable
+multi-file operation, not a single filesystem transaction.
+
+Use `work_item_closeout_recovery_plan` for the read-only MCP operation and
+`work_item_closeout_recover` only for the explicit write. Both require
+`workItemId` and an absolute `sourceRepo`; the MCP-bound repository is the
+destination. Confirm the tool schemas with `tools/list`. Linked worktrees and
+independent clones are supported only when Runtime verifies matching logical
+repository identity. On completion, compare the destination's lifecycle
+projection to the source and verify that the source bytes stayed unchanged.
+
 ## Safety boundary
 
 Rules remain language-neutral and repository-local. Do not include secrets or

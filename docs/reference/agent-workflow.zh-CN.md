@@ -326,6 +326,30 @@ Outcome 和 closure 语义。它只是 advisory discovery guidance；当前治�
 有效历史验证证据只证明工作结果，不得抑制 Runtime 所拥有的普通清理绑定。
 结果保证与精确的分支／worktree 清理身份是两个独立事实，必须都保留为可审计证据。
 
+## 跨 checkout 的 closeout recovery
+
+当可信的 archive、verification、provider 和 close evidence 只存在于同一逻辑 repository 的另一个
+checkout，而当前 checkout 缺少本地投影时，先运行只读命令：
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source> --id <work-item>`。
+它必须验证两个 checkout 的不同身份、Runtime repository identity、archived Contract、verification
+evidence、close decision、finalization 链及 provider facts。remote URL 相同不能证明 repository identity。
+对于历史 provider-bound Work Item，即使 archived Contract 的 `resourceContext` 为 `null`，仍要验证有效的
+归档 resource context。
+
+只有独立的 `work-item closeout-recover` 写入命令可以导入精确验证过的 evidence。plan 返回
+`allowed: true` 不代表获得写权限；仍需要 Runtime 当前准入，以及针对确切 destination 的授权。写操作会锁定
+destination Work Item，重新验证 source/destination 快照，不覆盖不同 bytes，逐文件原子安装 immutable
+证据、记录 recovery receipt、检查最终投影，最后才安装 close decision 作为生命周期提交标记。检测到失败时，
+只回滚本次新建且 filesystem identity 与 bytes 仍一致的文件；外部已修改或无法识别的路径会保留，并报告
+incomplete。close marker 前进程中断时，可能留下精确文件，但 Work Item 仍未关闭；后续查询不能把它投影成
+recovered，可用 fresh plan 和幂等 retry 继续完成。这是可恢复的多文件操作，不是单一 filesystem transaction。
+
+MCP 中使用只读 `work_item_closeout_recovery_plan`，只有显式写入时才用
+`work_item_closeout_recover`。两者都需要 `workItemId` 和绝对路径 `sourceRepo`；MCP 绑定的 repository
+就是 destination。通过 `tools/list` 确认 schema。linked worktree 和 independent clone 只有在 Runtime 验证
+相同逻辑 repository identity 后才受支持。完成后核对 destination 的 lifecycle projection 与 source 相同，
+并确认 source bytes 未改变。
+
 ## 安全边界
 
 规则保持语言中立并属于仓库本地。不得写入 secret 或机器凭据，不得修改用户全局

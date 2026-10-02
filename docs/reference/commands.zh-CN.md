@@ -57,7 +57,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 准备 | `attach`、`profile confirm`、`profile propose` | 创建/更新协议状态、确认 profile，或输出只读候选。 |
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
@@ -66,6 +66,22 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## Contract 修订与环境漂移
+
+Runtime `1.0.1-rc.1` 的 CLI 修订请求在策略要求时可包含绑定请求的
+`authorization` 对象：`schemaVersion`、`decisionId`、
+`decision: "authorize_change"`、`authorizedBy`、`authoritySource`、
+`assurance: "self_declared"`、`executedBy`、`repositoryId`、`workItemId`、
+`contractDigest`、`repositorySnapshotDigest`、`requestDigest` 和
+`changedPaths`。授权者与执行者必须不同。用只读 `work-item amend-check` 的结果绑定当前
+repository、Work Item、Contract、snapshot、request digest 和精确变更路径；写入前 `amend`
+会再次校验。该声明式授权不是宿主认证证明，也不是 `confirm_review` 决定。当前
+`work_item_amend` 的 `tools/list` schema 未公开此可选对象，因此不能推断 MCP 支持，也不要经
+MCP 发送未声明字段；应使用受支持的 CLI 路径。
+
+敏感修订使此前的 preflight 过期后，只有 Runtime 准入时才运行新的 `preflight`。该操作可以生成
+绑定当前 repository、Work Item、Contract digest 和 repository snapshot 的待确认 review request。
+生成 request 不会记录人工决定，也不等于 `confirm_review`；在记录匹配的身份绑定人工决定之前，
+verification 和执行仍会被阻止。
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` 接受
 `ContractAmendmentRequest`：包含 `schemaVersion`、唯一的 `changeId`、当前
@@ -78,6 +94,26 @@ Contract。digest 不匹配时明确冲突，不会自动 rebase；相同 reques
 观察事件写入共享 repository state；输入只绑定 Work Item 与 generation，不接受调用方自报的
 环境 digest。受影响动作前必须刷新 admission；无关动作只有在各自重新准入后才能继续。
 恢复通过追加 resolution 完成，不删除旧事件。request-scoped observation ledger 不是跨进程事件总线。
+
+## 跨 checkout 的 Work Item closeout recovery
+
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source> --id <work-item>`
+是只读操作。它先确认 source 和 destination 是不同 checkout、但具有相同的 Runtime repository
+identity，再验证 archived Contract、verification evidence、close decision 和 provider finalization
+binding，并列出精确文件及 digest。即使 archived Contract 的 `resourceContext` 为 `null`，只要
+Runtime 归档的 resource-context record 中存在 provider binding，也必须验证并报告该 binding。
+
+`work-item closeout-recover` 接受相同参数，是单独的显式写入操作。它会重新验证 source 和
+destination 状态，只导入已验证的 Work Item evidence，不修改 source bytes，拒绝冲突的 destination
+文件，并最后写入 close decision。检测到竞态或写入失败时，只回滚本次新建且 inode 与 bytes 仍一致
+的文件；已被修改或无法确认 identity 的路径会保留并报告 incomplete。close decision 写入前进程
+中断时，可能留下精确的 immutable 文件，但 Work Item 仍未关闭，重试可幂等续作。这不是多文件
+filesystem transaction。`allowed: true` 不授予写入权限；还需要针对准确 destination 的最新
+Runtime admission 和授权。
+
+MCP 提供对应的只读 `work_item_closeout_recovery_plan` 和显式写入
+`work_item_closeout_recover`。两者都必须提供 `workItemId` 和绝对路径 `sourceRepo`；MCP server
+绑定的 repository 就是 destination。调用前通过 `tools/list` 发现确切 schema。
 
 MCP 提供 `work_item_amend`、`work_item_amendments` 和 `work_item_environment_drift`。
 漂移工具区分只读 `action=check` 与显式写入 `action=record`。amendment 后的 Contract 会携带受保护的
@@ -103,6 +139,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `evidence_get` | `path`、`evidencePath`、`id` 三者只能提供一个。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | 必填 `workItemId`。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 两者都需要 `workItemId` 和绝对路径 `sourceRepo`；前者只读，后者显式地向 MCP 绑定的 destination checkout 写入已验证 evidence。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | 可选 `workItemId`、`command`、字符串数组 `args`、有限的 `timeoutSeconds` 和布尔值 `planOnly`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |
 | `work_item_amend`、`work_item_amendments` | 修订工具需要 `workItemId` 和严格 typed `request`；历史查询只需 `workItemId`，且只读。 | `{"workItemId":"WI-123","request":{...}}` |

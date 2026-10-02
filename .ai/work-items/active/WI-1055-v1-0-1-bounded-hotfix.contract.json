@@ -1,0 +1,23 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "78ae7240aac016f005fcf4ced61fcb251ea20eb1",
+  "createdAt": "2026-10-02T22:29:24Z",
+  "goal": "",
+  "intent": "",
+  "mode": "release",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8db23a80e65b6cc555320cbba353419bba80d1602462450e0299955e4bca661d",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1055-v1-0-1-bounded-hotfix"
+}
