@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "发布与分发"
-description: "面向读者的安装、验证、升级、回滚与 MCP 指南。"
+description: "稳定版 v1.0.0 的校验安装与 Runtime 边界。"
 audience:
   - adopter
   - maintainer
@@ -15,15 +15,145 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
+## 稳定版安装：v1.0.0
+
+默认安装已发布稳定版 v1.0.0。release-manifest.json 是该 release 的 JSON 清单，列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。该文件自身的 SHA-256 为 dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013。
+
+安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.0，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+asset="ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz"
+expected="3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3"
+expected_manifest="dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fsSLO "$release_url/$asset"
+curl -fsSLO "$release_url/release-manifest.json"
+curl -fsSLO "$release_url/SHA256SUMS"
+manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
+test "$manifest_actual" = "$expected_manifest"
+python3 - "$asset" "$expected" <<'PY'
+import json
+import sys
+filename, digest = sys.argv[1:]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename), None)
+if manifest.get("version") != "1.0.0" or manifest.get("tag") != "v1.0.0":
+    raise SystemExit("release manifest identity mismatch")
+if record is None or record.get("target") != "aarch64-apple-darwin":
+    raise SystemExit("release manifest target mismatch")
+if record["archive"]["sha256"] != digest:
+    raise SystemExit("release manifest archive checksum mismatch")
+PY
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
+test "$listed" = "$expected"
+test "$actual" = "$expected"
+mkdir -p "$HOME/.local/bin"
+tar -xzf "$asset" ai-cockpit
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+"$HOME/.local/bin/ai-cockpit" --version
+~~~
+
+如果在新终端输入 `ai-cockpit` 后提示找不到命令，请将 `$HOME/.local/bin` 加入 shell 启动配置中的 PATH。支持的 target：
+
+| Target | Stable v1.0.0 archive | SHA-256 |
+| --- | --- | --- |
+| Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
+| Linux ARM64（GNU） | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
+| Linux x86_64（GNU） | ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz | 467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede |
+| Windows x86_64 | ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip | 7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce |
+
+### Linux GNU 安装（ARM64 与 x86_64）
+
+Linux 制品适用于 GNU libc（glibc）系统，不适用于 musl。以下命令按机器架构选择制品，将 SHA-256 与上表核对，再安装到 $HOME/.local/bin。需要 curl、sha256sum、tar 和 install。
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+case "$(uname -m)" in
+  aarch64|arm64)
+    asset="ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz"
+    expected="7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a"
+    ;;
+  x86_64|amd64)
+    asset="ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz"
+    expected="467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede"
+    ;;
+  *)
+    echo "不支持的 Linux 架构：$(uname -m)" >&2
+    exit 1
+    ;;
+esac
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "$release_url/$asset" -o "$asset"
+printf '%s  %s\n' "$expected" "$asset" | sha256sum -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
+
+如需在新终端使用该命令，请将 $HOME/.local/bin 加入 shell 启动配置的 PATH。
+
+### Windows x86_64 安装
+
+以下 PowerShell 命令会核对 archive 的已发布 SHA-256，将 ai-cockpit.exe 安装到用户 bin 目录，并把该目录加入用户 PATH。
+
+~~~powershell
+$ErrorActionPreference = "Stop"
+$releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+$archive = "ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip"
+$expected = "7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce"
+$tmpDir = Join-Path $env:TEMP ("ai-cockpit-" + [guid]::NewGuid().ToString())
+New-Item -ItemType Directory -Path $tmpDir | Out-Null
+try {
+  $archivePath = Join-Path $tmpDir $archive
+  Invoke-WebRequest -Uri "$releaseUrl/$archive" -OutFile $archivePath
+  $actual = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+  if ($actual -ne $expected) { throw "Archive SHA-256 mismatch" }
+  Expand-Archive -LiteralPath $archivePath -DestinationPath $tmpDir
+  $destination = Join-Path $env:USERPROFILE "bin"
+  New-Item -ItemType Directory -Force -Path $destination | Out-Null
+  Copy-Item -LiteralPath (Join-Path $tmpDir "ai-cockpit.exe") -Destination $destination
+  $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+  if (($userPath -split ';') -notcontains $destination) {
+    $separator = if ([string]::IsNullOrEmpty($userPath)) { "" } else { ";" }
+    [Environment]::SetEnvironmentVariable("Path", ($userPath + $separator + $destination), "User")
+  }
+  $env:Path = "$destination;$env:Path"
+  & (Join-Path $destination "ai-cockpit.exe") --version
+}
+finally {
+  Remove-Item -LiteralPath $tmpDir -Recurse -Force
+}
+~~~
+
+v1.0.0 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
+
+macOS ARM64 v1.0.1-rc.1 是供独立试用的可选预发布版，不是稳定版路径；该预发布版本的正式发布验收检查尚未完成。[v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
+
+安装后请参阅[开始使用](../getting-started/README.zh-CN.md)。安装不会 attach repository 或批准工作。AI Cockpit 记录范围、验证证据和人类决定，不替代代码审查、provider 权限、生产隔离或组织安全控制。
+
+## 维护者历史：历史发布说明与流程
+
 失败的 `v0.2.110` 候选作为不可变发布前历史保留且不复用。
 
-## Outcome 展示发布说明
+### Outcome 展示发布说明
 
 面向人的 `work-item outcome` 命令现在默认输出确定性的四段式摘要：结果、关键变化、剩余不确定性、人的下一步。
 完整审计交接仍可使用 `--view full`（MCP 使用 `view: "full"`）。这是仅展示层的变化：机器 JSON、验证、授权、退出码和持久化证据均不变。
 本发布说明不声称已经完成用户研究，也不声称带来风险拦截收益。
 
-## 并行协作发布说明
+### 并行协作发布说明
 
 v1.0.0 将发布 Task 8 的跨 Work Item 协调与并行验证能力。只有输入身份不可变、没有生产者—消费者依赖、输出隔离且资源受限时，独立验证节点和 CI job 才能并发运行。Work Item 生命周期变更与共享状态写入仍然串行；普通单 WI 串行路径继续受支持。允许并行不代表承诺固定的墙钟时间收益。
 
@@ -62,7 +192,7 @@ source-quality 失败；`v0.2.26` 也记录了后续 source-quality 失败；它
 `v0.2.32` tag 也因 WI-299 修复前的 adopter finalization 绑定缺陷而保留为失败的 staged 发布历史；
 它没有公开 Release，不是安装基线。
 
-## CI 质量门与 Runtime shadow 边界
+### CI 质量门与 Runtime shadow 边界
 
 CI 以版本化 `repository_gate_manifest.json` 作为规范 gate 集。类型化 receipt 根据
 changed paths、Contract risk 与 workflow stage 选择累加的 `light`、`standard` 或
@@ -82,9 +212,9 @@ evidence coverage。参考 Makefile orchestration 在本 Rust 仓库中属于
 different-by-design，不会复制。Runtime 全局路由与通用 CLI `verify --command` 语义超出
 WI-224 的非 `crates/**` scope，明确 deferred。
 
-## 发布候选版本
+### 发布候选版本
 
-### 类型化 ReleasePlan 边界
+#### 类型化 ReleasePlan 边界
 
 每次发布 dispatch 首先由 `tests/ci/resolve_release_plan.sh` 调用
 `ai-cockpit release-plan`，解析为一个带版本、绑定身份的 `ReleasePlan`。
@@ -123,13 +253,13 @@ tag push 本身不会启动发布。dispatch-only workflow 会拒绝缺失或 li
 identity、已存在但未通过身份校验的 provider Release，或 peeled commit 不是已审查 source commit 的 tag。
 发布失败后 tag 永久保留；下一个候选版本必须递增一个 patch 版本。
 
-## 开始前
+### 开始前
 
 你需要一个已发布且绑定身份的 Release、目标 repository 路径，以及与操作系统匹配的 archive。Homebrew
 安装需要已安装 Homebrew；macOS/Linux 手动校验使用 `shasum` 和 `awk`，Windows 使用 PowerShell。
 `gh attestation verify` 是可选的额外 provenance 校验。
 
-## macOS 主安装方式
+### macOS 主安装方式
 
 在维护的 Homebrew tap 可用后，从已发布的 release line 安装 Formula：
 
@@ -151,7 +281,7 @@ brew untap xinglun/tap                 # 可选
 当前 Formula 只支持 Apple Silicon macOS；Linuxbrew 和 Intel macOS 不属于支持的
 Homebrew 路径。独立的 Intel macOS Release archive 仍可用于直接制品安装。
 
-## 验证 Release 制品
+### 验证 Release 制品
 
 从同一个已发布 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
 v0.2.94 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
@@ -178,7 +308,7 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 发布后 acceptance harness（不是 Core 自身）必须在接受 Release evidence 前，将它们绑定到公开下载的 binary；
 在 harness 之外使用这些 JSON 时，比较责任属于调用者。
 
-### 后续 candidate 的制品绑定 SBOM 策略
+#### 后续 candidate 的制品绑定 SBOM 策略
 
 失败的 staged v0.2.32 没有可供 adopter 使用的公开资产，其失败记录保持不可变，不会被改写为成功
 Release。失败且未公开的 v0.2.77 tag 仅作为历史保留。v0.2.94 发布后，公开 bytes 才成为不可变事实；其 `SHA256SUMS` 覆盖五个 archive 与五个
@@ -198,7 +328,7 @@ adopter acceptance。
 缺失的 checksum entry、digest 不匹配都会 fail closed。现有 staged/public adopter acceptance
 与 attestation gates 仍位于该验证之后。
 
-## 发布后 adopter 验收
+### 发布后 adopter 验收
 
 发布前，`staged_adopter_acceptance` 把下载的 candidate archive、manifest 与 checksums
 绑定到 source `HEAD`，执行规范 adopter lifecycle、isolation checks 与 cleanup proof。
@@ -260,7 +390,7 @@ CI 和 release workflow 中的 action 都固定到完整 commit SHA；其中基�
 Node24-compatible 基线。`tests/release/action_runtime_policy.sh` 会同时检查两个 workflow，发现旧 ref、未固定
 ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，必须同步更新该 policy 与本节说明。
 
-### 历史 N-1 schema 迁移验收
+#### 历史 N-1 schema 迁移验收
 
 发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.94 是保持同一
 schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
@@ -291,7 +421,7 @@ API 解析紧邻的上一个已发布 semantic Release。第一个公开 Release
 Release。即使验收失败，job 也会上传 `acceptance.json`、各步骤 JSON/stderr、两个 Runtime
 identity 记录和 `SHA256SUMS`。
 
-## 手动 archive 安装
+### 手动 archive 安装
 
 macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 Rust target，校验 archive，
 再将 `ai-cockpit` 放入 `$HOME/.local/bin`：
@@ -333,7 +463,7 @@ $env:Path = "$destination;$env:Path"
 & "$destination\ai-cockpit.exe" --version
 ```
 
-## Rust 开发者 fallback
+### Rust 开发者 fallback
 
 该 fallback 适用于当前已发布且绑定身份的 `v0.2.94` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
@@ -344,7 +474,7 @@ cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.94 --lo
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```
 
-## 回滚
+### 回滚
 
 回滚时下载指定的历史 Release archive，验证其 manifest 与 digest 后再手动替换 binary。无版本号的
 Homebrew Formula 始终跟踪当前 release，不是回滚选择器。
@@ -353,7 +483,7 @@ Homebrew Formula 始终跟踪当前 release，不是回滚选择器。
 workflow dispatch commit 标识编排代码。流程在昂贵操作前将本地 tag 与远端
 peeled tag 校验一致，并记录两种身份；不能要求二者相同，也不能改写已有 tag。
 
-## MCP 与 repository attach
+### MCP 与 repository attach
 
 从已安装 runtime 启动本地 MCP adapter，并显式绑定 repository：
 

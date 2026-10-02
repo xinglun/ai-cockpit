@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "AI Cockpit"
-description: "AI 支援開発のための、evidence-based な repository governance。"
+description: "AI coding agent のための repository governance：明示的な scope、verification evidence、監査可能な human decision。Rust 製で CLI と Model Context Protocol（MCP）interface を提供します。"
 audience:
   - adopter
   - contributor
@@ -16,130 +16,85 @@ capabilityClaims:
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-AI Cockpit は AI 支援開発のための repository governance runtime です。repository
-の事実、宣言した範囲、検証結果、人間の選択を、後から確認できる bounded decision
-に変換します。
+AI coding agent のための repository governance です。scope を明示し、verification evidence をレビュー可能にし、human decision を別に記録します。Rust 製の CLI と、Model Context Protocol（MCP）用の local adapter を提供します。
 
-## 解決する問題
+## Agent が「完了」と言ったとき
 
-AI による変更は範囲を越えたり、テストを弱めたり、検証を省略したり、reviewer に
-十分な evidence を残さないことがあります。AI Cockpit は変更の意図、実際の状態、
-必要な check、unknown、human decision を明示します。
+変更は宣言した scope 内ですか。必要な check は現在の repository で実行されましたか。approval はレビュー中の変更に対して有効ですか。
 
-## 動作の流れ
+作業開始前に、人が [Work Item Contract](docs/getting-started/first-work-item.ja.md) を記録します。タスク、agent が変更できる範囲、完了の確認方法、結果を approval できる人を明記します。verification はそこで定めた check と repository state の evidence を記録します。人の決定は明示され、監査できます。check に合格しても作業の approval にはなりません。
 
-利用者と tool は CLI または local MCP adapter を使います。repository の状態は
-Repository Protocol v1 に保存し、Rust governance core は application code から独立
-しています。基本の流れは次のとおりです。
+各 repository は専用の `.ai/` directory に governance state を保存します。
 
-`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+通常の repository-only 変更は `start --prepare` から始めます。Contract を記録します。preflight は作業と repository が開始可能かを確認します。人の判断が不要なら、編集前の repository snapshot（checkpoint）も保存します。
 
-`start` は human-owned Contract を記録し、`preflight` は開始できるかを評価します。
-`checkpoint` は実装を進める前の serial gate です。`verify` は fresh evidence を記録し、
-`finish` は結果を bind、`archive` は immutable な Work Item bundle を保存し、`close` は
-明示的な human decision を記録します。
+実装後、`verify` が Contract で指定された check の evidence を記録します。`finish` は evidence が現在の repository snapshot と一致するかを確認し、Work Item Outcome を記録します。`archive` は Work Item の記録を保存します。
 
-## 30 秒で開始
+verification と audit evidence を保持します。active Work Item の Runtime next action に従ってください。
 
-Runtime は一度だけ install し、作業対象 repository を attach します。
+ローカル branch または worktree のみを使う作業では、`close` が判断を記録してからローカルの cleanup を行います。PR、branch、worktree を provider が管理する場合は、`close` の前に、宣言済みの cleanup を完了して検証します。
 
-```bash
-ai-cockpit attach --repo /path/to/repository
-ai-cockpit status --repo /path/to/repository
-```
+対象 resource が宣言されていない場合は、Runtime が示す `close` 手順に従います。provider 操作は追加しません。証拠の唯一のコピーを保持する worktree は削除しないでください。詳細は[Agent workflow reference](docs/reference/agent-workflow.ja.md)を参照してください。
 
-最初の governed Work Item は[機能と境界](docs/capabilities.ja.md)を、
-install と検証は[Release と配布](docs/release/distribution.ja.md)を参照してください。
+## 実際の初回利用を試す
 
-## 検証済みの完了例
+Apple Silicon macOS では、次の command で公開済み stable v1.0.0 を install し、archive の SHA-256 を検証できます。curl、shasum、tar、install が必要です。
 
-実際の、範囲を限定した handoff の完了例は[WI-663 Outcome](.ai/work-items/archive/WI-663-wi659-outcome-trust-replacement.outcome.json)
-です。これはこの repository の governance record に関する evidence であり、普遍的な安全性や
-product performance の主張ではありません。
+~~~bash
+set -eu
+asset=ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0/$asset" -o "$asset"
+printf '%s  %s\n' 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 "$asset" | shasum -a 256 -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
 
-- **結果:** Archive record は `state=finish_ready`、`decisionState=green`、
-  `verification.status=verified` を記録しています。別の[close decision](.ai/decisions/WI-663-wi659-outcome-trust-replacement.close.json)
-  は repository owner の approval を記録します。検証通過と approval は同じ事実ではありません。
-- **主な変更:** Input は明示された base と bounded scope に対する Outcome presentation-layer
-  repair でした。記録された finding は verification、lifecycle、human decision を分離し、
-  historical、stale、missing、superseded evidence の違いも保持しています。
-- **Evidence boundary:** [verification evidence](.ai/evidence/WI-663-wi659-outcome-trust-replacement.verification.json)
-  は declared check と repository/Work Item binding を支えます。[finalization receipt](.ai/decisions/WI-663-wi659-outcome-trust-replacement.finalize.json)
-  は記録された merge と cleanup の事実を支えます。どちらも release、普遍的な安全性、user-visible
-  benefit を証明しません。
-- **残る不確実性:** `user_visible_benefit_not_declared` は明示的に残ります。Current Runtime
-  から historical record を見ると、historical evidence が再検証されていないと表示されることも
-  あります。これは freshness の制限であり、current test failure ではありません。
-- **人の次の一歩:** Archive の green verification から新しい authorization は推論できません。
-  Current decision に evidence を使う場合は、current Runtime で再検証し、人が明示的に decision を行います。
+新しい terminal でも使う場合は、$HOME/.local/bin を shell の起動時 PATH に追加してください。
 
-Checkout から read-only handoff lookup を繰り返すには、placeholder を実際の repository path に置き換えます。
+この command は Apple Silicon macOS 専用です。Linux ARM64（GNU）、Linux x86_64（GNU）、Windows x86_64 の stable artifact があります。正確な filename と checksum は[配布ガイド](docs/release/distribution.ja.md)を参照してください。install 後、操作権限のある repository を指定します。POSIX shell では次を実行します。
 
-```bash
-repo=/path/to/ai-cockpit
-ai-cockpit work-item outcome --repo "$repo" \
-  --id WI-663-wi659-outcome-trust-replacement
-```
+~~~bash
+repo=/path/to/repository
+ai-cockpit --version
+ai-cockpit inspect --repo "$repo"
+ai-cockpit attach --repo "$repo"
+ai-cockpit status --repo "$repo"
+ai-cockpit doctor --repo "$repo"
+~~~
 
-[最初の Work Item walkthrough](docs/getting-started/first-work-item.ja.md)では、同じ case を input と
-scope から evidence、Outcome、human decision、cleanup まで対応付けます。
+Windows PowerShell では repository path を指定して、同じ初回利用手順を実行します。
 
-## Shared Runtime と repository isolation
+~~~powershell
+$repo = "C:\path\to\repository"
+ai-cockpit --version
+ai-cockpit inspect --repo $repo
+ai-cockpit attach --repo $repo
+ai-cockpit status --repo $repo
+ai-cockpit doctor --repo $repo
+~~~
 
-各 target repository を個別に attach します。
+**inspect** は repository facts を読み取ります。**attach** は governance state を保存する `.ai/` directory を repository 内に初期化します。Agent instructions の install や global MCP settings の変更は行いません。**status** は repository state と Runtime 互換性を要約します。**doctor** は attach 状態、protocol version、Runtime 互換性を確認します。実際の出力を確認してください。install や attach だけでは work の approval や verification を意味しません。[最初の Work Item walkthrough](docs/getting-started/first-work-item.ja.md)に全体の手順があります。
 
-```text
-ai-cockpit attach --repo /project-a
-ai-cockpit attach --repo /project-b
-```
+## Stable 版と optional prerelease
 
-binary は共有しますが、各 repository は独自の `.ai/` Contract、Evidence、Knowledge
-を持ちます。repository-bound command には常に `--repo` が必要で、Runtime に global な
-current repository や active Work Item はありません。
+既定では stable v1.0.0 を使います。[Release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0)に Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU、Windows x86_64 の artifact があります。v1.0.0 には Intel macOS、Linux musl、Windows ARM64 向け Release archive はありません。
 
-`attach` は最小の repository scaffold（`cockpit.toml`、`project.json`、`agent-interface.json`、
-Work Item directory、evidence、decisions、knowledge）だけを作成し、Agent provider instruction は install しません。
-Governance skeleton が必要な場合は明示的に実行します。
+macOS ARM64 v1.0.1-rc.1 は独立試用向けの optional prerelease です。既定の install 先ではありません。この prerelease の正式な release acceptance check はまだ完了していません。[prerelease page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
 
-```bash
-ai-cockpit work-item new --repo /project-a \
-  --id payment-refund-guard --mode code
-```
+## 境界
 
-解決できた snapshot-derived fact と、人間が入力すべき `intent`、`scope`、`acceptanceCriteria`、`authority` を表示します。
-状態は `not_ready` で、scaffold が approved や verified を主張することはありません。`profile propose --repo /project-a` も
-read-only の candidate amendment を出力し、formal profile は変更しません。
+AI Cockpit は scope、宣言済み verification、evidence freshness、human decision を記録します。production sandbox は提供せず、branch protection も設定しません。外部 provider の identity も証明しません。人間による review や security policy を置き換えるものではありません。check の記録は、その check と repository state の evidence です。普遍的な安全性や性能向上を証明するものではありません。
 
-選択した Agent host に repository を発見させる場合は、repository-local adapter を明示的に使います。
+## 続けて読む
 
-```bash
-ai-cockpit agent list --repo /project-a
-ai-cockpit agent install --repo /project-a --provider codex
-ai-cockpit agent doctor --repo /project-a --json
-```
-
-書き込まれるのは選択した repository surface と `.ai/adapters/` の ownership 付き section だけで、
-global Agent/MCP 設定は変更しません。Discovery、adapter install、connection、verification、compliance は別の state です。
-
-## 3 つの decision state
-
-- `green`: 必要な evidence が bounded な次の操作を支える。
-- `yellow`: evidence が不足、stale、矛盾、または human confirmation が必要。
-- `red`: control が失敗、または authority がなく、操作を停止する。
-
-## ここから開始
-
-- [ドキュメントマップ](docs/README.ja.md) — adopter、contributor、reviewer、MCP、maintainer の入口。
-- [機能と境界](docs/capabilities.ja.md) — 現在の command surface と外部責任。
-- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/) — governance lifecycle の任意の interactive guide。
-- [Release と配布](docs/release/distribution.ja.md) — install、検証、rollback、MCP 設定。
-
-source checkout では、contributor は `cargo run -p cockpit-cli -- --help` で command
-surface を確認できます。Public Release と Homebrew availability は別の release
-evidence であり、この checkout だけでは利用可能とは言えません。
-
-## 外部に残る責任
-
-External identity、branch protection、production isolation、provider Release、provenance は
-外部 evidence または adopter の責任です。AI Cockpit は bounded な repository governance を
-提供しますが、human review、組織の security system、compliance framework の代替ではありません。
+- [Getting started](docs/getting-started/README.ja.md)
+- [Capabilities and boundaries](docs/capabilities.ja.md)
+- [Release と配布](docs/release/distribution.ja.md)
+- [Agent workflow reference](docs/reference/agent-workflow.ja.md)
+- [Contributing](CONTRIBUTING.md)

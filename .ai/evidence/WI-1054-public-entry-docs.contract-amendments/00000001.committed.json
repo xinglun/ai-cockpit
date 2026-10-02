@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:47564d8bcbbed3384a48a6587b5f4d50f429b9cc04da3399e790cd15547a5f33",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1054-public-entry-docs",
+    "sequence": 1,
+    "changeId": "legacy-1ed2e1722ffb24526f91895886064bfb982dd4a4440aa2e8dfa8181e8b1fb49e",
+    "requestDigest": "sha256:1bd589f3833c862cba6afd1cc21b058e2b1e304d7cfad7300f3efba57e10caf8",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:1ed2e1722ffb24526f91895886064bfb982dd4a4440aa2e8dfa8181e8b1fb49e",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "user:public-entry-brief-2026-10-02"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:public-entry-brief-2026-10-02"
+        ],
+        "newValue": [
+          "user:public-entry-brief-2026-10-02",
+          "https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:public-entry-brief-2026-10-02",
+          "https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0"
+        ],
+        "newValue": [
+          "user:public-entry-brief-2026-10-02",
+          "https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0",
+          "git:747ae2da29667ceebe33f51fe7bef0db0f4ff9f5"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:45f3eb1649d8ad7d6ae9c67716a40f76bf7b78e1537fae8ee9c298ecf27cc512",
+    "newContractDigest": "sha256:b17e629dddc76759818e7b393d009246d614dff531e6b99d62e8ee04b5b72f5d",
+    "repositorySnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+    "environmentObservationDigest": "sha256:79253c669cf4c7c92e307a56abf1579df77f2e46775073156e72af32d44bad5d",
+    "runtimeVersion": "1.0.1-rc.1",
+    "runtimeDigest": "sha256:7e15777b24480dc88c880698876a0cff03aeb5dfe019a6a68db3ecfbe9409b7f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:bd8da07bf7e6b08f1ec0f0fb1e880c46823e472be77ecac6bbe4129e26d27d1b",
+    "recordedAt": "2026-10-02T06:17:49Z"
+  }
+}

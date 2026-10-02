@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "Release and Distribution"
-description: "Reader-first installation, verification, upgrade, rollback, and MCP guidance."
+description: "Verified stable v1.0.0 installation and Runtime boundaries."
 audience:
   - adopter
   - maintainer
@@ -15,7 +15,137 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # Release and Distribution
 
-## Outcome presentation release note
+## Stable installation: v1.0.0
+
+The default is the published stable v1.0.0 Release. The release-manifest.json file is its JSON inventory: it lists each archive filename, target, byte count, and SHA-256 digest. The file's own SHA-256 is dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013.
+
+Before installation, the Apple Silicon macOS command checks that release-manifest.json is for v1.0.0 and lists the aarch64-apple-darwin archive. It then compares the archive's SHA-256 with both the manifest and SHA256SUMS. It requires curl, Python 3, shasum, awk, tar, and install.
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+asset="ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz"
+expected="3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3"
+expected_manifest="dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013"
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fsSLO "$release_url/$asset"
+curl -fsSLO "$release_url/release-manifest.json"
+curl -fsSLO "$release_url/SHA256SUMS"
+manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
+test "$manifest_actual" = "$expected_manifest"
+python3 - "$asset" "$expected" <<'PY'
+import json
+import sys
+filename, digest = sys.argv[1:]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename), None)
+if manifest.get("version") != "1.0.0" or manifest.get("tag") != "v1.0.0":
+    raise SystemExit("release manifest identity mismatch")
+if record is None or record.get("target") != "aarch64-apple-darwin":
+    raise SystemExit("release manifest target mismatch")
+if record["archive"]["sha256"] != digest:
+    raise SystemExit("release manifest archive checksum mismatch")
+PY
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
+test "$listed" = "$expected"
+test "$actual" = "$expected"
+mkdir -p "$HOME/.local/bin"
+tar -xzf "$asset" ai-cockpit
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+"$HOME/.local/bin/ai-cockpit" --version
+~~~
+
+If a new terminal cannot find the `ai-cockpit` command, add `$HOME/.local/bin` to your shell startup PATH. Supported targets:
+
+| Target | Stable v1.0.0 archive | SHA-256 |
+| --- | --- | --- |
+| Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
+| Linux ARM64 (GNU) | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
+| Linux x86_64 (GNU) | ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz | 467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede |
+| Windows x86_64 | ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip | 7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce |
+
+### Linux GNU installation (ARM64 and x86_64)
+
+The Linux archives target GNU libc (glibc), not musl. This command selects an archive for the machine architecture, checks its SHA-256 against the table above, and installs it in $HOME/.local/bin. It requires curl, sha256sum, tar, and install.
+
+~~~bash
+set -eu
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+case "$(uname -m)" in
+  aarch64|arm64)
+    asset="ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz"
+    expected="7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a"
+    ;;
+  x86_64|amd64)
+    asset="ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz"
+    expected="467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede"
+    ;;
+  *)
+    echo "Unsupported Linux architecture: $(uname -m)" >&2
+    exit 1
+    ;;
+esac
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+cd "$tmpdir"
+curl -fL "$release_url/$asset" -o "$asset"
+printf '%s  %s\n' "$expected" "$asset" | sha256sum -c -
+tar -xzf "$asset" ai-cockpit
+mkdir -p "$HOME/.local/bin"
+install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
+export PATH="$HOME/.local/bin:$PATH"
+ai-cockpit --version
+~~~
+
+Add $HOME/.local/bin to your shell startup PATH to use the command in new terminals.
+
+### Windows x86_64 installation
+
+This PowerShell command checks the archive against its published SHA-256, installs ai-cockpit.exe in your user bin directory, and adds that directory to your user PATH.
+
+~~~powershell
+$ErrorActionPreference = "Stop"
+$releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+$archive = "ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip"
+$expected = "7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce"
+$tmpDir = Join-Path $env:TEMP ("ai-cockpit-" + [guid]::NewGuid().ToString())
+New-Item -ItemType Directory -Path $tmpDir | Out-Null
+try {
+  $archivePath = Join-Path $tmpDir $archive
+  Invoke-WebRequest -Uri "$releaseUrl/$archive" -OutFile $archivePath
+  $actual = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
+  if ($actual -ne $expected) { throw "Archive SHA-256 mismatch" }
+  Expand-Archive -LiteralPath $archivePath -DestinationPath $tmpDir
+  $destination = Join-Path $env:USERPROFILE "bin"
+  New-Item -ItemType Directory -Force -Path $destination | Out-Null
+  Copy-Item -LiteralPath (Join-Path $tmpDir "ai-cockpit.exe") -Destination $destination
+  $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+  if (($userPath -split ';') -notcontains $destination) {
+    $separator = if ([string]::IsNullOrEmpty($userPath)) { "" } else { ";" }
+    [Environment]::SetEnvironmentVariable("Path", ($userPath + $separator + $destination), "User")
+  }
+  $env:Path = "$destination;$env:Path"
+  & (Join-Path $destination "ai-cockpit.exe") --version
+}
+finally {
+  Remove-Item -LiteralPath $tmpDir -Recurse -Force
+}
+~~~
+
+There is no v1.0.0 Intel macOS, Linux musl, or Windows ARM64 archive.
+
+The macOS ARM64 v1.0.1-rc.1 build is an optional prerelease for independent trials. It is not the stable path; formal release acceptance checks for this prerelease are incomplete. See the [v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1).
+
+After installation, follow [Getting started](../getting-started/README.md). Installation does not attach a repository or approve work. AI Cockpit records scope, verification evidence, and human decisions; it does not replace code review, provider permissions, production isolation, or organization security controls.
+
+## Maintainer history: historical release notes and procedures
+
+### Outcome presentation release note
 
 The reader-facing `work-item outcome` command now defaults to a deterministic
 four-part summary: Result, Key changes, Remaining uncertainty, and Human next
@@ -24,7 +154,7 @@ step. The complete audit handoff remains available with `--view full` (or MCP
 authorization, exit codes, and persisted evidence are unchanged. No user-study
 or risk-reduction benefit is claimed by this release note.
 
-## Parallel collaboration release note
+### Parallel collaboration release note
 
 The v1.0.0 release includes Task 8's cross-Work-Item coordination and parallel
 validation capability. Independent validation nodes and CI jobs may run
@@ -99,7 +229,7 @@ The `v0.2.32` tag is also retained as failed staged-publication history after
 the adopter finalization binding defect fixed by WI-299; it has no public
 Release and is not an installation baseline.
 
-## CI quality and Runtime shadow boundary
+### CI quality and Runtime shadow boundary
 
 CI uses versioned `repository_gate_manifest.json` as the canonical gate set. A
 typed receipt selects cumulative `light`, `standard`, or `strict` coverage from
@@ -124,16 +254,16 @@ design and is not copied into this Rust repository. Runtime-global routing and
 generic CLI `verify --command` semantics remain deferred outside WI-224's
 non-`crates/**` scope.
 
-## Before you start
+### Before you start
 
 You need a published, identity-bound Release, a repository path, and a matching
 archive for your operating system. Homebrew installation requires Homebrew;
 manual verification uses `shasum` and `awk` on macOS/Linux, and PowerShell on
 Windows. `gh attestation verify` is an optional additional provenance check.
 
-## Publishing a candidate
+### Publishing a candidate
 
-### Typed ReleasePlan boundary
+#### Typed ReleasePlan boundary
 
 Every release dispatch is first resolved into one versioned, identity-bound
 `ReleasePlan` by `tests/ci/resolve_release_plan.sh`, which delegates semantic
@@ -184,7 +314,7 @@ identity is verified for recovery, a missing Work Item identity, or a tag whose
 peeled commit is not the reviewed source commit. A failed publication reserves
 its tag permanently; the next candidate advances one patch version.
 
-## Primary macOS installation
+### Primary macOS installation
 
 When the maintained Homebrew tap is available, install the Formula from the
 published release line:
@@ -208,7 +338,7 @@ The Formula currently targets Apple Silicon macOS only. Linuxbrew and Intel
 macOS are not supported Homebrew paths. The separate Intel macOS release
 archive remains available for direct artifact installation.
 
-## Verify a Release asset
+### Verify a Release asset
 
 Download the archive, `release-manifest.json`, and `SHA256SUMS` from the same
 published GitHub Release. The v0.2.94 checksum file covers all ten archive/SBOM
@@ -238,7 +368,7 @@ identity facts. The post-release acceptance harness—not the Core by itself—m
 bind those fields to the downloaded public binary before accepting release
 evidence; a caller using the JSON outside that harness owns the comparison.
 
-### Artifact-bound SBOM policy for later candidates
+#### Artifact-bound SBOM policy for later candidates
 
 The failed staged v0.2.32 tag has no public assets to adopt. Its failure record
 remains immutable and is not relabeled as a successful Release. The failed
@@ -265,7 +395,7 @@ An extra build-named SBOM, other orphan publishable file, duplicate checksum
 entry, missing entry, or digest mismatch fails closed. Existing staged/public
 adopter acceptance and attestation gates remain downstream of this validation.
 
-## Post-release adopter acceptance
+### Post-release adopter acceptance
 
 Before publication, `staged_adopter_acceptance` binds the downloaded candidate
 archive, manifest, and checksums to source `HEAD`, runs the canonical adopter
@@ -362,7 +492,7 @@ Node-based actions use the official stable Node24-compatible baseline, and
 unpinned, or missing action refs. A future action-runtime change must update
 that policy and this release note together.
 
-### Historical N-1 schema migration acceptance
+#### Historical N-1 schema migration acceptance
 
 The schema-changing baseline is the historical v0.1.1 to v0.2.0 migration.
 v0.2.94 is a same-schema patch release: its N-1 run follows the same harness
@@ -402,7 +532,7 @@ artifacts and never publishes a Release. The job uploads
 `acceptance.json`, per-step JSON/stderr, both Runtime identity records, and
 `SHA256SUMS` even when acceptance fails.
 
-## Manual archive installation
+### Manual archive installation
 
 macOS and Linux users download the matching `.tar.gz` and `SHA256SUMS`, choose
 the exact Rust target, verify the archive, and place `ai-cockpit` in
@@ -446,7 +576,7 @@ $env:Path = "$destination;$env:Path"
 & "$destination\ai-cockpit.exe" --version
 ```
 
-## Rust developer fallback
+### Rust developer fallback
 
 This fallback is available for the current identity-bound `v0.2.94` tag.
 
@@ -460,7 +590,7 @@ cargo install --git https://github.com/xinglun/ai-cockpit.git \
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```
 
-## Rollback
+### Rollback
 
 For rollback, download a named prior Release archive and verify its manifest and
 digest before replacing the installed binary manually. The unversioned Homebrew
@@ -472,7 +602,7 @@ commit identifies the orchestration code. The workflow validates the local tag
 against the remote peeled tag before expensive work and records both identities;
 it must never require them to be the same or rewrite an existing tag.
 
-## MCP and repository attachment
+### MCP and repository attachment
 
 Start the local MCP adapter from the installed runtime with an explicit repository:
 

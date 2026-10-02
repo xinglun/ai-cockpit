@@ -1,0 +1,242 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8db23a80e65b6cc555320cbba353419bba80d1602462450e0299955e4bca661d",
+    "workItemId": "WI-1054-public-entry-docs"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.077125145cd61d5692ab2d033693256248643d82b4d69c26bde5e61149d78899.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.0dd8c517fb239b2b6a28db6c5f67081f410c00faeb2ded7885d1ebe8333f7fc6.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.1c1a628361a3a1e021c508b9d11955fe9c568ceebd73d88052865d521f3b19b9.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.2003f6f826115f19c215ec78edb08b8cfd93a2887b3cef4735ee3fe334a641d2.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.22047e2776eced7db8aaeb9cdfdbdc12217f775e0b89742f5e96327b2bf33598.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.3002c74729f573144734fdf80a5574475125738bb24748569179960cc2c37f85.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.389c4b313d526debe60cc5f72283559e29d1fcf4882f1db6a1a7dbe2907eafbe.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.8c87dc21a0c730f0cfdc87ef2d319c924e60cebdc4bd491deb6a966490dd615e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.a0bd98cb729856e2941cae674c638af7e98ef87074649876397a379a215858de.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.bac08e3cceef5c060fad3264d9ac6b913c9c5908f39a5b7e3dacaf73ad08763e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification-attempt.e8cd744be13b4fa812adabac98ce2e1b731f26c8e4f6a2c6b1dd973f8c5e2b4c.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1054-public-entry-docs.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1054-public-entry-docs.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: README.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: README.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: README.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1054-public-entry-docs.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.contract.json"
+        ],
+        "inference": false,
+        "text": "A first-time adopter can understand the product boundary, verify and install a published v1.0.0 artifact, run an honest first CLI example, and distinguish stable v1.0.0 from the optional macOS arm64 v1.0.1-rc.1 prerelease."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1054-public-entry-docs.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-1054-public-entry-docs"
+}
