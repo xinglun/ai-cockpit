@@ -3,9 +3,7 @@ use cockpit_protocol::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentOperation,
     ContractAmendmentRequest, PROTOCOL_VERSION, RuntimeContext,
 };
-use cockpit_repository::{
-    WorkItemStartOptions, attach, preflight_work_item, start_work_item_with_options,
-};
+use cockpit_repository::{WorkItemStartOptions, attach, start_work_item_with_options};
 use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -405,8 +403,55 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     ]);
     assert_success(&amended, "record sensitive amendment");
 
-    preflight_work_item(root.path(), &contract_path)
-        .expect("fresh preflight remains unable to satisfy amendment review");
+    let preflight = run_cli(&[
+        "preflight",
+        "--repo",
+        repository_path,
+        "--contract",
+        &contract_relative,
+    ]);
+    assert_success(
+        &preflight,
+        "Runtime-bound preflight should produce a pending amendment review request",
+    );
+    let preflight: Value = serde_json::from_slice(&preflight.stdout).expect("preflight JSON");
+    let current_contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("read amended Contract"))
+            .expect("amended Contract JSON");
+    let current_contract_digest =
+        cockpit_protocol::digest_json(&current_contract).expect("amended Contract digest");
+    assert_eq!(preflight["reviewState"], "needs_human_confirmation");
+    assert_eq!(
+        preflight["humanDecisionRequest"]["decisionId"],
+        "contract-preflight-review"
+    );
+    assert_eq!(
+        preflight["humanDecisionRequest"]["status"],
+        "needs_human_confirmation"
+    );
+    assert_eq!(
+        preflight["humanDecisionRequest"]["recommendedOption"],
+        "confirm_review"
+    );
+    assert_eq!(preflight["actionAdmission"]["workItemId"], WORK_ITEM_ID);
+    assert_eq!(
+        preflight["actionAdmission"]["repositoryId"],
+        current_contract["repositoryId"]
+    );
+    assert_eq!(
+        preflight["actionAdmission"]["sourceDigests"]["contract"],
+        current_contract_digest.as_str()
+    );
+    assert_eq!(
+        preflight["actionAdmission"]["sourceDigests"]["repositorySnapshot"],
+        preflight["actionAdmission"]["snapshotDigest"]
+    );
+    assert!(
+        preflight["actionAdmission"]["snapshotDigest"]
+            .as_str()
+            .is_some_and(|digest| digest.starts_with("sha256:")),
+        "request should be returned with a current repository snapshot binding"
+    );
     let status = run_cli(&[
         "work-item",
         "status",
@@ -419,6 +464,7 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     assert_success(&status, "status after refreshed preflight");
     let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
     assert_eq!(status["humanDecisionRequired"], true);
+    assert_eq!(status["humanDecisions"], json!([]));
     assert!(
         !status["safeActions"]
             .as_array()

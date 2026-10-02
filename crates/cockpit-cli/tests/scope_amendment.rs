@@ -181,7 +181,10 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
     );
     let amendment_record: serde_json::Value =
         serde_json::from_slice(&amended.stdout).expect("amendment receipt");
-    assert_eq!(amendment_record["nextAction"], "record_governance_controls");
+    assert_eq!(
+        amendment_record["nextAction"], "run_preflight",
+        "the admitted preflight only generates the current-bound pending review request"
+    );
     let contract_path = root.join(&contract);
     let amended_bytes = fs::read(&contract_path).expect("amended Contract");
 
