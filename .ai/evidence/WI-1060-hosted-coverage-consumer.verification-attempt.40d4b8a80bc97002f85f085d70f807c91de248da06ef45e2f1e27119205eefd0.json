@@ -1,0 +1,117 @@
+{
+  "attemptId": "sha256:40d4b8a80bc97002f85f085d70f807c91de248da06ef45e2f1e27119205eefd0",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:3ef9ae88586f82daa7342cc8a9b52367ae710290cc23a30e38a5cdd806ce5196",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:b1c87be44e1bd36bfd5500c2322cc740bd6166013aa96893682dc8b312b3701e",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:06778c35e7771523b536eac569c4c7a5e0bef3b7bee96a355e5f30719f2795a7",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/workspace_package_coverage_test.sh"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:60850edc44684ea1da3616afb111225d2481f8984783395f68ec359624dbcd95",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/process_observer_test_runner_test.sh"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:4789cabe43d251a67d4620c04335a950fa66c044559e731c6dc3cf3414d0af94",
+      "nodeId": "project-command-4",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+  "contractExecutionScopeDigest": "sha256:4f6f031c632070060109a9201193ff31e330db42dfa80a4f8b6fb3cf250aa28b",
+  "createdAt": "2026-10-03T21:05:36Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit/.ai/work-items/active/WI-1060-hosted-coverage-consumer.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit/.ai/work-items/active/WI-1060-hosted-coverage-consumer.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:c79b1f3e102b77f98d3eb18cd190afef98d81d1f181e564280ac0f61ad49e479, issues=[\"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit/.ai/work-items/active/WI-1060-hosted-c…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:482484ddfc77d352f65841a61272bd0743f025c46b2b1d62bd6a5e1cbcc02d6a",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}

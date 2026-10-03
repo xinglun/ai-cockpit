@@ -2067,6 +2067,7 @@ fn run() -> Result<()> {
             }
             let mut planned_requests = Vec::new();
             let mut coverage_manifest = None;
+            let mut workspace_test_manifests = Vec::new();
             for request in requests {
                 let is_cargo_workspace = !explicit
                     && request.program == "cargo"
@@ -2098,10 +2099,30 @@ fn run() -> Result<()> {
                         ));
                     }
                 };
-                if coverage_manifest.is_none() {
-                    coverage_manifest = plan.coverage_manifest;
+                if let Some(manifest) = plan.coverage_manifest {
+                    if manifest.source_program == "cargo"
+                        && manifest
+                            .source_args
+                            .first()
+                            .is_some_and(|arg| arg == "test")
+                        && manifest.source_args.iter().any(|arg| arg == "--workspace")
+                        && manifest.source_args[1..].iter().all(|arg| {
+                            matches!(
+                                arg.as_str(),
+                                "--workspace" | "--locked" | "--all-features" | "--all-targets"
+                            )
+                        })
+                    {
+                        workspace_test_manifests.push(manifest.clone());
+                    }
+                    if coverage_manifest.is_none() {
+                        coverage_manifest = Some(manifest);
+                    }
                 }
                 planned_requests.extend(plan.requests);
+            }
+            if workspace_test_manifests.len() == 1 {
+                coverage_manifest = workspace_test_manifests.pop();
             }
             let requests = planned_requests;
             let reusable_attempt = if let Some(work_item_id) = work_item.as_deref()

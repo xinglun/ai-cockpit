@@ -103,7 +103,7 @@ jq -e '.state == "failed" and .failurePhase == "metadata" and .planned == [] and
 # workspace package results, but only when it is bound to the exact executable
 # and matching formal evidence. This prevents the package tests from running a
 # second time after the Contract gate consumes that receipt.
-mkdir -p "$tmp/hosted-repository/.ai/evidence"
+mkdir -p "$tmp/hosted-repository/.ai/evidence" "$tmp/hosted-repository/.ai/work-items/active"
 python3 - "$tmp/metadata.json" "$tmp/runtime-bin" "$tmp/hosted-verification.json" "$tmp/hosted-repository" <<'PY'
 import hashlib
 import json
@@ -129,29 +129,52 @@ runtime_digest = "sha256:" + hashlib.sha256(runtime_path.read_bytes()).hexdigest
 repository_id = "sha256:" + "1" * 64
 snapshot_digest = "sha256:" + "2" * 64
 work_item_id = "WI-HOSTED-RECEIPT"
+command_digest = "sha256:" + "4" * 64
+test_nodes = [f"project-command-2-package-{package}" for package in packages]
+lint_nodes = [f"project-command-1-package-{package}" for package in packages]
+(repository / ".ai/work-items/active" / f"{work_item_id}.contract.json").write_text(
+    json.dumps({"workItemId": work_item_id, "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+    ]}), encoding="utf-8"
+)
+contract = json.loads((repository / ".ai/work-items/active" / f"{work_item_id}.contract.json").read_text(encoding="utf-8"))
+contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+(repository.parent / "contract-digest").write_text(contract_digest, encoding="utf-8")
 receipt = {
     "workItemId": work_item_id,
     "passed": True,
     "runtimeDigest": runtime_digest,
     "runtimeVersion": "0.2.113",
     "repositoryId": repository_id,
-    "nodesPlanned": len(packages) + 1,
-    "nodesExecuted": len(packages) + 1,
+    "nodesPlanned": len(packages) * 2 + 1,
+    "nodesExecuted": len(packages) * 2 + 1,
     "nodesReused": 0,
     "results": [
-        {"nodeId": f"project-command-0-package-{package}", "passed": True}
+        {"nodeId": f"project-command-2-package-{package}", "passed": True,
+         "reused": False, "action": "execute", "satisfiedBy": "execution"}
         for package in packages
-    ] + [{"nodeId": "project-command-1", "passed": True}],
+    ] + [{"nodeId": "project-command-0", "passed": True}]
+    + [{"nodeId": node, "passed": True} for node in lint_nodes],
+    "executionRecords": [
+        {"nodeId": node, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0}
+        for node in test_nodes
+    ],
     "planReceipt": {
         "workItemId": work_item_id,
         "repositoryId": repository_id,
         "repositorySnapshotDigest": snapshot_digest,
-        "executedNodes": [f"project-command-0-package-{package}" for package in packages]
-        + ["project-command-1"],
+        "executedNodes": test_nodes + ["project-command-0"] + lint_nodes,
         "reusedNodes": [],
         "coverageManifest": {
+            "sourceProgram": "cargo",
+            "sourceArgs": ["test", "--locked", "--workspace"],
             "workspaceMembers": packages,
-            "nodeIds": [f"project-command-0-package-{package}" for package in packages],
+            "nodeIds": test_nodes,
+            "commandDigests": [command_digest for _ in packages],
         },
     },
 }
@@ -160,7 +183,7 @@ evidence = {
     "passed": True,
     "runtimeDigest": runtime_digest,
     "runtimeVersion": "0.2.113",
-    "contractDigest": "sha256:" + "3" * 64,
+    "contractDigest": contract_digest,
     "repositoryId": repository_id,
     "repositorySnapshotDigest": snapshot_digest,
     "receipt": receipt,
@@ -202,7 +225,7 @@ refresh_hosted_orchestration passed
 export AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/hosted-orchestration.json"
 PACKAGE_LOG="$tmp/hosted-packages.log" \
 FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
-FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
 FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
 AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
 AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
@@ -232,7 +255,7 @@ from pathlib import Path
 receipt_path, evidence_path = map(Path, sys.argv[1:])
 formal = json.loads(receipt_path.read_text(encoding="utf-8"))
 receipt = formal["receipt"]
-reused_id = "project-command-0-package-package-b"
+reused_id = "project-command-2-package-package-b"
 receipt["nodesReused"] = 1
 receipt["nodesExecuted"] = len(receipt["results"]) - 1
 receipt["planReceipt"]["reusedNodes"] = [reused_id]
@@ -241,6 +264,12 @@ receipt["planReceipt"]["executedNodes"] = [
 ]
 for result in receipt["results"]:
     result["reused"] = result["nodeId"] == reused_id
+    if result["nodeId"] == reused_id:
+        result["action"] = "reuse"
+        result["satisfiedBy"] = "reused_receipt"
+receipt["executionRecords"] = [
+    record for record in receipt["executionRecords"] if record["nodeId"] != reused_id
+]
 encoded = json.dumps(formal).encode("utf-8")
 receipt_path.write_bytes(encoded)
 evidence_path.write_bytes(encoded)
@@ -248,7 +277,7 @@ PY
 refresh_hosted_orchestration passed
 PACKAGE_LOG="$tmp/partial-hosted-packages.log" \
 FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
-FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
 FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
 AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
 AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
@@ -265,7 +294,7 @@ jq -e '.state == "passed" and .executed == ["package-a", "package-b"] and .execu
 refresh_hosted_orchestration reused
 PACKAGE_LOG="$tmp/reused-hosted-packages.log" \
 FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
-FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
 FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
 AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
 AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/hosted-orchestration.json" \
@@ -280,6 +309,225 @@ jq -e '.verificationReceiptState == "reused" and .executedByHostedRuntime == [] 
   "$tmp/reused-hosted-report.json" >/dev/null
 
 cp "$tmp/hosted-verification.json" "$tmp/valid-hosted-verification.json"
+cp "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" "$tmp/valid-hosted-contract.json"
+cp "$tmp/contract-digest" "$tmp/valid-contract-digest"
+# A one-command-index legacy route must still consume the same formal
+# package evidence. Swap the declared test and fmt stages without changing
+# package execution or reuse semantics.
+python3 - "$tmp/hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+  "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+  "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[1:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+receipt = formal["receipt"]
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["verification"][0], contract["verification"][2] = (
+    contract["verification"][2], contract["verification"][0]
+)
+contract_path.write_text(json.dumps(contract), encoding="utf-8")
+contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+digest_path.write_text(contract_digest, encoding="utf-8")
+formal["contractDigest"] = contract_digest
+def swap(node):
+    if node.startswith("project-command-0"):
+        return node.replace("project-command-0", "project-command-2", 1)
+    if node.startswith("project-command-2"):
+        return node.replace("project-command-2", "project-command-0", 1)
+    return node
+for result in receipt["results"]:
+    result["nodeId"] = swap(result["nodeId"])
+for record in receipt["executionRecords"]:
+    record["nodeId"] = swap(record["nodeId"])
+for name in ["executedNodes", "reusedNodes"]:
+    receipt["planReceipt"][name] = [swap(node) for node in receipt["planReceipt"][name]]
+receipt["planReceipt"]["coverageManifest"]["nodeIds"] = [
+    swap(node) for node in receipt["planReceipt"]["coverageManifest"]["nodeIds"]
+]
+encoded = json.dumps(formal).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+refresh_hosted_orchestration passed
+PACKAGE_LOG="$tmp/legacy-packages.log" \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/legacy-report.json"
+diff -u <(printf '%s\n' package-b) "$tmp/legacy-packages.log"
+jq -e '.state == "passed" and .executedByHostedRuntime == ["package-a"] and .executedByCoverageRunner == ["package-b"]' \
+  "$tmp/legacy-report.json" >/dev/null
+cp "$tmp/valid-contract-digest" "$tmp/contract-digest"
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+refresh_hosted_orchestration passed
+for tamper in clippy_relabel mixed_index forged_index wrong_digest missing_package duplicate_package extra_package filtered only_clippy duplicate_test env_duplicate_test multi_env_duplicate_test quoted_env_duplicate_test only_env_test explicit_env_duplicate_test only_explicit_env_test env_option_test nested_env_test missing_plan; do
+  cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+  cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+  cp "$tmp/valid-contract-digest" "$tmp/contract-digest"
+  python3 - "$tamper" "$tmp/hosted-verification.json" \
+    "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+    "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+    "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+case = sys.argv[1]
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[2:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+receipt = formal["receipt"]
+coverage = receipt["planReceipt"]["coverageManifest"]
+if case == "clippy_relabel":
+    coverage["nodeIds"] = [node.replace("command-2", "command-1") for node in coverage["nodeIds"]]
+elif case == "mixed_index":
+    coverage["nodeIds"][0] = coverage["nodeIds"][0].replace("command-2", "command-1")
+elif case == "forged_index":
+    coverage["nodeIds"] = [node.replace("command-2", "command-3") for node in coverage["nodeIds"]]
+elif case == "wrong_digest":
+    coverage["commandDigests"][0] = "sha256:" + "f" * 64
+elif case == "missing_package":
+    coverage["nodeIds"].pop()
+elif case == "duplicate_package":
+    coverage["nodeIds"][1] = coverage["nodeIds"][0]
+elif case == "extra_package":
+    extra_node = "project-command-2-package-package-c"
+    receipt["results"].append({"nodeId": extra_node, "passed": True})
+    receipt["planReceipt"]["executedNodes"].append(extra_node)
+    receipt["nodesPlanned"] += 1
+    receipt["nodesExecuted"] += 1
+elif case == "filtered":
+    coverage["sourceArgs"] += ["--", "package_a_only"]
+elif case == "only_clippy":
+    coverage["sourceArgs"][0] = "clippy"
+elif case in {"duplicate_test", "env_duplicate_test", "multi_env_duplicate_test", "quoted_env_duplicate_test", "only_env_test", "explicit_env_duplicate_test", "only_explicit_env_test", "env_option_test", "nested_env_test"}:
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    declaration = {
+        "duplicate_test": "cargo test --locked --workspace",
+        "env_duplicate_test": "FOO=1 cargo test --locked --workspace",
+        "multi_env_duplicate_test": "FOO=1 BAR=two cargo test --locked --workspace",
+        "quoted_env_duplicate_test": 'FOO=1 BAR="two words" cargo test --locked --workspace',
+        "only_env_test": "FOO=1 cargo test --locked --workspace",
+        "explicit_env_duplicate_test": "env FOO=1 cargo test --locked --workspace",
+        "only_explicit_env_test": "env FOO=1 cargo test --locked --workspace",
+        "env_option_test": "env -i FOO=1 cargo test --locked --workspace",
+        "nested_env_test": "env FOO=1 env BAR=2 cargo test --locked --workspace",
+    }[case]
+    if case in {"only_env_test", "only_explicit_env_test"}:
+        contract["verification"][2] = declaration
+    else:
+        contract["verification"].append(declaration)
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    contract_digest = "sha256:" + hashlib.sha256(
+        json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    digest_path.write_text(contract_digest, encoding="utf-8")
+    formal["contractDigest"] = contract_digest
+elif case == "missing_plan":
+    receipt.pop("planReceipt")
+else:
+    raise SystemExit(f"unknown case: {case}")
+encoded = json.dumps(formal).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+  refresh_hosted_orchestration passed
+  if PACKAGE_LOG="$tmp/tamper-$tamper-package-processes.log" \
+    FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+    FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+    FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+    AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+    AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+    AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
+      --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/tamper-$tamper.json" \
+      >/dev/null 2>&1; then
+    printf 'workspace coverage accepted %s tampering\n' "$tamper" >&2
+    exit 1
+  fi
+  if ! jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+    "$tmp/tamper-$tamper.json" >/dev/null; then
+    printf 'workspace coverage did not fail closed before package execution for %s\n' "$tamper" >&2
+    jq '{state, failurePhase, executed, failureDiagnosticTail}' "$tmp/tamper-$tamper.json" >&2
+    exit 1
+  fi
+  if [[ -e "$tmp/tamper-$tamper-package-processes.log" ]]; then
+    printf 'workspace coverage spawned package cargo for %s\n' "$tamper" >&2
+    exit 1
+  fi
+  if [[ "$tamper" == clippy_relabel || "$tamper" == duplicate_test ]]; then
+    jq -e '.failureDiagnosticTail | contains("unique matching Contract declaration")' \
+      "$tmp/tamper-$tamper.json" >/dev/null
+  fi
+  if [[ "$tamper" == env_duplicate_test || "$tamper" == multi_env_duplicate_test || "$tamper" == quoted_env_duplicate_test || "$tamper" == only_env_test || "$tamper" == explicit_env_duplicate_test || "$tamper" == only_explicit_env_test ]]; then
+    jq -e '.failureDiagnosticTail | contains("unsupported environment-wrapped Cargo test")' \
+      "$tmp/tamper-$tamper.json" >/dev/null
+  fi
+  if [[ "$tamper" == env_option_test || "$tamper" == nested_env_test ]]; then
+    jq -e '.failureDiagnosticTail | contains("unsupported env command syntax")' \
+      "$tmp/tamper-$tamper.json" >/dev/null
+  fi
+done
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+python3 - "$tmp/hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" \
+  "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json" \
+  "$tmp/contract-digest" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+receipt_path, evidence_path, contract_path, digest_path = map(Path, sys.argv[1:])
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["verification"].append("FOO=1 cargo clippy --locked --workspace")
+contract["verification"].append("env FOO=1 cargo clippy --locked --workspace")
+contract_path.write_text(json.dumps(contract), encoding="utf-8")
+digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+digest_path.write_text(digest, encoding="utf-8")
+formal["contractDigest"] = digest
+encoded = json.dumps(formal).encode("utf-8")
+receipt_path.write_bytes(encoded)
+evidence_path.write_bytes(encoded)
+PY
+refresh_hosted_orchestration passed
+PACKAGE_LOG="$tmp/non-cargo-env-packages.log" \
+FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
+  FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$tmp/hosted-repository" \
+  "$root/tests/ci/run_workspace_package_tests.sh" \
+    --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/non-cargo-env-report.json"
+jq -e '.state == "passed" and .executedByCoverageRunner == ["package-b"]' \
+  "$tmp/non-cargo-env-report.json" >/dev/null
+cp "$tmp/valid-hosted-verification.json" "$tmp/hosted-verification.json"
+cp "$tmp/valid-hosted-verification.json" \
+  "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json"
+cp "$tmp/valid-hosted-contract.json" "$tmp/hosted-repository/.ai/work-items/active/WI-HOSTED-RECEIPT.contract.json"
+cp "$tmp/valid-contract-digest" "$tmp/contract-digest"
+refresh_hosted_orchestration passed
 python3 - "$tmp/hosted-verification.json" "$tmp/hosted-repository/.ai/evidence/WI-HOSTED-RECEIPT.verification.json" <<'PY'
 import json
 import sys
@@ -294,7 +542,7 @@ evidence_path.write_bytes(encoded)
 PY
 refresh_hosted_orchestration passed
 if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
-  FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
   FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
   AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \
@@ -328,7 +576,7 @@ evidence_path.write_bytes(encoded)
 PY
 refresh_hosted_orchestration passed
 if FAKE_RUNTIME_LOG="$tmp/runtime-status.log" \
-  FAKE_CURRENT_CONTRACT_DIGEST="sha256:$(printf '3%.0s' {1..64})" \
+  FAKE_CURRENT_CONTRACT_DIGEST="$(<"$tmp/contract-digest")" \
   FAKE_CURRENT_SNAPSHOT_DIGEST="sha256:$(printf '2%.0s' {1..64})" \
   AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/hosted-verification.json" \
   AI_COCKPIT_RUNTIME_BIN="$tmp/runtime-bin" \

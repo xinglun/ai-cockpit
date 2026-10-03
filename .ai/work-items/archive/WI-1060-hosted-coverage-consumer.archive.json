@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-03T22:35:01Z",
+  "files": {
+    "contractDigest": "sha256:ce86e7f25d3a9bb5c8f20b376fee282d33505cf1af86647d3ab0de3c67b15e66",
+    "contractPath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json",
+    "eventsDigest": "sha256:b03955b45f5a8ce891b9ca31aa0bff5687fd702d8a17bb3729f4585bed680a3f",
+    "eventsPath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.events.jsonl",
+    "outcomeDigest": "sha256:7c8330074cf9499d8c08e79825c1a649c5c1303f35667278987f66b53f00ce32",
+    "outcomePath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.outcome.json",
+    "summaryDigest": "sha256:e92b16716def6e222b194270352c5c0cda211d68fb8804b9ba40a9bcf6c361af",
+    "summaryPath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json",
+    "taskReportDigest": "sha256:6817eec6cd3b3922463565f7ce3d1bce7728ba7c07ffbc1df75c9217ec59fd47",
+    "taskReportMarkdownDigest": "sha256:886fe66f2f7af951685567cd539bec9cefbc59541e22f6646b3f54c1160a1eff",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Ray explicitly reviewed and approved WI-1060 current Contract f9acb50e stage split on 2026-10-04 Asia/Tokyo. This confirms only the bounded fifth-scenario stage amendment; formal Runtime verification, hosted exact-head CI, merge, and release remain separate gates.",
+  "recordedAt": "2026-10-03T21:40:40Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a5c6078d69acc4d322adca32a7a6c7998383d015d9497cb3eeffcc6bb134e94c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}
