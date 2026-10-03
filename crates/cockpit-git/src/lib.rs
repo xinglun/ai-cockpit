@@ -265,11 +265,21 @@ pub enum ChangeContentState {
     Unavailable,
 }
 
+/// The line in the post-change file and the zero-based Git hunk that supplied
+/// an added line. An untracked file has no patch origin and is inspected from
+/// its bounded full text instead.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AddedLineOrigin {
+    pub after_line: usize,
+    pub hunk_index: usize,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ChangeEvidence {
     pub path: String,
     pub kind: ChangeKind,
     pub added_lines: Vec<String>,
+    pub added_line_origins: Vec<AddedLineOrigin>,
     pub removed_lines: Vec<String>,
     pub after_text: Option<String>,
     pub content_state: ChangeContentState,
@@ -464,6 +474,7 @@ impl GitRepository {
                             .cloned()
                             .unwrap_or(ChangeKind::Unknown),
                         added_lines: Vec::new(),
+                        added_line_origins: Vec::new(),
                         removed_lines: Vec::new(),
                         after_text: None,
                         content_state: ChangeContentState::Unavailable,
@@ -514,23 +525,15 @@ impl GitRepository {
                 changed_bytes_read = changed_bytes_read.saturating_add(bytes.len() as u64);
                 changed_bytes_hashed = changed_bytes_hashed.saturating_add(bytes.len() as u64);
                 if let Some(change) = change_evidence.get_mut(relative) {
-                    if change.content_state == ChangeContentState::TooLarge
-                        || bytes.len() > MAX_CHANGE_TEXT_BYTES
-                    {
+                    if change.content_state == ChangeContentState::TooLarge {
+                        // Patch overflow is irreversible evidence loss. A
+                        // retained short deletion must not restore Text.
                         change.after_text = None;
-                        let patch_bytes = change
-                            .added_lines
-                            .iter()
-                            .chain(change.removed_lines.iter())
-                            .map(String::len)
-                            .sum::<usize>();
-                        change.content_state = if patch_bytes <= MAX_CHANGE_TEXT_BYTES
-                            && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
-                        {
-                            ChangeContentState::Text
-                        } else {
-                            ChangeContentState::TooLarge
-                        };
+                    } else if bytes.len() > MAX_CHANGE_TEXT_BYTES {
+                        change.after_text = None;
+                        if change.added_lines.is_empty() && change.removed_lines.is_empty() {
+                            change.content_state = ChangeContentState::TooLarge;
+                        }
                     } else if bytes.contains(&0) {
                         change.after_text = None;
                         change.content_state = ChangeContentState::Binary;
@@ -663,6 +666,7 @@ impl GitRepository {
                             .cloned()
                             .unwrap_or(ChangeKind::Unknown),
                         added_lines: Vec::new(),
+                        added_line_origins: Vec::new(),
                         removed_lines: Vec::new(),
                         after_text: None,
                         content_state: ChangeContentState::Unavailable,
@@ -683,21 +687,13 @@ impl GitRepository {
             let path = self.root.join(&change.path);
             match std::fs::read(&path) {
                 Ok(bytes) => {
-                    if bytes.len() > MAX_CHANGE_TEXT_BYTES {
+                    if change.content_state == ChangeContentState::TooLarge {
                         change.after_text = None;
-                        let patch_bytes = change
-                            .added_lines
-                            .iter()
-                            .chain(change.removed_lines.iter())
-                            .map(String::len)
-                            .sum::<usize>();
-                        change.content_state = if patch_bytes <= MAX_CHANGE_TEXT_BYTES
-                            && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
-                        {
-                            ChangeContentState::Text
-                        } else {
-                            ChangeContentState::TooLarge
-                        };
+                    } else if bytes.len() > MAX_CHANGE_TEXT_BYTES {
+                        change.after_text = None;
+                        if change.added_lines.is_empty() && change.removed_lines.is_empty() {
+                            change.content_state = ChangeContentState::TooLarge;
+                        }
                     } else if bytes.contains(&0) {
                         change.content_state = ChangeContentState::Binary;
                         change.after_text = None;
@@ -890,10 +886,15 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
     let mut previous_path = None;
     let mut current_path = None;
     let mut retained_bytes = BTreeMap::<String, usize>::new();
+    let mut hunk_counts = BTreeMap::<String, usize>::new();
+    let mut current_hunk = None;
+    let mut after_line = None;
     for line in patch.lines() {
         if line.starts_with("diff --git ") {
             previous_path = None;
             current_path = None;
+            current_hunk = None;
+            after_line = None;
         } else if let Some(path) = diff_path(line, "--- a/") {
             previous_path = Some(path);
         } else if line == "--- /dev/null" {
@@ -903,10 +904,28 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
         } else if line == "+++ /dev/null" {
             current_path = previous_path.clone();
         } else if let Some(path) = current_path.as_ref()
+            && line.starts_with("@@ ")
+        {
+            after_line = line
+                .split_whitespace()
+                .find(|part| part.starts_with('+'))
+                .and_then(|part| part[1..].split(',').next())
+                .and_then(|number| number.parse::<usize>().ok());
+            let next = hunk_counts.entry(path.clone()).or_default();
+            current_hunk = Some(*next);
+            *next = next.saturating_add(1);
+        } else if let Some(path) = current_path.as_ref()
             && let Some(change) = evidence.get_mut(path)
         {
             let retained = retained_bytes.entry(path.clone()).or_default();
             if let Some(added) = line.strip_prefix('+') {
+                if let (Some(number), Some(hunk_index)) = (after_line, current_hunk) {
+                    change.added_line_origins.push(AddedLineOrigin {
+                        after_line: number,
+                        hunk_index,
+                    });
+                    after_line = number.checked_add(1);
+                }
                 push_bounded(
                     &mut change.added_lines,
                     added,
@@ -920,6 +939,8 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
                     &mut change.content_state,
                     retained,
                 );
+            } else if line.starts_with(' ') {
+                after_line = after_line.and_then(|number| number.checked_add(1));
             }
         }
     }
@@ -933,7 +954,9 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
             .chain(change.removed_lines.iter())
             .map(String::len)
             .sum::<usize>();
-        if change.content_state == ChangeContentState::TooLarge
+        if retained_bytes
+            .get(&change.path)
+            .is_some_and(|retained| *retained <= MAX_CHANGE_TEXT_BYTES)
             && patch_bytes <= MAX_CHANGE_TEXT_BYTES
             && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
         {

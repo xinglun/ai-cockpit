@@ -52,6 +52,24 @@ The trust layer does not authenticate a person, verify a provider, or authorize
 an external merge/release. Those responsibilities remain with the explicit
 human decision, provider, or enterprise evidence boundary.
 
+## Changed Rust source inspection
+
+For `.rs` changes, the repository signal reads bounded post-change source and
+Git added-line/hunk origins. It inspects a changed decoded string or byte
+literal, a changed comment unit, and bounded explicit string compositions
+(`concat!`, static `format!`, simple literal bindings, and same-file pure
+literal-return functions). A changed composition includes unchanged operands
+that it references. Unrelated literals are not joined merely because Git put
+them in one file or hunk. Other file types retain their existing added-text
+rules.
+
+If source, provenance, syntax, or a relevant dynamic composition cannot be
+resolved, the result is `Unknown`, not a clean bill of health. A bounded patch
+without full source is inspectable as clean only when it has no instruction or
+risky-operation candidate; a directly inspectable strong literal remains a
+finding. This classification is evidence for the Runtime quality gate, not
+permission to change a Contract or to merge or release.
+
 ## Object repositories
 
 An adopter receives the same fail-closed classification rules through its

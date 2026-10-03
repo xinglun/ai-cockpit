@@ -60,7 +60,12 @@ mod observation_ledger;
 mod outcome_render;
 mod project_governance;
 mod resource_lifecycle;
+mod rust_material;
 mod status_projection;
+
+use rust_material::{
+    RustMaterialAssessment, assess_rust_material, contains_strong_instruction_injection,
+};
 
 pub use action_admission::require_current_action_admission;
 pub use collaboration::{
@@ -4959,39 +4964,6 @@ fn is_strictly_checked_conformance_manifest(path: &str) -> bool {
     path == "tests/conformance/reference_file_inventory.json"
 }
 
-fn contains_strong_instruction_injection(text: &str) -> bool {
-    let text = text.to_ascii_lowercase();
-    let instruction = [
-        "ignore previous instructions",
-        "ignore all previous instructions",
-        "ignore the contract",
-        "override policy",
-        "bypass policy",
-        "disable governance",
-        "system message",
-    ]
-    .iter()
-    .any(|pattern| text.contains(pattern));
-    let risky_operation = [
-        "delete",
-        "rm -rf",
-        "execute",
-        "run ",
-        "curl ",
-        "secret",
-        "token",
-        "upload",
-        "exfil",
-        "disable test",
-        "skip test",
-        "publish",
-        "push main",
-    ]
-    .iter()
-    .any(|pattern| text.contains(pattern));
-    instruction && risky_operation
-}
-
 fn contains_skip_marker(lines: &[String]) -> bool {
     lines.iter().any(|line| {
         let line = line.to_ascii_lowercase();
@@ -5135,7 +5107,18 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
         } else {
             &added_text
         };
-        if contains_strong_instruction_injection(material_text) {
+        if change.path.to_ascii_lowercase().ends_with(".rs") {
+            match assess_rust_material(change) {
+                RustMaterialAssessment::Finding => {
+                    result.untrusted_material = true;
+                    result.findings.push("repository_prompt_injection".into());
+                }
+                RustMaterialAssessment::Unknown => result
+                    .unknowns
+                    .push("repository_material_inspection_unavailable".into()),
+                RustMaterialAssessment::Clean => {}
+            }
+        } else if contains_strong_instruction_injection(material_text) {
             result.untrusted_material = true;
             result.findings.push("repository_prompt_injection".into());
         }
