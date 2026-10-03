@@ -319,8 +319,11 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   输出文件幂等，只是交给 SIEM、WORM、S3 Object Lock 或其他外部保留方的 handoff。
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` 用 Rust 执行固定的七案例评估。
   `--check` 不改写评估产物；不指定时，在所选仓库的 `.ai/evidence/` 写入 JSON，
-  在 `.ai/evidence/external/` 写入 Markdown。原 Python evaluator 仅保留为等价性测试的 oracle，
-  不再是仓库 gate；这里不声称已有参与者研究或测得认知收益。
+  在 `.ai/evidence/external/` 写入 Markdown。显式 `--binary` 必须指向存在且可执行的文件；
+  无效选择会明确失败，不回退到其他 Runtime、不隐式调用 Cargo 构建，也不写入评估产物。
+  不存在的文件及 Unix 上无执行权限的文件会在评估前被拒绝；其他启动失败在调用所选文件时报告。
+  这是与旧 Python evaluator 回退行为的一项刻意安全差异；有效显式 binary 的输出仍须等价。
+  Python 仅保留为等价性测试的 oracle，不再是仓库 gate；这里不声称已有参与者研究或测得认知收益。
 - Task Outcome report 使用严格类型化 JSON。每条 claim 在可用时都绑定 evidence reference；明确标记的 inference 不能当作已验证事实。
   event stream 在 Work Item finish 时 append-only，并校验 repository/Work Item identity、顺序、安全 detail 内容和 evidence reference 边界。
   archive manifest 绑定 event stream 与 report JSON/Markdown digest；close receipt 会包含最终 report 及其 digest。

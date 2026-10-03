@@ -70,6 +70,116 @@ fn missing_archived_outcome_fails_without_creating_evidence() {
 }
 
 #[test]
+fn missing_explicit_binary_fails_before_archive_lookup_without_writing_evidence() {
+    let repo = tempfile::tempdir().expect("isolated repository");
+    let missing = repo.path().join("missing-ai-cockpit");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["audit", "cognitive-benefit", "--repo"])
+        .arg(repo.path())
+        .arg("--binary")
+        .arg(&missing)
+        .output()
+        .expect("run Rust evaluator");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("explicit --binary") && stderr.contains("does not exist"),
+        "invalid explicit binary must be the reported failure: {stderr}"
+    );
+    assert!(!repo.path().join(".ai/evidence").exists());
+    assert!(!repo.path().join("target").exists());
+}
+
+#[cfg(unix)]
+#[test]
+fn non_executable_explicit_binary_does_not_fall_back_or_build() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let repo = tempfile::tempdir().expect("isolated repository");
+    let selected = repo.path().join("not-executable");
+    std::fs::write(&selected, b"not a program").expect("write selected file");
+    std::fs::set_permissions(&selected, std::fs::Permissions::from_mode(0o644))
+        .expect("make selected file non-executable");
+
+    let bin_dir = repo.path().join("bin");
+    std::fs::create_dir(&bin_dir).expect("create isolated PATH");
+    let cargo_tripwire = bin_dir.join("cargo");
+    std::fs::write(
+        &cargo_tripwire,
+        b"#!/bin/sh\nprintf invoked > \"$AI_COCKPIT_TEST_CARGO_MARKER\"\nexit 86\n",
+    )
+    .expect("write Cargo tripwire");
+    std::fs::set_permissions(&cargo_tripwire, std::fs::Permissions::from_mode(0o755))
+        .expect("make Cargo tripwire executable");
+    let marker = repo.path().join("cargo-was-invoked");
+    let mut paths = vec![bin_dir];
+    paths.extend(std::env::split_paths(
+        &std::env::var_os("PATH").expect("PATH available"),
+    ));
+    let path = std::env::join_paths(paths).expect("join PATH");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["audit", "cognitive-benefit", "--repo"])
+        .arg(repo.path())
+        .arg("--binary")
+        .arg(&selected)
+        .env("PATH", path)
+        .env("AI_COCKPIT_TEST_CARGO_MARKER", &marker)
+        .output()
+        .expect("run Rust evaluator");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("explicit --binary") && stderr.contains("not executable"),
+        "non-executable selection must be the reported failure: {stderr}"
+    );
+    assert!(!marker.exists(), "must not invoke fallback Cargo build");
+    assert!(!repo.path().join(".ai/evidence").exists());
+    assert!(!repo.path().join("target").exists());
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes() {
+    let temp = tempfile::tempdir().expect("isolated checkout parent");
+    let checkout = temp.path().join("invalid-binary-checkout");
+    let clone = Command::new("git")
+        .args(["clone", "--shared", "--quiet"])
+        .arg(repository_root())
+        .arg(&checkout)
+        .output()
+        .expect("clone repository fixture");
+    assert!(
+        clone.status.success(),
+        "clone failed: {}",
+        String::from_utf8_lossy(&clone.stderr)
+    );
+    let selected = checkout.join("not-executable.txt");
+    std::fs::write(&selected, b"not a Windows executable").expect("write selected file");
+    let evidence_json = checkout.join(".ai/evidence/WI-750-p1-cognitive-benefit-current-base.json");
+    let evidence_markdown =
+        checkout.join(".ai/evidence/external/WI-750-p1-cognitive-benefit-current-base.md");
+    let before_json = std::fs::read(&evidence_json).ok();
+    let before_markdown = std::fs::read(&evidence_markdown).ok();
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["audit", "cognitive-benefit", "--repo"])
+        .arg(&checkout)
+        .arg("--binary")
+        .arg(&selected)
+        .arg("--check")
+        .output()
+        .expect("run Rust evaluator");
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        stderr.contains("render ") && !stderr.contains("missing real archived Outcome structure"),
+        "invalid selected file must fail on actual process launch, not fall back: {stderr}"
+    );
+    assert_eq!(std::fs::read(&evidence_json).ok(), before_json);
+    assert_eq!(std::fs::read(&evidence_markdown).ok(), before_markdown);
+    assert!(!checkout.join("target").exists());
+}
+
+#[test]
 fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
     let temp = tempfile::tempdir().expect("isolated checkout parent");
     let checkout = temp.path().join("oracle-checkout");

@@ -1,8 +1,8 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle，成功 JSON 与 Markdown 输出、--check 模式及失败语义逐项等价。",
-    "Rust 测试覆盖正常样本、畸形输入和 --check 副作用；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+    "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
+    "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
     "仅改变四条精确产品路径，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
     "三语命令参考准确说明 audit cognitive-benefit 的 Rust 执行入口、--check 只读语义、非 check 的证据输出，以及 Python 脚本仅保留为对照 oracle；不宣称已测得人类认知收益。"
   ],
@@ -24,7 +24,9 @@
   "goal": "在最新 main 上完成 cognitive evaluator 的 Rust 实现与 gate 接线，验证完整输出及失败语义等价；不宣称整个 Task 9 完成。",
   "governancePolicy": null,
   "governanceProfile": null,
-  "guidelines": [],
+  "guidelines": [
+    "仓库负责人已持续授权在 Task9 既定目标与本 WI 范围内实施、验证、提交、推动 PR、在精确候选 CI 和独立审查通过后合并、并按真实证据收尾；普通技术决定由 Raydot 负责，不逐项再问。此授权不是对未来变更后的 Contract 摘要预签的人类 review，也不覆盖 Runtime、宿主、安全或权限的实际拒绝。"
+  ],
   "humanDecisionPoints": null,
   "implementationSurface": null,
   "intent": "将 cognitive benefit evaluation 的现有真实 gate 从 Python 执行切换至 Rust CLI，保留旧实现作语义对照。",
@@ -52,6 +54,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1058-task9-cognitive-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1009",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/task9-cognitive-gate/ai-cockpit"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "normal",

@@ -584,9 +584,15 @@ review when the returned state is yellow, red, unknown, or not ready.
   fixed seven-case evaluation in Rust. `--check` is read-only with respect to
   evaluation artifacts; without it, the command writes the JSON report under
   `.ai/evidence/` and Markdown under `.ai/evidence/external/` in the selected
-  repository. The former Python evaluator remains an oracle for parity tests,
-  not the repository gate. No participant study or measured cognitive benefit
-  is implied.
+  repository. An explicit `--binary` must name an existing executable file;
+  an invalid selection fails without falling back to another Runtime, building
+  with Cargo, or writing evaluation artifacts. Missing files and Unix files
+  without execute permission are rejected before evaluation; other launch
+  failures are reported when the selected file is invoked. This is an
+  intentional safety difference from the former Python evaluator's fallback;
+  valid explicit binaries retain output parity. Python remains an oracle for
+  parity tests, not the repository gate. No participant study or measured
+  cognitive benefit is implied.
 - Task Outcome reports are strict typed JSON projections. Every claim carries
   evidence references when available; an explicitly marked inference is not a
   verified fact. The event stream is append-only for a Work Item finish and is

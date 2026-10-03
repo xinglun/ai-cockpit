@@ -230,6 +230,32 @@ fn write_report(repo: &Path, report: &serde_json::Value) -> Result<()> {
 
 pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()> {
     let repo = std::fs::canonicalize(repo).context("resolve evaluation repository")?;
+    // An explicit selection is an identity constraint, not a fallback hint.
+    // Validate it before reading fixtures or running any evaluation command.
+    let binary_path = match binary {
+        Some(path) => {
+            let metadata = std::fs::metadata(path).with_context(|| {
+                format!(
+                    "explicit --binary {} does not exist or cannot be read",
+                    path.display()
+                )
+            })?;
+            if !metadata.is_file() {
+                bail!("explicit --binary {} is not a regular file", path.display());
+            }
+            #[cfg(unix)]
+            {
+                use std::os::unix::fs::PermissionsExt;
+                if metadata.permissions().mode() & 0o111 == 0 {
+                    bail!("explicit --binary {} is not executable", path.display());
+                }
+            }
+            std::fs::canonicalize(path)
+                .with_context(|| format!("resolve explicit --binary {}", path.display()))?
+        }
+        None => std::env::current_exe().context("resolve current Runtime executable")?,
+    };
+    let binary = binary_path.as_path();
     let outcome = repo
         .join(".ai/work-items/archive")
         .join(format!("{FIRST_ARCHIVE}.outcome.json"));
@@ -243,15 +269,6 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
     }
     // The evaluator is itself a Runtime command. Without an override, use
     // this exact executable so a gate never silently picks a different build.
-    let current_binary;
-    let binary = match binary {
-        Some(binary) => binary,
-        None => {
-            current_binary =
-                std::env::current_exe().context("resolve current Runtime executable")?;
-            current_binary.as_path()
-        }
-    };
     let mut violations = 0usize;
     let mut critical = 0usize;
     let mut all_violations = Vec::<String>::new();

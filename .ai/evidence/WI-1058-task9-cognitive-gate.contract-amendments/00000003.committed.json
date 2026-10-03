@@ -1,0 +1,47 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:3c1f0875f56960b25e4040fc1e15526cd6e93621a21e3eea45cc06317a093ed0",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1058-task9-cognitive-gate",
+    "sequence": 3,
+    "changeId": "wi1058-explicit-binary-fail-closed-20261003",
+    "requestDigest": "sha256:5996156554676c4bd56686105ae1be13b0e2b6c04c17ca97b0e939c435e572e7",
+    "reason": "Independent review of PR #1009 found that the Python oracle silently falls back to a different Runtime when an explicitly requested --binary is missing or not executable. Keep the Rust CLI's safer identity-bound fail-closed choice, document this one deliberate compatibility difference, and add real-process negative tests. Preserve the 28/28 receipt for the previous snapshot without treating it as acceptance of the amended Contract.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/0",
+        "operation": "replace",
+        "oldValue": "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle，成功 JSON 与 Markdown 输出、--check 模式及失败语义逐项等价。",
+        "newValue": "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。"
+      },
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "replace",
+        "oldValue": "Rust 测试覆盖正常样本、畸形输入和 --check 副作用；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+        "newValue": "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。"
+      }
+    ],
+    "previousContractDigest": "sha256:474c1244f778664571b9be9716cd30ce78e61753e03c99b7c5cdd24b6e0a2c9a",
+    "newContractDigest": "sha256:bef1dfdf7899008f05eb3b90348ceac07032b2304adb6416925b18fb46813a3a",
+    "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+    "environmentObservationDigest": "sha256:4c8095e364610af2b8683db6ed0b6ecb32f4854d041c219b46a607e790aa3554",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1058-task9-cognitive-gate.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/0",
+      "/acceptanceCriteria/1"
+    ],
+    "previousJournalDigest": "sha256:7fb9ae3d53df3f7cb792f33d51eaf7c98d1550559b41e4f8208da9a2a4617e03",
+    "journalDigest": "sha256:5dc79fdbf37c88983de323e261a9e95c3818934c10b91d31bcae91941943423f",
+    "recordedAt": "2026-10-03T11:44:35Z"
+  }
+}

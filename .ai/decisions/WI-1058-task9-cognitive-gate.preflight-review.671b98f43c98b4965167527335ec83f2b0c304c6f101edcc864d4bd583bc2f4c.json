@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bef1dfdf7899008f05eb3b90348ceac07032b2304adb6416925b18fb46813a3a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The repository owner expressly approved the exact WI-1058 amendment wi1058-explicit-binary-fail-closed-20261003. Review is limited to acceptanceCriteria/0 and /1: an explicitly invalid --binary fails closed without fallback, implicit cargo build or evidence write, while valid-binary output parity remains required. This does not claim amended-source verification, PR acceptance, or release approval.",
+  "recordedAt": "2026-10-03T12:17:26Z",
+  "recordedBy": "human:repository-owner via Codex under direct user approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+  "schemaVersion": 1,
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}
