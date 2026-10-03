@@ -19,7 +19,7 @@ Status: implementation under a user-authorized, project-local bootstrap exceptio
 
 - Base: `main` at `78ae7240aac016f005fcf4ced61fcb251ea20eb1`.
 - Candidate reference only: `befdbd11d60af5c01d40ec62497aa9c8b46ba0ce`. Port selected product code, tests, and documentation; do not copy its WI-1053 active Contract, Summary, amendment receipts, controls input, or decisions.
-- Allowlist: WI-1052's identity-bound pending amendment-review request generation without automatic approval; issue #1004's strict cross-checkout historical closeout recovery, raw finalization binding, atomic rollback, and adopter continuation regression.
+- Allowlist: WI-1052's identity-bound pending amendment-review request generation without automatic approval; issue #1004's strict cross-checkout historical closeout recovery, raw finalization binding, non-destructive incomplete/retry handling, and adopter continuation regression; strict prerelease source-version validation and its targeted tests/docs needed to keep the candidate on the existing CI gate without promoting it to stable.
 - Excluded: Task9 script migration, historical WI-1041/1042/1043/1051/1053 closeout, generic scope relaxation, deletion or editing of old receipts, provider resources in Sentinel, and claims of cross-platform/stable acceptance based only on Mac evidence.
 
 ## Why this is an exception
@@ -33,7 +33,7 @@ The scaffold remains `not_ready`. The user directed a narrow repair release ahea
 ## Required proof and publication limit
 
 1. Record exact source-to-new-branch mapping and test each behavior against the new integrated source snapshot.
-2. Verify pending review never starts a verification process. Verify #1004 identity mismatch, tamper, races, idempotency, rollback, and raw historical digest.
+2. Verify pending review never starts a verification process. Verify #1004 identity mismatch, tamper, races, idempotency, non-destructive retry, committed-but-reporting-error, and raw historical digest.
 3. For Sentinel continuation, first correct its formatter Contract scope to an exact file path through its authorized process, then observe whether six recovered historical receipt files still independently trigger `scope_exceeded`. Never globally ignore `.ai/` or delete those receipts.
 4. Obtain an independent code review and exact-head PR CI. Build, download, checksum-check, install, and run `doctor` on Mac arm64. Preserve raw test outputs separately; do not manufacture a Runtime verification receipt.
 5. `v1.0.1-rc.1` is immutable. `v1.0.1-rc.2` was not reserved when this note was written; recheck tag and Release before use. Prefer a fresh prerelease while cross-platform and governance closure remain unproven. Release notes must disclose the exception and deferred work.
@@ -42,7 +42,8 @@ Rollback: before publication, do not tag or release a failing candidate. After a
 
 ## Current evidence, not a completion claim
 
-- New-branch focused tests passed: WI-1052 CLI amendment process 4/4; #1004 repository recovery 3/3, CLI recovery 5/5, MCP recovery 1/1; repository library 54/54 including race, interruption, and rollback.
+- Initial new-branch focused tests passed before the P1 amendment: WI-1052 CLI amendment process 4/4; #1004 repository recovery 3/3, CLI recovery 5/5, MCP recovery 1/1; repository library 54/54. A later independent review found path-based rollback unsafe under concurrent replacement. The amended implementation preserves published paths on failure for inspection and same-byte retry; close-marker/postcommit reporting errors require read-only status recheck. Exact amended-head suite and CI results must be recorded separately.
+- Recovery status scope after the P1 amendment: when the cross-checkout recovery receipt is present, its file digests and archived manifest are revalidated before exposing `closed`. Deletion of the recovery receipt itself cannot be distinguished from an ordinary historical close using the existing immutable close format; this is a residual risk, not a proven fail-closed guarantee. No historical receipt was rewritten to conceal it.
 - The Sentinel formatter Contract was amended to the exact source path. Its next real preflight changed from red `scope_exceeded` to yellow with no blockers and an identity-bound `contract-preflight-review` request. The six historical recovery files remain in `Summary.changedPaths`, but the latest preflight did **not** independently classify them as a scope blocker. Verification remains paused for authentic human review. Do not add a product-wide path ignore based on the earlier confounded red result.
 - Full workspace, hosted CI, independent review, Mac artifact acceptance, and public Release are pending.
 

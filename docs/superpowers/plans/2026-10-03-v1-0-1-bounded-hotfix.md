@@ -20,7 +20,8 @@
 
 - A pending sensitive amendment: request can be generated, verification cannot spawn before authentic review.
 - Tampered or mismatched historical closeout: recovery changes no destination bytes.
-- Interrupted recovery: rollback removes only files installed by that attempt.
+- Interrupted recovery: canonical files are not path-unlinked after publication; partial evidence remains pending and an exact same-byte retry may complete. A post-close reporting error preserves the close marker and requires a read-only status recheck.
+- With a recovery receipt present, status rechecks its digest-bound payload and archived manifest before projecting `closed`. Deletion of that sole receipt remains indistinguishable from an ordinary historical close under the existing close format; report the boundary explicitly.
 - Sentinel formatter after recovery: exact scope first; legitimate historical files must not become formatter product edits, while unrelated dirty files still block.
 - New head after main integration: no old candidate test receipt is reused as current proof.
 

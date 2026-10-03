@@ -1,15 +1,15 @@
 # Ordinary Work Item
 
-Use when Runtime selects ordinary implementation, verification, archive, or
-local cleanup. For failed/stale evidence, use the selected recovery guide.
+Use for Runtime-selected implementation, verification, archive, or cleanup.
+For failed/stale evidence, use recovery guide.
 
 ## Governed work
 
 Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
-Runtime decides admission; this guide grants none. Stay in scope, preserve
-history and failures, re-query at lifecycle boundaries, and never hand-edit
-generated records. Queries are read-only; `preflight` is idempotent, not
-verification. At handoff, deliver the human Outcome required by `AGENTS.md`.
+Runtime admits; this guide grants none. Preserve scope, history,
+and failures; re-query at lifecycle boundaries. Never hand-edit generated
+records. Queries are read-only; `preflight` is not verification. At handoff,
+deliver the human Outcome per `AGENTS.md`.
 
 ## Before verification
 
@@ -26,16 +26,18 @@ required controls block `finish`.
 
 ## Serial and cross-Work-Item use
 
-One Work Item is serial by default; lifecycle/snapshot writes and receipt
-production/consumption stay serial. Verify defaults to `--workers 1`; parallel
-workers fail closed until Runtime verifies dependencies and output isolation.
-Independent CI jobs may fan out with ready dependencies, isolated outputs, and
-bounded resources.
+One Work Item is serial by default; lifecycle and snapshot-changing writes
+stay serial. Work Item-bound verify defaults to --workers 1; explicit
+--workers >1 fails closed until Runtime verifies per-node dependency readiness
+and output isolation. Independent CI jobs may fan out as siblings with ready
+dependencies, isolated outputs, and bounded resources. Keep receipt
+producer-consumer serial; reuse fresh matching receipts.
 
 Cross-Work-Item work needs supported CLI/MCP, compatible declarations, linked
 worktrees, registration, a slot lease, and fresh per-action admission. Check
-`capability show`, CLI help, and MCP `tools/list`; otherwise use admitted
-serial work or stop. See the [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
+`capability show`, CLI help, and MCP `tools/list`; fields or an older Runtime do
+not prove support. If unavailable, use admitted serial work or stop. See the
+[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
 Inspection is read-only; registration, reports, coordination, leases, and drift
 recovery are explicit writes. Recovery appends events; re-admit unrelated work.
