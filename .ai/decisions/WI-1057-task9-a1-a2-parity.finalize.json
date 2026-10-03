@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human-user-authorized-task9-delivery-and-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c0fdbf19178d9c483c607cea09ddf5fb97ba673f",
+    "name": "codex/wi1057-task9-a1-a2-parity",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "9006e69befc1002c0dace24b56409c288f4e1283",
+  "contractDigest": "sha256:66da6f333411f83bd8badd44ffc6cb811d451daee7cf86e7d5ff1015d4861ec6",
+  "operationId": "github-pr-1008-merge-cleanup-20261003",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9006e69befc1002c0dace24b56409c288f4e1283",
+    "headRevision": "c0fdbf19178d9c483c607cea09ddf5fb97ba673f",
+    "mergeCommit": "2948e94bed3b4902847e97aeabbb5ffe5ed0afe8",
+    "number": 1008,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1008"
+  },
+  "reason": "PR #1008 merged as 2948e94b and exact-main CI 37111789555 passed all four jobs; the exact clean WI-1057 managed worktree was archived recoverably and both exact WI-1057 branch refs were deleted.",
+  "receiptId": "github-pr-1008-finalization-20261003",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1057-task9-a1-a2-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1008",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-03T09:18:21Z",
+  "workItemId": "WI-1057-task9-a1-a2-parity",
+  "worktree": {
+    "branch": "codex/wi1057-task9-a1-a2-parity",
+    "headRevision": "c0fdbf19178d9c483c607cea09ddf5fb97ba673f",
+    "path": "/Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit",
+    "worktreeId": "WI-1057-task9-a1-a2-parity"
+  }
+}
