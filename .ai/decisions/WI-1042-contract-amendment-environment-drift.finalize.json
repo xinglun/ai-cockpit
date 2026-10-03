@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human-user-explicit-WI-1042-formal-finalization-authorization-20261003",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "10d49aa070cf5cc372087ab45b26f3353822b51e",
+    "name": "codex/amend-contract",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "065063c0f2f7eed2b7648eed3353717d1ce08822",
+  "contractDigest": "sha256:d152f2cf6d13e188da41666add769cf3794f0d342705b9d4a7917ce485c53d69",
+  "operationId": "github-pr-1003-historical-cleanup-observation-20261003",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "065063c0f2f7eed2b7648eed3353717d1ce08822",
+    "headRevision": "10d49aa070cf5cc372087ab45b26f3353822b51e",
+    "mergeCommit": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+    "number": 1003,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1003"
+  },
+  "reason": "Record an idempotent observation of already completed provider cleanup: PR #1003 is merged at 747ae2da, the exact codex/amend-contract branch is absent locally and on origin, and its original managed worktree is recoverably archived and absent. This receipt does not revalidate the historical verification evidence or claim that the WI-1043 successor is closed.",
+  "receiptId": "github-pr-1003-finalization-idempotent-20261003",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/amend-contract",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1003",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/amend-contract/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-03T09:49:18Z",
+  "workItemId": "WI-1042-contract-amendment-environment-drift",
+  "worktree": {
+    "branch": "codex/amend-contract",
+    "headRevision": "10d49aa070cf5cc372087ab45b26f3353822b51e",
+    "path": "/Users/sei-rinn/.codex/worktrees/amend-contract/ai-cockpit",
+    "worktreeId": "WI-1042-contract-amendment-environment-drift"
+  }
+}

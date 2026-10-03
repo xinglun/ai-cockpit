@@ -1,0 +1,334 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac5648146ec53652ba8ab547b9725b75481a755ebc829ad788585ac58dfbb577",
+      "workItemId": "WI-1042-contract-amendment-environment-drift"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1042-contract-amendment-environment-drift.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.18a5956d78ed3cd0e62128e71deedd7385865b1c9b73d565d5d3ce9e815a9e32.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.1bdc245e619b7ef8f7665e8139af6949ce200a2371908265622e5116e008d5ea.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.1f1471d765d533f43fdf81c79bff18ed0ac311212ffd02fee37e5b1713e55597.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.20e57017896bd17c987c237cbe87df216ad989d50a76fc28c1ae2bdc982dceb1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.373c23bca43b11e2bdb9b4d7dccb4809d0fa1dc773776cbe354da6180c5ce554.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.3def811eebbe6e8d43f81c73f3b65382646b1706148fcafb9f9776450f5631c1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.5225f120309e79f07f1a6f3d650439f33e7c9206092dbc3b662cdfa898efe099.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.52703e928f76f6dd69f25cd31d9c71d1ab53bd1e57e02492f0a4275c0c452a13.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.6ba1b5b54d02756dbf11863b341acbdcdc04d6c708fddec93b7b59a67e663ce9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.7764e1422fec8c95561b0191dffb6f5220fb439eabb554b3a96d396ed51a4dfb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.785495178193ab4154f49247dc4ab0775784e77bf83490bedad2563d9f4958eb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.7efa22f515a65ee63aae6ef465a0f722d53038c07015109649c5f4845ab666cd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.ac0f7fe2d17f0594f355288adbef0436e285235e2dc34bd209cb4369d5b42940.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.b3a39c4a8ab83a54f446660a98b76655a2bf5d54487d712ab4b012052809ab6e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.b4ef3bbdb282635947f721f7409916e520ccc26e6bad7abc5eccb17cb47e44d9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.cee24bed9dbb12f3b334116b9820dc81deceea92229954e65eb875c24aa56ea0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.e7e2b0feaa6d3e5137be79735b40f5cb101d1da7469a622d01e09d7fd42fe412.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification-attempt.f7a9bee4d1a1f36e922f9c60bc6035bd11ff92119855308c07eeb8f533a57abe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1042-contract-amendment-environment-drift.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/scope_amendment.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1042-contract-amendment-environment-drift.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/1003"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by agent:codex-under-user-delegation via user-explicit-WI1042-formal-finalize-verify-close-authorization-20261003 at 2026-10-03T09:51:35Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1042-contract-amendment-environment-drift.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.contract.json"
+          ],
+          "inference": false,
+          "text": "Agents can revise any human-owned plan decision with an explicit reason and traceable history. Runtime-observed environment changes refresh shared execution context, invalidate only affected action admissions, and allow unrelated work to continue; authorization and verification are re-evaluated, never bypassed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1042-contract-amendment-environment-drift.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1042-contract-amendment-environment-drift"
+  },
+  "finalReportDigest": "sha256:22c5eb8f136933094b30ebf52ae2c165b33d26fbb6e55dcadb292142d66f2f8a",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5197cfa14876e71781a831ae64707b064cbc79866cc32030f965b93b8b3ae407",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1042-contract-amendment-environment-drift.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:codex-under-user-delegation",
+    "authoritySource": "user-explicit-WI1042-formal-finalize-verify-close-authorization-20261003",
+    "decidedAt": "2026-10-03T09:51:35Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1042-contract-amendment-environment-drift.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/1003"
+    ],
+    "policyRefs": [
+      "user-explicit-WI1042-close-authorization-20261003"
+    ],
+    "reason": "Confirm only the historical WI-1042 lifecycle and resource cleanup: PR #1003 merged; exact branch absent; managed worktree recoverably archived; Runtime finalization verified. The archived verification remains historical, WI-1043 successor remains separate and unclosed, and this is not Task 9 or release approval.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-10-03T09:51:57Z",
+  "workItemId": "WI-1042-contract-amendment-environment-drift"
+}
