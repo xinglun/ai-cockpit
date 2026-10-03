@@ -15,70 +15,70 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.committed.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.prepared.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.verification-attempt.d57e3a899e2ce13654e42f09cc1076b99b63298a52f967e904df9693b68d7f4a.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1057-task9-a1-a2-parity.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-verification/src/development_cycle_cost.rs"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-verification/src/lib.rs"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-verification/src/runtime_benchmark_scenarios.rs"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-verification/tests/development_cycle_cost.rs"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs"
@@ -137,7 +137,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.contract.json"
         ],
         "inference": false,
         "text": "在最新 main 上交付可复核的 Rust 开发周期成本及 Runtime benchmark 场景分类，与现存 Python oracle 等价；本 WI 不切换 Python 调用方。"
@@ -146,7 +146,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+          ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

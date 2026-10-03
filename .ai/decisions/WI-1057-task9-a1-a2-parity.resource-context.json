@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:7fb983ef3d4d79c5c0c9402be68160573c2de34fd843e6409f729c936baa40d6",
+  "contractDigest": "sha256:66da6f333411f83bd8badd44ffc6cb811d451daee7cf86e7d5ff1015d4861ec6",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-03T08:50:20Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1057-task9-a1-a2-parity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1008",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1057-task9-a1-a2-parity"
+}
