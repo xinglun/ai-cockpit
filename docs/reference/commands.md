@@ -95,9 +95,12 @@ support or send an undeclared field through MCP; use the supported CLI route.
 When a sensitive amendment makes the previous preflight stale, run a fresh
 `preflight` only when Runtime admits it. That preflight may create a pending
 review request bound to the current repository, Work Item, Contract digest,
-and repository snapshot. Generating the request records no human decision and
-is not `confirm_review`; verification and execution remain blocked until a
-matching identity-bound human decision is recorded.
+and repository snapshot. This request-generating route also applies when a
+valid recovery retry remains pending and the amendment has reset preflight to
+`not_run`; the retry does not substitute for amendment review. Generating the
+request records no human decision and is not `confirm_review`; verification
+and execution remain blocked until a matching identity-bound human decision
+is recorded.
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` accepts a
 `ContractAmendmentRequest` with `schemaVersion`, unique `changeId`, current
