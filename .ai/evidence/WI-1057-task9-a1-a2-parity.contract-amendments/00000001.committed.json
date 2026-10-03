@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:cce0f33de45c81ad4f7447ed5b70c8f8f52a4ec310f869927a52883fd4803355",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1057-task9-a1-a2-parity",
+    "sequence": 1,
+    "changeId": "legacy-7f728be0385c98a818a5c833cd99087983b5cd66432f2172dbe79e2151516ae1",
+    "requestDigest": "sha256:b28d95aa0337c4d3f29b108d786cce9cf3791bd9c348ad6b775dc0cdbbe92be6",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:7f728be0385c98a818a5c833cd99087983b5cd66432f2172dbe79e2151516ae1",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c"
+        ],
+        "newValue": [
+          "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c",
+          "tests/performance/development_cycle_cost.py"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c",
+          "tests/performance/development_cycle_cost.py"
+        ],
+        "newValue": [
+          "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c",
+          "tests/performance/development_cycle_cost.py",
+          "tests/performance/runtime_benchmark_scenarios.py"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:706e509adf8df9a19aa97868a0ba6bba4a69d7160f432d47e97a47bd818ff636",
+    "newContractDigest": "sha256:a1a9128275b9a8d3996c1a582a1be094874bdb4293b0c1dbac7c0049d6d661ef",
+    "repositorySnapshotDigest": "sha256:42b9c8a14819bfd468d1569fe02311e95825eaf414a996913a8620363918d2e7",
+    "environmentObservationDigest": "sha256:2686b5e5c6df83db0def5cdfce31b67d1131d201130e996996ce2eee5ae6b89b",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:97460594ac8579a0f9b2a9b1adb3f484c201d6174afcd39e339f5c9cf5a78348",
+    "recordedAt": "2026-10-03T08:26:03Z"
+  }
+}

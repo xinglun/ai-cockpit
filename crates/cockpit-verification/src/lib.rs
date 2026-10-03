@@ -1,5 +1,7 @@
 pub mod composition;
+pub mod development_cycle_cost;
 pub mod gate_plan;
+pub mod runtime_benchmark_scenarios;
 
 pub use composition::{
     CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,

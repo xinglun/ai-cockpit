@@ -1,0 +1,87 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "A1 对 Python oracle 的三个固定阶段、有限非负样本、三位小数、nearest-rank p50/p95、unavailable 与 zero 区分，以及 agent-operation/preflight-rejection 绑定逐项等价。",
+    "A2 对 Python oracle 的十个固定 scenario 名称、measured/not_measured 状态及理由、clean/dirty 与固定规模阈值、无效证据观察边界、未测并发及常驻 MCP 场景逐项等价；未知名称拒绝。",
+    "只增加精确五个 Rust 文件/导出；不切换 Python 调用方、不删除非 Rust 脚本、不修改授权系统，并保留 WI-1049 的红证据。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "9006e69befc1002c0dace24b56409c288f4e1283",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-03T08:22:56Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "在最新 main 上交付可复核的 Rust 开发周期成本及 Runtime benchmark 场景分类，与现存 Python oracle 等价；本 WI 不切换 Python 调用方。",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "从已保存的 Task 9 候选提交干净承接 A1/A2 两个 Rust 纯分类模块，不把未完成授权系统作为迁移前置。",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "crates/cockpit-cli/**",
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "tests/**"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:42b9c8a14819bfd468d1569fe02311e95825eaf414a996913a8620363918d2e7",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "crates/cockpit-verification/src/development_cycle_cost.rs",
+    "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+    "crates/cockpit-verification/tests/development_cycle_cost.rs",
+    "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs",
+    "crates/cockpit-verification/src/lib.rs"
+  ],
+  "sources": [
+    "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c",
+    "tests/performance/development_cycle_cost.py",
+    "tests/performance/runtime_benchmark_scenarios.py"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "cargo test --locked --workspace",
+    "cargo test --locked -p cockpit-verification --test development_cycle_cost",
+    "cargo test --locked -p cockpit-verification --test runtime_benchmark_scenarios"
+  ],
+  "workItemId": "WI-1057-task9-a1-a2-parity"
+}

@@ -1,0 +1,180 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1057-task9-a1-a2-parity",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-7f728be0385c98a818a5c833cd99087983b5cd66432f2172dbe79e2151516ae1",
+      "expectedContractDigest": "sha256:706e509adf8df9a19aa97868a0ba6bba4a69d7160f432d47e97a47bd818ff636",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "tests/performance/development_cycle_cost.py"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "tests/performance/runtime_benchmark_scenarios.py"
+        }
+      ]
+    },
+    "requestDigest": "sha256:b28d95aa0337c4d3f29b108d786cce9cf3791bd9c348ad6b775dc0cdbbe92be6",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "A1 对 Python oracle 的三个固定阶段、有限非负样本、三位小数、nearest-rank p50/p95、unavailable 与 zero 区分，以及 agent-operation/preflight-rejection 绑定逐项等价。",
+        "A2 对 Python oracle 的十个固定 scenario 名称、measured/not_measured 状态及理由、clean/dirty 与固定规模阈值、无效证据观察边界、未测并发及常驻 MCP 场景逐项等价；未知名称拒绝。",
+        "只增加精确五个 Rust 文件/导出；不切换 Python 调用方、不删除非 Rust 脚本、不修改授权系统，并保留 WI-1049 的红证据。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "createdAt": "2026-10-03T08:22:56Z",
+      "goal": "在最新 main 上交付可复核的 Rust 开发周期成本及 Runtime benchmark 场景分类，与现存 Python oracle 等价；本 WI 不切换 Python 调用方。",
+      "intent": "从已保存的 Task 9 候选提交干净承接 A1/A2 两个 Rust 纯分类模块，不把未完成授权系统作为迁移前置。",
+      "mode": "implementation",
+      "outOfScope": [
+        "crates/cockpit-cli/**",
+        "crates/cockpit-protocol/**",
+        "crates/cockpit-repository/**",
+        "tests/**"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:42b9c8a14819bfd468d1569fe02311e95825eaf414a996913a8620363918d2e7",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-verification/src/development_cycle_cost.rs",
+        "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+        "crates/cockpit-verification/tests/development_cycle_cost.rs",
+        "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "cargo test --locked -p cockpit-verification --test development_cycle_cost",
+        "cargo test --locked -p cockpit-verification --test runtime_benchmark_scenarios"
+      ],
+      "workItemId": "WI-1057-task9-a1-a2-parity"
+    },
+    "previousContractDigest": "sha256:706e509adf8df9a19aa97868a0ba6bba4a69d7160f432d47e97a47bd818ff636",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1 对 Python oracle 的三个固定阶段、有限非负样本、三位小数、nearest-rank p50/p95、unavailable 与 zero 区分，以及 agent-operation/preflight-rejection 绑定逐项等价。",
+        "A2 对 Python oracle 的十个固定 scenario 名称、measured/not_measured 状态及理由、clean/dirty 与固定规模阈值、无效证据观察边界、未测并发及常驻 MCP 场景逐项等价；未知名称拒绝。",
+        "只增加精确五个 Rust 文件/导出；不切换 Python 调用方、不删除非 Rust 脚本、不修改授权系统，并保留 WI-1049 的红证据。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T08:22:56Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "在最新 main 上交付可复核的 Rust 开发周期成本及 Runtime benchmark 场景分类，与现存 Python oracle 等价；本 WI 不切换 Python 调用方。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "从已保存的 Task 9 候选提交干净承接 A1/A2 两个 Rust 纯分类模块，不把未完成授权系统作为迁移前置。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-cli/**",
+        "crates/cockpit-protocol/**",
+        "crates/cockpit-repository/**",
+        "tests/**"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:42b9c8a14819bfd468d1569fe02311e95825eaf414a996913a8620363918d2e7",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-verification/src/development_cycle_cost.rs",
+        "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+        "crates/cockpit-verification/tests/development_cycle_cost.rs",
+        "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs",
+        "crates/cockpit-verification/src/lib.rs"
+      ],
+      "sources": [
+        "Task 9 preserved candidate commit 6ff2f51626e316b49d6f83e4b68de28dac14e43c",
+        "tests/performance/development_cycle_cost.py",
+        "tests/performance/runtime_benchmark_scenarios.py"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "cargo test --locked -p cockpit-verification --test development_cycle_cost",
+        "cargo test --locked -p cockpit-verification --test runtime_benchmark_scenarios"
+      ],
+      "workItemId": "WI-1057-task9-a1-a2-parity"
+    },
+    "newContractDigest": "sha256:a1a9128275b9a8d3996c1a582a1be094874bdb4293b0c1dbac7c0049d6d661ef",
+    "previousSummaryDigest": "sha256:601164c3a6fd319fac3e33772107ba0385dddb731c5f0ebafd4b7a0dad8edb30",
+    "repositorySnapshotDigest": "sha256:42b9c8a14819bfd468d1569fe02311e95825eaf414a996913a8620363918d2e7",
+    "environmentObservationDigest": "sha256:2686b5e5c6df83db0def5cdfce31b67d1131d201130e996996ce2eee5ae6b89b",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:7f728be0385c98a818a5c833cd99087983b5cd66432f2172dbe79e2151516ae1",
+    "preparedAt": "2026-10-03T08:26:03Z"
+  },
+  "preparedDigest": "sha256:cce0f33de45c81ad4f7447ed5b70c8f8f52a4ec310f869927a52883fd4803355"
+}

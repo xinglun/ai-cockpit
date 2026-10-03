@@ -1,0 +1,158 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "workItemId": "WI-1057-task9-a1-a2-parity"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1057-task9-a1-a2-parity.verification-attempt.d57e3a899e2ce13654e42f09cc1076b99b63298a52f967e904df9693b68d7f4a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/src/development_cycle_cost.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/src/runtime_benchmark_scenarios.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/tests/development_cycle_cost.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1057-task9-a1-a2-parity.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+        ],
+        "inference": false,
+        "text": "在最新 main 上交付可复核的 Rust 开发周期成本及 Runtime benchmark 场景分类，与现存 Python oracle 等价；本 WI 不切换 Python 调用方。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1057-task9-a1-a2-parity.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-1057-task9-a1-a2-parity"
+}

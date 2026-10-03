@@ -1,0 +1,127 @@
+{
+  "attemptId": "sha256:d57e3a899e2ce13654e42f09cc1076b99b63298a52f967e904df9693b68d7f4a",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "commandDigest": "sha256:f8d31db5fa57f9e49fd4cefba0adcb3276ed6374c5bee1dd8485b9e27cfb2dda",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "commandDigest": "sha256:ad9ad638fa7c40e564ff9c13a90655e893eacd7259d9528ced1e5597b96d6ee7",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "commandDigest": "sha256:b9859f075960735d65cd189746d42a95470539e8caee5298999c1e721d7a85fd",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-verification",
+        "--test",
+        "development_cycle_cost"
+      ],
+      "baseCommit": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "commandDigest": "sha256:efe5b0f29b8e6dc0a8c9eb6b25481273589322edaef0d534f3e86c9410cb496f",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-verification",
+        "--test",
+        "runtime_benchmark_scenarios"
+      ],
+      "baseCommit": "9006e69befc1002c0dace24b56409c288f4e1283",
+      "commandDigest": "sha256:6c19897d9bee04423a4560818c93ef476143a880e2b36b528e397cc12aa2165c",
+      "nodeId": "project-command-4",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:a1a9128275b9a8d3996c1a582a1be094874bdb4293b0c1dbac7c0049d6d661ef",
+  "contractExecutionScopeDigest": "sha256:b7cb0990016cf5668be27e8de7729b4cb1b1e215233ed9cef4ad3f9a8f3e5689",
+  "createdAt": "2026-10-03T08:28:51Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit/.ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json: repository protocol state error at /Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit/.ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:e3b2b89f896829f1f9836ca38435e850eaeb9116c8efa79e0571f42c90305081, issues=[\"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/.codex/worktrees/task9-a1-a2-clean/ai-cockpit/.ai/work-items/active/WI-1057-task9-a1-a2-parity.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1057-task9-a1-a2-parity"
+}
