@@ -74,7 +74,7 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | Inspection and drift check are read-only; recording drift is an explicit persistent write before affected actions. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
-| Audit | `audit export` | Produce a stable repository-bound event bundle for an external retention owner; never claim local immutability. |
+| Audit | `audit export`, `audit cognitive-benefit` | Export repository-bound events or run the fixed Rust cognitive-benefit evaluation; neither result grants release authority. |
 | Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
 
 ## Contract amendments and environment drift
@@ -580,6 +580,19 @@ review when the returned state is yellow, red, unknown, or not ready.
   identity. The manifest sets `externalRetentionRequired: true`; an output file
   is idempotent and is only a handoff to SIEM, WORM, S3 Object Lock, or another
   external retention owner.
+- `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` runs the
+  fixed seven-case evaluation in Rust. `--check` is read-only with respect to
+  evaluation artifacts; without it, the command writes the JSON report under
+  `.ai/evidence/` and Markdown under `.ai/evidence/external/` in the selected
+  repository. An explicit `--binary` must name an existing executable file;
+  an invalid selection fails without falling back to another Runtime, building
+  with Cargo, or writing evaluation artifacts. Missing files and Unix files
+  without execute permission are rejected before evaluation; other launch
+  failures are reported when the selected file is invoked. This is an
+  intentional safety difference from the former Python evaluator's fallback;
+  valid explicit binaries retain output parity. Python remains an oracle for
+  parity tests, not the repository gate. No participant study or measured
+  cognitive benefit is implied.
 - Task Outcome reports are strict typed JSON projections. Every claim carries
   evidence references when available; an explicitly marked inference is not a
   verified fact. The event stream is append-only for a Work Item finish and is

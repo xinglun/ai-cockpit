@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:474c1244f778664571b9be9716cd30ce78e61753e03c99b7c5cdd24b6e0a2c9a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The repository owner explicitly approved this WI-1058 amendment review. The sole subsequent Contract change binds the real branch, worktree and PR #1009 for that same approved scope. This renewed review covers only the three command-reference locales and their matching acceptance criterion in amendment wi1058-audit-command-docs-20261003; it does not claim verification or broader scope.",
+  "recordedAt": "2026-10-03T11:30:21Z",
+  "recordedBy": "human:repository-owner via Codex under direct user approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+  "schemaVersion": 1,
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

@@ -39,6 +39,7 @@ use std::{
     },
 };
 
+mod cognitive_benefit;
 mod runtime_identity;
 
 #[derive(Debug, Parser)]
@@ -451,6 +452,14 @@ enum EvidenceCommand {
 
 #[derive(Debug, Subcommand)]
 enum AuditCommand {
+    CognitiveBenefit {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        binary: Option<PathBuf>,
+        #[arg(long)]
+        check: bool,
+    },
     Export {
         #[arg(long)]
         repo: PathBuf,
@@ -2717,6 +2726,11 @@ fn run() -> Result<()> {
             }
         },
         CommandKind::Audit { command } => match command {
+            AuditCommand::CognitiveBenefit {
+                repo,
+                binary,
+                check,
+            } => cognitive_benefit::run(&repo, binary.as_deref(), check)?,
             AuditCommand::Export { repo, output } => {
                 require_compatible(&repo, &runtime_context)?;
                 let manifest = cockpit_repository::export_audit_events(&repo, &runtime_context)

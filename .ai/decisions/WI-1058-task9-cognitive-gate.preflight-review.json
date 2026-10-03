@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d94d5399e5560d8e1a627e9b43a51a44029db028fcead9401c480217ba5348d9",
+  "reason": "The repository owner explicitly approved both WI-1043 closeout recovery and this WI-1058 amendment review. This review covers only the three command-reference locales and their matching acceptance criterion in amendment wi1058-audit-command-docs-20261003; it does not claim verification or broader scope.",
+  "recordedAt": "2026-10-03T11:26:09Z",
+  "recordedBy": "human:repository-owner via Codex under direct user approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+  "schemaVersion": 1,
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}
