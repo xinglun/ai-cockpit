@@ -5678,6 +5678,7 @@ fn closeout_recovery_validate_snapshot_extension(
     let after_paths = after.changed_paths.iter().cloned().collect::<BTreeSet<_>>();
     let removed = before_paths
         .difference(&after_paths)
+        .filter(|path| !allowed_paths.contains(*path))
         .cloned()
         .collect::<Vec<_>>();
     let unexpected = after_paths
@@ -5818,8 +5819,6 @@ struct CloseoutRecoveryFileIdentity {
 #[derive(Clone, Debug)]
 struct CloseoutRecoveryInstalledFile {
     relative_path: String,
-    digest: Digest,
-    identity: CloseoutRecoveryFileIdentity,
 }
 
 fn closeout_recovery_file_identity(
@@ -5884,52 +5883,6 @@ fn closeout_recovery_file_identity(
         let _ = metadata;
         Ok(None)
     }
-}
-
-fn closeout_recovery_remove_owned_file(
-    root: &Path,
-    installed: &CloseoutRecoveryInstalledFile,
-) -> Result<bool, ObserverError> {
-    let path = root.join(&installed.relative_path);
-    let metadata = match fs::symlink_metadata(&path) {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(true),
-        Err(source) => {
-            return Err(ObserverError::Read { path, source });
-        }
-    };
-    if metadata.file_type().is_symlink() || !metadata.is_file() {
-        return Ok(false);
-    }
-    let Some(identity) = closeout_recovery_file_identity(&path)? else {
-        return Ok(false);
-    };
-    if identity != installed.identity {
-        return Ok(false);
-    }
-    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
-        path: path.clone(),
-        source,
-    })?;
-    if Digest::sha256_bytes(&bytes) != installed.digest {
-        return Ok(false);
-    }
-    fs::remove_file(&path).map_err(|source| ObserverError::Read { path, source })?;
-    Ok(true)
-}
-
-fn closeout_recovery_rollback(
-    root: &Path,
-    installed_files: &[CloseoutRecoveryInstalledFile],
-) -> Vec<String> {
-    let mut unresolved = Vec::new();
-    for installed in installed_files.iter().rev() {
-        match closeout_recovery_remove_owned_file(root, installed) {
-            Ok(true) => {}
-            Ok(false) | Err(_) => unresolved.push(installed.relative_path.clone()),
-        }
-    }
-    unresolved
 }
 
 /// Install one recovery file without replacing an existing path. A completed
@@ -6011,61 +5964,49 @@ fn closeout_recovery_install_immutable(
             let Some(identity) = temporary_identity else {
                 let error = closeout_recovery_error(
                     root,
-                    "closeout_recovery_rollback_identity_unavailable",
-                    format!("filesystem identity is unavailable for rollback: {relative}"),
+                    "closeout_recovery_install_identity_unavailable",
+                    format!(
+                        "filesystem identity is unavailable for install verification: {relative}"
+                    ),
                 );
                 let _ = fs::remove_file(&temporary);
                 return Err(error);
             };
             let token = CloseoutRecoveryInstalledFile {
                 relative_path: relative.to_owned(),
-                digest: Digest::sha256_bytes(bytes),
-                identity,
             };
             match closeout_recovery_file_identity(&destination) {
                 Ok(Some(destination_identity)) if destination_identity == identity => {}
                 Ok(_) => {
-                    let unresolved = closeout_recovery_rollback(root, std::slice::from_ref(&token));
                     let _ = fs::remove_file(&temporary);
                     return Err(closeout_recovery_error(
                         root,
                         "closeout_recovery_install_race",
                         format!(
-                            "destination changed during atomic install at {relative}; rollback unresolved paths: {unresolved:?}"
+                            "destination changed during atomic install at {relative}; canonical path preserved for inspection and retry"
                         ),
                     ));
                 }
                 Err(error) => {
-                    let unresolved = closeout_recovery_rollback(root, std::slice::from_ref(&token));
                     let _ = fs::remove_file(&temporary);
                     return Err(closeout_recovery_error(
                         root,
                         "closeout_recovery_install_incomplete",
                         format!(
-                            "could not verify the installed file at {relative}: {error}; rollback unresolved paths: {unresolved:?}"
+                            "could not verify the installed file at {relative}: {error}; canonical path preserved for inspection and retry"
                         ),
                     ));
                 }
             }
             match fs::remove_file(&temporary) {
                 Ok(()) => Ok(Some(token)),
-                Err(source) => {
-                    let unresolved = closeout_recovery_rollback(root, std::slice::from_ref(&token));
-                    if unresolved.is_empty() {
-                        Err(ObserverError::Read {
-                            path: temporary.clone(),
-                            source,
-                        })
-                    } else {
-                        Err(closeout_recovery_error(
-                            root,
-                            "closeout_recovery_install_incomplete",
-                            format!(
-                                "temporary install cleanup failed: {source}; rollback unresolved paths: {unresolved:?}"
-                            ),
-                        ))
-                    }
-                }
+                Err(source) => Err(closeout_recovery_error(
+                    root,
+                    "closeout_recovery_install_incomplete",
+                    format!(
+                        "temporary install cleanup failed at {relative}: {source}; canonical path preserved for inspection and retry"
+                    ),
+                )),
             }
         }
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
@@ -6289,6 +6230,8 @@ where
 
     let close_path = format!(".ai/decisions/{work_item_id}.close.json");
     let mut installed_files = Vec::new();
+    let mut close_marker_attempted = false;
+    let mut postcommit_status_attempted = false;
     let operation = (|| {
         let mut changed_paths = Vec::new();
         for file in plan.files.iter().filter(|file| file.path != close_path) {
@@ -6308,6 +6251,13 @@ where
         }
         let (recovery_receipt_path, recovery_receipt) =
             closeout_recovery_receipt(&destination, &plan, runtime)?;
+        let recovery_receipt_bytes =
+            fs::read(destination.join(&recovery_receipt_path)).map_err(|source| {
+                ObserverError::Read {
+                    path: destination.join(&recovery_receipt_path),
+                    source,
+                }
+            })?;
         if let Some(installed) = recovery_receipt {
             changed_paths.push(recovery_receipt_path.clone());
             installed_files.push(installed);
@@ -6365,7 +6315,45 @@ where
             &immediate_close_snapshot,
             &allowed_paths,
         )?;
+        // A retry may restore a previously missing tracked file, removing
+        // it from Git's changed-path set. Before committing, check the exact
+        // bytes of every planned payload and the recovery receipt again.
+        for (relative, expected) in plan
+            .files
+            .iter()
+            .filter(|file| file.path != close_path)
+            .map(|file| (file.path.as_str(), file.bytes.as_slice()))
+            .chain(std::iter::once((
+                recovery_receipt_path.as_str(),
+                recovery_receipt_bytes.as_slice(),
+            )))
+        {
+            let path = destination.join(relative);
+            let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            if metadata.file_type().is_symlink()
+                || !metadata.is_file()
+                || fs::read(&path).map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })? != expected
+            {
+                return Err(closeout_recovery_error(
+                    &destination,
+                    "closeout_recovery_required_file_changed",
+                    format!(
+                        "required recovery file is missing, replaced, or changed before commit: {relative}"
+                    ),
+                ));
+            }
+        }
 
+        // This is the commit point. Published canonical paths are never
+        // unlinked by failure handling: an external writer can replace one
+        // between any identity check and a path-based unlink.
+        close_marker_attempted = true;
         if let Some(installed) = closeout_recovery_install_immutable(
             &destination,
             &close_file.path,
@@ -6376,6 +6364,7 @@ where
             installed_files.push(installed);
             after_step(CloseoutRecoveryStep::CloseDecisionInstalled, &plan)?;
         }
+        postcommit_status_attempted = true;
         let status = work_item_status_snapshot_with_runtime(&destination, work_item_id, runtime)?;
         let source_projection = closeout_status_projection(&plan.source_status);
         let destination_projection = closeout_status_projection(&status);
@@ -6425,15 +6414,56 @@ where
     match operation {
         Ok(receipt) => Ok(receipt),
         Err(error) => {
-            let unresolved = closeout_recovery_rollback(&destination, &installed_files);
-            if unresolved.is_empty() {
+            if close_marker_attempted {
+                let marker_path = destination.join(&close_path);
+                let (marker_state, exact_marker_present) = match fs::symlink_metadata(&marker_path)
+                {
+                    Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                        match fs::read(&marker_path) {
+                            Ok(bytes)
+                                if plan
+                                    .files
+                                    .iter()
+                                    .any(|file| file.path == close_path && file.bytes == bytes) =>
+                            {
+                                ("exact source close marker present", true)
+                            }
+                            Ok(_) => ("close marker path has unexpected bytes", false),
+                            Err(_) => ("close marker path exists but could not be read", false),
+                        }
+                    }
+                    Ok(_) => ("close marker path is not a regular file", false),
+                    Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
+                        ("close marker path absent", false)
+                    }
+                    Err(_) => ("close marker path could not be inspected", false),
+                };
+                let code = if !exact_marker_present {
+                    "closeout_recovery_commit_state_unknown"
+                } else if postcommit_status_attempted {
+                    "closeout_recovery_committed_projection_unavailable"
+                } else {
+                    "closeout_recovery_committed_reporting_error"
+                };
+                Err(closeout_recovery_error(
+                    &destination,
+                    code,
+                    format!(
+                        "close marker installation was attempted; {marker_state}; reporting or postcommit validation failed ({error}); no rollback was attempted; re-read status before acting"
+                    ),
+                ))
+            } else if installed_files.is_empty() {
                 Err(error)
             } else {
+                let preserved = installed_files
+                    .iter()
+                    .map(|installed| installed.relative_path.clone())
+                    .collect::<Vec<_>>();
                 Err(closeout_recovery_error(
                     &destination,
                     "closeout_recovery_incomplete",
                     format!(
-                        "recovery failed ({error}); no completion is claimed, but these paths changed after this attempt and were preserved rather than removed: {unresolved:?}"
+                        "recovery failed ({error}); no completion is claimed; published paths preserved for inspection and same-byte retry: {preserved:?}"
                     ),
                 ))
             }
@@ -9298,6 +9328,8 @@ mod cross_checkout_closeout_tests {
                 "clone",
                 "--quiet",
                 "--no-hardlinks",
+                "--config",
+                "core.autocrlf=false",
                 source.path().to_str().expect("source path"),
                 destination_path.to_str().expect("destination path"),
             ],
@@ -9384,7 +9416,115 @@ mod cross_checkout_closeout_tests {
     }
 
     #[test]
-    fn runtime_error_after_each_install_rolls_back_the_owned_files() {
+    fn failed_recovery_preserves_installed_payload_for_safe_retry() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        let first = missing
+            .first()
+            .expect("fixture needs a missing payload")
+            .clone();
+        let result = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if matches!(step, CloseoutRecoveryStep::FileInstalled(_)) {
+                    return Err(injected_failure(&root));
+                }
+                Ok(())
+            },
+        );
+        assert!(result.is_err());
+        assert!(
+            root.join(&first).is_file(),
+            "a published path must not be unlinked after a separate identity check"
+        );
+        assert_no_closeout_commit(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .expect("same-byte retry completes preserved partial payload");
+    }
+
+    #[test]
+    fn postcommit_reporting_error_preserves_close_marker_for_read_only_recheck() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        let result = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if matches!(step, CloseoutRecoveryStep::CloseDecisionInstalled) {
+                    return Err(injected_failure(&root));
+                }
+                Ok(())
+            },
+        );
+        let error = result.expect_err("postcommit reporting fault must surface");
+        assert!(
+            error
+                .to_string()
+                .contains("closeout_recovery_committed_reporting_error"),
+            "postcommit error must acknowledge that the close decision was installed: {error}"
+        );
+        assert!(
+            root.join(close_path()).is_file(),
+            "a committed close marker must not be unlinked"
+        );
+        let status = work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+            .expect("read-only recheck of committed lifecycle");
+        assert_eq!(status.lifecycle_phase, "closed");
+    }
+
+    #[test]
+    fn postcommit_status_read_failure_reports_commit_without_unlinking_marker() {
+        let fixture = fixture();
+        let root = destination(&fixture);
+        let contract = root.join(format!(
+            ".ai/work-items/archive/{WORK_ITEM_ID}.contract.json"
+        ));
+        let hidden_contract = root.join(format!(
+            ".ai/work-items/archive/{WORK_ITEM_ID}.contract.json.test-hidden"
+        ));
+        let result = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if matches!(step, CloseoutRecoveryStep::CloseDecisionInstalled) {
+                    fs::rename(&contract, &hidden_contract)
+                        .expect("simulate postcommit status I/O failure");
+                }
+                Ok(())
+            },
+        );
+        let error = result.expect_err("status must fail after Contract becomes unreadable");
+        assert!(
+            error
+                .to_string()
+                .contains("closeout_recovery_committed_projection_unavailable"),
+            "status read failure must be distinguished from an uncommitted attempt: {error}"
+        );
+        assert!(
+            root.join(close_path()).is_file(),
+            "close marker is already committed"
+        );
+        fs::rename(hidden_contract, contract).expect("restore test fixture Contract");
+        let status = work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+            .expect("read-only recheck after I/O recovers");
+        assert_eq!(status.lifecycle_phase, "closed");
+    }
+
+    #[test]
+    fn runtime_error_before_commit_preserves_partial_files_and_retry_completes() {
         let first = fixture();
         let import_paths = missing_import_paths(&first);
         let failure_points = import_paths.len() + 3; // payloads, receipt, pre-close, close marker
@@ -9409,26 +9549,34 @@ mod cross_checkout_closeout_tests {
                 },
             );
             assert!(result.is_err(), "injected write point {fail_on} must fail");
-            for relative in missing {
+            assert!(
+                root.join(&missing[0]).is_file(),
+                "first installed payload must be preserved"
+            );
+            if fail_on < failure_points {
+                assert_no_closeout_commit(&fixture);
+                recover_cross_checkout_closeout(
+                    &root,
+                    fixture.source.path(),
+                    WORK_ITEM_ID,
+                    &fixture.runtime,
+                )
+                .expect("same-byte retry completes precommit failure");
+            } else {
                 assert!(
-                    !root.join(relative).exists(),
-                    "failed attempt left a newly installed payload behind at write point {fail_on}"
+                    root.join(close_path()).is_file(),
+                    "postcommit reporting failure must preserve close marker"
                 );
             }
-            assert!(
-                !root
-                    .join(format!(
-                        ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
-                    ))
-                    .exists(),
-                "failed attempt must roll back its recovery receipt"
-            );
-            assert_no_closeout_commit(&fixture);
+            let status =
+                work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+                    .expect("read-only lifecycle recheck");
+            assert_eq!(status.lifecycle_phase, "closed");
         }
     }
 
     #[test]
-    fn detected_destination_addition_rolls_back_only_recovery_files() {
+    fn detected_destination_addition_preserves_partial_recovery_and_user_file() {
         let fixture = fixture();
         let missing = missing_import_paths(&fixture);
         let root = destination(&fixture);
@@ -9452,15 +9600,126 @@ mod cross_checkout_closeout_tests {
         assert!(user_path.exists(), "concurrent user file must be preserved");
         for relative in missing {
             assert!(
-                !root.join(relative).exists(),
-                "recovery-owned evidence must be rolled back after a detected destination race"
+                root.join(relative).exists(),
+                "published recovery evidence must remain for a safe retry"
             );
         }
         assert_no_closeout_commit(&fixture);
     }
 
     #[test]
-    fn modified_racing_target_is_never_removed_during_rollback() {
+    fn preexisting_payload_deleted_before_commit_cannot_leave_close_marker() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        let relative = missing
+            .iter()
+            .find(|path| path.ends_with(".task-report.md"))
+            .expect("fixture needs a nonessential historical payload")
+            .clone();
+        fs::copy(fixture.source.path().join(&relative), root.join(&relative))
+            .expect("seed identical preexisting payload");
+        let result = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if matches!(step, CloseoutRecoveryStep::BeforeCloseDecision) {
+                    fs::remove_file(root.join(&relative))
+                        .expect("simulate concurrent deletion of preexisting payload");
+                }
+                Ok(())
+            },
+        );
+        assert!(
+            result.is_err(),
+            "missing planned payload must reject commit"
+        );
+        assert_no_closeout_commit(&fixture);
+    }
+
+    #[test]
+    fn recovered_close_is_not_projected_closed_after_payload_disappears() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        let relative = missing
+            .iter()
+            .find(|path| path.ends_with(".task-report.md"))
+            .expect("fixture needs historical payload")
+            .clone();
+        let result = recover_cross_checkout_closeout_with_hook(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+            |step, _| {
+                if matches!(step, CloseoutRecoveryStep::CloseDecisionInstalled) {
+                    fs::remove_file(root.join(&relative))
+                        .expect("simulate deletion after close marker publication");
+                }
+                Ok(())
+            },
+        );
+        assert!(
+            result.is_err(),
+            "recovery must not report success with a missing receipt-bound payload"
+        );
+        assert!(
+            root.join(close_path()).is_file(),
+            "postcommit failure must preserve marker"
+        );
+        let status = work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+            .expect("read-only status of incomplete recovered close");
+        assert_ne!(
+            status.lifecycle_phase, "closed",
+            "missing receipt-bound evidence must prevent a closed projection"
+        );
+    }
+
+    #[test]
+    fn tampered_recovery_receipt_cannot_omit_missing_archived_payload() {
+        let fixture = fixture();
+        let missing = missing_import_paths(&fixture);
+        let root = destination(&fixture);
+        recover_cross_checkout_closeout(
+            &root,
+            fixture.source.path(),
+            WORK_ITEM_ID,
+            &fixture.runtime,
+        )
+        .expect("complete recovery");
+        let relative = missing
+            .iter()
+            .find(|path| path.ends_with(".task-report.md"))
+            .expect("fixture needs archived task report")
+            .clone();
+        let receipt_path = root.join(format!(
+            ".ai/decisions/{WORK_ITEM_ID}.cross-checkout-closeout-recovery.json"
+        ));
+        let mut receipt: serde_json::Value =
+            read_json(&receipt_path).expect("read recovery receipt");
+        receipt["fileDigests"]
+            .as_array_mut()
+            .expect("file digests")
+            .retain(|file| file["path"] != relative);
+        fs::write(
+            &receipt_path,
+            serde_json::to_vec_pretty(&receipt).expect("serialize receipt"),
+        )
+        .expect("tamper fixture receipt");
+        fs::remove_file(root.join(&relative)).expect("remove omitted archived payload");
+        let status = work_item_status_snapshot_with_runtime(&root, WORK_ITEM_ID, &fixture.runtime)
+            .expect("read-only status after tamper");
+        assert_ne!(
+            status.lifecycle_phase, "closed",
+            "receipt omissions cannot launder missing archived evidence"
+        );
+    }
+
+    #[test]
+    fn modified_racing_target_and_other_payloads_are_never_unlinked() {
         let fixture = fixture();
         let missing = missing_import_paths(&fixture);
         let root = destination(&fixture);
@@ -9492,15 +9751,15 @@ mod cross_checkout_closeout_tests {
         );
         for relative in missing.into_iter().filter(|path| path != &modified_path) {
             assert!(
-                !root.join(relative).exists(),
-                "unchanged recovery-owned evidence should roll back"
+                root.join(relative).exists(),
+                "other published evidence must remain untouched"
             );
         }
         assert_no_closeout_commit(&fixture);
     }
 
     #[test]
-    fn source_change_during_recovery_rolls_back_destination_writes() {
+    fn source_change_during_recovery_preserves_pending_destination_writes() {
         let fixture = fixture();
         let missing = missing_import_paths(&fixture);
         let root = destination(&fixture);
@@ -9527,8 +9786,8 @@ mod cross_checkout_closeout_tests {
         );
         for relative in missing {
             assert!(
-                !root.join(relative).exists(),
-                "source drift must roll back recovery-owned destination files"
+                root.join(relative).exists(),
+                "source drift must leave published destination files for inspection"
             );
         }
         assert_no_closeout_commit(&fixture);

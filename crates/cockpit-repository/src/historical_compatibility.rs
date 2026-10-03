@@ -2,15 +2,17 @@ use super::{
     MAX_EXTERNAL_EVIDENCE_BYTES, is_regular_non_symlink, ordinary_cleanup_binding_from_decision,
     read_json, recovery_decision_error, reject_duplicate_json_keys,
     status_projection::discover_worktree_layout, validate_recovery_predecessor_bindings,
-    validate_recovery_successor_binding, work_item_artifact_path,
+    validate_recovery_successor_binding, verify_archive_manifest, work_item_artifact_path,
 };
 use chrono::{DateTime, Utc};
+use cockpit_core::Digest;
 use cockpit_protocol::{
     Contract, HumanDecision, RecoveryDecisionReceipt, ResourceFinalizationDisposition,
     ResourceFinalizationReceipt, RuntimeContext,
 };
+use std::collections::BTreeSet;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 
 /// Validate the close receipt before exposing a terminal `closed` status.
 /// Merely finding a decision file is not enough: the record must be a regular
@@ -73,11 +75,128 @@ pub(crate) fn close_decision_is_valid_for_status(
     {
         return false;
     }
+    if !recovered_closeout_files_valid(root, work_item_id, repository_id) {
+        return false;
+    }
     if is_canonical_close_decision(&decision.decision) {
         return true;
     }
 
     historical_legacy_close_decision_is_valid(root, &value, work_item_id, repository_id)
+}
+
+/// A recovery receipt is written before its close marker. If present, it
+/// binds every imported file to exact bytes; a marker alone must not project
+/// `closed` after a concurrent deletion or later evidence loss. Ordinary
+/// closes have no cross-checkout recovery receipt and keep their old behavior.
+fn recovered_closeout_files_valid(root: &Path, work_item_id: &str, repository_id: &str) -> bool {
+    let receipt_path = root.join(format!(
+        ".ai/decisions/{work_item_id}.cross-checkout-closeout-recovery.json"
+    ));
+    let metadata = match fs::symlink_metadata(&receipt_path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return true,
+        Err(_) => return false,
+    };
+    if metadata.file_type().is_symlink()
+        || !metadata.is_file()
+        || metadata.len() > MAX_EXTERNAL_EVIDENCE_BYTES as u64
+    {
+        return false;
+    }
+    let Ok(receipt) = read_json(&receipt_path) else {
+        return false;
+    };
+    if receipt["schemaVersion"] != 1
+        || receipt["kind"] != "cross_checkout_closeout_recovery"
+        || receipt["workItemId"] != work_item_id
+        || receipt["destinationRepositoryId"] != repository_id
+    {
+        return false;
+    }
+    let Some(files) = receipt["fileDigests"].as_array() else {
+        return false;
+    };
+    if files.is_empty() || files.len() > 128 {
+        return false;
+    }
+    let mut seen = BTreeSet::new();
+    for file in files {
+        let (Some(relative), Some(expected), Some(size)) = (
+            file["path"].as_str(),
+            file["digest"].as_str(),
+            file["sizeBytes"].as_u64(),
+        ) else {
+            return false;
+        };
+        let relative_path = Path::new(relative);
+        if relative_path.is_absolute()
+            || relative_path
+                .components()
+                .any(|component| !matches!(component, Component::Normal(_)))
+            || !relative_path.starts_with(".ai")
+            || !seen.insert(relative)
+            || size > MAX_EXTERNAL_EVIDENCE_BYTES as u64
+        {
+            return false;
+        }
+        let allowed = [
+            format!(".ai/work-items/archive/{work_item_id}."),
+            format!(".ai/evidence/{work_item_id}."),
+            format!(".ai/decisions/{work_item_id}."),
+        ]
+        .iter()
+        .any(|prefix| relative.starts_with(prefix));
+        if !allowed {
+            return false;
+        }
+        let path = root.join(relative_path);
+        let mut parent = root.to_path_buf();
+        for component in relative_path
+            .components()
+            .take(relative_path.components().count() - 1)
+        {
+            parent.push(component.as_os_str());
+            let Ok(metadata) = fs::symlink_metadata(&parent) else {
+                return false;
+            };
+            if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                return false;
+            }
+        }
+        let Ok(metadata) = fs::symlink_metadata(&path) else {
+            return false;
+        };
+        if metadata.file_type().is_symlink() || !metadata.is_file() || metadata.len() != size {
+            return false;
+        }
+        let Ok(bytes) = fs::read(&path) else {
+            return false;
+        };
+        if Digest::sha256_bytes(&bytes).as_str() != expected {
+            return false;
+        }
+    }
+    if ![
+        format!(".ai/decisions/{work_item_id}.close.json"),
+        format!(".ai/evidence/{work_item_id}.verification.json"),
+        format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+        format!(".ai/work-items/archive/{work_item_id}.contract.json"),
+        format!(".ai/work-items/archive/{work_item_id}.summary.json"),
+        format!(".ai/work-items/archive/{work_item_id}.outcome.json"),
+    ]
+    .iter()
+    .all(|path| seen.contains(path.as_str()))
+    {
+        return false;
+    }
+    let archive_path = root.join(format!(
+        ".ai/work-items/archive/{work_item_id}.archive.json"
+    ));
+    let Ok(manifest) = read_json(&archive_path) else {
+        return false;
+    };
+    verify_archive_manifest(root, work_item_id, &manifest).is_ok()
 }
 
 /// 旧 Runtime 的 close receipt 仅在完整 Outcome binding 保留时作为
