@@ -1,0 +1,61 @@
+{
+  "contractDigest": "sha256:6c1e448859e8f0d2b48a243996d5b6b2b8cdc7c12be3932d2711932213d63c8e",
+  "createdAt": "2026-10-03T11:24:15Z",
+  "destinationRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "destinationSnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "fileDigests": [
+    {
+      "digest": "sha256:02d76d3c4af6c5e35b410d9020e5429124d1a711ec6e4345b7de811526182b0d",
+      "path": ".ai/decisions/WI-1043-amendment-review-admission-fix.close.json",
+      "sizeBytes": 7409
+    },
+    {
+      "digest": "sha256:91a33fa6e11a97b2a64897e51f2e9b628405a62cb1fe8ed8017808fe0e758ebb",
+      "path": ".ai/evidence/WI-1043-amendment-review-admission-fix.verification.json",
+      "sizeBytes": 351268
+    },
+    {
+      "digest": "sha256:c212405e35bcb1941ccadeaa3a0bc8b9c183861943f75fa21b5045c693a2d3c9",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.archive.json",
+      "sizeBytes": 1410
+    },
+    {
+      "digest": "sha256:e18bd519e4a820cbe289c906fa1526cee7473eb7bfcc8c01f788d99f7a24e982",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.contract.json",
+      "sizeBytes": 4932
+    },
+    {
+      "digest": "sha256:7006346b7ab8606bc4c2ee7ba6f1006a04c90842f8990dc6b853de155029a1e1",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.events.jsonl",
+      "sizeBytes": 4200
+    },
+    {
+      "digest": "sha256:7448922ef3dda05037a7ac2052c590da51f02f93a16e33de8476cdcb60b39a7e",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.outcome.json",
+      "sizeBytes": 6932
+    },
+    {
+      "digest": "sha256:edca16a12be8867fe83b466309e4d1f0a89dee5084d6f1a3de147dc6a01cd85e",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.summary.json",
+      "sizeBytes": 8332
+    },
+    {
+      "digest": "sha256:04342f9d4e3a4286dced68a162cd5bbea1ae0e0b5967e8af15f9e8626766106b",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.task-report.json",
+      "sizeBytes": 3881
+    },
+    {
+      "digest": "sha256:719147cd2da9cfdb30c32d8f05eff2dd59427fef632754182ff5ba2da949f9c5",
+      "path": ".ai/work-items/archive/WI-1043-amendment-review-admission-fix.task-report.md",
+      "sizeBytes": 1426
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": null,
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceSnapshotDigest": "sha256:2cbbf4f13e7a69f75765a53890fdd9a3c6a1e3d8f37a5230f206110fc5d19735",
+  "workItemId": "WI-1043-amendment-review-admission-fix"
+}
