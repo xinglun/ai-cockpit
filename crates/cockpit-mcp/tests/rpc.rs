@@ -363,6 +363,8 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "preflight",
             "work_item_controls",
             "work_item_recover",
+            "work_item_closeout_recovery_plan",
+            "work_item_closeout_recover",
             "work_item_recover_selected_lineage",
             "verify",
             "work_item_parallel",
@@ -383,7 +385,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 25);
+    assert_eq!(listed.len(), 27);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -585,6 +587,31 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "array"
     );
     assert!(start["inputSchema"]["required"].as_array().is_some());
+
+    let closeout_plan = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_closeout_recovery_plan")
+        .expect("read-only closeout plan tool");
+    assert!(
+        closeout_plan["description"]
+            .as_str()
+            .unwrap()
+            .contains("Read-only")
+    );
+    assert_eq!(
+        closeout_plan["inputSchema"]["required"],
+        serde_json::json!(["workItemId", "sourceRepo"])
+    );
+    let closeout_recover = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_closeout_recover")
+        .expect("explicit closeout recovery tool");
+    assert!(
+        closeout_recover["description"]
+            .as_str()
+            .unwrap()
+            .contains("write operation")
+    );
 }
 
 #[test]

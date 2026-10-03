@@ -65,7 +65,7 @@ failed/unknown は pass ではありません。
 | Setup | `attach`、`profile confirm`、`profile propose` | protocol state の作成/更新、profile の確認、read-only candidate の出力。 |
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
-| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。 |
+| Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | inspect と drift check は読み取り専用です。drift の記録は影響 action 前の明示的な永続 write です。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
@@ -74,6 +74,24 @@ failed/unknown は pass ではありません。
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Contract amendment と environment drift
+
+Runtime `1.0.1-rc.1` の CLI amendment request は、policy が要求する場合、request-bound な
+`authorization` object を含められます。field は `schemaVersion`、`decisionId`、
+`decision: "authorize_change"`、`authorizedBy`、`authoritySource`、
+`assurance: "self_declared"`、`executedBy`、`repositoryId`、`workItemId`、
+`contractDigest`、`repositorySnapshotDigest`、`requestDigest`、`changedPaths` です。
+authorizer と executor は別主体でなければなりません。read-only の
+`work-item amend-check` result を使って現在の repository、Work Item、Contract、snapshot、
+request digest、正確な変更 path を bind し、書き込み時にも `amend` が再検証します。この
+declared authority は host-authenticated proof でも `confirm_review` decision でもありません。
+現在の `work_item_amend` の `tools/list` schema はこの optional object を公開していないため、
+MCP support を推測したり undeclared field を送信したりせず、対応済みの CLI route を使います。
+
+Sensitive amendment により以前の preflight が stale になった場合、新しい `preflight` は Runtime が
+admit したときだけ実行します。この preflight は現在の repository、Work Item、Contract digest、
+repository snapshot に bind した pending review request を生成する場合があります。request の生成は
+human decision を記録せず、`confirm_review` でもありません。一致する identity-bound な human decision
+が記録されるまで、verification と実行は引き続きブロックされます。
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` は
 `schemaVersion`、一意な `changeId`、現在の `expectedContractDigest`、空でない
@@ -89,6 +107,30 @@ state に明示的に保存します。環境 digest を caller から受け取�
 admission を更新し、無関係な action は個別の fresh admission がある場合だけ続行します。
 recovery は resolution を追記し、event は削除しません。request-scoped observation ledger は
 cross-process event bus ではありません。
+
+## Cross-checkout Work Item closeout recovery
+
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source> --id <work-item>`
+は読み取り専用です。source と destination が異なる checkout で、Runtime 上の同じ repository
+identity に属することを確認し、archived Contract、verification evidence、close decision と
+provider finalization binding を検証して、対象ファイルと digest を表示します。Contract の
+`resourceContext` が `null` でも、archived Runtime resource-context record に provider binding が
+あれば、その binding を検証しなければなりません。
+
+`work-item closeout-recover` は同じ引数を受け取る明示的な write 操作です。source/destination
+状態を再検証し、検証済み Work Item evidence だけを取り込み、source bytes を変更せず、競合する
+destination bytes を拒否し、close decision を最後に install します。検出された race や write
+failure では、この試行で作成され、inode と bytes が依然一致するファイルだけを rollback します。
+変更済みまたは identity を確認できない path は削除せず、incomplete として報告します。close
+decision 前に process が中断すると、正確な immutable file が残る場合がありますが Work Item は
+未 close のままで、retry は冪等です。これは複数ファイルを一括する filesystem transaction では
+ありません。`allowed: true` は write authority を与えません。正確な destination に対する fresh
+Runtime admission と authorization が必要です。
+
+MCP は `work_item_closeout_recovery_plan`（読み取り専用）と
+`work_item_closeout_recover`（明示 write）を提供します。両方に `workItemId` と絶対 path の
+`sourceRepo` が必要で、MCP server が bind した repository が destination です。正確な schema は
+`tools/list` で確認してください。
 
 MCP は `work_item_amend`、`work_item_amendments`、`work_item_environment_drift` を公開します。
 drift tool は読み取り専用の `action=check` と明示 write の `action=record` を分けます。
@@ -113,6 +155,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `evidence_get` | `path`、`evidencePath`、`id` のいずれか 1 つ。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | `workItemId` が必須。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 両方とも `workItemId` と絶対 path の `sourceRepo` が必須。前者は読み取り専用、後者は検証済み evidence を MCP-bound destination へ書く明示操作です。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | `workItemId`、`command`、string 配列 `args`、有限な `timeoutSeconds`、boolean の `planOnly` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
 | `work_item_amend`、`work_item_amendments` | amendment は `workItemId` と strict な typed `request` が必須です。history query は `workItemId` のみで読み取り専用です。 | `{"workItemId":"WI-123","request":{...}}` |
@@ -245,7 +288,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.0`
+- Runtime: `1.0.1-rc.2`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`

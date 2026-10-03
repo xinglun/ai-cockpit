@@ -74,6 +74,127 @@ fn fixture() -> tempfile::TempDir {
     root
 }
 
+fn candidate_fixture() -> tempfile::TempDir {
+    let root = fixture();
+    write_file(
+        root.path(),
+        "cli/Cargo.toml",
+        "[package]\nname = \"cockpit-cli\"\nversion = \"1.2.4-rc.2\"\nedition = \"2021\"\n",
+    );
+    write_file(
+        root.path(),
+        "Cargo.lock",
+        "version = 3\n\n[[package]]\nname = \"cockpit-cli\"\nversion = \"1.2.4-rc.2\"\n",
+    );
+    write_file(
+        root.path(),
+        "docs/release/candidate.json",
+        "{\"schemaVersion\":1,\"channel\":\"prerelease\",\"candidateVersion\":\"1.2.4-rc.2\",\"stableBaselineVersion\":\"1.2.3\",\"target\":\"aarch64-apple-darwin\"}\n",
+    );
+    write_file(
+        root.path(),
+        "docs/reference/reference-comparison-metadata.json",
+        "{\"workspaceCandidateVersion\":\"1.2.4-rc.2\"}\n",
+    );
+    for path in [
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.ja.md",
+        "docs/architecture/versioning.zh-CN.md",
+    ] {
+        write_file(
+            root.path(),
+            path,
+            "Stable v1.2.3; candidate 1.2.4-rc.2 is prerelease.\n",
+        );
+    }
+    root
+}
+
+#[test]
+fn validates_candidate_without_promoting_it_to_stable_installation() {
+    let root = candidate_fixture();
+    let report = validate_source(root.path()).expect("strict prerelease candidate");
+    assert_eq!(report.version, "1.2.4-rc.2");
+    assert_eq!(report.tag, "v1.2.4-rc.2");
+    assert_eq!(report.checked_document_count, 12);
+}
+
+#[test]
+fn rejects_candidate_metadata_drift_and_stable_projection() {
+    let root = candidate_fixture();
+    write_file(
+        root.path(),
+        "docs/release/candidate.json",
+        "{\"schemaVersion\":1,\"channel\":\"prerelease\",\"candidateVersion\":\"1.2.4-rc.1\",\"stableBaselineVersion\":\"1.2.3\",\"target\":\"aarch64-apple-darwin\"}\n",
+    );
+    assert!(
+        validate_source(root.path()).is_err(),
+        "candidate metadata drift must fail"
+    );
+
+    let root = candidate_fixture();
+    write_file(
+        root.path(),
+        "docs/reference/reference-comparison-metadata.json",
+        "{\"workspaceCandidateVersion\":\"1.2.4-rc.1\"}\n",
+    );
+    assert!(
+        validate_source(root.path()).is_err(),
+        "reference candidate drift must fail"
+    );
+
+    let root = candidate_fixture();
+    write_file(
+        root.path(),
+        "docs/release/candidate.json",
+        "{\"schemaVersion\":1,\"channel\":\"stable\",\"candidateVersion\":\"1.2.4-rc.2\",\"stableBaselineVersion\":\"1.2.3\",\"target\":\"aarch64-apple-darwin\"}\n",
+    );
+    assert!(
+        validate_source(root.path()).is_err(),
+        "prerelease metadata cannot claim stable"
+    );
+
+    let root = candidate_fixture();
+    write_file(
+        root.path(),
+        "docs/release/distribution.md",
+        "Current installation baseline: v1.2.4-rc.2\nai-cockpit-v1.2.4-rc.2-aarch64-apple-darwin\n",
+    );
+    assert!(
+        validate_source(root.path()).is_err(),
+        "candidate cannot become stable default"
+    );
+
+    let root = candidate_fixture();
+    write_file(
+        root.path(),
+        "Cargo.lock",
+        "version = 3\n\n[[package]]\nname = \"cockpit-cli\"\nversion = \"1.2.4-rc.1\"\n",
+    );
+    assert!(
+        validate_source(root.path()).is_err(),
+        "locked package drift must fail"
+    );
+}
+
+#[test]
+fn rejects_noncanonical_or_unsupported_candidate_syntax() {
+    for version in ["1.2.4-rc.02", "1.2.4+local", "1.2.4-preview.2"] {
+        let root = candidate_fixture();
+        write_file(
+            root.path(),
+            "cli/Cargo.toml",
+            &format!(
+                "[package]\nname = \"cockpit-cli\"\nversion = \"{version}\"\nedition = \"2021\"\n"
+            ),
+        );
+        assert!(
+            validate_source(root.path()).is_err(),
+            "invalid candidate {version} must fail"
+        );
+    }
+}
+
 #[test]
 fn validates_source_version_identity_and_document_baselines() {
     let root = fixture();

@@ -1,17 +1,15 @@
 # Ordinary Work Item
 
-Use this route when Runtime selects ordinary implementation, verification,
-archive, or local cleanup. For failed/stale evidence, follow the selected
-recovery guide.
+Use for Runtime-selected implementation, verification, archive, or cleanup.
+For failed/stale evidence, use recovery guide.
 
 ## Governed work
 
 Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
-Runtime admits actions; this guide grants none. Stay in scope, preserve
-evidence/history and failures, re-query at lifecycle boundaries, and never
-hand-edit generated records. Queries are read-only; `preflight` is idempotent,
-not verification. At handoff, deliver the separate human Outcome required by
-`AGENTS.md`.
+Runtime admits; this guide grants none. Preserve scope, history,
+and failures; re-query at lifecycle boundaries. Never hand-edit generated
+records. Queries are read-only; `preflight` is not verification. At handoff,
+deliver the human Outcome per `AGENTS.md`.
 
 ## Before verification
 
@@ -41,9 +39,9 @@ worktrees, registration, a slot lease, and fresh per-action admission. Check
 not prove support. If unavailable, use admitted serial work or stop. See the
 [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
-Inspection is read-only; registration, impact/outcome, pause/resume/recovery,
-lease, and drift-event operations are explicit writes. Recovery appends events;
-unrelated actions need fresh admission.
+Inspection is read-only; registration, reports, coordination, leases, and drift
+recovery are explicit writes. Recovery appends events; re-admit unrelated work.
+For closeout transfer, see the [recovery commands](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
 
 ## Plan changes and environment drift
 

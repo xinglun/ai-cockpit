@@ -372,6 +372,34 @@ guidance であり、現在の governance state は常に明示的な Runtime qu
 
 有効な historical verification evidence は Work Item の成果だけを証明し、Runtime が所有する ordinary cleanup binding を抑制してはなりません。成果の保証と、正確な branch/worktree cleanup identity は独立した事実であり、どちらも監査可能な形で残します。
 
+## Cross-checkout closeout recovery
+
+信頼できる archive、verification、provider、close evidence が一方の checkout にあり、同じ論理
+repository の別 checkout に local projection がない場合は、まず
+`work-item closeout-recovery-plan --repo <destination> --source-repo <source> --id <work-item>`
+を実行します。これは読み取り専用で、checkout が異なること、Runtime repository identity、archived
+Contract、verification evidence、close decision、finalization chain、provider facts を検証します。
+remote URL の一致は repository identity の証明ではありません。歴史的な provider-bound item では、
+archived Contract の `resourceContext` が `null` でも effective archived resource context を検証します。
+
+検証済み evidence を取り込むのは別の `work-item closeout-recover` write だけです。plan の
+`allowed: true` は permission ではなく、正確な destination に対する現在の Runtime admission と
+authorization が引き続き必要です。write は destination Work Item を lock し、source/destination
+snapshot を再検証し、異なる bytes を上書きせず各 immutable file を原子的に install し、recovery
+receipt を保存して結果 projection を検証した後、close decision を lifecycle commit marker として
+最後に install します。検出された失敗では、この試行で新規作成され、filesystem identity と bytes が
+一致し続けるファイルのみ rollback します。外部変更済みまたは identity を確認できない path は保持して
+incomplete と報告します。close marker 前に process が中断すると正確な file が残ることがありますが、
+Work Item は未 close のままです。次の read で recovered と表示してはならず、fresh plan と冪等な retry
+で完了できます。これは復旧可能な複数 file 操作であり、単一の filesystem transaction ではありません。
+
+MCP では読み取り専用の `work_item_closeout_recovery_plan`、明示 write の
+`work_item_closeout_recover` を使います。両方に `workItemId` と絶対 path の `sourceRepo` が必要で、
+MCP-bound repository が destination です。`tools/list` で schema を確認します。linked worktree と
+independent clone のどちらも、Runtime が同じ論理 repository identity を検証した場合のみ対象です。
+完了後、destination lifecycle projection が source と一致すること、source bytes が変わっていないことを
+確認します。
+
 ## 安全境界
 
 規則は language-neutral かつ repository-local に保ちます。secret や machine

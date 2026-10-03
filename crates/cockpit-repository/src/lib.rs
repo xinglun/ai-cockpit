@@ -4725,7 +4725,6 @@ pub(crate) fn check_verification_preconditions(
         });
     }
     let summary = read_json(&summary_path)?;
-    require_contract_amendment_policy_review(&root, work_item_id, &contract_path)?;
     if !matches!(
         summary["state"].as_str(),
         Some("checkpointed" | "finish_ready")
@@ -4775,6 +4774,13 @@ pub(crate) fn check_verification_preconditions(
             message: "verification requires a preflight result for the current Contract".into(),
         });
     }
+    // A sensitive amendment invalidates the previous Contract-bound preflight.
+    // Report that recoverable stale-preflight condition before the separate
+    // human-review gate so Runtime can admit a fresh preflight that presents
+    // the current, identity-bound review request. Once that fresh preflight is
+    // recorded, the review gate below still rejects verification until a
+    // matching human decision receipt exists.
+    require_contract_amendment_policy_review(&root, work_item_id, &contract_path)?;
     let preflight_state = summary["preflightState"].as_str().unwrap_or_default();
     let amendment_pending = summary
         .get("verificationInvalidatedByContractAmendment")

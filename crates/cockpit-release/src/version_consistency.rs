@@ -6,6 +6,7 @@
 
 use std::{fs, path::Path, process::Command};
 
+use semver::Version;
 use serde::{Deserialize, Serialize};
 
 use crate::error::ReleaseError;
@@ -43,6 +44,16 @@ struct CargoPackage {
     source: Option<String>,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct PrereleaseCandidate {
+    schema_version: u64,
+    channel: String,
+    candidate_version: String,
+    stable_baseline_version: String,
+    target: String,
+}
+
 #[derive(Clone, Debug, Serialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub struct VersionConsistencyReport {
@@ -74,11 +85,46 @@ pub fn validate_source(repository: &Path) -> Result<VersionConsistencyReport, Re
         )));
     }
     let version = cockpit_cli[0].version.clone();
-    if !is_plain_semantic_version(&version) {
+    let prerelease = if is_plain_semantic_version(&version) {
+        if repository.join("docs/release/candidate.json").exists() {
+            return Err(invalid(
+                "stable workspace still has prerelease candidate metadata",
+            ));
+        }
+        None
+    } else if is_strict_release_candidate_version(&version) {
+        let metadata: PrereleaseCandidate =
+            serde_json::from_str(&read_document(&repository, "docs/release/candidate.json")?)?;
+        let stable_version = Version::parse(&metadata.stable_baseline_version)
+            .map_err(|error| invalid(format!("invalid stable baseline version: {error}")))?;
+        let candidate_version = Version::parse(&version)
+            .map_err(|error| invalid(format!("invalid candidate version: {error}")))?;
+        if metadata.schema_version != 1
+            || metadata.channel != "prerelease"
+            || metadata.candidate_version != version
+            || metadata.target != "aarch64-apple-darwin"
+            || !is_plain_semantic_version(&metadata.stable_baseline_version)
+            || stable_version >= candidate_version
+        {
+            return Err(invalid(
+                "prerelease candidate metadata does not bind the workspace and stable baseline",
+            ));
+        }
+        let comparison: serde_json::Value = serde_json::from_str(&read_document(
+            &repository,
+            "docs/reference/reference-comparison-metadata.json",
+        )?)?;
+        if comparison["workspaceCandidateVersion"] != version {
+            return Err(invalid(
+                "reference candidate version does not match the workspace",
+            ));
+        }
+        Some(metadata)
+    } else {
         return Err(invalid(format!(
-            "workspace version is not a plain semantic version: {version}"
+            "workspace version is neither a plain semantic version nor a strict release candidate: {version}"
         )));
-    }
+    };
     if let Some(package) = workspace_packages
         .iter()
         .find(|package| package.version != version)
@@ -90,16 +136,25 @@ pub fn validate_source(repository: &Path) -> Result<VersionConsistencyReport, Re
     }
 
     let tag = format!("v{version}");
+    let document_version = prerelease.as_ref().map_or(version.as_str(), |candidate| {
+        candidate.stable_baseline_version.as_str()
+    });
+    let document_tag = format!("v{document_version}");
     let mut checked_document_count = 0;
     for path in RELEASE_DISTRIBUTION_DOCS {
         let text = read_document(&repository, path)?;
-        require_contains(path, &text, &tag)?;
-        require_contains(path, &text, &format!("ai-cockpit-{tag}-"))?;
+        require_contains(path, &text, &document_tag)?;
+        require_contains(path, &text, &format!("ai-cockpit-{document_tag}-"))?;
+        if prerelease.is_some() && text.contains(&tag) {
+            return Err(invalid(format!(
+                "{path} promotes a prerelease into the stable installation projection"
+            )));
+        }
         checked_document_count += 1;
     }
     for path in ARCHITECTURE_RELEASE_DOCS {
         let text = read_document(&repository, path)?;
-        require_contains(path, &text, &tag)?;
+        require_contains(path, &text, &document_tag)?;
         if !contains_any_case_insensitive(&text, &["baseline", "基线", "ベースライン"]) {
             return Err(invalid(format!(
                 "{path} does not declare a release baseline"
@@ -110,6 +165,14 @@ pub fn validate_source(repository: &Path) -> Result<VersionConsistencyReport, Re
     for path in VERSIONING_DOCS {
         let text = read_document(&repository, path)?;
         require_contains(path, &text, &version)?;
+        if let Some(candidate) = prerelease.as_ref() {
+            require_contains(
+                path,
+                &text,
+                &format!("v{}", candidate.stable_baseline_version),
+            )?;
+            require_contains(path, &text, "prerelease")?;
+        }
         checked_document_count += 1;
     }
     for path in OPERATIONS_DOCS {
@@ -129,7 +192,7 @@ pub fn validate_source(repository: &Path) -> Result<VersionConsistencyReport, Re
     {
         let text = read_document(&repository, path)?;
         for line in text.lines().filter(|line| contains_baseline_marker(line)) {
-            if !line.contains(&tag) {
+            if !line.contains(&document_tag) || (prerelease.is_some() && line.contains(&tag)) {
                 return Err(invalid(format!(
                     "{path} has a stale current baseline: {line}"
                 )));
@@ -234,6 +297,17 @@ fn is_plain_semantic_version(value: &str) -> bool {
         && components.iter().all(|component| {
             !component.is_empty() && component.bytes().all(|byte| byte.is_ascii_digit())
         })
+}
+
+fn is_strict_release_candidate_version(value: &str) -> bool {
+    let Ok(version) = Version::parse(value) else {
+        return false;
+    };
+    if version.to_string() != value || !version.build.is_empty() {
+        return false;
+    }
+    let parts = version.pre.as_str().split('.').collect::<Vec<_>>();
+    matches!(parts.as_slice(), ["rc", sequence] if !sequence.is_empty() && sequence.bytes().all(|byte| byte.is_ascii_digit()))
 }
 
 fn invalid(message: impl Into<String>) -> ReleaseError {

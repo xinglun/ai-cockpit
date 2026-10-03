@@ -36,6 +36,10 @@ protocol_version = 1
 repository_schema_version = 2
 ```
 
+The source workspace candidate is 1.0.1-rc.2 (prerelease, Apple Silicon macOS
+only). The default stable installation baseline remains v1.0.0; a candidate
+does not replace it or become GitHub Latest.
+
 `v0.2.93` is the preceding public patch release and remains historical evidence;
 the failed `v0.2.88` tag is immutable unpublished history from WI-764's
 source-quality failure (workflow run `34371183927`) and is not an installation

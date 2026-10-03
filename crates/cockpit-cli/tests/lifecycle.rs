@@ -214,8 +214,8 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
     assert_eq!(amended["stage"], "contract_amendment_revalidation");
     assert_eq!(amended["recorded"], true);
     assert_eq!(
-        amended["nextAction"], "record_governance_controls",
-        "amend must report the Runtime-admitted human-review action: {amended:#}"
+        amended["nextAction"], "run_preflight",
+        "amend must report the admitted action that creates the current-bound pending review request: {amended:#}"
     );
 
     let status = run(
@@ -225,7 +225,7 @@ fn amend_cli_reports_automatic_revalidation_and_the_single_next_action() {
     );
     assert_eq!(
         status["actionExplanation"]["recommendedAction"],
-        "record_governance_controls"
+        "run_preflight"
     );
     assert_eq!(status["humanDecisionRequired"], true);
 
