@@ -1,0 +1,73 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-03T09:56:38Z",
+  "checkpointContractDigest": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "recorded": true,
+      "recordedAt": "2026-10-03T09:56:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "reason": "The implemented Rust audit cognitive-benefit CLI entry is a real command surface. Add the three existing command-reference projections to this WI before editing them, without widening the evaluator or Task 9 scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T10:18:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c041de4e5a6dba990fe27f40da680496fe4f3f3b00927e67a3d8e1b5fceea3a5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "createdAt": "2026-10-03T09:56:36Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:d94d5399e5560d8e1a627e9b43a51a44029db028fcead9401c480217ba5348d9",
+    "reason": "The repository owner explicitly approved both WI-1043 closeout recovery and this WI-1058 amendment review. This review covers only the three command-reference locales and their matching acceptance criterion in amendment wi1058-audit-command-docs-20261003; it does not claim verification or broader scope.",
+    "recordedAt": "2026-10-03T11:26:09Z",
+    "recordedBy": "human:repository-owner via Codex under direct user approval",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+    "schemaVersion": 1,
+    "workItemId": "WI-1058-task9-cognitive-gate"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-03T10:20:07Z",
+  "preflightContractDigest": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+  "preflightDecisionDigest": "sha256:d94d5399e5560d8e1a627e9b43a51a44029db028fcead9401c480217ba5348d9",
+  "preflightRepositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-03T11:27:19.511171+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-03T10:18:04Z"
+  },
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

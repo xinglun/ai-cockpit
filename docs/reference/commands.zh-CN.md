@@ -62,7 +62,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
-| Audit | `audit export` | 生成绑定 repository 的稳定事件包交给外部保留方；不宣称本地 immutable。 |
+| Audit | `audit export`、`audit cognitive-benefit` | 导出绑定 repository 的事件，或运行固定的 Rust cognitive-benefit 评估；两者均不授予发布权限。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## Contract 修订与环境漂移
@@ -317,6 +317,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `audit export --repo <path> [--output <file>]` 输出稳定的 `AuditEvent`，包含 event ID、主题 digest、
   repository/Work Item identity 和 Runtime identity。manifest 会设置 `externalRetentionRequired: true`；
   输出文件幂等，只是交给 SIEM、WORM、S3 Object Lock 或其他外部保留方的 handoff。
+- `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` 用 Rust 执行固定的七案例评估。
+  `--check` 不改写评估产物；不指定时，在所选仓库的 `.ai/evidence/` 写入 JSON，
+  在 `.ai/evidence/external/` 写入 Markdown。原 Python evaluator 仅保留为等价性测试的 oracle，
+  不再是仓库 gate；这里不声称已有参与者研究或测得认知收益。
 - Task Outcome report 使用严格类型化 JSON。每条 claim 在可用时都绑定 evidence reference；明确标记的 inference 不能当作已验证事实。
   event stream 在 Work Item finish 时 append-only，并校验 repository/Work Item identity、顺序、安全 detail 内容和 evidence reference 边界。
   archive manifest 绑定 event stream 与 report JSON/Markdown digest；close receipt 会包含最终 report 及其 digest。

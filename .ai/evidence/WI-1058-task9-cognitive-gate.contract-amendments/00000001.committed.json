@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:3c921614ba981dfb350da3f9f5ebe147016ec1e060811eb4845f83d6d09e4d83",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1058-task9-cognitive-gate",
+    "sequence": 1,
+    "changeId": "legacy-ef74caf25a98510d41157c07dba69f09e23a24f0013b052fb002996f8d6dc862",
+    "requestDigest": "sha256:4557f1690472771bfcfa11fb27028fe50c56e8ea494e4af3deed4853cc9f1af0",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:ef74caf25a98510d41157c07dba69f09e23a24f0013b052fb002996f8d6dc862",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice"
+        ],
+        "newValue": [
+          "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice",
+          "preserved candidate commit 48249fc2; adapt only four exact paths"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice",
+          "preserved candidate commit 48249fc2; adapt only four exact paths"
+        ],
+        "newValue": [
+          "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice",
+          "preserved candidate commit 48249fc2; adapt only four exact paths",
+          "WI-1042 historical resource closeout e0efb0da; historical verification remains unrevalidated"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a08e985f427a9a19b474a524f552ef66664132d08a914198f87007c7897a47b4",
+    "newContractDigest": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:4c8095e364610af2b8683db6ed0b6ecb32f4854d041c219b46a607e790aa3554",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:31b68d3468cfcf9052af442bc960b8f61c82bc29e46774e15b358508fa3ee130",
+    "recordedAt": "2026-10-03T09:56:37Z"
+  }
+}

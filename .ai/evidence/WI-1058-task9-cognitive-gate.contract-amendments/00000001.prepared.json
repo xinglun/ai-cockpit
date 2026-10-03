@@ -1,0 +1,174 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1058-task9-cognitive-gate",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-ef74caf25a98510d41157c07dba69f09e23a24f0013b052fb002996f8d6dc862",
+      "expectedContractDigest": "sha256:a08e985f427a9a19b474a524f552ef66664132d08a914198f87007c7897a47b4",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "preserved candidate commit 48249fc2; adapt only four exact paths"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "WI-1042 historical resource closeout e0efb0da; historical verification remains unrevalidated"
+        }
+      ]
+    },
+    "requestDigest": "sha256:4557f1690472771bfcfa11fb27028fe50c56e8ea494e4af3deed4853cc9f1af0",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle，成功 JSON 与 Markdown 输出、--check 模式及失败语义逐项等价。",
+        "Rust 测试覆盖正常样本、畸形输入和 --check 副作用；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+        "仅改变四条精确产品路径，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "e0efb0da71ddf134f21d58cce2cd212bb0dfee16",
+      "createdAt": "2026-10-03T09:56:36Z",
+      "goal": "在最新 main 上完成 cognitive evaluator 的 Rust 实现与 gate 接线，验证完整输出及失败语义等价；不宣称整个 Task 9 完成。",
+      "intent": "将 cognitive benefit evaluation 的现有真实 gate 从 Python 执行切换至 Rust CLI，保留旧实现作语义对照。",
+      "mode": "implementation",
+      "outOfScope": [
+        "tests/migration/non_rust_inventory.json",
+        "tests/performance",
+        "WI-1049-authorization-system"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh"
+      ],
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    "previousContractDigest": "sha256:a08e985f427a9a19b474a524f552ef66664132d08a914198f87007c7897a47b4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle，成功 JSON 与 Markdown 输出、--check 模式及失败语义逐项等价。",
+        "Rust 测试覆盖正常样本、畸形输入和 --check 副作用；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+        "仅改变四条精确产品路径，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "e0efb0da71ddf134f21d58cce2cd212bb0dfee16",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T09:56:36Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "在最新 main 上完成 cognitive evaluator 的 Rust 实现与 gate 接线，验证完整输出及失败语义等价；不宣称整个 Task 9 完成。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "将 cognitive benefit evaluation 的现有真实 gate 从 Python 执行切换至 Rust CLI，保留旧实现作语义对照。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "tests/migration/non_rust_inventory.json",
+        "tests/performance",
+        "WI-1049-authorization-system"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh"
+      ],
+      "sources": [
+        "Task 9 user-authorized continuation and Raydot coordinated bounded cognitive gate slice",
+        "preserved candidate commit 48249fc2; adapt only four exact paths",
+        "WI-1042 historical resource closeout e0efb0da; historical verification remains unrevalidated"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh"
+      ],
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    "newContractDigest": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+    "previousSummaryDigest": "sha256:9a7a8d2b990a943df31188949428ba736fb57986de027c7cbedaad9eb0fe08cc",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:4c8095e364610af2b8683db6ed0b6ecb32f4854d041c219b46a607e790aa3554",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:ef74caf25a98510d41157c07dba69f09e23a24f0013b052fb002996f8d6dc862",
+    "preparedAt": "2026-10-03T09:56:36Z"
+  },
+  "preparedDigest": "sha256:3c921614ba981dfb350da3f9f5ebe147016ec1e060811eb4845f83d6d09e4d83"
+}
