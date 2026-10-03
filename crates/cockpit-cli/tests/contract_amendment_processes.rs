@@ -3,7 +3,10 @@ use cockpit_protocol::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentOperation,
     ContractAmendmentRequest, PROTOCOL_VERSION, RuntimeContext,
 };
-use cockpit_repository::{WorkItemStartOptions, attach, start_work_item_with_options};
+use cockpit_repository::{
+    WorkItemStartOptions, attach, record_recovery_decision,
+    record_work_item_governance_controls_with_runtime, repository_id, start_work_item_with_options,
+};
 use serde_json::{Value, json};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -347,8 +350,7 @@ fn inspect_accepts_null_optional_concurrency_boundary_after_amendment() {
     assert_success(&inspected, "inspect amended Contract with null boundary");
 }
 
-#[test]
-fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
+fn assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(retry_pending: bool) {
     let root = repository();
     let repository_path = root.path().to_str().expect("repository path");
     let contract_relative = format!(".ai/work-items/active/{WORK_ITEM_ID}.contract.json");
@@ -371,6 +373,37 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     assert_success(&checkpoint, "checkpoint before amendment");
 
     let contract_path = root.path().join(&contract_relative);
+    if retry_pending {
+        let summary_path = root
+            .path()
+            .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json"));
+        let predecessor_contract: Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("read Contract"))
+                .expect("Contract JSON");
+        let predecessor_summary: Value =
+            serde_json::from_slice(&fs::read(&summary_path).expect("read Summary"))
+                .expect("Summary JSON");
+        let runtime = candidate_runtime();
+        let retry = json!({
+            "schemaVersion": 1,
+            "decisionId": "work-item-recovery",
+            "decision": "retry",
+            "workItemId": WORK_ITEM_ID,
+            "repositoryId": repository_id(root.path()).to_string(),
+            "predecessorWorkItemId": WORK_ITEM_ID,
+            "predecessorContractDigest": cockpit_protocol::digest_json(&predecessor_contract).expect("Contract digest"),
+            "predecessorSummaryDigest": cockpit_protocol::digest_json(&predecessor_summary).expect("Summary digest"),
+            "runtimeVersion": runtime.runtime_version,
+            "runtimeDigest": runtime.runtime_digest,
+            "actor": "human:fixture",
+            "authoritySource": "test fixture",
+            "reason": "retry a stale verification attempt",
+            "decidedAt": "2026-10-03T00:00:00Z",
+            "resumeCondition": "run replacement verification"
+        });
+        record_recovery_decision(root.path(), WORK_ITEM_ID, &retry, &runtime)
+            .expect("bind retry decision through Runtime");
+    }
     let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("read Contract"))
         .expect("Contract JSON");
     let request = ContractAmendmentRequest {
@@ -402,6 +435,28 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
         request_file.path().to_str().expect("request path"),
     ]);
     assert_success(&amended, "record sensitive amendment");
+
+    if retry_pending {
+        let status = run_cli(&[
+            "work-item",
+            "status",
+            "--repo",
+            repository_path,
+            "--id",
+            WORK_ITEM_ID,
+            "--json",
+        ]);
+        assert_success(&status, "status before retry amendment review preflight");
+        let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+        assert!(
+            status["safeActions"]
+                .as_array()
+                .expect("safe actions")
+                .iter()
+                .any(|action| action == "run_preflight"),
+            "a pending retry and sensitive amendment must admit request-generating preflight: {status}"
+        );
+    }
 
     let preflight = run_cli(&[
         "preflight",
@@ -465,6 +520,91 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
     let status: Value = serde_json::from_slice(&status.stdout).expect("status JSON");
     assert_eq!(status["humanDecisionRequired"], true);
     assert_eq!(status["humanDecisions"], json!([]));
+    if retry_pending {
+        let summary: Value = serde_json::from_slice(
+            &fs::read(
+                root.path()
+                    .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")),
+            )
+            .expect("read Summary"),
+        )
+        .expect("Summary JSON");
+        assert_eq!(summary["recoveryRetryPending"], true);
+
+        let current_receipt = json!({
+            "schemaVersion": 1,
+            "decisionId": "contract-preflight-review",
+            "decision": "confirm_review",
+            "workItemId": WORK_ITEM_ID,
+            "repositoryId": repository_id(root.path()),
+            "contractDigest": current_contract_digest,
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": "2026-10-03T00:00:00Z",
+            "recordedBy": "human:test-fixture",
+            "reason": "fixture only; no human decision is recorded"
+        });
+        assert_eq!(
+            current_receipt["repositorySnapshotDigest"],
+            preflight["actionAdmission"]["snapshotDigest"]
+        );
+        let previous_contract_digest =
+            cockpit_protocol::digest_json(&contract).expect("pre-amendment Contract digest");
+        for (field, wrong_digest, expected_diagnostic) in [
+            (
+                "repositoryId",
+                Digest::sha256_bytes(b"foreign repository").to_string(),
+                "repository identity mismatch",
+            ),
+            (
+                "contractDigest",
+                previous_contract_digest.to_string(),
+                "Contract digest mismatch",
+            ),
+            (
+                "repositorySnapshotDigest",
+                Digest::sha256_bytes(b"stale snapshot").to_string(),
+                "snapshot digest mismatch",
+            ),
+        ] {
+            let mut invalid_receipt = current_receipt.clone();
+            invalid_receipt[field] = Value::String(wrong_digest);
+            let summary_before = fs::read(
+                root.path()
+                    .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")),
+            )
+            .expect("Summary before rejected decision");
+            let error = record_work_item_governance_controls_with_runtime(
+                root.path(),
+                WORK_ITEM_ID,
+                &json!({"decisionEvidence": invalid_receipt}),
+                &candidate_runtime(),
+            )
+            .expect_err("foreign or stale review evidence must be rejected");
+            assert!(
+                error.to_string().contains(expected_diagnostic),
+                "{field} should fail for its identity mismatch: {error}"
+            );
+            assert_eq!(
+                fs::read(
+                    root.path()
+                        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")),
+                )
+                .expect("Summary after rejected decision"),
+                summary_before,
+                "{field} rejection must not record a human decision"
+            );
+        }
+        assert!(
+            !root
+                .path()
+                .join(format!(
+                    ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+                ))
+                .exists(),
+            "invalid review evidence must not create a decision receipt"
+        );
+    }
     assert!(
         !status["safeActions"]
             .as_array()
@@ -513,4 +653,14 @@ fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
         !marker.exists(),
         "verification command must not start before amendment review"
     );
+}
+
+#[test]
+fn sensitive_amendment_blocks_cli_verification_before_command_spawn() {
+    assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(false);
+}
+
+#[test]
+fn retry_pending_amendment_admits_bound_review_request_without_verification_spawn() {
+    assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(true);
 }

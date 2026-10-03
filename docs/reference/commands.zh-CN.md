@@ -80,8 +80,9 @@ MCP 发送未声明字段；应使用受支持的 CLI 路径。
 
 敏感修订使此前的 preflight 过期后，只有 Runtime 准入时才运行新的 `preflight`。该操作可以生成
 绑定当前 repository、Work Item、Contract digest 和 repository snapshot 的待确认 review request。
-生成 request 不会记录人工决定，也不等于 `confirm_review`；在记录匹配的身份绑定人工决定之前，
-verification 和执行仍会被阻止。
+如果有效的 recovery retry 仍在等待，且修订已将 preflight 重置为 `not_run`，也可通过该路径生成
+request；retry 不能代替修订审阅。生成 request 不会记录人工决定，也不等于 `confirm_review`；
+在记录匹配的身份绑定人工决定之前，verification 和执行仍会被阻止。
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` 接受
 `ContractAmendmentRequest`：包含 `schemaVersion`、唯一的 `changeId`、当前

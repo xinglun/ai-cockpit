@@ -113,6 +113,17 @@ fn preflight_can_recover_verification_precondition(
     error: &ObserverError,
     summary: &serde_json::Value,
 ) -> bool {
+    if summary["recoveryRetryPending"] == true
+        && summary["verificationInvalidatedByContractAmendment"].is_object()
+        && summary["preflightState"] == "not_run"
+        && matches!(
+            error,
+            ObserverError::State { message, .. }
+                if message.starts_with("contract_amendment_policy_review_required:")
+        )
+    {
+        return true;
+    }
     matches!(
         error,
         ObserverError::State { message, .. }
@@ -123,6 +134,58 @@ fn preflight_can_recover_verification_precondition(
             ) || (message == "verification requires a recorded non-red preflight result"
                 && summary["preflightState"] != "red")
     )
+}
+
+#[cfg(test)]
+mod pending_retry_amendment_preflight_tests {
+    use super::{ObserverError, preflight_can_recover_verification_precondition};
+    use serde_json::json;
+    use std::path::PathBuf;
+
+    fn review_error() -> ObserverError {
+        ObserverError::State {
+            path: PathBuf::from("contract.json"),
+            message: "contract_amendment_policy_review_required: verification waits for identity-bound human review of the current amended Contract".into(),
+        }
+    }
+
+    #[test]
+    fn only_unreviewed_amendment_with_pending_retry_recovers_preflight() {
+        let pending = json!({
+            "recoveryRetryPending": true,
+            "verificationInvalidatedByContractAmendment": {"contractHash": "sha256:current"},
+            "preflightState": "not_run"
+        });
+        assert!(preflight_can_recover_verification_precondition(
+            &review_error(),
+            &pending
+        ));
+
+        let ordinary_retry = json!({"recoveryRetryPending": true, "preflightState": "not_run"});
+        assert!(!preflight_can_recover_verification_precondition(
+            &review_error(),
+            &ordinary_retry
+        ));
+
+        let rejected_preflight = json!({
+            "recoveryRetryPending": true,
+            "verificationInvalidatedByContractAmendment": {"contractHash": "sha256:current"},
+            "preflightState": "red"
+        });
+        assert!(!preflight_can_recover_verification_precondition(
+            &review_error(),
+            &rejected_preflight
+        ));
+
+        let no_retry = json!({
+            "verificationInvalidatedByContractAmendment": {"contractHash": "sha256:current"},
+            "preflightState": "not_run"
+        });
+        assert!(!preflight_can_recover_verification_precondition(
+            &review_error(),
+            &no_retry
+        ));
+    }
 }
 
 fn human_decision_required(

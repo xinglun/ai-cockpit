@@ -89,9 +89,11 @@ MCP support を推測したり undeclared field を送信したりせず、対�
 
 Sensitive amendment により以前の preflight が stale になった場合、新しい `preflight` は Runtime が
 admit したときだけ実行します。この preflight は現在の repository、Work Item、Contract digest、
-repository snapshot に bind した pending review request を生成する場合があります。request の生成は
-human decision を記録せず、`confirm_review` でもありません。一致する identity-bound な human decision
-が記録されるまで、verification と実行は引き続きブロックされます。
+repository snapshot に bind した pending review request を生成する場合があります。有効な recovery
+retry が pending のままで、amendment が preflight を `not_run` に戻した場合も、この request 生成経路を
+使えます。retry は amendment review の代わりになりません。request の生成は human decision を記録せず、
+`confirm_review` でもありません。一致する identity-bound な human decision が記録されるまで、
+verification と実行は引き続きブロックされます。
 
 `work-item amend --repo <repo> --id <id> --request <request.json>` は
 `schemaVersion`、一意な `changeId`、現在の `expectedContractDigest`、空でない
