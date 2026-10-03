@@ -1,0 +1,148 @@
+{
+  "changedPaths": [
+    ".ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1057-task9-a1-a2-parity.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1057-task9-a1-a2-parity.verification-attempt.d57e3a899e2ce13654e42f09cc1076b99b63298a52f967e904df9693b68d7f4a.json",
+    ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.contract.json",
+    ".ai/work-items/archive/WI-1057-task9-a1-a2-parity.summary.json",
+    "crates/cockpit-verification/src/development_cycle_cost.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/src/runtime_benchmark_scenarios.rs",
+    "crates/cockpit-verification/tests/development_cycle_cost.rs",
+    "crates/cockpit-verification/tests/runtime_benchmark_scenarios.rs"
+  ],
+  "checkpointAt": "2026-10-03T08:26:04Z",
+  "checkpointContractDigest": "sha256:a1a9128275b9a8d3996c1a582a1be094874bdb4293b0c1dbac7c0049d6d661ef",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "createdAt": "2026-10-03T08:22:56Z",
+  "mode": "implementation",
+  "preflightAt": "2026-10-03T08:42:08Z",
+  "preflightContractDigest": "sha256:a1a9128275b9a8d3996c1a582a1be094874bdb4293b0c1dbac7c0049d6d661ef",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-03T08:42:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1057-task9-a1-a2-parity"
+}
