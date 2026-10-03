@@ -4,8 +4,8 @@ use cockpit_protocol::{
     ContractAmendmentRequest, PROTOCOL_VERSION, RuntimeContext,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, attach, record_recovery_decision, repository_id,
-    start_work_item_with_options,
+    WorkItemStartOptions, attach, record_recovery_decision,
+    record_work_item_governance_controls_with_runtime, repository_id, start_work_item_with_options,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -530,6 +530,80 @@ fn assert_sensitive_amendment_blocks_cli_verification_before_command_spawn(retry
         )
         .expect("Summary JSON");
         assert_eq!(summary["recoveryRetryPending"], true);
+
+        let current_receipt = json!({
+            "schemaVersion": 1,
+            "decisionId": "contract-preflight-review",
+            "decision": "confirm_review",
+            "workItemId": WORK_ITEM_ID,
+            "repositoryId": repository_id(root.path()),
+            "contractDigest": current_contract_digest,
+            "preflightDecisionDigest": summary["preflightDecisionDigest"],
+            "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"],
+            "recordedAt": "2026-10-03T00:00:00Z",
+            "recordedBy": "human:test-fixture",
+            "reason": "fixture only; no human decision is recorded"
+        });
+        assert_eq!(
+            current_receipt["repositorySnapshotDigest"],
+            preflight["actionAdmission"]["snapshotDigest"]
+        );
+        let previous_contract_digest =
+            cockpit_protocol::digest_json(&contract).expect("pre-amendment Contract digest");
+        for (field, wrong_digest, expected_diagnostic) in [
+            (
+                "repositoryId",
+                Digest::sha256_bytes(b"foreign repository").to_string(),
+                "repository identity mismatch",
+            ),
+            (
+                "contractDigest",
+                previous_contract_digest.to_string(),
+                "Contract digest mismatch",
+            ),
+            (
+                "repositorySnapshotDigest",
+                Digest::sha256_bytes(b"stale snapshot").to_string(),
+                "snapshot digest mismatch",
+            ),
+        ] {
+            let mut invalid_receipt = current_receipt.clone();
+            invalid_receipt[field] = Value::String(wrong_digest);
+            let summary_before = fs::read(
+                root.path()
+                    .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")),
+            )
+            .expect("Summary before rejected decision");
+            let error = record_work_item_governance_controls_with_runtime(
+                root.path(),
+                WORK_ITEM_ID,
+                &json!({"decisionEvidence": invalid_receipt}),
+                &candidate_runtime(),
+            )
+            .expect_err("foreign or stale review evidence must be rejected");
+            assert!(
+                error.to_string().contains(expected_diagnostic),
+                "{field} should fail for its identity mismatch: {error}"
+            );
+            assert_eq!(
+                fs::read(
+                    root.path()
+                        .join(format!(".ai/work-items/active/{WORK_ITEM_ID}.summary.json")),
+                )
+                .expect("Summary after rejected decision"),
+                summary_before,
+                "{field} rejection must not record a human decision"
+            );
+        }
+        assert!(
+            !root
+                .path()
+                .join(format!(
+                    ".ai/decisions/{WORK_ITEM_ID}.preflight-review.json"
+                ))
+                .exists(),
+            "invalid review evidence must not create a decision receipt"
+        );
     }
     assert!(
         !status["safeActions"]

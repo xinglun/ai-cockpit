@@ -28,3 +28,17 @@ Runtime が admit、verify、close したとは主張しません。
 が起動しないことを確認しました。通常の amendment テストと repository library
 テストも通過しましたが、これらはローカル候補テストであり、WI の Runtime verification
 receipt ではありません。独立 review と残りの lifecycle は未完了です。
+
+共有 Runtime を置き換えず、別途実環境で確認しました。Task 9 の WI-1049 では正式な
+amendment を一回行い、既存の A1 `development_cycle_cost` の二つの path を維持し、
+A2 `runtime_benchmark_scenarios` の Rust 実装／テストの二つの path と対象 acceptance
+のみを追加しました。B `runtime_benchmark_stats` はこの batch に含めていません。続く
+一回の正式 preflight は Contract
+`sha256:7de2a941e89fbeb2cef36f5a9c016a580f76ea71420a55aaafcdcba6572866df`
+と repository snapshot
+`sha256:fe207ccca471f47df7b27a61adf09901e9df622100c68d45730fc941dbd86cdd`
+に対して `needs_human_confirmation` を返しました。retry は pending のままで、人の
+decision は記録されず、Task 9 の source 作業も再開していません。追加回帰テストでは、
+誤った repository、amendment 前の Contract、誤った snapshot の review evidence が
+decision を書き込まず拒否されることも確認します。これは request 生成の観測であり、
+人の承認や WI-1056 の正式な admission ではありません。
