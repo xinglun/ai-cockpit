@@ -1,0 +1,191 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json",
+    ".ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.json",
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.prepared.json",
+    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json",
+    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json",
+    "tests/ci/hosted_runtime_verification_test.sh"
+  ],
+  "checkpointAt": "2026-10-03T23:11:04Z",
+  "checkpointContractDigest": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+  "createdAt": "2026-10-03T23:00:23Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The human user directly selected confirm_review in this thread for the currently reviewed WI-1061 Contract digest d6c88d87 and snapshot f1333faf. This confirms only the bounded Contract review; it does not assert implementation, verification, CI, or merge success.",
+    "recordedAt": "2026-10-03T23:10:14Z",
+    "recordedBy": "human:sei-rinn",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f1333faf6ffc4531a53d6a6dbc969ff9da2bd7b546d26fe02d459f1539958e63",
+    "schemaVersion": 1,
+    "workItemId": "WI-1061-hosted-runtime-fixture"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/hosted_runtime_verification_test.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "predecessorWorkItemId": "WI-1060-hosted-coverage-consumer",
+  "preflightAt": "2026-10-03T23:25:14Z",
+  "preflightContractDigest": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/hosted_runtime_verification_test.sh",
+        ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+      ],
+      "expected": "The focused hosted Runtime fixture regression accepts a bound complete Cargo workspace test receipt and reuses its package node with zero coverage-runner package subprocesses.",
+      "required": true,
+      "scenario": "Current-shape hosted fixture has matching Contract verification command, plan source, execution record and no duplicate package process",
+      "status": "verified",
+      "verificationPlan": "Run tests/ci/hosted_runtime_verification_test.sh with its fake Runtime and explicit package process marker; inspect the success receipt and marker after the fixture is updated."
+    },
+    {
+      "evidence": [
+        "tests/ci/hosted_runtime_verification_test.sh",
+        ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+      ],
+      "expected": "Removing a required command source, Contract declaration, execution record, or digest binding yields hosted_verification_receipt failure and no package-test process marker.",
+      "required": true,
+      "scenario": "Missing or inconsistent hosted fixture identity fails closed before package tests",
+      "status": "verified",
+      "verificationPlan": "Add targeted negative fixture mutations within hosted_runtime_verification_test.sh and run that focused regression; do not infer success from report.executed alone."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-03T23:27:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

@@ -11,7 +11,7 @@ make_runtime() {
   mkdir -p "$directory/repository/.ai/evidence"
   mkdir -p "$directory/repository/.ai/work-items/active"
   printf 'fixture source\n' >"$directory/repository/README.md"
-  printf '{"workItemId":"WI-HOSTED-TEST"}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  printf '{"workItemId":"WI-HOSTED-TEST","verification":["cargo test --locked --workspace"]}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
   : >"$directory/repository/.ai/evidence/.keep"
   git -C "$directory/repository" init -q
   git -C "$directory/repository" config user.name 'Hosted Runtime Test'
@@ -42,7 +42,10 @@ path.write_text(
     "    state.write_text(str(count))\n"
     "    mode = os.environ['FAKE_MODE']\n"
     "    if mode in ('existing-fresh-receipt', 'existing-fresh-mismatched-receipt'):\n"
-    "        contract_digest = 'sha256:' + ('4' if mode == 'existing-fresh-mismatched-receipt' else '3') * 64\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
+    "        if mode == 'existing-fresh-mismatched-receipt': contract_digest = 'sha256:' + '4' * 64\n"
     "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': ['run_verification']}))\n"
     "    elif mode in ('stale', 'stale-deferred') and count <= 2: actions = ['run_preflight']\n"
     "    elif mode == 'blocked': actions = []\n"
@@ -51,7 +54,9 @@ path.write_text(
     "    else: actions = ['run_verification']\n"
     "    if mode in ('existing-fresh-receipt', 'existing-fresh-mismatched-receipt'): pass\n"
     "    elif count >= 4:\n"
-    "        contract_digest = 'sha256:' + '3' * 64\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "        snapshot_digest = 'sha256:' + '2' * 64\n"
     "        if mode == 'stale-contract-after-verification': contract_digest = 'sha256:' + '4' * 64\n"
     "        if mode == 'stale-snapshot-after-verification': snapshot_digest = 'sha256:' + '4' * 64\n"
@@ -66,9 +71,11 @@ path.write_text(
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
     "    snapshot_digest = 'sha256:' + '2' * 64\n"
-    "    contract_digest = 'sha256:' + '3' * 64\n"
+    "    contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "    contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
     "    node_id = 'project-command-0-package-fixture'\n"
-    "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': ['sha256:' + '5' * 64]}}}\n"
+    "    command_digest = 'sha256:' + hashlib.sha256(b'cargo test --locked --workspace').hexdigest()\n"
+    "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
     "    evidence = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'contractDigest': contract_digest, 'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'receipt': receipt}\n"
     "    evidence_path = repository / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
     "    evidence_path.write_text(json.dumps(evidence), encoding='utf-8')\n"
@@ -127,10 +134,14 @@ runtime, repository = map(Path, sys.argv[1:])
 work_item_id = "WI-HOSTED-TEST"
 runtime_digest = "sha256:" + hashlib.sha256(runtime.read_bytes()).hexdigest()
 repository_id = "sha256:" + "1" * 64
-contract_digest = "sha256:" + "3" * 64
+contract = json.loads((repository / ".ai/work-items/active/WI-HOSTED-TEST.contract.json").read_text())
+contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+).hexdigest()
 snapshot_digest = "sha256:" + "2" * 64
 node_id = "project-command-0-package-fixture"
 reused_node_id = "project-command-1-docs-fixture"
+command_digest = "sha256:" + hashlib.sha256(b"cargo test --locked --workspace").hexdigest()
 receipt = {
     "workItemId": work_item_id,
     "passed": True,
@@ -141,9 +152,10 @@ receipt = {
     "nodesExecuted": 1,
     "nodesReused": 1,
     "results": [
-        {"nodeId": node_id, "passed": True},
-        {"nodeId": reused_node_id, "passed": True, "reused": True},
+        {"nodeId": node_id, "passed": True, "reused": False, "action": "execute", "satisfiedBy": "execution"},
+        {"nodeId": reused_node_id, "passed": True, "reused": True, "action": "reuse", "satisfiedBy": "reused_receipt"},
     ],
+    "executionRecords": [{"nodeId": node_id, "commandDigest": command_digest, "spawned": True, "passed": True, "exitCode": 0}],
     "planReceipt": {
         "workItemId": work_item_id,
         "repositoryId": repository_id,
@@ -154,8 +166,10 @@ receipt = {
         "reusedNodes": [reused_node_id],
         "coverageManifest": {
             "workspaceMembers": ["fixture"],
-            "nodeIds": [node_id, reused_node_id],
-            "commandDigests": ["sha256:" + "5" * 64, "sha256:" + "6" * 64],
+            "nodeIds": [node_id],
+            "commandDigests": [command_digest],
+            "sourceProgram": "cargo",
+            "sourceArgs": ["test", "--locked", "--workspace"],
         },
     },
 }
@@ -316,6 +330,78 @@ RUNNER_TEMP="$tmp/stale-deferred/runner-temp" \
 test ! -e "$tmp/stale-deferred/packages.log"
 jq -e '.state == "passed" and .verificationReceiptState == "passed" and .executedByHostedRuntime == ["fixture"] and .executedByCoverageRunner == []' \
   "$tmp/stale-deferred/coverage.json" >/dev/null
+
+# A malformed formal receipt must fail before the package-test Cargo process.
+# Mutate only this temporary fake Runtime evidence, then restore its passing
+# bytes so the valid fixture and deferred cleanup remain independently usable.
+assert_rejected_coverage_receipt() {
+  local case_name=$1
+  local receipt="$tmp/stale-deferred/artifacts/hosted-runtime-verification.json"
+  local orchestration="$tmp/stale-deferred/artifacts/hosted-runtime-orchestration.json"
+  local evidence="$deferred_repository/.ai/evidence/WI-HOSTED-TEST.verification.json"
+  local contract="$deferred_repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
+  local case_dir="$tmp/stale-deferred/$case_name"
+  mkdir -p "$case_dir"
+  cp "$contract" "$case_dir/original-contract.json"
+  python3 - "$receipt" "$orchestration" "$evidence" "$contract" "$case_dir" "$case_name" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+receipt_path, orchestration_path, evidence_path, contract_path, case_dir = map(Path, sys.argv[1:6])
+case_name = sys.argv[6]
+formal = json.loads(receipt_path.read_text(encoding="utf-8"))
+if case_name == "missing-source-args":
+    del formal["receipt"]["planReceipt"]["coverageManifest"]["sourceArgs"]
+elif case_name == "missing-contract-declaration":
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract["verification"] = []
+    contract_path.write_text(json.dumps(contract), encoding="utf-8")
+    formal["contractDigest"] = "sha256:" + hashlib.sha256(
+        json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    ).hexdigest()
+elif case_name == "missing-execution-record":
+    formal["receipt"]["executionRecords"] = []
+elif case_name == "wrong-execution-digest":
+    formal["receipt"]["executionRecords"][0]["commandDigest"] = "sha256:" + "f" * 64
+else:
+    raise SystemExit(f"unsupported fixture case: {case_name}")
+altered = json.dumps(formal).encode("utf-8")
+(case_dir / "verification.json").write_bytes(altered)
+evidence_path.write_bytes(altered)
+orchestration = json.loads(orchestration_path.read_text(encoding="utf-8"))
+orchestration["formalReceiptDigest"] = "sha256:" + hashlib.sha256(altered).hexdigest()
+(case_dir / "orchestration.json").write_text(json.dumps(orchestration), encoding="utf-8")
+PY
+  local result=0
+  PACKAGE_LOG="$case_dir/packages.log" \
+  FAKE_MODE=stale-deferred \
+  FAKE_LOG="$tmp/stale-deferred/commands.jsonl" \
+  FAKE_STATE="$tmp/stale-deferred/status-count" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$case_dir/verification.json" \
+  AI_COCKPIT_VERIFICATION_ORCHESTRATION="$case_dir/orchestration.json" \
+  AI_COCKPIT_RUNTIME_BIN="$tmp/stale-deferred/runtime" \
+  AI_COCKPIT_VERIFICATION_REPOSITORY="$deferred_repository" \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
+      --metadata "$tmp/stale-deferred/metadata.json" \
+      --cargo "$tmp/stale-deferred/fake-cargo" \
+      --report "$case_dir/coverage.json" >"$case_dir/coverage.log" 2>&1 || result=$?
+  cp "$receipt" "$evidence"
+  cp "$case_dir/original-contract.json" "$contract"
+  if [[ "$result" == 0 ]]; then
+    printf 'coverage accepted malformed hosted receipt: %s\n' "$case_name" >&2
+    return 1
+  fi
+  test ! -e "$case_dir/packages.log"
+  jq -e '.state == "failed" and .failurePhase == "hosted_verification_receipt" and .executed == []' \
+    "$case_dir/coverage.json" >/dev/null
+}
+assert_rejected_coverage_receipt missing-source-args
+assert_rejected_coverage_receipt missing-contract-declaration
+assert_rejected_coverage_receipt missing-execution-record
+assert_rejected_coverage_receipt wrong-execution-digest
+
 cp "$tmp/stale-deferred/artifacts/hosted-runtime-worktree-cleanup.json" \
   "$tmp/stale-deferred/artifacts/tampered-worktree-cleanup.json"
 mkdir -p "$tmp/stale-deferred/runner-temp/unowned/source"

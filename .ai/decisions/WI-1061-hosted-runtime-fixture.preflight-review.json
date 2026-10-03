@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The human user directly selected confirm_review in this thread for the currently reviewed WI-1061 Contract digest d6c88d87 and snapshot f1333faf. This confirms only the bounded Contract review; it does not assert implementation, verification, CI, or merge success.",
+  "recordedAt": "2026-10-03T23:10:14Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f1333faf6ffc4531a53d6a6dbc969ff9da2bd7b546d26fe02d459f1539958e63",
+  "schemaVersion": 1,
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}
