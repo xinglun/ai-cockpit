@@ -1,4 +1,6 @@
-use cockpit_git::{ChangeContentState, ChangeKind, GitRepository, MAX_CHANGE_TEXT_BYTES};
+use cockpit_git::{
+    AddedLineOrigin, ChangeContentState, ChangeKind, GitRepository, MAX_CHANGE_TEXT_BYTES,
+};
 use std::{
     fs,
     process::Command,
@@ -78,6 +80,85 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
     );
     assert!(snapshot.diff_digest.starts_with("sha256:"));
     assert!(snapshot.dependency_fingerprint.starts_with("sha256:"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn changed_rust_lines_keep_exact_after_line_and_hunk_origin() {
+    let path = temporary_repository();
+    let before = "fn main() {\n    let first = \"old\";\n    keep_one();\n    keep_two();\n    keep_three();\n    let second = \"old\";\n}\n";
+    let after = before
+        .replacen("first = \"old\"", "first = \"new\"", 1)
+        .replacen("second = \"old\"", "second = \"new\"", 1);
+    fs::write(path.join("src.rs"), before).expect("write source");
+    Command::new("git")
+        .args(["add", "src.rs"])
+        .current_dir(&path)
+        .status()
+        .expect("git add");
+    Command::new("git")
+        .args(["commit", "-qm", "source baseline"])
+        .current_dir(&path)
+        .status()
+        .expect("git commit");
+    fs::write(path.join("src.rs"), after).expect("edit source");
+
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    let change = snapshot
+        .change_evidence
+        .iter()
+        .find(|change| change.path == "src.rs")
+        .expect("source change");
+    assert_eq!(change.added_lines.len(), 2);
+    assert_eq!(
+        change.added_line_origins,
+        vec![
+            AddedLineOrigin {
+                after_line: 2,
+                hunk_index: 0,
+            },
+            AddedLineOrigin {
+                after_line: 6,
+                hunk_index: 1,
+            }
+        ]
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn overflowing_patch_with_a_short_removed_line_never_becomes_complete_text() {
+    let path = temporary_repository();
+    fs::write(path.join("src.rs"), "fn old() {}\n").expect("write baseline");
+    Command::new("git")
+        .args(["add", "src.rs"])
+        .current_dir(&path)
+        .status()
+        .expect("git add");
+    Command::new("git")
+        .args(["commit", "-qm", "source baseline"])
+        .current_dir(&path)
+        .status()
+        .expect("git commit");
+    let source = format!(
+        "fn prompt() {{ let material = \"{}\"; }}\n",
+        "x".repeat(MAX_CHANGE_TEXT_BYTES + 1)
+    );
+    fs::write(path.join("src.rs"), source).expect("write oversized source");
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    let change = snapshot
+        .change_evidence
+        .iter()
+        .find(|change| change.path == "src.rs")
+        .expect("source change");
+    assert_eq!(change.content_state, ChangeContentState::TooLarge);
+    assert!(change.after_text.is_none());
     fs::remove_dir_all(path).expect("cleanup");
 }
 

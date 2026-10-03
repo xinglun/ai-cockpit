@@ -19,6 +19,8 @@ hex.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
+proc-macro2 = { version = "1.0", features = ["span-locations"] }
+syn = { version = "2.0.119", features = ["full", "visit", "parsing"] }
 toml.workspace = true
 thiserror.workspace = true
 

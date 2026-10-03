@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray explicitly replied in the core chat: 审阅通过 WI-1059 当前 Contract b19a7c75，继续实现。 This receipt records Ray's current exact human approval, distinct from Raydot's delegated technical design review; it does not claim verification passed.",
+  "recordedAt": "2026-10-03T13:39:18Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "schemaVersion": 1,
+  "workItemId": "WI-1059-input-trust-context"
+}

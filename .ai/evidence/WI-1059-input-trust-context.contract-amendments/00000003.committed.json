@@ -1,0 +1,181 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:eb56be4fcade80096850a00e3db6b7109a2b5c0d012d046b42874dd8986bf8da",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1059-input-trust-context",
+    "sequence": 3,
+    "changeId": "legacy-025c2d9c23ac8fe534ad07759d64367e2fa6d81eb8e49925092a3950914db213",
+    "requestDigest": "sha256:45b08489b07ecc132a745cb8168737c41cb2ea1882e7843476e9a5ca7d111701",
+    "reason": "Ray-delegated Raydot bounded technical design decision; exact provenance and fail-closed acceptance, with manifest scope",
+    "legacyInputDigest": "sha256:025c2d9c23ac8fe534ad07759d64367e2fa6d81eb8e49925092a3950914db213",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/repository.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md",
+          "docs/reference/input-trust-dataflow.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/repository.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md",
+          "docs/reference/input-trust-dataflow.zh-CN.md",
+          "crates/cockpit-repository/Cargo.toml"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/repository.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md",
+          "docs/reference/input-trust-dataflow.zh-CN.md",
+          "crates/cockpit-repository/Cargo.toml"
+        ],
+        "newValue": [
+          "crates/cockpit-git/src/lib.rs",
+          "crates/cockpit-git/tests/repository.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "crates/cockpit-repository/tests/ci_quality_gate.rs",
+          "crates/cockpit-repository/tests/status_projection.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md",
+          "docs/reference/input-trust-dataflow.zh-CN.md",
+          "crates/cockpit-repository/Cargo.toml",
+          "Cargo.lock"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。"
+        ],
+        "newValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+          "Rust .rs detection uses full after_text plus Git added-line/hunk provenance. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+          "Rust .rs detection uses full after_text plus Git added-line/hunk provenance. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk."
+        ],
+        "newValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+          "Rust .rs detection uses full after_text plus Git added-line/hunk provenance. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk.",
+          "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+          "Rust .rs detection uses full after_text plus Git added-line/hunk provenance. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk.",
+          "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis."
+        ],
+        "newValue": [
+          "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+          "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+          "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+          "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+          "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+          "Rust .rs detection uses full after_text plus Git added-line/hunk provenance. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk.",
+          "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis.",
+          "Regression evidence must include PR #1009 actual old-head RED-to-GREEN replay, same and cross-item explicit composition attacks, cross-hunk related and unrelated cases, an unchanged operand joined to a new marker, comments/raw/byte/escape cases, malformed or missing full source, and TooLarge/Binary/Unavailable. Non-Rust path rules remain unchanged."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+          "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity"
+        ],
+        "newValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+          "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity",
+          "2026-10-03 Ray explicitly authorized Raydot to make ordinary technical decisions on Ray's behalf. Raydot (actor agent:Raydot) approved the bounded WI-1059 Rust lexical/AST input-trust design for Contract preparation; this is delegated technical approval, not a claim that Ray personally reviewed this Contract digest, not Runtime confirm_review, and not verification evidence."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+          "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity",
+          "2026-10-03 Ray explicitly authorized Raydot to make ordinary technical decisions on Ray's behalf. Raydot (actor agent:Raydot) approved the bounded WI-1059 Rust lexical/AST input-trust design for Contract preparation; this is delegated technical approval, not a claim that Ray personally reviewed this Contract digest, not Runtime confirm_review, and not verification evidence."
+        ],
+        "newValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+          "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity",
+          "2026-10-03 Ray explicitly authorized Raydot to make ordinary technical decisions on Ray's behalf. Raydot (actor agent:Raydot) approved the bounded WI-1059 Rust lexical/AST input-trust design for Contract preparation; this is delegated technical approval, not a claim that Ray personally reviewed this Contract digest, not Runtime confirm_review, and not verification evidence.",
+          "Raydot design decision 2026-10-03: use full-source Rust literal/comment units and patch added-line provenance; resolve only bounded explicit string composition; preserve Unknown on ambiguous or uninspectable evidence; replay PR #1009 actual single-large-hunk false positive while retaining real attack positives."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:0740d8ec1620ba3de2e260d92aefa36a85e44c7efb0a175399aaa24be4baead2",
+    "newContractDigest": "sha256:5083e0da5dff1237456a54a2ee0c14a6e1cf3c73db7784cecc2825781c8d9b99",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:b79bb3b671dbffb7d4d09f7d3d93d34f35e0d8ab65794b0ba1e622c66c5a163a",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:bbbd74daeb05a977b9e4d46ce470af9557c7b22b5367c91bf0d0a8f1b58e5db0",
+    "journalDigest": "sha256:4f7226b3943007a217f62a664f599c9fdb4183b390d94f46f8e644e35de6742e",
+    "recordedAt": "2026-10-03T13:24:01Z"
+  }
+}

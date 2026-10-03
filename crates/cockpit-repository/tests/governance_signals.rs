@@ -1,6 +1,10 @@
-use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot};
+use cockpit_git::{
+    AddedLineOrigin, ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot,
+};
 use cockpit_repository::derive_governance_signals;
+use sha2::{Digest, Sha256};
 use std::path::PathBuf;
+use std::process::Command;
 
 fn snapshot(change: ChangeEvidence) -> RepositorySnapshot {
     RepositorySnapshot {
@@ -26,10 +30,42 @@ fn text_change(path: &str, kind: ChangeKind, before: &[&str], after: &[&str]) ->
         path: path.into(),
         kind,
         added_lines: after.iter().map(|line| (*line).into()).collect(),
+        added_line_origins: after
+            .iter()
+            .enumerate()
+            .map(|(index, _)| AddedLineOrigin {
+                after_line: index + 1,
+                hunk_index: 0,
+            })
+            .collect(),
         removed_lines: before.iter().map(|line| (*line).into()).collect(),
         after_text: Some(after.join("\n")),
         content_state: ChangeContentState::Text,
     }
+}
+
+fn added_rust_source(source: &str) -> ChangeEvidence {
+    ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Added,
+        added_lines: source.lines().map(str::to_owned).collect(),
+        added_line_origins: vec![],
+        removed_lines: vec![],
+        after_text: Some(source.into()),
+        content_state: ChangeContentState::Text,
+    }
+}
+
+fn known_attack_fixture() -> &'static str {
+    include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+}
+
+fn known_attack_halves() -> (&'static str, &'static str) {
+    known_attack_fixture()
+        .split_once(';')
+        .expect("known fixture separator")
 }
 
 #[test]
@@ -44,6 +80,476 @@ fn strong_repository_instruction_injection_is_derived_as_untrusted_material() {
     assert!(assessment.untrusted_material);
     assert!(!assessment.test_weakening);
     assert!(!assessment.coverage_weakening);
+}
+
+#[test]
+fn added_rust_file_does_not_pair_fixture_path_with_marker_in_another_function() {
+    // Regression for PR #1009: its new Rust source arrived in one large Git
+    // hunk, but the marker table and the fixture answer key are independent.
+    let (marker, _) = known_attack_fixture()
+        .split_once(';')
+        .expect("known fixture separator");
+    let source = r#"
+fn fixture_passes(path: &str) -> bool {
+    path == "tests/secret.rs"
+}
+
+fn unsafe_summary_markers(summary: &str) -> bool {
+    [MARKER_PLACEHOLDER, "ignore all previous"]
+        .iter()
+        .any(|marker| summary.contains(marker))
+}
+"#
+    .replace("MARKER_PLACEHOLDER", &format!("{marker:?}"));
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "crates/cockpit-cli/src/cognitive_benefit.rs".into(),
+        kind: ChangeKind::Added,
+        added_lines: source.lines().map(str::to_owned).collect(),
+        added_line_origins: vec![],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        !assessment
+            .findings
+            .contains(&"repository_prompt_injection".into())
+    );
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn pr1009_old_head_actual_added_source_replay_when_commit_is_available() {
+    let output = Command::new("git")
+        .args([
+            "show",
+            "8d7f6fd476e83fbc822ec2c6b7a25548aab5128a:crates/cockpit-cli/src/cognitive_benefit.rs",
+        ])
+        .output()
+        .expect("git is available for the repository gate");
+    if !output.status.success() {
+        // A shallow PR checkout need not contain the historical PR #1009
+        // object. The permanent shape regression above remains mandatory.
+        return;
+    }
+    let source = String::from_utf8(output.stdout).expect("old source is UTF-8");
+    assert!(source.contains("fixture_passes"));
+    assert!(source.contains("unsafe_summary_markers"));
+    let mut change = added_rust_source(&source);
+    change.path = "crates/cockpit-cli/src/cognitive_benefit.rs".into();
+    let assessment = derive_governance_signals(&snapshot(change));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn existing_attack_fixture_has_the_immutable_expected_digest() {
+    let digest = hex::encode(Sha256::digest(known_attack_fixture().as_bytes()));
+    assert_eq!(
+        digest,
+        "a71f4b8cce7538d11f17367cea5e106aa152268c57624e5890fffaf2eb38a814"
+    );
+}
+
+#[test]
+fn rust_raw_literal_with_the_existing_attack_fixture_is_untrusted() {
+    let source = format!(
+        "fn prompt() -> &'static str {{ r#\"{}\"# }}",
+        known_attack_fixture().trim_end()
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .findings
+            .contains(&"repository_prompt_injection".into())
+    );
+}
+
+#[test]
+fn rust_concat_of_the_existing_attack_halves_is_untrusted() {
+    let (instruction, operation) = known_attack_halves();
+    let source =
+        format!("fn prompt() -> &'static str {{ concat!({instruction:?}, {operation:?}) }}");
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn rust_format_of_pure_literal_return_functions_is_untrusted() {
+    let (instruction, operation) = known_attack_halves();
+    let source = format!(
+        "fn marker() -> &'static str {{ {instruction:?} }}\nfn operation() -> &'static str {{ {operation:?} }}\nfn prompt() -> String {{ format!(\"{{}}{{}}\", marker(), operation()) }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn literal_return_functions_defined_after_composition_are_untrusted() {
+    let (instruction, operation) = known_attack_halves();
+    let source = format!(
+        "fn prompt() -> String {{ format!(\"{{}}{{}}\", marker(), operation()) }}\nfn marker() -> &'static str {{ {instruction:?} }}\nfn operation() -> &'static str {{ {operation:?} }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn newly_added_format_uses_unchanged_risky_literal() {
+    let (instruction, operation) = known_attack_halves();
+    let new_line = format!("    format!(\"{{}}{{}}\", {instruction:?}, operation)");
+    let source =
+        format!("fn prompt() -> String {{\n    let operation = {operation:?};\n{new_line}\n}}\n");
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![new_line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 3,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn added_dynamic_composition_with_unchanged_marker_is_unknown() {
+    let (instruction, _) = known_attack_halves();
+    let new_line = "    marker.push_str(operation);".to_string();
+    let source = format!(
+        "fn prompt(operation: &str) {{\n    let mut marker = {instruction:?}.to_owned();\n{new_line}\n}}"
+    );
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![new_line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 3,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn added_format_with_unchanged_marker_and_dynamic_operand_is_unknown() {
+    let (instruction, _) = known_attack_halves();
+    let new_line = "    format!(\"{}{}\", marker, operation)".to_string();
+    let source = format!(
+        "fn prompt(operation: &str) -> String {{\n    let marker = {instruction:?};\n{new_line}\n}}"
+    );
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![new_line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 3,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn newly_added_composition_of_unchanged_pure_local_return_functions_is_untrusted() {
+    let (instruction, operation) = known_attack_halves();
+    let new_line = "fn prompt() -> String { format!(\"{}{}\", marker(), operation()) }".to_string();
+    let source = format!(
+        "fn marker() -> &'static str {{ let m = {instruction:?}; m }}\nfn operation() -> &'static str {{ let r = {operation:?}; r }}\n{new_line}"
+    );
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![new_line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 3,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn same_named_functions_in_another_module_cannot_mask_a_new_attack() {
+    let (instruction, operation) = known_attack_halves();
+    let new_line =
+        "    fn prompt() -> String { format!(\"{}{}\", marker(), operation()) }".to_string();
+    let source = format!(
+        "mod attack {{\n    fn marker() -> &'static str {{ {instruction:?} }}\n    fn operation() -> &'static str {{ {operation:?} }}\n{new_line}\n}}\nmod safe {{ fn marker() -> &'static str {{ \"ordinary\" }} }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![new_line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 4,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn related_attack_across_hunks_cannot_be_reported_clean() {
+    let (instruction, operation) = known_attack_halves();
+    let first = format!("    let marker = {instruction:?};");
+    let second = format!("    let operation = {operation:?};");
+    let source = format!(
+        "fn prompt() {{\n{first}\n    keep_one();\n    keep_two();\n{second}\n    format!(\"{{}}{{}}\", marker, operation);\n}}"
+    );
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![first, second],
+        added_line_origins: vec![
+            AddedLineOrigin {
+                after_line: 2,
+                hunk_index: 0,
+            },
+            AddedLineOrigin {
+                after_line: 5,
+                hunk_index: 1,
+            },
+        ],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(
+        assessment.untrusted_material || !assessment.unknowns.is_empty(),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn crlf_raw_literal_keeps_changed_line_identity() {
+    let source = format!(
+        "fn prompt() {{\r\n    let material = r#\"{}\"#;\r\n}}\r\n",
+        known_attack_fixture().trim_end()
+    );
+    let changed = source.lines().nth(1).expect("second line").to_owned();
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/material.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![changed],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 2,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn renamed_rust_target_still_inspects_decoded_byte_literal() {
+    let material = known_attack_fixture().trim_end().replacen('i', "\\x69", 1);
+    let line = format!("    let material = b\"{material}\";");
+    let source = format!("fn prompt() {{\n{line}\n}}");
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/renamed.rs".into(),
+        kind: ChangeKind::Renamed,
+        added_lines: vec![line],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: 2,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn rust_token_budget_exhaustion_is_unknown() {
+    let mut source = String::from("fn many() {\n");
+    for _ in 0..5_000 {
+        source.push_str("let a = 1;\n");
+    }
+    source.push_str("}\n");
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn nested_block_comment_with_existing_attack_fixture_is_untrusted() {
+    let source = format!(
+        "/* outer /* {} */ outer */ fn main() {{}}",
+        known_attack_fixture()
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn adjacent_line_comments_with_the_existing_attack_fixture_are_untrusted() {
+    let (instruction, operation) = known_attack_halves();
+    let source = format!("// {instruction}\n// {operation}\nfn main() {{}}");
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn dynamic_macro_with_static_instruction_is_unknown() {
+    let (instruction, _) = known_attack_halves();
+    let source = format!(
+        "fn prompt(operation: &str) -> String {{ format!(\"{{}}{{}}\", {instruction:?}, operation) }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn dynamic_push_str_with_static_instruction_is_unknown() {
+    let (instruction, _) = known_attack_halves();
+    let source = format!(
+        "fn prompt(operation: &str) {{ let mut text = {instruction:?}.to_owned(); text.push_str(operation); }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn separate_literals_in_one_rust_function_are_not_a_proven_attack() {
+    let (instruction, operation) = known_attack_fixture()
+        .split_once(';')
+        .expect("known fixture separator");
+    let source = format!(
+        "fn examples() {{ let instruction = {instruction:?}; let operation = {operation:?}; }}"
+    );
+    let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn bounded_rust_patch_with_a_candidate_and_no_full_source_is_unknown() {
+    let (instruction, _) = known_attack_fixture()
+        .split_once(';')
+        .expect("known fixture separator");
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/large.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![format!("let prompt = {instruction:?};")],
+        added_line_origins: vec![],
+        removed_lines: vec![],
+        after_text: None,
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn bounded_rust_patch_with_complete_attack_literal_is_a_finding() {
+    let line = format!("let prompt = {:?};", known_attack_fixture().trim_end());
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/large.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![line],
+        added_line_origins: vec![],
+        removed_lines: vec![],
+        after_text: None,
+        content_state: ChangeContentState::Text,
+    }));
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn malformed_rust_provenance_is_unknown() {
+    let mut change = added_rust_source("fn safe() {}");
+    change.kind = ChangeKind::Modified;
+    change.added_lines = vec!["fn other() {}".into()];
+    change.added_line_origins = vec![AddedLineOrigin {
+        after_line: 1,
+        hunk_index: 0,
+    }];
+    let assessment = derive_governance_signals(&snapshot(change));
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn uninspectable_rust_content_states_are_unknown() {
+    for state in [
+        ChangeContentState::TooLarge,
+        ChangeContentState::Binary,
+        ChangeContentState::Unavailable,
+    ] {
+        let mut change = added_rust_source("fn safe() {}");
+        change.content_state = state;
+        change.after_text = None;
+        let assessment = derive_governance_signals(&snapshot(change));
+        assert!(
+            assessment
+                .unknowns
+                .contains(&"repository_material_inspection_unavailable".into()),
+            "{assessment:?}"
+        );
+    }
 }
 
 #[test]
@@ -89,6 +595,7 @@ fn uninspectable_relevant_test_change_is_explicitly_unknown() {
         path: "tests/security.rs".into(),
         kind: ChangeKind::Modified,
         added_lines: vec![],
+        added_line_origins: vec![],
         removed_lines: vec![],
         after_text: None,
         content_state: ChangeContentState::TooLarge,
@@ -108,6 +615,7 @@ fn oversized_reference_inventory_uses_its_strict_conformance_gate() {
         path: "tests/conformance/reference_file_inventory.json".into(),
         kind: ChangeKind::Modified,
         added_lines: vec![],
+        added_line_origins: vec![],
         removed_lines: vec![],
         after_text: None,
         content_state: ChangeContentState::TooLarge,
@@ -132,6 +640,7 @@ fn bounded_patch_facts_in_an_oversized_file_are_inspectable() {
         path: "src/lib.rs".into(),
         kind: ChangeKind::Modified,
         added_lines: vec!["fn safe_change() {}".into()],
+        added_line_origins: vec![],
         removed_lines: vec!["fn old_change() {}".into()],
         after_text: None,
         content_state: ChangeContentState::Text,
