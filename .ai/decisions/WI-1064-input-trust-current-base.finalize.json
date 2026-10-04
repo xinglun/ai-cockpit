@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Ray's current standing authorization for Task9 PR merge, recoverable resource cleanup and Runtime finalization; exact PR #1014 head and main CI verified in this task",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cd0823ab90c24c868773efeced57db5f9f1689c0",
+    "name": "codex/wi-1064-input-trust-successor",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "ce86d7c497178f2609349f4a1ff1edeaa5bd1990",
+  "contractDigest": "sha256:264f8661d44548655668e3f3f62fcc58352ad64c16cab769f0482429166e93a5",
+  "operationId": "github-pr-1014-merge-cleanup-20261004",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ce86d7c497178f2609349f4a1ff1edeaa5bd1990",
+    "headRevision": "cd0823ab90c24c868773efeced57db5f9f1689c0",
+    "mergeCommit": "1640e0ed54b2a4939e90b9834941d64dcec490c0",
+    "number": 1014,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1014"
+  },
+  "reason": "PR #1014 merged as 1640e0ed54b2a4939e90b9834941d64dcec490c0, with exact-main CI run 37214172043 passing all four jobs. Its clean dedicated worktree was archived recoverably through Codex; exact remote and local WI branches were deleted after their head cd0823ab90c24c868773efeced57db5f9f1689c0 was verified. The user-dirty primary checkout was not modified.",
+  "receiptId": "github-pr-1014-finalization-20261004",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1064-input-trust-successor",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1014",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1064-input-trust-successor/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-04T16:02:36Z",
+  "workItemId": "WI-1064-input-trust-current-base",
+  "worktree": {
+    "branch": "codex/wi-1064-input-trust-successor",
+    "headRevision": "cd0823ab90c24c868773efeced57db5f9f1689c0",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi1064-input-trust-successor/ai-cockpit",
+    "worktreeId": "WI-1064-input-trust-current-base"
+  }
+}
