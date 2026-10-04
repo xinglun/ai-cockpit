@@ -215,6 +215,20 @@ jq -e '.failureCode == "work_item_contract_ambiguous" and (.message | contains("
   --output "$fixture/unmatched.json"
 jq -e '.state == "ready" and .selectionMethod == "ordinary_repository_route" and .workItemId == null' "$fixture/unmatched.json" >/dev/null
 
+# An unbound ordinary PR has no Contract identity to validate. Shared-PR
+# lineage validation must not introduce an unrelated repository-ID dependency.
+mv "$fixture/repo/.ai/agent-interface.json" "$fixture/agent-interface-saved.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-still-unmatched \
+  --pr-url https://github.com/example/repo/pull/10 \
+  --output "$fixture/unmatched-without-interface.json"
+jq -e '.state == "ready" and .selectionMethod == "ordinary_repository_route" and .workItemId == null' \
+  "$fixture/unmatched-without-interface.json" >/dev/null
+mv "$fixture/agent-interface-saved.json" "$fixture/repo/.ai/agent-interface.json"
+
 mkdir -p "$fixture/repo/.ai/work-items/archive"
 cp "$fixture/repo/.ai/work-items/active/WI-TEST.contract.json" \
   "$fixture/repo/.ai/work-items/archive/WI-TEST.contract.json"
@@ -241,6 +255,181 @@ if "$resolver" \
 fi
 jq -e '.failureCode == "work_item_contract_ambiguous" and .state == "failed"' \
   "$fixture/collision.json" >/dev/null
+
+lineage_branch=codex/lineage-route
+lineage_pr=https://github.com/example/repo/pull/15
+cat > "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.contract.json" <<JSON
+{
+  "workItemId": "WI-LINEAGE-PREV",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "$lineage_branch",
+    "pullRequest": "$lineage_pr"
+  },
+  "scope": ["README.md"]
+}
+JSON
+lineage_predecessor_raw_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.contract.json" | awk '{print $1}')"
+lineage_predecessor_contract_digest="sha256:$(jq -cS . "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.contract.json" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+cat > "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.archive.json" <<JSON
+{
+  "workItemId": "WI-LINEAGE-PREV",
+  "state": "archived",
+  "files": {
+    "contractPath": ".ai/work-items/archive/WI-LINEAGE-PREV.contract.json",
+    "contractDigest": "$lineage_predecessor_raw_digest"
+  }
+}
+JSON
+cat > "$fixture/repo/.ai/work-items/active/WI-LINEAGE-NEXT.contract.json" <<JSON
+{
+  "workItemId": "WI-LINEAGE-NEXT",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "$lineage_branch",
+    "pullRequest": "$lineage_pr"
+  },
+  "predecessorWorkItemId": "WI-LINEAGE-PREV",
+  "predecessorContractDigest": "$lineage_predecessor_contract_digest",
+  "recoveryDecisionPath": ".ai/decisions/WI-LINEAGE-PREV.recovery.json",
+  "scope": ["README.md"]
+}
+JSON
+cat > "$fixture/repo/.ai/decisions/WI-LINEAGE-PREV.recovery.json" <<JSON
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-LINEAGE-PREV",
+  "repositoryId": "fixture-repository",
+  "decision": "successor",
+  "predecessorWorkItemId": "WI-LINEAGE-PREV",
+  "predecessorContractDigest": "$lineage_predecessor_contract_digest",
+  "successorWorkItemId": "WI-LINEAGE-NEXT"
+}
+JSON
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref "$lineage_branch" \
+  --pr-url "$lineage_pr" \
+  --output "$fixture/lineage-active.json"
+jq -e \
+  '.state == "ready" and .selectionMethod == "pull_request_binding" and .workItemId == "WI-LINEAGE-NEXT" and .contractPath == ".ai/work-items/active/WI-LINEAGE-NEXT.contract.json"' \
+  "$fixture/lineage-active.json" >/dev/null
+
+# Failure at selection must not launch a package subprocess. The fake Cargo
+# marker makes this observable rather than inferring it from the JSON alone.
+mkdir -p "$fixture/lineage-bin"
+cat > "$fixture/lineage-bin/cargo" <<'SH'
+#!/usr/bin/env bash
+printf 'launched\n' > "$LINEAGE_PACKAGE_MARKER"
+exit 99
+SH
+chmod +x "$fixture/lineage-bin/cargo"
+lineage_package_marker="$fixture/lineage-package-launched"
+expect_lineage_failure() {
+  local case_name=$1
+  rm -f "$lineage_package_marker"
+  if PATH="$fixture/lineage-bin:$PATH" LINEAGE_PACKAGE_MARKER="$lineage_package_marker" \
+    "$resolver" \
+      --repo "$fixture/repo" \
+      --event pull_request \
+      --head "$head" \
+      --pr-head-ref "$lineage_branch" \
+      --pr-url "$lineage_pr" \
+      --output "$fixture/lineage-$case_name.json" >/dev/null 2>&1; then
+    printf 'expected invalid shared-PR lineage to fail: %s\n' "$case_name" >&2
+    exit 1
+  fi
+  jq -e '.state == "failed" and (.failureCode == "recovery_binding_invalid" or .failureCode == "work_item_contract_ambiguous" or .failureCode == "archive_manifest_digest_mismatch")' \
+    "$fixture/lineage-$case_name.json" >/dev/null
+  if [[ -e "$lineage_package_marker" ]]; then
+    printf 'package subprocess started for rejected lineage: %s\n' "$case_name" >&2
+    exit 1
+  fi
+}
+
+lineage_active_contract="$fixture/repo/.ai/work-items/active/WI-LINEAGE-NEXT.contract.json"
+lineage_decision="$fixture/repo/.ai/decisions/WI-LINEAGE-PREV.recovery.json"
+cp "$lineage_active_contract" "$fixture/lineage-active-original.json"
+cp "$lineage_decision" "$fixture/lineage-decision-original.json"
+mv "$lineage_decision" "$fixture/lineage-decision-missing.json"
+expect_lineage_failure missing-decision
+mv "$fixture/lineage-decision-missing.json" "$lineage_decision"
+
+jq '.repositoryId = "foreign-repository"' "$fixture/lineage-decision-original.json" > "$lineage_decision"
+expect_lineage_failure foreign-decision-repository
+cp "$fixture/lineage-decision-original.json" "$lineage_decision"
+
+jq '.successorWorkItemId = "WI-OTHER"' "$fixture/lineage-decision-original.json" > "$lineage_decision"
+expect_lineage_failure wrong-decision-edge
+cp "$fixture/lineage-decision-original.json" "$lineage_decision"
+
+jq '.predecessorContractDigest = "sha256:wrong"' "$fixture/lineage-decision-original.json" > "$lineage_decision"
+expect_lineage_failure wrong-decision-digest
+cp "$fixture/lineage-decision-original.json" "$lineage_decision"
+
+jq '.predecessorContractDigest = "sha256:wrong"' "$fixture/lineage-active-original.json" > "$lineage_active_contract"
+expect_lineage_failure wrong-predecessor-digest
+cp "$fixture/lineage-active-original.json" "$lineage_active_contract"
+
+jq '.repositoryId = "foreign-repository"' "$fixture/lineage-active-original.json" > "$lineage_active_contract"
+expect_lineage_failure foreign-successor-repository
+cp "$fixture/lineage-active-original.json" "$lineage_active_contract"
+
+jq '.recoveryDecisionPath = ".ai/decisions/../outside.json"' "$fixture/lineage-active-original.json" > "$lineage_active_contract"
+expect_lineage_failure unsafe-decision-path
+cp "$fixture/lineage-active-original.json" "$lineage_active_contract"
+
+lineage_predecessor_manifest="$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.archive.json"
+cp "$lineage_predecessor_manifest" "$fixture/lineage-predecessor-manifest-original.json"
+jq '.files.contractDigest = "sha256:wrong"' "$fixture/lineage-predecessor-manifest-original.json" > "$lineage_predecessor_manifest"
+expect_lineage_failure wrong-archive-anchor
+cp "$fixture/lineage-predecessor-manifest-original.json" "$lineage_predecessor_manifest"
+
+cp "$lineage_active_contract" "$fixture/repo/.ai/work-items/active/WI-LINEAGE-COMPETITOR.contract.json"
+expect_lineage_failure competing-active-successor
+rm "$fixture/repo/.ai/work-items/active/WI-LINEAGE-COMPETITOR.contract.json"
+
+# After finish/archive the same PR has two archived Contracts. The terminal
+# successor must remain the selected read-only Contract, not the predecessor.
+lineage_archived_successor="$fixture/repo/.ai/work-items/archive/WI-LINEAGE-NEXT.contract.json"
+mv "$lineage_active_contract" "$lineage_archived_successor"
+lineage_successor_raw_digest="sha256:$(shasum -a 256 "$lineage_archived_successor" | awk '{print $1}')"
+cat > "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-NEXT.archive.json" <<JSON
+{
+  "workItemId": "WI-LINEAGE-NEXT",
+  "state": "archived",
+  "files": {
+    "contractPath": ".ai/work-items/archive/WI-LINEAGE-NEXT.contract.json",
+    "contractDigest": "$lineage_successor_raw_digest"
+  }
+}
+JSON
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref "$lineage_branch" \
+  --pr-url "$lineage_pr" \
+  --output "$fixture/lineage-archived.json"
+jq -e \
+  '.state == "ready" and .selectionMethod == "archived_contract_read_only" and .workItemId == "WI-LINEAGE-NEXT" and .contractPath == ".ai/work-items/archive/WI-LINEAGE-NEXT.contract.json"' \
+  "$fixture/lineage-archived.json" >/dev/null
+
+lineage_predecessor_contract="$fixture/repo/.ai/work-items/archive/WI-LINEAGE-PREV.contract.json"
+cp "$lineage_predecessor_contract" "$fixture/lineage-predecessor-original.json"
+jq '.predecessorWorkItemId = "WI-LINEAGE-NEXT"' "$fixture/lineage-predecessor-original.json" > "$lineage_predecessor_contract"
+expect_lineage_failure cyclic-archived-edge
+cp "$fixture/lineage-predecessor-original.json" "$lineage_predecessor_contract"
+
+cp "$lineage_predecessor_contract" "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-THIRD.contract.json"
+expect_lineage_failure competing-archived-candidate
+rm "$fixture/repo/.ai/work-items/archive/WI-LINEAGE-THIRD.contract.json"
 
 cat > "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED.contract.json" <<JSON
 {

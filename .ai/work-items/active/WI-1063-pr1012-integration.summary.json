@@ -22,18 +22,59 @@
     "schemaVersion": 1,
     "workItemId": "WI-1063-pr1012-integration"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-1063-pr1012-integration.preflight-review.json",
+      ".ai/evidence/WI-1063-pr1012-integration.contract-amendments/00000002.committed.json"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
-  "preflightAt": "2026-10-04T05:41:15Z",
+  "preflightAt": "2026-10-04T05:52:05Z",
   "preflightContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+  "preflightRepositorySnapshotDigest": "sha256:175a147bbd0d3b6295fff9f65fba31f699ff50aaed6622ce976fce7c4867da3f",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+      "required": true,
+      "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+      "status": "unverified",
+      "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+      "required": true,
+      "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+      "status": "unverified",
+      "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+    },
+    {
+      "evidence": [],
+      "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+      "required": true,
+      "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
+      "status": "unverified",
+      "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+    },
+    {
+      "evidence": [],
+      "expected": "The active WI-1063 successor over archived WI-1061 is selected only with exact repository, archive, canonical Contract digest, recovery decision, and PR binding; ordinary and sole archived routes remain unchanged, while missing/foreign/mismatched/competing/cyclic/undecidable lineage is rejected before any package subprocess.",
+      "required": true,
+      "scenario": "Exact PR predecessor and successor route selection is deterministic only for validated lineage",
+      "status": "unverified",
+      "verificationPlan": "Run bash tests/ci/resolve_work_item_test.sh on the current source with fixture-backed active successor positive, ordinary and sole archived controls, and missing decision, foreign repository, wrong canonical predecessor digest, wrong decision edge, competing successor, cycle and undecidable negative cases; assert failed selection and package-spy marker absent. Then inspect the active exact-head PR #1012 route artifact and hosted execution separately before finish. Preserve archived-terminal exact-head CI as the post-archive acceptance criterion, not as pre-finish scenario evidence."
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T05:41:37Z",
+  "updatedAt": "2026-10-04T05:53:22.747993+00:00",
   "workItemId": "WI-1063-pr1012-integration"
 }
