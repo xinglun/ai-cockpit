@@ -1,0 +1,27 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Ray Task9 delegation of ordinary technical recovery decisions to Raydot; Raydot direction in main coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010 on 2026-10-04",
+  "decidedAt": "2026-10-04T10:32:39Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1059-input-trust-context.verification.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification-attempt.59f0af8ac458651de8cb387b924a1d475dbcc513c3296315f5e1c7416f96e084.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1011"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:07e18bf7c317876c0b157651e37ae56dfd4af5d879f56cc23da77d47bc609db1",
+  "predecessorEventsDigest": "sha256:1af03babc160dabfb612c9d73f2f6aa254b7e305abadc28c4ea4a795b9d313c8",
+  "predecessorOutcomeDigest": "sha256:afc42985b8cd7d393c65eebc9e0859efb91fa5ceffaa8af2d2f5c85707558a8a",
+  "predecessorSummaryDigest": "sha256:97d5faecd617dfc0aa78f05d781400edc3e69a60790200f9bb079de89029d13e",
+  "predecessorWorkItemId": "WI-1059-input-trust-context",
+  "reason": "The prior WI-1059 27-result verification receipt was recorded before real PR #1011 provider binding and before integration with current main ce86d7c497178f2609349f4a1ff1edeaa5bd1990; current Runtime reports its evidence stale, while the active Contract has resourceContext null. Preserve the old passed receipt, rejected attempt, and dirty generated evidence, then allow one identity-bound retry cycle for the same WI rather than inventing a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the exact existing PR #1011 branch/worktree/provider through supported finalize-plan before any fresh verification; integrate current green main without discarding old evidence, satisfy actual review and preflight, then run one current formal verification and exact-head active and archived CI.",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1059-input-trust-context"
+}

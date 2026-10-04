@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:756113bac4f557ba0ede14df0fe3d0ce8156f98711c768b88eef60d031fa7cc4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray replied 1 in main conversation message Sentinel_d03a88f8d4f081918786176028bf5496 to Raydot's exact WI-1059 Contract 756113ba review request Sentinel_2651d4d7bca081919c3c1e10fb256860. This confirms review of the real PR #1011 resourceContext binding only; scope, acceptance and verification remain unchanged. It authorizes continuation, not merge or close.",
+  "recordedAt": "2026-10-04T10:54:14Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+  "schemaVersion": 1,
+  "workItemId": "WI-1059-input-trust-context"
+}

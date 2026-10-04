@@ -1104,6 +1104,8 @@ struct PreparedRepositoryVerificationCommand {
     executable_files_read: usize,
     executable_files_hashed: usize,
     reuse_authorization: String,
+    #[cfg(test)]
+    candidate_loaded: bool,
 }
 
 fn prepare_repository_verification_command(
@@ -1145,6 +1147,8 @@ fn prepare_repository_verification_command(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
+    #[cfg(test)]
+    let mut candidate_loaded = false;
     let mut reuse_authorization = match request.policy {
         RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
         RepositoryVerificationPolicy::NeverReuse => "not_requested".into(),
@@ -1185,8 +1189,14 @@ fn prepare_repository_verification_command(
                         None
                     }
                 };
+                #[cfg(test)]
+                let candidate_loaded_here = candidate.is_some();
                 reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
+                #[cfg(test)]
+                {
+                    candidate_loaded = candidate_loaded_here;
+                }
                 build_repository_verification_command(
                     root,
                     request,
@@ -1227,6 +1237,8 @@ fn prepare_repository_verification_command(
         executable_files_read,
         executable_files_hashed,
         reuse_authorization,
+        #[cfg(test)]
+        candidate_loaded,
     })
 }
 
@@ -1318,6 +1330,36 @@ pub fn run_repository_verification_with_process_observer<F>(
 where
     F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
 {
+    run_repository_verification_inner(root, request, process_observer, |_| {})
+}
+
+#[cfg(test)]
+fn run_repository_verification_with_post_prepare<H>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    post_prepare: H,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    H: FnOnce(&PreparedRepositoryVerificationCommand),
+{
+    run_repository_verification_inner(
+        root,
+        request,
+        |_node_id, _process_id, _started| Ok(()),
+        post_prepare,
+    )
+}
+
+fn run_repository_verification_inner<F, H>(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    process_observer: F,
+    post_prepare: H,
+) -> Result<RepositoryVerificationRun, ObserverError>
+where
+    F: Fn(&str, u32, bool) -> Result<(), String> + Send + Sync + 'static,
+    H: FnOnce(&PreparedRepositoryVerificationCommand),
+{
     let service_started = Instant::now();
     let process_observer = Arc::new(process_observer);
     let stage = validate_verification_request(root, request)?;
@@ -1335,6 +1377,7 @@ where
         message: error.to_string(),
     })?;
     let prepared = prepare_repository_verification_command(&root, request, &snapshot)?;
+    post_prepare(&prepared);
     let mut store_files_read = prepared.store_files_read;
     let mut store_unavailable_reason = prepared.store_unavailable_reason;
     let mut executable_files_read = prepared.executable_files_read;
@@ -12902,6 +12945,175 @@ fn collect_files(
         }
     }
     Ok(())
+}
+
+#[cfg(all(test, unix))]
+mod post_prepare_identity_tests {
+    use super::{
+        RepositoryVerificationPolicy, RepositoryVerificationRequest, attach,
+        confirm_profile_update, run_repository_verification,
+        run_repository_verification_with_post_prepare,
+    };
+    use std::{
+        fs,
+        os::unix::fs::PermissionsExt,
+        path::PathBuf,
+        process::Command,
+        sync::mpsc,
+        time::{Duration, SystemTime, UNIX_EPOCH},
+    };
+
+    fn fixture(label: &str) -> (PathBuf, PathBuf, RepositoryVerificationRequest) {
+        let nonce = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock")
+            .as_nanos();
+        let parent = std::env::temp_dir().join(format!(
+            "cockpit-post-prepare-{label}-{}-{nonce}",
+            std::process::id()
+        ));
+        let root = parent.join("repo");
+        fs::create_dir_all(&root).expect("fixture repository");
+        fs::write(root.join("tracked.txt"), "before\n").expect("tracked file");
+        fs::write(root.join(".gitignore"), ".counter\n").expect("counter ignore");
+        for args in [
+            vec!["init", "-q"],
+            vec!["add", "."],
+            vec![
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ],
+        ] {
+            assert!(
+                Command::new("git")
+                    .arg("-C")
+                    .arg(&root)
+                    .args(args)
+                    .status()
+                    .expect("git")
+                    .success()
+            );
+        }
+        let tool = parent.join("count.sh");
+        fs::write(
+            &tool,
+            b"#!/bin/sh\ncount=.counter; n=0; test -f $count && n=$(cat $count); echo $((n+1)) > $count\n",
+        )
+        .expect("script");
+        fs::set_permissions(&tool, fs::Permissions::from_mode(0o755)).expect("executable");
+        attach(&root).expect("attach");
+        let program = tool.to_string_lossy().into_owned();
+        confirm_profile_update(&root, &program, &[]).expect("confirm");
+        let request = RepositoryVerificationRequest {
+            node_id: "project-command-0".into(),
+            program,
+            args: vec![],
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: format!("sha256:{}", "a".repeat(64)),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::ProfileAuthorized,
+        };
+        (root, parent, request)
+    }
+
+    fn assert_second_run_at_exact_boundary(identity_file: Option<&str>) {
+        let label = identity_file.unwrap_or("unchanged");
+        let (root, parent, request) = fixture(label);
+        let first = run_repository_verification(&root, &request).expect("first execution");
+        assert_eq!(first.receipt.processes_spawned, 1);
+        assert_eq!(
+            fs::read_to_string(root.join(".counter"))
+                .expect("counter")
+                .trim(),
+            "1"
+        );
+
+        let (ready_tx, ready_rx) = mpsc::channel();
+        let (release_tx, release_rx) = mpsc::channel();
+        let worker_root = root.clone();
+        let worker_request = request.clone();
+        let worker = std::thread::spawn(move || {
+            run_repository_verification_with_post_prepare(
+                &worker_root,
+                &worker_request,
+                move |prepared| {
+                    assert!(
+                        prepared.candidate_loaded,
+                        "barrier requires a loaded reusable candidate"
+                    );
+                    ready_tx.send(()).expect("ready signal");
+                    release_rx
+                        .recv_timeout(Duration::from_secs(10))
+                        .expect("release after prepare");
+                },
+            )
+        });
+        let ready = ready_rx.recv_timeout(Duration::from_secs(10));
+        let mutation = if ready.is_ok() {
+            identity_file.map_or(Ok(()), |name| {
+                let path = root.join(".ai").join(name);
+                let mut bytes = fs::read(&path)?;
+                bytes.push(b'\n');
+                fs::write(path, bytes)
+            })
+        } else {
+            Ok(())
+        };
+        let _ = release_tx.send(());
+        let joined = worker.join();
+        ready.expect("worker reached post-prepare barrier");
+        mutation.expect("mutate identity bytes");
+        let second = joined
+            .expect("verification worker")
+            .expect("second verification");
+        let expected_count = if identity_file.is_some() { "2" } else { "1" };
+        assert_eq!(
+            second.receipt.nodes_reused,
+            usize::from(identity_file.is_none())
+        );
+        assert_eq!(
+            second.receipt.processes_spawned,
+            usize::from(identity_file.is_some())
+        );
+        if identity_file.is_some() {
+            assert_eq!(
+                second.receipt.results[0].reason,
+                "post_planning_binding_drift"
+            );
+        }
+        assert_eq!(
+            fs::read_to_string(root.join(".counter"))
+                .expect("counter")
+                .trim(),
+            expected_count
+        );
+        fs::remove_dir_all(parent).expect("fixture cleanup");
+    }
+
+    #[test]
+    fn unchanged_identity_reuses_candidate_after_post_prepare_barrier() {
+        assert_second_run_at_exact_boundary(None);
+    }
+
+    #[test]
+    fn cockpit_config_byte_drift_after_prepare_forces_execution() {
+        assert_second_run_at_exact_boundary(Some("cockpit.toml"));
+    }
+
+    #[test]
+    fn project_config_byte_drift_after_prepare_forces_execution() {
+        assert_second_run_at_exact_boundary(Some("project.json"));
+    }
 }
 
 #[cfg(test)]

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray selected option 1 in direct user message 01a106a8-70f5-7751-94ab-5cf1a1f24ece after the exact WI-1059 Contract 1ff92381...ef97d60 review choice: approve implementation and verification, not merge or close.",
+  "recordedAt": "2026-10-04T11:26:42Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+  "schemaVersion": 1,
+  "workItemId": "WI-1059-input-trust-context"
+}
