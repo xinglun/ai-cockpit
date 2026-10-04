@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact. The overlapping process-observer fixture retains main 522c's five locally sanitized fake package calls, two positives, and three runner_setup negatives, with only a fixture-local current-checkout runner binding added to reject inherited foreign hosted runner paths without weakening production checks.",
+    "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
+    "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
+    "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
+    "After archive and before any PR 1012 merge prove the exact archived PR head selects the read-only Contract gate with no candidate producer and passes repository gates plus fresh 13-package coverage without stale hosted receipt variables; retain the active evidence separately.",
+    "Do not merge PR 1012 or clean its provider branch without separate explicit human authorization after independent review of final seven-path diff and exact-head CI.",
+    "Before finish, exact PR #1012 active WI-1063 plus archived WI-1061 must select only the validated successor and execute the real active hosted candidate route. Focused selector regressions must prove ordinary PR and sole archived routes unchanged, active successor accepted, and missing/foreign repository, predecessor Contract digest, recovery decision/edge, competing successor, cycle and undecidable collisions rejected before package processes; no name/time/latest tie-break or self-declared digest-only trust.",
+    "After WI-1063 archive and before PR #1012 merge, the same exact PR identity with two archived Contracts must select the uniquely validated terminal successor and run the read-only Contract gate plus fresh repository/13-package coverage without a candidate producer or stale hosted receipt; malformed or competing lineage still fails closed. This is a distinct exact-head CI requirement and does not grant merge authority."
+  ],
+  "createdAt": "2026-10-04T09:24:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:125e0e7526767fdbf7b1a6a73dac766ce44ba6623cc6c0680e827ee3cb4987ad",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1479847906b9b1124470e86239c9348b0e5b3fe81c8e4c5b967e3cd6e98e32ed",
+      "workItemId": "WI-1063-pr1012-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1063-pr1012-integration.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "Resolve the sole PR 1012 integration conflict under WI-1061 lineage while preserving the six other delivery files and prove current active and archived CI behavior"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1063-pr1012-integration"
+  },
+  "taskReportDigest": "sha256:134b0a72d6492c38512a9b3513bf584dc287c0c037f8df1b9080af456e9d9e9b",
+  "taskReportMarkdownDigest": "sha256:243ece7ea31ebb58dd6d91f7997ffcc298b8627dd5128bd3611c6d24a62f2ae5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1063-pr1012-integration.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1063-pr1012-integration"
+}
