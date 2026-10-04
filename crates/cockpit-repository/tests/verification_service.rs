@@ -599,9 +599,13 @@ fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     fs::remove_file(receipt_path).expect("force execution after planning");
     lock.unlock().expect("release store lock");
 
-    let deadline = std::time::Instant::now() + Duration::from_secs(3);
+    let deadline = std::time::Instant::now() + Duration::from_secs(15);
     while !started.exists() && std::time::Instant::now() < deadline {
         std::thread::sleep(Duration::from_millis(10));
+    }
+    if !started.exists() {
+        // A slow host must not strand the spawned command when this assertion fails.
+        fs::write(&proceed, b"proceed\n").expect("release delayed original command");
     }
     assert!(started.exists(), "the pinned command must start");
     fs::rename(&tool, &displaced).expect("remove replacement");

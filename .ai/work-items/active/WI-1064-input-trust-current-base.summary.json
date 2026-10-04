@@ -1,13 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
-    ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json",
-    ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.3b3c2090794a82ef5ede7e5fc9caf803f2733617cba24ae1fce57cf2e3e04aea.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json",
+    "crates/cockpit-repository/tests/verification_service.rs"
   ],
   "checkpointAt": "2026-10-04T12:36:12Z",
   "checkpointContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+  "checkpointRepositorySnapshotDigest": "sha256:6abc6fcc64ba8c635a4ea91ccd7619eaa16284385862d3d34136adb4ca4a0307",
   "createdAt": "2026-10-04T12:22:15Z",
   "decisionEvidence": {
     "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
@@ -34,10 +34,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
   "predecessorWorkItemId": "WI-1059-input-trust-context",
-  "preflightAt": "2026-10-04T12:35:17Z",
+  "preflightAt": "2026-10-04T13:28:41Z",
   "preflightContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+  "preflightRepositorySnapshotDigest": "sha256:6abc6fcc64ba8c635a4ea91ccd7619eaa16284385862d3d34136adb4ca4a0307",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
@@ -86,5 +86,116 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-04T12:53:43.501242+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:f1899fd1700b8d7e50db19a16034c63b33c026cae25a350cb007afca1103e785",
   "workItemId": "WI-1064-input-trust-current-base"
 }
