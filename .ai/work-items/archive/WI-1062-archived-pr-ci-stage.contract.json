@@ -5,7 +5,8 @@
     "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
     "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
     "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
-    "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged"
+    "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged",
+    "After this Work Item is archived and before PR #1013 is merged or this Work Item is closed, require an exact-head GitHub pull_request run selecting its archived Contract read-only route: candidate hosted verification must not start; read-only Rust Contract gate, repository gates and fresh workspace package coverage must actually pass on that head without stale hosted receipt variables. Local or prior active-head evidence cannot substitute. After integration, PR #1012 must separately obtain the same real exact-head archived-route proof before its merge; retain all earlier failures."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -83,7 +84,7 @@
       "required": true,
       "scenario": "archived PR read-only gate and fresh package coverage",
       "status": "unverified",
-      "verificationPlan": "Exercise the archived selection fixture through workflow regression and inspect an exact-head PR run for Rust gate and repository package coverage execution with no hosted producer."
+      "verificationPlan": "Before finish, execute the current-source archived route-binding regression, run the existing read-only Rust Contract gate against a real archived Contract on its source checkout, and run the canonical workspace package coverage runner on that same checkout without hosted receipt or orchestration variables; record route, gate, current head, all workspace packages, and omissions. This local evidence does not prove hosted archived PR acceptance."
     },
     {
       "evidence": [],

@@ -1,14 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.2645f557ddc96f569bd427ac516f00b9e00f8b72ea4e0279eb6b5bc258d20ab0.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000004.committed.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000004.prepared.json",
-    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.contract.json",
-    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.summary.json",
-    "tests/ci/process_observer_test_runner_test.sh"
+    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.d0498855933b757305e1cad174f5fb5bfb576ec949f4612330e7f882b008cad9.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000005.committed.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000005.prepared.json",
+    ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.contract.json",
+    ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
   ],
   "checkpointAt": "2026-10-04T01:49:43Z",
-  "checkpointContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+  "checkpointContractDigest": "sha256:3511fa1d2d847b16e292d395c9f1791f632d7f8b055a12af58a2114cdccbcb21",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -64,20 +63,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3511fa1d2d847b16e292d395c9f1791f632d7f8b055a12af58a2114cdccbcb21",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+      "previousContractHash": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+      "reason": "Separate the executable pre-finish archived-lane proof from the real post-archive exact-head PR acceptance. The current required scenario's hosted verification plan cannot run until the WI is archived, while finish requires that scenario verified. Current-source route regression, a real read-only Rust gate on archived WI-1061 head c6137239, and canonical no-receipt 13/13 package coverage have now executed. Preserve hosted archived PR evidence as a non-optional unnumbered acceptance condition before merge and close; preserve all earlier failed runs and unchanged protections.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T03:54:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1062-archived-pr-ci-stage"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
   "createdAt": "2026-10-04T01:27:27Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+    "contractDigest": "sha256:3511fa1d2d847b16e292d395c9f1791f632d7f8b055a12af58a2114cdccbcb21",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "Ray answered Yes to WI-1062 seq4 Contract d712a6fa after independent read-only technical review. Approval adds only tests/ci/process_observer_test_runner_test.sh to scope for isolated fixture repair; it does not assert verification success, merge, or release approval.",
-    "recordedAt": "2026-10-04T03:00:25Z",
+    "reason": "Ray answered Yes in this conversation to the exact WI-1062 seq5 Contract digest 3511fa1d after Raydot's independent read-only technical review. Approval covers only the two recorded changes: pre-finish local archived-lane component verification plan and an unnumbered post-archive exact-head CI hard acceptance before merge or close. It does not assert fresh verification, hosted archived success, merge, or release approval.",
+    "recordedAt": "2026-10-04T04:02:44Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+    "repositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
     "schemaVersion": 1,
     "workItemId": "WI-1062-archived-pr-ci-stage"
   },
@@ -88,8 +107,8 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T03:11:08Z",
-  "preflightContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+  "preflightAt": "2026-10-04T04:13:54Z",
+  "preflightContractDigest": "sha256:3511fa1d2d847b16e292d395c9f1791f632d7f8b055a12af58a2114cdccbcb21",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
   "preflightState": "green",
@@ -108,40 +127,51 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        "PR #1013 head cb66b796b3b5c700c5aa3743d8a58d8a19b229ee, run 37173401246: hosted candidate 17/17 executed, Rust Contract gate green, repository gates passed, and formal receipt consumer covered 13/13 workspace packages with zero omissions. This is prior d712 Contract evidence; seq5 requires a new formal receipt."
+      ],
       "expected": "The active Contract route runs candidate verification before the Rust gate and binds package coverage to the resulting formal receipt.",
       "required": true,
       "scenario": "active PR candidate verification and formal receipt consumption",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run the workflow convergence and route regressions against an active selection fixture, then inspect exact-head PR CI hosted verification, Rust gate, and coverage artifacts."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Current WI-1062 source cb66b796b3b5c700c5aa3743d8a58d8a19b229ee: bash tests/ci/workflow_convergence_test.sh passed locally on 2026-10-04; its executable route-binding fixture covers archived_contract_read_only and mismatch/unknown zero-process checks. The current working tree has only Runtime-generated seq5 records, not product source edits.",
+        "Separate PR #1012 archived source checkout head c6137239ef512a879eb65ccdf0a68cb633f79e25, WI-1061 archived Contract e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba, Runtime 1.0.1-rc.2: ai-cockpit gate --stage pr --runner hosted --base-revision c026e59cd70a6d2117193fba2aebae07d30c1e74 returned passed/green with zero blockers on the source checkout.",
+        "Same separate PR #1012 checkout/head: canonical run_workspace_package_tests.sh executed with AI_COCKPIT_VERIFICATION_RECEIPT and AI_COCKPIT_VERIFICATION_ORCHESTRATION removed only for that invocation; report /tmp/wi1061-archived-local-package-coverage.json passed, 13/13 workspace packages executed by coverage runner, zero omitted, verificationReceiptState not_provided. These local component results do not prove an integrated hosted archived PR run; seq5 unnumbered acceptance still requires exact-head hosted evidence after archive and before merge/close."
+      ],
       "expected": "The archived Contract route does not start a candidate verification process, runs the read-only Rust gate on the source checkout, and runs current-head package coverage without hosted receipt variables.",
       "required": true,
       "scenario": "archived PR read-only gate and fresh package coverage",
-      "status": "unverified",
-      "verificationPlan": "Exercise the archived selection fixture through workflow regression and inspect an exact-head PR run for Rust gate and repository package coverage execution with no hosted producer."
+      "status": "verified",
+      "verificationPlan": "Before finish, execute the current-source archived route-binding regression, run the existing read-only Rust Contract gate against a real archived Contract on its source checkout, and run the canonical workspace package coverage runner on that same checkout without hosted receipt or orchestration variables; record route, gate, current head, all workspace packages, and omissions. This local evidence does not prove hosted archived PR acceptance."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Current WI-1062 source cb66b796b3b5c700c5aa3743d8a58d8a19b229ee: workflow_convergence_test.sh, resolve_work_item_test.sh, and repository_gate_manifest_test.sh passed locally on 2026-10-04; fixtures exercise ordinary pull_request/push selection and pull_request/merge repository-gate stages.",
+        "Historical ordinary PR #1013 run 37169927656 at OLD head cd8343c68d12ab2f7649343dbb18dd430ceba9ca: strict route with contractPath null, repository-gates receipt passed, workspace-package-coverage receipt passed 13/13, zero omitted, verificationReceiptState not_provided, all packages run by coverage runner. This is not current-head or post-merge hosted proof; current main remains c026e59cd70a6d2117193fba2aebae07d30c1e74."
+      ],
       "expected": "Ordinary PR and post-merge routes keep their required repository checks and package coverage with no Contract-hosted receipt assumption.",
       "required": true,
       "scenario": "ordinary PR and post-merge routes retain required coverage",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run existing route and repository gate regressions for ordinary pull_request and main push fixtures, then inspect hosted route and gate receipts."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "WI-1062 formal attempt 98e9eb24, project-command-1 bash tests/ci/workflow_convergence_test.sh passed on source snapshot 3873843f; current-source focused rerun passed 2026-10-04. Executed unknown and mismatched route fixtures assert nonzero exit, no lane output, and absent package-process-started marker. The old formal receipt is historical under d712 and is not seq5 verification."
+      ],
       "expected": "An unknown selection method or route/Contract mismatch exits before any repository package test subprocess or green coverage receipt.",
       "required": true,
       "scenario": "unknown or contradictory selection fails closed",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Add a focused negative route fixture and process marker assertion; run it before implementation and after the minimal workflow change."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-04T03:00:45.209756+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T04:19:08Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -216,6 +246,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9da696d34214bd38805cbcdab625f1c6776d0849112dff7b6b422ac98d7b1545",
   "workItemId": "WI-1062-archived-pr-ci-stage"
 }
