@@ -164,8 +164,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-04T22:14:15.976419+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T23:27:25Z",
   "verification": [
     {
       "check": "project-command-3",
@@ -284,6 +284,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:e48ae508c181ef3e28aa9c3eaadbe30ce94525bfcd8fc615ff0207f9c7e6d056",
   "workItemId": "WI-1066-supersede-archive-admission"
 }

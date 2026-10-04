@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-04T23:28:05Z",
+  "files": {
+    "contractDigest": "sha256:7577baf69542bbad064f407e68c75acd0c19138045afe4c39ea8300704ac548e",
+    "contractPath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.contract.json",
+    "eventsDigest": "sha256:a7fe0d1b74500adcf2f86c2172f6ad2ab84ac0bac2ac9e119b8556c557cce6e5",
+    "eventsPath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.events.jsonl",
+    "outcomeDigest": "sha256:b9286f78050d68e9563f60c12d282e2223af2d3a84e7415df4d02c0a4725c6bd",
+    "outcomePath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.outcome.json",
+    "summaryDigest": "sha256:a660f6e21877b30bfdf612d51031c7a8cef769b7f298b9bdfe92263b5db39ce7",
+    "summaryPath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.summary.json",
+    "taskReportDigest": "sha256:883f264a06ef8098e9981ab260741912b8b59974eb4874a85ed6d193ce7a3e78",
+    "taskReportMarkdownDigest": "sha256:3dfa87bb70a82711ea9ead5ef56c9195853d6e23d2f87f6d7a8e79e9f88c0463",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1066-supersede-archive-admission.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1066-supersede-archive-admission"
+}
