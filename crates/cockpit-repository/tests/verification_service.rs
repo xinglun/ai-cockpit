@@ -603,11 +603,13 @@ fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     while !started.exists() && std::time::Instant::now() < deadline {
         std::thread::sleep(Duration::from_millis(10));
     }
-    if !started.exists() {
-        // A slow host must not strand the spawned command when this assertion fails.
+    let started_on_time = started.exists();
+    if !started_on_time {
+        // A slow host must not strand the spawned command when startup fails.
         fs::write(&proceed, b"proceed\n").expect("release delayed original command");
+        let _ = worker.join().expect("join delayed verification thread");
+        panic!("the pinned command must start");
     }
-    assert!(started.exists(), "the pinned command must start");
     fs::rename(&tool, &displaced).expect("remove replacement");
     fs::rename(&backup, &tool).expect("restore original path");
     fs::write(&proceed, b"proceed\n").expect("release original command");

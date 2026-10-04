@@ -1,13 +1,17 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.3b3c2090794a82ef5ede7e5fc9caf803f2733617cba24ae1fce57cf2e3e04aea.json",
+    ".ai/decisions/WI-1064-input-trust-current-base.recovery.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.events.jsonl",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
     ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.task-report.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.task-report.md",
     "crates/cockpit-repository/tests/verification_service.rs"
   ],
   "checkpointAt": "2026-10-04T12:36:12Z",
   "checkpointContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:6abc6fcc64ba8c635a4ea91ccd7619eaa16284385862d3d34136adb4ca4a0307",
+  "checkpointRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
   "createdAt": "2026-10-04T12:22:15Z",
   "decisionEvidence": {
     "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
@@ -34,13 +38,24 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
   "predecessorWorkItemId": "WI-1059-input-trust-context",
-  "preflightAt": "2026-10-04T13:28:41Z",
+  "preflightAt": "2026-10-04T14:15:21Z",
   "preflightContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:6abc6fcc64ba8c635a4ea91ccd7619eaa16284385862d3d34136adb4ca4a0307",
-  "preflightState": "green",
+  "preflightDecisionDigest": "sha256:ee2795f0e386b716e8e1e8c9c83c8330fa742d66c08cd54aeec1cbe2a8d350e0",
+  "preflightRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "preflightState": "red",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-04T14:15:21Z",
+    "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+    "decisionDigest": "sha256:af5b2424a59e2176702883ae19fc7997904da3dc7237ebf9c5c627004632dc36",
+    "decisionPath": ".ai/decisions/WI-1064-input-trust-current-base.recovery.json",
+    "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+    "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:622e224171178a140acf1eeb7463a687ba67eac7145ca9fa61ff03c04650e745"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -85,7 +100,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T12:53:43.501242+00:00",
+  "updatedAt": "2026-10-04T13:59:42Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -196,6 +211,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f1899fd1700b8d7e50db19a16034c63b33c026cae25a350cb007afca1103e785",
+  "verificationRecoveryReconciled": "sha256:622e224171178a140acf1eeb7463a687ba67eac7145ca9fa61ff03c04650e745",
   "workItemId": "WI-1064-input-trust-current-base"
 }

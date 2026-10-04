@@ -1,0 +1,212 @@
+{
+  "acceptanceResults": [
+    "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+    "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+    "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+    "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+    "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+    "Rust .rs detection uses full after_text plus Git added-line/hunk provenance when full source is available. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk. For an existing oversized file represented as Text with a complete bounded patch but no after_text, preserve the inspectable clean result only when the patch contains no instruction or risky candidate token; a candidate whose semantic boundary or unchanged operand cannot be resolved is Unknown, while a complete directly inspectable strong pair remains a finding. This patch-only result does not claim the entire file is safe.",
+    "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis.",
+    "Regression evidence must include PR #1009 actual old-head RED-to-GREEN replay, same and cross-item explicit composition attacks, cross-hunk related and unrelated cases, an unchanged operand joined to a new marker, comments/raw/byte/escape cases, malformed evidence, Text bounded patch without full source both with and without candidate tokens, and TooLarge/Binary/Unavailable. Preserve the existing oversized-file bounded-safe-patch regression without adding Unknown solely because after_text is absent. Non-Rust path rules remain unchanged.",
+    "The post-authorization profile/config identity-drift safety regression uses a deterministic same-call post-prepare/pre-execute barrier rather than a fixed sleep. The barrier proves that prepare obtained an actual reusable candidate: with no byte change the same harness reuses one node, starts no new child process, and leaves the execution counter at 1. After changing either cockpit.toml or project.json raw bytes at that boundary, it rejects reuse, starts exactly one fallback process, records post_planning_binding_drift, and leaves the counter at 2. Both directions of the barrier use finite timeouts; assertion failure or channel disconnection releases the barrier and joins the worker so no blocked test thread remains. Delayed scheduling is controlled by the channel/barrier, never inferred from sleep. Replace only the old timing-based integration case; retain all other safety regressions and pass the default-concurrency focused tests plus the original full Contract verification. The internal test hook is private, the production entry always supplies a no-op, and no public pause/bypass API or change to production authorization, cache, or post-execution binding logic is allowed.",
+    "The distinct successor PR must select this current-base Contract and pass actual exact-head active hosted candidate verification, Rust Contract gate, repository checks, and full workspace coverage before finish; after archive its exact-head read-only Contract gate and fresh package coverage must pass before merge, with the old PR #1011 and its failures retained until superseded."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:622e224171178a140acf1eeb7463a687ba67eac7145ca9fa61ff03c04650e745",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.86ce4e27b5e9bb899f1d7f133cb6e6ddc1a4887e0411744acf20f185d057e318.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+      ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.86ce4e27b5e9bb899f1d7f133cb6e6ddc1a4887e0411744acf20f185d057e318.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryDecision": {
+    "actor": "agent:Raydot",
+    "authoritySource": "Ray delegated ordinary AI Cockpit technical decisions and night continuation to Raydot in the main coordination thread; Raydot explicitly approved this WI-1064 same-WI retry in turn 01a10733-6735-7475-af68-d67d4b80675f. Direct delivery to the core thread failed; the decision was read from that thread, not attributed to human:Ray.",
+    "decidedAt": "2026-10-04T13:58:53Z",
+    "decision": "retry",
+    "decisionId": "work-item-recovery",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+      ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/37205872945"
+    ],
+    "policyRefs": [
+      "agents/skills/verification-failure-recovery.md"
+    ],
+    "predecessorContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+    "predecessorEventsDigest": "sha256:f4222ccb1a9cd60fe91bc77b75532b97362af098a22a2d3897d6244400f66291",
+    "predecessorOutcomeDigest": "sha256:0df9d1fe6344761877cbc4101e7167af115b15daac0c9f6c8c3ed478a1052f7f",
+    "predecessorSummaryDigest": "sha256:76ec61022ce6b754eb1784fbc0806524e2dda105dd708bf1e9d5a6a67a359d5d",
+    "predecessorWorkItemId": "WI-1064-input-trust-current-base",
+    "reason": "After WI-1064 finish and exact-head PR #1014 CI success, independent review identified an in-scope test fixture cleanup defect: the timeout branch releases proceed but asserts before joining the worker, so the child may outlive the fixture. Preserve the successful and failed evidence and correct this one boundary without changing production behavior or timeout policy.",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resumeCondition": "Use the admitted same-WI retry to restore checkpointed state, make only the declared verification_service.rs fixture release-and-join-before-assert correction, run focused regression, refresh preflight and formal verification on the new snapshot, obtain independent review and exact-head active PR CI, then finish and archive. Do not merge PR #1014.",
+    "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1064-input-trust-current-base"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+      "workItemId": "WI-1064-input-trust-current-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/verification_service.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。 This successor owns the unchanged WI-1059 delivery against the current origin/main base and a distinct PR; prior failed and stale evidence remains historical."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1064-input-trust-current-base"
+  },
+  "taskReportDigest": "sha256:005cf2c5b394fed0939943d7f43dc3174f04beaf481cc2caafa5ea5dd7183853",
+  "taskReportMarkdownDigest": "sha256:1a5d42b6fe33ba114f9d560d23764ba5e2c397e763156ca807b4088c5ce31f56",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1064-input-trust-current-base"
+}
