@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:71e6f3405ffdf97ac0d8f3abd3c75becde3a8999a6fdc629f917ad98e70bf42d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1062-archived-pr-ci-stage",
+    "sequence": 1,
+    "changeId": "legacy-af315525db31842b30cbf8290a2c8a73520e1183e3e46fbc78317f3e593a33b3",
+    "requestDigest": "sha256:46e5e75c1c7ef5b2cdc46b20284cdfe159b04ddd04b4fd6230f63038d50a4982",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:af315525db31842b30cbf8290a2c8a73520e1183e3e46fbc78317f3e593a33b3",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "PR #1012 run 37167345770 archived-head failure"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "PR #1012 run 37167345770 archived-head failure"
+        ],
+        "newValue": [
+          "PR #1012 run 37167345770 archived-head failure",
+          "PR #1012 run 37166333860 active-head success"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:9b705aa9f1de23ef521291028451a7fffde13c20593d1fd536116690453e8213",
+    "newContractDigest": "sha256:91bb53536ed7afef6a25a5cb43585bcbd4b47c09f2c381fb6556da1a5fa5acc2",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:f9f137f221518672ad138c820057fd13795d7952ad27317fbe6d0b20b2a03526",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:376abcd8ef4fc5c7f6c6fe693daeeaafddfa0043aa00d15f702998a3430fe1dd",
+    "recordedAt": "2026-10-04T01:27:27Z"
+  }
+}

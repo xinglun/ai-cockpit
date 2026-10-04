@@ -180,12 +180,43 @@ jobs:
           }
           contract_path="$(jq -r '.contractPath // empty' target/quality-route.json)"
           if [[ -n "$contract_path" ]]; then test -f "$contract_path"; fi
+          selection_method="$(jq -er '.selectionMethod' target/quality-selection.json)"
+          selection_contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"
+          test "$selection_contract_path" = "$contract_path" || {
+            echo 'quality selection and typed route disagree on Contract path' >&2
+            exit 1
+          }
+          active_contract='^\.ai/work-items/active/[^/]+\.contract\.json$'
+          archived_contract='^\.ai/work-items/archive/[^/]+\.contract\.json$'
+          case "$selection_method" in
+            pull_request_binding|pull_request_branch_work_item)
+              [[ "$EVENT_NAME" == pull_request && "$contract_path" =~ $active_contract ]] || exit 1
+              lane=active
+              ;;
+            merged_pull_request_binding)
+              [[ "$EVENT_NAME" == push && "$contract_path" =~ $active_contract ]] || exit 1
+              lane=active
+              ;;
+            archived_contract_read_only)
+              [[ "$EVENT_NAME" == pull_request && "$contract_path" =~ $archived_contract ]] || exit 1
+              lane=archived
+              ;;
+            ordinary_repository_route)
+              [[ -z "$contract_path" ]] || exit 1
+              lane=ordinary
+              ;;
+            *)
+              echo 'unsupported quality selection method' >&2
+              exit 1
+              ;;
+          esac
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
           echo "base_revision=$(jq -er '.baseRevision' target/quality-route.json)" >> "$GITHUB_OUTPUT"
           echo "head_revision=$receipt_head" >> "$GITHUB_OUTPUT"
           echo "tested_revision=$tested_revision" >> "$GITHUB_OUTPUT"
           echo "stage=$receipt_stage" >> "$GITHUB_OUTPUT"
           echo "contract_path=$contract_path" >> "$GITHUB_OUTPUT"
+          echo "lane=$lane" >> "$GITHUB_OUTPUT"
       - name: Upload quality revision binding
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -213,7 +244,7 @@ jobs:
           set -euo pipefail
           test "$(jq -er '.selectedProfile' target/quality-route.json)" = "$ROUTE_PROFILE_FROM_PLAN"
       - name: Run admitted hosted Work Item verification with the candidate Runtime
-        if: steps.quality_route.outputs.contract_path != ''
+        if: steps.quality_route.outputs.lane == 'active'
         shell: bash
         env:
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
@@ -230,13 +261,14 @@ jobs:
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash
         env:
+          ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}
           ROUTE_BASE_REVISION: ${{ steps.quality_route.outputs.base_revision }}
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           ROUTE_STAGE: ${{ steps.quality_route.outputs.stage }}
         run: |
           set -euo pipefail
           verification_repository="$GITHUB_WORKSPACE"
-          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
+          if [[ "$ROUTE_LANE" == active ]]; then
             verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
               --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)
           fi
@@ -275,16 +307,17 @@ jobs:
       - name: run repository gates exactly once
         shell: bash
         env:
+          ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           ROUTE_PROFILE: ${{ steps.quality_route.outputs.profile }}
-          AI_COCKPIT_VERIFICATION_RECEIPT: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-verification.json' || '' }}
-          AI_COCKPIT_VERIFICATION_ORCHESTRATION: ${{ steps.quality_route.outputs.contract_path != '' && 'target/hosted-runtime-orchestration.json' || '' }}
+          AI_COCKPIT_VERIFICATION_RECEIPT: ${{ steps.quality_route.outputs.lane == 'active' && 'target/hosted-runtime-verification.json' || '' }}
+          AI_COCKPIT_VERIFICATION_ORCHESTRATION: ${{ steps.quality_route.outputs.lane == 'active' && 'target/hosted-runtime-orchestration.json' || '' }}
           AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit
           CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER: ${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh
         run: |
           set -euo pipefail
           verification_repository="$GITHUB_WORKSPACE"
-          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
+          if [[ "$ROUTE_LANE" == active ]]; then
             verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
               --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)
           fi
@@ -310,7 +343,7 @@ jobs:
         shell: bash
         run: test -f target/workspace-package-coverage.json && test ! -L target/workspace-package-coverage.json
       - name: Cleanup hosted Runtime verification worktree
-        if: always() && steps.quality_route.outputs.contract_path != ''
+        if: always() && steps.quality_route.outputs.lane == 'active'
         shell: bash
         run: |
           set -euo pipefail
@@ -318,7 +351,7 @@ jobs:
             "$GITHUB_WORKSPACE" \
             target/hosted-runtime-worktree-cleanup.json
       - name: Upload hosted Work Item verification evidence
-        if: always() && steps.quality_route.outputs.contract_path != ''
+        if: always() && steps.quality_route.outputs.lane == 'active'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: ci-hosted-runtime-verification

@@ -40,6 +40,25 @@ the strict route. The Rust Contract gate remains the authority for the
 repository-bound decision; the existing script runner is a bounded execution
 shadow during convergence.
 
+### Pull-request lifecycle lanes
+
+The CI selector records a `selectionMethod`; quality checks it against the
+event stage and Contract path before starting validation. An active PR Contract
+uses candidate Runtime verification, the Rust Contract gate, and repository
+package coverage that consumes the matching formal verification receipt. An
+archived PR Contract uses the existing read-only Rust Contract gate on the
+checked-out source, then runs repository gates and package coverage for the
+current head without starting a new Work Item verification or reusing its
+historical receipt. Ordinary PR and main-push routes retain their required
+repository and package checks without a Contract receipt. An unknown method or
+inconsistent event/Contract path fails before package execution; neither an
+archive nor a missing receipt is permission to skip the Contract gate.
+
+These lanes do not convert an earlier successful active-head run into evidence
+for a later archived-head commit. Keep both provider runs and their exact head
+identities, including failures, and decide merge readiness from the current
+required jobs and receipts.
+
 ## Release evidence
 
 The release workflow binds a version, tag, source commit, Cargo.lock digest,
