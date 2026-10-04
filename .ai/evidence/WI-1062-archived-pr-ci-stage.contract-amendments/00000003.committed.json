@@ -1,0 +1,51 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:be269f8e98b71181516def4efe6271ac6cc14daf79cf457b089ffa2abd347090",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1062-archived-pr-ci-stage",
+    "sequence": 3,
+    "changeId": "wi1062-stage0-workspace-20261004",
+    "requestDigest": "sha256:f70b3f681741f6a959d3b631a7f02be00bda3351206e84a655990756e9f40799",
+    "reason": "Bind the exact PR #1013 resource before replacement verification and make the existing hosted package consumer verifiable: the complete unfiltered Cargo workspace test must be verification command zero. Preserve all four focused checks, scope, four scenarios, and the first 4/4 receipt as historical evidence.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          "bash tests/ci/workflow_convergence_test.sh",
+          "python3 tests/ci/quality_route_test.py",
+          "bash tests/ci/resolve_work_item_test.sh",
+          "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+        ],
+        "newValue": [
+          "cargo test --locked --workspace",
+          "bash tests/ci/workflow_convergence_test.sh",
+          "python3 tests/ci/quality_route_test.py",
+          "bash tests/ci/resolve_work_item_test.sh",
+          "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8f4f51a6ac3448936723bac38a7a121f6fe96f0952439e192b984dde933f0cb9",
+    "newContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+    "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+    "environmentObservationDigest": "sha256:f9f137f221518672ad138c820057fd13795d7952ad27317fbe6d0b20b2a03526",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:cdd2896ad6bcea1f7aad7095daa5b78db3ee0b3632c9eccb70c5a44304ec97e1",
+    "journalDigest": "sha256:cdf7e82a5c9a698c266536e0d8fb505203cf7938f89f265e00cf6b037e8804be",
+    "recordedAt": "2026-10-04T02:11:23Z"
+  }
+}

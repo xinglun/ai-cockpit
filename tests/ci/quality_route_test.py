@@ -333,6 +333,10 @@ assert (
 ) in ci_workflow
 assert "if: steps.quality_route.outputs.contract_path != ''" in ci_workflow
 assert "if: always() && steps.quality_route.outputs.contract_path != ''" in ci_workflow
+hosted_step = ci_workflow.split("name: Run admitted hosted Work Item verification with the candidate Runtime", 1)[1].split("name: Evaluate Rust Contract-aware quality gate", 1)[0]
+assert "if: steps.quality_route.outputs.lane == 'active'" in hosted_step
+assert "if: steps.quality_route.outputs.contract_path != ''" not in hosted_step
+assert "if: always() && steps.quality_route.outputs.lane == 'active'" in ci_workflow
 assert 'if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then' in ci_workflow
 assert "name: Plan the initial typed repository quality route" not in ci_workflow
 assert "name: Finalize the typed repository quality route" not in ci_workflow

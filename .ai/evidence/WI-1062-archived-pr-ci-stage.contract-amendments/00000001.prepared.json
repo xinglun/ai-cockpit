@@ -1,0 +1,168 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1062-archived-pr-ci-stage",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-af315525db31842b30cbf8290a2c8a73520e1183e3e46fbc78317f3e593a33b3",
+      "expectedContractDigest": "sha256:9b705aa9f1de23ef521291028451a7fffde13c20593d1fd536116690453e8213",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "PR #1012 run 37167345770 archived-head failure"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "PR #1012 run 37166333860 active-head success"
+        }
+      ]
+    },
+    "requestDigest": "sha256:46e5e75c1c7ef5b2cdc46b20284cdfe159b04ddd04b4fd6230f63038d50a4982",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+        "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+        "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+        "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+        "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged"
+      ],
+      "authority": "authorized",
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "createdAt": "2026-10-04T01:27:27Z",
+      "goal": "Route active PRs through candidate hosted verification and formal receipt consumption; route archived PRs through the existing read-only Rust Contract gate plus fresh repository/package coverage; preserve ordinary PR and post-merge behavior and fail closed for unknown routes",
+      "intent": "Repair CI lifecycle routing for archived PR Contracts without weakening active or ordinary gates",
+      "mode": "implementation",
+      "outOfScope": [
+        "No Runtime protocol changes; no archived Contract or evidence mutation; no merge of PR 1012 or this WI without separate Ray authorization; no fabricated hosted receipt; no global gate bypass"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredEvidenceClasses": [],
+      "risk": "high",
+      "scope": [
+        ".github/workflows/ci.yml",
+        "tests/ci/workflow_convergence_test.sh",
+        "tests/ci/quality_route_test.py",
+        "tests/ci/resolve_work_item_test.sh",
+        "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
+        "docs/reference/ci-release-evidence.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "bash tests/ci/workflow_convergence_test.sh",
+        "python3 tests/ci/quality_route_test.py",
+        "bash tests/ci/resolve_work_item_test.sh",
+        "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+      ],
+      "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    "previousContractDigest": "sha256:9b705aa9f1de23ef521291028451a7fffde13c20593d1fd536116690453e8213",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+        "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+        "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+        "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+        "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-04T01:27:27Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Route active PRs through candidate hosted verification and formal receipt consumption; route archived PRs through the existing read-only Rust Contract gate plus fresh repository/package coverage; preserve ordinary PR and post-merge behavior and fail closed for unknown routes",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Repair CI lifecycle routing for archived PR Contracts without weakening active or ordinary gates",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "No Runtime protocol changes; no archived Contract or evidence mutation; no merge of PR 1012 or this WI without separate Ray authorization; no fabricated hosted receipt; no global gate bypass"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        ".github/workflows/ci.yml",
+        "tests/ci/workflow_convergence_test.sh",
+        "tests/ci/quality_route_test.py",
+        "tests/ci/resolve_work_item_test.sh",
+        "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
+        "docs/reference/ci-release-evidence.md"
+      ],
+      "sources": [
+        "PR #1012 run 37167345770 archived-head failure",
+        "PR #1012 run 37166333860 active-head success"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/ci/workflow_convergence_test.sh",
+        "python3 tests/ci/quality_route_test.py",
+        "bash tests/ci/resolve_work_item_test.sh",
+        "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+      ],
+      "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    "newContractDigest": "sha256:91bb53536ed7afef6a25a5cb43585bcbd4b47c09f2c381fb6556da1a5fa5acc2",
+    "previousSummaryDigest": "sha256:760e4c03e463542aff47fb3b4334a66769cf6e5e40b3558451471069cb78617c",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:f9f137f221518672ad138c820057fd13795d7952ad27317fbe6d0b20b2a03526",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:af315525db31842b30cbf8290a2c8a73520e1183e3e46fbc78317f3e593a33b3",
+    "preparedAt": "2026-10-04T01:27:27Z"
+  },
+  "preparedDigest": "sha256:71e6f3405ffdf97ac0d8f3abd3c75becde3a8999a6fdc629f917ad98e70bf42d"
+}
