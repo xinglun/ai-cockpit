@@ -15,17 +15,17 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
       }
     ],
     "evidence": [
@@ -55,7 +55,7 @@
           ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -81,7 +81,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+          ".ai/work-items/archive/WI-1064-input-trust-current-base.contract.json"
         ],
         "inference": false,
         "text": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。 This successor owns the unchanged WI-1059 delivery against the current origin/main base and a distinct PR; prior failed and stale evidence remains historical."
@@ -90,7 +90,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+          ".ai/work-items/archive/WI-1064-input-trust-current-base.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

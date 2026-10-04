@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-04T15:11:40Z",
+  "files": {
+    "contractDigest": "sha256:264f8661d44548655668e3f3f62fcc58352ad64c16cab769f0482429166e93a5",
+    "contractPath": ".ai/work-items/archive/WI-1064-input-trust-current-base.contract.json",
+    "eventsDigest": "sha256:742d960c68169f4abe385d6334053ea20e1e48f2bc197d3970956240f7fd721d",
+    "eventsPath": ".ai/work-items/archive/WI-1064-input-trust-current-base.events.jsonl",
+    "outcomeDigest": "sha256:9d934a72a2eaa37825f472a54f2a55a7f78692a5e3dc87b3688416abc81d64c3",
+    "outcomePath": ".ai/work-items/archive/WI-1064-input-trust-current-base.outcome.json",
+    "summaryDigest": "sha256:0654611debc7ed22d6dfec34de39feb0febaea3cc9924decc2b1e4bd77b207a5",
+    "summaryPath": ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json",
+    "taskReportDigest": "sha256:a76ff9745e26458269f718dba3aa603e33e81a24aa94dbb483f11fe07f50b4af",
+    "taskReportMarkdownDigest": "sha256:0a3a4cbdaa3c54751bc3655274950a7d26dab79178e697723563d2cf49780d0d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1064-input-trust-current-base.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1064-input-trust-current-base.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1064-input-trust-current-base"
+}

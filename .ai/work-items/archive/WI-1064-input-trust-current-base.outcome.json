@@ -11,17 +11,16 @@
     "The post-authorization profile/config identity-drift safety regression uses a deterministic same-call post-prepare/pre-execute barrier rather than a fixed sleep. The barrier proves that prepare obtained an actual reusable candidate: with no byte change the same harness reuses one node, starts no new child process, and leaves the execution counter at 1. After changing either cockpit.toml or project.json raw bytes at that boundary, it rejects reuse, starts exactly one fallback process, records post_planning_binding_drift, and leaves the counter at 2. Both directions of the barrier use finite timeouts; assertion failure or channel disconnection releases the barrier and joins the worker so no blocked test thread remains. Delayed scheduling is controlled by the channel/barrier, never inferred from sleep. Replace only the old timing-based integration case; retain all other safety regressions and pass the default-concurrency focused tests plus the original full Contract verification. The internal test hook is private, the production entry always supplies a no-op, and no public pause/bypass API or change to production authorization, cache, or post-execution binding logic is allowed.",
     "The distinct successor PR must select this current-base Contract and pass actual exact-head active hosted candidate verification, Rust Contract gate, repository checks, and full workspace coverage before finish; after archive its exact-head read-only Contract gate and fresh package coverage must pass before merge, with the old PR #1011 and its failures retained until superseded."
   ],
+  "createdAt": "2026-10-04T15:11:11Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:99dae86546e117b8afdb0db514e4d20f42b5f94f1e73b43c0a637d5c6f110ca4",
   "evidenceRefs": [
-    ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
-    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.91baf755108b190e745b6b59aa92fa37df577ec6bca27c6c56e8f23b5c2e6649.json"
+    ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
-      ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
-      ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.91baf755108b190e745b6b59aa92fa37df577ec6bca27c6c56e8f23b5c2e6649.json"
+      ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -30,38 +29,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryDecision": {
-    "actor": "agent:Raydot",
-    "authoritySource": "Ray delegated ordinary technical coordination to Raydot. Raydot explicitly approved one bounded second same-WI retry for the committed WI-1064 source and current receipt in coordinator turn 01a10759-a73d-73ef-bc7b-b07e9b9674f1. Ray's later consent to one retry for the test-cleanup defect ratifies the already-recorded first retry and is not represented here as a second human decision.",
-    "decidedAt": "2026-10-04T14:42:43Z",
-    "decision": "retry",
-    "decisionId": "work-item-recovery",
-    "evidenceRefs": [
-      ".ai/decisions/WI-1064-input-trust-current-base.recovery.json",
-      ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
-      ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
-      "https://github.com/xinglun/ai-cockpit/actions/runs/37208706894"
-    ],
-    "policyRefs": [
-      "agents/skills/verification-failure-recovery.md"
-    ],
-    "predecessorContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
-    "predecessorEventsDigest": "sha256:f4222ccb1a9cd60fe91bc77b75532b97362af098a22a2d3897d6244400f66291",
-    "predecessorOutcomeDigest": "sha256:bad5729a68e38913fd0daeacdc0f7f5adb7b8952edb2a05dd3ecdbf2d043c58d",
-    "predecessorSummaryDigest": "sha256:b63fef54366fb4ffbc3e5788aedbbede11e52d58659cda29ff38f9090c778f31",
-    "predecessorWorkItemId": "WI-1064-input-trust-current-base",
-    "reason": "After the first test-cleanup retry, local formal verification passed on the committed source, but exact-head PR #1014 run 37208706894 could not start candidate hosted verification because the recorded preflight state was red. Current local verification evidence is fresh and the read-only gate reports green. Preserve the earlier recovery, success receipts, and failed hosted run while performing one bounded same-WI retry on this unchanged source; if the resulting preflight remains red or verification fails, stop repeating this route.",
-    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "resumeCondition": "Use only the Runtime-admitted retry and formal verification on the unchanged WI-1064 Contract/source snapshot. Inspect the resulting preflight state and receipt before claiming success. Then require a new exact-head active PR CI and independent review before finish/archive; do not merge PR #1014, change product code, or delete historical evidence.",
-    "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
-    "runtimeVersion": "1.0.1-rc.2",
-    "schemaVersion": 1,
-    "workItemId": "WI-1064-input-trust-current-base"
-  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -79,17 +50,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+            ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+            ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
         }
       ],
       "evidence": [
@@ -119,7 +90,7 @@
             ".ai/evidence/WI-1064-input-trust-current-base.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -145,7 +116,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+            ".ai/work-items/archive/WI-1064-input-trust-current-base.contract.json"
           ],
           "inference": false,
           "text": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。 This successor owns the unchanged WI-1059 delivery against the current origin/main base and a distinct PR; prior failed and stale evidence remains historical."
@@ -154,7 +125,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json"
+            ".ai/work-items/archive/WI-1064-input-trust-current-base.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -164,8 +135,8 @@
     "status": "verified",
     "workItemId": "WI-1064-input-trust-current-base"
   },
-  "taskReportDigest": "sha256:a399833577bad1447ee1295d5d4b104a9862cd9566c90d87b851fd3f8ab658a6",
-  "taskReportMarkdownDigest": "sha256:b13ea086467efdf6f245b93171d541b4fae2b46b693872c3c449ebb378fd0515",
+  "taskReportDigest": "sha256:a76ff9745e26458269f718dba3aa603e33e81a24aa94dbb483f11fe07f50b4af",
+  "taskReportMarkdownDigest": "sha256:0a3a4cbdaa3c54751bc3655274950a7d26dab79178e697723563d2cf49780d0d",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

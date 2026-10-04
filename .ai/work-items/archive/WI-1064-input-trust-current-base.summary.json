@@ -1,7 +1,7 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json",
-    ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+    ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
   ],
   "checkpointAt": "2026-10-04T12:36:12Z",
   "checkpointContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
@@ -94,8 +94,8 @@
       "verificationPlan": "Run cockpit-git and repository governance regressions for each content-state boundary and both bounded Text patch cases: no candidate preserves the existing inspectable result; candidate with missing semantic context is Unknown or a direct complete strong-pair finding."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-04T13:59:42Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T15:11:11Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -206,6 +206,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:99dae86546e117b8afdb0db514e4d20f42b5f94f1e73b43c0a637d5c6f110ca4",
   "workItemId": "WI-1064-input-trust-current-base"
 }

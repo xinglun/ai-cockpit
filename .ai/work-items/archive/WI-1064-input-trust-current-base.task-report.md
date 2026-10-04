@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -15,7 +15,7 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json
-- Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json
+- Changed path: .ai/work-items/archive/WI-1064-input-trust-current-base.summary.json
 
 ## Findings
 
