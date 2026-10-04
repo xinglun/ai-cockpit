@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-04T12:22:15Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "predecessorWorkItemId": "WI-1059-input-trust-context",
+  "preflightAt": "2026-10-04T12:25:36Z",
+  "preflightContractDigest": "sha256:1585ac36742fb987184fa5a708130dc3e9075622ea087c5b38daca17f6550a03",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-04T12:23:31Z",
+  "workItemId": "WI-1064-input-trust-current-base"
+}

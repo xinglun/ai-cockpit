@@ -1,0 +1,46 @@
+{
+  "actor": "agent:Raydot",
+  "archiveManifestDigest": "sha256:07a9252d53bb8f5f5627282de6e4b8087cede845762060929ed6306efe0176e9",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:a92cb767b4cd5115eab789bc40ae23e6d6a0501f41369825d07db5d5b535133f",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.contract.json"
+    },
+    "events": {
+      "digest": "sha256:1af03babc160dabfb612c9d73f2f6aa254b7e305abadc28c4ea4a795b9d313c8",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:8b0fb2c23cc8595ed89510684ca13acd56117d2209d6f9e6c07fc2276a1bdcc8",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:c67f9d3c270ebc942bd4a889b96a1bb837acf57515f1d894f6a1dc9f45eb6159",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:6b4679c7b68f8ae376147ca862f8033e66b7ac5f190cd2d3706fde98a78f3910",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:45f49c3ed7aa924c322357f749517d5fc79c75fb33e0cc3262b752060c86ed28",
+      "path": ".ai/work-items/archive/WI-1059-input-trust-context.task-report.md"
+    }
+  },
+  "authoritySource": "Ray Task9 delegation of ordinary technical recovery decisions to Raydot in main coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010; route A technical recommendation on 2026-10-04; not a human verification or merge decision",
+  "contractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The WI-1059 Contract has an immutable stale base c026e59 and the exact-head PR #1011 gate cannot admit candidate verification against current main ce86d7c. Its original code, failed hosted result, and historical 27/27 local receipt remain preserved; the selected WI-1064 successor carries the same delivery on a distinct branch/PR. Retire the old active WI as replaced without claiming verification.",
+  "recordedAt": "2026-10-04T12:24:26Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+  "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1064-input-trust-current-base",
+  "summaryDigest": "sha256:d8a732def0b5a5bc93c5da128c0e1b8cb4c9f6e9219d8d17a15ac00e9f9712e5",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1059-input-trust-context"
+}
