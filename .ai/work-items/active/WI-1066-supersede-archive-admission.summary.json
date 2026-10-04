@@ -1,10 +1,11 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1066-supersede-archive-admission.contract.json",
-    ".ai/work-items/active/WI-1066-supersede-archive-admission.summary.json"
+    ".ai/decisions/WI-1066-supersede-archive-admission.preflight-review.7dd34cef3914f6a4449036c79f8591e9b016523e2595d96549318d4145b7075e.json",
+    ".ai/work-items/active/WI-1066-supersede-archive-admission.summary.json",
+    "crates/cockpit-repository/tests/supersede_archive.rs"
   ],
   "checkpointAt": "2026-10-04T19:17:40Z",
-  "checkpointContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+  "checkpointContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -82,18 +83,18 @@
       "workItemId": "WI-1066-supersede-archive-admission"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "checkpointRepositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
   "createdAt": "2026-10-04T18:24:50Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:61dc01bce9121d1b3b5b18d657d0969a4c243ed624a822ff5debcd521ab896f4",
+    "contractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "Ray selected option 1 in the direct conversation, approving the exact 61dc01bc Contract scope amendment for a test-module split; preserve existing tests and fail-closed gate semantics.",
-    "recordedAt": "2026-10-04T21:07:38Z",
+    "reason": "Ray directly selected option 1 approving WI-1066 Contract fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874, with the standalone six-test target, unchanged existing 44 tests, and both focused plus full workspace verification.",
+    "recordedAt": "2026-10-04T21:30:14Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:3bda9c4a2e93ca73155420e0275368817fd60c6280c60a7d84c0ee399a928082",
+    "repositorySnapshotDigest": "sha256:1b6d312ed4cd298eb5f47fee2b6768376efd38f80de4b47ab5c26526bec3c090",
     "schemaVersion": 1,
     "workItemId": "WI-1066-supersede-archive-admission"
   },
@@ -105,45 +106,168 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T21:14:43Z",
-  "preflightContractDigest": "sha256:8b786d4506f13891b84f52da27901dae465410235f284315e316cf130d8f33b5",
-  "preflightDecisionDigest": "sha256:5f4e44e2f19399b880bb014638bcbb36657b211501ef86df32b14fba772ec050",
-  "preflightRepositorySnapshotDigest": "sha256:1b6d312ed4cd298eb5f47fee2b6768376efd38f80de4b47ab5c26526bec3c090",
-  "preflightState": "not_run",
+  "preflightAt": "2026-10-04T21:46:18Z",
+  "preflightContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
-      "expected": "A current Runtime-validated supersede receipt with the unique still-valid successor binding yields archive_when_reviewed in status.safeActions; the actual archive consumes the same admission, emits a superseded manifest, and preserves predecessor failed evidence bytes.",
+      "evidence": [
+        "crates/cockpit-repository/tests/supersede_archive.rs::valid_supersede_is_admitted_before_archive",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+      ],
       "required": true,
       "scenario": "bound supersede admits and executes archive consistently",
-      "status": "unverified",
-      "verificationPlan": "Use the existing recovery_decision fixture to record a real successor then supersede, assert status safe action before archive, execute archive, and compare archived Contract/Summary/Outcome/Events bytes and manifest disposition. Run focused RED then GREEN and formal Runtime verification."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Without a current supersede, or when the recorded successor is missing, changed, foreign, ambiguous, or no longer bound to the exact predecessor and recovery path, neither status nor archive admits superseded archive and no manifest is written.",
+      "evidence": [
+        "crates/cockpit-repository/tests/supersede_archive.rs::archive_rechecks_successor_path_after_status_admission",
+        "crates/cockpit-repository/tests/supersede_archive.rs::archive_rejects_successor_deletion_after_status_admission",
+        "crates/cockpit-repository/tests/supersede_archive.rs::archive_rejects_rebinding_to_another_valid_recovery_path",
+        "crates/cockpit-repository/tests/supersede_archive.rs::supersede_ignores_an_older_successor_candidate_with_different_predecessor_evidence",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+      ],
       "required": true,
       "scenario": "stale or foreign supersede cannot archive",
-      "status": "unverified",
-      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage. Add an explicit status-to-archive race: first obtain archive_when_reviewed from a valid successor, then delete or tamper its Contract/recovery path before archive; assert archive rechecks current binding, rejects, and writes no manifest."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "An ordinary verified finish_ready Work Item retains existing archive admission, while an ordinary unverified checkpointed Work Item remains unable to archive.",
+      "evidence": [
+        "crates/cockpit-repository/tests/supersede_archive.rs::ordinary_archive_admission_still_requires_finished_verification",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+      ],
       "required": true,
       "scenario": "ordinary archive admission remains unchanged",
-      "status": "unverified",
-      "verificationPlan": "Run the existing repository archive/recovery test cases and add focused status/action assertions around both ordinary states; execute full declared Cargo workspace verification and exact-head CI."
+      "status": "verified"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T21:07:56.164540+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-04T21:17:59Z"
-  },
+  "updatedAt": "2026-10-04T21:49:04.316325+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:1fc875715897791654eea1bbdab434cee8b514620fa5f818a8cc40f342b3ad4c",
   "workItemId": "WI-1066-supersede-archive-admission"
 }
