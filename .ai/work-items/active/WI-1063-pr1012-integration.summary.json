@@ -1,11 +1,47 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1063-pr1012-integration.verification-attempt.51114763f8cee4c57f8101fcbed8a0da20858f18272f82e7316672b38568d52e.json"
+    ".ai/work-items/active/WI-1063-pr1012-integration.summary.json"
   ],
   "checkpointAt": "2026-10-04T05:41:37Z",
   "checkpointContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:175a147bbd0d3b6295fff9f65fba31f699ff50aaed6622ce976fce7c4867da3f",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "recorded": true,
+      "recordedAt": "2026-10-04T05:41:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1063-pr1012-integration"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "previousContractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "reason": "PR #1012 exact-head CI run 37182181961 admitted the active WI-1063 candidate but failed only project-command-3: the process-observer fixture inherited a Cargo target runner from the source checkout while its package subprocesses ran in an isolated checkout. The production runner_setup guard correctly refused the foreign path. The current guideline to keep the main 522c fixture exactly is incompatible with the narrow in-scope fixture fix. Preserve the main five-call local receipt isolation and three negative runner_setup cases; allow only fixture-local rebinding of those five subprocesses to the current checkout runner, with an injected foreign runner RED-to-GREEN regression. No production check, predecessor archive, verification requirement, provider identity, or PR merge boundary changes.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T06:36:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1063-pr1012-integration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
   "createdAt": "2026-10-04T05:04:53Z",
   "decisionEvidence": {
     "contractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
@@ -30,11 +66,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
-  "preflightAt": "2026-10-04T06:11:36Z",
-  "preflightContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:175a147bbd0d3b6295fff9f65fba31f699ff50aaed6622ce976fce7c4867da3f",
-  "preflightState": "green",
+  "preflightAt": "2026-10-04T06:37:11Z",
+  "preflightContractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -148,6 +184,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-04T06:36:59Z"
+  },
   "verificationRecoveryReconciled": "sha256:b37d9a3f4bc077ed95573f39665b01923d17846dc116fdf06f057e89245c0580",
   "workItemId": "WI-1063-pr1012-integration"
 }

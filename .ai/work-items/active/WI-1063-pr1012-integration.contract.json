@@ -1,7 +1,7 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact and the overlapping process observer fixture resolves to the main 522c behavior with five locally sanitized calls and three runner_setup negatives.",
+    "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact. The overlapping process-observer fixture retains main 522c's five locally sanitized fake package calls, two positives, and three runner_setup negatives, with only a fixture-local current-checkout runner binding added to reject inherited foreign hosted runner paths without weakening production checks.",
     "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
     "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
     "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
@@ -29,7 +29,7 @@
   "governancePolicy": null,
   "governanceProfile": null,
   "guidelines": [
-    "Serial order: preserve recovery and archives; bind actual PR identity; review final Contract and satisfy Runtime policy; merge current main in the existing PR worktree only after checkpoint/admission; keep main 522c observer fixture exactly and preserve the six other PR delivery files; run focused regressions; freeze and verify a current active exact-head PR candidate; finish/archive only after active evidence; then verify a distinct archived exact-head PR lane; request separate human PR merge authorization.",
+    "Serial order: preserve recovery and archives; bind actual PR identity; review final Contract and satisfy Runtime policy; merge current main in the existing PR worktree only after checkpoint/admission; preserve the main 522c observer fixture's five-call receipt isolation and three runner_setup negatives, allowing only fixture-local binding of those five fake package subprocesses to the isolated checkout's runner when hosted CI injects a foreign source-checkout runner; preserve the six other PR delivery files; run focused regressions; freeze and verify a current active exact-head PR candidate; finish/archive only after active evidence; then verify a distinct archived exact-head PR lane; request separate human PR merge authorization.",
     "Selector rule within the existing two files: collect all exact branch+PR URL candidates; preserve zero/one-candidate behavior and reject unrelated collisions. For exactly two candidates, require distinct safe WI IDs, one validated archived predecessor archive-manifest/raw-file anchor, one successor (active before finish or separately anchored archived after finish), exact repository ID on both Contracts and recovery decision, successor predecessorWorkItemId and canonical predecessorContractDigest matching the immutable archived Contract, a safe regular non-symlink recoveryDecisionPath under .ai/decisions with decision=successor and exact predecessor/successor IDs, repository ID and predecessor digest, and the same real PR resource binding on both. Choose the unique successor only after all checks; retain pull_request_binding for active and archived_contract_read_only for archived. Reject missing or mismatched fields/digests, foreign repository, malformed path, duplicate/competing successor, cycle, more-than-two or otherwise undecidable graph before package subprocesses. Never rank by WI name, timestamp or latest. This validates local lineage consistency under the existing trusted checkout/Runtime boundary; self-filled JSON hashes are not source authentication."
   ],
   "humanDecisionPoints": null,
@@ -78,11 +78,11 @@
   "scenarioCoverage": [
     {
       "evidence": [],
-      "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+      "expected": "The final PR diff retains all six hosted coverage delivery files; the process-observer fixture retains main 522c's five locally isolated calls, two positive and three runner_setup negative assertions, with only the current-checkout runner isolation needed for hosted verification added; predecessor archive bytes remain unchanged.",
       "required": true,
       "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
       "status": "unverified",
-      "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+      "verificationPlan": "Compare the six delivery files with frozen c613 and predecessor archive hashes with the frozen bundle; compare the observer fixture to main 522c and review the narrow runner-only delta. Execute tests/ci/process_observer_test_runner_test.sh with inherited foreign hosted receipt/orchestration and Cargo runner inputs, asserting two positives and three runner_setup negatives."
     },
     {
       "evidence": [],
@@ -94,11 +94,11 @@
     },
     {
       "evidence": [],
-      "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+      "expected": "The fixture sanitizes hosted receipt/orchestration and inherited source-checkout Cargo runner only for its five fake package subprocesses, binding the runner to its isolated checkout; production receipt and Cargo runner checks remain strict, and a conflicting Cargo TOML runner still fails runner_setup before any package-test process.",
       "required": true,
       "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
       "status": "unverified",
-      "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+      "verificationPlan": "Reproduce exact CI run 37182181961 runner_setup under an inherited foreign checkout runner as RED, then execute tests/ci/process_observer_test_runner_test.sh with injected foreign receipt, orchestration, and Cargo runner inputs for GREEN. Inspect its two successes and three runner_setup negatives plus no fake package process for rejected cases; retain production run_workspace_package_tests.sh unchanged."
     },
     {
       "evidence": [],
@@ -125,7 +125,8 @@
     "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
     "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh.",
     "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md and WI-1060/WI-1061 archived Contracts describe the six inherited delivery paths and the hosted package coverage consumer acceptance.",
-    "tests/ci/resolve_work_item.sh and tests/ci/resolve_work_item_test.sh on main 522c collect exact PR-bound active/archived Contracts and reject collisions; .github/workflows/ci.yml already consumes pull_request_binding and archived_contract_read_only, and the test is already registered as ci_work_item_resolution_regression. Repository-local Contract, archive manifest, and Runtime-generated recovery decision provide consistency evidence, not a credential against a malicious rewrite of the whole checkout."
+    "tests/ci/resolve_work_item.sh and tests/ci/resolve_work_item_test.sh on main 522c collect exact PR-bound active/archived Contracts and reject collisions; .github/workflows/ci.yml already consumes pull_request_binding and archived_contract_read_only, and the test is already registered as ci_work_item_resolution_regression. Repository-local Contract, archive manifest, and Runtime-generated recovery decision provide consistency evidence, not a credential against a malicious rewrite of the whole checkout.",
+    "PR #1012 exact-head run https://github.com/xinglun/ai-cockpit/actions/runs/37182181961 at head 90817ab425275f6ac92332a8b74d8d00cce4d806: hosted candidate selected WI-1063 and spawned 18/18 nodes; only project-command-3 process-observer fixture failed runner_setup because CI's source-checkout Cargo runner path differed from the isolated checkout. Failure and skipped downstream gates remain preserved."
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
