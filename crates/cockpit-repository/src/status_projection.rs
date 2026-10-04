@@ -1484,6 +1484,11 @@ fn work_item_status_snapshot_with_snapshot(
     }
     let retry_recovery_pending =
         !archived && retry_recovery_pending_is_valid(&root, &contract, Some(runtime));
+    let supersede_archive_ready = !archived
+        && matches!(
+            load_recovery_decision(&root, work_item_id, Some(runtime)),
+            Ok(Some(decision)) if decision.decision == "supersede"
+        );
     let mut safe_actions = if historical_recovery_resolved {
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
@@ -1537,6 +1542,8 @@ fn work_item_status_snapshot_with_snapshot(
             actions.push("close_after_review".into());
         }
         actions
+    } else if supersede_archive_ready {
+        vec!["archive_when_reviewed".into()]
     } else if retry_recovery_pending {
         // An explicit, identity-bound retry decision authorizes one fresh
         // verification cycle to replace the blocked projection. Keep the

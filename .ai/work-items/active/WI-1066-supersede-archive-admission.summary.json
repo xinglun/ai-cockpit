@@ -3,8 +3,24 @@
     ".ai/work-items/active/WI-1066-supersede-archive-admission.contract.json",
     ".ai/work-items/active/WI-1066-supersede-archive-admission.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-04T19:17:40Z",
+  "checkpointContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
   "createdAt": "2026-10-04T18:24:50Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Ray selected option 1 in the core conversation, confirming this exact WI-1066 Contract digest for checkpoint and TDD implementation; this is not code acceptance or merge authorization.",
+    "recordedAt": "2026-10-04T19:16:26Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+    "schemaVersion": 1,
+    "workItemId": "WI-1066-supersede-archive-admission"
+  },
   "mode": "implementation",
   "preflightAt": "2026-10-04T18:36:35Z",
   "preflightContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
@@ -39,7 +55,7 @@
       "verificationPlan": "Run the existing repository archive/recovery test cases and add focused status/action assertions around both ordinary states; execute full declared Cargo workspace verification and exact-head CI."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-10-04T18:36:26.950390+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-04T19:17:40Z",
   "workItemId": "WI-1066-supersede-archive-admission"
 }
