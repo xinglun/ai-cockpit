@@ -14,13 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.json
-- Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.events.jsonl
-- Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.outcome.json
+- Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json
 - Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json
-- Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.json
-- Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.md
-- Changed path: crates/cockpit-repository/tests/verification_service.rs
 
 ## Findings
 

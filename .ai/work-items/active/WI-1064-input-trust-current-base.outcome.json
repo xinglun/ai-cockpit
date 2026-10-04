@@ -12,16 +12,16 @@
     "The distinct successor PR must select this current-base Contract and pass actual exact-head active hosted candidate verification, Rust Contract gate, repository checks, and full workspace coverage before finish; after archive its exact-head read-only Contract gate and fresh package coverage must pass before merge, with the old PR #1011 and its failures retained until superseded."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:622e224171178a140acf1eeb7463a687ba67eac7145ca9fa61ff03c04650e745",
+  "evidenceDigest": "sha256:99dae86546e117b8afdb0db514e4d20f42b5f94f1e73b43c0a637d5c6f110ca4",
   "evidenceRefs": [
     ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
-    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.86ce4e27b5e9bb899f1d7f133cb6e6ddc1a4887e0411744acf20f185d057e318.json"
+    ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.91baf755108b190e745b6b59aa92fa37df577ec6bca27c6c56e8f23b5c2e6649.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
       ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
-      ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.86ce4e27b5e9bb899f1d7f133cb6e6ddc1a4887e0411744acf20f185d057e318.json"
+      ".ai/evidence/WI-1064-input-trust-current-base.verification-attempt.91baf755108b190e745b6b59aa92fa37df577ec6bca27c6c56e8f23b5c2e6649.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -32,26 +32,27 @@
   "protocolVersion": 1,
   "recoveryDecision": {
     "actor": "agent:Raydot",
-    "authoritySource": "Ray delegated ordinary AI Cockpit technical decisions and night continuation to Raydot in the main coordination thread; Raydot explicitly approved this WI-1064 same-WI retry in turn 01a10733-6735-7475-af68-d67d4b80675f. Direct delivery to the core thread failed; the decision was read from that thread, not attributed to human:Ray.",
-    "decidedAt": "2026-10-04T13:58:53Z",
+    "authoritySource": "Ray delegated ordinary technical coordination to Raydot. Raydot explicitly approved one bounded second same-WI retry for the committed WI-1064 source and current receipt in coordinator turn 01a10759-a73d-73ef-bc7b-b07e9b9674f1. Ray's later consent to one retry for the test-cleanup defect ratifies the already-recorded first retry and is not represented here as a second human decision.",
+    "decidedAt": "2026-10-04T14:42:43Z",
     "decision": "retry",
     "decisionId": "work-item-recovery",
     "evidenceRefs": [
+      ".ai/decisions/WI-1064-input-trust-current-base.recovery.json",
       ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
       ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
-      "https://github.com/xinglun/ai-cockpit/actions/runs/37205872945"
+      "https://github.com/xinglun/ai-cockpit/actions/runs/37208706894"
     ],
     "policyRefs": [
       "agents/skills/verification-failure-recovery.md"
     ],
     "predecessorContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
     "predecessorEventsDigest": "sha256:f4222ccb1a9cd60fe91bc77b75532b97362af098a22a2d3897d6244400f66291",
-    "predecessorOutcomeDigest": "sha256:0df9d1fe6344761877cbc4101e7167af115b15daac0c9f6c8c3ed478a1052f7f",
-    "predecessorSummaryDigest": "sha256:76ec61022ce6b754eb1784fbc0806524e2dda105dd708bf1e9d5a6a67a359d5d",
+    "predecessorOutcomeDigest": "sha256:bad5729a68e38913fd0daeacdc0f7f5adb7b8952edb2a05dd3ecdbf2d043c58d",
+    "predecessorSummaryDigest": "sha256:b63fef54366fb4ffbc3e5788aedbbede11e52d58659cda29ff38f9090c778f31",
     "predecessorWorkItemId": "WI-1064-input-trust-current-base",
-    "reason": "After WI-1064 finish and exact-head PR #1014 CI success, independent review identified an in-scope test fixture cleanup defect: the timeout branch releases proceed but asserts before joining the worker, so the child may outlive the fixture. Preserve the successful and failed evidence and correct this one boundary without changing production behavior or timeout policy.",
+    "reason": "After the first test-cleanup retry, local formal verification passed on the committed source, but exact-head PR #1014 run 37208706894 could not start candidate hosted verification because the recorded preflight state was red. Current local verification evidence is fresh and the read-only gate reports green. Preserve the earlier recovery, success receipts, and failed hosted run while performing one bounded same-WI retry on this unchanged source; if the resulting preflight remains red or verification fails, stop repeating this route.",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "resumeCondition": "Use the admitted same-WI retry to restore checkpointed state, make only the declared verification_service.rs fixture release-and-join-before-assert correction, run focused regression, refresh preflight and formal verification on the new snapshot, obtain independent review and exact-head active PR CI, then finish and archive. Do not merge PR #1014.",
+    "resumeCondition": "Use only the Runtime-admitted retry and formal verification on the unchanged WI-1064 Contract/source snapshot. Inspect the resulting preflight state and receipt before claiming success. Then require a new exact-head active PR CI and independent review before finish/archive; do not merge PR #1014, change product code, or delete historical evidence.",
     "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
     "runtimeVersion": "1.0.1-rc.2",
     "schemaVersion": 1,
@@ -81,21 +82,7 @@
             ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.events.jsonl"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.outcome.json"
+          "text": "Changed path: .ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json"
         },
         {
           "evidenceRefs": [
@@ -103,27 +90,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1064-input-trust-current-base.task-report.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/verification_service.rs"
         }
       ],
       "evidence": [
@@ -198,8 +164,8 @@
     "status": "verified",
     "workItemId": "WI-1064-input-trust-current-base"
   },
-  "taskReportDigest": "sha256:005cf2c5b394fed0939943d7f43dc3174f04beaf481cc2caafa5ea5dd7183853",
-  "taskReportMarkdownDigest": "sha256:1a5d42b6fe33ba114f9d560d23764ba5e2c397e763156ca807b4088c5ce31f56",
+  "taskReportDigest": "sha256:a399833577bad1447ee1295d5d4b104a9862cd9566c90d87b851fd3f8ab658a6",
+  "taskReportMarkdownDigest": "sha256:b13ea086467efdf6f245b93171d541b4fae2b46b693872c3c449ebb378fd0515",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
