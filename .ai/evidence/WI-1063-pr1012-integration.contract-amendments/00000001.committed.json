@@ -1,0 +1,190 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:4731e0e139061b6f0f77466ff99329c4c9891a7cb89c89cc7d0951be03005b4c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1063-pr1012-integration",
+    "sequence": 1,
+    "changeId": "wi1063-complete-initial-sources-and-scenarios-20261004",
+    "requestDigest": "sha256:ca80cc7eefa9bfd820b142142104aedcf8da24e1493aaf5cedf60a79ef22d65e",
+    "reason": "The supported CLI activated the predecessor-bound scaffold with all seven delivery paths and acceptance terms but requires --prepare when --source is passed. Complete the initial plan before any preflight or checkpoint through a typed amendment: add exact sources, a serial integration sequence, and high-risk pre-finish scenarios. The post-archive exact-head hosted requirement remains a separate hard acceptance condition and PR merge remains unauthorized.",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor."
+        ],
+        "newValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle."
+        ],
+        "newValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
+          "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
+          "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh."
+        ],
+        "newValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
+          "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh.",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md and WI-1060/WI-1061 archived Contracts describe the six inherited delivery paths and the hosted package coverage consumer acceptance."
+        ]
+      },
+      {
+        "path": "/guidelines",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "Serial order: preserve recovery and archives; bind actual PR identity; review final Contract and satisfy Runtime policy; merge current main in the existing PR worktree only after checkpoint/admission; keep main 522c observer fixture exactly and preserve the six other PR delivery files; run focused regressions; freeze and verify a current active exact-head PR candidate; finish/archive only after active evidence; then verify a distinct archived exact-head PR lane; request separate human PR merge authorization."
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+            "required": true,
+            "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+            "status": "unverified",
+            "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+            "required": true,
+            "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+            "status": "unverified",
+            "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+            "required": true,
+            "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+            "status": "unverified",
+            "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+          },
+          {
+            "evidence": [],
+            "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+            "required": true,
+            "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
+            "status": "unverified",
+            "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+          }
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:1ea6858d2a65299a2bf70e002d62268aa8c64c70810cd7cc5836f843ecb86da9",
+    "newContractDigest": "sha256:678c43cfda6f59088b6bb06d05d877b8f69d95c82084517e3c8e7ed8a9bcf372",
+    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:41c9343425c94b50c2b581cb3a509beed34cecfd74ce6ec382d5c750c378d77b",
+    "recordedAt": "2026-10-04T05:10:17Z"
+  }
+}

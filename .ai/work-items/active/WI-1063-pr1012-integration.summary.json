@@ -1,0 +1,39 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
+    ".ai/work-items/active/WI-1063-pr1012-integration.contract.json",
+    ".ai/work-items/active/WI-1063-pr1012-integration.summary.json"
+  ],
+  "checkpointAt": "2026-10-04T05:41:37Z",
+  "checkpointContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+  "createdAt": "2026-10-04T05:04:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Ray replied 确认 in this core conversation (message 01a1056c-1300-7730-b35a-ed2c04ea0e63) to Raydot's single numbered request to approve exact WI-1063 Contract fbe28c1b…8731b for implementation and verification. This does not authorize PR #1012 merge.",
+    "recordedAt": "2026-10-04T05:40:21Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+    "schemaVersion": 1,
+    "workItemId": "WI-1063-pr1012-integration"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+  "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
+  "preflightAt": "2026-10-04T05:41:15Z",
+  "preflightContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-04T05:41:37Z",
+  "workItemId": "WI-1063-pr1012-integration"
+}
