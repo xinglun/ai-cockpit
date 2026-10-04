@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
 
 ## Task overview
 
@@ -14,31 +14,21 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.10a7e19fd3f38c4526aedc2611c2d3194d0e2d9ce3e1c7af735be57e018f537e.json
-- Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000001.committed.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000001.prepared.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000002.committed.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000002.prepared.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000003.committed.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000003.prepared.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000004.committed.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000004.prepared.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000005.committed.json
-- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000005.prepared.json
+- Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.0a48db291286079c9a535c9a6a4a53e6d32576d2a6319d26d92109bd30b41938.json
+- Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.1e00076e8abc02163e7dee0dbc76e0c2cf410301f4f904b0ad9a5e997c3eb957.json
+- Changed path: .ai/decisions/WI-1059-input-trust-context.recovery.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.committed.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.prepared.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.59f0af8ac458651de8cb387b924a1d475dbcc513c3296315f5e1c7416f96e084.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.5ed863f9ff690200fef6de596d99437729a0709cdad432b58c4b85249920c650.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.a64eb9caac84b2fd53bc1be419932806d49837f996cb4cfd7660b82ff57f6cc0.json
+- Changed path: .ai/evidence/WI-1059-input-trust-context.verification.json
 - Changed path: .ai/work-items/active/WI-1059-input-trust-context.contract.json
+- Changed path: .ai/work-items/active/WI-1059-input-trust-context.outcome.json
 - Changed path: .ai/work-items/active/WI-1059-input-trust-context.summary.json
-- Changed path: Cargo.lock
-- Changed path: crates/cockpit-git/src/lib.rs
-- Changed path: crates/cockpit-git/tests/repository.rs
-- Changed path: crates/cockpit-repository/Cargo.toml
+- Changed path: .ai/work-items/active/WI-1059-input-trust-context.task-report.json
 - Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/src/rust_material.rs
-- Changed path: crates/cockpit-repository/tests/governance_signals.rs
-- Changed path: crates/cockpit-repository/tests/status_projection.rs
-- Changed path: docs/reference/input-trust-dataflow.ja.md
-- Changed path: docs/reference/input-trust-dataflow.md
-- Changed path: docs/reference/input-trust-dataflow.zh-CN.md
+- Changed path: crates/cockpit-repository/tests/verification_service.rs
 
 ## Findings
 
