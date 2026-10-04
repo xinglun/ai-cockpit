@@ -94,33 +94,53 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+      "reason": "Independent review found that the existing hosted Windows job did not execute the new Windows-only explicit-binary regression. Add its exact CI entry point and require observed execution for the PR head, while retaining both ordinary and --check failure modes; this closes an in-scope acceptance-evidence gap without changing the broader Task9 migration boundary.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T12:54:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:62e91cce0989b05eefea5b0ccbe672ea5780203fc9e15425702c6ff1ec4ad2f1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1058-task9-cognitive-gate"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:490f437a94ccb11210637226634c3f38da7195c6aaa3c11a05d1826c6d47d1ea",
   "createdAt": "2026-10-03T09:56:36Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+    "contractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The repository owner first expressly approved amendment wi1058-explicit-binary-fail-closed-20261003, then directly instructed Codex to record standing Task9 execution delegation in this Contract and continue without repeated ordinary technical approvals. This current-bound review covers the resulting WI-1058 Contract only; the guideline is not a future Contract review receipt or a bypass of Runtime admission.",
-    "recordedAt": "2026-10-03T12:20:17Z",
+    "reason": "The repository owner expressly reviewed and approved WI-1058 amendment sequence 5: add the exact cognitive_benefit negative test to the hosted Windows CI job and bind the corresponding scope and acceptance requirement. This current-contract review does not claim verification, CI success, merge, or release approval.",
+    "recordedAt": "2026-10-03T13:01:34Z",
     "recordedBy": "human:repository-owner via Codex under direct user approval",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+    "repositorySnapshotDigest": "sha256:b21ee1f813a81e7a56012906664e81252eaba39e04f74fb3ea4fd273507ffe9b",
     "schemaVersion": 1,
     "workItemId": "WI-1058-task9-cognitive-gate"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-03T12:40:53Z",
-  "preflightContractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:490f437a94ccb11210637226634c3f38da7195c6aaa3c11a05d1826c6d47d1ea",
-  "preflightState": "green",
+  "preflightAt": "2026-10-03T12:54:43Z",
+  "preflightContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:b21ee1f813a81e7a56012906664e81252eaba39e04f74fb3ea4fd273507ffe9b",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
-  "updatedAt": "2026-10-03T12:42:57Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-03T13:02:07.861727+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -235,5 +255,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-03T12:54:15Z"
+  },
   "workItemId": "WI-1058-task9-cognitive-gate"
 }
