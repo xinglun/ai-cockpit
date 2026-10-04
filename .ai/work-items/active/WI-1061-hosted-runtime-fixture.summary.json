@@ -1,15 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.20c2fb0dd75490ec97f4ec0387f83386d355136ab581a843941a6edb9d15a71c.json",
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.prepared.json",
+    ".ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json",
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json",
     ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json",
-    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json",
-    "tests/ci/hosted_runtime_verification_test.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
   ],
   "checkpointAt": "2026-10-03T23:11:04Z",
-  "checkpointContractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+  "checkpointContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -45,20 +43,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1061-hosted-runtime-fixture"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+      "previousContractHash": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+      "reason": "PR #1012 exact-head run 37164323685 passed candidate hosted verification but its Rust Contract gate rejected scope_exceeded because this cumulative PR includes five unchanged WI-1060 predecessor paths alongside the two WI-1061 fixture repairs. WI-1060 archived Contract and recovery decision bind this successor. Commit 120ea0f5254fb7447051389e19c1d6c055946169 introduced the five inherited paths; their exact git diff --binary from that commit to f6875dd07246c878ed3e54d502f49f294dd80975 is empty (SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855). Account transparently for all seven paths in this PR's delivery scope while new implementation remains limited to the two fixtures; preserve the failed run and all original acceptance gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T00:32:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1061-hosted-runtime-fixture"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
   "createdAt": "2026-10-03T23:00:23Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+    "contractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The human user replied '同意' directly to the immediately preceding numbered option 1 confirming WI-1061 Contract digest 0aef8536. This records only review of the bounded two-fixture amendment, not implementation, verification, hosted CI, merge, or release success.",
-    "recordedAt": "2026-10-04T00:00:55Z",
+    "reason": "The human user replied 'ye s' directly to the immediately preceding yes/no request confirming the exact WI-1061 seven-path inherited-delivery Contract digest e256d453. This authorizes only review of the bounded amendment; it does not assert verification, hosted CI, merge, or release success.",
+    "recordedAt": "2026-10-04T00:43:36Z",
     "recordedBy": "human:sei-rinn",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
     "schemaVersion": 1,
     "workItemId": "WI-1061-hosted-runtime-fixture"
   },
@@ -71,8 +89,8 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
   "predecessorWorkItemId": "WI-1060-hosted-coverage-consumer",
-  "preflightAt": "2026-10-04T00:12:30Z",
-  "preflightContractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+  "preflightAt": "2026-10-04T00:52:21Z",
+  "preflightContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
   "preflightState": "green",
@@ -104,7 +122,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T00:01:25.177018+00:00",
+  "updatedAt": "2026-10-04T00:44:03.362216+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -223,6 +241,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ca9425b1fdb1d9e4ddc746ae73c88e57c39b6e14f79110401f4dfd242e9f0e63",
+  "verificationRecoveryReconciled": "sha256:4798a071c1569a154e2ab13de8fb8ba9bff24cb0fb4e035af84164abf222ed40",
   "workItemId": "WI-1061-hosted-runtime-fixture"
 }

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The human user replied 'ye s' directly to the immediately preceding yes/no request confirming the exact WI-1061 seven-path inherited-delivery Contract digest e256d453. This authorizes only review of the bounded amendment; it does not assert verification, hosted CI, merge, or release success.",
+  "recordedAt": "2026-10-04T00:43:36Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+  "schemaVersion": 1,
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

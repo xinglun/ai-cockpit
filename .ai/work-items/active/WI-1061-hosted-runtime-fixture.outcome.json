@@ -1,21 +1,21 @@
 {
   "acceptanceResults": [
     "Preserve the exact WI-1060 predecessor recovery binding and bind the real PR #1012 branch worktree and provider identity with Runtime finalize-plan before formal verification.",
-    "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation.",
+    "Update only the two CI fixture scripts in this WI: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation. The five other PR paths remain byte-identical to WI-1060 commit 120ea0f5254fb7447051389e19c1d6c055946169.",
     "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
-    "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge."
+    "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification, Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge. Confirm the seven-path PR delivery scope, the unchanged five-path WI-1060 inheritance from commit 120ea0f5254fb7447051389e19c1d6c055946169, and preservation of predecessor and failed-run evidence without reducing any existing acceptance requirement."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:ca9425b1fdb1d9e4ddc746ae73c88e57c39b6e14f79110401f4dfd242e9f0e63",
+  "evidenceDigest": "sha256:4798a071c1569a154e2ab13de8fb8ba9bff24cb0fb4e035af84164abf222ed40",
   "evidenceRefs": [
     ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.c1874a3c56fca8df246545c943011d34d69e3545d6fb787764e087b2b4120ccf.json"
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.f7495a530f6df61edf81b596d8d41edf1b548cab9daec6df7e08d6dab2faa933.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
       ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
-      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.c1874a3c56fca8df246545c943011d34d69e3545d6fb787764e087b2b4120ccf.json"
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.f7495a530f6df61edf81b596d8d41edf1b548cab9daec6df7e08d6dab2faa933.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -48,21 +48,21 @@
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.20c2fb0dd75490ec97f4ec0387f83386d355136ab581a843941a6edb9d15a71c.json"
+          "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.committed.json"
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.prepared.json"
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json"
         },
         {
           "evidenceRefs": [
@@ -77,20 +77,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/hosted_runtime_verification_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
         }
       ],
       "evidence": [
@@ -149,7 +135,7 @@
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
           ],
           "inference": false,
-          "text": "Make the existing PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head"
+          "text": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope."
         }
       ],
       "warnings": [
@@ -165,8 +151,8 @@
     "status": "verified",
     "workItemId": "WI-1061-hosted-runtime-fixture"
   },
-  "taskReportDigest": "sha256:16c5604d3bd014679098472d82ec5ee01ea8fd6d88abb223ad3094cc46c43af0",
-  "taskReportMarkdownDigest": "sha256:8e7055d54d95c77211f1667c71200ddb2d2e9b8169559ce4e092f0208f11d7fe",
+  "taskReportDigest": "sha256:3268cd24219ba7ac18bf96b04c01da5f134c7cc2bb63aed6eaafeb2b0f43d2ab",
+  "taskReportMarkdownDigest": "sha256:393822bcc1dbecb03ac110921878ff52957e8421e028cfd418f88e1cab42f9f6",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

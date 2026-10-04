@@ -2,9 +2,9 @@
   "acceptance": null,
   "acceptanceCriteria": [
     "Preserve the exact WI-1060 predecessor recovery binding and bind the real PR #1012 branch worktree and provider identity with Runtime finalize-plan before formal verification.",
-    "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation.",
+    "Update only the two CI fixture scripts in this WI: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation. The five other PR paths remain byte-identical to WI-1060 commit 120ea0f5254fb7447051389e19c1d6c055946169.",
     "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
-    "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge."
+    "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification, Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge. Confirm the seven-path PR delivery scope, the unchanged five-path WI-1060 inheritance from commit 120ea0f5254fb7447051389e19c1d6c055946169, and preservation of predecessor and failed-run evidence without reducing any existing acceptance requirement."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -21,7 +21,7 @@
   "destructiveChangePolicy": null,
   "documentationImpact": null,
   "executionDecision": null,
-  "goal": "Make the existing PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head",
+  "goal": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope.",
   "governancePolicy": null,
   "governanceProfile": null,
   "guidelines": [],
@@ -32,7 +32,7 @@
   "notCodable": null,
   "operation": null,
   "outOfScope": [
-    "Production parser or protocol changes; rewriting WI-1060 archive or failure evidence; release publication"
+    "New implementation edits to the five inherited WI-1060 paths or arbitrary future production parser/protocol changes; weakening the production consumer or Contract gate; rewriting WI-1060 archive or failed CI evidence; release publication. The five paths are included only as unchanged predecessor delivery responsibility for this exact cumulative PR."
   ],
   "performanceImpact": null,
   "preReviewWarnings": [],
@@ -85,9 +85,17 @@
   ],
   "scope": [
     "tests/ci/hosted_runtime_verification_test.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    "tests/ci/workspace_package_coverage_test.sh",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+    "tests/ci/process_observer_test_runner_test.sh",
+    "tests/ci/run_workspace_package_tests.sh"
   ],
-  "sources": [],
+  "sources": [
+    "WI-1060 archived Contract .ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json and formal recovery decision .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json bind the five inherited paths and successor WI-1061; preserve their historical evidence.",
+    "Git commit 120ea0f5254fb7447051389e19c1d6c055946169 introduced the five inherited paths on base c026e59cd70a6d2117193fba2aebae07d30c1e74; exact git diff --binary 120ea0f5254fb7447051389e19c1d6c055946169..f6875dd07246c878ed3e54d502f49f294dd80975 over those five paths is empty, SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+  ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
   "synchronizationHistory": [],

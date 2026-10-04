@@ -10,17 +10,15 @@
 
 ## Task overview
 
-- Make the existing PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head
+- Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope.
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.20c2fb0dd75490ec97f4ec0387f83386d355136ab581a843941a6edb9d15a71c.json
-- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.committed.json
-- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.prepared.json
+- Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json
+- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json
+- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json
 - Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json
 - Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json
-- Changed path: tests/ci/hosted_runtime_verification_test.sh
-- Changed path: tests/ci/workspace_package_coverage_test.sh
 
 ## Findings
 
