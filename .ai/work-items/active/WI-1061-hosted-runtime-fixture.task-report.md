@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
 
 ## Task overview
 
@@ -14,13 +14,13 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json
-- Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.json
-- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.committed.json
-- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.prepared.json
+- Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.20c2fb0dd75490ec97f4ec0387f83386d355136ab581a843941a6edb9d15a71c.json
+- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.committed.json
+- Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.prepared.json
 - Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json
 - Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json
 - Changed path: tests/ci/hosted_runtime_verification_test.sh
+- Changed path: tests/ci/workspace_package_coverage_test.sh
 
 ## Findings
 

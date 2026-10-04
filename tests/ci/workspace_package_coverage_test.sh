@@ -12,6 +12,14 @@ unset AI_COCKPIT_VERIFICATION_RECEIPT \
   AI_COCKPIT_RUNTIME_BIN \
   AI_COCKPIT_VERIFICATION_REPOSITORY
 
+# The enclosing hosted job may point Cargo at the source checkout's runner.
+# These fixture subprocesses must use the runner in their own checkout.
+host_target=$("${RUSTC:-rustc}" -vV | sed -n 's/^host: //p')
+test -n "$host_target"
+runner_variable="CARGO_TARGET_${host_target//-/_}_RUNNER"
+runner_variable=$(tr '[:lower:]' '[:upper:]' <<<"$runner_variable")
+export "${runner_variable}=$root/tests/ci/run_process_observer_test_runner.sh"
+
 cat >"$tmp/metadata.json" <<'JSON'
 {"packages":[
   {"name":"package-b","source":null,"version":"1.0.0"},

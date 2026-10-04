@@ -1,20 +1,21 @@
 {
   "acceptanceResults": [
     "Preserve the exact WI-1060 predecessor recovery binding and bind the real PR #1012 branch worktree and provider identity with Runtime finalize-plan before formal verification.",
-    "Update only the hosted Runtime test fixture to emit a truthful current Contract verification declaration and matching complete formal plan manifest and per-node execution evidence; missing or mismatched fields must still reject before package-test subprocesses.",
-    "Demonstrate focused RED then GREEN for the previous CI failure plus negative and valid-reuse cases without weakening the strict coverage consumer.",
+    "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation.",
+    "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
     "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge."
   ],
-  "createdAt": "2026-10-03T23:27:14Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:8b5da422d436da9f92275ee2ec33603a3dc636a86496df0057757125f4a41b5d",
+  "evidenceDigest": "sha256:ca9425b1fdb1d9e4ddc746ae73c88e57c39b6e14f79110401f4dfd242e9f0e63",
   "evidenceRefs": [
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.c1874a3c56fca8df246545c943011d34d69e3545d6fb787764e087b2b4120ccf.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
-      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.c1874a3c56fca8df246545c943011d34d69e3545d6fb787764e087b2b4120ccf.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -25,15 +26,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+      "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
       "workItemId": "WI-1061-hosted-runtime-fixture"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,28 +48,21 @@
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.20c2fb0dd75490ec97f4ec0387f83386d355136ab581a843941a6edb9d15a71c.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.json"
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.committed.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.committed.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000001.prepared.json"
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000002.prepared.json"
         },
         {
           "evidenceRefs": [
@@ -90,6 +84,13 @@
           ],
           "inference": false,
           "text": "Changed path: tests/ci/hosted_runtime_verification_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
         }
       ],
       "evidence": [
@@ -119,7 +120,7 @@
             ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -164,8 +165,8 @@
     "status": "verified",
     "workItemId": "WI-1061-hosted-runtime-fixture"
   },
-  "taskReportDigest": "sha256:8a6bec0092011a625cc5dccf2b11535e612ca5edf53dd60e594514bf90f48fdc",
-  "taskReportMarkdownDigest": "sha256:b9faa4a31a4e813941c0add04a88af7e0d1a63dff8d6dc12eaf5e73c3db991bb",
+  "taskReportDigest": "sha256:16c5604d3bd014679098472d82ec5ee01ea8fd6d88abb223ad3094cc46c43af0",
+  "taskReportMarkdownDigest": "sha256:8e7055d54d95c77211f1667c71200ddb2d2e9b8169559ce4e092f0208f11d7fe",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

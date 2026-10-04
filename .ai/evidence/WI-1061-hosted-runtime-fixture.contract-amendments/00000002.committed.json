@@ -1,0 +1,59 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:cb890d64ec7df8447c69eb9b994d587ba73c678011db24c4c9cbb554ee1ffa12",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1061-hosted-runtime-fixture",
+    "sequence": 2,
+    "changeId": "wi1061-hosted-isolated-fixture-env-20261004",
+    "requestDigest": "sha256:adbf8c471c802995172378d9ef9fe51fa83bc1d0cb07bb1c24cee38696658f5d",
+    "reason": "Exact-head PR #1012 run 37161928898 selected this active Work Item but failed hosted project-command-3 and project-command-4 because isolated fixture scripts inherited the outer CI cleanup and Cargo runner environment. Keep strict production runner validation; explicitly bind fixture subprocess environment to each isolated test root, preserve the failed run, and revalidate the amended plan.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "replace",
+        "oldValue": "Update only the hosted Runtime test fixture to emit a truthful current Contract verification declaration and matching complete formal plan manifest and per-node execution evidence; missing or mismatched fields must still reject before package-test subprocesses.",
+        "newValue": "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation."
+      },
+      {
+        "path": "/acceptanceCriteria/2",
+        "operation": "replace",
+        "oldValue": "Demonstrate focused RED then GREEN for the previous CI failure plus negative and valid-reuse cases without weakening the strict coverage consumer.",
+        "newValue": "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses."
+      }
+    ],
+    "previousContractDigest": "sha256:d6c88d874eb82961b0ed2ee8381c133cc7e588221b41046e28b9f397e8c6a66b",
+    "newContractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+    "repositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/1",
+      "/acceptanceCriteria/2",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:75042584a3da5f4068cdca46938f2d20fec71317e5d27cb262ad9fee01d7f605",
+    "journalDigest": "sha256:465d34433f87bd10d77e3e19fb7b571d66839fc0ef1993a23df73d0b22f54ffc",
+    "recordedAt": "2026-10-03T23:46:26Z"
+  }
+}

@@ -200,7 +200,8 @@ PY
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
         "$directory/artifacts" || result=$?
   else
-    FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
+    AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false \
+      FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \

@@ -2,8 +2,8 @@
   "acceptance": null,
   "acceptanceCriteria": [
     "Preserve the exact WI-1060 predecessor recovery binding and bind the real PR #1012 branch worktree and provider identity with Runtime finalize-plan before formal verification.",
-    "Update only the hosted Runtime test fixture to emit a truthful current Contract verification declaration and matching complete formal plan manifest and per-node execution evidence; missing or mismatched fields must still reject before package-test subprocesses.",
-    "Demonstrate focused RED then GREEN for the previous CI failure plus negative and valid-reuse cases without weakening the strict coverage consumer.",
+    "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation.",
+    "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
     "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge."
   ],
   "adoptionBootstrapPaths": [],
@@ -84,7 +84,8 @@
     }
   ],
   "scope": [
-    "tests/ci/hosted_runtime_verification_test.sh"
+    "tests/ci/hosted_runtime_verification_test.sh",
+    "tests/ci/workspace_package_coverage_test.sh"
   ],
   "sources": [],
   "state": "implementation_active",
