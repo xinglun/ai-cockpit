@@ -1,0 +1,45 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:52d4371fb28860013f4e46730eb46bc8cf709e31fd5cc7d4dc982e6d956c5359",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 2,
+    "changeId": "wi1066-status-to-archive-race-20261004",
+    "requestDigest": "sha256:b6563747baf09d94a3840328d5d1f1a8b330396808db0f92d011b7e15c298815",
+    "reason": "Independent technical review of the final PR-bound Contract found one missing temporal negative: status can be allowed before the successor changes, so actual archive must revalidate after that observation. Clarify existing acceptance and required scenario plan without expanding scope or weakening any other gate.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "set",
+        "oldValue": "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；不依赖名称、时间戳或自报值选后继。",
+        "newValue": "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。"
+      },
+      {
+        "path": "/scenarioCoverage/1/verificationPlan",
+        "operation": "set",
+        "oldValue": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage; assert zero archive writes and no permitted status action.",
+        "newValue": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage. Add an explicit status-to-archive race: first obtain archive_when_reviewed from a valid successor, then delete or tamper its Contract/recovery path before archive; assert archive rechecks current binding, rejects, and writes no manifest."
+      }
+    ],
+    "previousContractDigest": "sha256:723c387dade5fe7085e5f208f5ab59d8aa9a0cdd2852c0c841b818f0e42c5061",
+    "newContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+    "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/1",
+      "/scenarioCoverage/1/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:a59f011bbeafafc598f260e105ccea9dc55177c6b2aa61510930ff4ebe7a0867",
+    "journalDigest": "sha256:24e703d5592ff9d5738c5c71217e7d16e48efcfd8075f0f4064a1b3e22c0add6",
+    "recordedAt": "2026-10-04T18:36:05Z"
+  }
+}

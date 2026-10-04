@@ -6,8 +6,8 @@
   "checkpointCount": 0,
   "createdAt": "2026-10-04T18:24:50Z",
   "mode": "implementation",
-  "preflightAt": "2026-10-04T18:32:26Z",
-  "preflightContractDigest": "sha256:723c387dade5fe7085e5f208f5ab59d8aa9a0cdd2852c0c841b818f0e42c5061",
+  "preflightAt": "2026-10-04T18:36:35Z",
+  "preflightContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
   "preflightState": "yellow",
@@ -28,7 +28,7 @@
       "required": true,
       "scenario": "stale or foreign supersede cannot archive",
       "status": "unverified",
-      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage; assert zero archive writes and no permitted status action."
+      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage. Add an explicit status-to-archive race: first obtain archive_when_reviewed from a valid successor, then delete or tamper its Contract/recovery path before archive; assert archive rechecks current binding, rejects, and writes no manifest."
     },
     {
       "evidence": [],
@@ -40,6 +40,6 @@
     }
   ],
   "state": "implementation_active",
-  "updatedAt": "2026-10-04T18:29:14.471495+00:00",
+  "updatedAt": "2026-10-04T18:36:26.950390+00:00",
   "workItemId": "WI-1066-supersede-archive-admission"
 }

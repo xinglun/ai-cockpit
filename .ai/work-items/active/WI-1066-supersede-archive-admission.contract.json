@@ -2,7 +2,7 @@
   "acceptance": null,
   "acceptanceCriteria": [
     "有效且当前 Runtime 可重新核验的 supersede 收据，精确绑定唯一现存后继 Contract、仓库 ID、前驱 Contract digest 与 recoveryDecisionPath 时，前驱 status.safeActions 显示明确的 archive_when_reviewed；正式 archive 使用同一准入，归档 manifest 为 superseded，并保留前驱红验证与原字节。",
-    "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；不依赖名称、时间戳或自报值选后继。",
+    "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。",
     "普通 finish_ready 归档的既有准入及拒绝语义保持不变；不得新增手工标记、伪造审核、放宽 Contract gate 或修改 CI selector。",
     "先在现有 recovery_decision 回归写真实 RED，再最小修复 status/执行准入共享的当前绑定校验并达 GREEN；正式 Runtime CLI 加 Cargo/CI canonical gate 全部通过，精确头 PR CI 及独立代码审查后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
   ],
@@ -83,7 +83,7 @@
       "required": true,
       "scenario": "stale or foreign supersede cannot archive",
       "status": "unverified",
-      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage; assert zero archive writes and no permitted status action."
+      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage. Add an explicit status-to-archive race: first obtain archive_when_reviewed from a valid successor, then delete or tamper its Contract/recovery path before archive; assert archive rechecks current binding, rejects, and writes no manifest."
     },
     {
       "evidence": [],
