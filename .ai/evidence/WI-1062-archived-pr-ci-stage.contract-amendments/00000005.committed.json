@@ -1,0 +1,60 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:3b51b5dd22eabcecfb5947bcb6ccb01fb83c0c88ed0c40c675c4426316f5bd7b",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1062-archived-pr-ci-stage",
+    "sequence": 5,
+    "changeId": "wi1062-archived-stage-split-20261004",
+    "requestDigest": "sha256:416d0c4a823c282bf90e4bf01fa4da6c78c8df1d26e6d0e203f42a30742f1430",
+    "reason": "Separate the executable pre-finish archived-lane proof from the real post-archive exact-head PR acceptance. The current required scenario's hosted verification plan cannot run until the WI is archived, while finish requires that scenario verified. Current-source route regression, a real read-only Rust gate on archived WI-1061 head c6137239, and canonical no-receipt 13/13 package coverage have now executed. Preserve hosted archived PR evidence as a non-optional unnumbered acceptance condition before merge and close; preserve all earlier failed runs and unchanged protections.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/1/verificationPlan",
+        "operation": "set",
+        "oldValue": "Exercise the archived selection fixture through workflow regression and inspect an exact-head PR run for Rust gate and repository package coverage execution with no hosted producer.",
+        "newValue": "Before finish, execute the current-source archived route-binding regression, run the existing read-only Rust Contract gate against a real archived Contract on its source checkout, and run the canonical workspace package coverage runner on that same checkout without hosted receipt or orchestration variables; record route, gate, current head, all workspace packages, and omissions. This local evidence does not prove hosted archived PR acceptance."
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+          "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+          "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+          "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+          "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged"
+        ],
+        "newValue": [
+          "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+          "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+          "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+          "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+          "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged",
+          "After this Work Item is archived and before PR #1013 is merged or this Work Item is closed, require an exact-head GitHub pull_request run selecting its archived Contract read-only route: candidate hosted verification must not start; read-only Rust Contract gate, repository gates and fresh workspace package coverage must actually pass on that head without stale hosted receipt variables. Local or prior active-head evidence cannot substitute. After integration, PR #1012 must separately obtain the same real exact-head archived-route proof before its merge; retain all earlier failures."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+    "newContractDigest": "sha256:3511fa1d2d847b16e292d395c9f1791f632d7f8b055a12af58a2114cdccbcb21",
+    "repositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
+    "environmentObservationDigest": "sha256:f9f137f221518672ad138c820057fd13795d7952ad27317fbe6d0b20b2a03526",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage/1/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:26a786624a541c9ee313551595535ac22fa47f22ceda8dc8a09660fc25cc4461",
+    "journalDigest": "sha256:566004b511c1c3224a0db7a5681d3ffc1b6120c8c22162811b9b6a6906ef2d85",
+    "recordedAt": "2026-10-04T03:54:15Z"
+  }
+}

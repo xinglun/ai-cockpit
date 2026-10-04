@@ -1,0 +1,24 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "human:Ray delegated ordinary technical recovery decisions to Raydot in the current task; Raydot WI-1062 same-WI retry decision 2026-10-04 02:06 UTC",
+  "decidedAt": "2026-10-04T02:10:40Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1013"
+  ],
+  "policyRefs": [
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+  "predecessorSummaryDigest": "sha256:d430ea233c82f8d5412c8c152ce944d0fc9eac8cb813b6079e678acbbb8bc49f",
+  "predecessorWorkItemId": "WI-1062-archived-pr-ci-stage",
+  "reason": "The first 4-command verification passed before PR #1013 resource binding and omitted the full workspace stage-0 check required by the current hosted package consumer; finalize-plan then genuinely rejected the late binding. Preserve the first receipt and authorize one corrected identity-bound verification cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind exact PR #1013 via finalize-plan, formally amend verification to start with cargo test --locked --workspace, complete required review and preflight, then run one fresh full verification.",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1062-archived-pr-ci-stage"
+}

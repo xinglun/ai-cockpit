@@ -74,6 +74,7 @@ if [[ "$state" == passed && -n "$hosted_verification_receipt" ]]; then
 import hashlib
 import json
 import re
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -219,15 +220,106 @@ if (
 ):
     reject("hosted Runtime plan receipt is not bound to the formal evidence identity")
 coverage = plan.get("coverageManifest")
-expected_nodes = [f"project-command-0-package-{package}" for package in expected]
-if (
-    not isinstance(coverage, dict)
-    or sorted(coverage.get("workspaceMembers", [])) != expected
-    or sorted(coverage.get("nodeIds", [])) != expected_nodes
-):
+if not isinstance(coverage, dict) or coverage.get("workspaceMembers") != expected:
     reject("hosted Runtime plan does not bind the complete Cargo workspace package set")
+node_ids = coverage.get("nodeIds")
+command_digests = coverage.get("commandDigests")
+if (
+    not isinstance(node_ids, list)
+    or not isinstance(command_digests, list)
+    or len(node_ids) != len(expected)
+    or len(command_digests) != len(expected)
+    or any(not isinstance(digest, str) or not digest_pattern.fullmatch(digest) for digest in command_digests)
+):
+    reject("hosted Runtime test manifest has invalid package command bindings")
+indices = set()
+for package, node in zip(expected, node_ids):
+    if not isinstance(node, str):
+        reject("hosted Runtime test manifest has a non-string package node")
+    match = re.fullmatch(r"project-command-(0|[1-9][0-9]*)-package-(.+)", node)
+    if not match or match.group(2) != package:
+        reject("hosted Runtime test manifest package node does not match metadata")
+    indices.add(int(match.group(1)))
+if len(indices) != 1:
+    reject("hosted Runtime test manifest mixes command indices")
+command_index = indices.pop()
+expected_nodes = [f"project-command-{command_index}-package-{package}" for package in expected]
+if node_ids != expected_nodes:
+    reject("hosted Runtime test manifest is missing or duplicating packages")
+
+def complete_workspace_test(program, args):
+    return (
+        program == "cargo"
+        and isinstance(args, list)
+        and bool(args)
+        and args[0] == "test"
+        and "--workspace" in args[1:]
+        and all(arg in {"--workspace", "--locked", "--all-features", "--all-targets"} for arg in args[1:])
+        and len(args[1:]) == len(set(args[1:]))
+    )
+
+if not complete_workspace_test(coverage.get("sourceProgram"), coverage.get("sourceArgs")):
+    reject("hosted Runtime manifest is not a complete unfiltered Cargo workspace test")
+contract_directory = repository_path / ".ai" / "work-items" / "active"
+contract_path = contract_directory / f"{work_item_id}.contract.json"
+if (
+    (repository_path / ".ai").is_symlink()
+    or (repository_path / ".ai/work-items").is_symlink()
+    or contract_directory.is_symlink()
+    or contract_path.is_symlink()
+    or not contract_path.is_file()
+):
+    reject("current Runtime-bound Contract is missing or unsafe")
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+observed_contract_digest = "sha256:" + hashlib.sha256(
+    json.dumps(contract, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+).hexdigest()
+if observed_contract_digest != contract_digest:
+    reject("current Contract bytes do not match the Runtime-bound Contract digest")
+declarations = contract.get("verification") if isinstance(contract, dict) else None
+if contract.get("workItemId") != work_item_id or not isinstance(declarations, list):
+    reject("current Runtime-bound Contract has no verification declaration")
+if command_index >= len(declarations):
+    reject("hosted Runtime test command index is outside the current Contract")
+test_declarations = []
+assignment_name = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+for index, declaration in enumerate(declarations):
+    source = declaration if isinstance(declaration, str) else declaration.get("check") if isinstance(declaration, dict) else None
+    if not isinstance(source, str):
+        reject("current Contract has an unsupported verification declaration")
+    try:
+        words = shlex.split(source)
+    except ValueError:
+        reject("current Contract has malformed verification command quoting")
+    assignment_count = 0
+    for word in words:
+        name, separator, value = word.partition("=")
+        if not separator or not value or not assignment_name.fullmatch(name):
+            break
+        assignment_count += 1
+    command_words = words[assignment_count:]
+    explicit_env = command_words[:1] == ["env"]
+    if explicit_env:
+        command_words = command_words[1:]
+        while command_words:
+            name, separator, value = command_words[0].partition("=")
+            if not separator or not value or not assignment_name.fullmatch(name):
+                break
+            command_words = command_words[1:]
+        if not command_words or command_words[0] == "env" or command_words[0].startswith("-"):
+            reject("current Contract has unsupported env command syntax")
+    if command_words[:2] == ["cargo", "test"]:
+        if assignment_count or explicit_env:
+            reject("current Contract declares an unsupported environment-wrapped Cargo test")
+        test_declarations.append(index)
+        if not complete_workspace_test(words[0], words[1:]):
+            reject("current Contract declares a filtered or unsupported Cargo test")
+        if index == command_index and words[1:] != coverage["sourceArgs"]:
+            reject("hosted Runtime test manifest differs from the indexed Contract command")
+if test_declarations != [command_index]:
+    reject("hosted Runtime test manifest has no unique matching Contract declaration")
 all_node_ids = []
-covered = []
+result_by_id = {}
 for result in results:
     node_id = result.get("nodeId") if isinstance(result, dict) else None
     if not isinstance(node_id, str) or not node_id:
@@ -235,14 +327,17 @@ for result in results:
     if result.get("passed") is not True:
         reject(f"hosted Runtime verification node failed: {node_id}")
     all_node_ids.append(node_id)
-    if not node_id.startswith("project-command-0-package-"):
-        continue
-    package = node_id.removeprefix("project-command-0-package-")
-    covered.append(package)
+    result_by_id[node_id] = result
 if len(set(all_node_ids)) != len(all_node_ids):
     reject("hosted Runtime receipt contains duplicate verification nodes")
-if sorted(covered) != expected or len(set(covered)) != len(expected):
+if not set(expected_nodes).issubset(result_by_id):
     reject("hosted Runtime receipt package set does not match Cargo workspace metadata")
+if any(
+    re.fullmatch(rf"project-command-{command_index}-package-.+", node)
+    and node not in expected_nodes
+    for node in all_node_ids
+):
+    reject("hosted Runtime receipt contains an undeclared package test node")
 reused_nodes = plan.get("reusedNodes")
 executed_nodes = plan.get("executedNodes")
 if (
@@ -261,15 +356,38 @@ if (
     or len(reused_nodes) != nodes_reused
 ):
     reject("hosted Runtime plan execution accounting does not match its formal receipt")
+records = receipt.get("executionRecords")
+if not isinstance(records, list):
+    reject("hosted Runtime receipt is missing execution records")
+record_by_id = {}
+for record in records:
+    if not isinstance(record, dict) or not isinstance(record.get("nodeId"), str):
+        reject("hosted Runtime receipt contains an invalid execution record")
+    if record["nodeId"] in record_by_id:
+        reject("hosted Runtime receipt contains duplicate execution records")
+    record_by_id[record["nodeId"]] = record
+for node, digest in zip(expected_nodes, command_digests):
+    result = result_by_id[node]
+    if node in reused_nodes:
+        if (result.get("reused") is not True or result.get("action") != "reuse"
+                or result.get("satisfiedBy") != "reused_receipt" or node in record_by_id):
+            reject(f"hosted Runtime reused package has inconsistent evidence: {node}")
+    else:
+        record = record_by_id.get(node)
+        if (result.get("reused") is not False or result.get("action") != "execute"
+                or result.get("satisfiedBy") != "execution" or not isinstance(record, dict)
+                or record.get("commandDigest") != digest or record.get("spawned") is not True
+                or record.get("passed") is not True or record.get("exitCode") != 0):
+            reject(f"hosted Runtime executed package digest or result is inconsistent: {node}")
 if verification_state == "reused":
     hosted_runtime_executed = []
     coverage_required = expected
 else:
-    package_node_ids = {f"project-command-0-package-{package}" for package in expected}
+    package_node_ids = set(expected_nodes)
     reused_packages = {
-        node.removeprefix("project-command-0-package-")
+        node.removeprefix(f"project-command-{command_index}-package-")
         for node in reused_nodes
-        if node.startswith("project-command-0-package-")
+        if node in package_node_ids
     }
     if not package_node_ids.issubset(set(all_node_ids)):
         reject("hosted Runtime receipt omits a required package result")

@@ -1,0 +1,166 @@
+{
+  "acceptanceResults": [
+    "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+    "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+    "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+    "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+    "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged",
+    "After this Work Item is archived and before PR #1013 is merged or this Work Item is closed, require an exact-head GitHub pull_request run selecting its archived Contract read-only route: candidate hosted verification must not start; read-only Rust Contract gate, repository gates and fresh workspace package coverage must actually pass on that head without stale hosted receipt variables. Local or prior active-head evidence cannot substitute. After integration, PR #1012 must separately obtain the same real exact-head archived-route proof before its merge; retain all earlier failures."
+  ],
+  "createdAt": "2026-10-04T04:19:08Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:97ea77463326e00843fdcca61cbc3f3d940940aa6a03c35f1c6ee8135634254e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
+      "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.d0498855933b757305e1cad174f5fb5bfb576ec949f4612330e7f882b008cad9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000005.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000005.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1062-archived-pr-ci-stage.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1062-archived-pr-ci-stage.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.contract.json"
+          ],
+          "inference": false,
+          "text": "Route active PRs through candidate hosted verification and formal receipt consumption; route archived PRs through the existing read-only Rust Contract gate plus fresh repository/package coverage; preserve ordinary PR and post-merge behavior and fail closed for unknown routes"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1062-archived-pr-ci-stage.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1062-archived-pr-ci-stage"
+  },
+  "taskReportDigest": "sha256:10d56c214d44e3a14911a73c63012a979ed05d3f84320bab27be542e9edcd27d",
+  "taskReportMarkdownDigest": "sha256:8dd5a5a75557d8e8c6a4673167850c113fa98c661405ba2798e2dcacb3a9548c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1062-archived-pr-ci-stage"
+}

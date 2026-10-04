@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human-user-authorized-pr-1013-merge-and-task9-recoverable-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "baca15c1593961d972df2a4d8feab7c5f73341bd",
+    "name": "codex/wi-1062-archived-ci-stage",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+  "contractDigest": "sha256:7b79759767fda2001fabdde78efd634da89ad44607abe6e73f371a6590344c9f",
+  "operationId": "github-pr-1013-merge-cleanup-20261004",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+    "headRevision": "baca15c1593961d972df2a4d8feab7c5f73341bd",
+    "mergeCommit": "522c4c8ad86341670c440299db5befb99b80393b",
+    "number": 1013,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1013"
+  },
+  "reason": "PR #1013 merged at 522c4c8ad86341670c440299db5befb99b80393b; exact-main CI run 37177568825 passed all four jobs. The clean dedicated WI-1062 worktree was archived recoverably through Codex managed worktree archive, and exact local and remote WI branch refs were deleted. The separate user-dirty primary checkout was not modified.",
+  "receiptId": "github-pr-1013-finalization-20261004",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1062-archived-ci-stage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1013",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1062-archived-ci-stage/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-04T04:56:15Z",
+  "workItemId": "WI-1062-archived-pr-ci-stage",
+  "worktree": {
+    "branch": "codex/wi-1062-archived-ci-stage",
+    "headRevision": "baca15c1593961d972df2a4d8feab7c5f73341bd",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi1062-archived-ci-stage/ai-cockpit",
+    "worktreeId": "WI-1062-archived-pr-ci-stage"
+  }
+}

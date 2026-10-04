@@ -138,6 +138,103 @@ quality_binding = workflow.split(
 assert quality_binding.index("> target/ci-revision-binding.json") < quality_binding.index(
     'test "$receipt_head" = "$source_revision"'
 ), "write revision diagnostics before any source/route binding assertion"
+
+# Execute the actual route-binding shell from the workflow. An archived PR
+# must be admitted to its read-only lane, while an unknown or mismatched
+# method must fail before downstream package gates can start.
+run_marker = "        run: |\n"
+assert run_marker in quality_binding
+run_lines = []
+for line in quality_binding.split(run_marker, 1)[1].splitlines():
+    if line.startswith("      - "):
+        break
+    if line and not line.startswith("          "):
+        raise AssertionError(f"unexpected route-binding indentation: {line}")
+    run_lines.append(line[10:] if line else "")
+route_binding_script = "\n".join(run_lines) + "\n"
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-stage-lanes-") as temporary:
+    repository = Path(temporary)
+    def git(*args):
+        return subprocess.check_output(["git", "-C", str(repository), *args], text=True).strip()
+    subprocess.run(["git", "init", "-q", "-b", "main", str(repository)], check=True)
+    git("config", "user.name", "Stage Lane Test")
+    git("config", "user.email", "stage-lane@example.invalid")
+    (repository / "README.md").write_text("base\n", encoding="utf-8")
+    git("add", "README.md")
+    git("commit", "-qm", "base")
+    base = git("rev-parse", "HEAD")
+    git("switch", "-q", "-c", "feature")
+    (repository / "feature.txt").write_text("feature\n", encoding="utf-8")
+    git("add", "feature.txt")
+    git("commit", "-qm", "feature")
+    source = git("rev-parse", "HEAD")
+    git("switch", "-q", "main")
+    git("merge", "-q", "--no-ff", "feature", "-m", "tested merge")
+    tested = git("rev-parse", "HEAD")
+    (repository / "target").mkdir()
+    for area in ("active", "archive"):
+        contract = repository / f".ai/work-items/{area}/WI-LANE.contract.json"
+        contract.parent.mkdir(parents=True)
+        contract.write_text("{}\n", encoding="utf-8")
+
+    def run_lane(selection_method, contract_path, event="pull_request"):
+        stage = "pull_request" if event == "pull_request" else "merge"
+        head = source if event == "pull_request" else tested
+        (repository / "target/quality-selection.json").write_text(json.dumps({
+            "selectionMethod": selection_method,
+            "contractPath": contract_path,
+        }), encoding="utf-8")
+        (repository / "target/quality-route.json").write_text(json.dumps({
+            "headRevision": head,
+            "baseRevision": base,
+            "stage": stage,
+            "contractPath": contract_path,
+            "selectedProfile": "strict",
+        }), encoding="utf-8")
+        output = repository / "target/step-output"
+        output.write_text("", encoding="utf-8")
+        package_marker = repository / "target/package-process-started"
+        package_marker.unlink(missing_ok=True)
+        package_spy = repository / "target/package-spy.sh"
+        package_spy.write_text(
+            '#!/usr/bin/env bash\ntouch "$1"\n', encoding="utf-8"
+        )
+        environment = dict(__import__("os").environ)
+        environment.update({
+            "EVENT_NAME": event,
+            "GITHUB_SHA": tested,
+            "PR_HEAD_SHA": source,
+            "PR_BASE_SHA": base,
+            "GITHUB_OUTPUT": str(output),
+        })
+        result = subprocess.run(
+            ["bash", "-c", route_binding_script + '\nbash target/package-spy.sh target/package-process-started\n'], cwd=repository,
+            env=environment, capture_output=True, text=True,
+        )
+        return result, output.read_text(encoding="utf-8"), package_marker.exists()
+
+    active_path = ".ai/work-items/active/WI-LANE.contract.json"
+    archived_path = ".ai/work-items/archive/WI-LANE.contract.json"
+    for method, path, event, expected in (
+        ("pull_request_binding", active_path, "pull_request", "active"),
+        ("archived_contract_read_only", archived_path, "pull_request", "archived"),
+        ("ordinary_repository_route", "", "pull_request", "ordinary"),
+        ("ordinary_repository_route", "", "push", "ordinary"),
+    ):
+        result, output, package_started = run_lane(method, path, event)
+        assert result.returncode == 0, (method, result.stderr)
+        assert f"lane={expected}\n" in output, (method, output)
+        assert package_started, method
+    for method, path, event in (
+        ("unexpected_route", archived_path, "pull_request"),
+        ("archived_contract_read_only", active_path, "pull_request"),
+        ("archived_contract_read_only", archived_path, "push"),
+    ):
+        result, output, package_started = run_lane(method, path, event)
+        assert result.returncode != 0, (method, output)
+        assert "lane=" not in output, (method, output)
+        assert not package_started, method
+
 assert "name: ci-quality-revision-binding" in workflow
 assert "if: always()" in workflow.split(
     "      - name: Upload quality revision binding", 1
@@ -145,6 +242,7 @@ assert "if: always()" in workflow.split(
 hosted_verification = workflow.split(
     "      - name: Run admitted hosted Work Item verification with the candidate Runtime", 1
 )[1].split("      - name: Upload hosted Work Item verification evidence", 1)[0]
+assert "if: steps.quality_route.outputs.lane == 'active'" in hosted_verification.split("        run: |", 1)[0]
 assert "tests/ci/run_hosted_runtime_verification.sh" in hosted_verification
 assert "target/release/ai-cockpit" in hosted_verification
 assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in hosted_verification
@@ -157,6 +255,8 @@ quality_gate = workflow.split(
     "      - name: Evaluate Rust Contract-aware quality gate", 1
 )[1].split("      - name: Build legacy Runtime for coordination compatibility", 1)[0]
 quality_gate_flat = re.sub(r"\s+", " ", quality_gate)
+assert 'ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}' in quality_gate
+assert 'if [[ "$ROUTE_LANE" == active ]]; then' in quality_gate_flat
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
 assert "--workers 1" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
@@ -191,6 +291,10 @@ repository_gates_step = workflow.split(
     "      - name: run repository gates exactly once", 1
 )[1].split("      - name: verify workspace package coverage receipt", 1)[0]
 repository_gates_step_flat = re.sub(r"\s+", " ", repository_gates_step)
+assert "steps.quality_route.outputs.lane == 'active' && 'target/hosted-runtime-verification.json' || ''" in repository_gates_step
+assert "steps.quality_route.outputs.lane == 'active' && 'target/hosted-runtime-orchestration.json' || ''" in repository_gates_step
+assert 'ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}' in repository_gates_step
+assert 'if [[ "$ROUTE_LANE" == active ]]; then' in repository_gates_step_flat
 assert "AI_COCKPIT_VERIFICATION_RECEIPT" in repository_gates_step
 assert "AI_COCKPIT_VERIFICATION_ORCHESTRATION" in repository_gates_step
 assert "AI_COCKPIT_RUNTIME_BIN: target/release/ai-cockpit" in repository_gates_step
@@ -198,6 +302,10 @@ assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in repository_gates_step
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in repository_gates_step
 assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in repository_gates_step_flat
 assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step_flat
+cleanup_step = workflow.split("      - name: Cleanup hosted Runtime verification worktree", 1)[1].split("      - name:", 1)[0]
+upload_hosted = workflow.split("      - name: Upload hosted Work Item verification evidence", 1)[1].split("      - name:", 1)[0]
+assert "if: always() && steps.quality_route.outputs.lane == 'active'" in cleanup_step
+assert "if: always() && steps.quality_route.outputs.lane == 'active'" in upload_hosted
 coverage_runner = Path(sys.argv[3]).with_name("run_workspace_package_tests.sh")
 assert "hosted_verification_receipt" in coverage_runner.read_text(encoding="utf-8")
 

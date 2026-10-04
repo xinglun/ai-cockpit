@@ -1,0 +1,264 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1060-hosted-coverage-consumer.preflight-review.883cecb253233e55f6234a504c0322cee7b5a63c7e154892ffa220908495fe9d.json",
+    ".ai/decisions/WI-1060-hosted-coverage-consumer.preflight-review.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.40d4b8a80bc97002f85f085d70f807c91de248da06ef45e2f1e27119205eefd0.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.53daec9150ef315b0901987c6118fac650ab76df6f2c421aa7c0e72049dab0d0.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.5ec2bbe09d91e232839f734a1bbdc3d5ba6e32dc046ad15266a51ea15bf3418a.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.e80d5e48408a87c3f9c0b4346c924db75adbfca42e1af52256b3b5e54cdb7707.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.events.jsonl",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.outcome.json",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.task-report.json",
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.task-report.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+    "tests/ci/process_observer_test_runner_test.sh",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/workspace_package_coverage_test.sh"
+  ],
+  "checkpointAt": "2026-10-03T20:54:31Z",
+  "checkpointContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+      "recorded": true,
+      "recordedAt": "2026-10-03T20:54:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1060-hosted-coverage-consumer"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+      "previousContractHash": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+      "reason": "Raydot technical ruling under the user's delegation: the fifth required scenario combined local pre-verification evidence with formal Runtime verification and hosted exact-head CI. The Runtime requires required scenarios verified before starting formal verification, creating a prerequisite cycle. Split only this scenario's expected result and plan into an actually observable local prerequisite; preserve all six acceptance criteria, declared verification commands, source scope, and the mandatory later formal Runtime and hosted CI proof. The prior zero-process precondition rejection also included stale preflight and is not misrepresented as independent proof of the cycle.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T21:18:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:010e824b9642b8c89d2d24228cacaff45e6a5644bb8c47cb17b34ba25154ac31",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1060-hosted-coverage-consumer"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f1333faf6ffc4531a53d6a6dbc969ff9da2bd7b546d26fe02d459f1539958e63",
+  "createdAt": "2026-10-03T16:47:47Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Ray explicitly reviewed and approved WI-1060 current Contract f9acb50e stage split on 2026-10-04 Asia/Tokyo. This confirms only the bounded fifth-scenario stage amendment; formal Runtime verification, hosted exact-head CI, merge, and release remain separate gates.",
+    "recordedAt": "2026-10-03T21:40:40Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a5c6078d69acc4d322adca32a7a6c7998383d015d9497cb3eeffcc6bb134e94c",
+    "schemaVersion": 1,
+    "workItemId": "WI-1060-hosted-coverage-consumer"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-cli/tests/verify.rs",
+      "tests/ci/workspace_package_coverage_test.sh",
+      "tests/ci/process_observer_test_runner_test.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-03T22:34:09Z",
+  "preflightContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f1333faf6ffc4531a53d6a6dbc969ff9da2bd7b546d26fe02d459f1539958e63",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/verify.rs: work_item_plan_includes_each_declared_verification_command; cargo test --locked -p cockpit-cli --test verify: 18/18 passed",
+        "tests/ci/workspace_package_coverage_test.sh: stage-2 complete hosted-receipt fixture and zero duplicate package processes passed"
+      ],
+      "required": true,
+      "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workspace_package_coverage_test.sh: legacy stage-0 and one reused package fixture passed"
+      ],
+      "required": true,
+      "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/workspace_package_coverage_test.sh: clippy relabel, mixed/forged stage, wrong digest, missing package, filtered test, duplicate test, missing plan, stale Contract/snapshot, divergent bytes, wrong Runtime negatives passed",
+        "tests/ci/workspace_package_coverage_test.sh: direct plus env-wrapped test, multiple assignments, quoted assignment, and wrapper-only cases rejected before package execution"
+      ],
+      "required": true,
+      "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/process_observer_test_runner_test.sh: ordinary and injected foreign hosted environment runs passed; production runner unmodified"
+      ],
+      "required": true,
+      "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json: fresh formal Runtime receipt for snapshot b0c3f248, 29/29 declared nodes passed, including fmt, clippy, workspace Cargo tests, workspace coverage fixture, and observer fixture; this verifies only the amended local prerequisite scenario, not hosted exact-head CI"
+      ],
+      "required": true,
+      "scenario": "Canonical Cargo/CI gate and exact-head PR verification",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-03T22:11:35Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}
