@@ -5,17 +5,16 @@
     "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
     "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification, Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge. Confirm the seven-path PR delivery scope, the unchanged five-path WI-1060 inheritance from commit 120ea0f5254fb7447051389e19c1d6c055946169, and preservation of predecessor and failed-run evidence without reducing any existing acceptance requirement."
   ],
+  "createdAt": "2026-10-04T01:10:17Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:4798a071c1569a154e2ab13de8fb8ba9bff24cb0fb4e035af84164abf222ed40",
   "evidenceRefs": [
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
-    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.f7495a530f6df61edf81b596d8d41edf1b548cab9daec6df7e08d6dab2faa933.json"
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
-      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
-      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification-attempt.f7495a530f6df61edf81b596d8d41edf1b548cab9daec6df7e08d6dab2faa933.json"
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -26,8 +25,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -45,38 +44,38 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         }
       ],
       "evidence": [
@@ -106,7 +105,7 @@
             ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -132,7 +131,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
           ],
           "inference": false,
           "text": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope."
@@ -141,7 +140,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -151,8 +150,8 @@
     "status": "verified",
     "workItemId": "WI-1061-hosted-runtime-fixture"
   },
-  "taskReportDigest": "sha256:3268cd24219ba7ac18bf96b04c01da5f134c7cc2bb63aed6eaafeb2b0f43d2ab",
-  "taskReportMarkdownDigest": "sha256:393822bcc1dbecb03ac110921878ff52957e8421e028cfd418f88e1cab42f9f6",
+  "taskReportDigest": "sha256:511337fee1328ec3e328d1e857902aca58367d680ff44b388286a1e234d87766",
+  "taskReportMarkdownDigest": "sha256:5fac5149d465e8daa96896184b8cb7ec9ff867e1a58dfdc6d77d991b2c35a940",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

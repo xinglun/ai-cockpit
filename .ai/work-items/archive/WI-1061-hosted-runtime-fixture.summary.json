@@ -3,8 +3,8 @@
     ".ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json",
     ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json",
     ".ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json",
-    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json",
-    ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+    ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json",
+    ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
   ],
   "checkpointAt": "2026-10-03T23:11:04Z",
   "checkpointContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
@@ -121,8 +121,8 @@
       "verificationPlan": "Add targeted negative fixture mutations within hosted_runtime_verification_test.sh and run that focused regression; do not infer success from report.executed alone."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-04T00:44:03.362216+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T01:10:17Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -241,6 +241,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:4798a071c1569a154e2ab13de8fb8ba9bff24cb0fb4e035af84164abf222ed40",
   "workItemId": "WI-1061-hosted-runtime-fixture"
 }

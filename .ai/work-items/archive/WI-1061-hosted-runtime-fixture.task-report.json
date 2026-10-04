@@ -15,38 +15,38 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1061-hosted-runtime-fixture.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
       }
     ],
     "evidence": [
@@ -76,7 +76,7 @@
           ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -102,7 +102,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
         ],
         "inference": false,
         "text": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope."
@@ -111,7 +111,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1061-hosted-runtime-fixture.contract.json"
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
