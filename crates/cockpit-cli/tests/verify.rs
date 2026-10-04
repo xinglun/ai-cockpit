@@ -828,6 +828,8 @@ fn work_item_plan_includes_each_declared_verification_command() {
         serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
             .expect("contract JSON");
     contract["verification"] = serde_json::json!([
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
         "cargo test --locked --workspace",
         {"check": "bash docs-gate.sh", "required": true}
     ]);
@@ -928,7 +930,25 @@ fn work_item_plan_includes_each_declared_verification_command() {
     );
     let receipt: serde_json::Value =
         serde_json::from_slice(&verification.stdout).expect("verification JSON");
-    assert_eq!(receipt["nodesPlanned"], 2);
+    assert_eq!(receipt["nodesPlanned"], 4);
+    let manifest = &receipt["planReceipt"]["coverageManifest"];
+    assert_eq!(manifest["sourceProgram"], "cargo");
+    assert_eq!(manifest["sourceArgs"][0], "test");
+    assert_eq!(
+        manifest["nodeIds"],
+        serde_json::json!(["project-command-2-package-verify-declared-commands-fixture"])
+    );
+    assert_eq!(
+        manifest["workspaceMembers"],
+        serde_json::json!(["verify-declared-commands-fixture"])
+    );
+    let test_record = receipt["executionRecords"]
+        .as_array()
+        .expect("execution records")
+        .iter()
+        .find(|record| record["nodeId"] == manifest["nodeIds"][0])
+        .expect("test package execution record");
+    assert_eq!(test_record["commandDigest"], manifest["commandDigests"][0]);
     assert!(
         directory
             .join(".ai/evidence/WI-DECLARED-VERIFY.verification.json")

@@ -1,0 +1,51 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:f9de65d8e4124d4908fc652a01a99e2162a0f07bd0ad0229c57b9a5472e7d7cc",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1060-hosted-coverage-consumer",
+    "sequence": 3,
+    "changeId": "wi1060-stage-local-before-formal-verify-20261004",
+    "requestDigest": "sha256:bef026580bb49523801ff66d9f4fc6ca61e12e91524f391d77e64a78f1b0eb2b",
+    "reason": "Raydot technical ruling under the user's delegation: the fifth required scenario combined local pre-verification evidence with formal Runtime verification and hosted exact-head CI. The Runtime requires required scenarios verified before starting formal verification, creating a prerequisite cycle. Split only this scenario's expected result and plan into an actually observable local prerequisite; preserve all six acceptance criteria, declared verification commands, source scope, and the mandatory later formal Runtime and hosted CI proof. The prior zero-process precondition rejection also included stale preflight and is not misrepresented as independent proof of the cycle.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/4/expected",
+        "operation": "replace",
+        "oldValue": "Declared fmt, clippy, workspace tests and focused scripts pass; hosted candidate verify, coverage gate, and exact-head CI pass before merge",
+        "newValue": "Before formal Runtime verification, the final candidate source passes local cargo fmt --all -- --check, cargo clippy --locked --workspace --all-targets --all-features -- -D warnings, cargo test --locked --workspace, workspace_package_coverage_test.sh, and process_observer_test_runner_test.sh; retain real command results. Formal Runtime verification and hosted exact-head CI remain mandatory acceptance gates outside this precondition scenario."
+      },
+      {
+        "path": "/scenarioCoverage/4/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Run formal Runtime verification on final snapshot, inspect receipt and CI artifacts, obtain independent review, and merge only after exact-head success.",
+        "newValue": "After implementation is frozen, execute the five declared commands locally, inspect every exit/result including unrelated failures, and record actual output identities before marking this prerequisite scenario verified. Then refresh preflight and run the separate formal Runtime verification and hosted exact-head PR CI required by unchanged acceptanceCriteria; never infer those gates from local results."
+      },
+      {
+        "path": "/scenarioCoverage/4/description",
+        "operation": "set",
+        "newValue": "This scenario is the local prerequisite phase only; its historical title also mentions the later formal and hosted gates, whose success must be reported separately under acceptanceCriteria."
+      }
+    ],
+    "previousContractDigest": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+    "newContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+    "repositorySnapshotDigest": "sha256:010e824b9642b8c89d2d24228cacaff45e6a5644bb8c47cb17b34ba25154ac31",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/4/description",
+      "/scenarioCoverage/4/expected",
+      "/scenarioCoverage/4/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:6a71e043f8793b96fb8f1d4fa756a89f0e05b8c37c94e6f62ae918b9cf42eeb4",
+    "journalDigest": "sha256:b71b7718712af5e00f23ef55e3e545e4cf53023a4fd502e00979fe88bfaf7689",
+    "recordedAt": "2026-10-03T21:18:19Z"
+  }
+}

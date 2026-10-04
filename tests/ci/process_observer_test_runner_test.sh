@@ -75,7 +75,10 @@ RUSTC="$fake_rustc" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/foreign-receipt.json" \
+  AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/foreign-orchestration.json" \
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-runner-report.json"
@@ -93,7 +96,8 @@ CARGO_HOME="$tmp/cargo-home-other-target" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-other-target-runner-report.json"
@@ -112,7 +116,8 @@ if CARGO_HOME="$tmp/cargo-home" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-configured-runner-report.json"; then
@@ -140,7 +145,8 @@ if CARGO_HOME="$tmp/cargo-home-included" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-included-runner-report.json"; then
@@ -162,7 +168,8 @@ if CARGO_HOME="$tmp/cargo-home-optional-directory" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-optional-directory-report.json"; then

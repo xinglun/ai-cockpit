@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "user-delegated-Raydot-technical-decision-in-this-thread",
+  "decidedAt": "2026-10-03T22:59:48Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.outcome.json",
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.9cd90d2bbfe9232f6967e8c196e8c8e64f635e6fa160536e558f0ba10300112e.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37159109270"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "predecessorEventsDigest": "sha256:b03955b45f5a8ce891b9ca31aa0bff5687fd702d8a17bb3729f4585bed680a3f",
+  "predecessorOutcomeDigest": "sha256:5b983221818fb623addf2f4be897281c4460b3924d122ddcb45918f96b596200",
+  "predecessorSummaryDigest": "sha256:0b6bdc00e14916f84dfe4df69462fc4a9ba9637b65bb79af99b185851c56f376",
+  "predecessorWorkItemId": "WI-1060-hosted-coverage-consumer",
+  "reason": "PR #1012 exact-head CI failed in ci_hosted_runtime_verification_regression because the old hosted Runtime fixture cannot satisfy the stricter WI-1060 receipt consumer; the fixture file is outside the archived predecessor scope, so a bounded successor must own its repair and fresh verification without rewriting predecessor evidence",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "activate the bounded successor, bind real PR #1012 resource identity before verification, repair the fixture, and obtain current candidate hosted and exact-head CI evidence",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1061-hosted-runtime-fixture",
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}

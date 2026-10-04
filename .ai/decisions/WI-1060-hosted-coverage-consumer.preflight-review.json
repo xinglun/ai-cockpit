@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Ray explicitly approved WI-1060 Contract sha256:5606e3aa58bf8fb1b3bb2bb0db9d7a997a6e89bb977abd048338ee1547d6e099 and directed implementation on 2026-10-04 Asia/Tokyo. Formal work_item_start activated that same reviewed plan; comparison found intent, goal, scope, outOfScope, risk, authority, acceptanceCriteria, verification, scenarios, and sources unchanged. Only Runtime-managed state and repositorySnapshotDigest changed, producing this active Contract digest. This records the direct human decision for the unchanged substantive plan and the exact post-activation preflight binding; it does not claim the human separately viewed the post-activation hash.",
+  "recordedAt": "2026-10-03T20:53:53Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "schemaVersion": 1,
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}

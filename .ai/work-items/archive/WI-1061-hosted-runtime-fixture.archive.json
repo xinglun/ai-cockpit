@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-04T01:11:12Z",
+  "files": {
+    "contractDigest": "sha256:6831de8acea2c10c90dddc39a3caf4178111db9a5a63a7079611d24b8f02e07d",
+    "contractPath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json",
+    "eventsDigest": "sha256:644329f1c6dda2910779e4d6506c65a2369f0ec07545e8fa4bb71b45ac533ca7",
+    "eventsPath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.events.jsonl",
+    "outcomeDigest": "sha256:d2b442a47f1ccc2296e10d47a7694920ea1a2bbed32df91ac02f1ef88a699f2e",
+    "outcomePath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.outcome.json",
+    "summaryDigest": "sha256:32c12ae5125bd34be79003ad2be87339637320c948415397fb6d6518fccfe8cb",
+    "summaryPath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json",
+    "taskReportDigest": "sha256:511337fee1328ec3e328d1e857902aca58367d680ff44b388286a1e234d87766",
+    "taskReportMarkdownDigest": "sha256:5fac5149d465e8daa96896184b8cb7ec9ff867e1a58dfdc6d77d991b2c35a940",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

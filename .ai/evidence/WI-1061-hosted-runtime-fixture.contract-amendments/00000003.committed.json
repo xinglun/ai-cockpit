@@ -1,0 +1,165 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:950ddd423deeae5a154481ee86ab5c2bd2aadee11b00d34ea0f64ab6cac0ffb0",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1061-hosted-runtime-fixture",
+    "sequence": 3,
+    "changeId": "wi1061-pr1012-lineage-delivery-scope-20261004",
+    "requestDigest": "sha256:78dd25ef7788aac1678212e1dba284dd8c96c237fe8a7164cfb422a29868d349",
+    "reason": "PR #1012 exact-head run 37164323685 passed candidate hosted verification but its Rust Contract gate rejected scope_exceeded because this cumulative PR includes five unchanged WI-1060 predecessor paths alongside the two WI-1061 fixture repairs. WI-1060 archived Contract and recovery decision bind this successor. Commit 120ea0f5254fb7447051389e19c1d6c055946169 introduced the five inherited paths; their exact git diff --binary from that commit to f6875dd07246c878ed3e54d502f49f294dd80975 is empty (SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855). Account transparently for all seven paths in this PR's delivery scope while new implementation remains limited to the two fixtures; preserve the failed run and all original acceptance gates.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh"
+        ],
+        "newValue": [
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh",
+          "tests/ci/run_workspace_package_tests.sh"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "WI-1060 archived Contract .ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json and formal recovery decision .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json bind the five inherited paths and successor WI-1061; preserve their historical evidence."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1060 archived Contract .ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json and formal recovery decision .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json bind the five inherited paths and successor WI-1061; preserve their historical evidence."
+        ],
+        "newValue": [
+          "WI-1060 archived Contract .ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json and formal recovery decision .ai/decisions/WI-1060-hosted-coverage-consumer.recovery.json bind the five inherited paths and successor WI-1061; preserve their historical evidence.",
+          "Git commit 120ea0f5254fb7447051389e19c1d6c055946169 introduced the five inherited paths on base c026e59cd70a6d2117193fba2aebae07d30c1e74; exact git diff --binary 120ea0f5254fb7447051389e19c1d6c055946169..f6875dd07246c878ed3e54d502f49f294dd80975 over those five paths is empty, SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855."
+        ]
+      },
+      {
+        "path": "/goal",
+        "operation": "replace",
+        "oldValue": "Make the existing PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head",
+        "newValue": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope."
+      },
+      {
+        "path": "/outOfScope/0",
+        "operation": "replace",
+        "oldValue": "Production parser or protocol changes; rewriting WI-1060 archive or failure evidence; release publication",
+        "newValue": "New implementation edits to the five inherited WI-1060 paths or arbitrary future production parser/protocol changes; weakening the production consumer or Contract gate; rewriting WI-1060 archive or failed CI evidence; release publication. The five paths are included only as unchanged predecessor delivery responsibility for this exact cumulative PR."
+      },
+      {
+        "path": "/acceptanceCriteria/1",
+        "operation": "replace",
+        "oldValue": "Update only the two scoped CI fixture scripts: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation.",
+        "newValue": "Update only the two CI fixture scripts in this WI: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation. The five other PR paths remain byte-identical to WI-1060 commit 120ea0f5254fb7447051389e19c1d6c055946169."
+      },
+      {
+        "path": "/acceptanceCriteria/3",
+        "operation": "replace",
+        "oldValue": "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge.",
+        "newValue": "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification, Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge. Confirm the seven-path PR delivery scope, the unchanged five-path WI-1060 inheritance from commit 120ea0f5254fb7447051389e19c1d6c055946169, and preservation of predecessor and failed-run evidence without reducing any existing acceptance requirement."
+      }
+    ],
+    "previousContractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+    "newContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/1",
+      "/acceptanceCriteria/3",
+      "/outOfScope/0",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:465d34433f87bd10d77e3e19fb7b571d66839fc0ef1993a23df73d0b22f54ffc",
+    "journalDigest": "sha256:71101beb97e9927e30335e663f6f4d550132ce1442da6db8efe56c1dbcce5ed7",
+    "recordedAt": "2026-10-04T00:32:27Z"
+  }
+}
