@@ -1,0 +1,201 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-1063-pr1012-integration.summary.json"
+  ],
+  "checkpointAt": "2026-10-04T05:41:37Z",
+  "checkpointContractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "recorded": true,
+      "recordedAt": "2026-10-04T05:41:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1063-pr1012-integration"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "previousContractHash": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+      "reason": "PR #1012 exact-head CI run 37182181961 admitted the active WI-1063 candidate but failed only project-command-3: the process-observer fixture inherited a Cargo target runner from the source checkout while its package subprocesses ran in an isolated checkout. The production runner_setup guard correctly refused the foreign path. The current guideline to keep the main 522c fixture exactly is incompatible with the narrow in-scope fixture fix. Preserve the main five-call local receipt isolation and three negative runner_setup cases; allow only fixture-local rebinding of those five subprocesses to the current checkout runner, with an injected foreign runner RED-to-GREEN regression. No production check, predecessor archive, verification requirement, provider identity, or PR merge boundary changes.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T06:36:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1063-pr1012-integration"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:1479847906b9b1124470e86239c9348b0e5b3fe81c8e4c5b967e3cd6e98e32ed",
+  "createdAt": "2026-10-04T05:04:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray replied 确认 in this core conversation after the single 1 agree / 2 disagree request for exact WI-1063 Contract 9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33. This confirms the fixture-only hosted runner isolation amendment for implementation and verification, preserving production checks and prior failures. It does not authorize PR #1012 merge or provider cleanup.",
+    "recordedAt": "2026-10-04T06:48:21Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+    "schemaVersion": 1,
+    "workItemId": "WI-1063-pr1012-integration"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-1063-pr1012-integration.preflight-review.json",
+      ".ai/evidence/WI-1063-pr1012-integration.contract-amendments/00000002.committed.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+  "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
+  "preflightAt": "2026-10-04T09:23:38Z",
+  "preflightContractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1479847906b9b1124470e86239c9348b0e5b3fe81c8e4c5b967e3cd6e98e32ed",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Git PR #1012 source 302eeae3 vs integration base 522c4c8: nine scoped non-.ai paths including all six hosted-coverage delivery paths; git diff c6137239..302eeae3 for those six paths and archived WI-1060/WI-1061 Contract/archive files is empty (read-only comparison on 2026-10-04).",
+        "tests/ci/process_observer_test_runner_test.sh at 302eeae3 retains five fixture-local receipt sanitizations and adds current-checkout runner binding with two positive package markers and three runner_setup negatives asserting no package marker; PR #1012 run 37186985421 attempt 2 hosted formal node project-command-3 exitCode 0."
+      ],
+      "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+      "required": true,
+      "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+      "status": "verified",
+      "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+    },
+    {
+      "evidence": [
+        "GitHub PR #1012 head 302eeae3, Actions run 37186985421 attempt 2 completed success; route artifact 11297900564 selects active WI-1063 and source 302eeae3 (tested merge 8d47099).",
+        "Attempt-2 hosted artifact 11299600094: WI-1063 canonical Contract sha256:9eb0d50a, source snapshot sha256:14798479, Runtime sha256:15964a22, formal 18/18 executed, 0 reused, 0 failed, 13 workspace members; prior attempt-1 failure remains preserved.",
+        "Attempt-2 Rust gate artifact 11299620016 passed/green with nine exact changed paths; repository artifact 11299360864 passed (40 passed, 2 not_applicable); coverage artifact 11299126171 passed 13/13, omitted 0, all 13 executedByHostedRuntime and none by coverage runner."
+      ],
+      "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+      "required": true,
+      "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+      "status": "verified",
+      "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+    },
+    {
+      "evidence": [
+        "PR #1012 source 302eeae3 tests/ci/process_observer_test_runner_test.sh exports foreign AI_COCKPIT_VERIFICATION_RECEIPT and AI_COCKPIT_VERIFICATION_ORCHESTRATION, sanitizes only five fixture calls, binds the current checkout runner, and asserts two positive markers plus three runner_setup failure reports with absent PACKAGE_LOG marker.",
+        "Actions run 37186985421 attempt 2 hosted formal node project-command-3 (bash tests/ci/process_observer_test_runner_test.sh) execution record exitCode 0/timedOut false; repository gates artifact 11299360864 passed."
+      ],
+      "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+      "required": true,
+      "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
+      "status": "verified",
+      "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+    },
+    {
+      "evidence": [
+        "PR #1012 source 302eeae3 tests/ci/resolve_work_item_test.sh exercises active successor, sole archived and ordinary routes; missing/foreign/wrong-digest/wrong-edge/competing/cyclic lineage failures require failed selection and absent fake-Cargo package marker (lines 325-431).",
+        "Actions run 37186985421 attempt 2 hosted formal node project-command-5 (bash tests/ci/resolve_work_item_test.sh) exitCode 0/timedOut false; route artifact 11297900564 selects active WI-1063 by pull_request_binding on exact source 302eeae3 and PR #1012. Archived-terminal exact-head CI remains unverified and is required after archive before merge."
+      ],
+      "expected": "The active WI-1063 successor over archived WI-1061 is selected only with exact repository, archive, canonical Contract digest, recovery decision, and PR binding; ordinary and sole archived routes remain unchanged, while missing/foreign/mismatched/competing/cyclic/undecidable lineage is rejected before any package subprocess.",
+      "required": true,
+      "scenario": "Exact PR predecessor and successor route selection is deterministic only for validated lineage",
+      "status": "verified",
+      "verificationPlan": "Run bash tests/ci/resolve_work_item_test.sh on the current source with fixture-backed active successor positive, ordinary and sole archived controls, and missing decision, foreign repository, wrong canonical predecessor digest, wrong decision edge, competing successor, cycle and undecidable negative cases; assert failed selection and package-spy marker absent. Then inspect the active exact-head PR #1012 route artifact and hosted execution separately before finish. Preserve archived-terminal exact-head CI as the post-archive acceptance criterion, not as pre-finish scenario evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T09:24:31Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1063-pr1012-integration"
+}

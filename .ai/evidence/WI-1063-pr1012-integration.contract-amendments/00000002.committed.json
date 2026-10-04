@@ -1,0 +1,238 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:779a73656d90b69cd6c6911a998a67b073c055aff6884036aa22e45489226553",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1063-pr1012-integration",
+    "sequence": 2,
+    "changeId": "wi1063-validated-pr-successor-selector-20261004",
+    "requestDigest": "sha256:aa80e175246db7b9d4d9bcd8af66a40347e159ef379fbba7b2aaa5e3241f2252",
+    "reason": "The existing PR #1012 has an archived WI-1061 predecessor and active WI-1063 successor bound to the same exact branch and URL. Current selector rejects both, so the declared active and later archived exact-head CI acceptance is unreachable. Keep the same WI, PR and resource identity; add only the selector and its registered regression test to scope. Use repository-local Runtime-generated archive/recovery lineage as a fail-closed consistency proof, not as external source authentication. No product code is changed by this amendment and no PR merge is authorized.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/run_workspace_package_tests.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh"
+        ],
+        "newValue": [
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/run_workspace_package_tests.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh",
+          "tests/ci/resolve_work_item.sh"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/run_workspace_package_tests.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh",
+          "tests/ci/resolve_work_item.sh"
+        ],
+        "newValue": [
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/verify.rs",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/run_workspace_package_tests.sh",
+          "tests/ci/workspace_package_coverage_test.sh",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md",
+          "tests/ci/process_observer_test_runner_test.sh",
+          "tests/ci/resolve_work_item.sh",
+          "tests/ci/resolve_work_item_test.sh"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --locked --workspace",
+          "bash tests/ci/hosted_runtime_verification_test.sh",
+          "bash tests/ci/workspace_package_coverage_test.sh",
+          "bash tests/ci/process_observer_test_runner_test.sh",
+          "bash tests/ci/workflow_convergence_test.sh"
+        ],
+        "newValue": [
+          "cargo test --locked --workspace",
+          "bash tests/ci/hosted_runtime_verification_test.sh",
+          "bash tests/ci/workspace_package_coverage_test.sh",
+          "bash tests/ci/process_observer_test_runner_test.sh",
+          "bash tests/ci/workflow_convergence_test.sh",
+          "bash tests/ci/resolve_work_item_test.sh"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
+          "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh.",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md and WI-1060/WI-1061 archived Contracts describe the six inherited delivery paths and the hosted package coverage consumer acceptance."
+        ],
+        "newValue": [
+          ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json and .ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json bind the immutable predecessor and the selected WI-1063 successor.",
+          "PR #1012 https://github.com/xinglun/ai-cockpit/pull/1012 is OPEN at frozen head c6137239ef512a879eb65ccdf0a68cb633f79e25; its exact branch history is recoverably backed up in /tmp/wi1061-pr1012-c6137239-20261004.bundle.",
+          "Main merge 522c4c8ad86341670c440299db5befb99b80393b and CI run https://github.com/xinglun/ai-cockpit/actions/runs/37177568825 establish the integration target; the only merge-tree conflict is tests/ci/process_observer_test_runner_test.sh.",
+          "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md and WI-1060/WI-1061 archived Contracts describe the six inherited delivery paths and the hosted package coverage consumer acceptance.",
+          "tests/ci/resolve_work_item.sh and tests/ci/resolve_work_item_test.sh on main 522c collect exact PR-bound active/archived Contracts and reject collisions; .github/workflows/ci.yml already consumes pull_request_binding and archived_contract_read_only, and the test is already registered as ci_work_item_resolution_regression. Repository-local Contract, archive manifest, and Runtime-generated recovery decision provide consistency evidence, not a credential against a malicious rewrite of the whole checkout."
+        ]
+      },
+      {
+        "path": "/guidelines",
+        "operation": "add",
+        "oldValue": [
+          "Serial order: preserve recovery and archives; bind actual PR identity; review final Contract and satisfy Runtime policy; merge current main in the existing PR worktree only after checkpoint/admission; keep main 522c observer fixture exactly and preserve the six other PR delivery files; run focused regressions; freeze and verify a current active exact-head PR candidate; finish/archive only after active evidence; then verify a distinct archived exact-head PR lane; request separate human PR merge authorization."
+        ],
+        "newValue": [
+          "Serial order: preserve recovery and archives; bind actual PR identity; review final Contract and satisfy Runtime policy; merge current main in the existing PR worktree only after checkpoint/admission; keep main 522c observer fixture exactly and preserve the six other PR delivery files; run focused regressions; freeze and verify a current active exact-head PR candidate; finish/archive only after active evidence; then verify a distinct archived exact-head PR lane; request separate human PR merge authorization.",
+          "Selector rule within the existing two files: collect all exact branch+PR URL candidates; preserve zero/one-candidate behavior and reject unrelated collisions. For exactly two candidates, require distinct safe WI IDs, one validated archived predecessor archive-manifest/raw-file anchor, one successor (active before finish or separately anchored archived after finish), exact repository ID on both Contracts and recovery decision, successor predecessorWorkItemId and canonical predecessorContractDigest matching the immutable archived Contract, a safe regular non-symlink recoveryDecisionPath under .ai/decisions with decision=successor and exact predecessor/successor IDs, repository ID and predecessor digest, and the same real PR resource binding on both. Choose the unique successor only after all checks; retain pull_request_binding for active and archived_contract_read_only for archived. Reject missing or mismatched fields/digests, foreign repository, malformed path, duplicate/competing successor, cycle, more-than-two or otherwise undecidable graph before package subprocesses. Never rank by WI name, timestamp or latest. This validates local lineage consistency under the existing trusted checkout/Runtime boundary; self-filled JSON hashes are not source authentication."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact and the overlapping process observer fixture resolves to the main 522c behavior with five locally sanitized calls and three runner_setup negatives.",
+          "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
+          "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
+          "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
+          "After archive and before any PR 1012 merge prove the exact archived PR head selects the read-only Contract gate with no candidate producer and passes repository gates plus fresh 13-package coverage without stale hosted receipt variables; retain the active evidence separately.",
+          "Do not merge PR 1012 or clean its provider branch without separate explicit human authorization after independent review of final seven-path diff and exact-head CI."
+        ],
+        "newValue": [
+          "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact and the overlapping process observer fixture resolves to the main 522c behavior with five locally sanitized calls and three runner_setup negatives.",
+          "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
+          "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
+          "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
+          "After archive and before any PR 1012 merge prove the exact archived PR head selects the read-only Contract gate with no candidate producer and passes repository gates plus fresh 13-package coverage without stale hosted receipt variables; retain the active evidence separately.",
+          "Do not merge PR 1012 or clean its provider branch without separate explicit human authorization after independent review of final seven-path diff and exact-head CI.",
+          "Before finish, exact PR #1012 active WI-1063 plus archived WI-1061 must select only the validated successor and execute the real active hosted candidate route. Focused selector regressions must prove ordinary PR and sole archived routes unchanged, active successor accepted, and missing/foreign repository, predecessor Contract digest, recovery decision/edge, competing successor, cycle and undecidable collisions rejected before package processes; no name/time/latest tie-break or self-declared digest-only trust."
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact and the overlapping process observer fixture resolves to the main 522c behavior with five locally sanitized calls and three runner_setup negatives.",
+          "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
+          "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
+          "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
+          "After archive and before any PR 1012 merge prove the exact archived PR head selects the read-only Contract gate with no candidate producer and passes repository gates plus fresh 13-package coverage without stale hosted receipt variables; retain the active evidence separately.",
+          "Do not merge PR 1012 or clean its provider branch without separate explicit human authorization after independent review of final seven-path diff and exact-head CI.",
+          "Before finish, exact PR #1012 active WI-1063 plus archived WI-1061 must select only the validated successor and execute the real active hosted candidate route. Focused selector regressions must prove ordinary PR and sole archived routes unchanged, active successor accepted, and missing/foreign repository, predecessor Contract digest, recovery decision/edge, competing successor, cycle and undecidable collisions rejected before package processes; no name/time/latest tie-break or self-declared digest-only trust."
+        ],
+        "newValue": [
+          "Preserve the exact WI-1061 predecessor lineage and all seven non-governance PR 1012 delivery paths on current main; the five inherited WI-1060 product paths and current WI-1061 fixture remain intact and the overlapping process observer fixture resolves to the main 522c behavior with five locally sanitized calls and three runner_setup negatives.",
+          "Bind the real PR 1012 URL branch worktree provider and current source identity before final Runtime verification; preserve WI-1060 and WI-1061 archive bytes and all earlier failed and successful receipts.",
+          "Run focused regressions and full unfiltered cargo test --locked --workspace through admitted Runtime verification; the formal receipt and package coverage must prove all 13 workspace packages with no omissions and no unbounded duplicate verification.",
+          "Before finish prove the active PR candidate route on an exact head with real hosted Runtime verification Rust Contract quality gate repository gates and formal workspace receipt consumer passing; do not treat ordinary route or earlier head as equivalent.",
+          "After archive and before any PR 1012 merge prove the exact archived PR head selects the read-only Contract gate with no candidate producer and passes repository gates plus fresh 13-package coverage without stale hosted receipt variables; retain the active evidence separately.",
+          "Do not merge PR 1012 or clean its provider branch without separate explicit human authorization after independent review of final seven-path diff and exact-head CI.",
+          "Before finish, exact PR #1012 active WI-1063 plus archived WI-1061 must select only the validated successor and execute the real active hosted candidate route. Focused selector regressions must prove ordinary PR and sole archived routes unchanged, active successor accepted, and missing/foreign repository, predecessor Contract digest, recovery decision/edge, competing successor, cycle and undecidable collisions rejected before package processes; no name/time/latest tie-break or self-declared digest-only trust.",
+          "After WI-1063 archive and before PR #1012 merge, the same exact PR identity with two archived Contracts must select the uniquely validated terminal successor and run the read-only Contract gate plus fresh repository/13-package coverage without a candidate producer or stale hosted receipt; malformed or competing lineage still fails closed. This is a distinct exact-head CI requirement and does not grant merge authority."
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+            "required": true,
+            "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+            "status": "unverified",
+            "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+          },
+          {
+            "evidence": [],
+            "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+            "required": true,
+            "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
+            "status": "unverified",
+            "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The final PR diff retains all six hosted coverage delivery files and uses the exact main 522c process-observer fixture behavior with five locally isolated calls and two positive plus three runner_setup negative assertions; predecessor archive bytes remain unchanged.",
+            "required": true,
+            "scenario": "Seven-path PR delivery survives current-main integration with main observer fixture",
+            "status": "unverified",
+            "verificationPlan": "After admitted integration compare the seven-path diff with both frozen c613 and main 522c, verify archived hashes against the frozen bundle, and execute tests/ci/process_observer_test_runner_test.sh with explicit negative assertions."
+          },
+          {
+            "evidence": [],
+            "expected": "The real PR #1012 active successor route runs candidate Runtime verification and a green Rust Contract gate; repository gates and formal workspace coverage consumer pass for all 13 packages with no omission.",
+            "required": true,
+            "scenario": "Active exact-head hosted Runtime and complete package receipt consumer",
+            "status": "unverified",
+            "verificationPlan": "Run the declared full Runtime verification and focused regressions, then inspect actual GitHub exact-head active PR route, candidate receipt, quality gate, repository gates, 13-package coverage and source/Contract identity before finish."
+          },
+          {
+            "evidence": [],
+            "expected": "The fixture sanitizes only its five fake package subprocesses while production receipt and Cargo runner checks remain strict; a conflicting runner still fails runner_setup before any package-test process.",
+            "required": true,
+            "scenario": "Foreign hosted receipt variables cannot bypass process-observer runner safety",
+            "status": "unverified",
+            "verificationPlan": "Execute tests/ci/process_observer_test_runner_test.sh with the existing foreign receipt and orchestration inputs; inspect its two successes and three runner_setup negatives plus zero package subprocess marker."
+          },
+          {
+            "evidence": [],
+            "expected": "The active WI-1063 successor over archived WI-1061 is selected only with exact repository, archive, canonical Contract digest, recovery decision, and PR binding; ordinary and sole archived routes remain unchanged, while missing/foreign/mismatched/competing/cyclic/undecidable lineage is rejected before any package subprocess.",
+            "required": true,
+            "scenario": "Exact PR predecessor and successor route selection is deterministic only for validated lineage",
+            "status": "unverified",
+            "verificationPlan": "Run bash tests/ci/resolve_work_item_test.sh on the current source with fixture-backed active successor positive, ordinary and sole archived controls, and missing decision, foreign repository, wrong canonical predecessor digest, wrong decision edge, competing successor, cycle and undecidable negative cases; assert failed selection and package-spy marker absent. Then inspect the active exact-head PR #1012 route artifact and hosted execution separately before finish. Preserve archived-terminal exact-head CI as the post-archive acceptance criterion, not as pre-finish scenario evidence."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:678c43cfda6f59088b6bb06d05d877b8f69d95c82084517e3c8e7ed8a9bcf372",
+    "newContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage",
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:41c9343425c94b50c2b581cb3a509beed34cecfd74ce6ec382d5c750c378d77b",
+    "journalDigest": "sha256:a3087eb5f4287be2284d53e5c11803048bb4be129e1496264f5beb72c9773aa6",
+    "recordedAt": "2026-10-04T05:28:00Z"
+  }
+}

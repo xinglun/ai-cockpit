@@ -64,6 +64,7 @@ printf '%s\n' \
   '#!/usr/bin/env bash' \
   'set -euo pipefail' \
   '[[ "${1-}" == test ]] || exit 2' \
+  'printf "%s\n" "$*" >> "$PACKAGE_LOG"' \
   '[[ "${CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER-}" == "$EXPECTED_RUNNER" ]] || { printf "observer runner was not propagated\\n" >&2; exit 3; }' \
   'target_seen=false' \
   'while (($#)); do if [[ "$1" == --target && "${2-}" == x86_64-unknown-linux-gnu ]]; then target_seen=true; break; fi; shift; done' \
@@ -76,9 +77,14 @@ printf '%s\n' '{"packages":[{"name":"fixture-package","source":null}]}' >"$tmp/w
 # consumed by the fixture's package-runner subprocesses.
 export AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/foreign-hosted-receipt.json"
 export AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/foreign-hosted-orchestration.json"
+export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER="$ordinary"
+export PACKAGE_LOG="$tmp/package-tests.log"
 run_fixture_workspace_package_tests() {
+  # Hosted verification can inherit a runner from its source checkout; this
+  # fixture's package subprocesses must use the isolated checkout's runner.
   env -u AI_COCKPIT_VERIFICATION_RECEIPT \
     -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER="$runner" \
     "$root/tests/ci/run_workspace_package_tests.sh" "$@"
 }
 RUSTC="$fake_rustc" \
@@ -91,8 +97,10 @@ RUSTC="$fake_rustc" \
     --report "$tmp/workspace-runner-report.json"
 jq -e '.state == "passed" and .executed == ["fixture-package"]' \
   "$tmp/workspace-runner-report.json" >/dev/null
+test -s "$PACKAGE_LOG"
 
 # A Cargo runner for another platform must not block the host package gate.
+rm -f "$PACKAGE_LOG"
 mkdir -p "$tmp/cargo-home-other-target"
 printf '%s\n' \
   "[target.'cfg(windows)']" \
@@ -109,6 +117,7 @@ CARGO_HOME="$tmp/cargo-home-other-target" \
     --report "$tmp/workspace-other-target-runner-report.json"
 jq -e '.state == "passed" and .executed == ["fixture-package"]' \
   "$tmp/workspace-other-target-runner-report.json" >/dev/null
+test -s "$PACKAGE_LOG"
 
 # A target runner supplied by Cargo TOML must not be silently shadowed by the
 # process-observer runner injected by the package gate.
@@ -117,6 +126,7 @@ printf '%s\n' \
   "[target.'cfg(unix)']" \
   "runner = \"$tmp/bin/custom-cargo-runner\"" \
   >"$tmp/cargo-home/config.toml"
+rm -f "$PACKAGE_LOG"
 if CARGO_HOME="$tmp/cargo-home" \
   RUSTC="$fake_rustc" \
   EXPECTED_RUNNER="$runner" \
@@ -131,6 +141,7 @@ if CARGO_HOME="$tmp/cargo-home" \
 fi
 jq -e '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("configured Cargo target runner"))' \
   "$tmp/workspace-configured-runner-report.json" >/dev/null
+test ! -e "$PACKAGE_LOG"
 
 # A conflicting runner in a recursively included Cargo config must not be
 # hidden when the package gate injects the process-observer runner.
@@ -145,6 +156,7 @@ printf '%s\n' \
   "[target.'cfg(unix)']" \
   "runner = \"$tmp/bin/custom-cargo-runner\"" \
   >"$tmp/cargo-home-included/runner.toml"
+rm -f "$PACKAGE_LOG"
 if CARGO_HOME="$tmp/cargo-home-included" \
   RUSTC="$fake_rustc" \
   EXPECTED_RUNNER="$runner" \
@@ -160,6 +172,7 @@ fi
 jq -e \
   '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("configured Cargo target runner") and contains("runner.toml"))' \
   "$tmp/workspace-included-runner-report.json" >/dev/null
+test ! -e "$PACKAGE_LOG"
 
 # An optional include may be absent, but an existing directory is not a
 # configuration file and must fail closed instead of being treated as absent.
@@ -167,6 +180,7 @@ mkdir -p "$tmp/cargo-home-optional-directory/not-a-config.toml"
 printf '%s\n' \
   'include = [{ path = "not-a-config.toml", optional = true }]' \
   >"$tmp/cargo-home-optional-directory/config.toml"
+rm -f "$PACKAGE_LOG"
 if CARGO_HOME="$tmp/cargo-home-optional-directory" \
   RUSTC="$fake_rustc" \
   EXPECTED_RUNNER="$runner" \
@@ -182,6 +196,7 @@ fi
 jq -e \
   '.state == "failed" and .failurePhase == "runner_setup" and (.failureDiagnosticTail | contains("included Cargo configuration is missing or not a regular file"))' \
   "$tmp/workspace-optional-directory-report.json" >/dev/null
+test ! -e "$PACKAGE_LOG"
 
 # Process-observer targets scan process state outside their own test binary.
 # They must wait for package tests holding shared locks, even when Cargo runs
