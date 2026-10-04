@@ -54,6 +54,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1066-supersede-admission",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1018",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "high",
