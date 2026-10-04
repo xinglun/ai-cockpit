@@ -76,9 +76,13 @@ printf '%s\n' '{"packages":[{"name":"fixture-package","source":null}]}' >"$tmp/w
 # consumed by the fixture's package-runner subprocesses.
 export AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/foreign-hosted-receipt.json"
 export AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/foreign-hosted-orchestration.json"
+export CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER="$ordinary"
 run_fixture_workspace_package_tests() {
+  # Hosted verification can inherit a runner from its source checkout; this
+  # fixture's package subprocesses must use the isolated checkout's runner.
   env -u AI_COCKPIT_VERIFICATION_RECEIPT \
     -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER="$runner" \
     "$root/tests/ci/run_workspace_package_tests.sh" "$@"
 }
 RUSTC="$fake_rustc" \
