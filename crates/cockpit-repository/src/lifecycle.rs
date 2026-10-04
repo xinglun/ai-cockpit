@@ -3367,9 +3367,7 @@ fn recovery_path_successor_receipt(
     let Ok(file_name) = path.strip_prefix(expected_directory) else {
         return None;
     };
-    let Some(name) = file_name.to_str() else {
-        return None;
-    };
+    let name = file_name.to_str()?;
     let canonical_name = format!("{predecessor_id}.recovery.json");
     let versioned_prefix = format!("{predecessor_id}.recovery.");
     if name != canonical_name && (!name.starts_with(&versioned_prefix) || !name.ends_with(".json"))

@@ -21,11 +21,18 @@
     "schemaVersion": 1,
     "workItemId": "WI-1066-supersede-archive-admission"
   },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1066-supersede-archive-admission.contract.json",
+      "crates/cockpit-repository/tests/recovery_decision.rs"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T18:36:35Z",
+  "preflightAt": "2026-10-04T19:53:17Z",
   "preflightContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "preflightRepositorySnapshotDigest": "sha256:86478d70efed85e3c5be382fc44f5ded21924026b501da7221f23b0f2c82f970",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -56,6 +63,6 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T19:17:40Z",
+  "updatedAt": "2026-10-04T19:53:52.945497+00:00",
   "workItemId": "WI-1066-supersede-archive-admission"
 }
