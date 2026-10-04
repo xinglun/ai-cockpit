@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1479847906b9b1124470e86239c9348b0e5b3fe81c8e4c5b967e3cd6e98e32ed",
+      "workItemId": "WI-1063-pr1012-integration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1063-pr1012-integration.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "Sentinel_cedc5a28cb44819182351e1cc714d631",
+            "Sentinel_163c81f8ab0881919b3c03921e89a998"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:Ray via Ray direct reply Sentinel_163c81f8ab0881919b3c03921e89a998 to WI-1063-only close request Sentinel_cedc5a28cb44819182351e1cc714d631 at 2026-10-04T10:03:03Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1063-pr1012-integration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "Resolve the sole PR 1012 integration conflict under WI-1061 lineage while preserving the six other delivery files and prove current active and archived CI behavior"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1063-pr1012-integration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1063-pr1012-integration"
+  },
+  "finalReportDigest": "sha256:4f72dc33306769bcda81386de7329b7f11a9dd56d089a00d6298f52b9f6df397",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:4c0b1e8bf7453cc8e8ea3f4fccf4e859baef95c7287d7c52e8e3ff0a9c0225d5",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1063-pr1012-integration.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "Ray direct reply Sentinel_163c81f8ab0881919b3c03921e89a998 to WI-1063-only close request Sentinel_cedc5a28cb44819182351e1cc714d631",
+    "decidedAt": "2026-10-04T10:03:03Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "Sentinel_cedc5a28cb44819182351e1cc714d631",
+      "Sentinel_163c81f8ab0881919b3c03921e89a998"
+    ],
+    "policyRefs": [],
+    "reason": "Ray replied 1 to the explicit WI-1063-only close question after PR #1012 merge; exact-main CI run 37193726054 passed, recoverable worktree and branch cleanup was completed, and Runtime finalize-verify reported deleted/verified. This does not close WI-1060 or WI-1061 or authorize other PRs.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-10-04T10:14:37Z",
+  "workItemId": "WI-1063-pr1012-integration"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Ray PR 1012 merge approval in core chat and Task9 recoverable cleanup authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "name": "codex/wi-1060-hosted-coverage-consumer",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "522c4c8ad86341670c440299db5befb99b80393b",
+  "contractDigest": "sha256:e8e5bb47762e3d8cc229564ba62197ce12b693cb2c5e91e514f78829f9b08f76",
+  "operationId": "github-pr-1012-merge-cleanup-20261004",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5756f45c7e116280a04da89734393f0549064e8c",
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "mergeCommit": "bff288e8b18fbcd2b7219daa4a09b3b2c8f31ee2",
+    "number": 1012,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1012"
+  },
+  "reason": "PR #1012 merged as bff288e8b18fbcd2b7219daa4a09b3b2c8f31ee2 after exact-head CI and independent review; exact main CI run 37193726054 passed all four jobs. The clean dedicated worktree was archived recoverably through Codex, ignored progress notes were separately backed up and diff-verified at /Users/sei-rinn/.codex/wi1063-ignored.aUIpPC, and the exact remote and local feature branch refs were removed. The dirty primary checkout and other Work Items were untouched.",
+  "receiptId": "github-pr-1012-finalization-20261004",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1060-hosted-coverage-consumer",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1012",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-04T10:11:41Z",
+  "workItemId": "WI-1063-pr1012-integration",
+  "worktree": {
+    "branch": "codex/wi-1060-hosted-coverage-consumer",
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "path": "/Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit",
+    "worktreeId": "WI-1063-pr1012-integration"
+  }
+}
