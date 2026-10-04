@@ -54,6 +54,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1062-archived-ci-stage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1013",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1062-archived-ci-stage/ai-cockpit"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "high",
@@ -112,6 +120,7 @@
   "title": null,
   "unknowns": [],
   "verification": [
+    "cargo test --locked --workspace",
     "bash tests/ci/workflow_convergence_test.sh",
     "python3 tests/ci/quality_route_test.py",
     "bash tests/ci/resolve_work_item_test.sh",

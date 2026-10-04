@@ -1,33 +1,63 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000001.committed.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000001.prepared.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000002.prepared.json",
+    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.60dfaa7eb5a6b9193b4ad2f96554f54442111a84b56fa939ba7bcf5f89b2d0bf.json",
+    ".ai/decisions/WI-1062-archived-pr-ci-stage.recovery.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000003.prepared.json",
     ".ai/work-items/active/WI-1062-archived-pr-ci-stage.contract.json",
-    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.summary.json",
-    ".github/workflows/ci.yml",
-    "docs/reference/ci-release-evidence.md",
-    "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
-    "tests/ci/quality_route_test.py",
-    "tests/ci/workflow_convergence_test.sh"
+    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.summary.json"
   ],
   "checkpointAt": "2026-10-04T01:49:43Z",
-  "checkpointContractDigest": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+  "checkpointContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+      "recorded": true,
+      "recordedAt": "2026-10-04T01:49:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+      "previousContractHash": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+      "reason": "Bind the exact PR #1013 resource before replacement verification and make the existing hosted package consumer verifiable: the complete unfiltered Cargo workspace test must be verification command zero. Preserve all four focused checks, scope, four scenarios, and the first 4/4 receipt as historical evidence.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T02:11:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1062-archived-pr-ci-stage"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
   "createdAt": "2026-10-04T01:27:27Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+    "contractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Ray directly confirmed the reviewed WI-1062 Contract digest 78614d82 for implementation; this does not authorize merging either PR.",
-    "recordedAt": "2026-10-04T01:48:49Z",
+    "reason": "Ray answered yes to the exact WI-1062 seq3 Contract digest c5530d56 after independent technical review, approving the full workspace verification list while retaining four focused checks. This does not assert new preflight or verification success and does not authorize merge or release.",
+    "recordedAt": "2026-10-04T02:26:19Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
     "schemaVersion": 1,
     "workItemId": "WI-1062-archived-pr-ci-stage"
   },
@@ -38,12 +68,23 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T02:01:43Z",
-  "preflightContractDigest": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+  "preflightAt": "2026-10-04T02:36:09Z",
+  "preflightContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-04T02:36:09Z",
+    "contractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+    "decisionDigest": "sha256:15487fc20811aad5fc888f0e0c32cf08067d9cf38e11d50d7b7330489da875b0",
+    "decisionPath": ".ai/decisions/WI-1062-archived-pr-ci-stage.recovery.json",
+    "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:b26a9f11cfe1dcc3d312d7931705fcf1cdfe1aa8b3841f84a59dff268a6efb71"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -80,10 +121,62 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T02:00:52.599280+00:00",
+  "updatedAt": "2026-10-04T02:26:19.717094+00:00",
   "verification": [
     {
       "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
     },
     {
@@ -97,8 +190,12 @@
     {
       "check": "project-command-3",
       "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:09e9e1001c1e73d01f28c855223f2957d9eae0e5aafed0f984f3f53802e1eb98",
+  "verificationRecoveryReconciled": "sha256:b26a9f11cfe1dcc3d312d7931705fcf1cdfe1aa8b3841f84a59dff268a6efb71",
   "workItemId": "WI-1062-archived-pr-ci-stage"
 }
