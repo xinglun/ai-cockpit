@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray replied 确认 in this core conversation after the single 1 agree / 2 disagree request for exact WI-1063 Contract 9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33. This confirms the fixture-only hosted runner isolation amendment for implementation and verification, preserving production checks and prior failures. It does not authorize PR #1012 merge or provider cleanup.",
+  "recordedAt": "2026-10-04T06:48:21Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1063-pr1012-integration"
+}

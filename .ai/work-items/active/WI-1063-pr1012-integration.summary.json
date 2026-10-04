@@ -1,9 +1,10 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-1063-pr1012-integration.preflight-review.2c1e19a1f01f75c0965769ad45c20487f4b4bfc636b65908307d24876d3ceb70.json",
     ".ai/work-items/active/WI-1063-pr1012-integration.summary.json"
   ],
   "checkpointAt": "2026-10-04T05:41:37Z",
-  "checkpointContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+  "checkpointContractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,15 +45,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
   "createdAt": "2026-10-04T05:04:53Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
+    "contractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Ray replied 确认 in this core conversation (message 01a1056c-1300-7730-b35a-ed2c04ea0e63) to Raydot's single numbered request to approve exact WI-1063 Contract fbe28c1b…8731b for implementation and verification. This does not authorize PR #1012 merge.",
-    "recordedAt": "2026-10-04T05:40:21Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray replied 确认 in this core conversation after the single 1 agree / 2 disagree request for exact WI-1063 Contract 9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33. This confirms the fixture-only hosted runner isolation amendment for implementation and verification, preserving production checks and prior failures. It does not authorize PR #1012 merge or provider cleanup.",
+    "recordedAt": "2026-10-04T06:48:21Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+    "repositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
     "schemaVersion": 1,
     "workItemId": "WI-1063-pr1012-integration"
   },
@@ -66,11 +67,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
-  "preflightAt": "2026-10-04T06:37:11Z",
+  "preflightAt": "2026-10-04T06:57:57Z",
   "preflightContractDigest": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f63bfa66c77388c29e9eb7c6ffc4694c48ebd738caf77a772bc853d81e8bf75e",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -109,7 +110,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T05:53:22.747993+00:00",
+  "updatedAt": "2026-10-04T06:48:51.311378+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -184,11 +185,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:9eb0d50a7b9c028ea6d4fe88eb028a91659869f905a1d44bf967956b04dcdf33",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-04T06:36:59Z"
-  },
-  "verificationRecoveryReconciled": "sha256:b37d9a3f4bc077ed95573f39665b01923d17846dc116fdf06f057e89245c0580",
+  "verificationRecoveryReconciled": "sha256:26bbbf2bdecdd2a9851d13aee9e494ffe28756a8510aa3320adc2db17bc2ed17",
   "workItemId": "WI-1063-pr1012-integration"
 }
