@@ -1,0 +1,44 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:bc9072893904bc6c1d420019f170dfb0c4ba6ed819e937ef0c273319e3c52e12",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 4,
+    "changeId": "wi1066-standalone-test-after-per-file-gate-20261004",
+    "requestDigest": "sha256:00229c7b25801ce80b0d18909de2b417d39dabcb784cae2ae8de6302baa8d68e",
+    "reason": "The approved child-module split preserves tests but current per-file test-integrity admission counts assertion removal as test_weakening. Keep the existing oversized recovery_decision.rs byte-identical and place only the new cases with minimal test fixtures in one new standalone integration test file; do not alter or weaken the gate.",
+    "changedValues": [
+      {
+        "path": "/scope/4",
+        "operation": "replace",
+        "oldValue": "crates/cockpit-repository/tests/recovery_decision/supersede_archive.rs",
+        "newValue": "crates/cockpit-repository/tests/supersede_archive.rs"
+      },
+      {
+        "path": "/sources/0",
+        "operation": "replace",
+        "oldValue": "PR #1018 exact-head run 37232039906: Rust Contract gate returned repository_material_inspection_unavailable; per-path Runtime diagnostic isolated the 16,384-token analysis bound in recovery_decision.rs (current 19,410 tokens; base 17,916). Preserve all tests by a mechanical module split; do not weaken the gate.",
+        "newValue": "PR #1018 run 37232039906: changed recovery_decision.rs exceeded 16,384-token material bound (base also exceeds it). Formal preflight after byte-identical child-module split reported test_weakening because existing assertions were removed from the original path. The supported correction leaves the original file byte-identical and adds only a standalone supersede_archive.rs integration test with minimal local fixtures; no gate or product weakening."
+      }
+    ],
+    "previousContractDigest": "sha256:61dc01bce9121d1b3b5b18d657d0969a4c243ed624a822ff5debcd521ab896f4",
+    "newContractDigest": "sha256:8b786d4506f13891b84f52da27901dae465410235f284315e316cf130d8f33b5",
+    "repositorySnapshotDigest": "sha256:a285214efdbaf035cc4f85d42908b5fa18fd9c943d5b8ee9907629b630b02769",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope/4"
+    ],
+    "previousJournalDigest": "sha256:5059b3917aab53f47c2232546cfab101ce4e6720c44073bb761190e902ae226b",
+    "journalDigest": "sha256:b6717fb3d0c28d56c9079a247f2b1864b9e891468f0f0fbe3e30d6bf7d512765",
+    "recordedAt": "2026-10-04T21:13:44Z"
+  }
+}

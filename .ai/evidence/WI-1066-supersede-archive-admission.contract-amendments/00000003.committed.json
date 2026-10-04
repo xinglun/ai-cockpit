@@ -1,0 +1,58 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:f52491aec50fce5a5c591a300443b8f07081bd115979508f447019177bc88f41",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 3,
+    "changeId": "legacy-6a743ef5804fa188eba47ac3719e448d25d62c8c694ffe6a32d01977977641a7",
+    "requestDigest": "sha256:6a836fed5692e53246cd12d961c9c48c7172cb22780538a984140660ce16fb04",
+    "reason": "PR #1018 exact-head Rust gate cannot inspect the existing oversized recovery_decision integration test; add one child test module for a mechanical split that preserves all cases and stays within the established fail-closed token bound",
+    "legacyInputDigest": "sha256:6a743ef5804fa188eba47ac3719e448d25d62c8c694ffe6a32d01977977641a7",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/recovery_decision.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/recovery_decision.rs",
+          "crates/cockpit-repository/tests/recovery_decision/supersede_archive.rs"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "PR #1018 exact-head run 37232039906: Rust Contract gate returned repository_material_inspection_unavailable; per-path Runtime diagnostic isolated the 16,384-token analysis bound in recovery_decision.rs (current 19,410 tokens; base 17,916). Preserve all tests by a mechanical module split; do not weaken the gate."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+    "newContractDigest": "sha256:61dc01bce9121d1b3b5b18d657d0969a4c243ed624a822ff5debcd521ab896f4",
+    "repositorySnapshotDigest": "sha256:3bda9c4a2e93ca73155420e0275368817fd60c6280c60a7d84c0ee399a928082",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:24e703d5592ff9d5738c5c71217e7d16e48efcfd8075f0f4064a1b3e22c0add6",
+    "journalDigest": "sha256:5059b3917aab53f47c2232546cfab101ce4e6720c44073bb761190e902ae226b",
+    "recordedAt": "2026-10-04T20:46:46Z"
+  }
+}

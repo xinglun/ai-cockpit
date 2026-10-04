@@ -7562,6 +7562,14 @@ fn archive_work_item_internal(
                         .into(),
             });
         }
+        if let Some(runtime) = current_runtime {
+            action_admission::require_current_action_admission(
+                &root,
+                work_item_id,
+                "archive_when_reviewed",
+                runtime,
+            )?;
+        }
         return archive_superseded_work_item(&root, work_item_id, &decision);
     }
     require_explicit_resource_finalization_plan(&contract, &contract_path, "archive")?;
