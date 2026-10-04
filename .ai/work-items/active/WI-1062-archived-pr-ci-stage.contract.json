@@ -108,7 +108,8 @@
     "tests/ci/quality_route_test.py",
     "tests/ci/resolve_work_item_test.sh",
     "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
-    "docs/reference/ci-release-evidence.md"
+    "docs/reference/ci-release-evidence.md",
+    "tests/ci/process_observer_test_runner_test.sh"
   ],
   "sources": [
     "PR #1012 run 37167345770 archived-head failure",

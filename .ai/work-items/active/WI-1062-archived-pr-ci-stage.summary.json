@@ -1,14 +1,14 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.60dfaa7eb5a6b9193b4ad2f96554f54442111a84b56fa939ba7bcf5f89b2d0bf.json",
-    ".ai/decisions/WI-1062-archived-pr-ci-stage.recovery.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000003.committed.json",
-    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000003.prepared.json",
+    ".ai/decisions/WI-1062-archived-pr-ci-stage.preflight-review.2645f557ddc96f569bd427ac516f00b9e00f8b72ea4e0279eb6b5bc258d20ab0.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1062-archived-pr-ci-stage.contract-amendments/00000004.prepared.json",
     ".ai/work-items/active/WI-1062-archived-pr-ci-stage.contract.json",
-    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.summary.json"
+    ".ai/work-items/active/WI-1062-archived-pr-ci-stage.summary.json",
+    "tests/ci/process_observer_test_runner_test.sh"
   ],
   "checkpointAt": "2026-10-04T01:49:43Z",
-  "checkpointContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+  "checkpointContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -44,17 +44,37 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1062-archived-pr-ci-stage"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:78614d825750f33a960846cdf7a1f43de6951ca31e5c210394980cf929f77a6c",
+      "previousContractHash": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+      "reason": "PR #1013 exact-head CI run 37171609881 failed only ci_process_observer_test_runner: the active-lane hosted receipt environment is inherited by its one-package fixture. Reproduced failure with the real hosted receipt and passing clean-env control. Add this exact fixture path for scoped environment isolation; retain strict production receipt validation, the old 17/17 formal receipt, and failed CI evidence.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T02:55:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1062-archived-pr-ci-stage"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+  "checkpointRepositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
   "createdAt": "2026-10-04T01:27:27Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+    "contractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Ray answered yes to the exact WI-1062 seq3 Contract digest c5530d56 after independent technical review, approving the full workspace verification list while retaining four focused checks. This does not assert new preflight or verification success and does not authorize merge or release.",
-    "recordedAt": "2026-10-04T02:26:19Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray answered Yes to WI-1062 seq4 Contract d712a6fa after independent read-only technical review. Approval adds only tests/ci/process_observer_test_runner_test.sh to scope for isolated fixture repair; it does not assert verification success, merge, or release approval.",
+    "recordedAt": "2026-10-04T03:00:25Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
@@ -68,10 +88,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T02:36:09Z",
-  "preflightContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+  "preflightAt": "2026-10-04T03:11:08Z",
+  "preflightContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+  "preflightRepositorySnapshotDigest": "sha256:3873843f41829a1d6a3e4fc8c416a1eb64a3ea4d032c872d01c4eecec4896b00",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -121,7 +141,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-04T02:26:19.717094+00:00",
+  "updatedAt": "2026-10-04T03:00:45.209756+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -196,6 +216,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:b26a9f11cfe1dcc3d312d7931705fcf1cdfe1aa8b3841f84a59dff268a6efb71",
+  "verificationRecoveryReconciled": "sha256:9da696d34214bd38805cbcdab625f1c6776d0849112dff7b6b422ac98d7b1545",
   "workItemId": "WI-1062-archived-pr-ci-stage"
 }

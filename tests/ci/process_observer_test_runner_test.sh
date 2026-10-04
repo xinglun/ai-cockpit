@@ -71,11 +71,21 @@ printf '%s\n' \
   >"$fake_cargo"
 chmod +x "$fake_rustc" "$fake_cargo"
 printf '%s\n' '{"packages":[{"name":"fixture-package","source":null}]}' >"$tmp/workspace-metadata.json"
+# The one-package fixture must work even when its parent repository gate has
+# a hosted receipt for the real workspace. These foreign values must not be
+# consumed by the fixture's package-runner subprocesses.
+export AI_COCKPIT_VERIFICATION_RECEIPT="$tmp/foreign-hosted-receipt.json"
+export AI_COCKPIT_VERIFICATION_ORCHESTRATION="$tmp/foreign-hosted-orchestration.json"
+run_fixture_workspace_package_tests() {
+  env -u AI_COCKPIT_VERIFICATION_RECEIPT \
+    -u AI_COCKPIT_VERIFICATION_ORCHESTRATION \
+    "$root/tests/ci/run_workspace_package_tests.sh" "$@"
+}
 RUSTC="$fake_rustc" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  run_fixture_workspace_package_tests \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-runner-report.json"
@@ -93,7 +103,7 @@ CARGO_HOME="$tmp/cargo-home-other-target" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  run_fixture_workspace_package_tests \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-other-target-runner-report.json"
@@ -112,7 +122,7 @@ if CARGO_HOME="$tmp/cargo-home" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  run_fixture_workspace_package_tests \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-configured-runner-report.json"; then
@@ -140,7 +150,7 @@ if CARGO_HOME="$tmp/cargo-home-included" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  run_fixture_workspace_package_tests \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-included-runner-report.json"; then
@@ -162,7 +172,7 @@ if CARGO_HOME="$tmp/cargo-home-optional-directory" \
   EXPECTED_RUNNER="$runner" \
   WORKSPACE_TEST_WORKERS=1 \
   WORKSPACE_TEST_THREADS=4 \
-  "$root/tests/ci/run_workspace_package_tests.sh" \
+  run_fixture_workspace_package_tests \
     --metadata "$tmp/workspace-metadata.json" \
     --cargo "$fake_cargo" \
     --report "$tmp/workspace-optional-directory-report.json"; then
