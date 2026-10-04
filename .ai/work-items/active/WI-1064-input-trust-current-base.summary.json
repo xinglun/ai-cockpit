@@ -4,20 +4,87 @@
     ".ai/work-items/active/WI-1064-input-trust-current-base.contract.json",
     ".ai/work-items/active/WI-1064-input-trust-current-base.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-04T12:36:12Z",
+  "checkpointContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
   "createdAt": "2026-10-04T12:22:15Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Ray replied 1 to Raydot's exact WI-1064 Contract 76ea6d4f...b8671f2 numbered review request in the main conversation, delivery message Sentinel_fa20bc1b33908191a7a1685bda98c217. This confirms only the amended Contract/preflight review; it does not authorize PR merge.",
+    "recordedAt": "2026-10-04T12:34:35Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+    "schemaVersion": 1,
+    "workItemId": "WI-1064-input-trust-current-base"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/archive/WI-1059-input-trust-context.contract.json",
+      "crates/cockpit-repository/tests/governance_signals.rs",
+      "crates/cockpit-repository/tests/verification_service.rs",
+      "docs/reference/input-trust-dataflow.md"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
   "predecessorWorkItemId": "WI-1059-input-trust-context",
-  "preflightAt": "2026-10-04T12:25:36Z",
-  "preflightContractDigest": "sha256:1585ac36742fb987184fa5a708130dc3e9075622ea087c5b38daca17f6550a03",
+  "preflightAt": "2026-10-04T12:35:17Z",
+  "preflightContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-10-04T12:23:31Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "2026-10-04 focused cargo test --locked --package cockpit-repository --test governance_signals: 33/33 passed; pr1009_old_head_actual_added_source_replay_when_commit_is_available executed with local Git commit 8d7f6fd4 present; same-file distant-data regression passed"
+      ],
+      "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+      "required": true,
+      "scenario": "single-large-added-file-distant-benign-data",
+      "status": "verified",
+      "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: adjacent_line_comments_with_the_existing_attack_fixture_are_untrusted, nested_block_comment_with_existing_attack_fixture_is_untrusted, rust_concat_of_the_existing_attack_halves_is_untrusted, newly_added_format_uses_unchanged_risky_literal"
+      ],
+      "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+      "required": true,
+      "scenario": "same-semantic-context-cross-line-attack",
+      "status": "verified",
+      "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: related_attack_across_hunks_cannot_be_reported_clean; focused cargo test --locked --package cockpit-git --test repository 14/14 passed including changed_rust_lines_keep_exact_after_line_and_hunk_origin"
+      ],
+      "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+      "required": true,
+      "scenario": "related-attack-across-hunks",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: uninspectable_rust_content_states_are_unknown, bounded_rust_patch_with_a_candidate_and_no_full_source_is_unknown, bounded_patch_facts_in_an_oversized_file_are_inspectable, malformed_rust_provenance_is_unknown; cockpit-git repository 14/14 passed with oversized patch cases"
+      ],
+      "expected": "TooLarge, Binary, Unavailable, malformed evidence, and bounded Text patches with unresolved candidate context remain unknown or blocked rather than safe; a complete bounded Text patch with no instruction/risky candidate remains inspectable even if the oversized file's full text is unavailable.",
+      "required": true,
+      "scenario": "uninspectable-change-evidence",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-git and repository governance regressions for each content-state boundary and both bounded Text patch cases: no candidate preserves the existing inspectable result; candidate with missing semantic context is Unknown or a direct complete strong-pair finding."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-04T12:53:43.501242+00:00",
   "workItemId": "WI-1064-input-trust-current-base"
 }
