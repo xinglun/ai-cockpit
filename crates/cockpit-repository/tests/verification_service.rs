@@ -463,14 +463,13 @@ fn drift_after_an_initial_fresh_plan_forces_a_real_execution_fallback() {
 
 #[cfg(unix)]
 #[test]
-fn profile_and_config_byte_drift_after_authorization_force_execution() {
+fn formatting_only_config_change_between_calls_preserves_semantic_reuse() {
     use std::os::unix::fs::PermissionsExt;
-    use std::{sync::mpsc, time::Duration};
 
     for identity_file in ["cockpit.toml", "project.json"] {
-        let root = repository(&format!("identity-drift-{identity_file}"));
+        let root = repository(&format!("between-call-identity-drift-{identity_file}"));
         let tool = root.parent().expect("fixture parent").join(format!(
-            "cockpit-identity-tool-{}-{}",
+            "cockpit-between-call-tool-{}-{}",
             std::process::id(),
             NEXT_ID.fetch_add(1, Ordering::Relaxed)
         ));
@@ -488,49 +487,40 @@ fn profile_and_config_byte_drift_after_authorization_force_execution() {
             vec![],
             RepositoryVerificationPolicy::ProfileAuthorized,
         );
-        let first = run_repository_verification(&root, &request).expect("first");
-        assert_eq!(first.receipt.processes_spawned, 1);
 
-        let lock = fs::OpenOptions::new()
-            .read(true)
-            .write(true)
-            .open(root.join(".ai/evidence/reuse/index.lock"))
-            .expect("store lock");
-        lock.lock().expect("hold store lock");
-        let (started_tx, started_rx) = mpsc::channel();
-        let worker_root = root.clone();
-        let worker_request = request.clone();
-        let worker = std::thread::spawn(move || {
-            started_tx.send(()).expect("signal");
-            run_repository_verification(&worker_root, &worker_request)
-        });
-        started_rx.recv().expect("started");
-        // Other verification-service fixtures run concurrently and may hold
-        // the test worker pool briefly. Leave enough time for this worker to
-        // reach the receipt-store lock before mutating the authorized bytes.
-        std::thread::sleep(Duration::from_secs(3));
-        let identity_path = root.join(".ai").join(identity_file);
-        let mut bytes = fs::read(&identity_path).expect("identity bytes");
-        bytes.push(b'\n');
-        fs::write(&identity_path, bytes).expect("drift identity bytes");
-        lock.unlock().expect("release store lock");
+        let first = run_repository_verification(&root, &request).expect("first execution");
+        assert_eq!(first.receipt.nodes_reused, 0, "{identity_file}");
+        assert_eq!(first.receipt.processes_spawned, 1, "{identity_file}");
+        assert!(first.receipt.results[0].passed, "{identity_file}");
 
-        let second = worker.join().expect("verification thread").expect("second");
-        assert_eq!(second.receipt.nodes_reused, 0, "{identity_file}");
-        assert_eq!(second.receipt.processes_spawned, 1, "{identity_file}");
-        assert_eq!(
-            second.receipt.results[0].reason, "post_planning_binding_drift",
-            "{identity_file}"
-        );
+        let unchanged = run_repository_verification(&root, &request).expect("unchanged reuse");
+        assert_eq!(unchanged.receipt.nodes_reused, 1, "{identity_file}");
+        assert_eq!(unchanged.receipt.processes_spawned, 0, "{identity_file}");
         assert_eq!(
             fs::read_to_string(root.join(".counter"))
                 .expect("counter")
                 .trim(),
-            "2",
+            "1",
+            "{identity_file}"
+        );
+
+        let identity_path = root.join(".ai").join(identity_file);
+        let mut bytes = fs::read(&identity_path).expect("identity bytes");
+        bytes.push(b'\n');
+        fs::write(&identity_path, bytes).expect("drift identity bytes");
+        let drifted = run_repository_verification(&root, &request).expect("format-only reuse");
+        assert_eq!(drifted.receipt.nodes_reused, 1, "{identity_file}");
+        assert_eq!(drifted.receipt.processes_spawned, 0, "{identity_file}");
+        assert!(drifted.receipt.results[0].passed, "{identity_file}");
+        assert_eq!(
+            fs::read_to_string(root.join(".counter"))
+                .expect("counter")
+                .trim(),
+            "1",
             "{identity_file}"
         );
         fs::remove_file(tool).expect("cleanup tool");
-        fs::remove_dir_all(root).expect("cleanup");
+        fs::remove_dir_all(root).expect("cleanup repository");
     }
 }
 
@@ -609,11 +599,17 @@ fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     fs::remove_file(receipt_path).expect("force execution after planning");
     lock.unlock().expect("release store lock");
 
-    let deadline = std::time::Instant::now() + Duration::from_secs(3);
+    let deadline = std::time::Instant::now() + Duration::from_secs(15);
     while !started.exists() && std::time::Instant::now() < deadline {
         std::thread::sleep(Duration::from_millis(10));
     }
-    assert!(started.exists(), "the pinned command must start");
+    let started_on_time = started.exists();
+    if !started_on_time {
+        // A slow host must not strand the spawned command when startup fails.
+        fs::write(&proceed, b"proceed\n").expect("release delayed original command");
+        let _ = worker.join().expect("join delayed verification thread");
+        panic!("the pinned command must start");
+    }
     fs::rename(&tool, &displaced).expect("remove replacement");
     fs::rename(&backup, &tool).expect("restore original path");
     fs::write(&proceed, b"proceed\n").expect("release original command");

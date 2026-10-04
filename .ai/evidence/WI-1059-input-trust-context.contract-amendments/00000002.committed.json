@@ -1,0 +1,192 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:a4f94315b1d2170f2bc9e78fce1950f1dadef8527b04c3e17281a229f3fecaac",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1059-input-trust-context",
+    "sequence": 2,
+    "changeId": "legacy-2995236e34141e91385ba1f1969387ed9ed7392fb64310dc67b171872beb2bea",
+    "requestDigest": "sha256:561d26e73d6394ad7305409da2c2d18f2060ba6a5f5fa4f8856ec85eff9a7a5c",
+    "reason": "Complete high-risk scenario coverage before any implementation: exact old-head false positive, coherent cross-line attack, cross-hunk ambiguity, and uninspectable evidence.",
+    "legacyInputDigest": "sha256:2995236e34141e91385ba1f1969387ed9ed7392fb64310dc67b171872beb2bea",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          },
+          {
+            "evidence": [],
+            "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+            "required": true,
+            "scenario": "same-semantic-context-cross-line-attack",
+            "status": "unverified",
+            "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          },
+          {
+            "evidence": [],
+            "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+            "required": true,
+            "scenario": "same-semantic-context-cross-line-attack",
+            "status": "unverified",
+            "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          },
+          {
+            "evidence": [],
+            "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+            "required": true,
+            "scenario": "same-semantic-context-cross-line-attack",
+            "status": "unverified",
+            "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+          },
+          {
+            "evidence": [],
+            "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+            "required": true,
+            "scenario": "related-attack-across-hunks",
+            "status": "unverified",
+            "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          },
+          {
+            "evidence": [],
+            "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+            "required": true,
+            "scenario": "same-semantic-context-cross-line-attack",
+            "status": "unverified",
+            "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+          },
+          {
+            "evidence": [],
+            "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+            "required": true,
+            "scenario": "related-attack-across-hunks",
+            "status": "unverified",
+            "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+            "required": true,
+            "scenario": "single-large-added-file-distant-benign-data",
+            "status": "unverified",
+            "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+          },
+          {
+            "evidence": [],
+            "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+            "required": true,
+            "scenario": "same-semantic-context-cross-line-attack",
+            "status": "unverified",
+            "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+          },
+          {
+            "evidence": [],
+            "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+            "required": true,
+            "scenario": "related-attack-across-hunks",
+            "status": "unverified",
+            "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+          },
+          {
+            "evidence": [],
+            "expected": "TooLarge, Binary, Unavailable, and malformed evidence remain unknown or blocked rather than safe.",
+            "required": true,
+            "scenario": "uninspectable-change-evidence",
+            "status": "unverified",
+            "verificationPlan": "Run cockpit-git and repository governance regressions covering each content-state boundary."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5b478f38bfe1e5b8bc276b78e8e30b1f5667b4b806f00a36af9a234d20d7b937",
+    "newContractDigest": "sha256:0740d8ec1620ba3de2e260d92aefa36a85e44c7efb0a175399aaa24be4baead2",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:b79bb3b671dbffb7d4d09f7d3d93d34f35e0d8ab65794b0ba1e622c66c5a163a",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:9b3da2ad5a98f66bd1add3d566eca919d8cdcbeaf1b07d715317392976988e0f",
+    "journalDigest": "sha256:bbbd74daeb05a977b9e4d46ce470af9557c7b22b5367c91bf0d0a8f1b58e5db0",
+    "recordedAt": "2026-10-03T13:11:36Z"
+  }
+}

@@ -35,6 +35,12 @@ Runtime は typed `FactOrigin`、`TraceableFact`、`TraceableDerivation` で限�
 
 Trust layer は人の認証、provider の検証、外部 merge/release の認可を行いません。これらは human decision、provider、enterprise evidence の外部境界です。
 
+## 変更された Rust source の検査
+
+`.rs` の変更では、repository signal は bounded な変更後 source と Git の added-line／hunk origin を読みます。変更された decoded string／byte literal、comment unit、および bounded な明示的文字列合成（`concat!`、静的 `format!`、単純な literal binding、同一 file の純粋な literal-return function）を検査します。変更された合成が参照する未変更 operand も含めます。無関係な literal が同じ file や hunk にあるだけでは連結しません。他の file type は従来の added-text rule を維持します。
+
+Source、origin、syntax、または関連する動的合成を確実に解決できない場合、結果は安全ではなく `Unknown` です。完全な source がない bounded patch は instruction／危険操作の候補がない場合に限り clean と検査でき、直接確認できる強い攻撃 literal は finding のままです。この分類は Runtime quality gate の evidence であり、Contract 変更や merge／release の権限ではありません。
+
 ## Adopter repository
 
 Attach した Runtime は同じ fail-closed ルールを継承しますが、fact と evidence は repository ごとに隔離されます。すべての call は明示的な `--repo` を要求し、global current project や共有 provenance state はありません。

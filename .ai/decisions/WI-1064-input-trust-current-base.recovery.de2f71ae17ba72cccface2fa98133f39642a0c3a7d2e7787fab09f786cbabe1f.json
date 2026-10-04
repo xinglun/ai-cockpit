@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Ray delegated ordinary technical coordination to Raydot. Raydot explicitly approved one bounded second same-WI retry for the committed WI-1064 source and current receipt in coordinator turn 01a10759-a73d-73ef-bc7b-b07e9b9674f1. Ray's later consent to one retry for the test-cleanup defect ratifies the already-recorded first retry and is not represented here as a second human decision.",
+  "decidedAt": "2026-10-04T14:42:43Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1064-input-trust-current-base.recovery.json",
+    ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37208706894"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "predecessorEventsDigest": "sha256:f4222ccb1a9cd60fe91bc77b75532b97362af098a22a2d3897d6244400f66291",
+  "predecessorOutcomeDigest": "sha256:bad5729a68e38913fd0daeacdc0f7f5adb7b8952edb2a05dd3ecdbf2d043c58d",
+  "predecessorSummaryDigest": "sha256:b63fef54366fb4ffbc3e5788aedbbede11e52d58659cda29ff38f9090c778f31",
+  "predecessorWorkItemId": "WI-1064-input-trust-current-base",
+  "reason": "After the first test-cleanup retry, local formal verification passed on the committed source, but exact-head PR #1014 run 37208706894 could not start candidate hosted verification because the recorded preflight state was red. Current local verification evidence is fresh and the read-only gate reports green. Preserve the earlier recovery, success receipts, and failed hosted run while performing one bounded same-WI retry on this unchanged source; if the resulting preflight remains red or verification fails, stop repeating this route.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use only the Runtime-admitted retry and formal verification on the unchanged WI-1064 Contract/source snapshot. Inspect the resulting preflight state and receipt before claiming success. Then require a new exact-head active PR CI and independent review before finish/archive; do not merge PR #1014, change product code, or delete historical evidence.",
+  "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1064-input-trust-current-base"
+}
