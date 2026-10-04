@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:06f1b2f3a7a5d492098bf43160bca833c2ecabb95027809a51628bc26b378381",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 1,
+    "changeId": "wi1066-required-supersede-scenarios-20261004",
+    "requestDigest": "sha256:e3f550149b68b8b366b4672018f7111dec94fe3396e921f77c3c7c9efe3ddbd3",
+    "reason": "Initial CLI start cannot encode required high-risk scenarioCoverage. Declare the full positive, negative, and ordinary-regression plans before checkpoint or product edits; preserve the original four-path scope, acceptance, and verification.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "A current Runtime-validated supersede receipt with the unique still-valid successor binding yields archive_when_reviewed in status.safeActions; the actual archive consumes the same admission, emits a superseded manifest, and preserves predecessor failed evidence bytes.",
+            "required": true,
+            "scenario": "bound supersede admits and executes archive consistently",
+            "status": "unverified",
+            "verificationPlan": "Use the existing recovery_decision fixture to record a real successor then supersede, assert status safe action before archive, execute archive, and compare archived Contract/Summary/Outcome/Events bytes and manifest disposition. Run focused RED then GREEN and formal Runtime verification."
+          },
+          {
+            "evidence": [],
+            "expected": "Without a current supersede, or when the recorded successor is missing, changed, foreign, ambiguous, or no longer bound to the exact predecessor and recovery path, neither status nor archive admits superseded archive and no manifest is written.",
+            "required": true,
+            "scenario": "stale or foreign supersede cannot archive",
+            "status": "unverified",
+            "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage; assert zero archive writes and no permitted status action."
+          },
+          {
+            "evidence": [],
+            "expected": "An ordinary verified finish_ready Work Item retains existing archive admission, while an ordinary unverified checkpointed Work Item remains unable to archive.",
+            "required": true,
+            "scenario": "ordinary archive admission remains unchanged",
+            "status": "unverified",
+            "verificationPlan": "Run the existing repository archive/recovery test cases and add focused status/action assertions around both ordinary states; execute full declared Cargo workspace verification and exact-head CI."
+          }
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b830a46129330ce7f7e05dd9f59beafd7677878ef7a4c36ccda8afd17ae94de0",
+    "newContractDigest": "sha256:3b9c513f9b3b58b5a6e81670df9cfffa1931ad75c8f3e1fefd43b9aca8f9e799",
+    "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:a59f011bbeafafc598f260e105ccea9dc55177c6b2aa61510930ff4ebe7a0867",
+    "recordedAt": "2026-10-04T18:27:34Z"
+  }
+}

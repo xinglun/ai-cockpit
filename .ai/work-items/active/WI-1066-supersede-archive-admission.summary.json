@@ -1,0 +1,45 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1066-supersede-archive-admission.contract.json",
+    ".ai/work-items/active/WI-1066-supersede-archive-admission.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-04T18:24:50Z",
+  "mode": "implementation",
+  "preflightAt": "2026-10-04T18:28:26Z",
+  "preflightContractDigest": "sha256:3b9c513f9b3b58b5a6e81670df9cfffa1931ad75c8f3e1fefd43b9aca8f9e799",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A current Runtime-validated supersede receipt with the unique still-valid successor binding yields archive_when_reviewed in status.safeActions; the actual archive consumes the same admission, emits a superseded manifest, and preserves predecessor failed evidence bytes.",
+      "required": true,
+      "scenario": "bound supersede admits and executes archive consistently",
+      "status": "unverified",
+      "verificationPlan": "Use the existing recovery_decision fixture to record a real successor then supersede, assert status safe action before archive, execute archive, and compare archived Contract/Summary/Outcome/Events bytes and manifest disposition. Run focused RED then GREEN and formal Runtime verification."
+    },
+    {
+      "evidence": [],
+      "expected": "Without a current supersede, or when the recorded successor is missing, changed, foreign, ambiguous, or no longer bound to the exact predecessor and recovery path, neither status nor archive admits superseded archive and no manifest is written.",
+      "required": true,
+      "scenario": "stale or foreign supersede cannot archive",
+      "status": "unverified",
+      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage; assert zero archive writes and no permitted status action."
+    },
+    {
+      "evidence": [],
+      "expected": "An ordinary verified finish_ready Work Item retains existing archive admission, while an ordinary unverified checkpointed Work Item remains unable to archive.",
+      "required": true,
+      "scenario": "ordinary archive admission remains unchanged",
+      "status": "unverified",
+      "verificationPlan": "Run the existing repository archive/recovery test cases and add focused status/action assertions around both ordinary states; execute full declared Cargo workspace verification and exact-head CI."
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-10-04T18:29:14.471495+00:00",
+  "workItemId": "WI-1066-supersede-archive-admission"
+}
