@@ -463,6 +463,69 @@ fn drift_after_an_initial_fresh_plan_forces_a_real_execution_fallback() {
 
 #[cfg(unix)]
 #[test]
+fn formatting_only_config_change_between_calls_preserves_semantic_reuse() {
+    use std::os::unix::fs::PermissionsExt;
+
+    for identity_file in ["cockpit.toml", "project.json"] {
+        let root = repository(&format!("between-call-identity-drift-{identity_file}"));
+        let tool = root.parent().expect("fixture parent").join(format!(
+            "cockpit-between-call-tool-{}-{}",
+            std::process::id(),
+            NEXT_ID.fetch_add(1, Ordering::Relaxed)
+        ));
+        fs::write(
+            &tool,
+            b"#!/bin/sh\ncount=.counter; n=0; test -f $count && n=$(cat $count); echo $((n+1)) > $count\n",
+        )
+        .expect("script");
+        fs::set_permissions(&tool, fs::Permissions::from_mode(0o755)).expect("executable");
+        cockpit_repository::attach(&root).expect("attach");
+        let program = tool.to_string_lossy().into_owned();
+        cockpit_repository::confirm_profile_update(&root, &program, &[]).expect("confirm");
+        let request = request(
+            &program,
+            vec![],
+            RepositoryVerificationPolicy::ProfileAuthorized,
+        );
+
+        let first = run_repository_verification(&root, &request).expect("first execution");
+        assert_eq!(first.receipt.nodes_reused, 0, "{identity_file}");
+        assert_eq!(first.receipt.processes_spawned, 1, "{identity_file}");
+        assert!(first.receipt.results[0].passed, "{identity_file}");
+
+        let unchanged = run_repository_verification(&root, &request).expect("unchanged reuse");
+        assert_eq!(unchanged.receipt.nodes_reused, 1, "{identity_file}");
+        assert_eq!(unchanged.receipt.processes_spawned, 0, "{identity_file}");
+        assert_eq!(
+            fs::read_to_string(root.join(".counter"))
+                .expect("counter")
+                .trim(),
+            "1",
+            "{identity_file}"
+        );
+
+        let identity_path = root.join(".ai").join(identity_file);
+        let mut bytes = fs::read(&identity_path).expect("identity bytes");
+        bytes.push(b'\n');
+        fs::write(&identity_path, bytes).expect("drift identity bytes");
+        let drifted = run_repository_verification(&root, &request).expect("format-only reuse");
+        assert_eq!(drifted.receipt.nodes_reused, 1, "{identity_file}");
+        assert_eq!(drifted.receipt.processes_spawned, 0, "{identity_file}");
+        assert!(drifted.receipt.results[0].passed, "{identity_file}");
+        assert_eq!(
+            fs::read_to_string(root.join(".counter"))
+                .expect("counter")
+                .trim(),
+            "1",
+            "{identity_file}"
+        );
+        fs::remove_file(tool).expect("cleanup tool");
+        fs::remove_dir_all(root).expect("cleanup repository");
+    }
+}
+
+#[cfg(unix)]
+#[test]
 fn executable_path_swap_cannot_change_the_bytes_that_are_executed() {
     use std::os::unix::fs::PermissionsExt;
     use std::{sync::mpsc, time::Duration};
