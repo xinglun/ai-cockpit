@@ -4,7 +4,7 @@
     "有效且当前 Runtime 可重新核验的 supersede 收据，精确绑定唯一现存后继 Contract、仓库 ID、前驱 Contract digest 与 recoveryDecisionPath 时，前驱 status.safeActions 显示明确的 archive_when_reviewed；正式 archive 使用同一准入，归档 manifest 为 superseded，并保留前驱红验证与原字节。",
     "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。",
     "普通 finish_ready 归档的既有准入及拒绝语义保持不变；不得新增手工标记、伪造审核、放宽 Contract gate 或修改 CI selector。",
-    "先在现有 recovery_decision 回归写真实 RED，再最小修复 status/执行准入共享的当前绑定校验并达 GREEN；正式 Runtime CLI 加 Cargo/CI canonical gate 全部通过，精确头 PR CI 及独立代码审查后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
+    "保留已记录的 recovery_decision 真实 RED 与失败证据；最终测试组织将原 recovery_decision.rs 44 个既有用例保持字节不变，在独立 supersede_archive integration target 中保留本 WI 新增 6 个用例及必要夹具。两个定向 target 与完整 workspace 验证均须真实运行通过，不减少任何安全负例；正式 Runtime CLI 加 Cargo/CI canonical gate、精确头 PR CI 及独立代码审查通过后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -75,7 +75,7 @@
       "required": true,
       "scenario": "bound supersede admits and executes archive consistently",
       "status": "unverified",
-      "verificationPlan": "Use the existing recovery_decision fixture to record a real successor then supersede, assert status safe action before archive, execute archive, and compare archived Contract/Summary/Outcome/Events bytes and manifest disposition. Run focused RED then GREEN and formal Runtime verification."
+      "verificationPlan": "在独立 supersede_archive integration target 中使用原 recovery_decision 夹具的最小局部副本，记录真实后继和 supersede；先断言 status safe action，再执行 archive，检查 superseded manifest；同时由保持字节不变的原 recovery_decision target 检查前驱失败证据保留。保留已记录 RED，运行两个定向 target、完整 workspace 和正式 Runtime 验证。"
     },
     {
       "evidence": [],
@@ -83,7 +83,7 @@
       "required": true,
       "scenario": "stale or foreign supersede cannot archive",
       "status": "unverified",
-      "verificationPlan": "Extend recovery_decision negatives for no receipt, ordinary successor, deletion and rebinding after accepted supersede, digest/repository/path mismatch, and competing lineage. Add an explicit status-to-archive race: first obtain archive_when_reviewed from a valid successor, then delete or tamper its Contract/recovery path before archive; assert archive rechecks current binding, rejects, and writes no manifest."
+      "verificationPlan": "在保持字节不变的原 recovery_decision target 与独立 supersede_archive target 合计保留无收据、普通 successor、有效准入后删除或改绑、digest/repository/path 失配及竞争 lineage 的负例；独立 target 特别断言 status 曾允许后再篡改时 archive 重核、拒绝且零 manifest。原 44 个既有用例及新 6 个用例都须真实运行，两个定向 target 与正式验证都必须通过。"
     },
     {
       "evidence": [],
@@ -91,7 +91,7 @@
       "required": true,
       "scenario": "ordinary archive admission remains unchanged",
       "status": "unverified",
-      "verificationPlan": "Run the existing repository archive/recovery test cases and add focused status/action assertions around both ordinary states; execute full declared Cargo workspace verification and exact-head CI."
+      "verificationPlan": "在 supersede_archive target 验证普通已完成 WI 的 archive 准入及未验证 checkpointed WI 的拒绝；同时运行保持字节不变的 recovery_decision 原 target、完整 Cargo workspace 验证与精确头 CI，核对旧 44 项加新 6 项均执行且无遗漏。"
     }
   ],
   "scope": [
@@ -113,7 +113,8 @@
     "cargo fmt --all -- --check",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
     "cargo test --locked --workspace",
-    "cargo test --locked -p cockpit-repository --test recovery_decision"
+    "cargo test --locked -p cockpit-repository --test recovery_decision",
+    "cargo test --locked -p cockpit-repository --test supersede_archive"
   ],
   "workItemId": "WI-1066-supersede-archive-admission"
 }

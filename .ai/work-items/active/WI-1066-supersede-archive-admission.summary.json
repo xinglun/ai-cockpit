@@ -60,6 +60,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1066-supersede-archive-admission"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+      "previousContractHash": "sha256:8b786d4506f13891b84f52da27901dae465410235f284315e316cf130d8f33b5",
+      "reason": "The prior per-file gate finding requires six new supersede cases in an independent integration target while preserving the original 44 recovery_decision cases byte-for-byte. Explicitly include both targets in focused formal verification and align scenario/acceptance wording without reducing required checks or changing production scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T21:17:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1b6d312ed4cd298eb5f47fee2b6768376efd38f80de4b47ab5c26526bec3c090",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1066-supersede-archive-admission"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
@@ -89,7 +109,7 @@
   "preflightContractDigest": "sha256:8b786d4506f13891b84f52da27901dae465410235f284315e316cf130d8f33b5",
   "preflightDecisionDigest": "sha256:5f4e44e2f19399b880bb014638bcbb36657b211501ef86df32b14fba772ec050",
   "preflightRepositorySnapshotDigest": "sha256:1b6d312ed4cd298eb5f47fee2b6768376efd38f80de4b47ab5c26526bec3c090",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -121,9 +141,9 @@
   "state": "checkpointed",
   "updatedAt": "2026-10-04T21:07:56.164540+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:8b786d4506f13891b84f52da27901dae465410235f284315e316cf130d8f33b5",
+    "contractHash": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-04T21:13:44Z"
+    "recordedAt": "2026-10-04T21:17:59Z"
   },
   "workItemId": "WI-1066-supersede-archive-admission"
 }
