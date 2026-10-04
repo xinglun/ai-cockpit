@@ -1,0 +1,85 @@
+{
+  "attemptId": "sha256:3d5a26e5ce221a60c4c24691857600420b7d3164b65c9c17186e0420314efab0",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+      "commandDigest": "sha256:795bbb355413f13e7d4f89270890fa319ed65ff52f6e15a21a7a49c6bbe5eaf6",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+      "commandDigest": "sha256:4a61ebe5c2d395da6a8f6951041337bb73b7faf38608b6cb8edfa6701f42ab72",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+      "commandDigest": "sha256:cb891fb312b4b607359469cfc5849bf8113534560aa3a376a750acc596c34c0a",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
+  "contractExecutionScopeDigest": "sha256:2f0b38b271d1d46f595ca8926c7da48fb01ff38039af44bedddbf815a3a026c1",
+  "createdAt": "2026-10-04T22:36:37Z",
+  "diagnostic": {
+    "code": "verification_parallelism",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit/.ai/work-items/active/WI-1066-supersede-archive-admission.contract.json: parallel Work Item verification is not admitted: the Runtime cannot bind per-node dependency readiness and isolated output paths; use --workers 1 or independent CI jobs with separate workspaces"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+  "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

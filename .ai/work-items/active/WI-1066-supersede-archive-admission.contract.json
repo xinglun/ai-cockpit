@@ -112,9 +112,7 @@
   "verification": [
     "cargo fmt --all -- --check",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
-    "cargo test --locked --workspace",
-    "cargo test --locked -p cockpit-repository --test recovery_decision",
-    "cargo test --locked -p cockpit-repository --test supersede_archive"
+    "cargo test --locked --workspace"
   ],
   "workItemId": "WI-1066-supersede-archive-admission"
 }
