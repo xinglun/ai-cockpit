@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Ray's current user-provided Task9 goal authorizes evidence-bound resource finalization and recoverable cleanup; this records agent execution, not a new human signature",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "name": "codex/wi-1060-hosted-coverage-consumer",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+  "contractDigest": "sha256:6831de8acea2c10c90dddc39a3caf4178111db9a5a63a7079611d24b8f02e07d",
+  "operationId": "github-pr-1012-wi1061-shared-resource-cleanup-20261004",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "5756f45c7e116280a04da89734393f0549064e8c",
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "mergeCommit": "bff288e8b18fbcd2b7219daa4a09b3b2c8f31ee2",
+    "number": 1012,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1012"
+  },
+  "reason": "WI-1061 and closed successor WI-1063 share the exact PR #1012 branch and worktree. PR #1012 merged as bff288e8b18fbcd2b7219daa4a09b3b2c8f31ee2. WI-1063's accepted finalization records deletion of those shared resources; current Git inspection confirms the named branch and worktree remain absent. This is an idempotent observation for WI-1061, not a claim that resources were deleted again or that its historical verification was rerun.",
+  "receiptId": "github-pr-1012-wi1061-idempotent-finalization-20261004",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1060-hosted-coverage-consumer",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1012",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9f59e2c93fcc478f2077b0caa7869129fc8d43a2eb602ac089c5542ffdf943ad",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-04T17:12:28Z",
+  "workItemId": "WI-1061-hosted-runtime-fixture",
+  "worktree": {
+    "branch": "codex/wi-1060-hosted-coverage-consumer",
+    "headRevision": "39eac7e7469ab7b4998f773c5d8bbd90d1b34a63",
+    "path": "/Users/sei-rinn/.codex/worktrees/hosted-coverage-consumer/ai-cockpit",
+    "worktreeId": "WI-1061-hosted-runtime-fixture"
+  }
+}
