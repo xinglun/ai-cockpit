@@ -98,9 +98,12 @@
     "crates/cockpit-repository/src/status_projection.rs",
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs"
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/supersede_archive.rs"
   ],
-  "sources": [],
+  "sources": [
+    "PR #1018 run 37232039906: changed recovery_decision.rs exceeded 16,384-token material bound (base also exceeds it). Formal preflight after byte-identical child-module split reported test_weakening because existing assertions were removed from the original path. The supported correction leaves the original file byte-identical and adds only a standalone supersede_archive.rs integration test with minimal local fixtures; no gate or product weakening."
+  ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
   "synchronizationHistory": [],
