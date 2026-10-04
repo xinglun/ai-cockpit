@@ -1,13 +1,11 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1061-hosted-runtime-fixture.recovery.json",
-    ".ai/work-items/active/WI-1063-pr1012-integration.contract.json",
-    ".ai/work-items/active/WI-1063-pr1012-integration.summary.json"
+    ".ai/evidence/WI-1063-pr1012-integration.verification-attempt.51114763f8cee4c57f8101fcbed8a0da20858f18272f82e7316672b38568d52e.json"
   ],
   "checkpointAt": "2026-10-04T05:41:37Z",
   "checkpointContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+  "checkpointRepositorySnapshotDigest": "sha256:175a147bbd0d3b6295fff9f65fba31f699ff50aaed6622ce976fce7c4867da3f",
   "createdAt": "2026-10-04T05:04:53Z",
   "decisionEvidence": {
     "contractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
@@ -32,7 +30,7 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
   "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
-  "preflightAt": "2026-10-04T05:52:05Z",
+  "preflightAt": "2026-10-04T06:11:36Z",
   "preflightContractDigest": "sha256:fbe28c1b906fd3e2388fbbc1fc7ac4420797667646217c5a8d48d4ef9dd8731b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:175a147bbd0d3b6295fff9f65fba31f699ff50aaed6622ce976fce7c4867da3f",
@@ -76,5 +74,80 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-04T05:53:22.747993+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:b37d9a3f4bc077ed95573f39665b01923d17846dc116fdf06f057e89245c0580",
   "workItemId": "WI-1063-pr1012-integration"
 }
