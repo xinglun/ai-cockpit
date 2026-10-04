@@ -1,11 +1,7 @@
 {
-  "changedPaths": [
-    ".ai/decisions/WI-1066-supersede-archive-admission.preflight-review.7dd34cef3914f6a4449036c79f8591e9b016523e2595d96549318d4145b7075e.json",
-    ".ai/work-items/active/WI-1066-supersede-archive-admission.summary.json",
-    "crates/cockpit-repository/tests/supersede_archive.rs"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-04T19:17:40Z",
-  "checkpointContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+  "checkpointContractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -126,11 +122,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-04T22:07:28Z",
+  "preflightAt": "2026-10-04T23:09:46Z",
   "preflightContractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -171,6 +167,14 @@
   "state": "checkpointed",
   "updatedAt": "2026-10-04T22:14:15.976419+00:00",
   "verification": [
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
     {
       "check": "project-command-0",
       "result": "passed"
@@ -278,21 +282,8 @@
     {
       "check": "project-command-2-package-cockpit-verification",
       "result": "passed"
-    },
-    {
-      "check": "project-command-3",
-      "result": "passed"
-    },
-    {
-      "check": "project-command-4",
-      "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-04T22:07:03Z"
-  },
-  "verificationRecoveryReconciled": "sha256:1fc875715897791654eea1bbdab434cee8b514620fa5f818a8cc40f342b3ad4c",
+  "verificationRecoveryReconciled": "sha256:e48ae508c181ef3e28aa9c3eaadbe30ce94525bfcd8fc615ff0207f9c7e6d056",
   "workItemId": "WI-1066-supersede-archive-admission"
 }
