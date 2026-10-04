@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray answered Yes to WI-1062 seq4 Contract d712a6fa after independent read-only technical review. Approval adds only tests/ci/process_observer_test_runner_test.sh to scope for isolated fixture repair; it does not assert verification success, merge, or release approval.",
+  "recordedAt": "2026-10-04T03:00:25Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1062-archived-pr-ci-stage"
+}

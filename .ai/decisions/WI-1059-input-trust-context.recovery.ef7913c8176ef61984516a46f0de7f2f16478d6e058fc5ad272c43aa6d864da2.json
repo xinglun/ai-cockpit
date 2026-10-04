@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Ray Task9 delegation of ordinary technical recovery decisions to Raydot in main coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010; route A recommendation for WI-1059 stale-base replacement on 2026-10-04; not a human Contract review or PR merge authorization",
+  "decidedAt": "2026-10-04T12:21:43Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1059-input-trust-context.recovery.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification-attempt.067c0e386e8f384ceafd7aa02707cc50d2118110363f3c93befd54122d5866fb.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37200054036"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "predecessorEventsDigest": "sha256:1af03babc160dabfb612c9d73f2f6aa254b7e305abadc28c4ea4a795b9d313c8",
+  "predecessorOutcomeDigest": "sha256:0256dbccf18977f670e5057cb6e0e9febd05d1de3528833d144e7bbb3001ac5f",
+  "predecessorSummaryDigest": "sha256:d8a732def0b5a5bc93c5da128c0e1b8cb4c9f6e9219d8d17a15ac00e9f9712e5",
+  "predecessorWorkItemId": "WI-1059-input-trust-context",
+  "reason": "WI-1059 is bound to base c026e59 and PR #1011; current origin/main is ce86d7c and the exact-head PR gate rejects the cumulative out-of-scope merge-base delta before candidate verification. Its base fields cannot be typed-amended, and a same-PR successor would conflict with the existing canonical retry recovery selector. Preserve the 27/27 historical verification and failed hosted run, then carry the same input-trust delivery on a new branch and PR with the current default base.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the dedicated successor branch and distinct provider PR, preserve predecessor archive and failed evidence, obtain actual Runtime review/admission and fresh exact-head hosted verification before any finish, archive, merge, or close.",
+  "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1064-input-trust-current-base",
+  "workItemId": "WI-1059-input-trust-context"
+}

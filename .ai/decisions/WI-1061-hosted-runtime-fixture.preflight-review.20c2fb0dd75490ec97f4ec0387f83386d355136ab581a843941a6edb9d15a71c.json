@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0aef853667d13eb5ced6e2e95ce5cc70b06e9406979e33faffb79f9f33ebf33f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The human user replied '同意' directly to the immediately preceding numbered option 1 confirming WI-1061 Contract digest 0aef8536. This records only review of the bounded two-fixture amendment, not implementation, verification, hosted CI, merge, or release success.",
+  "recordedAt": "2026-10-04T00:00:55Z",
+  "recordedBy": "human:sei-rinn",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:168081d941963afb0cc80bb39c0015b56a276d76b9780a39e26a1b2bdc7d6d73",
+  "schemaVersion": 1,
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:803fbab7c1dc41bc0ee9bc9856b4c42b0b12c83d9aaa218834c6656c3bcf41ba",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1059-input-trust-context",
+    "sequence": 1,
+    "changeId": "legacy-bb30f4d5a5c50d1cef462c39df8f2108728defff1c222c6ef09e6bb62f8ade77",
+    "requestDigest": "sha256:7977269445510e29cc4b9682c4f034240622f6ce4690aef894c3adf64f185853",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:bb30f4d5a5c50d1cef462c39df8f2108728defff1c222c6ef09e6bb62f8ade77",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4"
+        ],
+        "newValue": [
+          "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+          "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:d28adc1482a25e8328d4085edf0c32c9e594866c638d52fa625e8a71211d86f4",
+    "newContractDigest": "sha256:5b478f38bfe1e5b8bc276b78e8e30b1f5667b4b806f00a36af9a234d20d7b937",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:b79bb3b671dbffb7d4d09f7d3d93d34f35e0d8ab65794b0ba1e622c66c5a163a",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:9b3da2ad5a98f66bd1add3d566eca919d8cdcbeaf1b07d715317392976988e0f",
+    "recordedAt": "2026-10-03T13:10:37Z"
+  }
+}

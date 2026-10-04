@@ -1,0 +1,289 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1059-input-trust-context.preflight-review.0a48db291286079c9a535c9a6a4a53e6d32576d2a6319d26d92109bd30b41938.json",
+    ".ai/decisions/WI-1059-input-trust-context.preflight-review.1e00076e8abc02163e7dee0dbc76e0c2cf410301f4f904b0ad9a5e997c3eb957.json",
+    ".ai/decisions/WI-1059-input-trust-context.recovery.json",
+    ".ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.committed.json",
+    ".ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.prepared.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification-attempt.59f0af8ac458651de8cb387b924a1d475dbcc513c3296315f5e1c7416f96e084.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification-attempt.5ed863f9ff690200fef6de596d99437729a0709cdad432b58c4b85249920c650.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification-attempt.a64eb9caac84b2fd53bc1be419932806d49837f996cb4cfd7660b82ff57f6cc0.json",
+    ".ai/evidence/WI-1059-input-trust-context.verification.json",
+    ".ai/work-items/active/WI-1059-input-trust-context.contract.json",
+    ".ai/work-items/active/WI-1059-input-trust-context.outcome.json",
+    ".ai/work-items/active/WI-1059-input-trust-context.summary.json",
+    ".ai/work-items/active/WI-1059-input-trust-context.task-report.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_service.rs"
+  ],
+  "checkpointAt": "2026-10-03T13:40:55Z",
+  "checkpointContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+      "recorded": true,
+      "recordedAt": "2026-10-03T13:40:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:07e18bf7c317876c0b157651e37ae56dfd4af5d879f56cc23da77d47bc609db1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+      "previousContractHash": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+      "reason": "Raydot approved bounded private module extraction because lib.rs exceeds the existing after_text limit; preserve fail-closed classification and all tests.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T14:25:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c589f27dbaf23c6308c125b51b2c8ee8eb811315aa1736cc113ccba3e47a720",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:756113bac4f557ba0ede14df0fe3d0ce8156f98711c768b88eef60d031fa7cc4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+      "previousContractHash": "sha256:07e18bf7c317876c0b157651e37ae56dfd4af5d879f56cc23da77d47bc609db1",
+      "reason": "Official finalize-plan bound the real PR #1011 resourceContext after the earlier verification cycle under an exact same-WI retry. The Contract changed from canonical 07e18bf7 to 756113ba only in provider branch/worktree/PR identity; preserve old evidence and require a fresh identity-bound preflight review and verification on merged main ce86d7c4.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T10:43:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b19a7c7512a4849f1894801ec725cdb00dcfcc83463ec48f206b5173b807a41e",
+      "previousContractHash": "sha256:756113bac4f557ba0ede14df0fe3d0ce8156f98711c768b88eef60d031fa7cc4",
+      "reason": "Formal attempt 5ed863f9 exposed a scheduling-dependent post-authorization identity-drift test. Preserve the failed evidence and original input-trust delivery while replacing its fixed-time guess with same-call phase proof; do not weaken the production reuse check.",
+      "recorded": true,
+      "recordedAt": "2026-10-04T11:21:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1059-input-trust-context"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d8e9d90da2d71a9f300500c72bbf28a5253423c43be160596a032a8ccaa36cb7",
+  "createdAt": "2026-10-03T13:09:14Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray selected option 1 in direct user message 01a106a8-70f5-7751-94ab-5cf1a1f24ece after the exact WI-1059 Contract 1ff92381...ef97d60 review choice: approve implementation and verification, not merge or close.",
+    "recordedAt": "2026-10-04T11:26:42Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+    "schemaVersion": 1,
+    "workItemId": "WI-1059-input-trust-context"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/tests/governance_signals.rs",
+      "docs/reference/input-trust-dataflow.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-04T11:44:54Z",
+  "preflightContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "preflightDecisionDigest": "sha256:ee2795f0e386b716e8e1e8c9c83c8330fa742d66c08cd54aeec1cbe2a8d350e0",
+  "preflightRepositorySnapshotDigest": "sha256:d8e9d90da2d71a9f300500c72bbf28a5253423c43be160596a032a8ccaa36cb7",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-04T11:44:54Z",
+    "contractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+    "decisionDigest": "sha256:5a61f7d5d5c013b040e18ebff078c37a5d9f7ce894da95e46ef5b77553a3dc37",
+    "decisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.json",
+    "repositorySnapshotDigest": "sha256:d8e9d90da2d71a9f300500c72bbf28a5253423c43be160596a032a8ccaa36cb7",
+    "runtimeDigest": "sha256:547452210ebbfca6f481d4f77ba148934b80d9662e0adfab84fb185370c2cbb5",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:a73e84900828d386a4c6932d85c0421658daebaf5ff045848311db85cef6066b"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "required": true,
+      "scenario": "single-large-added-file-distant-benign-data",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "required": true,
+      "scenario": "same-semantic-context-cross-line-attack",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "required": true,
+      "scenario": "related-attack-across-hunks",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs"
+      ],
+      "required": true,
+      "scenario": "uninspectable-change-evidence",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-04T11:26:58.561739+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a73e84900828d386a4c6932d85c0421658daebaf5ff045848311db85cef6066b",
+  "workItemId": "WI-1059-input-trust-context"
+}

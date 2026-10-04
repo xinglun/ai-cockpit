@@ -1,0 +1,85 @@
+{
+  "attemptId": "sha256:59f0af8ac458651de8cb387b924a1d475dbcc513c3296315f5e1c7416f96e084",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:2b9db9d22c7cccf2a75962468b55fb639a2fa9e2ce5b66db5427b765a596c016",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:21cf718d6484c50af99b1ff55be0b91c9aad656f3e8ddda0b4015393ea392c85",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:dc35c75af497cfebfb3bcdb2f1c5303380705a6653b8dc355ae6c04e1f7c5c3e",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:21cf718d6484c50af99b1ff55be0b91c9aad656f3e8ddda0b4015393ea392c85",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "commandDigest": "sha256:154cf36945f5b17aee1fe9014c3b89f5c50d7c2942643092cf48e12ee1973ae1",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:21cf718d6484c50af99b1ff55be0b91c9aad656f3e8ddda0b4015393ea392c85",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:07e18bf7c317876c0b157651e37ae56dfd4af5d879f56cc23da77d47bc609db1",
+  "contractExecutionScopeDigest": "sha256:ca3a343499ebef53b485d89aa23ac78f260e7191a8c3a8c0b18baf2caa76ea8b",
+  "createdAt": "2026-10-03T16:43:51Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/input-trust-context/ai-cockpit/.ai/work-items/active/WI-1059-input-trust-context.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"archive_when_reviewed\", \"record_governance_controls\", \"refresh_status\", \"run_preflight\"], nextAction=Some(\"archive_when_reviewed\"), admissionDigest=sha256:c70451f7ebaef11e304f951cc65c61c8db04fe183cbe245acf6d77bf84db74ce, issues=[\"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bacc4c00af81dbc7358370461b0c808eeb34177a569d0f788b12d1337ffd2afc",
+  "runtimeDigest": "sha256:21cf718d6484c50af99b1ff55be0b91c9aad656f3e8ddda0b4015393ea392c85",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1059-input-trust-context"
+}

@@ -1,0 +1,314 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1060-hosted-coverage-consumer",
+    "sequence": 3,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1060-stage-local-before-formal-verify-20261004",
+      "expectedContractDigest": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+      "reason": "Raydot technical ruling under the user's delegation: the fifth required scenario combined local pre-verification evidence with formal Runtime verification and hosted exact-head CI. The Runtime requires required scenarios verified before starting formal verification, creating a prerequisite cycle. Split only this scenario's expected result and plan into an actually observable local prerequisite; preserve all six acceptance criteria, declared verification commands, source scope, and the mandatory later formal Runtime and hosted CI proof. The prior zero-process precondition rejection also included stale preflight and is not misrepresented as independent proof of the cycle.",
+      "changes": [
+        {
+          "path": "/scenarioCoverage/4/expected",
+          "operation": "replace",
+          "value": "Before formal Runtime verification, the final candidate source passes local cargo fmt --all -- --check, cargo clippy --locked --workspace --all-targets --all-features -- -D warnings, cargo test --locked --workspace, workspace_package_coverage_test.sh, and process_observer_test_runner_test.sh; retain real command results. Formal Runtime verification and hosted exact-head CI remain mandatory acceptance gates outside this precondition scenario."
+        },
+        {
+          "path": "/scenarioCoverage/4/verificationPlan",
+          "operation": "replace",
+          "value": "After implementation is frozen, execute the five declared commands locally, inspect every exit/result including unrelated failures, and record actual output identities before marking this prerequisite scenario verified. Then refresh preflight and run the separate formal Runtime verification and hosted exact-head PR CI required by unchanged acceptanceCriteria; never infer those gates from local results."
+        },
+        {
+          "path": "/scenarioCoverage/4/description",
+          "operation": "set",
+          "value": "This scenario is the local prerequisite phase only; its historical title also mentions the later formal and hosted gates, whose success must be reported separately under acceptanceCriteria."
+        }
+      ]
+    },
+    "requestDigest": "sha256:bef026580bb49523801ff66d9f4fc6ca61e12e91524f391d77e64a78f1b0eb2b",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "From the exact PR #1011 failed run 37136421952, preserve the passed 27/27 hosted candidate verification and Rust Contract gate evidence, and reproduce the workspace coverage RED: its formal coverageManifest selected clippy stage 1 while Cargo test packages were stage 2; no old failure evidence is deleted or relabeled.",
+        "For a declared fmt then clippy then one complete unfiltered cargo test --locked --workspace route, the Runtime formal receipt selects the Cargo test coverageManifest (sourceProgram/sourceArgs, all workspaceMembers, stage-2 nodeIds and true commandDigests) without changing the strict receipt schema; a legacy single Cargo test stage-0 route remains accepted.",
+        "The package coverage consumer accepts only one identifiable complete Cargo workspace test command. It derives one unambiguous command index from the formal manifest nodeIds and matches that index to the current Runtime-bound Contract verification declaration, requiring exact supported argv semantics, full metadata package set, per-package result/manifest/commandDigest correspondence, and execution or valid reuse accounting. It does not infer test identity from an arbitrary nodeId regex or self-reported sourceArgs alone.",
+        "Reject clippy-only, filtered or multiple ambiguous test commands, mixed or forged command indices, missing/duplicate packages, wrong command digests, wrong Contract/plan/snapshot/runtime bindings, missing plan, and a clippy manifest relabeled as test while retaining its original digest. Unrelated generic verification remains valid; only package-test coverage fails closed when no eligible test manifest exists.",
+        "A fresh matching formal hosted receipt avoids spawning duplicate package tests; a valid reused test package node is executed by the coverage runner exactly where required. Observer fixture package subprocesses do not inherit unrelated hosted receipt/orchestration inputs; add a real injected-environment regression while preserving production observer locking behavior and normal hosted evidence consumption.",
+        "Use Runtime CLI plus Cargo/CI canonical gate for this Makefile-free repository. Focused RED-to-GREEN tests, full declared verification, independent review, and exact-head PR CI must pass before merging; WI-1059/PR #1011 stays preserved until this correction is integrated and its own verification is refreshed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T16:47:47Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使 WI-1059 的规范 PR 在已有正式 Cargo test 逐包执行或有效复用时由同一收据证明完整覆盖，不重复跑包；不可信或不完整计划仍拒绝。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复托管 Runtime 多命令验证收据与 workspace package coverage 消费者的真实命令/包身份绑定，并隔离 process-observer fixture 对外来 hosted evidence 环境的继承；不削弱失败闭合。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "WI-1059 input-trust implementation and PR #1011 source files",
+        "global CI workflow bypasses or permission weakening",
+        "production process-observer lock and scheduling semantics",
+        "new receipt schema, signing credentials, or release publication"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+          "required": true,
+          "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+          "status": "unverified",
+          "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+        },
+        {
+          "evidence": [],
+          "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+          "required": true,
+          "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+          "status": "unverified",
+          "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+        },
+        {
+          "evidence": [],
+          "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+          "required": true,
+          "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+          "status": "unverified",
+          "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+        },
+        {
+          "evidence": [],
+          "expected": "Injected foreign receipt/orchestration variables do not fail fixture assertions, while normal hosted consumer remains strict",
+          "required": true,
+          "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+          "status": "unverified",
+          "verificationPlan": "Add injected-environment regression and run process_observer_test_runner_test.sh with and without hostile inherited variables."
+        },
+        {
+          "evidence": [],
+          "expected": "Declared fmt, clippy, workspace tests and focused scripts pass; hosted candidate verify, coverage gate, and exact-head CI pass before merge",
+          "required": true,
+          "scenario": "Canonical Cargo/CI gate and exact-head PR verification",
+          "status": "unverified",
+          "verificationPlan": "Run formal Runtime verification on final snapshot, inspect receipt and CI artifacts, obtain independent review, and merge only after exact-head success."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "tests/ci/run_workspace_package_tests.sh",
+        "tests/ci/workspace_package_coverage_test.sh",
+        "tests/ci/process_observer_test_runner_test.sh",
+        "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md"
+      ],
+      "sources": [
+        "PR #1011 run 37136421952, exact head bbcf7a4653a48534762a72d82a0a18deceb0ef68: candidate verification and Rust Contract gate passed; workspace package coverage failed at hosted_verification_receipt (formal manifest clippy stage 1 versus Cargo test stage 2).",
+        "Raydot technical decision 2026-10-04 under the user's explicit delegation: use a separate narrow WI, preserve WI-1059 and PR #1011 failure history, select an existing formal Cargo test manifest and validate against the current Contract; this is an agent:Raydot technical decision, not a new human review receipt.",
+        "Read-only reproduction: AI_COCKPIT_VERIFICATION_RECEIPT and AI_COCKPIT_VERIFICATION_ORCHESTRATION inherited by process_observer_test_runner_test.sh cause the fixture package coverage call to fail after the three serialization probes."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/ci/workspace_package_coverage_test.sh",
+        "bash tests/ci/process_observer_test_runner_test.sh"
+      ],
+      "workItemId": "WI-1060-hosted-coverage-consumer"
+    },
+    "previousContractDigest": "sha256:fa25c2c122aef0d75e5cd5c7f741b75ae76b3b3bb71c30c02ca3bcde086a833c",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "From the exact PR #1011 failed run 37136421952, preserve the passed 27/27 hosted candidate verification and Rust Contract gate evidence, and reproduce the workspace coverage RED: its formal coverageManifest selected clippy stage 1 while Cargo test packages were stage 2; no old failure evidence is deleted or relabeled.",
+        "For a declared fmt then clippy then one complete unfiltered cargo test --locked --workspace route, the Runtime formal receipt selects the Cargo test coverageManifest (sourceProgram/sourceArgs, all workspaceMembers, stage-2 nodeIds and true commandDigests) without changing the strict receipt schema; a legacy single Cargo test stage-0 route remains accepted.",
+        "The package coverage consumer accepts only one identifiable complete Cargo workspace test command. It derives one unambiguous command index from the formal manifest nodeIds and matches that index to the current Runtime-bound Contract verification declaration, requiring exact supported argv semantics, full metadata package set, per-package result/manifest/commandDigest correspondence, and execution or valid reuse accounting. It does not infer test identity from an arbitrary nodeId regex or self-reported sourceArgs alone.",
+        "Reject clippy-only, filtered or multiple ambiguous test commands, mixed or forged command indices, missing/duplicate packages, wrong command digests, wrong Contract/plan/snapshot/runtime bindings, missing plan, and a clippy manifest relabeled as test while retaining its original digest. Unrelated generic verification remains valid; only package-test coverage fails closed when no eligible test manifest exists.",
+        "A fresh matching formal hosted receipt avoids spawning duplicate package tests; a valid reused test package node is executed by the coverage runner exactly where required. Observer fixture package subprocesses do not inherit unrelated hosted receipt/orchestration inputs; add a real injected-environment regression while preserving production observer locking behavior and normal hosted evidence consumption.",
+        "Use Runtime CLI plus Cargo/CI canonical gate for this Makefile-free repository. Focused RED-to-GREEN tests, full declared verification, independent review, and exact-head PR CI must pass before merging; WI-1059/PR #1011 stays preserved until this correction is integrated and its own verification is refreshed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T16:47:47Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使 WI-1059 的规范 PR 在已有正式 Cargo test 逐包执行或有效复用时由同一收据证明完整覆盖，不重复跑包；不可信或不完整计划仍拒绝。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复托管 Runtime 多命令验证收据与 workspace package coverage 消费者的真实命令/包身份绑定，并隔离 process-observer fixture 对外来 hosted evidence 环境的继承；不削弱失败闭合。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "WI-1059 input-trust implementation and PR #1011 source files",
+        "global CI workflow bypasses or permission weakening",
+        "production process-observer lock and scheduling semantics",
+        "new receipt schema, signing credentials, or release publication"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+          "required": true,
+          "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+          "status": "unverified",
+          "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+        },
+        {
+          "evidence": [],
+          "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+          "required": true,
+          "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+          "status": "unverified",
+          "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+        },
+        {
+          "evidence": [],
+          "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+          "required": true,
+          "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+          "status": "unverified",
+          "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+        },
+        {
+          "evidence": [],
+          "expected": "Injected foreign receipt/orchestration variables do not fail fixture assertions, while normal hosted consumer remains strict",
+          "required": true,
+          "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+          "status": "unverified",
+          "verificationPlan": "Add injected-environment regression and run process_observer_test_runner_test.sh with and without hostile inherited variables."
+        },
+        {
+          "description": "This scenario is the local prerequisite phase only; its historical title also mentions the later formal and hosted gates, whose success must be reported separately under acceptanceCriteria.",
+          "evidence": [],
+          "expected": "Before formal Runtime verification, the final candidate source passes local cargo fmt --all -- --check, cargo clippy --locked --workspace --all-targets --all-features -- -D warnings, cargo test --locked --workspace, workspace_package_coverage_test.sh, and process_observer_test_runner_test.sh; retain real command results. Formal Runtime verification and hosted exact-head CI remain mandatory acceptance gates outside this precondition scenario.",
+          "required": true,
+          "scenario": "Canonical Cargo/CI gate and exact-head PR verification",
+          "status": "unverified",
+          "verificationPlan": "After implementation is frozen, execute the five declared commands locally, inspect every exit/result including unrelated failures, and record actual output identities before marking this prerequisite scenario verified. Then refresh preflight and run the separate formal Runtime verification and hosted exact-head PR CI required by unchanged acceptanceCriteria; never infer those gates from local results."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "tests/ci/run_workspace_package_tests.sh",
+        "tests/ci/workspace_package_coverage_test.sh",
+        "tests/ci/process_observer_test_runner_test.sh",
+        "docs/superpowers/plans/2026-10-04-hosted-package-coverage.md"
+      ],
+      "sources": [
+        "PR #1011 run 37136421952, exact head bbcf7a4653a48534762a72d82a0a18deceb0ef68: candidate verification and Rust Contract gate passed; workspace package coverage failed at hosted_verification_receipt (formal manifest clippy stage 1 versus Cargo test stage 2).",
+        "Raydot technical decision 2026-10-04 under the user's explicit delegation: use a separate narrow WI, preserve WI-1059 and PR #1011 failure history, select an existing formal Cargo test manifest and validate against the current Contract; this is an agent:Raydot technical decision, not a new human review receipt.",
+        "Read-only reproduction: AI_COCKPIT_VERIFICATION_RECEIPT and AI_COCKPIT_VERIFICATION_ORCHESTRATION inherited by process_observer_test_runner_test.sh cause the fixture package coverage call to fail after the three serialization probes."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "bash tests/ci/workspace_package_coverage_test.sh",
+        "bash tests/ci/process_observer_test_runner_test.sh"
+      ],
+      "workItemId": "WI-1060-hosted-coverage-consumer"
+    },
+    "newContractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+    "previousSummaryDigest": "sha256:8f45d0fb9670dd8d316663a4e28f625c68d79981be3da31f92a194552375c4ea",
+    "repositorySnapshotDigest": "sha256:010e824b9642b8c89d2d24228cacaff45e6a5644bb8c47cb17b34ba25154ac31",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:6a71e043f8793b96fb8f1d4fa756a89f0e05b8c37c94e6f62ae918b9cf42eeb4",
+    "policyReviewRequirements": [
+      "/scenarioCoverage/4/description",
+      "/scenarioCoverage/4/expected",
+      "/scenarioCoverage/4/verificationPlan"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-03T21:18:18Z"
+  },
+  "preparedDigest": "sha256:f9de65d8e4124d4908fc652a01a99e2162a0f07bd0ad0229c57b9a5472e7d7cc"
+}

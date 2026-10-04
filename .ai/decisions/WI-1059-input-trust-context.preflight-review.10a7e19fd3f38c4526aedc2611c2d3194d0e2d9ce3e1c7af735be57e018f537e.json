@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:07e18bf7c317876c0b157651e37ae56dfd4af5d879f56cc23da77d47bc609db1",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray explicitly approved the current WI-1059 Contract 07e18bf7 in this chat on 2026-10-04 JST and authorized continued implementation. This exact human approval covers the amended Contract digest and current preflight snapshot; it is not a verification result or a claim of completed delivery. Raydot's earlier module extraction review remains a separate technical approval.",
+  "recordedAt": "2026-10-03T15:49:35Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1c589f27dbaf23c6308c125b51b2c8ee8eb811315aa1736cc113ccba3e47a720",
+  "schemaVersion": 1,
+  "workItemId": "WI-1059-input-trust-context"
+}

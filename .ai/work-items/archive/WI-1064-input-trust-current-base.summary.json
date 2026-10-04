@@ -1,0 +1,210 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json",
+    ".ai/work-items/archive/WI-1064-input-trust-current-base.summary.json"
+  ],
+  "checkpointAt": "2026-10-04T12:36:12Z",
+  "checkpointContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "createdAt": "2026-10-04T12:22:15Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Ray replied 1 to Raydot's exact WI-1064 Contract 76ea6d4f...b8671f2 numbered review request in the main conversation, delivery message Sentinel_fa20bc1b33908191a7a1685bda98c217. This confirms only the amended Contract/preflight review; it does not authorize PR merge.",
+    "recordedAt": "2026-10-04T12:34:35Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+    "schemaVersion": 1,
+    "workItemId": "WI-1064-input-trust-current-base"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/archive/WI-1059-input-trust-context.contract.json",
+      "crates/cockpit-repository/tests/governance_signals.rs",
+      "crates/cockpit-repository/tests/verification_service.rs",
+      "docs/reference/input-trust-dataflow.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+  "predecessorWorkItemId": "WI-1059-input-trust-context",
+  "preflightAt": "2026-10-04T14:51:42Z",
+  "preflightContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1059-input-trust-context.recovery.ef7913c8176ef61984516a46f0de7f2f16478d6e058fc5ad272c43aa6d864da2.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-04T14:51:42Z",
+    "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+    "decisionDigest": "sha256:de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f",
+    "decisionPath": ".ai/decisions/WI-1064-input-trust-current-base.recovery.de2f71ae17ba72cccface2fa98133f39642a0c3a7d2e7787fab09f786cbabe1f.json",
+    "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+    "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:99dae86546e117b8afdb0db514e4d20f42b5f94f1e73b43c0a637d5c6f110ca4"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "2026-10-04 focused cargo test --locked --package cockpit-repository --test governance_signals: 33/33 passed; pr1009_old_head_actual_added_source_replay_when_commit_is_available executed with local Git commit 8d7f6fd4 present; same-file distant-data regression passed"
+      ],
+      "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+      "required": true,
+      "scenario": "single-large-added-file-distant-benign-data",
+      "status": "verified",
+      "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: adjacent_line_comments_with_the_existing_attack_fixture_are_untrusted, nested_block_comment_with_existing_attack_fixture_is_untrusted, rust_concat_of_the_existing_attack_halves_is_untrusted, newly_added_format_uses_unchanged_risky_literal"
+      ],
+      "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+      "required": true,
+      "scenario": "same-semantic-context-cross-line-attack",
+      "status": "verified",
+      "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: related_attack_across_hunks_cannot_be_reported_clean; focused cargo test --locked --package cockpit-git --test repository 14/14 passed including changed_rust_lines_keep_exact_after_line_and_hunk_origin"
+      ],
+      "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+      "required": true,
+      "scenario": "related-attack-across-hunks",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+    },
+    {
+      "evidence": [
+        "2026-10-04 focused governance_signals 33/33 passed: uninspectable_rust_content_states_are_unknown, bounded_rust_patch_with_a_candidate_and_no_full_source_is_unknown, bounded_patch_facts_in_an_oversized_file_are_inspectable, malformed_rust_provenance_is_unknown; cockpit-git repository 14/14 passed with oversized patch cases"
+      ],
+      "expected": "TooLarge, Binary, Unavailable, malformed evidence, and bounded Text patches with unresolved candidate context remain unknown or blocked rather than safe; a complete bounded Text patch with no instruction/risky candidate remains inspectable even if the oversized file's full text is unavailable.",
+      "required": true,
+      "scenario": "uninspectable-change-evidence",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-git and repository governance regressions for each content-state boundary and both bounded Text patch cases: no candidate preserves the existing inspectable result; candidate with missing semantic context is Unknown or a direct complete strong-pair finding."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-04T15:11:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1064-input-trust-current-base"
+}

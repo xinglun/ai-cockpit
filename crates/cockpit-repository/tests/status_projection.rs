@@ -26,6 +26,7 @@ fn governance_snapshot(path: &str, added_lines: &[&str]) -> RepositorySnapshot {
             path: path.into(),
             kind: ChangeKind::Modified,
             added_lines: added_lines.iter().map(|line| (*line).into()).collect(),
+            added_line_origins: Vec::new(),
             removed_lines: Vec::new(),
             after_text: Some(added_lines.join("\n")),
             content_state: ChangeContentState::Text,

@@ -1,0 +1,132 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Record a three-stage matrix for active PR archived PR and ordinary or post-merge CI with explicit unknown-route failure before implementation",
+    "Active PR retains real candidate Runtime producer then Rust Contract gate then formal receipt consumer and package coverage",
+    "Archived PR executes the existing read-only Rust Contract gate against the source checkout and independently executes repository gates and package coverage on the current head without stale hosted receipt variables or cleanup assumptions",
+    "Ordinary PR and post-merge routes keep their existing required checks; unknown selection methods fail closed without unconditional gate skipping",
+    "Focused RED to GREEN regressions and full declared Runtime verification pass; preserve PR 1012 failed runs and require new exact-head hosted CI evidence for this fix without claiming PR 1012 merged",
+    "After this Work Item is archived and before PR #1013 is merged or this Work Item is closed, require an exact-head GitHub pull_request run selecting its archived Contract read-only route: candidate hosted verification must not start; read-only Rust Contract gate, repository gates and fresh workspace package coverage must actually pass on that head without stale hosted receipt variables. Local or prior active-head evidence cannot substitute. After integration, PR #1012 must separately obtain the same real exact-head archived-route proof before its merge; retain all earlier failures."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-04T01:27:27Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Route active PRs through candidate hosted verification and formal receipt consumption; route archived PRs through the existing read-only Rust Contract gate plus fresh repository/package coverage; preserve ordinary PR and post-merge behavior and fail closed for unknown routes",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [
+    "Active pull_request selection uses a real candidate hosted Runtime verification producer, then Rust Contract gate, then formal receipt-backed repository package coverage.",
+    "Archived pull_request selection uses the existing read-only Rust Contract gate on the checked-out source plus fresh repository gates and package coverage; it does not start preflight or verification or consume a historical hosted receipt.",
+    "Ordinary pull_request and post-merge push preserve current repository gate and package coverage behavior; unknown or contradictory selection methods fail closed.",
+    "Keep PR #1012 and its active-head success and archived-head failures unchanged; this WI neither merges that PR nor grants merger authority."
+  ],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Repair CI lifecycle routing for archived PR Contracts without weakening active or ordinary gates",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "No Runtime protocol changes; no archived Contract or evidence mutation; no merge of PR 1012 or this WI without separate Ray authorization; no fabricated hosted receipt; no global gate bypass"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1062-archived-ci-stage",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1013",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1062-archived-ci-stage/ai-cockpit"
+  },
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "high",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The active Contract route runs candidate verification before the Rust gate and binds package coverage to the resulting formal receipt.",
+      "required": true,
+      "scenario": "active PR candidate verification and formal receipt consumption",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow convergence and route regressions against an active selection fixture, then inspect exact-head PR CI hosted verification, Rust gate, and coverage artifacts."
+    },
+    {
+      "evidence": [],
+      "expected": "The archived Contract route does not start a candidate verification process, runs the read-only Rust gate on the source checkout, and runs current-head package coverage without hosted receipt variables.",
+      "required": true,
+      "scenario": "archived PR read-only gate and fresh package coverage",
+      "status": "unverified",
+      "verificationPlan": "Before finish, execute the current-source archived route-binding regression, run the existing read-only Rust Contract gate against a real archived Contract on its source checkout, and run the canonical workspace package coverage runner on that same checkout without hosted receipt or orchestration variables; record route, gate, current head, all workspace packages, and omissions. This local evidence does not prove hosted archived PR acceptance."
+    },
+    {
+      "evidence": [],
+      "expected": "Ordinary PR and post-merge routes keep their required repository checks and package coverage with no Contract-hosted receipt assumption.",
+      "required": true,
+      "scenario": "ordinary PR and post-merge routes retain required coverage",
+      "status": "unverified",
+      "verificationPlan": "Run existing route and repository gate regressions for ordinary pull_request and main push fixtures, then inspect hosted route and gate receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "An unknown selection method or route/Contract mismatch exits before any repository package test subprocess or green coverage receipt.",
+      "required": true,
+      "scenario": "unknown or contradictory selection fails closed",
+      "status": "unverified",
+      "verificationPlan": "Add a focused negative route fixture and process marker assertion; run it before implementation and after the minimal workflow change."
+    }
+  ],
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/workflow_convergence_test.sh",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/resolve_work_item_test.sh",
+    "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
+    "docs/reference/ci-release-evidence.md",
+    "tests/ci/process_observer_test_runner_test.sh"
+  ],
+  "sources": [
+    "PR #1012 run 37167345770 archived-head failure",
+    "PR #1012 run 37166333860 active-head success"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/ci/workflow_convergence_test.sh",
+    "python3 tests/ci/quality_route_test.py",
+    "bash tests/ci/resolve_work_item_test.sh",
+    "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+  ],
+  "workItemId": "WI-1062-archived-pr-ci-stage"
+}

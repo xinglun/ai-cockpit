@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Ray replied 1 to Raydot's exact WI-1064 Contract 76ea6d4f...b8671f2 numbered review request in the main conversation, delivery message Sentinel_fa20bc1b33908191a7a1685bda98c217. This confirms only the amended Contract/preflight review; it does not authorize PR merge.",
+  "recordedAt": "2026-10-04T12:34:35Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed224faff3b78a809760d7cdfbf1835ebee4c664be38013d716ce0250851616c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1064-input-trust-current-base"
+}

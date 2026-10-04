@@ -223,6 +223,72 @@ if [[ -d "$archive_dir" ]]; then
   done < <(find "$archive_dir" -maxdepth 1 -type f -name '*.contract.json' -print | sort)
 fi
 
+validate_pr_recovery_successor() {
+  local predecessor_path=$1 successor_path=$2
+  local predecessor_id successor_id predecessor_digest decision_relative decision_path expected_repository_id
+  # This is a local checkout consistency boundary, not an external credential.
+  # An ordinary unbound route has no Contract identity and never enters here.
+  expected_repository_id=$(jq -er '.repositoryId' "$repo_root/.ai/agent-interface.json") || \
+    fail repository_identity_missing 'repository interface has no repositoryId'
+  predecessor_id=$(basename "$predecessor_path" .contract.json)
+  successor_id=$(basename "$successor_path" .contract.json)
+  [[ "$predecessor_id" =~ ^WI-[A-Za-z0-9][A-Za-z0-9._-]*$ &&
+     "$successor_id" =~ ^WI-[A-Za-z0-9][A-Za-z0-9._-]*$ &&
+     "$predecessor_id" != "$successor_id" ]] || \
+    fail work_item_contract_ambiguous 'shared PR has no distinct safe predecessor and successor identities'
+  validate_archived_contract_anchor "$predecessor_path" "$predecessor_id"
+  if [[ "$successor_path" == "$archive_dir/"*.contract.json ]]; then
+    validate_archived_contract_anchor "$successor_path" "$successor_id"
+  fi
+  [[ -f "$successor_path" && ! -L "$successor_path" ]] || \
+    fail recovery_binding_invalid 'successor Contract must be a regular non-symlink file'
+  jq -e \
+    --arg predecessor "$predecessor_id" \
+    --arg successor "$successor_id" \
+    --arg repository "$expected_repository_id" \
+    --arg branch "$pr_head_ref" \
+    --arg pullRequest "$pr_url" \
+    '.workItemId == $predecessor and .repositoryId == $repository and
+     .resourceContext.branch == $branch and .resourceContext.pullRequest == $pullRequest and
+     .predecessorWorkItemId != $successor' \
+    "$predecessor_path" >/dev/null || \
+    fail recovery_binding_invalid 'archived predecessor identity, repository or PR binding is inconsistent'
+  predecessor_digest="sha256:$(jq -cS . "$predecessor_path" | tr -d '\n' | shasum -a 256 | awk '{print $1}')"
+  jq -e \
+    --arg predecessor "$predecessor_id" \
+    --arg predecessorDigest "$predecessor_digest" \
+    --arg successor "$successor_id" \
+    --arg repository "$expected_repository_id" \
+    --arg branch "$pr_head_ref" \
+    --arg pullRequest "$pr_url" \
+    '.workItemId == $successor and .repositoryId == $repository and
+     .resourceContext.branch == $branch and .resourceContext.pullRequest == $pullRequest and
+     .predecessorWorkItemId == $predecessor and
+     .predecessorContractDigest == $predecessorDigest' \
+    "$successor_path" >/dev/null || \
+    fail recovery_binding_invalid 'successor does not bind the exact archived predecessor Contract and PR'
+  decision_relative=$(jq -er '.recoveryDecisionPath' "$successor_path" 2>/dev/null) || \
+    fail recovery_binding_invalid 'successor has no recovery decision path'
+  [[ "$decision_relative" == ".ai/decisions/$predecessor_id.recovery.json" &&
+     ! -L "$repo_root/.ai" && ! -L "$repo_root/.ai/decisions" ]] || \
+    fail recovery_binding_invalid 'successor recovery decision path is not the exact repository-local predecessor path'
+  decision_path="$repo_root/$decision_relative"
+  [[ -f "$decision_path" && ! -L "$decision_path" ]] || \
+    fail recovery_binding_invalid 'recovery decision must be a regular non-symlink file'
+  jq -e \
+    --arg predecessor "$predecessor_id" \
+    --arg predecessorDigest "$predecessor_digest" \
+    --arg successor "$successor_id" \
+    --arg repository "$expected_repository_id" \
+    '.schemaVersion == 1 and .decision == "successor" and
+     .workItemId == $predecessor and .repositoryId == $repository and
+     .predecessorWorkItemId == $predecessor and
+     .predecessorContractDigest == $predecessorDigest and
+     .successorWorkItemId == $successor' \
+    "$decision_path" >/dev/null || \
+    fail recovery_binding_invalid 'recovery decision does not bind the unique repository-local predecessor and successor'
+}
+
 candidate_contracts=()
 archived_candidate_contracts=()
 selection_method=''
@@ -274,11 +340,33 @@ elif [[ "$event" == pull_request ]]; then
     done
   fi
   if ((${#archived_candidate_contracts[@]} > 0)); then
-    if ((${#candidate_contracts[@]} > 0)); then
-      fail work_item_contract_ambiguous 'active and archived Contracts are bound to the same pull request identity'
+    if ((${#candidate_contracts[@]} == 1 && ${#archived_candidate_contracts[@]} == 1)); then
+      validate_pr_recovery_successor "${archived_candidate_contracts[0]}" "${candidate_contracts[0]}"
+    elif ((${#candidate_contracts[@]} == 0 && ${#archived_candidate_contracts[@]} == 1)); then
+      candidate_contracts=("${archived_candidate_contracts[0]}")
+      selection_method='archived_contract_read_only'
+    elif ((${#candidate_contracts[@]} == 0 && ${#archived_candidate_contracts[@]} == 2)); then
+      first_path=${archived_candidate_contracts[0]}
+      second_path=${archived_candidate_contracts[1]}
+      first_id=$(basename "$first_path" .contract.json)
+      second_id=$(basename "$second_path" .contract.json)
+      first_predecessor=$(jq -r '.predecessorWorkItemId // empty' "$first_path") || \
+        fail contract_invalid 'an archived Contract is not valid JSON'
+      second_predecessor=$(jq -r '.predecessorWorkItemId // empty' "$second_path") || \
+        fail contract_invalid 'an archived Contract is not valid JSON'
+      if [[ "$first_predecessor" == "$second_id" && "$second_predecessor" != "$first_id" ]]; then
+        validate_pr_recovery_successor "$second_path" "$first_path"
+        candidate_contracts=("$first_path")
+      elif [[ "$second_predecessor" == "$first_id" && "$first_predecessor" != "$second_id" ]]; then
+        validate_pr_recovery_successor "$first_path" "$second_path"
+        candidate_contracts=("$second_path")
+      else
+        fail work_item_contract_ambiguous 'archived Contracts have no unique acyclic successor for the shared PR'
+      fi
+      selection_method='archived_contract_read_only'
+    else
+      fail work_item_contract_ambiguous 'shared PR has competing or undecidable active/archived Contracts'
     fi
-    candidate_contracts=("${archived_candidate_contracts[@]}")
-    selection_method='archived_contract_read_only'
   fi
 elif [[ "$event" == push ]]; then
   [[ -n "$github_repository" ]] || fail github_repository_required 'tag/merge selection requires GITHUB_REPOSITORY'
@@ -382,7 +470,6 @@ fi
 contract_path=${candidate_contracts[0]}
 expected_repository_id=$(jq -er '.repositoryId' "$repo_root/.ai/agent-interface.json") || \
   fail repository_identity_missing 'repository interface has no repositoryId'
-
 contract_relative_candidate=${contract_path#"$repo_root/"}
 archived_contract_selected=false
 if [[ "$contract_relative_candidate" == .ai/work-items/archive/*.contract.json ]]; then

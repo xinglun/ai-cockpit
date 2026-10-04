@@ -1,0 +1,164 @@
+{
+  "acceptanceResults": [
+    "Preserve the exact WI-1060 predecessor recovery binding and bind the real PR #1012 branch worktree and provider identity with Runtime finalize-plan before formal verification.",
+    "Update only the two CI fixture scripts in this WI: retain the truthful hosted Runtime Contract verification declaration, complete formal plan manifest, per-node execution evidence and fail-closed package-process checks; make non-deferred fixture calls explicitly disable inherited deferred cleanup and make fake package coverage calls use the safe runner under their own isolated root. Do not weaken the production consumer or its runner-path validation. The five other PR paths remain byte-identical to WI-1060 commit 120ea0f5254fb7447051389e19c1d6c055946169.",
+    "Demonstrate focused RED then GREEN for both exact-head hosted fixture failures under inherited CI cleanup/runner variables, plus missing-field, wrong-binding and valid-reuse cases with zero unintended package-test subprocesses.",
+    "Pass full declared Runtime verification and independent review; on PR #1012 exact-head CI confirm selector chooses this active successor and candidate hosted Runtime verification, Rust Contract gate and workspace coverage formal-receipt consumer actually execute and pass before merge. Confirm the seven-path PR delivery scope, the unchanged five-path WI-1060 inheritance from commit 120ea0f5254fb7447051389e19c1d6c055946169, and preservation of predecessor and failed-run evidence without reducing any existing acceptance requirement."
+  ],
+  "createdAt": "2026-10-04T01:10:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4798a071c1569a154e2ab13de8fb8ba9bff24cb0fb4e035af84164abf222ed40",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f77d54790bc410862f2afcbe584be551d493c7c882a2d9da499da4b2ff57f89",
+      "workItemId": "WI-1061-hosted-runtime-fixture"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1061-hosted-runtime-fixture.preflight-review.1670aa9fa5107de98ce600e2d3cd08172bff00a16db715fe2eac2124958e0d9e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1061-hosted-runtime-fixture.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1061-hosted-runtime-fixture.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "Make PR #1012 candidate hosted multi-command verification and formal package coverage consumer pass on the exact head while transparently accepting the full seven-path cumulative WI-1060-to-WI-1061 delivery scope."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1061-hosted-runtime-fixture"
+  },
+  "taskReportDigest": "sha256:511337fee1328ec3e328d1e857902aca58367d680ff44b388286a1e234d87766",
+  "taskReportMarkdownDigest": "sha256:5fac5149d465e8daa96896184b8cb7ec9ff867e1a58dfdc6d77d991b2c35a940",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1061-hosted-runtime-fixture.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

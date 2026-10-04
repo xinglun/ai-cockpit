@@ -1,0 +1,193 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1059-input-trust-context.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d8e9d90da2d71a9f300500c72bbf28a5253423c43be160596a032a8ccaa36cb7",
+    "workItemId": "WI-1059-input-trust-context"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.0a48db291286079c9a535c9a6a4a53e6d32576d2a6319d26d92109bd30b41938.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1059-input-trust-context.preflight-review.1e00076e8abc02163e7dee0dbc76e0c2cf410301f4f904b0ad9a5e997c3eb957.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1059-input-trust-context.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.contract-amendments/00000006.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.59f0af8ac458651de8cb387b924a1d475dbcc513c3296315f5e1c7416f96e084.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.5ed863f9ff690200fef6de596d99437729a0709cdad432b58c4b85249920c650.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.verification-attempt.a64eb9caac84b2fd53bc1be419932806d49837f996cb4cfd7660b82ff57f6cc0.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1059-input-trust-context.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1059-input-trust-context.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1059-input-trust-context.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1059-input-trust-context.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1059-input-trust-context.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/verification_service.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1059-input-trust-context.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1059-input-trust-context.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1059-input-trust-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1059-input-trust-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1059-input-trust-context.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.contract.json"
+        ],
+        "inference": false,
+        "text": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1059-input-trust-context.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-1059-input-trust-context"
+}

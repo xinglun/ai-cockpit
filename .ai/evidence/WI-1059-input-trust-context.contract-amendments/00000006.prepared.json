@@ -1,0 +1,337 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1059-input-trust-context",
+    "sequence": 6,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1059-post-prepare-barrier-20261004",
+      "expectedContractDigest": "sha256:756113bac4f557ba0ede14df0fe3d0ce8156f98711c768b88eef60d031fa7cc4",
+      "reason": "Formal attempt 5ed863f9 exposed a scheduling-dependent post-authorization identity-drift test. Preserve the failed evidence and original input-trust delivery while replacing its fixed-time guess with same-call phase proof; do not weaken the production reuse check.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-repository/tests/verification_service.rs"
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "add",
+          "value": "The post-authorization profile/config identity-drift safety regression uses a deterministic same-call post-prepare/pre-execute barrier rather than a fixed sleep. The barrier proves that prepare obtained an actual reusable candidate: with no byte change the same harness reuses one node, starts no new child process, and leaves the execution counter at 1. After changing either cockpit.toml or project.json raw bytes at that boundary, it rejects reuse, starts exactly one fallback process, records post_planning_binding_drift, and leaves the counter at 2. Both directions of the barrier use finite timeouts; assertion failure or channel disconnection releases the barrier and joins the worker so no blocked test thread remains. Delayed scheduling is controlled by the channel/barrier, never inferred from sleep. Replace only the old timing-based integration case; retain all other safety regressions and pass the default-concurrency focused tests plus the original full Contract verification. The internal test hook is private, the production entry always supplies a no-op, and no public pause/bypass API or change to production authorization, cache, or post-execution binding logic is allowed."
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "WI-1059 formal attempt 5ed863f9ff690200fef6de596d99437729a0709cdad432b58c4b85249920c650: 27/27 nodes spawned, repository verification_service cockpit.toml case observed nodes_reused=1 versus expected 0; dedicated-target focused default test group reproduces while the same group serial passes. Raydot technical direction 2026-10-04 requires deterministic post-prepare phase synchronization, a no-change reuse control, bounded teardown, and no serial whitelist or longer sleep. This is a test-harness repair, not proof of a production defect."
+        }
+      ]
+    },
+    "requestDigest": "sha256:4bb7205e0705d390da3b280ccabb45d601523cb298865db5ca401bdbf6974606",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+        "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+        "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+        "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+        "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+        "Rust .rs detection uses full after_text plus Git added-line/hunk provenance when full source is available. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk. For an existing oversized file represented as Text with a complete bounded patch but no after_text, preserve the inspectable clean result only when the patch contains no instruction or risky candidate token; a candidate whose semantic boundary or unchanged operand cannot be resolved is Unknown, while a complete directly inspectable strong pair remains a finding. This patch-only result does not claim the entire file is safe.",
+        "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis.",
+        "Regression evidence must include PR #1009 actual old-head RED-to-GREEN replay, same and cross-item explicit composition attacks, cross-hunk related and unrelated cases, an unchanged operand joined to a new marker, comments/raw/byte/escape cases, malformed evidence, Text bounded patch without full source both with and without candidate tokens, and TooLarge/Binary/Unavailable. Preserve the existing oversized-file bounded-safe-patch regression without adding Unknown solely because after_text is absent. Non-Rust path rules remain unchanged."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T13:09:14Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 input_trust 将同一新增源文件中无关的测试数据跨上下文拼接为伪指令的误报，保留真实攻击和不可检查内容的 fail-closed 边界。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".github/workflows/ci.yml",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi-1059-input-trust-context",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1011",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/input-trust-context/ai-cockpit"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+          "required": true,
+          "scenario": "single-large-added-file-distant-benign-data",
+          "status": "unverified",
+          "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+        },
+        {
+          "evidence": [],
+          "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+          "required": true,
+          "scenario": "same-semantic-context-cross-line-attack",
+          "status": "unverified",
+          "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+        },
+        {
+          "evidence": [],
+          "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+          "required": true,
+          "scenario": "related-attack-across-hunks",
+          "status": "unverified",
+          "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+        },
+        {
+          "evidence": [],
+          "expected": "TooLarge, Binary, Unavailable, malformed evidence, and bounded Text patches with unresolved candidate context remain unknown or blocked rather than safe; a complete bounded Text patch with no instruction/risky candidate remains inspectable even if the oversized file's full text is unavailable.",
+          "required": true,
+          "scenario": "uninspectable-change-evidence",
+          "status": "unverified",
+          "verificationPlan": "Run cockpit-git and repository governance regressions for each content-state boundary and both bounded Text patch cases: no candidate preserves the existing inspectable result; candidate with missing semantic context is Unknown or a direct complete strong-pair finding."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/input-trust-dataflow.md",
+        "docs/reference/input-trust-dataflow.ja.md",
+        "docs/reference/input-trust-dataflow.zh-CN.md",
+        "crates/cockpit-repository/Cargo.toml",
+        "Cargo.lock",
+        "crates/cockpit-repository/src/rust_material.rs"
+      ],
+      "sources": [
+        "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+        "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity",
+        "2026-10-03 Ray explicitly authorized Raydot to make ordinary technical decisions on Ray's behalf. Raydot (actor agent:Raydot) approved the bounded WI-1059 Rust lexical/AST input-trust design for Contract preparation; this is delegated technical approval, not a claim that Ray personally reviewed this Contract digest, not Runtime confirm_review, and not verification evidence.",
+        "Raydot design decision 2026-10-03: use full-source Rust literal/comment units and patch added-line provenance; resolve only bounded explicit string composition; preserve Unknown on ambiguous or uninspectable evidence; replay PR #1009 actual single-large-hunk false positive while retaining real attack positives.",
+        "Raydot delegated technical correction 2026-10-03: preserve the existing bounded Text patch no-candidate behavior; do not turn every oversized-file safe edit yellow solely because full after_text is unavailable. Candidate context ambiguity remains Unknown, and this does not change Binary/TooLarge/Unavailable semantics.",
+        "Raydot technical approval 2026-10-03: mechanically extract the bounded Rust material scanner from the 528714-byte lib.rs into a private rust_material.rs module; retain the same byte cap, Unknown boundary, and attack-positive behavior. This is agent:Raydot technical approval, not a new human review receipt."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    "previousContractDigest": "sha256:756113bac4f557ba0ede14df0fe3d0ce8156f98711c768b88eef60d031fa7cc4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+        "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+        "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+        "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+        "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。",
+        "Rust .rs detection uses full after_text plus Git added-line/hunk provenance when full source is available. At least one added line in a candidate lexical/aggregate unit triggers inspection of all its old and new operands. Pair instruction and risky tokens within a decoded str/byte/raw literal, ordinary/doc/continuing nested comment unit, or bounded explicit concat!/static format! composition; do not pair unrelated literals solely because they share a file or hunk. For an existing oversized file represented as Text with a complete bounded patch but no after_text, preserve the inspectable clean result only when the patch contains no instruction or risky candidate token; a candidate whose semantic boundary or unchanged operand cannot be resolved is Unknown, while a complete directly inspectable strong pair remains a finding. This patch-only result does not claim the entire file is safe.",
+        "Resolve simple immutable local literal bindings and directly parseable same-file zero-argument pure-literal-return functions when used in explicit composition. Detect string +, push_str, join, and complex/dynamic macros as composition evidence; if their value relation cannot be reliably resolved, emit Unknown rather than clean. Bound parsing, recursion, graph nodes, and expanded text; failures and limits remain Unknown. No claim of full-program dynamic taint analysis.",
+        "Regression evidence must include PR #1009 actual old-head RED-to-GREEN replay, same and cross-item explicit composition attacks, cross-hunk related and unrelated cases, an unchanged operand joined to a new marker, comments/raw/byte/escape cases, malformed evidence, Text bounded patch without full source both with and without candidate tokens, and TooLarge/Binary/Unavailable. Preserve the existing oversized-file bounded-safe-patch regression without adding Unknown solely because after_text is absent. Non-Rust path rules remain unchanged.",
+        "The post-authorization profile/config identity-drift safety regression uses a deterministic same-call post-prepare/pre-execute barrier rather than a fixed sleep. The barrier proves that prepare obtained an actual reusable candidate: with no byte change the same harness reuses one node, starts no new child process, and leaves the execution counter at 1. After changing either cockpit.toml or project.json raw bytes at that boundary, it rejects reuse, starts exactly one fallback process, records post_planning_binding_drift, and leaves the counter at 2. Both directions of the barrier use finite timeouts; assertion failure or channel disconnection releases the barrier and joins the worker so no blocked test thread remains. Delayed scheduling is controlled by the channel/barrier, never inferred from sleep. Replace only the old timing-based integration case; retain all other safety regressions and pass the default-concurrency focused tests plus the original full Contract verification. The internal test hook is private, the production entry always supplies a no-op, and no public pause/bypass API or change to production authorization, cache, or post-execution binding logic is allowed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T13:09:14Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 input_trust 将同一新增源文件中无关的测试数据跨上下文拼接为伪指令的误报，保留真实攻击和不可检查内容的 fail-closed 边界。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".github/workflows/ci.yml",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi-1059-input-trust-context",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1011",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/input-trust-context/ai-cockpit"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The old PR #1009 added file and its single large hunk keep exact fixture literals while independent data strings do not combine into repository_material_untrusted.",
+          "required": true,
+          "scenario": "single-large-added-file-distant-benign-data",
+          "status": "unverified",
+          "verificationPlan": "Run a focused governance_signals regression using the exact 8d7f6fd4 added-file shape and a CI gate comparison fixture."
+        },
+        {
+          "evidence": [],
+          "expected": "A strong instruction and dangerous operation in one coherent changed-content context remain untrusted even when split across lines.",
+          "required": true,
+          "scenario": "same-semantic-context-cross-line-attack",
+          "status": "unverified",
+          "verificationPlan": "Run focused governance_signals positive regressions for same-line and cross-line attacks."
+        },
+        {
+          "evidence": [],
+          "expected": "A related attack separated across Git hunks is not silently classified green; uncertainty remains explicit if context cannot establish a safe decision.",
+          "required": true,
+          "scenario": "related-attack-across-hunks",
+          "status": "unverified",
+          "verificationPlan": "Run cockpit-git and governance_signals regressions for hunk identity and ambiguous cross-hunk input."
+        },
+        {
+          "evidence": [],
+          "expected": "TooLarge, Binary, Unavailable, malformed evidence, and bounded Text patches with unresolved candidate context remain unknown or blocked rather than safe; a complete bounded Text patch with no instruction/risky candidate remains inspectable even if the oversized file's full text is unavailable.",
+          "required": true,
+          "scenario": "uninspectable-change-evidence",
+          "status": "unverified",
+          "verificationPlan": "Run cockpit-git and repository governance regressions for each content-state boundary and both bounded Text patch cases: no candidate preserves the existing inspectable result; candidate with missing semantic context is Unknown or a direct complete strong-pair finding."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/input-trust-dataflow.md",
+        "docs/reference/input-trust-dataflow.ja.md",
+        "docs/reference/input-trust-dataflow.zh-CN.md",
+        "crates/cockpit-repository/Cargo.toml",
+        "Cargo.lock",
+        "crates/cockpit-repository/src/rust_material.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "sources": [
+        "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+        "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity",
+        "2026-10-03 Ray explicitly authorized Raydot to make ordinary technical decisions on Ray's behalf. Raydot (actor agent:Raydot) approved the bounded WI-1059 Rust lexical/AST input-trust design for Contract preparation; this is delegated technical approval, not a claim that Ray personally reviewed this Contract digest, not Runtime confirm_review, and not verification evidence.",
+        "Raydot design decision 2026-10-03: use full-source Rust literal/comment units and patch added-line provenance; resolve only bounded explicit string composition; preserve Unknown on ambiguous or uninspectable evidence; replay PR #1009 actual single-large-hunk false positive while retaining real attack positives.",
+        "Raydot delegated technical correction 2026-10-03: preserve the existing bounded Text patch no-candidate behavior; do not turn every oversized-file safe edit yellow solely because full after_text is unavailable. Candidate context ambiguity remains Unknown, and this does not change Binary/TooLarge/Unavailable semantics.",
+        "Raydot technical approval 2026-10-03: mechanically extract the bounded Rust material scanner from the 528714-byte lib.rs into a private rust_material.rs module; retain the same byte cap, Unknown boundary, and attack-positive behavior. This is agent:Raydot technical approval, not a new human review receipt.",
+        "WI-1059 formal attempt 5ed863f9ff690200fef6de596d99437729a0709cdad432b58c4b85249920c650: 27/27 nodes spawned, repository verification_service cockpit.toml case observed nodes_reused=1 versus expected 0; dedicated-target focused default test group reproduces while the same group serial passes. Raydot technical direction 2026-10-04 requires deterministic post-prepare phase synchronization, a no-change reuse control, bounded teardown, and no serial whitelist or longer sleep. This is a test-harness repair, not proof of a production defect."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    "newContractDigest": "sha256:1ff92381a4e84cec20deed57633736e17f51f5c95ac676ad4c09c62b7ef97d60",
+    "previousSummaryDigest": "sha256:d62ec221181dd5b46cdec4bcc3ec083a175169784a858e96ac3983dce88a6483",
+    "repositorySnapshotDigest": "sha256:14ab47f6334d7aaf1945f274189f3e66e66b4a3668655b00c9c88aa6ea30f4fe",
+    "environmentObservationDigest": "sha256:b79bb3b671dbffb7d4d09f7d3d93d34f35e0d8ab65794b0ba1e622c66c5a163a",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:c81791d09b6b1d523fd929d6e3076f98ecc799bf12bb2168983dbd4d87ae22d4"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:2faf47c207823a124d84702a88f0d0147ff9efa834dbd9d6d18fa4757d0da9b6",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-04T11:21:44Z"
+  },
+  "preparedDigest": "sha256:eb8ca85a17a0aaf42bd35ae060e22f2229c2e2f1ed3d38946391a92104a6c6dd"
+}

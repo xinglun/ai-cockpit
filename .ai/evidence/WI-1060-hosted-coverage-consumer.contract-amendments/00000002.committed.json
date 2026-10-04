@@ -1,0 +1,271 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:fa7c44611153ed1e3d442015c29552c989d1e33c282bd5804c63d03ac0f4d686",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1060-hosted-coverage-consumer",
+    "sequence": 2,
+    "changeId": "wi1060-high-risk-scenarios-20261004",
+    "requestDigest": "sha256:8f3515f2f3d8e5e8bb73ddaa2a9c8f19de472daf8182aac2be330458a0d16d12",
+    "reason": "The initial high-risk Contract omitted scenarioCoverage; make the acceptance matrix explicit before implementation without changing source scope or claiming any scenario verified.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          },
+          {
+            "evidence": [],
+            "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+            "required": true,
+            "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+            "status": "unverified",
+            "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          },
+          {
+            "evidence": [],
+            "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+            "required": true,
+            "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+            "status": "unverified",
+            "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          },
+          {
+            "evidence": [],
+            "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+            "required": true,
+            "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+            "status": "unverified",
+            "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+          },
+          {
+            "evidence": [],
+            "expected": "Injected foreign receipt/orchestration variables do not fail fixture assertions, while normal hosted consumer remains strict",
+            "required": true,
+            "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+            "status": "unverified",
+            "verificationPlan": "Add injected-environment regression and run process_observer_test_runner_test.sh with and without hostile inherited variables."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          },
+          {
+            "evidence": [],
+            "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+            "required": true,
+            "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+            "status": "unverified",
+            "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+          },
+          {
+            "evidence": [],
+            "expected": "Injected foreign receipt/orchestration variables do not fail fixture assertions, while normal hosted consumer remains strict",
+            "required": true,
+            "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+            "status": "unverified",
+            "verificationPlan": "Add injected-environment regression and run process_observer_test_runner_test.sh with and without hostile inherited variables."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Formal receipt binds stage-2 test nodes and complete package coverage; no duplicate package process for fresh hosted evidence",
+            "required": true,
+            "scenario": "Multi-command fmt, clippy, then complete Cargo workspace test selects the test manifest and counts all packages",
+            "status": "unverified",
+            "verificationPlan": "Add CLI verify and workspace coverage fixture regressions, then run both focused tests and exact-head hosted CI."
+          },
+          {
+            "evidence": [],
+            "expected": "Legacy receipt is accepted and reused package nodes are accounted for without incorrect global rerun",
+            "required": true,
+            "scenario": "Legacy stage-0 Cargo test and valid per-package reuse remain accepted",
+            "status": "unverified",
+            "verificationPlan": "Extend workspace package coverage fixture and run focused tests with explicit reuse records."
+          },
+          {
+            "evidence": [],
+            "expected": "Unsupported or inconsistent manifests never produce package coverage success",
+            "required": true,
+            "scenario": "Clippy-only, filtered, ambiguous, forged-stage, package/digest/binding tampering fail closed",
+            "status": "unverified",
+            "verificationPlan": "Add negative fixture mutations for each class, including clippy sourceArgs relabeled as test, then run focused tests."
+          },
+          {
+            "evidence": [],
+            "expected": "Injected foreign receipt/orchestration variables do not fail fixture assertions, while normal hosted consumer remains strict",
+            "required": true,
+            "scenario": "Process-observer fixture excludes inherited hosted evidence only for its fake package child",
+            "status": "unverified",
+            "verificationPlan": "Add injected-environment regression and run process_observer_test_runner_test.sh with and without hostile inherited variables."
+          },
+          {
+            "evidence": [],
+            "expected": "Declared fmt, clippy, workspace tests and focused scripts pass; hosted candidate verify, coverage gate, and exact-head CI pass before merge",
+            "required": true,
+            "scenario": "Canonical Cargo/CI gate and exact-head PR verification",
+            "status": "unverified",
+            "verificationPlan": "Run formal Runtime verification on final snapshot, inspect receipt and CI artifacts, obtain independent review, and merge only after exact-head success."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:62f697ddeb4fde0973912b08b3b4b6c75bccca02081488328ad7d6f6d2a0f07d",
+    "newContractDigest": "sha256:5606e3aa58bf8fb1b3bb2bb0db9d7a997a6e89bb977abd048338ee1547d6e099",
+    "repositorySnapshotDigest": "sha256:c5af19c94057cf6b6e0cd6699a67aa86919110ef21fe0f8b956afd9b7f38e72c",
+    "environmentObservationDigest": "sha256:81234033b7bee4d5a9fa985fc31fadeb2039add2d81e25cb8c1693de6fb6bc48",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:b6dbcf838be29640fba6d11d5c08a16dfaa4d10e09084c83e44d133a25fe1ea5",
+    "journalDigest": "sha256:6a71e043f8793b96fb8f1d4fa756a89f0e05b8c37c94e6f62ae918b9cf42eeb4",
+    "recordedAt": "2026-10-03T16:57:14Z"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1059-input-trust-context",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-bb30f4d5a5c50d1cef462c39df8f2108728defff1c222c6ef09e6bb62f8ade77",
+      "expectedContractDigest": "sha256:d28adc1482a25e8328d4085edf0c32c9e594866c638d52fa625e8a71211d86f4",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity"
+        }
+      ]
+    },
+    "requestDigest": "sha256:7977269445510e29cc4b9682c4f034240622f6ce4690aef894c3adf64f185853",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+        "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+        "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+        "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+        "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "createdAt": "2026-10-03T13:09:14Z",
+      "goal": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。",
+      "intent": "修复 input_trust 将同一新增源文件中无关的测试数据跨上下文拼接为伪指令的误报，保留真实攻击和不可检查内容的 fail-closed 边界。",
+      "mode": "implementation",
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".github/workflows/ci.yml",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "high",
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/input-trust-dataflow.md",
+        "docs/reference/input-trust-dataflow.ja.md",
+        "docs/reference/input-trust-dataflow.zh-CN.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    "previousContractDigest": "sha256:d28adc1482a25e8328d4085edf0c32c9e594866c638d52fa625e8a71211d86f4",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "旧 PR #1009 8d7f6fd4 的真实新增文件/单大 hunk 回放中，远隔且语义无关的 ignore previous instructions 与 tests/secret.rs 不被错误拼接成同一指令；不得通过删改或拆分对照字符串绕过检测。",
+        "同一可解释语义上下文中的跨行强制指令与危险操作仍触发 input_trust；分散 hunk 的相关攻击不能静默变为 green，必须保持不可信或明确 unknown。",
+        "TooLarge、Binary、Unavailable 或无法解析的变更证据保持 unknown/fail-closed，不把不可观察解释成安全；既有真实恶意输入正例保持通过。",
+        "Rust 仓库检测、Git 变更证据及其回归测试覆盖旧误报、真实攻击和边界负例；精确当前源码的 Runtime/Cargo canonical gate 与 PR CI 真实通过。",
+        "三语 input-trust 数据流文档说明新的证据配对边界、unknown 语义与保留的权限隔离；本 WI 不更改 PR #1009 的认知评估语义、Contract 或发布行为。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c026e59cd70a6d2117193fba2aebae07d30c1e74",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-03T13:09:14Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使 PR #1009 的真实 Rust/Python 对照源码通过可信的 Contract quality gate，并给后续变更提供可解释的变更语义上下文证据。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复 input_trust 将同一新增源文件中无关的测试数据跨上下文拼接为伪指令的误报，保留真实攻击和不可检查内容的 fail-closed 边界。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".github/workflows/ci.yml",
+        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-git/src/lib.rs",
+        "crates/cockpit-git/tests/repository.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/governance_signals.rs",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "docs/reference/input-trust-dataflow.md",
+        "docs/reference/input-trust-dataflow.ja.md",
+        "docs/reference/input-trust-dataflow.zh-CN.md"
+      ],
+      "sources": [
+        "PR #1009 CI run 37123823557 quality job 111205557945: repository_material_untrusted false positive on old head 8d7f6fd4",
+        "Raydot delegated technical decision 2026-10-03: separate corrective WI before PR #1009 integration; preserve exact Python/Rust fixture parity"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1059-input-trust-context"
+    },
+    "newContractDigest": "sha256:5b478f38bfe1e5b8bc276b78e8e30b1f5667b4b806f00a36af9a234d20d7b937",
+    "previousSummaryDigest": "sha256:dbd30590ee53edb02f5e34c70412776355d83e17cc1364c9f0858be6ef177578",
+    "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+    "environmentObservationDigest": "sha256:b79bb3b671dbffb7d4d09f7d3d93d34f35e0d8ab65794b0ba1e622c66c5a163a",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:bb30f4d5a5c50d1cef462c39df8f2108728defff1c222c6ef09e6bb62f8ade77",
+    "preparedAt": "2026-10-03T13:10:37Z"
+  },
+  "preparedDigest": "sha256:803fbab7c1dc41bc0ee9bc9856b4c42b0b12c83d9aaa218834c6656c3bcf41ba"
+}

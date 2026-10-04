@@ -1,0 +1,27 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Ray delegated ordinary AI Cockpit technical decisions and night continuation to Raydot in the main coordination thread; Raydot explicitly approved this WI-1064 same-WI retry in turn 01a10733-6735-7475-af68-d67d4b80675f. Direct delivery to the core thread failed; the decision was read from that thread, not attributed to human:Ray.",
+  "decidedAt": "2026-10-04T13:58:53Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1064-input-trust-current-base.verification.json",
+    ".ai/work-items/active/WI-1064-input-trust-current-base.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37205872945"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:76ea6d4f68ba45319173303cffcb9ad3a66d1709a11231ddd17d48becb8671f2",
+  "predecessorEventsDigest": "sha256:f4222ccb1a9cd60fe91bc77b75532b97362af098a22a2d3897d6244400f66291",
+  "predecessorOutcomeDigest": "sha256:0df9d1fe6344761877cbc4101e7167af115b15daac0c9f6c8c3ed478a1052f7f",
+  "predecessorSummaryDigest": "sha256:76ec61022ce6b754eb1784fbc0806524e2dda105dd708bf1e9d5a6a67a359d5d",
+  "predecessorWorkItemId": "WI-1064-input-trust-current-base",
+  "reason": "After WI-1064 finish and exact-head PR #1014 CI success, independent review identified an in-scope test fixture cleanup defect: the timeout branch releases proceed but asserts before joining the worker, so the child may outlive the fixture. Preserve the successful and failed evidence and correct this one boundary without changing production behavior or timeout policy.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the admitted same-WI retry to restore checkpointed state, make only the declared verification_service.rs fixture release-and-join-before-assert correction, run focused regression, refresh preflight and formal verification on the new snapshot, obtain independent review and exact-head active PR CI, then finish and archive. Do not merge PR #1014.",
+  "runtimeDigest": "sha256:672b0bbe870c2d860d5844982a448e3d70a92ebba2ed613bb0e39e1f1cc0b895",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1064-input-trust-current-base"
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "user-delegated-agent-Raydot-technical-direction-2026-10-04T04:54Z",
+  "decidedAt": "2026-10-04T05:03:37Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.outcome.json",
+    ".ai/work-items/archive/WI-1061-hosted-runtime-fixture.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1012",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37177568825"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:e256d453452a969ac6495bbcf0c1e0c7260c91cae617a2c48a81f2c758579aba",
+  "predecessorEventsDigest": "sha256:644329f1c6dda2910779e4d6506c65a2369f0ec07545e8fa4bb71b45ac533ca7",
+  "predecessorOutcomeDigest": "sha256:767356800315eb393d41a157990e3eb4a59cf7597f49a1be882b61d80d44f79e",
+  "predecessorSummaryDigest": "sha256:c2d32ef52b609a25d4f6dc064bd91e78ce9efa2b91d90fef662113c55b4d07ed",
+  "predecessorWorkItemId": "WI-1061-hosted-runtime-fixture",
+  "reason": "PR #1012 remains open at c6137239 after WI-1061 was archived. Main 522c4c8a passed CI and introduced one integration conflict in the process-observer fixture; the archived predecessor cannot be edited. Select one bounded successor to preserve WI-1060/WI-1061 history and own the complete seven-path cumulative PR delivery, real PR #1012 binding, and fresh active/archived exact-head verification. This decision authorizes development recovery only, not PR merge.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the successor with the full seven-path PR delivery scope and real #1012 resource binding before implementation; retain the main observer fixture and all six other PR delivery files; obtain admitted fresh Runtime verification plus active and archived exact-head CI before any separate PR #1012 merge decision.",
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1063-pr1012-integration",
+  "workItemId": "WI-1061-hosted-runtime-fixture"
+}

@@ -1,0 +1,257 @@
+{
+  "acceptanceResults": [
+    "From the exact PR #1011 failed run 37136421952, preserve the passed 27/27 hosted candidate verification and Rust Contract gate evidence, and reproduce the workspace coverage RED: its formal coverageManifest selected clippy stage 1 while Cargo test packages were stage 2; no old failure evidence is deleted or relabeled.",
+    "For a declared fmt then clippy then one complete unfiltered cargo test --locked --workspace route, the Runtime formal receipt selects the Cargo test coverageManifest (sourceProgram/sourceArgs, all workspaceMembers, stage-2 nodeIds and true commandDigests) without changing the strict receipt schema; a legacy single Cargo test stage-0 route remains accepted.",
+    "The package coverage consumer accepts only one identifiable complete Cargo workspace test command. It derives one unambiguous command index from the formal manifest nodeIds and matches that index to the current Runtime-bound Contract verification declaration, requiring exact supported argv semantics, full metadata package set, per-package result/manifest/commandDigest correspondence, and execution or valid reuse accounting. It does not infer test identity from an arbitrary nodeId regex or self-reported sourceArgs alone.",
+    "Reject clippy-only, filtered or multiple ambiguous test commands, mixed or forged command indices, missing/duplicate packages, wrong command digests, wrong Contract/plan/snapshot/runtime bindings, missing plan, and a clippy manifest relabeled as test while retaining its original digest. Unrelated generic verification remains valid; only package-test coverage fails closed when no eligible test manifest exists.",
+    "A fresh matching formal hosted receipt avoids spawning duplicate package tests; a valid reused test package node is executed by the coverage runner exactly where required. Observer fixture package subprocesses do not inherit unrelated hosted receipt/orchestration inputs; add a real injected-environment regression while preserving production observer locking behavior and normal hosted evidence consumption.",
+    "Use Runtime CLI plus Cargo/CI canonical gate for this Makefile-free repository. Focused RED-to-GREEN tests, full declared verification, independent review, and exact-head PR CI must pass before merging; WI-1059/PR #1011 stays preserved until this correction is integrated and its own verification is refreshed."
+  ],
+  "createdAt": "2026-10-03T22:11:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cabcbe048b6852b4587a09836671fcb39beabd0cc45f35ce6b0c7519a7248b14",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f1333faf6ffc4531a53d6a6dbc969ff9da2bd7b546d26fe02d459f1539958e63",
+      "workItemId": "WI-1060-hosted-coverage-consumer"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1060-hosted-coverage-consumer.preflight-review.883cecb253233e55f6234a504c0322cee7b5a63c7e154892ffa220908495fe9d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1060-hosted-coverage-consumer.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.40d4b8a80bc97002f85f085d70f807c91de248da06ef45e2f1e27119205eefd0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1060-hosted-coverage-consumer.verification-attempt.53daec9150ef315b0901987c6118fac650ab76df6f2c421aa7c0e72049dab0d0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-10-04-hosted-package-coverage.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/process_observer_test_runner_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json"
+          ],
+          "inference": false,
+          "text": "使 WI-1059 的规范 PR 在已有正式 Cargo test 逐包执行或有效复用时由同一收据证明完整覆盖，不重复跑包；不可信或不完整计划仍拒绝。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1060-hosted-coverage-consumer.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1060-hosted-coverage-consumer"
+  },
+  "taskReportDigest": "sha256:6817eec6cd3b3922463565f7ce3d1bce7728ba7c07ffbc1df75c9217ec59fd47",
+  "taskReportMarkdownDigest": "sha256:886fe66f2f7af951685567cd539bec9cefbc59541e22f6646b3f54c1160a1eff",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1060-hosted-coverage-consumer.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1060-hosted-coverage-consumer"
+}
