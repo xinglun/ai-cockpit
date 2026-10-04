@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Ray answered yes to the exact WI-1062 seq3 Contract digest c5530d56 after independent technical review, approving the full workspace verification list while retaining four focused checks. This does not assert new preflight or verification success and does not authorize merge or release.",
+  "recordedAt": "2026-10-04T02:26:19Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1062-archived-pr-ci-stage"
+}

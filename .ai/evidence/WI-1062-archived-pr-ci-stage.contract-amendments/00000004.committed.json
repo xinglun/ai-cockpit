@@ -1,0 +1,56 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:dcd70bf8e51cfdb2e1b54c77cf5cbb2af6f42efb9da90a90802b4d5bb5b655ba",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1062-archived-pr-ci-stage",
+    "sequence": 4,
+    "changeId": "legacy-d82f79bf8da096f8a440ed0c8038a22c94d47703e841e83a9a3115f08fbd6cfb",
+    "requestDigest": "sha256:ab7cc5818863995a970ebb1f5145de8d4a4fd192d63a8164d4fe9956fdae573f",
+    "reason": "PR #1013 exact-head CI run 37171609881 failed only ci_process_observer_test_runner: the active-lane hosted receipt environment is inherited by its one-package fixture. Reproduced failure with the real hosted receipt and passing clean-env control. Add this exact fixture path for scoped environment isolation; retain strict production receipt validation, the old 17/17 formal receipt, and failed CI evidence.",
+    "legacyInputDigest": "sha256:d82f79bf8da096f8a440ed0c8038a22c94d47703e841e83a9a3115f08fbd6cfb",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          ".github/workflows/ci.yml",
+          "tests/ci/workflow_convergence_test.sh",
+          "tests/ci/quality_route_test.py",
+          "tests/ci/resolve_work_item_test.sh",
+          "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
+          "docs/reference/ci-release-evidence.md"
+        ],
+        "newValue": [
+          ".github/workflows/ci.yml",
+          "tests/ci/workflow_convergence_test.sh",
+          "tests/ci/quality_route_test.py",
+          "tests/ci/resolve_work_item_test.sh",
+          "docs/superpowers/plans/2026-10-04-archived-pr-ci-stage.md",
+          "docs/reference/ci-release-evidence.md",
+          "tests/ci/process_observer_test_runner_test.sh"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c5530d56c4ec4f1e53090ca16dad22698d2966c510babf0a951cee2494856bbb",
+    "newContractDigest": "sha256:d712a6fa99e2e648b846103674d251c2289f6e1c3a53ad2c0e9863c89bb79c36",
+    "repositorySnapshotDigest": "sha256:4f4a7a16851e4e7257f4ff03cb4a293ae2fc6ab29922eafe0faf45c5c4d5893f",
+    "environmentObservationDigest": "sha256:f9f137f221518672ad138c820057fd13795d7952ad27317fbe6d0b20b2a03526",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1062-archived-pr-ci-stage.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:cdf7e82a5c9a698c266536e0d8fb505203cf7938f89f265e00cf6b037e8804be",
+    "journalDigest": "sha256:26a786624a541c9ee313551595535ac22fa47f22ceda8dc8a09660fc25cc4461",
+    "recordedAt": "2026-10-04T02:55:23Z"
+  }
+}
