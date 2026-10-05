@@ -111,7 +111,7 @@
   "preflightRepositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
   "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+  "recoveryRetryContractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
   "recoveryRetryDecisionDigest": "sha256:e6c226fc102bb466626228db6cebe6d00a255ecee7f16da9f1a870179e4e6dad",
   "recoveryRetryDecisionPath": ".ai/decisions/WI-1067-cargo-verification-boundary.recovery.json",
   "recoveryRetryPending": true,

@@ -55,6 +55,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1067-cargo-verification-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1019",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1067-cargo-package-timeout/ai-cockpit"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "high",
