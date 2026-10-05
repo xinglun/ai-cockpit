@@ -1,7 +1,10 @@
 use anyhow::{Context, Result, bail};
 use serde_json::json;
 use sha2::{Digest, Sha256};
-use std::{path::Path, process::Command};
+use std::{
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 const FIRST_ARCHIVE: &str = "WI-663-wi659-outcome-trust-replacement";
 
@@ -76,16 +79,36 @@ fn answer_key(task: &str) -> serde_json::Value {
     }
 }
 
-fn fixture_path(task: &str) -> Option<&'static str> {
+fn fixture_path(task: &str) -> Option<PathBuf> {
     match task {
-        "scope-exceeded" => Some("tests/conformance/fixtures/scope-exceeded/input.json"),
-        "evidence-expired-or-identity-mismatch" => {
-            Some("tests/conformance/fixtures/contradictory-evidence/input.json")
-        }
-        "test-weakening-signal" => Some("tests/conformance/fixtures/test-weakening/input.json"),
-        "unverified-scope" => {
-            Some("tests/conformance/fixtures/repository-prompt-injection/input.json")
-        }
+        "scope-exceeded" => Some(
+            PathBuf::from("tests")
+                .join("conformance")
+                .join("fixtures")
+                .join("scope-exceeded")
+                .join("input.json"),
+        ),
+        "evidence-expired-or-identity-mismatch" => Some(
+            PathBuf::from("tests")
+                .join("conformance")
+                .join("fixtures")
+                .join("contradictory-evidence")
+                .join("input.json"),
+        ),
+        "test-weakening-signal" => Some(
+            PathBuf::from("tests")
+                .join("conformance")
+                .join("fixtures")
+                .join("test-weakening")
+                .join("input.json"),
+        ),
+        "unverified-scope" => Some(
+            PathBuf::from("tests")
+                .join("conformance")
+                .join("fixtures")
+                .join("repository-prompt-injection")
+                .join("input.json"),
+        ),
         _ => None,
     }
 }
@@ -274,8 +297,11 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
     let mut all_violations = Vec::<String>::new();
     let mut cases = Vec::with_capacity(TASKS.len());
     for (task, work_item) in TASKS {
-        let outcome = repo.join(format!(".ai/work-items/archive/{work_item}.outcome.json"));
-        let contract = repo.join(format!(".ai/work-items/archive/{work_item}.contract.json"));
+        let archive = PathBuf::from(".ai").join("work-items").join("archive");
+        let outcome_relative = archive.join(format!("{work_item}.outcome.json"));
+        let contract_relative = archive.join(format!("{work_item}.contract.json"));
+        let outcome = repo.join(&outcome_relative);
+        let contract = repo.join(&contract_relative);
         if !outcome.is_file() || !contract.is_file() {
             bail!(
                 "P1-A evaluation failed: missing real archived Outcome structure for {work_item}"
@@ -289,10 +315,10 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
         let mut case_violations = Vec::<String>::new();
         let mut fixture_validation = json!({"present":false,"passed":true});
         if let Some(path) = fixture_path(task) {
-            let fixture_path = repo.join(path);
+            let fixture_path = repo.join(&path);
             let fixture: serde_json::Value = serde_json::from_slice(
                 &std::fs::read(&fixture_path)
-                    .with_context(|| format!("missing answer-key fixture: {path}"))?,
+                    .with_context(|| format!("missing answer-key fixture: {}", path.display()))?,
             )?;
             if !fixture.is_object() {
                 bail!(
@@ -394,12 +420,13 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
         all_violations.extend(case_violations.iter().cloned());
         cases.push(json!({
             "id":task,"workItem":work_item,
-            "sourceOutcome":format!(".ai/work-items/archive/{work_item}.outcome.json"),
-            "sourceContract":format!(".ai/work-items/archive/{work_item}.contract.json"),
+            "sourceOutcome":outcome_relative.to_string_lossy().into_owned(),
+            "sourceContract":contract_relative.to_string_lossy().into_owned(),
             "sourceOutcomeDigest":digest_bytes(&source_bytes),
             "sourceState":value["state"],"sourceDecisionState":value["decisionState"],
             "sourceUnknowns":value.get("unknowns").cloned().unwrap_or_else(|| json!([])),
-            "fixture":fixture_path(task),"fixtureValidation":fixture_validation,
+            "fixture":fixture_path(task).map(|path| path.to_string_lossy().into_owned()),
+            "fixtureValidation":fixture_validation,
             "answerKey":answer_key(task),
             "summary":views[0],"full":views[1],
             "summaryDigest":digest_bytes(views[0].as_bytes()),"fullDigest":digest_bytes(views[1].as_bytes()),

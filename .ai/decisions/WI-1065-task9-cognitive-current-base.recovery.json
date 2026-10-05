@@ -1,0 +1,33 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "agent:Raydot ordinary technical decision in coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010, under the human user's delegation of ordinary technical decisions. This is not a human confirm_review, human signature, or PR merge/release authorization.",
+  "decidedAt": "2026-10-05T12:01:16Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.outcome.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/1009",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37304850666"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940",
+  "predecessorEventsDigest": "sha256:64e4cf62d37760be54994da808fae435e09ae7059614cedb4e18b782f0d9aa99",
+  "predecessorOutcomeDigest": "sha256:a9fda0a10d48ff28ebd2a68b9a61fa5b7784424a1ce0050094754589ae6a413d",
+  "predecessorSummaryDigest": "sha256:4142b5625400c00ec5860d2696eae4504598455630bef46dba6015dfd68b6c63",
+  "predecessorWorkItemId": "WI-1065-task9-cognitive-current-base",
+  "reason": "A read-only code review identified a Windows success-report parity defect within the existing WI scope: the Python oracle derives sourceOutcome, sourceContract, and fixture with pathlib.Path.relative_to(), which uses native Windows separators, while Rust emits hard-coded forward-slash strings. This conflicts with the existing acceptance requirement that successful JSON match the oracle. Preserve the prior 28/28 local formal verification and PR #1009 run 37304850666; that run failed before tests at PR revision binding (declared base e6636dcc versus tested merge parent 57c8c887) and is not evidence for or against the path-parity defect.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "If Runtime records this retry, use the supported typed amendment within the existing eight-path scope to correct native relative-path JSON serialization and execute the full oracle parity test on Windows CI; preserve old verification and CI evidence. Obtain any actual Runtime-required Contract review, then run only admitted fresh preflight and full verification, push only the resulting exact PR #1009 head, and inspect its exact-head CI. If the new PR event still has stale revision binding, use at most one official close/reopen only if Runtime/project admission permits; otherwise preserve the run and report. Do not merge PR #1009 or release under this retry decision.",
+  "runtimeDigest": "sha256:bf28383539c494d0bae6ee89f9932983f15b3f8d7990293a1bc9247583d9f8a2",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}

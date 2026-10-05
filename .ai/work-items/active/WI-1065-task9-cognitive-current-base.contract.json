@@ -1,11 +1,11 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
+    "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON（包括 sourceOutcome、sourceContract、fixture 仓库相对路径字段）、Markdown 输出及 --check 只读行为，在 Windows 和 POSIX 上均与 oracle 等价。路径字段按当前平台的 Path.relative_to 语义序列化，不使用固定分隔符。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
     "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
     "仅改变四条精确产品路径及其三语命令参考和 Windows CI 精确测试入口，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
     "三语命令参考准确说明 audit cognitive-benefit 的 Rust 执行入口、--check 只读语义、非 check 的证据输出，以及 Python 脚本仅保留为对照 oracle；不宣称已测得人类认知收益。",
-    "PR 精确 head 的 hosted Windows job 必须实际运行 cockpit-cli 的显式无效 --binary 负例，覆盖普通写报告模式及 --check 模式；两种模式都不得回退、隐式构建或改写报告产物。仅 Windows 目标编译或其他 Windows job 全绿不视为该负例已执行。"
+    "PR 精确 head 的 hosted Windows job 必须实际运行 cockpit-cli 的显式无效 --binary 负例，覆盖普通写报告模式及 --check 模式；两种模式都不得回退、隐式构建或改写报告产物；并实际执行 generated_json_and_markdown_match_python_in_an_isolated_checkout 成功 oracle parity 测试，核对 JSON、Markdown 与平台原生相对路径字段。Windows CI 仅目标编译、执行无效二进制负例或其他 Windows job 全绿，不视为成功输出等价已验证。"
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,

@@ -235,6 +235,43 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
     let rust_json: serde_json::Value =
         serde_json::from_slice(&std::fs::read(&json_path).expect("Rust JSON artifact"))
             .expect("Rust JSON report");
+    let cases = rust_json["cases"].as_array().expect("report cases");
+    let normal_completion = cases
+        .iter()
+        .find(|case| case["id"] == "normal-completion")
+        .expect("normal-completion case");
+    let expected_outcome = PathBuf::from(".ai")
+        .join("work-items")
+        .join("archive")
+        .join("WI-663-wi659-outcome-trust-replacement.outcome.json");
+    let expected_contract = PathBuf::from(".ai")
+        .join("work-items")
+        .join("archive")
+        .join("WI-663-wi659-outcome-trust-replacement.contract.json");
+    assert_eq!(
+        normal_completion["sourceOutcome"].as_str(),
+        expected_outcome.to_str(),
+        "sourceOutcome must use native repository-relative path separators"
+    );
+    assert_eq!(
+        normal_completion["sourceContract"].as_str(),
+        expected_contract.to_str(),
+        "sourceContract must use native repository-relative path separators"
+    );
+    let scope_exceeded = cases
+        .iter()
+        .find(|case| case["id"] == "scope-exceeded")
+        .expect("scope-exceeded case");
+    let expected_fixture = PathBuf::from("tests")
+        .join("conformance")
+        .join("fixtures")
+        .join("scope-exceeded")
+        .join("input.json");
+    assert_eq!(
+        scope_exceeded["fixture"].as_str(),
+        expected_fixture.to_str(),
+        "fixture must use native repository-relative path separators"
+    );
     assert_eq!(rust_json, python_json, "full report JSON differs");
     assert_eq!(
         std::fs::read(&markdown_path).expect("Rust Markdown artifact"),
