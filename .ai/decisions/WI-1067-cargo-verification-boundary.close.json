@@ -1,0 +1,127 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6405eb3f87e0e0aa524eb32f640c6bc40bafc0fd87df618609dde9e2800758ea",
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1067-cargo-verification-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1067-cargo-verification-boundary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "codex-thread:01a0d19d-832d-7fa0-828c-78b64755febb"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:Ray via Ray explicit continuing task authorization in Codex thread 01a0d19d-832d-7fa0-828c-78b64755febb; authorize close after verified merge, CI, finalization, and recoverable cleanup at 2026-10-05T09:27:24Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1067-cargo-verification-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "使不同 linked worktree 的默认 Cargo 构建产物互不污染，并让真实耗时超过五分钟的完整 package 测试在有限 600 秒边界内执行；保留其他命令 300 秒默认与显式覆盖的政策约束。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1067-cargo-verification-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1067-cargo-verification-boundary"
+  },
+  "finalReportDigest": "sha256:4c6a7fc306d927c23d7f748c21c90a5dd4c84ee0eba96453c7f4bdb5d910c279",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:74dd14965fe0ff19e127c9a828e5f586f769e34aa732e8401c44527f23765360",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1067-cargo-verification-boundary.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "Ray explicit continuing task authorization in Codex thread 01a0d19d-832d-7fa0-828c-78b64755febb; authorize close after verified merge, CI, finalization, and recoverable cleanup",
+    "decidedAt": "2026-10-05T09:27:24Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "codex-thread:01a0d19d-832d-7fa0-828c-78b64755febb"
+    ],
+    "policyRefs": [],
+    "reason": "Close WI-1067 only: PR #1019 merged, exact-head and exact-main CI passed, Runtime finalization receipt verified as deleted. This does not claim Task9 or release completion; user-visible benefit remains undeclared.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-10-05T09:27:41Z",
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

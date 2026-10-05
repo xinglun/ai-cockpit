@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:Ray explicit continuing task authorization in Codex thread 01a0d19d-832d-7fa0-828c-78b64755febb authorizing merge after independent review and exact-candidate CI plus recoverable resource cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2cfceae9c1f32ea321ec38959d5bfe9e3200790f",
+    "name": "codex/wi-1067-cargo-verification-boundary",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2",
+  "contractDigest": "sha256:6bfe4523618b2d1e256cb55ca098d8f9c75291c659ba08625a51a231a77362ae",
+  "operationId": "github-pr-1019-merge-cleanup-20261005-retry1",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2",
+    "headRevision": "2cfceae9c1f32ea321ec38959d5bfe9e3200790f",
+    "mergeCommit": "4d1c14eb0744fdbb2de161f0abb9718bbfc1fa3a",
+    "number": 1019,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1019"
+  },
+  "reason": "PR #1019 merged at 4d1c14eb0744fdbb2de161f0abb9718bbfc1fa3a. Exact-head PR CI run 37284275735 passed all four jobs; exact-main push CI run 37286779272 passed all four jobs with 42 repository gates and 13/13 package coverage. The exact remote branch and local branch/worktree were deleted only after the PR head, merge commit, main CI, and cleanup postconditions were verified. The original managed worktree remains recoverable as an archived worktree snapshot. The user-dirty primary checkout was not modified. contractDigest binds the exact archived Contract file digest from archive manifest .files.contractDigest; the earlier rejected input using the Runtime canonical digest is preserved separately.",
+  "receiptId": "github-pr-1019-finalization-20261005-retry1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1067-cargo-verification-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1019",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1067-cargo-package-timeout/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:78ca40ba17ceafa60e46004929226b28784b6c7b78ab976de9d6a4e2be243610",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-05T09:25:27Z",
+  "workItemId": "WI-1067-cargo-verification-boundary",
+  "worktree": {
+    "branch": "codex/wi-1067-cargo-verification-boundary",
+    "headRevision": "2cfceae9c1f32ea321ec38959d5bfe9e3200790f",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi1067-cargo-package-timeout/ai-cockpit",
+    "worktreeId": "WI-1067-cargo-verification-boundary"
+  }
+}
