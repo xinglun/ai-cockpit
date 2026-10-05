@@ -189,6 +189,26 @@ fn windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes() {
     }
 }
 
+#[cfg(unix)]
+#[test]
+fn cli_entrypoint_runs_with_windows_sized_main_stack() {
+    let output = Command::new("sh")
+        .args(["-c", "ulimit -s 1024; exec \"$1\" --version", "sh"])
+        .arg(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .output()
+        .expect("run CLI with a Windows-sized main stack");
+
+    assert!(
+        output.status.success(),
+        "CLI must start with a 1 MiB main stack: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(
+        String::from_utf8_lossy(&output.stdout).contains(env!("CARGO_PKG_VERSION")),
+        "CLI version output must remain available"
+    );
+}
+
 #[test]
 fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
     let temp = tempfile::tempdir().expect("isolated checkout parent");

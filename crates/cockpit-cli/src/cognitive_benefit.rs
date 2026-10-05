@@ -1,5 +1,4 @@
 use anyhow::{Context, Result, bail};
-use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::{
     path::{Path, PathBuf},
@@ -33,43 +32,43 @@ const TASKS: [(&str, &str); 7] = [
 
 fn answer_key(task: &str) -> serde_json::Value {
     match task {
-        "normal-completion" => json!({
+        "normal-completion" => ::serde_json::json!({
             "verification":"stored Outcome is finish_ready/green",
             "human_decision":"not inferred from green; inspect the explicit decision field",
             "next_step":"review evidence before proceeding; green is not merge or release authorization",
             "risk_boundary":"empty risk record is not evidence of no risk"
         }),
-        "verified-pending-human-decision" => json!({
+        "verified-pending-human-decision" => ::serde_json::json!({
             "verification":"stored Outcome is finish_ready/green, subject to current-runtime revalidation",
             "human_decision":"not recorded",
             "next_step":"review evidence and record an explicit human close decision",
             "risk_boundary":"do not treat verification as approval"
         }),
-        "scope-exceeded" => json!({
+        "scope-exceeded" => ::serde_json::json!({
             "verification":"stored Outcome is blocked; completion is not claimed",
             "human_decision":"not recorded",
             "next_step":"stop and repair or create a separately authorized Contract",
             "risk_boundary":"scope evidence is a boundary, not permission to proceed"
         }),
-        "evidence-expired-or-identity-mismatch" => json!({
+        "evidence-expired-or-identity-mismatch" => ::serde_json::json!({
             "verification":"foreign, stale, or mismatched evidence must not be presented as current success",
             "human_decision":"unknown unless an identity-bound decision record exists",
             "next_step":"remain stopped and obtain fresh, identity-matched evidence",
             "risk_boundary":"an evidence mismatch is a stop condition, not a warning to ignore"
         }),
-        "test-weakening-signal" => json!({
+        "test-weakening-signal" => ::serde_json::json!({
             "verification":"verification state and test-weakening signal are separate facts",
             "human_decision":"not inferred from verification",
             "next_step":"inspect the bounded weakening check and its evidence scope",
             "risk_boundary":"no recorded risk is not the same as no weakening"
         }),
-        "unverified-scope" => json!({
+        "unverified-scope" => ::serde_json::json!({
             "verification":"unverified scenarios remain unverified",
             "human_decision":"unknown unless explicitly recorded",
             "next_step":"complete the declared verification plan before claiming completion",
             "risk_boundary":"unverified scope must remain visible in the uncertainty section"
         }),
-        "historical-closed-task" => json!({
+        "historical-closed-task" => ::serde_json::json!({
             "verification":"historical evidence is not a current verification result",
             "human_decision":"read the recorded decision and its authority source; do not upgrade assurance",
             "next_step":"preserve history and reverify only when a current result is needed",
@@ -119,7 +118,7 @@ fn fixture_passes(task: &str, fixture: &serde_json::Value) -> bool {
             fixture["changed_paths"]
                 .as_array()
                 .is_some_and(|paths| paths.iter().any(|path| path == "tests/secret.rs"))
-                && fixture["scope"] == json!(["src/**"])
+                && fixture["scope"] == ::serde_json::json!(["src/**"])
         }
         "evidence-expired-or-identity-mismatch" => fixture["explicit_blockers"]
             .as_array()
@@ -313,7 +312,7 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
             bail!("{} is not an OutcomeV2/task report pair", outcome.display());
         }
         let mut case_violations = Vec::<String>::new();
-        let mut fixture_validation = json!({"present":false,"passed":true});
+        let mut fixture_validation = ::serde_json::json!({"present":false,"passed":true});
         if let Some(path) = fixture_path(task) {
             let fixture_path = repo.join(&path);
             let fixture: serde_json::Value = serde_json::from_slice(
@@ -327,7 +326,7 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
                 );
             }
             let passed = fixture_passes(task, &fixture);
-            fixture_validation = json!({"present":true,"passed":passed});
+            fixture_validation = ::serde_json::json!({"present":true,"passed":passed});
             if !passed {
                 case_violations.push(format!("answer-key fixture does not match {task}"));
             }
@@ -384,8 +383,8 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
             if fields[0] != fields[1] {
                 case_violations.push(format!("{label} differs between summary and full"));
             }
-            summary_fields.insert(label.into(), json!(fields[0]));
-            full_fields.insert(label.into(), json!(fields[1]));
+            summary_fields.insert(label.into(), ::serde_json::json!(fields[0]));
+            full_fields.insert(label.into(), ::serde_json::json!(fields[1]));
             fields_differ |= fields[0] != fields[1];
         }
         for heading in [
@@ -418,13 +417,13 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
         }
         violations += case_violations.len();
         all_violations.extend(case_violations.iter().cloned());
-        cases.push(json!({
+        cases.push(::serde_json::json!({
             "id":task,"workItem":work_item,
             "sourceOutcome":outcome_relative.to_string_lossy().into_owned(),
             "sourceContract":contract_relative.to_string_lossy().into_owned(),
             "sourceOutcomeDigest":digest_bytes(&source_bytes),
             "sourceState":value["state"],"sourceDecisionState":value["decisionState"],
-            "sourceUnknowns":value.get("unknowns").cloned().unwrap_or_else(|| json!([])),
+            "sourceUnknowns":value.get("unknowns").cloned().unwrap_or_else(|| ::serde_json::json!([])),
             "fixture":fixture_path(task).map(|path| path.to_string_lossy().into_owned()),
             "fixtureValidation":fixture_validation,
             "answerKey":answer_key(task),
@@ -464,7 +463,7 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
                 .iter()
                 .map(|heading| format!("{language}: {heading}")),
         );
-        language_checks.push(json!({
+        language_checks.push(::serde_json::json!({
             "language":language,"workItem":FIRST_ARCHIVE,
             "outputDigest":digest_bytes(rendered.as_bytes()),
             "requiredHeadings":required,"missingHeadings":missing,"passed":missing.is_empty()
@@ -480,7 +479,7 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
     }
     let revision = String::from_utf8(revision_output.stdout)?;
     let binary = std::fs::canonicalize(binary).context("resolve Runtime binary")?;
-    let report = json!({
+    let report = ::serde_json::json!({
         "schemaVersion":1,"workItemId":"WI-750-p1-cognitive-benefit-current-base",
         "sourceRepositoryRevision":revision.trim(),
         "runtimeBinary":binary,"runtimeBinaryDigest":digest_bytes(&std::fs::read(&binary)?),
@@ -516,7 +515,7 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
     }
     println!(
         "{}",
-        json!({
+        ::serde_json::json!({
             "workItemId":"WI-750-p1-cognitive-benefit-current-base",
             "cases":TASKS.len(),"participants":0,"cognitiveBenefitValidated":false,
             "summaryFullConsistencyViolations":violations,"criticalVisibilityFailures":critical
@@ -531,33 +530,31 @@ mod tests {
         TASKS, answer_key, digest_bytes, evidence_refs, fixture_passes, missing_language_headings,
         render_markdown, unsafe_summary_markers, write_report,
     };
-    use serde_json::json;
-
     #[test]
     fn fixture_oracle_rejects_drift_in_security_relevant_answer_keys() {
         assert!(fixture_passes(
             "scope-exceeded",
-            &json!({"changed_paths":["tests/secret.rs"],"scope":["src/**"]})
+            &::serde_json::json!({"changed_paths":["tests/secret.rs"],"scope":["src/**"]})
         ));
         assert!(!fixture_passes(
             "scope-exceeded",
-            &json!({"changed_paths":[],"scope":["src/**"]})
+            &::serde_json::json!({"changed_paths":[],"scope":["src/**"]})
         ));
         assert!(fixture_passes(
             "evidence-expired-or-identity-mismatch",
-            &json!({"explicit_blockers":["evidence_contradictory"]})
+            &::serde_json::json!({"explicit_blockers":["evidence_contradictory"]})
         ));
         assert!(!fixture_passes(
             "evidence-expired-or-identity-mismatch",
-            &json!({"explicit_blockers":[]})
+            &::serde_json::json!({"explicit_blockers":[]})
         ));
         assert!(fixture_passes(
             "test-weakening-signal",
-            &json!({"test_weakening":true})
+            &::serde_json::json!({"test_weakening":true})
         ));
         assert!(!fixture_passes(
             "test-weakening-signal",
-            &json!({"test_weakening":false})
+            &::serde_json::json!({"test_weakening":false})
         ));
     }
 
@@ -630,7 +627,7 @@ mod tests {
 
     #[test]
     fn markdown_is_explicit_about_no_human_study_and_preserves_case_identity() {
-        let report = json!({"cases":[{"id":"normal-completion","workItem":"WI-663","sourceState":"green","sourceDecisionState":"unknown","summaryFields":{"Verification":"verified"},"summary":"Human next step"}],"metrics":{"summary_full_consistency_violations":0,"critical_visibility_failures":0,"full_view_invocations":14}});
+        let report = ::serde_json::json!({"cases":[{"id":"normal-completion","workItem":"WI-663","sourceState":"green","sourceDecisionState":"unknown","summaryFields":{"Verification":"verified"},"summary":"Human next step"}],"metrics":{"summary_full_consistency_violations":0,"critical_visibility_failures":0,"full_view_invocations":14}});
         let markdown = render_markdown(&report);
         assert!(markdown.contains("not a real user study"));
         assert!(markdown.contains("cognitive benefit remains unvalidated"));
@@ -641,7 +638,7 @@ mod tests {
     #[test]
     fn writing_mode_places_both_artifacts_only_under_selected_repository() {
         let repository = tempfile::tempdir().expect("isolated output repository");
-        let report = json!({"schemaVersion":1,"cases":[],"metrics":{"summary_full_consistency_violations":0,"critical_visibility_failures":0,"full_view_invocations":14}});
+        let report = ::serde_json::json!({"schemaVersion":1,"cases":[],"metrics":{"summary_full_consistency_violations":0,"critical_visibility_failures":0,"full_view_invocations":14}});
         write_report(repository.path(), &report).expect("write isolated report");
         let json_path = repository
             .path()
