@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-05T08:29:24Z",
+  "files": {
+    "contractDigest": "sha256:6bfe4523618b2d1e256cb55ca098d8f9c75291c659ba08625a51a231a77362ae",
+    "contractPath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.contract.json",
+    "eventsDigest": "sha256:6718c92383bcdb1f78b22851ea641b43be2864b3d9eabda88d7f17a2762621e8",
+    "eventsPath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.events.jsonl",
+    "outcomeDigest": "sha256:f3dc206eed58421018c9f4d49903f93c52454f1fa9929d1a5fa47ed87aad6aa5",
+    "outcomePath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.outcome.json",
+    "summaryDigest": "sha256:9d9b3a989dd23763378ce8ee479ece4cfbc62b0aff5c5b848ef993cdfcab165b",
+    "summaryPath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.summary.json",
+    "taskReportDigest": "sha256:9fb8243da203633e221e847e79dab3e940d2507022177e33640e68f2af944c34",
+    "taskReportMarkdownDigest": "sha256:4de3e686777e631c814b43ab22a3133b3cb200e281a78ba936cdb61df83587d7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1067-cargo-verification-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

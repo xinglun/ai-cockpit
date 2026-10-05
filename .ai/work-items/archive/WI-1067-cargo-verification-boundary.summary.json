@@ -1,21 +1,6 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1067-cargo-verification-boundary.preflight-review.c5d562c2d681a5fbc0b519b130f1e7e1299fbb1f2d14ce22b4edaa1a012374ae.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000005.committed.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000005.prepared.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000006.committed.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000006.prepared.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.1f384f1d5fa8c7667592726ccf92e2ebb186554f66ed57b4f3adda831ad6f4ba.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.d91669df5c278d7410ded8bcf1224b08c3753926938d7c5ac13b01f0a1a7f8b4.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.e66b35a49afbe2e0e40cf35a08ed247febc5af389125e008b0e37809d95de091.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json",
-    ".ai/work-items/active/WI-1067-cargo-verification-boundary.contract.json",
-    ".ai/work-items/active/WI-1067-cargo-verification-boundary.summary.json",
-    "crates/cockpit-repository/src/rust_material.rs",
-    "crates/cockpit-repository/tests/governance_signals.rs",
-    "docs/reference/input-trust-dataflow.ja.md",
-    "docs/reference/input-trust-dataflow.md",
-    "docs/reference/input-trust-dataflow.zh-CN.md"
+    ".ai/work-items/archive/WI-1067-cargo-verification-boundary.summary.json"
   ],
   "checkpointAt": "2026-10-05T02:20:59Z",
   "checkpointContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
@@ -116,7 +101,7 @@
       "workItemId": "WI-1067-cargo-verification-boundary"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:8070d4577fdc039118c5bc1b1eb781674140922330ffedbf35b3b57d9da78fea",
+  "checkpointRepositorySnapshotDigest": "sha256:6405eb3f87e0e0aa524eb32f640c6bc40bafc0fd87df618609dde9e2800758ea",
   "createdAt": "2026-10-05T02:09:57Z",
   "decisionEvidence": {
     "contractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
@@ -138,11 +123,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-05T07:39:51Z",
+  "preflightAt": "2026-10-05T08:00:35Z",
   "preflightContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
-  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-  "preflightRepositorySnapshotDigest": "sha256:1cd7b1861a1b8757f5b4d7b802114dec8c5d17b55f6c8db36545e7de05ee6569",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6405eb3f87e0e0aa524eb32f640c6bc40bafc0fd87df618609dde9e2800758ea",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-05T04:25:36Z",
@@ -160,7 +145,7 @@
     {
       "evidence": [
         "crates/cockpit-repository/tests/verification_service.rs",
-        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.55be307125ed50675d5381429122053d6537a67d1a9f7cd2f784d64ade69fddd.json"
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json"
       ],
       "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
       "required": true,
@@ -172,7 +157,7 @@
       "evidence": [
         "crates/cockpit-repository/tests/verification_service.rs",
         "crates/cockpit-cli/tests/verify.rs",
-        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.55be307125ed50675d5381429122053d6537a67d1a9f7cd2f784d64ade69fddd.json"
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json"
       ],
       "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
       "required": true,
@@ -182,7 +167,8 @@
     },
     {
       "evidence": [
-        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.55be307125ed50675d5381429122053d6537a67d1a9f7cd2f784d64ade69fddd.json"
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json",
+        "Raydot read-only technical review: thread=01a106e1-8e4f-72ed-a6b2-93d7282720e8; turn=01a10b27-b2bb-7292-a783-679b56c2c915; reviewed 608197e8..48bc7e43 at HEAD 48bc7e43cd617d5aeaba058496ed2163abd665b4; verdict=no blocking/important/minor findings; not human confirmation or hosted CI."
       ],
       "expected": "The candidate Runtime completes all 13 workspace packages, fmt and Clippy with source-bound receipts; exact-head PR CI retains contract-aware producer, gate, and coverage checks without treating WI-1065's old failed attempts as passed.",
       "required": true,
@@ -191,8 +177,8 @@
       "verificationPlan": "Before finish, run focused tests and the full declared Runtime verification on the frozen current source; inspect its receipt for all 13 workspace packages, fmt, Clippy, source identity, and no skipped or reused failed package. After archive, inspect real exact-head PR CI route, formal receipt or archived read-only lane as applicable, Rust gate, repository gates and workspace coverage before merge; after installation, reverify WI-1065 separately. Local evidence never stands in for hosted PR acceptance."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-05T05:36:57.197064+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-05T08:29:01.680795+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -303,6 +289,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:fed5fc9751ddc7bd176cf95076cc9493f1d7b960c64460a7c6c58d738e0837a4",
   "workItemId": "WI-1067-cargo-verification-boundary"
 }
