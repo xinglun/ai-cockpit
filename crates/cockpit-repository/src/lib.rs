@@ -97,8 +97,8 @@ pub use execution_context::{
 };
 use execution_context::{
     VerificationIdentityCost, assess_verification_reuse_measured,
-    build_repository_verification_command, refresh_verification_context,
-    resolved_executable_identity, valid_git_object_id,
+    build_repository_verification_command, effective_verification_timeout_seconds,
+    refresh_verification_context, resolved_executable_identity, valid_git_object_id,
 };
 #[cfg(test)]
 use execution_context::{
@@ -13126,7 +13126,11 @@ mod post_prepare_identity_tests {
 
 #[cfg(test)]
 mod environment_identity_tests {
-    use super::{effective_verification_environment, execution_environment_digest_from_values};
+    use super::{
+        RepositoryVerificationPolicy, RepositoryVerificationRequest,
+        effective_verification_environment, effective_verification_timeout_seconds,
+        execution_environment_digest_from_values,
+    };
     use crate::execution_context::merge_execution_environment;
     use std::{
         ffi::OsString,
@@ -13181,6 +13185,7 @@ mod environment_identity_tests {
     #[test]
     fn cargo_verification_preserves_explicit_non_incremental_target() {
         let environment = effective_verification_environment(
+            Path::new("/repo"),
             "cargo",
             vec![
                 (OsString::from("HOME"), OsString::from("/Users/tester")),
@@ -13218,7 +13223,7 @@ mod environment_identity_tests {
                 OsString::from("/staged/lib"),
             )],
         );
-        let environment = effective_verification_environment("cargo", merged);
+        let environment = effective_verification_environment(Path::new("/repo"), "cargo", merged);
         let target = environment
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
@@ -13234,6 +13239,7 @@ mod environment_identity_tests {
     #[test]
     fn non_cargo_verification_keeps_declared_environment() {
         let environment = effective_verification_environment(
+            Path::new("/repo"),
             "python3",
             vec![
                 (
@@ -13248,21 +13254,120 @@ mod environment_identity_tests {
     }
 
     #[test]
-    fn cargo_verification_defaults_to_home_target_when_not_declared() {
+    fn cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared() {
+        let root = tempfile::tempdir().expect("checkout");
+        let other_root = tempfile::tempdir().expect("other checkout");
+        let home = tempfile::tempdir().expect("absolute home");
+        let home_path = home.path().to_path_buf();
         let environment = effective_verification_environment(
+            root.path(),
             "cargo",
-            vec![(OsString::from("HOME"), OsString::from("/Users/tester"))],
+            vec![(OsString::from("HOME"), home_path.as_os_str().to_owned())],
         );
         let target = environment
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
             .map(|(_, value)| PathBuf::from(value.to_owned()));
-        let expected_target = Path::new("/Users/tester").join(".cache/ai-cockpit-verify-target");
-        assert_eq!(target.as_deref(), Some(expected_target.as_path()));
+        let expected_target = home_path.join(".cache/ai-cockpit-verify-target");
+        assert!(
+            target
+                .as_deref()
+                .is_some_and(|path| path.starts_with(&expected_target))
+        );
+        assert_ne!(target.as_deref(), Some(expected_target.as_path()));
+        let other_environment = effective_verification_environment(
+            other_root.path(),
+            "cargo",
+            vec![(OsString::from("HOME"), home_path.as_os_str().to_owned())],
+        );
+        let other_target = other_environment
+            .iter()
+            .find(|(name, _)| name == "CARGO_TARGET_DIR")
+            .map(|(_, value)| PathBuf::from(value.to_owned()));
+        assert_ne!(target, other_target);
         assert!(
             environment
                 .iter()
                 .any(|(name, value)| { name == "CARGO_INCREMENTAL" && value == "0" })
         );
+    }
+
+    #[test]
+    fn empty_home_still_gets_an_absolute_checkout_specific_cargo_target() {
+        let root = tempfile::tempdir().expect("checkout");
+        let other_root = tempfile::tempdir().expect("other checkout");
+        let target_for = |checkout: &Path| {
+            effective_verification_environment(
+                checkout,
+                "cargo",
+                vec![(OsString::from("HOME"), OsString::new())],
+            )
+            .into_iter()
+            .find(|(name, _)| name == "CARGO_TARGET_DIR")
+            .map(|(_, value)| PathBuf::from(value))
+            .expect("derived target")
+        };
+        let target = target_for(root.path());
+        assert!(
+            target.is_absolute(),
+            "target must not depend on process cwd: {target:?}"
+        );
+        assert_ne!(target, target_for(other_root.path()));
+    }
+
+    #[test]
+    fn cargo_executable_case_variant_keeps_package_deadline_and_target_isolation() {
+        let root = tempfile::tempdir().expect("checkout");
+        let request = RepositoryVerificationRequest {
+            node_id: "package-test".into(),
+            program: "Cargo.exe".into(),
+            args: vec!["test".into(), "--package".into(), "cockpit-cli".into()],
+            scope: Vec::new(),
+            stage: "test".into(),
+            runner: "local".into(),
+            runtime_digest: "runtime".into(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        };
+        assert_eq!(effective_verification_timeout_seconds(&request), 600);
+        assert!(
+            effective_verification_environment(root.path(), &request.program, Vec::new())
+                .iter()
+                .any(|(name, _)| name == "CARGO_TARGET_DIR")
+        );
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn windows_mixed_case_explicit_cargo_target_takes_precedence() {
+        let root = tempfile::tempdir().expect("checkout");
+        let caller_target = root.path().join("caller-target");
+        let environment = effective_verification_environment(
+            root.path(),
+            "cargo.exe",
+            vec![
+                (OsString::from("HOME"), root.path().as_os_str().to_owned()),
+                (
+                    OsString::from("Cargo_Target_Dir"),
+                    caller_target.as_os_str().to_owned(),
+                ),
+            ],
+        );
+        let targets = environment
+            .iter()
+            .filter(|(name, _)| {
+                name.to_string_lossy()
+                    .eq_ignore_ascii_case("CARGO_TARGET_DIR")
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(
+            targets.len(),
+            1,
+            "Windows child env must have one target key"
+        );
+        assert_eq!(PathBuf::from(&targets[0].1), caller_target);
     }
 }

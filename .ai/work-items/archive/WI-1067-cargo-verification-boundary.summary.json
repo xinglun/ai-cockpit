@@ -1,0 +1,293 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-1067-cargo-verification-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-10-05T02:20:59Z",
+  "checkpointContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "recorded": true,
+      "recordedAt": "2026-10-05T02:20:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6f32cf803aae60bc4bf92a543141a4abcdecb78b34122e4c54b9bb9c94a7946c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "reason": "Source audit found pre-existing public CLI/MCP timeout descriptions and English/Japanese/Chinese capability references that would falsely claim a universal 300-second default after the bounded package-test change; add only their exact files and a CLI plan regression to keep the approved behavior truthful",
+      "recorded": true,
+      "recordedAt": "2026-10-05T02:36:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:884fad04790e86b11b7a87128043783f62bb619ad4249522734831aedf17b1c2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:6f32cf803aae60bc4bf92a543141a4abcdecb78b34122e4c54b9bb9c94a7946c",
+      "reason": "Independent review of the passed 27-node local run found that MCP plan-only and persisted formal attempt commands still project the obsolete 300-second implicit package deadline, and CLI mixed-deadline aggregation can report a misleading top-level timeout. Extend only the necessary existing protocol projection and focused regression files; retain the prior passing and failed receipts, the 600/300 execution policy, and all hosted acceptance gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-05T03:28:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+      "reason": "PR #1019 exact-head run 37263602059 passed Windows and candidate hosted verification but the Rust Contract gate failed closed with repository_material_inspection_unavailable. A source-bound local replay isolated the scanner's current limitations: whole-file recursive 16,384-token mask budget rejects the 24,371-token CLI source before changed-origin semantics; a changed large json! macro is treated as one unresolved token string; and item-level .join() ambiguity conflates Path::join with string composition. Raydot's ordinary technical decision authorizes one bounded same-WI correction; preserve all previous pass/failure evidence, do not weaken the gate, raise the semantic budget, move tests, or bypass Runtime/CI.",
+      "recorded": true,
+      "recordedAt": "2026-10-05T05:10:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+      "reason": "Raydot's technical review identified that the newly appended filtered Cargo test is incompatible with the current strict workspace coverage consumer. tests/ci/run_workspace_package_tests.sh requires one unique complete unfiltered Cargo workspace test declaration and rejects any filtered or additional Cargo test declaration; keep the focused governance_signals RED-to-GREEN check as a separate local regression required by acceptance, not as a formal Contract verification node. Preserve the original three formal checks, all scope and acceptance requirements, and prior evidence. This correction does not waive any test or hosted acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-10-05T05:23:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6405eb3f87e0e0aa524eb32f640c6bc40bafc0fd87df618609dde9e2800758ea",
+  "createdAt": "2026-10-05T02:09:57Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray selected option 1 in this Codex conversation for WI-1067 Contract digest c2ffc1fa. This confirms only the current amended verification list and authorizes continuing through fresh Runtime-admitted verification; it does not claim verification success, merge, release, or broader scope.",
+    "recordedAt": "2026-10-05T05:36:31Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+    "schemaVersion": 1,
+    "workItemId": "WI-1067-cargo-verification-boundary"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-1067-cargo-verification-boundary.preflight-review.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-05T08:00:35Z",
+  "preflightContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6405eb3f87e0e0aa524eb32f640c6bc40bafc0fd87df618609dde9e2800758ea",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-05T04:25:36Z",
+    "contractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
+    "decisionDigest": "sha256:e6c226fc102bb466626228db6cebe6d00a255ecee7f16da9f1a870179e4e6dad",
+    "decisionPath": ".ai/decisions/WI-1067-cargo-verification-boundary.recovery.json",
+    "repositorySnapshotDigest": "sha256:5f7c01db0b8745b4a775f718856a41b2da99aef323c2612221f4e394cec38dd0",
+    "runtimeDigest": "sha256:a81c364969173be001ee3e7c7db05d1b862dc91f3c0ca089ec51d04aea332d97",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:5c11559d8c10b7e065e72e1ad6082837ae0c42fcabfc419f8b809eb643290b7d"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_service.rs",
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json"
+      ],
+      "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+      "required": true,
+      "scenario": "distinct-linked-worktree-cargo-targets",
+      "status": "verified",
+      "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json"
+      ],
+      "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+      "required": true,
+      "scenario": "finite-package-test-default-and-explicit-policy",
+      "status": "verified",
+      "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.34fdb954851c91bf85ce26a2b973dcd80dc25ef38fe9c4e95490b25d7cbf7c34.json",
+        "Raydot read-only technical review: thread=01a106e1-8e4f-72ed-a6b2-93d7282720e8; turn=01a10b27-b2bb-7292-a783-679b56c2c915; reviewed 608197e8..48bc7e43 at HEAD 48bc7e43cd617d5aeaba058496ed2163abd665b4; verdict=no blocking/important/minor findings; not human confirmation or hosted CI."
+      ],
+      "expected": "The candidate Runtime completes all 13 workspace packages, fmt and Clippy with source-bound receipts; exact-head PR CI retains contract-aware producer, gate, and coverage checks without treating WI-1065's old failed attempts as passed.",
+      "required": true,
+      "scenario": "full-workspace-and-hosted-boundary",
+      "status": "verified",
+      "verificationPlan": "Before finish, run focused tests and the full declared Runtime verification on the frozen current source; inspect its receipt for all 13 workspace packages, fmt, Clippy, source identity, and no skipped or reused failed package. After archive, inspect real exact-head PR CI route, formal receipt or archived read-only lane as applicable, Rust gate, repository gates and workspace coverage before merge; after installation, reverify WI-1065 separately. Local evidence never stands in for hosted PR acceptance."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-05T08:29:01.680795+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

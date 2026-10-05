@@ -285,7 +285,9 @@ source/base revision、profile、toolchain、environment、executable identity�
 stage、runner、command、output identity がすべて一致した場合だけ reuse します。protected gate、
 explicit command、Work Item run は fresh です。不一致は rerun または unknown/blocked になります。
 
-制限は command timeout 300 秒、stdout/stderr 各 64 KiB、positive worker count です。output が
+`cargo test --package` node の有限 default timeout は 600 秒、それ以外の command は 300 秒です。
+認可された明示 override の Runtime 上限は 900 秒です。stdout/stderr は各 64 KiB、worker count は
+正数でなければなりません。output が
 truncated と表示されることがあります。timeout、capture、process-tree failure は pass ではありません。
 receipt-store index は 8 MiB、reusable receipt は 1 MiB までです。malformed、oversized、symlink、
 inconsistent entry は fail closed になります。

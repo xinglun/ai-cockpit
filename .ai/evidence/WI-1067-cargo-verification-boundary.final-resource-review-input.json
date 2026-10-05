@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
+    "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+    "repositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
+    "recordedBy": "human:Ray",
+    "reason": "Ray selected option 1 in this Codex conversation for final WI-1067 Contract ce8a19dc after the Runtime-bound PR #1019 resourceContext was added. Compared with the prior human-approved 74a9d0f3 Contract, only the real branch/worktree/provider/PR identity changed; the 15-file scope and six acceptance criteria did not. This confirms the exact current Contract review, not verification, merge, or release.",
+    "recordedAt": "2026-10-05T04:11:56Z"
+  }
+}

@@ -2,6 +2,7 @@ use super::project_governance::{ProjectGovernanceFacts, observe_project_governan
 use super::*;
 
 const MAX_ENVIRONMENT_INPUT_BYTES: u64 = 16 * 1024 * 1024;
+const DEFAULT_CARGO_PACKAGE_TEST_SECONDS: u64 = 600;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct VerificationContextInput {
@@ -567,14 +568,35 @@ pub(super) fn build_repository_verification_command(
     command
         .with_current_dir(root)
         .with_environment(effective_verification_environment(
+            root,
             &request.program,
             environment,
         ))
-        .with_timeout_seconds(
-            request
-                .timeout_seconds
-                .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
-        )
+        .with_timeout_seconds(effective_verification_timeout_seconds(request))
+}
+
+pub(super) fn effective_verification_timeout_seconds(
+    request: &RepositoryVerificationRequest,
+) -> u64 {
+    request
+        .timeout_seconds
+        .unwrap_or_else(|| implicit_verification_timeout_seconds(request))
+}
+
+fn implicit_verification_timeout_seconds(request: &RepositoryVerificationRequest) -> u64 {
+    let is_cargo = is_cargo_program(&request.program);
+    let is_package_test = request.args.first().is_some_and(|arg| arg == "test")
+        && request
+            .args
+            .iter()
+            .skip(1)
+            .take_while(|arg| arg.as_str() != "--")
+            .any(|arg| arg == "--package" || arg.starts_with("--package="));
+    if is_cargo && is_package_test {
+        DEFAULT_CARGO_PACKAGE_TEST_SECONDS
+    } else {
+        cockpit_verification::DEFAULT_EXECUTION_SECONDS
+    }
 }
 
 pub(super) fn merge_execution_environment(
@@ -911,27 +933,31 @@ pub(super) fn execution_environment_digest(
     program: &str,
 ) -> Result<String, ObserverError> {
     execution_environment_digest_from_values(
-        effective_verification_environment(program, std::env::vars_os().collect()),
+        effective_verification_environment(path, program, std::env::vars_os().collect()),
         path,
     )
 }
 
 pub(super) fn effective_verification_environment(
+    root: &Path,
     program: &str,
     mut environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
 ) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
-    let is_cargo = Path::new(program)
-        .file_name()
-        .is_some_and(|name| name == "cargo" || name == "cargo.exe");
+    let is_cargo = is_cargo_program(program);
     if !is_cargo {
         return environment;
     }
 
     let explicit_target_dir = environment
         .iter()
-        .find(|(name, value)| name == "CARGO_TARGET_DIR" && !value.is_empty())
+        .find(|(name, value)| {
+            cargo_environment_key_matches(name, "CARGO_TARGET_DIR") && !value.is_empty()
+        })
         .map(|(_, value)| value.clone());
-    environment.retain(|(name, _)| name != "CARGO_INCREMENTAL" && name != "CARGO_TARGET_DIR");
+    environment.retain(|(name, _)| {
+        !cargo_environment_key_matches(name, "CARGO_INCREMENTAL")
+            && !cargo_environment_key_matches(name, "CARGO_TARGET_DIR")
+    });
     environment.push((
         std::ffi::OsString::from("CARGO_INCREMENTAL"),
         std::ffi::OsString::from("0"),
@@ -941,19 +967,41 @@ pub(super) fn effective_verification_environment(
     } else {
         let home = environment
             .iter()
-            .find(|(name, _)| name == "HOME")
+            .filter(|(name, _)| {
+                cargo_environment_key_matches(name, "HOME")
+                    || cargo_environment_key_matches(name, "USERPROFILE")
+            })
             .map(|(_, value)| PathBuf::from(value))
-            .or_else(|| std::env::var_os("HOME").map(PathBuf::from))
-            .or_else(|| std::env::var_os("USERPROFILE").map(PathBuf::from));
-        if let Some(home) = home {
-            environment.push((
-                std::ffi::OsString::from("CARGO_TARGET_DIR"),
-                home.join(".cache/ai-cockpit-verify-target")
-                    .into_os_string(),
-            ));
-        }
+            .find(|path| path.is_absolute())
+            .unwrap_or_else(std::env::temp_dir);
+        let checkout = fs::canonicalize(root).unwrap_or_else(|_| root.to_path_buf());
+        let checkout_digest = Digest::sha256_bytes(checkout.as_os_str().as_encoded_bytes());
+        environment.push((
+            std::ffi::OsString::from("CARGO_TARGET_DIR"),
+            home.join(".cache/ai-cockpit-verify-target")
+                .join(checkout_digest.to_string().trim_start_matches("sha256:"))
+                .into_os_string(),
+        ));
     }
     environment
+}
+
+fn is_cargo_program(program: &str) -> bool {
+    Path::new(program).file_name().is_some_and(|name| {
+        let name = name.to_string_lossy();
+        name.eq_ignore_ascii_case("cargo") || name.eq_ignore_ascii_case("cargo.exe")
+    })
+}
+
+fn cargo_environment_key_matches(name: &std::ffi::OsStr, expected: &str) -> bool {
+    #[cfg(windows)]
+    {
+        name.to_string_lossy().eq_ignore_ascii_case(expected)
+    }
+    #[cfg(not(windows))]
+    {
+        name == expected
+    }
 }
 
 pub(super) fn execution_environment_digest_from_values<I>(

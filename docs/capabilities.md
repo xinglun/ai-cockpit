@@ -370,8 +370,10 @@ environment, executable identity, scope, policy, stage, runner, command, and
 output identity match. Protected gates, explicit commands, and Work Item runs
 remain fresh. A mismatch becomes a rerun or an explicit unknown/blocked result.
 
-Execution is bounded by a 300-second command timeout, 64 KiB per stdout/stderr
-stream, and a positive worker count. Output may be marked truncated; timeout or
+Execution uses a finite 600-second default for `cargo test --package` nodes and
+300 seconds for other commands, with a 900-second Runtime cap on authorized
+explicit overrides. Stdout/stderr are bounded to 64 KiB per stream and worker
+count must be positive. Output may be marked truncated; timeout or
 capture/process-tree failure is not a pass. Receipt-store index reads are capped
 at 8 MiB and reusable receipts at 1 MiB; malformed, oversized, symlinked, or
 inconsistent entries fail closed.

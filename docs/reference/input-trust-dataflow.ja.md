@@ -39,6 +39,10 @@ Trust layer は人の認証、provider の検証、外部 merge/release の認�
 
 `.rs` の変更では、repository signal は bounded な変更後 source と Git の added-line／hunk origin を読みます。変更された decoded string／byte literal、comment unit、および bounded な明示的文字列合成（`concat!`、静的 `format!`、単純な literal binding、同一 file の純粋な literal-return function）を検査します。変更された合成が参照する未変更 operand も含めます。無関係な literal が同じ file や hunk にあるだけでは連結しません。他の file type は従来の added-text rule を維持します。
 
+絶対 path の `::serde_json::json!` object/array 構文だけを JSON として扱います。候補 signal を含む非修飾または同名の custom macro は `Unknown` です。対応 syntax 内では key/value を個別に検査し、無関係な sibling value を結合しません。一つの value 内では static な `concat!`、単純な static `format!`、純粋な literal binding を解決します。完全な static injection は finding、dynamic または未対応の候補は `Unknown` です。`.join()` を path composition として扱うのは、絶対型 `::std::path::Path`／`::std::path::PathBuf`、対応する絶対 constructor、または有界な local binding によって receiver を証明できる場合だけです。非修飾 alias、receiver 不明、string collection の join、`push_str` は曖昧なままです。これは有界 syntax の分類であり、依存 crate の source／実装を独立認証するものではありません。
+
+file 全体の lexical boundary pass は、source size と token 数に独立した上限を持ちます。16,384-token semantic budget は変更された semantic item に適用し、source 全体には適用しません。変更行を含む隣接 line-comment context も別途有界です。必要な上限超過や関連 context の欠落は `Unknown` になります。他の file type は従来の added-text rule を維持します。
+
 Source、origin、syntax、または関連する動的合成を確実に解決できない場合、結果は安全ではなく `Unknown` です。完全な source がない bounded patch は instruction／危険操作の候補がない場合に限り clean と検査でき、直接確認できる強い攻撃 literal は finding のままです。この分類は Runtime quality gate の evidence であり、Contract 変更や merge／release の権限ではありません。
 
 ## Adopter repository

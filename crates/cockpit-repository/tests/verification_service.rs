@@ -59,6 +59,30 @@ fn run_git(root: &Path, args: &[&str]) {
     );
 }
 
+#[cfg(unix)]
+fn run_without_inherited_cargo_target(test_name: &str) -> bool {
+    if std::env::var("AI_COCKPIT_TEST_TARGET_ISOLATION_CHILD")
+        .ok()
+        .as_deref()
+        == Some(test_name)
+    {
+        return false;
+    }
+    let output = Command::new(std::env::current_exe().expect("test binary"))
+        .args(["--exact", test_name, "--nocapture"])
+        .env_remove("CARGO_TARGET_DIR")
+        .env("AI_COCKPIT_TEST_TARGET_ISOLATION_CHILD", test_name)
+        .output()
+        .expect("isolated test subprocess");
+    assert!(
+        output.status.success(),
+        "isolated {test_name} failed:\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    true
+}
+
 fn request(
     program: &str,
     args: Vec<String>,
@@ -204,6 +228,210 @@ fn timeout_override_requires_policy_and_cap_is_rejected_before_spawn() {
     assert!(
         plan_repository_verification_action(&root, &over_cap, &snapshot, now).is_err(),
         "timeout above the Runtime cap must fail before planning/spawn"
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn implicit_cargo_package_test_deadline_is_bounded_without_changing_other_defaults() {
+    let root = repository("implicit-package-deadline");
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let package_test = request(
+        "cargo",
+        vec![
+            "test".into(),
+            "--locked".into(),
+            "--package".into(),
+            "cockpit-repository".into(),
+        ],
+        RepositoryVerificationPolicy::NeverReuse,
+    );
+    let package_plan =
+        plan_repository_verification_action(&root, &package_test, &snapshot, 0).expect("plan");
+    assert_eq!(package_plan["timeoutSeconds"], 600);
+
+    for args in [
+        vec!["test".into(), "--locked".into(), "--workspace".into()],
+        vec!["clippy".into(), "--workspace".into()],
+    ] {
+        let other = request("cargo", args, RepositoryVerificationPolicy::NeverReuse);
+        let plan = plan_repository_verification_action(&root, &other, &snapshot, 0).expect("plan");
+        assert_eq!(plan["timeoutSeconds"], 300);
+    }
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn linked_worktrees_do_not_execute_cargo_with_the_same_implicit_target() {
+    use std::os::unix::fs::PermissionsExt;
+
+    if run_without_inherited_cargo_target(
+        "linked_worktrees_do_not_execute_cargo_with_the_same_implicit_target",
+    ) {
+        return;
+    }
+
+    let root: ::std::path::PathBuf = repository("cargo-target-isolation");
+    let linked: ::std::path::PathBuf = root.with_extension("linked");
+    let cargo_path: &::std::path::Path = Path::new("fake-bin/cargo");
+    fs::create_dir_all(root.join("fake-bin")).expect("fake bin");
+    fs::write(
+        root.join(cargo_path),
+        "#!/bin/sh\nprintf '%s\\n' \"$CARGO_TARGET_DIR\"\n",
+    )
+    .expect("fake cargo");
+    fs::set_permissions(root.join(cargo_path), fs::Permissions::from_mode(0o755))
+        .expect("executable fake cargo");
+    run_git(&root, &["add", "fake-bin/cargo"]);
+    run_git(
+        &root,
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit@example.invalid",
+            "commit",
+            "-qm",
+            "fake cargo",
+        ],
+    );
+    run_git(
+        &root,
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            linked.to_str().expect("path"),
+        ],
+    );
+
+    let target_for = |checkout: &::std::path::Path| {
+        let run = run_repository_verification(
+            checkout,
+            &request(
+                checkout.join(cargo_path).to_str().expect("cargo path"),
+                vec!["--version".into()],
+                RepositoryVerificationPolicy::NeverReuse,
+            ),
+        )
+        .expect("fake cargo execution");
+        assert!(run.receipt.passed);
+        let bytes = hex::decode(&run.receipt.execution_records[0].stdout_hex).expect("stdout hex");
+        PathBuf::from(String::from_utf8(bytes).expect("UTF-8 target").trim())
+    };
+    let first = target_for(&root);
+    let second = target_for(&linked);
+    assert!(first.is_absolute());
+    assert!(second.is_absolute());
+    assert_ne!(
+        first, second,
+        "linked worktrees must not share Cargo build products"
+    );
+
+    run_git(
+        &root,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            linked.to_str().expect("path"),
+        ],
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory() {
+    if run_without_inherited_cargo_target(
+        "linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory",
+    ) {
+        return;
+    }
+    let root = repository("cargo-manifest-path");
+    let linked = root.with_extension("linked");
+    fs::create_dir_all(root.join("src")).expect("crate source directory");
+    fs::write(
+        root.join("Cargo.toml"),
+        "[package]\nname = \"manifest-path-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(
+        root.join("src/lib.rs"),
+        "#[test] fn manifest_path() { println!(\"MANIFEST_PATH={}\", env!(\"CARGO_MANIFEST_DIR\")); }\n",
+    )
+    .expect("fixture test");
+    assert!(
+        Command::new("cargo")
+            .args(["generate-lockfile", "--offline"])
+            .current_dir(&root)
+            .status()
+            .expect("generate lockfile")
+            .success()
+    );
+    run_git(&root, &["add", "Cargo.toml", "Cargo.lock", "src/lib.rs"]);
+    run_git(
+        &root,
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit@example.invalid",
+            "commit",
+            "-qm",
+            "tiny Cargo fixture",
+        ],
+    );
+    run_git(
+        &root,
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            linked.to_str().expect("path"),
+        ],
+    );
+
+    for checkout in [&root, &linked] {
+        let run = run_repository_verification(
+            checkout,
+            &request(
+                "cargo",
+                vec![
+                    "test".into(),
+                    "--offline".into(),
+                    "--locked".into(),
+                    "--".into(),
+                    "--nocapture".into(),
+                ],
+                RepositoryVerificationPolicy::NeverReuse,
+            ),
+        )
+        .expect("real Cargo test");
+        assert!(run.receipt.passed);
+        let stdout = String::from_utf8(
+            hex::decode(&run.receipt.execution_records[0].stdout_hex).expect("stdout hex"),
+        )
+        .expect("Cargo stdout");
+        let canonical_checkout = fs::canonicalize(checkout).expect("canonical checkout");
+        assert!(
+            stdout.contains(&format!("MANIFEST_PATH={}", canonical_checkout.display())),
+            "test binary must embed its own checkout, output: {stdout}"
+        );
+    }
+
+    run_git(
+        &root,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            linked.to_str().expect("path"),
+        ],
     );
     fs::remove_dir_all(root).expect("cleanup");
 }

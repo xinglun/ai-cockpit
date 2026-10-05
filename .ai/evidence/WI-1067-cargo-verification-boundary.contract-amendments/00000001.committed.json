@@ -1,0 +1,168 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:7b1622a67928f1471cebd3a8b20e38ef925bebef1bded897b6cb607fba8ed27e",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 1,
+    "changeId": "legacy-0ded5603847915be681b25faf34feaaca1702a7c4202d9f76628c6e7450ac6b6",
+    "requestDigest": "sha256:6e22eb105270058d1ce5cfe4abc06a9e28e0bf4d7d0700e8f3ba09b24f784152",
+    "reason": "Declare observed WI-1065 failures, current-base source facts, and high-risk regressions before admission; no implementation or acceptance weakening",
+    "legacyInputDigest": "sha256:0ded5603847915be681b25faf34feaaca1702a7c4202d9f76628c6e7450ac6b6",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts."
+        ],
+        "newValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds."
+        ],
+        "newValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+          "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt."
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          },
+          {
+            "evidence": [],
+            "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+            "required": true,
+            "scenario": "finite-package-test-default-and-explicit-policy",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          },
+          {
+            "evidence": [],
+            "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+            "required": true,
+            "scenario": "finite-package-test-default-and-explicit-policy",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          },
+          {
+            "evidence": [],
+            "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+            "required": true,
+            "scenario": "finite-package-test-default-and-explicit-policy",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+          },
+          {
+            "evidence": [],
+            "expected": "The candidate Runtime completes all 13 workspace packages, fmt and Clippy with source-bound receipts; exact-head PR CI retains contract-aware producer, gate, and coverage checks without treating WI-1065's old failed attempts as passed.",
+            "required": true,
+            "scenario": "full-workspace-and-hosted-boundary",
+            "status": "unverified",
+            "verificationPlan": "Run focused tests and full declared verification on the frozen candidate; inspect exact-head PR CI route, formal receipt, Rust gate, repository gates and workspace coverage before merge; subsequently reverify WI-1065 separately after Runtime update."
+          }
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5aa5498f27084e522ecba1f7f68a75ea0ff0730ac797013776dd45f5cc550012",
+    "newContractDigest": "sha256:fc70a11cd4bdffe452a0f261bff95549019aa25bd1f54e8169e68cbbfea17391",
+    "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:789067a90541c80b2b7fc313bc7085c642fedfab413b4db2846126f82a003112",
+    "recordedAt": "2026-10-05T02:13:35Z"
+  }
+}

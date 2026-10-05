@@ -1,0 +1,159 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:7c10b7aa464f015778b474f04c779fc860cc808e09798e8e0fa6808968240839",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 4,
+    "changeId": "wi1067-review-projection-alignment-20261005",
+    "requestDigest": "sha256:9d6af6328ad35179a299fbb505863d1a076d733bf0a4e7f03213219d94e72f9b",
+    "reason": "Independent review of the passed 27-node local run found that MCP plan-only and persisted formal attempt commands still project the obsolete 300-second implicit package deadline, and CLI mixed-deadline aggregation can report a misleading top-level timeout. Extend only the necessary existing protocol projection and focused regression files; retain the prior passing and failed receipts, the 600/300 execution policy, and all hosted acceptance gates.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+          "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+          "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+          "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。",
+          "CLI plan-only regression must display the same finite 600-second implicit package-test deadline as the Runtime planner while non-package requests retain 300 seconds; MCP public schema and English/Japanese/Chinese command and capability references must describe these actual defaults without implying that an explicit override bypasses policy."
+        ],
+        "newValue": [
+          "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+          "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+          "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+          "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。",
+          "CLI plan-only regression must display the same finite 600-second implicit package-test deadline as the Runtime planner while non-package requests retain 300 seconds; MCP public schema and English/Japanese/Chinese command and capability references must describe these actual defaults without implying that an explicit override bypasses policy.",
+          "MCP plan-only, persisted formal attempt command metadata and CLI aggregate receipt must report deadlines consistent with planned and executed package/non-package nodes: implicit cargo test --package is 600 seconds, other implicit commands 300 seconds, and a mixed receipt must not present a smaller timeout as its overall execution bound. Focused negative-to-positive regression and a fresh source-bound formal verification are required; old attempts remain immutable."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:6f32cf803aae60bc4bf92a543141a4abcdecb78b34122e4c54b9bb9c94a7946c",
+    "newContractDigest": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+    "repositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:d0ea756a779d12b633136b8d5036855cc086ad7dc9c28295fede8b59232478f0",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:ecc782036c181197dea7f7c7e96c640abc39047165eec555fa44f85a826eaa9a",
+    "journalDigest": "sha256:a1634934268ec3a9ca529ece02cb2601c4990291d9e23970a313bf7aa5df312c",
+    "recordedAt": "2026-10-05T03:28:18Z"
+  }
+}

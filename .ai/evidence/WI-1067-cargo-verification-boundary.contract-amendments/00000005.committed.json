@@ -1,0 +1,340 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:fc14dc2a2af0170a85595f9fee5f287b42f3e054c68b9c531ca539ea8686dd3b",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 5,
+    "changeId": "wi1067-rust-material-gate-boundary-20261005",
+    "requestDigest": "sha256:12f8a6883e9d9df9eb494df337dfd6b6c2048f6902bad856e902f0a5f3f8eaa5",
+    "reason": "PR #1019 exact-head run 37263602059 passed Windows and candidate hosted verification but the Rust Contract gate failed closed with repository_material_inspection_unavailable. A source-bound local replay isolated the scanner's current limitations: whole-file recursive 16,384-token mask budget rejects the 24,371-token CLI source before changed-origin semantics; a changed large json! macro is treated as one unresolved token string; and item-level .join() ambiguity conflates Path::join with string composition. Raydot's ordinary technical decision authorizes one bounded same-WI correction; preserve all previous pass/failure evidence, do not weaken the gate, raise the semantic budget, move tests, or bypass Runtime/CI.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "docs/reference/input-trust-dataflow.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "docs/reference/input-trust-dataflow.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/execution_context.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/tests/verification_service.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "docs/reference/commands.md",
+          "crates/cockpit-cli/tests/verify.rs",
+          "crates/cockpit-mcp/src/lib.rs",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          "docs/capabilities.md",
+          "docs/capabilities.ja.md",
+          "docs/capabilities.zh-CN.md",
+          "crates/cockpit-repository/src/lifecycle.rs",
+          "crates/cockpit-repository/tests/verification_attempts.rs",
+          "crates/cockpit-mcp/tests/rpc.rs",
+          "crates/cockpit-repository/src/rust_material.rs",
+          "crates/cockpit-repository/tests/governance_signals.rs",
+          "docs/reference/input-trust-dataflow.md",
+          "docs/reference/input-trust-dataflow.ja.md",
+          "docs/reference/input-trust-dataflow.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+          "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt."
+        ],
+        "newValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+          "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt.",
+          "PR #1019 exact-head run 37263602059: Windows runtime and candidate hosted verification succeeded; Rust Contract gate returned repository_material_inspection_unavailable for the 15 scoped changed paths, preventing downstream repository gates and coverage. Local bounded diagnostics identified the specific scanner branches and were removed without changing source."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+          "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt.",
+          "PR #1019 exact-head run 37263602059: Windows runtime and candidate hosted verification succeeded; Rust Contract gate returned repository_material_inspection_unavailable for the 15 scoped changed paths, preventing downstream repository gates and coverage. Local bounded diagnostics identified the specific scanner branches and were removed without changing source."
+        ],
+        "newValue": [
+          "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+          "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+          "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt.",
+          "PR #1019 exact-head run 37263602059: Windows runtime and candidate hosted verification succeeded; Rust Contract gate returned repository_material_inspection_unavailable for the 15 scoped changed paths, preventing downstream repository gates and coverage. Local bounded diagnostics identified the specific scanner branches and were removed without changing source.",
+          "Agent:Raydot ordinary technical decision authorizes one same-WI fail-closed Rust material inspection correction: bounded full-file lexical boundary validation with changed-context semantic budget; structured bounded json! key/value inspection; only provably path-valued join classification; preserve unknown on incomplete/dynamic/over-budget candidates, findings on real static injection, and existing regressions."
+        ]
+      },
+      {
+        "path": "/documentationImpact",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "paths": [
+            "docs/reference/input-trust-dataflow.md",
+            "docs/reference/input-trust-dataflow.ja.md",
+            "docs/reference/input-trust-dataflow.zh-CN.md"
+          ],
+          "reason": "The Rust repository-material inspector's observable classification boundary is being refined for bounded json! values, proven path joins, and changed-origin lexical context; synchronize its public explanation in all supported locales.",
+          "verification": "Run the repository's documentation and locale consistency gates together with the Work Item's focused and full Runtime verification."
+        }
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+          "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+          "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+          "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。",
+          "CLI plan-only regression must display the same finite 600-second implicit package-test deadline as the Runtime planner while non-package requests retain 300 seconds; MCP public schema and English/Japanese/Chinese command and capability references must describe these actual defaults without implying that an explicit override bypasses policy.",
+          "MCP plan-only, persisted formal attempt command metadata and CLI aggregate receipt must report deadlines consistent with planned and executed package/non-package nodes: implicit cargo test --package is 600 seconds, other implicit commands 300 seconds, and a mixed receipt must not present a smaller timeout as its overall execution bound. Focused negative-to-positive regression and a fresh source-bound formal verification are required; old attempts remain immutable."
+        ],
+        "newValue": [
+          "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+          "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+          "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+          "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。",
+          "CLI plan-only regression must display the same finite 600-second implicit package-test deadline as the Runtime planner while non-package requests retain 300 seconds; MCP public schema and English/Japanese/Chinese command and capability references must describe these actual defaults without implying that an explicit override bypasses policy.",
+          "MCP plan-only, persisted formal attempt command metadata and CLI aggregate receipt must report deadlines consistent with planned and executed package/non-package nodes: implicit cargo test --package is 600 seconds, other implicit commands 300 seconds, and a mixed receipt must not present a smaller timeout as its overall execution bound. Focused negative-to-positive regression and a fresh source-bound formal verification are required; old attempts remain immutable.",
+          "Rust material inspection must remain fail-closed while correctly classifying legitimate scoped changes that currently return Unknown: perform a bounded whole-file lexical boundary pass but apply the existing 16,384-token semantic budget to changed-origin and cross-line lexical context, without increasing that semantic limit; incomplete provenance/context or truly over-budget changed context remains Unknown. Parse only supported bounded json! object/array syntax and inspect keys and each value independently; do not join unrelated sibling values. Follow supported static concat!, simple format!, literal bindings and pure-literal function references within one value; a directly inspectable malicious literal/static malicious combination remains Finding, while unresolved candidate macros, dynamic command composition, or unsupported syntax remains Unknown. Treat .join() as path composition only when receiver is proven Path/PathBuf by explicit type, a supported constructor, or bounded local binding; unknown receiver types, string joins, push_str, and possible malicious dynamic composition remain Unknown. Add RED-to-GREEN regressions showing benign json! action data and proven Path::join with unrelated risky-word literals are Clean; direct and static JSON-value injection are Findings; candidate dynamic JSON values, unknown-receiver join and string composition are Unknown. Preserve existing cross-line comment, provenance mismatch, oversized changed-context, marker/operation, and all current fixture-boundary regressions. Do not weaken the gate or simply increase its prior whole-file token threshold."
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "add",
+        "oldValue": [
+          "cargo test --locked --workspace",
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+        ],
+        "newValue": [
+          "cargo test --locked --workspace",
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+          "cargo test --locked -p cockpit-repository --test governance_signals"
+        ]
+      },
+      {
+        "path": "/scenarioCoverage/2/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Before finish, run focused tests and the full declared Runtime verification on the frozen current source; inspect its receipt for all 13 workspace packages, fmt, Clippy, source identity, and no skipped or reused failed package. After archive, inspect real exact-head PR CI route, formal receipt or archived read-only lane as applicable, Rust gate, repository gates and workspace coverage before merge; after installation, reverify WI-1065 separately. Local evidence never stands in for hosted PR acceptance.",
+        "newValue": "Before finish, run the focused governance_signals RED-to-GREEN regressions and full declared Runtime verification on the frozen current source; inspect all 13 workspace package results, fmt, Clippy, source identity, and no skipped or reused failed package. The Rust Contract gate must classify every scoped Rust change without repository_material_inspection_unavailable while preserving Finding for actual static injection and Unknown for unresolved, dynamic, malformed, provenance-incomplete, or truly over-budget changed context. After archive, inspect real exact-head PR CI route, formal receipt or archived read-only lane as applicable, Rust gate, repository gates and workspace coverage before merge; after installation, reverify WI-1065 separately. Local evidence never stands in for hosted PR acceptance."
+      }
+    ],
+    "previousContractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
+    "newContractDigest": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+    "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:a81c364969173be001ee3e7c7db05d1b862dc91f3c0ca089ec51d04aea332d97",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage/2/verificationPlan",
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:a1634934268ec3a9ca529ece02cb2601c4990291d9e23970a313bf7aa5df312c",
+    "journalDigest": "sha256:d3756157970fc2449b016c8702ceefcdb6d921d3e052c96eb4d09392d0b79517",
+    "recordedAt": "2026-10-05T05:10:06Z"
+  }
+}

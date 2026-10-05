@@ -281,7 +281,8 @@ source/base revision、profile、toolchain、environment、executable identity�
 policy、stage、runner、command 和 output identity 全部一致时才能 reuse。protected gate、
 显式命令和 Work Item 总是 fresh；不一致会 rerun 或返回明确的 unknown/blocked。
 
-执行限制包括单命令 300 秒超时、stdout/stderr 各 64 KiB、worker 必须为正数。输出可能标记
+`cargo test --package` 节点采用有限的 600 秒默认超时，其他命令仍为 300 秒；获得授权的显式 override
+不得超过 Runtime 的 900 秒上限。stdout/stderr 各限 64 KiB，worker 必须为正数。输出可能标记
 为 truncated；超时、capture 或 process-tree 失败不能算 pass。receipt-store index 最大 8 MiB，
 reusable receipt 最大 1 MiB；malformed、超大、symlink 或不一致的条目 fail closed。
 

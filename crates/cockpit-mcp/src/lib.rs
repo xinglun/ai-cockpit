@@ -652,7 +652,7 @@ fn mcp_tool_schema(name: &str) -> Value {
             schema
         }
         "verify" => object_schema(
-            json!({
+            ::serde_json::json!({
                 "workItemId": string_property("Optional Work Item to bind the verification receipt."),
                 "command": string_property("Allowlisted executable; omit to detect Cargo or npm."),
                 "args": {
@@ -664,7 +664,7 @@ fn mcp_tool_schema(name: &str) -> Value {
                     "type": "integer",
                     "minimum": 1,
                     "maximum": 900,
-                    "description": "Finite command timeout in seconds. Omission preserves the 300-second Runtime default; explicit values require Contract or repository policy authorization.",
+                    "description": "Finite command timeout in seconds. Omission defaults to 600 seconds for Cargo package tests and 300 seconds for other commands; explicit values require Contract or repository policy authorization.",
                 },
                 "planOnly": {
                     "type": "boolean",
@@ -2306,7 +2306,8 @@ fn verify_for_repo(
             }
         };
         let reused = planned["action"] == "reuse";
-        return Ok(json!({
+        let timeout_seconds = planned["timeoutSeconds"].clone();
+        return Ok(::serde_json::json!({
             "state": "planned",
             "workItemId": work_item_id,
             "repositoryId": cockpit_repository::repository_id(&root).to_string(),
@@ -2318,17 +2319,13 @@ fn verify_for_repo(
             "nodesToExecute": usize::from(!reused),
             "nodesReused": usize::from(reused),
             "processesSpawned": 0,
-            "timeoutSeconds": request.timeout_seconds.unwrap_or(
-                cockpit_verification::DEFAULT_EXECUTION_SECONDS,
-            ),
+            "timeoutSeconds": timeout_seconds,
             "requests": [{
                 "nodeId": request.node_id,
                 "program": request.program,
                 "args": request.args,
                 "dependencies": [],
-                "timeoutSeconds": request.timeout_seconds.unwrap_or(
-                    cockpit_verification::DEFAULT_EXECUTION_SECONDS,
-                ),
+                "timeoutSeconds": timeout_seconds,
             }],
             "plannedNodes": [planned],
         }));

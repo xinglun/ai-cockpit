@@ -151,9 +151,11 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
   记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
 - `verify --timeout-seconds <n>` 使用 `1..=900` 秒的有限 timeout。省略该参数保持
-  Runtime 默认的 300 秒；每个显式值都是 override，必须由 Contract 或 repository policy 提供有限的授权上限。
+  `cargo test --package` 节点的有限默认值为 600 秒，其他命令仍为 300 秒；每个显式值都是 override，
+  必须由 Contract 或 repository policy 提供有限的授权上限。
   超过 Runtime 上限的值会在 spawn 前拒绝。生效 timeout 会绑定到 plan、receipt、command digest 和 reuse identity；
-  到期会 fail closed 并终止整个进程树。
+  到期会 fail closed 并终止整个进程树。没有显式 `CARGO_TARGET_DIR` 时，Cargo 验证使用由规范化 checkout
+  路径派生的 target 目录，linked worktree 不会共享测试二进制；显式指定的 target 仍优先。
 - `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
   metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
   成员、metadata digest、退出状态、有界日志和耗时。

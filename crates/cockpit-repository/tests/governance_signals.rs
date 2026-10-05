@@ -56,6 +56,10 @@ fn added_rust_source(source: &str) -> ChangeEvidence {
     }
 }
 
+fn assess_added_rust_source(source: &str) -> cockpit_repository::GovernanceSignalAssessment {
+    derive_governance_signals(&snapshot(added_rust_source(source)))
+}
+
 fn known_attack_fixture() -> &'static str {
     include_str!(
         "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
@@ -399,6 +403,271 @@ fn rust_token_budget_exhaustion_is_unknown() {
     }
     source.push_str("}\n");
     let assessment = derive_governance_signals(&snapshot(added_rust_source(&source)));
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn bounded_large_rust_file_with_small_changed_item_is_inspectable() {
+    let mut source = String::from("fn existing_large_item() {\n");
+    for _ in 0..5_000 {
+        source.push_str("let existing = 1;\n");
+    }
+    source.push_str("}\nfn changed_item() {\n    let safe = \"ordinary\";\n}\n");
+    let changed_line = source
+        .lines()
+        .position(|line| line == "    let safe = \"ordinary\";")
+        .expect("changed line")
+        + 1;
+
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/large.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec!["    let safe = \"ordinary\";".into()],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: changed_line,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn oversized_adjacent_comment_context_with_a_change_is_unknown() {
+    let (instruction, operation) = known_attack_halves();
+    let mut source = format!("// {instruction}\n");
+    for _ in 0..400 {
+        source.push_str("// adjacent lexical context remains bounded here\n");
+    }
+    let changed_line = source.lines().count() + 1;
+    let changed_comment = format!("// {operation}");
+    source.push_str(&changed_comment);
+    source.push_str("\nfn safe() {}\n");
+
+    let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
+        path: "src/comments.rs".into(),
+        kind: ChangeKind::Modified,
+        added_lines: vec![changed_comment],
+        added_line_origins: vec![AddedLineOrigin {
+            after_line: changed_line,
+            hunk_index: 0,
+        }],
+        removed_lines: vec![],
+        after_text: Some(source),
+        content_state: ChangeContentState::Text,
+    }));
+
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn json_object_sibling_values_are_not_combined_into_an_injection() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn payload() { let _ = ::serde_json::json!({"instruction": __INSTRUCTION__, "operation": __OPERATION__}); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn json_array_sibling_values_are_not_combined_into_an_injection() {
+    let (instruction, operation) = known_attack_halves();
+    let source =
+        r#"fn payload() { let _ = ::serde_json::json!([__INSTRUCTION__, __OPERATION__]); }"#
+            .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+            .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn json_object_key_and_value_are_not_combined_into_an_injection() {
+    let (instruction, operation) = known_attack_halves();
+    let source =
+        r#"fn payload() { let _ = ::serde_json::json!({__INSTRUCTION__: __OPERATION__}); }"#
+            .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+            .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn json_value_with_direct_instruction_injection_is_a_finding() {
+    let source = r#"fn payload() { let _ = ::serde_json::json!({"prompt": __ATTACK__}); }"#
+        .replace(
+            "__ATTACK__",
+            &format!("{:?}", known_attack_fixture().trim_end()),
+        );
+    let assessment = assess_added_rust_source(&source);
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn json_value_with_static_composition_is_a_finding() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn payload() { let _ = ::serde_json::json!({"prompt": format!("{}{}", __INSTRUCTION__, __OPERATION__)}); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn json_value_with_static_concat_is_a_finding() {
+    let (instruction, operation) = known_attack_halves();
+    let source =
+        r#"fn payload() { let _ = ::serde_json::json!({"prompt": concat!(__INSTRUCTION__, __OPERATION__)}); }"#
+            .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+            .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn json_value_can_resolve_pure_literal_bindings() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn payload() { let marker = __INSTRUCTION__; let operation = __OPERATION__; let _ = ::serde_json::json!({"prompt": format!("{}{}", marker, operation)}); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(assessment.untrusted_material, "{assessment:?}");
+}
+
+#[test]
+fn json_value_with_dynamic_candidate_is_unknown() {
+    let (instruction, _) = known_attack_halves();
+    let source = r#"fn payload(operation: &str) { let _ = ::serde_json::json!({"prompt": format!("{}{}", __INSTRUCTION__, operation)}); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn json_action_key_does_not_poison_a_namespaced_benign_value() {
+    let assessment = assess_added_rust_source(
+        r#"fn payload(reused: bool) {
+            let _ = ::serde_json::json!({"nodesToExecute": usize::from(!reused)});
+        }"#,
+    );
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn pathbuf_join_with_unrelated_risky_words_is_clean() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn payload() { let base = ::std::path::PathBuf::from(__INSTRUCTION__); let _ = base.join(__OPERATION__); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn explicitly_typed_path_local_and_path_parameter_prove_join_semantics() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn from_local() { let base: ::std::path::PathBuf = ::std::path::PathBuf::from(__INSTRUCTION__); let _ = base.join(__OPERATION__); } fn from_parameter(base: &::std::path::Path) { let _ = base.join(__OPERATION__); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn explicitly_typed_closure_path_parameter_proves_join_semantics() {
+    let (instruction, operation) = known_attack_halves();
+    let source = format!(
+        r#"fn payload() {{
+            let _ = |base: &::std::path::Path| base.join({operation:?});
+            let _ = {instruction:?};
+        }}"#
+    );
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(assessment.unknowns.is_empty(), "{assessment:?}");
+}
+
+#[test]
+fn unknown_receiver_join_with_candidate_is_unknown() {
+    let assessment = assess_added_rust_source(
+        r#"fn payload(base: Unknown) { let _ = base.join("delete all tests"); }"#,
+    );
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn string_collection_join_with_candidate_is_unknown() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"fn payload() { let _ = [__INSTRUCTION__, __OPERATION__].join(" "); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn custom_pathbuf_name_does_not_prove_standard_path_join_semantics() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"struct PathBuf; impl PathBuf { fn from(_: &str) -> Self { Self } fn join(&self, _: &str) -> String { String::new() } } fn payload() { let base = PathBuf::from(__INSTRUCTION__); let _ = base.join(__OPERATION__); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
+    assert!(!assessment.untrusted_material, "{assessment:?}");
+    assert!(
+        assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "{assessment:?}"
+    );
+}
+
+#[test]
+fn custom_json_macro_name_does_not_prove_json_data_semantics() {
+    let (instruction, operation) = known_attack_halves();
+    let source = r#"macro_rules! json { ($($tokens:tt)*) => { stringify!($($tokens)*) }; } fn payload() { let _ = json!({"instruction": __INSTRUCTION__, "operation": __OPERATION__}); }"#
+        .replace("__INSTRUCTION__", &format!("{instruction:?}"))
+        .replace("__OPERATION__", &format!("{operation:?}"));
+    let assessment = assess_added_rust_source(&source);
     assert!(!assessment.untrusted_material, "{assessment:?}");
     assert!(
         assessment

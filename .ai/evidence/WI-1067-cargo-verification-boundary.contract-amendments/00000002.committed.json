@@ -1,0 +1,38 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:164e38f138fa00f6d1c1d976718bd4f7758dfa548ca2a9ac50fec17d17593e38",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 2,
+    "changeId": "wi1067-phase-separate-local-formal-and-pr-ci-20261005",
+    "requestDigest": "sha256:b8eb58b827e6cefeb3ba54128dae0159f65087cd4f94b18e9b1e2692546b3a4b",
+    "reason": "Make the required scenario provable before finish with source-bound local formal evidence while preserving exact-head PR CI as an unchanged later acceptance gate; no test, scope, or safety reduction",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/2/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Run focused tests and full declared verification on the frozen candidate; inspect exact-head PR CI route, formal receipt, Rust gate, repository gates and workspace coverage before merge; subsequently reverify WI-1065 separately after Runtime update.",
+        "newValue": "Before finish, run focused tests and the full declared Runtime verification on the frozen current source; inspect its receipt for all 13 workspace packages, fmt, Clippy, source identity, and no skipped or reused failed package. After archive, inspect real exact-head PR CI route, formal receipt or archived read-only lane as applicable, Rust gate, repository gates and workspace coverage before merge; after installation, reverify WI-1065 separately. Local evidence never stands in for hosted PR acceptance."
+      }
+    ],
+    "previousContractDigest": "sha256:fc70a11cd4bdffe452a0f261bff95549019aa25bd1f54e8169e68cbbfea17391",
+    "newContractDigest": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+    "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/2/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:789067a90541c80b2b7fc313bc7085c642fedfab413b4db2846126f82a003112",
+    "journalDigest": "sha256:f71f0aeee635e99e5ff29847d450c6d5ae19c4845e42d255c7e4d4d1e6aeaee5",
+    "recordedAt": "2026-10-05T02:15:15Z"
+  }
+}

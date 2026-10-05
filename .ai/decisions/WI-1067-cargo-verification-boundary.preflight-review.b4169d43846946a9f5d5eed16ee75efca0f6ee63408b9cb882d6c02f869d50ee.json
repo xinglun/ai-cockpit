@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6f32cf803aae60bc4bf92a543141a4abcdecb78b34122e4c54b9bb9c94a7946c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7a8780c3a3fd2bcb78cc2d24dd43a148ae0541c1e6a03e63e357f5633f53c993",
+  "reason": "Ray selected option 1 in this Codex conversation after receiving the exact WI-1067 seq3 Contract digest 6f32cf80 and the Runtime human-review request. This approval covers the bounded CLI/MCP/documentation scope addition and does not claim verification or release.",
+  "recordedAt": "2026-10-05T02:40:20Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:884fad04790e86b11b7a87128043783f62bb619ad4249522734831aedf17b1c2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

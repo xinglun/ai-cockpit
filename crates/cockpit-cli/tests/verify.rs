@@ -721,6 +721,9 @@ fn verify_plan_only_does_not_spawn_project_commands() {
     assert_eq!(json["requests"].as_array().map(Vec::len), Some(1));
     assert_eq!(json["requests"][0]["args"][0], "test");
     assert_eq!(json["requests"][0]["args"][1], "--package");
+    assert_eq!(json["requests"][0]["timeoutSeconds"], 600);
+    assert_eq!(json["plannedNodes"][0]["timeoutSeconds"], 600);
+    assert_eq!(json["timeoutSeconds"], 600);
     assert_eq!(json["coverageManifest"]["planningProcessesSpawned"], 1);
     fs::remove_dir_all(directory).expect("cleanup");
 }
@@ -916,6 +919,20 @@ fn work_item_plan_includes_each_declared_verification_command() {
         "typed required check must retain its Contract identity: {plan:#}"
     );
     assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["timeoutSeconds"], 600);
+    assert_eq!(
+        requests
+            .iter()
+            .find(|request| {
+                request["program"] == "cargo"
+                    && request["args"].as_array().is_some_and(|args| {
+                        args.first() == Some(&serde_json::json!("test"))
+                            && args.iter().any(|arg| arg == "--package")
+                    })
+            })
+            .map(|request| &request["timeoutSeconds"]),
+        Some(&serde_json::json!(600))
+    );
     let verification = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)
@@ -930,6 +947,7 @@ fn work_item_plan_includes_each_declared_verification_command() {
     );
     let receipt: serde_json::Value =
         serde_json::from_slice(&verification.stdout).expect("verification JSON");
+    assert_eq!(receipt["timeoutSeconds"], 600);
     assert_eq!(receipt["nodesPlanned"], 4);
     let manifest = &receipt["planReceipt"]["coverageManifest"];
     assert_eq!(manifest["sourceProgram"], "cargo");

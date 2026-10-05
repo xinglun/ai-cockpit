@@ -991,6 +991,13 @@ fn mcp_prepared_start_preserves_human_review_without_checkpointing() {
 fn mcp_plan_only_reports_actions_without_running_project_commands() {
     let directory = TestTempDir::new("cockpit-mcp-plan-only");
     fs::write(directory.path().join("tracked.txt"), "baseline\n").expect("baseline");
+    fs::create_dir_all(directory.path().join("src")).expect("source directory");
+    fs::write(
+        directory.path().join("Cargo.toml"),
+        "[package]\nname = \"mcp-plan-only-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(directory.path().join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
     Command::new("git")
         .args(["init", "-q"])
         .current_dir(directory.path())
@@ -1040,6 +1047,25 @@ fn mcp_plan_only_reports_actions_without_running_project_commands() {
     assert_eq!(plan["plannedNodes"][0]["action"], "execute");
     assert_eq!(plan["plannedNodes"][0]["timeoutSeconds"], 300);
     assert!(!directory.path().join("verify-ran").exists());
+
+    let package_plan = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":35,"method":"tools/call",
+            "params":{"name":"verify","arguments":{
+                "command":"cargo",
+                "args":["test", "--package", "mcp-plan-only-fixture"],
+                "planOnly":true
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(package_plan["result"]["isError"], false, "{package_plan:#}");
+    let package_plan = &package_plan["result"]["structuredContent"];
+    assert_eq!(package_plan["plannedNodes"][0]["timeoutSeconds"], 600);
+    assert_eq!(package_plan["requests"][0]["timeoutSeconds"], 600);
+    assert_eq!(package_plan["timeoutSeconds"], 600);
+    assert_eq!(package_plan["processesSpawned"], 0);
 
     let execution = handle_request_for_repo(
         &serde_json::json!({
