@@ -1,0 +1,26 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "b90dd120e2291bb49fcb783c555ddf36b83f192a",
+  "createdAt": "2026-10-04T18:10:14Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:07c333a8c2f1e4d1d56ece2810ea23d15a70df448904bddf97de046e0fd5155a",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}

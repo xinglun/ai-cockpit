@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-04T18:10:14Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-10-04T18:10:14Z",
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}

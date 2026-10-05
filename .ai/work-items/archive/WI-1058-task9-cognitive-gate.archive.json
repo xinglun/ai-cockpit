@@ -1,0 +1,24 @@
+{
+  "createdAt": "2026-10-05T00:53:07Z",
+  "files": {
+    "contractDigest": "sha256:c064c2c7090392464c3559d039064e681811b286f5ef20f19f24c230d9b7eb13",
+    "contractPath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.contract.json",
+    "eventsDigest": "sha256:12db10b3ece1695cc86519f45135524bdff4265ed1064210e02a1ecdd1eefca4",
+    "eventsPath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.events.jsonl",
+    "outcomeDigest": "sha256:23da66cdd3a5912d526b5f598f4d57c1661a6f2ca66f71b3f5a3c8adb1cfdd8d",
+    "outcomePath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.outcome.json",
+    "summaryDigest": "sha256:4bfe26be0ca1f236f585fe882e4d4a33012ddd53129ed1c7a66971ea8204e1bc",
+    "summaryPath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.summary.json",
+    "taskReportDigest": "sha256:87f7b00d23417b7c1f1cb8d56c66f42105bbac87c74b39ec8c8982092cac9820",
+    "taskReportMarkdownDigest": "sha256:eb89045a58741c94d262489e97467eabacce06afe8131a981e67cf330f731df8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1058-task9-cognitive-gate.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-1065-task9-cognitive-current-base",
+  "supersessionDecisionPath": ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.589a5f67f9b12b60fa9e85d58022c1d4fcbd2442d3da7258132eba4d1f818bd6.json",
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

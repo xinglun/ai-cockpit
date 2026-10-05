@@ -1,0 +1,30 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "Ray delegated ordinary technical coordination to agent:Raydot; agent:Raydot approved the corrected bounded same-PR #1009 supersede-before-start route after independent guard review in coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010. This is an agent technical decision, not a human review signature or PR merge authorization.",
+  "decidedAt": "2026-10-04T18:14:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
+    ".ai/work-items/active/WI-1058-task9-cognitive-gate.summary.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1009"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "predecessorEventsDigest": "sha256:12db10b3ece1695cc86519f45135524bdff4265ed1064210e02a1ecdd1eefca4",
+  "predecessorOutcomeDigest": "sha256:24650d665a5643c63a6ed58bc5f6055438b4ce1be0be1c42f3fdd115a7b37a31",
+  "predecessorSummaryDigest": "sha256:7efe4e64bbd1e89943cb4ca8e107ddd55a2f1d60b4e1419e63475a161f8e7a61",
+  "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
+  "reason": "The initial formally selected WI-1065 successor scaffold is bound to WI-1058, but Runtime refused start while the predecessor still owned the active branch/worktree. Source guard and independent review confirm the existing not_ready scaffold is an eligible strictly bound supersede target; archive predecessor as superseded before activating the same successor. Preserve the initial successor decision and the exact start refusal.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Archive WI-1058 under this supersede decision, then activate the existing WI-1065 scaffold on current origin/main, bind actual PR #1009 before verification, and revalidate all original obligations. Do not treat old red preflight as passed or merge PR #1009 under this decision.",
+  "runtimeDigest": "sha256:37484f1c70b5d03cc0f0755eefc77a0872fb474bf0d1fa4810245b44a9d2ddb0",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1065-task9-cognitive-current-base",
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}
