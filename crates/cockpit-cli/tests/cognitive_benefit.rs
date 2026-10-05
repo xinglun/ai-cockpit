@@ -267,6 +267,10 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
     let rust_json: serde_json::Value =
         serde_json::from_slice(&std::fs::read(&json_path).expect("Rust JSON artifact"))
             .expect("Rust JSON report");
+    assert_eq!(
+        rust_json["runtimeBinary"], python_json["runtimeBinary"],
+        "runtimeBinary must preserve the oracle's resolved-path representation"
+    );
     let cases = rust_json["cases"].as_array().expect("report cases");
     let normal_completion = cases
         .iter()

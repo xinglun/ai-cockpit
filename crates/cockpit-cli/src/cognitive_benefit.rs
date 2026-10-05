@@ -11,6 +11,24 @@ fn digest_bytes(bytes: &[u8]) -> String {
     format!("sha256:{}", hex::encode(Sha256::digest(bytes)))
 }
 
+fn runtime_binary_path_for_report(binary: &Path) -> String {
+    let display = binary.to_string_lossy();
+    if let Some(unc_path) = display.strip_prefix(r"\\?\UNC\") {
+        return format!(r"\\{unc_path}");
+    }
+    if let Some(drive_path) = display.strip_prefix(r"\\?\") {
+        let bytes = drive_path.as_bytes();
+        if bytes.len() >= 3
+            && bytes[0].is_ascii_alphabetic()
+            && bytes[1] == b':'
+            && matches!(bytes[2], b'\\' | b'/')
+        {
+            return drive_path.to_owned();
+        }
+    }
+    display.into_owned()
+}
+
 const TASKS: [(&str, &str); 7] = [
     ("normal-completion", FIRST_ARCHIVE),
     (
@@ -479,10 +497,11 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
     }
     let revision = String::from_utf8(revision_output.stdout)?;
     let binary = std::fs::canonicalize(binary).context("resolve Runtime binary")?;
+    let runtime_binary = runtime_binary_path_for_report(&binary);
     let report = ::serde_json::json!({
         "schemaVersion":1,"workItemId":"WI-750-p1-cognitive-benefit-current-base",
         "sourceRepositoryRevision":revision.trim(),
-        "runtimeBinary":binary,"runtimeBinaryDigest":digest_bytes(&std::fs::read(&binary)?),
+        "runtimeBinary":runtime_binary,"runtimeBinaryDigest":digest_bytes(&std::fs::read(&binary)?),
         "taskSet":TASKS.iter().map(|(id,_)| *id).collect::<Vec<_>>(),
         "participants":0,"cognitiveBenefitValidated":false,
         "cases":cases,"languageChecks":language_checks,
@@ -526,10 +545,35 @@ pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()>
 
 #[cfg(test)]
 mod tests {
+    use std::path::Path;
+
     use super::{
         TASKS, answer_key, digest_bytes, evidence_refs, fixture_passes, missing_language_headings,
-        render_markdown, unsafe_summary_markers, write_report,
+        render_markdown, runtime_binary_path_for_report, unsafe_summary_markers, write_report,
     };
+
+    #[test]
+    fn runtime_binary_report_path_normalizes_windows_verbatim_paths_only() {
+        assert_eq!(
+            runtime_binary_path_for_report(Path::new(
+                r"\\?\D:\a\ai-cockpit\target\debug\ai-cockpit.exe"
+            )),
+            r"D:\a\ai-cockpit\target\debug\ai-cockpit.exe"
+        );
+        assert_eq!(
+            runtime_binary_path_for_report(Path::new(r"\\?\UNC\build-host\share\ai-cockpit.exe")),
+            r"\\build-host\share\ai-cockpit.exe"
+        );
+        assert_eq!(
+            runtime_binary_path_for_report(Path::new(r"\\?\Volume{abc}\ai-cockpit.exe")),
+            r"\\?\Volume{abc}\ai-cockpit.exe"
+        );
+        assert_eq!(
+            runtime_binary_path_for_report(Path::new("/usr/bin/ai-cockpit")),
+            "/usr/bin/ai-cockpit"
+        );
+    }
+
     #[test]
     fn fixture_oracle_rejects_drift_in_security_relevant_answer_keys() {
         let scope_exceeded: serde_json::Value =
