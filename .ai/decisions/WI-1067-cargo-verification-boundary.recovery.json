@@ -1,0 +1,26 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Ray's delegated ordinary technical coordination to Raydot in the Codex thread 01a0f098-94c4-718c-a39b-53d331aa0010; Raydot's explicit same-WI retry decision on 2026-10-05",
+  "decidedAt": "2026-10-05T04:01:07Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.55be307125ed50675d5381429122053d6537a67d1a9f7cd2f784d64ade69fddd.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.18c6114fef4a24b205046a01dc3bbf77dbd1797b7f73cc668ca5eba35f95aa1b.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+  "predecessorSummaryDigest": "sha256:8e03f5b25fe3070f14ab72a758efaafc4be394c484497544064f0186fde1ee39",
+  "predecessorWorkItemId": "WI-1067-cargo-verification-boundary",
+  "reason": "WI-1067 seq3 formal verification 27/27 passed, but independent review found projection and command identity defects. Seq4 amendment correctly made the old receipt stale. Preserve both the historical passing and failed attempts; allow one supported same-WI retry to bind the real draft PR resource identity, then run fresh preflight and complete formal verification on the final Contract and source snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the actual draft PR and branch/worktree identity through finalize-plan, obtain required final-digest review and preflight, then complete one full fresh formal verification before finish and hosted exact-head CI.",
+  "runtimeDigest": "sha256:a4077649edae2b8ec780c215181b9c1145f8db21c1a15e5fa123fc6acf55fd7b",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

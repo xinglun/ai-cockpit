@@ -9,12 +9,14 @@ use super::{
     WorkItemScaffoldReceipt, WorkItemStartAdvisory, WorkItemStartObligation, WorkItemStartOptions,
     WorkItemStartRemoteBranch, WorkItemStartWorktree, WorkItemStatusSnapshot,
     acquire_lifecycle_lock, append_task_outcome_events, apply_preflight_review_evidence,
-    atomic_json, atomic_write, attach, attached_profile_digest, close_decision_is_valid_for_status,
+    atomic_json, atomic_write, attach, attached_profile_digest,
+    build_repository_verification_command, close_decision_is_valid_for_status,
     closed_finalization_projection_kind, effective_resource_context,
-    ensure_resource_finalization_base_binding, git_text, git_worktree_records,
-    governance_controls_gaps_for_finish, governance_decision_for_pre_execution_boundary,
-    is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
-    outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome, read_contract,
+    effective_verification_timeout_seconds, ensure_resource_finalization_base_binding, git_text,
+    git_worktree_records, governance_controls_gaps_for_finish,
+    governance_decision_for_pre_execution_boundary, is_regular_non_symlink, load_recovery_decision,
+    now, optional_regular_artifact, outcome_v2_internal_with_snapshot,
+    persist_blocked_lifecycle_outcome, prepare_repository_verification_command, read_contract,
     read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
     recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
     repository_id, repository_readiness, repository_relative_path,
@@ -7375,7 +7377,7 @@ fn persist_verification_attempt_internal(
     }
     let command_values = requests
         .iter()
-        .map(|request| verification_attempt_command_value(&root, request))
+        .map(|request| verification_attempt_command_value(&root, request, snapshot))
         .collect::<Vec<_>>();
     let bound_receipt = bind_verification_attempt_receipt(&root, work_item_id, runtime, receipt)?;
     let execution_records = bound_receipt
@@ -7633,20 +7635,20 @@ fn verification_attempt_path_matches(path: &Path, attempt: &serde_json::Value) -
 fn verification_attempt_command_value(
     root: &Path,
     request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
 ) -> serde_json::Value {
-    let command_digest = cockpit_verification::VerificationCommand::new(
-        &request.node_id,
-        &request.program,
-        request.args.clone(),
-        cockpit_verification::VerificationReusePolicy::NeverReuse,
-    )
-    .with_current_dir(root)
-    .with_timeout_seconds(
-        request
-            .timeout_seconds
-            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
-    )
-    .command_digest();
+    let timeout_seconds = effective_verification_timeout_seconds(request);
+    let command_digest = prepare_repository_verification_command(root, request, snapshot)
+        .map(|prepared| prepared.command)
+        .unwrap_or_else(|_| {
+            build_repository_verification_command(
+                root,
+                request,
+                None,
+                cockpit_verification::VerificationReusePolicy::NeverReuse,
+            )
+        })
+        .command_digest();
     serde_json::json!({
         "nodeId": request.node_id,
         "program": request.program,
@@ -7656,9 +7658,7 @@ fn verification_attempt_command_value(
         "runner": request.runner,
         "runtimeDigest": request.runtime_digest,
         "baseCommit": request.base_commit,
-        "timeoutSeconds": request
-            .timeout_seconds
-            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
+        "timeoutSeconds": timeout_seconds,
         "commandDigest": command_digest,
     })
 }
@@ -7749,7 +7749,7 @@ fn verification_attempt_matches(
     }
     let expected_commands = requests
         .iter()
-        .map(|request| verification_attempt_command_value(root, request))
+        .map(|request| verification_attempt_command_value(root, request, snapshot))
         .collect::<Vec<_>>();
     if attempt["commands"] != serde_json::json!(expected_commands) {
         return false;

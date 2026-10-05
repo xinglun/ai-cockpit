@@ -256,11 +256,15 @@ review when the returned state is yellow, red, unknown, or not ready.
   its detected Cargo/npm command uses the dynamic profile-authorized path, while
   an explicit custom command remains fresh.
 - `verify --timeout-seconds <n>` uses a finite timeout in the inclusive range
-  `1..=900` seconds. Omitting it preserves the 300-second Runtime default; every
-  explicit value is an override and requires a finite Contract or repository
-  policy ceiling. Values above the Runtime cap are rejected before spawn. The
-  effective timeout is included in the plan, receipt, command digest, and reuse
-  identity; a deadline fails closed and terminates the process tree.
+  `1..=900` seconds. With no override, a `cargo test --package` node uses a
+  finite 600-second default; other commands retain the 300-second default.
+  Every explicit value is an override and requires a finite Contract or
+  repository policy ceiling. Values above the Runtime cap are rejected before
+  spawn. The effective timeout is included in the plan, receipt, command
+  digest, and reuse identity; a deadline fails closed and terminates the
+  process tree. Without an explicit `CARGO_TARGET_DIR`, Cargo verification uses
+  a target directory derived from the canonical checkout path, so linked
+  worktrees do not share test binaries. An explicit target remains authoritative.
 - `verify --plan-only` resolves the route and emits the deterministic plan without
   spawning project verification commands. For a Cargo workspace, the plan runs
   one metadata query and partitions `cargo test --locked --workspace` into

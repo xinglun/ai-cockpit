@@ -169,9 +169,12 @@ Agent は次の順序で capability を発見します。repository-bound の st
   `--work-item <id>` は receipt を記録しますが、検出された Cargo/npm command は dynamic な
   profile-authorized path を使い、explicit custom command は常に fresh です。
 - `verify --timeout-seconds <n>` は `1..=900` 秒の有限 timeout を使います。省略時は
-  Runtime の 300 秒 default を維持します。明示値はすべて override であり、有限な上限を Contract または
+  `cargo test --package` node の default が有限の 600 秒、それ以外の command は 300 秒です。
+  明示値はすべて override であり、有限な上限を Contract または
   repository policy が認可していなければなりません。Runtime 上限超過は spawn 前に拒否されます。有効 timeout は
   plan、receipt、command digest、reuse identity に bind され、deadline 到達時は fail closed で process tree を終了します。
+  `CARGO_TARGET_DIR` を明示しない場合、Cargo verification は canonical checkout path から導出した target directory を使い、
+  linked worktree 間で test binary を共有しません。明示した target が優先されます。
 - `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
   Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
   formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。

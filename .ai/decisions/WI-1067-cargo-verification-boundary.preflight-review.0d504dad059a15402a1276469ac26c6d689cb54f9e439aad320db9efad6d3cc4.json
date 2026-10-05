@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "reason": "Ray selected option 1 in this Codex conversation after receiving the exact WI-1067 seq4 Contract digest 74a9d0f3 and the Runtime human-review request. This confirms the bounded deadline-projection scope and acceptance amendment only; it does not claim verification, PR integration, or release.",
+  "recordedAt": "2026-10-05T03:31:52Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}

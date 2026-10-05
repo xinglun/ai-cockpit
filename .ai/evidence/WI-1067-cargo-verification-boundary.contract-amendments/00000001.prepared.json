@@ -1,0 +1,241 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-0ded5603847915be681b25faf34feaaca1702a7c4202d9f76628c6e7450ac6b6",
+      "expectedContractDigest": "sha256:5aa5498f27084e522ecba1f7f68a75ea0ff0730ac797013776dd45f5cc550012",
+      "reason": "Declare observed WI-1065 failures, current-base source facts, and high-risk regressions before admission; no implementation or acceptance weakening",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts."
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds."
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt."
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+            "required": true,
+            "scenario": "distinct-linked-worktree-cargo-targets",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+          }
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+            "required": true,
+            "scenario": "finite-package-test-default-and-explicit-policy",
+            "status": "unverified",
+            "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+          }
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "add",
+          "value": {
+            "evidence": [],
+            "expected": "The candidate Runtime completes all 13 workspace packages, fmt and Clippy with source-bound receipts; exact-head PR CI retains contract-aware producer, gate, and coverage checks without treating WI-1065's old failed attempts as passed.",
+            "required": true,
+            "scenario": "full-workspace-and-hosted-boundary",
+            "status": "unverified",
+            "verificationPlan": "Run focused tests and full declared verification on the frozen candidate; inspect exact-head PR CI route, formal receipt, Rust gate, repository gates and workspace coverage before merge; subsequently reverify WI-1065 separately after Runtime update."
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:6e22eb105270058d1ce5cfe4abc06a9e28e0bf4d7d0700e8f3ba09b24f784152",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+        "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+        "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+        "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。"
+      ],
+      "authority": "authorized",
+      "baseRevision": "e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2",
+      "createdAt": "2026-10-05T02:09:57Z",
+      "goal": "使不同 linked worktree 的默认 Cargo 构建产物互不污染，并让真实耗时超过五分钟的完整 package 测试在有限 600 秒边界内执行；保留其他命令 300 秒默认与显式覆盖的政策约束。",
+      "intent": "修复当前 Task9 交付中真实暴露的 Runtime Cargo 验证环境隔离与有界时限摩擦，不降低测试覆盖或证据要求。",
+      "mode": "implementation",
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".ai/work-items/archive",
+        "tests/evaluation"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "high",
+      "scope": [
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked --workspace",
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+      ],
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    "previousContractDigest": "sha256:5aa5498f27084e522ecba1f7f68a75ea0ff0730ac797013776dd45f5cc550012",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "无显式 CARGO_TARGET_DIR 时，Cargo 验证默认 target 由当前规范化 checkout 路径稳定派生；两个 linked worktree 不共享构建产物，显式 caller target 仍优先，不能引用已归档 worktree 路径。回归覆盖测试二进制 CARGO_MANIFEST_DIR 路径绑定。",
+        "无显式 timeout 的 cargo test --package 节点使用有限 600 秒默认，其他命令继续 300 秒；显式 timeout 仍须通过现有 Contract/项目政策上限且不超过 900 秒。执行、计划、失败与超时收据如实记录，不能跳过或复用未通过测试。",
+        "先补准确 RED 负例，再做最小 GREEN；格式、Clippy、完整 cargo test --locked --workspace、针对性执行器回归、当前候选 Runtime 的正式验证以及 PR 精确头 CI 均真实通过，保持 13 个 workspace package 完整覆盖。",
+        "保留 WI-1065 的两次失败 attempt；本修复合并并更新本地 Runtime 后，在 WI-1065 原 Contract 与专属工作区重新取得正式验证、PR CI 与后续收尾证据，不把本 WI 的绿灯冒充认知评估交付。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-05T02:09:57Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "使不同 linked worktree 的默认 Cargo 构建产物互不污染，并让真实耗时超过五分钟的完整 package 测试在有限 600 秒边界内执行；保留其他命令 300 秒默认与显式覆盖的政策约束。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "修复当前 Task9 交付中真实暴露的 Runtime Cargo 验证环境隔离与有界时限摩擦，不降低测试覆盖或证据要求。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-cli/src/cognitive_benefit.rs",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs",
+        ".ai/work-items/archive",
+        "tests/evaluation"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The same repository in distinct linked worktrees gets distinct deterministic default Cargo target directories, preventing test binaries from retaining the other checkout's CARGO_MANIFEST_DIR; an explicit caller target remains unchanged.",
+          "required": true,
+          "scenario": "distinct-linked-worktree-cargo-targets",
+          "status": "unverified",
+          "verificationPlan": "RED-to-GREEN repository execution-context regression and an actual two-checkout Cargo test-binary path probe; verify the default path is canonical-checkout-derived and explicit CARGO_TARGET_DIR wins."
+        },
+        {
+          "evidence": [],
+          "expected": "Only implicit cargo test --package nodes default to 600 seconds; all other implicit commands remain at 300 seconds. Explicit timeouts still require existing project policy, remain at or below 900 seconds, and bounded timeout failures are persisted honestly.",
+          "required": true,
+          "scenario": "finite-package-test-default-and-explicit-policy",
+          "status": "unverified",
+          "verificationPlan": "RED-to-GREEN plan/execution regression for package and non-package commands, explicit allowed and rejected overrides, and timeout receipt behavior; run the full declared Runtime verification without skipping a package."
+        },
+        {
+          "evidence": [],
+          "expected": "The candidate Runtime completes all 13 workspace packages, fmt and Clippy with source-bound receipts; exact-head PR CI retains contract-aware producer, gate, and coverage checks without treating WI-1065's old failed attempts as passed.",
+          "required": true,
+          "scenario": "full-workspace-and-hosted-boundary",
+          "status": "unverified",
+          "verificationPlan": "Run focused tests and full declared verification on the frozen candidate; inspect exact-head PR CI route, formal receipt, Rust gate, repository gates and workspace coverage before merge; subsequently reverify WI-1065 separately after Runtime update."
+        }
+      ],
+      "scope": [
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/verification_service.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md"
+      ],
+      "sources": [
+        "WI-1065 formal attempts at snapshot sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283: first attempt embedded an archived checkout in Cargo test binaries through shared CARGO_TARGET_DIR; second isolated-target attempt passed 27/28 nodes but cockpit-repository package timed out at 300004 ms. Preserve both failed receipts.",
+        "origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 execution_context.rs uses a shared HOME cache target and DEFAULT_EXECUTION_SECONDS=300 for package tests; explicit timeout remains governed by existing policy and maximum 900 seconds.",
+        "Direct isolated-target cargo test --locked --package cockpit-repository with RUST_TEST_THREADS=20 passed but required more than 300 seconds; /tmp/wi1065-repository-threads20.log is diagnostic evidence, not a formal Runtime verification receipt."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+      ],
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    "newContractDigest": "sha256:fc70a11cd4bdffe452a0f261bff95549019aa25bd1f54e8169e68cbbfea17391",
+    "previousSummaryDigest": "sha256:6692b64e43dacd8de30eaf3931b4d09bc07f95c2e8177c70adc2efeeaa758fb4",
+    "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "legacyInputDigest": "sha256:0ded5603847915be681b25faf34feaaca1702a7c4202d9f76628c6e7450ac6b6",
+    "preparedAt": "2026-10-05T02:13:35Z"
+  },
+  "preparedDigest": "sha256:7b1622a67928f1471cebd3a8b20e38ef925bebef1bded897b6cb607fba8ed27e"
+}

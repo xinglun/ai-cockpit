@@ -281,8 +281,8 @@ enum CommandKind {
         #[arg(long, default_value = "task")]
         stage: String,
         /// Finite command timeout in seconds. Explicit values require a
-        /// finite Contract or repository policy ceiling; omission preserves
-        /// the 300-second Runtime default.
+        /// finite Contract or repository policy ceiling; omission defaults to
+        /// 600 seconds for Cargo package tests and 300 seconds otherwise.
         #[arg(long)]
         timeout_seconds: Option<u64>,
         /// Resolve the route and emit its deterministic verification plan
@@ -2228,14 +2228,12 @@ fn run() -> Result<()> {
                     .count();
                 let plan = json!({
                     "coverageManifest": coverage_manifest,
-                    "requests": requests.iter().map(|request| json!({
+                    "requests": requests.iter().zip(&planned_nodes).map(|(request, node)| json!({
                         "nodeId": request.node_id,
                         "program": request.program,
                         "args": request.args,
                         "dependencies": [],
-                        "timeoutSeconds": request.timeout_seconds.unwrap_or(
-                            cockpit_verification::DEFAULT_EXECUTION_SECONDS,
-                        ),
+                        "timeoutSeconds": node["timeoutSeconds"],
                     })).collect::<Vec<_>>(),
                     "state": "planned",
                     "workItemId": work_item,
@@ -2247,12 +2245,11 @@ fn run() -> Result<()> {
                     "nodesToExecute": planned_nodes.len().saturating_sub(nodes_reused),
                     "nodesReused": nodes_reused,
                     "processesSpawned": 0,
-                    "timeoutSeconds": requests.first().map_or(
-                        cockpit_verification::DEFAULT_EXECUTION_SECONDS,
-                        |request| request.timeout_seconds.unwrap_or(
-                            cockpit_verification::DEFAULT_EXECUTION_SECONDS,
-                        ),
-                    ),
+                    "timeoutSeconds": planned_nodes
+                        .iter()
+                        .filter_map(|node| node["timeoutSeconds"].as_u64())
+                        .max()
+                        .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
                     "plannedNodes": planned_nodes,
                 });
                 println!("{}", serde_json::to_string_pretty(&plan)?);
@@ -3709,6 +3706,10 @@ fn merge_verification_runs(
 ) -> Option<cockpit_repository::RepositoryVerificationRun> {
     let mut merged = runs.pop()?;
     for mut run in runs {
+        merged.receipt.timeout_seconds = merged
+            .receipt
+            .timeout_seconds
+            .max(run.receipt.timeout_seconds);
         merged.receipt.results.append(&mut run.receipt.results);
         merged
             .receipt
@@ -4162,8 +4163,8 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 mod tests {
     use super::{
         CapabilityCommand, Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
-        declared_verification_commands, parse_declared_verification_command,
-        record_ordinary_cleanup_command,
+        declared_verification_commands, merge_verification_runs,
+        parse_declared_verification_command, record_ordinary_cleanup_command,
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
@@ -4175,6 +4176,67 @@ mod tests {
         WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, work_item_outcome_interface_description,
     };
     use std::{path::Path, process::Command};
+
+    #[test]
+    fn aggregate_receipt_reports_the_longest_node_deadline() {
+        let directory = tempfile::tempdir().expect("fixture root");
+        std::fs::create_dir_all(directory.path().join("src")).expect("source directory");
+        std::fs::write(
+            directory.path().join("Cargo.toml"),
+            "[package]\nname = \"aggregate-timeout-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+        )
+        .expect("manifest");
+        std::fs::write(directory.path().join("src/lib.rs"), "pub fn fixture() {}\n")
+            .expect("source");
+        assert!(
+            Command::new("git")
+                .arg("init")
+                .arg("-q")
+                .current_dir(directory.path())
+                .status()
+                .expect("git init")
+                .success()
+        );
+        let request = |node_id: &str, program: &str, args: Vec<String>| {
+            cockpit_repository::RepositoryVerificationRequest {
+                node_id: node_id.into(),
+                program: program.into(),
+                args,
+                scope: vec!["**".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: Digest::sha256_bytes(b"aggregate-test-runtime").to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
+                policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+            }
+        };
+        let package = cockpit_repository::run_repository_verification(
+            directory.path(),
+            &request(
+                "package",
+                "cargo",
+                vec![
+                    "test".into(),
+                    "--package".into(),
+                    "aggregate-timeout-fixture".into(),
+                ],
+            ),
+        )
+        .expect("package verification");
+        let other = cockpit_repository::run_repository_verification(
+            directory.path(),
+            &request("other", "rustc", vec!["--version".into()]),
+        )
+        .expect("non-package verification");
+        assert_eq!(package.receipt.timeout_seconds, Some(600));
+        assert_eq!(other.receipt.timeout_seconds, Some(300));
+        let merged = merge_verification_runs(vec![package, other]).expect("aggregate receipt");
+        assert_eq!(merged.receipt.timeout_seconds, Some(600));
+        assert_eq!(merged.receipt.execution_records.len(), 2);
+    }
 
     #[test]
     fn concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time() {

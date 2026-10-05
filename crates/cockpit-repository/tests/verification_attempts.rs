@@ -4,11 +4,11 @@ use cockpit_protocol::{RuntimeContext, digest_json};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
     checkpoint_work_item, load_reusable_verification_attempt, outcome_v2_with_runtime,
-    persist_verification_attempt, persist_verification_attempt_superseding, preflight_work_item,
-    record_verification_with_runtime, run_repository_verification, start_work_item_with_options,
+    persist_verification_attempt, persist_verification_attempt_superseding,
+    plan_repository_verification_action, preflight_work_item, record_verification_with_runtime,
+    run_repository_verification, start_work_item_with_options,
     work_item_status_snapshot_with_runtime,
 };
-use cockpit_verification::VerificationCommand;
 use serde_json::json;
 use std::{
     fs,
@@ -102,20 +102,15 @@ fn attempt_receipt(
     request: &RepositoryVerificationRequest,
     passed: bool,
 ) -> serde_json::Value {
-    let root = fs::canonicalize(root).expect("canonical root");
-    let command_digest = VerificationCommand::new(
-        &request.node_id,
-        &request.program,
-        request.args.clone(),
-        cockpit_verification::VerificationReusePolicy::NeverReuse,
-    )
-    .with_current_dir(&root)
-    .with_timeout_seconds(
-        request
-            .timeout_seconds
-            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
-    )
-    .command_digest();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let plan = plan_repository_verification_action(root, request, &snapshot, 0)
+        .expect("real command plan");
+    let command_digest = plan["identityBinding"]["commandDigest"]
+        .as_str()
+        .expect("planned command digest");
     json!({
         "passed": passed,
         "executionRecords": [{
@@ -214,6 +209,90 @@ fn precondition_attempt_is_durable_without_spawning_a_process() {
             .is_empty()
     );
     assert_eq!(stored["diagnostic"]["code"], "verification_preconditions");
+}
+
+#[test]
+fn package_test_attempt_commands_record_the_effective_implicit_deadline() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let mut request = request(root);
+    request.args = vec![
+        "test".into(),
+        "--package".into(),
+        "verification-attempt-fixture".into(),
+    ];
+    let persisted = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        &[request.clone()],
+        &snapshot,
+        &runtime(),
+        "precondition_rejected",
+        Some((
+            "verification_preconditions",
+            "synthetic admission rejection",
+        )),
+        None,
+    )
+    .expect("persist attempt");
+    let stored: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(persisted["path"].as_str().expect("path"))).expect("attempt"),
+    )
+    .expect("attempt JSON");
+    assert_eq!(stored["commands"][0]["timeoutSeconds"], 600);
+    assert_eq!(stored["processesSpawned"], 0);
+}
+
+#[test]
+fn package_test_attempt_command_digest_matches_its_real_execution_record() {
+    let directory = repository();
+    let root = directory.path();
+    let mut request = request(root);
+    request.args = vec![
+        "test".into(),
+        "--package".into(),
+        "verification-attempt-fixture".into(),
+    ];
+    let run = run_repository_verification(root, &request).expect("execute package test");
+    assert!(run.receipt.passed, "package execution receipt");
+    let receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    let persisted = persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &run.final_snapshot,
+        &runtime(),
+        "execution_completed",
+        None,
+        Some(&receipt),
+    )
+    .expect("persist execution attempt");
+    let stored: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(persisted["path"].as_str().expect("path"))).expect("attempt"),
+    )
+    .expect("attempt JSON");
+    assert_eq!(stored["commands"][0]["timeoutSeconds"], 600);
+    assert_eq!(stored["executionRecords"][0]["timeoutSeconds"], 600);
+    assert_eq!(
+        stored["commands"][0]["commandDigest"], stored["executionRecords"][0]["commandDigest"],
+        "attempt metadata must bind the actual prepared execution command"
+    );
+    assert!(
+        load_reusable_verification_attempt(
+            root,
+            "WI-ATTEMPT",
+            &[request],
+            &run.final_snapshot,
+            &runtime(),
+        )
+        .expect("read reusable attempt")
+        .is_some(),
+        "a passed, exact-bound package attempt should be reusable"
+    );
 }
 
 #[test]
