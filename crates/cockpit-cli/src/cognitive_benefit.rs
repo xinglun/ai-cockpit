@@ -264,8 +264,20 @@ fn write_report(repo: &Path, report: &serde_json::Value) -> Result<()> {
         &json_path,
         format!("{}\n", serde_json::to_string_pretty(report)?),
     )?;
-    std::fs::write(&markdown_path, render_markdown(report))?;
+    std::fs::write(
+        &markdown_path,
+        markdown_file_contents(&render_markdown(report)),
+    )?;
     Ok(())
+}
+
+fn translate_text_file_newlines(text: &str, newline: &str) -> String {
+    text.replace('\n', newline)
+}
+
+fn markdown_file_contents(markdown: &str) -> String {
+    let newline = if cfg!(windows) { "\r\n" } else { "\n" };
+    translate_text_file_newlines(markdown, newline)
 }
 
 pub(crate) fn run(repo: &Path, binary: Option<&Path>, check: bool) -> Result<()> {
@@ -548,8 +560,9 @@ mod tests {
     use std::path::Path;
 
     use super::{
-        TASKS, answer_key, digest_bytes, evidence_refs, fixture_passes, missing_language_headings,
-        render_markdown, runtime_binary_path_for_report, unsafe_summary_markers, write_report,
+        TASKS, answer_key, digest_bytes, evidence_refs, fixture_passes, markdown_file_contents,
+        missing_language_headings, render_markdown, runtime_binary_path_for_report,
+        translate_text_file_newlines, unsafe_summary_markers, write_report,
     };
 
     #[test]
@@ -677,6 +690,25 @@ mod tests {
         assert!(markdown.contains("cognitive benefit remains unvalidated"));
         assert!(markdown.contains("| `normal-completion` | `WI-663` |"));
         assert!(markdown.contains("Full evidence views: 14 automated calls"));
+    }
+
+    #[test]
+    fn markdown_file_newlines_match_python_text_mode_on_each_platform() {
+        let markdown = "# report\n\nrow\n";
+        assert_eq!(
+            translate_text_file_newlines(markdown, "\n"),
+            "# report\n\nrow\n"
+        );
+        assert_eq!(
+            translate_text_file_newlines(markdown, "\r\n"),
+            "# report\r\n\r\nrow\r\n"
+        );
+        let expected = if cfg!(windows) {
+            "# report\r\n\r\nrow\r\n"
+        } else {
+            "# report\n\nrow\n"
+        };
+        assert_eq!(markdown_file_contents(markdown), expected);
     }
 
     #[test]
