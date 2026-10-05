@@ -1,0 +1,283 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 6,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1066-unique-workspace-cargo-test-20261005",
+      "expectedContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+      "reason": "PR #1018 exact-head run 37237670293 passed candidate hosted 29/29 and Rust Contract gate, but strict workspace coverage rejected this Contract's two additional focused Cargo test declarations as unsupported/ambiguous before package execution. Keep the already-passed focused 44/44 and 6/6 evidence and their unchanged source tests, while declaring exactly one unfiltered cargo test --locked --workspace in formal verification; that command runs both integration targets and all workspace packages. Preserve the failed CI and previous 29/29 receipts; do not weaken the consumer or bypass it with a wrapper.",
+      "changes": [
+        {
+          "path": "/verification",
+          "operation": "replace",
+          "value": [
+            "cargo fmt --all -- --check",
+            "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+            "cargo test --locked --workspace"
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:bb556a1bb917027eac9f0719dfb0fb8c09ad8eab5d8efbc9d1d774ec086e6ea9",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "有效且当前 Runtime 可重新核验的 supersede 收据，精确绑定唯一现存后继 Contract、仓库 ID、前驱 Contract digest 与 recoveryDecisionPath 时，前驱 status.safeActions 显示明确的 archive_when_reviewed；正式 archive 使用同一准入，归档 manifest 为 superseded，并保留前驱红验证与原字节。",
+        "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。",
+        "普通 finish_ready 归档的既有准入及拒绝语义保持不变；不得新增手工标记、伪造审核、放宽 Contract gate 或修改 CI selector。",
+        "保留已记录的 recovery_decision 真实 RED 与失败证据；最终测试组织将原 recovery_decision.rs 44 个既有用例保持字节不变，在独立 supersede_archive integration target 中保留本 WI 新增 6 个用例及必要夹具。两个定向 target 与完整 workspace 验证均须真实运行通过，不减少任何安全负例；正式 Runtime CLI 加 Cargo/CI canonical gate、精确头 PR CI 及独立代码审查通过后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-04T18:24:50Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "让 WI-1058 这类已正式选定唯一后继的 checkpointed 前驱，只有在当前收据、仓库和后继绑定仍有效时，才显示并执行同一个 supersede archive 动作；缺失、失效、篡改或竞争时拒绝，且不改变 Task9 产品功能。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "使有有效 supersede 决定的旧 Work Item 归档动作与 Runtime 当前准入一致，同时保留普通归档及不可信恢复的拒绝边界。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "tests/ci/resolve_work_item.sh",
+        "crates/cockpit-protocol",
+        "WI-1058-task9-cognitive-gate Contract and historical evidence",
+        "Task9 cognitive evaluator product code",
+        "manual governance record edits"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1066-supersede-admission",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1018",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "A current Runtime-validated supersede receipt with the unique still-valid successor binding yields archive_when_reviewed in status.safeActions; the actual archive consumes the same admission, emits a superseded manifest, and preserves predecessor failed evidence bytes.",
+          "required": true,
+          "scenario": "bound supersede admits and executes archive consistently",
+          "status": "unverified",
+          "verificationPlan": "在独立 supersede_archive integration target 中使用原 recovery_decision 夹具的最小局部副本，记录真实后继和 supersede；先断言 status safe action，再执行 archive，检查 superseded manifest；同时由保持字节不变的原 recovery_decision target 检查前驱失败证据保留。保留已记录 RED，运行两个定向 target、完整 workspace 和正式 Runtime 验证。"
+        },
+        {
+          "evidence": [],
+          "expected": "Without a current supersede, or when the recorded successor is missing, changed, foreign, ambiguous, or no longer bound to the exact predecessor and recovery path, neither status nor archive admits superseded archive and no manifest is written.",
+          "required": true,
+          "scenario": "stale or foreign supersede cannot archive",
+          "status": "unverified",
+          "verificationPlan": "在保持字节不变的原 recovery_decision target 与独立 supersede_archive target 合计保留无收据、普通 successor、有效准入后删除或改绑、digest/repository/path 失配及竞争 lineage 的负例；独立 target 特别断言 status 曾允许后再篡改时 archive 重核、拒绝且零 manifest。原 44 个既有用例及新 6 个用例都须真实运行，两个定向 target 与正式验证都必须通过。"
+        },
+        {
+          "evidence": [],
+          "expected": "An ordinary verified finish_ready Work Item retains existing archive admission, while an ordinary unverified checkpointed Work Item remains unable to archive.",
+          "required": true,
+          "scenario": "ordinary archive admission remains unchanged",
+          "status": "unverified",
+          "verificationPlan": "在 supersede_archive target 验证普通已完成 WI 的 archive 准入及未验证 checkpointed WI 的拒绝；同时运行保持字节不变的 recovery_decision 原 target、完整 Cargo workspace 验证与精确头 CI，核对旧 44 项加新 6 项均执行且无遗漏。"
+        }
+      ],
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/supersede_archive.rs"
+      ],
+      "sources": [
+        "PR #1018 run 37232039906: changed recovery_decision.rs exceeded 16,384-token material bound (base also exceeds it). Formal preflight after byte-identical child-module split reported test_weakening because existing assertions were removed from the original path. The supported correction leaves the original file byte-identical and adds only a standalone supersede_archive.rs integration test with minimal local fixtures; no gate or product weakening."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace",
+        "cargo test --locked -p cockpit-repository --test recovery_decision",
+        "cargo test --locked -p cockpit-repository --test supersede_archive"
+      ],
+      "workItemId": "WI-1066-supersede-archive-admission"
+    },
+    "previousContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "有效且当前 Runtime 可重新核验的 supersede 收据，精确绑定唯一现存后继 Contract、仓库 ID、前驱 Contract digest 与 recoveryDecisionPath 时，前驱 status.safeActions 显示明确的 archive_when_reviewed；正式 archive 使用同一准入，归档 manifest 为 superseded，并保留前驱红验证与原字节。",
+        "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。",
+        "普通 finish_ready 归档的既有准入及拒绝语义保持不变；不得新增手工标记、伪造审核、放宽 Contract gate 或修改 CI selector。",
+        "保留已记录的 recovery_decision 真实 RED 与失败证据；最终测试组织将原 recovery_decision.rs 44 个既有用例保持字节不变，在独立 supersede_archive integration target 中保留本 WI 新增 6 个用例及必要夹具。两个定向 target 与完整 workspace 验证均须真实运行通过，不减少任何安全负例；正式 Runtime CLI 加 Cargo/CI canonical gate、精确头 PR CI 及独立代码审查通过后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-04T18:24:50Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "让 WI-1058 这类已正式选定唯一后继的 checkpointed 前驱，只有在当前收据、仓库和后继绑定仍有效时，才显示并执行同一个 supersede archive 动作；缺失、失效、篡改或竞争时拒绝，且不改变 Task9 产品功能。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "使有有效 supersede 决定的旧 Work Item 归档动作与 Runtime 当前准入一致，同时保留普通归档及不可信恢复的拒绝边界。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "tests/ci/resolve_work_item.sh",
+        "crates/cockpit-protocol",
+        "WI-1058-task9-cognitive-gate Contract and historical evidence",
+        "Task9 cognitive evaluator product code",
+        "manual governance record edits"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1066-supersede-admission",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1018",
+        "worktree": "/Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "A current Runtime-validated supersede receipt with the unique still-valid successor binding yields archive_when_reviewed in status.safeActions; the actual archive consumes the same admission, emits a superseded manifest, and preserves predecessor failed evidence bytes.",
+          "required": true,
+          "scenario": "bound supersede admits and executes archive consistently",
+          "status": "unverified",
+          "verificationPlan": "在独立 supersede_archive integration target 中使用原 recovery_decision 夹具的最小局部副本，记录真实后继和 supersede；先断言 status safe action，再执行 archive，检查 superseded manifest；同时由保持字节不变的原 recovery_decision target 检查前驱失败证据保留。保留已记录 RED，运行两个定向 target、完整 workspace 和正式 Runtime 验证。"
+        },
+        {
+          "evidence": [],
+          "expected": "Without a current supersede, or when the recorded successor is missing, changed, foreign, ambiguous, or no longer bound to the exact predecessor and recovery path, neither status nor archive admits superseded archive and no manifest is written.",
+          "required": true,
+          "scenario": "stale or foreign supersede cannot archive",
+          "status": "unverified",
+          "verificationPlan": "在保持字节不变的原 recovery_decision target 与独立 supersede_archive target 合计保留无收据、普通 successor、有效准入后删除或改绑、digest/repository/path 失配及竞争 lineage 的负例；独立 target 特别断言 status 曾允许后再篡改时 archive 重核、拒绝且零 manifest。原 44 个既有用例及新 6 个用例都须真实运行，两个定向 target 与正式验证都必须通过。"
+        },
+        {
+          "evidence": [],
+          "expected": "An ordinary verified finish_ready Work Item retains existing archive admission, while an ordinary unverified checkpointed Work Item remains unable to archive.",
+          "required": true,
+          "scenario": "ordinary archive admission remains unchanged",
+          "status": "unverified",
+          "verificationPlan": "在 supersede_archive target 验证普通已完成 WI 的 archive 准入及未验证 checkpointed WI 的拒绝；同时运行保持字节不变的 recovery_decision 原 target、完整 Cargo workspace 验证与精确头 CI，核对旧 44 项加新 6 项均执行且无遗漏。"
+        }
+      ],
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/supersede_archive.rs"
+      ],
+      "sources": [
+        "PR #1018 run 37232039906: changed recovery_decision.rs exceeded 16,384-token material bound (base also exceeds it). Formal preflight after byte-identical child-module split reported test_weakening because existing assertions were removed from the original path. The supported correction leaves the original file byte-identical and adds only a standalone supersede_archive.rs integration test with minimal local fixtures; no gate or product weakening."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1066-supersede-archive-admission"
+    },
+    "newContractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
+    "previousSummaryDigest": "sha256:c489f7a85d26d55329231e07e9a20aba9e7e7ae6ed8fa44d96090b0757f9a763",
+    "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:5d914ef0a80ecaf87cf9d5e87dc853f60839d88b93150f52839f28c6921d0f35",
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-04T22:07:03Z"
+  },
+  "preparedDigest": "sha256:3dbede727bc70dd7ced823245e281c8a25ea132e0aa2db4200e022e001a26e0c"
+}

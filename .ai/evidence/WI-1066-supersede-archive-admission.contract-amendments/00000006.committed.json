@@ -1,0 +1,50 @@
+{
+  "sequence": 6,
+  "preparedDigest": "sha256:3dbede727bc70dd7ced823245e281c8a25ea132e0aa2db4200e022e001a26e0c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1066-supersede-archive-admission",
+    "sequence": 6,
+    "changeId": "wi1066-unique-workspace-cargo-test-20261005",
+    "requestDigest": "sha256:bb556a1bb917027eac9f0719dfb0fb8c09ad8eab5d8efbc9d1d774ec086e6ea9",
+    "reason": "PR #1018 exact-head run 37237670293 passed candidate hosted 29/29 and Rust Contract gate, but strict workspace coverage rejected this Contract's two additional focused Cargo test declarations as unsupported/ambiguous before package execution. Keep the already-passed focused 44/44 and 6/6 evidence and their unchanged source tests, while declaring exactly one unfiltered cargo test --locked --workspace in formal verification; that command runs both integration targets and all workspace packages. Preserve the failed CI and previous 29/29 receipts; do not weaken the consumer or bypass it with a wrapper.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+          "cargo test --locked --workspace",
+          "cargo test --locked -p cockpit-repository --test recovery_decision",
+          "cargo test --locked -p cockpit-repository --test supersede_archive"
+        ],
+        "newValue": [
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+          "cargo test --locked --workspace"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+    "newContractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
+    "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+    "environmentObservationDigest": "sha256:9bf5877f69517cd1ee31f8992a5b59c4c3945ef23b6d4635fdadf912cb37ba29",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:5d914ef0a80ecaf87cf9d5e87dc853f60839d88b93150f52839f28c6921d0f35",
+    "journalDigest": "sha256:0f9501099a671c6def5f5a2ffe470101cf75487561cd80fc0969def4fb778979",
+    "recordedAt": "2026-10-04T22:07:03Z"
+  }
+}

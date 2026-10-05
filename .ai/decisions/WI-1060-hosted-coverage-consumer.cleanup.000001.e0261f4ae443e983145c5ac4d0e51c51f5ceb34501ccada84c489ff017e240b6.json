@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:5cdc32805462ece99eec15e5ac9fc97edea32884a512cd62edb80fdc80058c55",
+  "branchRef": "refs/heads/codex/wi1060-historical-closeout",
+  "contractDigest": "sha256:f9acb50e5c553696d4a2aa26ca04f10c649d6c9bc6fc15690f95f67c196e5080",
+  "headRevision": "836c9fde598f8a0cff98279a96091dfdd379c69a",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-04T18:18:04Z",
+  "operationId": "sha256:684cd3593429f33eafe135b079db5ec6ed050bb5b43cb3250fec5e579bd83b4d",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1060-hosted-coverage-consumer",
+  "worktreeId": "sha256:d6d42c352f11266c6e352922595e4d63372f039fbbf66ef4b6a692c1bfc487b6"
+}

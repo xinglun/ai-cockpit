@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:61dc01bce9121d1b3b5b18d657d0969a4c243ed624a822ff5debcd521ab896f4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray selected option 1 in the direct conversation, approving the exact 61dc01bc Contract scope amendment for a test-module split; preserve existing tests and fail-closed gate semantics.",
+  "recordedAt": "2026-10-04T21:07:38Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3bda9c4a2e93ca73155420e0275368817fd60c6280c60a7d84c0ee399a928082",
+  "schemaVersion": 1,
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

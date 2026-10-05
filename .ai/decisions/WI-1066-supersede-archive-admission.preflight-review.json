@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:297065345f50df962dc8c5a14f2f2198d3a1e6bf0310a9c1815292f99b90c9fc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray selected option 1 in the core conversation, confirming this exact WI-1066 Contract digest for checkpoint and TDD implementation; this is not code acceptance or merge authorization.",
+  "recordedAt": "2026-10-04T19:16:26Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3a2b834e925c173b6eaebace2662620624b059ea82715a2d325011cd49f3ef2b",
+  "schemaVersion": 1,
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "有效且当前 Runtime 可重新核验的 supersede 收据，精确绑定唯一现存后继 Contract、仓库 ID、前驱 Contract digest 与 recoveryDecisionPath 时，前驱 status.safeActions 显示明确的 archive_when_reviewed；正式 archive 使用同一准入，归档 manifest 为 superseded，并保留前驱红验证与原字节。",
+    "普通 successor 收据、没有 supersede 收据、后继在登记后删除或改绑、foreign repository/digest/path、竞争或不可判定 lineage 均不得显示 supersede 归档准入，也不得由归档入口写入归档记录；特别要覆盖 status 曾显示 archive_when_reviewed 后、实际 archive 前删除或篡改唯一后继 Contract/recovery path 的时序，执行入口必须重核并拒绝且零 manifest。不依赖名称、时间戳或自报值选后继。",
+    "普通 finish_ready 归档的既有准入及拒绝语义保持不变；不得新增手工标记、伪造审核、放宽 Contract gate 或修改 CI selector。",
+    "保留已记录的 recovery_decision 真实 RED 与失败证据；最终测试组织将原 recovery_decision.rs 44 个既有用例保持字节不变，在独立 supersede_archive integration target 中保留本 WI 新增 6 个用例及必要夹具。两个定向 target 与完整 workspace 验证均须真实运行通过，不减少任何安全负例；正式 Runtime CLI 加 Cargo/CI canonical gate、精确头 PR CI 及独立代码审查通过后才可合并。合并并安装新 Runtime 后，重新读取 WI-1058 当前 safeActions；只有它明确列出归档动作才继续旧 WI，不能将本 WI 的修复收据冒充旧 WI 的验证通过。"
+  ],
+  "createdAt": "2026-10-04T23:27:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e48ae508c181ef3e28aa9c3eaadbe30ce94525bfcd8fc615ff0207f9c7e6d056",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+      "workItemId": "WI-1066-supersede-archive-admission"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "让 WI-1058 这类已正式选定唯一后继的 checkpointed 前驱，只有在当前收据、仓库和后继绑定仍有效时，才显示并执行同一个 supersede archive 动作；缺失、失效、篡改或竞争时拒绝，且不改变 Task9 产品功能。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1066-supersede-archive-admission"
+  },
+  "taskReportDigest": "sha256:883f264a06ef8098e9981ab260741912b8b59974eb4874a85ed6d193ce7a3e78",
+  "taskReportMarkdownDigest": "sha256:3dfa87bb70a82711ea9ead5ef56c9195853d6e23d2f87f6d7a8e79e9f88c0463",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1066-supersede-archive-admission.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

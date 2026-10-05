@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray directly selected option 1 approving WI-1066 Contract fe8a284b40b39937a77654f53652bcbd6a38a07e67659cf8b288be9243ea4874, with the standalone six-test target, unchanged existing 44 tests, and both focused plus full workspace verification.",
+  "recordedAt": "2026-10-04T21:30:14Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1b6d312ed4cd298eb5f47fee2b6768376efd38f80de4b47ab5c26526bec3c090",
+  "schemaVersion": 1,
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

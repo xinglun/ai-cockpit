@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray directly selected option 1 approving the WI-1066 Contract e92f59db13976332a8c07f9180e21a6fa96119f1144fdbacebe340c1535e9106: formal verification declares fmt, clippy, and one complete workspace Cargo test; prior focused 44/44 and 6/6 passing evidence and failed PR CI are retained without weakening the strict coverage consumer.",
+  "recordedAt": "2026-10-04T22:13:47Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1066-supersede-archive-admission"
+}

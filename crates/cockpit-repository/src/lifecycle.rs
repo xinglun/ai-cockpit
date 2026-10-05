@@ -16,10 +16,10 @@ use super::{
     is_regular_non_symlink, load_recovery_decision, now, optional_regular_artifact,
     outcome_v2_internal_with_snapshot, persist_blocked_lifecycle_outcome, read_contract,
     read_evidence_retention_policy, read_json, read_resource_finalization_receipt,
-    recovery_scaffold_exists, reject_duplicate_json_keys, repository_id, repository_readiness,
-    repository_relative_path, require_current_action_admission,
-    require_explicit_resource_finalization_plan, require_green_governance,
-    require_green_governance_with_runtime, required_verification_checks,
+    recovery_decision_candidate_paths, recovery_scaffold_exists, reject_duplicate_json_keys,
+    repository_id, repository_readiness, repository_relative_path,
+    require_current_action_admission, require_explicit_resource_finalization_plan,
+    require_green_governance, require_green_governance_with_runtime, required_verification_checks,
     resolve_resource_finalization_head, resource_finalization_decision_path, snapshot_digest,
     task_outcome_markdown, task_outcome_report, valid_git_object_id, valid_sha256_digest,
     validate_checkpoint_evidence_bindings, validate_historical_finalization,
@@ -3227,11 +3227,36 @@ pub(super) fn validate_recovery_successor_binding(
         .current_contract_digest
         .as_ref()
         .unwrap_or(&receipt.predecessor_contract_digest);
+    let successor_summary_binds =
+        work_item_artifact_path_optional(root, successor_id, "summary.json")
+            .ok()
+            .flatten()
+            .and_then(|path| read_json(&path).ok())
+            .is_some_and(|summary: serde_json::Value| {
+                summary["predecessorWorkItemId"].as_str() == Some(work_item_id)
+                    && summary["predecessorContractDigest"].as_str()
+                        == Some(expected_predecessor_contract_digest.to_string().as_str())
+                    && summary["recoveryDecisionPath"].as_str()
+                        == successor_contract.recovery_decision_path.as_deref()
+            });
     let strictly_bound = successor_contract.predecessor_work_item_id.as_deref()
         == Some(work_item_id)
         && successor_contract.predecessor_contract_digest.as_ref()
             == Some(expected_predecessor_contract_digest)
-        && successor_contract.recovery_decision_path.is_some();
+        && (receipt.decision != "supersede" || successor_summary_binds)
+        && successor_contract
+            .recovery_decision_path
+            .as_deref()
+            .is_some_and(|bound_path| {
+                recovery_path_binds_successor(
+                    root,
+                    work_item_id,
+                    successor_id,
+                    expected_predecessor_contract_digest,
+                    bound_path,
+                    receipt.decision == "supersede",
+                )
+            });
     if strictly_bound {
         if receipt.successor_binding_mode.is_some()
             && !matches!(
@@ -3269,6 +3294,128 @@ pub(super) fn validate_recovery_successor_binding(
         "successor_binding_mismatch",
         "successor Contract does not bind the predecessor repository, identity, and Contract digest",
     ))
+}
+
+fn recovery_path_binds_successor(
+    root: &Path,
+    predecessor_id: &str,
+    successor_id: &str,
+    predecessor_contract_digest: &Digest,
+    bound_path: &str,
+    require_unique_supersede_path: bool,
+) -> bool {
+    let Some(bound_receipt) = recovery_path_successor_receipt(
+        root,
+        predecessor_id,
+        successor_id,
+        predecessor_contract_digest,
+        bound_path,
+    ) else {
+        return false;
+    };
+    if !require_unique_supersede_path {
+        return true;
+    }
+    // A Contract and Summary can both be rewritten to point at a copied,
+    // digest-named receipt. Their agreement does not resolve two persisted
+    // candidates for the same successor. Fail closed on that ambiguity;
+    // this is repository-local append-only evidence, not authentication
+    // against arbitrary replacement of every governance record.
+    let Ok((paths, _)) = recovery_decision_candidate_paths(root, predecessor_id, false) else {
+        return false;
+    };
+    let mut matching_paths = paths.iter().filter(|candidate| {
+        candidate
+            .strip_prefix(root)
+            .ok()
+            .and_then(|relative| relative.to_str())
+            .is_some_and(|relative| {
+                recovery_path_successor_receipt(
+                    root,
+                    predecessor_id,
+                    successor_id,
+                    predecessor_contract_digest,
+                    relative,
+                )
+                .is_some_and(|candidate_receipt| {
+                    candidate_receipt.predecessor_summary_digest
+                        == bound_receipt.predecessor_summary_digest
+                        && candidate_receipt.predecessor_outcome_digest
+                            == bound_receipt.predecessor_outcome_digest
+                        && candidate_receipt.predecessor_events_digest
+                            == bound_receipt.predecessor_events_digest
+                        && candidate_receipt.runtime_version == bound_receipt.runtime_version
+                        && candidate_receipt.runtime_digest == bound_receipt.runtime_digest
+                })
+            })
+    });
+    matching_paths
+        .next()
+        .is_some_and(|path| path == &root.join(bound_path))
+        && matching_paths.next().is_none()
+}
+
+fn recovery_path_successor_receipt(
+    root: &Path,
+    predecessor_id: &str,
+    successor_id: &str,
+    predecessor_contract_digest: &Digest,
+    bound_path: &str,
+) -> Option<RecoveryDecisionReceipt> {
+    let expected_directory = Path::new(".ai/decisions");
+    let path = Path::new(bound_path);
+    let Ok(file_name) = path.strip_prefix(expected_directory) else {
+        return None;
+    };
+    let name = file_name.to_str()?;
+    let canonical_name = format!("{predecessor_id}.recovery.json");
+    let versioned_prefix = format!("{predecessor_id}.recovery.");
+    if name != canonical_name && (!name.starts_with(&versioned_prefix) || !name.ends_with(".json"))
+    {
+        return None;
+    }
+    let full_path = root.join(path);
+    if !matches!(is_regular_non_symlink(&full_path), Ok(true)) {
+        return None;
+    }
+    let Ok(bytes) = fs::read(&full_path) else {
+        return None;
+    };
+    if bytes.len() > MAX_EXTERNAL_EVIDENCE_BYTES || reject_duplicate_json_keys(&bytes).is_err() {
+        return None;
+    }
+    let Ok(value) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+        return None;
+    };
+    if name != canonical_name {
+        let Ok(digest) = cockpit_protocol::digest_json(&value) else {
+            return None;
+        };
+        let digest = digest.to_string();
+        if name
+            != format!(
+                "{versioned_prefix}{}.json",
+                digest.trim_start_matches("sha256:")
+            )
+        {
+            return None;
+        }
+    }
+    let Ok(decision) = serde_json::from_value::<RecoveryDecisionReceipt>(value) else {
+        return None;
+    };
+    (decision.decision == "successor"
+        && decision.successor_binding_mode.as_deref() != Some("legacy_terminal_evidence")
+        && decision.work_item_id == predecessor_id
+        && decision.predecessor_work_item_id == predecessor_id
+        && decision.repository_id == repository_id(root).to_string()
+        && decision.successor_work_item_id.as_deref() == Some(successor_id)
+        && decision
+            .current_contract_digest
+            .as_ref()
+            .unwrap_or(&decision.predecessor_contract_digest)
+            == predecessor_contract_digest)
+        .then_some(decision)
 }
 
 struct ExistingActiveSuccessorBinding {

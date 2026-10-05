@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:Ray Task9 delivery goal authorizing recoverable merged-PR cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "343bc5aabca474d6e4a469ffd347c8c556431396",
+    "name": "codex/wi1066-supersede-admission",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "b741918b687a5729c0be9e58a0bff31d7c48e12f",
+  "contractDigest": "sha256:7577baf69542bbad064f407e68c75acd0c19138045afe4c39ea8300704ac548e",
+  "operationId": "wi1066-pr1018-merged-resource-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a436a06827d86b51c58f7006f7d81940b8b713bc",
+    "headRevision": "343bc5aabca474d6e4a469ffd347c8c556431396",
+    "mergeCommit": "4d2b30e30a505d59651e03b0c44cde38f239395a",
+    "number": 1018,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1018"
+  },
+  "reason": "PR #1018 merged at the exact reviewed head; main push CI 37244958453 passed. The managed worktree was recoverably archived, and the exact remote and local WI-1066 branches were deleted after confirming the merge commit contains the head.",
+  "receiptId": "wi1066-pr1018-cleanup-20261005",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1066-supersede-admission",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1018",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:2215e90a801b0ef3bd6e74c28f4dce306bceaa07c82bdd56d66ab72086b17366",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-05T00:01:26Z",
+  "workItemId": "WI-1066-supersede-archive-admission",
+  "worktree": {
+    "branch": "codex/wi1066-supersede-admission",
+    "headRevision": "343bc5aabca474d6e4a469ffd347c8c556431396",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi1066-supersede-admission/ai-cockpit",
+    "worktreeId": "WI-1066-supersede-archive-admission"
+  }
+}
