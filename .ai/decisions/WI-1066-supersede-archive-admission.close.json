@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1c11c4bcdff3280a0beea2d73d144a42e4b206d7594204268e920b2172f0462c",
+      "workItemId": "WI-1066-supersede-archive-admission"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/actions/runs/37244958453",
+            ".ai/decisions/WI-1066-supersede-archive-admission.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by agent:Codex via human:Ray standing Task9 delivery goal created 2026-10-03T11:31:32Z, authorizing evidence-backed close and recoverable cleanup at 2026-10-03T11:31:32Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1066-supersede-archive-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "让 WI-1058 这类已正式选定唯一后继的 checkpointed 前驱，只有在当前收据、仓库和后继绑定仍有效时，才显示并执行同一个 supersede archive 动作；缺失、失效、篡改或竞争时拒绝，且不改变 Task9 产品功能。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1066-supersede-archive-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1066-supersede-archive-admission"
+  },
+  "finalReportDigest": "sha256:0c29d7f23b3ea2e1c29835a410feaf406ec3dc22362ea96ea746ecd935ea7913",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:be2c23f45ae33ed5dc7e2d665420041ee05ca69aafc2e1ba82660a5e87582963",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1066-supersede-archive-admission.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:Codex",
+    "authoritySource": "human:Ray standing Task9 delivery goal created 2026-10-03T11:31:32Z, authorizing evidence-backed close and recoverable cleanup",
+    "decidedAt": "2026-10-03T11:31:32Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/actions/runs/37244958453",
+      ".ai/decisions/WI-1066-supersede-archive-admission.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #1018 exact-head active and archived CI passed; merged main run 37244958453 passed; exact provider cleanup receipt verified; closing only WI-1066, not WI-1058 or Task9.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-05T00:11:22Z",
+  "workItemId": "WI-1066-supersede-archive-admission"
+}
