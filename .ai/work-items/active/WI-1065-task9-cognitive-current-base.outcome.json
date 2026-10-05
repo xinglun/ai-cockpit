@@ -1,0 +1,214 @@
+{
+  "acceptanceResults": [
+    "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
+    "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+    "仅改变四条精确产品路径及其三语命令参考和 Windows CI 精确测试入口，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
+    "三语命令参考准确说明 audit cognitive-benefit 的 Rust 执行入口、--check 只读语义、非 check 的证据输出，以及 Python 脚本仅保留为对照 oracle；不宣称已测得人类认知收益。",
+    "PR 精确 head 的 hosted Windows job 必须实际运行 cockpit-cli 的显式无效 --binary 负例，覆盖普通写报告模式及 --check 模式；两种模式都不得回退、隐式构建或改写报告产物。仅 Windows 目标编译或其他 Windows job 全绿不视为该负例已执行。"
+  ],
+  "createdAt": "2026-10-05T11:33:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dd101f0b3ff7dfae8f7441d7e0fa63e7077fc3f6d2f07289609d7f2fab2ff4ca",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283",
+      "workItemId": "WI-1065-task9-cognitive-current-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1065-task9-cognitive-current-base.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.1f9f6df039b0a6d511fa7fc04e4c43cd1ad9237f3bebec8da699ef2920fed280.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.3aaf36e55629c16f7e01b3ff2bf7ff6b37b37377cb52d4cb002ac7815923dec4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.bf25126adb958ad86adc4536ff50a14f79b435fb1184e4ac63f802a305b40ff0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c259a00733403c22406e41ead5c83592ed07285183285b1d34fad72b1916a702.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.e31d9adbd5017e7d942f97d5ca68bbed62070ce06608a74298283573047d25fa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.ea93749efe946c68766143f682f51132f050af00645fd79d26469ccf2e65fd08.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "在最新 main 上完成 cognitive evaluator 的 Rust 实现与 gate 接线，验证完整输出及失败语义等价；不宣称整个 Task 9 完成。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1065-task9-cognitive-current-base"
+  },
+  "taskReportDigest": "sha256:9452b4dc5ecb53d25589ed5bd95eec830a96a565d879fe072a064d54d6d28681",
+  "taskReportMarkdownDigest": "sha256:6dc28bc92c06ea54e9cbb2577c05937d92043cbf5eef013855f77dc9c04fb95e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}

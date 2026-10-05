@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:a1adce4f78ab48b9f9f6abeb02e943edca74aa309c298ce9d5af1785097fe201",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1065-task9-cognitive-current-base",
+    "sequence": 1,
+    "changeId": "legacy-9f23b1fbf22976c9535756d366150c787be61b622a4c381f973c01bcb5c24156",
+    "requestDigest": "sha256:92f9318505e1c8d06d77d8c8c9838f2b0035644f41101022a332209c63a44dd0",
+    "reason": "Bind the current-base successor to its preserved predecessor failure, real PR #1009 identity and latest controlled main without reducing the original acceptance.",
+    "legacyInputDigest": "sha256:9f23b1fbf22976c9535756d366150c787be61b622a4c381f973c01bcb5c24156",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "WI-1058-task9-cognitive-gate archived Contract and immutable failed verification/preflight evidence; predecessor was superseded, not passed"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1058-task9-cognitive-gate archived Contract and immutable failed verification/preflight evidence; predecessor was superseded, not passed"
+        ],
+        "newValue": [
+          "WI-1058-task9-cognitive-gate archived Contract and immutable failed verification/preflight evidence; predecessor was superseded, not passed",
+          "Current origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 and existing PR #1009 branch codex/wi1058-task9-cognitive-gate"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "WI-1058-task9-cognitive-gate archived Contract and immutable failed verification/preflight evidence; predecessor was superseded, not passed",
+          "Current origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 and existing PR #1009 branch codex/wi1058-task9-cognitive-gate"
+        ],
+        "newValue": [
+          "WI-1058-task9-cognitive-gate archived Contract and immutable failed verification/preflight evidence; predecessor was superseded, not passed",
+          "Current origin/main e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2 and existing PR #1009 branch codex/wi1058-task9-cognitive-gate",
+          "Runtime-generated WI-1058 recovery lineage selects the existing WI-1065 successor; this Contract carries the original cognitive evaluator acceptance and verification obligations without expanding Task9 product scope"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:271f39dcf4d7658e09fedd3a81fdc3353e8180a7f00a21eb6a4656f622745145",
+    "newContractDigest": "sha256:2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940",
+    "repositorySnapshotDigest": "sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283",
+    "environmentObservationDigest": "sha256:296d4486559345916626c2355d48ccc6735bbdad35e5c4c88485cc72d0eef3a5",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:2aea88ec007b4c429c687c9d909776510820e9566ec53d555e0081c6b3766569",
+    "recordedAt": "2026-10-05T01:01:04Z"
+  }
+}

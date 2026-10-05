@@ -1,17 +1,162 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json"
+    ".ai/decisions/WI-1065-task9-cognitive-current-base.preflight-review.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.1f9f6df039b0a6d511fa7fc04e4c43cd1ad9237f3bebec8da699ef2920fed280.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.3aaf36e55629c16f7e01b3ff2bf7ff6b37b37377cb52d4cb002ac7815923dec4.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.bf25126adb958ad86adc4536ff50a14f79b435fb1184e4ac63f802a305b40ff0.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c259a00733403c22406e41ead5c83592ed07285183285b1d34fad72b1916a702.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.e31d9adbd5017e7d942f97d5ca68bbed62070ce06608a74298283573047d25fa.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.ea93749efe946c68766143f682f51132f050af00645fd79d26469ccf2e65fd08.json",
+    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-05T01:15:32Z",
+  "checkpointContractDigest": "sha256:2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283",
   "createdAt": "2026-10-04T18:10:14Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Ray replied Yes to the direct WI-1065 exact-Contract review question for 2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940 and snapshot 687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283, approving continued implementation and verification of the inherited cognitive evaluator scope on existing PR #1009; this does not approve merge or release.",
+    "recordedAt": "2026-10-05T01:12:45Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283",
+    "schemaVersion": 1,
+    "workItemId": "WI-1065-task9-cognitive-current-base"
+  },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
   "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
-  "preflightState": "not_run",
+  "preflightAt": "2026-10-05T11:30:03Z",
+  "preflightContractDigest": "sha256:2e2ab7b56f960528e4b1abb08149e17aaddd9c4d8916ee306b598b639e7dd940",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:687408271c6c42efa5e581624f9ba9110200ab4d2a3529303b38719eb6925283",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-10-04T18:10:14Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-05T11:33:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-1065-task9-cognitive-current-base"
 }
