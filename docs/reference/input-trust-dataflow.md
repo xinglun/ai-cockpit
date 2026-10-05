@@ -59,9 +59,26 @@ Git added-line/hunk origins. It inspects a changed decoded string or byte
 literal, a changed comment unit, and bounded explicit string compositions
 (`concat!`, static `format!`, simple literal bindings, and same-file pure
 literal-return functions). A changed composition includes unchanged operands
-that it references. Unrelated literals are not joined merely because Git put
-them in one file or hunk. Other file types retain their existing added-text
-rules.
+that it references. Only absolute `::serde_json::json!` object/array syntax is
+treated as JSON; unqualified or custom same-named macros with candidate
+signals remain `Unknown`.
+Within that bounded syntax, each key and value is inspected independently, so
+unrelated sibling values are not combined. Static
+`concat!`, simple static `format!`, and pure literal bindings are resolved
+within one value. A complete static injection is a finding, while a dynamic
+or unsupported candidate remains `Unknown`. `.join()` is treated as path
+composition only when its receiver is proven to be `::std::path::Path` or
+`::std::path::PathBuf` by that absolute type, a supported absolute constructor,
+or a bounded local binding; unqualified aliases, unknown receivers,
+string-collection joins, and `push_str` remain ambiguous. This is bounded
+syntax classification, not independent authentication of a dependency's
+source or implementation.
+
+The whole-file lexical boundary pass has separate source-size and token
+ceilings. The 16,384-token semantic budget applies to changed semantic items,
+not the entire source file; adjacent changed line-comment context is separately
+bounded. Exceeding a required bound or losing relevant context yields
+`Unknown`. Other file types retain their existing added-text rules.
 
 If source, provenance, syntax, or a relevant dynamic composition cannot be
 resolved, the result is `Unknown`, not a clean bill of health. A bounded patch

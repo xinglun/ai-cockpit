@@ -2226,9 +2226,9 @@ fn run() -> Result<()> {
                     .iter()
                     .filter(|node| node["action"] == "reuse")
                     .count();
-                let plan = json!({
+                let plan = ::serde_json::json!({
                     "coverageManifest": coverage_manifest,
-                    "requests": requests.iter().zip(&planned_nodes).map(|(request, node)| json!({
+                    "requests": requests.iter().zip(&planned_nodes).map(|(request, node)| ::serde_json::json!({
                         "nodeId": request.node_id,
                         "program": request.program,
                         "args": request.args,

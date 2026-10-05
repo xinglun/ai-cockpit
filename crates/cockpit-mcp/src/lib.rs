@@ -652,7 +652,7 @@ fn mcp_tool_schema(name: &str) -> Value {
             schema
         }
         "verify" => object_schema(
-            json!({
+            ::serde_json::json!({
                 "workItemId": string_property("Optional Work Item to bind the verification receipt."),
                 "command": string_property("Allowlisted executable; omit to detect Cargo or npm."),
                 "args": {
@@ -2307,7 +2307,7 @@ fn verify_for_repo(
         };
         let reused = planned["action"] == "reuse";
         let timeout_seconds = planned["timeoutSeconds"].clone();
-        return Ok(json!({
+        return Ok(::serde_json::json!({
             "state": "planned",
             "workItemId": work_item_id,
             "repositoryId": cockpit_repository::repository_id(&root).to_string(),

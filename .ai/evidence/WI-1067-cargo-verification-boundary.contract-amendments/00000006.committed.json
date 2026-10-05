@@ -1,0 +1,49 @@
+{
+  "sequence": 6,
+  "preparedDigest": "sha256:f536c28672b6127900c922852eb794c759d92f393e97522ffe44e10e491b6c6f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1067-cargo-verification-boundary",
+    "sequence": 6,
+    "changeId": "wi1067-unique-workspace-verification-20261005",
+    "requestDigest": "sha256:1d3d881d18859cc5ca0ce49cb46cc0dcb2fa95bc3dee4a8ac4d6201a863fa63b",
+    "reason": "Raydot's technical review identified that the newly appended filtered Cargo test is incompatible with the current strict workspace coverage consumer. tests/ci/run_workspace_package_tests.sh requires one unique complete unfiltered Cargo workspace test declaration and rejects any filtered or additional Cargo test declaration; keep the focused governance_signals RED-to-GREEN check as a separate local regression required by acceptance, not as a formal Contract verification node. Preserve the original three formal checks, all scope and acceptance requirements, and prior evidence. This correction does not waive any test or hosted acceptance.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "remove",
+        "oldValue": [
+          "cargo test --locked --workspace",
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+          "cargo test --locked -p cockpit-repository --test governance_signals"
+        ],
+        "newValue": [
+          "cargo test --locked --workspace",
+          "cargo fmt --all -- --check",
+          "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+    "newContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+    "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+    "environmentObservationDigest": "sha256:c157f8af9bee861e3702a7ff321b3651611d370bf8ff34acdcc26ac629600152",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:d3756157970fc2449b016c8702ceefcdb6d921d3e052c96eb4d09392d0b79517",
+    "journalDigest": "sha256:baf372cc21c3219ebde8afbfdc107457fe76e0702b8a2b37ec2a07f23b9a92e9",
+    "recordedAt": "2026-10-05T05:23:55Z"
+  }
+}

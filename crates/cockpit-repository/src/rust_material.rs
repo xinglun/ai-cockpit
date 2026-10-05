@@ -2,6 +2,11 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use cockpit_git::ChangeKind;
 
+const MAX_RUST_SOURCE_BYTES: usize = 4 * 1024 * 1024;
+const MAX_RUST_LEXICAL_TOKENS: usize = 262_144;
+const MAX_RUST_CHANGED_CONTEXT_TOKENS: usize = 16_384;
+const MAX_RUST_COMMENT_CONTEXT_BYTES: usize = 16 * 1024;
+
 fn contains_instruction_marker(text: &str) -> bool {
     let text = text.to_ascii_lowercase();
     [
@@ -139,8 +144,293 @@ fn resolve_rust_text(
     (value.len() <= 16 * 1024).then_some(value)
 }
 
+fn count_token_tree(tokens: proc_macro2::TokenStream, depth: usize, remaining: &mut usize) -> bool {
+    if depth > 64 {
+        return false;
+    }
+    for token in tokens {
+        if *remaining == 0 {
+            return false;
+        }
+        *remaining -= 1;
+        if let proc_macro2::TokenTree::Group(group) = token
+            && !count_token_tree(group.stream(), depth + 1, remaining)
+        {
+            return false;
+        }
+    }
+    true
+}
+
+fn source_offset(starts: &[usize], position: proc_macro2::LineColumn) -> Option<usize> {
+    starts
+        .get(position.line.checked_sub(1)?)
+        .map(|line| line + position.column)
+}
+
+fn merge_assessments(
+    left: RustMaterialAssessment,
+    right: RustMaterialAssessment,
+) -> RustMaterialAssessment {
+    match (left, right) {
+        (RustMaterialAssessment::Finding, _) | (_, RustMaterialAssessment::Finding) => {
+            RustMaterialAssessment::Finding
+        }
+        (RustMaterialAssessment::Unknown, _) | (_, RustMaterialAssessment::Unknown) => {
+            RustMaterialAssessment::Unknown
+        }
+        _ => RustMaterialAssessment::Clean,
+    }
+}
+
+fn split_token_stream_at_commas(tokens: proc_macro2::TokenStream) -> Vec<proc_macro2::TokenStream> {
+    let mut entries = Vec::new();
+    let mut current = Vec::new();
+    for token in tokens {
+        let is_comma = match &token {
+            proc_macro2::TokenTree::Punct(punct) => punct.as_char() == ',',
+            _ => false,
+        };
+        if is_comma {
+            if !current.is_empty() {
+                entries.push(current.drain(..).collect());
+            }
+        } else {
+            current.push(token);
+        }
+    }
+    if !current.is_empty() {
+        entries.push(current.into_iter().collect());
+    }
+    entries
+}
+
+fn split_json_object_entry(
+    tokens: proc_macro2::TokenStream,
+) -> Option<(proc_macro2::TokenStream, proc_macro2::TokenStream)> {
+    let tokens = tokens.into_iter().collect::<Vec<_>>();
+    let mut key = Vec::new();
+    let mut value = Vec::new();
+    let mut separator_count = 0usize;
+    let mut after_separator = false;
+    for (index, token) in tokens.iter().cloned().enumerate() {
+        let is_colon = match &token {
+            proc_macro2::TokenTree::Punct(punct) if punct.as_char() == ':' => {
+                let follows_joint_colon = index > 0
+                    && match &tokens[index - 1] {
+                        proc_macro2::TokenTree::Punct(previous) => {
+                            previous.as_char() == ':'
+                                && previous.spacing() == proc_macro2::Spacing::Joint
+                        }
+                        _ => false,
+                    };
+                punct.spacing() == proc_macro2::Spacing::Alone && !follows_joint_colon
+            }
+            _ => false,
+        };
+        if is_colon {
+            separator_count += 1;
+            if separator_count == 1 {
+                after_separator = true;
+                continue;
+            }
+        }
+        if after_separator {
+            value.push(token);
+        } else {
+            key.push(token);
+        }
+    }
+    (separator_count == 1 && !key.is_empty() && !value.is_empty())
+        .then(|| (key.into_iter().collect(), value.into_iter().collect()))
+}
+
+fn assess_json_value_tokens(
+    tokens: proc_macro2::TokenStream,
+    locals: &BTreeMap<String, String>,
+    functions: &BTreeMap<String, String>,
+    depth: usize,
+) -> RustMaterialAssessment {
+    if depth > 32 {
+        return RustMaterialAssessment::Unknown;
+    }
+    let mut token_iter = tokens.clone().into_iter();
+    if let (Some(proc_macro2::TokenTree::Group(group)), None) =
+        (token_iter.next(), token_iter.next())
+    {
+        match group.delimiter() {
+            proc_macro2::Delimiter::Brace => {
+                let mut result = RustMaterialAssessment::Clean;
+                for entry in split_token_stream_at_commas(group.stream()) {
+                    let Some((key, value)) = split_json_object_entry(entry.clone()) else {
+                        if contains_instruction_marker(&entry.to_string())
+                            || contains_risky_operation(&entry.to_string())
+                        {
+                            result = merge_assessments(result, RustMaterialAssessment::Unknown);
+                        }
+                        continue;
+                    };
+                    result = merge_assessments(
+                        result,
+                        assess_json_value_tokens(key, locals, functions, depth + 1),
+                    );
+                    result = merge_assessments(
+                        result,
+                        assess_json_value_tokens(value, locals, functions, depth + 1),
+                    );
+                    if result == RustMaterialAssessment::Finding {
+                        return result;
+                    }
+                }
+                result
+            }
+            proc_macro2::Delimiter::Bracket => split_token_stream_at_commas(group.stream())
+                .into_iter()
+                .fold(RustMaterialAssessment::Clean, |result, value| {
+                    merge_assessments(
+                        result,
+                        assess_json_value_tokens(value, locals, functions, depth + 1),
+                    )
+                }),
+            proc_macro2::Delimiter::Parenthesis => {
+                assess_json_value_tokens(group.stream(), locals, functions, depth + 1)
+            }
+            proc_macro2::Delimiter::None => RustMaterialAssessment::Unknown,
+        }
+    } else {
+        let Some(expression) = syn::parse2::<syn::Expr>(tokens.clone()).ok() else {
+            let text = tokens.to_string();
+            return if contains_instruction_marker(&text) || contains_risky_operation(&text) {
+                RustMaterialAssessment::Unknown
+            } else {
+                RustMaterialAssessment::Clean
+            };
+        };
+        if let Some(text) = resolve_rust_text(&expression, locals, functions, 0) {
+            if contains_strong_instruction_injection(&text) {
+                RustMaterialAssessment::Finding
+            } else {
+                RustMaterialAssessment::Clean
+            }
+        } else {
+            let text = tokens.to_string();
+            if contains_instruction_marker(&text) || contains_risky_operation(&text) {
+                RustMaterialAssessment::Unknown
+            } else {
+                RustMaterialAssessment::Clean
+            }
+        }
+    }
+}
+
+fn assess_json_macro(
+    tokens: proc_macro2::TokenStream,
+    locals: &BTreeMap<String, String>,
+    functions: &BTreeMap<String, String>,
+) -> RustMaterialAssessment {
+    let mut remaining = MAX_RUST_CHANGED_CONTEXT_TOKENS;
+    if !count_token_tree(tokens.clone(), 0, &mut remaining) {
+        return RustMaterialAssessment::Unknown;
+    }
+    assess_json_value_tokens(tokens.clone(), locals, functions, 0)
+}
+
+fn line_column_le(left: proc_macro2::LineColumn, right: proc_macro2::LineColumn) -> bool {
+    (left.line, left.column) <= (right.line, right.column)
+}
+
+fn line_column_in_range(
+    position: proc_macro2::LineColumn,
+    start: proc_macro2::LineColumn,
+    end: proc_macro2::LineColumn,
+) -> bool {
+    line_column_le(start, position) && line_column_le(position, end)
+}
+
+fn rust_type_is_path(ty: &syn::Type) -> bool {
+    match ty {
+        syn::Type::Path(path) => {
+            let names = path
+                .path
+                .segments
+                .iter()
+                .map(|segment| segment.ident.to_string())
+                .collect::<Vec<_>>();
+            path.path.leading_colon.is_some()
+                && matches!(names.as_slice(), [root, module, name] if root == "std" && module == "path" && matches!(name.as_str(), "Path" | "PathBuf"))
+        }
+        syn::Type::Reference(reference) => rust_type_is_path(&reference.elem),
+        syn::Type::Paren(paren) => rust_type_is_path(&paren.elem),
+        syn::Type::Group(group) => rust_type_is_path(&group.elem),
+        _ => false,
+    }
+}
+
+fn path_constructor(expression: &syn::Expr) -> bool {
+    let syn::Expr::Call(call) = expression else {
+        return false;
+    };
+    let syn::Expr::Path(function) = call.func.as_ref() else {
+        return false;
+    };
+    let names = function
+        .path
+        .segments
+        .iter()
+        .map(|segment| segment.ident.to_string())
+        .collect::<Vec<_>>();
+    function.path.leading_colon.is_some()
+        && (matches!(names.as_slice(), [root, module, path, method] if root == "std" && module == "path" && path == "PathBuf" && matches!(method.as_str(), "from" | "new"))
+            || matches!(names.as_slice(), [root, module, path, method] if root == "std" && module == "path" && path == "Path" && method == "new"))
+}
+
+fn is_supported_json_macro(path: &syn::Path) -> bool {
+    let names = path
+        .segments
+        .iter()
+        .map(|segment| segment.ident.to_string())
+        .collect::<Vec<_>>();
+    path.leading_colon.is_some()
+        && matches!(names.as_slice(), [crate_name, macro_name] if crate_name == "serde_json" && macro_name == "json")
+}
+
+fn path_expression_is_proven(expression: &syn::Expr, path_locals: &BTreeSet<String>) -> bool {
+    match expression {
+        syn::Expr::Path(path) if path.path.segments.len() == 1 => {
+            path_locals.contains(&path.path.segments[0].ident.to_string())
+        }
+        syn::Expr::Call(_) => path_constructor(expression),
+        syn::Expr::MethodCall(call) if call.method == "join" => {
+            path_expression_is_proven(&call.receiver, path_locals)
+        }
+        syn::Expr::Paren(paren) => path_expression_is_proven(&paren.expr, path_locals),
+        syn::Expr::Group(group) => path_expression_is_proven(&group.expr, path_locals),
+        syn::Expr::Reference(reference) => path_expression_is_proven(&reference.expr, path_locals),
+        _ => false,
+    }
+}
+
+fn pattern_path_type(pattern: &syn::Pat) -> bool {
+    match pattern {
+        syn::Pat::Type(typed) => rust_type_is_path(&typed.ty),
+        syn::Pat::Ident(_) => false,
+        _ => false,
+    }
+}
+
+fn pattern_identifier(pattern: &syn::Pat) -> Option<String> {
+    match pattern {
+        syn::Pat::Ident(ident) => Some(ident.ident.to_string()),
+        syn::Pat::Type(typed) => pattern_identifier(&typed.pat),
+        _ => None,
+    }
+}
+
 fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMaterialAssessment {
     use std::str::FromStr;
+    if source.len() > MAX_RUST_SOURCE_BYTES {
+        return RustMaterialAssessment::Unknown;
+    }
     let Ok(tokens) = proc_macro2::TokenStream::from_str(source) else {
         return RustMaterialAssessment::Unknown;
     };
@@ -170,12 +460,10 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
                 proc_macro2::TokenTree::Literal(literal) => {
                     let span = literal.span();
                     let (start, end) = (span.start(), span.end());
-                    let Some(begin) = starts.get(start.line - 1).map(|line| line + start.column)
-                    else {
+                    let Some(begin) = source_offset(starts, start) else {
                         return false;
                     };
-                    let Some(finish) = starts.get(end.line - 1).map(|line| line + end.column)
-                    else {
+                    let Some(finish) = source_offset(starts, end) else {
                         return false;
                     };
                     if begin > finish || finish > mask.len() {
@@ -193,7 +481,8 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
         }
         true
     }
-    if !mask_literals(tokens, &starts, &mut literal_mask, 0, &mut 16_384) {
+    let mut remaining = MAX_RUST_LEXICAL_TOKENS;
+    if !mask_literals(tokens, &starts, &mut literal_mask, 0, &mut remaining) {
         return RustMaterialAssessment::Unknown;
     }
     let bytes = source.as_bytes();
@@ -201,6 +490,8 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
     let mut line = 1usize;
     let mut adjacent_line_comment = String::new();
     let mut previous_line_comment_end = 0usize;
+    let mut adjacent_line_comment_start = 1usize;
+    let mut adjacent_line_comment_overflow = false;
     while cursor + 1 < bytes.len() {
         if literal_mask[cursor] || bytes[cursor] != b'/' || literal_mask[cursor + 1] {
             line += usize::from(bytes[cursor] == b'\n');
@@ -216,12 +507,34 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
             }
             if previous_line_comment_end + 1 != start_line {
                 adjacent_line_comment.clear();
+                adjacent_line_comment_overflow = false;
+                adjacent_line_comment_start = start_line;
             }
-            adjacent_line_comment.push_str(&source[comment_start..cursor]);
-            adjacent_line_comment.push('\n');
+            let current_comment = &source[comment_start..cursor];
+            let changed_in_chain = changed_lines
+                .range(adjacent_line_comment_start..=start_line)
+                .next()
+                .is_some();
+            if changed_in_chain && contains_strong_instruction_injection(current_comment) {
+                return RustMaterialAssessment::Finding;
+            }
+            let next_len = adjacent_line_comment
+                .len()
+                .saturating_add(current_comment.len())
+                .saturating_add(1);
+            if next_len > MAX_RUST_COMMENT_CONTEXT_BYTES {
+                adjacent_line_comment_overflow = true;
+            } else if !adjacent_line_comment_overflow {
+                adjacent_line_comment.push_str(current_comment);
+                adjacent_line_comment.push('\n');
+            }
             previous_line_comment_end = start_line;
+            if adjacent_line_comment_overflow && changed_in_chain {
+                return RustMaterialAssessment::Unknown;
+            }
         } else if bytes[cursor + 1] == b'*' {
             adjacent_line_comment.clear();
+            adjacent_line_comment_overflow = false;
             cursor += 2;
             let mut depth = 1usize;
             while cursor + 1 < bytes.len() && depth > 0 {
@@ -246,11 +559,15 @@ fn assess_rust_comments(source: &str, changed_lines: &BTreeSet<usize>) -> RustMa
             .iter()
             .filter(|byte| **byte == b'\n')
             .count();
-        if changed_lines.range(start_line..=line).next().is_some()
-            && (contains_strong_instruction_injection(&source[comment_start..cursor])
-                || contains_strong_instruction_injection(&adjacent_line_comment))
-        {
-            return RustMaterialAssessment::Finding;
+        if changed_lines.range(start_line..=line).next().is_some() {
+            if contains_strong_instruction_injection(&source[comment_start..cursor])
+                || contains_strong_instruction_injection(&adjacent_line_comment)
+            {
+                return RustMaterialAssessment::Finding;
+            }
+            if adjacent_line_comment_overflow {
+                return RustMaterialAssessment::Unknown;
+            }
         }
     }
     RustMaterialAssessment::Clean
@@ -290,6 +607,9 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
             RustMaterialAssessment::Clean
         };
     };
+    if source.len() > MAX_RUST_SOURCE_BYTES {
+        return RustMaterialAssessment::Unknown;
+    }
     let source_lines = source.lines().collect::<Vec<_>>();
     let changed_lines = if change.kind == ChangeKind::Added && change.added_line_origins.is_empty()
     {
@@ -319,21 +639,21 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
 
     #[derive(Default)]
     struct LiteralCollector {
-        literals: Vec<(String, usize, usize)>,
+        literals: Vec<(String, proc_macro2::LineColumn, proc_macro2::LineColumn)>,
     }
     impl<'ast> Visit<'ast> for LiteralCollector {
         fn visit_lit_str(&mut self, literal: &'ast syn::LitStr) {
             let span = literal.span();
             self.literals
-                .push((literal.value(), span.start().line, span.end().line));
+                .push((literal.value(), span.start(), span.end()));
         }
 
         fn visit_lit_byte_str(&mut self, literal: &'ast syn::LitByteStr) {
             let span = literal.span();
             self.literals.push((
                 String::from_utf8_lossy(&literal.value()).into_owned(),
-                span.start().line,
-                span.end().line,
+                span.start(),
+                span.end(),
             ));
         }
     }
@@ -364,6 +684,40 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
     let mut items = Vec::new();
     if !semantic_items(&parsed.items, "", &mut items, 0) {
         return RustMaterialAssessment::Unknown;
+    }
+
+    let mut starts = vec![0usize];
+    for (offset, byte) in source.bytes().enumerate() {
+        if byte == b'\n' {
+            starts.push(offset + 1);
+        }
+    }
+    for (_, item) in &items {
+        let span = item.span();
+        let start = span.start();
+        let end = span.end();
+        if changed_lines
+            .range(start.line..=end.line.max(start.line))
+            .next()
+            .is_none()
+        {
+            continue;
+        }
+        let (Some(begin), Some(finish)) =
+            (source_offset(&starts, start), source_offset(&starts, end))
+        else {
+            return RustMaterialAssessment::Unknown;
+        };
+        if begin > finish || finish > source.len() {
+            return RustMaterialAssessment::Unknown;
+        }
+        let Ok(tokens) = source[begin..finish].parse::<proc_macro2::TokenStream>() else {
+            return RustMaterialAssessment::Unknown;
+        };
+        let mut remaining = MAX_RUST_CHANGED_CONTEXT_TOKENS;
+        if !count_token_tree(tokens, 0, &mut remaining) {
+            return RustMaterialAssessment::Unknown;
+        }
     }
 
     let mut scoped_functions = BTreeMap::<String, BTreeMap<String, String>>::new();
@@ -410,15 +764,23 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
         changed_lines: &'a BTreeSet<usize>,
         functions: &'a BTreeMap<String, String>,
         locals: BTreeMap<String, String>,
+        path_locals: BTreeSet<String>,
+        safe_path_ranges: Vec<(proc_macro2::LineColumn, proc_macro2::LineColumn)>,
         finding: bool,
         unknown: bool,
         ambiguous_composition: bool,
     }
     impl<'ast> Visit<'ast> for CompositionCollector<'_> {
         fn visit_local(&mut self, local: &'ast syn::Local) {
-            if let syn::Pat::Ident(name) = &local.pat {
-                let key = name.ident.to_string();
-                let value = if name.mutability.is_none() {
+            if let Some(key) = pattern_identifier(&local.pat) {
+                let mutable = match &local.pat {
+                    syn::Pat::Ident(name) => name.mutability.is_some(),
+                    syn::Pat::Type(typed) => {
+                        matches!(typed.pat.as_ref(), syn::Pat::Ident(name) if name.mutability.is_some())
+                    }
+                    _ => true,
+                };
+                let value = if !mutable {
                     local.init.as_ref().and_then(|initializer| {
                         resolve_rust_text(&initializer.expr, &self.locals, self.functions, 0)
                     })
@@ -426,9 +788,23 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
                     None
                 };
                 if let Some(text) = value {
-                    self.locals.insert(key, text);
+                    self.locals.insert(key.clone(), text);
                 } else {
                     self.locals.remove(&key);
+                }
+
+                let typed_path = pattern_path_type(&local.pat);
+                let initialized_path = local.init.as_ref().is_some_and(|initializer| {
+                    path_expression_is_proven(&initializer.expr, &self.path_locals)
+                });
+                if !mutable && (typed_path || initialized_path) {
+                    self.path_locals.insert(key);
+                    if initialized_path && let Some(initializer) = &local.init {
+                        let span = initializer.expr.span();
+                        self.safe_path_ranges.push((span.start(), span.end()));
+                    }
+                } else {
+                    self.path_locals.remove(&key);
                 }
             }
             syn::visit::visit_local(self, local);
@@ -436,8 +812,38 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
 
         fn visit_block(&mut self, block: &'ast syn::Block) {
             let outer_locals = self.locals.clone();
+            let outer_path_locals = self.path_locals.clone();
             syn::visit::visit_block(self, block);
             self.locals = outer_locals;
+            self.path_locals = outer_path_locals;
+        }
+
+        fn visit_item_fn(&mut self, function: &'ast syn::ItemFn) {
+            let outer_path_locals = self.path_locals.clone();
+            for input in &function.sig.inputs {
+                if let syn::FnArg::Typed(typed) = input
+                    && rust_type_is_path(&typed.ty)
+                    && let Some(name) = pattern_identifier(&typed.pat)
+                {
+                    self.path_locals.insert(name);
+                }
+            }
+            syn::visit::visit_item_fn(self, function);
+            self.path_locals = outer_path_locals;
+        }
+
+        fn visit_expr_closure(&mut self, closure: &'ast syn::ExprClosure) {
+            let outer_path_locals = self.path_locals.clone();
+            for input in &closure.inputs {
+                if let syn::Pat::Type(typed) = input
+                    && rust_type_is_path(&typed.ty)
+                    && let Some(name) = pattern_identifier(&typed.pat)
+                {
+                    self.path_locals.insert(name);
+                }
+            }
+            syn::visit::visit_expr_closure(self, closure);
+            self.path_locals = outer_path_locals;
         }
 
         fn visit_expr_macro(&mut self, expression: &'ast syn::ExprMacro) {
@@ -448,40 +854,53 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
                 .next()
                 .is_some()
             {
-                match resolve_rust_text(
-                    &syn::Expr::Macro(expression.clone()),
-                    &self.locals,
-                    self.functions,
-                    0,
-                ) {
-                    Some(text) if contains_strong_instruction_injection(&text) => {
-                        self.finding = true;
+                if is_supported_json_macro(&expression.mac.path) {
+                    let assessment = assess_json_macro(
+                        expression.mac.tokens.clone(),
+                        &self.locals,
+                        self.functions,
+                    );
+                    match assessment {
+                        RustMaterialAssessment::Finding => self.finding = true,
+                        RustMaterialAssessment::Unknown => self.unknown = true,
+                        RustMaterialAssessment::Clean => {}
                     }
-                    Some(_) => {}
-                    None => {
-                        use syn::parse::Parser;
-                        let partial_candidate = syn::punctuated::Punctuated::<
-                            syn::Expr,
-                            syn::Token![,],
-                        >::parse_terminated
-                            .parse2(expression.mac.tokens.clone())
-                            .ok()
-                            .is_some_and(|args| {
-                                args.iter().any(|arg| {
-                                    resolve_rust_text(arg, &self.locals, self.functions, 0)
-                                        .as_deref()
-                                        .is_some_and(|text| {
-                                            contains_instruction_marker(text)
-                                                || contains_risky_operation(text)
-                                        })
-                                })
-                            });
-                        let tokens = expression.mac.tokens.to_string();
-                        if partial_candidate
-                            || contains_instruction_marker(&tokens)
-                            || contains_risky_operation(&tokens)
-                        {
-                            self.unknown = true;
+                } else {
+                    match resolve_rust_text(
+                        &syn::Expr::Macro(expression.clone()),
+                        &self.locals,
+                        self.functions,
+                        0,
+                    ) {
+                        Some(text) if contains_strong_instruction_injection(&text) => {
+                            self.finding = true;
+                        }
+                        Some(_) => {}
+                        None => {
+                            use syn::parse::Parser;
+                            let partial_candidate = syn::punctuated::Punctuated::<
+                                syn::Expr,
+                                syn::Token![,],
+                            >::parse_terminated
+                                .parse2(expression.mac.tokens.clone())
+                                .ok()
+                                .is_some_and(|args| {
+                                    args.iter().any(|arg| {
+                                        resolve_rust_text(arg, &self.locals, self.functions, 0)
+                                            .as_deref()
+                                            .is_some_and(|text| {
+                                                contains_instruction_marker(text)
+                                                    || contains_risky_operation(text)
+                                            })
+                                    })
+                                });
+                            let tokens = expression.mac.tokens.to_string();
+                            if partial_candidate
+                                || contains_instruction_marker(&tokens)
+                                || contains_risky_operation(&tokens)
+                            {
+                                self.unknown = true;
+                            }
                         }
                     }
                 }
@@ -490,15 +909,23 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
         }
 
         fn visit_expr_method_call(&mut self, expression: &'ast syn::ExprMethodCall) {
-            if matches!(expression.method.to_string().as_str(), "push_str" | "join") {
-                let span = expression.span();
-                if self
-                    .changed_lines
-                    .range(span.start().line..=span.end().line.max(span.start().line))
-                    .next()
-                    .is_some()
-                {
-                    self.ambiguous_composition = true;
+            let span = expression.span();
+            if self
+                .changed_lines
+                .range(span.start().line..=span.end().line.max(span.start().line))
+                .next()
+                .is_some()
+            {
+                match expression.method.to_string().as_str() {
+                    "join"
+                        if path_expression_is_proven(&expression.receiver, &self.path_locals) =>
+                    {
+                        self.safe_path_ranges.push((span.start(), span.end()));
+                    }
+                    "join" | "push_str" => {
+                        self.ambiguous_composition = true;
+                    }
+                    _ => {}
                 }
             }
             syn::visit::visit_expr_method_call(self, expression);
@@ -538,6 +965,8 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
             changed_lines: &changed_lines,
             functions: scoped_functions.get(scope).unwrap_or(&empty_functions),
             locals: BTreeMap::new(),
+            path_locals: BTreeSet::new(),
+            safe_path_ranges: Vec::new(),
             finding: false,
             unknown: false,
             ambiguous_composition: false,
@@ -547,6 +976,7 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
             return RustMaterialAssessment::Finding;
         }
         unresolved_pair |= compositions.unknown;
+        let safe_path_ranges = compositions.safe_path_ranges;
         let mut collector = LiteralCollector::default();
         collector.visit_item(item);
         let mut marker_seen = false;
@@ -555,7 +985,7 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
         for (text, start, end) in &collector.literals {
             any_candidate |= contains_instruction_marker(text) || contains_risky_operation(text);
             if !changed_lines
-                .range(*start..=(*end).max(*start))
+                .range(start.line..=end.line.max(start.line))
                 .next()
                 .is_some()
             {
@@ -563,6 +993,12 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
             }
             if contains_strong_instruction_injection(text) {
                 return RustMaterialAssessment::Finding;
+            }
+            if safe_path_ranges.iter().any(|(range_start, range_end)| {
+                line_column_in_range(*start, *range_start, *range_end)
+                    && line_column_in_range(*end, *range_start, *range_end)
+            }) {
+                continue;
             }
             marker_seen |= contains_instruction_marker(text);
             risk_seen |= contains_risky_operation(text);

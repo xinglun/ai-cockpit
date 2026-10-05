@@ -1,11 +1,24 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1067-cargo-verification-boundary.preflight-review.345821cd14aa08dd73c9ffc05e6bcf9c3479974aed9ad217a0e4a8646f6193cb.json",
-    ".ai/evidence/WI-1067-cargo-verification-boundary.final-resource-review-input.json",
-    ".ai/work-items/active/WI-1067-cargo-verification-boundary.summary.json"
+    ".ai/decisions/WI-1067-cargo-verification-boundary.preflight-review.c5d562c2d681a5fbc0b519b130f1e7e1299fbb1f2d14ce22b4edaa1a012374ae.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000005.committed.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000005.prepared.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000006.committed.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.contract-amendments/00000006.prepared.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.1f384f1d5fa8c7667592726ccf92e2ebb186554f66ed57b4f3adda831ad6f4ba.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.d91669df5c278d7410ded8bcf1224b08c3753926938d7c5ac13b01f0a1a7f8b4.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification-attempt.e66b35a49afbe2e0e40cf35a08ed247febc5af389125e008b0e37809d95de091.json",
+    ".ai/evidence/WI-1067-cargo-verification-boundary.verification.json",
+    ".ai/work-items/active/WI-1067-cargo-verification-boundary.contract.json",
+    ".ai/work-items/active/WI-1067-cargo-verification-boundary.summary.json",
+    "crates/cockpit-repository/src/rust_material.rs",
+    "crates/cockpit-repository/tests/governance_signals.rs",
+    "docs/reference/input-trust-dataflow.ja.md",
+    "docs/reference/input-trust-dataflow.md",
+    "docs/reference/input-trust-dataflow.zh-CN.md"
   ],
   "checkpointAt": "2026-10-05T02:20:59Z",
-  "checkpointContractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
+  "checkpointContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -61,20 +74,60 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:74a9d0f3624264eb3f68eba50dc3991fd4a53db06a6ee581970b69137d1267c2",
+      "reason": "PR #1019 exact-head run 37263602059 passed Windows and candidate hosted verification but the Rust Contract gate failed closed with repository_material_inspection_unavailable. A source-bound local replay isolated the scanner's current limitations: whole-file recursive 16,384-token mask budget rejects the 24,371-token CLI source before changed-origin semantics; a changed large json! macro is treated as one unresolved token string; and item-level .join() ambiguity conflates Path::join with string composition. Raydot's ordinary technical decision authorizes one bounded same-WI correction; preserve all previous pass/failure evidence, do not weaken the gate, raise the semantic budget, move tests, or bypass Runtime/CI.",
+      "recorded": true,
+      "recordedAt": "2026-10-05T05:10:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1067-cargo-verification-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb29bf67584d89b036f79d407195c5130d1607b85af42a788c6469121ae55b81",
+      "previousContractHash": "sha256:b5fa43245d1a9c6f85113b2bacc5135812a7aa6d5601a8a618c2b45695a2498a",
+      "reason": "Raydot's technical review identified that the newly appended filtered Cargo test is incompatible with the current strict workspace coverage consumer. tests/ci/run_workspace_package_tests.sh requires one unique complete unfiltered Cargo workspace test declaration and rejects any filtered or additional Cargo test declaration; keep the focused governance_signals RED-to-GREEN check as a separate local regression required by acceptance, not as a formal Contract verification node. Preserve the original three formal checks, all scope and acceptance requirements, and prior evidence. This correction does not waive any test or hosted acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-10-05T05:23:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1067-cargo-verification-boundary"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:5f7c01db0b8745b4a775f718856a41b2da99aef323c2612221f4e394cec38dd0",
+  "checkpointRepositorySnapshotDigest": "sha256:8070d4577fdc039118c5bc1b1eb781674140922330ffedbf35b3b57d9da78fea",
   "createdAt": "2026-10-05T02:09:57Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
+    "contractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-    "reason": "Ray selected option 1 in this Codex conversation for final WI-1067 Contract ce8a19dc after the Runtime-bound PR #1019 resourceContext was added. Compared with the prior human-approved 74a9d0f3 Contract, only the real branch/worktree/provider/PR identity changed; the 15-file scope and six acceptance criteria did not. This confirms the exact current Contract review, not verification, merge, or release.",
-    "recordedAt": "2026-10-05T04:11:56Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "Ray selected option 1 in this Codex conversation for WI-1067 Contract digest c2ffc1fa. This confirms only the current amended verification list and authorizes continuing through fresh Runtime-admitted verification; it does not claim verification success, merge, release, or broader scope.",
+    "recordedAt": "2026-10-05T05:36:31Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:d750644323efdeb565d8e1b00791faa5879f08f1afc916560ca3d2a8f15a837c",
+    "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
     "schemaVersion": 1,
     "workItemId": "WI-1067-cargo-verification-boundary"
   },
@@ -85,11 +138,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-05T04:25:36Z",
-  "preflightContractDigest": "sha256:ce8a19dc5355fec7ca43c09938d3dba09446f5f0baf3e10670b9a73cbe979aa3",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:5f7c01db0b8745b4a775f718856a41b2da99aef323c2612221f4e394cec38dd0",
-  "preflightState": "green",
+  "preflightAt": "2026-10-05T07:39:51Z",
+  "preflightContractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "preflightRepositorySnapshotDigest": "sha256:1cd7b1861a1b8757f5b4d7b802114dec8c5d17b55f6c8db36545e7de05ee6569",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-05T04:25:36Z",
@@ -139,7 +192,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-05T04:12:13.762999+00:00",
+  "updatedAt": "2026-10-05T05:36:57.197064+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -250,6 +303,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:5c11559d8c10b7e065e72e1ad6082837ae0c42fcabfc419f8b809eb643290b7d",
+  "verificationRecoveryReconciled": "sha256:fed5fc9751ddc7bd176cf95076cc9493f1d7b960c64460a7c6c58d738e0837a4",
   "workItemId": "WI-1067-cargo-verification-boundary"
 }

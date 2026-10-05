@@ -275,9 +275,9 @@ fn linked_worktrees_do_not_execute_cargo_with_the_same_implicit_target() {
         return;
     }
 
-    let root = repository("cargo-target-isolation");
-    let linked = root.with_extension("linked");
-    let cargo_path = Path::new("fake-bin/cargo");
+    let root: PathBuf = repository("cargo-target-isolation");
+    let linked: PathBuf = root.with_extension("linked");
+    let cargo_path: &Path = Path::new("fake-bin/cargo");
     fs::create_dir_all(root.join("fake-bin")).expect("fake bin");
     fs::write(
         root.join(cargo_path),

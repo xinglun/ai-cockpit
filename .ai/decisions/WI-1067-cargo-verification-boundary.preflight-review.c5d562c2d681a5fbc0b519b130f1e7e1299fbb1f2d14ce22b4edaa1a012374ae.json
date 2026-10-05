@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:c2ffc1faf2133e3a1c907dba5ccfae86821d2d11c307dd39da63a92384cb2d46",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray selected option 1 in this Codex conversation for WI-1067 Contract digest c2ffc1fa. This confirms only the current amended verification list and authorizes continuing through fresh Runtime-admitted verification; it does not claim verification success, merge, release, or broader scope.",
+  "recordedAt": "2026-10-05T05:36:31Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0abb54c186560759f36d0431e64991dfac1c0491b6bc887b3aaab78103c94802",
+  "schemaVersion": 1,
+  "workItemId": "WI-1067-cargo-verification-boundary"
+}
