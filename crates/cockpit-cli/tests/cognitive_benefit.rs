@@ -13,6 +13,14 @@ fn python_executable() -> &'static str {
     if cfg!(windows) { "python" } else { "python3" }
 }
 
+fn python_oracle_command() -> Command {
+    let mut command = Command::new(python_executable());
+    // The oracle decodes captured Rust CLI output. Force UTF-8 mode so Windows
+    // ACP settings cannot misdecode those child-process streams.
+    command.env("PYTHONUTF8", "1");
+    command
+}
+
 #[test]
 fn rust_check_matches_the_existing_python_gate_without_rewriting_evidence() {
     let repo = repository_root();
@@ -23,12 +31,12 @@ fn rust_check_matches_the_existing_python_gate_without_rewriting_evidence() {
     let before_json = std::fs::read(&evidence_json).ok();
     let before_markdown = std::fs::read(&evidence_markdown).ok();
 
-    let python = Command::new(python_executable())
+    let python = python_oracle_command()
         .arg(repo.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .args(["--repo", repo.to_str().expect("utf-8 repo")])
         .args(["--binary", binary, "--check"])
         .output()
-        .expect("run Python oracle");
+        .expect("launch Python oracle");
     assert!(
         python.status.success(),
         "Python oracle failed: {}",
@@ -40,7 +48,7 @@ fn rust_check_matches_the_existing_python_gate_without_rewriting_evidence() {
         .arg(&repo)
         .arg("--check")
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(
         rust.status.success(),
         "Rust evaluator failed: {}",
@@ -63,7 +71,7 @@ fn missing_archived_outcome_fails_without_creating_evidence() {
         .arg(repo.path())
         .arg("--check")
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(!output.status.success());
     assert!(
         String::from_utf8_lossy(&output.stderr).contains("missing real archived Outcome structure"),
@@ -83,7 +91,7 @@ fn missing_explicit_binary_fails_before_archive_lookup_without_writing_evidence(
         .arg("--binary")
         .arg(&missing)
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
@@ -129,7 +137,7 @@ fn non_executable_explicit_binary_does_not_fall_back_or_build() {
         .env("PATH", path)
         .env("AI_COCKPIT_TEST_CARGO_MARKER", &marker)
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(!output.status.success());
     let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
@@ -175,7 +183,7 @@ fn windows_invalid_regular_binary_fails_without_fallback_or_artifact_writes() {
         if check_only {
             command.arg("--check");
         }
-        let output = command.output().expect("run Rust evaluator");
+        let output = command.output().expect("launch Rust evaluator");
         assert!(!output.status.success());
         let stderr = String::from_utf8_lossy(&output.stderr);
         assert!(
@@ -196,7 +204,7 @@ fn cli_entrypoint_runs_with_windows_sized_main_stack() {
         .args(["-c", "ulimit -s 1024; exec \"$1\" --version", "sh"])
         .arg(env!("CARGO_BIN_EXE_ai-cockpit"))
         .output()
-        .expect("run CLI with a Windows-sized main stack");
+        .expect("launch CLI with a Windows-sized main stack");
 
     assert!(
         output.status.success(),
@@ -225,13 +233,13 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
         String::from_utf8_lossy(&clone.stderr)
     );
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
-    let python = Command::new(python_executable())
+    let python = python_oracle_command()
         .arg(checkout.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .arg("--repo")
         .arg(&checkout)
         .args(["--binary", binary])
         .output()
-        .expect("run Python evaluator");
+        .expect("launch Python evaluator");
     assert!(
         python.status.success(),
         "Python evaluator failed: {}",
@@ -250,7 +258,7 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
         .arg(&checkout)
         .args(["--binary", binary])
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(
         rust.status.success(),
         "Rust evaluator failed: {}",
@@ -327,13 +335,13 @@ fn malformed_answer_key_fixture_is_rejected_before_check_writes() {
     let before_json = std::fs::read(&evidence_json).ok();
     let before_markdown = std::fs::read(&evidence_markdown).ok();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
-    let python = Command::new(python_executable())
+    let python = python_oracle_command()
         .arg(checkout.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .arg("--repo")
         .arg(&checkout)
         .args(["--binary", binary, "--check"])
         .output()
-        .expect("run Python oracle");
+        .expect("launch Python oracle");
     assert!(!python.status.success());
     assert!(String::from_utf8_lossy(&python.stderr).contains("expected JSON object"));
 
@@ -342,7 +350,7 @@ fn malformed_answer_key_fixture_is_rejected_before_check_writes() {
         .arg(&checkout)
         .args(["--binary", binary, "--check"])
         .output()
-        .expect("run Rust evaluator");
+        .expect("launch Rust evaluator");
     assert!(!rust.status.success());
     assert!(
         String::from_utf8_lossy(&rust.stderr).contains("expected JSON object"),
@@ -377,7 +385,7 @@ fn repository_gate_runs_without_invoking_python() {
         .arg(repo.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh"))
         .env("PATH", path)
         .output()
-        .expect("run repository gate");
+        .expect("launch repository gate");
     assert!(
         output.status.success(),
         "repository gate still depends on Python or failed: {}",

@@ -532,10 +532,10 @@ mod tests {
     };
     #[test]
     fn fixture_oracle_rejects_drift_in_security_relevant_answer_keys() {
-        assert!(fixture_passes(
-            "scope-exceeded",
-            &::serde_json::json!({"changed_paths":["tests/secret.rs"],"scope":["src/**"]})
-        ));
+        let scope_exceeded: serde_json::Value =
+            serde_json::from_str(r#"{"changed_paths":["tests/secret.rs"],"scope":["src/**"]}"#)
+                .expect("valid scope-exceeded fixture");
+        assert!(fixture_passes("scope-exceeded", &scope_exceeded));
         assert!(!fixture_passes(
             "scope-exceeded",
             &::serde_json::json!({"changed_paths":[],"scope":["src/**"]})
