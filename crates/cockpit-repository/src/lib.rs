@@ -13257,16 +13257,18 @@ mod environment_identity_tests {
     fn cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared() {
         let root = tempfile::tempdir().expect("checkout");
         let other_root = tempfile::tempdir().expect("other checkout");
+        let home = tempfile::tempdir().expect("absolute home");
+        let home_path = home.path().to_path_buf();
         let environment = effective_verification_environment(
             root.path(),
             "cargo",
-            vec![(OsString::from("HOME"), OsString::from("/Users/tester"))],
+            vec![(OsString::from("HOME"), home_path.as_os_str().to_owned())],
         );
         let target = environment
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
             .map(|(_, value)| PathBuf::from(value.to_owned()));
-        let expected_target = Path::new("/Users/tester").join(".cache/ai-cockpit-verify-target");
+        let expected_target = home_path.join(".cache/ai-cockpit-verify-target");
         assert!(
             target
                 .as_deref()
@@ -13276,7 +13278,7 @@ mod environment_identity_tests {
         let other_environment = effective_verification_environment(
             other_root.path(),
             "cargo",
-            vec![(OsString::from("HOME"), OsString::from("/Users/tester"))],
+            vec![(OsString::from("HOME"), home_path.as_os_str().to_owned())],
         );
         let other_target = other_environment
             .iter()
