@@ -633,7 +633,9 @@ pub(super) fn assess_rust_material(change: &cockpit_git::ChangeEvidence) -> Rust
     };
     match assess_rust_comments(source, &changed_lines) {
         RustMaterialAssessment::Finding => return RustMaterialAssessment::Finding,
-        RustMaterialAssessment::Unknown => return RustMaterialAssessment::Unknown,
+        RustMaterialAssessment::Unknown => {
+            return RustMaterialAssessment::Unknown;
+        }
         RustMaterialAssessment::Clean => {}
     }
 

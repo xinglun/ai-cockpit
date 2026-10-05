@@ -214,7 +214,7 @@ fn precondition_attempt_is_durable_without_spawning_a_process() {
 #[test]
 fn package_test_attempt_commands_record_the_effective_implicit_deadline() {
     let directory = repository();
-    let root: &Path = directory.path();
+    let root: &::std::path::Path = directory.path();
     let snapshot = GitRepository::discover(root)
         .expect("git")
         .snapshot()
@@ -250,7 +250,7 @@ fn package_test_attempt_commands_record_the_effective_implicit_deadline() {
 #[test]
 fn package_test_attempt_command_digest_matches_its_real_execution_record() {
     let directory = repository();
-    let root: &Path = directory.path();
+    let root: &::std::path::Path = directory.path();
     let mut request = request(root);
     request.args = vec![
         "test".into(),
