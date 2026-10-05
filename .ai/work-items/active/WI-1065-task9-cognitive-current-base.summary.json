@@ -1,20 +1,7 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1065-task9-cognitive-current-base.preflight-review.3521d3a864d50689efc98fc85cb4005645332ddc30efeb106fe0371513cd17fb.json",
-    ".ai/decisions/WI-1065-task9-cognitive-current-base.recovery.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000002.prepared.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.2ed050be82923fd2a1365743d4111382abcf14314def43f6a2e72de8a2733be0.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.4c6946a52aec4395549217d6f0b5f6fc9411f6da3c71ab4bb3ea2071cf685eea.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.5fab88ea8796241b871938509969b01a7d9d4307fda727b5a6ca5b6fc6cc4a9d.json",
-    ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json",
-    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json",
-    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.outcome.json",
     ".ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json",
-    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.task-report.json",
-    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.task-report.md",
     ".github/workflows/ci.yml",
-    "crates/cockpit-cli/src/cognitive_benefit.rs",
     "crates/cockpit-cli/tests/cognitive_benefit.rs"
   ],
   "checkpointAt": "2026-10-05T01:15:32Z",
@@ -56,7 +43,7 @@
       "workItemId": "WI-1065-task9-cognitive-current-base"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:b1d5fc8bf7000fb261b5b9a3ac10a58000d3f916e385c83c1f0910b9a99e1c92",
+  "checkpointRepositorySnapshotDigest": "sha256:8ad88c46a65e33b822dbc774bd2eed45247637c91038f6a58b088a1af49e9ae0",
   "createdAt": "2026-10-04T18:10:14Z",
   "decisionEvidence": {
     "contractDigest": "sha256:84cedffe4dace98ed931239423a8443bb5c2713caad9bdcba9b98793290723fb",
@@ -74,11 +61,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
   "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
-  "preflightAt": "2026-10-05T13:08:31Z",
+  "preflightAt": "2026-10-05T13:30:41Z",
   "preflightContractDigest": "sha256:84cedffe4dace98ed931239423a8443bb5c2713caad9bdcba9b98793290723fb",
-  "preflightDecisionDigest": "sha256:8d5b505d360977f1745ee4fca25ecb99434c311bda447e5c99ca2ac56dab22e1",
-  "preflightRepositorySnapshotDigest": "sha256:b1d5fc8bf7000fb261b5b9a3ac10a58000d3f916e385c83c1f0910b9a99e1c92",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8ad88c46a65e33b822dbc774bd2eed45247637c91038f6a58b088a1af49e9ae0",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
   "recoveryRetryConsumed": {

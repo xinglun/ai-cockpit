@@ -9,6 +9,10 @@ fn repository_root() -> PathBuf {
         .to_path_buf()
 }
 
+fn python_executable() -> &'static str {
+    if cfg!(windows) { "python" } else { "python3" }
+}
+
 #[test]
 fn rust_check_matches_the_existing_python_gate_without_rewriting_evidence() {
     let repo = repository_root();
@@ -19,7 +23,7 @@ fn rust_check_matches_the_existing_python_gate_without_rewriting_evidence() {
     let before_json = std::fs::read(&evidence_json).ok();
     let before_markdown = std::fs::read(&evidence_markdown).ok();
 
-    let python = Command::new("python3")
+    let python = Command::new(python_executable())
         .arg(repo.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .args(["--repo", repo.to_str().expect("utf-8 repo")])
         .args(["--binary", binary, "--check"])
@@ -201,7 +205,7 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
         String::from_utf8_lossy(&clone.stderr)
     );
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
-    let python = Command::new("python3")
+    let python = Command::new(python_executable())
         .arg(checkout.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .arg("--repo")
         .arg(&checkout)
@@ -303,7 +307,7 @@ fn malformed_answer_key_fixture_is_rejected_before_check_writes() {
     let before_json = std::fs::read(&evidence_json).ok();
     let before_markdown = std::fs::read(&evidence_markdown).ok();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
-    let python = Command::new("python3")
+    let python = Command::new(python_executable())
         .arg(checkout.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .arg("--repo")
         .arg(&checkout)
