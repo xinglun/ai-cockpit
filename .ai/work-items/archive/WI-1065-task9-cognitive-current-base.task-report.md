@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -14,13 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-1065-task9-cognitive-current-base.preflight-review.3521d3a864d50689efc98fc85cb4005645332ddc30efeb106fe0371513cd17fb.json
-- Changed path: .ai/decisions/WI-1065-task9-cognitive-current-base.recovery.json
-- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000002.committed.json
-- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.contract-amendments/00000002.prepared.json
-- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.2ed050be82923fd2a1365743d4111382abcf14314def43f6a2e72de8a2733be0.json
-- Changed path: .ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json
-- Changed path: .ai/work-items/active/WI-1065-task9-cognitive-current-base.summary.json
+- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.5f979cd849a3336e23e7c02e7883a61740c170fee3e1c8b3ffafcb95b7547cc4.json
+- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.6bd603a091b79892945aa473eadee9a8309d63e0a977b95741617c4a25a66489.json
+- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c07213833c62134ecc495a40ddbf419a65acc08a3ebc3fc804560723689067fe.json
+- Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c58eaa38f429701f84fb0ee742fd4d9a4493dd03e3d2abef55a536fd0fd7bb0d.json
+- Changed path: .ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json
 
 ## Findings
 
