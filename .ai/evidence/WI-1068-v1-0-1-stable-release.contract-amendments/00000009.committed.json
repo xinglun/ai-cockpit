@@ -1,0 +1,45 @@
+{
+  "sequence": 9,
+  "preparedDigest": "sha256:e98638ee4f2a5d0ff02057d1b1071609536a3a1d2bdcb304e7ae5353a2826742",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 9,
+    "changeId": "wi1068-user-authorizes-raydot-cargo-target-20261006",
+    "requestDigest": "sha256:fbe14e1a0f4fa4b940054493d32f2e4278e54cd09e55bc9135fc4d367f78fed8",
+    "reason": "Record the user's explicit authorization to follow Raydot's supported workspace-local Cargo target override for the admitted WI-1068 verification retry; this adds provenance only and changes no scope or acceptance requirement.",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+          "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow."
+        ],
+        "newValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+          "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow.",
+          "Current user direction in this conversation (2026-10-06): The user states they authorized agent:Raydot and directs this agent to follow Raydot's supported WI-1068 verification environment instruction: set CARGO_TARGET_DIR=/workspace/ai-cockpit/target/wi1068-verify, RUSTUP_HOME=/workspace/.rustup, CARGO_HOME=/workspace/.cargo, preserve the current PATH, and leave HOME and sandbox permissions unchanged. This records the user's conversation assertion; it is not host-authenticated proof of either person's identity."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+    "newContractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+    "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+    "environmentObservationDigest": "sha256:3824a219d6092f3f3be89ae650f707aa2bc8586996b76e8cee47b92260161340",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:32ced3019b24e587006d1bdaf259b18dc3a1614355f3f3cd3c953b7b329ade56",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+    ],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:1861b03d1ba1c9e310ca135622952eac3e3ddb1c82673ec890c47e60d16bc4ea",
+    "journalDigest": "sha256:8872cc93a1a1dde75de929ab6bd57cc7532a457bc289689fb1639574abe3542b",
+    "recordedAt": "2026-10-06T12:34:08Z"
+  }
+}

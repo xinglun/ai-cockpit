@@ -205,20 +205,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+      "reason": "Record the user's explicit authorization to follow Raydot's supported workspace-local Cargo target override for the admitted WI-1068 verification retry; this adds provenance only and changes no scope or acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T12:34:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+    "contractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "The user replied '确认继续' to the current Runtime human decision request after reviewing Contract sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef and repository snapshot sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8. This confirms continued WI-1068 execution under the amended workflow_dispatch plan; it does not waive verification, review, exact-head CI, later Runtime publication admission, or no-overwrite restrictions.",
-    "recordedAt": "2026-10-06T07:38:47Z",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The current user explicitly authorized following Raydot's supported WI-1068 workspace-local Cargo target instruction, required that authorization be recorded in the Contract, and directed continued work through goal completion. This confirms only the bounded review and verification retry for this exact Contract, preflight decision, and repository snapshot. It does not waive verification, independent review, exact-head CI, later Runtime publication admission, or no-overwrite restrictions. The actor identity is conversation-declared, not host-authenticated.",
+    "recordedAt": "2026-10-06T12:37:41Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
+    "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -230,13 +250,13 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-06T08:11:51Z",
-  "preflightContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
-  "preflightState": "green",
+  "preflightAt": "2026-10-06T12:36:16Z",
+  "preflightContractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+  "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+  "recoveryRetryContractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
   "recoveryRetryDecisionDigest": "sha256:8658d25f053efbcbf7b107e4b6ef13c6d5fbe77038d33217584bd541a128c31a",
   "recoveryRetryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.json",
   "recoveryRetryPending": true,
@@ -316,7 +336,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-06T07:45:23.853238+00:00",
+  "updatedAt": "2026-10-06T12:38:25.920398404+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -371,6 +391,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-06T12:34:08Z"
+  },
   "verificationRecoveryReconciled": "sha256:64457d2ce562fcdf11b911af730067ed7cdc6045b6e0916ad8e78bbc9f16c5e8",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

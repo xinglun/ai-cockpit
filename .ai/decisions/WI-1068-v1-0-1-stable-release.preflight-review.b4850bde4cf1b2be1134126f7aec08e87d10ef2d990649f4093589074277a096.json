@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The current user explicitly authorized following Raydot's supported WI-1068 workspace-local Cargo target instruction, required that authorization be recorded in the Contract, and directed continued work through goal completion. This confirms only the bounded review and verification retry for this exact Contract, preflight decision, and repository snapshot. It does not waive verification, independent review, exact-head CI, later Runtime publication admission, or no-overwrite restrictions. The actor identity is conversation-declared, not host-authenticated.",
+  "recordedAt": "2026-10-06T12:37:41Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

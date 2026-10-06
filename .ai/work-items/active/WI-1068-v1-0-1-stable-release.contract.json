@@ -165,7 +165,8 @@
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
-    "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow."
+    "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow.",
+    "Current user direction in this conversation (2026-10-06): The user states they authorized agent:Raydot and directs this agent to follow Raydot's supported WI-1068 verification environment instruction: set CARGO_TARGET_DIR=/workspace/ai-cockpit/target/wi1068-verify, RUSTUP_HOME=/workspace/.rustup, CARGO_HOME=/workspace/.cargo, preserve the current PATH, and leave HOME and sandbox permissions unchanged. This records the user's conversation assertion; it is not host-authenticated proof of either person's identity."
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
