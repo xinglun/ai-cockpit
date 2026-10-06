@@ -19,7 +19,7 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 默认安装稳定版 v1.0.1。release-manifest.json 列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。下列命令会用公开的 SHA256SUMS 分别校验 manifest 和 archive；历史表格仍保留前一稳定版 v1.0.0 的校验和。
 
-公開時の stable v1.0.1 archive 名は次の四つです。
+发布时，稳定版 v1.0.1 的四个归档文件名如下。
 
 | Target | Stable v1.0.1 archive |
 | --- | --- |
