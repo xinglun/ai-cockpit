@@ -1,0 +1,164 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c0b7c6c42e03aa02571560b96ec913e4869076ff7114002bc4d573279eb3518c",
+      "workItemId": "WI-1065-task9-cognitive-current-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.5f979cd849a3336e23e7c02e7883a61740c170fee3e1c8b3ffafcb95b7547cc4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.6bd603a091b79892945aa473eadee9a8309d63e0a977b95741617c4a25a66489.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c07213833c62134ecc495a40ddbf419a65acc08a3ebc3fc804560723689067fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1065-task9-cognitive-current-base.verification-attempt.c58eaa38f429701f84fb0ee742fd4d9a4493dd03e3d2abef55a536fd0fd7bb0d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-1065-task9-cognitive-current-base.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/pull/1009",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/37392955372"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by agent:Codex via Direct human replies in this task: “是，授权普通合并” authorized the normal merge of PR #1009; “是，授权清理和本地收尾” authorized deletion of the exact PR branch/local branch/bound worktree and local finalization plus closeout. The closeout is recorded by agent:Codex, with no new human review signature. at 2026-10-06T00:55:39Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1065-task9-cognitive-current-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "在最新 main 上完成 cognitive evaluator 的 Rust 实现与 gate 接线，验证完整输出及失败语义等价；不宣称整个 Task 9 完成。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1065-task9-cognitive-current-base"
+  },
+  "finalReportDigest": "sha256:f82d8755a8d46ebe2b6450bf34934689f2643ab4f383287903b31fec78346fda",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:e065c055150fbab0d793b29a433b88dcac31b02bbb332d86ceb97487f614cf40",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1065-task9-cognitive-current-base.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:Codex",
+    "authoritySource": "Direct human replies in this task: “是，授权普通合并” authorized the normal merge of PR #1009; “是，授权清理和本地收尾” authorized deletion of the exact PR branch/local branch/bound worktree and local finalization plus closeout. The closeout is recorded by agent:Codex, with no new human review signature.",
+    "decidedAt": "2026-10-06T00:55:39Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-1065-task9-cognitive-current-base.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/pull/1009",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/37392955372"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "agents/skills/provider-resource-finalization.md",
+      "docs/reference/commands.md"
+    ],
+    "reason": "Close archived WI-1065 after PR #1009 merged at e10ce2d2fed87802f0677952bdcd8a6d42fa1e2b, mainline CI succeeded, and the exact resource finalization receipt passed Runtime verification. user_visible_benefit_not_declared remains unknown and is not claimed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-06T00:55:55Z",
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}
