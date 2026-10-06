@@ -18,6 +18,8 @@ use std::process::Command;
 #[cfg(unix)]
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
+#[cfg(target_os = "linux")]
+use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
@@ -248,6 +250,15 @@ pub struct CompositionCleanup {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProcessGroupLeaderIdentity {
+    pub leader_pid: u32,
+    pub leader_start_time_ticks: u64,
+    pub process_group_id: u32,
+    pub session_id: u32,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompositionAttempt {
     #[serde(default = "legacy_composition_schema_version")]
     pub schema_version: u32,
@@ -276,6 +287,8 @@ pub struct CompositionAttempt {
     pub active_execution_node: Option<String>,
     #[serde(default)]
     pub active_process_group_id: Option<u32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub active_process_group_identity: Option<ProcessGroupLeaderIdentity>,
 }
 
 impl CompositionAttempt {
@@ -390,6 +403,7 @@ fn run_composition_inner(
         process_observation_schema_version: PROCESS_OBSERVATION_SCHEMA_VERSION,
         active_execution_node: None,
         active_process_group_id: None,
+        active_process_group_identity: None,
     };
 
     // This snapshot is the recovery boundary: an interrupted parent leaves a
@@ -625,6 +639,7 @@ fn run_composition_inner(
         all_nodes_reused = false;
         attempt.active_execution_node = Some(command.node_id.clone());
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         persist_attempt(&input.state_dir, &attempt)?;
         let record = execute_node(
             command,
@@ -640,6 +655,7 @@ fn run_composition_inner(
         );
         attempt.active_execution_node = None;
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
@@ -892,6 +908,7 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
             .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
         && attempt.active_execution_node.is_none()
         && attempt.active_process_group_id.is_none()
+        && attempt.active_process_group_identity.is_none()
         && !attempt.execution_records.is_empty()
         && attempt.processes_spawned
             == attempt
@@ -960,19 +977,46 @@ fn reconcile_abandoned_attempt(
         });
     }
 
+    #[cfg(target_os = "linux")]
+    let mut attempt_digest_before_group_cleanup = None;
     match (
         attempt.active_execution_node.as_deref(),
         attempt.active_process_group_id,
     ) {
-        (Some(_), Some(process_group_id)) if process_group_is_alive(process_group_id) => {
-            return Err(CompositionError::ActiveVerifierProcessGroup {
-                attempt_id: attempt.attempt_id,
-                process_group_id,
-            });
-        }
-        (Some(_), Some(_)) => {
+        (Some(_), Some(process_group_id)) => {
+            #[cfg(target_os = "linux")]
+            {
+                match observe_linux_process_group_for_recovery(
+                    state_dir,
+                    &attempt,
+                    process_group_id,
+                ) {
+                    Ok((LinuxProcessGroupLiveness::Active, _)) => {
+                        return Err(CompositionError::ActiveVerifierProcessGroup {
+                            attempt_id: attempt.attempt_id,
+                            process_group_id,
+                        });
+                    }
+                    Ok((LinuxProcessGroupLiveness::Exited, digest)) => {
+                        attempt_digest_before_group_cleanup = Some(digest);
+                    }
+                    Ok((LinuxProcessGroupLiveness::Unknown, _)) | Err(_) => {
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id,
+                        });
+                    }
+                }
+            }
+            #[cfg(not(target_os = "linux"))]
+            if process_group_is_alive(process_group_id) {
+                return Err(CompositionError::ActiveVerifierProcessGroup {
+                    attempt_id: attempt.attempt_id,
+                    process_group_id,
+                });
+            }
             attempt.active_execution_node = None;
             attempt.active_process_group_id = None;
+            attempt.active_process_group_identity = None;
         }
         (Some(_), None) | (None, Some(_)) => {
             return Err(CompositionError::UnknownAttemptOwner {
@@ -1008,6 +1052,16 @@ fn reconcile_abandoned_attempt(
                 });
             }
             Ok(None) => {}
+        }
+    }
+    #[cfg(target_os = "linux")]
+    if let Some(expected_digest) = attempt_digest_before_group_cleanup {
+        if require_attempt_digest_unchanged(state_dir, &attempt.attempt_id, &expected_digest)
+            .is_err()
+        {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: attempt.attempt_id,
+            });
         }
     }
     let cleanup = if let Some((worktree, parent)) = validated_paths {
@@ -1138,7 +1192,7 @@ fn process_is_alive(pid: u32) -> bool {
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "linux")))]
 fn process_group_is_alive(process_group_id: u32) -> bool {
     // SAFETY: a negative pid probes the process group without delivering a signal.
     let result = unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) };
@@ -1149,6 +1203,443 @@ fn process_group_is_alive(process_group_id: u32) -> bool {
         std::io::Error::last_os_error().raw_os_error(),
         Some(code) if code == libc::ESRCH
     )
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct LinuxProcessGroupMember {
+    process_id: u32,
+    state: char,
+    start_time_ticks: u64,
+    process_group_id: u32,
+    session_id: u32,
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum LinuxProcessGroupLiveness {
+    Active,
+    Exited,
+    Unknown,
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Debug, Error)]
+enum LinuxProcessGroupScanError {
+    #[error("proc scan could not read {path} after enumeration: {source}")]
+    StatEntryDisappeared {
+        path: PathBuf,
+        #[source]
+        source: std::io::Error,
+    },
+    #[error("{0}")]
+    Other(String),
+}
+
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_SCAN_ENTRIES: usize = 65_536;
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_SCAN_DURATION: Duration = Duration::from_millis(500);
+#[cfg(target_os = "linux")]
+const LINUX_PROC_STABILITY_DELAY: Duration = Duration::from_millis(10);
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS: usize = 3;
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_GROUP_OBSERVATION_DURATION: Duration = Duration::from_secs(3);
+
+#[cfg(target_os = "linux")]
+fn parse_linux_process_stat(
+    process_id: u32,
+    stat: &str,
+) -> Result<LinuxProcessGroupMember, String> {
+    let command_open = stat
+        .find('(')
+        .ok_or_else(|| "proc stat is missing command opener".to_string())?;
+    let parsed_process_id = stat[..command_open]
+        .trim()
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process id".to_string())?;
+    if parsed_process_id != process_id {
+        return Err("proc stat process id does not match its directory".into());
+    }
+    let command_close = stat
+        .rfind(')')
+        .filter(|close| *close > command_open)
+        .ok_or_else(|| "proc stat is missing command terminator".to_string())?;
+    let fields = stat[command_close + 1..]
+        .split_whitespace()
+        .collect::<Vec<_>>();
+    if fields.len() <= 19 {
+        return Err("proc stat has too few fields".into());
+    }
+    let state = fields[0]
+        .chars()
+        .next()
+        .ok_or_else(|| "proc stat has an empty state".to_string())?;
+    let process_group_id = fields[2]
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process group id".to_string())?;
+    let session_id = fields[3]
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid session id".to_string())?;
+    let start_time_ticks = fields[19]
+        .parse::<u64>()
+        .map_err(|_| "proc stat has an invalid starttime".to_string())?;
+    Ok(LinuxProcessGroupMember {
+        process_id,
+        state,
+        start_time_ticks,
+        process_group_id,
+        session_id,
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn read_linux_process_group_leader_identity(
+    proc_root: &Path,
+    process_group_id: u32,
+) -> Result<ProcessGroupLeaderIdentity, String> {
+    let stat_path = proc_root.join(process_group_id.to_string()).join("stat");
+    let stat = fs::read_to_string(&stat_path).map_err(|error| {
+        format!(
+            "cannot read process-group leader stat {}: {error}",
+            stat_path.display()
+        )
+    })?;
+    let leader = parse_linux_process_stat(process_group_id, &stat)?;
+    if leader.process_id != process_group_id
+        || leader.process_group_id != process_group_id
+        || leader.start_time_ticks == 0
+    {
+        return Err("observed process is not the expected process-group leader".into());
+    }
+    Ok(ProcessGroupLeaderIdentity {
+        leader_pid: leader.process_id,
+        leader_start_time_ticks: leader.start_time_ticks,
+        process_group_id: leader.process_group_id,
+        session_id: leader.session_id,
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn scan_linux_process_group_once(
+    proc_root: &Path,
+    process_group_id: u32,
+    maximum_entries: usize,
+    scan_deadline: Instant,
+) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError> {
+    let entries = fs::read_dir(proc_root).map_err(|error| {
+        LinuxProcessGroupScanError::Other(format!(
+            "cannot enumerate proc root {}: {error}",
+            proc_root.display()
+        ))
+    })?;
+    let mut numeric_entries = 0usize;
+    let mut members = Vec::new();
+    for entry in entries {
+        if Instant::now() >= scan_deadline {
+            return Err(LinuxProcessGroupScanError::Other(
+                "proc scan exceeded its time budget".into(),
+            ));
+        }
+        let entry = entry.map_err(|error| {
+            LinuxProcessGroupScanError::Other(format!("proc scan directory race: {error}"))
+        })?;
+        let Some(process_id) = entry
+            .file_name()
+            .to_str()
+            .and_then(|name| name.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        numeric_entries = numeric_entries.saturating_add(1);
+        if numeric_entries > maximum_entries {
+            return Err(LinuxProcessGroupScanError::Other(
+                "proc scan exceeded its entry budget".into(),
+            ));
+        }
+        let stat_path = entry.path().join("stat");
+        let stat = fs::read_to_string(&stat_path).map_err(|source| {
+            if source.kind() == std::io::ErrorKind::NotFound {
+                LinuxProcessGroupScanError::StatEntryDisappeared {
+                    path: stat_path.clone(),
+                    source,
+                }
+            } else {
+                LinuxProcessGroupScanError::Other(format!(
+                    "proc scan could not read {}: {source}",
+                    stat_path.display()
+                ))
+            }
+        })?;
+        let process = parse_linux_process_stat(process_id, &stat).map_err(|error| {
+            LinuxProcessGroupScanError::Other(format!(
+                "proc scan could not parse {}: {error}",
+                stat_path.display()
+            ))
+        })?;
+        if process.process_group_id == process_group_id {
+            members.push(process);
+        }
+    }
+    if Instant::now() >= scan_deadline {
+        return Err(LinuxProcessGroupScanError::Other(
+            "proc scan exceeded its time budget".into(),
+        ));
+    }
+    members.sort_by_key(|member| {
+        (
+            member.process_id,
+            member.start_time_ticks,
+            member.process_group_id,
+        )
+    });
+    Ok(members)
+}
+
+#[cfg(target_os = "linux")]
+fn classify_linux_process_group_scans(
+    process_group_id: u32,
+    leader_identity: Option<&ProcessGroupLeaderIdentity>,
+    first: &[LinuxProcessGroupMember],
+    second: &[LinuxProcessGroupMember],
+) -> LinuxProcessGroupLiveness {
+    let identity_keys = |members: &[LinuxProcessGroupMember]| {
+        members
+            .iter()
+            .map(|member| {
+                (
+                    member.process_id,
+                    member.start_time_ticks,
+                    member.process_group_id,
+                    member.session_id,
+                )
+            })
+            .collect::<Vec<_>>()
+    };
+    if identity_keys(first) != identity_keys(second) {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    if first.is_empty() {
+        return LinuxProcessGroupLiveness::Exited;
+    }
+    let Some(leader_identity) = leader_identity else {
+        return LinuxProcessGroupLiveness::Unknown;
+    };
+    if leader_identity.leader_pid != process_group_id
+        || leader_identity.process_group_id != process_group_id
+        || leader_identity.leader_start_time_ticks == 0
+        || leader_identity.session_id == 0
+    {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    let Some(leader) = first
+        .iter()
+        .find(|member| member.process_id == leader_identity.leader_pid)
+    else {
+        return LinuxProcessGroupLiveness::Unknown;
+    };
+    if leader.start_time_ticks != leader_identity.leader_start_time_ticks
+        || leader.process_group_id != leader_identity.process_group_id
+        || leader.session_id != leader_identity.session_id
+        || first
+            .iter()
+            .any(|member| member.session_id != leader_identity.session_id)
+    {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    if first
+        .iter()
+        .chain(second.iter())
+        .any(|member| !matches!(member.state, 'Z' | 'X' | 'x'))
+    {
+        LinuxProcessGroupLiveness::Active
+    } else {
+        LinuxProcessGroupLiveness::Exited
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn observe_linux_process_group_with_retries<S, V, W, N>(
+    process_group_id: u32,
+    leader_identity: Option<&ProcessGroupLeaderIdentity>,
+    total_deadline: Instant,
+    mut scan_once: S,
+    mut validate_attempt: V,
+    mut wait: W,
+    mut now: N,
+) -> Result<LinuxProcessGroupLiveness, String>
+where
+    S: FnMut(Instant) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+    V: FnMut() -> Result<(), String>,
+    W: FnMut(Duration),
+    N: FnMut() -> Instant,
+{
+    let deadline_error = "process-group observation exceeded its total deadline";
+    for attempt_index in 0..MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS {
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+        validate_attempt()?;
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+
+        let first_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
+        let first_result = scan_once(first_scan_deadline);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        let first = match first_result {
+            Ok(members) => members,
+            Err(error) => {
+                validate_attempt()?;
+                if now() >= total_deadline {
+                    return Err(deadline_error.into());
+                }
+                match error {
+                    LinuxProcessGroupScanError::StatEntryDisappeared { .. }
+                        if attempt_index + 1 < MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS =>
+                    {
+                        continue;
+                    }
+                    error => return Err(error.to_string()),
+                }
+            }
+        };
+
+        if total_deadline.saturating_duration_since(now()) < LINUX_PROC_STABILITY_DELAY {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        wait(LINUX_PROC_STABILITY_DELAY);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+
+        let second_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
+        let second_result = scan_once(second_scan_deadline);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        let second = match second_result {
+            Ok(members) => members,
+            Err(error) => {
+                validate_attempt()?;
+                if now() >= total_deadline {
+                    return Err(deadline_error.into());
+                }
+                match error {
+                    LinuxProcessGroupScanError::StatEntryDisappeared { .. }
+                        if attempt_index + 1 < MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS =>
+                    {
+                        continue;
+                    }
+                    error => return Err(error.to_string()),
+                }
+            }
+        };
+
+        let liveness =
+            classify_linux_process_group_scans(process_group_id, leader_identity, &first, &second);
+        validate_attempt()?;
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+        return match liveness {
+            LinuxProcessGroupLiveness::Unknown => {
+                Err("paired process-group member set or leader identity is inconsistent".into())
+            }
+            LinuxProcessGroupLiveness::Active | LinuxProcessGroupLiveness::Exited => Ok(liveness),
+        };
+    }
+    Err("process-group observation exhausted its retry budget".into())
+}
+
+#[cfg(target_os = "linux")]
+fn attempt_file_bytes(state_dir: &Path, attempt_id: &str) -> Result<Vec<u8>, String> {
+    let path = attempt_record_path(state_dir, attempt_id);
+    let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err("composition attempt is not a regular non-symlink file".into());
+    }
+    fs::read(&path).map_err(|error| error.to_string())
+}
+
+#[cfg(target_os = "linux")]
+fn current_attempt_file_digest(state_dir: &Path, attempt_id: &str) -> Result<Digest, String> {
+    Ok(Digest::sha256_bytes(&attempt_file_bytes(
+        state_dir, attempt_id,
+    )?))
+}
+
+#[cfg(target_os = "linux")]
+fn require_attempt_digest_unchanged(
+    state_dir: &Path,
+    attempt_id: &str,
+    expected: &Digest,
+) -> Result<(), String> {
+    if &current_attempt_file_digest(state_dir, attempt_id)? == expected {
+        Ok(())
+    } else {
+        Err("latest composition attempt digest changed".into())
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn observe_linux_process_group_for_recovery(
+    state_dir: &Path,
+    attempt: &CompositionAttempt,
+    process_group_id: u32,
+) -> Result<(LinuxProcessGroupLiveness, Digest), String> {
+    let total_deadline = Instant::now() + MAX_LINUX_PROC_GROUP_OBSERVATION_DURATION;
+    let initial_bytes = attempt_file_bytes(state_dir, &attempt.attempt_id)?;
+    let stored_attempt: CompositionAttempt = serde_json::from_slice(&initial_bytes)
+        .map_err(|error| format!("cannot parse current composition attempt: {error}"))?;
+    if stored_attempt != *attempt
+        || stored_attempt.active_process_group_id != Some(process_group_id)
+    {
+        return Err(
+            "latest composition attempt changed before process-group reconciliation".into(),
+        );
+    }
+    let initial_digest = Digest::sha256_bytes(&initial_bytes);
+    let validate_attempt = || -> Result<(), String> {
+        let current_bytes = attempt_file_bytes(state_dir, &attempt.attempt_id)?;
+        if Digest::sha256_bytes(&current_bytes) != initial_digest {
+            return Err("latest composition attempt digest changed".into());
+        }
+        let current_attempt: CompositionAttempt = serde_json::from_slice(&current_bytes)
+            .map_err(|error| format!("cannot parse current composition attempt: {error}"))?;
+        if current_attempt != *attempt
+            || current_attempt.active_process_group_id != Some(process_group_id)
+        {
+            return Err(
+                "latest composition attempt changed during process-group observation".into(),
+            );
+        }
+        Ok(())
+    };
+    let liveness = observe_linux_process_group_with_retries(
+        process_group_id,
+        attempt.active_process_group_identity.as_ref(),
+        total_deadline,
+        |scan_deadline| {
+            scan_linux_process_group_once(
+                Path::new("/proc"),
+                process_group_id,
+                MAX_LINUX_PROC_SCAN_ENTRIES,
+                scan_deadline,
+            )
+        },
+        validate_attempt,
+        std::thread::sleep,
+        Instant::now,
+    );
+    Ok((liveness?, initial_digest))
 }
 
 #[cfg(target_os = "linux")]
@@ -1627,16 +2118,31 @@ fn update_active_process_record(
     {
         return Err("composition active-process identity changed".into());
     }
+    #[cfg(target_os = "linux")]
+    let process_group_identity = if active {
+        Some(read_linux_process_group_leader_identity(
+            Path::new("/proc"),
+            process_group_id,
+        )?)
+    } else {
+        None
+    };
+    #[cfg(not(target_os = "linux"))]
+    let process_group_identity = None;
     if active {
-        if attempt.active_process_group_id.is_some() {
+        if attempt.active_process_group_id.is_some()
+            || attempt.active_process_group_identity.is_some()
+        {
             return Err("composition already records an active process group".into());
         }
         attempt.active_process_group_id = Some(process_group_id);
+        attempt.active_process_group_identity = process_group_identity;
     } else {
         if attempt.active_process_group_id != Some(process_group_id) {
             return Err("composition active process group does not match".into());
         }
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         attempt.active_execution_node = None;
     }
     persist_attempt(state_dir, &attempt).map_err(|error| error.to_string())
@@ -2941,6 +3447,689 @@ mod composition_parent_tests {
             .collect::<BTreeSet<_>>();
 
         assert_eq!(paths.len(), 32, "same-tick parents must not collide");
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod linux_process_group_reconciliation_tests {
+    use super::{
+        LinuxProcessGroupLiveness, LinuxProcessGroupMember, LinuxProcessGroupScanError,
+        ProcessGroupLeaderIdentity, classify_linux_process_group_scans,
+        current_attempt_file_digest, observe_linux_process_group_with_retries,
+        parse_linux_process_stat, require_attempt_digest_unchanged, scan_linux_process_group_once,
+    };
+    use std::cell::Cell;
+    use std::fs;
+    use std::path::{Path, PathBuf};
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::time::{Duration, Instant};
+
+    static NEXT_PROC_ROOT: AtomicU64 = AtomicU64::new(0);
+
+    struct FakeProcRoot(PathBuf);
+
+    impl FakeProcRoot {
+        fn new() -> Self {
+            let sequence = NEXT_PROC_ROOT.fetch_add(1, Ordering::Relaxed);
+            let path = std::env::temp_dir().join(format!(
+                "cockpit-fake-proc-{}-{sequence}",
+                std::process::id()
+            ));
+            fs::create_dir_all(&path).expect("fake proc root");
+            Self(path)
+        }
+
+        fn path(&self) -> &Path {
+            &self.0
+        }
+
+        fn add_process(&self, process: LinuxProcessGroupMember) {
+            let process_dir = self.0.join(process.process_id.to_string());
+            fs::create_dir_all(&process_dir).expect("fake process directory");
+            self.write_stat(&process);
+        }
+
+        fn write_stat(&self, process: &LinuxProcessGroupMember) {
+            let mut fields = vec![
+                process.state.to_string(),
+                "1".into(),
+                process.process_group_id.to_string(),
+                process.session_id.to_string(),
+            ];
+            while fields.len() < 19 {
+                fields.push("0".into());
+            }
+            fields.push(process.start_time_ticks.to_string());
+            let stat = format!(
+                "{} (test command (with parens)) {}\n",
+                process.process_id,
+                fields.join(" ")
+            );
+            fs::write(
+                self.0.join(process.process_id.to_string()).join("stat"),
+                stat,
+            )
+            .expect("write fake process stat");
+        }
+    }
+
+    impl Drop for FakeProcRoot {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn member(pid: u32, state: char, start: u64, pgid: u32, sid: u32) -> LinuxProcessGroupMember {
+        LinuxProcessGroupMember {
+            process_id: pid,
+            state,
+            start_time_ticks: start,
+            process_group_id: pgid,
+            session_id: sid,
+        }
+    }
+
+    fn leader_identity(pid: u32, start: u64, pgid: u32, sid: u32) -> ProcessGroupLeaderIdentity {
+        ProcessGroupLeaderIdentity {
+            leader_pid: pid,
+            leader_start_time_ticks: start,
+            process_group_id: pgid,
+            session_id: sid,
+        }
+    }
+
+    fn disappeared_stat(path: &str) -> LinuxProcessGroupScanError {
+        LinuxProcessGroupScanError::StatEntryDisappeared {
+            path: PathBuf::from(path),
+            source: std::io::Error::from_raw_os_error(libc::ENOENT),
+        }
+    }
+
+    fn observe_with_injected_scans<S, V, W, N>(
+        process_group_id: u32,
+        identity: Option<&ProcessGroupLeaderIdentity>,
+        total_deadline: Instant,
+        scan: S,
+        validate_attempt: V,
+        wait: W,
+        now: N,
+    ) -> Result<LinuxProcessGroupLiveness, String>
+    where
+        S: FnMut(Instant) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+        V: FnMut() -> Result<(), String>,
+        W: FnMut(Duration),
+        N: FnMut() -> Instant,
+    {
+        observe_linux_process_group_with_retries(
+            process_group_id,
+            identity,
+            total_deadline,
+            scan,
+            validate_attempt,
+            wait,
+            now,
+        )
+    }
+
+    #[test]
+    fn one_disappeared_stat_in_a_partial_pair_restarts_and_stable_active_group_succeeds() {
+        let leader = member(4051, 'S', 51, 4051, 4051);
+        let identity = leader_identity(4051, 51, 4051, 4051);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let wait_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+
+        let observed = observe_with_injected_scans(
+            4051,
+            Some(&identity),
+            deadline,
+            |scan_deadline| {
+                assert!(scan_deadline <= deadline);
+                let index = scan_count.get();
+                scan_count.set(index + 1);
+                match index {
+                    0 => Ok(vec![leader.clone()]),
+                    1 => Err(disappeared_stat("/proc/4999/stat")),
+                    2 | 3 => Ok(vec![leader.clone()]),
+                    _ => panic!("unexpected extra process scan"),
+                }
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |delay| {
+                wait_count.set(wait_count.get() + 1);
+                clock.set(clock.get() + delay);
+            },
+            || clock.get(),
+        )
+        .expect("a fresh stable pair should recover from one unrelated PID exit");
+
+        assert_eq!(observed, LinuxProcessGroupLiveness::Active);
+        assert_eq!(scan_count.get(), 4, "retry starts over from the first scan");
+        assert_eq!(
+            validation_count.get(),
+            4,
+            "each pair is bound before and after"
+        );
+        assert_eq!(
+            wait_count.get(),
+            2,
+            "the abandoned partial pair is discarded"
+        );
+    }
+
+    #[test]
+    fn three_disappeared_stat_entries_leave_the_process_group_unknown() {
+        let identity = leader_identity(4052, 52, 4052, 4052);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let wait_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+
+        let error = observe_with_injected_scans(
+            4052,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Err(disappeared_stat("/proc/4998/stat"))
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| wait_count.set(wait_count.get() + 1),
+            || clock.get(),
+        )
+        .expect_err("a process group remains unknown after three incomplete attempts");
+
+        assert!(error.contains("/proc/4998/stat"));
+        assert_eq!(
+            scan_count.get(),
+            3,
+            "the retry budget is exactly three attempts"
+        );
+        assert_eq!(
+            validation_count.get(),
+            6,
+            "each incomplete pair is revalidated"
+        );
+        assert_eq!(
+            wait_count.get(),
+            0,
+            "no stability wait follows an incomplete scan"
+        );
+    }
+
+    #[test]
+    fn permission_and_parse_errors_are_not_retried() {
+        for message in [
+            "proc scan could not read /proc/4997/stat: permission denied",
+            "proc scan could not parse /proc/4996/stat: malformed stat",
+        ] {
+            let identity = leader_identity(4053, 53, 4053, 4053);
+            let clock = Cell::new(Instant::now());
+            let scan_count = Cell::new(0);
+            let validation_count = Cell::new(0);
+            let deadline = clock.get() + Duration::from_secs(3);
+            let error = observe_with_injected_scans(
+                4053,
+                Some(&identity),
+                deadline,
+                |_| {
+                    scan_count.set(scan_count.get() + 1);
+                    Err(LinuxProcessGroupScanError::Other(message.into()))
+                },
+                || {
+                    validation_count.set(validation_count.get() + 1);
+                    Ok(())
+                },
+                |_| panic!("non-ENOENT scanner failures do not retry"),
+                || clock.get(),
+            )
+            .expect_err("non-ENOENT proc scan errors remain unknown");
+
+            assert!(error.contains(message));
+            assert_eq!(scan_count.get(), 1);
+            assert_eq!(validation_count.get(), 2);
+        }
+    }
+
+    #[test]
+    fn stable_active_and_zombie_only_groups_return_their_normal_liveness() {
+        for (process, expected) in [
+            (
+                member(4054, 'R', 54, 4054, 4054),
+                LinuxProcessGroupLiveness::Active,
+            ),
+            (
+                member(4055, 'Z', 55, 4055, 4055),
+                LinuxProcessGroupLiveness::Exited,
+            ),
+        ] {
+            let identity = leader_identity(
+                process.process_id,
+                process.start_time_ticks,
+                process.process_group_id,
+                process.session_id,
+            );
+            let clock = Cell::new(Instant::now());
+            let scan_count = Cell::new(0);
+            let validation_count = Cell::new(0);
+            let deadline = clock.get() + Duration::from_secs(3);
+            let observed = observe_with_injected_scans(
+                process.process_group_id,
+                Some(&identity),
+                deadline,
+                |_| {
+                    scan_count.set(scan_count.get() + 1);
+                    Ok(vec![process.clone()])
+                },
+                || {
+                    validation_count.set(validation_count.get() + 1);
+                    Ok(())
+                },
+                |delay| clock.set(clock.get() + delay),
+                || clock.get(),
+            )
+            .expect("stable group observation should complete");
+
+            assert_eq!(observed, expected);
+            assert_eq!(scan_count.get(), 2, "stable results do not retry");
+            assert_eq!(validation_count.get(), 2);
+        }
+    }
+
+    #[test]
+    fn member_or_leader_identity_inconsistency_is_unknown_without_retry() {
+        let live = member(4056, 'S', 56, 4056, 4056);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4056,
+            Some(&leader_identity(4056, 999, 4056, 4056)),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("a changed leader identity must remain unknown");
+        assert!(error.contains("identity") || error.contains("Unknown"));
+        assert_eq!(scan_count.get(), 2, "identity mismatch does not retry");
+        assert_eq!(validation_count.get(), 2);
+
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4056,
+            Some(&leader_identity(4056, 56, 4056, 4056)),
+            deadline,
+            |_| {
+                let index = scan_count.get();
+                scan_count.set(index + 1);
+                if index == 0 {
+                    Ok(vec![live.clone()])
+                } else {
+                    Ok(Vec::new())
+                }
+            },
+            || Ok(()),
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("membership changes between scans must remain unknown");
+        assert!(error.contains("member") || error.contains("Unknown"));
+        assert_eq!(scan_count.get(), 2, "membership mismatch does not retry");
+    }
+
+    #[test]
+    fn attempt_digest_change_after_a_pair_rejects_the_observation() {
+        let live = member(4057, 'S', 57, 4057, 4057);
+        let identity = leader_identity(4057, 57, 4057, 4057);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4057,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                if validation_count.get() == 2 {
+                    Err("latest composition attempt digest changed".into())
+                } else {
+                    Ok(())
+                }
+            },
+            |delay| clock.set(clock.get() + delay),
+            || clock.get(),
+        )
+        .expect_err("a changed attempt digest rejects even a stable process scan");
+
+        assert!(error.contains("digest changed"));
+        assert_eq!(scan_count.get(), 2);
+        assert_eq!(validation_count.get(), 2);
+    }
+
+    #[test]
+    fn total_deadline_includes_the_stability_delay() {
+        let live = member(4058, 'S', 58, 4058, 4058);
+        let identity = leader_identity(4058, 58, 4058, 4058);
+        let start = Instant::now();
+        let clock = Cell::new(start);
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = start + Duration::from_secs(1);
+        let error = observe_with_injected_scans(
+            4058,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |delay| clock.set(clock.get() + delay + Duration::from_secs(1)),
+            || clock.get(),
+        )
+        .expect_err("the shared deadline also bounds the stability wait");
+
+        assert!(error.contains("deadline"));
+        assert_eq!(scan_count.get(), 1, "no second scan starts after deadline");
+        assert_eq!(
+            validation_count.get(),
+            2,
+            "the attempt is rebound after timeout"
+        );
+    }
+
+    #[test]
+    fn total_deadline_includes_scan_execution() {
+        let live = member(4059, 'S', 59, 4059, 4059);
+        let identity = leader_identity(4059, 59, 4059, 4059);
+        let start = Instant::now();
+        let clock = Cell::new(start);
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = start + Duration::from_secs(1);
+        let error = observe_with_injected_scans(
+            4059,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                clock.set(clock.get() + Duration::from_secs(2));
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("the overall deadline also bounds scan execution");
+
+        assert!(error.contains("deadline"));
+        assert_eq!(scan_count.get(), 1, "no second scan starts after deadline");
+        assert_eq!(
+            validation_count.get(),
+            2,
+            "the attempt is rebound after timeout"
+        );
+    }
+
+    #[test]
+    fn stable_zombie_only_group_exits_but_a_mixed_group_is_active() {
+        let zombie_leader = member(4101, 'Z', 91, 4101, 4101);
+        let identity = leader_identity(4101, 91, 4101, 4101);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4101,
+                Some(&identity),
+                std::slice::from_ref(&zombie_leader),
+                std::slice::from_ref(&zombie_leader),
+            ),
+            LinuxProcessGroupLiveness::Exited
+        );
+
+        let live_child = member(4102, 'S', 92, 4101, 4101);
+        let mixed = vec![zombie_leader.clone(), live_child];
+        assert_eq!(
+            classify_linux_process_group_scans(4101, Some(&identity), &mixed, &mixed),
+            LinuxProcessGroupLiveness::Active
+        );
+    }
+
+    #[test]
+    fn live_group_is_active_then_empty_reaped_group_is_exited() {
+        let identity = leader_identity(4201, 101, 4201, 4201);
+        let live = member(4201, 'R', 101, 4201, 4201);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4201,
+                Some(&identity),
+                std::slice::from_ref(&live),
+                std::slice::from_ref(&live),
+            ),
+            LinuxProcessGroupLiveness::Active
+        );
+        let changed_session = member(4201, 'R', 101, 4201, 4202);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4201,
+                Some(&identity),
+                std::slice::from_ref(&live),
+                std::slice::from_ref(&changed_session),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "a session change between scans is a PID/process-group reuse race"
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(4201, Some(&identity), &[], &[]),
+            LinuxProcessGroupLiveness::Exited
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(4201, Some(&identity), &[live], &[]),
+            LinuxProcessGroupLiveness::Unknown,
+            "membership changing during the paired scan is a race"
+        );
+    }
+
+    #[test]
+    fn missing_reused_or_inconsistent_leader_identity_is_unknown_while_members_remain() {
+        let zombie = member(4301, 'Z', 111, 4301, 4301);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                None,
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                Some(&leader_identity(4301, 112, 4301, 4301)),
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "a reused leader PID has a different starttime"
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                Some(&leader_identity(4301, 111, 4301, 7)),
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "the session identity must also match"
+        );
+    }
+
+    #[test]
+    fn proc_stat_parser_handles_parentheses_and_rejects_malformed_identity() {
+        let mut fields = vec!["Z".to_string(), "1".into(), "4401".into(), "4401".into()];
+        while fields.len() < 19 {
+            fields.push("0".into());
+        }
+        fields.push("121".into());
+        let stat = format!("4401 (command (worker)) {}\n", fields.join(" "));
+        assert_eq!(
+            parse_linux_process_stat(4401, &stat).expect("well-formed stat"),
+            member(4401, 'Z', 121, 4401, 4401)
+        );
+        assert!(parse_linux_process_stat(4401, "4401 (broken) Z 1 2").is_err());
+        assert!(parse_linux_process_stat(4402, &stat).is_err());
+    }
+
+    #[test]
+    fn proc_scanner_fails_closed_on_unreadable_racing_and_over_budget_entries() {
+        let malformed = FakeProcRoot::new();
+        let malformed_stat = malformed.path().join("4501");
+        fs::create_dir_all(&malformed_stat).expect("numeric proc entry");
+        fs::create_dir_all(malformed_stat.join("stat")).expect("unreadable stat directory");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                malformed.path(),
+                4501,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("proc scan could not read")
+        ));
+
+        let missing_root = malformed.path().join("missing-proc-root");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                &missing_root,
+                4501,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("cannot enumerate proc root")
+        ));
+
+        let racing = FakeProcRoot::new();
+        let racing_entry = racing.path().join("4502");
+        fs::create_dir_all(&racing_entry).expect("racing proc entry");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                racing.path(),
+                4502,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::StatEntryDisappeared { path, source })
+                if path == racing_entry.join("stat")
+                    && source.kind() == std::io::ErrorKind::NotFound
+        ));
+
+        let over_budget = FakeProcRoot::new();
+        over_budget.add_process(member(4503, 'S', 1, 4503, 4503));
+        over_budget.add_process(member(4504, 'S', 2, 4504, 4504));
+        assert!(matches!(
+            scan_linux_process_group_once(
+                over_budget.path(),
+                4503,
+                1,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("entry budget")
+        ));
+
+        let malformed_stat = FakeProcRoot::new();
+        malformed_stat.add_process(member(4505, 'S', 3, 4505, 4505));
+        fs::write(
+            malformed_stat.path().join("4505/stat"),
+            "4505 (malformed stat) Z 1 2\n",
+        )
+        .expect("write malformed stat contents");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                malformed_stat.path(),
+                4505,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("proc scan could not parse")
+        ));
+    }
+
+    #[test]
+    fn proc_scans_detect_pid_reuse_between_snapshots() {
+        let proc_root = FakeProcRoot::new();
+        let original = member(4601, 'Z', 131, 4601, 4601);
+        proc_root.add_process(original.clone());
+        let first = scan_linux_process_group_once(
+            proc_root.path(),
+            4601,
+            10,
+            Instant::now() + Duration::from_secs(1),
+        )
+        .expect("first complete scan");
+        proc_root.write_stat(&member(4601, 'Z', 132, 4601, 4601));
+        let second = scan_linux_process_group_once(
+            proc_root.path(),
+            4601,
+            10,
+            Instant::now() + Duration::from_secs(1),
+        )
+        .expect("second complete scan");
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4601,
+                Some(&leader_identity(4601, 131, 4601, 4601)),
+                &first,
+                &second,
+            ),
+            LinuxProcessGroupLiveness::Unknown
+        );
+    }
+
+    #[test]
+    fn cleanup_guard_rejects_a_changed_latest_attempt_digest() {
+        let state = FakeProcRoot::new();
+        let attempt_id = "digest-stability";
+        let path = state.path().join(format!("{attempt_id}.json"));
+        fs::write(&path, br#"{"activeProcessGroupId":77}"#).expect("initial attempt");
+        let observed = current_attempt_file_digest(state.path(), attempt_id)
+            .expect("read initial attempt digest");
+        require_attempt_digest_unchanged(state.path(), attempt_id, &observed)
+            .expect("unchanged attempt digest");
+
+        fs::write(&path, br#"{"activeProcessGroupId":78}"#).expect("changed attempt");
+        assert!(require_attempt_digest_unchanged(state.path(), attempt_id, &observed).is_err());
     }
 }
 

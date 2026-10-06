@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray explicitly answered ‘1’ at 2026-10-06T13:44 UTC (message Sentinel_327c93f3c6788191a278c425238f2a5a) to the confirmation prompt at 2026-10-06T13:35:28Z (message Sentinel_c3d3ab97c9d081918d92252e6fe4f9bb), selecting option 1 (agree to continue) for confirm_review on this WI-1068 Contract, preflight decision, and repository snapshot. This is a new conversation-sourced receipt; the earlier b485 receipt is retained unchanged.",
+  "recordedAt": "2026-10-06T13:51:10Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

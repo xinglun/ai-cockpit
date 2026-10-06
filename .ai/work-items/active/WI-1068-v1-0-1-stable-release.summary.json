@@ -25,6 +25,12 @@
           "path": "agent:Raydot",
           "type": "independent_agent_review",
           "verification": "The actual independent reviewer concluded the original 16-path product/source change had no blocking technical code findings. Raydot also identified the release-description and dispatch wording issues addressed in the current local documentation/Contract changes. This is attributed to agent:Raydot and is not represented as human:Ray approval or as a new review of the unpublished exact head."
+        },
+        {
+          "locator": "Independent review agent /root/review_linux_proc_retry reviewed the complete tests/composition.rs diff against HEAD 230eb19160de054c611f53f3f9a0240233ef225a; reviewed file SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86.",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_agent_review",
+          "verification": "The reviewer first identified a PGID reuse risk in the test guard. After the guard was changed to one-shot Option ownership, waitpid(-pgid) reaping through ECHILD, and normal-path disarm, the reviewer found no blocking issue. The remaining 60-second helper-timeout descendant-cleanup risk is nonblocking and limited to abnormal timeout. Reviewer ran no tests/builds. This is attributed to the independent agent, not human:Ray approval."
         }
       ]
     },
@@ -44,32 +50,53 @@
           "verification": "The existing public stable v1.0.0 Release is id 399756778, reports immutable=false, and currently lists 11 assets; its annotated tag object 2c57e784b180cc3cb737739c7fc3f93152690da7 peels to d56c1a8acf22d53da482a40c509818748a793790. Both v1.0.1 tag-ref and Release lookups returned 404. .github/workflows/release.yml is workflow_dispatch-only; tag push alone does not publish, and attest/publish depend on verification, four target smoke routes, and staged v1.0.0 N-1 checks. The prior 13-asset count was stale; this records the current API result. No provider resource was modified."
         }
       ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "cargo test --locked --package cockpit-verification --lib linux_process_group_reconciliation_tests; exit 0; output sha256 4d0f82ac22bf0eacaa75ed9044c672ed213eee20e9b66395c9bc92c173ed230c; current source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af.",
+          "path": "/tmp/wi1068-proc-retry-unit-green-2.txt",
+          "type": "linux_process_group_reconciliation_unit_tests",
+          "verification": "The focused Linux unit target reported 15 passed, 0 failed. It exercises the current composition.rs source bytes at the listed SHA256. It does not verify the later integration-test cleanup guard change in tests/composition.rs; exact pushed-candidate CI is still required for the complete current candidate."
+        },
+        {
+          "locator": "Current candidate source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af; current integration-test SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86; source+test diff sha256 69e1aabc10212cca47c3cf56cd0bd56309f2480066bed97d7b7d0f2dd0c07545 (83,717 bytes), based on 230eb19160de054c611f53f3f9a0240233ef225a.",
+          "path": "crates/cockpit-verification/src/composition.rs; crates/cockpit-verification/tests/composition.rs",
+          "type": "current_linux_process_group_source_and_test_candidate",
+          "verification": "The current source/test candidate contains the Linux process-group reconciliation implementation and focused unit/integration coverage. The current integration file has independent review with no blocking findings. The current exact integration-test file hash has not been executed in this environment; no full test or build was run. Hosted exact-candidate CI remains pending, so this entry does not claim A10 acceptance is complete."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "Current zombie-only regression `retry_reconciles_zombie_only_verifier_process_group`; integration-test file SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86; source+test diff sha256 69e1aabc10212cca47c3cf56cd0bd56309f2480066bed97d7b7d0f2dd0c07545; base HEAD 230eb19160de054c611f53f3f9a0240233ef225a.",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "linux_zombie_only_process_group_regression_candidate",
+          "verification": "The current exact test source uses waitid(WNOWAIT) to observe the retained zombie, exercises retry reconciliation of the owned linked worktree, and verifies cleanup fields and removal. Independent review confirmed the fixture observes the zombie without reaping it before assertions. The previous targeted green log is bound to the superseded test-file SHA 5f0e52e5491832a9eec5f12387e0f183c6b01b54ccf6d4c857099dad8fe91246 and is not represented as current evidence. The current exact test hash has not been run; hosted exact-candidate CI is pending. Contract.verification remains exactly `cargo test --locked --workspace`."
+        }
+      ]
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.56f6357dea527817471675873f6532159819aa4ff8f4217837566f22dffeb092.json",
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.77eff9d4c202ba292ad14a20ecddd338a724f580777737408c1e7645df176c6c.json",
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.95a971261ccb35fd93371e1d845ee419fd5fdb0d55588000f12f5ec3c307c0f9.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000006.committed.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000006.prepared.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000007.committed.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000007.prepared.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000008.committed.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000008.prepared.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.03945a8576492902c2638b59710b801d1f1eb8cde5b2a34a29d3e029875d87d4.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.67788e4adc6c26a2487c9c2903f9249c8f539da904bbc9d38b33fd933fba7c4c.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.d0b7a6e944fbeb65b320ad57c1e181fc32cb4ea8a7581b31b6e65666ba9f0abf.json",
+    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.c0798c1a94d5175afb61f2a98d0d1d8f63e002afa325484ba19498a830188772.json",
+    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.e6c56a95c4919176539a6af3388b871ca4295da1b0ed04e01926ddcc1223b362.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000010.committed.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000010.prepared.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000011.committed.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000011.prepared.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.08ce087d5768049b05eed07ee2388a28435df53f13a4a5904e0bd3263c9c56e4.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.2cd44b0f391608d289372aef493397e9d1831ac91e0600b9ec2fce221c89bd0d.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.36461353b09153340f6ec029009b0a4bdbefbd7a79bd9430aa624c5416d1162a.json",
     ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json",
     ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md"
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs"
   ],
   "checkpointAt": "2026-10-06T06:23:41Z",
-  "checkpointContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+  "checkpointContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -225,17 +252,57 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:80d00666c0f5462d4e5bd74b78e3ea36090860280b0066aca8516a2ca66024c5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+      "reason": "Bounded Linux diagnostics and independent source review identified a production liveness candidate: killpg(pgid, 0) and process_group_is_alive currently map an unreaped zombie-only group to active. The two prior integration failures themselves stop in fixture polling before post-termination reconciliation; this proposed amendment requires a deterministic formal-reconcile RED before implementation. It limits changes to Linux process-group liveness and listed regression paths, keeps unknown states fail-closed, preserves cwd/open-file checks, and leaves non-Linux behavior unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T14:50:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:80d00666c0f5462d4e5bd74b78e3ea36090860280b0066aca8516a2ca66024c5",
+      "reason": "Correct the verification declaration added by amendment 10: the current hosted workspace-package consumer accepts only a unique full unfiltered Cargo workspace test and rejects the added filtered targeted command. Keep cargo test --locked --workspace as the sole Contract.verification declaration and preserve the Linux targeted regression as a separate A11 acceptance check. Record the current user authorization and its approval boundaries without manufacturing any future exact human decision receipt.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T15:12:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
+  "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+    "contractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The current user explicitly authorized following Raydot's supported WI-1068 workspace-local Cargo target instruction, required that authorization be recorded in the Contract, and directed continued work through goal completion. This confirms only the bounded review and verification retry for this exact Contract, preflight decision, and repository snapshot. It does not waive verification, independent review, exact-head CI, later Runtime publication admission, or no-overwrite restrictions. The actor identity is conversation-declared, not host-authenticated.",
-    "recordedAt": "2026-10-06T12:37:41Z",
+    "reason": "Ray selected option 1 in response to agent:Raydot's WI-1068 review prompt at 2026-10-06T20:54:22Z (message Sentinel_c2e0bfea939c81918f3464d6a28b9da3). Ray's response at 2026-10-06T20:54:38Z (message Sentinel_d3485ee1c5c08191ad1b3205fced03c0) was '1', confirming the bounded review for Contract sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b. The Codex execution agent records this receipt at 2026-10-06T20:56:11Z; the decision actor is human:Ray. Earlier decision receipts are retained unchanged.",
+    "recordedAt": "2026-10-06T20:56:11Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
@@ -250,16 +317,23 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-06T12:36:16Z",
-  "preflightContractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+  "preflightAt": "2026-10-06T23:21:59Z",
+  "preflightContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "preflightRepositorySnapshotDigest": "sha256:404dcf81928216331dced4ee0c91c865b4f3400a01f168d5c810109172b11ad2",
   "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
-  "recoveryRetryDecisionDigest": "sha256:8658d25f053efbcbf7b107e4b6ef13c6d5fbe77038d33217584bd541a128c31a",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.json",
-  "recoveryRetryPending": true,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-06T21:24:09Z",
+    "contractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+    "decisionDigest": "sha256:8658d25f053efbcbf7b107e4b6ef13c6d5fbe77038d33217584bd541a128c31a",
+    "decisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.json",
+    "repositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
+    "runtimeDigest": "sha256:32ced3019b24e587006d1bdaf259b18dc3a1614355f3f3cd3c953b7b329ade56",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -336,7 +410,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-06T12:38:25.920398404+00:00",
+  "updatedAt": "2026-10-06T23:21:44.717561006+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -389,13 +463,12 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-06T12:34:08Z"
-  },
-  "verificationRecoveryReconciled": "sha256:64457d2ce562fcdf11b911af730067ed7cdc6045b6e0916ad8e78bbc9f16c5e8",
+  "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

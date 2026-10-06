@@ -39,6 +39,98 @@ fn tempdir(label: &str) -> TempDir {
     TempDir(path)
 }
 
+#[cfg(target_os = "linux")]
+fn linux_process_group_proc_observation(process_group_id: u32) -> String {
+    let group_probe = unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) };
+    let group_probe_error = (group_probe < 0).then(std::io::Error::last_os_error);
+    let leader_stat = fs::read_to_string(format!("/proc/{process_group_id}/stat"));
+    let mut members = Vec::new();
+    let mut unreadable_stats = Vec::new();
+    let mut unreadable_stat_count = 0usize;
+    let mut malformed_stats = Vec::new();
+    let mut malformed_stat_count = 0usize;
+    let mut directory_errors = Vec::new();
+    let mut directory_error_count = 0usize;
+
+    match fs::read_dir("/proc") {
+        Ok(entries) => {
+            for entry in entries {
+                let entry = match entry {
+                    Ok(entry) => entry,
+                    Err(error) => {
+                        directory_error_count += 1;
+                        if directory_errors.len() < 8 {
+                            directory_errors.push(error.to_string());
+                        }
+                        continue;
+                    }
+                };
+                let Some(process_id) = entry
+                    .file_name()
+                    .to_str()
+                    .and_then(|name| name.parse::<u32>().ok())
+                else {
+                    continue;
+                };
+                let stat_path = entry.path().join("stat");
+                let stat = match fs::read_to_string(&stat_path) {
+                    Ok(stat) => stat,
+                    Err(error) => {
+                        unreadable_stat_count += 1;
+                        if unreadable_stats.len() < 8 {
+                            unreadable_stats.push(format!("{}: {error}", stat_path.display()));
+                        }
+                        continue;
+                    }
+                };
+                let Some(command_open) = stat.find('(') else {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: missing command opener"));
+                    }
+                    continue;
+                };
+                let Some(command_close) = stat.rfind(')').filter(|close| *close > command_open)
+                else {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: missing command terminator"));
+                    }
+                    continue;
+                };
+                let fields = stat[command_close + 1..]
+                    .split_whitespace()
+                    .collect::<Vec<_>>();
+                if fields.len() <= 19 {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: too few stat fields"));
+                    }
+                    continue;
+                }
+                if fields[2].parse::<u32>().ok() == Some(process_group_id) {
+                    members.push(format!(
+                        "pid={process_id} state={} ppid={} pgid={} sid={} start={}",
+                        fields[0], fields[1], fields[2], fields[3], fields[19]
+                    ));
+                }
+            }
+        }
+        Err(error) => {
+            directory_error_count += 1;
+            directory_errors.push(error.to_string());
+        }
+    }
+
+    format!(
+        "kill(-{process_group_id}, 0)={group_probe} error={group_probe_error:?}; \
+         leader_stat={leader_stat:?}; members={members:?}; \
+         unreadable_stat_count={unreadable_stat_count} samples={unreadable_stats:?}; \
+         malformed_stat_count={malformed_stat_count} samples={malformed_stats:?}; \
+         proc_directory_error_count={directory_error_count} samples={directory_errors:?}"
+    )
+}
+
 fn digest(label: &str) -> Digest {
     Digest::sha256_bytes(label.as_bytes())
 }
@@ -1024,7 +1116,65 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         return;
     }
 
+    #[cfg(target_os = "linux")]
+    if std::env::var_os("COMPOSITION_CRASH_TEST_HELPER").is_none() {
+        let mut original_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut original_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state before isolated helper"
+        );
+        let mut helper = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "retry_reconciles_an_interrupted_owner_after_process_exit",
+                "--nocapture",
+            ])
+            .env("COMPOSITION_CRASH_TEST_HELPER", "1")
+            .spawn()
+            .expect("spawn isolated interrupted-owner test helper");
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            if let Some(status) = helper.try_wait().expect("check isolated test helper") {
+                break status;
+            }
+            if Instant::now() >= deadline {
+                let _ = helper.kill();
+                let _ = helper.wait();
+                panic!("isolated interrupted-owner test helper did not terminate");
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        };
+        assert!(
+            status.success(),
+            "isolated interrupted-owner test helper failed: {status}"
+        );
+        let mut final_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut final_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state after isolated helper"
+        );
+        assert_eq!(
+            final_subreaper_state, original_subreaper_state,
+            "isolated helper must not change the test harness subreaper state"
+        );
+        return;
+    }
+
     let root = repository();
+    #[cfg(target_os = "linux")]
+    let _subreaper = ChildSubreaperGuard::enable();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     let state = tempdir("crash-recovery-state");
     let mut child = Command::new(std::env::current_exe().expect("test executable"))
@@ -1033,6 +1183,7 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
             "retry_reconciles_an_interrupted_owner_after_process_exit",
         ])
         .env("COMPOSITION_CRASH_CHILD", "1")
+        .env_remove("COMPOSITION_CRASH_TEST_HELPER")
         .env("COMPOSITION_CRASH_ROOT", root.path())
         .env("COMPOSITION_CRASH_STATE", state.path())
         .spawn()
@@ -1134,15 +1285,44 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         "none",
         "detached verifier must open a worktree file and leave its working directory"
     );
-    struct DetachedProcessGuard(u32);
+    struct DetachedProcessGuard {
+        process_id: u32,
+        reaped: bool,
+    }
     impl Drop for DetachedProcessGuard {
         fn drop(&mut self) {
+            if self.reaped {
+                return;
+            }
             unsafe {
-                libc::kill(self.0 as libc::pid_t, libc::SIGKILL);
+                libc::kill(self.process_id as libc::pid_t, libc::SIGKILL);
+            }
+            #[cfg(target_os = "linux")]
+            {
+                let deadline = Instant::now() + Duration::from_secs(5);
+                loop {
+                    let mut status = 0;
+                    let waited = unsafe {
+                        libc::waitpid(self.process_id as libc::pid_t, &mut status, libc::WNOHANG)
+                    };
+                    if waited == self.process_id as libc::pid_t
+                        || (waited < 0
+                            && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD))
+                    {
+                        break;
+                    }
+                    if Instant::now() >= deadline {
+                        break;
+                    }
+                    std::thread::sleep(Duration::from_millis(5));
+                }
             }
         }
     }
-    let _escaped_process_guard = DetachedProcessGuard(escaped_process_id);
+    let mut escaped_process_guard = DetachedProcessGuard {
+        process_id: escaped_process_id,
+        reaped: false,
+    };
     let blocked = run_composition(input(
         root.path(),
         state.path(),
@@ -1165,13 +1345,92 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     unsafe {
         libc::kill(escaped_process_id as libc::pid_t, libc::SIGKILL);
     }
-    let escaped_deadline = Instant::now() + Duration::from_secs(5);
-    while unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) } == 0 {
-        assert!(
-            Instant::now() < escaped_deadline,
-            "detached verifier did not exit after termination"
+    #[cfg(target_os = "linux")]
+    let zombie_identity = {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let stat = fs::read_to_string(format!("/proc/{escaped_process_id}/stat"))
+                .expect("detached verifier process stat");
+            let close = stat.rfind(')').expect("proc stat command terminator");
+            let fields = stat[close + 2..].split_whitespace().collect::<Vec<_>>();
+            let state = fields[0].chars().next().expect("process state");
+            let parent_pid = fields[1].parse::<u32>().expect("parent pid");
+            let process_group_id = fields[2].parse::<u32>().expect("process group id");
+            let session_id = fields[3].parse::<u32>().expect("session id");
+            if state == 'Z' {
+                break (state, parent_pid, process_group_id, session_id);
+            }
+            assert!(
+                Instant::now() < deadline,
+                "detached verifier did not become a zombie after SIGKILL"
+            );
+            std::thread::sleep(Duration::from_millis(5));
+        }
+    };
+    #[cfg(target_os = "linux")]
+    {
+        assert_eq!(zombie_identity.1, std::process::id());
+        assert_eq!(zombie_identity.2, escaped_process_id);
+        assert_eq!(zombie_identity.3, escaped_process_id);
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        assert_eq!(
+            unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    escaped_process_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            },
+            0,
+            "waitid WNOWAIT observes the detached verifier zombie without reaping it"
         );
-        std::thread::sleep(Duration::from_millis(10));
+        assert_eq!(
+            unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) },
+            0,
+            "kill(pid, 0) still sees the unreaped detached verifier zombie"
+        );
+        eprintln!(
+            "observed detached verifier zombie: pid={} state={:?} ppid={} pgid={} sid={}; waitid(WNOWAIT)=0; kill(pid, 0)=0",
+            escaped_process_id,
+            zombie_identity.0,
+            zombie_identity.1,
+            zombie_identity.2,
+            zombie_identity.3
+        );
+    }
+    #[cfg(not(target_os = "linux"))]
+    let escaped_process_details = "process state unavailable";
+    #[cfg(target_os = "linux")]
+    {
+        let mut status = 0;
+        let waited = unsafe { libc::waitpid(escaped_process_id as libc::pid_t, &mut status, 0) };
+        assert_eq!(
+            waited, escaped_process_id as libc::pid_t,
+            "the isolated subreaper must explicitly reap its detached zombie"
+        );
+        escaped_process_guard.reaped = true;
+        assert_eq!(
+            unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) },
+            -1,
+            "the detached verifier PID must be absent after waitpid reaps it"
+        );
+        assert_eq!(
+            std::io::Error::last_os_error().raw_os_error(),
+            Some(libc::ESRCH)
+        );
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        let escaped_deadline = Instant::now() + Duration::from_secs(5);
+        while unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) } == 0 {
+            assert!(
+                Instant::now() < escaped_deadline,
+                "detached verifier pid={escaped_process_id} {escaped_process_details} remained visible after SIGKILL"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        escaped_process_guard.reaped = true;
     }
 
     let retry = run_composition(input(
@@ -1236,8 +1495,65 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
         panic!("the verifier command should terminate its composition owner");
     }
 
+    #[cfg(target_os = "linux")]
+    if std::env::var_os("COMPOSITION_ORPHAN_TEST_HELPER").is_none() {
+        let mut original_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut original_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state before isolated helper"
+        );
+        let mut helper = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
+            ])
+            .env("COMPOSITION_ORPHAN_TEST_HELPER", "1")
+            .spawn()
+            .expect("spawn isolated subreaper test helper");
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            if let Some(status) = helper.try_wait().expect("check isolated test helper") {
+                break status;
+            }
+            if Instant::now() >= deadline {
+                let _ = helper.kill();
+                let _ = helper.wait();
+                panic!("isolated subreaper test helper did not terminate");
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        };
+        assert!(
+            status.success(),
+            "isolated subreaper test helper failed: {status}"
+        );
+        let mut final_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut final_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state after isolated helper"
+        );
+        assert_eq!(
+            final_subreaper_state, original_subreaper_state,
+            "isolated helper must not change the test harness subreaper state"
+        );
+        return;
+    }
+
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
+    #[cfg(target_os = "linux")]
+    let _subreaper = ChildSubreaperGuard::enable();
     let state = tempdir("orphan-verifier-state");
     let pid_file = state.path().join("orphan-verifier.pid");
     let mut child = Command::new(std::env::current_exe().expect("test executable"))
@@ -1246,6 +1562,7 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
             "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
         ])
         .env("COMPOSITION_ORPHAN_CHILD", "1")
+        .env_remove("COMPOSITION_ORPHAN_TEST_HELPER")
         .env("COMPOSITION_ORPHAN_ROOT", root.path())
         .env("COMPOSITION_ORPHAN_STATE", state.path())
         .env("COMPOSITION_ORPHAN_PID_FILE", &pid_file)
@@ -1295,20 +1612,62 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
             .as_str()
             .expect("durable worktree path"),
     );
+    let canonical_worktree = fs::canonicalize(&worktree).expect("canonical interrupted worktree");
+    let worktree_registration = format!("worktree {}", canonical_worktree.display());
     assert!(
         worktree.is_dir(),
         "interrupted worktree must remain recoverable"
     );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "live owner's original linked worktree must remain registered"
+    );
 
-    struct ProcessGroupGuard(u32);
+    struct ProcessGroupGuard(Option<u32>);
+    impl ProcessGroupGuard {
+        fn disarm(&mut self) {
+            self.0 = None;
+        }
+    }
     impl Drop for ProcessGroupGuard {
         fn drop(&mut self) {
+            let Some(process_group_id) = self.0.take() else {
+                return;
+            };
             unsafe {
-                libc::kill(-(self.0 as libc::pid_t), libc::SIGKILL);
+                libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL);
+            }
+            #[cfg(target_os = "linux")]
+            {
+                let deadline = Instant::now() + Duration::from_secs(5);
+                loop {
+                    let mut status = 0;
+                    let waited = unsafe {
+                        libc::waitpid(
+                            -(process_group_id as libc::pid_t),
+                            &mut status,
+                            libc::WNOHANG,
+                        )
+                    };
+                    if waited > 0 {
+                        continue;
+                    }
+                    if waited < 0
+                        && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD)
+                    {
+                        break;
+                    }
+                    if Instant::now() >= deadline {
+                        break;
+                    }
+                    std::thread::sleep(Duration::from_millis(5));
+                }
             }
         }
     }
-    let process_group_guard = ProcessGroupGuard(process_group_id);
+    let mut process_group_guard = ProcessGroupGuard(Some(process_group_id));
     let retry_input = input(
         root.path(),
         state.path(),
@@ -1317,30 +1676,127 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let blocked = run_composition(retry_input.clone());
-    assert!(matches!(
-        blocked,
-        Err(CompositionError::ActiveVerifierProcessGroup {
-            process_group_id: active_group,
-            ..
-        }) if active_group == process_group_id
-    ));
+    #[cfg(target_os = "linux")]
+    let proc_observation = linux_process_group_proc_observation(process_group_id);
+    assert!(
+        matches!(
+            &blocked,
+            Err(CompositionError::ActiveVerifierProcessGroup {
+                process_group_id: active_group,
+                ..
+            }) if *active_group == process_group_id
+        ),
+        "expected ActiveVerifierProcessGroup for {process_group_id}; actual result: {blocked:?}; \
+        same-time /proc observation: {}",
+        {
+            #[cfg(target_os = "linux")]
+            {
+                proc_observation.as_str()
+            }
+            #[cfg(not(target_os = "linux"))]
+            {
+                "unavailable on this platform"
+            }
+        }
+    );
     assert!(
         worktree.is_dir(),
         "live verifier group worktree must be preserved"
     );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "live verifier group must preserve its worktree registration"
+    );
+
+    let mut unknown_attempt = interrupted.clone();
+    unknown_attempt["activeProcessGroupIdentity"] = serde_json::Value::Null;
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&unknown_attempt).expect("serialize unknown attempt"),
+    )
+    .expect("persist missing-identity unknown fixture");
+    let unknown = run_composition(retry_input.clone())
+        .expect_err("missing leader identity must preserve the worktree as unknown");
+    assert!(
+        matches!(unknown, CompositionError::UnknownAttemptOwner { .. }),
+        "missing leader identity must fail closed as unknown: {unknown:?}"
+    );
+    let still_unknown: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("unknown attempt remains durable"))
+            .expect("unknown attempt JSON");
+    assert!(still_unknown["cleanup"].is_null());
+    assert!(
+        worktree.is_dir(),
+        "unknown verifier group must preserve worktree"
+    );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "unknown verifier group must preserve worktree registration"
+    );
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&interrupted).expect("restore complete attempt identity"),
+    )
+    .expect("restore complete process-group identity");
 
     unsafe {
         libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL);
     }
-    let group_deadline = Instant::now() + Duration::from_secs(5);
-    while unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) } == 0 {
-        assert!(
-            Instant::now() < group_deadline,
-            "verifier process group did not exit"
+    #[cfg(target_os = "linux")]
+    {
+        let zombie_deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+            let wait_result = unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    process_group_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            };
+            assert_eq!(wait_result, 0, "waitid WNOWAIT observes verifier exit");
+            let stat = fs::read_to_string(format!("/proc/{process_group_id}/stat"))
+                .expect("retained zombie process stat");
+            let close = stat.rfind(')').expect("proc stat command terminator");
+            if stat[close + 1..].split_whitespace().next() == Some("Z") {
+                break;
+            }
+            assert!(
+                Instant::now() < zombie_deadline,
+                "verifier process group leader did not become a retained zombie"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        assert_eq!(
+            unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    process_group_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            },
+            0,
+            "waitid WNOWAIT observes the retained zombie without reaping it"
         );
-        std::thread::sleep(Duration::from_millis(10));
     }
-    drop(process_group_guard);
+    #[cfg(not(target_os = "linux"))]
+    {
+        let group_deadline = Instant::now() + Duration::from_secs(5);
+        while unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) } == 0 {
+            assert!(
+                Instant::now() < group_deadline,
+                "verifier process group did not exit"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
 
     let _ = run_composition(retry_input).expect("retry reconciles after verifier exit");
     let reconciled: serde_json::Value =
@@ -1350,6 +1806,284 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
     assert!(
         !worktree.exists(),
         "dead verifier worktree should be cleaned on retry"
+    );
+    assert!(
+        !run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "dead verifier group cleanup removes the worktree registration"
+    );
+    #[cfg(target_os = "linux")]
+    {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let mut status = 0;
+            let waited = unsafe {
+                libc::waitpid(
+                    -(process_group_id as libc::pid_t),
+                    &mut status,
+                    libc::WNOHANG,
+                )
+            };
+            if waited > 0 {
+                continue;
+            }
+            if waited == 0 {
+                assert!(
+                    Instant::now() < deadline,
+                    "verifier process group children were not fully reaped"
+                );
+                std::thread::sleep(Duration::from_millis(5));
+                continue;
+            }
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::ECHILD) {
+                break;
+            }
+            if error.kind() == std::io::ErrorKind::Interrupted {
+                continue;
+            }
+            panic!("failed to reap verifier process group children: {error}");
+        }
+    }
+    process_group_guard.disarm();
+}
+
+#[cfg(target_os = "linux")]
+struct ChildSubreaperGuard(libc::c_int);
+
+#[cfg(target_os = "linux")]
+impl ChildSubreaperGuard {
+    fn enable() -> Self {
+        let mut previous = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut previous as *mut libc::c_int,
+                )
+            },
+            0,
+            "read prior child-subreaper state"
+        );
+        assert_eq!(
+            unsafe { libc::prctl(libc::PR_SET_CHILD_SUBREAPER, 1) },
+            0,
+            "make the fixture its descendants' subreaper"
+        );
+        Self(previous)
+    }
+}
+
+#[cfg(target_os = "linux")]
+impl Drop for ChildSubreaperGuard {
+    fn drop(&mut self) {
+        unsafe {
+            libc::prctl(libc::PR_SET_CHILD_SUBREAPER, self.0);
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn retry_reconciles_zombie_only_verifier_process_group() {
+    if std::env::var_os("COMPOSITION_ZOMBIE_GROUP_HELPER").is_some() {
+        return;
+    }
+
+    fn proc_identity(pid: u32) -> (char, u64, u32, u32) {
+        let stat = fs::read_to_string(format!("/proc/{pid}/stat")).expect("process stat");
+        let close = stat.rfind(')').expect("stat command terminator");
+        let fields = stat[close + 2..].split_whitespace().collect::<Vec<_>>();
+        (
+            fields[0].chars().next().expect("process state"),
+            fields[19].parse().expect("process starttime"),
+            fields[2].parse().expect("process group id"),
+            fields[3].parse().expect("session id"),
+        )
+    }
+
+    struct ReapChild(Child);
+    impl Drop for ReapChild {
+        fn drop(&mut self) {
+            let _ = self.0.wait();
+        }
+    }
+
+    let mut helper = Command::new(std::env::current_exe().expect("test executable"));
+    helper
+        .args([
+            "--exact",
+            "retry_reconciles_zombie_only_verifier_process_group",
+        ])
+        .env("COMPOSITION_ZOMBIE_GROUP_HELPER", "1");
+    use std::os::unix::process::CommandExt;
+    helper.process_group(0);
+    let child = ReapChild(helper.spawn().expect("spawn process-group leader"));
+    let leader_pid = child.0.id();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let leader_identity = loop {
+        let (state, start_time_ticks, process_group_id, session_id) = proc_identity(leader_pid);
+        if state == 'Z' {
+            break (start_time_ticks, process_group_id, session_id);
+        }
+        assert!(
+            Instant::now() < deadline,
+            "helper process did not become a zombie"
+        );
+        std::thread::sleep(Duration::from_millis(5));
+    };
+    assert_eq!(leader_identity.1, leader_pid);
+    let mut zombie_info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+    assert_eq!(
+        unsafe {
+            libc::waitid(
+                libc::P_PID,
+                leader_pid as libc::id_t,
+                &mut zombie_info,
+                libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+            )
+        },
+        0,
+        "waitid WNOWAIT observes the direct child zombie without reaping it"
+    );
+    assert_eq!(
+        unsafe { libc::kill(-(leader_pid as libc::pid_t), 0) },
+        0,
+        "Linux reports a zombie-only process group as present"
+    );
+
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let mut exited_owner = Command::new("true")
+        .spawn()
+        .expect("spawn owner PID fixture");
+    let owner_pid = exited_owner.id();
+    assert!(
+        exited_owner
+            .wait()
+            .expect("reap owner PID fixture")
+            .success()
+    );
+    let owner_proc = PathBuf::from(format!("/proc/{owner_pid}"));
+    assert!(
+        !owner_proc.exists(),
+        "owner PID fixture must be reaped before retry"
+    );
+
+    let state = tempdir("zombie-only-verifier-state");
+    let worktree_parent = std::env::temp_dir().join(format!(
+        "ai-cockpit-composition-{owner_pid}-{}-{}",
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .expect("clock after UNIX epoch")
+            .as_nanos(),
+        NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir(&worktree_parent).expect("create owned worktree parent");
+    let _worktree_parent = TempDir(worktree_parent.clone());
+    let worktree = worktree_parent.join("composition");
+    run(
+        root.path(),
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            worktree.to_str().expect("UTF-8 worktree path"),
+            &base,
+        ],
+    );
+    let canonical_worktree = fs::canonicalize(&worktree).expect("canonical linked worktree");
+    let worktree_registration = format!("worktree {}", canonical_worktree.display());
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "interrupted attempt fixture must start with an owned linked worktree"
+    );
+
+    let attempt_binding = binding(&base, vec![base.clone(), base.clone()]);
+    let attempt_id = "interrupted-zombie-only-verifier";
+    let preconditions = vec![CompositionPrecondition::satisfied("identity-bound")];
+    let interrupted = serde_json::json!({
+        "schemaVersion": 2,
+        "attemptId": attempt_id,
+        "binding": attempt_binding,
+        "identity": identity("zombie-only-fixture"),
+        "preconditions": preconditions,
+        "isolatedWorktree": worktree.to_string_lossy(),
+        "textConflicts": [],
+        "executionRecords": [],
+        "processesSpawned": 1,
+        "reuseDecision": {
+            "kind": "execute",
+            "reason": "interrupted fixture",
+            "predecessorAttemptId": null
+        },
+        "passed": false,
+        "failure": "in_progress",
+        "ownerTerminationSignal": null,
+        "cleanup": null,
+        "recordedAtUnixNanos": 1,
+        "ownerPid": owner_pid,
+        "processObservationSchemaVersion": 1,
+        "activeExecutionNode": "orphan-verifier",
+        "activeProcessGroupId": leader_pid,
+        "activeProcessGroupIdentity": {
+            "leaderPid": leader_pid,
+            "leaderStartTimeTicks": leader_identity.0,
+            "processGroupId": leader_identity.1,
+            "sessionId": leader_identity.2
+        }
+    });
+    fs::write(
+        state.path().join(format!("{attempt_id}.json")),
+        serde_json::to_vec_pretty(&interrupted).expect("serialize interrupted attempt"),
+    )
+    .expect("write interrupted attempt");
+
+    let retry = input(
+        root.path(),
+        state.path(),
+        binding(&base, vec![base.clone(), base.clone()]),
+        vec![command("retry", "sh", &["-c", "true"])],
+        preconditions,
+    );
+    assert!(
+        !owner_proc.exists(),
+        "owner PID fixture remains absent immediately before reconciliation"
+    );
+    let recovered = run_composition(retry).unwrap_or_else(|error| {
+        panic!("zombie-only verifier group should be reconciled safely: {error}")
+    });
+    assert!(recovered.passed, "retry failed: {recovered:?}");
+
+    let interrupted_path = attempt_record_path(state.path(), attempt_id);
+    let reconciled: serde_json::Value = serde_json::from_slice(
+        &fs::read(&interrupted_path).expect("reconciled interrupted attempt"),
+    )
+    .expect("reconciled attempt JSON");
+    assert_eq!(reconciled["failure"], "interrupted_owner_terminated");
+    assert_eq!(reconciled["cleanup"]["attempted"], true);
+    assert_eq!(reconciled["cleanup"]["removed"], true);
+    assert_eq!(
+        reconciled["isolatedWorktree"],
+        worktree.to_string_lossy().as_ref()
+    );
+    assert!(
+        !worktree.exists(),
+        "reconciliation removes the old worktree directory"
+    );
+    assert!(
+        !run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "reconciliation removes the old worktree registration"
+    );
+    assert_eq!(reconciled["activeProcessGroupId"], serde_json::Value::Null);
+    assert_eq!(
+        reconciled["activeProcessGroupIdentity"],
+        serde_json::Value::Null
     );
 }
 
