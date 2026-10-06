@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "User-provided Ray authorization and explicit continuation instruction in source thread 01a0f098-94c4-718c-a39b-53d331aa0010",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "44c9e379caa1494628cacbff65432390d8961acd",
+    "name": "codex/wi-1054-public-entry-docs",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+  "contractDigest": "sha256:945530ff519d39ce14651c4a4fb6f50b49f6291ed85cb199021c9be8eefa5473",
+  "operationId": "wi1054-finalization-operation-20261006t032238z",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "747ae2da29667ceebe33f51fe7bef0db0f4ff9f5",
+    "headRevision": "44c9e379caa1494628cacbff65432390d8961acd",
+    "mergeCommit": "78ae7240aac016f005fcf4ced61fcb251ea20eb1",
+    "number": 1005,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1005"
+  },
+  "reason": "At observation time PR #1005 was merged at 78ae7240aac016f005fcf4ced61fcb251ea20eb1, the exact remote and local branch were absent, and the bound worktree path was absent. Record the already-deleted state as an idempotent observation; this recording step performed no provider or filesystem deletion. Preserve the archived verification as historical, not fresh.",
+  "receiptId": "wi1054-finalization-observation-20261006t032238z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1054-public-entry-docs",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1005",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1054-public-entry-docs"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-06T03:22:38Z",
+  "workItemId": "WI-1054-public-entry-docs",
+  "worktree": {
+    "branch": "codex/wi-1054-public-entry-docs",
+    "headRevision": "44c9e379caa1494628cacbff65432390d8961acd",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-1054-public-entry-docs",
+    "worktreeId": "worktree-WI-1054-public-entry-docs"
+  }
+}
