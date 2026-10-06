@@ -3,26 +3,112 @@
     ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json",
     ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-06T06:23:41Z",
+  "checkpointContractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:23:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "reason": "The human has explicitly authorized full stable v1.0.1 delivery. Separate the three pre-finish checks from candidate/publication steps that cannot exist until Runtime admits a later release stage; keep every future acceptance step explicit as planned but non-required for pre-finish verification. Retain the 16 product paths and require the actual v1.0.0 Linux x86_64 N-1 route, official public asset digest checks, and no immutable resource replacement.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:29:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c67fa253315dac851f60c107dd090a57a4f6656087b8b87531939770962ba0e9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+      "reason": "Keep the three exact evidence-backed pre-finish criteria explicitly numbered for current acceptanceEvidence, while expressing candidate-tag, post-publication, local install, and cleanup steps as later-stage unnumbered Contract conditions. This follows the lifecycle boundary where these outputs cannot exist before the tag/Release and prevents any future-stage assertion from being treated as verified early.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:31:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c6d35ac80e96c1285fd80792523681bb1fe3f9a0578e99a6e15972c393961522",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:c67fa253315dac851f60c107dd090a57a4f6656087b8b87531939770962ba0e9",
+      "reason": "The current Runtime preflight identifies scope_exceeded for the six mandatory pre-verification governance projections. Add only the three current WI pages and three exact parity ledgers to the Contract scope as protocol projections, while preserving exactly the existing 16 product/source paths and clearly separating the six governance files.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:33:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+    "contractDigest": "sha256:143a6daa55b55e8747e4b176120d7f176b6aed7d95be68ae5470d4059552ab72",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "The human user explicitly confirmed in this conversation that the current WI-1068 Contract digest 69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f is approved for continued work through candidate acceptance. This confirms the amended plan only; stable v1.0.1 publication remains subject to a fresh Runtime admission and acceptance evidence.",
-    "recordedAt": "2026-10-06T05:46:46Z",
+    "reason": "The human user explicitly authorized complete stable v1.0.1 delivery and authorized the exact PR #1022 resource binding: commit/push/PR, independent review and exact CI, normal merge, new immutable tag/Release/assets only after Runtime admission, public download/install acceptance, local CLI/MCP update, cleanup and close. Do not replace existing tags/assets or bypass Runtime safety refusals.",
+    "recordedAt": "2026-10-06T06:34:56Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
+  "intentAlignment": {
+    "evidence": [
+      "human:Ray full stable v1.0.1 authorization; Contract criteria A1-A6 define stable identity, verified official download, v1.0.0 N-1, and CLI/MCP installation benefit"
+    ],
+    "reason": "The accepted scope and staged criteria align with the human-approved goal; release and install outcomes remain pending evidence.",
+    "state": "resolved"
+  },
   "mode": "release",
-  "preflightAt": "2026-10-06T05:32:21Z",
-  "preflightContractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+  "preflightAt": "2026-10-06T06:34:51Z",
+  "preflightContractDigest": "sha256:143a6daa55b55e8747e4b176120d7f176b6aed7d95be68ae5470d4059552ab72",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+  "preflightRepositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -41,30 +127,47 @@
     },
     {
       "evidence": [],
-      "required": true,
+      "required": false,
       "scenario": "four-target-candidate-install-smoke",
       "status": "unverified"
     },
     {
       "evidence": [],
-      "required": true,
+      "required": false,
       "scenario": "linux-x86_64-n-minus-one-upgrade",
       "status": "unverified"
     },
     {
       "evidence": [],
-      "required": true,
+      "required": false,
       "scenario": "local-macos-cli-mcp-identity-switch",
       "status": "unverified"
     },
     {
       "evidence": [],
-      "required": true,
+      "required": false,
       "scenario": "stable-v1.0.1-publication",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": false,
+      "scenario": "public-download-linux-n-minus-one-acceptance",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "release-plan-immutability-and-evidence-consumption",
       "status": "unverified"
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-10-06T05:47:18.516002+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-06T06:35:01.417542+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:c6d35ac80e96c1285fd80792523681bb1fe3f9a0578e99a6e15972c393961522",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-06T06:33:09Z"
+  },
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

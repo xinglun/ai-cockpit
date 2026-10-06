@@ -1,0 +1,406 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:ed71092c0111d880023ba9b06ef329e97d96056b73b6756653f259ed0d38f125",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 3,
+    "changeId": "wi1068-stable-v101-release-staging-plan-20261006-04",
+    "requestDigest": "sha256:f33ab6e811d55d28129be433ce05db615d8b39e0ac423ff7af17614c535a0c46",
+    "reason": "The human has explicitly authorized full stable v1.0.1 delivery. Separate the three pre-finish checks from candidate/publication steps that cannot exist until Runtime admits a later release stage; keep every future acceptance step explicit as planned but non-required for pre-finish verification. Retain the 16 product paths and require the actual v1.0.0 Linux x86_64 N-1 route, official public asset digest checks, and no immutable resource replacement.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "replace",
+        "oldValue": [
+          "The source diff changes only the 16 declared paths; current release metadata identifies v1.0.1 as stable with no prerelease suffix, while historical prerelease references remain accurately labeled.",
+          "The repository Rust and documentation/package gates pass on the exact candidate head, with evidence showing all 13 package coverage obligations completed.",
+          "The existing release workflow builds and candidate-install-smokes aarch64-apple-darwin via Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc; each target runs its declared doctor/smoke checks.",
+          "Full N-1 upgrade acceptance runs only on x86_64-unknown-linux-gnu against the previous stable release, with installed version, upgrade result, and post-upgrade doctor evidence bound to the candidate.",
+          "On the local Apple Silicon macOS host, CLI and MCP checks switch between two configured repository identities and confirm each invocation resolves to the intended repository without mutating provider-global configuration.",
+          "An exact-head PR has all required repository and release gates green; a stable v1.0.1 tag and public Release are created only after the preceding acceptance evidence is current and Runtime admits publication, without replacing rc.2 or other immutable resources."
+        ],
+        "newValue": [
+          "A1: The product/source diff changes only the 16 declared product paths; workspace/package identity is plain stable SemVer 1.0.1, localized version/distribution guidance is consistent, and historical v1.0.0 and v1.0.1-rc.2 identities remain separate. The exact six required Work Item/parity pages are governance projections, not additional product-source scope.",
+          "A2: The declared Rust workspace verification and every required repository gate pass for the exact PR #1022 head. Evidence records the exact head, workflow run/job conclusions, actual completion of all 13 package-coverage obligations, and the independent review conclusion without attributing agent review to a human.",
+          "A3: Before any tag is created, the Runtime-bound release plan consumes fresh evidence for this exact source/PR and confirms the real immutable v1.0.0 stable release is the N-1 source, v1.0.1 tag and Release names are unused, and the existing release workflow enforces candidate checks before public Release publication.",
+          "A4: Only after normal PR merge and fresh Runtime publication admission, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+          "A5: After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+          "A6: On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+          "A7: After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted."
+        ]
+      },
+      {
+        "path": "/scenarioCoverage/0/expected",
+        "operation": "replace",
+        "oldValue": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+        "newValue": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct."
+      },
+      {
+        "path": "/scenarioCoverage/0/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate.",
+        "newValue": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+      },
+      {
+        "path": "/scenarioCoverage/1/expected",
+        "operation": "replace",
+        "oldValue": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+        "newValue": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review."
+      },
+      {
+        "path": "/scenarioCoverage/1/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts.",
+        "newValue": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+      },
+      {
+        "path": "/scenarioCoverage/2/expected",
+        "operation": "replace",
+        "oldValue": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+        "newValue": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication."
+      },
+      {
+        "path": "/scenarioCoverage/2/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence.",
+        "newValue": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+      },
+      {
+        "path": "/scenarioCoverage/2/required",
+        "operation": "replace",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/3/expected",
+        "operation": "replace",
+        "oldValue": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+        "newValue": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created."
+      },
+      {
+        "path": "/scenarioCoverage/3/verificationPlan",
+        "operation": "replace",
+        "oldValue": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output.",
+        "newValue": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+      },
+      {
+        "path": "/scenarioCoverage/3/required",
+        "operation": "replace",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/4/expected",
+        "operation": "replace",
+        "oldValue": "On the local Apple Silicon macOS host, CLI and MCP invocation switching resolves each configured repository identity to its intended root without changing provider-global configuration.",
+        "newValue": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request."
+      },
+      {
+        "path": "/scenarioCoverage/4/verificationPlan",
+        "operation": "replace",
+        "oldValue": "Run the declared local CLI/MCP identity-switch checks against both configured repository roots and preserve invocation, identity, and cleanup evidence.",
+        "newValue": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+      },
+      {
+        "path": "/scenarioCoverage/4/required",
+        "operation": "replace",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/5/expected",
+        "operation": "replace",
+        "oldValue": "Only after the other release scenarios pass and Runtime admits the bound resource plan, stable v1.0.1 is published with assets matching the accepted candidate; no existing immutable tag or asset is replaced.",
+        "newValue": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources."
+      },
+      {
+        "path": "/scenarioCoverage/5/verificationPlan",
+        "operation": "replace",
+        "oldValue": "At the publication boundary, query the exact tag and Release identity, obtain the Runtime-admitted finalization plan and current human decision, publish only if the name is unused and evidence is fresh, then verify tag, Release, and asset digests.",
+        "newValue": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+      },
+      {
+        "path": "/scenarioCoverage/5/required",
+        "operation": "replace",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+          },
+          {
+            "evidence": [],
+            "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+          },
+          {
+            "evidence": [],
+            "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+            "required": false,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+          },
+          {
+            "evidence": [],
+            "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+            "required": false,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+          },
+          {
+            "evidence": [],
+            "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+            "required": false,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+          },
+          {
+            "evidence": [],
+            "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+            "required": false,
+            "scenario": "stable-v1.0.1-publication",
+            "status": "unverified",
+            "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+          },
+          {
+            "evidence": [],
+            "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+          },
+          {
+            "evidence": [],
+            "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+            "required": false,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+          },
+          {
+            "evidence": [],
+            "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+            "required": false,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+          },
+          {
+            "evidence": [],
+            "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+            "required": false,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+          },
+          {
+            "evidence": [],
+            "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+            "required": false,
+            "scenario": "stable-v1.0.1-publication",
+            "status": "unverified",
+            "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+          },
+          {
+            "evidence": [],
+            "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+            "required": false,
+            "scenario": "public-download-linux-n-minus-one-acceptance",
+            "status": "unverified",
+            "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+          },
+          {
+            "evidence": [],
+            "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+          },
+          {
+            "evidence": [],
+            "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+            "required": false,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+          },
+          {
+            "evidence": [],
+            "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+            "required": false,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+          },
+          {
+            "evidence": [],
+            "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+            "required": false,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+          },
+          {
+            "evidence": [],
+            "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+            "required": false,
+            "scenario": "stable-v1.0.1-publication",
+            "status": "unverified",
+            "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+          },
+          {
+            "evidence": [],
+            "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+            "required": false,
+            "scenario": "public-download-linux-n-minus-one-acceptance",
+            "status": "unverified",
+            "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+          },
+          {
+            "evidence": [],
+            "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+          },
+          {
+            "evidence": [],
+            "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+            "required": false,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+          },
+          {
+            "evidence": [],
+            "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+            "required": false,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+          },
+          {
+            "evidence": [],
+            "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+            "required": false,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+          },
+          {
+            "evidence": [],
+            "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+            "required": false,
+            "scenario": "stable-v1.0.1-publication",
+            "status": "unverified",
+            "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+          },
+          {
+            "evidence": [],
+            "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+            "required": false,
+            "scenario": "public-download-linux-n-minus-one-acceptance",
+            "status": "unverified",
+            "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+          },
+          {
+            "evidence": [],
+            "expected": "Before publication, a current Runtime-bound release plan consumes exact fresh CI/source evidence, selects immutable v1.0.0 as the real N-1 source, confirms stable v1.0.1 tag/Release names are unused, and retains candidate validation before public publication.",
+            "required": true,
+            "scenario": "release-plan-immutability-and-evidence-consumption",
+            "status": "unverified",
+            "verificationPlan": "Inspect current provider tag/Release identities and the existing release workflow; bind the exact candidate PR and evidence digests, all four target smoke jobs, and x86_64-unknown-linux-gnu staged N-1 from v1.0.0. No tag or publication mutation occurs in this pre-finish scenario."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+    "newContractDigest": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+    "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+    "environmentObservationDigest": "sha256:cb797291694150c84bdf456a8e43a1cda19cbe6c327500b8f972f45e3826dabf",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/scenarioCoverage",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scenarioCoverage/1/expected",
+      "/scenarioCoverage/1/verificationPlan",
+      "/scenarioCoverage/2/expected",
+      "/scenarioCoverage/2/required",
+      "/scenarioCoverage/2/verificationPlan",
+      "/scenarioCoverage/3/expected",
+      "/scenarioCoverage/3/required",
+      "/scenarioCoverage/3/verificationPlan",
+      "/scenarioCoverage/4/expected",
+      "/scenarioCoverage/4/required",
+      "/scenarioCoverage/4/verificationPlan",
+      "/scenarioCoverage/5/expected",
+      "/scenarioCoverage/5/required",
+      "/scenarioCoverage/5/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:08b660aad1cdae0b01daf0de53a9f524ab7ecfd02784c19a7ea1f6f37decab6e",
+    "journalDigest": "sha256:ee2c5997217b2b6558f2230857721fb8d4ddf433a89434531786b6eceea4da2e",
+    "recordedAt": "2026-10-06T06:29:31Z"
+  }
+}
