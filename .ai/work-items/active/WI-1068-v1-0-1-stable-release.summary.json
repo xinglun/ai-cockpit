@@ -31,6 +31,12 @@
           "path": "crates/cockpit-verification/tests/composition.rs",
           "type": "independent_agent_review",
           "verification": "The reviewer first identified a PGID reuse risk in the test guard. After the guard was changed to one-shot Option ownership, waitpid(-pgid) reaping through ECHILD, and normal-path disarm, the reviewer found no blocking issue. The remaining 60-second helper-timeout descendant-cleanup risk is nonblocking and limited to abnormal timeout. Reviewer ran no tests/builds. This is attributed to the independent agent, not human:Ray approval."
+        },
+        {
+          "locator": "Independent review agent /root/review_linux_proc_retry reviewed the exact one-line fixture change against candidate d83d672fb1b38866db7de8c689eec8416b8072e6; reviewed tests/composition.rs SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954 and source/test diff SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_agent_review",
+          "verification": "The reviewer confirmed ::serde_json::json! is a minimal supported absolute macro path equivalent to serde_json::json!, with no semantic change and no blocking concern. Reviewer ran no tests/builds. This is agent review, not human:Ray approval."
         }
       ]
     },
@@ -55,16 +61,22 @@
       "acceptanceId": "A10",
       "evidence": [
         {
-          "locator": "cargo test --locked --package cockpit-verification --lib linux_process_group_reconciliation_tests; exit 0; output sha256 4d0f82ac22bf0eacaa75ed9044c672ed213eee20e9b66395c9bc92c173ed230c; current source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af.",
+          "locator": "cargo test --locked --package cockpit-verification --lib linux_process_group_reconciliation_tests; exit 0; output sha256 4d0f82ac22bf0eacaa75ed9044c672ed213eee20e9b66395c9bc92c173ed230c; source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af.",
           "path": "/tmp/wi1068-proc-retry-unit-green-2.txt",
           "type": "linux_process_group_reconciliation_unit_tests",
-          "verification": "The focused Linux unit target reported 15 passed, 0 failed. It exercises the current composition.rs source bytes at the listed SHA256. It does not verify the later integration-test cleanup guard change in tests/composition.rs; exact pushed-candidate CI is still required for the complete current candidate."
+          "verification": "The focused Linux unit target reported 15 passed, 0 failed, bound to the unchanged current composition.rs source bytes. It does not verify integration-test fixture bytes. No full workspace test/build was run locally."
         },
         {
-          "locator": "Current candidate source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af; current integration-test SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86; source+test diff sha256 69e1aabc10212cca47c3cf56cd0bd56309f2480066bed97d7b7d0f2dd0c07545 (83,717 bytes), based on 230eb19160de054c611f53f3f9a0240233ef225a.",
+          "locator": "GitHub Actions run #4849 / run ID 37546256087 for exact PR head d83d672fb1b38866db7de8c689eec8416b8072e6; Rust Contract artifact 11451295617, digest sha256:a72600…; hosted Work Item verification artifact 11451395429, digest sha256:8f634fd2….",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37546256087",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The run completed with overall failure: hosted Work Item Runtime verification passed 13/13 nodes for exact head d83d672, but rust-contract-quality-gate reported state=blocked, decisionState=yellow, no blockers, and unknown repository_material_inspection_unavailable; downstream repository gates and package coverage were skipped. Artifact inspection traced the unknown to the scanner not recognizing relative serde_json::json! in the zombie fixture and conservatively treating its execute literal as unresolved material. The old artifacts and failed attempt evidence remain preserved. This is not a passing full CI result."
+        },
+        {
+          "locator": "One-line scanner-compatible fixture macro correction: current source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af; current integration-test SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; patch against candidate d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
           "path": "crates/cockpit-verification/src/composition.rs; crates/cockpit-verification/tests/composition.rs",
           "type": "current_linux_process_group_source_and_test_candidate",
-          "verification": "The current source/test candidate contains the Linux process-group reconciliation implementation and focused unit/integration coverage. The current integration file has independent review with no blocking findings. The current exact integration-test file hash has not been executed in this environment; no full test or build was run. Hosted exact-candidate CI remains pending, so this entry does not claim A10 acceptance is complete."
+          "verification": "The zombie-only fixture now uses the equivalent absolute ::serde_json::json! macro path recognized by repository material inspection. The independent agent review found no blocking issue. The exact updated integration test has not been executed; no local test/build was run for this candidate. Exact-head hosted CI is pending, so A10 remains unaccepted."
         }
       ]
     },
@@ -72,10 +84,16 @@
       "acceptanceId": "A11",
       "evidence": [
         {
-          "locator": "Current zombie-only regression `retry_reconciles_zombie_only_verifier_process_group`; integration-test file SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86; source+test diff sha256 69e1aabc10212cca47c3cf56cd0bd56309f2480066bed97d7b7d0f2dd0c07545; base HEAD 230eb19160de054c611f53f3f9a0240233ef225a.",
+          "locator": "Preserved earlier green targeted regression log is bound to superseded test file SHA256 5f0e52e5491832a9eec5f12387e0f183c6b01b54ccf6d4c857099dad8fe91246; first hosted full CI on candidate d83d672 is run ID 37546256087 and failed at the Rust Contract gate (see A10 failure evidence).",
+          "path": "/tmp/wi1068-proc-retry-zombie-green.txt; https://github.com/xinglun/ai-cockpit/actions/runs/37546256087",
+          "type": "superseded_targeted_run_and_preserved_hosted_failure",
+          "verification": "The targeted green output does not bind to the current fixture and is not counted as current acceptance. Exact-head run d83d672 preserved a scanner unknown and failed overall; its artifacts remain available and are not rewritten."
+        },
+        {
+          "locator": "Current regression retry_reconciles_zombie_only_verifier_process_group; integration-test file SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; one-line patch against d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
           "path": "crates/cockpit-verification/tests/composition.rs",
           "type": "linux_zombie_only_process_group_regression_candidate",
-          "verification": "The current exact test source uses waitid(WNOWAIT) to observe the retained zombie, exercises retry reconciliation of the owned linked worktree, and verifies cleanup fields and removal. Independent review confirmed the fixture observes the zombie without reaping it before assertions. The previous targeted green log is bound to the superseded test-file SHA 5f0e52e5491832a9eec5f12387e0f183c6b01b54ccf6d4c857099dad8fe91246 and is not represented as current evidence. The current exact test hash has not been run; hosted exact-candidate CI is pending. Contract.verification remains exactly `cargo test --locked --workspace`."
+          "verification": "The current fixture uses waitid(WNOWAIT), exercises retry reconciliation of its owned linked worktree, verifies cleanup fields and removal, and reaps its own child after assertions. The earlier candidate’s retained-zombie setup was independently reviewed; the current macro-only correction was separately reviewed. The current exact test hash has not been run and must be verified by a new exact-head hosted CI. Contract.verification remains exactly cargo test --locked --workspace."
         }
       ]
     }
@@ -317,10 +335,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-06T23:21:59Z",
+  "preflightAt": "2026-10-06T23:37:01Z",
   "preflightContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
-  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-  "preflightRepositorySnapshotDigest": "sha256:404dcf81928216331dced4ee0c91c865b4f3400a01f168d5c810109172b11ad2",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:f546236e39bba080f96bc6211890f4783eeca471310024cd12d413ec9b460685",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -410,7 +428,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-06T23:21:44.717561006+00:00",
+  "updatedAt": "2026-10-06T23:36:58.783994611+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

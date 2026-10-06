@@ -2005,7 +2005,7 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
     let attempt_binding = binding(&base, vec![base.clone(), base.clone()]);
     let attempt_id = "interrupted-zombie-only-verifier";
     let preconditions = vec![CompositionPrecondition::satisfied("identity-bound")];
-    let interrupted = serde_json::json!({
+    let interrupted = ::serde_json::json!({
         "schemaVersion": 2,
         "attemptId": attempt_id,
         "binding": attempt_binding,
