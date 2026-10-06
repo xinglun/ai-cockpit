@@ -26,19 +26,20 @@ Runtime version、Repository Protocol version 和 repository schema version 是�
 
 ```text
 ai-cockpit --version
-1.0.0
+1.0.1
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-当前源码候选为 1.0.1-rc.2（prerelease，仅 Apple Silicon macOS）。默认稳定版安装基线仍为
-v1.0.0；候选版本不会取代该基线或成为 GitHub Latest。
+目标稳定包 identity 为 v1.0.1；完成公开 Release 验收后，它成为默认安装基线。v1.0.1-rc.2
+保持为独立且不可变的历史预发布 identity，不是稳定制品。此前稳定版 v1.0.0 是本次 v1.0.1
+N-1 验收来源。
 
 前一个公开 patch release `v0.2.93` 继续作为历史 evidence 保留；`v0.2.65`、`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53` 与 `v0.2.52` 作为更早历史保留。预留的 `v0.2.51` tag
 是不可变的 lightweight-tag 发布失败（workflow run `33417057474`），没有 provider Release，永远不会复用。
-失败的 `v0.2.49` 标签单独保留且不复用；`v0.2.77` 作为失败的未公开历史保留，不是 package identity；失败的 `v0.2.88` 标签因 WI-764 source-quality 失败（workflow run `34371183927`）作为不可变未公开历史保留，不是安装 identity；`v0.2.93` 作为前一公开 patch 历史保留，`v0.2.94` 是上一候选/发布身份，`v0.2.95` 是上一运行时身份，`v0.2.96` 是不可变的失败候选历史，`v0.2.98` 和 `v0.2.99` 是上一 package identity，`v0.2.106` 是前一个公开 package identity，`v0.2.101` 是未公开的不可变候选 tag，`v0.2.107` 是保留的不可变失败候选历史，`v0.2.108` 是保留的不可变发布失败候选历史，`v0.2.111` 是五目标流程在公开前取消后的不可变未发布候选历史，`v0.2.112` 是前一个公开候选 package identity，`v0.2.113` 是前一个公开 package identity，`v1.0.0` 是当前 package identity。
+失败的 `v0.2.49` 标签单独保留且不复用；`v0.2.77` 作为失败的未公开历史保留，不是 package identity；失败的 `v0.2.88` 标签因 WI-764 source-quality 失败（workflow run `34371183927`）作为不可变未公开历史保留，不是安装 identity；`v0.2.93` 作为前一公开 patch 历史保留，`v0.2.94` 是上一候选/发布身份，`v0.2.95` 是上一运行时身份，`v0.2.96` 是不可变的失败候选历史，`v0.2.98` 和 `v0.2.99` 是上一 package identity，`v0.2.106` 是前一个公开 package identity，`v0.2.101` 是未公开的不可变候选 tag，`v0.2.107` 是保留的不可变失败候选历史，`v0.2.108` 是保留的不可变发布失败候选历史，`v0.2.111` 是五目标流程在公开前取消后的不可变未发布候选历史，`v0.2.112` 是前一个公开候选 package identity，`v0.2.113` 是前一个公开 package identity，`v1.0.1` 是稳定 package identity，`v1.0.0` 是前序版本。
 失败的 `v0.2.56` tag 是 source-quality 失败形成的不可变未公开历史，永远不会复用为安装 identity。
 失败的 `v0.2.68` tag 也作为不可变发布失败历史保留（workflow run `33795945667`），没有 provider Release，不能作为安装 identity。
 

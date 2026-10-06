@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json",
+    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-06T05:10:22Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "The human user explicitly confirmed in this conversation that the current WI-1068 Contract digest 69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f is approved for continued work through candidate acceptance. This confirms the amended plan only; stable v1.0.1 publication remains subject to a fresh Runtime admission and acceptance evidence.",
+    "recordedAt": "2026-10-06T05:46:46Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "schemaVersion": 1,
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "mode": "release",
+  "preflightAt": "2026-10-06T05:32:21Z",
+  "preflightContractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "stable-v1.0.1-identity",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "exact-head-repository-and-release-ci",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "four-target-candidate-install-smoke",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "linux-x86_64-n-minus-one-upgrade",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "local-macos-cli-mcp-identity-switch",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "stable-v1.0.1-publication",
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-10-06T05:47:18.516002+00:00",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:43df62097f5c1e803a995d2f190c582194296e9430093363132ee469e9e15079",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 1,
+    "changeId": "legacy-98485e94f11964ba12b2a70191b741ffebcab1d0c78757fc817d5f0e02c247a6",
+    "requestDigest": "sha256:7643712bb67813ff6a0199e27bc72132457582483ecca8e575d1b0538aa7d84a",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:98485e94f11964ba12b2a70191b741ffebcab1d0c78757fc817d5f0e02c247a6",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact."
+        ],
+        "newValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+          "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow."
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8f54858c4b6f7977b2963ca5850412298f1814965afcefc720765bea61ec458d",
+    "newContractDigest": "sha256:c0a1d3404788beb3e5a7a6943883137e2cb64257bc25e0e22df3af1f2652ee29",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "environmentObservationDigest": "sha256:169f405409612597f6ed91ac4d1d69b1d16ee733ffb1760b0c2e0735f1b7f72f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:1b3d24a8c8b797059f9eeb49558ca9086eb75531dc3586a79756b685ab658ea4",
+    "recordedAt": "2026-10-06T05:15:00Z"
+  }
+}
