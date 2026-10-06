@@ -1,0 +1,82 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:c990bfeee6dd32008f22c12218b028c90490053615eacbbf232b0983509a074a",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1058-task9-cognitive-gate",
+    "sequence": 5,
+    "changeId": "wi1058-hosted-windows-cognitive-negative-20261003",
+    "requestDigest": "sha256:7429fd4c0063e714cbbb89423adc0cef69defd96fc9a161c6ab69fcfc6f1d3ed",
+    "reason": "Independent review found that the existing hosted Windows job did not execute the new Windows-only explicit-binary regression. Add its exact CI entry point and require observed execution for the PR head, while retaining both ordinary and --check failure modes; this closes an in-scope acceptance-evidence gap without changing the broader Task9 migration boundary.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-cli/src/cognitive_benefit.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md"
+        ],
+        "newValue": [
+          "crates/cockpit-cli/src/cognitive_benefit.rs",
+          "crates/cockpit-cli/src/main.rs",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "tests/evaluation/WI-750-p1-cognitive-benefit-current-base_test.sh",
+          "docs/reference/commands.md",
+          "docs/reference/commands.ja.md",
+          "docs/reference/commands.zh-CN.md",
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria/2",
+        "operation": "replace",
+        "oldValue": "仅改变四条精确产品路径，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
+        "newValue": "仅改变四条精确产品路径及其三语命令参考和 Windows CI 精确测试入口，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。"
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
+          "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+          "仅改变四条精确产品路径及其三语命令参考和 Windows CI 精确测试入口，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
+          "三语命令参考准确说明 audit cognitive-benefit 的 Rust 执行入口、--check 只读语义、非 check 的证据输出，以及 Python 脚本仅保留为对照 oracle；不宣称已测得人类认知收益。"
+        ],
+        "newValue": [
+          "原 cognitive evaluation gate 由 Rust CLI 实际执行，Python evaluator 保留为只读 oracle；有效显式 binary 的成功 JSON、Markdown 输出及 --check 只读行为与 oracle 等价。唯一刻意的旧行为差异：显式指定的 --binary 不存在或不可执行时 Rust 明确失败，不静默回退到其他 Runtime，也不隐式 cargo build 或写入证据。",
+          "Rust 测试覆盖正常样本、畸形输入、--check 副作用，以及显式无效 --binary 的无回退、无隐式构建、无产物写入负例；实际 gate、对应 Python oracle 测试、Cargo/CI canonical 验证真实通过。",
+          "仅改变四条精确产品路径及其三语命令参考和 Windows CI 精确测试入口，不触碰 WI-1049 红证据或 WI-1049B stats，不将本 WI 误称整个 Task 9 或发布完成。",
+          "三语命令参考准确说明 audit cognitive-benefit 的 Rust 执行入口、--check 只读语义、非 check 的证据输出，以及 Python 脚本仅保留为对照 oracle；不宣称已测得人类认知收益。",
+          "PR 精确 head 的 hosted Windows job 必须实际运行 cockpit-cli 的显式无效 --binary 负例，覆盖普通写报告模式及 --check 模式；两种模式都不得回退、隐式构建或改写报告产物。仅 Windows 目标编译或其他 Windows job 全绿不视为该负例已执行。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+    "newContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+    "repositorySnapshotDigest": "sha256:62e91cce0989b05eefea5b0ccbe672ea5780203fc9e15425702c6ff1ec4ad2f1",
+    "environmentObservationDigest": "sha256:4c8095e364610af2b8683db6ed0b6ecb32f4854d041c219b46a607e790aa3554",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1058-task9-cognitive-gate.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/acceptanceCriteria/2",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:d97c22533430be7a4bbbb47a8f814e1ab9bbb3451bad09448b11cc5ea19ea4f7",
+    "journalDigest": "sha256:095826efa8419fb6b8f7381d8370a015b2d33ab27af3b512eb1df8904f2c9506",
+    "recordedAt": "2026-10-03T12:54:15Z"
+  }
+}

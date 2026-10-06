@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-05T23:38:13Z",
+  "files": {
+    "approachDigest": "sha256:da0f848f218e68ea0dbe299307c64772a2c0675d7c6704db90b2c21c3d40b4a7",
+    "approachPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.approach.json",
+    "contractDigest": "sha256:072952b2fe7e166929bf5cb6868c58476479d781d76037edce60251421243979",
+    "contractPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.contract.json",
+    "eventsDigest": "sha256:265400e5b5db894765ecaab62ff3d833a47698652a702768fd2df4195297a561",
+    "eventsPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.events.jsonl",
+    "outcomeDigest": "sha256:7d2ce6d53442829ecf29a45b34f867c7d5c9b205ce2cd5ea1b8a8dbf579c63a8",
+    "outcomePath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.outcome.json",
+    "summaryDigest": "sha256:9015e4e03cecb894b8f0648b95d7ea4b8a5f9e984b27351ccf7c5b1d633574a2",
+    "summaryPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.summary.json",
+    "taskReportDigest": "sha256:33f452db18004cae43a3e71ff06cb037b926deff5103bd566113e5def6960742",
+    "taskReportMarkdownDigest": "sha256:19bc6b0c29901bd83db411f66b498ae0a16f64b2ef42d72730f436d2f2c1d898",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1065-task9-cognitive-current-base.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1065-task9-cognitive-current-base"
+}

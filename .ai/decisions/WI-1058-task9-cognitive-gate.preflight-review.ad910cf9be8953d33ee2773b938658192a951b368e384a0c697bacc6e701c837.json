@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The repository owner first expressly approved amendment wi1058-explicit-binary-fail-closed-20261003, then directly instructed Codex to record standing Task9 execution delegation in this Contract and continue without repeated ordinary technical approvals. This current-bound review covers the resulting WI-1058 Contract only; the guideline is not a future Contract review receipt or a bypass of Runtime admission.",
+  "recordedAt": "2026-10-03T12:20:17Z",
+  "recordedBy": "human:repository-owner via Codex under direct user approval",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+  "schemaVersion": 1,
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

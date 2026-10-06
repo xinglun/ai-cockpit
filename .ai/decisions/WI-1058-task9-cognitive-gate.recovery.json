@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "Ray delegated ordinary technical coordination to agent:Raydot; agent:Raydot approved the bounded same-PR #1009 successor route in coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010. This is an agent technical recovery decision, not a human review signature or PR merge authorization.",
+  "decidedAt": "2026-10-04T18:09:08Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1058-task9-cognitive-gate.summary.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1009"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "predecessorEventsDigest": "sha256:12db10b3ece1695cc86519f45135524bdff4265ed1064210e02a1ecdd1eefca4",
+  "predecessorOutcomeDigest": "sha256:24650d665a5643c63a6ed58bc5f6055438b4ce1be0be1c42f3fdd115a7b37a31",
+  "predecessorSummaryDigest": "sha256:7efe4e64bbd1e89943cb4ca8e107ddd55a2f1d60b4e1419e63475a161f8e7a61",
+  "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
+  "reason": "WI-1058 has a preserved red preflight and protected old base e0efb0d. At current main b741918, the task gate sees 32 cumulative changed paths outside its eight-path Contract, while the PR gate against the actual new main sees exactly the eight declared paths and no scope blocker. A same-WI retry cannot reset the protected base; select one formally bound successor on the same PR #1009 and preserve old refusal evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate one successor with the original eight-path delivery scope and all original acceptance and verification obligations on current origin/main; bind actual PR #1009 before verification, then formally supersede and archive WI-1058 only if Runtime admits the sequence. Keep old evidence immutable and require fresh independent review and exact-head CI. Do not merge PR #1009 by this decision.",
+  "runtimeDigest": "sha256:37484f1c70b5d03cc0f0755eefc77a0872fb474bf0d1fa4810245b44a9d2ddb0",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1065-task9-cognitive-current-base",
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

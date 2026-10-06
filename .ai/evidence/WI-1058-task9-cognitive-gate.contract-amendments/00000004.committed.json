@@ -1,0 +1,40 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:6cba5b04afbf5d27ea377c28520086011276e3c3cbdd6579211ba89637ba7895",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1058-task9-cognitive-gate",
+    "sequence": 4,
+    "changeId": "wi1058-task9-standing-delivery-delegation-20261003",
+    "requestDigest": "sha256:3592508895c83150e478773becaf35d4194f0f597b3a607852818d233bb97826",
+    "reason": "The repository owner directly instructed Codex to record the continuing Task9 delivery authorization in this Contract and continue without repeatedly asking about ordinary technical decisions. Record that bounded delegation as implementation guidance, without treating it as future digest-bound human review evidence or changing Runtime admission.",
+    "changedValues": [
+      {
+        "path": "/guidelines",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "仓库负责人已持续授权在 Task9 既定目标与本 WI 范围内实施、验证、提交、推动 PR、在精确候选 CI 和独立审查通过后合并、并按真实证据收尾；普通技术决定由 Raydot 负责，不逐项再问。此授权不是对未来变更后的 Contract 摘要预签的人类 review，也不覆盖 Runtime、宿主、安全或权限的实际拒绝。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:bef1dfdf7899008f05eb3b90348ceac07032b2304adb6416925b18fb46813a3a",
+    "newContractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+    "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+    "environmentObservationDigest": "sha256:4c8095e364610af2b8683db6ed0b6ecb32f4854d041c219b46a607e790aa3554",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:6f8d4b7d9131df9b18d3b9ba5c3c36bf698b72e2cd02929035933f9cccdd8393",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1058-task9-cognitive-gate.verification.json"
+    ],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:5dc79fdbf37c88983de323e261a9e95c3818934c10b91d31bcae91941943423f",
+    "journalDigest": "sha256:d97c22533430be7a4bbbb47a8f814e1ab9bbb3451bad09448b11cc5ea19ea4f7",
+    "recordedAt": "2026-10-03T12:19:31Z"
+  }
+}

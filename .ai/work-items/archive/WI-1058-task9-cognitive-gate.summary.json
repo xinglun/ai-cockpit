@@ -1,0 +1,264 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1058-task9-cognitive-gate.preflight-review.671b98f43c98b4965167527335ec83f2b0c304c6f101edcc864d4bd583bc2f4c.json",
+    ".ai/decisions/WI-1058-task9-cognitive-gate.preflight-review.a9fc18755b32405b712e710b3ae7742173102fab1ac76b33fd60aa41d7c1e9e8.json",
+    ".ai/decisions/WI-1058-task9-cognitive-gate.preflight-review.ad910cf9be8953d33ee2773b938658192a951b368e384a0c697bacc6e701c837.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.contract-amendments/00000004.prepared.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.verification-attempt.5d9abe0a420a3c7d8903224ced0b1bf86aa8f96099593736a9681afa7545ce7b.json",
+    ".ai/evidence/WI-1058-task9-cognitive-gate.verification.json",
+    ".ai/work-items/active/WI-1058-task9-cognitive-gate.contract.json",
+    ".ai/work-items/active/WI-1058-task9-cognitive-gate.summary.json",
+    "crates/cockpit-cli/src/cognitive_benefit.rs",
+    "crates/cockpit-cli/tests/cognitive_benefit.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md"
+  ],
+  "checkpointAt": "2026-10-03T09:56:38Z",
+  "checkpointContractDigest": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "recorded": true,
+      "recordedAt": "2026-10-03T09:56:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c616222f744334faeb226b71ebe790cb17e372757d9d6d2ed069b237086c7069",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "reason": "The implemented Rust audit cognitive-benefit CLI entry is a real command surface. Add the three existing command-reference projections to this WI before editing them, without widening the evaluator or Task 9 scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T10:18:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c041de4e5a6dba990fe27f40da680496fe4f3f3b00927e67a3d8e1b5fceea3a5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bef1dfdf7899008f05eb3b90348ceac07032b2304adb6416925b18fb46813a3a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:713d1df725e7fde2a8a9defb5f85942271729fa2d2b77a14d0ad9cb512d78f60",
+      "reason": "Independent review of PR #1009 found that the Python oracle silently falls back to a different Runtime when an explicitly requested --binary is missing or not executable. Keep the Rust CLI's safer identity-bound fail-closed choice, document this one deliberate compatibility difference, and add real-process negative tests. Preserve the 28/28 receipt for the previous snapshot without treating it as acceptance of the amended Contract.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T11:44:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:bef1dfdf7899008f05eb3b90348ceac07032b2304adb6416925b18fb46813a3a",
+      "reason": "The repository owner directly instructed Codex to record the continuing Task9 delivery authorization in this Contract and continue without repeatedly asking about ordinary technical decisions. Record that bounded delegation as implementation guidance, without treating it as future digest-bound human review evidence or changing Runtime admission.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T12:19:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c20ca1cfc05cc89a7bff26fedfcaa18d7693e02a973c0e4e3048ca3ee686b063",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e130637c20cd61d218d6af2b023a8e3dd4b032e2d39b40d84a303bab22d5a768",
+      "previousContractHash": "sha256:afce839886d77c1b46c2444212b2d6dc595dcce58b34009e07cc37ba89c45cb3",
+      "reason": "Independent review found that the existing hosted Windows job did not execute the new Windows-only explicit-binary regression. Add its exact CI entry point and require observed execution for the PR head, while retaining both ordinary and --check failure modes; this closes an in-scope acceptance-evidence gap without changing the broader Task9 migration boundary.",
+      "recorded": true,
+      "recordedAt": "2026-10-03T12:54:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:62e91cce0989b05eefea5b0ccbe672ea5780203fc9e15425702c6ff1ec4ad2f1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1058-task9-cognitive-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:490f437a94ccb11210637226634c3f38da7195c6aaa3c11a05d1826c6d47d1ea",
+  "createdAt": "2026-10-03T09:56:36Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "The repository owner expressly reviewed and approved WI-1058 amendment sequence 5: add the exact cognitive_benefit negative test to the hosted Windows CI job and bind the corresponding scope and acceptance requirement. This current-contract review does not claim verification, CI success, merge, or release approval.",
+    "recordedAt": "2026-10-03T13:01:34Z",
+    "recordedBy": "human:repository-owner via Codex under direct user approval",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b21ee1f813a81e7a56012906664e81252eaba39e04f74fb3ea4fd273507ffe9b",
+    "schemaVersion": 1,
+    "workItemId": "WI-1058-task9-cognitive-gate"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-04T17:06:10Z",
+  "preflightContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "preflightDecisionDigest": "sha256:d7032f5493e60c25e191c38d4b2eaf1bb0aeb53c2db264ce3d2c5e718be43d59",
+  "preflightRepositorySnapshotDigest": "sha256:07c333a8c2f1e4d1d56ece2810ea23d15a70df448904bddf97de046e0fd5155a",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-03T13:02:07.861727+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-03T12:54:15Z"
+  },
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

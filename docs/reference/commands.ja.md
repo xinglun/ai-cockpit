@@ -70,7 +70,7 @@ failed/unknown は pass ではありません。
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | inspect と drift check は読み取り専用です。drift の記録は影響 action 前の明示的な永続 write です。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
-| Audit | `audit export` | repository-bound な安定 event bundle を外部 retention owner へ handoff する。local immutability は主張しない。 |
+| Audit | `audit export`、`audit cognitive-benefit` | repository-bound event の export、または固定された Rust cognitive-benefit 評価を実行する。いずれも release 権限を与えない。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Contract amendment と environment drift
@@ -356,6 +356,13 @@ Agent は次の順序で capability を発見します。repository-bound の st
   Runtime identity を含む安定した `AuditEvent` を出力します。manifest は
   `externalRetentionRequired: true` を設定し、output file は idempotent です。これは SIEM、WORM、
   S3 Object Lock など外部 retention owner への handoff に限られます。
+- `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` は固定の 7 ケース評価を Rust で実行します。
+  `--check` は評価 artifact を書き換えません。指定しない場合は選択した repository の `.ai/evidence/` に JSON、
+  `.ai/evidence/external/` に Markdown を書きます。明示的な `--binary` は存在する実行可能ファイルを指す必要があり、
+  無効な指定は失敗し、別の Runtime への fallback、暗黙の Cargo build、評価 artifact の書き込みはしません。
+  存在しないファイルと Unix で実行権限のないファイルは評価前に拒否されます。それ以外の起動失敗は選択したファイルの実行時に報告されます。
+  これは従来の Python evaluator の fallback との意図的な安全上の差分です。有効な明示的 binary の出力 parity は維持します。
+  Python は parity test の oracle として残しますが repository gate には使用しません。参加者調査や認知上の利益を測定済みとは主張しません。
 - Task Outcome report は strict typed JSON projection です。各 claim は可能な場合 evidence reference を持ち、明示的な inference は verified fact ではありません。
   event stream は Work Item finish ごとに append-only で、repository/Work Item identity、順序、安全な detail、evidence reference の境界を検証します。
   archive manifest は event stream と report JSON/Markdown digest を bind し、close receipt は final report と digest を含みます。

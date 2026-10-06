@@ -1,0 +1,31 @@
+{
+  "actor": "agent:Codex",
+  "authoritySource": "human:Ray delegated ordinary Task9 technical recovery to agent:Raydot; agent:Raydot directed a current-Runtime append-only supersede decision for the already selected WI-1058 to WI-1065 lineage in coordination thread 01a0f098-94c4-718c-a39b-53d331aa0010. This is an agent technical decision, not a human Contract review or PR merge authorization.",
+  "decidedAt": "2026-10-05T00:51:33Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.json",
+    ".ai/decisions/WI-1058-task9-cognitive-gate.recovery.159f67cd1c4815221532690838a8a2fbb529fdd94e99d1e18795964c1f20ddc8.json",
+    ".ai/work-items/active/WI-1058-task9-cognitive-gate.summary.json",
+    ".ai/work-items/active/WI-1065-task9-cognitive-current-base.contract.json",
+    "https://github.com/xinglun/ai-cockpit/pull/1009"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:ccbed27d839fa048524d300099098a467d59a43cee75f84461a54533932624d9",
+  "predecessorEventsDigest": "sha256:12db10b3ece1695cc86519f45135524bdff4265ed1064210e02a1ecdd1eefca4",
+  "predecessorOutcomeDigest": "sha256:24650d665a5643c63a6ed58bc5f6055438b4ce1be0be1c42f3fdd115a7b37a31",
+  "predecessorSummaryDigest": "sha256:7efe4e64bbd1e89943cb4ca8e107ddd55a2f1d60b4e1419e63475a161f8e7a61",
+  "predecessorWorkItemId": "WI-1058-task9-cognitive-gate",
+  "reason": "The predecessor and existing not_ready successor remain exactly bound. The canonical successor decision and historical supersede receipt were produced by prior Runtime digest 37484f1c and remain preserved; the newly installed candidate Runtime rejects those old identities as current. Reaffirm the same unique lineage with this Runtime, without creating another WI or rewriting the old records. Archive WI-1058 only if current status and archive action both admit it; keep red verification evidence unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Only if the current Runtime lists archive_when_reviewed, archive WI-1058 as superseded and preserve all failed evidence. Then activate the existing WI-1065 on the current main and revalidate its own Contract, code, and PR #1009. No old verification is promoted and this decision does not authorize merging #1009.",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1065-task9-cognitive-current-base",
+  "workItemId": "WI-1058-task9-cognitive-gate"
+}

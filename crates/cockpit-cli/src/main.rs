@@ -39,6 +39,7 @@ use std::{
     },
 };
 
+mod cognitive_benefit;
 mod runtime_identity;
 
 #[derive(Debug, Parser)]
@@ -451,6 +452,14 @@ enum EvidenceCommand {
 
 #[derive(Debug, Subcommand)]
 enum AuditCommand {
+    CognitiveBenefit {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        binary: Option<PathBuf>,
+        #[arg(long)]
+        check: bool,
+    },
     Export {
         #[arg(long)]
         repo: PathBuf,
@@ -1484,7 +1493,20 @@ fn record_ordinary_cleanup_command(
 }
 
 fn main() {
-    if let Err(error) = run() {
+    // The CLI's dispatch stack exceeds the Windows process default in
+    // unoptimized builds. Keep parsing and command execution on an explicit,
+    // bounded stack instead of relying on the platform linker default.
+    let result = std::thread::Builder::new()
+        .name("ai-cockpit-cli".into())
+        .stack_size(4 * 1024 * 1024)
+        .spawn(run)
+        .map_err(|error| anyhow::anyhow!("start CLI worker: {error}"))
+        .and_then(|worker| match worker.join() {
+            Ok(result) => result,
+            Err(payload) => std::panic::resume_unwind(payload),
+        });
+
+    if let Err(error) = result {
         if let Some(failure) = error.downcast_ref::<GatePlanCliFailure>() {
             eprintln!(
                 "{}",
@@ -2735,6 +2757,11 @@ fn run() -> Result<()> {
             }
         },
         CommandKind::Audit { command } => match command {
+            AuditCommand::CognitiveBenefit {
+                repo,
+                binary,
+                check,
+            } => cognitive_benefit::run(&repo, binary.as_deref(), check)?,
             AuditCommand::Export { repo, output } => {
                 require_compatible(&repo, &runtime_context)?;
                 let manifest = cockpit_repository::export_audit_events(&repo, &runtime_context)

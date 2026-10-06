@@ -2,6 +2,6 @@
 set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-python3 "$repo_root/tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py" \
-  --repo "$repo_root" \
-  --check
+cargo run --locked --quiet --manifest-path "$repo_root/Cargo.toml" \
+  -p cockpit-cli --bin ai-cockpit -- \
+  audit cognitive-benefit --repo "$repo_root" --check
