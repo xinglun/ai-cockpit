@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "Release and Distribution"
-description: "Verified stable v1.0.0 installation and Runtime boundaries."
+description: "Installation guidance for stable v1.0.1 and its Runtime boundaries."
 audience:
   - adopter
   - maintainer

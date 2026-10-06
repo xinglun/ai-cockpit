@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "发布与分发"
-description: "稳定版 v1.0.0 的校验安装与 Runtime 边界。"
+description: "稳定版 v1.0.1 的安装与 Runtime 边界。"
 audience:
   - adopter
   - maintainer

@@ -1,13 +1,14 @@
 {
   "acceptance": null,
   "acceptanceCriteria": [
-    "A1: The product/source diff changes exactly the 16 declared product paths; the six additionally scoped files are only the required language/parity governance projections. Workspace/package identity is plain stable SemVer 1.0.1, localized version/distribution guidance is consistent, and historical v1.0.0 and v1.0.1-rc.2 identities remain separate.",
-    "A2: The declared Rust workspace verification and every required repository gate pass for the exact PR #1022 head. Evidence records the exact head, workflow run/job conclusions, actual completion of all 13 package-coverage obligations, and the independent review conclusion without attributing agent review to a human.",
-    "A3: Before any tag is created, the Runtime-bound release plan consumes fresh evidence for this exact source/PR and confirms the real immutable v1.0.0 stable release is the N-1 source, v1.0.1 tag and Release names are unused, and the existing release workflow enforces candidate checks before public Release publication.",
+    "A1: The product/source diff changes exactly the 16 declared product paths. The nine additional scoped documentation paths are protocol projections only: three Work Item pages, three parity ledgers, and three localized generated command-reference pages. Workspace/package identity is plain stable SemVer 1.0.1; package, generated interface-version, and localized version/distribution guidance agree; historical v1.0.0 and v1.0.1-rc.2 identities remain separate.",
+    "A2: The stable 1.0.1 source has an independent technical review with no blocking product-code findings; attribute the conclusion to its actual reviewer (agent:Raydot), not human:Ray.",
+    "A3: Before any tag is created, a Runtime-bound release plan consumes fresh evidence for the exact current source/PR, confirms the existing public stable v1.0.0 tag and Release are the selected no-write N-1 reference, confirms the v1.0.1 tag and Release names are unused, records the provider's actual immutability metadata without overstating it, and confirms the existing workflow gates public Release publication on candidate checks.",
     "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
     "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
     "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
-    "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted."
+    "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted.",
+    "Before marking PR #1022 ready or performing its normal merge, GitHub Actions must be fully successful for the exact current PR head after Runtime admits its hosted Work Item verification. This includes all required route, quality, Rust Contract, repository-gate and 13-package coverage, Windows Runtime, and behavioral-oracle checks. Preserve failed attempts; a changed head requires new exact-head CI."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -35,7 +36,7 @@
   "notCodable": null,
   "operation": null,
   "outOfScope": [
-    "Any product or governance path outside the 16-path allowlist; .github/workflows/release.yml unless a demonstrated defect requires a separately admitted amendment; editing historical evidence; merging before exact-head CI and required review; tagging or publishing before Contract review and candidate acceptance."
+    "Any product/source path outside the 16-path allowlist or any documentation projection path outside the nine declared Work Item, parity, and generated command-reference pages; .github/workflows/release.yml unless a demonstrated defect requires a separately admitted amendment; editing historical evidence; merging before exact-head CI and required review; tagging or publishing before Contract review and candidate acceptance."
   ],
   "performanceImpact": null,
   "preReviewWarnings": [],
@@ -76,23 +77,23 @@
       "required": true,
       "scenario": "stable-v1.0.1-identity",
       "status": "unverified",
-      "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+      "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact 16 product/source paths, all three generated work-item-outcome reference regions in docs/reference/commands.md and its zh-CN/ja counterparts, and localized release/version documents; require every Runtime projection to report stable 1.0.1 and preserve historical v1.0.0 and rc.2 references."
     },
     {
       "evidence": [],
-      "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
-      "required": true,
+      "expected": "After Runtime admits hosted Work Item verification, the exact current PR #1022 head completes every required CI job successfully, including the Rust Contract gate, repository gates, all 13 package-coverage obligations, Windows Runtime, and behavioral oracle, before any PR-ready or normal-merge action.",
+      "required": false,
       "scenario": "exact-head-repository-and-release-ci",
       "status": "unverified",
-      "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+      "verificationPlan": "Once pre-verification evidence admits the hosted Runtime check, bind the exact current PR head to the final GitHub Actions run and all required route/quality/oracle/Windows jobs, the Rust Contract gate receipt, repository-gate receipts, and all 13 completed package-coverage outputs. Require every job green before PR ready or normal merge; any head change requires fresh exact-head CI."
     },
     {
       "evidence": [],
-      "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+      "expected": "After Runtime publication admission and creation of the new immutable v1.0.1 tag, explicitly dispatch the existing workflow in candidate-publication mode; require four-target candidate install/smoke and staged N-1 checks to finish before public Release publication.",
       "required": false,
       "scenario": "four-target-candidate-install-smoke",
       "status": "unverified",
-      "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+      "verificationPlan": "After normal PR merge and fresh Runtime publication admission, create and push the new v1.0.1 annotated tag once, then explicitly dispatch the existing release workflow with from_tag=v1.0.0, to_tag=v1.0.1, publish_candidate=true, and WI-1068 identity. Require candidate install/smoke for all four declared targets and staged Linux x86_64 N-1 acceptance before public Release upload."
     },
     {
       "evidence": [],
@@ -100,7 +101,7 @@
       "required": false,
       "scenario": "linux-x86_64-n-minus-one-upgrade",
       "status": "unverified",
-      "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+      "verificationPlan": "In the explicitly dispatched publication workflow, verify the actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
     },
     {
       "evidence": [],
@@ -128,11 +129,11 @@
     },
     {
       "evidence": [],
-      "expected": "Before publication, a current Runtime-bound release plan consumes exact fresh CI/source evidence, selects immutable v1.0.0 as the real N-1 source, confirms stable v1.0.1 tag/Release names are unused, and retains candidate validation before public publication.",
+      "expected": "A Runtime-bound plan binds the current PR source and Contract; the existing public stable v1.0.0 tag/Release is the no-write N-1 reference, v1.0.1 tag/Release names are unused, the actual provider immutability field is recorded accurately, and the release workflow requires all four target candidate checks plus Linux x86_64 N-1 from v1.0.0 before public Release publication.",
       "required": true,
       "scenario": "release-plan-immutability-and-evidence-consumption",
       "status": "unverified",
-      "verificationPlan": "Inspect current provider tag/Release identities and the existing release workflow; bind the exact candidate PR and evidence digests, all four target smoke jobs, and x86_64-unknown-linux-gnu staged N-1 from v1.0.0. No tag or publication mutation occurs in this pre-finish scenario."
+      "verificationPlan": "Resolve the typed normal-release plan against the exact current PR head, base and raw Contract file digest. Bind GitHub API evidence for the v1.0.0 tag object/peeled commit and public stable Release, including its reported immutable field; bind 404 results for v1.0.1 tag and Release; inspect release.yml to verify attest/publish dependencies include the four target candidate smoke routes and staged Linux x86_64 upgrade from v1.0.0. Do not create a tag or mutate any existing Release asset in this pre-tag check."
     }
   ],
   "scope": [
@@ -157,7 +158,10 @@
     "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",

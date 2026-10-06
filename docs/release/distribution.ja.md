@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "Release と配布"
-description: "検証済み stable v1.0.0 の install と Runtime 境界。"
+description: "stable v1.0.1 の install と Runtime 境界。"
 audience:
   - adopter
   - maintainer
