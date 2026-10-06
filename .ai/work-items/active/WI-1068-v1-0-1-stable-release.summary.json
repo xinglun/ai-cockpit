@@ -236,6 +236,10 @@
   "preflightRepositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryRetryContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+  "recoveryRetryDecisionDigest": "sha256:8658d25f053efbcbf7b107e4b6ef13c6d5fbe77038d33217584bd541a128c31a",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
