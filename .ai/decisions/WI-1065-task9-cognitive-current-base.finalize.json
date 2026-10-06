@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "Direct human authorization in this task: user replied “是，授权清理和本地收尾”, expressly authorizing deletion of the exact remote branch, local branch, and bound worktree and a local-only closeout record; user separately replied “是，授权普通合并” for the normal merge. This is not a new human review signature.",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "01474145a73fea77c4142c370ec4bef3ef84fba4",
+    "name": "codex/wi1058-task9-cognitive-gate",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "e6636dccb11aa0c98f7d81b01d4d8d5fd32a6ca2",
+  "contractDigest": "sha256:072952b2fe7e166929bf5cb6868c58476479d781d76037edce60251421243979",
+  "operationId": "delete-pr1009-resources-after-merge-e10ce2d",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "57c8c8872c20f49c609455ae3970a4dda7826caa",
+    "headRevision": "01474145a73fea77c4142c370ec4bef3ef84fba4",
+    "mergeCommit": "e10ce2d2fed87802f0677952bdcd8a6d42fa1e2b",
+    "number": 1009,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1009"
+  },
+  "reason": "PR #1009 merged at e10ce2d2fed87802f0677952bdcd8a6d42fa1e2b and mainline CI run 37392955372 succeeded. Deleted the exact merged PR branch on origin, matching local branch, and clean bound worktree. This finalization record is local only.",
+  "receiptId": "wi1065-finalize-e10ce2d-20261006",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1058-task9-cognitive-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1009",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/task9-cognitive-gate/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-06T00:54:17Z",
+  "workItemId": "WI-1065-task9-cognitive-current-base",
+  "worktree": {
+    "branch": "codex/wi1058-task9-cognitive-gate",
+    "headRevision": "01474145a73fea77c4142c370ec4bef3ef84fba4",
+    "path": "/Users/sei-rinn/.codex/worktrees/task9-cognitive-gate/ai-cockpit",
+    "worktreeId": "worktree-wi1065-task9-cognitive-gate"
+  }
+}
