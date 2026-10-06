@@ -19,6 +19,15 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 既定は stable v1.0.1 Release です。release-manifest.json は archive の filename、target、byte 数、SHA-256 digest を記載します。以下の command は公開された SHA256SUMS を使い、manifest と archive の両方を検証します。以前の stable v1.0.0 の checksum は履歴表に保持します。
 
+公開時の stable v1.0.1 archive 名は次の四つです。
+
+| Target | Stable v1.0.1 archive |
+| --- | --- |
+| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64（GNU） | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64（GNU） | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+
 install 前に、Apple Silicon macOS command は release-manifest.json が v1.0.1 用で aarch64-apple-darwin artifact を記載しているか確認します。次に archive の実測 SHA-256 を manifest と SHA256SUMS の値に照合します。curl、Python 3、shasum、awk、tar、install が必要です。
 
 ~~~bash

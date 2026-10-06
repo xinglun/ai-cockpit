@@ -19,6 +19,15 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 The default is the stable v1.0.1 Release. Its release-manifest.json lists archive filenames, targets, byte counts, and SHA-256 digests. The commands below verify both the manifest and archive against the published SHA256SUMS; the previous v1.0.0 checksums remain in the historical table.
 
+When the stable v1.0.1 Release is published, the four archive asset names are:
+
+| Target | Stable v1.0.1 archive |
+| --- | --- |
+| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64 (GNU) | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64 (GNU) | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+
 Before installation, the Apple Silicon macOS command checks that release-manifest.json is for v1.0.1 and lists the aarch64-apple-darwin archive. It then compares the archive's SHA-256 with both the manifest and SHA256SUMS. It requires curl, Python 3, shasum, awk, tar, and install.
 
 ~~~bash

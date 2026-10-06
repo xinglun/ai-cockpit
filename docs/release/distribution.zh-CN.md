@@ -19,6 +19,15 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 默认安装稳定版 v1.0.1。release-manifest.json 列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。下列命令会用公开的 SHA256SUMS 分别校验 manifest 和 archive；历史表格仍保留前一稳定版 v1.0.0 的校验和。
 
+公開時の stable v1.0.1 archive 名は次の四つです。
+
+| Target | Stable v1.0.1 archive |
+| --- | --- |
+| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64（GNU） | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64（GNU） | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+
 安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.1，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
 
 ~~~bash
