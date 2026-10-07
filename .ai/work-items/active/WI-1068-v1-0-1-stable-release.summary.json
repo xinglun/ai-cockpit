@@ -651,12 +651,14 @@
       "verificationPlan": "Exercise explicit repository recording and every new finish/terminal TaskOutcomeReport projection with present, absent, nullable, and partial fields; no receipts must persist coverage unknown, null counts, and a reason rather than omit usage or write zero. Confirm query does not create a receipt and software verification is unchanged."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "At source head d2f943d778aa014b9f983ce8b2cac3f96fb114f9, cargo test --locked -p cockpit-repository --test usage --test audit_query exited 0 (usage 19/19, audit_query 15/15). usage_matrix_keeps_model_role_phase_source_and_unknown_counts_distinct records provider/host/agent claims across two reported/configured models and two role/phase groups; exact totals keep missing input/cached counts null, cached/reasoning subsets are not added twice, and host label remains caller-claim assurance.",
+        "Unsupported cumulative unit deserialization rejects before append; the existing partial summary and three receipt refs remain unchanged rather than estimating a delta. Actual reported-model filtering selects only that model."
+      ],
       "expected": "Different reported/configured models, sources, roles, and phases remain distinct; cached/reasoning subsets do not double count and unknown remains null.",
-      "reason": "Existing tests cover reported-vs-configured model filtering, null/subset counts, and caller-claim assurance, but no multi-role/phase/source matrix or cumulative counter ambiguity fixture has been run.",
       "required": true,
       "scenario": "usage-multimodel-subset-accounting",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Record multiple explicit invocation/turn units and assert exact per-dimension subtotals, subset bounds, no double counting, and partial coverage for non-differentiable cumulative data. Keep model-identity provenance separate from token-count provenance; caller-labeled provider/host and reportedModel remain self-declared unless a supported adapter independently verifies them."
     },
     {
@@ -719,12 +721,14 @@
       "verificationPlan": "Record and query lifecycle events using the same repository read service; test exact filters, page/cursor binding, source mutation to stale_cursor, exported references, and wall-clock labels."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "At source head d2f943d778aa014b9f983ce8b2cac3f96fb114f9, cargo test --locked -p cockpit-repository --test audit_query exited 0 (15/15); combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit covers WI, inclusive from/exclusive to, reportedModel, actor, eventType, limit 1, cursor filter binding, limit 0/101 and invalid timezone/bounds, UTC asOf, source digest, receipt digests, page-only totals, and explicit known/unknown coverage. Nullable unknownCount wire round-trip is asserted; an unreadable source returns a closed error rather than an invented page count.",
+        "cargo test --locked -p cockpit-cli --test audit_query exited 0 (5/5); cli_and_mcp_share_combined_filters_and_bound_cursor_pages exercises both actual transports over two pages with the same combined filters, cursor, items, coverage, and snapshot digest. Existing source mutation tests reject stale_cursor, and historical missing recordedAt remains a coverage gap without time fallback."
+      ],
       "expected": "CLI, MCP, and export share typed exact filters; UTC asOf/sourceSnapshotDigest, coverage/unknown, receipt refs, page-only usage totals, nextCursor, and stale_cursor behavior are consistent.",
-      "reason": "Filters, time bounds, cursor stale behavior, CLI/MCP parity, page subtotals and unknown recordedAt are tested; nullable indeterminate unknownCount and full parameter/boundary matrix remain untested.",
       "required": true,
       "scenario": "audit-query-filter-pagination-snapshot",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Query fixtures by Work Item, inclusive/exclusive RFC3339 bounds on Runtime recordedAt only, reported model, actor, and event; preserve other timestamp fields without fallback and mark unknown recordedAt coverage. Page with limit 1..=100 using stable eventID tie-break; assert returnedCount, truncated, nextCursor, nullable indeterminate unknownCount; mutate a source before the next cursor, compare CLI/MCP envelopes, and assert stale_cursor."
     },
     {
@@ -789,7 +793,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T07:50:57.296357412+00:00",
+  "updatedAt": "2026-10-07T07:56:42.248257673+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
