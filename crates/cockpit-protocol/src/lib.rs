@@ -2936,8 +2936,20 @@ impl MaterialInspectionReviewProfile {
         if self.assurance != "self_declared" {
             return Err("materialInspectionReview assurance must be self_declared".into());
         }
-        if self.reviewer_actor != "agent:Raydot" {
-            return Err("materialInspectionReview reviewerActor must be agent:Raydot".into());
+        let actor = self.reviewer_actor.strip_prefix("agent:");
+        if !actor.is_some_and(|actor| {
+            actor.len() <= 128
+                && actor
+                    .as_bytes()
+                    .first()
+                    .is_some_and(u8::is_ascii_alphanumeric)
+                && actor.bytes().all(|byte| {
+                    byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-' | b'/')
+                })
+        }) {
+            return Err(
+                "materialInspectionReview reviewerActor must be a concrete agent actor".into(),
+            );
         }
         if self.authority_source.trim().is_empty()
             || self.authority_source.trim() != self.authority_source

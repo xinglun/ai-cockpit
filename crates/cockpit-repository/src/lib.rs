@@ -57,6 +57,7 @@ mod governance_controls;
 mod historical_compatibility;
 mod knowledge_projection;
 mod lifecycle;
+mod material_review;
 mod observation_ledger;
 mod outcome_render;
 mod project_governance;
@@ -65,8 +66,13 @@ mod rust_material;
 mod status_projection;
 mod usage;
 
+pub use material_review::{
+    MaterialReviewEntry, MaterialReviewRequest, MaterialReviewRequestError, material_review_request,
+};
+pub use rust_material::MaterialUnknownCause;
 use rust_material::{
-    RustMaterialAssessment, assess_rust_material, contains_strong_instruction_injection,
+    RustMaterialAssessment, RustMaterialDiagnosis, contains_strong_instruction_injection,
+    diagnose_rust_material,
 };
 
 pub use action_admission::require_current_action_admission;
@@ -5218,7 +5224,17 @@ fn coverage_weakened(removed: &[String], added: &[String]) -> bool {
 }
 
 pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSignalAssessment {
+    derive_governance_signals_with_diagnostics(snapshot).0
+}
+
+fn derive_governance_signals_with_diagnostics(
+    snapshot: &RepositorySnapshot,
+) -> (
+    GovernanceSignalAssessment,
+    BTreeMap<String, RustMaterialDiagnosis>,
+) {
     let mut result = GovernanceSignalAssessment::default();
+    let mut rust_diagnostics = BTreeMap::new();
     for change in &snapshot.change_evidence {
         if change.path.starts_with(".ai/") {
             continue;
@@ -5260,7 +5276,9 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             &added_text
         };
         if change.path.to_ascii_lowercase().ends_with(".rs") {
-            match assess_rust_material(change) {
+            let diagnosis = diagnose_rust_material(change);
+            rust_diagnostics.insert(change.path.clone(), diagnosis);
+            match diagnosis.assessment {
                 RustMaterialAssessment::Finding => {
                     result.untrusted_material = true;
                     result.findings.push("repository_prompt_injection".into());
@@ -5292,7 +5310,7 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
     result.unknowns.dedup();
     result.findings.sort();
     result.findings.dedup();
-    result
+    (result, rust_diagnostics)
 }
 
 pub fn contract_freshness_findings(

@@ -203,6 +203,36 @@ fn material_review_profile_rejects_mismatched_values_and_incomplete_authority() 
 }
 
 #[test]
+fn material_review_profile_accepts_another_explicit_agent_for_another_work_item() {
+    let mut guarded = contract();
+    guarded
+        .required_runtime_capabilities
+        .push("material-inspection-review".into());
+    let mut profile = material_review_profile();
+    profile["reviewerActor"] = json!("agent:SecondReviewer");
+    guarded.governance_profile = Some(json!({"materialInspectionReview": profile}));
+    guarded
+        .validate()
+        .expect("product schema accepts an explicitly selected agent actor");
+
+    for invalid in [
+        "human:Ray",
+        "agent:",
+        "agent:human:Ray",
+        "agent: reviewer",
+        "agent:Raydot\n",
+    ] {
+        let mut profile = material_review_profile();
+        profile["reviewerActor"] = json!(invalid);
+        guarded.governance_profile = Some(json!({"materialInspectionReview": profile}));
+        assert!(
+            guarded.validate().is_err(),
+            "invalid actor {invalid:?} must be rejected"
+        );
+    }
+}
+
+#[test]
 fn replaces_scalar_and_recomputes_acceptance_alias() {
     let contract = contract();
     let amended = apply_contract_amendment(
