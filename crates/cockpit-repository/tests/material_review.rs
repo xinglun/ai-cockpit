@@ -127,6 +127,17 @@ fn dirty_and_untracked_source_refuse_request() {
 }
 
 #[test]
+fn untracked_unicode_ai_fact_is_not_misclassified_as_dirty_source() {
+    let (directory, contract) = fixture();
+    let root = directory.path();
+    fs::create_dir(root.join(".ai")).unwrap();
+    fs::write(root.join(".ai/évidence.json"), "{}\n").unwrap();
+
+    let request = material_review_request(root, &contract).unwrap();
+    assert!(request.entries.is_empty());
+}
+
+#[test]
 fn finding_is_never_reviewable() {
     let (directory, contract) = fixture();
     let root = directory.path();
@@ -190,11 +201,81 @@ fn ai_only_descendant_retains_request_identity_but_source_change_stales_it() {
 }
 
 #[test]
+fn normalized_crlf_checkout_is_not_compared_to_committed_blob_bytes() {
+    let (directory, contract) = fixture();
+    let root = directory.path();
+    git(root, &["config", "core.autocrlf", "true"]);
+    fs::write(root.join("README.md"), b"candidate\r\n").unwrap();
+    commit(root);
+
+    let checkout_bytes = fs::read(root.join("README.md")).unwrap();
+    let blob_id = git(root, &["rev-parse", "HEAD:README.md"]);
+    let committed_blob = Command::new("git")
+        .args(["cat-file", "blob", &blob_id])
+        .current_dir(root)
+        .output()
+        .unwrap();
+    assert!(committed_blob.status.success());
+    assert_eq!(checkout_bytes, b"candidate\r\n");
+    assert_eq!(committed_blob.stdout, b"candidate\n");
+
+    let request = material_review_request(root, &contract).unwrap();
+    let readme = request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "README.md")
+        .unwrap();
+    assert!(readme.after_blob_digest.is_some());
+}
+
+#[cfg(unix)]
+#[test]
+fn no_hunk_text_changes_still_bind_complete_committed_source() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let (directory, mut contract) = fixture();
+    let root = directory.path();
+    fs::create_dir(root.join("src")).unwrap();
+    fs::write(root.join("src/chmod.rs"), "fn permission() {}\n").unwrap();
+    commit(root);
+    contract.base_revision = git(root, &["rev-parse", "HEAD"]);
+
+    fs::write(root.join("src/empty.rs"), "").unwrap();
+    let chmod_file = root.join("src/chmod.rs");
+    let mut permissions = fs::metadata(&chmod_file).unwrap().permissions();
+    permissions.set_mode(0o755);
+    fs::set_permissions(&chmod_file, permissions).unwrap();
+    commit(root);
+
+    let request = material_review_request(root, &contract).unwrap();
+    for path in ["src/chmod.rs", "src/empty.rs"] {
+        let entry = request
+            .entries
+            .iter()
+            .find(|entry| entry.path == path)
+            .unwrap();
+        assert_eq!(entry.content_state, "text");
+        assert_eq!(entry.unknown_cause, None);
+        assert!(entry.after_blob_digest.is_some());
+    }
+}
+
+#[test]
 fn staged_source_refuses_request() {
     let (directory, contract) = fixture();
     let root = directory.path();
     fs::write(root.join("README.md"), "staged\n").unwrap();
     git(root, &["add", "README.md"]);
+    assert!(material_review_request(root, &contract).is_err());
+}
+
+#[test]
+fn staged_source_rename_into_ai_does_not_hide_original_source_change() {
+    let (directory, contract) = fixture();
+    let root = directory.path();
+    fs::create_dir(root.join(".ai")).unwrap();
+    git(root, &["mv", "README.md", ".ai/readme.md"]);
+
     assert!(material_review_request(root, &contract).is_err());
 }
 

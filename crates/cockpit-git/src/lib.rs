@@ -1,13 +1,23 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
+use std::io::Read;
 use std::path::PathBuf;
 use std::path::{Component, Path};
-use std::process::Command;
+use std::process::{Child, Command, Stdio};
+use std::sync::mpsc::{self, SyncSender};
+use std::thread;
 use std::time::UNIX_EPOCH;
 use thiserror::Error;
 
+#[cfg(unix)]
+unsafe extern "C" {
+    fn kill(pid: i32, signal: i32) -> i32;
+}
+
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
+pub const MAX_BOUNDED_GIT_OUTPUT_BYTES: usize = 64 * 1024 * 1024;
+const GIT_OUTPUT_CHUNK_BYTES: usize = 8 * 1024;
 
 /// A bounded, repository-local content identity cache. It hashes only declared
 /// relative files and derives a deterministic Merkle root from their
@@ -315,6 +325,27 @@ pub struct RepositorySnapshot {
     pub source_tree_digest: Option<String>,
 }
 
+/// Minimal current-source observation for bounded request construction. The
+/// status output contains working-tree changes while the tree digests are
+/// derived from the index; `.ai` paths are excluded from source_tree_digest.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BoundedSourceSnapshot {
+    pub head: Option<String>,
+    pub changed_paths: Vec<String>,
+    pub tree_digest: String,
+    pub source_tree_digest: String,
+}
+
+/// Captured stdout and stderr from one bounded Git subprocess. Each stream is
+/// capped independently at the requested byte limit.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BoundedGitOutput {
+    pub success: bool,
+    pub stdout: Vec<u8>,
+    pub stderr: Vec<u8>,
+    exit_code: Option<i32>,
+}
+
 pub struct GitRepository {
     root: PathBuf,
 }
@@ -360,6 +391,10 @@ pub enum GitError {
     Command(String),
     #[error("git output was not valid UTF-8")]
     InvalidUtf8,
+    #[error("git output exceeded the bounded limit of {limit} bytes")]
+    OutputLimitExceeded { limit: usize },
+    #[error("Git revision must be a full 40- or 64-digit object ID: {0}")]
+    InvalidRevision(String),
     #[error("git topology path could not be resolved: {0}")]
     InvalidTopology(PathBuf),
 }
@@ -383,6 +418,163 @@ impl GitRepository {
 
     pub fn root(&self) -> &Path {
         &self.root
+    }
+
+    /// Run a Git subprocess while bounding stdout and stderr independently.
+    /// If either stream exceeds `max_output_bytes`, the child is killed and
+    /// waited for before this method returns an error.
+    fn output_bounded<const N: usize>(
+        &self,
+        args: [&str; N],
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(args)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Read the tracked index flags through a fixed, read-only Git command.
+    pub fn index_flags_bounded(
+        &self,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        self.output_bounded(["ls-files", "-v", "-z"], max_output_bytes)
+    }
+
+    /// Read a committed tree through Git's NUL-delimited tree format.
+    pub fn committed_tree_bounded(
+        &self,
+        revision: &str,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        if revision != "HEAD" && !valid_commit_oid(revision) {
+            return Err(GitError::InvalidRevision(revision.to_owned()));
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(["ls-tree", "-r", "-z"])
+            .arg(revision)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Read one committed blob by object ID through a fixed Git command.
+    pub fn blob_bounded(
+        &self,
+        object_id: &str,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        if !valid_commit_oid(object_id) {
+            return Err(GitError::InvalidRevision(object_id.to_owned()));
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(["cat-file", "blob"])
+            .arg(object_id)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Test ancestry with `merge-base --is-ancestor`, distinguishing its
+    /// normal false result from a Git command failure.
+    pub fn is_ancestor_bounded(
+        &self,
+        base: &str,
+        head: &str,
+        max_output_bytes: usize,
+    ) -> Result<bool, GitError> {
+        if !valid_commit_oid(base) {
+            return Err(GitError::InvalidRevision(base.to_owned()));
+        }
+        if !valid_commit_oid(head) {
+            return Err(GitError::InvalidRevision(head.to_owned()));
+        }
+        let output = self.output_bounded(
+            ["merge-base", "--is-ancestor", base, head],
+            max_output_bytes,
+        )?;
+        match output.exit_code {
+            Some(0) => Ok(true),
+            Some(1) => Ok(false),
+            _ => Err(command_error(&output.stderr)),
+        }
+    }
+
+    /// Capture only current Git status and index-tree identities. This avoids
+    /// reading changed checkout files while a material request checks that
+    /// source is clean.
+    pub fn source_snapshot_bounded(
+        &self,
+        max_output_bytes: usize,
+    ) -> Result<BoundedSourceSnapshot, GitError> {
+        let status = self.output_bounded(
+            [
+                "-c",
+                "core.fsmonitor=false",
+                "status",
+                "--porcelain=v2",
+                "--branch",
+                "--untracked-files=all",
+                "-z",
+            ],
+            max_output_bytes,
+        )?;
+        if !status.success {
+            return Err(command_error(&status.stderr));
+        }
+        let tree = self.output_bounded(["ls-files", "-s", "-z"], max_output_bytes)?;
+        if !tree.success {
+            return Err(command_error(&tree.stderr));
+        }
+        let mut source_tree_hasher = Sha256::new();
+        for record in tree
+            .stdout
+            .split(|byte| *byte == 0)
+            .filter(|record| !record.is_empty())
+        {
+            let Some(tab) = record.iter().position(|byte| *byte == b'\t') else {
+                continue;
+            };
+            let path = &record[tab + 1..];
+            if is_ai_path(path) {
+                continue;
+            }
+            source_tree_hasher.update(record);
+            source_tree_hasher.update([0]);
+        }
+        let (changed_paths, _) = status_change_facts_nul(&status.stdout)?;
+        Ok(BoundedSourceSnapshot {
+            head: status_v2_head_nul(&status.stdout)?,
+            changed_paths,
+            tree_digest: digest(&tree.stdout),
+            source_tree_digest: format!("sha256:{}", hex::encode(source_tree_hasher.finalize())),
+        })
     }
 
     /// Resolve the actual Git common directory and worktree identity.  This
@@ -482,7 +674,7 @@ impl GitRepository {
                 )
             })
             .collect::<BTreeMap<_, _>>();
-        apply_patch_facts(&diff, &mut change_evidence);
+        apply_patch_facts(&diff, &mut change_evidence, None);
         let mut changed_hasher = Sha256::new();
         let mut changed_files_read = 0;
         let mut changed_files_hashed = 0;
@@ -674,7 +866,7 @@ impl GitRepository {
                 )
             })
             .collect::<BTreeMap<_, _>>();
-        apply_patch_facts(&patch, &mut change_evidence);
+        apply_patch_facts(&patch, &mut change_evidence, None);
         for change in working_change_evidence {
             if !changed_paths.iter().any(|path| path == &change.path) {
                 changed_paths.push(change.path.clone());
@@ -720,6 +912,120 @@ impl GitRepository {
         Ok(snapshot)
     }
 
+    /// Capture committed source changes against `base` with bounded Git
+    /// output. The resulting change and patch identities exclude `.ai` paths;
+    /// unlike `snapshot_against`, this request-oriented API does not read
+    /// working-tree file contents or merge uncommitted evidence.
+    pub fn source_snapshot_against_bounded(
+        &self,
+        base: &str,
+        max_output_bytes: usize,
+    ) -> Result<RepositorySnapshot, GitError> {
+        if !valid_commit_oid(base) {
+            return Err(GitError::InvalidRevision(base.to_owned()));
+        }
+        let working = self.source_snapshot_bounded(max_output_bytes)?;
+        let head = working.head.clone().ok_or_else(|| {
+            GitError::Command("comparison snapshot requires a committed HEAD".into())
+        })?;
+        let name_status = self.output_bounded(
+            [
+                "-c",
+                "core.quotePath=false",
+                "diff",
+                "--name-status",
+                "--no-renames",
+                "-z",
+                "-O/dev/null",
+                "--no-ext-diff",
+                "--no-color",
+                base,
+                head.as_str(),
+                "--",
+                ".",
+                ":(exclude).ai",
+                ":(exclude).ai/**",
+            ],
+            max_output_bytes,
+        )?;
+        if !name_status.success {
+            return Err(command_error(&name_status.stderr));
+        }
+        let name_status_text =
+            String::from_utf8(name_status.stdout).map_err(|_| GitError::InvalidUtf8)?;
+        let (mut changed_paths, change_kinds) = comparison_change_facts(&name_status_text);
+        changed_paths.retain(|path| path != ".ai" && !path.starts_with(".ai/"));
+        let mut change_evidence = changed_paths
+            .iter()
+            .map(|path| {
+                (
+                    path.clone(),
+                    ChangeEvidence {
+                        path: path.clone(),
+                        kind: change_kinds
+                            .get(path)
+                            .cloned()
+                            .unwrap_or(ChangeKind::Unknown),
+                        added_lines: Vec::new(),
+                        added_line_origins: Vec::new(),
+                        removed_lines: Vec::new(),
+                        after_text: None,
+                        content_state: ChangeContentState::Unavailable,
+                    },
+                )
+            })
+            .collect::<BTreeMap<_, _>>();
+        let patch = self.output_bounded(
+            [
+                "-c",
+                "core.quotePath=false",
+                "diff",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--no-color",
+                "--no-renames",
+                "--diff-algorithm=myers",
+                "--binary",
+                "--unified=0",
+                "-O/dev/null",
+                base,
+                head.as_str(),
+                "--",
+                ".",
+                ":(exclude).ai",
+                ":(exclude).ai/**",
+            ],
+            max_output_bytes,
+        )?;
+        if !patch.success {
+            return Err(command_error(&patch.stderr));
+        }
+        let patch_text = String::from_utf8_lossy(&patch.stdout);
+        apply_patch_facts(&patch_text, &mut change_evidence, Some(&changed_paths));
+        for change in change_evidence.values_mut() {
+            if change.kind == ChangeKind::Deleted {
+                change.content_state = ChangeContentState::Deleted;
+            }
+        }
+        let empty_digest = digest(b"");
+        Ok(RepositorySnapshot {
+            root: self.root.clone(),
+            git_root: self.root.clone(),
+            head: Some(head),
+            changed_paths,
+            change_evidence: change_evidence.into_values().collect(),
+            git_calls: 4,
+            tree_digest: working.tree_digest,
+            diff_digest: digest(&patch.stdout),
+            dependency_fingerprint: empty_digest,
+            files_read: 0,
+            files_hashed: 0,
+            bytes_read: 0,
+            bytes_hashed: 0,
+            source_tree_digest: Some(working.source_tree_digest),
+        })
+    }
+
     fn run<const N: usize>(&self, args: [&str; N]) -> Result<String, GitError> {
         let output = Command::new("git")
             .args(["-C"])
@@ -734,6 +1040,137 @@ impl GitRepository {
         }
         String::from_utf8(output.stdout).map_err(|_| GitError::InvalidUtf8)
     }
+}
+
+#[derive(Clone, Copy)]
+enum BoundedStream {
+    Stdout,
+    Stderr,
+}
+
+enum BoundedReadMessage {
+    Chunk(BoundedStream, Vec<u8>),
+    Error(String),
+}
+
+fn forward_pipe<R: Read>(
+    mut reader: R,
+    stream: BoundedStream,
+    sender: SyncSender<BoundedReadMessage>,
+) {
+    let mut buffer = [0_u8; GIT_OUTPUT_CHUNK_BYTES];
+    loop {
+        match reader.read(&mut buffer) {
+            Ok(0) => break,
+            Ok(count) => {
+                if sender
+                    .send(BoundedReadMessage::Chunk(stream, buffer[..count].to_vec()))
+                    .is_err()
+                {
+                    break;
+                }
+            }
+            Err(error) => {
+                let _ = sender.send(BoundedReadMessage::Error(error.to_string()));
+                break;
+            }
+        }
+    }
+}
+
+fn bounded_process_output(
+    mut command: Command,
+    max_output_bytes: usize,
+) -> Result<BoundedGitOutput, GitError> {
+    command.env("GIT_NO_LAZY_FETCH", "1");
+    let mut child = command
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|error| GitError::Command(error.to_string()))?;
+    let stdout = child
+        .stdout
+        .take()
+        .ok_or_else(|| GitError::Command("git stdout pipe was unavailable".into()))?;
+    let stderr = child
+        .stderr
+        .take()
+        .ok_or_else(|| GitError::Command("git stderr pipe was unavailable".into()))?;
+    let (sender, receiver) = mpsc::sync_channel(4);
+    let stdout_sender = sender.clone();
+    let stdout_reader =
+        thread::spawn(move || forward_pipe(stdout, BoundedStream::Stdout, stdout_sender));
+    let stderr_reader = thread::spawn(move || forward_pipe(stderr, BoundedStream::Stderr, sender));
+
+    let mut stdout_bytes = Vec::new();
+    let mut stderr_bytes = Vec::new();
+    let mut overflow = false;
+    let mut read_error = None;
+    while let Ok(message) = receiver.recv() {
+        match message {
+            BoundedReadMessage::Chunk(stream, bytes) => {
+                let target = match stream {
+                    BoundedStream::Stdout => &mut stdout_bytes,
+                    BoundedStream::Stderr => &mut stderr_bytes,
+                };
+                if target.len().saturating_add(bytes.len()) > max_output_bytes {
+                    if !overflow {
+                        overflow = true;
+                        terminate_bounded_process_group(&mut child);
+                    }
+                } else if !overflow {
+                    target.extend_from_slice(&bytes);
+                }
+            }
+            BoundedReadMessage::Error(error) => {
+                if read_error.is_none() {
+                    read_error = Some(error);
+                    terminate_bounded_process_group(&mut child);
+                }
+            }
+        }
+    }
+    let status = child
+        .wait()
+        .map_err(|error| GitError::Command(error.to_string()))?;
+    let stdout_panicked = stdout_reader.join().is_err();
+    let stderr_panicked = stderr_reader.join().is_err();
+    if overflow {
+        return Err(GitError::OutputLimitExceeded {
+            limit: max_output_bytes,
+        });
+    }
+    if let Some(error) = read_error {
+        return Err(GitError::Command(format!(
+            "failed reading git output: {error}"
+        )));
+    }
+    if stdout_panicked || stderr_panicked {
+        return Err(GitError::Command("git output reader failed".into()));
+    }
+    Ok(BoundedGitOutput {
+        success: status.success(),
+        stdout: stdout_bytes,
+        stderr: stderr_bytes,
+        exit_code: status.code(),
+    })
+}
+
+fn terminate_bounded_process_group(child: &mut Child) {
+    #[cfg(unix)]
+    {
+        // Every bounded Git child owns a fresh process group. Killing the
+        // group also closes pipes inherited by Git filters and helpers.
+        const SIGKILL: i32 = 9;
+        let process_group = -(child.id() as i32);
+        // SAFETY: the process group ID is the PID assigned by CommandExt.
+        let _ = unsafe { kill(process_group, SIGKILL) };
+    }
+    let _ = child.kill();
+}
+
+fn command_error(stderr: &[u8]) -> GitError {
+    GitError::Command(String::from_utf8_lossy(stderr).trim().to_owned())
 }
 
 fn resolve_git_path(root: &Path, value: &str) -> Result<PathBuf, GitError> {
@@ -792,11 +1229,81 @@ fn status_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKin
     (kinds.keys().cloned().collect(), kinds)
 }
 
+fn status_change_facts_nul(
+    status: &[u8],
+) -> Result<(Vec<String>, BTreeMap<String, ChangeKind>), GitError> {
+    let mut kinds = BTreeMap::new();
+    let mut records = status
+        .split(|byte| *byte == 0)
+        .filter(|record| !record.is_empty());
+    while let Some(record) = records.next() {
+        let record = std::str::from_utf8(record).map_err(|_| GitError::InvalidUtf8)?;
+        let mut renamed_source = None;
+        let parsed = if let Some(path) = record.strip_prefix("? ") {
+            Some(("??", path))
+        } else if let Some(fields) = record.strip_prefix("1 ") {
+            let columns = fields.splitn(8, ' ').collect::<Vec<_>>();
+            (columns.len() == 8).then(|| (columns[0], columns[7]))
+        } else if let Some(fields) = record.strip_prefix("2 ") {
+            let columns = fields.splitn(9, ' ').collect::<Vec<_>>();
+            // Porcelain v2 emits the original rename path as the next NUL
+            // record. Keep it as a source deletion so moving a source file
+            // into `.ai` cannot hide the dirty source path.
+            let original_path = records.next();
+            if columns.len() != 9 {
+                None
+            } else {
+                if columns[0].contains('R')
+                    && let Some(original_path) = original_path
+                {
+                    renamed_source = Some(
+                        std::str::from_utf8(original_path).map_err(|_| GitError::InvalidUtf8)?,
+                    );
+                }
+                Some((columns[0], columns[8]))
+            }
+        } else if let Some(fields) = record.strip_prefix("u ") {
+            let columns = fields.splitn(10, ' ').collect::<Vec<_>>();
+            (columns.len() == 10).then(|| (columns[0], columns[9]))
+        } else {
+            None
+        };
+        let Some((code, raw_path)) = parsed else {
+            continue;
+        };
+        let Some(path) = normalize_changed_paths([raw_path]).into_iter().next() else {
+            continue;
+        };
+        kinds.insert(path, change_kind_from_status_code(code));
+        if let Some(original_path) = renamed_source
+            && let Some(path) = normalize_changed_paths([original_path]).into_iter().next()
+        {
+            kinds.insert(path, ChangeKind::Deleted);
+        }
+    }
+    Ok((kinds.keys().cloned().collect(), kinds))
+}
+
 fn status_v2_head(status: &str) -> Option<String> {
     let head = status
         .lines()
         .find_map(|line| line.strip_prefix("# branch.oid "))?;
-    (head.len() == 40 && head.bytes().all(|byte| byte.is_ascii_hexdigit())).then(|| head.to_owned())
+    valid_commit_oid(head).then(|| head.to_owned())
+}
+
+fn status_v2_head_nul(status: &[u8]) -> Result<Option<String>, GitError> {
+    for record in status.split(|byte| *byte == 0) {
+        let Some(head) = record.strip_prefix(b"# branch.oid ") else {
+            continue;
+        };
+        let head = std::str::from_utf8(head).map_err(|_| GitError::InvalidUtf8)?;
+        return Ok(valid_commit_oid(head).then(|| head.to_owned()));
+    }
+    Ok(None)
+}
+
+fn valid_commit_oid(head: &str) -> bool {
+    matches!(head.len(), 40 | 64) && head.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 fn status_v2_has_changes(status: &str) -> bool {
@@ -882,17 +1389,24 @@ fn push_bounded(
     }
 }
 
-fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence>) {
+fn apply_patch_facts(
+    patch: &str,
+    evidence: &mut BTreeMap<String, ChangeEvidence>,
+    diff_header_paths: Option<&[String]>,
+) {
     let mut previous_path = None;
     let mut current_path = None;
     let mut retained_bytes = BTreeMap::<String, usize>::new();
     let mut hunk_counts = BTreeMap::<String, usize>::new();
     let mut current_hunk = None;
     let mut after_line = None;
+    let mut diff_header_index = 0;
     for line in patch.lines() {
         if line.starts_with("diff --git ") {
-            previous_path = None;
-            current_path = None;
+            current_path =
+                diff_header_paths.and_then(|paths| paths.get(diff_header_index).cloned());
+            diff_header_index = diff_header_index.saturating_add(1);
+            previous_path = current_path.clone();
             current_hunk = None;
             after_line = None;
         } else if let Some(path) = diff_path(line, "--- a/") {
@@ -914,6 +1428,11 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
             let next = hunk_counts.entry(path.clone()).or_default();
             current_hunk = Some(*next);
             *next = next.saturating_add(1);
+        } else if line == "GIT binary patch"
+            && let Some(path) = current_path.as_ref()
+            && let Some(change) = evidence.get_mut(path)
+        {
+            change.content_state = ChangeContentState::Binary;
         } else if let Some(path) = current_path.as_ref()
             && let Some(change) = evidence.get_mut(path)
         {
@@ -963,6 +1482,10 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
             change.content_state = ChangeContentState::Text;
         }
     }
+}
+
+fn is_ai_path(path: &[u8]) -> bool {
+    path == b".ai" || path.starts_with(b".ai/")
 }
 
 fn digest(bytes: &[u8]) -> String {

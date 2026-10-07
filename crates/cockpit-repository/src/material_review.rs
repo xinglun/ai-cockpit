@@ -7,17 +7,27 @@ use super::{
 };
 use crate::rust_material::{MaterialUnknownCause, RustMaterialAssessment};
 use cockpit_core::Digest;
-use cockpit_git::{ChangeContentState, ChangeKind, GitRepository};
+use cockpit_git::{
+    BoundedGitOutput, ChangeContentState, ChangeKind, GitError, GitRepository,
+    MAX_BOUNDED_GIT_OUTPUT_BYTES, MAX_CHANGE_TEXT_BYTES,
+};
 use cockpit_protocol::{Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY, digest_json};
 use serde::Serialize;
 use sha2::{Digest as _, Sha256};
-use std::{collections::BTreeMap, fs, path::Path, process::Command};
+#[cfg(not(unix))]
+use std::fs::OpenOptions;
+use std::{
+    collections::BTreeMap,
+    fs::{self, File},
+    io,
+    path::Path,
+};
 use thiserror::Error;
 
 const SCANNER_SEMANTIC_VERSION: &str = "rust-material-v1";
 const ANALYSIS_TARGET_SEMANTIC_PROFILE: &str = "cross-platform-rust-source-v1";
 const MAX_MATERIAL_BLOB_BYTES: u64 = 16 * 1024 * 1024;
-const MAX_PATCH_BYTES: usize = 64 * 1024 * 1024;
+const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -159,57 +169,16 @@ fn analysis_implementation_digest() -> Digest {
     ])
 }
 
-fn source_patch_digest(
-    root: &Path,
-    base: &str,
-    head: &str,
-) -> Result<Digest, MaterialReviewRequestError> {
-    let output = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args([
-            "-c",
-            "core.quotePath=false",
-            "diff",
-            "--no-ext-diff",
-            "--no-textconv",
-            "--no-color",
-            "--no-renames",
-            "--diff-algorithm=myers",
-            "--binary",
-            "--unified=0",
-            base,
-            head,
-            "--",
-            ".",
-            ":(exclude).ai/**",
-        ])
-        .output()
-        .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !output.status.success() {
-        return Err(MaterialReviewRequestError::Git(
-            String::from_utf8_lossy(&output.stderr).into_owned(),
-        ));
-    }
-    if output.stdout.len() > MAX_PATCH_BYTES {
-        return Err(MaterialReviewRequestError::Identity(
-            "committed material patch exceeds bounded request budget".into(),
-        ));
-    }
-    Ok(Digest::sha256_bytes(&output.stdout))
+fn git_output_error(output: &BoundedGitOutput) -> MaterialReviewRequestError {
+    MaterialReviewRequestError::Git(String::from_utf8_lossy(&output.stderr).into_owned())
 }
 
-fn reject_nonstandard_index_flags(root: &Path) -> Result<(), MaterialReviewRequestError> {
-    let output = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args(["ls-files", "-v", "-z"])
-        .output()
+fn reject_nonstandard_index_flags(git: &GitRepository) -> Result<(), MaterialReviewRequestError> {
+    let output = git
+        .index_flags_bounded(MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !output.status.success() {
-        return Err(MaterialReviewRequestError::Git(
-            String::from_utf8_lossy(&output.stderr).into_owned(),
-        ));
+    if !output.success {
+        return Err(git_output_error(&output));
     }
     for record in output
         .stdout
@@ -232,17 +201,14 @@ fn reject_nonstandard_index_flags(root: &Path) -> Result<(), MaterialReviewReque
     Ok(())
 }
 
-fn committed_blob_ids(root: &Path) -> Result<BTreeMap<String, String>, MaterialReviewRequestError> {
-    let output = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args(["ls-tree", "-r", "-z", "HEAD"])
-        .output()
+fn committed_blob_ids(
+    git: &GitRepository,
+) -> Result<BTreeMap<String, String>, MaterialReviewRequestError> {
+    let output = git
+        .committed_tree_bounded("HEAD", MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !output.status.success() {
-        return Err(MaterialReviewRequestError::Git(
-            String::from_utf8_lossy(&output.stderr).into_owned(),
-        ));
+    if !output.success {
+        return Err(git_output_error(&output));
     }
     let mut objects = BTreeMap::new();
     for record in output
@@ -282,40 +248,190 @@ fn committed_blob_ids(root: &Path) -> Result<BTreeMap<String, String>, MaterialR
     Ok(objects)
 }
 
-fn committed_blob(root: &Path, id: &str) -> Result<Vec<u8>, MaterialReviewRequestError> {
-    let size = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args(["cat-file", "-s", id])
-        .output()
-        .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !size.status.success() {
-        return Err(MaterialReviewRequestError::Git(
-            String::from_utf8_lossy(&size.stderr).into_owned(),
-        ));
-    }
-    let size = std::str::from_utf8(&size.stdout)
-        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?
-        .trim()
-        .parse::<u64>()
-        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
-    if size > MAX_MATERIAL_BLOB_BYTES {
-        return Err(MaterialReviewRequestError::Identity(
-            "committed source exceeds bounded request budget".into(),
-        ));
-    }
-    let output = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args(["cat-file", "blob", id])
-        .output()
-        .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !output.status.success() || output.stdout.len() as u64 != size {
-        return Err(MaterialReviewRequestError::Identity(
-            "committed blob read is incomplete".into(),
-        ));
+fn committed_blob(git: &GitRepository, id: &str) -> Result<Vec<u8>, MaterialReviewRequestError> {
+    let output = git
+        .blob_bounded(id, MAX_MATERIAL_BLOB_BYTES as usize)
+        .map_err(|error| match error {
+            GitError::OutputLimitExceeded { .. } => MaterialReviewRequestError::Identity(
+                "committed source exceeds bounded request budget".into(),
+            ),
+            error => MaterialReviewRequestError::Git(error.to_string()),
+        })?;
+    if !output.success {
+        return Err(git_output_error(&output));
     }
     Ok(output.stdout)
+}
+
+fn verify_checkout_source(
+    root: &Path,
+    relative_path: &str,
+) -> Result<(), MaterialReviewRequestError> {
+    let display_path = root.join(relative_path);
+    let file = open_checkout_source_nofollow(root, Path::new(relative_path)).map_err(|error| {
+        MaterialReviewRequestError::SourceUnavailable {
+            path: display_path.display().to_string(),
+            reason: error.to_string(),
+        }
+    })?;
+    let opened =
+        file.metadata()
+            .map_err(|error| MaterialReviewRequestError::SourceUnavailable {
+                path: display_path.display().to_string(),
+                reason: error.to_string(),
+            })?;
+    if !opened.is_file() {
+        return Err(MaterialReviewRequestError::SourceUnavailable {
+            path: display_path.display().to_string(),
+            reason: "symlink or non-regular source".into(),
+        });
+    }
+    if opened.len() > MAX_MATERIAL_BLOB_BYTES {
+        return Err(MaterialReviewRequestError::SourceUnavailable {
+            path: display_path.display().to_string(),
+            reason: "source exceeds bounded request budget".into(),
+        });
+    }
+    let copied = io::copy(
+        &mut io::Read::take(file, MAX_MATERIAL_BLOB_BYTES + 1),
+        &mut io::sink(),
+    )
+    .map_err(|error| MaterialReviewRequestError::SourceUnavailable {
+        path: display_path.display().to_string(),
+        reason: error.to_string(),
+    })?;
+    let final_file =
+        open_checkout_source_nofollow(root, Path::new(relative_path)).map_err(|error| {
+            MaterialReviewRequestError::SourceUnavailable {
+                path: display_path.display().to_string(),
+                reason: error.to_string(),
+            }
+        })?;
+    let final_metadata =
+        final_file
+            .metadata()
+            .map_err(|error| MaterialReviewRequestError::SourceUnavailable {
+                path: display_path.display().to_string(),
+                reason: error.to_string(),
+            })?;
+    #[cfg(unix)]
+    let same_file = {
+        use std::os::unix::fs::MetadataExt;
+        opened.dev() == final_metadata.dev() && opened.ino() == final_metadata.ino()
+    };
+    #[cfg(not(unix))]
+    let same_file = opened.len() == final_metadata.len();
+    if copied != opened.len()
+        || final_metadata.len() != opened.len()
+        || !final_metadata.is_file()
+        || !same_file
+    {
+        return Err(MaterialReviewRequestError::SourceUnavailable {
+            path: display_path.display().to_string(),
+            reason: "source changed during bounded read".into(),
+        });
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Result<File> {
+    use std::{
+        ffi::CString,
+        os::{
+            fd::{AsRawFd, FromRawFd, OwnedFd},
+            unix::ffi::OsStrExt,
+        },
+        path::Component,
+    };
+
+    let root = fs::canonicalize(root)?;
+    if !root.is_absolute() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "checkout root is not absolute",
+        ));
+    }
+    let root_fd = unsafe {
+        libc::open(
+            c"/".as_ptr(),
+            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC,
+        )
+    };
+    if root_fd < 0 {
+        return Err(io::Error::last_os_error());
+    }
+    let mut directory = unsafe { OwnedFd::from_raw_fd(root_fd) };
+    for component in root.components() {
+        match component {
+            Component::RootDir | Component::CurDir => continue,
+            Component::Normal(name) => {
+                let name = CString::new(name.as_bytes())
+                    .map_err(|_| io::Error::new(io::ErrorKind::InvalidInput, "NUL path"))?;
+                let next_fd = unsafe {
+                    libc::openat(
+                        directory.as_raw_fd(),
+                        name.as_ptr(),
+                        libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                    )
+                };
+                if next_fd < 0 {
+                    return Err(io::Error::last_os_error());
+                }
+                directory = unsafe { OwnedFd::from_raw_fd(next_fd) };
+            }
+            Component::ParentDir | Component::Prefix(_) => {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "checkout source path escapes root",
+                ));
+            }
+        }
+    }
+    let mut components = relative_path.components().peekable();
+    while let Some(component) = components.next() {
+        let Component::Normal(name) = component else {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "checkout source path is not a normalized relative path",
+            ));
+        };
+        let name = CString::new(name.as_bytes())
+            .map_err(|_| io::Error::new(io::ErrorKind::InvalidInput, "NUL path"))?;
+        let is_final = components.peek().is_none();
+        let flags = if is_final {
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW | libc::O_NONBLOCK
+        } else {
+            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW
+        };
+        let next_fd = unsafe { libc::openat(directory.as_raw_fd(), name.as_ptr(), flags) };
+        if next_fd < 0 {
+            return Err(io::Error::last_os_error());
+        }
+        let next = unsafe { OwnedFd::from_raw_fd(next_fd) };
+        if is_final {
+            return Ok(File::from(next));
+        }
+        directory = next;
+    }
+    Err(io::Error::new(
+        io::ErrorKind::InvalidInput,
+        "checkout source path is empty",
+    ))
+}
+
+#[cfg(windows)]
+fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Result<File> {
+    let mut options = OpenOptions::new();
+    options.read(true);
+    use std::os::windows::fs::OpenOptionsExt;
+    options.custom_flags(windows_sys::Win32::Storage::FileSystem::FILE_FLAG_OPEN_REPARSE_POINT);
+    options.open(root.join(relative_path))
+}
+
+#[cfg(not(any(unix, windows)))]
+fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Result<File> {
+    OpenOptions::new().read(true).open(root.join(relative_path))
 }
 
 pub fn material_review_request(
@@ -328,9 +444,9 @@ pub fn material_review_request(
     if contract.repository_id != repository_id(root).to_string() {
         return Err(MaterialReviewRequestError::ContractIdentity);
     }
-    reject_nonstandard_index_flags(root)?;
+    reject_nonstandard_index_flags(&git)?;
     let working = git
-        .snapshot()
+        .source_snapshot_bounded(MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
     let dirty = working
         .changed_paths
@@ -342,24 +458,23 @@ pub fn material_review_request(
         return Err(MaterialReviewRequestError::DirtySource(dirty.join(", ")));
     }
     let mut snapshot = git
-        .snapshot_against(&contract.base_revision)
+        .source_snapshot_against_bounded(&contract.base_revision, MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
     let head = snapshot
         .head
         .clone()
         .ok_or_else(|| MaterialReviewRequestError::Identity("committed HEAD is required".into()))?;
-    let ancestor = Command::new("git")
-        .arg("-C")
-        .arg(root)
-        .args([
-            "merge-base",
-            "--is-ancestor",
-            &contract.base_revision,
-            &head,
-        ])
-        .status()
+    if working.head.as_deref() != Some(head.as_str())
+        || working.source_tree_digest != snapshot.source_tree_digest.as_deref().unwrap_or_default()
+    {
+        return Err(MaterialReviewRequestError::Identity(
+            "source changed during request observation".into(),
+        ));
+    }
+    let is_ancestor = git
+        .is_ancestor_bounded(&contract.base_revision, &head, MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    if !ancestor.success() {
+    if !is_ancestor {
         return Err(MaterialReviewRequestError::Identity(
             "Contract base is not an ancestor of committed HEAD".into(),
         ));
@@ -375,7 +490,7 @@ pub fn material_review_request(
         })?
         .parse::<Digest>()
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
-    let committed_objects = committed_blob_ids(root)?;
+    let committed_objects = committed_blob_ids(&git)?;
     let mut committed_digests = BTreeMap::new();
     for change in snapshot
         .change_evidence
@@ -391,19 +506,37 @@ pub fn material_review_request(
                 reason: "source has no committed blob".into(),
             }
         })?;
-        let bytes = committed_blob(root, id)?;
+        let bytes = committed_blob(&git, id)?;
+        // The committed object supplies the digest and scan bytes. Checkout
+        // filters can normalize line endings, so working-tree bytes are never
+        // compared with a blob ID.
         committed_digests.insert(change.path.clone(), Digest::sha256_bytes(&bytes));
-        if change.content_state == ChangeContentState::Text {
-            if bytes.len() > 4 * 1024 * 1024 {
-                change.content_state = ChangeContentState::TooLarge;
+        if matches!(
+            change.content_state,
+            ChangeContentState::Binary | ChangeContentState::TooLarge
+        ) {
+            continue;
+        }
+        if bytes.len() > 4 * 1024 * 1024 {
+            change.content_state = ChangeContentState::TooLarge;
+            change.after_text = None;
+            continue;
+        }
+        match String::from_utf8(bytes) {
+            Ok(text) => {
+                if change.content_state == ChangeContentState::Unavailable
+                    && text.len() > MAX_CHANGE_TEXT_BYTES
+                {
+                    change.content_state = ChangeContentState::TooLarge;
+                    change.after_text = None;
+                } else {
+                    change.content_state = ChangeContentState::Text;
+                    change.after_text = Some(text);
+                }
+            }
+            Err(_) => {
+                change.content_state = ChangeContentState::Binary;
                 change.after_text = None;
-            } else {
-                change.after_text = Some(String::from_utf8(bytes).map_err(|error| {
-                    MaterialReviewRequestError::SourceUnavailable {
-                        path: change.path.clone(),
-                        reason: error.to_string(),
-                    }
-                })?);
             }
         }
     }
@@ -416,32 +549,10 @@ pub fn material_review_request(
         .iter()
         .filter(|change| change.path != ".ai" && !change.path.starts_with(".ai/"))
     {
-        let path = root.join(&change.path);
         let after_blob_digest = if change.kind == ChangeKind::Deleted {
             None
         } else {
-            let metadata = fs::symlink_metadata(&path).map_err(|error| {
-                MaterialReviewRequestError::SourceUnavailable {
-                    path: change.path.clone(),
-                    reason: error.to_string(),
-                }
-            })?;
-            if !metadata.file_type().is_file() {
-                return Err(MaterialReviewRequestError::SourceUnavailable {
-                    path: change.path.clone(),
-                    reason: "symlink or non-regular source".into(),
-                });
-            }
-            if metadata.len() > MAX_MATERIAL_BLOB_BYTES {
-                return Err(MaterialReviewRequestError::SourceUnavailable {
-                    path: change.path.clone(),
-                    reason: "source exceeds bounded request budget".into(),
-                });
-            }
-            fs::read(&path).map_err(|error| MaterialReviewRequestError::SourceUnavailable {
-                path: change.path.clone(),
-                reason: error.to_string(),
-            })?;
+            verify_checkout_source(root, &change.path)?;
             committed_digests.get(&change.path).cloned()
         };
         let kind = format!("{:?}", change.kind).to_ascii_lowercase();
@@ -527,7 +638,10 @@ pub fn material_review_request(
         manifest_hasher.update(bytes);
         entries.push(entry);
     }
-    let patch_digest = source_patch_digest(root, &contract.base_revision, &head)?;
+    let patch_digest = snapshot
+        .diff_digest
+        .parse::<Digest>()
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
     manifest_hasher.update(patch_digest.as_str().as_bytes());
     let material_manifest_digest = Digest::sha256_bytes(&manifest_hasher.finalize());
     let policy = effective_policy_for_contract(root, contract)
@@ -572,16 +686,16 @@ pub fn material_review_request(
     fields.remove("reviewDiagnostic");
     request.request_digest = json_digest(&("ai-cockpit:material-review-request:v1", validity))?;
     let final_snapshot = git
-        .snapshot()
+        .source_snapshot_bounded(MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
-    reject_nonstandard_index_flags(root)?;
+    reject_nonstandard_index_flags(&git)?;
     let final_dirty = final_snapshot
         .changed_paths
         .iter()
         .any(|path| path != ".ai" && !path.starts_with(".ai/"));
     if final_dirty
         || final_snapshot.head.as_deref() != Some(request.reviewed_source_head.as_str())
-        || final_snapshot.source_tree_digest.as_deref() != working.source_tree_digest.as_deref()
+        || final_snapshot.source_tree_digest != working.source_tree_digest
     {
         return Err(MaterialReviewRequestError::Identity(
             "source changed during request observation".into(),
@@ -605,5 +719,46 @@ mod tests {
             one,
             implementation_digest_from_sources(&[("different.rs", b"same source")])
         );
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn checkout_source_open_refuses_symlinks_and_does_not_block_on_fifo() {
+        use std::{
+            ffi::CString,
+            os::unix::fs::symlink,
+            time::{Duration, Instant},
+        };
+
+        let directory = tempfile::tempdir().expect("temporary directory");
+        let target = directory.path().join("target.rs");
+        let link = directory.path().join("link.rs");
+        fs::write(&target, "fn safe() {}\n").expect("source");
+        symlink(&target, &link).expect("symlink");
+        assert!(open_checkout_source_nofollow(directory.path(), Path::new("link.rs")).is_err());
+
+        let outside = directory.path().join("outside");
+        fs::create_dir(&outside).expect("outside directory");
+        fs::write(outside.join("secret.rs"), "fn outside() {}\n").expect("outside source");
+        let linked_directory = directory.path().join("linked-directory");
+        symlink(&outside, &linked_directory).expect("directory symlink");
+        assert!(
+            open_checkout_source_nofollow(
+                directory.path(),
+                Path::new("linked-directory/secret.rs")
+            )
+            .is_err()
+        );
+
+        let fifo = directory.path().join("pipe.rs");
+        let fifo_name =
+            CString::new(fifo.as_os_str().as_encoded_bytes()).expect("FIFO path has no NUL");
+        let created = unsafe { libc::mkfifo(fifo_name.as_ptr(), 0o600) };
+        assert_eq!(created, 0, "create FIFO: {}", io::Error::last_os_error());
+        let started = Instant::now();
+        let opened = open_checkout_source_nofollow(directory.path(), Path::new("pipe.rs"))
+            .expect("nonblocking FIFO open");
+        assert!(!opened.metadata().expect("FIFO metadata").is_file());
+        assert!(started.elapsed() < Duration::from_secs(1));
     }
 }
