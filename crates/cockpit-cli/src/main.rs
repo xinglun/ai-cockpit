@@ -4354,11 +4354,14 @@ mod tests {
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
     use cockpit_protocol::{
-        RuntimeContext, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY, WORK_ITEM_OUTCOME_CANONICAL_JSON,
+        RuntimeContext, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+        WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE, WORK_ITEM_OUTCOME_CANONICAL_JSON,
         WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE, WORK_ITEM_OUTCOME_CANONICAL_VIEW,
         WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID, WORK_ITEM_OUTCOME_CLI_DELIVERY,
-        WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
+        WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE, WORK_ITEM_OUTCOME_CLI_JSON,
+        WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
         WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, work_item_outcome_interface_description,
+        work_item_outcome_parameter_spec_by_canonical,
     };
     use std::{path::Path, process::Command};
 
@@ -4657,7 +4660,7 @@ mod tests {
         for parameter in &cli_surface.parameters {
             let argument = outcome
                 .get_arguments()
-                .find(|argument| argument.get_id().as_str() == parameter.name)
+                .find(|argument| argument.get_long() == Some(parameter.name.as_str()))
                 .unwrap_or_else(|| panic!("missing Clap argument {}", parameter.name));
             let expected_long = match parameter.name.as_str() {
                 WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID => (
@@ -4678,9 +4681,21 @@ mod tests {
                     WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
                     WORK_ITEM_OUTCOME_CLI_LANGUAGE,
                 ),
+                WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE => (
+                    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE,
+                    WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE,
+                ),
                 other => panic!("unexpected CLI interface parameter {other}"),
             };
             assert_eq!(parameter.name, expected_long.1, "{}", expected_long.0);
+            assert_eq!(
+                work_item_outcome_parameter_spec_by_canonical("cli", expected_long.0)
+                    .expect("canonical CLI parameter")
+                    .name,
+                expected_long.1,
+                "{}",
+                expected_long.0
+            );
             assert_eq!(
                 argument.get_long().map(str::to_owned),
                 Some(expected_long.1.to_owned()),
