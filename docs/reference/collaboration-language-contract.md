@@ -278,6 +278,28 @@ projected as an execution failure or a reusable terminal result. For legacy
 v1/v2 attempts, the old `passed` boolean is only a display compatibility hint
 and cannot authorize reuse or retry without v3 ownership and evidence.
 
+Unknown execution state or incomplete execution evidence is never a pass and
+cannot authorize node reuse. A deferred cleanup is also not a successful
+composition or a lifecycle `finish`; the projection reports its separate
+facts and does not replace the Work Item's finish gates. The current
+deferred-cleanup retry policy is deliberately narrow: it admits only one
+protected system no-op, `true`, with no arguments, dependencies, command
+environment, or declared input paths, and with a bounded system-utility
+identity. The Linux retry must also bind the prior v3 attempt and receipt to
+the current repository, snapshot, command, environment, Runtime, generation,
+and boot, and prove the prior supervisor was fully reaped. It creates a fresh
+attempt and worktree, reuses no prior result, and preserves the old deferred
+tree. Unknown ownership, effects, source, or binding blocks before a verifier
+spawn.
+
+This does not establish general retry support for `cargo` or arbitrary
+tests. A Cargo verification may run as an ordinary admitted first execution;
+if its cleanup is deferred, it remains nonterminal and the current deferred
+retry policy does not admit rerunning Cargo. On non-Linux platforms,
+`descendantsReapedToEchild` is not claimed by the Unix or Windows process
+group backend; the Linux-specific deferred-tree proof is unavailable there.
+These boundaries do not change ordinary non-Linux supervisor behavior.
+
 ### 7. Agent or session handoff
 
 - **Trigger / source of truth**: a new Agent, a new conversation, or a

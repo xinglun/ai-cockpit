@@ -11,13 +11,11 @@ lastVerifiedBy: WI-781-trust-diagnostics
 # 協作場景行列
 
 本ページは [`collaboration-scenario-matrix.json`](collaboration-scenario-matrix.json)
-の読みやすい対訳であり、自動チェックが消費する構造化された事実の出典は
-JSON 側である。本ページは
-[WI-679](../work-items/WI-679-p0-collaboration-language-contract.ja.md) が納品する協作言語契約を土台に
-(その `docs/reference/collaboration-language-contract.ja.md` ページは本 Work Item の時点ではまだ
-デフォルトブランチに存在しないため、WI-679 のマージ後に直接リンクを補う)、本リポジトリ
-が実際にサポートするライフサイクル、証拠状態、授権状態、操作種別から具体的
-な場景を導出したもので、協作言語専項の P1 段階の範囲に対応する。
+の読みやすい対訳であり、自動チェックが消費する構造化された事実の出典は JSON
+側である。本ページは現在の
+[協作言語契約](collaboration-language-contract.ja.md)を拡張し、本リポジトリが
+サポートするライフサイクル、証拠、授権、composition 実行、操作の意味に基づいて
+具体的な場景を記述する。
 
 ## 本行列の読み方
 
@@ -30,7 +28,8 @@ JSON 側である。本ページは
   に構成した合成事例で、実際の使用効果が証明されたと主張するものではな
   い)。
 - **カテゴリ**——ライフサイクル遷移、証拠、授権、検証、合併/クローズ、歴史
-  照会、Agent/セッションの引き継ぎ、多言語/多入口の一致性。
+  照会、Agent/セッションの引き継ぎ、多言語/多入口の一致性、composition の実行/
+  retry、プロセス監督、旧版 composition 記録。
 - **期待される結果**と、それが検証する**意味論的不変量**(協作言語契約の
   十の不変量を参照)。
 
@@ -49,15 +48,22 @@ JSON 側である。本ページは
 | 歴史照会 | SCN-020 | 0 | 1 | 0 |
 | Agent/セッション引き継ぎ | SCN-021..022、SCN-026 | 2 | 1 | 0 |
 | 多言語/多入口 | SCN-023..024 | 0 | 2 | 0 |
+| 最終化の観測 | SCN-027..033 | 6 | 0 | 0 |
+| composition 実行 | SCN-034 | 0 | 1 | 0 |
+| composition retry | SCN-035..036 | 0 | 2 | 0 |
+| プロセス監督 | SCN-037 | 0 | 1 | 0 |
+| 旧版 composition 記録 | SCN-038 | 0 | 1 | 0 |
+| 検証 retry の境界 | SCN-039 | 0 | 1 | 0 |
 
-今回の納品の場景はそのほとんどが `observed` または `documented` であり、
-`designed` は一件もない。本リポジトリ既存の権威ある文書と、納品作業中に得
-られた実際の Runtime とのやり取りだけで、必須カテゴリすべてをカバーできた
-ためである。
+SCN-033 は `unavailable` として別途記録し、上表の実観測・既存文書・人工構成の件数には含めない。
+
+SCN-034 から SCN-039 は Contract A12-A14 と現在の実装に基づく `documented`
+場景であり、このクラウド実行で観測済みという主張ではない。新しい `designed`
+場景は追加していない。
 
 ## 完全な行列
 
-完全な構造化場景表(SCN-001 から SCN-026;番号は安定しており、将来の
+完全な構造化場景表(SCN-001 から SCN-039;番号は安定しており、将来の
 Work Item は拡張のみ可能で番号の振り直しは行わない)は
 `collaboration-scenario-matrix.json` を参照。以下は代表的な抜粋:
 
@@ -72,6 +78,11 @@ Work Item は拡張のみ可能で番号の振り直しは行わない)は
 | SCN-022 | Agent/セッション引き継ぎ | ある Agent の未完了の前身クローズが、別の Agent の新規起票を構造的に阻止する | 実観測 | 前身クローズまで拒否 |
 | SCN-025 | 検証 | 表示された選択肢、選択されたテストデータの決定、中断、再開後の Runtime 遷移が一致する | 実観測 | 安全に再試行可能な一致 |
 | SCN-026 | Agent/セッション引き継ぎ | 新しいサブプロセスが会話履歴なしで Runtime 記録から引き継ぎを再構築する | 実観測 | 明示的な阻断を伴う状態再構築 |
+| SCN-034 | composition 実行 | 実行は合格しても cleanup が deferred なら unknown で、再利用できない | 既存文書 | 非終端 unknown |
+| SCN-036 | composition retry | binding 済み Linux system no-op のみ deferred-cleanup fresh retry が可能 | 既存文書 | 新 attempt、旧 tree を保持 |
+| SCN-037 | プロセス監督 | Unix/Windows process-group backend は Linux ECHILD を主張しない | 既存文書 | backend ごとに異なる |
+| SCN-038 | 旧版 composition | legacy v1/v2 boolean は再利用可能な v3 証拠にならない | 既存文書 | 互換表示のみ |
+| SCN-039 | 検証 | Cargo の初回実行は deferred-cleanup retry のサポートを意味しない | 既存文書 | spawn 前に retry を阻止 |
 
 ## 既知の限界
 
@@ -83,3 +94,9 @@ Work Item は拡張のみ可能で番号の振り直しは行わない)は
 扱う。すべての不変量や状態の組合せを完全な直積でカバーすると主張するもの
 ではなく、将来の Work Item は既存の番号を振り直さずに有界なチェックを追加
 できる。
+
+追加された composition 場景は文書上の境界であり、hosted acceptance receipt
+ではない。Cargo コマンドは admission 済みの初回実行として実行できるが、現在の
+deferred-cleanup retry 方針が認めるのは保護された system no-op `true` 一つだけで、
+Cargo や任意のテストの retry をサポートするものではない。projection は Work Item
+の `finish` gate を置き換えない。

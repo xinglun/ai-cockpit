@@ -112,6 +112,25 @@ CLI と MCP の `collaboration` projection は schema version 2 を共有する�
 `cleanupDisposition: deferred` と表示され、実行失敗や再利用可能な終端結果とは扱われない。
 legacy v1/v2 attempt の旧 `passed` boolean は表示互換のヒントに限られ、v3 の所有権と証拠がなければ再利用や retry を許可しない。
 
+実行状態が `unknown`、または実行証拠が不完全な場合、それは合格を意味せず、
+ノードの再利用も許可しない。cleanup の deferred も composition 成功や
+ライフサイクルの `finish` ではない。projection は各事実を分けて示し、
+Work Item の finish gate を置き換えない。現在の deferred-cleanup retry 方針は
+意図的に限定されている。引数、依存関係、コマンド環境、宣言された入力パスを
+持たない、保護されたシステム no-op `true` 一つだけを認め、有界な system utility
+identity も要求する。Linux retry では、前の v3 attempt と receipt を現在の
+repository、snapshot、command、environment、Runtime、generation、boot に結び、
+前の supervisor が完全に reaped 済みであることも証明しなければならない。
+retry は新しい attempt と worktree を作り、以前の結果を再利用せず、古い deferred
+tree を保持する。owner、effects、source、binding が未知なら verifier の spawn 前に停止する。
+
+これは `cargo` や任意のテストを一般に retry できるという意味ではない。
+Cargo verification は通常の admission を得た初回実行としては実行できるが、
+cleanup が deferred になれば終端成功ではなく、現在の deferred retry 方針は
+Cargo の再実行を許可しない。非 Linux platform では Unix/Windows process-group
+backend は `descendantsReapedToEchild` を主張しないため、Linux 専用の
+deferred-tree proof は利用できない。この境界は通常の非 Linux supervisor 動作を変更しない。
+
 ### 7. Agent またはセッションの引き継ぎ
 
 - **トリガー/事実の出典**：同じリポジトリ・同じ Work Item に対して、新しい Agent、新しい会話、あるいは異なる基盤モデルが作業を再開すること。
