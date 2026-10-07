@@ -71,7 +71,7 @@ failed/unknown は pass ではありません。
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | inspect と drift check は読み取り専用です。drift の記録は影響 action 前の明示的な永続 write です。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
-| Audit | `audit export`、`audit cognitive-benefit` | repository-bound event の export、または固定された Rust cognitive-benefit 評価を実行する。いずれも release 権限を与えない。 |
+| Audit | `audit query`、`audit export`、`audit cognitive-benefit` | repository-bound event の query/export、または固定された Rust cognitive-benefit 評価を実行します。いずれも release 権限を与えません。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Contract amendment と environment drift
@@ -159,6 +159,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `delegated_evidence_list` | `workItemId` が必須。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
 | `work_item_usage_record` | repository/Work Item identity、source event と label、unit、nullable token count、evidence ref/digest を含む strict な `request` object が必須です。CLI と同じ Runtime-admitted Rust service を使います。 | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
+| `audit_query` | 読み取り専用の exact Work Item/model/actor/event filter、Runtime `recordedAt` の inclusive `from` と exclusive `to`、1–100 件の limit、cursor、IANA `displayTimezone` を使います。不明な時刻とページ内の usage subtotal を区別します。 | `{"workItemId":"WI-123","eventType":"work_item_started","limit":50,"displayTimezone":"Asia/Tokyo"}` |
 | `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 両方とも `workItemId` と絶対 path の `sourceRepo` が必須。前者は読み取り専用、後者は検証済み evidence を MCP-bound destination へ書く明示操作です。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | `workItemId`、`command`、string 配列 `args`、有限な `timeoutSeconds`、boolean の `planOnly` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
@@ -358,6 +359,14 @@ Agent は次の順序で capability を発見します。repository-bound の st
   Runtime identity を含む安定した `AuditEvent` を出力します。manifest は
   `externalRetentionRequired: true` を設定し、output file は idempotent です。これは SIEM、WORM、
   S3 Object Lock など外部 retention owner への handoff に限られます。
+- `audit query --repo <path> [--work-item-id <id>] [--from <RFC3339>] [--to <RFC3339>]
+  [--reported-model <model>] [--actor <actor>] [--event-type <type>]
+  [--limit <1..100>] [--cursor <cursor>] [--display-timezone <IANA>]` は読み取り専用の typed page を返します。
+  時間範囲は Runtime `recordedAt` のみに適用し、別の時刻から補完しません。source が変わると cursor は `stale_cursor` を返します。
+  `capability show --surface audit-query` で CLI/MCP parameter を確認できます。
+- `audit export` に query filter を指定すると同じ page 形式を使い、filter のない呼び出しは schema-v1 manifest を維持します。
+  明示的な `--output` は legacy の同一バイト、または filtered export の同じ source snapshot と page を受け入れます。既存ファイルは書き換えず、異なる結果は拒否します。
+  `capability show --surface audit-export` で CLI parameter を確認できます。
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` は固定の 7 ケース評価を Rust で実行します。
   `--check` は評価 artifact を書き換えません。指定しない場合は選択した repository の `.ai/evidence/` に JSON、
   `.ai/evidence/external/` に Markdown を書きます。明示的な `--binary` は存在する実行可能ファイルを指す必要があり、

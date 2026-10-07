@@ -10,6 +10,8 @@ use serde::{Deserialize, Serialize};
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
 pub const WORK_ITEM_USAGE_RECORD_SURFACE: &str = "work-item-usage-record";
+pub const AUDIT_QUERY_SURFACE: &str = "audit-query";
+pub const AUDIT_EXPORT_SURFACE: &str = "audit-export";
 pub const WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION: &str =
     "Strict UsageRecordRequest JSON file; the Runtime admits and records one caller claim.";
 pub const WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION: &str =
@@ -148,8 +150,12 @@ pub fn work_item_outcome_language_is_valid(value: &str) -> bool {
 }
 
 pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
-pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] =
-    &[WORK_ITEM_OUTCOME_SURFACE, WORK_ITEM_USAGE_RECORD_SURFACE];
+pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] = &[
+    WORK_ITEM_OUTCOME_SURFACE,
+    WORK_ITEM_USAGE_RECORD_SURFACE,
+    AUDIT_QUERY_SURFACE,
+    AUDIT_EXPORT_SURFACE,
+];
 pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
 pub const CAPABILITY_SHOW_FORMAT_MARKDOWN: &str = "markdown";
 pub const CAPABILITY_SHOW_FORMAT_VALUES: &[&str] =
@@ -823,10 +829,101 @@ pub fn work_item_usage_record_interface_description() -> InterfaceDescription {
     }
 }
 
+fn audit_interface_description(surface: &str, export: bool) -> InterfaceDescription {
+    let fields = [
+        (
+            "workItemId",
+            "work-item-id",
+            "string",
+            "Exact Work Item ID.",
+        ),
+        (
+            "from",
+            "from",
+            "string",
+            "Inclusive RFC3339 Runtime recordedAt.",
+        ),
+        (
+            "to",
+            "to",
+            "string",
+            "Exclusive RFC3339 Runtime recordedAt.",
+        ),
+        (
+            "reportedModel",
+            "reported-model",
+            "string",
+            "Exact reported model.",
+        ),
+        ("actor", "actor", "string", "Exact actor."),
+        ("eventType", "event-type", "string", "Exact event type."),
+        (
+            "limit",
+            "limit",
+            "integer",
+            "Page limit from 1 to 100; default 50.",
+        ),
+        ("cursor", "cursor", "string", "Opaque source-bound cursor."),
+        (
+            "displayTimezone",
+            "display-timezone",
+            "string",
+            "IANA display timezone.",
+        ),
+    ];
+    let make =
+        |name: &str, wire_type: &str, required: bool, description: &str| InterfaceParameter {
+            name: name.into(),
+            wire_type: wire_type.into(),
+            required,
+            default: None,
+            enum_values: Vec::new(),
+            aliases: Vec::new(),
+            description: description.into(),
+        };
+    let mut cli = vec![make("repo", "string", true, "Repository path.")];
+    cli.extend(
+        fields
+            .iter()
+            .map(|(_, cli_name, kind, description)| make(cli_name, kind, false, description)),
+    );
+    if export {
+        cli.push(make(
+            "output",
+            "string",
+            false,
+            "Explicit local output path; identical legacy bytes or the same filtered source snapshot and page are accepted without replacing the file.",
+        ));
+    }
+    let mut surfaces = vec![InterfaceSurface {
+        name: "cli".into(),
+        transport: "argv".into(),
+        parameters: cli,
+    }];
+    if !export {
+        surfaces.push(InterfaceSurface {
+            name: "mcp".into(),
+            transport: "json-rpc".into(),
+            parameters: fields
+                .iter()
+                .map(|(mcp_name, _, kind, description)| make(mcp_name, kind, false, description))
+                .collect(),
+        });
+    }
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: surface.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces,
+    }
+}
+
 pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescription> {
     match surface {
         WORK_ITEM_OUTCOME_SURFACE => Some(work_item_outcome_interface_description()),
         WORK_ITEM_USAGE_RECORD_SURFACE => Some(work_item_usage_record_interface_description()),
+        AUDIT_QUERY_SURFACE => Some(audit_interface_description(surface, false)),
+        AUDIT_EXPORT_SURFACE => Some(audit_interface_description(surface, true)),
         _ => None,
     }
 }

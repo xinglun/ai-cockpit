@@ -335,6 +335,57 @@ fn close_usage_query_rejects_wrong_final_report_digest_and_repository() {
 }
 
 #[test]
+fn outcome_does_not_project_closed_when_final_usage_digest_is_invalid() {
+    let root = repository();
+    let id = "WI-USAGE-OUTCOME-CLOSE-BINDING";
+    let (_, original) = closed_with_late_usage(root.path(), id);
+    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
+    let mut close: serde_json::Value = serde_json::from_slice(&original).expect("close JSON");
+    close["finalReportDigest"] = Digest::sha256_bytes(b"wrong close report")
+        .to_string()
+        .into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("damage final usage binding");
+    read_work_item_usage(root.path(), id, None).expect_err("direct query remains strict");
+    let input = outcome_render_input(root.path(), id).expect("read-only outcome projection");
+    assert_ne!(input.lifecycle_status, "closed");
+    assert!(input.archived_unclosed);
+    assert_ne!(
+        input.outcome.decision_state,
+        Some(cockpit_core::DecisionState::Green)
+    );
+    let usage = input
+        .outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .expect("usage projection");
+    assert!(
+        usage
+            .unknown_reasons
+            .contains(&"frozen_usage_invalid".into())
+    );
+    let json = serde_json::to_value(&input.outcome).expect("JSON projection");
+    assert_eq!(
+        json["taskOutcomeReport"]["usage"]["unknownReasons"][0],
+        "frozen_usage_invalid"
+    );
+    for language in ["en", "zh", "ja"] {
+        for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
+            let rendered = render_human_outcome_with_view(&input, language, view);
+            assert!(!rendered.contains("🟢"), "{language} {view:?}: {rendered}");
+            assert!(
+                rendered.contains("frozen_usage_invalid"),
+                "{language} {view:?}: {rendered}"
+            );
+        }
+    }
+}
+
+#[test]
 fn close_cannot_downgrade_frozen_usage_by_dropping_final_report_fields() {
     let root = repository();
     let id = "WI-USAGE-CLOSE-DOWNGRADE";

@@ -47,6 +47,32 @@ fn usage_record_description_projects_both_transports_and_capability_surface() {
     assert!(markdown.contains("AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-record"));
 }
 
+#[test]
+fn audit_descriptions_bind_cli_and_mcp_filter_names() {
+    let query =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_QUERY_SURFACE)
+            .expect("audit query surface");
+    assert_eq!(query.name, "audit-query");
+    assert!(parameter(surface(&query, "cli"), "repo").required);
+    assert!(!parameter(surface(&query, "cli"), "display-timezone").required);
+    assert_eq!(
+        parameter(surface(&query, "mcp"), "displayTimezone").wire_type,
+        "string"
+    );
+    assert_eq!(
+        parameter(surface(&query, "mcp"), "limit").wire_type,
+        "integer"
+    );
+    let export =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_EXPORT_SURFACE)
+            .expect("audit export surface");
+    assert_eq!(export.surfaces.len(), 1);
+    assert!(!parameter(surface(&export, "cli"), "output").required);
+    let surfaces = cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES;
+    assert!(surfaces.contains(&cockpit_protocol::AUDIT_QUERY_SURFACE));
+    assert!(surfaces.contains(&cockpit_protocol::AUDIT_EXPORT_SURFACE));
+}
+
 fn surface<'a>(
     description: &'a cockpit_protocol::InterfaceDescription,
     name: &str,

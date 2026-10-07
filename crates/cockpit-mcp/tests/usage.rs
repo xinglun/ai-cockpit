@@ -22,7 +22,7 @@ fn initialize_and_tool_list_expose_native_usage_record_without_hidden_helper() {
         &runtime(),
     );
     let tools = listed["result"]["tools"].as_array().expect("tools");
-    assert_eq!(tools.len(), 28);
+    assert_eq!(tools.len(), 29);
     let usage = tools
         .iter()
         .find(|tool| tool["name"] == "work_item_usage_record")

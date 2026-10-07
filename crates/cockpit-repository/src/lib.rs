@@ -9525,6 +9525,7 @@ fn persist_blocked_lifecycle_outcome(
         recovery_condition_override: Some(&recovery_condition),
         historical: false,
         usage_cutoff: Some(&usage_cutoff),
+        closed_usage_validation: None,
     })?;
     append_task_outcome_recovery_event(
         &root,
@@ -9655,6 +9656,8 @@ struct TaskOutcomeReportInput<'a> {
     recovery_condition_override: Option<&'a str>,
     historical: bool,
     usage_cutoff: Option<&'a str>,
+    closed_usage_validation:
+        Option<&'a Result<Option<cockpit_protocol::UsageSummary>, ObserverError>>,
 }
 
 fn task_outcome_report(
@@ -9675,6 +9678,7 @@ fn task_outcome_report(
         recovery_condition_override,
         historical,
         usage_cutoff,
+        closed_usage_validation,
     } = input;
     let contract_ref = repository_relative_path(root, contract_path);
     let summary_ref = contract_path
@@ -9810,13 +9814,23 @@ fn task_outcome_report(
         .or(contract.created_at.as_deref())
         .unwrap_or("1970-01-01T00:00:00Z");
     let closed_usage = if usage_cutoff.is_none() {
-        match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id) {
-            Ok(usage) => usage,
-            Err(_) => Some(cockpit_protocol::UsageSummary::unknown(
+        let invalid = || {
+            Some(cockpit_protocol::UsageSummary::unknown(
                 &contract.work_item_id,
                 cutoff.to_owned(),
                 "frozen_usage_invalid",
-            )),
+            ))
+        };
+        match closed_usage_validation {
+            Some(Ok(usage)) => usage.clone(),
+            Some(Err(_)) => invalid(),
+            None => {
+                match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)
+                {
+                    Ok(usage) => usage,
+                    Err(_) => invalid(),
+                }
+            }
         }
     } else {
         None
@@ -10571,13 +10585,19 @@ fn outcome_v2_internal_with_snapshot(
     let close_decision_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
+    let closed_usage_validation =
+        usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
+    let frozen_usage_invalid = archived && !historical && closed_usage_validation.is_err();
     let close_pending = archived
         && !historical
-        && !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
+        && (frozen_usage_invalid
+            || !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id));
     if close_pending && state == OutcomeState::Verified {
         decision_state = DecisionState::Yellow;
         summary = "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending.";
-        evidence_unknown = Some(if fs::symlink_metadata(&close_decision_path).is_ok() {
+        evidence_unknown = Some(if frozen_usage_invalid {
+            "frozen_usage_invalid"
+        } else if fs::symlink_metadata(&close_decision_path).is_ok() {
             "close_decision_invalid"
         } else {
             "close_decision_pending"
@@ -10745,6 +10765,7 @@ fn outcome_v2_internal_with_snapshot(
             .map(|(_, recovery)| recovery.as_str()),
         historical,
         usage_cutoff: None,
+        closed_usage_validation: Some(&closed_usage_validation),
     })?;
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();

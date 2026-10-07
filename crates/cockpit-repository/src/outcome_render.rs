@@ -94,7 +94,12 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
         .join(format!("{}.contract.json", outcome.work_item_id));
     let archived_unclosed = !historical
         && archived_contract.is_file()
-        && !close_decision_is_valid_for_status(root, &outcome.work_item_id, &outcome.repository_id);
+        && (outcome_has_invalid_frozen_usage(&outcome)
+            || !close_decision_is_valid_for_status(
+                root,
+                &outcome.work_item_id,
+                &outcome.repository_id,
+            ));
     let human_decision = load_human_decision(root, &outcome.work_item_id);
     let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
     OutcomeRenderInput {
@@ -167,11 +172,12 @@ fn assemble_outcome_render_input_with_hook(
             .join(format!("{work_item_id}.contract.json"));
         let archived_unclosed = !historical
             && archived_contract.is_file()
-            && !close_decision_is_valid_for_status(
-                context.root(),
-                work_item_id,
-                &outcome.repository_id,
-            );
+            && (outcome_has_invalid_frozen_usage(&outcome)
+                || !close_decision_is_valid_for_status(
+                    context.root(),
+                    work_item_id,
+                    &outcome.repository_id,
+                ));
         let human_decision = load_human_decision(context.root(), work_item_id);
         let lifecycle_status = lifecycle_status(context.root(), &outcome, historical, superseded);
         let finalization =
@@ -3219,11 +3225,13 @@ fn lifecycle_status(
         .join(".ai/work-items/archive")
         .join(format!("{}.contract.json", outcome.work_item_id));
     if archive_contract.is_file() {
-        if crate::close_decision_is_valid_for_status(
-            root,
-            &outcome.work_item_id,
-            &outcome.repository_id,
-        ) {
+        if !outcome_has_invalid_frozen_usage(outcome)
+            && crate::close_decision_is_valid_for_status(
+                root,
+                &outcome.work_item_id,
+                &outcome.repository_id,
+            )
+        {
             return "closed".into();
         }
         return "archived".into();
@@ -3241,6 +3249,19 @@ fn lifecycle_status(
                 .map(str::to_owned)
         })
         .unwrap_or_else(|| "unknown".into())
+}
+
+fn outcome_has_invalid_frozen_usage(outcome: &OutcomeV2) -> bool {
+    outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .is_some_and(|usage| {
+            usage
+                .unknown_reasons
+                .iter()
+                .any(|reason| reason == "frozen_usage_invalid")
+        })
 }
 
 fn localized_lifecycle_status(status: String, language: &str) -> String {

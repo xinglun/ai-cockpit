@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use clap::{ArgAction, Parser, Subcommand};
+use clap::{ArgAction, Args, Parser, Subcommand};
 use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query_with_metrics};
@@ -465,7 +465,53 @@ enum AuditCommand {
         repo: PathBuf,
         #[arg(long)]
         output: Option<PathBuf>,
+        #[command(flatten)]
+        filters: AuditQueryArgs,
     },
+    Query {
+        #[arg(long)]
+        repo: PathBuf,
+        #[command(flatten)]
+        filters: AuditQueryArgs,
+    },
+}
+
+#[derive(Debug, Default, Args)]
+struct AuditQueryArgs {
+    #[arg(long)]
+    work_item_id: Option<String>,
+    #[arg(long)]
+    from: Option<String>,
+    #[arg(long)]
+    to: Option<String>,
+    #[arg(long)]
+    reported_model: Option<String>,
+    #[arg(long)]
+    actor: Option<String>,
+    #[arg(long)]
+    event_type: Option<String>,
+    #[arg(long)]
+    limit: Option<u16>,
+    #[arg(long)]
+    cursor: Option<String>,
+    #[arg(long)]
+    display_timezone: Option<String>,
+}
+
+impl From<AuditQueryArgs> for cockpit_protocol::AuditQueryFilters {
+    fn from(args: AuditQueryArgs) -> Self {
+        Self {
+            work_item_id: args.work_item_id,
+            from: args.from,
+            to: args.to,
+            reported_model: args.reported_model,
+            actor: args.actor,
+            event_type: args.event_type,
+            limit: args.limit,
+            cursor: args.cursor,
+            display_timezone: args.display_timezone,
+        }
+    }
 }
 
 #[derive(Debug, Subcommand)]
@@ -2783,27 +2829,77 @@ fn run() -> Result<()> {
                 binary,
                 check,
             } => cognitive_benefit::run(&repo, binary.as_deref(), check)?,
-            AuditCommand::Export { repo, output } => {
+            AuditCommand::Query { repo, filters } => {
                 require_compatible(&repo, &runtime_context)?;
-                let manifest = cockpit_repository::export_audit_events(&repo, &runtime_context)
-                    .context("export audit events")?;
+                let page = cockpit_repository::query_audit_events(
+                    &repo,
+                    &runtime_context,
+                    &filters.into(),
+                )
+                .context("query audit events")?;
+                println!("{}", serde_json::to_string_pretty(&page)?);
+            }
+            AuditCommand::Export {
+                repo,
+                output,
+                filters,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let filters: cockpit_protocol::AuditQueryFilters = filters.into();
+                let value = if filters == cockpit_protocol::AuditQueryFilters::default() {
+                    serde_json::to_value(
+                        cockpit_repository::export_audit_events(&repo, &runtime_context)
+                            .context("export audit events")?,
+                    )?
+                } else {
+                    serde_json::to_value(
+                        cockpit_repository::export_audit_events_filtered(
+                            &repo,
+                            &runtime_context,
+                            &filters,
+                        )
+                        .context("export filtered audit events")?,
+                    )?
+                };
                 if let Some(output) = output {
-                    let bytes = serde_json::to_vec_pretty(&manifest)?;
-                    if output.exists() {
-                        let existing =
-                            std::fs::read(&output).context("read existing audit export")?;
-                        if existing != bytes {
-                            anyhow::bail!("audit export target already exists with different bytes")
+                    let bytes = serde_json::to_vec_pretty(&value)?;
+                    if let Some(parent) = output.parent() {
+                        std::fs::create_dir_all(parent).context("create audit export parent")?;
+                    }
+                    match std::fs::OpenOptions::new()
+                        .write(true)
+                        .create_new(true)
+                        .open(&output)
+                    {
+                        Ok(mut file) => {
+                            use std::io::Write;
+                            file.write_all(&bytes).context("write audit export")?;
                         }
-                    } else {
-                        if let Some(parent) = output.parent() {
-                            std::fs::create_dir_all(parent)
-                                .context("create audit export parent")?;
+                        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                            let existing =
+                                std::fs::read(&output).context("read existing audit export")?;
+                            let same_page = serde_json::from_slice::<
+                                cockpit_protocol::AuditQueryPage,
+                            >(&existing)
+                            .ok()
+                            .zip(
+                                serde_json::from_slice::<cockpit_protocol::AuditQueryPage>(&bytes)
+                                    .ok(),
+                            )
+                            .is_some_and(|(mut old, current)| {
+                                old.as_of = current.as_of.clone();
+                                old == current
+                            });
+                            if existing != bytes && !same_page {
+                                anyhow::bail!(
+                                    "audit export target already exists with different bytes"
+                                )
+                            }
                         }
-                        std::fs::write(&output, &bytes).context("write audit export")?;
+                        Err(error) => return Err(error).context("create audit export"),
                     }
                 }
-                println!("{}", serde_json::to_string_pretty(&manifest)?);
+                println!("{}", serde_json::to_string_pretty(&value)?);
             }
         },
         CommandKind::WorkItem { command } => match command {

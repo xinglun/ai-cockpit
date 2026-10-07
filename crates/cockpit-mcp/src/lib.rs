@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 28] = [
+const TOOL_NAMES: [&str; 29] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,6 +22,7 @@ const TOOL_NAMES: [&str; 28] = [
     "preflight",
     "work_item_controls",
     "work_item_usage_record",
+    "audit_query",
     "work_item_recover",
     "work_item_closeout_recovery_plan",
     "work_item_closeout_recover",
@@ -486,6 +487,28 @@ fn capability_parameter_required(
         .collect()
 }
 
+fn audit_query_tool_schema() -> Value {
+    let description =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_QUERY_SURFACE)
+            .expect("protocol-owned audit query surface");
+    let mcp = description
+        .surfaces
+        .iter()
+        .find(|surface| surface.name == "mcp")
+        .expect("MCP audit query parameters");
+    let mut properties = serde_json::Map::new();
+    for parameter in &mcp.parameters {
+        let schema = if parameter.name == "limit" {
+            json!({"type":"integer","minimum":1,"maximum":100,"default":50,
+                "description": parameter.description})
+        } else {
+            string_property(&parameter.description)
+        };
+        properties.insert(parameter.name.clone(), schema);
+    }
+    object_schema(Value::Object(properties), &[])
+}
+
 fn mcp_tool_schema(name: &str) -> Value {
     let id_properties = json!({
         "workItemId": string_property("Canonical Work Item identifier."),
@@ -617,6 +640,7 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["request"],
         ),
+        "audit_query" => audit_query_tool_schema(),
         "work_item_recover" => {
             let mut properties = id_properties;
             properties["receipt"] = json!({
@@ -797,6 +821,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
         ),
         (
+            "audit_query",
+            "Read a filtered, source-bound audit page without writing evidence.",
+        ),
+        (
             "work_item_recover",
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
@@ -886,6 +914,19 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
+        "audit_query" => Some(
+            &[
+                "workItemId",
+                "from",
+                "to",
+                "reportedModel",
+                "actor",
+                "eventType",
+                "limit",
+                "cursor",
+                "displayTimezone",
+            ][..],
+        ),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             Some(&["workItemId", "sourceRepo"][..])
@@ -1058,6 +1099,11 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             request.validate().map_err(|error| {
                 format!("invalid arguments for work_item_usage_record: {error}")
             })?;
+        }
+        "audit_query" => {
+            let _: cockpit_protocol::AuditQueryFilters =
+                serde_json::from_value(Value::Object(object.clone()))
+                    .map_err(|error| format!("invalid arguments for audit_query: {error}"))?;
         }
         "work_item_recover" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
@@ -1888,6 +1934,13 @@ pub fn handle_request_for_repo(
                 .and_then(|receipt| {
                     serde_json::to_value(receipt).map_err(|error| error.to_string())
                 })
+        }),
+        "audit_query" => require_compatible(repo, runtime).and_then(|_| {
+            let filters: cockpit_protocol::AuditQueryFilters =
+                serde_json::from_value(arguments).map_err(|error| error.to_string())?;
+            cockpit_repository::query_audit_events(repo, runtime, &filters)
+                .map_err(|error| error.to_string())
+                .and_then(|page| serde_json::to_value(page).map_err(|error| error.to_string()))
         }),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),

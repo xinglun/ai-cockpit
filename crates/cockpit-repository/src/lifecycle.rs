@@ -2471,6 +2471,7 @@ fn finish_work_item_internal_unlocked(
         recovery_condition_override: None,
         historical: false,
         usage_cutoff: Some(&timestamp),
+        closed_usage_validation: None,
     })?;
     let replace_reports = retry_recovery_pending || verification_recovery_reconciled;
     let report_json_path = active.join(format!("{work_item_id}.task-report.json"));

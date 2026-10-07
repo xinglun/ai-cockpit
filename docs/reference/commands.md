@@ -75,7 +75,7 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | Inspection and drift check are read-only; recording drift is an explicit persistent write before affected actions. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
-| Audit | `audit export`, `audit cognitive-benefit` | Export repository-bound events or run the fixed Rust cognitive-benefit evaluation; neither result grants release authority. |
+| Audit | `audit query`, `audit export`, `audit cognitive-benefit` | Query or export repository-bound events, or run the fixed Rust cognitive-benefit evaluation; none grants release authority. |
 | Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
 
 ## Contract amendments and environment drift
@@ -239,6 +239,7 @@ before any repository operation runs.
 | `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
 | `work_item_usage_record` | Required strict `request` object with repository and Work Item identity, source event, source label, unit, nullable token counts, and evidence ref/digest. It uses the same admitted Rust service as CLI. | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
+| `audit_query` | Read-only query using exact Work Item/model/actor/event filters, an inclusive `from` and exclusive `to` on Runtime `recordedAt`, limit 1–100, cursor, and optional IANA `displayTimezone`. The page preserves unknown timestamps and page-only usage subtotals. | `{"workItemId":"WI-123","eventType":"work_item_started","limit":50,"displayTimezone":"Asia/Tokyo"}` |
 | `work_item_closeout_recovery_plan`, `work_item_closeout_recover` | Both require `workItemId` and absolute `sourceRepo`; the first is read-only and the second explicitly writes validated evidence to the MCP-bound destination checkout. | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | Optional `workItemId`, `command`, string-array `args`, finite `timeoutSeconds`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
@@ -586,6 +587,19 @@ review when the returned state is yellow, red, unknown, or not ready.
   identity. The manifest sets `externalRetentionRequired: true`; an output file
   is idempotent and is only a handoff to SIEM, WORM, S3 Object Lock, or another
   external retention owner.
+- `audit query --repo <path> [--work-item-id <id>] [--from <RFC3339>] [--to <RFC3339>]
+  [--reported-model <model>] [--actor <actor>] [--event-type <type>]
+  [--limit <1..100>] [--cursor <cursor>] [--display-timezone <IANA>]` emits a
+  read-only typed page. Time bounds apply only to Runtime `recordedAt` (`from`
+  inclusive, `to` exclusive); missing timestamps remain unknown. The cursor
+  binds filters and source bytes, and a changed source returns `stale_cursor`.
+  `capability show --surface audit-query` describes the CLI/MCP parameters.
+- Adding any query filter to `audit export` selects the same typed page and
+  pagination behavior; no-filter export retains its schema-v1 manifest.
+  Explicit `--output` accepts identical legacy bytes or the same filtered
+  source snapshot and page without replacing the existing file; a different
+  result is rejected. `capability show --surface audit-export` describes its CLI
+  parameters.
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` runs the
   fixed seven-case evaluation in Rust. `--check` is read-only with respect to
   evaluation artifacts; without it, the command writes the JSON report under
