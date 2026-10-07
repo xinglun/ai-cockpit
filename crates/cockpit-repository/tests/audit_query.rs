@@ -1,11 +1,12 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    AuditQueryFilters, RuntimeContext, UsageRecordRequest, UsageSourceKind, UsageUnit,
+    AssuranceLevel, AuditQueryFilters, DelegatedEvidence, EvidenceValidity, RuntimeContext,
+    UsageRecordRequest, UsageSourceKind, UsageUnit,
 };
 use cockpit_repository::{
     WorkItemStartOptions, attach, export_audit_events, export_audit_events_filtered,
-    query_audit_events, record_work_item_usage, start_work_item_with_options,
-    start_work_item_with_options_and_runtime,
+    import_delegated_evidence, query_audit_events, record_work_item_usage,
+    start_work_item_with_options, start_work_item_with_options_and_runtime,
 };
 use std::{fs, process::Command};
 
@@ -96,6 +97,80 @@ fn record(root: &std::path::Path, event: &str, model: &str, count: Option<u64>) 
         &runtime(),
     )
     .expect("record");
+}
+
+fn delegated(root: &std::path::Path, number: u8) -> String {
+    let raw = format!("{{\"run\":{number}}}").into_bytes();
+    let reference = format!(".ai/evidence/external/run-{number}.json");
+    import_delegated_evidence(
+        root,
+        "WI-AUDIT-QUERY",
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: format!("run:{number}"),
+            origin: format!("https://github.com/example/repo/actions/runs/{number}"),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-10-07T00:00:00Z".into(),
+            digest: Digest::sha256_bytes(&raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: reference.clone(),
+        },
+        &raw,
+        &runtime(),
+    )
+    .expect("import delegated evidence");
+    reference
+}
+
+#[test]
+fn delegated_cursor_binds_actual_raw_bytes_on_every_page() {
+    let root = repository();
+    let first_raw = delegated(root.path(), 1);
+    let second_raw = delegated(root.path(), 2);
+    let filters = AuditQueryFilters {
+        event_type: Some("external_evidence_bound".into()),
+        limit: Some(1),
+        ..Default::default()
+    };
+    let first = query_audit_events(root.path(), &runtime(), &filters).expect("first page");
+    assert_eq!(first.returned_count, 1);
+    assert!(
+        first.items[0]
+            .evidence_refs
+            .iter()
+            .all(|reference| reference.digest.is_some())
+    );
+    assert!(
+        first.items[0]
+            .evidence_refs
+            .iter()
+            .any(|reference| { reference.path == first_raw || reference.path == second_raw })
+    );
+    let cursor = first.next_cursor.expect("second page cursor");
+    fs::write(root.path().join(&second_raw), b"{\"changed\":true}").expect("change raw source");
+    let error = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            cursor: Some(cursor),
+            ..filters
+        },
+    )
+    .expect_err("changed raw bytes invalidate source snapshot");
+    assert!(error.to_string().contains("stale_cursor"), "{error}");
+}
+
+#[test]
+fn unreadable_external_directory_does_not_report_complete_query() {
+    let root = repository();
+    delegated(root.path(), 1);
+    let external = root.path().join(".ai/evidence/external");
+    fs::rename(&external, root.path().join(".ai/evidence/external.saved"))
+        .expect("move source directory");
+    fs::write(&external, b"not a directory").expect("block external directory read");
+    let error = query_audit_events(root.path(), &runtime(), &AuditQueryFilters::default())
+        .expect_err("unreadable external source must not be reported complete");
+    assert!(error.to_string().contains("external"), "{error}");
 }
 
 #[test]
@@ -285,6 +360,66 @@ fn lifecycle_query_uses_only_persisted_successful_transition_facts() {
 }
 
 #[test]
+fn failed_finish_report_write_leaves_no_successful_finish_fact() {
+    let root = repository();
+    let id = "WI-AUDIT-QUERY";
+    let contract = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    cockpit_repository::preflight_work_item(root.path(), &contract).expect("preflight");
+    cockpit_repository::checkpoint_work_item(root.path(), id).expect("checkpoint");
+    cockpit_repository::record_verification(
+        root.path(),
+        id,
+        &serde_json::json!({"passed":true,"nodesPlanned":1}),
+        "1.0.1-test",
+        &Digest::sha256_bytes(b"test runtime"),
+    )
+    .expect("verification");
+    let report_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.task-report.json"));
+    let existing = b"existing report must remain intact";
+    fs::write(&report_path, existing).expect("plant existing report");
+    let markdown_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.task-report.md"));
+    fs::create_dir(&markdown_path).expect("plant nonreplaceable output conflict");
+    fs::write(
+        markdown_path.join("existing"),
+        b"existing markdown directory",
+    )
+    .expect("plant nested file");
+    cockpit_repository::finish_work_item(root.path(), id)
+        .expect_err("existing report prevents successful finish");
+    assert_eq!(fs::read(&report_path).expect("existing report"), existing);
+    assert_eq!(
+        fs::read(markdown_path.join("existing")).expect("existing markdown"),
+        b"existing markdown directory"
+    );
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.path()
+                .join(format!(".ai/work-items/active/{id}.summary.json")),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_ne!(summary["state"], "finish_ready");
+    assert!(summary["lifecycleFacts"].get("finish").is_none());
+    let query = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            event_type: Some("work_item_finished".into()),
+            ..Default::default()
+        },
+    )
+    .expect("read-only audit query");
+    assert!(query.items.is_empty());
+}
+
+#[test]
 fn runtime_bound_start_event_keeps_its_producer_identity() {
     let root = tempfile::tempdir().expect("repository");
     assert!(
@@ -385,6 +520,62 @@ fn terminal_lifecycle_events_come_from_each_successful_boundary() {
     assert_eq!(closed.items[0].actor.as_deref(), Some("legacy-cli"));
     assert_eq!(closed.items[0].actor_provenance, "structured_decision");
     assert!(closed.items[0].wall_elapsed_ms.is_some());
+    let started = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            event_type: Some("work_item_started".into()),
+            ..Default::default()
+        },
+    )
+    .expect("start event");
+    let times = [
+        &started.items[0],
+        &finished.items[0],
+        &archived.items[0],
+        &closed.items[0],
+    ]
+    .map(|item| {
+        item.recorded_at
+            .as_deref()
+            .expect("recorded transition time")
+    });
+    assert!(times.iter().all(|time| time.contains('.')), "{times:?}");
+    assert!(times.windows(2).all(|pair| pair[0] <= pair[1]), "{times:?}");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.path()
+                .join(format!(".ai/work-items/archive/{id}.summary.json")),
+        )
+        .expect("archived summary"),
+    )
+    .expect("summary JSON");
+    let archive: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            root.path()
+                .join(format!(".ai/work-items/archive/{id}.archive.json")),
+        )
+        .expect("archive manifest"),
+    )
+    .expect("archive JSON");
+    let close: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.path().join(format!(".ai/decisions/{id}.close.json")))
+            .expect("close decision"),
+    )
+    .expect("close JSON");
+    for source in [
+        &summary["lifecycleFacts"]["start"],
+        &summary["lifecycleFacts"]["finish"],
+        &archive,
+        &close,
+    ] {
+        assert!(
+            source["recordedAt"]
+                .as_str()
+                .is_some_and(|time| time.contains('.')),
+            "lifecycle source must persist subsecond UTC: {source}"
+        );
+    }
 }
 
 #[test]

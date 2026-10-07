@@ -314,6 +314,55 @@ fn source_runtime_identity(
     }
 }
 
+fn legacy_evidence_refs(
+    root: &Path,
+    event: &cockpit_protocol::AuditEvent,
+    cursor_present: bool,
+) -> Result<Vec<AuditEvidenceRef>, ObserverError> {
+    if event.event_type != "external_evidence_bound" {
+        return Ok(event
+            .evidence_refs
+            .iter()
+            .map(|path| AuditEvidenceRef {
+                path: path.clone(),
+                digest: None,
+            })
+            .collect());
+    }
+    let [receipt_ref, raw_ref] = event.evidence_refs.as_slice() else {
+        return Err(error(
+            root,
+            "delegated audit event has incomplete source refs",
+        ));
+    };
+    let (receipt, receipt_digest) = super::validated_delegated_audit_source(root, receipt_ref)
+        .map_err(|source| {
+            if cursor_present {
+                error(root, format!("stale_cursor: {source}"))
+            } else {
+                source
+            }
+        })?;
+    if receipt.repository_id != repository_id(root).to_string()
+        || event.work_item_id.as_deref() != Some(receipt.work_item_id.as_str())
+        || receipt.evidence.raw_evidence_ref != *raw_ref
+        || receipt.evidence.digest != event.digest
+    {
+        return Err(error(root, "delegated audit receipt binding differs"));
+    }
+    let raw_digest = receipt.evidence.digest;
+    Ok(vec![
+        AuditEvidenceRef {
+            path: receipt_ref.clone(),
+            digest: Some(receipt_digest),
+        },
+        AuditEvidenceRef {
+            path: raw_ref.clone(),
+            digest: Some(raw_digest),
+        },
+    ])
+}
+
 fn parsed_bound(root: &Path, value: Option<&str>) -> Result<Option<DateTime<Utc>>, ObserverError> {
     value
         .map(|value| {
@@ -487,45 +536,50 @@ pub fn query_audit_events(
     let normalized_digest = cockpit_protocol::digest_json(&normalized)
         .map_err(|source| error(&root, source.to_string()))?;
 
-    let legacy = export_audit_events(&root, runtime)?;
+    let legacy = export_audit_events(&root, runtime).map_err(|source| {
+        if filters.cursor.is_some() {
+            error(&root, format!("stale_cursor: {source}"))
+        } else {
+            source
+        }
+    })?;
     let mut items = legacy
         .events
         .into_iter()
-        .map(|event| AuditQueryItem {
-            event_id: event.event_id,
-            event_type: event.event_type,
-            work_item_id: event.work_item_id,
-            occurred_at: DateTime::parse_from_rfc3339(&event.timestamp)
-                .ok()
-                .map(|time| {
-                    time.with_timezone(&Utc)
-                        .to_rfc3339_opts(SecondsFormat::Nanos, true)
-                }),
-            recorded_at: None,
-            source_observed_at: None,
-            received_at: None,
-            reported_model: None,
-            configured_model: None,
-            actor: None,
-            actor_provenance: "unknown".into(),
-            event_runtime_version: None,
-            event_runtime_digest: None,
-            role: None,
-            phase: None,
-            source_kind: None,
-            model_assurance: None,
-            token_assurance: None,
-            wall_elapsed_ms: None,
-            token_counts: UsageTokenCounts::default(),
-            evidence_refs: event
-                .evidence_refs
-                .into_iter()
-                .map(|path| AuditEvidenceRef { path, digest: None })
-                .collect(),
-            display_timezone: zone.into(),
-            display_time: None,
+        .map(|event| -> Result<AuditQueryItem, ObserverError> {
+            let evidence_refs = legacy_evidence_refs(&root, &event, filters.cursor.is_some())?;
+            Ok(AuditQueryItem {
+                event_id: event.event_id,
+                event_type: event.event_type,
+                work_item_id: event.work_item_id,
+                occurred_at: DateTime::parse_from_rfc3339(&event.timestamp)
+                    .ok()
+                    .map(|time| {
+                        time.with_timezone(&Utc)
+                            .to_rfc3339_opts(SecondsFormat::Nanos, true)
+                    }),
+                recorded_at: None,
+                source_observed_at: None,
+                received_at: None,
+                reported_model: None,
+                configured_model: None,
+                actor: None,
+                actor_provenance: "unknown".into(),
+                event_runtime_version: None,
+                event_runtime_digest: None,
+                role: None,
+                phase: None,
+                source_kind: None,
+                model_assurance: None,
+                token_assurance: None,
+                wall_elapsed_ms: None,
+                token_counts: UsageTokenCounts::default(),
+                evidence_refs,
+                display_timezone: zone.into(),
+                display_time: None,
+            })
         })
-        .collect::<Vec<_>>();
+        .collect::<Result<Vec<_>, _>>()?;
     items.extend(lifecycle_summary_items(&root, zone)?);
     items.extend(lifecycle_boundary_items(&root, zone)?);
     for (receipt, reference) in usage::all_usage_receipts(&root)? {

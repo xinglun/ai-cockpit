@@ -2868,6 +2868,65 @@ pub fn evidence_purge_plan(
 /// Build a deterministic, repository-bound audit export. The export is a
 /// handoff artifact: local Git/.ai storage is not claimed to be immutable
 /// enterprise retention.
+fn validated_delegated_audit_source(
+    root: &Path,
+    receipt_ref: &str,
+) -> Result<(DelegatedEvidenceReceipt, Digest), ObserverError> {
+    let safe_external_ref = |reference: &str| {
+        reference
+            .strip_prefix(".ai/evidence/external/")
+            .is_some_and(|name| {
+                !name.is_empty()
+                    && name != "."
+                    && name != ".."
+                    && !name.contains('/')
+                    && !name.contains('\\')
+            })
+    };
+    if !safe_external_ref(receipt_ref) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence/external"),
+            message: "delegated audit receipt ref is unsafe".into(),
+        });
+    }
+    let receipt_bytes = collaboration::read_registered_worktree_file_bounded(
+        root,
+        receipt_ref,
+        MAX_REUSABLE_RECEIPT_BYTES as usize,
+    )
+    .map_err(|message| ObserverError::State {
+        path: root.join(receipt_ref),
+        message: format!("delegated audit receipt unreadable: {message}"),
+    })?;
+    let receipt: DelegatedEvidenceReceipt =
+        serde_json::from_slice(&receipt_bytes).map_err(|source| ObserverError::State {
+            path: root.join(receipt_ref),
+            message: format!("delegated audit receipt invalid: {source}"),
+        })?;
+    if !safe_external_ref(&receipt.evidence.raw_evidence_ref) {
+        return Err(ObserverError::State {
+            path: root.join(receipt_ref),
+            message: "delegated audit raw ref is unsafe".into(),
+        });
+    }
+    let raw = collaboration::read_registered_worktree_file_bounded(
+        root,
+        &receipt.evidence.raw_evidence_ref,
+        MAX_EXTERNAL_EVIDENCE_BYTES,
+    )
+    .map_err(|message| ObserverError::State {
+        path: root.join(&receipt.evidence.raw_evidence_ref),
+        message: format!("delegated audit raw source unreadable: {message}"),
+    })?;
+    if Digest::sha256_bytes(&raw) != receipt.evidence.digest {
+        return Err(ObserverError::State {
+            path: root.join(&receipt.evidence.raw_evidence_ref),
+            message: "delegated audit raw source digest differs".into(),
+        });
+    }
+    Ok((receipt, Digest::sha256_bytes(&receipt_bytes)))
+}
+
 pub fn export_audit_events(
     root: &Path,
     runtime: &RuntimeContext,
@@ -2879,7 +2938,17 @@ pub fn export_audit_events(
     let repository_id = repository_id(&root).to_string();
     let mut events = Vec::new();
     let evidence_dir = root.join(".ai/evidence");
-    if let Ok(entries) = fs::read_dir(&evidence_dir) {
+    if let Some(entries) =
+        fs::read_dir(&evidence_dir)
+            .map(Some)
+            .or_else(|source| match source.kind() {
+                std::io::ErrorKind::NotFound => Ok(None),
+                _ => Err(ObserverError::Read {
+                    path: evidence_dir.clone(),
+                    source,
+                }),
+            })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: evidence_dir.clone(),
@@ -2918,7 +2987,25 @@ pub fn export_audit_events(
         }
     }
     let external_dir = evidence_dir.join("external");
-    if let Ok(entries) = fs::read_dir(&external_dir) {
+    if let Ok(metadata) = fs::symlink_metadata(&external_dir)
+        && (!metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return Err(ObserverError::State {
+            path: external_dir,
+            message: "audit external evidence source is not a regular directory".into(),
+        });
+    }
+    if let Some(entries) =
+        fs::read_dir(&external_dir)
+            .map(Some)
+            .or_else(|source| match source.kind() {
+                std::io::ErrorKind::NotFound => Ok(None),
+                _ => Err(ObserverError::Read {
+                    path: external_dir.clone(),
+                    source,
+                }),
+            })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: external_dir.clone(),
@@ -2941,15 +3028,8 @@ pub fn export_audit_events(
                     message: "audit export found an invalid delegated receipt filename".into(),
                 });
             };
-            let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
-                path: entry.path(),
-                source,
-            })?;
-            let receipt: DelegatedEvidenceReceipt =
-                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
-                    path: external_dir.join(&name),
-                    message: error.to_string(),
-                })?;
+            let receipt_ref = format!(".ai/evidence/external/{name}");
+            let (receipt, _) = validated_delegated_audit_source(&root, &receipt_ref)?;
             if validate_work_item_id(work_item_id).is_err()
                 || receipt.repository_id != repository_id
                 || receipt.work_item_id != work_item_id
@@ -2976,7 +3056,16 @@ pub fn export_audit_events(
         }
     }
     let decisions_dir = root.join(".ai/decisions");
-    if let Ok(entries) = fs::read_dir(&decisions_dir) {
+    if let Some(entries) = fs::read_dir(&decisions_dir)
+        .map(Some)
+        .or_else(|source| match source.kind() {
+            std::io::ErrorKind::NotFound => Ok(None),
+            _ => Err(ObserverError::Read {
+                path: decisions_dir.clone(),
+                source,
+            }),
+        })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: decisions_dir.clone(),
@@ -7883,6 +7972,7 @@ fn archive_work_item_internal(
         }
     }
     let timestamp = now();
+    let lifecycle_time = usage::now_nanos();
     let mut manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
@@ -7892,8 +7982,8 @@ fn archive_work_item_internal(
         "files": files,
         "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
-        "occurredAt": timestamp,
-        "recordedAt": timestamp,
+        "occurredAt": lifecycle_time,
+        "recordedAt": lifecycle_time,
         "actorProvenance": "unknown",
     });
     if let Some(runtime) = current_runtime {
@@ -8521,8 +8611,9 @@ fn close_work_item_with_structured_decision_internal(
     }
     let mut decision = receipt_value;
     decision["repositoryId"] = contract.repository_id.clone().into();
-    decision["occurredAt"] = timestamp.clone().into();
-    decision["recordedAt"] = timestamp.clone().into();
+    let lifecycle_time = usage::now_nanos();
+    decision["occurredAt"] = lifecycle_time.clone().into();
+    decision["recordedAt"] = lifecycle_time.into();
     decision["actorProvenance"] = "structuredDecision.actor".into();
     if let Some(runtime) = current_runtime {
         decision["runtimeVersion"] = runtime.runtime_version.clone().into();

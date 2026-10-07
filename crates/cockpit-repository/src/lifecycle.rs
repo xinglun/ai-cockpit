@@ -147,7 +147,7 @@ fn start_work_item_with_options_internal(
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
         let timestamp = now();
-        record_start_lifecycle_fact(root, work_item_id, &timestamp, runtime)?;
+        record_start_lifecycle_fact(root, work_item_id, &super::usage::now_nanos(), runtime)?;
         receipt.timestamp = timestamp;
         return Ok(LifecycleReceipt {
             start_advisory: Some(start_advisory),
@@ -167,7 +167,7 @@ fn start_work_item_with_options_internal(
         },
     )?;
     let timestamp = now();
-    record_start_lifecycle_fact(root, work_item_id, &timestamp, runtime)?;
+    record_start_lifecycle_fact(root, work_item_id, &super::usage::now_nanos(), runtime)?;
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
@@ -2184,6 +2184,42 @@ pub fn finish_work_item_with_runtime(
     finish_work_item_internal(root, work_item_id, Some(runtime))
 }
 
+fn snapshot_finish_artifact(path: &Path) -> Result<Option<Vec<u8>>, ObserverError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => fs::read(path)
+            .map(Some)
+            .map_err(|source| ObserverError::Read {
+                path: path.into(),
+                source,
+            }),
+        Ok(_) => Err(ObserverError::State {
+            path: path.into(),
+            message: "existing finish artifact is not a regular file".into(),
+        }),
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    }
+}
+
+fn restore_finish_artifacts(artifacts: &[(PathBuf, Option<Vec<u8>>)]) -> Result<(), ObserverError> {
+    for (path, original) in artifacts.iter().rev() {
+        if let Some(bytes) = original {
+            atomic_write(path, bytes)?;
+        } else if let Err(source) = fs::remove_file(path)
+            && source.kind() != std::io::ErrorKind::NotFound
+        {
+            return Err(ObserverError::Read {
+                path: path.clone(),
+                source,
+            });
+        }
+    }
+    Ok(())
+}
+
 fn finish_work_item_internal(
     root: &Path,
     work_item_id: &str,
@@ -2419,7 +2455,6 @@ fn finish_work_item_internal_unlocked(
         summary["lifecycleFacts"]["finish"]["runtimeDigest"] =
             runtime.runtime_digest.to_string().into();
     }
-    atomic_json(&summary_path, &summary)?;
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
@@ -2437,12 +2472,36 @@ fn finish_work_item_internal_unlocked(
         historical: false,
         usage_cutoff: Some(&timestamp),
     })?;
-    let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
-        &root,
-        work_item_id,
-        &task_report,
-        retry_recovery_pending || verification_recovery_reconciled,
-    )?;
+    let replace_reports = retry_recovery_pending || verification_recovery_reconciled;
+    let report_json_path = active.join(format!("{work_item_id}.task-report.json"));
+    let report_markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let prior_artifacts = [report_json_path, report_markdown_path, outcome_path]
+        .into_iter()
+        .map(|path| snapshot_finish_artifact(&path).map(|bytes| (path, bytes)))
+        .collect::<Result<Vec<_>, _>>()?;
+    if !replace_reports
+        && prior_artifacts[..2]
+            .iter()
+            .any(|(_, bytes)| bytes.is_some())
+    {
+        return Err(ObserverError::State {
+            path: active,
+            message: "Task Outcome report artifact already exists".into(),
+        });
+    }
+    let (task_report_digest, task_report_markdown_digest) =
+        match write_task_outcome_artifacts(&root, work_item_id, &task_report, replace_reports) {
+            Ok(digests) => digests,
+            Err(error) => {
+                restore_finish_artifacts(&prior_artifacts)?;
+                return Err(error);
+            }
+        };
+    if let Err(error) = atomic_json(&summary_path, &summary) {
+        restore_finish_artifacts(&prior_artifacts)?;
+        return Err(error);
+    }
     if retry_recovery_pending {
         summary
             .as_object_mut()
@@ -2463,9 +2522,8 @@ fn finish_work_item_internal_unlocked(
         if let Err(error) = atomic_json(&summary_path, &summary) {
             // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
             // finish_ready と retry marker の矛盾した投影を残さない。
-            let _ = atomic_json(&summary_path, &original_summary);
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+            atomic_json(&summary_path, &original_summary)?;
+            restore_finish_artifacts(&prior_artifacts)?;
             return Err(error);
         }
     }
@@ -2516,13 +2574,9 @@ fn finish_work_item_internal_unlocked(
     outcome["taskReportDigest"] = task_report_digest.to_string().into();
     outcome["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
     outcome["createdAt"] = timestamp.clone().into();
-    if let Err(error) = atomic_json(
-        &active.join(format!("{work_item_id}.outcome.json")),
-        &outcome,
-    ) {
-        let _ = atomic_json(&summary_path, &original_summary);
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+    if let Err(error) = atomic_json(&prior_artifacts[2].0, &outcome) {
+        atomic_json(&summary_path, &original_summary)?;
+        restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
     }
     if let Err(error) = append_task_outcome_events(
@@ -2531,10 +2585,8 @@ fn finish_work_item_internal_unlocked(
         &task_report,
         retry_recovery_pending || verification_recovery_reconciled,
     ) {
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
-        let _ = atomic_json(&summary_path, &original_summary);
+        atomic_json(&summary_path, &original_summary)?;
+        restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
     }
     Ok(LifecycleReceipt {
