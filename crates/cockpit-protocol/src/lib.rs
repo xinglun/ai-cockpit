@@ -5,9 +5,15 @@ use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
+pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
 pub mod usage;
+
+pub use audit_query::{
+    AUDIT_QUERY_SCHEMA_VERSION, AuditEvidenceRef, AuditQueryCoverage, AuditQueryFilters,
+    AuditQueryItem, AuditQueryPage,
+};
 
 pub use contract_amendment::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,

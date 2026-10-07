@@ -2421,6 +2421,22 @@ fn audit_export_accepts_the_canonical_delegated_receipt_filename() {
     assert_eq!(events[0].work_item_id.as_deref(), Some(id));
     assert_eq!(events[0].event_type, "external_evidence_bound");
     assert_eq!(receipt.work_item_id, id);
+    let external = path.join(".ai/evidence/external");
+    let original = fs::read_dir(&external)
+        .expect("external entries")
+        .map(|entry| entry.expect("entry").path())
+        .find(|entry| entry.to_string_lossy().ends_with(".delegated.json"))
+        .expect("delegated receipt file");
+    let mismatched = external.join(format!("{id}.{}.delegated.json", "0".repeat(64)));
+    fs::rename(&original, &mismatched).expect("change only receipt filename digest");
+    let error = export_audit_events(&path, &runtime)
+        .expect_err("filename digest must match parsed delegated evidence");
+    assert!(
+        error
+            .to_string()
+            .contains("delegated receipt identity or digest mismatch"),
+        "{error}"
+    );
     fs::remove_dir_all(path).expect("cleanup");
 }
 

@@ -47,6 +47,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 mod action_admission;
+mod audit_query;
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;
@@ -69,6 +70,7 @@ use rust_material::{
 };
 
 pub use action_admission::require_current_action_admission;
+pub use audit_query::{export_audit_events_filtered, query_audit_events};
 pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
     CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
@@ -7884,12 +7886,20 @@ fn archive_work_item_internal(
     let mut manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
+        "repositoryId": repository_id(&root).to_string(),
         "state": "archived",
         "closeRequired": true,
         "files": files,
         "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
+        "occurredAt": timestamp,
+        "recordedAt": timestamp,
+        "actorProvenance": "unknown",
     });
+    if let Some(runtime) = current_runtime {
+        manifest["runtimeVersion"] = runtime.runtime_version.clone().into();
+        manifest["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    }
     if let Some(binding) = historical_evidence {
         manifest["historicalEvidence"] = binding;
         manifest["archiveRoute"] = serde_json::json!("historical_evidence_compatibility");
@@ -8511,6 +8521,13 @@ fn close_work_item_with_structured_decision_internal(
     }
     let mut decision = receipt_value;
     decision["repositoryId"] = contract.repository_id.clone().into();
+    decision["occurredAt"] = timestamp.clone().into();
+    decision["recordedAt"] = timestamp.clone().into();
+    decision["actorProvenance"] = "structuredDecision.actor".into();
+    if let Some(runtime) = current_runtime {
+        decision["runtimeVersion"] = runtime.runtime_version.clone().into();
+        decision["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    }
     if let Some(binding) = finalization_binding {
         decision["resourceFinalizationHeadPath"] = binding["headPath"].clone();
         decision["resourceFinalizationHeadDigest"] = binding["headDigest"].clone();

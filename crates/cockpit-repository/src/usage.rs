@@ -744,3 +744,27 @@ pub fn read_work_item_usage_receipts(
         .map(|(receipt, _)| receipt)
         .collect())
 }
+
+/// Return only validated receipt metadata and byte refs for the shared audit
+/// reader. This is read-only and retains the same frozen-report checks as a
+/// Work Item usage query.
+pub(super) fn all_usage_receipts(
+    root: &Path,
+) -> Result<Vec<(UsageReceipt, UsageReceiptRef)>, ObserverError> {
+    let Some(usage) = usage_directory(root, false)? else {
+        return Ok(Vec::new());
+    };
+    let lock = usage_lock(root, false)?;
+    fs::File::lock_shared(&lock)
+        .map_err(|source| read_error(&root.join(".ai/locks/usage.lock"), source))?;
+    let records = receipt_records(root, &usage)?;
+    drop(lock);
+    let work_items = records
+        .iter()
+        .map(|(receipt, _)| receipt.request.work_item_id.as_str())
+        .collect::<std::collections::BTreeSet<_>>();
+    for work_item_id in work_items {
+        let _ = validate_existing_frozen_usage_snapshots(root, work_item_id)?;
+    }
+    Ok(records)
+}

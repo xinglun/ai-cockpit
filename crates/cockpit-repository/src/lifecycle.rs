@@ -82,6 +82,38 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    start_work_item_with_options_internal(root, work_item_id, intent, goal, scope, options, None)
+}
+
+pub fn start_work_item_with_options_and_runtime(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    start_work_item_with_options_internal(
+        root,
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        Some(runtime),
+    )
+}
+
+fn start_work_item_with_options_internal(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+    runtime: Option<&RuntimeContext>,
+) -> Result<LifecycleReceipt, ObserverError> {
     if !matches!(options.authority.as_str(), "authorized" | "missing") {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -111,9 +143,12 @@ pub fn start_work_item_with_options(
         recovery_continuation,
         &start_advisory.conflicts,
     )?;
-    if let Some(receipt) =
+    if let Some(mut receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
+        let timestamp = now();
+        record_start_lifecycle_fact(root, work_item_id, &timestamp, runtime)?;
+        receipt.timestamp = timestamp;
         return Ok(LifecycleReceipt {
             start_advisory: Some(start_advisory),
             ..receipt
@@ -131,12 +166,37 @@ pub fn start_work_item_with_options(
             state: "implementation_active",
         },
     )?;
+    let timestamp = now();
+    record_start_lifecycle_fact(root, work_item_id, &timestamp, runtime)?;
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
-        timestamp: now(),
+        timestamp,
         start_advisory: Some(start_advisory),
     })
+}
+
+fn record_start_lifecycle_fact(
+    root: &Path,
+    work_item_id: &str,
+    timestamp: &str,
+    runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value = read_json(&path)?;
+    summary["lifecycleFacts"]["start"] = serde_json::json!({
+        "eventType": "work_item_started",
+        "occurredAt": timestamp,
+        "recordedAt": timestamp,
+        "actorProvenance": "unknown",
+    });
+    if let Some(runtime) = runtime {
+        summary["lifecycleFacts"]["start"]["runtimeVersion"] =
+            runtime.runtime_version.clone().into();
+        summary["lifecycleFacts"]["start"]["runtimeDigest"] =
+            runtime.runtime_digest.to_string().into();
+    }
+    atomic_json(&path, &summary)
 }
 
 /// Inspect residual Work Item resources before a new Work Item is started.
@@ -518,7 +578,15 @@ pub fn start_work_item_prepared(
     sources: &[String],
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    let start = start_work_item_with_options(root, work_item_id, intent, goal, scope, options)?;
+    let start = start_work_item_with_options_and_runtime(
+        root,
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        runtime,
+    )?;
     let source_amendment = if sources.is_empty() {
         None
     } else {
@@ -2339,6 +2407,18 @@ fn finish_work_item_internal_unlocked(
     }
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
+    summary["lifecycleFacts"]["finish"] = serde_json::json!({
+        "eventType": "work_item_finished",
+        "occurredAt": timestamp,
+        "recordedAt": timestamp,
+        "actorProvenance": "unknown",
+    });
+    if let Some(runtime) = current_runtime {
+        summary["lifecycleFacts"]["finish"]["runtimeVersion"] =
+            runtime.runtime_version.clone().into();
+        summary["lifecycleFacts"]["finish"]["runtimeDigest"] =
+            runtime.runtime_digest.to_string().into();
+    }
     atomic_json(&summary_path, &summary)?;
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let task_report = task_outcome_report(TaskOutcomeReportInput {

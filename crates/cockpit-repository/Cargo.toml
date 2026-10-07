@@ -9,6 +9,7 @@ rust-version.workspace = true
 cap-std.workspace = true
 cap-fs-ext.workspace = true
 chrono.workspace = true
+chrono-tz.workspace = true
 cockpit-git = { path = "../cockpit-git" }
 cockpit-protocol = { path = "../cockpit-protocol" }
 cockpit-verification = { path = "../cockpit-verification" }
