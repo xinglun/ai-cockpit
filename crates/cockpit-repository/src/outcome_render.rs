@@ -1230,6 +1230,33 @@ pub fn render_human_outcome_with_timezone(
     view: OutcomeRenderView,
     display_timezone: &str,
 ) -> Result<String, ObserverError> {
+    render_human_outcome_with_timezone_with_hook(
+        root,
+        input,
+        runtime,
+        language,
+        view,
+        display_timezone,
+        None,
+    )
+}
+
+fn render_human_outcome_with_timezone_with_hook(
+    root: &Path,
+    input: &OutcomeRenderInput,
+    runtime: &RuntimeContext,
+    language: &str,
+    view: OutcomeRenderView,
+    display_timezone: &str,
+    mut after_first_guard: Option<&mut dyn FnMut()>,
+) -> Result<String, ObserverError> {
+    // The base Outcome was assembled under a guarded observation. Check that
+    // those same repository facts still exist on both sides of the audit read;
+    // otherwise a later close/archive could be spliced into an older Outcome.
+    require_outcome_generation(root, input)?;
+    if let Some(hook) = after_first_guard.as_mut() {
+        hook();
+    }
     let mut filters = cockpit_protocol::AuditQueryFilters {
         work_item_id: Some(input.outcome.work_item_id.clone()),
         limit: Some(100),
@@ -1259,6 +1286,7 @@ pub fn render_human_outcome_with_timezone(
         };
         filters.cursor = Some(cursor);
     }
+    require_outcome_generation(root, input)?;
     let language = normalized_language(language);
     let (zone_label, labels, unknown, elapsed_label) = match language {
         "zh" => (
@@ -1293,6 +1321,31 @@ pub fn render_human_outcome_with_timezone(
         render_human_outcome_with_view(input, language, view),
         parts.join("; "),
     ))
+}
+
+fn require_outcome_generation(
+    root: &Path,
+    input: &OutcomeRenderInput,
+) -> Result<(), ObserverError> {
+    let Some(assembly) = input.assembly.as_ref() else {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message: "Outcome lifecycle generation is unavailable; result is unknown".into(),
+        });
+    };
+    let context = RepositoryExecutionContext::capture(root)?;
+    let snapshot = super::snapshot_digest(context.snapshot())?;
+    let facts =
+        assembly_observation_ledger(context.root(), &input.outcome.work_item_id)?.facts_digest();
+    if snapshot != assembly.snapshot_digest || facts != assembly.facts_digest {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message:
+                "Outcome lifecycle facts changed during timezone projection; result is unknown"
+                    .into(),
+        });
+    }
+    Ok(())
 }
 
 /// Render the complete evidence-oriented handoff explicitly.
@@ -3629,7 +3682,7 @@ mod render_tests {
         FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
         FinalizationObservationState, FinalizationSafety, HumanBenefitReport, HumanDecision,
         OutcomeFinalizationCleanupProjection, OutcomeFinalizationResource,
-        OutcomeFinalizationResourceDisposition, OutcomeState, OutcomeV2,
+        OutcomeFinalizationResourceDisposition, OutcomeState, OutcomeV2, RuntimeContext,
     };
     use std::{fs, path::Path, process::Command};
 
@@ -3855,6 +3908,45 @@ mod render_tests {
                 .expect_err("continuous mutation must fail closed");
         assert!(error.to_string().contains("bounded assembly"));
         assert!(error.to_string().contains("result is unknown"));
+    }
+
+    #[test]
+    fn timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read() {
+        let directory = observed_repository();
+        let id = "WI-OBSERVATION-BOUNDARY";
+        let input = assemble_outcome_render_input_with_hook(directory.path(), id, None, None)
+            .expect("guarded Outcome assembly");
+        let summary = directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.summary.json"));
+        let mut drift = || {
+            let mut changed: serde_json::Value =
+                serde_json::from_slice(&fs::read(&summary).expect("summary")).expect("JSON");
+            changed["lifecycleFacts"]["close"] = serde_json::json!({
+                "eventType":"work_item_closed",
+                "occurredAt":"2026-10-07T08:00:00Z",
+                "recordedAt":"2026-10-07T08:00:00Z",
+                "actorProvenance":"unknown"
+            });
+            fs::write(&summary, serde_json::to_vec_pretty(&changed).expect("JSON"))
+                .expect("lifecycle drift");
+        };
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: Digest::sha256_bytes(b"timezone-drift-test"),
+        };
+        let error = super::render_human_outcome_with_timezone_with_hook(
+            directory.path(),
+            &input,
+            &runtime,
+            "en",
+            super::OutcomeRenderView::Summary,
+            "Asia/Tokyo",
+            Some(&mut drift),
+        )
+        .expect_err("a timezone line must not mix lifecycle generations");
+        assert!(error.to_string().contains("changed"), "{error}");
     }
 
     #[test]

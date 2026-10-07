@@ -28,7 +28,7 @@ fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
     assert!(output.status.success(), "outcome help failed");
     let help = String::from_utf8_lossy(&output.stdout);
     let specs = work_item_outcome_interface_specs("cli").expect("CLI outcome surface");
-    for name in ["delivery", "json", "view", "language", "display_timezone"] {
+    for name in ["delivery", "json", "view", "language", "display-timezone"] {
         let spec = specs
             .iter()
             .find(|spec| spec.name == name)
@@ -37,6 +37,11 @@ fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
             help.contains(&spec.description),
             "CLI help for --{name} must be projected from the protocol description: {}",
             spec.description
+        );
+        assert!(
+            help.contains(&format!("--{}", spec.name)),
+            "CLI descriptor must use actual public flag spelling: {}",
+            spec.name
         );
     }
 }
@@ -76,10 +81,12 @@ fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidde
             "work_item_usage_record",
             "audit_query",
             "displayTimezone",
+            "| `display-timezone` |",
             "--display-timezone",
         ] {
             assert!(docs.contains(name), "missing {name}");
         }
+        assert!(!docs.contains("| `display_timezone` |"));
         assert!(!docs.contains("__composition-supervisor"));
     }
     let repo = repository();

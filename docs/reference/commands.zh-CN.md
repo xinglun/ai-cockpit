@@ -277,7 +277,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
-| `display_timezone` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 

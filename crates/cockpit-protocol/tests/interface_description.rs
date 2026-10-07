@@ -104,7 +104,7 @@ fn cli_description_is_extracted_from_the_shared_outcome_query_parser() {
     for parameter in &cli.parameters {
         let argument = command
             .get_arguments()
-            .find(|argument| argument.get_id().as_str() == parameter.name)
+            .find(|argument| argument.get_long() == Some(parameter.name.as_str()))
             .unwrap_or_else(|| panic!("missing parser argument {}", parameter.name));
         assert_eq!(
             argument.is_required_set(),
@@ -360,7 +360,7 @@ fn transport_specs_reuse_the_shared_query_parser_facts() {
                     .expect("shared CLI parser binding");
             let argument = command
                 .get_arguments()
-                .find(|argument| argument.get_id().as_str() == cli_spec.name)
+                .find(|argument| argument.get_long() == Some(cli_spec.name.as_str()))
                 .unwrap_or_else(|| panic!("missing parser argument {}", cli_spec.name));
             assert_eq!(
                 spec.default.as_deref(),
@@ -420,7 +420,7 @@ fn cli_and_mcp_share_common_outcome_parameter_facts() {
             "{name}"
         );
     }
-    let cli_timezone = parameter(cli, "display_timezone");
+    let cli_timezone = parameter(cli, "display-timezone");
     let mcp_timezone = parameter(mcp, "displayTimezone");
     assert_eq!(cli_timezone.wire_type, mcp_timezone.wire_type);
     assert_eq!(cli_timezone.description, mcp_timezone.description);

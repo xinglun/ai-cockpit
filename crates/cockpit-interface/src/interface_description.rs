@@ -45,7 +45,7 @@ pub const WORK_ITEM_OUTCOME_CLI_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DEL
 pub const WORK_ITEM_OUTCOME_CLI_JSON: &str = WORK_ITEM_OUTCOME_CANONICAL_JSON;
 pub const WORK_ITEM_OUTCOME_CLI_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_CLI_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
-pub const WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE: &str = "display_timezone";
+pub const WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE: &str = "display-timezone";
 pub const WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID: &str = WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DELIVERY;
 pub const WORK_ITEM_OUTCOME_MCP_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
@@ -221,7 +221,9 @@ pub struct InterfaceParameter {
 }
 
 fn cli_parameter_from_query_argument(argument: &clap::Arg) -> InterfaceParameter {
-    let name = argument.get_id().as_str();
+    let name = argument
+        .get_long()
+        .unwrap_or_else(|| argument.get_id().as_str());
     let boolean = matches!(
         argument.get_action(),
         ArgAction::SetTrue | ArgAction::SetFalse

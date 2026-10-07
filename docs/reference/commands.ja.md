@@ -313,7 +313,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
-| `display_timezone` | `string` | `no` | `—` | `—` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 

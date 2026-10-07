@@ -825,6 +825,9 @@ fn wall_elapsed_ms_between(
     start: DateTime<chrono::FixedOffset>,
     end: DateTime<chrono::FixedOffset>,
 ) -> Option<u64> {
+    if end < start {
+        return None;
+    }
     (end - start).num_milliseconds().try_into().ok()
 }
 
@@ -851,8 +854,11 @@ mod lifecycle_elapsed_tests {
         let after_wait = DateTime::parse_from_rfc3339("2026-10-07T08:00:05Z").expect("after wait");
         let before_start =
             DateTime::parse_from_rfc3339("2026-10-07T07:59:59Z").expect("clock rollback");
+        let one_nanosecond_before = DateTime::parse_from_rfc3339("2026-10-07T07:59:59.999999999Z")
+            .expect("sub-millisecond clock rollback");
         assert_eq!(wall_elapsed_ms_between(start, same_second), Some(0));
         assert_eq!(wall_elapsed_ms_between(start, after_wait), Some(5_000));
         assert_eq!(wall_elapsed_ms_between(start, before_start), None);
+        assert_eq!(wall_elapsed_ms_between(start, one_nanosecond_before), None);
     }
 }

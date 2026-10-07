@@ -163,13 +163,49 @@ pub(super) fn lifecycle_time_with(clock: impl FnOnce() -> DateTime<Utc>) -> Stri
     clock().to_rfc3339_opts(SecondsFormat::Nanos, true)
 }
 
+#[cfg(test)]
+std::thread_local! {
+    static LIFECYCLE_TEST_CLOCK: std::cell::RefCell<Option<Box<dyn FnMut() -> DateTime<Utc>>>> =
+        std::cell::RefCell::new(None);
+}
+
+#[cfg(test)]
+fn with_lifecycle_test_clock<T>(
+    clock: impl FnMut() -> DateTime<Utc> + 'static,
+    run: impl FnOnce() -> T,
+) -> T {
+    struct ResetClock;
+    impl Drop for ResetClock {
+        fn drop(&mut self) {
+            LIFECYCLE_TEST_CLOCK.with(|slot| *slot.borrow_mut() = None);
+        }
+    }
+    LIFECYCLE_TEST_CLOCK.with(|slot| {
+        assert!(
+            slot.borrow_mut().replace(Box::new(clock)).is_none(),
+            "nested lifecycle clock override"
+        );
+    });
+    let _reset = ResetClock;
+    run()
+}
+
 pub(super) fn lifecycle_now() -> String {
+    #[cfg(test)]
+    if let Some(now) =
+        LIFECYCLE_TEST_CLOCK.with(|slot| slot.borrow_mut().as_mut().map(|clock| clock()))
+    {
+        return lifecycle_time_with(|| now);
+    }
     lifecycle_time_with(Utc::now)
 }
 
 #[cfg(test)]
 mod lifecycle_clock_tests {
     use super::*;
+    use cockpit_core::Digest;
+    use cockpit_protocol::{AuditQueryFilters, RuntimeContext};
+    use std::{collections::VecDeque, process::Command};
 
     #[test]
     fn injectable_lifecycle_clock_keeps_same_second_order_and_utc() {
@@ -187,6 +223,124 @@ mod lifecycle_clock_tests {
             lifecycle_time_with(|| second),
             "2026-10-07T08:00:00.000000002Z"
         );
+    }
+
+    #[test]
+    fn injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown() {
+        for (close, expected_wall) in [
+            ("2026-10-07T08:00:00.000000004Z", Some(0)),
+            ("2026-10-07T08:00:00.000000001Z", None),
+        ] {
+            let directory = tempfile::tempdir().expect("repository");
+            assert!(
+                Command::new("git")
+                    .args(["init", "-q"])
+                    .current_dir(directory.path())
+                    .status()
+                    .expect("git init")
+                    .success()
+            );
+            crate::attach(directory.path()).expect("attach");
+            let id = "WI-INJECTED-LIFECYCLE";
+            let samples = [
+                "2026-10-07T08:00:00.000000002Z",
+                "2026-10-07T08:00:00.000000003Z",
+                "2026-10-07T08:00:00.000000003Z",
+                close,
+            ]
+            .into_iter()
+            .map(|time| time.parse::<DateTime<Utc>>().expect("UTC sample"))
+            .collect::<VecDeque<_>>();
+            let mut samples = samples;
+            with_lifecycle_test_clock(
+                move || samples.pop_front().expect("one read per transition"),
+                || {
+                    crate::start_work_item_with_options(
+                        directory.path(),
+                        id,
+                        "clock",
+                        "clock",
+                        &[".ai/**".into()],
+                        &crate::WorkItemStartOptions {
+                            authority: "authorized".into(),
+                            ..Default::default()
+                        },
+                    )
+                    .expect("start");
+                    let contract = directory
+                        .path()
+                        .join(format!(".ai/work-items/active/{id}.contract.json"));
+                    crate::preflight_work_item(directory.path(), &contract).expect("preflight");
+                    crate::checkpoint_work_item(directory.path(), id).expect("checkpoint");
+                    crate::record_verification(
+                        directory.path(),
+                        id,
+                        &serde_json::json!({"passed":true,"nodesPlanned":1}),
+                        "1.0.1-test",
+                        &Digest::sha256_bytes(b"test runtime"),
+                    )
+                    .expect("verification");
+                    crate::finish_work_item(directory.path(), id).expect("finish");
+                    crate::archive_work_item(directory.path(), id).expect("archive");
+                    crate::close_work_item_with_decision(directory.path(), id, "approved")
+                        .expect("close");
+                },
+            );
+            let runtime = RuntimeContext {
+                runtime_version: "1.0.1-test".into(),
+                protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+                runtime_digest: Digest::sha256_bytes(b"audit clock test"),
+            };
+            let page = crate::query_audit_events(
+                directory.path(),
+                &runtime,
+                &AuditQueryFilters {
+                    work_item_id: Some(id.into()),
+                    ..Default::default()
+                },
+            )
+            .expect("read real lifecycle facts");
+            for (event, expected) in [
+                ("work_item_started", "2026-10-07T08:00:00.000000002Z"),
+                ("work_item_finished", "2026-10-07T08:00:00.000000003Z"),
+                ("work_item_archived", "2026-10-07T08:00:00.000000003Z"),
+                ("work_item_closed", close),
+            ] {
+                let item = page
+                    .items
+                    .iter()
+                    .find(|item| item.event_type == event)
+                    .expect(event);
+                assert_eq!(item.recorded_at.as_deref(), Some(expected));
+                assert_eq!(item.occurred_at.as_deref(), Some(expected));
+            }
+            assert_eq!(
+                page.items
+                    .iter()
+                    .find(|item| item.event_type == "work_item_closed")
+                    .expect("close")
+                    .wall_elapsed_ms,
+                expected_wall
+            );
+            let input =
+                crate::outcome_render_input(directory.path(), id).expect("guarded closed Outcome");
+            let handoff = crate::render_human_outcome_with_timezone(
+                directory.path(),
+                &input,
+                &runtime,
+                "en",
+                crate::OutcomeRenderView::Summary,
+                "Asia/Tokyo",
+            )
+            .expect("same-generation closed timezone handoff");
+            assert!(handoff.contains("Time zone: Asia/Tokyo"));
+            assert!(handoff.contains("close: 2026-10-07T17:00:00."));
+            assert!(handoff.contains(if expected_wall.is_none() {
+                "wall elapsed (includes waiting): unknown"
+            } else {
+                "wall elapsed (includes waiting): 0 ms"
+            }));
+        }
     }
 }
 
