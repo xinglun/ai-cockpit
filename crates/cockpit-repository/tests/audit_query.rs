@@ -520,6 +520,22 @@ fn terminal_lifecycle_events_come_from_each_successful_boundary() {
     assert_eq!(closed.items[0].actor.as_deref(), Some("legacy-cli"));
     assert_eq!(closed.items[0].actor_provenance, "structured_decision");
     assert!(closed.items[0].wall_elapsed_ms.is_some());
+    let exported = export_audit_events_filtered(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            event_type: Some("work_item_closed".into()),
+            ..Default::default()
+        },
+    )
+    .expect("filtered lifecycle export");
+    assert_eq!(exported.items, closed.items);
+    assert!(
+        closed.items[0]
+            .evidence_refs
+            .iter()
+            .all(|reference| reference.digest.is_some())
+    );
     let started = query_audit_events(
         root.path(),
         &runtime(),
