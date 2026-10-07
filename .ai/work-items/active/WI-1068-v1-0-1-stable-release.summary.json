@@ -118,6 +118,12 @@
           "path": "/tmp/wi1068-linux-zombie-final2.txt",
           "type": "linux_zombie_only_process_group_independent_acceptance",
           "verification": "This is a separate targeted acceptance command, distinct from cargo test --locked --workspace. It passed 1/1. It does not claim the complete hosted workspace/PR gate passed."
+        },
+        {
+          "locator": "retry_reconciles_zombie_only_verifier_process_group",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_linux_regression_current_source",
+          "verification": "Independent Linux acceptance on source head 95fd1571a89f6425b4aebeedfc80c75a785c152d; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; repository snapshot sha256:e26fd3e9c7a45cccfb073641f3820924a911dc1faec97a7072041542df4ff470; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b93a1c9397ad193101b58bfbddec8aca0d10a36e1ae5f4122d882bd5deb7361c; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.60s\n\n"
         }
       ]
     },
@@ -175,6 +181,105 @@
           "path": "/tmp/wi1068-finish-gate.txt; /tmp/wi1068-current-verify-gate.txt",
           "type": "finish_preflight_and_current_verification_gate_tests",
           "verification": "Passed 1/1 each. These test the lifecycle gates; this current Work Item still requires its separate current snapshot verification and a green preflight before finish. Output SHA256 values: 5af1810f6a98086b411ce3f1ccbe4ba5c4f498c488ee9c01e1cf25e86ac854a5 and 65639370616feda100b92c8c76481457158737ad3e3e9a03874143b7f86337be."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test usage; cargo test --locked -p cockpit-cli --test usage; cargo test --locked -p cockpit-mcp --test usage",
+          "path": "crates/cockpit-repository/tests/usage.rs; crates/cockpit-cli/tests/usage.rs; crates/cockpit-mcp/tests/usage.rs",
+          "type": "usage_repository_and_transport_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: 19/19, 3/3, 3/3. Explicit bound record, idempotency, conflict, close rejection and source provenance cases pass; no claim of authenticated host measurement."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "usage_matrix_keeps_model_role_phase_source_and_unknown_counts_distinct; unknown_counts_remain_null_and_source_time_needs_trusted_provenance",
+          "path": "crates/cockpit-repository/tests/usage.rs",
+          "type": "usage_provenance_and_unknown_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, repository usage suite exit 0, 19/19; nullable counts, model/actor provenance, subset non-double-counting and source-time trust cases pass."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "usage_projection_is_visible_in_summary_and_full_in_three_languages; archived_unclosed_usage_updates_only_the_distinct_close_report",
+          "path": "crates/cockpit-repository/tests/outcome_report.rs; crates/cockpit-repository/tests/usage.rs",
+          "type": "outcome_usage_report_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, outcome 17/17 and usage 19/19 pass; present, unknown and three-language usage projections are covered."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A18",
+      "evidence": [
+        {
+          "locator": "archived_unclosed_usage_updates_only_the_distinct_close_report; rebound_future_late_receipt_cannot_escape_the_close_cutoff; legacy_closed_report_without_usage_fields_remains_readable",
+          "path": "crates/cockpit-repository/tests/usage.rs",
+          "type": "frozen_usage_cutoff_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, usage 19/19 pass; finish/archive bytes and close cutoff are distinct; page subtotal is covered by audit query 15/15."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A19",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --lib lifecycle_; cargo test --locked -p cockpit-repository --test audit_query; cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity",
+          "path": "crates/cockpit-repository/src/usage.rs; crates/cockpit-repository/tests/audit_query.rs; crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+          "type": "lifecycle_time_timezone_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: 2/2 + 15/15 + 6/6. Clock seam tests same-second and rollback; actual successful transitions persist distinct UTC facts; Tokyo view is shared, labeled, and does not alter source bytes. External source without trusted offset stays unknown. Process Instant remains separate from wall elapsed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A20",
+      "evidence": [
+        {
+          "locator": "terminal_lifecycle_events_come_from_each_successful_boundary; filtered_export_reuses_query_page_and_legacy_export_remains_schema_one",
+          "path": "crates/cockpit-repository/tests/audit_query.rs",
+          "type": "shared_lifecycle_audit_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, audit query suite exit 0, 15/15; lifecycle facts use the existing evidence/audit reader, refs, digests and wall-clock labels."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A21",
+      "evidence": [
+        {
+          "locator": "combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit; cli_and_mcp_share_combined_filters_and_bound_cursor_pages",
+          "path": "crates/cockpit-repository/tests/audit_query.rs; crates/cockpit-cli/tests/audit_query.rs",
+          "type": "typed_query_transport_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: repository 15/15, CLI 5/5; exact filters, cutoff, cursor/snapshot, source mutation and page totals are exercised through shared CLI/MCP read service."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A22",
+      "evidence": [
+        {
+          "locator": "unfiltered_export_accepts_existing_schema_one_bytes; audit_export_accepts_the_canonical_delegated_receipt_filename",
+          "path": "crates/cockpit-cli/tests/audit_query.rs; crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "audit_export_compatibility_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, CLI audit 5/5 and repository audit 15/15 pass. Pre-feature typed schema-v1 bytes, idempotent --output, conflicting-byte rejection, filtered envelope and actual delegated receipt filename binding are exercised; RED before source fix was preserved in earlier Summary evidence."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A23",
+      "evidence": [
+        {
+          "locator": "public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper; checked_in_reference_regions_match_the_protocol_projection; cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes",
+          "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs; crates/cockpit-protocol/tests/interface_description.rs; docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md",
+          "type": "public_interface_and_hidden_helper_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: CLI Outcome 6/6, protocol 15/15, hidden supervisor focused test 1/1, generated reference --check. Public help/MCP discovery include native usage/audit/timezone and exclude the hidden helper; internal route remains exercised."
         }
       ]
     }
@@ -702,12 +807,14 @@
       "verificationPlan": "Run paired CLI/MCP requests against the same repository service test fixture and compare normalized receipts and errors."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Source head 95fd1571a89f6425b4aebeedfc80c75a785c152d. cargo test --locked -p cockpit-repository --test audit_query --test outcome_report --test usage; exit 0, 15/15 + 17/17 + 19/19. terminal_lifecycle_events_come_from_each_successful_boundary checks four UTC occurredAt/recordedAt facts; lifecycle_query_uses_only_persisted_successful_transition_facts checks unended/historical unknown; tokyo_display_changes_only_labels_not_utc_facts_or_snapshot checks Asia/Tokyo IANA display and unchanged UTC/snapshot; unknown_counts_remain_null_and_source_time_needs_trusted_provenance rejects source time lacking trusted provenance/offset.",
+        "cargo test --locked -p cockpit-repository --lib lifecycle_; exit 0, 2/2. Injected UTC nanosecond samples distinguish same-second readings; wall_elapsed_includes_wait_and_rejects_clock_rollback yields 0 ms, 5000 ms, and None for rollback. Production start/finish/archive/close call lifecycle_now at the transition. cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity; exit 0, 6/6; shared CLI/MCP Asia/Tokyo lifecycle line names the zone, leaves unended terminal and elapsed unknown, and preserves UTC Summary bytes. Process execution elapsed uses Rust Instant in cockpit-verification and remains distinct from Work Item wall elapsed."
+      ],
       "expected": "Runtime start/finish/archive/close facts are separate UTC RFC3339 events with occurredAt/recordedAt and source refs; unfinished terminal times are null, historical missing values unknown, process duration monotonic, wall elapsed includes waiting, Tokyo rendering is explicit, and anomalies remain unknown.",
-      "reason": "Lifecycle facts and Tokyo query label are tested; no injectable lifecycle clock/negative-interval regression, and work-item outcome exposes no displayTimezone argument or labeled IANA view.",
       "required": true,
       "scenario": "work-item-lifecycle-time-source-zone-and-duration",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Drive lifecycle actions through the Runtime service with an injectable clock; assert successful-action timestamps and evidence bindings, legacy missing facts, external offset/source handling, Asia/Tokyo formatting via IANA data, monotonic process elapsedMs, and cross-host/clock-anomaly unknown behavior without changing host TZ."
     },
     {
@@ -752,19 +859,22 @@
       "verificationPlan": "Create the valid receipt using the existing writer, feed it to the same shared audit reader used by export/query, assert the event has exactly receipt.workItemId, then alter the path or receipt identity and assert rejection. Apply only the minimal source fix if the first case is RED."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Source head 95fd1571a89f6425b4aebeedfc80c75a785c152d. cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity; exit 0, 6/6. public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper executes top-level/group/leaf help, checks EN/ZH/JA command/MCP references, actual MCP initialize/tools/list and timezone schema, and rejects public supervisor exposure. cargo test --locked -p cockpit-protocol --test interface_description; exit 0, 15/15, including generated reference/schema parity.",
+        "cargo test --locked -p cockpit-cli --test usage --test audit_query; exit 0, 3/3 + 5/5, usage record/audit query/export help and CLI/MCP parity. cargo test --locked -p cockpit-mcp --test usage --test rpc; exit 0, 3/3 + 38/38, native tool discovery and schemas. AI_COCKPIT_INTERFACE_DESCRIPTION_BIN=/workspace/ai-cockpit/target/debug/ai-cockpit python3 scripts/generate_interface_references.py --repo /workspace/ai-cockpit --check; exit 0. cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0, 1/1; internal supervisor route stays exercised."
+      ],
       "expected": "Rust Runtime CLI help, three-language command/MCP tables, MCP initialize/tools/list, and schemas expose usage record, audit query, and filtered export completely while the supervisor helper remains hidden.",
-      "reason": "CLI help, MCP initialize/tools/list and generated three-language reference check pass, but Outcome timezone display is absent and a complete command/MCP-table parity assertion has not been run.",
       "required": true,
       "scenario": "runtime-native-usage-audit-public-surface",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run top-level, group, leaf, and parameter help snapshots; compare English/Simplified Chinese/Japanese command and MCP tables with actual CLI parser and tools/list; assert __composition-supervisor is absent publicly and the existing internal test route remains callable."
     },
     {
       "evidence": [
         "Independent Linux acceptance at candidate 05bb3c2ff86baff492643354eb3ace6cd37cf883; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; pre-controls snapshot sha256:a893c432a22434402baac536fd54f5b2958bda900f6c81f73360165972c101fb; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b1320b947e8431771cb982df99e43880ac16c058d21c57c3e2792c1daed09361; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.61s\n\n",
         "cargo test --locked -p cockpit-verification --lib process_group -- --nocapture; exit 0, 15/15 covering zombie-only, live/mixed, identity changes, proc read/parse/permission/race/budget and attempt-digest change. Older failed receipts were not removed. Non-Linux host execution remains unrun.",
-        "Independent Linux acceptance rerun after S17/S24 test-source changes: candidate head 5435a3d70138df74cb5c288b3005faa0738a1fd4; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:2b346e8d666a6d3638be440b86f8738f77bcedaa48ea20785df9415d38108559; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:8299f02024552e8eedded50b3bb46ef1c3feea457ef93ca537e18498759e357e; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.63s\n\n"
+        "Independent Linux acceptance rerun after S17/S24 test-source changes: candidate head 5435a3d70138df74cb5c288b3005faa0738a1fd4; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:2b346e8d666a6d3638be440b86f8738f77bcedaa48ea20785df9415d38108559; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:8299f02024552e8eedded50b3bb46ef1c3feea457ef93ca537e18498759e357e; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.63s\n\n",
+        "Independent Linux acceptance on source head 95fd1571a89f6425b4aebeedfc80c75a785c152d; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; repository snapshot sha256:e26fd3e9c7a45cccfb073641f3820924a911dc1faec97a7072041542df4ff470; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b93a1c9397ad193101b58bfbddec8aca0d10a36e1ae5f4122d882bd5deb7361c; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.60s\n\n"
       ],
       "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
       "required": true,
@@ -794,7 +904,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T07:57:19.734502456+00:00",
+  "updatedAt": "2026-10-07T08:08:57.788455720+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
