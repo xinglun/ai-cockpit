@@ -23,7 +23,7 @@ use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
-pub const COMPOSITION_SCHEMA_VERSION: u32 = 2;
+pub const COMPOSITION_SCHEMA_VERSION: u32 = 3;
 const COMPOSITION_BINDING_SCHEMA_VERSION: u32 = 1;
 const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
@@ -106,6 +106,218 @@ impl Drop for OwnerInterruptionGuard {
 pub(crate) fn owner_interruption_signal() -> Option<i32> {
     let signal = OWNER_INTERRUPTION_SIGNAL.load(Ordering::SeqCst);
     (signal != 0).then_some(signal)
+}
+
+pub fn observe_composition_process_identity(
+    process_id: u32,
+) -> Result<CompositionProcessIdentity, String> {
+    #[cfg(target_os = "linux")]
+    {
+        let stat = fs::read_to_string(format!("/proc/{process_id}/stat"))
+            .map_err(|error| format!("read Linux process identity for {process_id}: {error}"))?;
+        let member = parse_linux_process_stat(process_id, &stat)?;
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: Some(member.start_time_ticks),
+            process_group_id: Some(member.process_group_id),
+            session_id: Some(member.session_id),
+        })
+    }
+    #[cfg(all(unix, not(target_os = "linux")))]
+    {
+        let pid = process_id as libc::pid_t;
+        let process_group_id = unsafe { libc::getpgid(pid) };
+        let session_id = unsafe { libc::getsid(pid) };
+        if process_group_id < 0 || session_id < 0 {
+            return Err(format!(
+                "observe Unix process group/session for {process_id}: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: None,
+            process_group_id: Some(process_group_id as u32),
+            session_id: Some(session_id as u32),
+        })
+    }
+    #[cfg(windows)]
+    {
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: None,
+            process_group_id: None,
+            session_id: None,
+        })
+    }
+}
+
+pub fn current_composition_process_identity() -> Result<CompositionProcessIdentity, String> {
+    observe_composition_process_identity(std::process::id())
+}
+
+pub fn initialize_composition_supervisor_backend() -> Result<CompositionSupervisorBackend, String> {
+    #[cfg(target_os = "linux")]
+    {
+        // PR_SET_CHILD_SUBREAPER is scoped to this dedicated helper process.
+        let set_result = unsafe { libc::prctl(libc::PR_SET_CHILD_SUBREAPER, 1, 0, 0, 0) };
+        if set_result != 0 {
+            return Err(format!(
+                "enable process-local Linux child subreaper: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        let mut enabled: libc::c_int = 0;
+        let get_result = unsafe {
+            libc::prctl(
+                libc::PR_GET_CHILD_SUBREAPER,
+                &mut enabled as *mut libc::c_int,
+                0,
+                0,
+                0,
+            )
+        };
+        if get_result != 0 || enabled != 1 {
+            return Err("Linux child subreaper state could not be verified".into());
+        }
+        Ok(CompositionSupervisorBackend::LinuxSubreaper)
+    }
+    #[cfg(all(unix, not(target_os = "linux")))]
+    {
+        Ok(CompositionSupervisorBackend::UnixProcessGroup)
+    }
+    #[cfg(windows)]
+    {
+        Ok(CompositionSupervisorBackend::WindowsProcessGroup)
+    }
+}
+
+pub fn composition_linux_boot_id() -> Result<Option<String>, String> {
+    #[cfg(target_os = "linux")]
+    {
+        let value = fs::read_to_string("/proc/sys/kernel/random/boot_id")
+            .map_err(|error| format!("read Linux boot identity: {error}"))?;
+        let value = value.trim();
+        if value.is_empty() || value.len() > 64 {
+            return Err("Linux boot identity is empty or malformed".into());
+        }
+        Ok(Some(value.to_owned()))
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        Ok(None)
+    }
+}
+
+pub fn reap_composition_supervisor_descendants() -> Result<(), String> {
+    #[cfg(target_os = "linux")]
+    {
+        reap_linux_composition_descendants()
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        Ok(())
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn reap_linux_composition_descendants() -> Result<(), String> {
+    let own_pid = std::process::id();
+    loop {
+        let mut status = 0;
+        let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+        if result > 0 {
+            continue;
+        }
+        if result < 0 {
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::ECHILD) {
+                return Ok(());
+            }
+            return Err(format!("reap Linux composition child: {error}"));
+        }
+
+        let children = linux_direct_children(own_pid)?;
+        if children.is_empty() {
+            return Err("waitpid reported a child but /proc lists no owned child".into());
+        }
+        for child in children {
+            // An unreaped child cannot have its PID recycled, so this identity
+            // observation binds the signal to the process in our child list.
+            let current = observe_composition_process_identity(child.process_id)?;
+            if current != child {
+                return Err(format!(
+                    "owned Linux child {} changed identity before termination",
+                    child.process_id
+                ));
+            }
+            let killed = unsafe { libc::kill(child.process_id as libc::pid_t, libc::SIGKILL) };
+            if killed != 0 {
+                let error = std::io::Error::last_os_error();
+                if error.raw_os_error() != Some(libc::ESRCH) {
+                    return Err(format!(
+                        "terminate owned Linux child {}: {error}",
+                        child.process_id
+                    ));
+                }
+            }
+        }
+        loop {
+            let mut status = 0;
+            let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+            if result > 0 {
+                continue;
+            }
+            if result < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.raw_os_error() == Some(libc::ECHILD) {
+                    return Ok(());
+                }
+                return Err(format!("reap terminated Linux composition child: {error}"));
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn linux_direct_children(
+    parent_process_id: u32,
+) -> Result<Vec<CompositionProcessIdentity>, String> {
+    let entries = fs::read_dir("/proc")
+        .map_err(|error| format!("enumerate Linux processes for child ownership: {error}"))?;
+    let mut children = Vec::new();
+    for entry in entries {
+        let entry = entry.map_err(|error| format!("enumerate Linux processes: {error}"))?;
+        let Some(process_id) = entry
+            .file_name()
+            .to_str()
+            .and_then(|name| name.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        let stat_path = entry.path().join("stat");
+        let stat = match fs::read_to_string(&stat_path) {
+            Ok(stat) => stat,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => {
+                return Err(format!(
+                    "read Linux process stat {} while proving child ownership: {error}",
+                    stat_path.display()
+                ));
+            }
+        };
+        if parse_linux_process_parent_id(process_id, &stat)? == parent_process_id {
+            let member = parse_linux_process_stat(process_id, &stat)?;
+            children.push(CompositionProcessIdentity {
+                process_id,
+                start_time_ticks: Some(member.start_time_ticks),
+                process_group_id: Some(member.process_group_id),
+                session_id: Some(member.session_id),
+            });
+        }
+    }
+    Ok(children)
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -248,6 +460,108 @@ pub struct CompositionCleanup {
     pub error: Option<String>,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionExecutionOutcome {
+    Passed,
+    Failed,
+    #[default]
+    Unknown,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionCleanupDisposition {
+    Cleaned,
+    Deferred,
+    Retained,
+    Failed,
+    #[default]
+    Unknown,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionSupervisorBackend {
+    LinuxSubreaper,
+    UnixProcessGroup,
+    WindowsProcessGroup,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionProcessIdentity {
+    pub process_id: u32,
+    pub start_time_ticks: Option<u64>,
+    pub process_group_id: Option<u32>,
+    pub session_id: Option<u32>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReceipt {
+    pub schema_version: u32,
+    pub backend: CompositionSupervisorBackend,
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub generation: u64,
+    pub owner: CompositionProcessIdentity,
+    pub supervisor: CompositionProcessIdentity,
+    pub linux_boot_id: Option<String>,
+    pub environment_digest: Digest,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub repository_id: Digest,
+    pub target_sha: String,
+    pub snapshot_digest: Digest,
+    pub command_plan_digest: Digest,
+    pub input_environment_digest: Digest,
+    pub execution_records_digest: Digest,
+    pub descendants_reaped_to_echild: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorLaunch {
+    pub repository_root: PathBuf,
+    pub work_item_id: String,
+    pub generation: u64,
+    pub input: CompositionInput,
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub owner: CompositionProcessIdentity,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReady {
+    pub schema_version: u32,
+    pub supervisor: CompositionProcessIdentity,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
+pub enum CompositionSupervisorControl {
+    Release {
+        receipt: CompositionSupervisorReceipt,
+    },
+    Abort {
+        reason: String,
+        receipt: CompositionSupervisorReceipt,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReply {
+    pub attempt: Option<CompositionAttempt>,
+    pub error: Option<String>,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ProcessGroupLeaderIdentity {
@@ -273,6 +587,14 @@ pub struct CompositionAttempt {
     pub reuse_decision: ReuseDecision,
     pub passed: bool,
     pub failure: Option<String>,
+    #[serde(default)]
+    pub execution_outcome: CompositionExecutionOutcome,
+    #[serde(default)]
+    pub execution_evidence_complete: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    #[serde(default)]
+    pub cleanup_disposition: CompositionCleanupDisposition,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub owner_termination_signal: Option<i32>,
     #[serde(default)]
@@ -342,7 +664,7 @@ pub enum CompositionError {
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
-    run_composition_inner(input, None, None)
+    run_composition_inner(input, None, None, None, None)
 }
 
 pub fn run_composition_with_process_gates(
@@ -354,13 +676,89 @@ pub fn run_composition_with_process_gates(
         input,
         Some(process_admission_check),
         Some(process_start_gate),
+        None,
+        None,
     )
+}
+
+pub fn run_composition_with_supervisor_receipt(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+    receipt: CompositionSupervisorReceipt,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    run_composition_inner(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+    )
+}
+
+pub fn record_composition_supervisor_failure(
+    input: CompositionInput,
+    attempt_id: String,
+    receipt: Option<CompositionSupervisorReceipt>,
+    failure: String,
+) -> Result<CompositionAttempt, CompositionError> {
+    let record_path = attempt_record_path(&input.state_dir, &attempt_id);
+    if record_path.exists() {
+        let bytes = fs::read(&record_path).map_err(|source| CompositionError::Io {
+            path: record_path.clone(),
+            source,
+        })?;
+        let attempt: CompositionAttempt = serde_json::from_slice(&bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        return Ok(attempt);
+    }
+    let recorded_at_unix_nanos = now_unix_nanos();
+    let mut attempt = CompositionAttempt {
+        schema_version: COMPOSITION_SCHEMA_VERSION,
+        attempt_id,
+        binding: input.binding.clone(),
+        identity: CompositionIdentity::default(),
+        preconditions: input.preconditions.clone(),
+        isolated_worktree: String::new(),
+        text_conflicts: Vec::new(),
+        execution_records: Vec::new(),
+        processes_spawned: 0,
+        reuse_decision: ReuseDecision {
+            kind: ReuseDecisionKind::Unknown,
+            reason: "supervisor handshake did not authorize execution".into(),
+            predecessor_attempt_id: None,
+        },
+        passed: false,
+        failure: Some(failure),
+        execution_outcome: CompositionExecutionOutcome::Unknown,
+        execution_evidence_complete: false,
+        supervisor_receipt: receipt,
+        cleanup_disposition: CompositionCleanupDisposition::Cleaned,
+        owner_termination_signal: None,
+        cleanup: Some(CompositionCleanup {
+            attempted: false,
+            removed: true,
+            error: None,
+        }),
+        recorded_at_unix_nanos,
+        owner_pid: Some(std::process::id()),
+        process_observation_schema_version: PROCESS_OBSERVATION_SCHEMA_VERSION,
+        active_execution_node: None,
+        active_process_group_id: None,
+        active_process_group_identity: None,
+    };
+    refresh_execution_records_digest(&mut attempt);
+    persist_attempt(&input.state_dir, &attempt)?;
+    Ok(attempt)
 }
 
 fn run_composition_inner(
     input: CompositionInput,
     process_admission_check: Option<ProcessAdmissionCheck>,
     process_start_gate: Option<ProcessStartGate>,
+    supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    supervised_attempt_id: Option<String>,
 ) -> Result<CompositionAttempt, CompositionError> {
     let mut input = input;
     input.binding.verifier.validate_candidate()?;
@@ -370,11 +768,30 @@ fn run_composition_inner(
     input.identity = CompositionIdentity::default();
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
-    let predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
-    let predecessor =
-        reconcile_abandoned_attempt(&input.repository_root, &input.state_dir, predecessor)?;
+    validate_supervisor_registrations(&input.state_dir, supervisor_receipt.as_ref())?;
+    let loaded_predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
+    let deferred_predecessor = loaded_predecessor
+        .as_ref()
+        .is_some_and(is_deferred_cleanup_attempt);
+    let deferred_retry_blocked_reason = if deferred_predecessor {
+        loaded_predecessor.as_ref().and_then(|previous| {
+            validate_deferred_cleanup_retry(previous, &input, supervisor_receipt.as_ref()).err()
+        })
+    } else {
+        None
+    };
+    let predecessor = if deferred_predecessor {
+        // A deferred tree is never passed to abandoned-attempt cleanup. It is
+        // either validated as a safe retry predecessor or preserved while
+        // the new attempt is rejected below.
+        loaded_predecessor
+    } else {
+        reconcile_abandoned_attempt(&input.repository_root, &input.state_dir, loaded_predecessor)?
+    };
+    let fresh_deferred_retry = deferred_predecessor && deferred_retry_blocked_reason.is_none();
     let recorded_at_unix_nanos = now_unix_nanos();
-    let attempt_id = new_attempt_id(&input, recorded_at_unix_nanos);
+    let attempt_id =
+        supervised_attempt_id.unwrap_or_else(|| new_attempt_id(&input, recorded_at_unix_nanos));
     let reuse_decision = predecessor.as_ref().map_or(
         ReuseDecision {
             kind: ReuseDecisionKind::Execute,
@@ -396,6 +813,10 @@ fn run_composition_inner(
         reuse_decision,
         passed: false,
         failure: Some("in_progress".into()),
+        execution_outcome: CompositionExecutionOutcome::Unknown,
+        execution_evidence_complete: false,
+        supervisor_receipt,
+        cleanup_disposition: CompositionCleanupDisposition::Unknown,
         owner_termination_signal: None,
         cleanup: None,
         recorded_at_unix_nanos,
@@ -412,6 +833,14 @@ fn run_composition_inner(
 
     if input.commands.is_empty() {
         fail_without_worktree(&input.state_dir, &mut attempt, "required_checks_empty")?;
+        return Ok(attempt);
+    }
+    if let Some(reason) = deferred_retry_blocked_reason {
+        fail_without_worktree(
+            &input.state_dir,
+            &mut attempt,
+            &format!("unsafe_deferred_cleanup_retry:{reason}"),
+        )?;
         return Ok(attempt);
     }
     if !valid_command_graph(&input.commands) {
@@ -472,6 +901,8 @@ fn run_composition_inner(
     if !added.success {
         attempt.failure = Some(format!("worktree_add_failed:{}", bounded(&added.stderr)));
         attempt.cleanup = Some(worktree_guard.cleanup());
+        set_cleanup_disposition(&mut attempt);
+        set_execution_outcome(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
@@ -496,6 +927,8 @@ fn run_composition_inner(
             attempt.failure = Some("text_conflict_or_merge_failure".into());
             let _ = git_command(&worktree, &["merge", "--abort"]);
             attempt.cleanup = Some(worktree_guard.cleanup());
+            set_cleanup_disposition(&mut attempt);
+            set_execution_outcome(&mut attempt);
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
@@ -509,6 +942,8 @@ fn run_composition_inner(
     if !commands_bound {
         attempt.failure = Some("composition_executable_unbound".into());
         attempt.cleanup = Some(worktree_guard.cleanup());
+        set_cleanup_disposition(&mut attempt);
+        set_execution_outcome(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
@@ -521,6 +956,49 @@ fn run_composition_inner(
         } else {
             (false, None)
         };
+    if fresh_deferred_retry {
+        let previous = predecessor
+            .as_ref()
+            .expect("deferred retry has a predecessor");
+        let retry_identity_matches = identity_observed
+            && previous.identity == input.identity
+            && previous
+                .execution_records
+                .first()
+                .zip(input.commands.first())
+                .and_then(|(record, command)| {
+                    let environment = controlled_command_environment(command)?;
+                    let executable = resolve_executable(&worktree, &command.program, &environment)?;
+                    let runtime_toolchain_digest = runtime_toolchain_digest.as_ref()?;
+                    observed_node_identity(
+                        &worktree,
+                        &input,
+                        command,
+                        &[],
+                        &executable,
+                        &environment,
+                        Some(runtime_toolchain_digest),
+                    )
+                    .map(|identity| identity == record.identity_digest)
+                })
+                .unwrap_or(false);
+        if !retry_identity_matches {
+            attempt.failure =
+                Some("unsafe_deferred_cleanup_retry:source_or_toolchain_changed".into());
+            attempt.cleanup = Some(worktree_guard.cleanup());
+            set_cleanup_disposition(&mut attempt);
+            set_execution_outcome(&mut attempt);
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        attempt.reuse_decision = ReuseDecision {
+            kind: ReuseDecisionKind::Execute,
+            reason: "fresh execution after deferred cleanup; predecessor results are not reused"
+                .into(),
+            predecessor_attempt_id: Some(previous.attempt_id.clone()),
+        };
+        persist_attempt(&input.state_dir, &attempt)?;
+    }
     let predecessor_id = predecessor
         .as_ref()
         .map(|previous| previous.attempt_id.as_str());
@@ -568,7 +1046,8 @@ fn run_composition_inner(
         if current_identity.is_none() {
             node_identities_observed = false;
         }
-        let reusable = if identity_observed
+        let reusable = if !fresh_deferred_retry
+            && identity_observed
             && predecessor
                 .as_ref()
                 .is_some_and(is_reusable_terminal_attempt)
@@ -601,6 +1080,7 @@ fn run_composition_inner(
                 let mut accept_reuse = || {
                     accepted = true;
                     attempt.execution_records.push(record.clone());
+                    refresh_execution_records_digest(&mut attempt);
                     match persist_attempt(&input.state_dir, &attempt) {
                         Ok(()) => Ok(()),
                         Err(error) => {
@@ -659,6 +1139,7 @@ fn run_composition_inner(
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
+        refresh_execution_records_digest(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         if let Some(signal) = owner_interruption_signal() {
             persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
@@ -689,6 +1170,7 @@ fn run_composition_inner(
     if attempt.passed {
         attempt.failure = None;
     }
+    set_execution_outcome(&mut attempt);
     attempt.reuse_decision = ReuseDecision {
         kind: if !identity_observed || !node_identities_observed {
             ReuseDecisionKind::Unknown
@@ -708,11 +1190,29 @@ fn run_composition_inner(
         },
         predecessor_attempt_id: predecessor_id.map(str::to_owned),
     };
+    if attempt.supervisor_receipt.is_some() {
+        if let Err(error) = reap_composition_supervisor_descendants() {
+            attempt.passed = false;
+            attempt.failure = Some(format!("composition_supervisor_reap_unknown:{error}"));
+            attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+            attempt.execution_evidence_complete = false;
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+            worktree_guard.preserve();
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        if let Some(receipt) = attempt.supervisor_receipt.as_mut() {
+            receipt.descendants_reaped_to_echild =
+                receipt.backend == CompositionSupervisorBackend::LinuxSubreaper;
+        }
+        persist_attempt(&input.state_dir, &attempt)?;
+    }
     match verifier_process_using_worktree(&worktree) {
         Ok(Some(process_id)) => {
             attempt.passed = false;
             attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
             worktree_guard.preserve();
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
@@ -720,19 +1220,34 @@ fn run_composition_inner(
             attempt.passed = false;
             attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
             worktree_guard.preserve();
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+            attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+            attempt.execution_evidence_complete = false;
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
         Ok(None) => {}
     }
     attempt.cleanup = Some(worktree_guard.cleanup());
+    set_cleanup_disposition(&mut attempt);
     if !attempt
         .cleanup
         .as_ref()
         .is_some_and(|cleanup| cleanup.removed)
     {
         attempt.passed = false;
-        attempt.failure = Some("composition_cleanup_failed".into());
+        if attempt.execution_outcome == CompositionExecutionOutcome::Passed
+            && attempt
+                .supervisor_receipt
+                .as_ref()
+                .is_some_and(|receipt| receipt.descendants_reaped_to_echild)
+        {
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+            attempt.failure = Some("composition_cleanup_deferred".into());
+        } else {
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Failed;
+            attempt.failure = Some("composition_cleanup_failed".into());
+        }
     }
     persist_attempt(&input.state_dir, &attempt)?;
     Ok(attempt)
@@ -825,7 +1340,49 @@ fn fail_without_worktree(
         removed: true,
         error: None,
     });
+    attempt.execution_outcome = CompositionExecutionOutcome::Failed;
+    attempt.execution_evidence_complete = true;
+    set_cleanup_disposition(attempt);
     persist_attempt(state_dir, attempt)
+}
+
+fn set_execution_outcome(attempt: &mut CompositionAttempt) {
+    if attempt.owner_termination_signal.is_some()
+        || attempt.active_execution_node.is_some()
+        || attempt.active_process_group_id.is_some()
+        || attempt.failure.as_deref().is_some_and(|failure| {
+            failure == "in_progress" || failure.starts_with("verifier_process_state_unknown:")
+        })
+    {
+        attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+        attempt.execution_evidence_complete = false;
+    } else if attempt.passed {
+        attempt.execution_outcome = CompositionExecutionOutcome::Passed;
+        attempt.execution_evidence_complete = true;
+    } else if attempt.failure.is_some() {
+        attempt.execution_outcome = CompositionExecutionOutcome::Failed;
+        attempt.execution_evidence_complete = true;
+    } else {
+        attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+        attempt.execution_evidence_complete = false;
+    }
+}
+
+fn set_cleanup_disposition(attempt: &mut CompositionAttempt) {
+    attempt.cleanup_disposition = match attempt.cleanup.as_ref() {
+        Some(cleanup) if cleanup.removed && cleanup.error.is_none() => {
+            CompositionCleanupDisposition::Cleaned
+        }
+        Some(cleanup) if cleanup.error.is_some() => CompositionCleanupDisposition::Failed,
+        Some(_) => CompositionCleanupDisposition::Deferred,
+        None => CompositionCleanupDisposition::Unknown,
+    };
+}
+
+fn refresh_execution_records_digest(attempt: &mut CompositionAttempt) {
+    if let Some(receipt) = attempt.supervisor_receipt.as_mut() {
+        receipt.execution_records_digest = execution_records_digest(&attempt.execution_records);
+    }
 }
 
 fn load_latest_attempt(
@@ -887,6 +1444,86 @@ fn load_latest_attempt(
     Ok(latest)
 }
 
+fn validate_supervisor_registrations(
+    state_dir: &Path,
+    active_receipt: Option<&CompositionSupervisorReceipt>,
+) -> Result<(), CompositionError> {
+    let directory = state_dir.join("supervisors");
+    let entries = match fs::read_dir(&directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(source) => {
+            return Err(CompositionError::Io {
+                path: directory,
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| CompositionError::Io {
+            path: directory.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        if path.extension().and_then(|extension| extension.to_str()) != Some("json") {
+            continue;
+        }
+        let metadata = fs::symlink_metadata(&path).map_err(|source| CompositionError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        if !metadata.file_type().is_file() {
+            return Err(CompositionError::Serialization(format!(
+                "supervisor registration is not a regular file: {}",
+                path.display()
+            )));
+        }
+        let bytes = fs::read(&path).map_err(|source| CompositionError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        let registered: CompositionSupervisorReceipt = serde_json::from_slice(&bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let attempt_path = attempt_record_path(state_dir, &registered.attempt_id);
+        let attempt_bytes = match fs::read(&attempt_path) {
+            Ok(bytes) => bytes,
+            Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
+                let active_identity = active_receipt
+                    .filter(|active| *active == &registered)
+                    .and_then(|_| current_composition_process_identity().ok());
+                if active_identity.as_ref() == Some(&registered.supervisor) {
+                    continue;
+                }
+                return Err(CompositionError::UnknownAttemptOwner {
+                    attempt_id: registered.attempt_id.clone(),
+                });
+            }
+            Err(source) => {
+                return Err(CompositionError::Io {
+                    path: attempt_path.clone(),
+                    source,
+                });
+            }
+        };
+        let attempt: CompositionAttempt = serde_json::from_slice(&attempt_bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let Some(actual) = attempt.supervisor_receipt.as_ref() else {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: registered.attempt_id,
+            });
+        };
+        let mut registered_identity = registered;
+        registered_identity.execution_records_digest = actual.execution_records_digest.clone();
+        registered_identity.descendants_reaped_to_echild = actual.descendants_reaped_to_echild;
+        if attempt.attempt_id != actual.attempt_id || &registered_identity != actual {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: attempt.attempt_id,
+            });
+        }
+    }
+    Ok(())
+}
+
 fn same_composition_lineage(previous: &CompositionBinding, current: &CompositionBinding) -> bool {
     previous.repository_id == current.repository_id
         && previous.target_branch == current.target_branch
@@ -894,8 +1531,241 @@ fn same_composition_lineage(previous: &CompositionBinding, current: &Composition
         && previous.verifier == current.verifier
 }
 
+fn is_deferred_cleanup_attempt(attempt: &CompositionAttempt) -> bool {
+    attempt.cleanup_disposition == CompositionCleanupDisposition::Deferred
+        || attempt.failure.as_deref() == Some("composition_cleanup_deferred")
+}
+
+fn validate_deferred_cleanup_retry(
+    previous: &CompositionAttempt,
+    input: &CompositionInput,
+    current_receipt: Option<&CompositionSupervisorReceipt>,
+) -> Result<(), String> {
+    if !cfg!(target_os = "linux") {
+        return Err("reliable deferred-tree retry proof is Linux-only".into());
+    }
+    if !has_concrete_safe_deferred_retry_effects(input) {
+        return Err("command effects are outside the safe retry allowlist".into());
+    }
+    if previous.schema_version != COMPOSITION_SCHEMA_VERSION
+        || previous.binding != input.binding
+        || previous.execution_outcome != CompositionExecutionOutcome::Passed
+        || !previous.execution_evidence_complete
+        || previous.cleanup_disposition != CompositionCleanupDisposition::Deferred
+        || previous.passed
+        || previous.failure.as_deref() != Some("composition_cleanup_deferred")
+        || previous.owner_termination_signal.is_some()
+        || previous.active_execution_node.is_some()
+        || previous.active_process_group_id.is_some()
+        || previous.active_process_group_identity.is_some()
+        || previous.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
+        || !previous.text_conflicts.is_empty()
+        || !previous
+            .preconditions
+            .iter()
+            .all(|precondition| precondition.satisfied)
+    {
+        return Err("deferred attempt state or exact binding is inconsistent".into());
+    }
+    let cleanup = previous
+        .cleanup
+        .as_ref()
+        .ok_or_else(|| "deferred attempt has no cleanup evidence".to_string())?;
+    if !cleanup.attempted || cleanup.removed || cleanup.error.as_deref().is_none_or(str::is_empty) {
+        return Err("deferred attempt cleanup evidence is incomplete".into());
+    }
+
+    let current_receipt = current_receipt
+        .ok_or_else(|| "current formal supervisor receipt is missing".to_string())?;
+    let receipt = previous
+        .supervisor_receipt
+        .as_ref()
+        .ok_or_else(|| "deferred attempt has no supervisor receipt".to_string())?;
+    let current_boot_id = composition_linux_boot_id()
+        .map_err(|error| format!("cannot verify current Linux boot identity: {error}"))?;
+    let target_snapshot_digest = composition_target_snapshot_digest(input)
+        .ok_or_else(|| "current target tree snapshot cannot be observed".to_string())?;
+    if receipt.schema_version != 1
+        || receipt.backend != CompositionSupervisorBackend::LinuxSubreaper
+        || receipt.attempt_id != previous.attempt_id
+        || receipt.run_nonce.is_empty()
+        || receipt.attempt_id == current_receipt.attempt_id
+        || receipt.run_nonce == current_receipt.run_nonce
+        || receipt.generation != current_receipt.generation
+        || receipt.owner.process_id == 0
+        || receipt.owner.start_time_ticks.is_none()
+        || receipt.supervisor.process_id == 0
+        || receipt.supervisor.start_time_ticks.is_none()
+        || receipt.supervisor.process_group_id.is_none()
+        || receipt.supervisor.session_id.is_none()
+        || previous.owner_pid != Some(receipt.supervisor.process_id)
+        || receipt.linux_boot_id.is_none()
+        || receipt.linux_boot_id != current_boot_id
+        || receipt.runtime_version != input.binding.verifier.runtime_version
+        || receipt.runtime_digest != input.binding.verifier.runtime_digest
+        || receipt.repository_id != input.binding.repository_id
+        || receipt.target_sha != input.binding.target_sha
+        || receipt.snapshot_digest != target_snapshot_digest
+        || receipt.command_plan_digest != composition_commands_digest(&input.commands)
+        || receipt.command_plan_digest != previous.identity.command_digest
+        || receipt.input_environment_digest != composition_input_environment_digest(input)
+        || receipt.environment_digest != current_receipt.environment_digest
+        || receipt.execution_records_digest != execution_records_digest(&previous.execution_records)
+        || !receipt.descendants_reaped_to_echild
+    {
+        return Err(
+            "supervisor receipt does not prove a current, fully reaped exact attempt".into(),
+        );
+    }
+    if previous.preconditions != input.preconditions
+        || previous.execution_records.len() != input.commands.len()
+        || previous.processes_spawned != input.commands.len()
+        || previous
+            .execution_records
+            .iter()
+            .zip(&input.commands)
+            .any(|(record, command)| {
+                record.node_id != command.node_id
+                    || record.program != command.program
+                    || record.args != command.args
+                    || !record.spawned
+                    || record.reused
+                    || !record.passed
+                    || record.exit_code != Some(0)
+                    || record.timed_out
+                    || record.termination_signal.is_some()
+                    || record.predecessor_attempt_id.is_some()
+            })
+    {
+        return Err(
+            "deferred attempt execution evidence does not match the current command plan".into(),
+        );
+    }
+
+    let owner_pid = previous
+        .owner_pid
+        .ok_or_else(|| "deferred attempt owner PID is missing".to_string())?;
+    let (worktree, _) = validated_composition_paths(previous, owner_pid)
+        .ok_or_else(|| "deferred worktree is outside its owned temporary namespace".to_string())?;
+    let metadata = fs::symlink_metadata(&worktree)
+        .map_err(|error| format!("cannot inspect deferred worktree: {error}"))?;
+    if !metadata.is_dir() || metadata.file_type().is_symlink() {
+        return Err("deferred worktree is not a real directory".into());
+    }
+    if !worktree_is_registered(&input.repository_root, &worktree)
+        .map_err(|error| format!("cannot verify deferred worktree registration: {error}"))?
+    {
+        return Err("deferred worktree is not registered to the repository".into());
+    }
+    match verifier_process_using_worktree(&worktree) {
+        Ok(None) => {}
+        Ok(Some(process_id)) => {
+            return Err(format!(
+                "process {process_id} still uses the deferred worktree"
+            ));
+        }
+        Err(error) => {
+            return Err(format!(
+                "deferred worktree process state is unknown: {error}"
+            ));
+        }
+    }
+
+    linux_prior_supervisor_termination_proven(receipt)?;
+    Ok(())
+}
+
+fn has_concrete_safe_deferred_retry_effects(input: &CompositionInput) -> bool {
+    let [command] = input.commands.as_slice() else {
+        return false;
+    };
+    command.program == "true"
+        && command.args.is_empty()
+        && command.depends_on.is_empty()
+        && command.environment.is_empty()
+        && command.input_paths.is_empty()
+}
+
+fn composition_target_snapshot_digest(input: &CompositionInput) -> Option<Digest> {
+    let tree = format!("{}^{{tree}}", input.binding.target_sha);
+    let tree = git_text(&input.repository_root, &["rev-parse", "--verify", &tree])?;
+    Some(Digest::sha256_bytes(tree.as_bytes()))
+}
+
+fn composition_input_environment_digest(input: &CompositionInput) -> Digest {
+    let values = input
+        .commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    Digest::sha256_bytes(&serde_json::to_vec(&values).expect("command environments serialize"))
+}
+
+#[cfg(target_os = "linux")]
+fn linux_prior_supervisor_termination_proven(
+    receipt: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    let path = format!("/proc/{}/stat", receipt.supervisor.process_id);
+    let stat = match fs::read_to_string(&path) {
+        Ok(stat) => stat,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(error) => return Err(format!("cannot inspect prior supervisor identity: {error}")),
+    };
+    let current = parse_linux_process_stat(receipt.supervisor.process_id, &stat)
+        .map_err(|error| format!("cannot parse prior supervisor identity: {error}"))?;
+    if receipt.supervisor.start_time_ticks == Some(current.start_time_ticks)
+        && receipt.supervisor.process_group_id == Some(current.process_group_id)
+        && receipt.supervisor.session_id == Some(current.session_id)
+    {
+        return Err("prior composition supervisor is still active".into());
+    }
+    // A PID reused on the same boot is distinct from the recorded supervisor;
+    // the exact process identity, not the numeric PID, controls this proof.
+    Ok(())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn linux_prior_supervisor_termination_proven(
+    _receipt: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    Err("Linux supervisor termination proof is unavailable".into())
+}
+
 fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
     attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.supervisor_receipt.as_ref().is_some_and(|receipt| {
+            receipt.schema_version == 1
+                && receipt.attempt_id == attempt.attempt_id
+                && !receipt.run_nonce.is_empty()
+                && receipt.owner.process_id > 0
+                && receipt.supervisor.process_id > 0
+                && receipt.runtime_version == attempt.binding.verifier.runtime_version
+                && receipt.runtime_digest == attempt.binding.verifier.runtime_digest
+                && receipt.repository_id == attempt.binding.repository_id
+                && receipt.target_sha == attempt.binding.target_sha
+                && receipt.command_plan_digest == attempt.identity.command_digest
+                && receipt.execution_records_digest
+                    == execution_records_digest(&attempt.execution_records)
+                && receipt.supervisor.process_id == attempt.owner_pid.unwrap_or_default()
+                && match receipt.backend {
+                    CompositionSupervisorBackend::LinuxSubreaper => {
+                        receipt.descendants_reaped_to_echild
+                            && receipt
+                                .linux_boot_id
+                                .as_ref()
+                                .is_some_and(|value| !value.is_empty())
+                            && receipt.owner.start_time_ticks.is_some()
+                            && receipt.supervisor.start_time_ticks.is_some()
+                    }
+                    CompositionSupervisorBackend::UnixProcessGroup
+                    | CompositionSupervisorBackend::WindowsProcessGroup => {
+                        !receipt.descendants_reaped_to_echild
+                    }
+                }
+        })
+        && attempt.execution_outcome == CompositionExecutionOutcome::Passed
+        && attempt.execution_evidence_complete
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Cleaned
         && attempt.owner_termination_signal.is_none()
         && attempt.passed
         && attempt.failure.is_none()
@@ -927,6 +1797,26 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
                     record.predecessor_attempt_id.is_none()
                 }
         })
+}
+
+pub fn execution_records_digest(records: &[CompositionExecutionRecord]) -> Digest {
+    let bytes = serde_json::to_vec(records)
+        .expect("composition execution records always serialize to JSON");
+    Digest::sha256_bytes(&bytes)
+}
+
+pub fn new_composition_run_nonce() -> String {
+    let sequence = NEXT_COMPOSITION_PARENT_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    Digest::sha256_bytes(
+        format!("{}:{}:{sequence}", std::process::id(), now_unix_nanos()).as_bytes(),
+    )
+    .to_string()
+}
+
+pub fn new_supervised_composition_attempt_id(input: &CompositionInput, run_nonce: &str) -> String {
+    let identity = serde_json::to_vec(&(&input.binding, &input.identity, run_nonce))
+        .expect("composition attempt identity always serializes to JSON");
+    format!("composition-{}", Digest::sha256_bytes(&identity))
 }
 
 fn persist_owner_interruption(
@@ -1055,14 +1945,13 @@ fn reconcile_abandoned_attempt(
         }
     }
     #[cfg(target_os = "linux")]
-    if let Some(expected_digest) = attempt_digest_before_group_cleanup {
-        if require_attempt_digest_unchanged(state_dir, &attempt.attempt_id, &expected_digest)
+    if let Some(expected_digest) = attempt_digest_before_group_cleanup
+        && require_attempt_digest_unchanged(state_dir, &attempt.attempt_id, &expected_digest)
             .is_err()
-        {
-            return Err(CompositionError::UnknownAttemptOwner {
-                attempt_id: attempt.attempt_id,
-            });
-        }
+    {
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
     }
     let cleanup = if let Some((worktree, parent)) = validated_paths {
         let registered = worktree_is_registered(repository_root, &worktree)?;
@@ -1081,6 +1970,7 @@ fn reconcile_abandoned_attempt(
         )));
     }
     attempt.cleanup = Some(cleanup);
+    set_cleanup_disposition(&mut attempt);
     if let Some(signal) = attempt.owner_termination_signal {
         attempt.failure = Some(format!("interrupted_owner_terminated:signal={signal}"));
     } else if attempt.failure.as_deref() == Some("in_progress") {
@@ -1292,6 +2182,32 @@ fn parse_linux_process_stat(
         process_group_id,
         session_id,
     })
+}
+
+#[cfg(target_os = "linux")]
+fn parse_linux_process_parent_id(process_id: u32, stat: &str) -> Result<u32, String> {
+    let command_open = stat
+        .find('(')
+        .ok_or_else(|| "proc stat is missing command opener".to_string())?;
+    let parsed_process_id = stat[..command_open]
+        .trim()
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process id".to_string())?;
+    if parsed_process_id != process_id {
+        return Err("proc stat process id does not match its directory".into());
+    }
+    let command_close = stat
+        .rfind(')')
+        .filter(|close| *close > command_open)
+        .ok_or_else(|| "proc stat is missing command terminator".to_string())?;
+    let fields = stat[command_close + 1..]
+        .split_whitespace()
+        .collect::<Vec<_>>();
+    fields
+        .get(1)
+        .ok_or_else(|| "proc stat has too few fields to read parent PID".to_string())?
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid parent PID".to_string())
 }
 
 #[cfg(target_os = "linux")]
@@ -2222,13 +3138,30 @@ fn observe_runtime_toolchain_digest(
     }
 
     let mut cargo_configuration = Vec::new();
-    for path in [".cargo/config", ".cargo/config.toml"] {
-        let bytes = read_optional_regular_file_beneath(&home, Path::new(path))?;
+    let cargo_home = environment.get("CARGO_HOME").map(PathBuf::from);
+    let (cargo_configuration_root, cargo_configuration_paths) = if let Some(cargo_home) = cargo_home
+    {
+        let metadata = fs::symlink_metadata(&cargo_home).ok()?;
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return None;
+        }
+        (
+            fs::canonicalize(&cargo_home).ok()?,
+            ["config", "config.toml"],
+        )
+    } else {
+        (home.clone(), [".cargo/config", ".cargo/config.toml"])
+    };
+    for path in cargo_configuration_paths {
+        let bytes = read_optional_regular_file_beneath(&cargo_configuration_root, Path::new(path))?;
         cargo_configuration.push((path, bytes.as_deref().map(Digest::sha256_bytes)));
     }
 
     let workspace_channel = read_workspace_toolchain_channel(worktree)?;
-    let rustup_home = home.join(".rustup");
+    let rustup_home = environment
+        .get("RUSTUP_HOME")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| home.join(".rustup"));
     let rustup_metadata = match fs::symlink_metadata(&rustup_home) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
@@ -2243,17 +3176,14 @@ fn observe_runtime_toolchain_digest(
         return None;
     }
 
-    let settings = read_regular_file_beneath(&home, Path::new(".rustup/settings.toml"))?;
+    let rustup_home = fs::canonicalize(rustup_home).ok()?;
+    let settings = read_regular_file_beneath(&rustup_home, Path::new("settings.toml"))?;
     let default_channel = parse_rustup_default_toolchain(&settings)?;
     let requested_channel = workspace_channel.unwrap_or(default_channel);
     if !is_safe_toolchain_channel(&requested_channel) {
         return None;
     }
 
-    let rustup_home = fs::canonicalize(rustup_home).ok()?;
-    if !rustup_home.starts_with(&home) {
-        return None;
-    }
     let installed_toolchain = resolve_rustup_toolchain_directory(&rustup_home, &requested_channel)?;
     let toolchain_root = PathBuf::from("toolchains").join(&installed_toolchain);
     let bin_root = toolchain_root.join("bin");
@@ -3146,6 +4076,12 @@ fn trusted_executable_directories() -> Vec<PathBuf> {
         if let Some(home) = std::env::var_os("HOME") {
             candidates.push(PathBuf::from(home).join(".cargo/bin"));
         }
+        if let Some(cargo_home) = std::env::var_os("CARGO_HOME") {
+            let cargo_home = PathBuf::from(cargo_home);
+            if cargo_home.is_absolute() {
+                candidates.push(cargo_home.join("bin"));
+            }
+        }
         candidates.extend(
             [
                 "/usr/bin",
@@ -3212,6 +4148,20 @@ fn controlled_command_environment(
     if let Some(home) = std::env::var_os("HOME") {
         let home = fs::canonicalize(home).ok()?;
         environment.insert("HOME".into(), home.to_string_lossy().into_owned());
+    }
+    for key in ["CARGO_HOME", "RUSTUP_HOME"] {
+        if let Some(directory) = std::env::var_os(key) {
+            let directory = PathBuf::from(directory);
+            if !directory.is_absolute() {
+                return None;
+            }
+            let metadata = fs::symlink_metadata(&directory).ok()?;
+            if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                return None;
+            }
+            let directory = fs::canonicalize(directory).ok()?;
+            environment.insert(key.into(), directory.to_string_lossy().into_owned());
+        }
     }
     #[cfg(windows)]
     {
@@ -3353,7 +4303,18 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
         path: temporary.clone(),
         source,
     })?;
-    fs::rename(&temporary, &path).map_err(|source| CompositionError::Io { path, source })
+    fs::rename(&temporary, &path).map_err(|source| CompositionError::Io {
+        path: path.clone(),
+        source,
+    })?;
+    #[cfg(unix)]
+    File::open(state_dir)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|source| CompositionError::Io {
+            path: state_dir.to_path_buf(),
+            source,
+        })?;
+    Ok(())
 }
 
 fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {

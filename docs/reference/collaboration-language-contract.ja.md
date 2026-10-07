@@ -104,6 +104,14 @@ North Star: Calibrated Human-Agent Trust（較正可能な人間-Agent 信頼）
 - **次の一歩/停止境界**：`next action` フィールドが述べる内容そのもの。
 - **欠落/誤解/取消への対処**：空の節は「未記録」または「未評価」として表示され、決して肯定的な事実としては表示されない；読者が緑の Verification 行をリリース完了と誤解した場合、正しい訂正方法は Outcome の文言を変えることではなく、四つに分離されたステータス行へ改めて注意を向けさせることである。
 
+CLI と MCP の `collaboration` projection は schema version 2 を共有する。
+`compositionState` は `executionOutcome` と `executionEvidenceComplete` から分離され、
+`cleanupDisposition` は `cleaned`/`deferred`/`retained`/`failed`/`unknown` を示す。
+コマンド実行は成功しても cleanup が deferred の v3 attempt は、
+`compositionState: unknown`、`executionOutcome: passed`、
+`cleanupDisposition: deferred` と表示され、実行失敗や再利用可能な終端結果とは扱われない。
+legacy v1/v2 attempt の旧 `passed` boolean は表示互換のヒントに限られ、v3 の所有権と証拠がなければ再利用や retry を許可しない。
+
 ### 7. Agent またはセッションの引き継ぎ
 
 - **トリガー/事実の出典**：同じリポジトリ・同じ Work Item に対して、新しい Agent、新しい会話、あるいは異なる基盤モデルが作業を再開すること。

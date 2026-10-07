@@ -1,10 +1,15 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{COLLABORATION_CAPABILITY, CompositionBinding, RuntimeCapabilityBinding};
+use cockpit_verification::composition::CompositionCleanup;
 use cockpit_verification::{
-    CompositionCommand, CompositionError, CompositionIdentity, CompositionInput,
-    CompositionPrecondition, ProcessAdmissionCheck, ProcessStartGate, ReuseDecisionKind,
-    classify_reuse, composition_commands_digest, run_composition,
-    run_composition_with_process_gates,
+    CompositionAttempt, CompositionCleanupDisposition, CompositionCommand, CompositionError,
+    CompositionExecutionOutcome, CompositionExecutionRecord, CompositionIdentity, CompositionInput,
+    CompositionPrecondition, CompositionSupervisorBackend, CompositionSupervisorReceipt,
+    ProcessAdmissionCheck, ProcessStartGate, ReuseDecision, ReuseDecisionKind, classify_reuse,
+    composition_commands_digest, composition_linux_boot_id, current_composition_process_identity,
+    execution_records_digest, initialize_composition_supervisor_backend, new_composition_run_nonce,
+    new_supervised_composition_attempt_id, reap_composition_supervisor_descendants,
+    run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -37,6 +42,103 @@ fn tempdir(label: &str) -> TempDir {
     ));
     fs::create_dir_all(&path).expect("temp directory");
     TempDir(path)
+}
+
+fn run_composition_with_test_supervisor(
+    input: CompositionInput,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
+    let helper_files = tempdir("supervisor-runner");
+    let input_path = helper_files.path().join("input.json");
+    let output_path = helper_files.path().join("result.json");
+    fs::write(
+        &input_path,
+        serde_json::to_vec(&input).map_err(|error| error.to_string())?,
+    )
+    .map_err(|error| error.to_string())?;
+    let output = Command::new(std::env::current_exe().map_err(|error| error.to_string())?)
+        .args([
+            "--exact",
+            "composition_supervisor_run_test_helper",
+            "--nocapture",
+        ])
+        .env("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT", &input_path)
+        .env(
+            "AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT",
+            &output_path,
+        )
+        .output()
+        .map_err(|error| format!("run isolated composition supervisor helper: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "composition supervisor helper failed: stdout={}; stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        ));
+    }
+    let result: Result<cockpit_verification::CompositionAttempt, String> = serde_json::from_slice(
+        &fs::read(&output_path)
+            .map_err(|error| format!("read composition supervisor helper result: {error}"))?,
+    )
+    .map_err(|error| format!("decode composition supervisor helper result: {error}"))?;
+    result
+}
+
+#[test]
+fn composition_supervisor_run_test_helper() {
+    let (Ok(input_path), Ok(output_path)) = (
+        std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT"),
+        std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT"),
+    ) else {
+        return;
+    };
+    let input: CompositionInput =
+        serde_json::from_slice(&fs::read(&input_path).expect("composition helper input bytes"))
+            .expect("composition helper input JSON");
+    let backend = initialize_composition_supervisor_backend().expect("initialize subreaper");
+    let process_identity = current_composition_process_identity().expect("process identity");
+    let run_nonce = new_composition_run_nonce();
+    let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+    let input_environment = input
+        .commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    let receipt = CompositionSupervisorReceipt {
+        schema_version: 1,
+        backend,
+        attempt_id,
+        run_nonce,
+        generation: 1,
+        owner: process_identity.clone(),
+        supervisor: process_identity,
+        linux_boot_id: composition_linux_boot_id().expect("Linux boot identity"),
+        environment_digest: digest("test supervisor environment"),
+        runtime_version: input.binding.verifier.runtime_version.clone(),
+        runtime_digest: input.binding.verifier.runtime_digest.clone(),
+        repository_id: input.binding.repository_id.clone(),
+        target_sha: input.binding.target_sha.clone(),
+        snapshot_digest: digest("test snapshot"),
+        command_plan_digest: composition_commands_digest(&input.commands),
+        input_environment_digest: Digest::sha256_bytes(
+            &serde_json::to_vec(&input_environment).expect("input environments serialize"),
+        ),
+        execution_records_digest: execution_records_digest(&[]),
+        descendants_reaped_to_echild: false,
+    };
+    let admission_check: ProcessAdmissionCheck = Arc::new(|_node_id, accept| accept());
+    let process_start_gate: ProcessStartGate = Arc::new(|_node_id, spawn| spawn());
+    let result = run_composition_with_supervisor_receipt(
+        input,
+        admission_check,
+        process_start_gate,
+        receipt,
+    )
+    .map_err(|error| error.to_string());
+    fs::write(
+        output_path,
+        serde_json::to_vec(&result).expect("helper result serializes"),
+    )
+    .expect("write composition helper result");
 }
 
 #[cfg(target_os = "linux")]
@@ -525,6 +627,291 @@ fn process_start_gate_rejection_is_persisted_without_running_the_node() {
 }
 
 #[test]
+fn composition_attempt_reports_execution_and_cleanup_separately() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("execution-cleanup-outcomes");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+
+    assert!(
+        attempt.passed,
+        "composition execution did not pass: {attempt:?}"
+    );
+    let value = serde_json::to_value(&attempt).expect("serialize composition attempt");
+    assert_eq!(value["schemaVersion"], 3);
+    assert_eq!(value["executionOutcome"], "passed");
+    assert_eq!(value["executionEvidenceComplete"], true);
+    assert_eq!(value["cleanupDisposition"], "cleaned");
+}
+
+#[test]
+fn execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("missing-supervisor-receipt");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+
+    assert!(
+        attempt.passed,
+        "composition execution did not pass: {attempt:?}"
+    );
+    let value = serde_json::to_value(&attempt).expect("serialize composition attempt");
+    assert_eq!(value["executionOutcome"], "passed");
+    assert_eq!(value["executionEvidenceComplete"], true);
+    assert_eq!(value["cleanupDisposition"], "cleaned");
+    assert!(attempt.supervisor_receipt.is_none());
+    assert!(!attempt.is_coherent_successful_terminal());
+}
+
+#[test]
+fn coherent_supervisor_receipt_is_required_for_a_successful_terminal() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("coherent-supervisor-receipt");
+    let mut attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+    let process_identity =
+        current_composition_process_identity().expect("current process identity");
+    let boot_id = composition_linux_boot_id().expect("Linux boot identity");
+    #[cfg(target_os = "linux")]
+    let backend = CompositionSupervisorBackend::LinuxSubreaper;
+    #[cfg(all(unix, not(target_os = "linux")))]
+    let backend = CompositionSupervisorBackend::UnixProcessGroup;
+    #[cfg(windows)]
+    let backend = CompositionSupervisorBackend::WindowsProcessGroup;
+    let receipt = CompositionSupervisorReceipt {
+        schema_version: 1,
+        backend,
+        attempt_id: attempt.attempt_id.clone(),
+        run_nonce: "test-run-nonce".into(),
+        generation: 1,
+        owner: process_identity.clone(),
+        supervisor: process_identity,
+        linux_boot_id: if backend == CompositionSupervisorBackend::LinuxSubreaper {
+            boot_id
+        } else {
+            None
+        },
+        environment_digest: digest("environment"),
+        runtime_version: attempt.binding.verifier.runtime_version.clone(),
+        runtime_digest: attempt.binding.verifier.runtime_digest.clone(),
+        repository_id: attempt.binding.repository_id.clone(),
+        target_sha: attempt.binding.target_sha.clone(),
+        snapshot_digest: digest("snapshot"),
+        command_plan_digest: attempt.identity.command_digest.clone(),
+        input_environment_digest: digest("input-environment"),
+        execution_records_digest: execution_records_digest(&attempt.execution_records),
+        descendants_reaped_to_echild: backend == CompositionSupervisorBackend::LinuxSubreaper,
+    };
+    attempt.supervisor_receipt = Some(receipt);
+
+    assert!(attempt.is_coherent_successful_terminal());
+    attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+    assert!(!attempt.is_coherent_successful_terminal());
+    attempt.cleanup_disposition = CompositionCleanupDisposition::Cleaned;
+    attempt.execution_records[0].stdout.push_str("tampered");
+    assert!(!attempt.is_coherent_successful_terminal());
+}
+
+#[test]
+fn process_group_backend_does_not_claim_linux_echild_proof() {
+    let process_identity =
+        current_composition_process_identity().expect("current process identity");
+    let execution = CompositionExecutionRecord {
+        node_id: "successful".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        identity_digest: digest("process-group-execution"),
+        spawned: true,
+        reused: false,
+        passed: true,
+        exit_code: Some(0),
+        termination_signal: None,
+        stdout: String::new(),
+        stderr: String::new(),
+        output_digest: digest("process-group-output"),
+        timed_out: false,
+        predecessor_attempt_id: None,
+    };
+    let identity = identity("process-group-reap-proof");
+    let mut attempt = CompositionAttempt {
+        schema_version: 3,
+        attempt_id: "composition-process-group-reap-proof".into(),
+        binding: binding("target-sha", vec!["participant-sha".into()]),
+        identity: identity.clone(),
+        preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+        isolated_worktree: "/tmp/composition-process-group-reap-proof".into(),
+        text_conflicts: Vec::new(),
+        execution_records: vec![execution],
+        processes_spawned: 1,
+        reuse_decision: ReuseDecision {
+            kind: ReuseDecisionKind::Execute,
+            reason: "test execution".into(),
+            predecessor_attempt_id: None,
+        },
+        passed: true,
+        failure: None,
+        execution_outcome: CompositionExecutionOutcome::Passed,
+        execution_evidence_complete: true,
+        supervisor_receipt: None,
+        cleanup_disposition: CompositionCleanupDisposition::Cleaned,
+        owner_termination_signal: None,
+        cleanup: Some(CompositionCleanup {
+            attempted: true,
+            removed: true,
+            error: None,
+        }),
+        recorded_at_unix_nanos: 1,
+        owner_pid: Some(process_identity.process_id),
+        process_observation_schema_version: 1,
+        active_execution_node: None,
+        active_process_group_id: None,
+        active_process_group_identity: None,
+    };
+    for (backend, nonce) in [
+        (
+            CompositionSupervisorBackend::UnixProcessGroup,
+            "unix-process-group",
+        ),
+        (
+            CompositionSupervisorBackend::WindowsProcessGroup,
+            "windows-process-group",
+        ),
+    ] {
+        attempt.supervisor_receipt = Some(CompositionSupervisorReceipt {
+            schema_version: 1,
+            backend,
+            attempt_id: attempt.attempt_id.clone(),
+            run_nonce: nonce.into(),
+            generation: 1,
+            owner: process_identity.clone(),
+            supervisor: process_identity.clone(),
+            linux_boot_id: None,
+            environment_digest: digest("environment"),
+            runtime_version: attempt.binding.verifier.runtime_version.clone(),
+            runtime_digest: attempt.binding.verifier.runtime_digest.clone(),
+            repository_id: attempt.binding.repository_id.clone(),
+            target_sha: attempt.binding.target_sha.clone(),
+            snapshot_digest: digest("snapshot"),
+            command_plan_digest: identity.command_digest.clone(),
+            input_environment_digest: digest("input-environment"),
+            execution_records_digest: execution_records_digest(&attempt.execution_records),
+            descendants_reaped_to_echild: false,
+        });
+
+        let receipt = attempt
+            .supervisor_receipt
+            .as_ref()
+            .expect("supervisor receipt");
+        assert!(!receipt.descendants_reaped_to_echild);
+        assert!(
+            attempt.is_coherent_successful_terminal(),
+            "{backend:?} receipts must retain their platform semantics without claiming Linux ECHILD"
+        );
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn composition_subreaper_test_helper() {
+    if std::env::var_os("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER").is_none() {
+        return;
+    }
+    assert_eq!(
+        initialize_composition_supervisor_backend().expect("initialize subreaper"),
+        CompositionSupervisorBackend::LinuxSubreaper
+    );
+    let child = unsafe { libc::fork() };
+    assert!(child >= 0, "fork direct verifier-like child");
+    if child == 0 {
+        let grandchild = unsafe { libc::fork() };
+        if grandchild == 0 {
+            unsafe {
+                libc::close(libc::STDIN_FILENO);
+                libc::close(libc::STDOUT_FILENO);
+                libc::close(libc::STDERR_FILENO);
+                libc::alarm(3);
+            }
+            loop {
+                unsafe { libc::pause() };
+            }
+        }
+        unsafe { libc::_exit(i32::from(grandchild < 0)) };
+    }
+    let mut status = 0;
+    assert_eq!(unsafe { libc::waitpid(child, &mut status, 0) }, child);
+    assert!(libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == 0);
+
+    let own_pid = std::process::id();
+    let owned_children = fs::read_dir("/proc")
+        .expect("enumerate Linux process table")
+        .filter_map(Result::ok)
+        .filter_map(|entry| {
+            let process_id = entry.file_name().to_str()?.parse::<u32>().ok()?;
+            let stat = fs::read_to_string(entry.path().join("stat")).ok()?;
+            let close = stat.rfind(')')?;
+            let parent_id = stat[close + 1..]
+                .split_whitespace()
+                .nth(1)?
+                .parse::<u32>()
+                .ok()?;
+            (parent_id == own_pid).then_some(process_id)
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        !owned_children.is_empty(),
+        "the orphaned verifier descendant must be reparented to this subreaper"
+    );
+    reap_composition_supervisor_descendants().expect("reap all adopted descendants");
+    let mut status = 0;
+    assert_eq!(unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) }, -1);
+    assert_eq!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(libc::ECHILD)
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
+    let output = Command::new(std::env::current_exe().expect("test binary path"))
+        .args([
+            "--exact",
+            "composition_subreaper_test_helper",
+            "--nocapture",
+        ])
+        .env("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER", "1")
+        .output()
+        .expect("run isolated subreaper test helper");
+    assert!(
+        output.status.success(),
+        "subreaper helper failed: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
 fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
@@ -596,8 +983,8 @@ fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first attempt");
-    let second = run_composition(composition).expect("second attempt");
+    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
+    let second = run_composition_with_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed);
     assert!(second.passed);
@@ -633,7 +1020,8 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
         vec![command("reusable", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    let first =
+        run_composition_with_test_supervisor(composition.clone()).expect("seed reusable receipt");
     assert!(first.passed);
 
     let admission_check: ProcessAdmissionCheck = std::sync::Arc::new(|_node_id: &str, _accept| {
@@ -671,7 +1059,8 @@ fn pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance() {
         vec![command("reusable", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    let first =
+        run_composition_with_test_supervisor(composition.clone()).expect("seed reusable receipt");
     assert!(first.passed);
 
     let paused = Arc::new(Mutex::new(false));
@@ -794,7 +1183,10 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
             !marker.exists(),
             "an inherited PATH entry must not substitute the Contract-required verifier"
         );
-        assert!(attempt.passed, "the Runtime-bound cargo verifier must pass");
+        assert!(
+            attempt.passed,
+            "the Runtime-bound cargo verifier must pass: {attempt:?}"
+        );
         assert_eq!(attempt.processes_spawned, 1);
 
         let mut unbound_override = input(
@@ -2143,7 +2535,7 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(first_input.clone()).expect("first attempt");
+    let first = run_composition_with_test_supervisor(first_input.clone()).expect("first attempt");
     assert!(first.passed);
 
     let second_input = input(
@@ -2156,7 +2548,7 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let second = run_composition(second_input).expect("second attempt");
+    let second = run_composition_with_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     if cfg!(unix) {
@@ -2197,7 +2589,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         vec![api.clone(), docs.clone()],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(first_input).expect("first attempt");
+    let first = run_composition_with_test_supervisor(first_input).expect("first attempt");
     assert!(first.passed);
 
     run(root.path(), &["checkout", "-q", "provider"]);
@@ -2207,7 +2599,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition(input(
+    let second = run_composition_with_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -2261,7 +2653,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         transitive.clone(),
         independent.clone(),
     ];
-    let first = run_composition(input(
+    let first = run_composition_with_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![first_head.clone(), base.clone()]),
@@ -2278,7 +2670,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition(input(
+    let second = run_composition_with_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -2354,7 +2746,7 @@ fn inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse() {
         let state = PathBuf::from(std::env::var_os("COMPOSITION_ENV_STATE").expect("state path"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
         let check = command("inherited-environment-check", "env", &[]);
-        let attempt = run_composition(input(
+        let attempt = run_composition_with_test_supervisor(input(
             &root,
             &state,
             binding(&base, vec![base.clone(), base.clone()]),
@@ -2509,13 +2901,13 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
     );
     let original_json = serde_json::to_vec(&composition).expect("serialize composition input");
 
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
     fs::write(&source, "version-two\n").expect("change external source without editing input");
     assert_eq!(
         serde_json::to_vec(&composition).expect("serialize unchanged composition input"),
         original_json
     );
-    let second = run_composition(composition).expect("second attempt");
+    let second = run_composition_with_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed && second.passed);
     assert_eq!(first.processes_spawned, 2);
@@ -2673,7 +3065,7 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
             .expect("durable signal attempt"),
     )
     .expect("signal attempt JSON");
-    assert_eq!(durable["schemaVersion"], 2);
+    assert_eq!(durable["schemaVersion"], 3);
     assert_eq!(durable["executionRecords"][0]["terminationSignal"], 2);
     assert_eq!(durable["passed"], false);
 }
@@ -2727,13 +3119,14 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
         vec![command("legacy-name", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
     assert!(first.passed, "first attempt failed: {first:?}");
     let portable_path = attempt_record_path(state.path(), &first.attempt_id);
     let legacy_path = state.path().join(format!("{}.json", first.attempt_id));
     fs::rename(&portable_path, &legacy_path).expect("simulate historical Unix filename");
 
-    let second = run_composition(composition).expect("attempt should read legacy filename");
+    let second = run_composition_with_test_supervisor(composition)
+        .expect("attempt should read legacy filename");
 
     assert!(second.passed, "second attempt failed: {second:?}");
     assert_eq!(second.processes_spawned, 0);
@@ -2833,6 +3226,8 @@ fn installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node() {
     let output = Command::new(std::env::current_exe().expect("current test executable"))
         .args(["--exact", "installed_toolchain_change_child", "--nocapture"])
         .env("HOME", home.path())
+        .env_remove("CARGO_HOME")
+        .env_remove("RUSTUP_HOME")
         .env("COCKPIT_TOOLCHAIN_TEST_INPUT", &input_path)
         .env("COCKPIT_TOOLCHAIN_TEST_INSTALL", &toolchain)
         .output()

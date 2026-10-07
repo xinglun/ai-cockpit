@@ -1521,6 +1521,11 @@ fn main() {
 }
 
 fn run() -> Result<()> {
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__composition-supervisor"))
+    {
+        return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
+    }
     let cli = Cli::parse();
     if let CommandKind::IsolationManifest {
         root,

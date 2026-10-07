@@ -13,14 +13,14 @@ use cockpit_repository::{
     checkpoint_work_item, collaboration_outcome_projection, collaboration_projection,
     preflight_work_item, publish_outcome, record_verification, recover_impact,
     refresh_dependency_state, report_impact, repository_id, request_safe_pause,
-    resume_and_re_evaluate, run_admitted_composition, start_work_item_with_options,
+    resume_and_re_evaluate, start_work_item_with_options,
 };
 use cockpit_verification::{
     CompositionCommand, CompositionIdentity, CompositionInput, CompositionPrecondition,
     VerificationCommand, VerificationReusePolicy, composition_commands_digest, execute_bounded,
 };
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn digest(label: &str) -> Digest {
@@ -59,10 +59,214 @@ fn repository() -> tempfile::TempDir {
 fn runtime() -> RuntimeCapabilityBinding {
     RuntimeCapabilityBinding {
         schema_version: 1,
-        runtime_version: "0.2.113".into(),
-        runtime_digest: digest("candidate-runtime"),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        runtime_digest: runtime_digest(),
         capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
     }
+}
+
+fn runtime_digest() -> Digest {
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    Digest::sha256_bytes(&fs::read(executable).expect("controlled test helper bytes"))
+}
+
+fn run_admitted_composition(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+) -> Result<cockpit_verification::CompositionAttempt, cockpit_repository::CollaborationExecutionError>
+{
+    run_admitted_composition_with_supervisor_mode(store, work_item_id, generation, input, "run")
+}
+
+fn run_admitted_composition_with_supervisor_mode(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    mode: &str,
+) -> Result<cockpit_verification::CompositionAttempt, cockpit_repository::CollaborationExecutionError>
+{
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    let mut extra_environment = vec![(
+        "AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER".into(),
+        mode.into(),
+    )];
+    if mode == "revoke-generation-before-ready" {
+        extra_environment.push((
+            "AI_COCKPIT_COMPOSITION_REVOKE_ROOT".into(),
+            input.repository_root.to_string_lossy().into_owned(),
+        ));
+        extra_environment.push((
+            "AI_COCKPIT_COMPOSITION_REVOKE_WORK_ITEM".into(),
+            work_item_id.into(),
+        ));
+    }
+    run_admitted_composition_with_supervisor_environment(
+        store,
+        work_item_id,
+        generation,
+        input,
+        &executable,
+        &extra_environment,
+    )
+}
+
+fn run_admitted_composition_with_supervisor_environment(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    executable: &Path,
+    extra_environment: &[(String, String)],
+) -> Result<cockpit_verification::CompositionAttempt, cockpit_repository::CollaborationExecutionError>
+{
+    cockpit_repository::run_admitted_composition_with_supervisor_executable(
+        store,
+        work_item_id,
+        generation,
+        input,
+        executable,
+        &[
+            "--exact".into(),
+            "composition_supervisor_test_helper_entry".into(),
+            "--nocapture".into(),
+        ],
+        extra_environment,
+    )
+}
+
+#[cfg(target_os = "linux")]
+fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> {
+    use std::os::unix::fs::PermissionsExt;
+
+    let actual_git = std::env::split_paths(&std::env::var_os("PATH").expect("test PATH"))
+        .map(|directory| directory.join("git"))
+        .find(|path| path.is_file())
+        .expect("resolve actual git executable");
+    let wrapper_dir = root.join("test-bin");
+    fs::create_dir_all(&wrapper_dir).expect("create Git wrapper directory");
+    let wrapper = wrapper_dir.join("git");
+    let failure_marker = root.join(".injected-worktree-remove-failure-used");
+    let script = format!(
+        "#!/bin/sh\nif [ \"$1\" = -C ] && [ \"$3\" = worktree ] && [ \"$4\" = remove ] && [ ! -e '{}' ]; then\n  : > '{}' || exit 98\n  echo 'injected one-time worktree cleanup refusal' >&2\n  exit 1\nfi\nexec '{}' \"$@\"\n",
+        failure_marker.display(),
+        failure_marker.display(),
+        actual_git.display(),
+    );
+    fs::write(&wrapper, script).expect("write Git wrapper");
+    fs::set_permissions(&wrapper, fs::Permissions::from_mode(0o755))
+        .expect("make Git wrapper executable");
+    let mut path_entries = vec![wrapper_dir];
+    path_entries.extend(std::env::split_paths(
+        &std::env::var_os("PATH").expect("test PATH"),
+    ));
+    let path = std::env::join_paths(path_entries)
+        .expect("compose controlled supervisor PATH")
+        .into_string()
+        .expect("supervisor PATH UTF-8");
+    vec![
+        (
+            "AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER".into(),
+            "run".into(),
+        ),
+        ("PATH".into(), path),
+    ]
+}
+
+#[cfg(target_os = "linux")]
+fn defer_successful_composition_cleanup(
+    store: &CoordinationStore,
+    input: CompositionInput,
+    extra_environment: &[(String, String)],
+) -> (
+    cockpit_verification::CompositionAttempt,
+    PathBuf,
+    PathBuf,
+    PathBuf,
+) {
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    let first = run_admitted_composition_with_supervisor_environment(
+        store,
+        "WI-CONSUMER",
+        1,
+        input.clone(),
+        &executable,
+        extra_environment,
+    )
+    .expect("first formal composition");
+    assert_eq!(
+        first.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed,
+        "first execution must pass: {first:?}"
+    );
+    assert_eq!(
+        first.cleanup_disposition,
+        cockpit_verification::CompositionCleanupDisposition::Deferred,
+        "the injected cleanup refusal must be recorded separately"
+    );
+    let attempt_path = fs::read_dir(store.root().join("compositions"))
+        .expect("composition attempts")
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .expect("first attempt record");
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("first attempt bytes"))
+            .expect("first attempt JSON");
+
+    assert_eq!(attempt["failure"], "composition_cleanup_deferred");
+    assert_eq!(attempt["executionOutcome"], "passed");
+    assert_eq!(attempt["cleanupDisposition"], "deferred");
+
+    let old_worktree = Path::new(
+        attempt["isolatedWorktree"]
+            .as_str()
+            .expect("old worktree path"),
+    )
+    .to_path_buf();
+    assert!(
+        old_worktree.is_dir(),
+        "deferred worktree must remain on disk"
+    );
+    let old_marker = old_worktree.join(".deferred-tree-marker");
+    fs::write(&old_marker, "retain this deferred tree\n").expect("write old tree marker");
+
+    (first, attempt_path, old_worktree, old_marker)
+}
+
+#[test]
+fn composition_supervisor_test_helper_entry() {
+    let Ok(mode) = std::env::var("AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER") else {
+        return;
+    };
+    if mode == "exit-before-ready" {
+        return;
+    }
+    if mode == "revoke-generation-before-ready" {
+        let root = std::env::var_os("AI_COCKPIT_COMPOSITION_REVOKE_ROOT")
+            .expect("revocation test repository root");
+        let work_item_id = std::env::var("AI_COCKPIT_COMPOSITION_REVOKE_WORK_ITEM")
+            .expect("revocation test Work Item");
+        let store = store(Path::new(&root));
+        let mut registration = store
+            .inspect()
+            .expect("inspect registration before revocation")
+            .registrations
+            .into_iter()
+            .find(|registration| registration.work_item_id == work_item_id)
+            .expect("revoked Work Item registration");
+        registration.generation += 1;
+        store
+            .register(registration)
+            .expect("advance Work Item generation before Ready");
+    }
+    cockpit_repository::run_composition_supervisor_stdio()
+        .expect("controlled composition supervisor protocol");
 }
 
 fn store(root: &Path) -> CoordinationStore {
@@ -213,8 +417,8 @@ fn record_typed_verification(root: &Path, work_item_id: &str) {
         root,
         work_item_id,
         &receipt,
-        "0.2.113",
-        &digest("candidate-runtime"),
+        env!("CARGO_PKG_VERSION"),
+        &runtime_digest(),
     )
     .expect("record typed verification evidence");
 }
@@ -357,9 +561,9 @@ fn composition_input(root: &Path, marker: &Path) -> CompositionInput {
 
 fn runtime_context() -> RuntimeContext {
     RuntimeContext {
-        runtime_version: "0.2.113".into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
         protocol_version: 1,
-        runtime_digest: digest("candidate-runtime"),
+        runtime_digest: runtime_digest(),
     }
 }
 
@@ -411,6 +615,418 @@ fn shared_outcome_projects_composition_cleanup_and_actual_reuse() {
         }
     );
     assert!(!second_projection.human_decision_required);
+}
+
+#[test]
+fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("must-not-exist");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "touch".into();
+    input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let error = run_admitted_composition_with_supervisor_mode(
+        &store,
+        "WI-CONSUMER",
+        1,
+        input,
+        "exit-before-ready",
+    )
+    .expect_err("a supervisor that exits before Ready must block verifier execution");
+    assert!(error.to_string().contains("supervisor"), "{error:?}");
+    assert!(
+        !marker.exists(),
+        "verifier command ran before supervisor release"
+    );
+
+    let attempts = fs::read_dir(store.root().join("compositions"))
+        .expect("composition attempts")
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: cockpit_verification::CompositionAttempt =
+        serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt evidence"))
+            .expect("attempt JSON");
+    assert!(!attempt.passed);
+    assert_eq!(attempt.processes_spawned, 0);
+    assert!(attempt.execution_records.is_empty());
+    assert_eq!(
+        attempt.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Unknown
+    );
+    let projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(projection.composition_state, "unknown");
+    assert_eq!(
+        projection.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Unknown
+    );
+    assert!(!projection.execution_evidence_complete);
+}
+
+#[test]
+fn legacy_incomplete_composition_attempts_project_unknown_execution() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("legacy-composition-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].input_paths.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let attempt =
+        run_admitted_composition(&store, "WI-CONSUMER", 1, input).expect("create source attempt");
+    let attempt_path = fs::read_dir(store.root().join("compositions"))
+        .expect("composition attempts")
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+                && fs::read(path)
+                    .ok()
+                    .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+                    .is_some_and(|value| value["attemptId"] == attempt.attempt_id)
+        })
+        .expect("persisted composition attempt");
+
+    for failure in [
+        "in_progress",
+        "verifier_process_state_unknown:cannot inspect process identity",
+    ] {
+        let mut legacy: serde_json::Value =
+            serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
+                .expect("attempt JSON");
+        legacy["schemaVersion"] = serde_json::json!(2);
+        legacy["passed"] = serde_json::json!(false);
+        legacy["failure"] = serde_json::json!(failure);
+        for field in [
+            "executionOutcome",
+            "executionEvidenceComplete",
+            "supervisorReceipt",
+            "cleanupDisposition",
+        ] {
+            legacy
+                .as_object_mut()
+                .expect("attempt object")
+                .remove(field);
+        }
+        fs::write(
+            &attempt_path,
+            serde_json::to_vec_pretty(&legacy).expect("serialize legacy attempt"),
+        )
+        .expect("write legacy attempt");
+
+        let projection =
+            collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+        assert_eq!(
+            projection.execution_outcome,
+            cockpit_verification::CompositionExecutionOutcome::Unknown,
+            "legacy failure {failure:?} must not be promoted to an execution failure"
+        );
+        assert!(!projection.execution_evidence_complete);
+        assert_eq!(
+            projection.composition_state,
+            if failure == "in_progress" {
+                "in_progress"
+            } else {
+                "unknown"
+            }
+        );
+    }
+}
+
+#[test]
+fn revoked_admission_after_registration_persists_receipt_and_allows_a_later_retry() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("revoked-composition-must-not-run");
+    declare_required_checks(
+        root.path(),
+        "WI-CONSUMER",
+        &[format!("touch {}", marker.display())],
+    );
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "touch".into();
+    input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+
+    let error = run_admitted_composition_with_supervisor_mode(
+        &store,
+        "WI-CONSUMER",
+        1,
+        input.clone(),
+        "revoke-generation-before-ready",
+    )
+    .expect_err("revoked generation must abort before verifier execution");
+    assert!(error.to_string().contains("WI-CONSUMER"), "{error:?}");
+    assert!(
+        !marker.exists(),
+        "verifier spawned after admission revocation"
+    );
+
+    let attempt_path = fs::read_dir(store.root().join("compositions"))
+        .expect("composition attempt records")
+        .flatten()
+        .map(|entry| entry.path())
+        .find(|path| {
+            path.extension()
+                .is_some_and(|extension| extension == "json")
+        })
+        .expect("durable aborted attempt");
+    let attempt: cockpit_verification::CompositionAttempt =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("aborted attempt bytes"))
+            .expect("aborted attempt JSON");
+    assert_eq!(attempt.processes_spawned, 0);
+    assert!(attempt.execution_records.is_empty());
+    assert!(
+        attempt
+            .failure
+            .as_deref()
+            .is_some_and(|failure| failure.starts_with("supervisor_aborted_before_release:")),
+        "revocation failure must remain auditable: {attempt:?}"
+    );
+    assert_eq!(
+        attempt.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Unknown
+    );
+    let receipt = attempt
+        .supervisor_receipt
+        .as_ref()
+        .expect("aborted attempt keeps its registered supervisor receipt");
+    let registration_dir = store.root().join("compositions/supervisors");
+    let registered_receipt: cockpit_verification::CompositionSupervisorReceipt =
+        fs::read_dir(&registration_dir)
+            .expect("supervisor registration directory")
+            .flatten()
+            .map(|entry| entry.path())
+            .find(|path| {
+                path.extension()
+                    .is_some_and(|extension| extension == "json")
+            })
+            .map(|path| {
+                serde_json::from_slice(&fs::read(path).expect("registration bytes"))
+                    .expect("registration JSON")
+            })
+            .expect("durable registration");
+    assert_eq!(receipt, &registered_receipt);
+
+    let retry = run_admitted_composition(&store, "WI-CONSUMER", 2, input)
+        .expect("a later admitted attempt reconciles the aborted registration");
+    assert!(retry.passed, "later retry failed: {retry:?}");
+    assert_ne!(retry.attempt_id, attempt.attempt_id);
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn deferred_execution_projection_keeps_execution_and_cleanup_distinct() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("deferred-projection-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].input_paths.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
+    let (attempt, _, _, _) =
+        defer_successful_composition_cleanup(&store, input, &supervisor_environment);
+
+    assert_eq!(
+        attempt.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed
+    );
+    let projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(projection.composition_state, "unknown");
+    assert_eq!(projection.cleanup_state, "deferred");
+    assert_eq!(
+        projection.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed
+    );
+    assert!(projection.execution_evidence_complete);
+    assert_eq!(
+        projection.cleanup_disposition,
+        cockpit_verification::CompositionCleanupDisposition::Deferred
+    );
+    assert!(projection.reusable_checks.is_empty());
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("deferred-retry-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].input_paths.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
+    let (first, _attempt_path, old_worktree, old_marker) =
+        defer_successful_composition_cleanup(&store, input.clone(), &supervisor_environment);
+
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    let second = run_admitted_composition_with_supervisor_environment(
+        &store,
+        "WI-CONSUMER",
+        1,
+        input,
+        &executable,
+        &supervisor_environment,
+    )
+    .expect("safe retry creates a fresh formal attempt");
+    assert!(second.passed, "fresh retry must pass: {second:?}");
+    assert_ne!(first.attempt_id, second.attempt_id);
+    assert_ne!(
+        first
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| &receipt.run_nonce),
+        second
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| &receipt.run_nonce)
+    );
+    assert_eq!(
+        second.processes_spawned, 1,
+        "no prior node result is reused"
+    );
+    assert_eq!(
+        second.reuse_decision.kind,
+        cockpit_verification::ReuseDecisionKind::Execute
+    );
+    assert!(
+        old_marker.is_file(),
+        "deferred old tree must remain untouched"
+    );
+    let worktrees = Command::new("git")
+        .args(["worktree", "list", "--porcelain"])
+        .current_dir(root.path())
+        .output()
+        .expect("list worktrees");
+    assert!(worktrees.status.success());
+    let worktrees = String::from_utf8(worktrees.stdout).expect("worktree list UTF-8");
+    assert!(
+        worktrees
+            .lines()
+            .any(|line| line == format!("worktree {}", old_worktree.display())),
+        "old deferred worktree registration must remain"
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("unsafe-deferred-retry-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].input_paths.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
+    let (_first, attempt_path, _old_worktree, old_marker) =
+        defer_successful_composition_cleanup(&store, input.clone(), &supervisor_environment);
+
+    let mut unsafe_input = input;
+    unsafe_input.commands[0]
+        .input_paths
+        .push("README.md".into());
+    unsafe_input.identity.command_digest = composition_commands_digest(&unsafe_input.commands);
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    let blocked = run_admitted_composition_with_supervisor_environment(
+        &store,
+        "WI-CONSUMER",
+        1,
+        unsafe_input,
+        &executable,
+        &supervisor_environment,
+    )
+    .expect("unsafe repeat is recorded as a blocked formal attempt");
+    assert!(!blocked.passed);
+    assert_eq!(blocked.processes_spawned, 0);
+    assert!(blocked.execution_records.is_empty());
+    assert!(
+        blocked
+            .failure
+            .as_deref()
+            .is_some_and(|failure| failure.starts_with("unsafe_deferred_cleanup_retry:"))
+    );
+    assert!(
+        old_marker.is_file(),
+        "unsafe retry must preserve the old tree"
+    );
+    let old_attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("old attempt evidence"))
+            .expect("old attempt JSON");
+    assert_eq!(old_attempt["failure"], "composition_cleanup_deferred");
 }
 
 #[test]
@@ -1684,8 +2300,8 @@ fn ordinary_single_work_item_verification_remains_serial_without_coordination_st
         root.path(),
         "WI-SERIAL-ONLY",
         &receipt,
-        "0.2.113",
-        &digest("candidate-runtime"),
+        env!("CARGO_PKG_VERSION"),
+        &runtime_digest(),
     )
     .expect("record ordinary verification");
     assert!(

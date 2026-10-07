@@ -268,6 +268,16 @@ cancellation.
   is to re-point them at the four separated status lines, not to change the
   Outcome's wording.
 
+The CLI and MCP `collaboration` projection share schema version 2. It keeps
+`compositionState` separate from `executionOutcome` and
+`executionEvidenceComplete`, and reports `cleanupDisposition` as
+`cleaned`/`deferred`/`retained`/`failed`/`unknown`. A v3 attempt whose commands
+passed but cleanup was deferred is reported as `compositionState: unknown`,
+`executionOutcome: passed`, and `cleanupDisposition: deferred`; it is not
+projected as an execution failure or a reusable terminal result. For legacy
+v1/v2 attempts, the old `passed` boolean is only a display compatibility hint
+and cannot authorize reuse or retry without v3 ownership and evidence.
+
 ### 7. Agent or session handoff
 
 - **Trigger / source of truth**: a new Agent, a new conversation, or a

@@ -75,6 +75,8 @@ pub use collaboration::{
     collaboration_projection, publish_outcome, recover_impact,
     refresh_and_admit_collaboration_action, refresh_dependency_state, report_impact,
     request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+    run_admitted_composition_supervisor, run_admitted_composition_with_supervisor_executable,
+    run_composition_supervisor_stdio,
 };
 pub use contract_amendment::{
     ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,

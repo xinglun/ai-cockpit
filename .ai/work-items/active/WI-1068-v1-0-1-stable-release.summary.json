@@ -76,7 +76,19 @@
           "locator": "One-line scanner-compatible fixture macro correction: current source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af; current integration-test SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; patch against candidate d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
           "path": "crates/cockpit-verification/src/composition.rs; crates/cockpit-verification/tests/composition.rs",
           "type": "current_linux_process_group_source_and_test_candidate",
-          "verification": "The zombie-only fixture now uses the equivalent absolute ::serde_json::json! macro path recognized by repository material inspection. The independent agent review found no blocking issue. The exact updated integration test has not been executed; no local test/build was run for this candidate. Exact-head hosted CI is pending, so A10 remains unaccepted."
+          "verification": "The exact 7ff8c217 candidate was exercised by admitted hosted Work Item verification: 13/13 package nodes passed, including cockpit-verification (exit 0, 23.2s) under the Contract cargo test --locked --workspace route. The overall exact-head Actions run then failed later at workspace_clippy, so the candidate is not fully accepted. Its independent exact targeted-regression command remains pending; no local full workspace test/build was run."
+        },
+        {
+          "locator": "GitHub Actions run #4850 / run ID 37547568278, PR candidate head 7ff8c217059c210545b57d00be6e621b200ad0b6; Runtime hosted verification artifact 11451553083 sha256:6d8afd9775dd6ec1a4efce76a137163ad1a12cba7c2bc41ce611c817c6dd5f04; Rust Contract artifact 11451473224 sha256:148343da6d0b1b0127b1f75f42fa60c221d70d727c64c481c75165fe56a57f61; repository gate receipts artifact 11451752466 sha256:58f44b076d341af119ec21f37e466a10f3b8e87b82065253bec432d1e754ecda; diagnostics artifact 11451443321 sha256:5436f16d704576030a0bc22bf7646c0be8ef53d1a063608492a01822880ea4fa.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37547568278",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The run completed failure on exact PR candidate 7ff8c217. Hosted Runtime verification passed 13/13 package nodes; cockpit-verification passed exit 0 under the unique Contract cargo test --locked --workspace route. Rust Contract quality gate reported passed/green with no blockers or unknowns; route, Windows Runtime, behavioral oracle and workspace_format passed. workspace_clippy failed with exit 101 on clippy::collapsible_if at crates/cockpit-verification/src/composition.rs:1058 (`if let Some(expected_digest)` nested around `.is_err()`, under -D warnings). Diagnostic SHA256 is d52f2c9a2248642fe6120dbd00f7fae2b760c05a80e6b4bcb16c2a1987f1f9cc. workspace_package_tests was blocked by workspace_clippy, so the independent package-coverage receipt was not produced. All artifacts and failure evidence remain preserved; this is not a passing full CI result."
+        },
+        {
+          "locator": "cargo test --locked --package cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact; exit 0; candidate HEAD 7ff8c217059c210545b57d00be6e621b200ad0b6; contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e; snapshot sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a; source SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; integration test SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-linux-zombie-final2.txt",
+          "type": "linux_zombie_process_group_focused_regression",
+          "verification": "The standalone Linux zombie-only regression passed 1/1. Output SHA256 10d390ac254ce5a7279d01a08e658f4b4426708742868cd0d349084a1d6391ef. This records the focused zombie-only case; remaining CI and broader scan fault-injection acceptance are not claimed."
         }
       ]
     },
@@ -93,7 +105,76 @@
           "locator": "Current regression retry_reconciles_zombie_only_verifier_process_group; integration-test file SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; one-line patch against d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
           "path": "crates/cockpit-verification/tests/composition.rs",
           "type": "linux_zombie_only_process_group_regression_candidate",
-          "verification": "The current fixture uses waitid(WNOWAIT), exercises retry reconciliation of its owned linked worktree, verifies cleanup fields and removal, and reaps its own child after assertions. The earlier candidate’s retained-zombie setup was independently reviewed; the current macro-only correction was separately reviewed. The current exact test hash has not been run and must be verified by a new exact-head hosted CI. Contract.verification remains exactly cargo test --locked --workspace."
+          "verification": "The exact current test file ran as part of admitted hosted verification for PR head 7ff8c217059c210545b57d00be6e621b200ad0b6; the cockpit-verification package node passed (exit 0). The full Actions run later failed at workspace_clippy and the independent workspace package-coverage receipt was skipped. The prior standalone targeted green log is tied to superseded test bytes; a standalone targeted command for this exact hash remains required. Contract.verification remains exactly cargo test --locked --workspace."
+        },
+        {
+          "locator": "Exact-head GitHub Actions run #4850 / run ID 37547568278 failed at workspace_clippy after hosted verification; diagnostic digest sha256:d52f2c9a2248642fe6120dbd00f7fae2b760c05a80e6b4bcb16c2a1987f1f9cc. See the full failure record in A10.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37547568278",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The candidate cockpit-verification package tests passed as part of hosted workspace verification, but the standalone targeted regression for the exact test hash remains unexecuted. workspace_package_tests coverage was blocked by the separate clippy failure; no evidence is promoted to acceptance beyond its exact observed scope."
+        },
+        {
+          "locator": "Exact command: cargo test --locked --package cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact; exit 0; candidate HEAD 7ff8c217059c210545b57d00be6e621b200ad0b6; Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e; snapshot sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a; output SHA256 10d390ac254ce5a7279d01a08e658f4b4426708742868cd0d349084a1d6391ef; source SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; test file SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-linux-zombie-final2.txt",
+          "type": "linux_zombie_only_process_group_independent_acceptance",
+          "verification": "This is a separate targeted acceptance command, distinct from cargo test --locked --workspace. It passed 1/1. It does not claim the complete hosted workspace/PR gate passed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission legacy_incomplete_composition_attempts_project_unknown_execution -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-legacy-unknown-final.txt",
+          "type": "legacy_execution_projection_regression",
+          "verification": "Legacy in_progress and verifier_process_state_unknown attempts project executionOutcome=unknown with incomplete evidence. Output SHA256 27bdee4c2f67149f3b3d21efc78d42d29741d73b33ffb489b8fe6a52db9d26e0."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_execution_projection_keeps_execution_and_cleanup_distinct -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-deferred-projection-final.txt",
+          "type": "deferred_execution_cleanup_projection_regression",
+          "verification": "Passed 1/1; execution passed with complete evidence while overall composition remained unknown and cleanup remained deferred. Output SHA256 1713c1af260af9ad7c3b96c07028154059d5324860ce64c3d3e6a104fd240f8d."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-verification --test composition process_group_backend_does_not_claim_linux_echild_proof -- --exact; exit 0; composition.rs SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; test SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-processgroup-final2.txt",
+          "type": "process_group_backend_receipt_semantics",
+          "verification": "Passed 1/1 for synthetic Unix and Windows process-group receipts; neither claims Linux waitpid ECHILD. Output SHA256 3621e1254bb8e13127d0021cfd68141e7b142dcb29e206eebbde223da75dde38."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-safe-retry-final.txt",
+          "type": "safe_fresh_retry_regression",
+          "verification": "Passed 1/1: the second formal attempt used a fresh ID/nonce, spawned rather than reused execution, succeeded, and left the first deferred tree registered. Output SHA256 5b62045c57973ba1e7b4f9a883cdaad89675cdc8cd0e3466fc8c8aaa92022bc1."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-unsafe-retry-final.txt",
+          "type": "unsafe_retry_blocked_regression",
+          "verification": "Passed 1/1: unsafe command-source/effects drift was blocked before any verifier spawn and the old deferred tree remained. Output SHA256 d9129c80afd031bdaf04bd158401edef5440f07d417aae8c1d180d86d5e81006."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0.",
+          "path": "/tmp/wi1068-cli-mcp-supervisor.txt",
+          "type": "cli_mcp_runtime_supervisor_parity",
+          "verification": "Passed 1/1; CLI/MCP exercised the same Runtime helper identity and supervisor outcome route. Output SHA256 f4fd04945953312fc8915a05c6afd961517c09da73c5963e4fab9a3d01839418."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test lifecycle_order skipped_preflight_and_checkpoint_fail_closed -- --exact and cargo test --locked -p cockpit-cli --test verify checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh -- --exact; both exit 0.",
+          "path": "/tmp/wi1068-finish-gate.txt; /tmp/wi1068-current-verify-gate.txt",
+          "type": "finish_preflight_and_current_verification_gate_tests",
+          "verification": "Passed 1/1 each. These test the lifecycle gates; this current Work Item still requires its separate current snapshot verification and a green preflight before finish. Output SHA256 values: 5af1810f6a98086b411ce3f1ccbe4ba5c4f498c488ee9c01e1cf25e86ac854a5 and 65639370616feda100b92c8c76481457158737ad3e3e9a03874143b7f86337be."
         }
       ]
     }
@@ -310,20 +391,60 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+      "reason": "Formally repair WI-1068 verification while preserving all prior failure evidence: keep the sole complete verification command cargo test --locked --workspace, and treat the Linux zombie-only targeted regression as separate acceptance evidence. Expand the reviewed Linux composition scope to specify owned-tree supervisor receipts, fail-closed spawn/registration/reaping, distinct execution and cleanup states, and a narrowly admitted fresh repeat after deferred cleanup. Record user-stated delegation, Raydot's user-relayed technical approval, and the actual Codex execution identity without fabricating a human signature. Add unverified scenarios only; do not assert implementation or test success.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T01:07:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa98a405cf744e071a7490f7f5d5cb2efdc68575d270dc4f59ba8e26e2d4d6ce",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb",
+      "reason": "Add only the missing repository library-facade path needed by the already authorized composition supervisor entry. crates/cockpit-repository/src/collaboration.rs defines the supervisor APIs, while crates/cockpit-repository/src/lib.rs declares collaboration as a private module and must re-export those APIs for the existing CLI hidden supervisor entry and controlled integration helper. This records the narrow implementation provenance; it changes no acceptance criteria, verification command, policy, resource identity, or historical failure evidence.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T02:56:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+    "contractDigest": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "Ray selected option 1 in response to agent:Raydot's WI-1068 review prompt at 2026-10-06T20:54:22Z (message Sentinel_c2e0bfea939c81918f3464d6a28b9da3). Ray's response at 2026-10-06T20:54:38Z (message Sentinel_d3485ee1c5c08191ad1b3205fced03c0) was '1', confirming the bounded review for Contract sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b. The Codex execution agent records this receipt at 2026-10-06T20:56:11Z; the decision actor is human:Ray. Earlier decision receipts are retained unchanged.",
-    "recordedAt": "2026-10-06T20:56:11Z",
+    "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+    "reason": "Raydot's exact WI-1068 request for Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e was provided in a user-relayed transcript (request 2026-10-07T03:05:59Z, Sentinel_ef55ee2e8e1881918665c4ca8ea88ef6); Ray replied '1' at 2026-10-07T03:06:47Z (Sentinel_8ee74edf115c81918899851fb8eb2ef4), confirming review. This is recorded as human:Ray from the supplied transcript, not independently host-authenticated. Actual Runtime recording was performed by agent:Codex (/root) at 2026-10-07T03:08:06Z. This confirmation binds Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e, snapshot sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51, and preflight decision sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925.",
+    "recordedAt": "2026-10-07T03:08:06Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+    "repositorySnapshotDigest": "sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -335,10 +456,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-06T23:37:01Z",
-  "preflightContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:f546236e39bba080f96bc6211890f4783eeca471310024cd12d413ec9b460685",
+  "preflightAt": "2026-10-07T03:32:55Z",
+  "preflightContractDigest": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "preflightRepositorySnapshotDigest": "sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -425,10 +546,83 @@
       "scenario": "release-plan-immutability-and-evidence-consumption",
       "status": "verified",
       "verificationPlan": "Resolve the typed normal-release plan against the exact current PR head, base and raw Contract file digest. Bind GitHub API evidence for the v1.0.0 tag object/peeled commit and public stable Release, including its reported immutable field; bind 404 results for v1.0.1 tag and Release; inspect release.yml to verify attest/publish dependencies include the four target candidate smoke routes and staged Linux x86_64 upgrade from v1.0.0. Do not create a tag or mutate any existing Release asset in this pre-tag check."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission supervisor_exit_before_ready_records_unknown_without_spawning_verifier -- --exact; exit 0; output SHA256 b1881fb2d3fb49c9c993cea494fcc65e96c246ee35ce4b21892a36712807677c.",
+        "cargo test --locked -p cockpit-repository --test collaboration_admission revoked_admission_after_registration_persists_receipt_and_allows_a_later_retry -- --exact; exit 0; output SHA256 7c04e8ce553c521ebf19908b680deb764845cf0dca916594419f5520fac7be1c."
+      ],
+      "expected": "Handshake, helper IPC, durable registration, or admission-revocation failures produce zero verifier spawns and a fail-closed receipt.",
+      "required": true,
+      "scenario": "composition-supervisor-handshake-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Exercise spawn→ready→registration/fsync→release failure points and admission revocation; assert zero verifier starts and durable unknown/failure classification."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_execution_projection_keeps_execution_and_cleanup_distinct -- --exact; exit 0; output SHA256 1713c1af260af9ad7c3b96c07028154059d5324860ce64c3d3e6a104fd240f8d."
+      ],
+      "expected": "A successful execution with deferred cleanup records execution pass separately, preserves the owned directory, and is not classified as a cleaned reusable terminal attempt.",
+      "required": true,
+      "scenario": "composition-pass-with-deferred-cleanup",
+      "status": "verified",
+      "verificationPlan": "Run a controlled formal composition whose command passes while cleanup is deferred; inspect the bound attempt receipt, projection, and preserved directory."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree -- --exact; exit 0; output SHA256 5b62045c57973ba1e7b4f9a883cdaad89675cdc8cd0e3466fc8c8aaa92022bc1."
+      ],
+      "expected": "Two consecutive formal run_admitted_composition calls prove a safe second attempt gets a fresh nonce/worktree, reuses no old result, succeeds, and leaves the first deferred directory untouched.",
+      "required": true,
+      "scenario": "safe-fresh-retry-after-deferred-cleanup",
+      "status": "verified",
+      "verificationPlan": "Use a first formal call that passes with deferred cleanup, then a second admitted formal call under current policy and exact command/source binding; compare attempt IDs, nonces, worktrees, results, and the old directory."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn -- --exact; exit 0; output SHA256 d9129c80afd031bdaf04bd158401edef5440f07d417aae8c1d180d86d5e81006."
+      ],
+      "expected": "Unknown ownership, side effects, source/command binding, stale generation, or denied admission blocks a repeat before any verifier spawn and preserves existing data.",
+      "required": true,
+      "scenario": "unsafe-repeat-blocked-before-spawn",
+      "status": "verified",
+      "verificationPlan": "Inject each unsafe or unknown precondition; assert admission rejection, zero verifier spawns, preserved deferred path, and retained failure evidence."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --test composition process_group_backend_does_not_claim_linux_echild_proof -- --exact; exit 0; output SHA256 3621e1254bb8e13127d0021cfd68141e7b142dcb29e206eebbde223da75dde38. This Linux-hosted classifier test covers synthetic UnixProcessGroup and WindowsProcessGroup receipts; it is not an end-to-end non-Linux host run."
+      ],
+      "expected": "Backend-tagged supervisor receipt requirements do not break supported non-Linux composition behavior.",
+      "required": true,
+      "scenario": "non-linux-composition-compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the controlled non-Linux backend coverage and confirm Linux-only identity fields are not required outside Linux while shared execution/cleanup semantics remain coherent."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0; output SHA256 f4fd04945953312fc8915a05c6afd961517c09da73c5963e4fab9a3d01839418.",
+        "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio -- --exact; exit 0; output SHA256 f862aa7f0d36094370319ff6f1ea3bb211d0ded7e9804c12359b8d27163c005c."
+      ],
+      "expected": "CLI and MCP use the exact Runtime helper identity and agree on attempt, execution, cleanup, and admission outcomes.",
+      "required": true,
+      "scenario": "cli-mcp-composition-helper-parity",
+      "status": "verified",
+      "verificationPlan": "Exercise the hidden CLI supervisor entry and MCP route with controlled helpers; compare serialized receipts/projections and assert PATH lookup is not used."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test lifecycle_order skipped_preflight_and_checkpoint_fail_closed -- --exact; exit 0; output SHA256 5af1810f6a98086b411ce3f1ccbe4ba5c4f498c488ee9c01e1cf25e86ac854a5.",
+        "cargo test --locked -p cockpit-cli --test verify checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh -- --exact; exit 0; output SHA256 65639370616feda100b92c8c76481457158737ad3e3e9a03874143b7f86337be."
+      ],
+      "expected": "A composition result alone cannot finish WI-1068; a separate current-receipt verification and green preflight are required.",
+      "required": true,
+      "scenario": "finish-requires-independent-verify-and-preflight",
+      "status": "verified",
+      "verificationPlan": "Show finish remains inadmissible after composition alone, then bind independent current verify and green preflight evidence before the finish gate can admit."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-06T23:36:58.783994611+00:00",
+  "updatedAt": "2026-10-07T03:32:37.147205151+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -487,6 +681,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-07T02:56:19Z"
+  },
   "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

@@ -4,10 +4,17 @@ pub mod gate_plan;
 pub mod runtime_benchmark_scenarios;
 
 pub use composition::{
-    CompositionAttempt, CompositionCommand, CompositionError, CompositionExecutionRecord,
-    CompositionIdentity, CompositionInput, CompositionPrecondition, OwnerInterruptionGuard,
-    ReuseDecision, ReuseDecisionKind, classify_reuse, composition_commands_digest, run_composition,
-    run_composition_with_process_gates,
+    CompositionAttempt, CompositionCleanupDisposition, CompositionCommand, CompositionError,
+    CompositionExecutionOutcome, CompositionExecutionRecord, CompositionIdentity, CompositionInput,
+    CompositionPrecondition, CompositionProcessIdentity, CompositionSupervisorBackend,
+    CompositionSupervisorControl, CompositionSupervisorLaunch, CompositionSupervisorReady,
+    CompositionSupervisorReceipt, CompositionSupervisorReply, OwnerInterruptionGuard,
+    ReuseDecision, ReuseDecisionKind, classify_reuse, composition_commands_digest,
+    composition_linux_boot_id, current_composition_process_identity, execution_records_digest,
+    initialize_composition_supervisor_backend, new_composition_run_nonce,
+    new_supervised_composition_attempt_id, observe_composition_process_identity,
+    reap_composition_supervisor_descendants, record_composition_supervisor_failure,
+    run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
 };
 
 use cockpit_core::Digest;

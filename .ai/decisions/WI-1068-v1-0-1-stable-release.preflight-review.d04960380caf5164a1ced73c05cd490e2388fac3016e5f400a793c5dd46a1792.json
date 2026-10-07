@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "reason": "Raydot's exact WI-1068 request for Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e was provided in a user-relayed transcript (request 2026-10-07T03:05:59Z, Sentinel_ef55ee2e8e1881918665c4ca8ea88ef6); Ray replied '1' at 2026-10-07T03:06:47Z (Sentinel_8ee74edf115c81918899851fb8eb2ef4), confirming review. This is recorded as human:Ray from the supplied transcript, not independently host-authenticated. Actual Runtime recording was performed by agent:Codex (/root) at 2026-10-07T03:08:06Z. This confirmation binds Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e, snapshot sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51, and preflight decision sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925.",
+  "recordedAt": "2026-10-07T03:08:06Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}
