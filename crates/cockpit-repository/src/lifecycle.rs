@@ -2356,7 +2356,7 @@ fn finish_work_item_internal_unlocked(
         recovery_condition_override: None,
         historical: false,
         usage_cutoff: Some(&timestamp),
-    });
+    })?;
     let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
         &root,
         work_item_id,

@@ -2930,8 +2930,14 @@ pub fn export_audit_events(
                 continue;
             }
             let name = entry.file_name().to_string_lossy().into_owned();
-            let Some(work_item_id) = name.strip_suffix(".delegated.json") else {
+            let Some(stem) = name.strip_suffix(".delegated.json") else {
                 continue;
+            };
+            let Some((work_item_id, digest_hex)) = stem.rsplit_once('.') else {
+                return Err(ObserverError::State {
+                    path: external_dir.join(&name),
+                    message: "audit export found an invalid delegated receipt filename".into(),
+                });
             };
             let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
                 path: entry.path(),
@@ -2942,10 +2948,15 @@ pub fn export_audit_events(
                     path: external_dir.join(&name),
                     message: error.to_string(),
                 })?;
-            if receipt.repository_id != repository_id || receipt.work_item_id != work_item_id {
+            if validate_work_item_id(work_item_id).is_err()
+                || receipt.repository_id != repository_id
+                || receipt.work_item_id != work_item_id
+                || receipt.evidence.digest.as_str().strip_prefix("sha256:") != Some(digest_hex)
+            {
                 return Err(ObserverError::State {
                     path: external_dir.join(&name),
-                    message: "audit export found a cross-repository delegated receipt".into(),
+                    message: "audit export found a delegated receipt identity or digest mismatch"
+                        .into(),
                 });
             }
             events.push(stable_audit_event(
@@ -9406,7 +9417,7 @@ fn persist_blocked_lifecycle_outcome(
         recovery_condition_override: Some(&recovery_condition),
         historical: false,
         usage_cutoff: Some(&usage_cutoff),
-    });
+    })?;
     append_task_outcome_recovery_event(
         &root,
         &contract,
@@ -9538,7 +9549,9 @@ struct TaskOutcomeReportInput<'a> {
     usage_cutoff: Option<&'a str>,
 }
 
-fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
+fn task_outcome_report(
+    input: TaskOutcomeReportInput<'_>,
+) -> Result<TaskOutcomeReport, ObserverError> {
     let TaskOutcomeReportInput {
         root,
         contract_path,
@@ -9688,15 +9701,21 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         .or_else(|| summary.and_then(|value| value["updatedAt"].as_str()))
         .or(contract.created_at.as_deref())
         .unwrap_or("1970-01-01T00:00:00Z");
-    let usage =
+    let closed_usage = if usage_cutoff.is_none() {
+        usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)?
+    } else {
+        None
+    };
+    let usage = closed_usage.unwrap_or_else(|| {
         read_work_item_usage(root, &contract.work_item_id, Some(cutoff)).unwrap_or_else(|_| {
             cockpit_protocol::UsageSummary::unknown(
                 &contract.work_item_id,
                 cutoff.to_owned(),
                 "usage_receipts_unavailable",
             )
-        });
-    TaskOutcomeReport {
+        })
+    });
+    Ok(TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
         schema_version: 1,
         work_item_id: contract.work_item_id.clone(),
@@ -9713,7 +9732,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         release,
         failed_gate,
         recovery_condition,
-    }
+    })
 }
 
 fn task_outcome_event_path(root: &Path, work_item_id: &str, archived: bool) -> PathBuf {
@@ -10611,7 +10630,7 @@ fn outcome_v2_internal_with_snapshot(
             .map(|(_, recovery)| recovery.as_str()),
         historical,
         usage_cutoff: None,
-    });
+    })?;
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {

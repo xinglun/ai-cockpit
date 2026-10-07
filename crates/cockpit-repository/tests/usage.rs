@@ -4,10 +4,11 @@ use cockpit_protocol::{
     UsageSourceKind, UsageUnit,
 };
 use cockpit_repository::{
-    WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, finish_work_item, preflight_work_item, query_work_item_usage,
-    read_work_item_usage, read_work_item_usage_receipts, record_verification,
-    record_work_item_usage, start_work_item_with_options,
+    OutcomeRenderView, WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_decision, finish_work_item, outcome_render_input, preflight_work_item,
+    query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
+    record_verification, record_work_item_usage, render_human_outcome_with_view,
+    start_work_item_with_options,
 };
 use std::{fs, process::Command, sync::Arc};
 
@@ -222,6 +223,41 @@ fn closed_with_late_usage(root: &std::path::Path, id: &str) -> (String, Vec<u8>)
 }
 
 #[test]
+fn closed_outcome_uses_the_validated_final_usage_snapshot() {
+    let root = repository();
+    let id = "WI-USAGE-CLOSED-OUTCOME";
+    let (_, close_bytes) = closed_with_late_usage(root.path(), id);
+    let close: serde_json::Value = serde_json::from_slice(&close_bytes).expect("close JSON");
+    let input = outcome_render_input(root.path(), id).expect("public Outcome input");
+    let usage = input
+        .outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .expect("public Outcome usage");
+    assert_eq!(usage.receipt_refs.len(), 2);
+    assert_eq!(usage.totals.input_tokens, Some(20));
+    assert_eq!(
+        usage.cutoff,
+        close["finalReport"]["usage"]["cutoff"]
+            .as_str()
+            .expect("close cutoff")
+    );
+    for (language, label, record_label) in [
+        ("en", "Usage", "records: 2"),
+        ("zh", "用量", "记录数: 2"),
+        ("ja", "使用量", "記録数: 2"),
+    ] {
+        for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
+            let handoff = render_human_outcome_with_view(&input, language, view);
+            assert!(handoff.contains(label), "{language} {view:?}: {handoff}");
+            assert!(handoff.contains(record_label), "{handoff}");
+            assert!(handoff.contains("20"), "{handoff}");
+        }
+    }
+}
+
+#[test]
 fn removed_late_receipt_is_invalid_against_frozen_close_report() {
     let root = repository();
     let id = "WI-USAGE-REMOVED-CLOSE";
@@ -296,6 +332,85 @@ fn close_usage_query_rejects_wrong_final_report_digest_and_repository() {
     let error = read_work_item_usage(root.path(), id, None)
         .expect_err("close decision must belong to the queried repository");
     assert!(error.to_string().contains("frozen usage"), "{error}");
+}
+
+#[test]
+fn close_cannot_downgrade_frozen_usage_by_dropping_final_report_fields() {
+    let root = repository();
+    let id = "WI-USAGE-CLOSE-DOWNGRADE";
+    let (late_reference, close_bytes) = closed_with_late_usage(root.path(), id);
+    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
+    let mut close: serde_json::Value = serde_json::from_slice(&close_bytes).expect("close JSON");
+    close
+        .as_object_mut()
+        .expect("close object")
+        .remove("finalReport");
+    close
+        .as_object_mut()
+        .expect("close object")
+        .remove("usageCutoff");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("remove close fields");
+    fs::remove_file(root.path().join(late_reference)).expect("remove late receipt");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("current close cannot become legacy by deleting final usage fields");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+}
+
+#[test]
+fn legacy_closed_report_without_usage_fields_remains_readable() {
+    let root = repository();
+    let id = "WI-USAGE-LEGACY-CLOSE";
+    start(root.path(), id);
+    let contract = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    preflight_work_item(root.path(), &contract).expect("preflight");
+    checkpoint_work_item(root.path(), id).expect("checkpoint");
+    record_verification(
+        root.path(),
+        id,
+        &serde_json::json!({"passed":true,"nodesPlanned":1}),
+        "1.0.1-test",
+        &Digest::sha256_bytes(b"usage test runtime"),
+    )
+    .expect("verification");
+    finish_work_item(root.path(), id).expect("finish");
+    let report_path = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.task-report.json"));
+    let mut report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).expect("report")).expect("report JSON");
+    report
+        .as_object_mut()
+        .expect("report object")
+        .remove("usage");
+    fs::write(
+        &report_path,
+        serde_json::to_vec_pretty(&report).expect("report JSON"),
+    )
+    .expect("make pre-usage report shape");
+    archive_work_item(root.path(), id).expect("archive legacy shape");
+    close_work_item_with_decision(root.path(), id, "approved").expect("close");
+    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
+    let mut close: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("close")).expect("close JSON");
+    for field in ["finalReport", "finalReportDigest", "usageCutoff"] {
+        close.as_object_mut().expect("close object").remove(field);
+    }
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("make pre-usage close shape");
+    let summary = read_work_item_usage(root.path(), id, None)
+        .expect("historical absence is represented as unknown");
+    assert_eq!(summary.coverage, UsageCoverage::Unknown);
+    assert_eq!(summary.unknown_reasons, ["no_usage_receipts"]);
+    assert_eq!(summary.totals.input_tokens, None);
 }
 
 #[cfg(windows)]

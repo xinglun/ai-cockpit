@@ -311,10 +311,11 @@ pub(super) fn validate_frozen_usage_snapshot(
     Ok(())
 }
 
-fn validate_existing_frozen_usage_snapshots(
+pub(super) fn validate_existing_frozen_usage_snapshots(
     root: &Path,
     work_item_id: &str,
-) -> Result<(), ObserverError> {
+) -> Result<Option<UsageSummary>, ObserverError> {
+    let mut prior_usage_claim = false;
     for phase in ["active", "archive"] {
         let relative = format!(".ai/work-items/{phase}/{work_item_id}.task-report.json");
         let path = root.join(&relative);
@@ -344,6 +345,7 @@ fn validate_existing_frozen_usage_snapshots(
             ));
         }
         if let Some(summary) = report.usage.as_ref() {
+            prior_usage_claim = true;
             if summary.work_item_id != work_item_id {
                 return Err(state_error(
                     &path,
@@ -355,6 +357,7 @@ fn validate_existing_frozen_usage_snapshots(
     }
     let relative = format!(".ai/decisions/{work_item_id}.close.json");
     let path = root.join(&relative);
+    let mut close_usage = None;
     match fs::symlink_metadata(&path) {
         Ok(metadata) if !metadata.is_file() => {
             return Err(state_error(
@@ -388,6 +391,17 @@ fn validate_existing_frozen_usage_snapshots(
                     "frozen usage close decision identity or authority is invalid",
                 ));
             }
+            let has_report = close.get("finalReport").is_some();
+            let has_digest = close.get("finalReportDigest").is_some();
+            let has_cutoff = close.get("usageCutoff").is_some();
+            if (has_report || has_digest || has_cutoff || prior_usage_claim)
+                && !(has_report && has_digest && has_cutoff)
+            {
+                return Err(state_error(
+                    &path,
+                    "frozen usage close report, digest, and cutoff must be present together",
+                ));
+            }
             if let Some(final_report_value) = close.get("finalReport") {
                 let report: TaskOutcomeReport = serde_json::from_value(final_report_value.clone())
                     .map_err(|error| {
@@ -415,20 +429,19 @@ fn validate_existing_frozen_usage_snapshots(
                         ));
                     }
                     validate_frozen_usage_snapshot(root, summary)?;
-                } else if close.get("usageCutoff").is_some() {
+                    close_usage = Some(summary.clone());
+                } else {
                     return Err(state_error(
                         &path,
                         "frozen usage close report has no usage summary",
                     ));
                 }
-            } else if close.get("usageCutoff").is_some() {
-                return Err(state_error(&path, "frozen usage close report is missing"));
             }
         }
         Err(error) if error.kind() == ErrorKind::NotFound => {}
         Err(source) => return Err(read_error(&path, source)),
     }
-    Ok(())
+    Ok(close_usage)
 }
 
 fn checked_sum(total: Option<u64>, next: Option<u64>, first: bool) -> Result<Option<u64>, ()> {
@@ -577,7 +590,7 @@ pub fn record_work_item_usage(
     }
     let _lifecycle_lock = acquire_lifecycle_lock(&root, &request.work_item_id)?;
     require_current_action_admission(&root, &request.work_item_id, "record_usage", runtime)?;
-    validate_existing_frozen_usage_snapshots(&root, &request.work_item_id)?;
+    let _ = validate_existing_frozen_usage_snapshots(&root, &request.work_item_id)?;
     let evidence = super::collaboration::read_registered_worktree_file_bounded(
         &root,
         &request.evidence_ref,
@@ -672,7 +685,7 @@ pub fn query_work_item_usage(
         return Err(state_error(root, "reported model filter is empty"));
     }
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
-    validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
+    let _ = validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
     query_work_item_usage_unchecked(&root, work_item_id, cutoff, reported_model)
 }
 
@@ -709,7 +722,7 @@ pub fn read_work_item_usage_receipts(
 ) -> Result<Vec<UsageReceipt>, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
-    validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
+    let _ = validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
     let cutoff = cutoff.map(str::to_owned).unwrap_or_else(now_nanos);
     let cutoff_time = DateTime::parse_from_rfc3339(&cutoff)
         .map_err(|_| state_error(&root, "usage cutoff must be RFC3339 with offset"))?;

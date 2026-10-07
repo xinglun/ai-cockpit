@@ -2387,6 +2387,44 @@ fn audit_export_is_deterministic_and_marks_external_retention_boundary() {
 }
 
 #[test]
+fn audit_export_accepts_the_canonical_delegated_receipt_filename() {
+    let path = repository();
+    let id = "WI-AUDIT-DELEGATED";
+    start_work_item(&path, id, "audit", "delegated evidence", &[".ai/**".into()]).expect("start");
+    let raw = br#"{"provider":"github","run":789}"#;
+    let runtime = RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"audit runtime"),
+    };
+    let receipt = import_delegated_evidence(
+        &path,
+        id,
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:789".into(),
+            origin: "https://github.com/example/repo/actions/runs/789".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-10-07T00:00:00Z".into(),
+            digest: Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-789.json".into(),
+        },
+        raw,
+        &runtime,
+    )
+    .expect("import delegated evidence");
+    let events = export_audit_events(&path, &runtime)
+        .expect("canonical delegated filename must be accepted")
+        .events;
+    assert_eq!(events.len(), 1);
+    assert_eq!(events[0].work_item_id.as_deref(), Some(id));
+    assert_eq!(events[0].event_type, "external_evidence_bound");
+    assert_eq!(receipt.work_item_id, id);
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn delegated_evidence_import_binds_raw_digest_and_work_item() {
     let path = repository();
     start_work_item(

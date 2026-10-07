@@ -189,3 +189,70 @@ fn usage_help_and_canonical_description_are_discoverable() {
     assert_eq!(facts["name"], "work-item-usage-record");
     assert_eq!(facts["surfaces"].as_array().expect("surfaces").len(), 2);
 }
+
+#[test]
+fn closed_outcome_cli_and_mcp_include_usage_recorded_after_archive() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let root = fixture();
+    let id = "WI-CLI-MCP-USAGE";
+    let runtime = runtime(binary);
+    let first = request(root.path());
+    cockpit_repository::record_work_item_usage(root.path(), &first, &runtime)
+        .expect("record before finish");
+    let contract = root
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    cockpit_repository::preflight_work_item(root.path(), &contract).expect("preflight");
+    cockpit_repository::checkpoint_work_item(root.path(), id).expect("checkpoint");
+    cockpit_repository::record_verification(
+        root.path(),
+        id,
+        &serde_json::json!({"passed":true,"nodesPlanned":1}),
+        "1.0.1-test",
+        &Digest::sha256_bytes(b"usage test runtime"),
+    )
+    .expect("verification");
+    cockpit_repository::finish_work_item(root.path(), id).expect("finish");
+    cockpit_repository::archive_work_item(root.path(), id).expect("archive");
+    let mut late = first;
+    late.source_event_id = "turn-after-archive".into();
+    cockpit_repository::record_work_item_usage(root.path(), &late, &runtime)
+        .expect("record after archive");
+    cockpit_repository::close_work_item_with_decision(root.path(), id, "approved").expect("close");
+
+    let cli = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(root.path())
+        .args(["--id", id, "--json"])
+        .output()
+        .expect("CLI Outcome JSON");
+    assert!(
+        cli.status.success(),
+        "{}",
+        String::from_utf8_lossy(&cli.stderr)
+    );
+    let cli: serde_json::Value = serde_json::from_slice(&cli.stdout).expect("CLI Outcome");
+    let cli_usage = &cli["taskOutcomeReport"]["usage"];
+    assert_eq!(
+        cli_usage["receiptRefs"].as_array().expect("CLI refs").len(),
+        2
+    );
+    assert_eq!(cli_usage["totals"]["inputTokens"], 20);
+
+    let mcp = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":9,"method":"tools/call","params":{
+            "name":"work_item_outcome","arguments":{"workItemId":id,"language":"zh-CN"}
+        }}),
+        root.path(),
+        &runtime,
+    );
+    assert_eq!(mcp["result"]["isError"], false, "{mcp}");
+    let mcp_usage = &mcp["result"]["structuredContent"]["outcome"]["taskOutcomeReport"]["usage"];
+    assert_eq!(mcp_usage, cli_usage);
+    assert!(
+        mcp["result"]["structuredContent"]["humanHandoff"]
+            .as_str()
+            .expect("MCP handoff")
+            .contains("记录数: 2")
+    );
+}
