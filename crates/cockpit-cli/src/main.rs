@@ -3034,6 +3034,9 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Outcome { repo, query } => {
                 require_compatible(&repo, &runtime_context)?;
+                if query.delivery && query.display_timezone.is_some() {
+                    anyhow::bail!("displayTimezone is unavailable for immutable archive delivery");
+                }
                 let language = query.language.map(|language| language.as_str().to_owned());
                 if query.delivery {
                     let prepared = prepare_archive_outcome_delivery(
@@ -3088,14 +3091,39 @@ fn run() -> Result<()> {
                     if query.json {
                         let mut output = serde_json::to_value(&input.outcome)?;
                         output["collaboration"] = serde_json::to_value(&collaboration)?;
+                        if let Some(zone) = query.display_timezone.as_deref() {
+                            let language = output_language(language.as_deref());
+                            output["humanHandoff"] =
+                                cockpit_repository::render_human_outcome_with_timezone(
+                                    &repo,
+                                    &input,
+                                    &runtime_context,
+                                    language,
+                                    outcome_repository_view(query.view.as_str()),
+                                    zone,
+                                )?
+                                .into();
+                            output["displayTimezone"] = zone.into();
+                        }
                         println!("{}", serde_json::to_string_pretty(&output)?);
                     } else {
                         let language = output_language(language.as_deref());
-                        let handoff = cockpit_repository::render_human_outcome_with_view(
-                            &input,
-                            language,
-                            outcome_repository_view(query.view.as_str()),
-                        );
+                        let handoff = if let Some(zone) = query.display_timezone.as_deref() {
+                            cockpit_repository::render_human_outcome_with_timezone(
+                                &repo,
+                                &input,
+                                &runtime_context,
+                                language,
+                                outcome_repository_view(query.view.as_str()),
+                                zone,
+                            )?
+                        } else {
+                            cockpit_repository::render_human_outcome_with_view(
+                                &input,
+                                language,
+                                outcome_repository_view(query.view.as_str()),
+                            )
+                        };
                         println!(
                             "{}\n{}",
                             handoff,

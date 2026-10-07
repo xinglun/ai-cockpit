@@ -201,12 +201,14 @@ fn outcome_description_has_stable_shared_facts() {
     assert_eq!(cli_specs[2].name, WORK_ITEM_OUTCOME_CLI_JSON);
     assert_eq!(cli_specs[3].name, WORK_ITEM_OUTCOME_CLI_VIEW);
     assert_eq!(cli_specs[4].name, WORK_ITEM_OUTCOME_CLI_LANGUAGE);
+    assert_eq!(cli_specs[5].canonical_name, "displayTimezone");
     let mcp_specs = work_item_outcome_interface_specs("mcp").expect("MCP specs");
     assert_eq!(mcp_specs[0].name, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID);
     assert_eq!(mcp_specs[1].name, WORK_ITEM_OUTCOME_MCP_LANGUAGE);
     assert_eq!(mcp_specs[2].name, WORK_ITEM_OUTCOME_MCP_VIEW);
-    assert_eq!(mcp_specs[3].name, WORK_ITEM_OUTCOME_MCP_DELIVERY);
-    assert_eq!(mcp_specs[4].name, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS);
+    assert_eq!(mcp_specs[3].name, "displayTimezone");
+    assert_eq!(mcp_specs[4].name, WORK_ITEM_OUTCOME_MCP_DELIVERY);
+    assert_eq!(mcp_specs[5].name, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS);
 
     let cli = surface(&description, "cli");
     let view = parameter(cli, "view");
@@ -316,6 +318,7 @@ fn mcp_request_schema_and_discovery_share_the_same_parameter_projection() {
             "workItemId",
             "language",
             "view",
+            "displayTimezone",
             "delivery",
             "deliveryProgress"
         ]
@@ -417,6 +420,10 @@ fn cli_and_mcp_share_common_outcome_parameter_facts() {
             "{name}"
         );
     }
+    let cli_timezone = parameter(cli, "display_timezone");
+    let mcp_timezone = parameter(mcp, "displayTimezone");
+    assert_eq!(cli_timezone.wire_type, mcp_timezone.wire_type);
+    assert_eq!(cli_timezone.description, mcp_timezone.description);
 }
 
 #[test]

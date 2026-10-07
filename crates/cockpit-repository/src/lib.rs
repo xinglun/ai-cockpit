@@ -133,7 +133,7 @@ pub use outcome_render::{
     OutcomeRenderView, outcome_render_input, outcome_render_input_from_outcome,
     outcome_render_input_with_runtime, prepare_archive_outcome_delivery,
     render_collaboration_outcome, render_full_human_outcome, render_human_outcome,
-    render_human_outcome_with_view,
+    render_human_outcome_with_timezone, render_human_outcome_with_view,
 };
 pub use project_governance::*;
 pub use resource_lifecycle::{
@@ -7972,7 +7972,7 @@ fn archive_work_item_internal(
         }
     }
     let timestamp = now();
-    let lifecycle_time = usage::now_nanos();
+    let lifecycle_time = usage::lifecycle_now();
     let mut manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
@@ -8611,7 +8611,7 @@ fn close_work_item_with_structured_decision_internal(
     }
     let mut decision = receipt_value;
     decision["repositoryId"] = contract.repository_id.clone().into();
-    let lifecycle_time = usage::now_nanos();
+    let lifecycle_time = usage::lifecycle_now();
     decision["occurredAt"] = lifecycle_time.clone().into();
     decision["recordedAt"] = lifecycle_time.into();
     decision["actorProvenance"] = "structuredDecision.actor".into();

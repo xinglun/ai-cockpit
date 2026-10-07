@@ -133,7 +133,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | 工具 | 参数 | 常用调用 |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`；`capability_show` 还可选 `surface`、`format` 和 `language` 获取只读接口描述。 | 读取仓库事实或能力注册表。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选当前对话语言 `language`（`en`、`zh`、`zh-CN`、`ja`）。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选当前对话语言 `language`（`en`、`zh`、`zh-CN`、`ja`）及人类可读生命周期视图的 IANA `displayTimezone`。 | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_status` | `{"all":true}`，或只提供一个 Work Item id。 | `{"all":true}` |
 | `preflight` | 必填、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | 可选、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -192,6 +192,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
   不是额外的 authority，也不能替代 Contract 或 verification receipt。
+- `work-item outcome --display-timezone Asia/Tokyo` 给面向人的结果增加标明 IANA 时区的
+  生命周期时间，显示值取各事件的 recordedAt。开始、完成、归档、关闭的 UTC 证据原件保持独立；
+  缺失的终态和不可靠的墙钟历时保持未知。墙钟历时包含等待，进程 `elapsedMs` 使用单调时钟。
+  默认输出及不可变的 `--delivery` 字节不变。
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` 为不可变的旧
   finalization receipt 记录一条 append-only、绑定当前 Runtime 的历史分类。输入必须绑定准确的
   predecessor digest、repository/Work Item/Contract base、当前 Runtime、actor、authority、reason
@@ -273,6 +277,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display_timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 
@@ -281,6 +286,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 

@@ -2639,6 +2639,14 @@ fn work_item_outcome(
             .as_deref()
             .is_some_and(|default| default == "true")
     });
+    let display_timezone = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE,
+    )
+    .and_then(Value::as_str);
+    if delivery_requested && display_timezone.is_some() {
+        return Err("displayTimezone is unavailable for immutable archive delivery".into());
+    }
     let view = outcome_argument(
         arguments,
         cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_VIEW,
@@ -2709,9 +2717,17 @@ fn work_item_outcome(
     let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
     let collaboration = cockpit_repository::collaboration_outcome_projection(repo, id, runtime);
+    let human = if let Some(zone) = display_timezone {
+        cockpit_repository::render_human_outcome_with_timezone(
+            repo, &input, runtime, language, view, zone,
+        )
+        .map_err(|error| error.to_string())?
+    } else {
+        cockpit_repository::render_human_outcome_with_view(&input, language, view)
+    };
     let handoff = format!(
         "{}\n{}",
-        cockpit_repository::render_human_outcome_with_view(&input, language, view),
+        human,
         cockpit_repository::render_collaboration_outcome(&collaboration, language)
     );
     let mut outcome = serde_json::to_value(&input.outcome).map_err(|error| error.to_string())?;

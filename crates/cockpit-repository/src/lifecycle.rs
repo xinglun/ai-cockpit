@@ -147,7 +147,7 @@ fn start_work_item_with_options_internal(
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
         let timestamp = now();
-        record_start_lifecycle_fact(root, work_item_id, &super::usage::now_nanos(), runtime)?;
+        record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
         receipt.timestamp = timestamp;
         return Ok(LifecycleReceipt {
             start_advisory: Some(start_advisory),
@@ -167,7 +167,7 @@ fn start_work_item_with_options_internal(
         },
     )?;
     let timestamp = now();
-    record_start_lifecycle_fact(root, work_item_id, &super::usage::now_nanos(), runtime)?;
+    record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
@@ -2428,7 +2428,7 @@ fn finish_work_item_internal_unlocked(
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
     }
-    let timestamp = super::usage::now_nanos();
+    let timestamp = super::usage::lifecycle_now();
     // A prior failed `finish` persists a blocked projection so recovery is
     // visible.  Once a fresh verification and governance pass succeeds, that
     // transient failure metadata is no longer current; keeping it would make

@@ -28,7 +28,7 @@ fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
     assert!(output.status.success(), "outcome help failed");
     let help = String::from_utf8_lossy(&output.stdout);
     let specs = work_item_outcome_interface_specs("cli").expect("CLI outcome surface");
-    for name in ["delivery", "json", "view", "language"] {
+    for name in ["delivery", "json", "view", "language", "display_timezone"] {
         let spec = specs
             .iter()
             .find(|spec| spec.name == name)
@@ -39,6 +39,82 @@ fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
             spec.description
         );
     }
+}
+
+#[test]
+fn public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    for args in [
+        vec!["--help"],
+        vec!["work-item", "--help"],
+        vec!["work-item", "outcome", "--help"],
+        vec!["work-item", "usage", "--help"],
+        vec!["work-item", "usage", "record", "--help"],
+        vec!["audit", "--help"],
+        vec!["audit", "query", "--help"],
+        vec!["audit", "export", "--help"],
+    ] {
+        let output = Command::new(binary)
+            .args(&args)
+            .output()
+            .expect("public help");
+        assert!(output.status.success(), "{args:?}");
+        let help = String::from_utf8(output.stdout).expect("help UTF-8");
+        assert!(!help.contains("__composition-supervisor"), "{args:?}");
+        if args == ["work-item", "outcome", "--help"] {
+            assert!(help.contains("--display-timezone"));
+            assert!(help.contains("IANA timezone"));
+        }
+    }
+    for docs in [
+        include_str!("../../../docs/reference/commands.md"),
+        include_str!("../../../docs/reference/commands.zh-CN.md"),
+        include_str!("../../../docs/reference/commands.ja.md"),
+    ] {
+        for name in [
+            "work_item_outcome",
+            "work_item_usage_record",
+            "audit_query",
+            "displayTimezone",
+            "--display-timezone",
+        ] {
+            assert!(docs.contains(name), "missing {name}");
+        }
+        assert!(!docs.contains("__composition-supervisor"));
+    }
+    let repo = repository();
+    cockpit_repository::attach(repo.path()).expect("attach");
+    let runtime = current_runtime_context(binary);
+    let initialize = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"initialize","params":{
+            "protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"surface-test","version":"1"}
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(initialize["result"]["serverInfo"]["name"], "ai-cockpit");
+    let list = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":2,"method":"tools/list"}),
+        repo.path(),
+        &runtime,
+    );
+    let tools = list["result"]["tools"].as_array().expect("tools");
+    assert!(
+        !tools
+            .iter()
+            .any(|tool| tool["name"] == "__composition-supervisor")
+    );
+    for name in ["work_item_outcome", "work_item_usage_record", "audit_query"] {
+        assert!(
+            tools.iter().any(|tool| tool["name"] == name),
+            "missing {name}"
+        );
+    }
+    let outcome = tools
+        .iter()
+        .find(|tool| tool["name"] == "work_item_outcome")
+        .expect("outcome tool");
+    assert!(outcome["inputSchema"]["properties"]["displayTimezone"].is_object());
 }
 
 fn run_json(binary: &str, repo: &Path, args: &[&str]) -> serde_json::Value {
@@ -85,6 +161,93 @@ fn cli_outcome_view_uses_protocol_values_for_parsing() {
             && rejected_stderr.contains("summary")
             && rejected_stderr.contains("full"),
         "unknown view must fail with protocol-owned values: {rejected_stderr}"
+    );
+}
+
+#[test]
+fn outcome_timezone_view_is_shared_by_cli_and_mcp_without_changing_facts() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    cockpit_repository::attach(repo.path()).expect("attach");
+    let runtime = current_runtime_context(binary);
+    cockpit_repository::start_work_item_with_options_and_runtime(
+        repo.path(),
+        "WI-OUTCOME-ZONE",
+        "show lifecycle time",
+        "show a requested IANA view",
+        &[".ai/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+        &runtime,
+    )
+    .expect("start");
+    let summary_path = repo
+        .path()
+        .join(".ai/work-items/active/WI-OUTCOME-ZONE.summary.json");
+    let original_summary = fs::read(&summary_path).expect("UTC lifecycle source");
+    let default = human_cli_output(binary, repo.path(), "WI-OUTCOME-ZONE", "en");
+    let cli = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(repo.path())
+        .args([
+            "--id",
+            "WI-OUTCOME-ZONE",
+            "--language",
+            "en",
+            "--display-timezone",
+            "Asia/Tokyo",
+        ])
+        .output()
+        .expect("CLI Tokyo view");
+    assert!(
+        cli.status.success(),
+        "{}",
+        String::from_utf8_lossy(&cli.stderr)
+    );
+    let cli = String::from_utf8(cli.stdout).expect("CLI UTF-8");
+    assert!(!default.contains("Time zone: Asia/Tokyo"));
+    assert!(cli.contains("Time zone: Asia/Tokyo"));
+    assert!(cli.contains("+09:00"));
+    assert!(cli.contains("finish: unknown"));
+    assert!(cli.contains("wall elapsed (includes waiting): unknown"));
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({"jsonrpc":"2.0","id":1,"method":"tools/call","params":{
+            "name":"work_item_outcome","arguments":{
+                "workItemId":"WI-OUTCOME-ZONE", "language":"en",
+                "displayTimezone":"Asia/Tokyo"
+            }
+        }}),
+        repo.path(),
+        &runtime,
+    );
+    assert_eq!(response["result"]["isError"], false, "{response}");
+    let mcp_handoff = response["result"]["structuredContent"]["humanHandoff"]
+        .as_str()
+        .expect("MCP handoff");
+    assert_eq!(
+        mcp_handoff
+            .lines()
+            .find(|line| line.starts_with("Time zone:")),
+        cli.lines().find(|line| line.starts_with("Time zone:")),
+        "the timezone projection must agree across transports"
+    );
+    let invalid = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(repo.path())
+        .args([
+            "--id",
+            "WI-OUTCOME-ZONE",
+            "--display-timezone",
+            "Invalid/Zone",
+        ])
+        .output()
+        .expect("invalid zone");
+    assert!(!invalid.status.success());
+    assert_eq!(
+        fs::read(summary_path).expect("unchanged UTC facts"),
+        original_summary
     );
 }
 

@@ -1219,6 +1219,82 @@ pub fn render_human_outcome_with_view(
     }
 }
 
+/// Add a requested IANA lifecycle view to the human handoff. Audit query owns
+/// the timestamp source and timezone conversion; this function never changes
+/// the persisted UTC facts or the ordinary Outcome representation.
+pub fn render_human_outcome_with_timezone(
+    root: &Path,
+    input: &OutcomeRenderInput,
+    runtime: &RuntimeContext,
+    language: &str,
+    view: OutcomeRenderView,
+    display_timezone: &str,
+) -> Result<String, ObserverError> {
+    let mut filters = cockpit_protocol::AuditQueryFilters {
+        work_item_id: Some(input.outcome.work_item_id.clone()),
+        limit: Some(100),
+        display_timezone: Some(display_timezone.into()),
+        ..Default::default()
+    };
+    let event_types = [
+        "work_item_started",
+        "work_item_finished",
+        "work_item_archived",
+        "work_item_closed",
+    ];
+    let mut display_times: [Option<String>; 4] = std::array::from_fn(|_| None);
+    let mut wall_elapsed_ms = None;
+    loop {
+        let page = crate::query_audit_events(root, runtime, &filters)?;
+        for item in page.items {
+            if let Some(index) = event_types.iter().position(|kind| *kind == item.event_type) {
+                display_times[index] = item.display_time;
+                if index == 3 {
+                    wall_elapsed_ms = item.wall_elapsed_ms;
+                }
+            }
+        }
+        let Some(cursor) = page.next_cursor else {
+            break;
+        };
+        filters.cursor = Some(cursor);
+    }
+    let language = normalized_language(language);
+    let (zone_label, labels, unknown, elapsed_label) = match language {
+        "zh" => (
+            "时区",
+            ["开始", "完成", "归档", "关闭"],
+            "未知",
+            "墙钟历时（含等待）",
+        ),
+        "ja" => (
+            "タイムゾーン",
+            ["開始", "完了", "アーカイブ", "終了"],
+            "不明",
+            "壁時計の経過時間（待機を含む）",
+        ),
+        _ => (
+            "Time zone",
+            ["start", "finish", "archive", "close"],
+            "unknown",
+            "wall elapsed (includes waiting)",
+        ),
+    };
+    let parts = labels
+        .iter()
+        .zip(display_times.iter())
+        .map(|(label, time)| format!("{label}: {}", time.as_deref().unwrap_or(unknown)))
+        .collect::<Vec<_>>();
+    let elapsed = wall_elapsed_ms
+        .map(|ms| format!("{ms} ms"))
+        .unwrap_or_else(|| unknown.into());
+    Ok(format!(
+        "{}\n{zone_label}: {display_timezone}; {}; {elapsed_label}: {elapsed}",
+        render_human_outcome_with_view(input, language, view),
+        parts.join("; "),
+    ))
+}
+
 /// Render the complete evidence-oriented handoff explicitly.
 pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
     render_human_outcome_with_view(input, language, OutcomeRenderView::Full)

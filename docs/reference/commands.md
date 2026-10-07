@@ -188,6 +188,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display_timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 
@@ -196,6 +197,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
@@ -229,7 +231,7 @@ before any repository operation runs.
 | Tool | Arguments | Typical call |
 | --- | --- | --- |
 | `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}`; `capability_show` also accepts optional `surface`, `format`, and `language` for a read-only interface description. | Read repository facts or the capability registry. |
-| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts the active conversation `language` (`en`, `zh`, `zh-CN`, `ja`). | `{"workItemId":"WI-123"}` |
+| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts the active conversation `language` (`en`, `zh`, `zh-CN`, `ja`) and IANA `displayTimezone` for a human lifecycle view. | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_start` | Required `workItemId`, human-supplied `intent` and `goal`, and non-empty `scope`; optional `outOfScope`, `risk`, `authority`, `acceptanceCriteria`, `requiredEvidenceClasses`, and `sources`. It persists preflight and creates exactly one before-edit checkpoint only when no blocker or human-confirmation boundary is present. | `{"workItemId":"WI-123","intent":"reduce repeated setup","goal":"prepare before implementation","scope":["src/**"],"authority":"authorized","sources":["issue:123"]}` |
 | `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |
 | `preflight` | Required repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -376,6 +378,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   `*.task-report.md`, and an append-only `*.events.jsonl` stream; these are
   evidence-bound projections, not extra authority or a replacement for the
   Contract and verification receipt.
+- `work-item outcome --display-timezone Asia/Tokyo` adds a labeled IANA
+  lifecycle view to the human handoff. Start, finish, archive, and close remain
+  separate UTC evidence facts. The display uses the recorded time for each
+  transition. Missing transitions and unreliable wall elapsed remain unknown.
+  Wall elapsed includes waiting; process `elapsedMs` uses a monotonic clock.
+  Default output and immutable `--delivery` bytes are unchanged.
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>`
   records one append-only, Runtime-bound classification for an immutable
   legacy finalization receipt. The input must bind the exact predecessor

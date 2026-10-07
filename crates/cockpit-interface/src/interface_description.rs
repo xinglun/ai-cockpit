@@ -29,11 +29,14 @@ pub const WORK_ITEM_OUTCOME_JSON_DESCRIPTION: &str =
 pub const WORK_ITEM_OUTCOME_VIEW_DESCRIPTION: &str =
     "Select the reader-first summary or complete human view.";
 pub const WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION: &str = "Active conversation language for the human Outcome; adapters should pass it explicitly, with locale fallback only when omitted.";
+pub const WORK_ITEM_OUTCOME_DISPLAY_TIMEZONE_DESCRIPTION: &str =
+    "Optional IANA timezone for the human lifecycle display; persisted UTC facts remain unchanged.";
 pub const WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID: &str = "workItemId";
 pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY: &str = "delivery";
 pub const WORK_ITEM_OUTCOME_CANONICAL_JSON: &str = "json";
 pub const WORK_ITEM_OUTCOME_CANONICAL_VIEW: &str = "view";
 pub const WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE: &str = "language";
+pub const WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE: &str = "displayTimezone";
 pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS: &str = "deliveryProgress";
 // Transport bindings are protocol-owned facts too.  Keeping the CLI spelling
 // here prevents the derive parser from becoming a second interface registry.
@@ -42,10 +45,13 @@ pub const WORK_ITEM_OUTCOME_CLI_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DEL
 pub const WORK_ITEM_OUTCOME_CLI_JSON: &str = WORK_ITEM_OUTCOME_CANONICAL_JSON;
 pub const WORK_ITEM_OUTCOME_CLI_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_CLI_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE: &str = "display_timezone";
 pub const WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID: &str = WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DELIVERY;
 pub const WORK_ITEM_OUTCOME_MCP_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_MCP_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE: &str =
+    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS: &str =
     WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS;
 /// Define one Outcome enum and its public value list from the same declaration.
@@ -126,6 +132,8 @@ pub struct WorkItemOutcomeQueryArgs {
     pub view: WorkItemOutcomeView,
     #[arg(long, value_enum, help = WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION)]
     pub language: Option<WorkItemOutcomeLanguage>,
+    #[arg(long, help = WORK_ITEM_OUTCOME_DISPLAY_TIMEZONE_DESCRIPTION)]
+    pub display_timezone: Option<String>,
 }
 
 /// Return the actual Clap command fragment shared by query parsing and
@@ -575,10 +583,14 @@ fn cli_outcome_parameter_specs() -> Vec<OutcomeInterfaceParameterSpec> {
     cli_outcome_parameters_from_query_parser()
         .into_iter()
         .map(|parameter| OutcomeInterfaceParameterSpec {
-            canonical_name: if parameter.name == WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID {
-                WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID.into()
-            } else {
-                parameter.name.clone()
+            canonical_name: match parameter.name.as_str() {
+                WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID => {
+                    WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID.into()
+                }
+                WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE => {
+                    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE.into()
+                }
+                _ => parameter.name.clone(),
             },
             name: parameter.name,
             wire_type: parameter.wire_type,
@@ -602,6 +614,8 @@ fn mcp_outcome_parameter_from_cli(
         canonical_name: parameter.canonical_name.clone(),
         name: if identity {
             WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID.into()
+        } else if parameter.canonical_name == WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE {
+            WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE.into()
         } else {
             parameter.name.clone()
         },
@@ -645,6 +659,7 @@ pub fn work_item_outcome_mcp_request_parameter_specs() -> Vec<OutcomeInterfacePa
         WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
         WORK_ITEM_OUTCOME_MCP_LANGUAGE,
         WORK_ITEM_OUTCOME_MCP_VIEW,
+        WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE,
         WORK_ITEM_OUTCOME_MCP_DELIVERY,
     ];
     specs.sort_by_key(|spec| {

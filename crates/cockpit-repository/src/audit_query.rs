@@ -676,7 +676,7 @@ pub fn query_audit_events(
         ) else {
             continue;
         };
-        item.wall_elapsed_ms = (end - start).num_milliseconds().try_into().ok();
+        item.wall_elapsed_ms = wall_elapsed_ms_between(start, end);
     }
     items.sort_by(|left, right| {
         (&left.recorded_at, &left.event_id).cmp(&(&right.recorded_at, &right.event_id))
@@ -821,6 +821,13 @@ pub fn query_audit_events(
     })
 }
 
+fn wall_elapsed_ms_between(
+    start: DateTime<chrono::FixedOffset>,
+    end: DateTime<chrono::FixedOffset>,
+) -> Option<u64> {
+    (end - start).num_milliseconds().try_into().ok()
+}
+
 /// Filtered export deliberately returns the same typed page as audit query.
 /// The existing no-filter `export_audit_events` retains its schema-v1 wire
 /// contract and explicit local output behavior in the transport adapter.
@@ -830,4 +837,22 @@ pub fn export_audit_events_filtered(
     filters: &AuditQueryFilters,
 ) -> Result<AuditQueryPage, ObserverError> {
     query_audit_events(root, runtime, filters)
+}
+
+#[cfg(test)]
+mod lifecycle_elapsed_tests {
+    use super::*;
+
+    #[test]
+    fn wall_elapsed_includes_wait_and_rejects_clock_rollback() {
+        let start = DateTime::parse_from_rfc3339("2026-10-07T08:00:00Z").expect("start");
+        let same_second =
+            DateTime::parse_from_rfc3339("2026-10-07T08:00:00.000000001Z").expect("same second");
+        let after_wait = DateTime::parse_from_rfc3339("2026-10-07T08:00:05Z").expect("after wait");
+        let before_start =
+            DateTime::parse_from_rfc3339("2026-10-07T07:59:59Z").expect("clock rollback");
+        assert_eq!(wall_elapsed_ms_between(start, same_second), Some(0));
+        assert_eq!(wall_elapsed_ms_between(start, after_wait), Some(5_000));
+        assert_eq!(wall_elapsed_ms_between(start, before_start), None);
+    }
 }

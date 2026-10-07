@@ -150,7 +150,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | Tool | 引数 | 典型的な call |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`。`capability_show` は read-only interface description 用に `surface`、`format`、`language` も任意で受け付けます。 | repository の事実または capability registry を読む。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は現在の会話言語 `language`（`en`、`zh`、`zh-CN`、`ja`）を任意で受け付ける。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は現在の会話言語 `language`（`en`、`zh`、`zh-CN`、`ja`）と、人向け lifecycle 表示用の IANA `displayTimezone` を任意で受け付ける。 | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_status` | `{"all":true}`、または Work Item id をちょうど 1 つ。 | `{"all":true}` |
 | `preflight` | repository 相対の `contract` が必須。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | repository 相対の `contract` は任意。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -214,6 +214,11 @@ Agent は次の順序で capability を発見します。repository-bound の st
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
+- `work-item outcome --display-timezone Asia/Tokyo` は人向けの結果に IANA タイムゾーンを
+  明示した lifecycle 時刻を追加します。表示値には各イベントの recordedAt を使います。
+  開始、完了、アーカイブ、終了の UTC evidence は別々に保持し、未到達の終端と信頼できない壁時計の
+  経過時間は不明のままです。壁時計の経過時間には待機が含まれ、プロセスの `elapsedMs` は単調時計を使います。
+  既定の出力と immutable な `--delivery` bytes は変えません。
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` は immutable な旧
   finalization receipt に対する append-only の Runtime-bound 歴史分類を記録します。入力には正確な
   predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、
@@ -308,6 +313,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display_timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 
@@ -316,6 +322,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 

@@ -159,6 +159,37 @@ pub(super) fn now_nanos() -> String {
     Utc::now().to_rfc3339_opts(SecondsFormat::Nanos, true)
 }
 
+pub(super) fn lifecycle_time_with(clock: impl FnOnce() -> DateTime<Utc>) -> String {
+    clock().to_rfc3339_opts(SecondsFormat::Nanos, true)
+}
+
+pub(super) fn lifecycle_now() -> String {
+    lifecycle_time_with(Utc::now)
+}
+
+#[cfg(test)]
+mod lifecycle_clock_tests {
+    use super::*;
+
+    #[test]
+    fn injectable_lifecycle_clock_keeps_same_second_order_and_utc() {
+        let first = "2026-10-07T08:00:00.000000001Z"
+            .parse::<DateTime<Utc>>()
+            .expect("first");
+        let second = "2026-10-07T08:00:00.000000002Z"
+            .parse::<DateTime<Utc>>()
+            .expect("second");
+        assert_eq!(
+            lifecycle_time_with(|| first),
+            "2026-10-07T08:00:00.000000001Z"
+        );
+        assert_eq!(
+            lifecycle_time_with(|| second),
+            "2026-10-07T08:00:00.000000002Z"
+        );
+    }
+}
+
 fn request_identity(request: &UsageRecordRequest) -> Digest {
     Digest::sha256_bytes(
         &serde_json::to_vec(&(
