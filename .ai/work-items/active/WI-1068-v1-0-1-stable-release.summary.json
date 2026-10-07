@@ -611,10 +611,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T08:26:10Z",
+  "preflightAt": "2026-10-07T08:54:32Z",
   "preflightContractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:a58e27e3d58d708f3a097ad8aa7fb1e5d1414ace2fe9fee109d1bb2061a604a2",
+  "preflightRepositorySnapshotDigest": "sha256:0fd96014bab31fbc39b29f0068079084a7754ae94a9f00178028c4146430c751",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
