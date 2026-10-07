@@ -20,6 +20,7 @@ use cockpit_verification::{
     VerificationCommand, VerificationReusePolicy, composition_commands_digest, execute_bounded,
 };
 use std::fs;
+use std::io::Write as _;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -176,6 +177,71 @@ fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> 
 }
 
 #[cfg(target_os = "linux")]
+fn fail_first_proc_cwd_observation_environment(root: &Path) -> Vec<(String, String)> {
+    let source = root.join("observer-fault.c");
+    let library = root.join("observer-fault.so");
+    let counter = root.join("observer-fault-count");
+    fs::write(
+        &source,
+        r#"#define _GNU_SOURCE
+#include <errno.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/file.h>
+#include <sys/syscall.h>
+#include <unistd.h>
+
+ssize_t readlink(const char *path, char *buffer, size_t size) {
+    const char *marker = getenv("AI_COCKPIT_OBSERVER_FAULT_COUNTER");
+    if (marker && strncmp(path, "/proc/", 6) == 0 &&
+        strlen(path) >= 4 && strcmp(path + strlen(path) - 4, "/cwd") == 0) {
+        int fd = open(marker, O_RDWR | O_CREAT, 0600);
+        if (fd >= 0) {
+            if (flock(fd, LOCK_EX) == 0) {
+                char current = '0';
+                (void)read(fd, &current, 1);
+                if (current < '0' || current > '9') current = '0';
+                int count = current - '0';
+                (void)lseek(fd, 0, SEEK_SET);
+                char next = (char)('0' + count + 1);
+                (void)write(fd, &next, 1);
+                (void)flock(fd, LOCK_UN);
+                (void)close(fd);
+                if (count < 1) { errno = EIO; return -1; }
+            } else (void)close(fd);
+        }
+    }
+    return syscall(SYS_readlink, path, buffer, size);
+}
+"#,
+    )
+    .expect("write controlled procfs fault shim");
+    let compile = Command::new("cc")
+        .args(["-shared", "-fPIC", "-o"])
+        .arg(&library)
+        .arg(&source)
+        .output()
+        .expect("compile controlled procfs fault shim");
+    assert!(
+        compile.status.success(),
+        "C shim: {}",
+        String::from_utf8_lossy(&compile.stderr)
+    );
+    vec![
+        (
+            "AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER".into(),
+            "run".into(),
+        ),
+        ("LD_PRELOAD".into(), library.to_string_lossy().into_owned()),
+        (
+            "AI_COCKPIT_OBSERVER_FAULT_COUNTER".into(),
+            counter.to_string_lossy().into_owned(),
+        ),
+    ]
+}
+
+#[cfg(target_os = "linux")]
 fn defer_successful_composition_cleanup(
     store: &CoordinationStore,
     input: CompositionInput,
@@ -265,6 +331,15 @@ fn composition_supervisor_test_helper_entry() {
             .register(registration)
             .expect("advance Work Item generation before Ready");
     }
+    // libtest's serial PrettyFormatter leaves this test's `... ` prefix open
+    // on stdout. The parent protocol reader is line framed, so terminate that
+    // prefix before the Ready JSON is written to the same stdout stream.
+    let mut stdout = std::io::stdout().lock();
+    stdout
+        .write_all(b"\n")
+        .expect("terminate supervisor helper test prefix");
+    stdout.flush().expect("flush supervisor helper test prefix");
+    drop(stdout);
     cockpit_repository::run_composition_supervisor_stdio()
         .expect("controlled composition supervisor protocol");
 }
@@ -968,6 +1043,154 @@ fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
             .lines()
             .any(|line| line == format!("worktree {}", old_worktree.display())),
         "old deferred worktree registration must remain"
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
+    let root = repository();
+    let store = store(root.path());
+    let marker = root.path().join("observer-error-marker");
+    declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
+    store
+        .register(registration(
+            root.path(),
+            "WI-CONSUMER",
+            1,
+            declaration(root.path(), &[], &[]),
+        ))
+        .expect("register consumer");
+    let mut input = composition_input(root.path(), &marker);
+    input.commands[0].program = "true".into();
+    input.commands[0].args.clear();
+    input.commands[0].input_paths.clear();
+    input.identity.command_digest = composition_commands_digest(&input.commands);
+    let environment = fail_first_proc_cwd_observation_environment(root.path());
+    let executable = std::env::current_exe().expect("controlled test helper path");
+    let first = run_admitted_composition_with_supervisor_environment(
+        &store,
+        "WI-CONSUMER",
+        1,
+        input.clone(),
+        &executable,
+        &environment,
+    )
+    .expect("first formal result remains representable");
+    assert!(!first.passed);
+    assert_eq!(first.processes_spawned, 1);
+    assert_eq!(first.execution_records[0].exit_code, Some(0));
+    assert_eq!(
+        first.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed
+    );
+    assert!(first.execution_evidence_complete);
+    assert_eq!(
+        first.cleanup_disposition,
+        cockpit_verification::CompositionCleanupDisposition::Deferred
+    );
+    let cleanup = first.cleanup.as_ref().expect("deferred cleanup evidence");
+    assert!(
+        !cleanup.attempted,
+        "no deletion was attempted after observer error"
+    );
+    assert!(!cleanup.removed);
+    assert!(
+        cleanup
+            .error
+            .as_deref()
+            .is_some_and(|error| error.starts_with("verifier_process_state_unknown:"))
+    );
+    assert!(
+        first
+            .supervisor_receipt
+            .as_ref()
+            .is_some_and(|receipt| receipt.descendants_reaped_to_echild)
+    );
+    let old_worktree = PathBuf::from(&first.isolated_worktree);
+    assert!(old_worktree.is_dir());
+    let old_marker = old_worktree.join(".observer-error-preserve");
+    fs::write(&old_marker, "old deferred tree\n").expect("mark old worktree");
+    let projection =
+        collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+    assert_eq!(projection.composition_state, "unknown");
+    assert_eq!(projection.cleanup_state, "deferred");
+    assert_eq!(
+        projection.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed
+    );
+    assert!(projection.reusable_checks.is_empty());
+    assert_eq!(
+        fs::read_to_string(root.path().join("observer-fault-count"))
+            .expect("first observer fault count"),
+        "1"
+    );
+
+    let second = run_admitted_composition_with_supervisor_environment(
+        &store,
+        "WI-CONSUMER",
+        1,
+        input,
+        &executable,
+        &environment,
+    )
+    .expect("second formal result remains representable");
+    assert_eq!(
+        second.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed,
+        "fresh execution result: {second:?}"
+    );
+    assert!(second.execution_evidence_complete);
+    assert!(matches!(
+        second.cleanup_disposition,
+        cockpit_verification::CompositionCleanupDisposition::Cleaned
+            | cockpit_verification::CompositionCleanupDisposition::Deferred
+    ));
+    assert_eq!(
+        second.passed,
+        second.cleanup_disposition == cockpit_verification::CompositionCleanupDisposition::Cleaned
+    );
+    assert_eq!(second.processes_spawned, 1);
+    assert_eq!(second.execution_records.len(), 1);
+    assert!(!second.execution_records[0].reused);
+    assert_ne!(second.attempt_id, first.attempt_id);
+    assert_ne!(
+        second
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| &receipt.run_nonce),
+        first
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| &receipt.run_nonce)
+    );
+    assert!(old_marker.is_file());
+    let worktrees = Command::new("git")
+        .args(["worktree", "list", "--porcelain"])
+        .current_dir(root.path())
+        .output()
+        .expect("inspect retained worktree registration");
+    assert!(worktrees.status.success());
+    assert!(
+        String::from_utf8_lossy(&worktrees.stdout)
+            .lines()
+            .any(|line| line == format!("worktree {}", old_worktree.display()))
+    );
+    assert!(
+        fs::read_to_string(root.path().join("observer-fault-count"))
+            .expect("observer counter")
+            .parse::<u32>()
+            .expect("numeric counter")
+            >= 1
+    );
+    run(
+        root.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            old_worktree.to_str().expect("UTF-8 worktree path"),
+        ],
     );
 }
 

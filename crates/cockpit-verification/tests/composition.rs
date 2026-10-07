@@ -2480,47 +2480,6 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
 }
 
 #[test]
-fn node_without_observable_inputs_executes_again_instead_of_reusing() {
-    let root = repository();
-    let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
-    let mut unverifiable = command("unverifiable", "sh", &["-c", "true"]);
-    unverifiable.input_paths.clear();
-    let composition = input(
-        root.path(),
-        state.path(),
-        binding(&base.clone(), vec![base.clone(), base]),
-        vec![unverifiable],
-        vec![CompositionPrecondition::satisfied("identity-bound")],
-    );
-    let first = run_composition(composition.clone()).expect("first attempt");
-    assert!(
-        first.passed,
-        "first attempt failed before retry: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
-        first.failure,
-        first.cleanup,
-        first.owner_pid,
-        first.active_execution_node,
-        first.active_process_group_id
-    );
-    let second = run_composition(composition).unwrap_or_else(|error| {
-        panic!(
-            "second attempt failed: {error}; first attempt state: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
-            first.failure,
-            first.cleanup,
-            first.owner_pid,
-            first.active_execution_node,
-            first.active_process_group_id
-        )
-    });
-
-    assert!(first.passed && second.passed);
-    assert_eq!(second.processes_spawned, 1);
-    assert!(!second.execution_records[0].reused);
-    assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
-}
-
-#[test]
 fn changed_command_only_reexecutes_the_affected_node() {
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);

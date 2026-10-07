@@ -760,6 +760,26 @@ fn run_composition_inner(
     supervisor_receipt: Option<CompositionSupervisorReceipt>,
     supervised_attempt_id: Option<String>,
 ) -> Result<CompositionAttempt, CompositionError> {
+    run_composition_inner_with_observer(
+        input,
+        process_admission_check,
+        process_start_gate,
+        supervisor_receipt,
+        supervised_attempt_id,
+        &verifier_process_using_worktree,
+        &reap_composition_supervisor_descendants,
+    )
+}
+
+fn run_composition_inner_with_observer(
+    input: CompositionInput,
+    process_admission_check: Option<ProcessAdmissionCheck>,
+    process_start_gate: Option<ProcessStartGate>,
+    supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    supervised_attempt_id: Option<String>,
+    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
+    reap_owned_descendants: &dyn Fn() -> Result<(), String>,
+) -> Result<CompositionAttempt, CompositionError> {
     let mut input = input;
     input.binding.verifier.validate_candidate()?;
     validate_binding(&input.binding)?;
@@ -775,7 +795,13 @@ fn run_composition_inner(
         .is_some_and(is_deferred_cleanup_attempt);
     let deferred_retry_blocked_reason = if deferred_predecessor {
         loaded_predecessor.as_ref().and_then(|previous| {
-            validate_deferred_cleanup_retry(previous, &input, supervisor_receipt.as_ref()).err()
+            validate_deferred_cleanup_retry(
+                previous,
+                &input,
+                supervisor_receipt.as_ref(),
+                observe_worktree_process,
+            )
+            .err()
         })
     } else {
         None
@@ -1191,7 +1217,7 @@ fn run_composition_inner(
         predecessor_attempt_id: predecessor_id.map(str::to_owned),
     };
     if attempt.supervisor_receipt.is_some() {
-        if let Err(error) = reap_composition_supervisor_descendants() {
+        if let Err(error) = reap_owned_descendants() {
             attempt.passed = false;
             attempt.failure = Some(format!("composition_supervisor_reap_unknown:{error}"));
             attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
@@ -1207,7 +1233,7 @@ fn run_composition_inner(
         }
         persist_attempt(&input.state_dir, &attempt)?;
     }
-    match verifier_process_using_worktree(&worktree) {
+    match observe_worktree_process(&worktree) {
         Ok(Some(process_id)) => {
             attempt.passed = false;
             attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
@@ -1217,12 +1243,25 @@ fn run_composition_inner(
             return Ok(attempt);
         }
         Err(error) => {
+            let owned_execution_complete = completed_owned_execution_is_coherent(&attempt, &input);
             attempt.passed = false;
-            attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
             worktree_guard.preserve();
-            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
-            attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
-            attempt.execution_evidence_complete = false;
+            if owned_execution_complete {
+                attempt.cleanup = Some(CompositionCleanup {
+                    attempted: false,
+                    removed: false,
+                    error: Some(format!("verifier_process_state_unknown:{error}")),
+                });
+                attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+                if attempt.execution_outcome == CompositionExecutionOutcome::Passed {
+                    attempt.failure = Some("composition_cleanup_deferred".into());
+                }
+            } else {
+                attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
+                attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+                attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+                attempt.execution_evidence_complete = false;
+            }
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
@@ -1536,10 +1575,90 @@ fn is_deferred_cleanup_attempt(attempt: &CompositionAttempt) -> bool {
         || attempt.failure.as_deref() == Some("composition_cleanup_deferred")
 }
 
+fn completed_owned_execution_is_coherent(
+    attempt: &CompositionAttempt,
+    input: &CompositionInput,
+) -> bool {
+    let Some(receipt) = attempt.supervisor_receipt.as_ref() else {
+        return false;
+    };
+    attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.process_observation_schema_version >= PROCESS_OBSERVATION_SCHEMA_VERSION
+        && attempt.cleanup.is_none()
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Unknown
+        && attempt.text_conflicts.is_empty()
+        && attempt.preconditions == input.preconditions
+        && attempt.preconditions.iter().all(|item| item.satisfied)
+        && receipt.schema_version == 1
+        && receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+        && receipt.attempt_id == attempt.attempt_id
+        && !receipt.run_nonce.is_empty()
+        && receipt.generation > 0
+        && receipt.owner.process_id > 0
+        && receipt.owner.start_time_ticks.is_some()
+        && receipt.supervisor.process_id > 0
+        && receipt.supervisor.start_time_ticks.is_some()
+        && receipt.supervisor.process_group_id.is_some()
+        && receipt.supervisor.session_id.is_some()
+        && current_composition_process_identity().ok().as_ref() == Some(&receipt.supervisor)
+        && composition_linux_boot_id().ok().as_ref() == Some(&receipt.linux_boot_id)
+        && receipt
+            .linux_boot_id
+            .as_ref()
+            .is_some_and(|id| !id.is_empty())
+        && attempt.owner_pid == Some(receipt.supervisor.process_id)
+        && receipt.runtime_version == input.binding.verifier.runtime_version
+        && receipt.runtime_digest == input.binding.verifier.runtime_digest
+        && receipt.repository_id == input.binding.repository_id
+        && receipt.target_sha == input.binding.target_sha
+        && composition_target_snapshot_digest(input).as_ref() == Some(&receipt.snapshot_digest)
+        && receipt.command_plan_digest == composition_commands_digest(&input.commands)
+        && receipt.command_plan_digest == attempt.identity.command_digest
+        && receipt.input_environment_digest == composition_input_environment_digest(input)
+        && receipt.execution_records_digest == execution_records_digest(&attempt.execution_records)
+        && receipt.descendants_reaped_to_echild
+        && attempt.binding == input.binding
+        && attempt.execution_outcome != CompositionExecutionOutcome::Unknown
+        && attempt.execution_evidence_complete
+        && match attempt.execution_outcome {
+            CompositionExecutionOutcome::Passed => {
+                attempt.passed
+                    && attempt.failure.is_none()
+                    && attempt.execution_records.len() == input.commands.len()
+                    && attempt.execution_records.iter().all(|record| record.passed)
+            }
+            CompositionExecutionOutcome::Failed => !attempt.passed && attempt.failure.is_some(),
+            CompositionExecutionOutcome::Unknown => false,
+        }
+        && attempt.owner_termination_signal.is_none()
+        && attempt.active_execution_node.is_none()
+        && attempt.active_process_group_id.is_none()
+        && attempt.active_process_group_identity.is_none()
+        && !attempt.execution_records.is_empty()
+        && attempt.execution_records.len() <= input.commands.len()
+        && attempt.processes_spawned
+            == attempt
+                .execution_records
+                .iter()
+                .filter(|record| record.spawned)
+                .count()
+        && attempt
+            .execution_records
+            .iter()
+            .zip(&input.commands)
+            .all(|(record, command)| {
+                record.node_id == command.node_id
+                    && record.program == command.program
+                    && record.args == command.args
+                    && (record.spawned ^ record.reused)
+            })
+}
+
 fn validate_deferred_cleanup_retry(
     previous: &CompositionAttempt,
     input: &CompositionInput,
     current_receipt: Option<&CompositionSupervisorReceipt>,
+    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
 ) -> Result<(), String> {
     if !cfg!(target_os = "linux") {
         return Err("reliable deferred-tree retry proof is Linux-only".into());
@@ -1571,7 +1690,14 @@ fn validate_deferred_cleanup_retry(
         .cleanup
         .as_ref()
         .ok_or_else(|| "deferred attempt has no cleanup evidence".to_string())?;
-    if !cleanup.attempted || cleanup.removed || cleanup.error.as_deref().is_none_or(str::is_empty) {
+    if cleanup.removed
+        || cleanup.error.as_deref().is_none_or(str::is_empty)
+        || (!cleanup.attempted
+            && !cleanup
+                .error
+                .as_deref()
+                .is_some_and(|error| error.starts_with("verifier_process_state_unknown:")))
+    {
         return Err("deferred attempt cleanup evidence is incomplete".into());
     }
 
@@ -1585,6 +1711,31 @@ fn validate_deferred_cleanup_retry(
         .map_err(|error| format!("cannot verify current Linux boot identity: {error}"))?;
     let target_snapshot_digest = composition_target_snapshot_digest(input)
         .ok_or_else(|| "current target tree snapshot cannot be observed".to_string())?;
+    if current_receipt.schema_version != 1
+        || current_receipt.backend != CompositionSupervisorBackend::LinuxSubreaper
+        || current_receipt.attempt_id.is_empty()
+        || current_receipt.run_nonce.is_empty()
+        || current_receipt.generation == 0
+        || current_receipt.owner.process_id == 0
+        || current_receipt.owner.start_time_ticks.is_none()
+        || current_receipt.supervisor.process_id == 0
+        || current_receipt.supervisor.start_time_ticks.is_none()
+        || current_receipt.supervisor.process_group_id.is_none()
+        || current_receipt.supervisor.session_id.is_none()
+        || current_composition_process_identity().ok().as_ref() != Some(&current_receipt.supervisor)
+        || current_receipt.linux_boot_id != current_boot_id
+        || current_receipt.runtime_version != input.binding.verifier.runtime_version
+        || current_receipt.runtime_digest != input.binding.verifier.runtime_digest
+        || current_receipt.repository_id != input.binding.repository_id
+        || current_receipt.target_sha != input.binding.target_sha
+        || current_receipt.snapshot_digest != target_snapshot_digest
+        || current_receipt.command_plan_digest != composition_commands_digest(&input.commands)
+        || current_receipt.input_environment_digest != composition_input_environment_digest(input)
+        || current_receipt.execution_records_digest != execution_records_digest(&[])
+        || current_receipt.descendants_reaped_to_echild
+    {
+        return Err("current supervisor receipt does not bind a fresh exact attempt".into());
+    }
     if receipt.schema_version != 1
         || receipt.backend != CompositionSupervisorBackend::LinuxSubreaper
         || receipt.attempt_id != previous.attempt_id
@@ -1657,21 +1808,18 @@ fn validate_deferred_cleanup_retry(
     {
         return Err("deferred worktree is not registered to the repository".into());
     }
-    match verifier_process_using_worktree(&worktree) {
+    linux_prior_supervisor_termination_proven(receipt)?;
+    match observe_worktree_process(&worktree) {
         Ok(None) => {}
         Ok(Some(process_id)) => {
             return Err(format!(
                 "process {process_id} still uses the deferred worktree"
             ));
         }
-        Err(error) => {
-            return Err(format!(
-                "deferred worktree process state is unknown: {error}"
-            ));
-        }
+        // Exact owned-tree ECHILD proof and the side-effect-safe no-op policy
+        // permit a fresh attempt while this old worktree remains untouched.
+        Err(_) => {}
     }
-
-    linux_prior_supervisor_termination_proven(receipt)?;
     Ok(())
 }
 
@@ -5091,6 +5239,464 @@ mod linux_process_group_reconciliation_tests {
 
         fs::write(&path, br#"{"activeProcessGroupId":78}"#).expect("changed attempt");
         assert!(require_attempt_digest_unchanged(state.path(), attempt_id, &observed).is_err());
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod external_observer_deferred_tests {
+    use super::*;
+    use cockpit_protocol::{COLLABORATION_CAPABILITY, RuntimeCapabilityBinding};
+    use std::sync::Arc;
+
+    static NEXT_CASE: AtomicU64 = AtomicU64::new(0);
+
+    struct TestDir(PathBuf);
+
+    impl TestDir {
+        fn new(label: &str) -> Self {
+            let sequence = NEXT_CASE.fetch_add(1, Ordering::Relaxed);
+            let path = std::env::temp_dir().join(format!(
+                "cockpit-a12-{label}-{}-{sequence}",
+                std::process::id()
+            ));
+            fs::create_dir_all(&path).expect("create composition case directory");
+            Self(path)
+        }
+
+        fn path(&self) -> &Path {
+            &self.0
+        }
+    }
+
+    impl Drop for TestDir {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    struct OwnedWorktrees {
+        repository: PathBuf,
+        paths: Vec<PathBuf>,
+    }
+
+    impl OwnedWorktrees {
+        fn new(repository: &Path) -> Self {
+            Self {
+                repository: repository.to_path_buf(),
+                paths: Vec::new(),
+            }
+        }
+
+        fn retain_for_assertions(&mut self, path: &str) {
+            if !path.is_empty() {
+                self.paths.push(PathBuf::from(path));
+            }
+        }
+    }
+
+    impl Drop for OwnedWorktrees {
+        fn drop(&mut self) {
+            for path in &self.paths {
+                let _ = Command::new("git")
+                    .args(["-C"])
+                    .arg(&self.repository)
+                    .args(["worktree", "remove", "--force"])
+                    .arg(path)
+                    .output();
+                if let Some(parent) = path.parent() {
+                    let _ = fs::remove_dir_all(parent);
+                }
+            }
+        }
+    }
+
+    fn git(root: &Path, args: &[&str]) -> String {
+        let output = Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .output()
+            .expect("run fixture git command");
+        assert!(
+            output.status.success(),
+            "git {args:?}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout)
+            .expect("git fixture output is UTF-8")
+            .trim()
+            .into()
+    }
+
+    fn composition_case() -> (TestDir, TestDir, CompositionInput) {
+        let repository = TestDir::new("repository");
+        git(repository.path(), &["init", "-q"]);
+        git(
+            repository.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(repository.path(), &["config", "user.name", "Test"]);
+        fs::write(repository.path().join("README.md"), "fixture\n").expect("write fixture");
+        git(repository.path(), &["add", "."]);
+        git(repository.path(), &["commit", "-qm", "fixture"]);
+        git(repository.path(), &["branch", "-M", "main"]);
+        let head = git(repository.path(), &["rev-parse", "HEAD"]);
+        let state = TestDir::new("state");
+        let command = CompositionCommand {
+            node_id: "safe-noop".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            depends_on: Vec::new(),
+            environment: Default::default(),
+            input_paths: Vec::new(),
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
+        };
+        let input = CompositionInput {
+            repository_root: repository.path().to_path_buf(),
+            state_dir: state.path().to_path_buf(),
+            binding: CompositionBinding {
+                schema_version: 1,
+                repository_id: Digest::sha256_bytes(b"a12 repository"),
+                binding_id: "a12-observer-unknown".into(),
+                target_branch: "main".into(),
+                target_sha: head.clone(),
+                participant_work_items: vec!["WI-A12-PROVIDER".into(), "WI-A12-CONSUMER".into()],
+                participant_heads: vec![head.clone(), head],
+                contract_digests: vec![
+                    Digest::sha256_bytes(b"provider Contract"),
+                    Digest::sha256_bytes(b"consumer Contract"),
+                ],
+                verifier: RuntimeCapabilityBinding {
+                    schema_version: 1,
+                    runtime_version: "0.2.113".into(),
+                    runtime_digest: Digest::sha256_bytes(b"a12 Runtime"),
+                    capability: COLLABORATION_CAPABILITY.into(),
+                },
+            },
+            identity: CompositionIdentity::default(),
+            reusable_node_ids: vec!["safe-noop".into()],
+            commands: vec![command],
+            preconditions: vec![CompositionPrecondition::satisfied("bound")],
+            timeout_seconds: 30,
+        };
+        (repository, state, input)
+    }
+
+    fn run_supervisor_case(input: &CompositionInput, unknown_path: &str) -> CompositionAttempt {
+        run_supervisor_case_with_generation(input, unknown_path, 1)
+    }
+
+    fn run_supervisor_case_with_generation(
+        input: &CompositionInput,
+        unknown_path: &str,
+        generation: u64,
+    ) -> CompositionAttempt {
+        run_supervisor_case_result(input, unknown_path, generation)
+            .expect("supervisor fixture attempt")
+    }
+
+    fn run_supervisor_case_result(
+        input: &CompositionInput,
+        unknown_path: &str,
+        generation: u64,
+    ) -> Result<CompositionAttempt, String> {
+        let io = TestDir::new("supervisor-io");
+        let input_path = io.path().join("input.json");
+        let output_path = io.path().join("output.json");
+        fs::write(
+            &input_path,
+            serde_json::to_vec(input).expect("serialize input"),
+        )
+        .expect("write input");
+        let output = Command::new(std::env::current_exe().expect("unit test binary"))
+            .args(["external_observer_test_child_entry", "--nocapture"])
+            .env("AI_COCKPIT_A12_CHILD_INPUT", &input_path)
+            .env("AI_COCKPIT_A12_CHILD_OUTPUT", &output_path)
+            .env("AI_COCKPIT_A12_UNKNOWN_PATH", unknown_path)
+            .env("AI_COCKPIT_A12_GENERATION", generation.to_string())
+            .output()
+            .expect("run isolated composition supervisor fixture");
+        assert!(
+            output.status.success(),
+            "supervisor fixture: stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let result: Result<CompositionAttempt, String> =
+            serde_json::from_slice(&fs::read(&output_path).expect("supervisor fixture output"))
+                .expect("decode supervisor fixture result");
+        result
+    }
+
+    fn save_attempt_json(state: &Path, attempt_id: &str, name: &str) -> serde_json::Value {
+        let path = attempt_record_path(state, attempt_id);
+        let bytes = fs::read(path).expect("durable attempt bytes");
+        if let Ok(directory) = std::env::var("AI_COCKPIT_A12_EVIDENCE_DIR") {
+            fs::create_dir_all(&directory).expect("create A12 diagnostic directory");
+            fs::write(Path::new(&directory).join(name), &bytes)
+                .expect("save exact A12 diagnostic attempt bytes");
+        }
+        serde_json::from_slice(&bytes).expect("durable attempt JSON")
+    }
+
+    #[test]
+    fn external_observer_test_child_entry() {
+        let (Ok(input_path), Ok(output_path), Ok(unknown_path)) = (
+            std::env::var("AI_COCKPIT_A12_CHILD_INPUT"),
+            std::env::var("AI_COCKPIT_A12_CHILD_OUTPUT"),
+            std::env::var("AI_COCKPIT_A12_UNKNOWN_PATH"),
+        ) else {
+            return;
+        };
+        let input: CompositionInput =
+            serde_json::from_slice(&fs::read(input_path).expect("child input"))
+                .expect("child input JSON");
+        let backend = initialize_composition_supervisor_backend().expect("Linux subreaper");
+        assert_eq!(backend, CompositionSupervisorBackend::LinuxSubreaper);
+        let process = current_composition_process_identity().expect("supervisor identity");
+        let run_nonce = new_composition_run_nonce();
+        let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+        let generation = std::env::var("AI_COCKPIT_A12_GENERATION")
+            .expect("child generation")
+            .parse()
+            .expect("numeric child generation");
+        let receipt = CompositionSupervisorReceipt {
+            schema_version: 1,
+            backend,
+            attempt_id: attempt_id.clone(),
+            run_nonce,
+            generation,
+            owner: process.clone(),
+            supervisor: process,
+            linux_boot_id: composition_linux_boot_id().expect("Linux boot identity"),
+            environment_digest: Digest::sha256_bytes(b"a12 supervisor environment"),
+            runtime_version: input.binding.verifier.runtime_version.clone(),
+            runtime_digest: input.binding.verifier.runtime_digest.clone(),
+            repository_id: input.binding.repository_id.clone(),
+            target_sha: input.binding.target_sha.clone(),
+            snapshot_digest: composition_target_snapshot_digest(&input)
+                .expect("bound target snapshot"),
+            command_plan_digest: composition_commands_digest(&input.commands),
+            input_environment_digest: composition_input_environment_digest(&input),
+            execution_records_digest: execution_records_digest(&[]),
+            descendants_reaped_to_echild: false,
+        };
+        let check: ProcessAdmissionCheck = Arc::new(|_, accept| accept());
+        let gate: ProcessStartGate = if unknown_path.starts_with("deny:") {
+            Arc::new(|_, _| Err("injected current admission denial".into()))
+        } else {
+            Arc::new(|_, spawn| spawn())
+        };
+        let observe = |path: &Path| {
+            if let Some(active_path) = unknown_path.strip_prefix("active:")
+                && path.to_string_lossy() == active_path
+            {
+                Ok(Some(std::process::id()))
+            } else if unknown_path == "*"
+                || path.to_string_lossy() == unknown_path
+                || unknown_path
+                    .strip_prefix("deny:")
+                    .is_some_and(|denied_path| path.to_string_lossy() == denied_path)
+            {
+                Err("injected external /proc cwd observation error".into())
+            } else {
+                Ok(None)
+            }
+        };
+        let result = run_composition_inner_with_observer(
+            input,
+            Some(check),
+            Some(gate),
+            Some(receipt),
+            Some(attempt_id),
+            &observe,
+            &|| {
+                if unknown_path == "owned-proof-unknown" {
+                    Err("injected owned descendant reap uncertainty".into())
+                } else {
+                    reap_composition_supervisor_descendants()
+                }
+            },
+        )
+        .map_err(|error| error.to_string());
+        fs::write(
+            output_path,
+            serde_json::to_vec(&result).expect("serialize child result"),
+        )
+        .expect("write child result");
+    }
+
+    #[test]
+    fn complete_owned_execution_survives_external_unknown_and_retries_fresh_noop() {
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "*");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let first_raw = save_attempt_json(state.path(), &first.attempt_id, "first.raw.json");
+        assert_eq!(first_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(
+            first_raw["supervisorReceipt"]["descendantsReapedToEchild"],
+            true
+        );
+        assert_eq!(
+            first_raw["supervisorReceipt"]["attemptId"],
+            first.attempt_id
+        );
+        assert_eq!(first_raw["processesSpawned"], 1);
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
+
+        let second = run_supervisor_case(&input, &first.isolated_worktree);
+        worktrees.retain_for_assertions(&second.isolated_worktree);
+        let second_raw = save_attempt_json(state.path(), &second.attempt_id, "second.raw.json");
+
+        assert_eq!(first_raw["executionOutcome"], "passed");
+        assert_eq!(first_raw["executionEvidenceComplete"], true);
+        assert_eq!(first_raw["cleanupDisposition"], "deferred");
+        assert_eq!(first_raw["cleanup"]["attempted"], false);
+        assert_eq!(first_raw["cleanup"]["removed"], false);
+        assert_eq!(second_raw["processesSpawned"], 1);
+        assert_eq!(second_raw["executionOutcome"], "passed");
+        assert_ne!(second.attempt_id, first.attempt_id);
+        assert_ne!(second.isolated_worktree, first.isolated_worktree);
+        assert_ne!(
+            second
+                .supervisor_receipt
+                .as_ref()
+                .map(|receipt| &receipt.run_nonce),
+            first
+                .supervisor_receipt
+                .as_ref()
+                .map(|receipt| &receipt.run_nonce)
+        );
+        assert_eq!(second.execution_records.len(), 1);
+        assert!(!second.execution_records[0].reused);
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old registration remains after fresh retry")
+        );
+    }
+
+    #[test]
+    fn external_unknown_without_current_owned_proof_retains_unknown() {
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "owned-proof-unknown");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "no-proof.raw.json");
+        assert_eq!(raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], false);
+        assert_eq!(raw["executionOutcome"], "unknown");
+        assert_eq!(raw["executionEvidenceComplete"], false);
+        assert_eq!(raw["cleanupDisposition"], "retained");
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        let retry = run_supervisor_case_result(&input, "", 1);
+        match retry {
+            Err(_) => {}
+            Ok(blocked) => {
+                assert_eq!(
+                    blocked.processes_spawned, 0,
+                    "unknown owned tree: {blocked:?}"
+                );
+                assert!(!blocked.passed);
+            }
+        }
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+    }
+
+    #[test]
+    fn failed_execution_result_survives_external_unknown_with_owned_proof() {
+        let (repository, state, mut input) = composition_case();
+        input.commands[0].program = "false".into();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "*");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "failed-execution.raw.json");
+        assert_eq!(raw["executionRecords"][0]["exitCode"], 1);
+        assert_eq!(raw["executionOutcome"], "failed");
+        assert_eq!(raw["executionEvidenceComplete"], true);
+        assert_eq!(raw["cleanupDisposition"], "deferred");
+        assert!(
+            raw["failure"]
+                .as_str()
+                .is_some_and(|failure| failure.starts_with("command_failed:"))
+        );
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+    }
+
+    #[test]
+    fn node_without_observable_inputs_executes_again_under_clean_observer() {
+        let (_repository, _state, mut input) = composition_case();
+        input.commands[0].program = "sh".into();
+        input.commands[0].args = vec!["-c".into(), "true".into()];
+        let first = run_supervisor_case(&input, "");
+        assert!(first.passed, "first clean observation: {first:?}");
+        let second = run_supervisor_case(&input, "");
+        assert!(second.passed, "second clean observation: {second:?}");
+        assert_eq!(second.processes_spawned, 1);
+        assert!(!second.execution_records[0].reused);
+        assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
+        assert_ne!(first.attempt_id, second.attempt_id);
+        assert!(!Path::new(&first.isolated_worktree).exists());
+        assert!(!Path::new(&second.isolated_worktree).exists());
+    }
+
+    #[test]
+    fn external_unknown_retry_rejects_known_active_process_and_unsafe_command() {
+        for mode in ["active", "unsafe", "denied", "stale"] {
+            let (repository, state, input) = composition_case();
+            let mut worktrees = OwnedWorktrees::new(repository.path());
+            let first = run_supervisor_case(&input, "*");
+            worktrees.retain_for_assertions(&first.isolated_worktree);
+            assert_eq!(
+                first.cleanup_disposition,
+                CompositionCleanupDisposition::Deferred
+            );
+            let mut retry_input = input.clone();
+            let observation = if mode == "active" {
+                format!("active:{}", first.isolated_worktree)
+            } else if mode == "unsafe" {
+                retry_input.commands[0].program = "sh".into();
+                retry_input.commands[0].args = vec!["-c".into(), "true".into()];
+                first.isolated_worktree.clone()
+            } else if mode == "denied" {
+                format!("deny:{}", first.isolated_worktree)
+            } else {
+                first.isolated_worktree.clone()
+            };
+            let second = run_supervisor_case_with_generation(
+                &retry_input,
+                &observation,
+                if mode == "stale" { 0 } else { 1 },
+            );
+            let raw = save_attempt_json(
+                state.path(),
+                &second.attempt_id,
+                &format!("{mode}-retry.raw.json"),
+            );
+            assert_eq!(raw["processesSpawned"], 0);
+            let failure = raw["failure"].as_str().expect("failed retry reason");
+            if mode == "denied" {
+                assert_eq!(failure, "command_failed:exit=None");
+                assert_eq!(
+                    raw["executionRecords"][0]["stderr"],
+                    "injected current admission denial"
+                );
+                assert!(!Path::new(&second.isolated_worktree).exists());
+            } else {
+                assert_eq!(raw["isolatedWorktree"], "");
+                assert!(failure.starts_with("unsafe_deferred_cleanup_retry:"));
+            }
+            assert!(Path::new(&first.isolated_worktree).is_dir());
+            assert!(
+                worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                    .expect("old worktree registration stays intact")
+            );
+        }
     }
 }
 

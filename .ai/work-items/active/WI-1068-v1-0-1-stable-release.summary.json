@@ -431,20 +431,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+      "reason": "One typed amendment under the user-stated WI-1068 authorization and agent:Raydot technical review, as relayed in the parent delegation. The user:Ray messages are Sentinel_3d44572341308191b9010dc77d067d39, Sentinel_4971c4ecefe48191a9276fc5f38e24fe, Sentinel_74bd65aad058819180d21a190b56b4a2, Sentinel_a282cc23f2a08191a0073aed1f758644, Sentinel_1d349bb209e4819195a848df1971c203, Sentinel_bc329b5933d881918344a6b25f7b3529, Sentinel_7a6c9ebe8254819189979a8bb6d2846d, Sentinel_01aea40430808191aead1ad3c7d0aeb1, Sentinel_521c03056dd08191a0a3078e2d88a9b6, and Sentinel_2885ec3be4d08191b377ce837a186a8a. The agent:Raydot recommendations are technical input, not a human signature; agent:Codex is the amendment executor. These actor labels come from the supplied transcript and are not independently host-authenticated. Preserve unique cargo test --locked --workspace verification, A10/A11 independent Linux regression, all previous failures and release gates. Add explicitly recorded Work Item usage and source-specific provenance, immutable finish/archive report bytes with a separate close finalReport/cutoff, observed lifecycle times, a shared read-only typed audit query/export, and complete native Rust CLI/MCP help. Query from/to applies to Runtime recordedAt only, without fallback. IANA display requires the scoped timezone dependency. Fix the source-confirmed A12/A13 external observer uncertainty gap while retaining owned-tree proof and the protected no-op retry boundary. Do not claim this amendment approves the source diff or constitutes a new exact human review receipt.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T05:28:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+    "contractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-    "reason": "Raydot's exact WI-1068 request for Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e was provided in a user-relayed transcript (request 2026-10-07T03:05:59Z, Sentinel_ef55ee2e8e1881918665c4ca8ea88ef6); Ray replied '1' at 2026-10-07T03:06:47Z (Sentinel_8ee74edf115c81918899851fb8eb2ef4), confirming review. This is recorded as human:Ray from the supplied transcript, not independently host-authenticated. Actual Runtime recording was performed by agent:Codex (/root) at 2026-10-07T03:08:06Z. This confirmation binds Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e, snapshot sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51, and preflight decision sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925.",
-    "recordedAt": "2026-10-07T03:08:06Z",
+    "reason": "agent:Raydot asked for option 1 to confirm review of exact WI-1068 Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726 at 2026-10-07T05:30:42Z (Sentinel_ada8378935948191b9d58efed6c85fb4); user:Ray replied '1' at 2026-10-07T05:32:10Z (Sentinel_b905c6d21a1c8191917c455558faf2b7) in the parent-supplied transcript. This records a human:Ray bounded plan-review decision as relayed by the user, not independently host-authenticated identity. The Runtime controls call is executed by agent:Codex (/root) at 2026-10-07T05:33:44Z. This confirms the current Contract plan and snapshot only; independent source-code review, verification, merge, tag, and publication gates remain separate.",
+    "recordedAt": "2026-10-07T05:33:44Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51",
+    "repositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -456,10 +476,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T03:32:55Z",
-  "preflightContractDigest": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+  "preflightAt": "2026-10-07T05:28:26Z",
+  "preflightContractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
   "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-  "preflightRepositorySnapshotDigest": "sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a",
+  "preflightRepositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -619,10 +639,130 @@
       "scenario": "finish-requires-independent-verify-and-preflight",
       "status": "verified",
       "verificationPlan": "Show finish remains inadmissible after composition alone, then bind independent current verify and green preflight evidence before the finish gate can admit."
+    },
+    {
+      "evidence": [],
+      "expected": "A recorded usage receipt is projected in Outcome; absent or incomplete data is displayed as unknown/partial and does not fail software verification.",
+      "required": true,
+      "scenario": "usage-present-absent-partial",
+      "status": "unverified",
+      "verificationPlan": "Exercise explicit repository recording and every new finish/terminal TaskOutcomeReport projection with present, absent, nullable, and partial fields; no receipts must persist coverage unknown, null counts, and a reason rather than omit usage or write zero. Confirm query does not create a receipt and software verification is unchanged."
+    },
+    {
+      "evidence": [],
+      "expected": "Different reported/configured models, sources, roles, and phases remain distinct; cached/reasoning subsets do not double count and unknown remains null.",
+      "required": true,
+      "scenario": "usage-multimodel-subset-accounting",
+      "status": "unverified",
+      "verificationPlan": "Record multiple explicit invocation/turn units and assert exact per-dimension subtotals, subset bounds, no double counting, and partial coverage for non-differentiable cumulative data. Keep model-identity provenance separate from token-count provenance; caller-labeled provider/host and reportedModel remain self-declared unless a supported adapter independently verifies them."
+    },
+    {
+      "evidence": [],
+      "expected": "Replaying the same sourceEventID and identical payload is idempotent; a conflicting payload and cross-Work-Item event are rejected without changing prior receipts.",
+      "required": true,
+      "scenario": "usage-source-event-idempotency-conflict",
+      "status": "unverified",
+      "verificationPlan": "Submit identical, conflicting, and cross-WI event IDs; compare append-only receipt bytes, sequence, and digest before and after each request."
+    },
+    {
+      "evidence": [],
+      "expected": "Pre-feature TaskOutcomeReport/archive records decode without usage and their archived bytes remain unchanged.",
+      "required": true,
+      "scenario": "usage-legacy-report-compatibility",
+      "status": "unverified",
+      "verificationPlan": "Load existing report fixtures with no usage field, render them, and verify archive integrity and original byte digests."
+    },
+    {
+      "evidence": [],
+      "expected": "Finish/close captures a bound cutoff and usage snapshot; no post-close mutation or retroactive archive edit occurs, and missing late data remains partial/unknown.",
+      "required": true,
+      "scenario": "usage-finish-close-cutoff",
+      "status": "unverified",
+      "verificationPlan": "Record usage before finish and verify the frozen report cutoff and archive bytes. Record additional usage through current Runtime admission after archive but before close, and assert finish/archive digests remain unchanged while close creates a distinct finalReport referencing receipts received by its explicit close cutoff. Reject ordinary post-close recording; final reply or missing late data remains partial/unknown, never a complete total."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP usage-record entry points share repository semantics and return equivalent receipt identities, digests, idempotency, and rejection outcomes.",
+      "required": true,
+      "scenario": "usage-cli-mcp-parity",
+      "status": "unverified",
+      "verificationPlan": "Run paired CLI/MCP requests against the same repository service test fixture and compare normalized receipts and errors."
+    },
+    {
+      "evidence": [],
+      "expected": "Runtime start/finish/archive/close facts are separate UTC RFC3339 events with occurredAt/recordedAt and source refs; unfinished terminal times are null, historical missing values unknown, process duration monotonic, wall elapsed includes waiting, Tokyo rendering is explicit, and anomalies remain unknown.",
+      "required": true,
+      "scenario": "work-item-lifecycle-time-source-zone-and-duration",
+      "status": "unverified",
+      "verificationPlan": "Drive lifecycle actions through the Runtime service with an injectable clock; assert successful-action timestamps and evidence bindings, legacy missing facts, external offset/source handling, Asia/Tokyo formatting via IANA data, monotonic process elapsedMs, and cross-host/clock-anomaly unknown behavior without changing host TZ."
+    },
+    {
+      "evidence": [],
+      "expected": "The existing AuditEvent/audit export and new typed query expose repository-bound start/finish/archive/close facts with timestamps, digests, refs, coverage, and cutoff; no second store is introduced.",
+      "required": true,
+      "scenario": "work-item-lifecycle-audit-query-export",
+      "status": "unverified",
+      "verificationPlan": "Record and query lifecycle events using the same repository read service; test exact filters, page/cursor binding, source mutation to stale_cursor, exported references, and wall-clock labels."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI, MCP, and export share typed exact filters; UTC asOf/sourceSnapshotDigest, coverage/unknown, receipt refs, page-only usage totals, nextCursor, and stale_cursor behavior are consistent.",
+      "required": true,
+      "scenario": "audit-query-filter-pagination-snapshot",
+      "status": "unverified",
+      "verificationPlan": "Query fixtures by Work Item, inclusive/exclusive RFC3339 bounds on Runtime recordedAt only, reported model, actor, and event; preserve other timestamp fields without fallback and mark unknown recordedAt coverage. Page with limit 1..=100 using stable eventID tie-break; assert returnedCount, truncated, nextCursor, nullable indeterminate unknownCount; mutate a source before the next cursor, compare CLI/MCP envelopes, and assert stale_cursor."
+    },
+    {
+      "evidence": [],
+      "expected": "The existing no-filter audit export retains its schema-v1 wire shape and explicit local output behavior; filtered export uses the shared query envelope.",
+      "required": true,
+      "scenario": "audit-export-unfiltered-wire-compatibility",
+      "status": "unverified",
+      "verificationPlan": "Compare no-filter export JSON and digest to a pre-feature fixture; verify identical --output is idempotent and conflicting bytes fail; then compare filtered CLI/MCP query results."
+    },
+    {
+      "evidence": [],
+      "expected": "A receipt stored as `{workItemId}.{digest}.delegated.json` is attributed to the parsed repository-bound Work Item ID; mismatched path/receipt binding fails closed.",
+      "required": true,
+      "scenario": "audit-delegated-receipt-filename-binding",
+      "status": "unverified",
+      "verificationPlan": "Create the valid receipt using the existing writer, feed it to the same shared audit reader used by export/query, assert the event has exactly receipt.workItemId, then alter the path or receipt identity and assert rejection. Apply only the minimal source fix if the first case is RED."
+    },
+    {
+      "evidence": [],
+      "expected": "Rust Runtime CLI help, three-language command/MCP tables, MCP initialize/tools/list, and schemas expose usage record, audit query, and filtered export completely while the supervisor helper remains hidden.",
+      "required": true,
+      "scenario": "runtime-native-usage-audit-public-surface",
+      "status": "unverified",
+      "verificationPlan": "Run top-level, group, leaf, and parameter help snapshots; compare English/Simplified Chinese/Japanese command and MCP tables with actual CLI parser and tools/list; assert __composition-supervisor is absent publicly and the existing internal test route remains callable."
+    },
+    {
+      "evidence": [],
+      "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
+      "required": true,
+      "scenario": "linux-zombie-only-process-group-regression",
+      "status": "unverified",
+      "verificationPlan": "Use the exact independent command declared by A11, bind exit code/output to exact candidate and Contract/snapshot digests, separately run the unique workspace declaration only when formally admitted, and preserve all existing red evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "When exact command result and owned-tree ECHILD termination are durable, an external `/proc/<pid>/cwd` observer error yields deferred cleanup and retained directory/registration without changing execution passed/failed or evidence completeness.",
+      "required": true,
+      "scenario": "composition-observer-error-preserves-execution",
+      "status": "unverified",
+      "verificationPlan": "Inject observer Err at the narrow cleanup-decision seam in `run_composition_inner`; assert exact execution outcome/completeness, deferred disposition, and untouched worktree plus registration. Also assert missing owner/reap proof remains unknown and retained."
+    },
+    {
+      "evidence": [],
+      "expected": "With a current protected no-op policy and prior owned termination proof, a fresh admitted composition can retry after external observation uncertainty without deleting or reusing the old path; active/unknown owned tree remains blocked.",
+      "required": true,
+      "scenario": "safe-noop-retry-after-observer-unknown",
+      "status": "unverified",
+      "verificationPlan": "Call `run_admitted_composition` twice under the current safe no-op strategy; first call records completed execution plus deferred cleanup under injected observer Err, second receives fresh attempt/nonce/worktree, reuses no result, preserves old directory, and succeeds. Add denied/active/unknown-owned-tree cases asserting zero second verifier spawns. Keep this distinct from `repeated_exact_composition_reuses_only_when_inputs_are_observable` and `node_without_observable_inputs_executes_again_instead_of_reusing`."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T03:32:37.147205151+00:00",
+  "updatedAt": "2026-10-07T05:34:03.086885224+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -682,9 +822,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+    "contractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-07T02:56:19Z"
+    "recordedAt": "2026-10-07T05:28:09Z"
   },
   "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"
