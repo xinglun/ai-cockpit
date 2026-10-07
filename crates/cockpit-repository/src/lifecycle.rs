@@ -9904,6 +9904,12 @@ mod cross_checkout_closeout_tests {
             status.lifecycle_phase, "closed",
             "missing receipt-bound evidence must prevent a closed projection"
         );
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+        assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
+        assert!(
+            crate::read_work_item_usage(&root, WORK_ITEM_ID, None).is_err(),
+            "direct usage query must still reject the damaged close evidence"
+        );
     }
 
     #[test]
@@ -9943,6 +9949,12 @@ mod cross_checkout_closeout_tests {
         assert_ne!(
             status.lifecycle_phase, "closed",
             "receipt omissions cannot launder missing archived evidence"
+        );
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+        assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
+        assert!(
+            crate::read_work_item_usage(&root, WORK_ITEM_ID, None).is_err(),
+            "direct usage query must still reject the damaged close evidence"
         );
     }
 

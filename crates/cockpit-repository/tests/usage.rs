@@ -8,7 +8,7 @@ use cockpit_repository::{
     close_work_item_with_decision, finish_work_item, outcome_render_input, preflight_work_item,
     query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
     record_verification, record_work_item_usage, render_human_outcome_with_view,
-    start_work_item_with_options,
+    start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command, sync::Arc};
 
@@ -361,6 +361,39 @@ fn close_cannot_downgrade_frozen_usage_by_dropping_final_report_fields() {
 }
 
 #[test]
+fn close_with_usage_claim_cannot_become_historical_by_dropping_cutoff() {
+    let root = repository();
+    let id = "WI-USAGE-CLOSE-CUTOFF-DOWNGRADE";
+    let (_, close_bytes) = closed_with_late_usage(root.path(), id);
+    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
+    let mut close: serde_json::Value = serde_json::from_slice(&close_bytes).expect("close JSON");
+    close["finalReport"]
+        .as_object_mut()
+        .expect("final report")
+        .remove("usage");
+    close["finalReportDigest"] = cockpit_protocol::digest_json(&close["finalReport"])
+        .expect("report digest")
+        .to_string()
+        .into();
+    close
+        .as_object_mut()
+        .expect("close object")
+        .remove("usageCutoff");
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("remove close usage fields");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("usage-backed close cannot masquerade as a historical close");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+    let status = work_item_status_snapshot_with_runtime(root.path(), id, &runtime())
+        .expect("read-only status reports invalid frozen usage");
+    assert_ne!(status.lifecycle_phase, "closed");
+    assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
+}
+
+#[test]
 fn legacy_closed_report_without_usage_fields_remains_readable() {
     let root = repository();
     let id = "WI-USAGE-LEGACY-CLOSE";
@@ -398,9 +431,18 @@ fn legacy_closed_report_without_usage_fields_remains_readable() {
     let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
     let mut close: serde_json::Value =
         serde_json::from_slice(&fs::read(&path).expect("close")).expect("close JSON");
-    for field in ["finalReport", "finalReportDigest", "usageCutoff"] {
-        close.as_object_mut().expect("close object").remove(field);
-    }
+    close["finalReport"]
+        .as_object_mut()
+        .expect("historical final report")
+        .remove("usage");
+    close["finalReportDigest"] = cockpit_protocol::digest_json(&close["finalReport"])
+        .expect("historical final report digest")
+        .to_string()
+        .into();
+    close
+        .as_object_mut()
+        .expect("close object")
+        .remove("usageCutoff");
     fs::write(
         &path,
         serde_json::to_vec_pretty(&close).expect("close JSON"),
@@ -411,6 +453,17 @@ fn legacy_closed_report_without_usage_fields_remains_readable() {
     assert_eq!(summary.coverage, UsageCoverage::Unknown);
     assert_eq!(summary.unknown_reasons, ["no_usage_receipts"]);
     assert_eq!(summary.totals.input_tokens, None);
+    close["finalReportDigest"] = Digest::sha256_bytes(b"wrong historical report")
+        .to_string()
+        .into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("tamper historical digest");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("historical close still binds its final report digest");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
 }
 
 #[cfg(windows)]

@@ -9719,7 +9719,14 @@ fn task_outcome_report(
         .or(contract.created_at.as_deref())
         .unwrap_or("1970-01-01T00:00:00Z");
     let closed_usage = if usage_cutoff.is_none() {
-        usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)?
+        match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id) {
+            Ok(usage) => usage,
+            Err(_) => Some(cockpit_protocol::UsageSummary::unknown(
+                &contract.work_item_id,
+                cutoff.to_owned(),
+                "frozen_usage_invalid",
+            )),
+        }
     } else {
         None
     };

@@ -394,14 +394,16 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
             let has_report = close.get("finalReport").is_some();
             let has_digest = close.get("finalReportDigest").is_some();
             let has_cutoff = close.get("usageCutoff").is_some();
-            if (has_report || has_digest || has_cutoff || prior_usage_claim)
-                && !(has_report && has_digest && has_cutoff)
-            {
-                return Err(state_error(
-                    &path,
-                    "frozen usage close report, digest, and cutoff must be present together",
-                ));
-            }
+            let historical_shape = match (has_report, has_digest, has_cutoff) {
+                (false, false, false) | (true, true, false) if !prior_usage_claim => true,
+                (true, true, true) => false,
+                _ => {
+                    return Err(state_error(
+                        &path,
+                        "frozen usage close report, digest, and cutoff must be present together",
+                    ));
+                }
+            };
             if let Some(final_report_value) = close.get("finalReport") {
                 let report: TaskOutcomeReport = serde_json::from_value(final_report_value.clone())
                     .map_err(|error| {
@@ -416,10 +418,16 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
                         "frozen usage close report identity differs",
                     ));
                 }
+                let observed_digest = cockpit_protocol::digest_json(final_report_value)
+                    .map_err(|error| state_error(&path, error.to_string()))?;
+                if close["finalReportDigest"] != observed_digest.to_string() {
+                    return Err(state_error(
+                        &path,
+                        "frozen usage close report digest differs",
+                    ));
+                }
                 if let Some(summary) = report.usage.as_ref() {
-                    let observed_digest = cockpit_protocol::digest_json(final_report_value)
-                        .map_err(|error| state_error(&path, error.to_string()))?;
-                    if close["finalReportDigest"] != observed_digest.to_string()
+                    if !has_cutoff
                         || close["usageCutoff"] != summary.cutoff
                         || summary.work_item_id != work_item_id
                     {
@@ -430,10 +438,19 @@ pub(super) fn validate_existing_frozen_usage_snapshots(
                     }
                     validate_frozen_usage_snapshot(root, summary)?;
                     close_usage = Some(summary.clone());
-                } else {
+                } else if !historical_shape {
                     return Err(state_error(
                         &path,
                         "frozen usage close report has no usage summary",
+                    ));
+                }
+            }
+            if historical_shape {
+                let observed = query_work_item_usage_unchecked(root, work_item_id, None, None)?;
+                if !observed.receipt_refs.is_empty() {
+                    return Err(state_error(
+                        &path,
+                        "frozen usage receipts cannot be downgraded to a historical close",
                     ));
                 }
             }

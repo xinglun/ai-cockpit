@@ -1184,6 +1184,16 @@ fn work_item_status_snapshot_with_snapshot(
         .or(owned_snapshot.as_ref());
     let outcome =
         outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
+    let frozen_usage_invalid = outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .is_some_and(|usage| {
+            usage
+                .unknown_reasons
+                .iter()
+                .any(|reason| reason == "frozen_usage_invalid")
+        });
     let summary_path = contract_path
         .parent()
         .unwrap_or(&active)
@@ -1197,6 +1207,7 @@ fn work_item_status_snapshot_with_snapshot(
         .join(format!("{work_item_id}.close.json"));
     let close_decision_present = fs::symlink_metadata(&close_decision_path).is_ok();
     let close_decision_valid = archived
+        && !frozen_usage_invalid
         && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
     // An older Runtime may have left an immutable, non-canonical close
     // decision behind even though its explicitly bound successor has since
@@ -1287,6 +1298,9 @@ fn work_item_status_snapshot_with_snapshot(
     }
     if historical {
         unknowns.push("legacy_evidence_historical".into());
+    }
+    if frozen_usage_invalid {
+        unknowns.push("frozen_usage_invalid".into());
     }
     unknowns.extend(governance_control_gaps.iter().cloned());
     if historical_recovery_resolved {
