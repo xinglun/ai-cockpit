@@ -626,20 +626,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+      "reason": "Narrowly declare the already reviewed Windows Job Object dependency needed to terminate descendant Git processes on bounded snapshot overflow. The direct child-only kill path can leave a descendant holding stdout or stderr open, keeping pipe collection blocked. This changes only the manifest scope and records the reported risk/plan; acceptance, verification, and material-review profile remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T19:52:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+    "contractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "Recorded by agent:Codex under the user's explicit delegation. Source: official user_message.read_messages result verified for author_id user-1lSz36PWE5SpWu8hYO6DjdOp, message_id Sentinel_d6bd161070808191a1242446744ba8bb, request_id 62b0d52f-6330-4d1f-914d-ed3abb3ae1b2, sent_at 2026-10-07T14:45:36.949378+00:00. The user's reply was 1 to the immediately preceding prompt confirming this exact Contract digest sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c. The recording actor is agent:Codex; this does not attribute the agent as the human decision-maker.",
-    "recordedAt": "2026-10-07T14:47:47Z",
+    "reason": "The user selected option 1 (confirm this exact Contract and continue) in response to Runtime decision contract-preflight-review. Official user_message.read_messages evidence relayed by the parent reports channel=chatgpt, message_id=Sentinel_29a3196d104c819198598edec20c658f, author=user, author_id=user-1lSz36PWE5SpWu8hYO6DjdOp, sent_at=2026-10-07T21:13:08.303777+00:00, content.text=\"1\", partial=false; the immediately preceding Runtime prompt explicitly bound the confirmation to Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113. The preflight admission digest was sha256:497f46cc3c63b0295b8fde11754dadaef10ea7e0566f721ca56f7f730f9a0518 and the repository snapshot digest is sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb. Recorded by agent:Codex (/root) under the user's explicit delegation; the recording agent is not the human decision-maker.",
+    "recordedAt": "2026-10-07T21:15:15Z",
     "recordedBy": "agent:Codex (/root)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:0d075b2bb0cf188963d88821ca18e6718dc2c7c20253270de2daeadb383b9a9c",
+    "repositorySnapshotDigest": "sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -651,10 +671,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T18:29:34Z",
-  "preflightContractDigest": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:2a6a5b779974a10d750c03ab1d34ee393b6a7e772f1e76fcf9ea8b71bca56095",
+  "preflightAt": "2026-10-07T21:52:13Z",
+  "preflightContractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "preflightRepositorySnapshotDigest": "sha256:177456a65701cbe967c23d2d06c301fd93b3b3a06df8dfd772683ac55997860e",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -1027,7 +1047,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T14:48:07.677535234+00:00",
+  "updatedAt": "2026-10-07T21:15:52.766480628+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -1087,9 +1107,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+    "contractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-07T12:51:48Z"
+    "recordedAt": "2026-10-07T19:52:13Z"
   },
   "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"

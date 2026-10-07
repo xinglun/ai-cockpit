@@ -660,6 +660,16 @@ pub struct GovernanceDecision {
     pub state: DecisionState,
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub raw_scanner_unknowns: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub material_manifest_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_receipt_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_assurance: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub effective_unknowns: Vec<String>,
     pub safe_actions: Vec<String>,
     pub required_checks: Vec<String>,
     pub authority: String,
@@ -1043,6 +1053,11 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         state,
         blockers,
         unknowns,
+        raw_scanner_unknowns: Vec::new(),
+        material_manifest_digest: None,
+        review_receipt_digest: None,
+        review_assurance: None,
+        effective_unknowns: Vec::new(),
         safe_actions,
         required_checks,
         authority,

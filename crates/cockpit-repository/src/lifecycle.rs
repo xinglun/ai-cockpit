@@ -1916,13 +1916,22 @@ fn preflight_work_item_internal_unlocked(
         contract_path,
     )?;
     let snapshot = observation_context.snapshot().clone();
-    let raw_decision = governance_decision_for_pre_execution_boundary(
+    let mut raw_decision = governance_decision_for_pre_execution_boundary(
         root,
         &contract,
         &snapshot,
         current_runtime,
         Some(&observation_context),
     )?;
+    let material_summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    super::material_review::apply_material_review_gate_to_decision(
+        root,
+        &contract,
+        &material_summary_path,
+        &mut raw_decision,
+    );
     let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
@@ -2282,6 +2291,12 @@ fn finish_work_item_internal_unlocked(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    super::material_review::require_material_review_gate(
+        &root,
+        &contract,
+        &summary_path,
+        "finish",
+    )?;
     if let Some(runtime) = current_runtime {
         super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
     }

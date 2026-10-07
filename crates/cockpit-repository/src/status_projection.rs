@@ -1303,6 +1303,50 @@ fn work_item_status_snapshot_with_snapshot(
         unknowns.push("frozen_usage_invalid".into());
     }
     unknowns.extend(governance_control_gaps.iter().cloned());
+    let material_projection =
+        super::material_review::material_review_gate_projection(&root, &contract, &summary_path);
+    let (
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        material_unknowns,
+        material_discharged_unknowns,
+        material_blocked_by_finding,
+        material_projection_unavailable,
+        material_review_decision_available,
+    ) = match material_projection {
+        Ok(projection) => (
+            projection.raw_scanner_unknowns,
+            projection.material_manifest_digest,
+            projection.review_receipt_digest,
+            projection.review_assurance,
+            projection.effective_unknowns,
+            projection.discharged_unknowns,
+            projection.blocked_by_finding,
+            projection.projection_unavailable,
+            projection.review_decision_available,
+        ),
+        Err(_) => (
+            Vec::new(),
+            None,
+            None,
+            None,
+            vec!["material_review_projection_unavailable".into()],
+            Vec::new(),
+            false,
+            true,
+            false,
+        ),
+    };
+    unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
+    unknowns.extend(material_unknowns);
+    if material_projection_unavailable && governance_state == "green" {
+        governance_state = "yellow".into();
+    }
+    if material_blocked_by_finding {
+        governance_state = "red".into();
+    }
     if historical_recovery_resolved {
         unknowns.push("historical_close_decision_preserved".into());
     } else if archived && !close_decision_valid {
@@ -1315,6 +1359,12 @@ fn work_item_status_snapshot_with_snapshot(
     unknowns.sort();
     unknowns.dedup();
     let mut blockers = Vec::new();
+    if material_projection_unavailable {
+        blockers.push("material_review_projection_unavailable".into());
+    }
+    if material_blocked_by_finding {
+        blockers.push("repository_prompt_injection".into());
+    }
     if governance_state == "red" {
         blockers.push("governance_red".into());
     }
@@ -1435,6 +1485,12 @@ fn work_item_status_snapshot_with_snapshot(
         && let Ok(digest) = cockpit_protocol::digest_json(&summary)
     {
         source_digests.insert("summary".into(), digest);
+    }
+    if let Some(digest) = &material_manifest_digest {
+        source_digests.insert("materialManifest".into(), digest.clone());
+    }
+    if let Some(digest) = &review_receipt_digest {
+        source_digests.insert("materialReviewReceipt".into(), digest.clone());
     }
     let evidence_path = root
         .join(".ai/evidence")
@@ -1630,12 +1686,16 @@ fn work_item_status_snapshot_with_snapshot(
         // close marker freezes the Work Item even when malformed.
         safe_actions.push("record_usage".into());
     }
+    if !archived && !blocking && preflight_binding_current && material_review_decision_available {
+        safe_actions.push("record_material_review_decision".into());
+    }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());
         diagnostics.push(error.to_string());
     }
     unknowns.sort();
     unknowns.dedup();
+    let effective_unknowns = unknowns.clone();
     let recommended_action = safe_actions
         .iter()
         .find(|action| action.as_str() != "refresh_status")
@@ -1695,6 +1755,11 @@ fn work_item_status_snapshot_with_snapshot(
         "governancePermissions": governance_permissions,
         "sourceDigests": source_digests,
         "unknowns": unknowns,
+        "rawScannerUnknowns": raw_scanner_unknowns,
+        "materialManifestDigest": material_manifest_digest,
+        "reviewReceiptDigest": review_receipt_digest,
+        "reviewAssurance": review_assurance,
+        "effectiveUnknowns": effective_unknowns,
         "diagnostics": diagnostics,
         "snapshotDigest": snapshot_digest_value,
         "evidenceFreshness": evidence_freshness,
@@ -1730,6 +1795,11 @@ fn work_item_status_snapshot_with_snapshot(
         governance_permissions,
         source_digests,
         unknowns,
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        effective_unknowns,
         diagnostics,
         snapshot_digest: snapshot_digest_value,
         evidence_freshness,

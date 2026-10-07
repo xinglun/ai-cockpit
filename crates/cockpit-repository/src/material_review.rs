@@ -2,14 +2,18 @@
 //! performed here; the opt-in is only reported to a future review service.
 
 use super::{
-    contains_strong_instruction_injection, derive_governance_signals_with_diagnostics,
-    effective_policy_for_contract, repository_id,
+    ObserverError, acquire_lifecycle_lock, contains_strong_instruction_injection,
+    create_and_open_cap_directory, derive_governance_signals_with_diagnostics,
+    effective_policy_for_contract, open_cap_directory_nofollow_strict,
+    read_cap_file_nofollow_bounded, repository_id, require_current_action_admission,
+    validate_work_item_id,
 };
 use crate::rust_material::{MaterialUnknownCause, RustMaterialAssessment};
 #[cfg(windows)]
 use cap_fs_ext::{DirExt, FollowSymlinks, OpenOptionsFollowExt};
 #[cfg(windows)]
 use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
+use cap_std::{ambient_authority, fs::Dir};
 use cockpit_core::Digest;
 use cockpit_git::{
     BoundedGitOutput, ChangeContentState, ChangeKind, GitError, GitRepository,
@@ -19,7 +23,7 @@ use cockpit_protocol::{
     Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY,
     MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION, MaterialInspectionReviewAssurance,
     MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
-    MaterialInspectionReviewDecisionReceipt, digest_json,
+    MaterialInspectionReviewDecisionReceipt, RuntimeContext, digest_json,
 };
 use serde::Serialize;
 use sha2::{Digest as _, Sha256};
@@ -40,6 +44,8 @@ const MAX_MATERIAL_CHANGED_FILES: usize = 256;
 const MAX_MATERIAL_TOTAL_BLOB_BYTES: u64 = 32 * 1024 * 1024;
 const MAX_MATERIAL_TOTAL_TEXT_BYTES: u64 = 16 * 1024 * 1024;
 const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
+const MAX_ACTIVE_CONTRACT_BYTES: u64 = MAX_BOUNDED_GIT_OUTPUT_BYTES as u64;
+const MATERIAL_REVIEW_EVIDENCE_DIRECTORY: &str = "material-inspection-review";
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 #[serde(rename_all = "snake_case")]
@@ -86,6 +92,19 @@ pub struct MaterialReviewRequest {
     /// Provenance only. It is excluded from request_digest so an identical
     /// source manifest in a legitimate descendant remains comparable.
     pub reviewed_source_head: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct MaterialReviewGateProjection {
+    pub raw_scanner_unknowns: Vec<String>,
+    pub material_manifest_digest: Option<Digest>,
+    pub review_receipt_digest: Option<Digest>,
+    pub review_assurance: Option<MaterialInspectionReviewAssurance>,
+    pub effective_unknowns: Vec<String>,
+    pub discharged_unknowns: Vec<String>,
+    pub blocked_by_finding: bool,
+    pub projection_unavailable: bool,
+    pub review_decision_available: bool,
 }
 
 #[derive(Debug, Error)]
@@ -316,6 +335,7 @@ pub fn validate_material_review_decision(
         material_manifest_digest: request.material_manifest_digest.clone(),
         profile_digest,
         request_digest: request.request_digest.clone(),
+        reviewed_source_head: Some(request.reviewed_source_head.clone()),
         decision: MaterialInspectionReviewDecision::AcceptPermittedUnknowns,
         reviewer_actor: input.reviewer_actor.clone(),
         recorded_by: recorded_by.to_owned(),
@@ -819,6 +839,32 @@ fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Resul
     OpenOptions::new().read(true).open(root.join(relative_path))
 }
 
+fn read_active_contract(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Contract, MaterialReviewRequestError> {
+    let root_dir = Dir::open_ambient_dir(root, ambient_authority())
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let work_items_path = ai_path.join("work-items");
+    let work_items = open_cap_directory_nofollow_strict(&ai, "work-items", &work_items_path)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let active_path = work_items_path.join("active");
+    let active = open_cap_directory_nofollow_strict(&work_items, "active", &active_path)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let name = format!("{work_item_id}.contract.json");
+    let path = active_path.join(&name);
+    let bytes = read_cap_file_nofollow_bounded(&active, &name, &path, MAX_ACTIVE_CONTRACT_BYTES)
+        .map_err(|error| MaterialReviewRequestError::SourceUnavailable {
+            path: path.display().to_string(),
+            reason: error.to_string(),
+        })?;
+    super::parse_contract_bytes(&bytes, &path)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))
+}
+
 pub fn material_review_request(
     root: &Path,
     contract: &Contract,
@@ -1134,6 +1180,594 @@ pub fn material_review_request(
         ));
     }
     Ok(request)
+}
+
+/// Recompute the canonical Contract-base material projection and validate a
+/// previously recorded decision against its immutable sidecar and Summary
+/// pointer. This is read-only and fails closed when source material is dirty.
+pub(crate) fn material_review_gate_projection(
+    root: &Path,
+    contract: &Contract,
+    summary_path: &Path,
+) -> Result<MaterialReviewGateProjection, ObserverError> {
+    let request =
+        material_review_request(root, contract).map_err(|error| ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!("material-review projection unavailable: {error}"),
+        })?;
+    let receipt = match read_valid_material_review_receipt(root, contract, &request, summary_path) {
+        Ok(receipt) => receipt,
+        Err(_error) => {
+            let mut effective_unknowns = request.raw_unknown_codes.clone();
+            effective_unknowns.push("material_review_receipt_invalid".into());
+            effective_unknowns.sort();
+            effective_unknowns.dedup();
+            return Ok(MaterialReviewGateProjection {
+                raw_scanner_unknowns: request.raw_unknown_codes,
+                material_manifest_digest: Some(request.material_manifest_digest),
+                review_receipt_digest: None,
+                review_assurance: None,
+                effective_unknowns,
+                discharged_unknowns: Vec::new(),
+                blocked_by_finding: request.blocked_by_finding,
+                projection_unavailable: false,
+                review_decision_available: false,
+            });
+        }
+    };
+    let mut effective_unknowns = request.raw_unknown_codes.clone();
+    let has_reviewable_unknown = request.entries.iter().any(|entry| {
+        entry.scanner_assessment == MaterialScannerAssessment::Unknown && entry.reviewable
+    });
+    let all_unknowns_reviewable = request.entries.iter().all(|entry| {
+        entry.scanner_assessment != MaterialScannerAssessment::Unknown || entry.reviewable
+    });
+    let permitted_unknown_set = request.raw_unknown_codes.len() == 1
+        && request.raw_unknown_codes[0] == "repository_material_inspection_unavailable";
+    let review_decision_available = request.review_enabled
+        && receipt.is_none()
+        && !request.blocked_by_finding
+        && has_reviewable_unknown
+        && all_unknowns_reviewable
+        && permitted_unknown_set;
+    let may_discharge = request.review_enabled
+        && receipt.is_some()
+        && !request.blocked_by_finding
+        && has_reviewable_unknown
+        && all_unknowns_reviewable
+        && permitted_unknown_set;
+    if may_discharge {
+        effective_unknowns
+            .retain(|unknown| unknown != "repository_material_inspection_unavailable");
+    }
+    effective_unknowns.sort();
+    effective_unknowns.dedup();
+    Ok(MaterialReviewGateProjection {
+        raw_scanner_unknowns: request.raw_unknown_codes,
+        material_manifest_digest: Some(request.material_manifest_digest),
+        review_receipt_digest: receipt
+            .as_ref()
+            .map(|receipt| receipt.receipt_digest.clone()),
+        review_assurance: receipt.map(|receipt| receipt.assurance),
+        effective_unknowns,
+        discharged_unknowns: if may_discharge {
+            vec!["repository_material_inspection_unavailable".into()]
+        } else {
+            Vec::new()
+        },
+        blocked_by_finding: request.blocked_by_finding,
+        projection_unavailable: false,
+        review_decision_available,
+    })
+}
+
+pub(crate) fn apply_material_review_gate_to_decision(
+    root: &Path,
+    contract: &Contract,
+    summary_path: &Path,
+    decision: &mut cockpit_core::GovernanceDecision,
+) -> MaterialReviewGateProjection {
+    let projection = match material_review_gate_projection(root, contract, summary_path) {
+        Ok(projection) => projection,
+        Err(_) => MaterialReviewGateProjection {
+            raw_scanner_unknowns: Vec::new(),
+            material_manifest_digest: None,
+            review_receipt_digest: None,
+            review_assurance: None,
+            effective_unknowns: vec!["material_review_projection_unavailable".into()],
+            discharged_unknowns: Vec::new(),
+            blocked_by_finding: false,
+            projection_unavailable: true,
+            review_decision_available: false,
+        },
+    };
+    decision
+        .unknowns
+        .retain(|unknown| !projection.discharged_unknowns.contains(unknown));
+    decision
+        .unknowns
+        .extend(projection.effective_unknowns.iter().cloned());
+    if projection.projection_unavailable {
+        decision
+            .blockers
+            .push("material_review_projection_unavailable".into());
+    }
+    if projection.blocked_by_finding {
+        decision.blockers.push("repository_prompt_injection".into());
+        decision.state = cockpit_core::DecisionState::Red;
+        decision.outcome_state = "not_ready".into();
+        decision.review_state = Some("blocked".into());
+    } else if !decision.unknowns.is_empty() && decision.state == cockpit_core::DecisionState::Green
+    {
+        decision.state = cockpit_core::DecisionState::Yellow;
+        decision.outcome_state = "verification_pending".into();
+        decision.review_state = Some("verification_pending".into());
+    }
+    decision.unknowns.sort();
+    decision.unknowns.dedup();
+    decision.blockers.sort();
+    decision.blockers.dedup();
+    decision.raw_scanner_unknowns = projection.raw_scanner_unknowns.clone();
+    decision.material_manifest_digest = projection.material_manifest_digest.clone();
+    decision.review_receipt_digest = projection.review_receipt_digest.clone();
+    decision.review_assurance = projection
+        .review_assurance
+        .map(|assurance| match assurance {
+            MaterialInspectionReviewAssurance::SelfDeclared => "self_declared".into(),
+        });
+    decision.effective_unknowns = decision.unknowns.clone();
+    projection
+}
+
+pub(crate) fn require_material_review_gate(
+    root: &Path,
+    contract: &Contract,
+    summary_path: &Path,
+    boundary: &str,
+) -> Result<MaterialReviewGateProjection, ObserverError> {
+    let projection = material_review_gate_projection(root, contract, summary_path)?;
+    if projection.blocked_by_finding {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: format!("{boundary} is blocked by a canonical material Finding"),
+        });
+    }
+    if !projection.effective_unknowns.is_empty() {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: format!(
+                "{boundary} is blocked by canonical material Unknowns: {}",
+                projection.effective_unknowns.join(", ")
+            ),
+        });
+    }
+    Ok(projection)
+}
+
+fn read_valid_material_review_receipt(
+    root: &Path,
+    contract: &Contract,
+    request: &MaterialReviewRequest,
+    summary_path: &Path,
+) -> Result<Option<MaterialInspectionReviewDecisionReceipt>, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    let relative_summary_path =
+        summary_path
+            .strip_prefix(&root)
+            .map_err(|_| ObserverError::State {
+                path: summary_path.to_path_buf(),
+                message: "material-review Summary path escapes repository".into(),
+            })?;
+    let parent_relative = relative_summary_path
+        .parent()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "material-review Summary has no parent directory".into(),
+        })?;
+    let expected_summary_name = format!("{}.summary.json", contract.work_item_id);
+    if parent_relative != Path::new(".ai/work-items/active")
+        && parent_relative != Path::new(".ai/work-items/archive")
+        || relative_summary_path
+            .file_name()
+            .and_then(|name| name.to_str())
+            != Some(expected_summary_name.as_str())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "material-review Summary path is outside its Work Item directory".into(),
+        });
+    }
+    let root_dir = Dir::open_ambient_dir(&root, ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.clone(),
+            source,
+        }
+    })?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let work_items_path = ai_path.join("work-items");
+    let work_items = open_cap_directory_nofollow_strict(&ai, "work-items", &work_items_path)?;
+    let directory_name = parent_relative
+        .file_name()
+        .and_then(|name| name.to_str())
+        .expect("validated Work Item directory name");
+    let work_item_directory_path = work_items_path.join(directory_name);
+    let work_item_directory =
+        open_cap_directory_nofollow_strict(&work_items, directory_name, &work_item_directory_path)?;
+    let summary_name = format!("{}.summary.json", contract.work_item_id);
+    let summary_bytes = match read_cap_file_nofollow_bounded(
+        &work_item_directory,
+        &summary_name,
+        summary_path,
+        MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    ) {
+        Ok(bytes) => bytes,
+        Err(_error) if !summary_path.exists() => return Ok(None),
+        Err(error) => return Err(error),
+    };
+    super::reject_duplicate_json_keys(&summary_bytes).map_err(|message| ObserverError::State {
+        path: summary_path.to_path_buf(),
+        message: format!("invalid Summary JSON: {message}"),
+    })?;
+    let summary: serde_json::Value =
+        serde_json::from_slice(&summary_bytes).map_err(|error| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: format!("invalid Summary JSON: {error}"),
+        })?;
+    let Some(pointer) = summary.get("materialReviewReceipt") else {
+        return Ok(None);
+    };
+    let path = pointer.get("path").and_then(serde_json::Value::as_str);
+    let file_digest = pointer.get("digest").and_then(serde_json::Value::as_str);
+    let request_digest = pointer
+        .get("requestDigest")
+        .and_then(serde_json::Value::as_str);
+    let receipt_digest = pointer
+        .get("receiptDigest")
+        .and_then(serde_json::Value::as_str);
+    let request_hex = request
+        .request_digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "canonical material-review request digest is invalid".into(),
+        })?;
+    let sidecar_name = format!("{request_hex}.json");
+    let expected_relative_path = format!(
+        ".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{}/{sidecar_name}",
+        contract.work_item_id
+    );
+    if path != Some(expected_relative_path.as_str())
+        || request_digest != Some(request.request_digest.as_str())
+    {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "material-review Summary pointer does not bind the current request".into(),
+        });
+    }
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let evidence_path = root.join(".ai/evidence");
+    let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &evidence_path)?;
+    let review_path = evidence_path.join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY);
+    let review = open_cap_directory_nofollow_strict(
+        &evidence,
+        MATERIAL_REVIEW_EVIDENCE_DIRECTORY,
+        &review_path,
+    )?;
+    let work_item_path = review_path.join(&contract.work_item_id);
+    let work_item =
+        open_cap_directory_nofollow_strict(&review, &contract.work_item_id, &work_item_path)?;
+    let sidecar_path = work_item_path.join(&sidecar_name);
+    let sidecar_bytes = read_cap_file_nofollow_bounded(
+        &work_item,
+        &sidecar_name,
+        &sidecar_path,
+        MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )?;
+    let actual_file_digest = Digest::sha256_bytes(&sidecar_bytes);
+    if file_digest != Some(actual_file_digest.as_str()) {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review sidecar file digest does not match Summary pointer".into(),
+        });
+    }
+    let receipt: MaterialInspectionReviewDecisionReceipt =
+        serde_json::from_slice(&sidecar_bytes).map_err(|error| ObserverError::State {
+            path: sidecar_path.clone(),
+            message: format!("invalid material-review receipt: {error}"),
+        })?;
+    super::reject_duplicate_json_keys(&sidecar_bytes).map_err(|message| ObserverError::State {
+        path: sidecar_path.clone(),
+        message: format!("invalid material-review receipt: {message}"),
+    })?;
+    receipt
+        .validate_integrity()
+        .map_err(|message| ObserverError::State {
+            path: sidecar_path.clone(),
+            message,
+        })?;
+    if receipt_digest != Some(receipt.receipt_digest.as_str()) {
+        return Err(ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "material-review receipt digest does not match Summary pointer".into(),
+        });
+    }
+    let reviewed_source_head =
+        receipt
+            .reviewed_source_head
+            .as_deref()
+            .ok_or_else(|| ObserverError::State {
+                path: sidecar_path.clone(),
+                message: "material-review receipt lacks reviewed source-head provenance".into(),
+            })?;
+    let git = GitRepository::discover(&root).map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let reviewed_head_is_ancestor = git
+        .is_ancestor_bounded(reviewed_source_head, &request.reviewed_source_head, 1024)
+        .map_err(|error| ObserverError::State {
+            path: sidecar_path.clone(),
+            message: format!("cannot verify reviewed source-head ancestry: {error}"),
+        })?;
+    if !reviewed_head_is_ancestor {
+        return Err(ObserverError::State {
+            path: sidecar_path.clone(),
+            message: "reviewed source head is not an ancestor of the current consumer head".into(),
+        });
+    }
+    let input = MaterialInspectionReviewDecisionInput {
+        schema_version: receipt.schema_version,
+        decision: receipt.decision,
+        request_digest: receipt.request_digest.clone(),
+        reviewer_actor: receipt.reviewer_actor.clone(),
+        authority_source: receipt.authority_source.clone(),
+        assurance: receipt.assurance,
+        evidence_refs: receipt.evidence_refs.clone(),
+        rationale: receipt.rationale.clone(),
+        residual_risk: receipt.residual_risk.clone(),
+    };
+    let mut receipt_request = request.clone();
+    receipt_request.reviewed_source_head = reviewed_source_head.to_owned();
+    let expected = validate_material_review_decision(
+        contract,
+        &receipt_request,
+        &input,
+        &receipt.recorded_by,
+        &receipt.recorded_at,
+    )
+    .map_err(|error| ObserverError::State {
+        path: sidecar_path.clone(),
+        message: error.to_string(),
+    })?;
+    if expected != receipt {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review receipt does not match current request or Contract".into(),
+        });
+    }
+    Ok(Some(receipt))
+}
+
+/// Build the canonical read-only material-review request for one active Work
+/// Item. The Contract must remain a regular repository-local file, and all
+/// source identity checks are performed by `material_review_request`.
+pub fn plan_work_item_material_review(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<MaterialReviewRequest, MaterialReviewRequestError> {
+    let root = fs::canonicalize(root)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    super::validate_work_item_id(work_item_id)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let contract = read_active_contract(&root, work_item_id)?;
+    if contract.work_item_id != work_item_id
+        || contract.repository_id != super::repository_id(&root).to_string()
+    {
+        return Err(MaterialReviewRequestError::ContractIdentity);
+    }
+    material_review_request(&root, &contract)
+}
+
+fn material_review_work_item_directory(
+    root: &Path,
+    work_item_id: &str,
+    create: bool,
+) -> Result<Dir, ObserverError> {
+    let root_dir =
+        Dir::open_ambient_dir(root, ambient_authority()).map_err(|source| ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        })?;
+    let ai_path = root.join(".ai");
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &ai_path)?;
+    let evidence_path = ai_path.join("evidence");
+    let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &evidence_path)?;
+    let review_path = evidence_path.join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY);
+    let review = if create {
+        create_and_open_cap_directory(&evidence, MATERIAL_REVIEW_EVIDENCE_DIRECTORY, &review_path)?
+    } else {
+        open_cap_directory_nofollow_strict(
+            &evidence,
+            MATERIAL_REVIEW_EVIDENCE_DIRECTORY,
+            &review_path,
+        )?
+    };
+    let work_item_path = review_path.join(work_item_id);
+    if create {
+        create_and_open_cap_directory(&review, work_item_id, &work_item_path)
+    } else {
+        open_cap_directory_nofollow_strict(&review, work_item_id, &work_item_path)
+    }
+}
+
+/// Record an exact typed material-review decision only when the Contract
+/// opt-in and fresh Runtime action admission are both present. Stage one has
+/// no opt-in, so this operation rejects without writing evidence or Summary.
+pub fn record_work_item_material_review(
+    root: &Path,
+    work_item_id: &str,
+    input: &MaterialInspectionReviewDecisionInput,
+    runtime: &RuntimeContext,
+) -> Result<MaterialInspectionReviewDecisionReceipt, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
+    validate_work_item_id(work_item_id)?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let request = plan_work_item_material_review(&root, work_item_id).map_err(|error| {
+        ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: error.to_string(),
+        }
+    })?;
+    if !request.review_enabled {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+            message: "material review decision is not enabled by the current Contract".into(),
+        });
+    }
+    let contract =
+        read_active_contract(&root, work_item_id).map_err(|error| ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+            message: error.to_string(),
+        })?;
+    require_current_action_admission(
+        &root,
+        work_item_id,
+        "record_material_review_decision",
+        runtime,
+    )?;
+    let recorded_by = format!(
+        "runtime:{}:{}",
+        runtime.runtime_version, runtime.runtime_digest
+    );
+    let receipt =
+        validate_material_review_decision(&contract, &request, input, &recorded_by, &super::now())
+            .map_err(|error| ObserverError::State {
+                path: root
+                    .join(".ai/work-items/active")
+                    .join(format!("{work_item_id}.contract.json")),
+                message: error.to_string(),
+            })?;
+
+    let active_path = root.join(".ai/work-items/active");
+    let root_dir = Dir::open_ambient_dir(&root, ambient_authority()).map_err(|source| {
+        ObserverError::Read {
+            path: root.clone(),
+            source,
+        }
+    })?;
+    let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
+    let work_items =
+        open_cap_directory_nofollow_strict(&ai, "work-items", &root.join(".ai/work-items"))?;
+    let active = open_cap_directory_nofollow_strict(&work_items, "active", &active_path)?;
+    let summary_name = format!("{work_item_id}.summary.json");
+    let summary_path = active_path.join(&summary_name);
+    let summary_bytes = read_cap_file_nofollow_bounded(
+        &active,
+        &summary_name,
+        &summary_path,
+        MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
+    )?;
+    super::reject_duplicate_json_keys(&summary_bytes).map_err(|message| ObserverError::State {
+        path: summary_path.clone(),
+        message: format!("invalid Summary JSON: {message}"),
+    })?;
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&summary_bytes).map_err(|error| ObserverError::State {
+            path: summary_path.clone(),
+            message: format!("invalid Summary JSON: {error}"),
+        })?;
+    if summary
+        .get("workItemId")
+        .and_then(serde_json::Value::as_str)
+        != Some(work_item_id)
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "Summary identity does not match material-review Work Item".into(),
+        });
+    }
+    if summary.get("materialReviewReceipt").is_some() {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "material-review receipt is already recorded; replay is rejected".into(),
+        });
+    }
+
+    let evidence = material_review_work_item_directory(&root, work_item_id, true)?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
+        .join(work_item_id);
+    let mut existing_entries = evidence
+        .read_dir(".")
+        .map_err(|source| ObserverError::Read {
+            path: evidence_path.clone(),
+            source,
+        })?;
+    if let Some(entry) = existing_entries.next() {
+        entry.map_err(|source| ObserverError::Read {
+            path: evidence_path.clone(),
+            source,
+        })?;
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "existing material-review sidecar blocks replay or conflicting evidence"
+                .into(),
+        });
+    }
+    let request_hex = request
+        .request_digest
+        .as_str()
+        .strip_prefix("sha256:")
+        .ok_or_else(|| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "material-review request digest is malformed".into(),
+        })?;
+    let evidence_name = format!("{request_hex}.json");
+    let sidecar_path = evidence_path.join(&evidence_name);
+    let sidecar_bytes =
+        serde_json::to_vec_pretty(&receipt).map_err(|error| ObserverError::State {
+            path: sidecar_path.clone(),
+            message: error.to_string(),
+        })?;
+    super::usage::write_immutable_sidecar(
+        &evidence,
+        &evidence_name,
+        &sidecar_path,
+        &sidecar_bytes,
+    )?;
+    let receipt_file_digest = Digest::sha256_bytes(&sidecar_bytes);
+    let relative_sidecar_path =
+        format!(".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{work_item_id}/{evidence_name}");
+    let summary_object = summary
+        .as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "Summary must be a JSON object".into(),
+        })?;
+    summary_object.insert(
+        "materialReviewReceipt".into(),
+        serde_json::json!({
+            "path": relative_sidecar_path,
+            "digest": receipt_file_digest,
+            "requestDigest": request.request_digest,
+            "receiptDigest": receipt.receipt_digest,
+        }),
+    );
+    super::atomic_json(&active_path.join(summary_name), &summary)?;
+    Ok(receipt)
 }
 
 #[cfg(test)]

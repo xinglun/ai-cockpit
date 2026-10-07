@@ -9,6 +9,14 @@ use cockpit_repository::{
 use serde_json::json;
 use std::{fs, path::Path, process::Command};
 
+fn review_runtime() -> cockpit_protocol::RuntimeContext {
+    cockpit_protocol::RuntimeContext {
+        runtime_version: "material-review-test-runtime".into(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: cockpit_core::Digest::sha256_bytes(b"material-review-test-runtime"),
+    }
+}
+
 fn git(root: &Path, args: &[&str]) -> String {
     let output = Command::new("git")
         .args(args)
@@ -215,6 +223,10 @@ fn material_review_decision_types_reject_unknown_fields_and_receipt_tampering() 
     .unwrap();
     assert_eq!(receipt.reviewer_actor, "agent:Raydot");
     assert_eq!(receipt.recorded_by, "agent:codex-executor");
+    assert_eq!(
+        receipt.reviewed_source_head,
+        Some(request.reviewed_source_head)
+    );
     assert_eq!(receipt.canonical_digest().unwrap(), receipt.receipt_digest);
 
     let mut receipt_value = serde_json::to_value(&receipt).unwrap();
@@ -317,6 +329,175 @@ fn material_review_decision_validator_rejects_wrong_authority_source() {
     assert_eq!(
         error,
         MaterialReviewDecisionValidationError::AuthorityMismatch
+    );
+}
+
+#[test]
+fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer() {
+    let (directory, mut contract, _initial_request, mut input) = material_review_decision_fixture();
+    let root = directory.path();
+    cockpit_repository::attach(root).expect("attach fixture");
+    contract.repository_id = cockpit_repository::repository_id(root).to_string();
+    let project: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
+    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
+    let request = material_review_request(root, &contract).expect("recompute attached request");
+    input.request_digest = request.request_digest.clone();
+    let active = root.join(".ai/work-items/active");
+    fs::create_dir_all(&active).expect("active directory");
+    let contract_path = active.join("WI-MATERIAL.contract.json");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("Contract JSON"),
+    )
+    .expect("write active Contract");
+    let summary_path = active.join("WI-MATERIAL.summary.json");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&json!({
+            "workItemId": "WI-MATERIAL",
+            "state": "implementation_active",
+            "checkpointCount": 0,
+            "createdAt": "2026-10-07T00:00:00Z"
+        }))
+        .expect("Summary JSON"),
+    )
+    .expect("write active Summary");
+
+    let runtime = review_runtime();
+    let preflight =
+        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("fresh preflight");
+    assert!(
+        preflight
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after preflight");
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let receipt =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect("admitted typed material-review decision");
+    assert_eq!(receipt.request_digest, request.request_digest);
+    assert_eq!(
+        receipt.reviewed_source_head.as_deref(),
+        Some(request.reviewed_source_head.as_str())
+    );
+    let pointer: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("updated Summary"))
+            .expect("Summary JSON");
+    let sidecar_path = root.join(pointer["materialReviewReceipt"]["path"].as_str().unwrap());
+    let sidecar_bytes = fs::read(&sidecar_path).expect("immutable receipt sidecar");
+    assert_eq!(
+        pointer["materialReviewReceipt"]["digest"],
+        cockpit_core::Digest::sha256_bytes(&sidecar_bytes).to_string()
+    );
+    assert_eq!(
+        pointer["materialReviewReceipt"]["receiptDigest"],
+        receipt.receipt_digest.to_string()
+    );
+
+    let after =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after receipt");
+    assert_eq!(
+        after.review_assurance,
+        Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
+    );
+    assert_eq!(
+        after.review_receipt_digest,
+        Some(receipt.receipt_digest.clone())
+    );
+    assert!(
+        !after
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+
+    let summary_before_replay = fs::read(&summary_path).expect("Summary bytes");
+    assert!(cockpit_repository::record_work_item_material_review(
+        root,
+        "WI-MATERIAL",
+        &input,
+        &runtime,
+    )
+    .is_err());
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary after replay attempt"),
+        summary_before_replay,
+        "replay must not rewrite the Summary pointer"
+    );
+
+    git(root, &["add", "-f", ".ai"]);
+    git(
+        root,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-qm",
+            "descendant .ai-only review record",
+        ],
+    );
+    let descendant =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status on .ai-only descendant");
+    assert_eq!(
+        descendant.review_receipt_digest,
+        Some(receipt.receipt_digest.clone())
+    );
+    assert_eq!(descendant.review_assurance, after.review_assurance);
+    assert!(
+        descendant
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        !descendant
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+
+    git(
+        root,
+        &["checkout", "--orphan", "non-ancestor-material-review"],
+    );
+    git(root, &["add", "-A"]);
+    git(root, &["add", "-f", ".ai"]);
+    git(
+        root,
+        &[
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.invalid",
+            "commit",
+            "-qm",
+            "non-ancestor material snapshot",
+        ],
+    );
+    let non_ancestor =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status remains available after non-ancestor rewrite");
+    assert!(
+        non_ancestor
+            .blockers
+            .contains(&"material_review_projection_unavailable".into())
+    );
+    assert_eq!(non_ancestor.review_receipt_digest, None);
+    assert!(
+        non_ancestor
+            .effective_unknowns
+            .contains(&"material_review_projection_unavailable".into())
     );
 }
 

@@ -502,6 +502,21 @@ fn bounded_git_revision_arguments_reject_option_injection() {
     fs::remove_dir_all(path).expect("cleanup");
 }
 
+#[cfg(windows)]
+#[test]
+fn windows_job_object_allows_normal_bounded_git_snapshot() {
+    let path = temporary_repository();
+    let repository = GitRepository::discover(&path).expect("discover");
+    let snapshot = repository
+        .source_snapshot_bounded(MAX_BOUNDED_GIT_OUTPUT_BYTES)
+        .expect("normal Git process completes under its Job Object");
+
+    assert!(snapshot.head.is_some());
+    assert!(snapshot.changed_paths.is_empty());
+    assert!(snapshot.source_tree_digest.starts_with("sha256:"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
 #[cfg(unix)]
 #[test]
 fn bounded_output_overflow_terminates_git_filter_process_group() {

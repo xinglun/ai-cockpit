@@ -24,6 +24,21 @@ When status admits `record_governance_controls`, submit explicit evidence via
 `work_item_controls`; both re-check admission. Refresh status; incomplete
 required controls block `finish`.
 
+## Material review
+
+Use `work-item material-review plan --repo <repository> --id <work-item>` or
+MCP `work_item_material_review_plan` for the read-only canonical request. It
+requires committed, clean non-`.ai` source and preserves scanner Findings and
+raw Unknowns; a plan is not a decision and does not discharge an Unknown.
+`work-item material-review record --repo <repository> --id <work-item> --input <decision.json>` and MCP `work_item_material_review_record` share the same typed repository service. Recording is admitted only when the exact
+Contract opt-in and current Runtime action admission both allow it. The
+decision records `assurance=self_declared`; its `reviewerActor` is a claim,
+not authenticated identity, human approval, provider/host verification, or
+release approval. It never labels machine-Unknown material Clean. At Stage 1,
+the opt-in is absent, so no material Unknown can be discharged. Keep the raw
+scanner result and residual risk visible. See the English, Chinese, and
+Japanese plan/record entries in the [command reference](../../docs/reference/commands.md).
+
 ## Serial and cross-Work-Item use
 
 One Work Item is serial by default; lifecycle and snapshot-changing writes

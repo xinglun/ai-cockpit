@@ -680,6 +680,11 @@ enum WorkItemCommand {
         #[command(subcommand)]
         command: WorkItemUsageCommand,
     },
+    /// Inspect the exact committed material considered by the review boundary.
+    MaterialReview {
+        #[command(subcommand)]
+        command: WorkItemMaterialReviewCommand,
+    },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
     ReconcileArtifacts {
@@ -889,6 +894,26 @@ enum WorkItemUsageCommand {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION)]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemMaterialReviewCommand {
+    /// Build the canonical read-only material-review request for an active Work Item.
+    Plan {
+        #[arg(long, help = "Repository path for source identity.")]
+        repo: PathBuf,
+        #[arg(long, help = "Active Work Item identifier.")]
+        id: String,
+    },
+    /// Record a self-declared typed decision only when Contract opt-in and current Runtime admission allow it; this is not human, provider, or release approval.
+    Record {
+        #[arg(long, help = "Repository path for current Runtime admission.")]
+        repo: PathBuf,
+        #[arg(long, help = "Active Work Item identifier.")]
+        id: String,
+        #[arg(long, help = "Strict MaterialInspectionReviewDecisionInput JSON file.")]
         input: PathBuf,
     },
 }
@@ -3148,6 +3173,30 @@ fn run() -> Result<()> {
                         &runtime_context,
                     )
                     .context("record Work Item usage")?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
+            WorkItemCommand::MaterialReview { command } => match command {
+                WorkItemMaterialReviewCommand::Plan { repo, id } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request = cockpit_repository::plan_work_item_material_review(&repo, &id)
+                        .context("plan Work Item material review")?;
+                    println!("{}", serde_json::to_string_pretty(&request)?);
+                }
+                WorkItemMaterialReviewCommand::Record { repo, id, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+                        serde_json::from_slice(
+                            &fs::read(&input).context("read material review decision input")?,
+                        )
+                        .context("parse strict MaterialInspectionReviewDecisionInput")?;
+                    let receipt = cockpit_repository::record_work_item_material_review(
+                        &repo,
+                        &id,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("record Work Item material review decision")?;
                     println!("{}", serde_json::to_string_pretty(&receipt)?);
                 }
             },

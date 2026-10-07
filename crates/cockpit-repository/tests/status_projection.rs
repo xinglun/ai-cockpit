@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
@@ -53,7 +53,13 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
-    attach(directory.path()).expect("attach");
+    let root = directory.path();
+    git(root, &["config", "user.name", "Status Test"]);
+    git(root, &["config", "user.email", "status@example.invalid"]);
+    fs::write(root.join("README.md"), "status projection baseline\n").expect("baseline");
+    git(root, &["add", "README.md"]);
+    git(root, &["commit", "-qm", "status projection baseline"]);
+    attach(root).expect("attach");
     directory
 }
 
@@ -1192,6 +1198,141 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
             .any(|input| input.contains("verification"))
     );
     assert!(explanation.admission_digest.as_str().starts_with("sha256:"));
+}
+
+#[test]
+fn status_rechecks_committed_contract_base_material_with_empty_worktree_diff() {
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("README.md"), "material status baseline\n").expect("baseline");
+    commit_all(root, "material status baseline");
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-STATUS",
+        "project committed material",
+        "retain canonical scanner Unknowns in status",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let (marker, _) = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim()
+    .split_once(';')
+    .unwrap();
+    let operation = ["de", "lete"].concat();
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material_unknown.rs"),
+        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+    )
+    .expect("material source");
+    commit_all(root, "commit material with bounded syntax Unknown");
+    cockpit_repository::plan_work_item_material_review(root, "WI-MATERIAL-STATUS")
+        .expect("canonical material request after commit");
+
+    let status = work_item_status_snapshot_with_runtime(root, "WI-MATERIAL-STATUS", &runtime())
+        .expect("status");
+    assert!(
+        status
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "status must include the canonical committed-source scanner result: {:?}",
+        status.unknowns
+    );
+    assert!(
+        status
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert_eq!(status.effective_unknowns, status.unknowns);
+    assert!(status.material_manifest_digest.is_some());
+    assert_eq!(status.review_receipt_digest, None);
+    assert_eq!(status.review_assurance, None);
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let preflight = preflight_work_item(
+        root,
+        &root.join(".ai/work-items/active/WI-MATERIAL-STATUS.contract.json"),
+    )
+    .expect("preflight");
+    assert_eq!(preflight.state, DecisionState::Yellow);
+    assert!(
+        preflight
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        preflight
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert_eq!(preflight.effective_unknowns, preflight.unknowns);
+    assert!(preflight.material_manifest_digest.is_some());
+    assert_eq!(preflight.review_receipt_digest, None);
+    assert_eq!(preflight.review_assurance, None);
+}
+
+#[test]
+fn finish_and_archive_reject_canonical_material_unknowns() {
+    let directory = repository();
+    let root = directory.path();
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-LIFECYCLE",
+        "gate lifecycle on canonical material",
+        "do not finish with unresolved scanner Unknowns",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let (marker, _) = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim()
+    .split_once(';')
+    .unwrap();
+    let operation = ["de", "lete"].concat();
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material_unknown.rs"),
+        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+    )
+    .expect("material source");
+    commit_all(root, "commit material Unknown");
+
+    let summary_path = root.join(".ai/work-items/active/WI-MATERIAL-LIFECYCLE.summary.json");
+    let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["state"] = "checkpointed".into();
+    summary["checkpointCount"] = 1.into();
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+    let finish = finish_work_item(root, "WI-MATERIAL-LIFECYCLE")
+        .expect_err("finish must fail on canonical material Unknown");
+    assert!(
+        finish.to_string().contains("canonical material Unknowns"),
+        "{finish}"
+    );
+
+    summary["state"] = "finish_ready".into();
+    summary["preflightState"] = "green".into();
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+    let archive = archive_work_item(root, "WI-MATERIAL-LIFECYCLE")
+        .expect_err("archive must fail on canonical material Unknown");
+    assert!(
+        archive.to_string().contains("canonical material Unknowns"),
+        "{archive}"
+    );
 }
 
 #[test]

@@ -25,7 +25,7 @@ const MAX_USAGE_RECEIPT_BYTES: u64 = 64 * 1024;
 const MAX_USAGE_EVIDENCE_BYTES: usize = 4 * 1024 * 1024;
 static NEXT_USAGE_WRITE_ID: AtomicU64 = AtomicU64::new(0);
 
-fn write_usage_receipt_immutable(
+pub(super) fn write_immutable_sidecar(
     parent: &Dir,
     name: &str,
     path: &Path,
@@ -58,7 +58,7 @@ fn write_usage_receipt_immutable(
                     } else {
                         Err(state_error(
                             path,
-                            "immutable usage receipt already exists with different content",
+                            "immutable evidence sidecar already exists with different content",
                         ))
                     }
                 },
@@ -720,7 +720,7 @@ pub fn record_work_item_usage(
     let path = work_item_path.join(&name);
     let bytes = serde_json::to_vec_pretty(&prospective)
         .map_err(|error| state_error(&path, error.to_string()))?;
-    write_usage_receipt_immutable(&work_item, &name, &path, &bytes)?;
+    write_immutable_sidecar(&work_item, &name, &path, &bytes)?;
     Ok(prospective)
 }
 

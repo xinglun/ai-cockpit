@@ -7,6 +7,8 @@ use std::path::{Component, Path};
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc::{self, SyncSender};
 use std::thread;
+#[cfg(windows)]
+use std::time::Duration;
 use std::time::UNIX_EPOCH;
 use thiserror::Error;
 
@@ -216,6 +218,520 @@ mod incremental_merkle_tests {
             result,
             Err(ContentIdentityError::ChangedDuringRead(changed)) if changed == path
         ));
+    }
+}
+
+#[cfg(test)]
+mod suspended_job_setup_tests {
+    use super::{JobAssignmentStage, assign_job_before_resume};
+    use std::cell::RefCell;
+
+    #[test]
+    fn suspended_process_is_assigned_before_resume() {
+        let events = RefCell::new(Vec::new());
+        let process = assign_job_before_resume(
+            "git",
+            |process| {
+                assert_eq!(*process, "git");
+                events.borrow_mut().push("assign");
+                Ok(())
+            },
+            |process| {
+                assert_eq!(*process, "git");
+                events.borrow_mut().push("resume");
+                Ok(())
+            },
+            |process, stage| {
+                let _ = (process, stage);
+                events.borrow_mut().push("fail_closed");
+                Ok(())
+            },
+        )
+        .expect("assigned and resumed process");
+
+        assert_eq!(process, "git");
+        assert_eq!(*events.borrow(), ["assign", "resume"]);
+    }
+
+    #[test]
+    fn assignment_failure_terminates_and_waits_without_resume() {
+        let events = RefCell::new(Vec::new());
+        let result = assign_job_before_resume(
+            "git",
+            |_| {
+                events.borrow_mut().push("assign");
+                Err("assignment failed".to_owned())
+            },
+            |_| panic!("resume must not run after failed assignment"),
+            |process, stage| {
+                assert_eq!(process, "git");
+                assert_eq!(stage, JobAssignmentStage::NotAssigned);
+                events.borrow_mut().push("terminate_and_wait");
+                Ok(())
+            },
+        );
+
+        assert_eq!(result.unwrap_err(), "assignment failed");
+        assert_eq!(*events.borrow(), ["assign", "terminate_and_wait"]);
+    }
+
+    #[test]
+    fn resume_failure_terminates_and_waits_after_assignment() {
+        let events = RefCell::new(Vec::new());
+        let result = assign_job_before_resume(
+            "git",
+            |_| {
+                events.borrow_mut().push("assign");
+                Ok(())
+            },
+            |_| {
+                events.borrow_mut().push("resume");
+                Err("resume failed".to_owned())
+            },
+            |process, stage| {
+                assert_eq!(process, "git");
+                assert_eq!(stage, JobAssignmentStage::Assigned);
+                events.borrow_mut().push("terminate_and_wait");
+                Ok(())
+            },
+        );
+
+        assert_eq!(result.unwrap_err(), "resume failed");
+        assert_eq!(*events.borrow(), ["assign", "resume", "terminate_and_wait"]);
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_job_object_tests {
+    use super::{GitError, bounded_process_output};
+    use std::{
+        io::Write,
+        process::{Child, Command, Stdio},
+        thread,
+        time::{Duration, Instant},
+    };
+
+    const MODE: &str = "COCKPIT_GIT_WINDOWS_JOB_TEST_MODE";
+    const OUTPUT_LIMIT: usize = 8 * 1024;
+
+    #[test]
+    fn overflow_parent_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("parent") {
+            return;
+        }
+        let descendant = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "windows_job_object_tests::pipe_descendant_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "descendant")
+            .spawn()
+            .expect("spawn pipe-holding descendant");
+
+        let mut stderr = std::io::stderr().lock();
+        stderr
+            .write_all(&vec![b'x'; 32 * 1024])
+            .expect("write overflow bytes");
+        stderr.flush().expect("flush overflow bytes");
+        drop(descendant);
+        loop {
+            thread::sleep(Duration::from_secs(60));
+        }
+    }
+
+    #[test]
+    fn pipe_descendant_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("descendant") {
+            return;
+        }
+        loop {
+            thread::sleep(Duration::from_secs(60));
+        }
+    }
+
+    #[test]
+    fn bounded_runner_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("runner") {
+            return;
+        }
+        let mut command = Command::new(std::env::current_exe().expect("test executable"));
+        command
+            .args([
+                "--exact",
+                "windows_job_object_tests::overflow_parent_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "parent")
+            .stdin(Stdio::null());
+        assert!(matches!(
+            bounded_process_output(command, OUTPUT_LIMIT),
+            Err(GitError::OutputLimitExceeded {
+                limit: OUTPUT_LIMIT
+            })
+        ));
+    }
+
+    #[test]
+    fn output_overflow_kills_descendant_holding_inherited_pipe() {
+        use std::os::windows::process::CommandExt;
+
+        let supervisor_job = super::windows_job::Job::new().expect("create supervisor Job Object");
+        let mut runner_command = Command::new(std::env::current_exe().expect("test executable"));
+        runner_command
+            .args([
+                "--exact",
+                "windows_job_object_tests::bounded_runner_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "runner");
+        runner_command.creation_flags(super::windows_job::CREATE_SUSPENDED);
+        let mut runner = runner_command
+            .spawn()
+            .expect("spawn suspended bounded runner process");
+        let setup = supervisor_job
+            .assign(&runner)
+            .and_then(|()| super::windows_job::resume_primary_thread(runner.id()));
+        if let Err(error) = setup {
+            let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+            panic!("could not start supervised runner: {error}; runner_stopped={runner_stopped}");
+        }
+        let deadline = Instant::now() + Duration::from_secs(10);
+        let status = loop {
+            match runner.try_wait() {
+                Ok(Some(status)) => break status,
+                Ok(None) if Instant::now() < deadline => thread::sleep(Duration::from_millis(10)),
+                Ok(None) => {
+                    let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+                    panic!("bounded output timed out; runner_stopped={runner_stopped}");
+                }
+                Err(error) => {
+                    let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+                    panic!(
+                        "could not wait for bounded runner: {error}; runner_stopped={runner_stopped}"
+                    );
+                }
+            }
+        };
+        if !status.success() {
+            let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+            panic!("bounded runner subprocess failed: {status}; runner_stopped={runner_stopped}");
+        }
+        drop(runner);
+
+        let deadline = Instant::now() + Duration::from_secs(2);
+        let mut active_processes = supervisor_job
+            .active_processes()
+            .expect("query supervised process count");
+        while active_processes != 0 && Instant::now() < deadline {
+            thread::sleep(Duration::from_millis(10));
+            active_processes = supervisor_job
+                .active_processes()
+                .expect("query supervised process count while waiting for descendants");
+        }
+        assert_eq!(
+            active_processes, 0,
+            "the bounded process Job Object must terminate its descendants"
+        );
+    }
+
+    fn cleanup_test_processes(
+        runner: &mut Child,
+        supervisor_job: &super::windows_job::Job,
+    ) -> bool {
+        let _ = supervisor_job.terminate();
+        let _ = runner.kill();
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            match runner.try_wait() {
+                Ok(Some(_)) => return true,
+                Ok(None) if Instant::now() < deadline => thread::sleep(Duration::from_millis(10)),
+                Ok(None) | Err(_) => return false,
+            }
+        }
+    }
+}
+
+#[cfg(any(windows, test))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JobAssignmentStage {
+    NotAssigned,
+    Assigned,
+}
+
+#[cfg(any(windows, test))]
+fn assign_job_before_resume<T>(
+    process: T,
+    assign: impl FnOnce(&T) -> Result<(), String>,
+    resume: impl FnOnce(&T) -> Result<(), String>,
+    fail_closed: impl FnOnce(T, JobAssignmentStage) -> Result<(), String>,
+) -> Result<T, String> {
+    if let Err(error) = assign(&process) {
+        let cleanup = fail_closed(process, JobAssignmentStage::NotAssigned);
+        return Err(append_cleanup_error(error, cleanup));
+    }
+    if let Err(error) = resume(&process) {
+        let cleanup = fail_closed(process, JobAssignmentStage::Assigned);
+        return Err(append_cleanup_error(error, cleanup));
+    }
+    Ok(process)
+}
+
+#[cfg(any(windows, test))]
+fn append_cleanup_error(error: String, cleanup: Result<(), String>) -> String {
+    match cleanup {
+        Ok(()) => error,
+        Err(cleanup) => format!("{error}; fail-closed cleanup failed: {cleanup}"),
+    }
+}
+
+struct BoundedProcess {
+    child: Child,
+    #[cfg(windows)]
+    job: Option<windows_job::Job>,
+}
+
+impl BoundedProcess {
+    fn spawn(mut command: Command) -> Result<Self, GitError> {
+        #[cfg(windows)]
+        {
+            use std::os::windows::process::CommandExt;
+            use windows_job::CREATE_SUSPENDED;
+
+            let job =
+                windows_job::Job::new().map_err(|error| GitError::Command(error.to_string()))?;
+            command.creation_flags(CREATE_SUSPENDED);
+            let child = command
+                .spawn()
+                .map_err(|error| GitError::Command(error.to_string()))?;
+            let process = Self {
+                child,
+                job: Some(job),
+            };
+            return assign_job_before_resume(
+                process,
+                |process| process.assign_to_job(),
+                |process| process.resume_primary_thread(),
+                |mut process, stage| process.fail_closed_start(stage),
+            )
+            .map_err(GitError::Command);
+        }
+
+        #[cfg(not(windows))]
+        {
+            let child = command
+                .spawn()
+                .map_err(|error| GitError::Command(error.to_string()))?;
+            Ok(Self { child })
+        }
+    }
+
+    fn terminate(&mut self) {
+        #[cfg(unix)]
+        {
+            // Every bounded Git child owns a fresh process group. Killing the
+            // group also closes pipes inherited by Git filters and helpers.
+            const SIGKILL: i32 = 9;
+            let process_group = -(self.child.id() as i32);
+            // SAFETY: the process group ID is the PID assigned by CommandExt.
+            let _ = unsafe { kill(process_group, SIGKILL) };
+        }
+        #[cfg(windows)]
+        self.terminate_job();
+        let _ = self.child.kill();
+    }
+
+    #[cfg(windows)]
+    fn assign_to_job(&self) -> Result<(), String> {
+        self.job
+            .as_ref()
+            .expect("job is present until setup completes")
+            .assign(&self.child)
+            .map_err(|error| {
+                format!("could not assign suspended Git process to Job Object: {error}")
+            })
+    }
+
+    #[cfg(windows)]
+    fn resume_primary_thread(&self) -> Result<(), String> {
+        windows_job::resume_primary_thread(self.child.id())
+            .map_err(|error| format!("could not resume suspended Git process: {error}"))
+    }
+
+    #[cfg(windows)]
+    fn fail_closed_start(&mut self, stage: JobAssignmentStage) -> Result<(), String> {
+        if stage == JobAssignmentStage::Assigned {
+            self.terminate_job();
+        }
+        // Closing a configured KILL_ON_JOB_CLOSE job is the fallback if
+        // TerminateJobObject itself failed. If assignment failed, the child
+        // is still suspended outside the job and must be killed directly.
+        self.job.take();
+        let _ = self.child.kill();
+        self.child
+            .wait()
+            .map(|_| ())
+            .map_err(|error| format!("could not wait for failed suspended Git process: {error}"))
+    }
+
+    #[cfg(windows)]
+    fn terminate_job(&mut self) {
+        if let Some(job) = self.job.take() {
+            let _ = job.terminate();
+            drop(job);
+        }
+    }
+
+    #[cfg(windows)]
+    fn terminate_descendants_after_parent_exit(&mut self) {
+        self.terminate_job();
+    }
+}
+
+#[cfg(windows)]
+mod windows_job {
+    #[cfg(test)]
+    use std::ptr::null_mut;
+    use std::{io, mem::size_of, os::windows::io::AsRawHandle, process::Child, ptr::null};
+    #[cfg(test)]
+    use windows_sys::Win32::System::JobObjects::{
+        JOBOBJECT_BASIC_ACCOUNTING_INFORMATION, JobObjectBasicAccountingInformation,
+        QueryInformationJobObject,
+    };
+    use windows_sys::Win32::{
+        Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE},
+        System::{
+            Diagnostics::ToolHelp::{
+                CreateToolhelp32Snapshot, TH32CS_SNAPTHREAD, THREADENTRY32, Thread32First,
+                Thread32Next,
+            },
+            JobObjects::{
+                AssignProcessToJobObject, CreateJobObjectW, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+                JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JobObjectExtendedLimitInformation,
+                SetInformationJobObject, TerminateJobObject,
+            },
+            Threading::{OpenThread, ResumeThread, THREAD_SUSPEND_RESUME},
+        },
+    };
+
+    pub(super) use windows_sys::Win32::System::Threading::CREATE_SUSPENDED;
+
+    pub(super) struct Job(Handle);
+
+    impl Job {
+        pub(super) fn new() -> io::Result<Self> {
+            let handle = unsafe { CreateJobObjectW(null(), null()) };
+            if handle.is_null() {
+                return Err(io::Error::last_os_error());
+            }
+            let job = Self(Handle(handle));
+            let mut limits = JOBOBJECT_EXTENDED_LIMIT_INFORMATION::default();
+            limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+            let configured = unsafe {
+                SetInformationJobObject(
+                    job.0.0,
+                    JobObjectExtendedLimitInformation,
+                    (&limits as *const JOBOBJECT_EXTENDED_LIMIT_INFORMATION).cast(),
+                    size_of::<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>() as u32,
+                )
+            };
+            if configured == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(job)
+        }
+
+        pub(super) fn assign(&self, child: &Child) -> io::Result<()> {
+            let process = child.as_raw_handle() as HANDLE;
+            if unsafe { AssignProcessToJobObject(self.0.0, process) } == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(())
+        }
+
+        pub(super) fn terminate(&self) -> io::Result<()> {
+            if unsafe { TerminateJobObject(self.0.0, 1) } == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(())
+        }
+
+        #[cfg(test)]
+        pub(super) fn active_processes(&self) -> io::Result<u32> {
+            let mut accounting = JOBOBJECT_BASIC_ACCOUNTING_INFORMATION::default();
+            let queried = unsafe {
+                QueryInformationJobObject(
+                    self.0.0,
+                    JobObjectBasicAccountingInformation,
+                    (&mut accounting as *mut JOBOBJECT_BASIC_ACCOUNTING_INFORMATION).cast(),
+                    size_of::<JOBOBJECT_BASIC_ACCOUNTING_INFORMATION>() as u32,
+                    null_mut(),
+                )
+            };
+            if queried == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(accounting.ActiveProcesses)
+        }
+    }
+
+    struct Handle(HANDLE);
+
+    impl Drop for Handle {
+        fn drop(&mut self) {
+            if !self.0.is_null() && self.0 != INVALID_HANDLE_VALUE {
+                let _ = unsafe { CloseHandle(self.0) };
+            }
+        }
+    }
+
+    fn suspended_thread_id(process_id: u32) -> io::Result<u32> {
+        let snapshot = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0) };
+        if snapshot.is_null() || snapshot == INVALID_HANDLE_VALUE {
+            return Err(io::Error::last_os_error());
+        }
+        let _snapshot = Handle(snapshot);
+        let mut entry = THREADENTRY32 {
+            dwSize: size_of::<THREADENTRY32>() as u32,
+            ..THREADENTRY32::default()
+        };
+        if unsafe { Thread32First(snapshot, &mut entry) } == 0 {
+            return Err(io::Error::last_os_error());
+        }
+        let mut thread_id = None;
+        loop {
+            if entry.th32OwnerProcessID == process_id {
+                if thread_id.replace(entry.th32ThreadID).is_some() {
+                    return Err(io::Error::other(
+                        "suspended Git process had more than one thread before resume",
+                    ));
+                }
+            }
+            if unsafe { Thread32Next(snapshot, &mut entry) } == 0 {
+                break;
+            }
+        }
+        thread_id
+            .ok_or_else(|| io::Error::other("suspended Git process primary thread was not found"))
+    }
+
+    pub(super) fn resume_primary_thread(process_id: u32) -> io::Result<()> {
+        let thread_id = suspended_thread_id(process_id)?;
+        let thread = unsafe { OpenThread(THREAD_SUSPEND_RESUME, 0, thread_id) };
+        if thread.is_null() {
+            return Err(io::Error::last_os_error());
+        }
+        let _thread = Handle(thread);
+        let previous_suspend_count = unsafe { ResumeThread(thread) };
+        if previous_suspend_count == u32::MAX {
+            return Err(io::Error::last_os_error());
+        }
+        if previous_suspend_count != 1 {
+            return Err(io::Error::other(format!(
+                "expected one suspended primary thread, found suspend count {previous_suspend_count}"
+            )));
+        }
+        Ok(())
     }
 }
 
@@ -1083,16 +1599,15 @@ fn bounded_process_output(
     max_output_bytes: usize,
 ) -> Result<BoundedGitOutput, GitError> {
     command.env("GIT_NO_LAZY_FETCH", "1");
-    let mut child = command
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .map_err(|error| GitError::Command(error.to_string()))?;
+    command.stdout(Stdio::piped()).stderr(Stdio::piped());
+    let mut child = BoundedProcess::spawn(command)?;
     let stdout = child
+        .child
         .stdout
         .take()
         .ok_or_else(|| GitError::Command("git stdout pipe was unavailable".into()))?;
     let stderr = child
+        .child
         .stderr
         .take()
         .ok_or_else(|| GitError::Command("git stderr pipe was unavailable".into()))?;
@@ -1106,7 +1621,41 @@ fn bounded_process_output(
     let mut stderr_bytes = Vec::new();
     let mut overflow = false;
     let mut read_error = None;
-    while let Ok(message) = receiver.recv() {
+    #[cfg(windows)]
+    let mut process_exit_observed = false;
+    loop {
+        #[cfg(windows)]
+        let message = match receiver.recv_timeout(Duration::from_millis(50)) {
+            Ok(message) => Some(message),
+            Err(mpsc::RecvTimeoutError::Timeout) => {
+                if !process_exit_observed {
+                    match child.child.try_wait() {
+                        Ok(Some(_)) => {
+                            process_exit_observed = true;
+                            child.terminate_descendants_after_parent_exit();
+                        }
+                        Ok(None) => {}
+                        Err(error) => {
+                            process_exit_observed = true;
+                            if read_error.is_none() {
+                                read_error =
+                                    Some(format!("failed waiting for git process: {error}"));
+                            }
+                            terminate_bounded_process_group(&mut child);
+                        }
+                    }
+                }
+                continue;
+            }
+            Err(mpsc::RecvTimeoutError::Disconnected) => None,
+        };
+
+        #[cfg(not(windows))]
+        let message = receiver.recv().ok();
+
+        let Some(message) = message else {
+            break;
+        };
         match message {
             BoundedReadMessage::Chunk(stream, bytes) => {
                 let target = match stream {
@@ -1131,6 +1680,7 @@ fn bounded_process_output(
         }
     }
     let status = child
+        .child
         .wait()
         .map_err(|error| GitError::Command(error.to_string()))?;
     let stdout_panicked = stdout_reader.join().is_err();
@@ -1156,17 +1706,8 @@ fn bounded_process_output(
     })
 }
 
-fn terminate_bounded_process_group(child: &mut Child) {
-    #[cfg(unix)]
-    {
-        // Every bounded Git child owns a fresh process group. Killing the
-        // group also closes pipes inherited by Git filters and helpers.
-        const SIGKILL: i32 = 9;
-        let process_group = -(child.id() as i32);
-        // SAFETY: the process group ID is the PID assigned by CommandExt.
-        let _ = unsafe { kill(process_group, SIGKILL) };
-    }
-    let _ = child.kill();
+fn terminate_bounded_process_group(child: &mut BoundedProcess) {
+    child.terminate();
 }
 
 fn command_error(stderr: &[u8]) -> GitError {

@@ -48,6 +48,47 @@ fn usage_record_description_projects_both_transports_and_capability_surface() {
 }
 
 #[test]
+fn material_review_plan_interface_is_discoverable_and_read_only() {
+    let description =
+        cockpit_protocol::interface_description_for_surface("work-item-material-review-plan")
+            .expect("material review plan capability surface");
+    assert_eq!(description.name, "work-item-material-review-plan");
+    let cli = surface(&description, "cli");
+    assert!(parameter(cli, "repo").required);
+    assert!(parameter(cli, "id").required);
+    let mcp = surface(&description, "mcp");
+    assert!(parameter(mcp, "workItemId").required);
+    assert!(cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.contains(&description.name.as_str()));
+    assert!(
+        render_interface_description_markdown(&description, "zh")
+            .contains("work-item-material-review-plan")
+    );
+}
+
+#[test]
+fn material_review_record_interface_discloses_cli_and_mcp_decision_boundaries() {
+    let description =
+        cockpit_protocol::interface_description_for_surface("work-item-material-review-record")
+            .expect("material review record capability surface");
+    assert_eq!(description.name, "work-item-material-review-record");
+    let cli = surface(&description, "cli");
+    assert!(parameter(cli, "repo").required);
+    assert!(parameter(cli, "id").required);
+    assert!(parameter(cli, "input").required);
+    let mcp = surface(&description, "mcp");
+    assert!(parameter(mcp, "workItemId").required);
+    assert!(parameter(mcp, "decision").required);
+    assert!(
+        description
+            .surfaces
+            .iter()
+            .flat_map(|surface| &surface.parameters)
+            .any(|parameter| parameter.description.contains("self-declared"))
+    );
+    assert!(cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.contains(&description.name.as_str()));
+}
+
+#[test]
 fn audit_descriptions_bind_cli_and_mcp_filter_names() {
     let query =
         cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_QUERY_SURFACE)

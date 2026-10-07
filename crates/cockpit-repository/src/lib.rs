@@ -68,7 +68,8 @@ mod usage;
 
 pub use material_review::{
     MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
-    MaterialReviewRequestError, material_review_request, validate_material_review_decision,
+    MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
+    record_work_item_material_review, validate_material_review_decision,
 };
 pub use rust_material::MaterialUnknownCause;
 use rust_material::{
@@ -653,6 +654,21 @@ pub struct ContractQualityGateReport {
     pub decision_state: String,
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
+    /// Raw Unknowns emitted by the canonical Contract-base material scanner.
+    #[serde(default)]
+    pub raw_scanner_unknowns: Vec<String>,
+    /// Canonical non-`.ai` material manifest identity, when available.
+    #[serde(default)]
+    pub material_manifest_digest: Option<Digest>,
+    /// Digest of a validated immutable review receipt, never a caller claim.
+    #[serde(default)]
+    pub review_receipt_digest: Option<Digest>,
+    /// Assurance level of the validated review receipt.
+    #[serde(default)]
+    pub review_assurance: Option<cockpit_protocol::MaterialInspectionReviewAssurance>,
+    /// Effective Unknowns after only a precisely bound eligible receipt.
+    #[serde(default)]
+    pub effective_unknowns: Vec<String>,
     pub required_checks: Vec<String>,
     pub runtime_version: String,
     pub runtime_digest: Digest,
@@ -4321,20 +4337,74 @@ pub fn evaluate_contract_quality_gate(
         runtime,
         archived_contract,
     )?;
+    let summary_path = contract_path
+        .parent()
+        .unwrap_or(&root)
+        .join(format!("{}.summary.json", contract.work_item_id));
+    let material_projection =
+        material_review::material_review_gate_projection(&root, &contract, &summary_path);
+    let (
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        material_unknowns,
+        discharged_unknowns,
+        material_finding,
+        material_projection_unavailable,
+    ) = match material_projection {
+        Ok(projection) => (
+            projection.raw_scanner_unknowns,
+            projection.material_manifest_digest,
+            projection.review_receipt_digest,
+            projection.review_assurance,
+            projection.effective_unknowns,
+            projection.discharged_unknowns,
+            projection.blocked_by_finding,
+            false,
+        ),
+        Err(_) => (
+            Vec::new(),
+            None,
+            None,
+            None,
+            vec!["material_review_projection_unavailable".into()],
+            Vec::new(),
+            false,
+            true,
+        ),
+    };
     blockers.extend(decision.blockers.clone());
+    if material_projection_unavailable {
+        blockers.push("material_review_projection_unavailable".into());
+    }
+    if material_finding {
+        blockers.push("repository_prompt_injection".into());
+    }
     blockers.sort();
     blockers.dedup();
     let mut unknowns = decision.unknowns.clone();
+    unknowns.retain(|unknown| !discharged_unknowns.contains(unknown));
+    unknowns.extend(material_unknowns);
     unknowns.sort();
     unknowns.dedup();
     let mut required_checks = decision.required_checks.clone();
     required_checks.sort();
     required_checks.dedup();
-    let decision_state = decision_state_name(decision.state.clone()).to_string();
+    let decision_state = if material_finding {
+        "red".to_owned()
+    } else if !unknowns.is_empty() && decision.state == DecisionState::Green {
+        "yellow".to_owned()
+    } else {
+        decision_state_name(decision.state.clone()).to_string()
+    };
     let mut report = ContractQualityGateReport {
         schema_version: 1,
         kind: "repository_contract_quality_gate".into(),
-        state: if decision.state == DecisionState::Green && blockers.is_empty() {
+        state: if decision.state == DecisionState::Green
+            && blockers.is_empty()
+            && unknowns.is_empty()
+        {
             "passed".into()
         } else {
             "blocked".into()
@@ -4356,7 +4426,12 @@ pub fn evaluate_contract_quality_gate(
         dependency_confidence: route.dependency_confidence,
         decision_state,
         blockers,
-        unknowns,
+        unknowns: unknowns.clone(),
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        effective_unknowns: unknowns,
         required_checks,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
@@ -4549,7 +4624,7 @@ pub fn validate_contract_quality_gate_report(
         .get("stage")
         .and_then(serde_json::Value::as_str)
         .ok_or_else(|| ObserverError::State {
-            path: route_receipt_path,
+            path: route_receipt_path.clone(),
             message: "Contract route receipt stage is required".into(),
         })?;
     let expected_stage = if route_stage == "pull_request" {
@@ -4565,8 +4640,52 @@ pub fn validate_contract_quality_gate_report(
     }
     if !report.blockers.is_empty() || !report.unknowns.is_empty() {
         return Err(ObserverError::State {
-            path: report_path,
+            path: report_path.clone(),
             message: "green Contract gate cannot contain blockers or unknowns".into(),
+        });
+    }
+    let mut report_payload =
+        serde_json::to_value(&report).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("cannot encode Contract gate report: {error}"),
+        })?;
+    report_payload
+        .as_object_mut()
+        .expect("typed Contract gate report serializes as an object")
+        .remove("receiptDigest");
+    let canonical_receipt_digest =
+        cockpit_protocol::digest_json(&report_payload).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("cannot digest Contract gate report: {error}"),
+        })?;
+    if report.receipt_digest != canonical_receipt_digest {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate report receiptDigest does not match canonical content".into(),
+        });
+    }
+    let verification_stage =
+        VerificationStage::parse(expected_stage).map_err(|error| ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: error,
+        })?;
+    let validation_runtime = RuntimeContext {
+        runtime_version: report.runtime_version.clone(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: report.runtime_digest.clone(),
+    };
+    let recomputed = evaluate_contract_quality_gate(
+        &root,
+        &contract_path,
+        verification_stage,
+        "hosted",
+        Some(&report.comparison_base_revision),
+        &validation_runtime,
+    )?;
+    if recomputed != report {
+        return Err(ObserverError::State {
+            path: report_path,
+            message: "Contract gate report does not match freshly recomputed canonical material projection".into(),
         });
     }
     Ok(report)
@@ -7666,6 +7785,7 @@ fn archive_work_item_internal(
     let contract = read_contract(&contract_path)?;
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    material_review::require_material_review_gate(&root, &contract, &summary_path, "archive")?;
     let active_leases = list_parallel_slots(&root)?;
     if let Some(lease) = active_leases
         .iter()

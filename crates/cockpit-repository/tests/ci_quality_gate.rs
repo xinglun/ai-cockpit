@@ -8,7 +8,7 @@ use cockpit_repository::{
     governance_decision_for_contract, plan_resource_finalization, preflight_work_item,
     preflight_work_item_with_runtime, record_verification_with_runtime,
     record_work_item_governance_controls, run_repository_verification,
-    start_work_item_with_options,
+    start_work_item_with_options, validate_contract_quality_gate_report,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -192,6 +192,11 @@ fn valid_gate_is_identity_bound_and_read_only() {
     assert_eq!(report.work_item_id, "WI-CI-GATE");
     assert_eq!(report.base_revision, base);
     assert_eq!(report.comparison_base_revision, base);
+    assert_eq!(report.raw_scanner_unknowns, Vec::<String>::new());
+    assert!(report.material_manifest_digest.is_some());
+    assert_eq!(report.review_receipt_digest, None);
+    assert_eq!(report.review_assurance, None);
+    assert_eq!(report.effective_unknowns, report.unknowns);
     assert_eq!(
         report.repository_id.to_string(),
         cockpit_repository::repository_id(directory.path()).to_string()
@@ -202,6 +207,138 @@ fn valid_gate_is_identity_bound_and_read_only() {
         ai_bytes(directory.path()),
         "read-only gate changed .ai bytes"
     );
+    let report_path = directory.path().join(".ai/decisions/quality-gate.json");
+    fs::write(
+        &report_path,
+        serde_json::to_vec_pretty(&report).expect("report bytes"),
+    )
+    .expect("write report fixture");
+    let route = serde_json::json!({
+        "schemaVersion": 1,
+        "kind": "repository_quality_route",
+        "contractPath": ".ai/work-items/active/WI-CI-GATE.contract.json",
+        "contractDigest": report.contract_file_digest,
+        "baseRevision": report.comparison_base_revision,
+        "stage": "pull_request"
+    });
+    let route_path = directory.path().join(".ai/decisions/quality-route.json");
+    fs::write(&route_path, serde_json::to_vec_pretty(&route).unwrap())
+        .expect("write route fixture");
+    assert_eq!(
+        validate_contract_quality_gate_report(directory.path(), &report_path, &route_path)
+            .expect("validate freshly recomputed report"),
+        report
+    );
+}
+
+#[test]
+fn quality_gate_blocks_dirty_non_ai_source_before_material_review() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    fs::write(root.join("README.md"), "uncommitted source change\n").expect("dirty source");
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("quality gate returns a fail-closed projection");
+
+    assert_eq!(report.state, "blocked");
+    assert!(
+        report
+            .blockers
+            .contains(&"material_review_projection_unavailable".into())
+    );
+    assert!(
+        report
+            .unknowns
+            .contains(&"material_review_projection_unavailable".into())
+    );
+}
+
+#[test]
+fn report_validator_rejects_self_reported_green_over_material_unknown() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let (marker, _) = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim()
+    .split_once(';')
+    .unwrap();
+    let operation = ["de", "lete"].concat();
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material_unknown.rs"),
+        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+    )
+    .expect("unknown source");
+    git(root, &["add", "crates/material_unknown.rs"]);
+    git(root, &["commit", "-qm", "add bounded syntax Unknown"]);
+
+    let actual = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("canonical gate report");
+    assert_eq!(actual.state, "blocked");
+    assert!(!actual.raw_scanner_unknowns.is_empty());
+
+    let mut forged = serde_json::to_value(&actual).expect("report JSON");
+    forged["state"] = "passed".into();
+    forged["decisionState"] = "green".into();
+    forged["blockers"] = serde_json::json!([]);
+    forged["unknowns"] = serde_json::json!([]);
+    forged["effectiveUnknowns"] = serde_json::json!([]);
+    let mut payload = forged.clone();
+    payload
+        .as_object_mut()
+        .expect("report object")
+        .remove("receiptDigest");
+    forged["receiptDigest"] = cockpit_protocol::digest_json(&payload)
+        .expect("recomputed forged digest")
+        .to_string()
+        .into();
+    let report_path = root.join(".ai/decisions/forged-quality-gate.json");
+    fs::write(
+        &report_path,
+        serde_json::to_vec_pretty(&forged).expect("forged report bytes"),
+    )
+    .expect("write forged report");
+    let route = serde_json::json!({
+        "schemaVersion": 1,
+        "kind": "repository_quality_route",
+        "contractPath": ".ai/work-items/active/WI-CI-GATE.contract.json",
+        "contractDigest": actual.contract_file_digest,
+        "baseRevision": actual.comparison_base_revision,
+        "stage": "pull_request"
+    });
+    let route_path = root.join(".ai/decisions/quality-route.json");
+    fs::write(&route_path, serde_json::to_vec_pretty(&route).unwrap()).expect("write route");
+
+    let error = validate_contract_quality_gate_report(root, &report_path, &route_path)
+        .expect_err("self-reported green must not validate");
+    assert!(error.to_string().contains("canonical material"), "{error}");
 }
 
 #[test]

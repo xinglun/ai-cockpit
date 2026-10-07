@@ -10,6 +10,8 @@ use serde::{Deserialize, Serialize};
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
 pub const WORK_ITEM_USAGE_RECORD_SURFACE: &str = "work-item-usage-record";
+pub const WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE: &str = "work-item-material-review-plan";
+pub const WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE: &str = "work-item-material-review-record";
 pub const AUDIT_QUERY_SURFACE: &str = "audit-query";
 pub const AUDIT_EXPORT_SURFACE: &str = "audit-export";
 pub const WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION: &str =
@@ -161,6 +163,8 @@ pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
 pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] = &[
     WORK_ITEM_OUTCOME_SURFACE,
     WORK_ITEM_USAGE_RECORD_SURFACE,
+    WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE,
+    WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE,
     AUDIT_QUERY_SURFACE,
     AUDIT_EXPORT_SURFACE,
 ];
@@ -846,6 +850,97 @@ pub fn work_item_usage_record_interface_description() -> InterfaceDescription {
     }
 }
 
+/// Shared read-only parameter facts for the canonical material-review plan.
+pub fn work_item_material_review_plan_interface_description() -> InterfaceDescription {
+    let parameter = |name: &str, required: bool, description: &str| InterfaceParameter {
+        name: name.into(),
+        wire_type: "string".into(),
+        required,
+        default: None,
+        enum_values: Vec::new(),
+        aliases: Vec::new(),
+        description: description.into(),
+    };
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    parameter("repo", true, "Repository path for source identity."),
+                    parameter("id", true, "Active Work Item identifier."),
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![parameter(
+                    "workItemId",
+                    true,
+                    "Active Work Item identifier in the repository bound to this MCP request.",
+                )],
+            },
+        ],
+    }
+}
+
+/// Shared parameter facts for the explicit, Runtime-admitted material-review
+/// decision writer. The reviewer identity in the input is self-declared.
+pub fn work_item_material_review_record_interface_description() -> InterfaceDescription {
+    let parameter =
+        |name: &str, wire_type: &str, required: bool, description: &str| InterfaceParameter {
+            name: name.into(),
+            wire_type: wire_type.into(),
+            required,
+            default: None,
+            enum_values: Vec::new(),
+            aliases: Vec::new(),
+            description: description.into(),
+        };
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    parameter(
+                        "repo",
+                        "string",
+                        true,
+                        "Repository path for Runtime admission.",
+                    ),
+                    parameter("id", "string", true, "Active Work Item identifier."),
+                    parameter(
+                        "input",
+                        "string",
+                        true,
+                        "Strict typed decision JSON; reviewer identity is self-declared and does not prove human, provider, or release approval.",
+                    ),
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![
+                    parameter("workItemId", "string", true, "Active Work Item identifier."),
+                    parameter(
+                        "decision",
+                        "object",
+                        true,
+                        "Strict typed decision object; reviewer identity is self-declared and does not prove human, provider, or release approval.",
+                    ),
+                ],
+            },
+        ],
+    }
+}
+
 fn audit_interface_description(surface: &str, export: bool) -> InterfaceDescription {
     let fields = [
         (
@@ -939,6 +1034,12 @@ pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescr
     match surface {
         WORK_ITEM_OUTCOME_SURFACE => Some(work_item_outcome_interface_description()),
         WORK_ITEM_USAGE_RECORD_SURFACE => Some(work_item_usage_record_interface_description()),
+        WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE => {
+            Some(work_item_material_review_plan_interface_description())
+        }
+        WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE => {
+            Some(work_item_material_review_record_interface_description())
+        }
         AUDIT_QUERY_SURFACE => Some(audit_interface_description(surface, false)),
         AUDIT_EXPORT_SURFACE => Some(audit_interface_description(surface, true)),
         _ => None,

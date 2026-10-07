@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 29] = [
+const TOOL_NAMES: [&str; 31] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,6 +22,8 @@ const TOOL_NAMES: [&str; 29] = [
     "preflight",
     "work_item_controls",
     "work_item_usage_record",
+    "work_item_material_review_plan",
+    "work_item_material_review_record",
     "audit_query",
     "work_item_recover",
     "work_item_closeout_recovery_plan",
@@ -640,6 +642,19 @@ fn mcp_tool_schema(name: &str) -> Value {
             }),
             &["request"],
         ),
+        "work_item_material_review_plan" => object_schema(
+            json!({
+                "workItemId": string_property("Active Work Item whose committed material is being planned for review."),
+            }),
+            &["workItemId"],
+        ),
+        "work_item_material_review_record" => object_schema(
+            json!({
+                "workItemId": string_property("Active Work Item whose material-review decision is being recorded."),
+                "decision": cockpit_protocol::material_inspection_review_decision_input_schema(),
+            }),
+            &["workItemId", "decision"],
+        ),
         "audit_query" => audit_query_tool_schema(),
         "work_item_recover" => {
             let mut properties = id_properties;
@@ -821,6 +836,14 @@ fn mcp_tool_definitions() -> Vec<Value> {
             cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
         ),
         (
+            "work_item_material_review_plan",
+            "Build the canonical read-only committed-source material-review request for an active Work Item.",
+        ),
+        (
+            "work_item_material_review_record",
+            "Record a typed self-declared material-review decision only when the exact Contract opt-in and current Runtime action admission allow it.",
+        ),
+        (
             "audit_query",
             "Read a filtered, source-bound audit page without writing evidence.",
         ),
@@ -914,6 +937,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
         "work_item_usage_record" => Some(&["request"][..]),
+        "work_item_material_review_plan" => Some(&["workItemId"][..]),
+        "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
         "audit_query" => Some(
             &[
                 "workItemId",
@@ -1098,6 +1123,22 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 })?;
             request.validate().map_err(|error| {
                 format!("invalid arguments for work_item_usage_record: {error}")
+            })?;
+        }
+        "work_item_material_review_plan" => {
+            require_string(object, "workItemId", name)?;
+        }
+        "work_item_material_review_record" => {
+            require_string(object, "workItemId", name)?;
+            let decision = object.get("decision").ok_or_else(|| {
+                "invalid arguments for work_item_material_review_record: decision is required"
+                    .to_owned()
+            })?;
+            serde_json::from_value::<cockpit_protocol::MaterialInspectionReviewDecisionInput>(
+                decision.clone(),
+            )
+            .map_err(|error| {
+                format!("invalid arguments for work_item_material_review_record: {error}")
             })?;
         }
         "audit_query" => {
@@ -1934,6 +1975,32 @@ pub fn handle_request_for_repo(
                 .and_then(|receipt| {
                     serde_json::to_value(receipt).map_err(|error| error.to_string())
                 })
+        }),
+        "work_item_material_review_plan" => require_compatible(repo, runtime).and_then(|_| {
+            let work_item_id = arguments["workItemId"]
+                .as_str()
+                .expect("validated material review Work Item ID");
+            cockpit_repository::plan_work_item_material_review(repo, work_item_id)
+                .map_err(|error| error.to_string())
+                .and_then(|request| {
+                    serde_json::to_value(request).map_err(|error| error.to_string())
+                })
+        }),
+        "work_item_material_review_record" => require_compatible(repo, runtime).and_then(|_| {
+            let work_item_id = arguments["workItemId"]
+                .as_str()
+                .expect("validated material review Work Item ID");
+            let decision: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+                serde_json::from_value(arguments["decision"].clone())
+                    .map_err(|error| format!("invalid material review decision: {error}"))?;
+            cockpit_repository::record_work_item_material_review(
+                repo,
+                work_item_id,
+                &decision,
+                runtime,
+            )
+            .map_err(|error| error.to_string())
+            .and_then(|receipt| serde_json::to_value(receipt).map_err(|error| error.to_string()))
         }),
         "audit_query" => require_compatible(repo, runtime).and_then(|_| {
             let filters: cockpit_protocol::AuditQueryFilters =
