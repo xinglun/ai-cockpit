@@ -641,128 +641,155 @@
       "verificationPlan": "Show finish remains inadmissible after composition alone, then bind independent current verify and green preflight evidence before the finish gate can admit."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage --test outcome_report; exit 0; usage 18/18 and outcome_report 17/17. Tests unknown_counts_remain_null_and_source_time_needs_trusted_provenance, usage_projection_is_visible_in_summary_and_full_in_three_languages, archived_unclosed_usage_updates_only_the_distinct_close_report; read-only no-receipt query remains unknown/null."
+      ],
       "expected": "A recorded usage receipt is projected in Outcome; absent or incomplete data is displayed as unknown/partial and does not fail software verification.",
       "required": true,
       "scenario": "usage-present-absent-partial",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Exercise explicit repository recording and every new finish/terminal TaskOutcomeReport projection with present, absent, nullable, and partial fields; no receipts must persist coverage unknown, null counts, and a reason rather than omit usage or write zero. Confirm query does not create a receipt and software verification is unchanged."
     },
     {
       "evidence": [],
       "expected": "Different reported/configured models, sources, roles, and phases remain distinct; cached/reasoning subsets do not double count and unknown remains null.",
+      "reason": "Existing tests cover reported-vs-configured model filtering, null/subset counts, and caller-claim assurance, but no multi-role/phase/source matrix or cumulative counter ambiguity fixture has been run.",
       "required": true,
       "scenario": "usage-multimodel-subset-accounting",
       "status": "unverified",
       "verificationPlan": "Record multiple explicit invocation/turn units and assert exact per-dimension subtotals, subset bounds, no double counting, and partial coverage for non-differentiable cumulative data. Keep model-identity provenance separate from token-count provenance; caller-labeled provider/host and reportedModel remain self-declared unless a supported adapter independently verifies them."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage usage_is_idempotent_bound_and_does_not_double_count_subsets -- --exact; exit 0. Identical replay returns identical receipt; conflicting payload/source and cross-WI sourceEventId reject; prior summary retains one reference."
+      ],
       "expected": "Replaying the same sourceEventID and identical payload is idempotent; a conflicting payload and cross-Work-Item event are rejected without changing prior receipts.",
       "required": true,
       "scenario": "usage-source-event-idempotency-conflict",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Submit identical, conflicting, and cross-WI event IDs; compare append-only receipt bytes, sequence, and digest before and after each request."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage legacy_closed_report_without_usage_fields_remains_readable -- --exact; exit 0 at 05bb3c2f. Pre-feature-shaped report decodes; archived report bytes remain unchanged through close and read-only usage query; historical missing usage is unknown/null."
+      ],
       "expected": "Pre-feature TaskOutcomeReport/archive records decode without usage and their archived bytes remain unchanged.",
       "required": true,
       "scenario": "usage-legacy-report-compatibility",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Load existing report fixtures with no usage field, render them, and verify archive integrity and original byte digests."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage archived_unclosed_usage_updates_only_the_distinct_close_report -- --exact; exit 0. Finish and archive bytes remain frozen; later admitted usage is included only in separate close finalReport/cutoff; post-close append rejects."
+      ],
       "expected": "Finish/close captures a bound cutoff and usage snapshot; no post-close mutation or retroactive archive edit occurs, and missing late data remains partial/unknown.",
       "required": true,
       "scenario": "usage-finish-close-cutoff",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Record usage before finish and verify the frozen report cutoff and archive bytes. Record additional usage through current Runtime admission after archive but before close, and assert finish/archive digests remain unchanged while close creates a distinct finalReport referencing receipts received by its explicit close cutoff. Reject ordinary post-close recording; final reply or missing late data remains partial/unknown, never a complete total."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test usage; exit 0, 3/3. cli_and_mcp_record_have_identical_receipts_and_conflict_outcomes compares shared CLI/MCP service results. cargo test --locked -p cockpit-mcp --test usage; exit 0, 3/3."
+      ],
       "expected": "CLI and MCP usage-record entry points share repository semantics and return equivalent receipt identities, digests, idempotency, and rejection outcomes.",
       "required": true,
       "scenario": "usage-cli-mcp-parity",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run paired CLI/MCP requests against the same repository service test fixture and compare normalized receipts and errors."
     },
     {
       "evidence": [],
       "expected": "Runtime start/finish/archive/close facts are separate UTC RFC3339 events with occurredAt/recordedAt and source refs; unfinished terminal times are null, historical missing values unknown, process duration monotonic, wall elapsed includes waiting, Tokyo rendering is explicit, and anomalies remain unknown.",
+      "reason": "Lifecycle facts and Tokyo query label are tested; no injectable lifecycle clock/negative-interval regression, and work-item outcome exposes no displayTimezone argument or labeled IANA view.",
       "required": true,
       "scenario": "work-item-lifecycle-time-source-zone-and-duration",
       "status": "unverified",
       "verificationPlan": "Drive lifecycle actions through the Runtime service with an injectable clock; assert successful-action timestamps and evidence bindings, legacy missing facts, external offset/source handling, Asia/Tokyo formatting via IANA data, monotonic process elapsedMs, and cross-host/clock-anomaly unknown behavior without changing host TZ."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test audit_query; exit 0, 14/14. terminal_lifecycle_events_come_from_each_successful_boundary asserts four persisted UTC transition facts and filtered export/query parity with digest refs; failed_finish_report_write_leaves_no_successful_finish_fact and stale cursor cases pass."
+      ],
       "expected": "The existing AuditEvent/audit export and new typed query expose repository-bound start/finish/archive/close facts with timestamps, digests, refs, coverage, and cutoff; no second store is introduced.",
       "required": true,
       "scenario": "work-item-lifecycle-audit-query-export",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Record and query lifecycle events using the same repository read service; test exact filters, page/cursor binding, source mutation to stale_cursor, exported references, and wall-clock labels."
     },
     {
       "evidence": [],
       "expected": "CLI, MCP, and export share typed exact filters; UTC asOf/sourceSnapshotDigest, coverage/unknown, receipt refs, page-only usage totals, nextCursor, and stale_cursor behavior are consistent.",
+      "reason": "Filters, time bounds, cursor stale behavior, CLI/MCP parity, page subtotals and unknown recordedAt are tested; nullable indeterminate unknownCount and full parameter/boundary matrix remain untested.",
       "required": true,
       "scenario": "audit-query-filter-pagination-snapshot",
       "status": "unverified",
       "verificationPlan": "Query fixtures by Work Item, inclusive/exclusive RFC3339 bounds on Runtime recordedAt only, reported model, actor, and event; preserve other timestamp fields without fallback and mark unknown recordedAt coverage. Page with limit 1..=100 using stable eventID tie-break; assert returnedCount, truncated, nextCursor, nullable indeterminate unknownCount; mutate a source before the next cursor, compare CLI/MCP envelopes, and assert stale_cursor."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test audit_query unfiltered_export_accepts_existing_schema_one_bytes -- --exact; RED before fix exit 101 with different bytes; GREEN after fix exit 0. Pre-feature typed manifest bytes remain identical and --output idempotent. Entire CLI audit_query suite 4/4 including conflict and filtered envelope; repository filtered_export_reuses_query_page_and_legacy_export_remains_schema_one passes."
+      ],
       "expected": "The existing no-filter audit export retains its schema-v1 wire shape and explicit local output behavior; filtered export uses the shared query envelope.",
       "required": true,
       "scenario": "audit-export-unfiltered-wire-compatibility",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Compare no-filter export JSON and digest to a pre-feature fixture; verify identical --output is idempotent and conflicting bytes fail; then compare filtered CLI/MCP query results."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test archive_integrity audit_export_accepts_the_canonical_delegated_receipt_filename -- --exact; exit 0. Existing writer filename parsed to actual WI; digest-mismatched filename rejects. Shared query invokes legacy reader; delegated_cursor_binds_actual_raw_bytes_on_every_page passes."
+      ],
       "expected": "A receipt stored as `{workItemId}.{digest}.delegated.json` is attributed to the parsed repository-bound Work Item ID; mismatched path/receipt binding fails closed.",
       "required": true,
       "scenario": "audit-delegated-receipt-filename-binding",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Create the valid receipt using the existing writer, feed it to the same shared audit reader used by export/query, assert the event has exactly receipt.workItemId, then alter the path or receipt identity and assert rejection. Apply only the minimal source fix if the first case is RED."
     },
     {
       "evidence": [],
       "expected": "Rust Runtime CLI help, three-language command/MCP tables, MCP initialize/tools/list, and schemas expose usage record, audit query, and filtered export completely while the supervisor helper remains hidden.",
+      "reason": "CLI help, MCP initialize/tools/list and generated three-language reference check pass, but Outcome timezone display is absent and a complete command/MCP-table parity assertion has not been run.",
       "required": true,
       "scenario": "runtime-native-usage-audit-public-surface",
       "status": "unverified",
       "verificationPlan": "Run top-level, group, leaf, and parameter help snapshots; compare English/Simplified Chinese/Japanese command and MCP tables with actual CLI parser and tools/list; assert __composition-supervisor is absent publicly and the existing internal test route remains callable."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Independent Linux acceptance at candidate 05bb3c2ff86baff492643354eb3ace6cd37cf883; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; pre-controls snapshot sha256:a893c432a22434402baac536fd54f5b2958bda900f6c81f73360165972c101fb; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b1320b947e8431771cb982df99e43880ac16c058d21c57c3e2792c1daed09361; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.61s\n\n",
+        "cargo test --locked -p cockpit-verification --lib process_group -- --nocapture; exit 0, 15/15 covering zombie-only, live/mixed, identity changes, proc read/parse/permission/race/budget and attempt-digest change. Older failed receipts were not removed. Non-Linux host execution remains unrun."
+      ],
       "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
       "required": true,
       "scenario": "linux-zombie-only-process-group-regression",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Use the exact independent command declared by A11, bind exit code/output to exact candidate and Contract/snapshot digests, separately run the unique workspace declaration only when formally admitted, and preserve all existing red evidence."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --lib external_observer_deferred_tests -- --nocapture; exit 0, 7/7. Passed and failed exact execution remain represented after injected cleanup observer error; missing/coherence-invalid owned proof remains unknown and retained. cargo test --locked -p cockpit-repository --test collaboration_admission external_observer_error_allows_only_a_fresh_safe_formal_retry -- --exact; exit 0."
+      ],
       "expected": "When exact command result and owned-tree ECHILD termination are durable, an external `/proc/<pid>/cwd` observer error yields deferred cleanup and retained directory/registration without changing execution passed/failed or evidence completeness.",
       "required": true,
       "scenario": "composition-observer-error-preserves-execution",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Inject observer Err at the narrow cleanup-decision seam in `run_composition_inner`; assert exact execution outcome/completeness, deferred disposition, and untouched worktree plus registration. Also assert missing owner/reap proof remains unknown and retained."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --lib external_observer_deferred_tests -- --nocapture; exit 0, 7/7 including fresh no-op, active/unsafe rejection, and unknown owned proof. cargo test --locked -p cockpit-repository --test collaboration_admission external_observer_error_allows_only_a_fresh_safe_formal_retry -- --exact; exit 0; second formal call uses fresh nonce/worktree and preserves old registration."
+      ],
       "expected": "With a current protected no-op policy and prior owned termination proof, a fresh admitted composition can retry after external observation uncertainty without deleting or reusing the old path; active/unknown owned tree remains blocked.",
       "required": true,
       "scenario": "safe-noop-retry-after-observer-unknown",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Call `run_admitted_composition` twice under the current safe no-op strategy; first call records completed execution plus deferred cleanup under injected observer Err, second receives fresh attempt/nonce/worktree, reuses no result, preserves old directory, and succeeds. Add denied/active/unknown-owned-tree cases asserting zero second verifier spawns. Keep this distinct from `repeated_exact_composition_reuses_only_when_inputs_are_observable` and `node_without_observable_inputs_executes_again_instead_of_reusing`."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T05:34:03.086885224+00:00",
+  "updatedAt": "2026-10-07T07:50:57.296357412+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
