@@ -414,6 +414,7 @@ dependencies = [
  "cockpit-core",
  "cockpit-evidence",
  "cockpit-protocol",
+ "cockpit-verification",
  "libc",
  "serde",
  "serde_json",

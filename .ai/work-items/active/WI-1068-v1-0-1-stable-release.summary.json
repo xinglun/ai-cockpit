@@ -586,20 +586,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+      "reason": "Stage one authorizes implementation scope, test-support isolation, the missed interface path, and bounded material-review code/docs while Contract.governanceProfile.materialInspectionReview remains absent and material Unknown discharge stays disabled. The old Runtime cannot add the protected unknown requiredRuntimeCapabilities marker. After candidate implementation, stage two requires a separate exact typed amendment by the new Runtime to enable the strict profile and auto-add material-inspection-review guard, followed by its own exact human review. Preserve old failures and the unique cargo test --locked --workspace verification declaration.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T11:24:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+    "contractDigest": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-    "reason": "agent:Raydot asked for option 1 to confirm review of exact WI-1068 Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726 at 2026-10-07T05:30:42Z (Sentinel_ada8378935948191b9d58efed6c85fb4); user:Ray replied '1' at 2026-10-07T05:32:10Z (Sentinel_b905c6d21a1c8191917c455558faf2b7) in the parent-supplied transcript. This records a human:Ray bounded plan-review decision as relayed by the user, not independently host-authenticated identity. The Runtime controls call is executed by agent:Codex (/root) at 2026-10-07T05:33:44Z. This confirms the current Contract plan and snapshot only; independent source-code review, verification, merge, tag, and publication gates remain separate.",
-    "recordedAt": "2026-10-07T05:33:44Z",
-    "recordedBy": "human:Ray",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "reason": "human:Ray selected option 1 (agree to Stage1) at 2026-10-07T11:29:26Z, message Sentinel_33d399e9bb3481919056b7d62ed59d0c, in response to agent:Raydot exact WI-1068 Contract request at 2026-10-07T11:27:38Z, message Sentinel_7fa2d27afc0c81918feb71bd38c7fc27, naming Contract sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea. The request disclosed Stage1 permits implementation but does not activate Unknown discharge, Stage2 requires a separate exact confirmation, reviewer identity assurance is self_declared, and malicious content, scope failures and test failures remain blocking. This is a user-stated human:Ray bounded plan-review decision relayed by the parent thread, not independently host-authenticated identity. The controls call is recorded by agent:Codex (/root); this receipt does not certify tests, source review, Stage2 opt-in, or release.",
+    "recordedAt": "2026-10-07T11:30:35Z",
+    "recordedBy": "agent:Codex (/root)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
+    "repositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -611,10 +631,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T09:35:18Z",
-  "preflightContractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+  "preflightAt": "2026-10-07T11:25:05Z",
+  "preflightContractDigest": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:c7956385645c348535b69f4b1ce38c522508d2475fac64bffd9fe462f02c5ccd",
+  "preflightRepositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -936,10 +956,58 @@
       "scenario": "safe-noop-retry-after-observer-unknown",
       "status": "verified",
       "verificationPlan": "Call `run_admitted_composition` twice under the current safe no-op strategy; first call records completed execution plus deferred cleanup under injected observer Err, second receives fresh attempt/nonce/worktree, reuses no result, preserves old directory, and succeeds. Add denied/active/unknown-owned-tree cases asserting zero second verifier spawns. Keep this distinct from `repeated_exact_composition_reuses_only_when_inputs_are_observable` and `node_without_observable_inputs_executes_again_instead_of_reusing`."
+    },
+    {
+      "evidence": [],
+      "expected": "The verification package self dev-dependency enables typed KnownEmpty only for selected pure cache/dependency test fixtures, while ordinary default-feature CLI/MCP debug and release artifacts omit the interface and real safety observation remains authoritative.",
+      "required": true,
+      "scenario": "composition-test-support-feature-isolation",
+      "status": "unverified",
+      "verificationPlan": "Run single-package and unique workspace tests plus actual default debug/release CLI/MCP builds and a default-feature external compile-negative check; independently run Linux safety and cache invalidation regressions, and record workspace test feature unification accurately."
+    },
+    {
+      "evidence": [],
+      "expected": "The current seven candidate Rust Unknowns remain raw Unknown; only complete readable provenance-valid syntax Unknowns are reviewable, while Finding and non-reviewable Unknown remain blocking.",
+      "required": true,
+      "scenario": "material-review-raw-and-reviewable-boundary",
+      "status": "unverified",
+      "verificationPlan": "Use typed per-file scanner diagnostics and adversarial fixture cases for direct/composed Finding, dynamic syntax Unknown, unreadable/symlink/truncated/budget/provenance-invalid input, and a new second Unknown path; compare raw and effective projections."
+    },
+    {
+      "evidence": [],
+      "expected": "A committed clean-source Contract-base material manifest and scanner implementation digest bind the review; matching source on Linux and hosted binaries with different SHA and legitimate .ai-only or tested-merge heads may reuse it, while changed scanner source with the same semantic version, target semantics, policy, diff or source cannot.",
+      "required": true,
+      "scenario": "material-review-canonical-context-and-cross-environment",
+      "status": "unverified",
+      "verificationPlan": "Exercise local and hosted binary identity differences with identical embedded analysis source digest and canonical material; test comparison-base-specific extra Unknown/Finding/scope, source dirty, same-version scanner change, cfg/features mismatch, ancestry and non-ancestor rebase refusal."
+    },
+    {
+      "evidence": [],
+      "expected": "Stage one uses the old Runtime to authorize implementation while materialInspectionReview is absent and discharge disabled. Stage two uses the new Runtime typed amendment writer to install strict Contract.governanceProfile.materialInspectionReview opt-in and automatically add protected requiredRuntimeCapabilities=material-inspection-review. Old Runtime rejects the guarded Contract; only exact Contract review, fresh source preflight, delegated Raydot exact-source technical review and intact sidecar/summary binding allow discharge.",
+      "required": true,
+      "scenario": "material-review-authorization-and-receipt-integrity",
+      "status": "unverified",
+      "verificationPlan": "Prove old Runtime preserves governanceProfile JSON but cannot add protected unsupported capability; prove stage-one candidate has no material opt-in and old local green grants no release authority. Prove new writer adds marker only with strict opt-in, rejects malformed/unknown nested fields and mismatched actor/cause/assurance, and old Runtime rejects the amended Contract. Test two separate exact Contract review receipts, source freshness, reviewer evidence, sidecar wrong-pointer/truncation/replay and same tuple idempotence."
+    },
+    {
+      "evidence": [],
+      "expected": "Status, preflight, finish/archive, quality gate and report validator recompute the same canonical committed material even when local changedPaths is empty; only exactly reviewed inspection Unknown can be discharged. Raw scanner result remains visible and forged green report fails.",
+      "required": true,
+      "scenario": "material-review-unified-gate-and-report-validation",
+      "status": "unverified",
+      "verificationPlan": "Test every consumer with a clean committed branch and reviewed receipt; mutate one binding at a time; assert raw/effective/report digests and assurance; assert Finding, scope/test weakening, failed/stale verification, additional hosted Unknown/Finding and other Unknown remain blocking."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI/MCP plan and record use the same repository service; help, schemas, ordinary guide and three-language trust/command/contract-field docs disclose self_declared identity risk and never call review machine Clean, human/provider approval, or release acceptance.",
+      "required": true,
+      "scenario": "material-review-discovery-and-trilingual-boundary",
+      "status": "unverified",
+      "verificationPlan": "Assert CLI top-level/group/leaf/parameter help, MCP initialize/tools/list/requests, docs key claims and receipt output; preserve hidden helper secrecy and existing usage/audit/timezone guide corrections."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T08:25:58.652805178+00:00",
+  "updatedAt": "2026-10-07T11:30:45.652072291+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -999,9 +1067,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+    "contractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-07T05:28:09Z"
+    "recordedAt": "2026-10-07T11:24:55Z"
   },
   "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"

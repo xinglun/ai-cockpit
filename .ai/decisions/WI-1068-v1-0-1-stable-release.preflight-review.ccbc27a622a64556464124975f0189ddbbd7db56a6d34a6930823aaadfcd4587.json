@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "human:Ray selected option 1 (agree to Stage1) at 2026-10-07T11:29:26Z, message Sentinel_33d399e9bb3481919056b7d62ed59d0c, in response to agent:Raydot exact WI-1068 Contract request at 2026-10-07T11:27:38Z, message Sentinel_7fa2d27afc0c81918feb71bd38c7fc27, naming Contract sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea. The request disclosed Stage1 permits implementation but does not activate Unknown discharge, Stage2 requires a separate exact confirmation, reviewer identity assurance is self_declared, and malicious content, scope failures and test failures remain blocking. This is a user-stated human:Ray bounded plan-review decision relayed by the parent thread, not independently host-authenticated identity. The controls call is recorded by agent:Codex (/root); this receipt does not certify tests, source review, Stage2 opt-in, or release.",
+  "recordedAt": "2026-10-07T11:30:35Z",
+  "recordedBy": "agent:Codex (/root)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

@@ -11,6 +11,10 @@ use cockpit_verification::{
     new_supervised_composition_attempt_id, reap_composition_supervisor_descendants,
     run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
 };
+#[cfg(target_os = "linux")]
+use cockpit_verification::{
+    TestCompletedWorktreeObservation, run_composition_with_test_completed_worktree_observation,
+};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
@@ -47,6 +51,22 @@ fn tempdir(label: &str) -> TempDir {
 fn run_composition_with_test_supervisor(
     input: CompositionInput,
 ) -> Result<cockpit_verification::CompositionAttempt, String> {
+    run_composition_with_named_test_supervisor(input, "composition_supervisor_run_test_helper")
+}
+
+fn run_composition_with_pure_cache_test_supervisor(
+    input: CompositionInput,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
+    run_composition_with_named_test_supervisor(
+        input,
+        "composition_pure_cache_supervisor_run_test_helper",
+    )
+}
+
+fn run_composition_with_named_test_supervisor(
+    input: CompositionInput,
+    helper_name: &str,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
     let helper_files = tempdir("supervisor-runner");
     let input_path = helper_files.path().join("input.json");
     let output_path = helper_files.path().join("result.json");
@@ -56,11 +76,7 @@ fn run_composition_with_test_supervisor(
     )
     .map_err(|error| error.to_string())?;
     let output = Command::new(std::env::current_exe().map_err(|error| error.to_string())?)
-        .args([
-            "--exact",
-            "composition_supervisor_run_test_helper",
-            "--nocapture",
-        ])
+        .args(["--exact", helper_name, "--nocapture"])
         .env("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT", &input_path)
         .env(
             "AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT",
@@ -91,6 +107,15 @@ fn run_composition_with_test_supervisor(
 
 #[test]
 fn composition_supervisor_run_test_helper() {
+    run_composition_supervisor_test_helper(false);
+}
+
+#[test]
+fn composition_pure_cache_supervisor_run_test_helper() {
+    run_composition_supervisor_test_helper(true);
+}
+
+fn run_composition_supervisor_test_helper(pure_cache: bool) {
     let (Ok(input_path), Ok(output_path)) = (
         std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT"),
         std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT"),
@@ -141,12 +166,29 @@ fn composition_supervisor_run_test_helper() {
     };
     let admission_check: ProcessAdmissionCheck = Arc::new(|_node_id, accept| accept());
     let process_start_gate: ProcessStartGate = Arc::new(|_node_id, spawn| spawn());
-    let result = run_composition_with_supervisor_receipt(
-        input,
-        admission_check,
-        process_start_gate,
-        receipt,
-    )
+    let result = if pure_cache {
+        #[cfg(target_os = "linux")]
+        {
+            run_composition_with_test_completed_worktree_observation(
+                input,
+                admission_check,
+                process_start_gate,
+                receipt,
+                TestCompletedWorktreeObservation::KnownEmpty,
+            )
+        }
+        #[cfg(not(target_os = "linux"))]
+        {
+            run_composition_with_supervisor_receipt(
+                input,
+                admission_check,
+                process_start_gate,
+                receipt,
+            )
+        }
+    } else {
+        run_composition_with_supervisor_receipt(input, admission_check, process_start_gate, receipt)
+    }
     .map_err(|error| error.to_string());
     fs::write(
         output_path,
@@ -998,8 +1040,10 @@ fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
-    let second = run_composition_with_test_supervisor(composition).expect("second attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed);
     assert!(second.passed);
@@ -2621,7 +2665,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition_with_test_supervisor(first_input.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
     assert!(first.passed);
 
     let second_input = input(
@@ -2634,7 +2679,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let second = run_composition_with_test_supervisor(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     if cfg!(unix) {
@@ -2675,7 +2721,8 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         vec![api.clone(), docs.clone()],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition_with_test_supervisor(first_input).expect("first attempt");
+    let first =
+        run_composition_with_pure_cache_test_supervisor(first_input).expect("first attempt");
     assert!(first.passed);
 
     run(root.path(), &["checkout", "-q", "provider"]);
@@ -2685,7 +2732,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition_with_test_supervisor(input(
+    let second = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -2739,7 +2786,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         transitive.clone(),
         independent.clone(),
     ];
-    let first = run_composition_with_test_supervisor(input(
+    let first = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![first_head.clone(), base.clone()]),
@@ -2774,7 +2821,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition_with_test_supervisor(input(
+    let second = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -3023,13 +3070,15 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
     );
     let original_json = serde_json::to_vec(&composition).expect("serialize composition input");
 
-    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     fs::write(&source, "version-two\n").expect("change external source without editing input");
     assert_eq!(
         serde_json::to_vec(&composition).expect("serialize unchanged composition input"),
         original_json
     );
-    let second = run_composition_with_test_supervisor(composition).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed && second.passed);
     assert_eq!(first.processes_spawned, 2);

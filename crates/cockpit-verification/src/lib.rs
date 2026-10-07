@@ -17,6 +17,12 @@ pub use composition::{
     run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
 };
 
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+#[doc(hidden)]
+pub use composition::{
+    TestCompletedWorktreeObservation, run_composition_with_test_completed_worktree_observation,
+};
+
 use cockpit_core::Digest;
 use cockpit_evidence::{
     EvidenceContext, ReusableReceipt, ReuseAction, ReuseReason, ReuseState, decide_reuse,

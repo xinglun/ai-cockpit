@@ -703,6 +703,41 @@ pub fn run_composition_with_supervisor_receipt(
     )
 }
 
+/// Test-only final worktree observation for selected pure cache fixtures.
+/// The production observer remains authoritative for recovery and retry.
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+#[doc(hidden)]
+pub enum TestCompletedWorktreeObservation {
+    KnownEmpty,
+}
+
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+#[doc(hidden)]
+pub fn run_composition_with_test_completed_worktree_observation(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+    receipt: CompositionSupervisorReceipt,
+    observation: TestCompletedWorktreeObservation,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    let final_observation = match observation {
+        TestCompletedWorktreeObservation::KnownEmpty => FinalWorktreeObservation::KnownEmpty,
+    };
+    run_composition_inner_with_observer(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+        CompositionObservationHooks {
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation,
+        },
+    )
+}
+
 pub fn record_composition_supervisor_failure(
     input: CompositionInput,
     attempt_id: String,
@@ -773,9 +808,25 @@ fn run_composition_inner(
         process_start_gate,
         supervisor_receipt,
         supervised_attempt_id,
-        &verifier_process_using_worktree,
-        &reap_composition_supervisor_descendants,
+        CompositionObservationHooks {
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation: FinalWorktreeObservation::Real,
+        },
     )
+}
+
+#[derive(Clone, Copy)]
+enum FinalWorktreeObservation {
+    Real,
+    #[cfg(all(feature = "test-support", target_os = "linux"))]
+    KnownEmpty,
+}
+
+struct CompositionObservationHooks<'a> {
+    observe_worktree_process: &'a dyn Fn(&Path) -> Result<Option<u32>, String>,
+    reap_owned_descendants: &'a dyn Fn() -> Result<(), String>,
+    final_observation: FinalWorktreeObservation,
 }
 
 fn run_composition_inner_with_observer(
@@ -784,9 +835,13 @@ fn run_composition_inner_with_observer(
     process_start_gate: Option<ProcessStartGate>,
     supervisor_receipt: Option<CompositionSupervisorReceipt>,
     supervised_attempt_id: Option<String>,
-    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
-    reap_owned_descendants: &dyn Fn() -> Result<(), String>,
+    hooks: CompositionObservationHooks<'_>,
 ) -> Result<CompositionAttempt, CompositionError> {
+    let CompositionObservationHooks {
+        observe_worktree_process,
+        reap_owned_descendants,
+        final_observation,
+    } = hooks;
     let mut input = input;
     input.binding.verifier.validate_candidate()?;
     validate_binding(&input.binding)?;
@@ -1247,7 +1302,18 @@ fn run_composition_inner_with_observer(
         }
         persist_attempt(&input.state_dir, &attempt)?;
     }
-    match observe_worktree_process(&worktree) {
+    let completed_worktree_observation = match final_observation {
+        FinalWorktreeObservation::Real => observe_worktree_process(&worktree),
+        #[cfg(all(feature = "test-support", target_os = "linux"))]
+        FinalWorktreeObservation::KnownEmpty => {
+            if completed_owned_execution_is_coherent(&attempt, &input) {
+                Ok(None)
+            } else {
+                Err("test KnownEmpty requires coherent, reaped owned execution".into())
+            }
+        }
+    };
+    match completed_worktree_observation {
         Ok(Some(process_id)) => {
             attempt.passed = false;
             attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
@@ -5708,13 +5774,16 @@ mod external_observer_deferred_tests {
             Some(gate),
             Some(receipt),
             Some(attempt_id),
-            &observe,
-            &|| {
-                if unknown_path == "owned-proof-unknown" {
-                    Err("injected owned descendant reap uncertainty".into())
-                } else {
-                    reap_composition_supervisor_descendants()
-                }
+            CompositionObservationHooks {
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| {
+                    if unknown_path == "owned-proof-unknown" {
+                        Err("injected owned descendant reap uncertainty".into())
+                    } else {
+                        reap_composition_supervisor_descendants()
+                    }
+                },
+                final_observation: FinalWorktreeObservation::Real,
             },
         )
         .map_err(|error| error.to_string());
