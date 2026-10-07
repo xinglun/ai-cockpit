@@ -709,6 +709,138 @@ fn recorded_at_window_is_inclusive_from_and_exclusive_to() {
 }
 
 #[test]
+fn combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit() {
+    let root = repository();
+    record(root.path(), "turn-a1", "model-a", Some(4));
+    record(root.path(), "turn-a2", "model-a", Some(5));
+    record(root.path(), "turn-b", "model-b", Some(9));
+    let all_usage = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            event_type: Some("usage_recorded".into()),
+            ..Default::default()
+        },
+    )
+    .expect("usage timestamps");
+    let from = all_usage.items[0]
+        .recorded_at
+        .clone()
+        .expect("first recordedAt");
+    let to = all_usage.items[2]
+        .recorded_at
+        .clone()
+        .expect("third recordedAt");
+    let filters = AuditQueryFilters {
+        work_item_id: Some("WI-AUDIT-QUERY".into()),
+        from: Some(from.clone()),
+        to: Some(to.clone()),
+        reported_model: Some("model-a".into()),
+        actor: Some("agent:test".into()),
+        event_type: Some("usage_recorded".into()),
+        limit: Some(1),
+        ..Default::default()
+    };
+    let first = query_audit_events(root.path(), &runtime(), &filters).expect("first page");
+    assert_eq!(first.returned_count, 1);
+    assert!(first.truncated);
+    assert!(first.as_of.ends_with('Z'));
+    assert_eq!(first.coverage.known_count, 2);
+    assert_eq!(first.coverage.unknown_count, Some(0));
+    assert!(first.coverage.unknown_sources.is_empty());
+    assert_eq!(first.page_usage_totals.input_tokens, Some(4));
+    assert_eq!(first.page_usage_subtotals[0].counts.input_tokens, Some(4));
+    assert!(
+        first.items[0]
+            .evidence_refs
+            .iter()
+            .all(|reference| reference.digest.is_some())
+    );
+    let exported =
+        export_audit_events_filtered(root.path(), &runtime(), &filters).expect("filtered export");
+    assert_eq!(exported.items, first.items);
+    assert_eq!(
+        exported.source_snapshot_digest,
+        first.source_snapshot_digest
+    );
+
+    let cursor = first.next_cursor.clone().expect("next cursor");
+    let second = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            cursor: Some(cursor.clone()),
+            ..filters.clone()
+        },
+    )
+    .expect("second page");
+    assert_eq!(second.returned_count, 1);
+    assert!(!second.truncated);
+    assert_eq!(second.page_usage_totals.input_tokens, Some(5));
+    assert_ne!(first.items[0].event_id, second.items[0].event_id);
+    assert_eq!(second.source_snapshot_digest, first.source_snapshot_digest);
+    let changed_filter = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            cursor: Some(cursor),
+            actor: Some("agent:other".into()),
+            ..filters.clone()
+        },
+    )
+    .expect_err("cursor binds filters");
+    assert!(changed_filter.to_string().contains("invalid_cursor"));
+    for invalid in [
+        AuditQueryFilters {
+            limit: Some(0),
+            ..filters.clone()
+        },
+        AuditQueryFilters {
+            limit: Some(101),
+            ..filters.clone()
+        },
+        AuditQueryFilters {
+            from: Some(to.clone()),
+            ..filters.clone()
+        },
+        AuditQueryFilters {
+            display_timezone: Some("Not/A_Zone".into()),
+            ..filters.clone()
+        },
+    ] {
+        assert!(query_audit_events(root.path(), &runtime(), &invalid).is_err());
+    }
+    let unknown = query_audit_events(
+        root.path(),
+        &runtime(),
+        &AuditQueryFilters {
+            event_type: Some("verification_recorded".into()),
+            ..Default::default()
+        },
+    )
+    .expect("empty unknown coverage");
+    assert_eq!(unknown.coverage.unknown_count, Some(0));
+    assert_eq!(
+        unknown.coverage.state,
+        cockpit_protocol::UsageCoverage::Unknown
+    );
+    let indeterminate = cockpit_protocol::AuditQueryCoverage {
+        state: cockpit_protocol::UsageCoverage::Unknown,
+        known_count: 0,
+        unknown_count: None,
+        unknown_sources: vec!["unreadable-source".into()],
+        unknown_reasons: vec!["count_indeterminate".into()],
+    };
+    let wire = serde_json::to_value(&indeterminate).expect("nullable coverage wire");
+    assert!(wire["unknownCount"].is_null());
+    assert_eq!(
+        serde_json::from_value::<cockpit_protocol::AuditQueryCoverage>(wire)
+            .expect("nullable coverage decode"),
+        indeterminate
+    );
+}
+
+#[test]
 fn historical_event_without_recorded_at_is_a_coverage_gap_not_time_inference() {
     let root = repository();
     let id = "WI-AUDIT-QUERY";

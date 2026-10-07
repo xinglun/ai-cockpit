@@ -645,6 +645,103 @@ fn usage_is_idempotent_bound_and_does_not_double_count_subsets() {
 }
 
 #[test]
+fn usage_matrix_keeps_model_role_phase_source_and_unknown_counts_distinct() {
+    let root = repository();
+    let id = "WI-USAGE-MATRIX";
+    start(root.path(), id);
+    let mut first = request(root.path(), id, "turn-provider");
+    first.reported_model = Some("model-a".into());
+    first.configured_model = Some("configured-a".into());
+    record_work_item_usage(root.path(), &first, &runtime()).expect("provider claim");
+
+    let mut second = request(root.path(), id, "turn-host");
+    second.source_kind = UsageSourceKind::HostReported;
+    second.reported_model = Some("model-b".into());
+    second.configured_model = Some("configured-b".into());
+    second.role = "reviewer".into();
+    second.phase = "review".into();
+    second.input_tokens = Some(20);
+    second.output_tokens = Some(7);
+    second.cached_input_tokens = Some(4);
+    second.reasoning_tokens = Some(1);
+    record_work_item_usage(root.path(), &second, &runtime()).expect("host claim");
+
+    let mut third = request(root.path(), id, "turn-agent");
+    third.source_kind = UsageSourceKind::AgentDeclared;
+    third.reported_model = Some("model-a".into());
+    third.configured_model = Some("configured-c".into());
+    third.input_tokens = None;
+    third.output_tokens = Some(2);
+    third.cached_input_tokens = None;
+    third.reasoning_tokens = Some(1);
+    record_work_item_usage(root.path(), &third, &runtime()).expect("partial agent claim");
+
+    let summary = read_work_item_usage(root.path(), id, None).expect("matrix summary");
+    assert_eq!(summary.coverage, UsageCoverage::Partial);
+    assert!(
+        summary
+            .unknown_reasons
+            .contains(&"token_count_unknown".into())
+    );
+    assert_eq!(summary.receipt_refs.len(), 3);
+    assert_eq!(summary.totals.input_tokens, None);
+    assert_eq!(summary.totals.output_tokens, Some(14));
+    assert_eq!(summary.totals.cached_input_tokens, None);
+    assert_eq!(summary.totals.reasoning_tokens, Some(4));
+    assert_eq!(summary.subtotals.len(), 2);
+    let model_a = summary
+        .subtotals
+        .iter()
+        .find(|row| row.reported_model.as_deref() == Some("model-a"))
+        .expect("model a");
+    assert_eq!(
+        (model_a.role.as_str(), model_a.phase.as_str()),
+        ("implementer", "implementation")
+    );
+    assert_eq!(model_a.record_count, 2);
+    assert_eq!(model_a.configured_models, ["configured-a", "configured-c"]);
+    assert_eq!(
+        model_a.source_kinds,
+        [
+            UsageSourceKind::ProviderReported,
+            UsageSourceKind::AgentDeclared
+        ]
+    );
+    assert_eq!(model_a.counts.input_tokens, None);
+    assert_eq!(model_a.counts.output_tokens, Some(7));
+    let model_b = summary
+        .subtotals
+        .iter()
+        .find(|row| row.reported_model.as_deref() == Some("model-b"))
+        .expect("model b");
+    assert_eq!(
+        (model_b.role.as_str(), model_b.phase.as_str()),
+        ("reviewer", "review")
+    );
+    assert_eq!(model_b.counts.input_tokens, Some(20));
+    assert_eq!(model_b.counts.output_tokens, Some(7));
+    assert_eq!(model_b.model_assurance, UsageAssurance::CallerClaim);
+    assert_eq!(model_b.token_assurance, UsageAssurance::CallerClaim);
+
+    let filtered = query_work_item_usage(root.path(), id, None, Some("model-a"))
+        .expect("reported model filter");
+    assert_eq!(filtered.receipt_refs.len(), 2);
+    assert_eq!(filtered.totals.output_tokens, Some(7));
+    assert_eq!(filtered.totals.input_tokens, None);
+    let unknown_unit = serde_json::to_value(&first).expect("request JSON");
+    let mut cumulative = unknown_unit;
+    cumulative["unit"] = "cumulative".into();
+    assert!(serde_json::from_value::<UsageRecordRequest>(cumulative).is_err());
+    assert_eq!(
+        read_work_item_usage(root.path(), id, None)
+            .expect("unchanged receipts")
+            .receipt_refs
+            .len(),
+        3
+    );
+}
+
+#[test]
 fn unknown_counts_remain_null_and_source_time_needs_trusted_provenance() {
     let root = repository();
     start(root.path(), "WI-UNKNOWN");
