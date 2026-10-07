@@ -611,6 +611,12 @@ pub struct CompositionAttempt {
     pub active_process_group_id: Option<u32>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub active_process_group_identity: Option<ProcessGroupLeaderIdentity>,
+    #[serde(default, skip_serializing_if = "bool_is_false")]
+    pub owned_tree_termination_unknown: bool,
+}
+
+fn bool_is_false(value: &bool) -> bool {
+    !*value
 }
 
 impl CompositionAttempt {
@@ -747,6 +753,7 @@ pub fn record_composition_supervisor_failure(
         active_execution_node: None,
         active_process_group_id: None,
         active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
     };
     refresh_execution_records_digest(&mut attempt);
     persist_attempt(&input.state_dir, &attempt)?;
@@ -812,7 +819,12 @@ fn run_composition_inner_with_observer(
         // the new attempt is rejected below.
         loaded_predecessor
     } else {
-        reconcile_abandoned_attempt(&input.repository_root, &input.state_dir, loaded_predecessor)?
+        reconcile_abandoned_attempt_with_observer(
+            &input.repository_root,
+            &input.state_dir,
+            loaded_predecessor,
+            observe_worktree_process,
+        )?
     };
     let fresh_deferred_retry = deferred_predecessor && deferred_retry_blocked_reason.is_none();
     let recorded_at_unix_nanos = now_unix_nanos();
@@ -851,6 +863,7 @@ fn run_composition_inner_with_observer(
         active_execution_node: None,
         active_process_group_id: None,
         active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
     };
 
     // This snapshot is the recovery boundary: an interrupted parent leaves a
@@ -1223,6 +1236,7 @@ fn run_composition_inner_with_observer(
             attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
             attempt.execution_evidence_complete = false;
             attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+            attempt.owned_tree_termination_unknown = true;
             worktree_guard.preserve();
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
@@ -1257,6 +1271,7 @@ fn run_composition_inner_with_observer(
                     attempt.failure = Some("composition_cleanup_deferred".into());
                 }
             } else {
+                attempt.owned_tree_termination_unknown = true;
                 attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
                 attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
                 attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
@@ -1634,6 +1649,7 @@ fn completed_owned_execution_is_coherent(
         && attempt.active_execution_node.is_none()
         && attempt.active_process_group_id.is_none()
         && attempt.active_process_group_identity.is_none()
+        && !attempt.owned_tree_termination_unknown
         && !attempt.execution_records.is_empty()
         && attempt.execution_records.len() <= input.commands.len()
         && attempt.processes_spawned
@@ -1677,6 +1693,7 @@ fn validate_deferred_cleanup_retry(
         || previous.active_execution_node.is_some()
         || previous.active_process_group_id.is_some()
         || previous.active_process_group_identity.is_some()
+        || previous.owned_tree_termination_unknown
         || previous.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
         || !previous.text_conflicts.is_empty()
         || !previous
@@ -1927,6 +1944,7 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
         && attempt.active_execution_node.is_none()
         && attempt.active_process_group_id.is_none()
         && attempt.active_process_group_identity.is_none()
+        && !attempt.owned_tree_termination_unknown
         && !attempt.execution_records.is_empty()
         && attempt.processes_spawned
             == attempt
@@ -1978,14 +1996,35 @@ fn persist_owner_interruption(
     persist_attempt(state_dir, attempt)
 }
 
-fn reconcile_abandoned_attempt(
+fn reconcile_abandoned_attempt_with_observer(
     repository_root: &Path,
     state_dir: &Path,
     previous: Option<CompositionAttempt>,
+    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
 ) -> Result<Option<CompositionAttempt>, CompositionError> {
     let Some(mut attempt) = previous else {
         return Ok(None);
     };
+    // External Ok(None) cannot replace a missing proof about descendants
+    // owned by the prior supervisor. Keep the old tree and registration until
+    // an explicit supported recovery route supplies that proof.
+    if !attempt.isolated_worktree.is_empty()
+        && (attempt.owned_tree_termination_unknown
+            || (attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+                && attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+                && attempt
+                    .failure
+                    .as_deref()
+                    .is_some_and(|failure| failure.starts_with("verifier_process_state_unknown:")))
+            || attempt.supervisor_receipt.as_ref().is_some_and(|receipt| {
+                receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+                    && !receipt.descendants_reaped_to_echild
+            }))
+    {
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
+    }
     let cleanup_pending = attempt.failure.as_deref() == Some("in_progress")
         || attempt
             .cleanup
@@ -2077,7 +2116,7 @@ fn reconcile_abandoned_attempt(
         )
     };
     if let Some((worktree, _)) = &validated_paths {
-        match verifier_process_using_worktree(worktree) {
+        match observe_worktree_process(worktree) {
             Ok(Some(process_id)) => {
                 return Err(CompositionError::ActiveVerifierDescendant {
                     attempt_id: attempt.attempt_id,
@@ -5482,10 +5521,19 @@ mod external_observer_deferred_tests {
             descendants_reaped_to_echild: false,
         };
         let check: ProcessAdmissionCheck = Arc::new(|_, accept| accept());
+        let spawn_marker = input.state_dir.join("a12-verifier-spawns");
         let gate: ProcessStartGate = if unknown_path.starts_with("deny:") {
             Arc::new(|_, _| Err("injected current admission denial".into()))
         } else {
-            Arc::new(|_, spawn| spawn())
+            Arc::new(move |_, spawn| {
+                OpenOptions::new()
+                    .create(true)
+                    .append(true)
+                    .open(&spawn_marker)
+                    .and_then(|mut marker| marker.write_all(b"x"))
+                    .map_err(|error| format!("cannot mark A12 verifier spawn: {error}"))?;
+                spawn()
+            })
         };
         let observe = |path: &Path| {
             if let Some(active_path) = unknown_path.strip_prefix("active:")
@@ -5590,22 +5638,72 @@ mod external_observer_deferred_tests {
         let raw = save_attempt_json(state.path(), &first.attempt_id, "no-proof.raw.json");
         assert_eq!(raw["executionRecords"][0]["exitCode"], 0);
         assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], false);
+        assert_eq!(raw["ownedTreeTerminationUnknown"], true);
         assert_eq!(raw["executionOutcome"], "unknown");
         assert_eq!(raw["executionEvidenceComplete"], false);
         assert_eq!(raw["cleanupDisposition"], "retained");
         assert!(Path::new(&first.isolated_worktree).is_dir());
-        let retry = run_supervisor_case_result(&input, "", 1);
-        match retry {
-            Err(_) => {}
-            Ok(blocked) => {
-                assert_eq!(
-                    blocked.processes_spawned, 0,
-                    "unknown owned tree: {blocked:?}"
-                );
-                assert!(!blocked.passed);
-            }
-        }
+        let retry = run_supervisor_case_result(&input, "", 1)
+            .expect_err("clean external observer cannot replace missing owned-tree proof");
+        assert!(
+            retry.contains("has no verifiable owner; preserving its worktree"),
+            "unexpected recovery rejection: {retry}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("spawn marker"),
+            b"x",
+            "retry must not start another verifier"
+        );
         assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
+    }
+
+    #[test]
+    fn external_unknown_without_coherent_owned_binding_blocks_clean_reconcile() {
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case_with_generation(&input, "*", 0);
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "unbound-proof.raw.json");
+        assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], true);
+        assert_eq!(raw["ownedTreeTerminationUnknown"], true);
+        assert_eq!(raw["cleanupDisposition"], "retained");
+        let mut legacy_json = raw.clone();
+        legacy_json
+            .as_object_mut()
+            .expect("attempt JSON object")
+            .remove("ownedTreeTerminationUnknown");
+        let legacy: CompositionAttempt =
+            serde_json::from_value(legacy_json).expect("pre-guard attempt format");
+        let legacy_error = reconcile_abandoned_attempt_with_observer(
+            repository.path(),
+            state.path(),
+            Some(legacy),
+            &|_| Ok(None),
+        )
+        .expect_err("legacy retained unknown cannot be cleaned by external Ok(None)");
+        assert!(matches!(
+            legacy_error,
+            CompositionError::UnknownAttemptOwner { .. }
+        ));
+        let retry = run_supervisor_case_result(&input, "", 1)
+            .expect_err("external Ok(None) cannot repair incoherent owned proof");
+        assert!(
+            retry.contains("has no verifiable owner; preserving its worktree"),
+            "unexpected recovery rejection: {retry}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("spawn marker"),
+            b"x"
+        );
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
     }
 
     #[test]

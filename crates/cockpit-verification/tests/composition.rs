@@ -787,6 +787,7 @@ fn process_group_backend_does_not_claim_linux_echild_proof() {
         active_execution_node: None,
         active_process_group_id: None,
         active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
     };
     for (backend, nonce) in [
         (

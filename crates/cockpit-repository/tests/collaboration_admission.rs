@@ -177,7 +177,10 @@ fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> 
 }
 
 #[cfg(target_os = "linux")]
-fn fail_first_proc_cwd_observation_environment(root: &Path) -> Vec<(String, String)> {
+fn fail_first_proc_cwd_observation_environment(
+    root: &Path,
+    peer_pid: u32,
+) -> Vec<(String, String)> {
     let source = root.join("observer-fault.c");
     let library = root.join("observer-fault.so");
     let counter = root.join("observer-fault-count");
@@ -186,6 +189,7 @@ fn fail_first_proc_cwd_observation_environment(root: &Path) -> Vec<(String, Stri
         r#"#define _GNU_SOURCE
 #include <errno.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/file.h>
@@ -194,8 +198,11 @@ fn fail_first_proc_cwd_observation_environment(root: &Path) -> Vec<(String, Stri
 
 ssize_t readlink(const char *path, char *buffer, size_t size) {
     const char *marker = getenv("AI_COCKPIT_OBSERVER_FAULT_COUNTER");
-    if (marker && strncmp(path, "/proc/", 6) == 0 &&
-        strlen(path) >= 4 && strcmp(path + strlen(path) - 4, "/cwd") == 0) {
+    const char *peer = getenv("AI_COCKPIT_OBSERVER_FAULT_PID");
+    char expected[80];
+    int expected_size = peer ? snprintf(expected, sizeof(expected), "/proc/%s/cwd", peer) : -1;
+    if (marker && peer && expected_size > 0 &&
+        (size_t)expected_size < sizeof(expected) && strcmp(path, expected) == 0) {
         int fd = open(marker, O_RDWR | O_CREAT, 0600);
         if (fd >= 0) {
             if (flock(fd, LOCK_EX) == 0) {
@@ -238,6 +245,7 @@ ssize_t readlink(const char *path, char *buffer, size_t size) {
             "AI_COCKPIT_OBSERVER_FAULT_COUNTER".into(),
             counter.to_string_lossy().into_owned(),
         ),
+        ("AI_COCKPIT_OBSERVER_FAULT_PID".into(), peer_pid.to_string()),
     ]
 }
 
@@ -1049,6 +1057,16 @@ fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
 #[cfg(target_os = "linux")]
 #[test]
 fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
+    use std::os::unix::fs::MetadataExt;
+
+    struct ObserverPeer(std::process::Child);
+    impl Drop for ObserverPeer {
+        fn drop(&mut self) {
+            let _ = self.0.kill();
+            let _ = self.0.wait();
+        }
+    }
+
     let root = repository();
     let store = store(root.path());
     let marker = root.path().join("observer-error-marker");
@@ -1066,7 +1084,20 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
     input.commands[0].args.clear();
     input.commands[0].input_paths.clear();
     input.identity.command_digest = composition_commands_digest(&input.commands);
-    let environment = fail_first_proc_cwd_observation_environment(root.path());
+    let mut peer = ObserverPeer(
+        Command::new("sleep")
+            .arg("30")
+            .spawn()
+            .expect("spawn bounded same-UID observer peer"),
+    );
+    assert!(peer.0.try_wait().expect("observer peer status").is_none());
+    assert_eq!(
+        fs::metadata(format!("/proc/{}", peer.0.id()))
+            .expect("observer peer proc metadata")
+            .uid(),
+        unsafe { libc::getuid() },
+    );
+    let environment = fail_first_proc_cwd_observation_environment(root.path(), peer.0.id());
     let executable = std::env::current_exe().expect("controlled test helper path");
     let first = run_admitted_composition_with_supervisor_environment(
         &store,
