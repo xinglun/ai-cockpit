@@ -1723,13 +1723,10 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
     let archive = path.join(".ai/work-items/archive");
     let active_reference = format!(".ai/work-items/active/{work_item_id}");
     let archive_reference = format!(".ai/work-items/archive/{work_item_id}");
-    for suffix in [
-        "outcome.json",
-        "summary.json",
-        "task-report.json",
-        "task-report.md",
-        "events.jsonl",
-    ] {
+    // The generated Outcome remains a reader projection with archive-local
+    // references. The cutoff-bound report itself is an immutable finish
+    // snapshot and retains its original bytes after archive.
+    for suffix in ["outcome.json", "summary.json", "events.jsonl"] {
         let bytes = fs::read(archive.join(format!("{work_item_id}.{suffix}")))
             .unwrap_or_else(|error| panic!("read archived {suffix}: {error}"));
         let text = String::from_utf8(bytes).expect("archived artifact is UTF-8");
@@ -1737,7 +1734,7 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
             !text.contains(&active_reference),
             "archived {suffix} still references a removed active artifact"
         );
-        if matches!(suffix, "outcome.json" | "task-report.json" | "events.jsonl") {
+        if matches!(suffix, "outcome.json" | "events.jsonl") {
             assert!(
                 text.contains(&archive_reference),
                 "archived {suffix} does not expose its archive reference"

@@ -62,6 +62,7 @@ mod project_governance;
 mod resource_lifecycle;
 mod rust_material;
 mod status_projection;
+mod usage;
 
 use rust_material::{
     RustMaterialAssessment, assess_rust_material, contains_strong_instruction_injection,
@@ -157,6 +158,10 @@ use status_projection::{
 pub use status_projection::{
     status, status_with_runtime, work_item_status_index_with_runtime,
     work_item_status_snapshot_with_runtime,
+};
+pub use usage::{
+    query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
+    record_work_item_usage,
 };
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
@@ -7708,6 +7713,10 @@ fn archive_work_item_internal(
         artifacts.push((format!("historicalArtifact{index}"), suffix.to_owned()));
     }
     let mut pending = Vec::new();
+    let cutoff_bound_report = fs::read(&report_source)
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
+        .is_some_and(|value| value.get("usage").is_some_and(|usage| !usage.is_null()));
     for (name, suffix) in artifacts {
         let source_path = active.join(format!("{work_item_id}.{suffix}"));
         if name.starts_with("historicalArtifact")
@@ -7720,8 +7729,14 @@ fn archive_work_item_internal(
             path: source_path.clone(),
             source: error,
         })?;
-        let archived_bytes =
-            normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?;
+        let archived_bytes = if cutoff_bound_report
+            && matches!(suffix.as_str(), "task-report.json" | "task-report.md")
+        {
+            // The cutoff-bound finish report is an immutable source record.
+            source_bytes.clone()
+        } else {
+            normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?
+        };
         if target.exists() {
             return Err(ObserverError::State {
                 path: target,
@@ -8534,6 +8549,13 @@ fn close_work_item_with_structured_decision_internal(
             evidence_refs: human_decision.evidence_refs.clone(),
             inference: human_decision.evidence_refs.is_empty(),
         });
+        let close_cutoff = usage::now_nanos();
+        final_report.usage = Some(read_work_item_usage(
+            &root,
+            work_item_id,
+            Some(&close_cutoff),
+        )?);
+        decision["usageCutoff"] = close_cutoff.into();
         let final_report =
             serde_json::to_value(&final_report).map_err(|error| ObserverError::State {
                 path: outcome.clone(),
@@ -9346,6 +9368,7 @@ fn persist_blocked_lifecycle_outcome(
         .as_ref()
         .and_then(|value| snapshot_digest(value).ok());
     let unknowns = vec!["lifecycle_gate_failed".to_string()];
+    let usage_cutoff = usage::now_nanos();
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,
@@ -9360,6 +9383,7 @@ fn persist_blocked_lifecycle_outcome(
         failed_gate_override: Some(&failed_gate),
         recovery_condition_override: Some(&recovery_condition),
         historical: false,
+        usage_cutoff: Some(&usage_cutoff),
     });
     append_task_outcome_recovery_event(
         &root,
@@ -9489,6 +9513,7 @@ struct TaskOutcomeReportInput<'a> {
     failed_gate_override: Option<&'a str>,
     recovery_condition_override: Option<&'a str>,
     historical: bool,
+    usage_cutoff: Option<&'a str>,
 }
 
 fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
@@ -9506,6 +9531,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         failed_gate_override,
         recovery_condition_override,
         historical,
+        usage_cutoff,
     } = input;
     let contract_ref = repository_relative_path(root, contract_path);
     let summary_ref = contract_path
@@ -9636,6 +9662,18 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
     };
 
     let release = release_projection_from_summary(root, summary);
+    let cutoff = usage_cutoff
+        .or_else(|| summary.and_then(|value| value["updatedAt"].as_str()))
+        .or(contract.created_at.as_deref())
+        .unwrap_or("1970-01-01T00:00:00Z");
+    let usage =
+        read_work_item_usage(root, &contract.work_item_id, Some(cutoff)).unwrap_or_else(|_| {
+            cockpit_protocol::UsageSummary::unknown(
+                &contract.work_item_id,
+                cutoff.to_owned(),
+                "usage_receipts_unavailable",
+            )
+        });
     TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
         schema_version: 1,
@@ -9649,6 +9687,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             repository_snapshot_digest: snapshot_digest,
         },
         sections,
+        usage: Some(usage),
         release,
         failed_gate,
         recovery_condition,
@@ -10549,6 +10588,7 @@ fn outcome_v2_internal_with_snapshot(
             .as_ref()
             .map(|(_, recovery)| recovery.as_str()),
         historical,
+        usage_cutoff: None,
     });
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();

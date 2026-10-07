@@ -7,6 +7,7 @@ use thiserror::Error;
 pub use cockpit_interface as interface_description;
 mod contract_amendment;
 pub mod release_plan;
+pub mod usage;
 
 pub use contract_amendment::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
@@ -52,6 +53,10 @@ pub use release_plan::{
     RELEASE_PLAN_SCHEMA_VERSION, ReleaseEvidenceBinding, ReleaseMode, ReleasePlan,
     ReleasePlanEnvelope, ReleasePlanError, ReleaseRequest, ReleaseRequestInput, ReleaseStage,
     ReleaseStageTransition,
+};
+pub use usage::{
+    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageReceipt, UsageReceiptRef,
+    UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts, UsageUnit,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;
@@ -4015,6 +4020,8 @@ pub struct TaskOutcomeReport {
     pub human_status_color: DecisionState,
     pub bindings: OutcomeReportBindings,
     pub sections: OutcomeReportSections,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage: Option<UsageSummary>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub release: Option<OutcomeReleaseProjection>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

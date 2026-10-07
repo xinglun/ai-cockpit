@@ -1125,6 +1125,33 @@ pub(crate) fn read_registered_worktree_file(
     read_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
 }
 
+/// Bound a repository-relative evidence read while retaining the same pinned
+/// directory handles and post-read mutation checks as the ordinary reader.
+pub(crate) fn read_registered_worktree_file_bounded(
+    root: &Path,
+    reference: &str,
+    maximum_bytes: usize,
+) -> Result<Vec<u8>, String> {
+    let mut opened = open_registered_worktree_file_with_context(root, reference)?;
+    let mut bytes = Vec::new();
+    Read::by_ref(&mut opened.file)
+        .take(maximum_bytes as u64 + 1)
+        .read_to_end(&mut bytes)
+        .map_err(|error| format!("cannot read bounded evidence {reference}: {error}"))?;
+    if bytes.len() > maximum_bytes {
+        return Err(format!("evidence exceeds bounded read limit: {reference}"));
+    }
+    verify_opened_directory_chain(
+        &opened.canonical_root,
+        &opened.directory_chain,
+        &opened.reference,
+    )?;
+    opened
+        .mutation_observer
+        .verify_unchanged(&opened.reference)?;
+    Ok(bytes)
+}
+
 pub(crate) fn read_registered_worktree_file_with_opener<F>(
     root: &Path,
     reference: &str,

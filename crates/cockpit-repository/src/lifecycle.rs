@@ -2324,7 +2324,7 @@ fn finish_work_item_internal_unlocked(
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
     }
-    let timestamp = now();
+    let timestamp = super::usage::now_nanos();
     // A prior failed `finish` persists a blocked projection so recovery is
     // visible.  Once a fresh verification and governance pass succeeds, that
     // transient failure metadata is no longer current; keeping it would make
@@ -2355,6 +2355,7 @@ fn finish_work_item_internal_unlocked(
         failed_gate_override: None,
         recovery_condition_override: None,
         historical: false,
+        usage_cutoff: Some(&timestamp),
     });
     let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
         &root,

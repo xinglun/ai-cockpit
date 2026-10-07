@@ -1610,6 +1610,12 @@ fn work_item_status_snapshot_with_snapshot(
     if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
         safe_actions.push("record_governance_controls".into());
     }
+    if !historical && !close_decision_present {
+        // Usage is an explicit, separately admitted receipt append. A
+        // verification blocker does not erase truthful caller claims, but a
+        // close marker freezes the Work Item even when malformed.
+        safe_actions.push("record_usage".into());
+    }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());
         diagnostics.push(error.to_string());

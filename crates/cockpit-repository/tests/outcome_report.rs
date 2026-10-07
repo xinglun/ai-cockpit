@@ -117,6 +117,7 @@ fn render_fixture_view_language(
             repository_snapshot_digest: None,
         },
         sections,
+        usage: None,
         release: None,
         failed_gate: None,
         recovery_condition: None,
@@ -479,6 +480,7 @@ fn release_projection_is_visible_in_summary_and_full_views_without_inference() {
                 repository_snapshot_digest: None,
             },
             sections: fixture.sections,
+            usage: None,
             release: Some(release.clone()),
             failed_gate: None,
             recovery_condition: None,
@@ -797,6 +799,20 @@ fn finish_writes_event_stream_and_archive_binds_it() {
     let directory = repository();
     ready(&directory, "WI-136-EVENTS");
     finish_work_item(directory.path(), "WI-136-EVENTS").expect("finish");
+    let active_report_bytes = fs::read(
+        directory
+            .path()
+            .join(".ai/work-items/active/WI-136-EVENTS.task-report.json"),
+    )
+    .expect("active report bytes");
+    let report: TaskOutcomeReport = serde_json::from_slice(&active_report_bytes).expect("report");
+    let usage = report
+        .usage
+        .expect("new finish report has explicit usage state");
+    assert_eq!(usage.coverage, cockpit_protocol::UsageCoverage::Unknown);
+    assert_eq!(usage.unknown_reasons, ["no_usage_receipts"]);
+    assert_eq!(usage.totals.input_tokens, None);
+    assert!(!usage.cutoff.is_empty());
     let active_events = directory
         .path()
         .join(".ai/work-items/active/WI-136-EVENTS.events.jsonl");
@@ -816,6 +832,15 @@ fn finish_writes_event_stream_and_archive_binds_it() {
     let text = fs::read_to_string(&active_events).expect("events");
     assert!(text.contains("\"eventType\":\"completed\""));
     archive_work_item(directory.path(), "WI-136-EVENTS").expect("archive");
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/archive/WI-136-EVENTS.task-report.json")
+        )
+        .expect("archived report bytes"),
+        active_report_bytes
+    );
     let archived_events = directory
         .path()
         .join(".ai/work-items/archive/WI-136-EVENTS.events.jsonl");
