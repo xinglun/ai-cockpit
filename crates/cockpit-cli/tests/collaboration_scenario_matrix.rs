@@ -146,8 +146,10 @@ fn composition_fixture(root: &Path) -> (String, CompositionInput) {
         covered_scenarios: Vec::new(),
         covered_constraints: Vec::new(),
     }];
-    let mut identity = CompositionIdentity::default();
-    identity.command_digest = composition_commands_digest(&commands);
+    let identity = CompositionIdentity {
+        command_digest: composition_commands_digest(&commands),
+        ..Default::default()
+    };
     (
         work_item_id.clone(),
         CompositionInput {

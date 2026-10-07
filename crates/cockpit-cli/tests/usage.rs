@@ -162,7 +162,7 @@ fn usage_help_and_canonical_description_are_discoverable() {
             .expect("usage help");
         assert!(output.status.success(), "{args:?}");
         let text = String::from_utf8_lossy(&output.stdout);
-        if args == &["--help"] {
+        if args == ["--help"] {
             assert!(text.contains("work-item"));
         } else {
             assert!(text.contains("usage") || text.contains("record"));

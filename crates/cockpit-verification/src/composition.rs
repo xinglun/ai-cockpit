@@ -2855,12 +2855,11 @@ fn observe_linux_process_group_for_recovery(
     let initial_digest = Digest::sha256_bytes(&initial_bytes);
     let validate_attempt = || -> Result<(), String> {
         let current_bytes =
-            attempt_file_bytes(state_dir, &attempt.attempt_id).map_err(|error| {
+            attempt_file_bytes(state_dir, &attempt.attempt_id).inspect_err(|error| {
                 reconciliation_trace(&format!(
                     "stage=attempt_validation_read_error category={}",
-                    reconciliation_error_category(&error)
+                    reconciliation_error_category(error)
                 ));
-                error
             })?;
         if Digest::sha256_bytes(&current_bytes) != initial_digest {
             reconciliation_trace("stage=attempt_validation_digest_changed");

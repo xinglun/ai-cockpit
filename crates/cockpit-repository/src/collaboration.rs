@@ -2202,7 +2202,7 @@ fn launch_composition_supervisor(
                 &spawn_input,
             )
         },
-        || spawn_helper(),
+        spawn_helper,
     )
     .map_err(recovery_error)?;
     let stdout = child

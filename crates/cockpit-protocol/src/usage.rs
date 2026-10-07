@@ -18,18 +18,13 @@ pub enum UsageUnit {
     Turn,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum UsageAssurance {
+    #[default]
     Unknown,
     CallerClaim,
     VerifiedAdapter,
-}
-
-impl Default for UsageAssurance {
-    fn default() -> Self {
-        Self::Unknown
-    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
