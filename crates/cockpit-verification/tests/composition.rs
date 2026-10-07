@@ -66,6 +66,7 @@ fn run_composition_with_test_supervisor(
             "AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT",
             &output_path,
         )
+        .env("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE", "1")
         .output()
         .map_err(|error| format!("run isolated composition supervisor helper: {error}"))?;
     if !output.status.success() {
@@ -80,7 +81,12 @@ fn run_composition_with_test_supervisor(
             .map_err(|error| format!("read composition supervisor helper result: {error}"))?,
     )
     .map_err(|error| format!("decode composition supervisor helper result: {error}"))?;
-    result
+    result.map_err(|error| {
+        format!(
+            "{error}; isolated helper diagnostic: {}",
+            String::from_utf8_lossy(&output.stderr)
+        )
+    })
 }
 
 #[test]
@@ -1920,6 +1926,7 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
                 "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
             ])
             .env("COMPOSITION_ORPHAN_TEST_HELPER", "1")
+            .env("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE", "1")
             .spawn()
             .expect("spawn isolated subreaper test helper");
         let deadline = Instant::now() + Duration::from_secs(60);
@@ -2740,7 +2747,25 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     ))
     .expect("first attempt");
-    assert!(first.passed);
+    assert!(
+        first.passed,
+        "first dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        first.execution_outcome,
+        first.execution_evidence_complete,
+        first.failure,
+        first.cleanup_disposition,
+        first.owned_tree_termination_unknown,
+        first
+            .execution_records
+            .iter()
+            .map(|record| (
+                &record.node_id,
+                record.passed,
+                record.exit_code,
+                record.termination_signal
+            ))
+            .collect::<Vec<_>>()
+    );
 
     run(root.path(), &["checkout", "-q", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
@@ -2758,7 +2783,25 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     ))
     .expect("second attempt");
 
-    assert!(second.passed);
+    assert!(
+        second.passed,
+        "second dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        second.execution_outcome,
+        second.execution_evidence_complete,
+        second.failure,
+        second.cleanup_disposition,
+        second.owned_tree_termination_unknown,
+        second
+            .execution_records
+            .iter()
+            .map(|record| (
+                &record.node_id,
+                record.passed,
+                record.exit_code,
+                record.termination_signal
+            ))
+            .collect::<Vec<_>>()
+    );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 3 } else { 4 });
     for node_id in ["source", "consumer", "transitive"] {
         let record = second
@@ -3109,7 +3152,7 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
     // Parallel package-test workers may inherit SIGINT as ignored. Reset the
     // child disposition explicitly so this remains a real signal termination
     // regardless of how Cargo's test process was launched.
-    let attempt = run_composition(input(
+    let attempt = run_composition_with_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
@@ -3123,9 +3166,14 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
         )],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     ))
-    .expect("signal-terminated composition attempt");
+    .expect("signal-terminated composition attempt with owned supervisor proof");
 
     assert!(!attempt.passed);
+    assert_eq!(
+        attempt.execution_outcome,
+        CompositionExecutionOutcome::Failed
+    );
+    assert!(attempt.execution_evidence_complete);
     assert_eq!(
         attempt.failure.as_deref(),
         Some("command_interrupted:signal=2")
@@ -3133,12 +3181,55 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
     assert_eq!(attempt.processes_spawned, 1);
     assert_eq!(attempt.execution_records[0].termination_signal, Some(2));
     assert!(!attempt.execution_records[0].reused);
-    assert!(
-        attempt
-            .cleanup
-            .as_ref()
-            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed)
-    );
+    let receipt = attempt
+        .supervisor_receipt
+        .as_ref()
+        .expect("real isolated supervisor receipt");
+    assert_eq!(receipt.attempt_id, attempt.attempt_id);
+    assert_eq!(attempt.owner_pid, Some(receipt.supervisor.process_id));
+    assert_eq!(receipt.owner, receipt.supervisor);
+    assert!(!attempt.owned_tree_termination_unknown);
+    #[cfg(target_os = "linux")]
+    {
+        assert_eq!(
+            receipt.backend,
+            CompositionSupervisorBackend::LinuxSubreaper
+        );
+        assert!(receipt.descendants_reaped_to_echild);
+    }
+    match attempt.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            let cleanup = attempt.cleanup.as_ref().expect("cleaned signal attempt");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+            assert!(!Path::new(&attempt.isolated_worktree).exists());
+        }
+        #[cfg(target_os = "linux")]
+        CompositionCleanupDisposition::Deferred => {
+            let cleanup = attempt.cleanup.as_ref().expect("deferred signal attempt");
+            assert!(!cleanup.attempted);
+            assert!(!cleanup.removed);
+            let error = cleanup.error.as_deref().expect("external observer error");
+            assert!(
+                error.starts_with("verifier_process_state_unknown:cannot inspect process ")
+                    && [" working directory", " file descriptors", " open files"]
+                        .iter()
+                        .any(|suffix| error.ends_with(suffix)),
+                "unexpected observer error: {error}"
+            );
+            let retained = Path::new(&attempt.isolated_worktree);
+            assert!(retained.is_dir(), "deferred signal tree must remain");
+            let registration = format!("worktree {}", retained.display());
+            assert!(
+                run(root.path(), &["worktree", "list", "--porcelain"])
+                    .lines()
+                    .any(|line| line == registration),
+                "deferred signal worktree registration must remain"
+            );
+        }
+        other => panic!("unexpected signal cleanup disposition: {other:?}"),
+    }
     let durable: serde_json::Value = serde_json::from_slice(
         &fs::read(attempt_record_path(state.path(), &attempt.attempt_id))
             .expect("durable signal attempt"),

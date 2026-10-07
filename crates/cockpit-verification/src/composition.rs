@@ -1996,6 +1996,54 @@ fn persist_owner_interruption(
     persist_attempt(state_dir, attempt)
 }
 
+fn reconciliation_trace(message: &str) {
+    if std::env::var("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE").as_deref() == Ok("1") {
+        eprintln!("composition_reconcile_trace {message}");
+    }
+}
+
+fn reconciliation_error_category(error: &str) -> &'static str {
+    if error.contains("Permission denied") || error.starts_with("cannot inspect process ") {
+        "permission_denied"
+    } else if error.contains("digest changed") || error.contains("attempt changed") {
+        "attempt_changed"
+    } else if error.contains("cannot parse current composition attempt") {
+        "attempt_parse_error"
+    } else if error.contains("time budget") || error.contains("deadline") {
+        "deadline"
+    } else if error.contains("entry budget") {
+        "entry_budget"
+    } else if error.contains("directory race") {
+        "directory_race"
+    } else if error.contains("cannot enumerate proc root") {
+        "proc_enumeration_error"
+    } else if error.contains("could not read") {
+        "stat_read_error"
+    } else if error.contains("could not parse") {
+        "stat_parse_error"
+    } else if error.contains("disappeared") {
+        "stat_disappeared"
+    } else if error.contains("inconsistent") {
+        "identity_inconsistent"
+    } else {
+        "other"
+    }
+}
+
+fn reconciliation_known_observer_error(error: &str) -> String {
+    let Some(rest) = error.strip_prefix("cannot inspect process ") else {
+        return "opaque".into();
+    };
+    for suffix in [" working directory", " file descriptors", " open files"] {
+        if let Some(pid) = rest.strip_suffix(suffix)
+            && let Ok(pid) = pid.parse::<u32>()
+        {
+            return format!("pid={pid} area={}", suffix.trim());
+        }
+    }
+    "opaque".into()
+}
+
 fn reconcile_abandoned_attempt_with_observer(
     repository_root: &Path,
     state_dir: &Path,
@@ -2005,6 +2053,16 @@ fn reconcile_abandoned_attempt_with_observer(
     let Some(mut attempt) = previous else {
         return Ok(None);
     };
+    reconciliation_trace(&format!(
+        "stage=loaded attempt={} schema={} owner_pid={:?} observation_schema={} group_id={:?} leader={:?} owned_tree_unknown={}",
+        attempt.attempt_id,
+        attempt.schema_version,
+        attempt.owner_pid,
+        attempt.process_observation_schema_version,
+        attempt.active_process_group_id,
+        attempt.active_process_group_identity,
+        attempt.owned_tree_termination_unknown,
+    ));
     // External Ok(None) cannot replace a missing proof about descendants
     // owned by the prior supervisor. Keep the old tree and registration until
     // an explicit supported recovery route supplies that proof.
@@ -2021,6 +2079,7 @@ fn reconcile_abandoned_attempt_with_observer(
                     && !receipt.descendants_reaped_to_echild
             }))
     {
+        reconciliation_trace("stage=prior_owned_termination_unknown");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
@@ -2035,11 +2094,20 @@ fn reconcile_abandoned_attempt_with_observer(
         return Ok(Some(attempt));
     }
     let Some(owner_pid) = attempt.owner_pid else {
+        reconciliation_trace("stage=missing_owner_pid");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
     };
-    if process_is_alive(owner_pid) {
+    #[cfg(unix)]
+    let (owner_alive, owner_probe_result, owner_probe_errno) = process_liveness_probe(owner_pid);
+    #[cfg(unix)]
+    reconciliation_trace(&format!(
+        "stage=owner_probe owner_pid={owner_pid} kill_result={owner_probe_result} errno={owner_probe_errno:?} alive={owner_alive}"
+    ));
+    #[cfg(windows)]
+    let owner_alive = process_is_alive(owner_pid);
+    if owner_alive {
         return Err(CompositionError::ActiveAttempt {
             attempt_id: attempt.attempt_id,
             owner_pid,
@@ -2049,6 +2117,7 @@ fn reconcile_abandoned_attempt_with_observer(
     if attempt.failure.as_deref() == Some("in_progress")
         && attempt.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
     {
+        reconciliation_trace("stage=legacy_observation_schema");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
@@ -2077,7 +2146,17 @@ fn reconcile_abandoned_attempt_with_observer(
                     Ok((LinuxProcessGroupLiveness::Exited, digest)) => {
                         attempt_digest_before_group_cleanup = Some(digest);
                     }
-                    Ok((LinuxProcessGroupLiveness::Unknown, _)) | Err(_) => {
+                    Ok((LinuxProcessGroupLiveness::Unknown, _)) => {
+                        reconciliation_trace("stage=group_observation_unknown");
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id,
+                        });
+                    }
+                    Err(error) => {
+                        reconciliation_trace(&format!(
+                            "stage=group_observation_error category={}",
+                            reconciliation_error_category(&error)
+                        ));
                         return Err(CompositionError::UnknownAttemptOwner {
                             attempt_id: attempt.attempt_id,
                         });
@@ -2096,6 +2175,7 @@ fn reconcile_abandoned_attempt_with_observer(
             attempt.active_process_group_identity = None;
         }
         (Some(_), None) | (None, Some(_)) => {
+            reconciliation_trace("stage=incomplete_active_group_fields");
             return Err(CompositionError::UnknownAttemptOwner {
                 attempt_id: attempt.attempt_id,
             });
@@ -2123,7 +2203,12 @@ fn reconcile_abandoned_attempt_with_observer(
                     process_id,
                 });
             }
-            Err(_) => {
+            Err(error) => {
+                reconciliation_trace(&format!(
+                    "stage=worktree_observer_error category={} detail={}",
+                    reconciliation_error_category(&error),
+                    reconciliation_known_observer_error(&error)
+                ));
                 return Err(CompositionError::UnknownAttemptOwner {
                     attempt_id: attempt.attempt_id,
                 });
@@ -2136,6 +2221,7 @@ fn reconcile_abandoned_attempt_with_observer(
         && require_attempt_digest_unchanged(state_dir, &attempt.attempt_id, &expected_digest)
             .is_err()
     {
+        reconciliation_trace("stage=attempt_digest_changed_after_group_observation");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
@@ -2232,18 +2318,21 @@ fn worktree_is_registered(
     }))
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "linux")))]
 fn process_is_alive(pid: u32) -> bool {
+    process_liveness_probe(pid).0
+}
+
+#[cfg(unix)]
+fn process_liveness_probe(pid: u32) -> (bool, i32, Option<i32>) {
     // SAFETY: `kill(pid, 0)` performs no signal delivery and only probes the
     // process table. A permission error is treated as live, failing closed.
     let result = unsafe { libc::kill(pid as libc::pid_t, 0) };
     if result == 0 {
-        return true;
+        return (true, result, None);
     }
-    !matches!(
-        std::io::Error::last_os_error().raw_os_error(),
-        Some(code) if code == libc::ESRCH
-    )
+    let errno = std::io::Error::last_os_error().raw_os_error();
+    (errno != Some(libc::ESRCH), result, errno)
 }
 
 #[cfg(windows)]
@@ -2323,6 +2412,53 @@ const LINUX_PROC_STABILITY_DELAY: Duration = Duration::from_millis(10);
 const MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS: usize = 3;
 #[cfg(target_os = "linux")]
 const MAX_LINUX_PROC_GROUP_OBSERVATION_DURATION: Duration = Duration::from_secs(3);
+
+#[cfg(target_os = "linux")]
+fn trace_linux_group_scan(
+    process_group_id: u32,
+    attempt_index: usize,
+    phase: &str,
+    result: &Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+) {
+    if std::env::var("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE").as_deref() != Ok("1") {
+        return;
+    }
+    match result {
+        Ok(members) => {
+            let bounded_members = members
+                .iter()
+                .take(8)
+                .map(|member| {
+                    format!(
+                        "{}:{}:{}:{}:{}",
+                        member.process_id,
+                        member.state,
+                        member.start_time_ticks,
+                        member.process_group_id,
+                        member.session_id
+                    )
+                })
+                .collect::<Vec<_>>();
+            reconciliation_trace(&format!(
+                "stage=group_scan pgid={process_group_id} attempt={} phase={phase} target_member_count={} target_members={bounded_members:?}",
+                attempt_index + 1,
+                members.len()
+            ));
+        }
+        Err(error) => {
+            let category = match error {
+                LinuxProcessGroupScanError::StatEntryDisappeared { .. } => "stat_disappeared",
+                LinuxProcessGroupScanError::Other(message) => {
+                    reconciliation_error_category(message)
+                }
+            };
+            reconciliation_trace(&format!(
+                "stage=group_scan pgid={process_group_id} attempt={} phase={phase} error_category={category}",
+                attempt_index + 1
+            ));
+        }
+    }
+}
 
 #[cfg(target_os = "linux")]
 fn parse_linux_process_stat(
@@ -2590,6 +2726,7 @@ where
 
         let first_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
         let first_result = scan_once(first_scan_deadline);
+        trace_linux_group_scan(process_group_id, attempt_index, "first", &first_result);
         if now() >= total_deadline {
             validate_attempt()?;
             return Err(deadline_error.into());
@@ -2624,6 +2761,7 @@ where
 
         let second_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
         let second_result = scan_once(second_scan_deadline);
+        trace_linux_group_scan(process_group_id, attempt_index, "second", &second_result);
         if now() >= total_deadline {
             validate_attempt()?;
             return Err(deadline_error.into());
@@ -2648,6 +2786,10 @@ where
 
         let liveness =
             classify_linux_process_group_scans(process_group_id, leader_identity, &first, &second);
+        reconciliation_trace(&format!(
+            "stage=group_classification pgid={process_group_id} attempt={} leader={leader_identity:?} liveness={liveness:?}",
+            attempt_index + 1
+        ));
         validate_attempt()?;
         if now() >= total_deadline {
             return Err(deadline_error.into());
@@ -2705,14 +2847,23 @@ fn observe_linux_process_group_for_recovery(
     if stored_attempt != *attempt
         || stored_attempt.active_process_group_id != Some(process_group_id)
     {
+        reconciliation_trace("stage=initial_attempt_fields_changed");
         return Err(
             "latest composition attempt changed before process-group reconciliation".into(),
         );
     }
     let initial_digest = Digest::sha256_bytes(&initial_bytes);
     let validate_attempt = || -> Result<(), String> {
-        let current_bytes = attempt_file_bytes(state_dir, &attempt.attempt_id)?;
+        let current_bytes =
+            attempt_file_bytes(state_dir, &attempt.attempt_id).map_err(|error| {
+                reconciliation_trace(&format!(
+                    "stage=attempt_validation_read_error category={}",
+                    reconciliation_error_category(&error)
+                ));
+                error
+            })?;
         if Digest::sha256_bytes(&current_bytes) != initial_digest {
+            reconciliation_trace("stage=attempt_validation_digest_changed");
             return Err("latest composition attempt digest changed".into());
         }
         let current_attempt: CompositionAttempt = serde_json::from_slice(&current_bytes)
@@ -2720,6 +2871,7 @@ fn observe_linux_process_group_for_recovery(
         if current_attempt != *attempt
             || current_attempt.active_process_group_id != Some(process_group_id)
         {
+            reconciliation_trace("stage=attempt_validation_fields_changed");
             return Err(
                 "latest composition attempt changed during process-group observation".into(),
             );

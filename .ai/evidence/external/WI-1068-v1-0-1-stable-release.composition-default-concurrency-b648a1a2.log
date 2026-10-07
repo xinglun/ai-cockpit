@@ -1,0 +1,97 @@
+   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)
+warning: function `process_is_alive` is never used
+    --> crates/cockpit-verification/src/composition.rs:2316:4
+     |
+2316 | fn process_is_alive(pid: u32) -> bool {
+     |    ^^^^^^^^^^^^^^^^
+     |
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `cockpit-verification` (lib) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.81s
+     Running tests/composition.rs (target/wi1068-verify/debug/deps/composition-09d506c697fa6381)
+
+running 43 tests
+test attempt_record_filename_is_portable_and_preserves_logical_identity ... ok
+test actual_command_environment_change_invalidates_reuse_even_when_json_identity_is_stale ... ok
+test admission_change_blocks_reuse_even_when_no_process_would_start ... ok
+test changed_command_only_reexecutes_the_affected_node ... ok
+test coherent_supervisor_receipt_is_required_for_a_successful_terminal ... ok
+test changed_source_file_only_reexecutes_nodes_that_observe_that_file ... ok
+
+thread 'changed_upstream_receipt_reexecutes_transitive_dependents_only' (1674501) panicked at crates/cockpit-verification/tests/composition.rs:2750:5:
+assertion failed: first.passed
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test changed_upstream_receipt_reexecutes_transitive_dependents_only ... FAILED
+test composition_commands_accept_explicit_upstream_dependencies ... ok
+test composition_rejects_dependencies_that_are_not_prior_nodes_before_spawn ... ok
+test composition_subreaper_test_helper ... ok
+test composition_supervisor_reaps_orphaned_descendants_to_echild ... ok
+test composition_supervisor_run_test_helper ... ok
+test composition_attempt_reports_execution_and_cleanup_separately ... ok
+test empty_required_checks_fail_closed_without_a_worktree_or_process ... ok
+test composition_attempt_reads_legacy_logical_id_filename_and_preserves_it ... ok
+test exact_composition_uses_real_linked_worktree_and_finds_interface_error ... ok
+test composition_attempt_without_schema_version_is_not_reused ... ok
+test execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable ... ok
+test failed_precondition_spawns_zero_expensive_processes_and_persists_attempt ... ok
+test composition_v2_attempt_reads_but_does_not_reuse_v1_history ... ok
+test inherited_path_cannot_substitute_a_composition_verifier ... ok
+test failed_attempts_are_append_only_and_exact_identity_controls_reuse ... ok
+test installed_toolchain_change_child ... ok
+test failed_attempt_cannot_become_reusable_by_tampering_with_its_pass_flag ... ok
+test inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse ... ok
+test process_group_backend_does_not_claim_linux_echild_proof ... ok
+test installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node ... ok
+test persistence_error_after_worktree_creation_cleans_the_temporary_worktree ... ok
+test process_start_gate_rejection_is_persisted_without_running_the_node ... ok
+test pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance ... ok
+test read_set_under_a_parent_symlink_is_not_reusable ... ok
+
+running 1 test
+
+running 1 test
+test relative_executable_uses_isolated_worktree_bytes_and_changes_identity ... ok
+
+running 1 test
+
+running 1 test
+test retry_does_not_remove_a_worktree_owned_by_a_live_process ... ok
+
+running 1 test
+test retry_reconciles_zombie_only_verifier_process_group ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s
+
+test repeated_exact_composition_reuses_only_when_inputs_are_observable ... ok
+test retry_reconciles_an_interrupted_owner_after_process_exit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.49s
+
+test signal_terminated_node_is_durable_and_not_reusable ... ok
+observed detached verifier zombie: pid=1675326 state='Z' ppid=1675253 pgid=1675326 sid=1675326; waitid(WNOWAIT)=0; kill(pid, 0)=0
+test retry_reconciles_zombie_only_verifier_process_group ... ok
+test successful_exact_identity_allows_reuse_but_command_change_reexecutes ... ok
+test unbound_command_path_override_fails_before_spawn ... ok
+test retry_reconciles_an_interrupted_owner_after_process_exit ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 1.33s
+
+test retry_reconciles_an_interrupted_owner_after_process_exit ... ok
+test untrusted_absolute_executable_fails_before_spawn ... ok
+test retry_preserves_worktree_while_orphan_verifier_process_group_is_alive ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 1.44s
+
+test retry_preserves_worktree_while_orphan_verifier_process_group_is_alive ... ok
+test unbounded_external_reads_execute_again_but_independent_node_reuses ... ok
+test timed_out_node_is_durable_and_reports_cleanup ... ok
+
+failures:
+
+failures:
+    changed_upstream_receipt_reexecutes_transitive_dependents_only
+
+test result: FAILED. 42 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.77s
+
+error: test failed, to rerun pass `-p cockpit-verification --test composition`
