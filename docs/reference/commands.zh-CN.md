@@ -58,6 +58,7 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
 | Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
+| 显式用量 | `work-item usage record --repo <path> --input <request.json>` | 仅在当前 Runtime 准入 `record_usage` 时追加严格的 `UsageRecordRequest`；同一请求重放幂等。provider/host 来源标签只是调用方声明，并非已验证遥测。`capability show --surface work-item-usage-record` 只读描述 CLI/MCP 参数。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
@@ -140,6 +141,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `evidence_get` | `path`、`evidencePath`、`id` 三者只能提供一个。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | 必填 `workItemId`。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_usage_record` | 必填严格的 `request` 对象：仓库/Work Item 身份、来源事件与标签、计量单位、可为空的令牌数、证据引用及摘要。与 CLI 共用 Runtime 准入的 Rust 服务。 | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
 | `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 两者都需要 `workItemId` 和绝对路径 `sourceRepo`；前者只读，后者显式地向 MCP 绑定的 destination checkout 写入已验证 evidence。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | 可选 `workItemId`、`command`、字符串数组 `args`、有限的 `timeoutSeconds` 和布尔值 `planOnly`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |

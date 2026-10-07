@@ -7,7 +7,8 @@ use cockpit_protocol::{
     OutcomeFinalizationResource, OutcomeFinalizationResourceDisposition, OutcomeReleaseProjection,
     OutcomeState, OutcomeV2, ResourceFinalizationBranchState, ResourceFinalizationPullRequestState,
     ResourceFinalizationReceipt, ResourceFinalizationWorktreeState, RuntimeContext,
-    TaskOutcomeReport,
+    TaskOutcomeReport, UsageAssurance, UsageCoverage, UsageSourceKind, UsageSummary,
+    UsageTokenCounts,
 };
 use serde_json::Value;
 use std::fs;
@@ -1862,8 +1863,17 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         "Outcome: {marker} {status} — {}\n{result_title}",
         outcome.work_item_id
     );
+    let usage_items = task_report
+        .and_then(|report| report.usage.as_ref())
+        .map(|usage| {
+            format!(
+                "\n{}",
+                bullet_lines(&localized_usage_items(usage, language), not_recorded)
+            )
+        })
+        .unwrap_or_default();
     format!(
-        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
+        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}{usage_items}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
         result_items[0],
         result_items[1],
         result_items[2],
@@ -1873,6 +1883,175 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         bullet_lines(&key_change_items, not_recorded),
         bullet_lines(&uncertainty_items, not_recorded),
     )
+}
+
+fn localized_usage_count(value: Option<u64>, language: &str) -> String {
+    value.map_or_else(
+        || match language {
+            "zh" => "未知".into(),
+            "ja" => "不明".into(),
+            _ => "unknown".into(),
+        },
+        |value| value.to_string(),
+    )
+}
+
+fn localized_usage_counts(counts: &UsageTokenCounts, language: &str) -> String {
+    let labels = match language {
+        "zh" => ["输入", "输出", "缓存输入", "推理"],
+        "ja" => ["入力", "出力", "キャッシュ入力", "推論"],
+        _ => ["input", "output", "cached input", "reasoning"],
+    };
+    [
+        counts.input_tokens,
+        counts.output_tokens,
+        counts.cached_input_tokens,
+        counts.reasoning_tokens,
+    ]
+    .into_iter()
+    .enumerate()
+    .map(|(index, count)| {
+        format!(
+            "{} {}",
+            labels[index],
+            localized_usage_count(count, language)
+        )
+    })
+    .collect::<Vec<_>>()
+    .join(", ")
+}
+
+fn localized_usage_assurance(value: UsageAssurance, language: &str) -> &'static str {
+    match (language, value) {
+        ("zh", UsageAssurance::CallerClaim) => "调用方声明",
+        ("ja", UsageAssurance::CallerClaim) => "呼び出し元の申告",
+        (_, UsageAssurance::CallerClaim) => "caller claim",
+        ("zh", UsageAssurance::VerifiedAdapter) => "已验证适配器",
+        ("ja", UsageAssurance::VerifiedAdapter) => "検証済みアダプター",
+        (_, UsageAssurance::VerifiedAdapter) => "verified adapter",
+        ("zh", UsageAssurance::Unknown) => "未知",
+        ("ja", UsageAssurance::Unknown) => "不明",
+        (_, UsageAssurance::Unknown) => "unknown",
+    }
+}
+
+fn localized_usage_items(usage: &UsageSummary, language: &str) -> Vec<String> {
+    let (
+        coverage_label,
+        cutoff_label,
+        reasons_label,
+        totals_label,
+        subtotal_label,
+        reported_label,
+        configured_label,
+        source_label,
+        model_assurance_label,
+        token_assurance_label,
+        records_label,
+    ) = match language {
+        "zh" => (
+            "用量覆盖",
+            "截止时间",
+            "未知原因",
+            "用量小计",
+            "分组小计",
+            "报告模型",
+            "配置模型",
+            "来源标签（调用方声明）",
+            "模型可信度",
+            "令牌可信度",
+            "记录数",
+        ),
+        "ja" => (
+            "使用量の範囲",
+            "締切時刻",
+            "不明の理由",
+            "使用量の小計",
+            "グループ小計",
+            "報告モデル",
+            "設定モデル",
+            "出所ラベル（申告）",
+            "モデルの保証",
+            "トークンの保証",
+            "記録数",
+        ),
+        _ => (
+            "Usage coverage",
+            "cutoff",
+            "unknown reasons",
+            "Usage totals",
+            "Usage subtotal",
+            "reported model",
+            "configured model",
+            "source labels (caller declared)",
+            "model assurance",
+            "token assurance",
+            "records",
+        ),
+    };
+    let coverage = match (language, usage.coverage) {
+        ("zh", UsageCoverage::Unknown) => "未知 (unknown)",
+        ("zh", UsageCoverage::Partial) => "部分 (partial)",
+        ("zh", UsageCoverage::Complete) => "完整 (complete)",
+        ("ja", UsageCoverage::Unknown) => "不明 (unknown)",
+        ("ja", UsageCoverage::Partial) => "一部 (partial)",
+        ("ja", UsageCoverage::Complete) => "完全 (complete)",
+        (_, UsageCoverage::Unknown) => "unknown",
+        (_, UsageCoverage::Partial) => "partial",
+        (_, UsageCoverage::Complete) => "complete",
+    };
+    let reasons = if usage.unknown_reasons.is_empty() {
+        match language {
+            "zh" => "无",
+            "ja" => "なし",
+            _ => "none",
+        }
+        .to_owned()
+    } else {
+        usage.unknown_reasons.join(", ")
+    };
+    let mut items = vec![format!(
+        "{coverage_label}: {coverage}; {cutoff_label}: {}; {reasons_label}: {reasons}; {records_label}: {}",
+        usage.cutoff,
+        usage.receipt_refs.len()
+    )];
+    items.push(format!(
+        "{totals_label}: {}",
+        localized_usage_counts(&usage.totals, language)
+    ));
+    for subtotal in &usage.subtotals {
+        let missing = match language {
+            "zh" => "未报告",
+            "ja" => "未報告",
+            _ => "not reported",
+        };
+        let reported = subtotal.reported_model.as_deref().unwrap_or(missing);
+        let configured = if subtotal.configured_models.is_empty() {
+            missing.to_owned()
+        } else {
+            subtotal.configured_models.join(", ")
+        };
+        let source_kinds = subtotal
+            .source_kinds
+            .iter()
+            .map(|kind| match kind {
+                UsageSourceKind::ProviderReported => "provider-reported",
+                UsageSourceKind::HostReported => "host-reported",
+                UsageSourceKind::AgentDeclared => "agent-declared",
+            })
+            .collect::<Vec<_>>()
+            .join(", ");
+        items.push(format!(
+            "{subtotal_label}: {reported_label} {reported}; {configured_label} {configured}; {source_label} {source_kinds}; {model_assurance_label} {}; {token_assurance_label} {}; role {}; phase {}; {records_label} {}; {}",
+            localized_usage_assurance(subtotal.model_assurance, language),
+            localized_usage_assurance(subtotal.token_assurance, language),
+            subtotal.role,
+            subtotal.phase,
+            subtotal.record_count,
+            localized_usage_counts(&subtotal.counts, language),
+        ));
+    }
+    items
 }
 
 fn normalized_language(language: &str) -> &str {
@@ -2647,8 +2826,22 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
         status_labels.3,
         governance_signal,
     );
+    let usage_section = task_report
+        .and_then(|report| report.usage.as_ref())
+        .map(|usage| {
+            let heading = match language {
+                "zh" => "用量",
+                "ja" => "使用量",
+                _ => "Usage",
+            };
+            format!(
+                "\n\n{heading}\n{}",
+                bullet_lines(&localized_usage_items(usage, language), not_recorded)
+            )
+        })
+        .unwrap_or_default();
     format!(
-        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
+        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}{usage_section}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
         bullet_lines(&completed_items, not_recorded),
         bullet_lines(&problems_found, not_recorded),
         bullet_lines(&stop_items, not_recorded),

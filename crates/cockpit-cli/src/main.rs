@@ -629,6 +629,11 @@ enum WorkItemCommand {
         #[command(flatten)]
         query: cockpit_protocol::WorkItemOutcomeQueryArgs,
     },
+    /// Record an explicit repository-bound usage claim through Runtime admission.
+    Usage {
+        #[command(subcommand)]
+        command: WorkItemUsageCommand,
+    },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
     ReconcileArtifacts {
@@ -827,6 +832,17 @@ enum WorkItemCommand {
         /// JSON CompositionInput. Repository and state paths are resolved by
         /// this command and are not trusted from the input document.
         #[arg(long)]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemUsageCommand {
+    /// Append one strict UsageRecordRequest JSON claim.
+    Record {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION)]
         input: PathBuf,
     },
 }
@@ -2996,6 +3012,22 @@ fn run() -> Result<()> {
                     }
                 }
             }
+            WorkItemCommand::Usage { command } => match command {
+                WorkItemUsageCommand::Record { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::UsageRecordRequest = serde_json::from_slice(
+                        &std::fs::read(&input).context("read usage request")?,
+                    )
+                    .context("parse strict UsageRecordRequest")?;
+                    let receipt = cockpit_repository::record_work_item_usage(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("record Work Item usage")?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
             WorkItemCommand::ReconcileArtifacts { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;
                 let receipt = cockpit_repository::reconcile_active_artifacts(&repo, &id)
@@ -3335,13 +3367,11 @@ fn run() -> Result<()> {
                 language,
             } => {
                 if let Some(surface) = surface {
-                    if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
-                        anyhow::bail!(
-                            "unknown capability description surface `{surface}`; supported surface: {}",
-                            cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE
-                        );
-                    }
-                    let description = cockpit_protocol::work_item_outcome_interface_description();
+                    let description = cockpit_protocol::interface_description_for_surface(&surface)
+                        .ok_or_else(|| anyhow::anyhow!(
+                            "unknown capability description surface `{surface}`; supported surfaces: {}",
+                            cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.join(", ")
+                        ))?;
                     match format.as_str() {
                         cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
                             println!("{}", serde_json::to_string_pretty(&description)?);

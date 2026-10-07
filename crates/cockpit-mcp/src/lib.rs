@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 27] = [
+const TOOL_NAMES: [&str; 28] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -21,6 +21,7 @@ const TOOL_NAMES: [&str; 27] = [
     "capability_show",
     "preflight",
     "work_item_controls",
+    "work_item_usage_record",
     "work_item_recover",
     "work_item_closeout_recovery_plan",
     "work_item_closeout_recover",
@@ -610,6 +611,12 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_usage_record" => object_schema(
+            json!({
+                "request": cockpit_protocol::usage::usage_record_request_schema(),
+            }),
+            &["request"],
+        ),
         "work_item_recover" => {
             let mut properties = id_properties;
             properties["receipt"] = json!({
@@ -786,6 +793,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Record explicitly supplied Work Item governance controls only when a fresh Runtime status admits record_governance_controls.",
         ),
         (
+            "work_item_usage_record",
+            cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
+        ),
+        (
             "work_item_recover",
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
@@ -874,6 +885,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
+        "work_item_usage_record" => Some(&["request"][..]),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             Some(&["workItemId", "sourceRepo"][..])
@@ -1034,6 +1046,18 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_controls" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
+        }
+        "work_item_usage_record" => {
+            let value = object.get("request").ok_or_else(|| {
+                "invalid arguments for work_item_usage_record: request is required".to_owned()
+            })?;
+            let request: cockpit_protocol::UsageRecordRequest =
+                serde_json::from_value(value.clone()).map_err(|error| {
+                    format!("invalid arguments for work_item_usage_record: {error}")
+                })?;
+            request.validate().map_err(|error| {
+                format!("invalid arguments for work_item_usage_record: {error}")
+            })?;
         }
         "work_item_recover" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
@@ -1738,7 +1762,11 @@ pub fn handle_request_for_repo(
         "repository_observe" => repository_observe(repo),
         "capability_show" => {
             if arguments.get("surface").is_some() {
-                let description = cockpit_protocol::work_item_outcome_interface_description();
+                let surface = arguments["surface"]
+                    .as_str()
+                    .expect("validated capability surface");
+                let description = cockpit_protocol::interface_description_for_surface(surface)
+                    .expect("validated capability surface");
                 match arguments
                     .get("format")
                     .and_then(Value::as_str)
@@ -1748,7 +1776,7 @@ pub fn handle_request_for_repo(
                         serde_json::to_value(description).map_err(|error| error.to_string())
                     }
                     cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => Ok(json!({
-                        "surface": cockpit_protocol::CAPABILITY_SHOW_SURFACE,
+                        "surface": surface,
                         "format": cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN,
                         "language": arguments
                             .get("language")
@@ -1851,6 +1879,16 @@ pub fn handle_request_for_repo(
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => require_compatible(repo, runtime)
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
+        "work_item_usage_record" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::UsageRecordRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| format!("invalid usage request: {error}"))?;
+            cockpit_repository::record_work_item_usage(repo, &request, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|receipt| {
+                    serde_json::to_value(receipt).map_err(|error| error.to_string())
+                })
+        }),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
         "work_item_closeout_recovery_plan" => require_compatible(repo, runtime)

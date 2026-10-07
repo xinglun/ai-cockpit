@@ -353,6 +353,81 @@ fn validate_existing_frozen_usage_snapshots(
             validate_frozen_usage_snapshot(root, summary)?;
         }
     }
+    let relative = format!(".ai/decisions/{work_item_id}.close.json");
+    let path = root.join(&relative);
+    match fs::symlink_metadata(&path) {
+        Ok(metadata) if !metadata.is_file() => {
+            return Err(state_error(
+                &path,
+                "frozen usage close decision is not a regular file",
+            ));
+        }
+        Ok(_) => {
+            let bytes = super::collaboration::read_registered_worktree_file_bounded(
+                root,
+                &relative,
+                MAX_USAGE_EVIDENCE_BYTES,
+            )
+            .map_err(|message| state_error(&path, message))?;
+            reject_duplicate_json_keys(&bytes)
+                .map_err(|message| state_error(&path, format!("invalid close JSON: {message}")))?;
+            let close: serde_json::Value = serde_json::from_slice(&bytes)
+                .map_err(|error| state_error(&path, format!("invalid close decision: {error}")))?;
+            if close["workItemId"] != work_item_id
+                || close["repositoryId"] != repository_id(root).to_string()
+                || close["state"] != "closed"
+                || close["decisionState"] != "confirmed"
+                || !super::close_decision_is_valid_for_status(
+                    root,
+                    work_item_id,
+                    &repository_id(root).to_string(),
+                )
+            {
+                return Err(state_error(
+                    &path,
+                    "frozen usage close decision identity or authority is invalid",
+                ));
+            }
+            if let Some(final_report_value) = close.get("finalReport") {
+                let report: TaskOutcomeReport = serde_json::from_value(final_report_value.clone())
+                    .map_err(|error| {
+                        state_error(&path, format!("invalid close final report: {error}"))
+                    })?;
+                if report.work_item_id != work_item_id
+                    || report.bindings.work_item_id != work_item_id
+                    || report.bindings.repository_id != repository_id(root).to_string()
+                {
+                    return Err(state_error(
+                        &path,
+                        "frozen usage close report identity differs",
+                    ));
+                }
+                if let Some(summary) = report.usage.as_ref() {
+                    let observed_digest = cockpit_protocol::digest_json(final_report_value)
+                        .map_err(|error| state_error(&path, error.to_string()))?;
+                    if close["finalReportDigest"] != observed_digest.to_string()
+                        || close["usageCutoff"] != summary.cutoff
+                        || summary.work_item_id != work_item_id
+                    {
+                        return Err(state_error(
+                            &path,
+                            "frozen usage close report digest or cutoff differs",
+                        ));
+                    }
+                    validate_frozen_usage_snapshot(root, summary)?;
+                } else if close.get("usageCutoff").is_some() {
+                    return Err(state_error(
+                        &path,
+                        "frozen usage close report has no usage summary",
+                    ));
+                }
+            } else if close.get("usageCutoff").is_some() {
+                return Err(state_error(&path, "frozen usage close report is missing"));
+            }
+        }
+        Err(error) if error.kind() == ErrorKind::NotFound => {}
+        Err(source) => return Err(read_error(&path, source)),
+    }
     Ok(())
 }
 
@@ -432,11 +507,31 @@ fn summarize(
         );
         let subtotal = groups.entry(key.clone()).or_insert_with(|| UsageSubtotal {
             reported_model: key.0,
+            configured_models: Vec::new(),
+            source_kinds: Vec::new(),
+            model_assurance: receipt.model_assurance,
+            token_assurance: receipt.token_assurance,
             role: key.1,
             phase: key.2,
             record_count: 0,
             counts: UsageTokenCounts::default(),
         });
+        if let Some(configured) = request.configured_model.as_ref()
+            && !subtotal.configured_models.contains(configured)
+        {
+            subtotal.configured_models.push(configured.clone());
+            subtotal.configured_models.sort();
+        }
+        if !subtotal.source_kinds.contains(&request.source_kind) {
+            subtotal.source_kinds.push(request.source_kind);
+            subtotal.source_kinds.sort();
+        }
+        if subtotal.model_assurance != receipt.model_assurance {
+            subtotal.model_assurance = UsageAssurance::Unknown;
+        }
+        if subtotal.token_assurance != receipt.token_assurance {
+            subtotal.token_assurance = UsageAssurance::Unknown;
+        }
         add_counts(&mut subtotal.counts, request, subtotal.record_count == 0)
             .map_err(|_| state_error(root, "usage subtotal overflows"))?;
         subtotal.record_count = subtotal

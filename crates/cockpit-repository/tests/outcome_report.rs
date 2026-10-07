@@ -2,6 +2,7 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     HumanBenefitReport, OutcomeClaim, OutcomeReleaseProjection, OutcomeReportBindings,
     OutcomeReportSections, OutcomeState, OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
+    UsageAssurance, UsageCoverage, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts,
 };
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, checkpoint_work_item,
@@ -96,6 +97,17 @@ fn render_fixture_view_language(
     view: OutcomeRenderView,
     language: &str,
 ) -> String {
+    render_fixture_view_language_with_usage(directory, id, fixture, view, language, None)
+}
+
+fn render_fixture_view_language_with_usage(
+    directory: &tempfile::TempDir,
+    id: &str,
+    fixture: RenderFixture,
+    view: OutcomeRenderView,
+    language: &str,
+    usage: Option<UsageSummary>,
+) -> String {
     let RenderFixture {
         state,
         decision_state,
@@ -117,7 +129,7 @@ fn render_fixture_view_language(
             repository_snapshot_digest: None,
         },
         sections,
-        usage: None,
+        usage,
         release: None,
         failed_gate: None,
         recovery_condition: None,
@@ -149,6 +161,100 @@ fn render_fixture_view_language(
     };
     let input = outcome_render_input_from_outcome(directory.path(), outcome);
     render_human_outcome_with_view(&input, language, view)
+}
+
+#[test]
+fn usage_projection_is_visible_in_summary_and_full_in_three_languages() {
+    let directory = repository();
+    let id = "WI-USAGE-OUTCOME";
+    let fixture = RenderFixture {
+        state: OutcomeState::Unknown,
+        decision_state: DecisionState::Yellow,
+        historical_status: None,
+        sections: OutcomeReportSections::default(),
+        unknowns: Vec::new(),
+        evidence_refs: Vec::new(),
+    };
+    let cutoff = "2026-10-07T00:00:00Z";
+    for (language, label, unknown_count, claim_label) in [
+        ("en", "Usage", "input unknown", "caller claim"),
+        ("zh", "用量", "输入 未知", "调用方声明"),
+        ("ja", "使用量", "入力 不明", "呼び出し元の申告"),
+    ] {
+        for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
+            let unknown = render_fixture_view_language_with_usage(
+                &directory,
+                id,
+                fixture.clone(),
+                view,
+                language,
+                Some(UsageSummary::unknown(
+                    id,
+                    cutoff.into(),
+                    "no_usage_receipts",
+                )),
+            );
+            assert!(unknown.contains(label), "{language} {view:?}: {unknown}");
+            assert!(unknown.contains("no_usage_receipts"), "{unknown}");
+            assert!(unknown.contains(cutoff), "{unknown}");
+            assert!(unknown.contains(unknown_count), "{unknown}");
+
+            let partial = render_fixture_view_language_with_usage(
+                &directory,
+                id,
+                fixture.clone(),
+                view,
+                language,
+                Some(UsageSummary {
+                    schema_version: 1,
+                    work_item_id: id.into(),
+                    cutoff: cutoff.into(),
+                    coverage: UsageCoverage::Partial,
+                    unknown_reasons: vec![
+                        "caller_reported_usage_only".into(),
+                        "token_count_unknown".into(),
+                    ],
+                    receipt_refs: Vec::new(),
+                    totals: UsageTokenCounts {
+                        input_tokens: Some(10),
+                        output_tokens: None,
+                        cached_input_tokens: Some(3),
+                        reasoning_tokens: None,
+                    },
+                    subtotals: vec![UsageSubtotal {
+                        reported_model: Some("reported-model".into()),
+                        configured_models: vec!["configured-model".into()],
+                        source_kinds: vec![UsageSourceKind::HostReported],
+                        model_assurance: UsageAssurance::CallerClaim,
+                        token_assurance: UsageAssurance::CallerClaim,
+                        role: "implementer".into(),
+                        phase: "implementation".into(),
+                        record_count: 1,
+                        counts: UsageTokenCounts {
+                            input_tokens: Some(10),
+                            output_tokens: None,
+                            cached_input_tokens: Some(3),
+                            reasoning_tokens: None,
+                        },
+                    }],
+                }),
+            );
+            assert!(partial.contains(label), "{partial}");
+            assert!(partial.contains("reported-model"), "{partial}");
+            assert!(partial.contains("configured-model"), "{partial}");
+            assert!(partial.contains("caller_reported_usage_only"), "{partial}");
+            assert!(partial.contains(claim_label), "{partial}");
+            assert!(!partial.contains("verified adapter"), "{partial}");
+            assert!(partial.contains("10"), "{partial}");
+            assert!(partial.contains(cutoff), "{partial}");
+        }
+    }
+    let legacy =
+        render_fixture_view_language(&directory, id, fixture, OutcomeRenderView::Summary, "en");
+    assert!(
+        !legacy.contains("Usage coverage"),
+        "legacy output stays compatible: {legacy}"
+    );
 }
 
 #[test]

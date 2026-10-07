@@ -26,6 +26,12 @@ pub enum UsageAssurance {
     VerifiedAdapter,
 }
 
+impl Default for UsageAssurance {
+    fn default() -> Self {
+        Self::Unknown
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum UsageCoverage {
@@ -166,6 +172,14 @@ pub struct UsageTokenCounts {
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct UsageSubtotal {
     pub reported_model: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub configured_models: Vec<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub source_kinds: Vec<UsageSourceKind>,
+    #[serde(default)]
+    pub model_assurance: UsageAssurance,
+    #[serde(default)]
+    pub token_assurance: UsageAssurance,
     pub role: String,
     pub phase: String,
     pub record_count: u64,
@@ -198,4 +212,38 @@ impl UsageSummary {
             subtotals: Vec::new(),
         }
     }
+}
+
+/// The MCP request schema projects the same strict Rust request parsed by CLI.
+/// Optional nullable measurements are never filled with zero by the adapter.
+pub fn usage_record_request_schema() -> serde_json::Value {
+    let identifier = serde_json::json!({"type":"string","minLength":1,"maxLength":160});
+    let optional_text = serde_json::json!({"type":["string","null"],"maxLength":256});
+    let nullable_count = serde_json::json!({"type":["integer","null"],"minimum":0});
+    serde_json::json!({
+        "type": "object",
+        "description": crate::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
+        "additionalProperties": false,
+        "properties": {
+            "schemaVersion": {"type":"integer","const":USAGE_SCHEMA_VERSION},
+            "repositoryId": {"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},
+            "workItemId": identifier,
+            "sourceEventId": identifier,
+            "sourceKind": {"type":"string","enum":["provider-reported","host-reported","agent-declared"],"description":"Caller label; not authentication or independently verified provenance."},
+            "actor": optional_text,
+            "configuredModel": optional_text,
+            "reportedModel": optional_text,
+            "role": identifier,
+            "phase": identifier,
+            "unit": {"type":"string","enum":["invocation","turn"]},
+            "inputTokens": nullable_count,
+            "outputTokens": nullable_count,
+            "cachedInputTokens": nullable_count,
+            "reasoningTokens": nullable_count,
+            "sourceObservedAt": {"type":["string","null"],"description":"Accepted only through an independently trusted adapter; caller requests must leave it null."},
+            "evidenceRef": {"type":"string","minLength":1},
+            "evidenceDigest": {"type":"string","pattern":"^sha256:[0-9a-f]{64}$"}
+        },
+        "required": ["schemaVersion","repositoryId","workItemId","sourceEventId","sourceKind","role","phase","unit","evidenceRef","evidenceDigest"]
+    })
 }

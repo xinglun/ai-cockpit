@@ -49,6 +49,12 @@ pub use interface_description::{
     work_item_outcome_view_is_valid,
 };
 
+pub use interface_description::interface_description::{
+    CAPABILITY_SHOW_SURFACE_VALUES, WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION,
+    WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION, WORK_ITEM_USAGE_RECORD_SURFACE,
+    interface_description_for_surface, work_item_usage_record_interface_description,
+};
+
 pub use release_plan::{
     RELEASE_PLAN_SCHEMA_VERSION, ReleaseEvidenceBinding, ReleaseMode, ReleasePlan,
     ReleasePlanEnvelope, ReleasePlanError, ReleaseRequest, ReleaseRequestInput, ReleaseStage,

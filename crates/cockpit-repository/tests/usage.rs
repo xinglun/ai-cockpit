@@ -202,21 +202,110 @@ fn removed_archived_receipt_blocks_close_without_rewriting_archive() {
     );
 }
 
+fn closed_with_late_usage(root: &std::path::Path, id: &str) -> (String, Vec<u8>) {
+    let finish_reference = finish_with_usage(root, id);
+    archive_work_item(root, id).expect("archive finish report");
+    record_work_item_usage(root, &request(root, id, "turn-after-archive"), &runtime())
+        .expect("record late usage before close");
+    close_work_item_with_decision(root, id, "approved").expect("close with late usage");
+    let close_path = root.join(format!(".ai/decisions/{id}.close.json"));
+    let close_bytes = fs::read(&close_path).expect("frozen close bytes");
+    let refs = read_work_item_usage(root, id, None)
+        .expect("normal closed usage is readable")
+        .receipt_refs;
+    assert_eq!(refs.len(), 2);
+    let late = refs
+        .into_iter()
+        .find(|reference| reference.path != finish_reference)
+        .expect("late receipt reference");
+    (late.path, close_bytes)
+}
+
+#[test]
+fn removed_late_receipt_is_invalid_against_frozen_close_report() {
+    let root = repository();
+    let id = "WI-USAGE-REMOVED-CLOSE";
+    let (reference, close_bytes) = closed_with_late_usage(root.path(), id);
+    fs::remove_file(root.path().join(reference)).expect("remove late receipt");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("close report still binds the missing late receipt");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+    assert_eq!(
+        fs::read(root.path().join(format!(".ai/decisions/{id}.close.json")))
+            .expect("close remains readable"),
+        close_bytes
+    );
+}
+
+#[test]
+fn rebound_future_late_receipt_cannot_escape_the_close_cutoff() {
+    let root = repository();
+    let id = "WI-USAGE-FUTURE-CLOSE";
+    let (reference, _) = closed_with_late_usage(root.path(), id);
+    let path = root.path().join(reference);
+    let mut receipt: UsageReceipt =
+        serde_json::from_slice(&fs::read(&path).expect("late receipt bytes")).expect("receipt");
+    receipt.received_at = "2999-01-01T00:00:00Z".into();
+    receipt.receipt_id = Digest::sha256_bytes(
+        &serde_json::to_vec(&(
+            receipt.schema_version,
+            &receipt.request,
+            &receipt.received_at,
+            &receipt.source_observed_at,
+            receipt.model_assurance,
+            receipt.token_assurance,
+        ))
+        .expect("receipt binding"),
+    );
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("rebind late receipt");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("shifted late receipt cannot disappear before close cutoff");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+}
+
+#[test]
+fn close_usage_query_rejects_wrong_final_report_digest_and_repository() {
+    let root = repository();
+    let id = "WI-USAGE-CLOSE-BINDING";
+    let (_, original) = closed_with_late_usage(root.path(), id);
+    let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
+    let mut close: serde_json::Value = serde_json::from_slice(&original).expect("close JSON");
+    close["finalReportDigest"] = Digest::sha256_bytes(b"wrong close report")
+        .to_string()
+        .into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("alter close report digest");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("close report digest must match its final report");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+
+    close = serde_json::from_slice(&original).expect("original close JSON");
+    close["repositoryId"] = Digest::sha256_bytes(b"other repository").to_string().into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&close).expect("close JSON"),
+    )
+    .expect("alter close repository");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("close decision must belong to the queried repository");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+}
+
 #[cfg(windows)]
 #[test]
 fn windows_usage_directory_probe_reads_regular_child_handle() {
     let root = repository();
     let id = "WI-USAGE-WINDOWS-PROBE";
     start(root.path(), id);
-    fs::create_dir_all(root.path().join(".ai/evidence/usage")).expect("ordinary usage directory");
-    assert_eq!(
-        read_work_item_usage(root.path(), id, None)
-            .expect("read regular usage directory")
-            .coverage,
-        UsageCoverage::Unknown
-    );
     record_work_item_usage(root.path(), &request(root.path(), id, "turn-1"), &runtime())
-        .expect("record through regular directory");
+        .expect("record creates the real usage lock and directory");
     assert_eq!(
         read_work_item_usage(root.path(), id, None)
             .expect("read appended receipt")
@@ -224,6 +313,18 @@ fn windows_usage_directory_probe_reads_regular_child_handle() {
             .len(),
         1
     );
+}
+
+#[test]
+fn usage_directory_without_lock_is_incomplete_and_read_only() {
+    let root = repository();
+    let id = "WI-USAGE-INCOMPLETE-DIRECTORY";
+    fs::create_dir_all(root.path().join(".ai/evidence/usage"))
+        .expect("create incomplete usage directory");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("a usage directory without its lock is incomplete");
+    assert!(error.to_string().contains("evidence_missing"), "{error}");
+    assert!(!root.path().join(".ai/locks/usage.lock").exists());
 }
 
 #[cfg(unix)]
@@ -283,6 +384,19 @@ fn usage_is_idempotent_bound_and_does_not_double_count_subsets() {
     assert_eq!(
         summary.subtotals[0].reported_model.as_deref(),
         Some("reported-model")
+    );
+    assert_eq!(summary.subtotals[0].configured_models, ["configured-model"]);
+    assert_eq!(
+        summary.subtotals[0].source_kinds,
+        [UsageSourceKind::ProviderReported]
+    );
+    assert_eq!(
+        summary.subtotals[0].model_assurance,
+        UsageAssurance::CallerClaim
+    );
+    assert_eq!(
+        summary.subtotals[0].token_assurance,
+        UsageAssurance::CallerClaim
     );
     let metadata = read_work_item_usage_receipts(root.path(), "WI-USAGE", None)
         .expect("read receipt metadata without source payload");

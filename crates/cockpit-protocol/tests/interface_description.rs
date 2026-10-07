@@ -17,6 +17,36 @@ use cockpit_protocol::{
 use serde_json::json;
 use std::collections::BTreeSet;
 
+#[test]
+fn usage_record_description_projects_both_transports_and_capability_surface() {
+    let description = cockpit_protocol::work_item_usage_record_interface_description();
+    assert_eq!(
+        description.name,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_SURFACE
+    );
+    let cli = surface(&description, "cli");
+    let input = parameter(cli, "input");
+    assert!(input.required);
+    assert_eq!(
+        input.description,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION
+    );
+    let mcp = surface(&description, "mcp");
+    let request = parameter(mcp, "request");
+    assert_eq!(request.wire_type, "object");
+    assert_eq!(
+        request.description,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION
+    );
+    let schema = cockpit_protocol::usage::usage_record_request_schema();
+    assert_eq!(schema["description"], request.description);
+    let surfaces =
+        cockpit_protocol::capability_show_parameter_spec("surface").expect("surface parameter");
+    assert!(surfaces.enum_values.contains(&description.name.as_str()));
+    let markdown = render_interface_description_markdown(&description, "zh");
+    assert!(markdown.contains("AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-record"));
+}
+
 fn surface<'a>(
     description: &'a cockpit_protocol::InterfaceDescription,
     name: &str,

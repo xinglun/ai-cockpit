@@ -9,6 +9,11 @@ use serde::{Deserialize, Serialize};
 
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
+pub const WORK_ITEM_USAGE_RECORD_SURFACE: &str = "work-item-usage-record";
+pub const WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION: &str =
+    "Strict UsageRecordRequest JSON file; the Runtime admits and records one caller claim.";
+pub const WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION: &str =
+    "Strict UsageRecordRequest object; sourceKind is a caller label, not verified provenance.";
 pub const WORK_ITEM_OUTCOME_VIEW_SUMMARY: &str = "summary";
 pub const WORK_ITEM_OUTCOME_VIEW_FULL: &str = "full";
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
@@ -143,6 +148,8 @@ pub fn work_item_outcome_language_is_valid(value: &str) -> bool {
 }
 
 pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
+pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] =
+    &[WORK_ITEM_OUTCOME_SURFACE, WORK_ITEM_USAGE_RECORD_SURFACE];
 pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
 pub const CAPABILITY_SHOW_FORMAT_MARKDOWN: &str = "markdown";
 pub const CAPABILITY_SHOW_FORMAT_VALUES: &[&str] =
@@ -651,7 +658,7 @@ static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
         wire_type: "enum",
         required: false,
         default: None,
-        enum_values: &[CAPABILITY_SHOW_SURFACE],
+        enum_values: CAPABILITY_SHOW_SURFACE_VALUES,
         aliases: &[],
         description: CAPABILITY_SHOW_SURFACE_DESCRIPTION,
     },
@@ -767,6 +774,63 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
     }
 }
 
+/// Shared public facts for the explicit usage-record write. Both transports
+/// pass the same typed request to the repository service.
+pub fn work_item_usage_record_interface_description() -> InterfaceDescription {
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_USAGE_RECORD_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    InterfaceParameter {
+                        name: "repo".into(),
+                        wire_type: "string".into(),
+                        required: true,
+                        default: None,
+                        enum_values: Vec::new(),
+                        aliases: Vec::new(),
+                        description: "Repository path for current Runtime admission.".into(),
+                    },
+                    InterfaceParameter {
+                        name: "input".into(),
+                        wire_type: "string".into(),
+                        required: true,
+                        default: None,
+                        enum_values: Vec::new(),
+                        aliases: Vec::new(),
+                        description: WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION.into(),
+                    },
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![InterfaceParameter {
+                    name: "request".into(),
+                    wire_type: "object".into(),
+                    required: true,
+                    default: None,
+                    enum_values: Vec::new(),
+                    aliases: Vec::new(),
+                    description: WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION.into(),
+                }],
+            },
+        ],
+    }
+}
+
+pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescription> {
+    match surface {
+        WORK_ITEM_OUTCOME_SURFACE => Some(work_item_outcome_interface_description()),
+        WORK_ITEM_USAGE_RECORD_SURFACE => Some(work_item_usage_record_interface_description()),
+        _ => None,
+    }
+}
+
 fn localized_labels(language: &str) -> (&'static str, &'static str, &'static str, &'static str) {
     match language {
         "zh" | "zh-CN" => ("接口事实", "传输", "参数", "类型"),
@@ -831,7 +895,10 @@ pub fn render_interface_description_markdown(
     let enum_label = localized_enum(language);
     let aliases_label = localized_aliases(language);
     let mut output = String::new();
-    output.push_str("<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->\n");
+    output.push_str(&format!(
+        "<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN {} -->\n",
+        description.name
+    ));
     output.push_str(&format!("### {}: `{}`\n\n", title, description.name));
     output.push_str(&format!(
         "- Schema: `v{}`\n- Runtime: `{}`\n- {}\n\n",
@@ -872,6 +939,9 @@ pub fn render_interface_description_markdown(
         }
         output.push('\n');
     }
-    output.push_str("<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->\n");
+    output.push_str(&format!(
+        "<!-- AI_COCKPIT_INTERFACE_FACTS:END {} -->\n",
+        description.name
+    ));
     output
 }
