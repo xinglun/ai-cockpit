@@ -77,6 +77,7 @@ pub use usage::{
 pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
+pub const MATERIAL_INSPECTION_REVIEW_CAPABILITY: &str = "material-inspection-review";
 
 /// Stable command-level capabilities advertised by a repository's discovery
 /// manifest.  These names describe Runtime surfaces only; they do not claim
@@ -106,6 +107,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-parallel",
     "work-item-contract-amendment",
     "work-item-environment-drift",
+    MATERIAL_INSPECTION_REVIEW_CAPABILITY,
     "evidence",
     "audit",
     "capability-show",
@@ -2906,6 +2908,49 @@ pub struct DestructiveChangePolicy {
     pub approval_evidence: Option<serde_json::Value>,
 }
 
+/// Exact Contract opt-in for reviewable Rust syntax Unknowns. The declaration
+/// is self-asserted evidence, not proof of a reviewer's real-world identity.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewProfile {
+    pub schema_version: u32,
+    pub permitted_unknown: String,
+    pub permitted_cause: String,
+    pub assurance: String,
+    pub reviewer_actor: String,
+    pub authority_source: String,
+    pub accept_residual_risk: bool,
+}
+
+impl MaterialInspectionReviewProfile {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != 1 {
+            return Err("materialInspectionReview schemaVersion must be 1".into());
+        }
+        if self.permitted_unknown != "repository_material_inspection_unavailable" {
+            return Err("materialInspectionReview permittedUnknown is unsupported".into());
+        }
+        if self.permitted_cause != "readable_committed_rust_syntax_unknown" {
+            return Err("materialInspectionReview permittedCause is unsupported".into());
+        }
+        if self.assurance != "self_declared" {
+            return Err("materialInspectionReview assurance must be self_declared".into());
+        }
+        if self.reviewer_actor != "agent:Raydot" {
+            return Err("materialInspectionReview reviewerActor must be agent:Raydot".into());
+        }
+        if self.authority_source.trim().is_empty()
+            || self.authority_source.trim() != self.authority_source
+        {
+            return Err("materialInspectionReview authoritySource must be concrete".into());
+        }
+        if !self.accept_residual_risk {
+            return Err("materialInspectionReview acceptResidualRisk must be true".into());
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Contract {
@@ -3035,6 +3080,23 @@ pub struct Contract {
 }
 
 impl Contract {
+    pub fn material_inspection_review_profile(
+        &self,
+    ) -> Result<Option<MaterialInspectionReviewProfile>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(serde_json::Value::as_object)
+            .and_then(|profile| profile.get("materialInspectionReview"))
+        else {
+            return Ok(None);
+        };
+        let profile: MaterialInspectionReviewProfile = serde_json::from_value(value.clone())
+            .map_err(|error| format!("materialInspectionReview is invalid: {error}"))?;
+        profile.validate()?;
+        Ok(Some(profile))
+    }
+
     /// Validate Contract-owned schema and cross-field invariants.
     ///
     /// Deserialization rejects unknown fields and malformed typed nested
@@ -3067,6 +3129,21 @@ impl Contract {
                 errors.push("requiredRuntimeCapabilities must be unique and sorted".into());
             }
             previous_capability = Some(capability);
+        }
+
+        let has_material_review_guard = self
+            .required_runtime_capabilities
+            .iter()
+            .any(|capability| capability == MATERIAL_INSPECTION_REVIEW_CAPABILITY);
+        match self.material_inspection_review_profile() {
+            Ok(Some(_)) if !has_material_review_guard => errors.push(format!(
+                "materialInspectionReview requires protected requiredRuntimeCapabilities {MATERIAL_INSPECTION_REVIEW_CAPABILITY}"
+            )),
+            Ok(None) if has_material_review_guard => errors.push(format!(
+                "requiredRuntimeCapabilities {MATERIAL_INSPECTION_REVIEW_CAPABILITY} requires materialInspectionReview opt-in"
+            )),
+            Err(error) => errors.push(error),
+            _ => {}
         }
 
         if let Some(resource_context) = &self.resource_context

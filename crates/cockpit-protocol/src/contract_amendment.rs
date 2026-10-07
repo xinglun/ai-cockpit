@@ -1,4 +1,4 @@
-use super::Contract;
+use super::{Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY};
 use cockpit_core::Digest;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -812,8 +812,25 @@ pub fn apply_contract_amendment_with_trace(
         document["acceptance"] = acceptance_criteria;
     }
 
-    let prospective: Contract = serde_json::from_value(document)
+    let mut prospective: Contract = serde_json::from_value(document)
         .map_err(|source| errors(error("contract_schema_invalid", "", source.to_string())))?;
+    if prospective
+        .material_inspection_review_profile()
+        .map_err(|message| {
+            errors(error(
+                "contract_invariant_failed",
+                "/governanceProfile",
+                message,
+            ))
+        })?
+        .is_some()
+    {
+        prospective
+            .required_runtime_capabilities
+            .push(MATERIAL_INSPECTION_REVIEW_CAPABILITY.into());
+        prospective.required_runtime_capabilities.sort();
+        prospective.required_runtime_capabilities.dedup();
+    }
     prospective.validate().map_err(|validation_errors| {
         validation_errors
             .into_iter()

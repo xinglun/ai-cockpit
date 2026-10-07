@@ -5,6 +5,18 @@ use cockpit_protocol::{
 };
 use serde_json::json;
 
+fn material_review_profile() -> serde_json::Value {
+    json!({
+        "schemaVersion": 1,
+        "permittedUnknown": "repository_material_inspection_unavailable",
+        "permittedCause": "readable_committed_rust_syntax_unknown",
+        "assurance": "self_declared",
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user:Ray 2026-10-07 current-conversation delegation to agent:Raydot (WI-1068 Contract.sources)",
+        "acceptResidualRisk": true
+    })
+}
+
 fn contract() -> Contract {
     serde_json::from_value(json!({
         "protocolVersion": 1,
@@ -69,6 +81,124 @@ fn change(
         path: path.into(),
         operation,
         value,
+    }
+}
+
+#[test]
+fn material_review_profile_requires_strict_fields_and_matching_capability_guard() {
+    let mut guarded = contract();
+    guarded.governance_profile = Some(json!({
+        "unrelatedProfileField": {"preserve": true},
+        "materialInspectionReview": material_review_profile()
+    }));
+    let missing_guard = guarded
+        .validate()
+        .expect_err("opt-in without guard must fail");
+    assert!(
+        missing_guard
+            .iter()
+            .any(|error| error.contains("material-inspection-review")),
+        "missing protected capability guard: {missing_guard:?}"
+    );
+
+    guarded
+        .required_runtime_capabilities
+        .push("material-inspection-review".into());
+    guarded
+        .validate()
+        .expect("strict opt-in with guard is valid");
+    assert_eq!(
+        guarded.governance_profile.as_ref().unwrap()["unrelatedProfileField"]["preserve"],
+        true
+    );
+
+    let mut unknown_field = material_review_profile();
+    unknown_field["unexpected"] = json!(true);
+    guarded.governance_profile = Some(json!({"materialInspectionReview": unknown_field}));
+    let errors = guarded
+        .validate()
+        .expect_err("unknown nested opt-in field must fail");
+    assert!(
+        errors.iter().any(|error| error.contains("unexpected")),
+        "unknown nested field was not identified: {errors:?}"
+    );
+
+    guarded.governance_profile = None;
+    let errors = guarded
+        .validate()
+        .expect_err("guard without opt-in must fail");
+    assert!(
+        errors
+            .iter()
+            .any(|error| error.contains("material-inspection-review"))
+    );
+}
+
+#[test]
+fn typed_profile_amendment_adds_guard_without_editing_protected_field() {
+    let amended = apply_contract_amendment(
+        &contract(),
+        &request(vec![change(
+            "/governanceProfile",
+            ContractAmendmentOperation::Set,
+            Some(json!({
+                "unrelatedProfileField": {"preserve": true},
+                "materialInspectionReview": material_review_profile()
+            })),
+        )]),
+    )
+    .expect("Runtime writer adds the protected capability guard");
+
+    assert_eq!(
+        amended.required_runtime_capabilities,
+        ["material-inspection-review"]
+    );
+    assert_eq!(
+        amended.governance_profile.as_ref().unwrap()["unrelatedProfileField"]["preserve"],
+        true
+    );
+
+    let direct_guard = apply_contract_amendment(
+        &contract(),
+        &request(vec![change(
+            "/requiredRuntimeCapabilities",
+            ContractAmendmentOperation::Add,
+            Some(json!("material-inspection-review")),
+        )]),
+    )
+    .expect_err("the capability remains protected from caller changes");
+    assert!(
+        direct_guard
+            .iter()
+            .any(|error| error.code == "protected_field")
+    );
+}
+
+#[test]
+fn material_review_profile_rejects_mismatched_values_and_incomplete_authority() {
+    let mut guarded = contract();
+    guarded
+        .required_runtime_capabilities
+        .push("material-inspection-review".into());
+    for (field, value) in [
+        ("schemaVersion", json!(2)),
+        ("permittedUnknown", json!("all_unknowns")),
+        ("permittedCause", json!("unreadable_source")),
+        ("assurance", json!("host_authenticated")),
+        ("reviewerActor", json!("human:Ray")),
+        ("authoritySource", json!("  ")),
+        ("acceptResidualRisk", json!(false)),
+    ] {
+        let mut profile = material_review_profile();
+        profile[field] = value;
+        guarded.governance_profile = Some(json!({"materialInspectionReview": profile}));
+        let errors = guarded
+            .validate()
+            .expect_err("mismatched material review opt-in must fail closed");
+        assert!(
+            errors.iter().any(|error| error.contains(field)),
+            "{field} mismatch was not diagnosed: {errors:?}"
+        );
     }
 }
 

@@ -606,6 +606,61 @@ fn uncheckpointed_amendment_persists_runtime_capability_requirements() {
 }
 
 #[test]
+fn material_review_profile_amendment_adds_audited_protected_guard() {
+    let directory = repository();
+    let root = directory.path();
+    let work_item_id = "WI-MATERIAL-REVIEW-CAPABILITY-GUARD";
+    let contract_path = start_uncheckpointed(root, work_item_id);
+    let reason = "enable only the strict reviewed-syntax profile in a later amendment";
+    let request = typed_request(
+        &contract_path,
+        "material-review-profile-opt-in",
+        reason,
+        "/governanceProfile",
+        "set",
+        json!({
+            "unrelatedProfileField": {"preserve": true},
+            "materialInspectionReview": {
+                "schemaVersion": 1,
+                "permittedUnknown": "repository_material_inspection_unavailable",
+                "permittedCause": "readable_committed_rust_syntax_unknown",
+                "assurance": "self_declared",
+                "reviewerActor": "agent:Raydot",
+                "authoritySource": "user:Ray 2026-10-07 current-conversation delegation to agent:Raydot (WI-1068 Contract.sources)",
+                "acceptResidualRisk": true
+            }
+        }),
+    );
+
+    amend_work_item_contract(root, work_item_id, &request, reason)
+        .expect("typed writer installs the protected capability guard");
+    let contract = read_json(&contract_path);
+    let history = read_work_item_contract_amendments(root, work_item_id)
+        .expect("amendment journal validates");
+    assert_eq!(
+        contract["requiredRuntimeCapabilities"],
+        json!([
+            "material-inspection-review",
+            "work-item-contract-amendment",
+            "work-item-environment-drift"
+        ])
+    );
+    assert_eq!(
+        contract["governanceProfile"]["unrelatedProfileField"]["preserve"],
+        true
+    );
+    assert_eq!(
+        history[0]
+            .changed_values
+            .iter()
+            .find(|change| change.path == "/requiredRuntimeCapabilities")
+            .and_then(|change| change.new_value.as_ref()),
+        contract.get("requiredRuntimeCapabilities")
+    );
+    assert_eq!(history.len(), 1);
+}
+
+#[test]
 fn amendment_audit_records_each_ordered_operation_value() {
     let directory = repository();
     let root = directory.path();
