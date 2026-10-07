@@ -1958,20 +1958,140 @@ fn feature_worktree_can_compose_against_the_declared_main_target() {
 
     let mut input = composition_input(root.path(), &marker);
     input.binding.target_branch = "main".into();
-    input.binding.target_sha = main_head;
-    input.binding.participant_heads = vec![feature_head];
+    input.binding.target_sha = main_head.clone();
+    input.binding.participant_heads = vec![feature_head.clone()];
     input.identity.command_digest = composition_commands_digest(&input.commands);
     let attempt = run_admitted_composition(&store, "WI-CONSUMER", 1, input)
         .expect("feature worktree may target main");
 
-    assert!(
-        attempt.passed,
-        "feature-to-main composition failed: {attempt:?}"
+    assert_eq!(
+        attempt.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed,
+        "feature-to-main execution failed: {attempt:?}"
     );
+    assert!(attempt.execution_evidence_complete);
+    assert_eq!(attempt.processes_spawned, 1);
+    assert_eq!(attempt.execution_records.len(), 1);
+    assert_eq!(attempt.execution_records[0].node_id, "marker");
+    assert!(attempt.execution_records[0].spawned);
+    assert!(!attempt.execution_records[0].reused);
+    assert!(attempt.execution_records[0].passed);
+    assert_eq!(attempt.execution_records[0].exit_code, Some(0));
+    assert!(marker.is_file());
+    assert!(attempt.text_conflicts.is_empty());
+    assert!(attempt.preconditions.iter().all(|item| item.satisfied));
     assert_eq!(attempt.binding.target_branch, "main");
+    assert_eq!(attempt.binding.target_sha, main_head);
+    assert_eq!(attempt.binding.participant_heads, vec![feature_head]);
+    let composition_state = match attempt.cleanup_disposition {
+        cockpit_verification::CompositionCleanupDisposition::Cleaned => {
+            assert!(
+                attempt.passed,
+                "feature-to-main composition failed: {attempt:?}"
+            );
+            assert!(attempt.is_coherent_successful_terminal());
+            "passed"
+        }
+        cockpit_verification::CompositionCleanupDisposition::Deferred => {
+            assert_eq!(attempt.schema_version, 3);
+            assert_eq!(attempt.process_observation_schema_version, 1);
+            assert!(!attempt.passed);
+            assert_eq!(
+                attempt.failure.as_deref(),
+                Some("composition_cleanup_deferred")
+            );
+            assert!(!attempt.owned_tree_termination_unknown);
+            assert!(attempt.owner_termination_signal.is_none());
+            assert!(attempt.active_execution_node.is_none());
+            assert!(attempt.active_process_group_id.is_none());
+            assert!(attempt.active_process_group_identity.is_none());
+            let receipt = attempt
+                .supervisor_receipt
+                .as_ref()
+                .expect("deferred cleanup requires a bound supervisor receipt");
+            assert_eq!(receipt.schema_version, 1);
+            assert_eq!(
+                receipt.backend,
+                cockpit_verification::CompositionSupervisorBackend::LinuxSubreaper
+            );
+            assert_eq!(receipt.attempt_id, attempt.attempt_id);
+            assert!(!receipt.run_nonce.is_empty());
+            assert_eq!(receipt.generation, 1);
+            assert_eq!(receipt.repository_id, attempt.binding.repository_id);
+            assert_eq!(receipt.target_sha, attempt.binding.target_sha);
+            assert_eq!(
+                receipt.runtime_version,
+                attempt.binding.verifier.runtime_version
+            );
+            assert_eq!(
+                receipt.runtime_digest,
+                attempt.binding.verifier.runtime_digest
+            );
+            assert_eq!(receipt.command_plan_digest, attempt.identity.command_digest);
+            assert!(receipt.owner.process_id > 0);
+            assert!(receipt.owner.start_time_ticks.is_some());
+            assert!(receipt.owner.process_group_id.is_some());
+            assert!(receipt.owner.session_id.is_some());
+            assert!(receipt.supervisor.start_time_ticks.is_some());
+            assert!(receipt.supervisor.process_group_id.is_some());
+            assert!(receipt.supervisor.session_id.is_some());
+            assert_eq!(attempt.owner_pid, Some(receipt.supervisor.process_id));
+            assert!(
+                receipt
+                    .linux_boot_id
+                    .as_deref()
+                    .is_some_and(|id| !id.is_empty())
+            );
+            assert!(receipt.descendants_reaped_to_echild);
+            let cleanup = attempt.cleanup.as_ref().expect("deferred cleanup evidence");
+            assert!(!cleanup.attempted);
+            assert!(!cleanup.removed);
+            let error = cleanup.error.as_deref().expect("external observer error");
+            assert!(
+                error.starts_with("verifier_process_state_unknown:cannot inspect process ")
+                    && [" working directory", " file descriptors", " open files"]
+                        .iter()
+                        .any(|suffix| error.ends_with(suffix)),
+                "unexpected observer error: {error}"
+            );
+            let worktree = Path::new(&attempt.isolated_worktree);
+            assert!(worktree.is_dir(), "deferred worktree must remain on disk");
+            let worktrees = Command::new("git")
+                .args(["worktree", "list", "--porcelain"])
+                .current_dir(root.path())
+                .output()
+                .expect("inspect retained worktree registration");
+            assert!(worktrees.status.success());
+            assert!(
+                String::from_utf8_lossy(&worktrees.stdout)
+                    .lines()
+                    .any(|line| line == format!("worktree {}", worktree.display())),
+                "deferred worktree registration must remain"
+            );
+            "unknown"
+        }
+        other => panic!("unexpected feature-to-main cleanup disposition: {other:?}"),
+    };
     let projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
-    assert_eq!(projection.composition_state, "passed");
+    assert_eq!(projection.composition_state, composition_state);
+    assert_eq!(
+        projection.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed
+    );
+    assert!(projection.execution_evidence_complete);
+    assert_eq!(projection.cleanup_disposition, attempt.cleanup_disposition);
+    assert_eq!(
+        projection.cleanup_state,
+        if composition_state == "unknown" {
+            "deferred"
+        } else {
+            "cleaned"
+        }
+    );
+    if composition_state == "unknown" {
+        assert!(projection.reusable_checks.is_empty());
+    }
     assert_eq!(projection.target_merge_state, "not_merged");
     assert_eq!(projection.composition_applicability, "current");
 
@@ -1982,7 +2102,7 @@ fn feature_worktree_can_compose_against_the_declared_main_target() {
     run(root.path(), &["checkout", "-q", "feature/consumer"]);
     let stale_projection =
         collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
-    assert_eq!(stale_projection.composition_state, "passed");
+    assert_eq!(stale_projection.composition_state, composition_state);
     assert_eq!(stale_projection.composition_applicability, "stale");
     assert_eq!(stale_projection.target_merge_state, "not_merged");
 }
