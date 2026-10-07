@@ -5160,31 +5160,12 @@ fn closeout_status_projection(status: &WorkItemStatusSnapshot) -> serde_json::Va
     })
 }
 
-fn validate_closeout_history_chain(
+fn validate_closeout_final_report(
     root: &Path,
     work_item_id: &str,
     expected_repository_id: &str,
-    visited: &mut BTreeSet<String>,
-) -> Result<serde_json::Value, ObserverError> {
-    if !visited.insert(work_item_id.to_owned()) || visited.len() > 32 {
-        return Err(closeout_recovery_error(
-            root,
-            "closeout_recovery_history_cycle",
-            "historical closeout successor chain is cyclic or exceeds the supported depth",
-        ));
-    }
-    if !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id) {
-        return Err(closeout_recovery_error(
-            root,
-            "closeout_recovery_close_invalid",
-            format!("historical close decision is invalid for {work_item_id}"),
-        ));
-    }
-
-    let close_path = root
-        .join(".ai/decisions")
-        .join(format!("{work_item_id}.close.json"));
-    let close: serde_json::Value = read_json(&close_path)?;
+    close: &serde_json::Value,
+) -> Result<(), ObserverError> {
     let final_report = close.get("finalReport").ok_or_else(|| {
         closeout_recovery_error(
             root,
@@ -5213,6 +5194,35 @@ fn validate_closeout_history_chain(
         ));
     }
 
+    Ok(())
+}
+
+fn validate_closeout_history_chain(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+    visited: &mut BTreeSet<String>,
+) -> Result<serde_json::Value, ObserverError> {
+    if !visited.insert(work_item_id.to_owned()) || visited.len() > 32 {
+        return Err(closeout_recovery_error(
+            root,
+            "closeout_recovery_history_cycle",
+            "historical closeout successor chain is cyclic or exceeds the supported depth",
+        ));
+    }
+    if !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id) {
+        return Err(closeout_recovery_error(
+            root,
+            "closeout_recovery_close_invalid",
+            format!("historical close decision is invalid for {work_item_id}"),
+        ));
+    }
+
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let close: serde_json::Value = read_json(&close_path)?;
+    validate_closeout_final_report(root, work_item_id, expected_repository_id, &close)?;
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -5736,6 +5746,14 @@ fn build_closeout_recovery_plan(
                 });
             }
         }
+    }
+    // A bound close may fail the broader status gate because its final report
+    // was tampered with. Diagnose that narrow defect first, then keep the
+    // existing status and frozen-usage admission checks in force.
+    if close_decision_is_valid_for_status(&source, work_item_id, &source_repository_id) {
+        let close_path = source.join(format!(".ai/decisions/{work_item_id}.close.json"));
+        let close: serde_json::Value = read_json(&close_path)?;
+        validate_closeout_final_report(&source, work_item_id, &source_repository_id, &close)?;
     }
     let source_status = work_item_status_snapshot_with_runtime(&source, work_item_id, runtime)?;
     if source_status.repository_id != source_repository_id

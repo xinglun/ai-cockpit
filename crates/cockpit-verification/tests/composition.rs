@@ -1043,7 +1043,12 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
         blocked
             .failure
             .as_deref()
-            .is_some_and(|failure| failure.contains("coordination_safely_paused"))
+            .is_some_and(|failure| failure.contains("coordination_safely_paused")),
+        "actual failure={:?}; reuse={:?}; execution records={:?}; cleanup={:?}",
+        blocked.failure,
+        blocked.reuse_decision,
+        blocked.execution_records,
+        blocked.cleanup_disposition,
     );
 }
 
