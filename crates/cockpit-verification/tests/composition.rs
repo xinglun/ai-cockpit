@@ -98,6 +98,14 @@ fn composition_supervisor_run_test_helper() {
     let process_identity = current_composition_process_identity().expect("process identity");
     let run_nonce = new_composition_run_nonce();
     let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+    let target_tree = run(
+        &input.repository_root,
+        &[
+            "rev-parse",
+            "--verify",
+            &format!("{}^{{tree}}", input.binding.target_sha),
+        ],
+    );
     let input_environment = input
         .commands
         .iter()
@@ -117,7 +125,7 @@ fn composition_supervisor_run_test_helper() {
         runtime_digest: input.binding.verifier.runtime_digest.clone(),
         repository_id: input.binding.repository_id.clone(),
         target_sha: input.binding.target_sha.clone(),
-        snapshot_digest: digest("test snapshot"),
+        snapshot_digest: Digest::sha256_bytes(target_tree.as_bytes()),
         command_plan_digest: composition_commands_digest(&input.commands),
         input_environment_digest: Digest::sha256_bytes(
             &serde_json::to_vec(&input_environment).expect("input environments serialize"),
@@ -2451,10 +2459,17 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
         !owner_proc.exists(),
         "owner PID fixture remains absent immediately before reconciliation"
     );
-    let recovered = run_composition(retry).unwrap_or_else(|error| {
+    let recovered = run_composition_with_test_supervisor(retry).unwrap_or_else(|error| {
         panic!("zombie-only verifier group should be reconciled safely: {error}")
     });
-    assert!(recovered.passed, "retry failed: {recovered:?}");
+    let target_tree = run(
+        root.path(),
+        &["rev-parse", "--verify", &format!("{base}^{{tree}}")],
+    );
+    let receipt = recovered
+        .supervisor_receipt
+        .as_ref()
+        .expect("fresh retry needs a real supervisor receipt");
 
     let interrupted_path = attempt_record_path(state.path(), attempt_id);
     let reconciled: serde_json::Value = serde_json::from_slice(
@@ -2462,6 +2477,8 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
     )
     .expect("reconciled attempt JSON");
     assert_eq!(reconciled["failure"], "interrupted_owner_terminated");
+    assert_eq!(reconciled["schemaVersion"], 2);
+    assert_eq!(reconciled["ownerPid"], owner_pid);
     assert_eq!(reconciled["cleanup"]["attempted"], true);
     assert_eq!(reconciled["cleanup"]["removed"], true);
     assert_eq!(
@@ -2483,6 +2500,103 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
         reconciled["activeProcessGroupIdentity"],
         serde_json::Value::Null
     );
+
+    assert_eq!(
+        receipt.snapshot_digest,
+        Digest::sha256_bytes(target_tree.as_bytes()),
+        "supervisor receipt must bind the observed target tree"
+    );
+    assert_eq!(
+        recovered.execution_outcome,
+        CompositionExecutionOutcome::Passed
+    );
+    assert!(recovered.execution_evidence_complete);
+    assert_eq!(recovered.processes_spawned, 1);
+    assert_eq!(recovered.execution_records.len(), 1);
+    assert_eq!(recovered.execution_records[0].node_id, "retry");
+    assert!(recovered.execution_records[0].spawned);
+    assert!(!recovered.execution_records[0].reused);
+    assert!(recovered.execution_records[0].passed);
+    assert_eq!(recovered.execution_records[0].exit_code, Some(0));
+    assert_eq!(recovered.binding.target_sha, base);
+    assert!(recovered.text_conflicts.is_empty());
+    assert!(recovered.preconditions.iter().all(|item| item.satisfied));
+    assert_eq!(receipt.schema_version, 1);
+    assert_eq!(
+        receipt.backend,
+        CompositionSupervisorBackend::LinuxSubreaper
+    );
+    assert_eq!(receipt.attempt_id, recovered.attempt_id);
+    assert!(!receipt.run_nonce.is_empty());
+    assert_eq!(receipt.generation, 1);
+    assert_eq!(receipt.repository_id, recovered.binding.repository_id);
+    assert_eq!(receipt.target_sha, recovered.binding.target_sha);
+    assert_eq!(
+        receipt.runtime_version,
+        recovered.binding.verifier.runtime_version
+    );
+    assert_eq!(
+        receipt.runtime_digest,
+        recovered.binding.verifier.runtime_digest
+    );
+    assert_eq!(
+        receipt.command_plan_digest,
+        recovered.identity.command_digest
+    );
+    assert_eq!(receipt.owner, receipt.supervisor);
+    assert!(receipt.owner.process_id > 0);
+    assert!(receipt.owner.start_time_ticks.is_some());
+    assert!(receipt.supervisor.process_group_id.is_some());
+    assert!(receipt.supervisor.session_id.is_some());
+    assert_eq!(recovered.owner_pid, Some(receipt.supervisor.process_id));
+    assert!(receipt.descendants_reaped_to_echild);
+    assert!(!recovered.owned_tree_termination_unknown);
+    let durable: CompositionAttempt = serde_json::from_slice(
+        &fs::read(attempt_record_path(state.path(), &recovered.attempt_id))
+            .expect("durable fresh retry attempt"),
+    )
+    .expect("decode fresh retry attempt");
+    assert_eq!(durable.supervisor_receipt, recovered.supervisor_receipt);
+
+    match recovered.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            assert!(recovered.passed, "retry failed: {recovered:?}");
+            assert!(recovered.is_coherent_successful_terminal());
+            let cleanup = recovered.cleanup.as_ref().expect("cleaned retry evidence");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+        }
+        CompositionCleanupDisposition::Deferred => {
+            assert!(!recovered.passed);
+            assert!(!recovered.is_coherent_successful_terminal());
+            assert_eq!(
+                recovered.failure.as_deref(),
+                Some("composition_cleanup_deferred")
+            );
+            let cleanup = recovered.cleanup.as_ref().expect("deferred retry evidence");
+            assert!(!cleanup.attempted);
+            assert!(!cleanup.removed);
+            let error = cleanup.error.as_deref().expect("external observer error");
+            assert!(
+                error.starts_with("verifier_process_state_unknown:cannot inspect process ")
+                    && [" working directory", " file descriptors", " open files"]
+                        .iter()
+                        .any(|suffix| error.ends_with(suffix)),
+                "unexpected observer error: {error}"
+            );
+            let retry_worktree = Path::new(&recovered.isolated_worktree);
+            assert!(retry_worktree.is_dir(), "deferred retry tree must remain");
+            let retry_registration = format!("worktree {}", retry_worktree.display());
+            assert!(
+                run(root.path(), &["worktree", "list", "--porcelain"])
+                    .lines()
+                    .any(|line| line == retry_registration),
+                "deferred retry worktree registration must remain"
+            );
+        }
+        other => panic!("unexpected zombie-only retry cleanup disposition: {other:?}"),
+    }
 }
 
 #[test]
