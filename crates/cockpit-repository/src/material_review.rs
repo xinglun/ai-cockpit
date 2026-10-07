@@ -17,7 +17,7 @@ use sha2::{Digest as _, Sha256};
 #[cfg(not(unix))]
 use std::fs::OpenOptions;
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     fs::{self, File},
     io,
     path::Path,
@@ -27,6 +27,9 @@ use thiserror::Error;
 const SCANNER_SEMANTIC_VERSION: &str = "rust-material-v1";
 const ANALYSIS_TARGET_SEMANTIC_PROFILE: &str = "cross-platform-rust-source-v1";
 const MAX_MATERIAL_BLOB_BYTES: u64 = 16 * 1024 * 1024;
+const MAX_MATERIAL_CHANGED_FILES: usize = 256;
+const MAX_MATERIAL_TOTAL_BLOB_BYTES: u64 = 32 * 1024 * 1024;
+const MAX_MATERIAL_TOTAL_TEXT_BYTES: u64 = 16 * 1024 * 1024;
 const MAX_PATCH_BYTES: usize = MAX_BOUNDED_GIT_OUTPUT_BYTES;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -88,6 +91,8 @@ pub enum MaterialReviewRequestError {
     SourceUnavailable { path: String, reason: String },
     #[error("material identity could not be computed: {0}")]
     Identity(String),
+    #[error("material request exceeded {budget} budget (limit: {limit})")]
+    BudgetExceeded { budget: &'static str, limit: u64 },
 }
 
 #[derive(Serialize)]
@@ -203,9 +208,10 @@ fn reject_nonstandard_index_flags(git: &GitRepository) -> Result<(), MaterialRev
 
 fn committed_blob_ids(
     git: &GitRepository,
+    revision: &str,
 ) -> Result<BTreeMap<String, String>, MaterialReviewRequestError> {
     let output = git
-        .committed_tree_bounded("HEAD", MAX_PATCH_BYTES)
+        .committed_tree_bounded(revision, MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
     if !output.success {
         return Err(git_output_error(&output));
@@ -248,12 +254,43 @@ fn committed_blob_ids(
     Ok(objects)
 }
 
-fn committed_blob(git: &GitRepository, id: &str) -> Result<Vec<u8>, MaterialReviewRequestError> {
+fn no_hunk_blob_identity_is_proven(
+    change: &cockpit_git::ChangeEvidence,
+    base_blob_id: Option<&str>,
+    head_blob_id: &str,
+    deleted_base_blob_ids: &BTreeSet<String>,
+    head_blob_is_empty: bool,
+) -> bool {
+    if !change.added_lines.is_empty() || !change.removed_lines.is_empty() {
+        return true;
+    }
+    match change.kind {
+        ChangeKind::Modified => base_blob_id == Some(head_blob_id),
+        ChangeKind::Added => head_blob_is_empty || deleted_base_blob_ids.contains(head_blob_id),
+        ChangeKind::Renamed => {
+            base_blob_id == Some(head_blob_id) || deleted_base_blob_ids.contains(head_blob_id)
+        }
+        _ => false,
+    }
+}
+
+fn committed_blob(
+    git: &GitRepository,
+    id: &str,
+    max_output_bytes: usize,
+    aggregate_budget_limited: bool,
+) -> Result<Vec<u8>, MaterialReviewRequestError> {
     let output = git
-        .blob_bounded(id, MAX_MATERIAL_BLOB_BYTES as usize)
+        .blob_bounded(id, max_output_bytes)
         .map_err(|error| match error {
+            GitError::OutputLimitExceeded { .. } if aggregate_budget_limited => {
+                MaterialReviewRequestError::BudgetExceeded {
+                    budget: "total_blob_bytes",
+                    limit: MAX_MATERIAL_TOTAL_BLOB_BYTES,
+                }
+            }
             GitError::OutputLimitExceeded { .. } => MaterialReviewRequestError::Identity(
-                "committed source exceeds bounded request budget".into(),
+                "committed source exceeds per-blob request budget".into(),
             ),
             error => MaterialReviewRequestError::Git(error.to_string()),
         })?;
@@ -482,6 +519,17 @@ pub fn material_review_request(
     snapshot
         .change_evidence
         .sort_by(|left, right| left.path.cmp(&right.path));
+    let changed_file_count = snapshot
+        .change_evidence
+        .iter()
+        .filter(|change| change.path != ".ai" && !change.path.starts_with(".ai/"))
+        .count();
+    if changed_file_count > MAX_MATERIAL_CHANGED_FILES {
+        return Err(MaterialReviewRequestError::BudgetExceeded {
+            budget: "changed_file_count",
+            limit: MAX_MATERIAL_CHANGED_FILES as u64,
+        });
+    }
     let source_snapshot_digest = snapshot
         .source_tree_digest
         .as_deref()
@@ -490,8 +538,17 @@ pub fn material_review_request(
         })?
         .parse::<Digest>()
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
-    let committed_objects = committed_blob_ids(&git)?;
+    let base_objects = committed_blob_ids(&git, &contract.base_revision)?;
+    let committed_objects = committed_blob_ids(&git, &head)?;
+    let deleted_base_blob_ids = snapshot
+        .change_evidence
+        .iter()
+        .filter(|change| change.kind == ChangeKind::Deleted)
+        .filter_map(|change| base_objects.get(&change.path).cloned())
+        .collect::<BTreeSet<_>>();
     let mut committed_digests = BTreeMap::new();
+    let mut total_blob_bytes = 0_u64;
+    let mut total_text_bytes = 0_u64;
     for change in snapshot
         .change_evidence
         .iter_mut()
@@ -506,7 +563,21 @@ pub fn material_review_request(
                 reason: "source has no committed blob".into(),
             }
         })?;
-        let bytes = committed_blob(&git, id)?;
+        let remaining_blob_bytes = MAX_MATERIAL_TOTAL_BLOB_BYTES.saturating_sub(total_blob_bytes);
+        if remaining_blob_bytes == 0 {
+            return Err(MaterialReviewRequestError::BudgetExceeded {
+                budget: "total_blob_bytes",
+                limit: MAX_MATERIAL_TOTAL_BLOB_BYTES,
+            });
+        }
+        let blob_limit = MAX_MATERIAL_BLOB_BYTES.min(remaining_blob_bytes);
+        let bytes = committed_blob(
+            &git,
+            id,
+            blob_limit as usize,
+            remaining_blob_bytes < MAX_MATERIAL_BLOB_BYTES,
+        )?;
+        total_blob_bytes = total_blob_bytes.saturating_add(bytes.len() as u64);
         // The committed object supplies the digest and scan bytes. Checkout
         // filters can normalize line endings, so working-tree bytes are never
         // compared with a blob ID.
@@ -522,6 +593,19 @@ pub fn material_review_request(
             change.after_text = None;
             continue;
         }
+        if change.content_state == ChangeContentState::Unavailable
+            && change.added_lines.is_empty()
+            && change.removed_lines.is_empty()
+            && !no_hunk_blob_identity_is_proven(
+                change,
+                base_objects.get(&change.path).map(String::as_str),
+                id,
+                &deleted_base_blob_ids,
+                bytes.is_empty(),
+            )
+        {
+            continue;
+        }
         match String::from_utf8(bytes) {
             Ok(text) => {
                 if change.content_state == ChangeContentState::Unavailable
@@ -530,8 +614,16 @@ pub fn material_review_request(
                     change.content_state = ChangeContentState::TooLarge;
                     change.after_text = None;
                 } else {
+                    let next_text_bytes = total_text_bytes.saturating_add(text.len() as u64);
+                    if next_text_bytes > MAX_MATERIAL_TOTAL_TEXT_BYTES {
+                        return Err(MaterialReviewRequestError::BudgetExceeded {
+                            budget: "total_text_bytes",
+                            limit: MAX_MATERIAL_TOTAL_TEXT_BYTES,
+                        });
+                    }
                     change.content_state = ChangeContentState::Text;
                     change.after_text = Some(text);
+                    total_text_bytes = next_text_bytes;
                 }
             }
             Err(_) => {
