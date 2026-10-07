@@ -763,7 +763,8 @@
     {
       "evidence": [
         "Independent Linux acceptance at candidate 05bb3c2ff86baff492643354eb3ace6cd37cf883; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; pre-controls snapshot sha256:a893c432a22434402baac536fd54f5b2958bda900f6c81f73360165972c101fb; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b1320b947e8431771cb982df99e43880ac16c058d21c57c3e2792c1daed09361; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.61s\n\n",
-        "cargo test --locked -p cockpit-verification --lib process_group -- --nocapture; exit 0, 15/15 covering zombie-only, live/mixed, identity changes, proc read/parse/permission/race/budget and attempt-digest change. Older failed receipts were not removed. Non-Linux host execution remains unrun."
+        "cargo test --locked -p cockpit-verification --lib process_group -- --nocapture; exit 0, 15/15 covering zombie-only, live/mixed, identity changes, proc read/parse/permission/race/budget and attempt-digest change. Older failed receipts were not removed. Non-Linux host execution remains unrun.",
+        "Independent Linux acceptance rerun after S17/S24 test-source changes: candidate head 5435a3d70138df74cb5c288b3005faa0738a1fd4; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:2b346e8d666a6d3638be440b86f8738f77bcedaa48ea20785df9415d38108559; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:8299f02024552e8eedded50b3bb46ef1c3feea457ef93ca537e18498759e357e; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.63s\n\n"
       ],
       "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
       "required": true,
@@ -793,7 +794,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T07:56:42.248257673+00:00",
+  "updatedAt": "2026-10-07T07:57:19.734502456+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
