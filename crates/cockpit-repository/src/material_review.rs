@@ -6,6 +6,10 @@ use super::{
     effective_policy_for_contract, repository_id,
 };
 use crate::rust_material::{MaterialUnknownCause, RustMaterialAssessment};
+#[cfg(windows)]
+use cap_fs_ext::{DirExt, FollowSymlinks, OpenOptionsFollowExt};
+#[cfg(windows)]
+use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
 use cockpit_core::Digest;
 use cockpit_git::{
     BoundedGitOutput, ChangeContentState, ChangeKind, GitError, GitRepository,
@@ -14,7 +18,7 @@ use cockpit_git::{
 use cockpit_protocol::{Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY, digest_json};
 use serde::Serialize;
 use sha2::{Digest as _, Sha256};
-#[cfg(not(unix))]
+#[cfg(not(any(unix, windows)))]
 use std::fs::OpenOptions;
 use std::{
     collections::{BTreeMap, BTreeSet},
@@ -459,11 +463,135 @@ fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Resul
 
 #[cfg(windows)]
 fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Result<File> {
-    let mut options = OpenOptions::new();
-    options.read(true);
-    use std::os::windows::fs::OpenOptionsExt;
-    options.custom_flags(windows_sys::Win32::Storage::FileSystem::FILE_FLAG_OPEN_REPARSE_POINT);
-    options.open(root.join(relative_path))
+    use std::path::Component;
+
+    let mut components = relative_path.components().peekable();
+    if components
+        .clone()
+        .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "checkout source path is not a normalized relative path",
+        ));
+    }
+    if components.peek().is_none() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "checkout source path is empty",
+        ));
+    }
+
+    let canonical_root = fs::canonicalize(root)?;
+    let mut parent = Dir::open_ambient_dir(&canonical_root, cap_std::ambient_authority())?;
+    let root_handle = parent.try_clone()?.into_std_file();
+    let canonical_root_handle_path = windows_handle_path(&root_handle)?;
+    if canonical_root_handle_path != canonical_root {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "opened checkout root no longer matches its canonical path",
+        ));
+    }
+    ensure_windows_handle_is_contained(&canonical_root_handle_path, &root_handle)?;
+    if !root_handle.metadata()?.is_dir() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "canonical checkout root is not a directory",
+        ));
+    }
+
+    while let Some(Component::Normal(component)) = components.next() {
+        if components.peek().is_some() {
+            let directory = parent.open_dir_nofollow(component)?;
+            let directory_handle = directory.try_clone()?.into_std_file();
+            ensure_windows_handle_is_contained(&canonical_root_handle_path, &directory_handle)?;
+            if !directory_handle.metadata()?.is_dir() {
+                return Err(io::Error::new(
+                    io::ErrorKind::InvalidInput,
+                    "checkout source parent is not a directory",
+                ));
+            }
+            parent = directory;
+        } else {
+            let mut options = CapOpenOptions::new();
+            options.read(true).follow(FollowSymlinks::No);
+            let file = parent.open_with(component, &options)?.into_std();
+            ensure_windows_handle_is_contained(&canonical_root_handle_path, &file)?;
+            return Ok(file);
+        }
+    }
+
+    Err(io::Error::new(
+        io::ErrorKind::InvalidInput,
+        "checkout source path is empty",
+    ))
+}
+
+#[cfg(windows)]
+fn ensure_windows_handle_is_contained(root: &Path, file: &File) -> io::Result<()> {
+    use std::{mem::size_of, os::windows::io::AsRawHandle};
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_ATTRIBUTE_REPARSE_POINT, FILE_ATTRIBUTE_TAG_INFO, FileAttributeTagInfo,
+        GetFileInformationByHandleEx,
+    };
+
+    let mut attributes = FILE_ATTRIBUTE_TAG_INFO::default();
+    let succeeded = unsafe {
+        GetFileInformationByHandleEx(
+            file.as_raw_handle(),
+            FileAttributeTagInfo,
+            (&mut attributes as *mut FILE_ATTRIBUTE_TAG_INFO).cast(),
+            size_of::<FILE_ATTRIBUTE_TAG_INFO>() as u32,
+        )
+    };
+    if succeeded == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    if attributes.FileAttributes & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "checkout source path contains a reparse point",
+        ));
+    }
+
+    let opened_path = windows_handle_path(file)?;
+    if opened_path.strip_prefix(root).is_err() {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "opened checkout source handle escapes canonical root",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(windows)]
+fn windows_handle_path(file: &File) -> io::Result<std::path::PathBuf> {
+    use std::os::{windows::ffi::OsStringExt, windows::io::AsRawHandle};
+    use windows_sys::Win32::Storage::FileSystem::{
+        FILE_NAME_NORMALIZED, GetFinalPathNameByHandleW, VOLUME_NAME_DOS,
+    };
+
+    let mut buffer = vec![0_u16; 32_768];
+    let length = unsafe {
+        GetFinalPathNameByHandleW(
+            file.as_raw_handle(),
+            buffer.as_mut_ptr(),
+            buffer.len() as u32,
+            FILE_NAME_NORMALIZED | VOLUME_NAME_DOS,
+        )
+    };
+    if length == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    if length as usize >= buffer.len() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "opened checkout source path exceeds Windows API bound",
+        ));
+    }
+    Ok(std::path::PathBuf::from(std::ffi::OsString::from_wide(
+        &buffer[..length as usize],
+    )))
 }
 
 #[cfg(not(any(unix, windows)))]
@@ -852,5 +980,37 @@ mod tests {
             .expect("nonblocking FIFO open");
         assert!(!opened.metadata().expect("FIFO metadata").is_file());
         assert!(started.elapsed() < Duration::from_secs(1));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn checkout_source_open_refuses_parent_directory_junctions() {
+        use std::process::Command;
+
+        let directory = tempfile::tempdir().expect("temporary directory");
+        let root = directory.path().join("checkout");
+        let outside = directory.path().join("outside");
+        let junction = root.join("linked-directory");
+        fs::create_dir(&root).expect("checkout directory");
+        fs::create_dir(&outside).expect("outside directory");
+        fs::write(outside.join("secret.rs"), "fn outside() {}\n").expect("outside source");
+
+        let output = Command::new("cmd.exe")
+            .args(["/D", "/C", "mklink", "/J"])
+            .arg(&junction)
+            .arg(&outside)
+            .output()
+            .expect("create junction with cmd.exe");
+        assert!(
+            output.status.success(),
+            "mklink /J failed; stdout: {}; stderr: {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+
+        assert!(
+            open_checkout_source_nofollow(&root, Path::new("linked-directory/secret.rs")).is_err(),
+            "parent junction must not expose source outside the checkout"
+        );
     }
 }
