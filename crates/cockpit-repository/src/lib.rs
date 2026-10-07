@@ -67,7 +67,8 @@ mod status_projection;
 mod usage;
 
 pub use material_review::{
-    MaterialReviewEntry, MaterialReviewRequest, MaterialReviewRequestError, material_review_request,
+    MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
+    MaterialReviewRequestError, material_review_request, validate_material_review_decision,
 };
 pub use rust_material::MaterialUnknownCause;
 use rust_material::{

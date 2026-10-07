@@ -15,7 +15,12 @@ use cockpit_git::{
     BoundedGitOutput, ChangeContentState, ChangeKind, GitError, GitRepository,
     MAX_BOUNDED_GIT_OUTPUT_BYTES, MAX_CHANGE_TEXT_BYTES,
 };
-use cockpit_protocol::{Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY, digest_json};
+use cockpit_protocol::{
+    Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY,
+    MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION, MaterialInspectionReviewAssurance,
+    MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
+    MaterialInspectionReviewDecisionReceipt, digest_json,
+};
 use serde::Serialize;
 use sha2::{Digest as _, Sha256};
 #[cfg(not(any(unix, windows)))]
@@ -99,6 +104,36 @@ pub enum MaterialReviewRequestError {
     BudgetExceeded { budget: &'static str, limit: u64 },
 }
 
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum MaterialReviewDecisionValidationError {
+    #[error("Contract material review profile is invalid: {0}")]
+    InvalidProfile(String),
+    #[error("material review decision is not enabled by the current Contract")]
+    ReviewNotEnabled,
+    #[error("material review request identity does not match the current Contract")]
+    RequestIdentityMismatch,
+    #[error("material review request digest does not match canonical request content")]
+    RequestDigestMismatch,
+    #[error("material review request contains a Finding")]
+    FindingPresent,
+    #[error("material review request contains an unknown outside the approved profile")]
+    UnexpectedUnknown,
+    #[error("material review request has no reviewable unknown")]
+    NoReviewableUnknown,
+    #[error("material review input schema or text fields are invalid")]
+    InvalidInput,
+    #[error("reviewerActor does not match the approved Contract profile")]
+    ReviewerMismatch,
+    #[error("authoritySource does not match the approved Contract profile")]
+    AuthorityMismatch,
+    #[error("evidence references must be nonempty, unique, and carry valid digests")]
+    InvalidEvidenceReferences,
+    #[error("Runtime recorder provenance or timestamp is invalid")]
+    InvalidRuntimeProvenance,
+    #[error("material review receipt could not be finalized: {0}")]
+    ReceiptIntegrity(String),
+}
+
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 struct ManifestEntry<'a> {
@@ -114,6 +149,191 @@ struct ManifestEntry<'a> {
 
 fn json_digest(value: &impl Serialize) -> Result<Digest, MaterialReviewRequestError> {
     digest_json(value).map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))
+}
+
+fn material_review_request_digest(
+    request: &MaterialReviewRequest,
+) -> Result<Digest, MaterialReviewRequestError> {
+    let mut validity = serde_json::to_value(request)
+        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
+    let fields = validity
+        .as_object_mut()
+        .expect("typed request is an object");
+    fields.remove("requestDigest");
+    fields.remove("reviewedSourceHead");
+    fields.remove("reviewDiagnostic");
+    json_digest(&("ai-cockpit:material-review-request:v1", validity))
+}
+
+fn valid_digest(digest: &Digest) -> bool {
+    digest.as_str().parse::<Digest>().is_ok()
+}
+
+fn valid_utc_runtime_timestamp(value: &str) -> bool {
+    value.trim() == value
+        && value.ends_with('Z')
+        && chrono::DateTime::parse_from_rfc3339(value)
+            .is_ok_and(|timestamp| timestamp.offset().local_minus_utc() == 0)
+}
+
+/// Validate a self-declared decision against the exact typed Contract and
+/// canonical request, then produce its deterministic receipt. `recorded_by`
+/// and `recorded_at` must come from the caller's Runtime context; this pure
+/// function does not authenticate either real-world identity.
+pub fn validate_material_review_decision(
+    contract: &Contract,
+    request: &MaterialReviewRequest,
+    input: &MaterialInspectionReviewDecisionInput,
+    recorded_by: &str,
+    recorded_at: &str,
+) -> Result<MaterialInspectionReviewDecisionReceipt, MaterialReviewDecisionValidationError> {
+    let profile = contract
+        .material_inspection_review_profile()
+        .map_err(MaterialReviewDecisionValidationError::InvalidProfile)?
+        .ok_or(MaterialReviewDecisionValidationError::ReviewNotEnabled)?;
+    if !contract
+        .required_runtime_capabilities
+        .iter()
+        .any(|capability| capability == MATERIAL_INSPECTION_REVIEW_CAPABILITY)
+        || !request.review_enabled
+    {
+        return Err(MaterialReviewDecisionValidationError::ReviewNotEnabled);
+    }
+    let profile_digest = json_digest(&profile)
+        .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
+    let contract_digest = json_digest(contract)
+        .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
+    if request.schema_version != 1
+        || request.repository_id != contract.repository_id
+        || request.work_item_id != contract.work_item_id
+        || request.contract_digest != contract_digest
+        || request.immutable_contract_base_revision != contract.base_revision
+        || request.material_inspection_review_profile_digest.as_ref() != Some(&profile_digest)
+    {
+        return Err(MaterialReviewDecisionValidationError::RequestIdentityMismatch);
+    }
+    if request.blocked_by_finding
+        || request
+            .entries
+            .iter()
+            .any(|entry| entry.scanner_assessment == MaterialScannerAssessment::Finding)
+    {
+        return Err(MaterialReviewDecisionValidationError::FindingPresent);
+    }
+    if request.raw_unknown_codes.len() != 1
+        || request.raw_unknown_codes[0] != profile.permitted_unknown
+    {
+        return Err(MaterialReviewDecisionValidationError::UnexpectedUnknown);
+    }
+    let mut reviewable_unknowns = 0;
+    for entry in &request.entries {
+        if entry.scanner_assessment == MaterialScannerAssessment::Unknown {
+            reviewable_unknowns += 1;
+            if !entry.reviewable
+                || entry.unknown_cause
+                    != Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+            {
+                return Err(MaterialReviewDecisionValidationError::UnexpectedUnknown);
+            }
+        }
+    }
+    if reviewable_unknowns == 0 {
+        return Err(MaterialReviewDecisionValidationError::NoReviewableUnknown);
+    }
+    if !valid_digest(&request.contract_digest)
+        || !valid_digest(&request.source_snapshot_digest)
+        || !valid_digest(&request.material_manifest_digest)
+        || !valid_digest(&request.analysis_implementation_digest)
+        || !valid_digest(&request.effective_policy_digest)
+        || !request
+            .material_inspection_review_profile_digest
+            .as_ref()
+            .is_some_and(valid_digest)
+        || request.entries.iter().any(|entry| {
+            !valid_digest(&entry.changed_hunk_digest)
+                || entry
+                    .after_blob_digest
+                    .as_ref()
+                    .is_some_and(|digest| !valid_digest(digest))
+        })
+    {
+        return Err(MaterialReviewDecisionValidationError::RequestIdentityMismatch);
+    }
+    let canonical_request_digest = material_review_request_digest(request)
+        .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
+    if !valid_digest(&request.request_digest)
+        || canonical_request_digest != request.request_digest
+        || input.request_digest != request.request_digest
+        || !valid_digest(&input.request_digest)
+    {
+        return Err(MaterialReviewDecisionValidationError::RequestDigestMismatch);
+    }
+    if input.schema_version != MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION
+        || input.assurance != MaterialInspectionReviewAssurance::SelfDeclared
+        || profile.assurance != "self_declared"
+        || input.rationale.trim().is_empty()
+        || input.rationale.trim() != input.rationale
+        || input.residual_risk.trim().is_empty()
+        || input.residual_risk.trim() != input.residual_risk
+        || input.reviewer_actor.trim().is_empty()
+        || input.reviewer_actor.trim() != input.reviewer_actor
+        || input.authority_source.trim().is_empty()
+        || input.authority_source.trim() != input.authority_source
+    {
+        return Err(MaterialReviewDecisionValidationError::InvalidInput);
+    }
+    if input.reviewer_actor != profile.reviewer_actor {
+        return Err(MaterialReviewDecisionValidationError::ReviewerMismatch);
+    }
+    if input.authority_source != profile.authority_source {
+        return Err(MaterialReviewDecisionValidationError::AuthorityMismatch);
+    }
+    let mut evidence_refs = input.evidence_refs.clone();
+    let mut evidence_paths = BTreeSet::new();
+    if evidence_refs.is_empty()
+        || evidence_refs.iter().any(|reference| {
+            reference.path.trim().is_empty()
+                || reference.path.trim() != reference.path
+                || !valid_digest(&reference.digest)
+                || !evidence_paths.insert(reference.path.clone())
+        })
+    {
+        return Err(MaterialReviewDecisionValidationError::InvalidEvidenceReferences);
+    }
+    evidence_refs.sort_by(|left, right| left.path.cmp(&right.path));
+    if recorded_by.trim().is_empty()
+        || recorded_by.trim() != recorded_by
+        || !valid_utc_runtime_timestamp(recorded_at)
+    {
+        return Err(MaterialReviewDecisionValidationError::InvalidRuntimeProvenance);
+    }
+
+    let mut receipt = MaterialInspectionReviewDecisionReceipt {
+        schema_version: MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION,
+        repository_id: request.repository_id.clone(),
+        work_item_id: request.work_item_id.clone(),
+        contract_digest: request.contract_digest.clone(),
+        material_manifest_digest: request.material_manifest_digest.clone(),
+        profile_digest,
+        request_digest: request.request_digest.clone(),
+        decision: MaterialInspectionReviewDecision::AcceptPermittedUnknowns,
+        reviewer_actor: input.reviewer_actor.clone(),
+        recorded_by: recorded_by.to_owned(),
+        authority_source: input.authority_source.clone(),
+        assurance: input.assurance,
+        evidence_refs,
+        rationale: input.rationale.clone(),
+        residual_risk: input.residual_risk.clone(),
+        recorded_at: recorded_at.to_owned(),
+        receipt_digest: Digest::sha256_bytes(b"uncomputed"),
+    };
+    receipt.receipt_digest = receipt
+        .canonical_digest()
+        .map_err(MaterialReviewDecisionValidationError::ReceiptIntegrity)?;
+    receipt
+        .validate_integrity()
+        .map_err(MaterialReviewDecisionValidationError::ReceiptIntegrity)?;
+    Ok(receipt)
 }
 
 /// Domain-separated, length-delimited source bytes. The fixed path list is
@@ -896,15 +1116,7 @@ pub fn material_review_request(
         request_digest: Digest::sha256_bytes(b"uncomputed"),
         reviewed_source_head: head,
     };
-    let mut validity = serde_json::to_value(&request)
-        .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
-    let fields = validity
-        .as_object_mut()
-        .expect("typed request is an object");
-    fields.remove("requestDigest");
-    fields.remove("reviewedSourceHead");
-    fields.remove("reviewDiagnostic");
-    request.request_digest = json_digest(&("ai-cockpit:material-review-request:v1", validity))?;
+    request.request_digest = material_review_request_digest(&request)?;
     let final_snapshot = git
         .source_snapshot_bounded(MAX_PATCH_BYTES)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;

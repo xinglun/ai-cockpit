@@ -1,6 +1,10 @@
-use cockpit_protocol::Contract;
+use cockpit_protocol::{
+    Contract, MaterialInspectionReviewDecision, MaterialInspectionReviewDecisionInput,
+    MaterialInspectionReviewDecisionReceipt,
+};
 use cockpit_repository::{
-    MaterialReviewRequestError, MaterialUnknownCause, material_review_request,
+    MaterialReviewDecisionValidationError, MaterialReviewRequestError, MaterialUnknownCause,
+    material_review_request, validate_material_review_decision,
 };
 use serde_json::json;
 use std::{fs, path::Path, process::Command};
@@ -112,6 +116,207 @@ fn assert_budget_error(
     assert!(
         error.contains(expected_budget),
         "unexpected material budget error: {error}"
+    );
+}
+
+fn material_review_decision_fixture() -> (
+    tempfile::TempDir,
+    Contract,
+    cockpit_repository::MaterialReviewRequest,
+    MaterialInspectionReviewDecisionInput,
+) {
+    let (directory, mut contract) = fixture();
+    contract.governance_profile = Some(json!({
+        "materialInspectionReview": {
+            "schemaVersion": 1,
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "assurance": "self_declared",
+            "reviewerActor": "agent:Raydot",
+            "authoritySource": "user-delegation:ray-approved-WI1068",
+            "acceptResidualRisk": true
+        }
+    }));
+    contract.required_runtime_capabilities =
+        vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.to_owned()];
+
+    let root = directory.path();
+    fs::create_dir_all(root.join("src")).unwrap();
+    let (marker, _) = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim()
+    .split_once(';')
+    .unwrap();
+    let operation = ["de", "lete"].concat();
+    fs::write(
+        root.join("src/material.rs"),
+        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+    )
+    .unwrap();
+    commit(root);
+
+    let request = material_review_request(root, &contract).unwrap();
+    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest.to_string(),
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user-delegation:ray-approved-WI1068",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "docs/review-evidence.md",
+            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }],
+        "rationale": "Review the exact bounded syntax unknown.",
+        "residualRisk": "The bounded source scanner remains incomplete for this syntax."
+    }))
+    .unwrap();
+    (directory, contract, request, input)
+}
+
+#[test]
+fn material_review_decision_validator_rejects_unapproved_profile_actor() {
+    let (_directory, contract, request, mut input) = material_review_decision_fixture();
+    input.reviewer_actor = "agent:OtherReviewer".into();
+
+    let error = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        error,
+        MaterialReviewDecisionValidationError::ReviewerMismatch
+    );
+    assert_eq!(
+        input.decision,
+        MaterialInspectionReviewDecision::AcceptPermittedUnknowns
+    );
+}
+
+#[test]
+fn material_review_decision_types_reject_unknown_fields_and_receipt_tampering() {
+    let (_directory, contract, request, input) = material_review_decision_fixture();
+    let mut input_value = serde_json::to_value(&input).unwrap();
+    input_value["unapproved"] = json!(true);
+    assert!(serde_json::from_value::<MaterialInspectionReviewDecisionInput>(input_value).is_err());
+
+    let mut receipt = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap();
+    assert_eq!(receipt.reviewer_actor, "agent:Raydot");
+    assert_eq!(receipt.recorded_by, "agent:codex-executor");
+    assert_eq!(receipt.canonical_digest().unwrap(), receipt.receipt_digest);
+
+    let mut receipt_value = serde_json::to_value(&receipt).unwrap();
+    receipt_value["unexpected"] = json!("rejected");
+    assert!(
+        serde_json::from_value::<MaterialInspectionReviewDecisionReceipt>(receipt_value).is_err()
+    );
+
+    receipt.rationale.push_str(" Tampered after hashing.");
+    assert!(receipt.validate_integrity().is_err());
+}
+
+#[test]
+fn material_review_decision_validator_rejects_stale_input_and_tampered_request() {
+    let (_directory, contract, request, input) = material_review_decision_fixture();
+    let mut stale_input_value = serde_json::to_value(&input).unwrap();
+    stale_input_value["requestDigest"] =
+        json!("sha256:1111111111111111111111111111111111111111111111111111111111111111");
+    let stale_input: MaterialInspectionReviewDecisionInput =
+        serde_json::from_value(stale_input_value).unwrap();
+    let stale_error = validate_material_review_decision(
+        &contract,
+        &request,
+        &stale_input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        stale_error,
+        MaterialReviewDecisionValidationError::RequestDigestMismatch
+    );
+
+    let mut tampered_request = request;
+    tampered_request.entries[0].path.push_str(".tampered");
+    let tampered_error = validate_material_review_decision(
+        &contract,
+        &tampered_request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        tampered_error,
+        MaterialReviewDecisionValidationError::RequestDigestMismatch
+    );
+}
+
+#[test]
+fn material_review_decision_validator_rejects_findings_and_extra_unknowns() {
+    let (_directory, contract, request, input) = material_review_decision_fixture();
+
+    let mut finding_request = request.clone();
+    finding_request.blocked_by_finding = true;
+    let finding_error = validate_material_review_decision(
+        &contract,
+        &finding_request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        finding_error,
+        MaterialReviewDecisionValidationError::FindingPresent
+    );
+
+    let mut extra_unknown_request = request;
+    extra_unknown_request
+        .raw_unknown_codes
+        .push("additional_unknown".into());
+    let unknown_error = validate_material_review_decision(
+        &contract,
+        &extra_unknown_request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        unknown_error,
+        MaterialReviewDecisionValidationError::UnexpectedUnknown
+    );
+}
+
+#[test]
+fn material_review_decision_validator_rejects_wrong_authority_source() {
+    let (_directory, contract, request, mut input) = material_review_decision_fixture();
+    input.authority_source = "user-delegation:unrelated".into();
+
+    let error = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        error,
+        MaterialReviewDecisionValidationError::AuthorityMismatch
     );
 }
 

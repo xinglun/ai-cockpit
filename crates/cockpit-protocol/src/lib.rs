@@ -2963,6 +2963,106 @@ impl MaterialInspectionReviewProfile {
     }
 }
 
+pub const MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialInspectionReviewDecision {
+    AcceptPermittedUnknowns,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialInspectionReviewAssurance {
+    SelfDeclared,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewEvidenceRef {
+    pub path: String,
+    pub digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewDecisionInput {
+    pub schema_version: u32,
+    pub decision: MaterialInspectionReviewDecision,
+    pub request_digest: Digest,
+    pub reviewer_actor: String,
+    pub authority_source: String,
+    pub assurance: MaterialInspectionReviewAssurance,
+    pub evidence_refs: Vec<MaterialInspectionReviewEvidenceRef>,
+    pub rationale: String,
+    pub residual_risk: String,
+}
+
+/// Typed, self-declared review evidence. `recorded_by` and `reviewer_actor`
+/// are separate provenance facts; neither field authenticates a real-world
+/// identity.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewDecisionReceipt {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub material_manifest_digest: Digest,
+    pub profile_digest: Digest,
+    pub request_digest: Digest,
+    pub decision: MaterialInspectionReviewDecision,
+    pub reviewer_actor: String,
+    pub recorded_by: String,
+    pub authority_source: String,
+    pub assurance: MaterialInspectionReviewAssurance,
+    pub evidence_refs: Vec<MaterialInspectionReviewEvidenceRef>,
+    pub rationale: String,
+    pub residual_risk: String,
+    pub recorded_at: String,
+    pub receipt_digest: Digest,
+}
+
+impl MaterialInspectionReviewDecisionReceipt {
+    pub fn canonical_digest(&self) -> Result<Digest, String> {
+        let mut value = serde_json::to_value(self)
+            .map_err(|error| format!("cannot encode material review receipt: {error}"))?;
+        let fields = value
+            .as_object_mut()
+            .ok_or_else(|| "material review receipt did not encode as a JSON object".to_owned())?;
+        if fields.remove("receiptDigest").is_none() {
+            return Err("material review receipt digest field is missing".into());
+        }
+        digest_json(&("ai-cockpit:material-inspection-review-decision:v1", value))
+            .map_err(|error| format!("cannot digest material review receipt: {error}"))
+    }
+
+    pub fn validate_integrity(&self) -> Result<(), String> {
+        for digest in [
+            &self.contract_digest,
+            &self.material_manifest_digest,
+            &self.profile_digest,
+            &self.request_digest,
+            &self.receipt_digest,
+        ]
+        .into_iter()
+        .chain(self.evidence_refs.iter().map(|reference| &reference.digest))
+        {
+            digest
+                .as_str()
+                .parse::<Digest>()
+                .map_err(|_| "material review receipt contains an invalid digest".to_owned())?;
+        }
+        if self.schema_version != MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION {
+            return Err("unsupported material review receipt schema version".into());
+        }
+        if self.canonical_digest()? != self.receipt_digest {
+            return Err("material review receipt digest does not match canonical content".into());
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Contract {
