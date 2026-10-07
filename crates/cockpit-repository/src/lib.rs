@@ -7713,10 +7713,26 @@ fn archive_work_item_internal(
         artifacts.push((format!("historicalArtifact{index}"), suffix.to_owned()));
     }
     let mut pending = Vec::new();
-    let cutoff_bound_report = fs::read(&report_source)
-        .ok()
-        .and_then(|bytes| serde_json::from_slice::<serde_json::Value>(&bytes).ok())
-        .is_some_and(|value| value.get("usage").is_some_and(|usage| !usage.is_null()));
+    let cutoff_bound_report = if artifacts
+        .iter()
+        .any(|(_, suffix)| suffix == "task-report.json")
+    {
+        let bytes = fs::read(&report_source).map_err(|source| ObserverError::Read {
+            path: report_source.clone(),
+            source,
+        })?;
+        let report: TaskOutcomeReport =
+            serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                path: report_source.clone(),
+                message: format!("active Task Outcome report is invalid: {error}"),
+            })?;
+        if let Some(usage) = report.usage.as_ref() {
+            usage::validate_frozen_usage_snapshot(&root, usage)?;
+        }
+        report.usage.is_some()
+    } else {
+        false
+    };
     for (name, suffix) in artifacts {
         let source_path = active.join(format!("{work_item_id}.{suffix}"));
         if name.starts_with("historicalArtifact")
@@ -8549,6 +8565,9 @@ fn close_work_item_with_structured_decision_internal(
             evidence_refs: human_decision.evidence_refs.clone(),
             inference: human_decision.evidence_refs.is_empty(),
         });
+        if let Some(frozen) = final_report.usage.as_ref() {
+            usage::validate_frozen_usage_snapshot(&root, frozen)?;
+        }
         let close_cutoff = usage::now_nanos();
         final_report.usage = Some(read_work_item_usage(
             &root,
@@ -8801,6 +8820,9 @@ fn verify_archive_manifest_with_options(
                     path,
                     message: "archived Task Outcome report identity does not match repository or Work Item".into(),
                 });
+            }
+            if let Some(usage) = report.usage.as_ref() {
+                usage::validate_frozen_usage_snapshot(root, usage)?;
             }
         } else if name == "intelligence" {
             let value: serde_json::Value =

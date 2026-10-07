@@ -1,6 +1,7 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    RuntimeContext, UsageAssurance, UsageCoverage, UsageRecordRequest, UsageSourceKind, UsageUnit,
+    RuntimeContext, UsageAssurance, UsageCoverage, UsageReceipt, UsageRecordRequest,
+    UsageSourceKind, UsageUnit,
 };
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
@@ -74,6 +75,168 @@ fn request(root: &std::path::Path, id: &str, event: &str) -> UsageRecordRequest 
         evidence_ref: ".ai/evidence/source-usage.json".into(),
         evidence_digest: Digest::sha256_bytes(bytes),
     }
+}
+
+fn finish_with_usage(root: &std::path::Path, id: &str) -> String {
+    start(root, id);
+    record_work_item_usage(root, &request(root, id, "turn-before-finish"), &runtime())
+        .expect("record before finish");
+    let contract = root.join(format!(".ai/work-items/active/{id}.contract.json"));
+    preflight_work_item(root, &contract).expect("preflight");
+    checkpoint_work_item(root, id).expect("checkpoint");
+    record_verification(
+        root,
+        id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "1.0.1-test",
+        &Digest::sha256_bytes(b"usage test runtime"),
+    )
+    .expect("verification");
+    finish_work_item(root, id).expect("finish");
+    read_work_item_usage(root, id, None)
+        .expect("finish usage")
+        .receipt_refs[0]
+        .path
+        .clone()
+}
+
+#[test]
+fn received_at_tampering_is_rejected_before_cutoff_filtering() {
+    let root = repository();
+    let id = "WI-USAGE-TIME-TAMPER";
+    start(root.path(), id);
+    record_work_item_usage(root.path(), &request(root.path(), id, "turn-1"), &runtime())
+        .expect("record usage");
+    let reference = read_work_item_usage(root.path(), id, None)
+        .expect("query original")
+        .receipt_refs[0]
+        .path
+        .clone();
+    let path = root.path().join(reference);
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).expect("receipt bytes")).expect("receipt JSON");
+    receipt["receivedAt"] = "2999-01-01T00:00:00Z".into();
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&receipt).expect("tampered JSON"),
+    )
+    .expect("tamper receivedAt");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("receivedAt is bound to the receipt identity before cutoff");
+    assert!(
+        error.to_string().contains("usage receipt binding"),
+        "{error}"
+    );
+}
+
+#[test]
+fn removed_finish_receipt_is_invalid_evidence_not_absent_usage() {
+    let root = repository();
+    let id = "WI-USAGE-REMOVED-FINISH";
+    let reference = finish_with_usage(root.path(), id);
+    fs::remove_file(root.path().join(&reference)).expect("remove bound receipt");
+    let query_error = read_work_item_usage(root.path(), id, None)
+        .expect_err("missing frozen receipt is not no_usage_receipts");
+    assert!(
+        query_error.to_string().contains("frozen usage"),
+        "{query_error}"
+    );
+    let archive_error = archive_work_item(root.path(), id)
+        .expect_err("archive cannot preserve a report with missing bound usage");
+    assert!(
+        archive_error.to_string().contains("frozen usage"),
+        "{archive_error}"
+    );
+}
+
+#[test]
+fn rebound_future_receipt_cannot_escape_the_frozen_finish_cutoff() {
+    let root = repository();
+    let id = "WI-USAGE-FUTURE-REBOUND";
+    let reference = finish_with_usage(root.path(), id);
+    let path = root.path().join(reference);
+    let mut receipt: UsageReceipt =
+        serde_json::from_slice(&fs::read(&path).expect("receipt bytes")).expect("receipt");
+    receipt.received_at = "2999-01-01T00:00:00Z".into();
+    receipt.receipt_id = Digest::sha256_bytes(
+        &serde_json::to_vec(&(
+            receipt.schema_version,
+            &receipt.request,
+            &receipt.received_at,
+            &receipt.source_observed_at,
+            receipt.model_assurance,
+            receipt.token_assurance,
+        ))
+        .expect("receipt binding"),
+    );
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("rebind altered receipt");
+    let error = read_work_item_usage(root.path(), id, None)
+        .expect_err("future receipt cannot disappear behind an old cutoff");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+    let error = archive_work_item(root.path(), id)
+        .expect_err("archive must reject a shifted finish receipt");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+}
+
+#[test]
+fn removed_archived_receipt_blocks_close_without_rewriting_archive() {
+    let root = repository();
+    let id = "WI-USAGE-REMOVED-ARCHIVE";
+    let reference = finish_with_usage(root.path(), id);
+    archive_work_item(root.path(), id).expect("archive intact usage");
+    let archive_path = root
+        .path()
+        .join(format!(".ai/work-items/archive/{id}.task-report.json"));
+    let archive_bytes = fs::read(&archive_path).expect("frozen report");
+    fs::remove_file(root.path().join(&reference)).expect("remove receipt after archive");
+    let error = close_work_item_with_decision(root.path(), id, "approved")
+        .expect_err("close cannot turn missing bound usage into empty totals");
+    assert!(error.to_string().contains("frozen usage"), "{error}");
+    assert_eq!(
+        fs::read(&archive_path).expect("archive bytes"),
+        archive_bytes
+    );
+}
+
+#[cfg(windows)]
+#[test]
+fn windows_usage_directory_probe_reads_regular_child_handle() {
+    let root = repository();
+    let id = "WI-USAGE-WINDOWS-PROBE";
+    start(root.path(), id);
+    fs::create_dir_all(root.path().join(".ai/evidence/usage")).expect("ordinary usage directory");
+    assert_eq!(
+        read_work_item_usage(root.path(), id, None)
+            .expect("read regular usage directory")
+            .coverage,
+        UsageCoverage::Unknown
+    );
+    record_work_item_usage(root.path(), &request(root.path(), id, "turn-1"), &runtime())
+        .expect("record through regular directory");
+    assert_eq!(
+        read_work_item_usage(root.path(), id, None)
+            .expect("read appended receipt")
+            .receipt_refs
+            .len(),
+        1
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn usage_directory_probe_rejects_symlink_without_following_target() {
+    let root = repository();
+    let outside = tempfile::tempdir().expect("outside directory");
+    std::os::unix::fs::symlink(outside.path(), root.path().join(".ai/evidence/usage"))
+        .expect("usage directory symlink");
+    let error = read_work_item_usage(root.path(), "WI-USAGE-LINK", None)
+        .expect_err("usage reader must not traverse symlinked directory");
+    assert!(error.to_string().contains("usage"), "{error}");
+    assert!(outside.path().is_dir());
 }
 
 #[test]

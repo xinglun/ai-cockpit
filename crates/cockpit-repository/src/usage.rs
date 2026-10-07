@@ -4,14 +4,15 @@ use super::{
     read_cap_file_nofollow_bounded, reject_duplicate_json_keys, repository_id,
     require_current_action_admission, validate_work_item_id,
 };
-use cap_fs_ext::OpenOptionsFollowExt;
+use cap_fs_ext::{DirExt, OpenOptionsFollowExt};
 use cap_std::ambient_authority;
 use cap_std::fs::Dir;
 use chrono::{DateTime, SecondsFormat, Utc};
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    RuntimeContext, USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageReceipt,
-    UsageReceiptRef, UsageRecordRequest, UsageSubtotal, UsageSummary, UsageTokenCounts,
+    RuntimeContext, TaskOutcomeReport, USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage,
+    UsageReceipt, UsageReceiptRef, UsageRecordRequest, UsageSubtotal, UsageSummary,
+    UsageTokenCounts,
 };
 use std::collections::BTreeMap;
 use std::fs;
@@ -106,8 +107,19 @@ fn usage_directory(root: &Path, create: bool) -> Result<Option<Dir>, ObserverErr
     if create {
         return create_and_open_cap_directory(&evidence, "usage", &path).map(Some);
     }
-    match evidence.symlink_metadata("usage") {
-        Ok(_) => open_cap_directory_nofollow_strict(&evidence, "usage", &path).map(Some),
+    match evidence.open_dir_nofollow("usage") {
+        Ok(directory) => {
+            let metadata = directory
+                .dir_metadata()
+                .map_err(|source| read_error(&path, source))?;
+            if !metadata.is_dir() || metadata.file_type().is_symlink() {
+                return Err(state_error(
+                    &path,
+                    "usage directory is not a regular directory",
+                ));
+            }
+            Ok(Some(directory))
+        }
         Err(error) if error.kind() == ErrorKind::NotFound => Ok(None),
         Err(source) => Err(read_error(&path, source)),
     }
@@ -189,6 +201,18 @@ fn receipt_assurance(request: &UsageRecordRequest) -> (UsageAssurance, UsageAssu
     )
 }
 
+fn receipt_identity(receipt: &UsageReceipt) -> Digest {
+    let binding = (
+        receipt.schema_version,
+        &receipt.request,
+        &receipt.received_at,
+        &receipt.source_observed_at,
+        receipt.model_assurance,
+        receipt.token_assurance,
+    );
+    Digest::sha256_bytes(&serde_json::to_vec(&binding).expect("usage receipt binding serializes"))
+}
+
 fn receipt_records(
     root: &Path,
     usage: &Dir,
@@ -245,10 +269,7 @@ fn receipt_records(
                 || request.repository_id != repository_id(root).to_string()
                 || request.work_item_id != name
                 || receipt_name(request) != file_name
-                || receipt.receipt_id
-                    != Digest::sha256_bytes(
-                        &serde_json::to_vec(request).expect("usage request serializes"),
-                    )
+                || receipt.receipt_id != receipt_identity(&receipt)
                 || DateTime::parse_from_rfc3339(&receipt.received_at).is_err()
                 || receipt.source_observed_at.is_some()
                 || request.source_observed_at.is_some()
@@ -270,6 +291,69 @@ fn receipt_records(
     }
     records.sort_by(|left, right| left.1.path.cmp(&right.1.path));
     Ok(records)
+}
+
+/// A finish report's receipt refs are a frozen claim about evidence already
+/// observed. Reconstruct that exact cutoff from immutable receipt files so a
+/// missing or time-shifted receipt cannot become "no usage collected".
+pub(super) fn validate_frozen_usage_snapshot(
+    root: &Path,
+    frozen: &UsageSummary,
+) -> Result<(), ObserverError> {
+    let observed =
+        query_work_item_usage_unchecked(root, &frozen.work_item_id, Some(&frozen.cutoff), None)?;
+    if observed.receipt_refs != frozen.receipt_refs {
+        return Err(state_error(
+            &root.join(format!(".ai/evidence/usage/{}", frozen.work_item_id)),
+            "frozen usage receipt refs are missing or changed",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_existing_frozen_usage_snapshots(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(), ObserverError> {
+    for phase in ["active", "archive"] {
+        let relative = format!(".ai/work-items/{phase}/{work_item_id}.task-report.json");
+        let path = root.join(&relative);
+        match fs::symlink_metadata(&path) {
+            Ok(metadata) if !metadata.is_file() => {
+                return Err(state_error(
+                    &path,
+                    "frozen usage report is not a regular file",
+                ));
+            }
+            Ok(_) => {}
+            Err(error) if error.kind() == ErrorKind::NotFound => continue,
+            Err(source) => return Err(read_error(&path, source)),
+        }
+        let bytes = super::collaboration::read_registered_worktree_file_bounded(
+            root,
+            &relative,
+            MAX_USAGE_EVIDENCE_BYTES,
+        )
+        .map_err(|message| state_error(&path, message))?;
+        let report: TaskOutcomeReport = serde_json::from_slice(&bytes)
+            .map_err(|error| state_error(&path, format!("invalid frozen usage report: {error}")))?;
+        if report.work_item_id != work_item_id || report.bindings.work_item_id != work_item_id {
+            return Err(state_error(
+                &path,
+                "frozen usage report Work Item identity differs",
+            ));
+        }
+        if let Some(summary) = report.usage.as_ref() {
+            if summary.work_item_id != work_item_id {
+                return Err(state_error(
+                    &path,
+                    "frozen usage summary Work Item identity differs",
+                ));
+            }
+            validate_frozen_usage_snapshot(root, summary)?;
+        }
+    }
+    Ok(())
 }
 
 fn checked_sum(total: Option<u64>, next: Option<u64>, first: bool) -> Result<Option<u64>, ()> {
@@ -398,6 +482,7 @@ pub fn record_work_item_usage(
     }
     let _lifecycle_lock = acquire_lifecycle_lock(&root, &request.work_item_id)?;
     require_current_action_admission(&root, &request.work_item_id, "record_usage", runtime)?;
+    validate_existing_frozen_usage_snapshots(&root, &request.work_item_id)?;
     let evidence = super::collaboration::read_registered_worktree_file_bounded(
         &root,
         &request.evidence_ref,
@@ -435,17 +520,16 @@ pub fn record_work_item_usage(
             "mixed invocation and turn units could overlap within one Work Item",
         ));
     }
-    let prospective = UsageReceipt {
+    let mut prospective = UsageReceipt {
         schema_version: USAGE_SCHEMA_VERSION,
-        receipt_id: Digest::sha256_bytes(
-            &serde_json::to_vec(request).expect("validated usage request serializes"),
-        ),
+        receipt_id: Digest::sha256_bytes(b"pending usage receipt identity"),
         request: request.clone(),
         received_at: now_nanos(),
         source_observed_at: None,
         model_assurance: receipt_assurance(request).0,
         token_assurance: receipt_assurance(request).1,
     };
+    prospective.receipt_id = receipt_identity(&prospective);
     let mut candidate = records.clone();
     candidate.push((
         prospective.clone(),
@@ -493,6 +577,16 @@ pub fn query_work_item_usage(
         return Err(state_error(root, "reported model filter is empty"));
     }
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
+    validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
+    query_work_item_usage_unchecked(&root, work_item_id, cutoff, reported_model)
+}
+
+fn query_work_item_usage_unchecked(
+    root: &Path,
+    work_item_id: &str,
+    cutoff: Option<&str>,
+    reported_model: Option<&str>,
+) -> Result<UsageSummary, ObserverError> {
     let Some(usage) = usage_directory(&root, false)? else {
         let cutoff = cutoff.map(str::to_owned).unwrap_or_else(now_nanos);
         DateTime::parse_from_rfc3339(&cutoff)
@@ -520,6 +614,7 @@ pub fn read_work_item_usage_receipts(
 ) -> Result<Vec<UsageReceipt>, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| read_error(root, source))?;
+    validate_existing_frozen_usage_snapshots(&root, work_item_id)?;
     let cutoff = cutoff.map(str::to_owned).unwrap_or_else(now_nanos);
     let cutoff_time = DateTime::parse_from_rfc3339(&cutoff)
         .map_err(|_| state_error(&root, "usage cutoff must be RFC3339 with offset"))?;
