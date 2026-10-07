@@ -15,6 +15,8 @@ use std::io::Read;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+use std::sync::Arc;
 #[cfg(unix)]
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
@@ -715,8 +717,6 @@ pub enum TestCompletedWorktreeObservation {
 #[doc(hidden)]
 pub fn run_composition_with_test_completed_worktree_observation(
     input: CompositionInput,
-    process_admission_check: ProcessAdmissionCheck,
-    process_start_gate: ProcessStartGate,
     receipt: CompositionSupervisorReceipt,
     observation: TestCompletedWorktreeObservation,
 ) -> Result<CompositionAttempt, CompositionError> {
@@ -724,6 +724,11 @@ pub fn run_composition_with_test_completed_worktree_observation(
     let final_observation = match observation {
         TestCompletedWorktreeObservation::KnownEmpty => FinalWorktreeObservation::KnownEmpty,
     };
+    // This fixed test fixture keeps every verifier on the normal admission
+    // and ProcessStartGate call path. The observation interface cannot accept
+    // caller-provided gates, admission results, observers, or reapers.
+    let process_admission_check: ProcessAdmissionCheck = Arc::new(|_, accept| accept());
+    let process_start_gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
     run_composition_inner_with_observer(
         input,
         Some(process_admission_check),

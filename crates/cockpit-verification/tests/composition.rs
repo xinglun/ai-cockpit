@@ -63,6 +63,17 @@ fn run_composition_with_pure_cache_test_supervisor(
     )
 }
 
+#[cfg(target_os = "linux")]
+#[test]
+fn pure_cache_observation_interface_cannot_supply_admission_or_start_gate() {
+    let _: fn(
+        CompositionInput,
+        CompositionSupervisorReceipt,
+        TestCompletedWorktreeObservation,
+    ) -> Result<CompositionAttempt, CompositionError> =
+        run_composition_with_test_completed_worktree_observation;
+}
+
 fn run_composition_with_named_test_supervisor(
     input: CompositionInput,
     helper_name: &str,
@@ -171,8 +182,6 @@ fn run_composition_supervisor_test_helper(pure_cache: bool) {
         {
             run_composition_with_test_completed_worktree_observation(
                 input,
-                admission_check,
-                process_start_gate,
                 receipt,
                 TestCompletedWorktreeObservation::KnownEmpty,
             )
