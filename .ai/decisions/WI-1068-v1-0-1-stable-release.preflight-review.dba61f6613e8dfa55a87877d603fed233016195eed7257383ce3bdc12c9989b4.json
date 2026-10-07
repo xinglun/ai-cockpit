@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Recorded by agent:Codex under the user's explicit delegation. Source: official user_message.read_messages result verified for author_id user-1lSz36PWE5SpWu8hYO6DjdOp, message_id Sentinel_d6bd161070808191a1242446744ba8bb, request_id 62b0d52f-6330-4d1f-914d-ed3abb3ae1b2, sent_at 2026-10-07T14:45:36.949378+00:00. The user's reply was 1 to the immediately preceding prompt confirming this exact Contract digest sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c. The recording actor is agent:Codex; this does not attribute the agent as the human decision-maker.",
+  "recordedAt": "2026-10-07T14:47:47Z",
+  "recordedBy": "agent:Codex (/root)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0d075b2bb0cf188963d88821ca18e6718dc2c7c20253270de2daeadb383b9a9c",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

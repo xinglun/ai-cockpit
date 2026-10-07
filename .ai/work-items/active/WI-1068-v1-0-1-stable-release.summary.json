@@ -606,20 +606,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+      "reason": "Correct the previously omitted protocol-writer scope path and declare the bounded Git snapshot implementation and test paths for Stage 1. Keep material-review opt-in absent, leave acceptance criteria unchanged, and retain the unique verification command cargo test --locked --workspace. Preserve the earlier omission as history; this amendment does not retroactively authorize the prior edit.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T12:51:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0d075b2bb0cf188963d88821ca18e6718dc2c7c20253270de2daeadb383b9a9c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+    "contractDigest": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "human:Ray selected option 1 (agree to Stage1) at 2026-10-07T11:29:26Z, message Sentinel_33d399e9bb3481919056b7d62ed59d0c, in response to agent:Raydot exact WI-1068 Contract request at 2026-10-07T11:27:38Z, message Sentinel_7fa2d27afc0c81918feb71bd38c7fc27, naming Contract sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea. The request disclosed Stage1 permits implementation but does not activate Unknown discharge, Stage2 requires a separate exact confirmation, reviewer identity assurance is self_declared, and malicious content, scope failures and test failures remain blocking. This is a user-stated human:Ray bounded plan-review decision relayed by the parent thread, not independently host-authenticated identity. The controls call is recorded by agent:Codex (/root); this receipt does not certify tests, source review, Stage2 opt-in, or release.",
-    "recordedAt": "2026-10-07T11:30:35Z",
+    "reason": "Recorded by agent:Codex under the user's explicit delegation. Source: official user_message.read_messages result verified for author_id user-1lSz36PWE5SpWu8hYO6DjdOp, message_id Sentinel_d6bd161070808191a1242446744ba8bb, request_id 62b0d52f-6330-4d1f-914d-ed3abb3ae1b2, sent_at 2026-10-07T14:45:36.949378+00:00. The user's reply was 1 to the immediately preceding prompt confirming this exact Contract digest sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c. The recording actor is agent:Codex; this does not attribute the agent as the human decision-maker.",
+    "recordedAt": "2026-10-07T14:47:47Z",
     "recordedBy": "agent:Codex (/root)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
+    "repositorySnapshotDigest": "sha256:0d075b2bb0cf188963d88821ca18e6718dc2c7c20253270de2daeadb383b9a9c",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -631,10 +651,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T11:25:05Z",
-  "preflightContractDigest": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+  "preflightAt": "2026-10-07T18:29:34Z",
+  "preflightContractDigest": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
+  "preflightRepositorySnapshotDigest": "sha256:2a6a5b779974a10d750c03ab1d34ee393b6a7e772f1e76fcf9ea8b71bca56095",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -1007,7 +1027,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T11:30:45.652072291+00:00",
+  "updatedAt": "2026-10-07T14:48:07.677535234+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -1067,9 +1087,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+    "contractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-07T11:24:55Z"
+    "recordedAt": "2026-10-07T12:51:48Z"
   },
   "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
   "workItemId": "WI-1068-v1-0-1-stable-release"
