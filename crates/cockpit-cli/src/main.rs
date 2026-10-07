@@ -2846,14 +2846,14 @@ fn run() -> Result<()> {
             } => {
                 require_compatible(&repo, &runtime_context)?;
                 let filters: cockpit_protocol::AuditQueryFilters = filters.into();
-                let value = if filters == cockpit_protocol::AuditQueryFilters::default() {
-                    serde_json::to_value(
-                        cockpit_repository::export_audit_events(&repo, &runtime_context)
+                let bytes = if filters == cockpit_protocol::AuditQueryFilters::default() {
+                    serde_json::to_vec_pretty(
+                        &cockpit_repository::export_audit_events(&repo, &runtime_context)
                             .context("export audit events")?,
                     )?
                 } else {
-                    serde_json::to_value(
-                        cockpit_repository::export_audit_events_filtered(
+                    serde_json::to_vec_pretty(
+                        &cockpit_repository::export_audit_events_filtered(
                             &repo,
                             &runtime_context,
                             &filters,
@@ -2862,7 +2862,6 @@ fn run() -> Result<()> {
                     )?
                 };
                 if let Some(output) = output {
-                    let bytes = serde_json::to_vec_pretty(&value)?;
                     if let Some(parent) = output.parent() {
                         std::fs::create_dir_all(parent).context("create audit export parent")?;
                     }
@@ -2899,7 +2898,7 @@ fn run() -> Result<()> {
                         Err(error) => return Err(error).context("create audit export"),
                     }
                 }
-                println!("{}", serde_json::to_string_pretty(&value)?);
+                println!("{}", String::from_utf8(bytes)?);
             }
         },
         CommandKind::WorkItem { command } => match command {

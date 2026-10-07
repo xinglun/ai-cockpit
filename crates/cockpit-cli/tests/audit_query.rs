@@ -213,6 +213,38 @@ fn filtered_export_preserves_legacy_wire_and_output_conflict() {
 }
 
 #[test]
+fn unfiltered_export_accepts_existing_schema_one_bytes() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let root = fixture();
+    let repo = root.path().to_str().expect("repo");
+    let legacy_manifest = cockpit_repository::export_audit_events(root.path(), &runtime(binary))
+        .expect("existing schema-one manifest");
+    let legacy_bytes = serde_json::to_vec_pretty(&legacy_manifest)
+        .expect("pre-feature typed manifest serialization");
+    let output = root.path().join("existing-schema-one.json");
+    fs::write(&output, &legacy_bytes).expect("existing export bytes");
+
+    let result = Command::new(binary)
+        .args([
+            "audit",
+            "export",
+            "--repo",
+            repo,
+            "--output",
+            output.to_str().expect("output"),
+        ])
+        .output()
+        .expect("repeat unfiltered export");
+    assert!(
+        result.status.success(),
+        "{}",
+        String::from_utf8_lossy(&result.stderr)
+    );
+    assert_eq!(fs::read(output).expect("preserved export"), legacy_bytes);
+    assert_eq!(result.stdout, [legacy_bytes, b"\n".to_vec()].concat());
+}
+
+#[test]
 fn audit_help_and_mcp_initialize_expose_only_public_query_surface() {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     for args in [

@@ -478,6 +478,11 @@ fn legacy_closed_report_without_usage_fields_remains_readable() {
     )
     .expect("make pre-usage report shape");
     archive_work_item(root.path(), id).expect("archive legacy shape");
+    let archived_report_path = root
+        .path()
+        .join(format!(".ai/work-items/archive/{id}.task-report.json"));
+    let archived_historical_bytes =
+        fs::read(&archived_report_path).expect("archived historical report bytes");
     close_work_item_with_decision(root.path(), id, "approved").expect("close");
     let path = root.path().join(format!(".ai/decisions/{id}.close.json"));
     let mut close: serde_json::Value =
@@ -504,6 +509,10 @@ fn legacy_closed_report_without_usage_fields_remains_readable() {
     assert_eq!(summary.coverage, UsageCoverage::Unknown);
     assert_eq!(summary.unknown_reasons, ["no_usage_receipts"]);
     assert_eq!(summary.totals.input_tokens, None);
+    assert_eq!(
+        fs::read(&archived_report_path).expect("unchanged archived historical report"),
+        archived_historical_bytes
+    );
     close["finalReportDigest"] = Digest::sha256_bytes(b"wrong historical report")
         .to_string()
         .into();
