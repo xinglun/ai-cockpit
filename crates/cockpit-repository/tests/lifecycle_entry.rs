@@ -1935,6 +1935,7 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
         "pub fn value() -> u8 { 2 }\n",
     )
     .expect("source mutation");
+    commit_fixture_baseline(directory.path());
     let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("stale evidence is a yellow preflight result");
     assert_eq!(preflight.state, DecisionState::Yellow);
