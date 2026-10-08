@@ -23,18 +23,29 @@ use std::sync::{Arc, Mutex, mpsc};
 use std::time::{Duration, Instant};
 
 static NEXT_TEMP_DIR: AtomicU64 = AtomicU64::new(0);
+const RETAINED_UNKNOWN_OWNER_MANIFEST: &str = ".ai-cockpit-retained-unknown-owner.json";
 
-struct TempDir(PathBuf);
+struct TempDir {
+    path: PathBuf,
+    preserve_on_drop: bool,
+}
 
 impl TempDir {
     fn path(&self) -> &Path {
-        &self.0
+        &self.path
+    }
+
+    fn preserve(&mut self) {
+        self.preserve_on_drop = true;
     }
 }
 
 impl Drop for TempDir {
     fn drop(&mut self) {
-        let _ = fs::remove_dir_all(&self.0);
+        if self.preserve_on_drop || self.path.join(RETAINED_UNKNOWN_OWNER_MANIFEST).exists() {
+            return;
+        }
+        let _ = fs::remove_dir_all(&self.path);
     }
 }
 
@@ -45,7 +56,193 @@ fn tempdir(label: &str) -> TempDir {
         std::process::id()
     ));
     fs::create_dir_all(&path).expect("temp directory");
-    TempDir(path)
+    TempDir {
+        path,
+        preserve_on_drop: false,
+    }
+}
+
+fn preserve_unknown_fixture_owners(
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+    attempt_id: &str,
+    worktree: &Path,
+    failure: Option<&str>,
+) {
+    repository.preserve();
+    state.preserve();
+
+    let manifest = serde_json::json!({
+        "schemaVersion": 1,
+        "reason": "unknown_retained_composition_attempt",
+        "testName": test_name,
+        "attemptId": attempt_id,
+        "executionOutcome": "unknown",
+        "cleanupDisposition": "retained",
+        "repositoryPath": repository.path().display().to_string(),
+        "statePath": state.path().display().to_string(),
+        "worktreePath": worktree.display().to_string(),
+        "attemptRecordPath": attempt_record_path(state.path(), attempt_id)
+            .display()
+            .to_string(),
+        "failure": failure,
+    });
+    let bytes = serde_json::to_vec_pretty(&manifest)
+        .expect("serialize real-observer retained-owner manifest");
+    eprintln!(
+        "preserving Unknown/Retained composition fixture: test={} attempt={} repository={} state={} worktree={} manifest={}",
+        test_name,
+        attempt_id,
+        repository.path().display(),
+        state.path().display(),
+        worktree.display(),
+        state.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST).display(),
+    );
+    fs::write(
+        repository.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST),
+        &bytes,
+    )
+    .expect("write repository owner-retention manifest");
+    fs::write(state.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST), &bytes)
+        .expect("write state owner-retention manifest");
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn unknown_observer_fixture_owners_survive_assertion_unwind() {
+    let mut worktree_owner = tempdir("retained-unknown-worktree-owner");
+    worktree_owner.preserve();
+    let worktree_parent = worktree_owner.path().join("worktrees");
+    fs::create_dir_all(&worktree_parent).expect("create synthetic worktree parent");
+    let worktree = worktree_parent.join("composition");
+    let mut owner_paths = None;
+
+    let failure = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        let mut repository = repository();
+        let base = run(repository.path(), &["rev-parse", "HEAD"]);
+        let mut state = tempdir("retained-unknown-state");
+        run(
+            repository.path(),
+            &[
+                "worktree",
+                "add",
+                "--detach",
+                worktree.to_str().expect("utf8 worktree path"),
+                &base,
+            ],
+        );
+        let attempt = CompositionAttempt {
+            schema_version: 3,
+            attempt_id: "lifecycle-regression".into(),
+            binding: binding(&base, vec![base.clone(), base.clone()]),
+            identity: identity("lifecycle-regression"),
+            preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+            isolated_worktree: worktree.display().to_string(),
+            text_conflicts: Vec::new(),
+            execution_records: vec![CompositionExecutionRecord {
+                node_id: "successful".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                identity_digest: digest("lifecycle-regression-node"),
+                spawned: true,
+                reused: false,
+                passed: true,
+                exit_code: Some(0),
+                termination_signal: None,
+                stdout: String::new(),
+                stderr: String::new(),
+                output_digest: digest("lifecycle-regression-output"),
+                timed_out: false,
+                predecessor_attempt_id: None,
+            }],
+            processes_spawned: 1,
+            reuse_decision: ReuseDecision {
+                kind: ReuseDecisionKind::Execute,
+                reason: "synthetic lifecycle regression".into(),
+                predecessor_attempt_id: None,
+            },
+            passed: false,
+            failure: Some(procfs_eacces_diagnostic(
+                "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)",
+                "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S)",
+            )),
+            execution_outcome: CompositionExecutionOutcome::Unknown,
+            execution_evidence_complete: false,
+            supervisor_receipt: None,
+            cleanup_disposition: CompositionCleanupDisposition::Retained,
+            owner_termination_signal: None,
+            cleanup: None,
+            recorded_at_unix_nanos: 0,
+            owner_pid: None,
+            process_observation_schema_version: 0,
+            active_execution_node: None,
+            active_process_group_id: None,
+            active_process_group_identity: None,
+            owned_tree_termination_unknown: true,
+        };
+        fs::write(
+            state.path().join(format!("{}.json", attempt.attempt_id)),
+            serde_json::to_vec_pretty(&attempt).expect("serialize synthetic Unknown attempt"),
+        )
+        .expect("persist synthetic Unknown attempt");
+        owner_paths = Some((repository.path().to_path_buf(), state.path().to_path_buf()));
+        assert_successful_unowned_execution_and_observation(&mut repository, &mut state, &attempt);
+        panic!("simulate a later assertion failure after the real assertion helper");
+    }));
+
+    assert!(failure.is_err(), "the simulated assertion must unwind");
+    let (repository_path, state_path) = owner_paths.expect("capture fixture owner paths");
+    assert!(
+        repository_path.is_dir(),
+        "repository owner must survive unwind"
+    );
+    assert!(state_path.is_dir(), "state owner must survive unwind");
+    assert!(worktree.is_dir(), "worktree must survive unwind");
+    assert!(
+        worktree_is_registered(&repository_path, &worktree),
+        "retained worktree must remain registered after unwind"
+    );
+    let attempt_path = attempt_record_path(&state_path, "lifecycle-regression");
+    assert!(
+        attempt_path.is_file(),
+        "durable Unknown attempt must survive"
+    );
+    for owner_path in [&repository_path, &state_path] {
+        let manifest: serde_json::Value = serde_json::from_slice(
+            &fs::read(owner_path.join(RETAINED_UNKNOWN_OWNER_MANIFEST))
+                .expect("retained owner manifest bytes"),
+        )
+        .expect("retained owner manifest JSON");
+        assert_eq!(
+            manifest["repositoryPath"],
+            repository_path.to_string_lossy().as_ref()
+        );
+        assert_eq!(manifest["statePath"], state_path.to_string_lossy().as_ref());
+        assert_eq!(manifest["attemptId"], "lifecycle-regression");
+        assert_eq!(
+            manifest["attemptRecordPath"],
+            attempt_path.to_string_lossy().as_ref()
+        );
+        assert_eq!(
+            manifest["worktreePath"],
+            worktree.to_string_lossy().as_ref()
+        );
+    }
+
+    // The synthetic retained worktree is test-owned and has no running child.
+    run(
+        &repository_path,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            worktree.to_str().expect("utf8 worktree path"),
+        ],
+    );
+    fs::remove_dir_all(&repository_path).expect("remove synthetic repository owner");
+    fs::remove_dir_all(&state_path).expect("remove synthetic state owner");
+    fs::remove_dir_all(worktree_owner.path()).expect("remove synthetic worktree owner");
 }
 
 fn run_composition_with_test_supervisor(
@@ -523,6 +720,10 @@ fn input(
 fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
     for entry in fs::read_dir(state_dir).expect("attempt state directory") {
         let path = entry.expect("attempt entry").path();
+        if path.file_name().and_then(|name| name.to_str()) == Some(RETAINED_UNKNOWN_OWNER_MANIFEST)
+        {
+            continue;
+        }
         if path.extension().is_none_or(|extension| extension != "json") {
             continue;
         }
@@ -704,10 +905,27 @@ fn process_start_gate_rejection_is_persisted_without_running_the_node() {
 }
 
 fn assert_successful_unowned_execution_and_observation(
-    root: &Path,
-    state: &Path,
+    root: &mut TempDir,
+    state: &mut TempDir,
     attempt: &CompositionAttempt,
 ) -> serde_json::Value {
+    if attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+    {
+        preserve_unknown_fixture_owners(
+            root,
+            state,
+            std::thread::current()
+                .name()
+                .unwrap_or("unknown-observer-test"),
+            &attempt.attempt_id,
+            Path::new(&attempt.isolated_worktree),
+            attempt.failure.as_deref(),
+        );
+    }
+
+    let root_path = root.path().to_path_buf();
+    let state_path = state.path().to_path_buf();
     assert!(attempt.supervisor_receipt.is_none());
     assert_eq!(attempt.processes_spawned, 1);
     assert_eq!(attempt.execution_records.len(), 1);
@@ -722,7 +940,8 @@ fn assert_successful_unowned_execution_and_observation(
 
     let value = serde_json::to_value(attempt).expect("serialize composition attempt");
     let persisted: serde_json::Value = serde_json::from_slice(
-        &fs::read(attempt_record_path(state, &attempt.attempt_id)).expect("durable attempt bytes"),
+        &fs::read(attempt_record_path(&state_path, &attempt.attempt_id))
+            .expect("durable attempt bytes"),
     )
     .expect("durable attempt JSON");
     assert_eq!(
@@ -747,7 +966,7 @@ fn assert_successful_unowned_execution_and_observation(
             assert!(cleanup.removed);
             assert!(cleanup.error.is_none());
             assert!(!worktree.exists());
-            assert!(!worktree_is_registered(root, worktree));
+            assert!(!worktree_is_registered(&root_path, worktree));
         }
         (Some("unknown"), Some("retained")) => {
             assert!(!attempt.passed);
@@ -760,7 +979,7 @@ fn assert_successful_unowned_execution_and_observation(
             #[cfg(not(target_os = "linux"))]
             panic!("only the exact Linux procfs cwd EACCES outcome is accepted: {failure}");
             assert!(worktree.is_dir(), "unknown worktree must be retained");
-            assert!(worktree_is_registered(root, worktree));
+            assert!(worktree_is_registered(&root_path, worktree));
         }
         outcome => panic!("unexpected execution/cleanup outcome: {outcome:?}; {attempt:?}"),
     }
@@ -769,9 +988,9 @@ fn assert_successful_unowned_execution_and_observation(
 
 #[test]
 fn composition_attempt_reports_execution_and_cleanup_separately() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("execution-cleanup-outcomes");
+    let mut state = tempdir("execution-cleanup-outcomes");
     let attempt = run_composition(input(
         root.path(),
         state.path(),
@@ -782,15 +1001,15 @@ fn composition_attempt_reports_execution_and_cleanup_separately() {
     .expect("composition attempt");
 
     let value =
-        assert_successful_unowned_execution_and_observation(root.path(), state.path(), &attempt);
+        assert_successful_unowned_execution_and_observation(&mut root, &mut state, &attempt);
     assert_eq!(value["schemaVersion"], 3);
 }
 
 #[test]
 fn execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable() {
-    let root = repository();
+    let mut root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("missing-supervisor-receipt");
+    let mut state = tempdir("missing-supervisor-receipt");
     let attempt = run_composition(input(
         root.path(),
         state.path(),
@@ -801,7 +1020,7 @@ fn execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable() {
     .expect("composition attempt");
 
     let _value =
-        assert_successful_unowned_execution_and_observation(root.path(), state.path(), &attempt);
+        assert_successful_unowned_execution_and_observation(&mut root, &mut state, &attempt);
     assert!(attempt.supervisor_receipt.is_none());
     assert!(!attempt.is_coherent_successful_terminal());
 }
@@ -2724,7 +2943,10 @@ fn retry_reconciles_zombie_only_verifier_process_group() {
         NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed)
     ));
     fs::create_dir(&worktree_parent).expect("create owned worktree parent");
-    let _worktree_parent = TempDir(worktree_parent.clone());
+    let _worktree_parent = TempDir {
+        path: worktree_parent.clone(),
+        preserve_on_drop: false,
+    };
     let worktree = worktree_parent.join("composition");
     run(
         root.path(),
