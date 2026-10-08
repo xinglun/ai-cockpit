@@ -1621,6 +1621,16 @@ fn work_item_status_snapshot_with_snapshot(
             actions.push("close_after_review".into());
         }
         actions
+    } else if material_projection_unavailable && !archived {
+        // Keep the preflight route available to record the material blocker,
+        // but do not let retry or supersede markers bypass an unavailable
+        // committed-source projection. This admits neither verification nor
+        // material-review recording.
+        vec![
+            "run_preflight".into(),
+            "resolve_blockers".into(),
+            "stop".into(),
+        ]
     } else if supersede_archive_ready {
         vec!["archive_when_reviewed".into()]
     } else if retry_recovery_pending {

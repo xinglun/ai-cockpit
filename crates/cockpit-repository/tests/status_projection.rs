@@ -10,8 +10,9 @@ use cockpit_repository::{
     preflight_work_item, preflight_work_item_with_runtime_report, record_recovery_decision,
     record_resource_finalization, record_verification, record_verification_with_runtime,
     record_work_item_governance_controls, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
-    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
+    require_current_action_admission, run_repository_verification, start_work_item,
+    start_work_item_with_options, work_item_status_index_with_runtime,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, path::PathBuf, process::Command};
@@ -1279,6 +1280,129 @@ fn status_rechecks_committed_contract_base_material_with_empty_worktree_diff() {
     assert!(preflight.material_manifest_digest.is_some());
     assert_eq!(preflight.review_receipt_digest, None);
     assert_eq!(preflight.review_assurance, None);
+}
+
+#[test]
+fn unavailable_material_projection_blocks_verification_even_with_pending_retry() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-STATUS-RETRY-MATERIAL-UNAVAILABLE";
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        root,
+        id,
+        "keep unavailable material fail-closed",
+        "a retry decision cannot authorize verification while committed material is unavailable",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    preflight_work_item(root, &contract_path).expect("preflight");
+    checkpoint_work_item(root, id).expect("checkpoint");
+
+    let repository_id = repository_id(root).to_string();
+    let outcome = json!({
+        "state": "blocked",
+        "workItemId": id,
+        "repositoryId": repository_id,
+        "failedGate": "finish.governance",
+        "recoveryCondition": "retry after restoring the lifecycle gate"
+    });
+    let outcome_path = active.join(format!("{id}.outcome.json"));
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&outcome).expect("outcome JSON"),
+    )
+    .expect("blocked outcome");
+    let events = format!(
+        "{{\"schemaVersion\":1,\"eventId\":\"{id}-blocked\",\"repositoryId\":\"{repository_id}\",\"workItemId\":\"{id}\",\"eventType\":\"blocked\",\"timestamp\":\"2026-08-23T00:00:00Z\",\"detail\":\"blocked for recovery\"}}\n"
+    );
+    let events_path = active.join(format!("{id}.events.jsonl"));
+    fs::write(&events_path, events.as_bytes()).expect("blocked event");
+
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let retry = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": id,
+        "repositoryId": repository_id,
+        "predecessorWorkItemId": id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(events.as_bytes()),
+        "runtimeVersion": current_runtime.runtime_version,
+        "runtimeDigest": current_runtime.runtime_digest,
+        "actor": "human:test-fixture",
+        "authoritySource": "repository-local test fixture",
+        "reason": "exercise retry admission while material projection is unavailable",
+        "evidenceRefs": [format!(".ai/work-items/active/{id}.outcome.json")],
+        "policyRefs": [],
+        "decidedAt": "2026-08-23T00:00:00Z",
+        "resumeCondition": "material projection is available and current preflight is recorded"
+    });
+    record_recovery_decision(root, id, &retry, &current_runtime).expect("record retry");
+
+    fs::write(root.join("README.md"), "uncommitted support change\n")
+        .expect("make committed-source material unavailable");
+    let status = work_item_status_snapshot_with_runtime(root, id, &current_runtime)
+        .expect("status with unavailable material projection");
+    assert!(
+        status
+            .blockers
+            .contains(&"material_review_projection_unavailable".into()),
+        "the material blocker must remain visible: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_preflight"),
+        "red preflight remains available to record the blocker: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "a pending retry must not bypass unavailable material: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "record_material_review_decision"),
+        "unavailable material must not admit a review decision: {status:#?}"
+    );
+    require_current_action_admission(root, id, "run_verification", &current_runtime)
+        .expect_err("verification must remain rejected");
+    require_current_action_admission(
+        root,
+        id,
+        "record_material_review_decision",
+        &current_runtime,
+    )
+    .expect_err("material-review recording must remain rejected");
+
+    let preflight = preflight_work_item_with_runtime_report(root, &contract_path, &current_runtime)
+        .expect("preflight can record the unresolved material blocker");
+    assert_eq!(preflight.decision.state, DecisionState::Red);
+    assert!(
+        preflight
+            .decision
+            .blockers
+            .contains(&"material_review_projection_unavailable".into())
+    );
 }
 
 #[test]
