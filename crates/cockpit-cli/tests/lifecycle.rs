@@ -1081,7 +1081,7 @@ fn in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escap
             .expect("failed lifecycle outcome is persisted"),
     )
     .expect("lifecycle outcome JSON");
-    assert_eq!(lifecycle_outcome["state"], "unknown");
+    assert_eq!(lifecycle_outcome["state"], "blocked");
     assert_eq!(lifecycle_outcome["decisionState"], "red");
     fs::write(
         repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"),
