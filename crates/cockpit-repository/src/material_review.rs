@@ -109,6 +109,13 @@ pub(crate) struct MaterialReviewGateProjection {
     pub review_decision_available: bool,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+enum MaterialReviewReceiptState {
+    Missing,
+    Current(MaterialInspectionReviewDecisionReceipt),
+    Stale,
+}
+
 #[derive(Debug, Error)]
 pub enum MaterialReviewRequestError {
     #[error("Git observation failed: {0}")]
@@ -1256,37 +1263,38 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
             message: format!("material-review projection unavailable: {error}"),
         })?;
     let blocked_by_finding = request.blocked_by_finding || !request.finding_codes.is_empty();
-    let receipt = match read_valid_material_review_receipt(
-        root,
-        contract,
-        contract_digest,
-        &request,
-        summary_path,
-    ) {
-        Ok(receipt) => receipt,
-        Err(_error) => {
-            let mut effective_unknowns = request.raw_unknown_codes.clone();
-            effective_unknowns.push("material_review_receipt_invalid".into());
-            effective_unknowns.sort();
-            effective_unknowns.dedup();
-            return Ok(MaterialReviewGateProjection {
-                raw_scanner_unknowns: request.raw_unknown_codes,
-                material_manifest_digest: Some(request.material_manifest_digest),
-                review_receipt_digest: None,
-                review_assurance: None,
-                effective_unknowns,
-                discharged_unknowns: Vec::new(),
-                finding_codes: request.finding_codes,
-                blocked_by_finding,
-                projection_unavailable: false,
-                review_decision_available: false,
-            });
-        }
-    };
+    let (receipt, stale_receipt) =
+        match read_material_review_receipt(root, contract, contract_digest, &request, summary_path)
+        {
+            Ok(MaterialReviewReceiptState::Missing) => (None, false),
+            Ok(MaterialReviewReceiptState::Current(receipt)) => (Some(receipt), false),
+            Ok(MaterialReviewReceiptState::Stale) => (None, true),
+            Err(_error) => {
+                let mut effective_unknowns = request.raw_unknown_codes.clone();
+                effective_unknowns.push("material_review_receipt_invalid".into());
+                effective_unknowns.sort();
+                effective_unknowns.dedup();
+                return Ok(MaterialReviewGateProjection {
+                    raw_scanner_unknowns: request.raw_unknown_codes,
+                    material_manifest_digest: Some(request.material_manifest_digest),
+                    review_receipt_digest: None,
+                    review_assurance: None,
+                    effective_unknowns,
+                    discharged_unknowns: Vec::new(),
+                    finding_codes: request.finding_codes,
+                    blocked_by_finding,
+                    projection_unavailable: false,
+                    review_decision_available: false,
+                });
+            }
+        };
     let mut effective_unknowns = request.raw_unknown_codes.clone();
     let has_reviewable_unknown = request.entries.iter().any(|entry| {
         entry.scanner_assessment == MaterialScannerAssessment::Unknown && entry.reviewable
     });
+    if stale_receipt && has_reviewable_unknown {
+        effective_unknowns.push("material_review_receipt_stale".into());
+    }
     let all_unknowns_reviewable = request.entries.iter().all(|entry| {
         entry.scanner_assessment != MaterialScannerAssessment::Unknown || entry.reviewable
     });
@@ -1416,13 +1424,13 @@ pub(crate) fn require_material_review_gate(
     Ok(projection)
 }
 
-fn read_valid_material_review_receipt(
+fn read_material_review_receipt(
     root: &Path,
     contract: &Contract,
     contract_digest: &Digest,
     request: &MaterialReviewRequest,
     summary_path: &Path,
-) -> Result<Option<MaterialInspectionReviewDecisionReceipt>, ObserverError> {
+) -> Result<MaterialReviewReceiptState, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.to_path_buf(),
         source,
@@ -1478,7 +1486,9 @@ fn read_valid_material_review_receipt(
         MAX_BOUNDED_GIT_OUTPUT_BYTES as u64,
     ) {
         Ok(bytes) => bytes,
-        Err(_error) if !summary_path.exists() => return Ok(None),
+        Err(_error) if !summary_path.exists() => {
+            return Ok(MaterialReviewReceiptState::Missing);
+        }
         Err(error) => return Err(error),
     };
     super::reject_duplicate_json_keys(&summary_bytes).map_err(|message| ObserverError::State {
@@ -1491,7 +1501,7 @@ fn read_valid_material_review_receipt(
             message: format!("invalid Summary JSON: {error}"),
         })?;
     let Some(pointer) = summary.get("materialReviewReceipt") else {
-        return Ok(None);
+        return Ok(MaterialReviewReceiptState::Missing);
     };
     let path = pointer.get("path").and_then(serde_json::Value::as_str);
     let file_digest = pointer.get("digest").and_then(serde_json::Value::as_str);
@@ -1501,27 +1511,31 @@ fn read_valid_material_review_receipt(
     let receipt_digest = pointer
         .get("receiptDigest")
         .and_then(serde_json::Value::as_str);
-    let request_hex = request
-        .request_digest
+    let pointer_request_digest = request_digest
+        .and_then(|digest| digest.parse::<Digest>().ok())
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "material-review Summary request digest is invalid".into(),
+        })?;
+    let request_hex = pointer_request_digest
         .as_str()
         .strip_prefix("sha256:")
         .ok_or_else(|| ObserverError::State {
             path: summary_path.to_path_buf(),
-            message: "canonical material-review request digest is invalid".into(),
+            message: "material-review Summary request digest is invalid".into(),
         })?;
     let sidecar_name = format!("{request_hex}.json");
     let expected_relative_path = format!(
         ".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{}/{sidecar_name}",
         contract.work_item_id
     );
-    if path != Some(expected_relative_path.as_str())
-        || request_digest != Some(request.request_digest.as_str())
-    {
+    if path != Some(expected_relative_path.as_str()) {
         return Err(ObserverError::State {
             path: summary_path.to_path_buf(),
-            message: "material-review Summary pointer does not bind the current request".into(),
+            message: "material-review Summary pointer path does not bind its request digest".into(),
         });
     }
+    let stale_request = pointer_request_digest != request.request_digest;
     let ai = open_cap_directory_nofollow_strict(&root_dir, ".ai", &root.join(".ai"))?;
     let evidence_path = root.join(".ai/evidence");
     let evidence = open_cap_directory_nofollow_strict(&ai, "evidence", &evidence_path)?;
@@ -1563,10 +1577,39 @@ fn read_valid_material_review_receipt(
             path: sidecar_path.clone(),
             message,
         })?;
-    if receipt_digest != Some(receipt.receipt_digest.as_str()) {
+    if receipt_digest != Some(receipt.receipt_digest.as_str())
+        || receipt.request_digest != pointer_request_digest
+        || receipt.work_item_id != contract.work_item_id
+        || receipt.repository_id != contract.repository_id
+    {
         return Err(ObserverError::State {
             path: summary_path.to_path_buf(),
-            message: "material-review receipt digest does not match Summary pointer".into(),
+            message: "material-review receipt identity or digest does not match Summary pointer"
+                .into(),
+        });
+    }
+    let current_profile = contract
+        .material_inspection_review_profile()
+        .map_err(|message| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: format!("current material-review profile is invalid: {message}"),
+        })?
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: "current Contract no longer enables material review".into(),
+        })?;
+    let current_profile_digest =
+        json_digest(&current_profile).map_err(|error| ObserverError::State {
+            path: summary_path.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    if receipt.contract_digest != *contract_digest
+        || receipt.profile_digest != current_profile_digest
+    {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review receipt is bound to a different current Contract/profile"
+                .into(),
         });
     }
     let reviewed_source_head =
@@ -1592,6 +1635,13 @@ fn read_valid_material_review_receipt(
             path: sidecar_path.clone(),
             message: "reviewed source head is not an ancestor of the current consumer head".into(),
         });
+    }
+    if stale_request {
+        // A valid receipt for an earlier exact request remains immutable
+        // history, but it cannot discharge the current request's Unknowns.
+        // A fresh decision may be recorded for the new request while keeping
+        // the old sidecar and pointer in Summary history.
+        return Ok(MaterialReviewReceiptState::Stale);
     }
     let input = MaterialInspectionReviewDecisionInput {
         schema_version: receipt.schema_version,
@@ -1624,7 +1674,7 @@ fn read_valid_material_review_receipt(
             message: "material-review receipt does not match current request or Contract".into(),
         });
     }
-    Ok(Some(receipt))
+    Ok(MaterialReviewReceiptState::Current(receipt))
 }
 
 /// Build the canonical read-only material-review request for one active Work
@@ -1786,11 +1836,48 @@ pub fn record_work_item_material_review(
             message: "Summary identity does not match material-review Work Item".into(),
         });
     }
-    if summary.get("materialReviewReceipt").is_some() {
-        return Err(ObserverError::State {
-            path: summary_path,
-            message: "material-review receipt is already recorded; replay is rejected".into(),
-        });
+    let prior_pointer = match read_material_review_receipt(
+        &root,
+        contract,
+        &document.digest,
+        &request,
+        &summary_path,
+    )? {
+        MaterialReviewReceiptState::Missing => None,
+        MaterialReviewReceiptState::Current(_) => {
+            return Err(ObserverError::State {
+                path: summary_path,
+                message: "material-review receipt is already recorded; replay is rejected".into(),
+            });
+        }
+        MaterialReviewReceiptState::Stale => Some(
+            summary
+                .get("materialReviewReceipt")
+                .cloned()
+                .ok_or_else(|| ObserverError::State {
+                    path: summary_path.clone(),
+                    message: "stale material-review receipt pointer disappeared".into(),
+                })?,
+        ),
+    };
+
+    let summary_object = summary
+        .as_object_mut()
+        .ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "Summary must be a JSON object".into(),
+        })?;
+    if let Some(previous_pointer) = prior_pointer.as_ref() {
+        let history = summary_object
+            .entry("materialReviewReceiptHistory")
+            .or_insert_with(|| serde_json::Value::Array(Vec::new()));
+        let history = history.as_array_mut().ok_or_else(|| ObserverError::State {
+            path: summary_path.clone(),
+            message: "material-review receipt history must be an array".into(),
+        })?;
+        if !history.contains(previous_pointer) {
+            history.push(previous_pointer.clone());
+        }
     }
 
     let evidence = material_review_work_item_directory(&root, work_item_id, true)?;
@@ -1798,23 +1885,6 @@ pub fn record_work_item_material_review(
         .join(".ai/evidence")
         .join(MATERIAL_REVIEW_EVIDENCE_DIRECTORY)
         .join(work_item_id);
-    let mut existing_entries = evidence
-        .read_dir(".")
-        .map_err(|source| ObserverError::Read {
-            path: evidence_path.clone(),
-            source,
-        })?;
-    if let Some(entry) = existing_entries.next() {
-        entry.map_err(|source| ObserverError::Read {
-            path: evidence_path.clone(),
-            source,
-        })?;
-        return Err(ObserverError::State {
-            path: evidence_path,
-            message: "existing material-review sidecar blocks replay or conflicting evidence"
-                .into(),
-        });
-    }
     let request_hex = request
         .request_digest
         .as_str()
@@ -1830,21 +1900,9 @@ pub fn record_work_item_material_review(
             path: sidecar_path.clone(),
             message: error.to_string(),
         })?;
-    super::usage::write_immutable_sidecar(
-        &evidence,
-        &evidence_name,
-        &sidecar_path,
-        &sidecar_bytes,
-    )?;
     let receipt_file_digest = Digest::sha256_bytes(&sidecar_bytes);
     let relative_sidecar_path =
         format!(".ai/evidence/{MATERIAL_REVIEW_EVIDENCE_DIRECTORY}/{work_item_id}/{evidence_name}");
-    let summary_object = summary
-        .as_object_mut()
-        .ok_or_else(|| ObserverError::State {
-            path: summary_path.clone(),
-            message: "Summary must be a JSON object".into(),
-        })?;
     summary_object.insert(
         "materialReviewReceipt".into(),
         serde_json::json!({
@@ -1854,6 +1912,12 @@ pub fn record_work_item_material_review(
             "receiptDigest": receipt.receipt_digest,
         }),
     );
+    super::usage::write_immutable_sidecar(
+        &evidence,
+        &evidence_name,
+        &sidecar_path,
+        &sidecar_bytes,
+    )?;
     super::atomic_json(&active_path.join(summary_name), &summary)?;
     Ok(receipt)
 }

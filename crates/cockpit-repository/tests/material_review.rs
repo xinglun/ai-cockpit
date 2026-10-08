@@ -7,7 +7,11 @@ use cockpit_repository::{
     material_review_request, plan_work_item_material_review, validate_material_review_decision,
 };
 use serde_json::json;
-use std::{fs, path::Path, process::Command};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 fn review_runtime() -> cockpit_protocol::RuntimeContext {
     cockpit_protocol::RuntimeContext {
@@ -83,6 +87,72 @@ fn commit(root: &Path) {
             "candidate",
         ],
     );
+}
+
+fn active_recorded_material_review_fixture() -> (
+    tempfile::TempDir,
+    cockpit_protocol::RuntimeContext,
+    PathBuf,
+    PathBuf,
+    PathBuf,
+    MaterialInspectionReviewDecisionInput,
+) {
+    let (directory, mut contract, _initial_request, mut input) = material_review_decision_fixture();
+    let root = directory.path();
+    cockpit_repository::attach(root).expect("attach fixture");
+    contract.repository_id = cockpit_repository::repository_id(root).to_string();
+    let project: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
+    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
+    let active = root.join(".ai/work-items/active");
+    fs::create_dir_all(&active).expect("active directory");
+    let contract_path = active.join("WI-MATERIAL.contract.json");
+    let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
+    persisted_contract["predecessorWorkItemId"] = serde_json::Value::Null;
+    persisted_contract["predecessorContractDigest"] = serde_json::Value::Null;
+    persisted_contract["recoveryDecisionPath"] = serde_json::Value::Null;
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
+    )
+    .expect("write active Contract");
+    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("initial request");
+    input.request_digest = request.request_digest.clone();
+    let summary_path = active.join("WI-MATERIAL.summary.json");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&json!({
+            "workItemId": "WI-MATERIAL",
+            "state": "implementation_active",
+            "checkpointCount": 0,
+            "createdAt": "2026-10-07T00:00:00Z"
+        }))
+        .expect("Summary JSON"),
+    )
+    .expect("write active Summary");
+    let runtime = review_runtime();
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+        .expect("fresh preflight");
+    let receipt =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect("initial typed material-review receipt");
+    assert_eq!(receipt.request_digest, request.request_digest);
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
+            .expect("Summary JSON");
+    let sidecar_path = root.join(
+        summary["materialReviewReceipt"]["path"]
+            .as_str()
+            .expect("receipt sidecar path"),
+    );
+    (
+        directory,
+        runtime,
+        contract_path,
+        summary_path,
+        sidecar_path,
+        input,
+    )
 }
 
 #[test]
@@ -580,6 +650,94 @@ fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer()
             .contains(&"repository_material_inspection_unavailable".into())
     );
 
+    let old_pointer = pointer["materialReviewReceipt"].clone();
+    let old_sidecar_path = root.join(old_pointer["path"].as_str().unwrap());
+    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
+    fs::write(
+        root.join("README.md"),
+        "candidate with refreshed material identity\n",
+    )
+    .expect("change source snapshot");
+    commit(root);
+    let refreshed_request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("refreshed request");
+    assert_ne!(refreshed_request.request_digest, request.request_digest);
+    let refreshed_preflight =
+        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight the new committed source candidate");
+    assert!(
+        refreshed_preflight
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    let stale_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status with stale prior-request receipt");
+    assert!(
+        stale_status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "a valid prior receipt must allow a new exact-request decision without discharging the new Unknown: {stale_status:#?}"
+    );
+    assert!(
+        stale_status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        stale_status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+
+    let mut refreshed_input = input.clone();
+    refreshed_input.request_digest = refreshed_request.request_digest.clone();
+    let refreshed_receipt = cockpit_repository::record_work_item_material_review(
+        root,
+        "WI-MATERIAL",
+        &refreshed_input,
+        &runtime,
+    )
+    .expect("record the new exact-request receipt");
+    assert_eq!(
+        refreshed_receipt.request_digest,
+        refreshed_request.request_digest
+    );
+    assert_eq!(
+        fs::read(&old_sidecar_path).expect("preserved old sidecar"),
+        old_sidecar_bytes,
+        "the previous immutable receipt must remain unchanged"
+    );
+    let refreshed_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("refreshed Summary"))
+            .expect("Summary JSON");
+    assert_eq!(
+        refreshed_summary["materialReviewReceiptHistory"],
+        json!([old_pointer]),
+        "Summary keeps the prior receipt pointer in append-only history"
+    );
+    assert_ne!(
+        refreshed_summary["materialReviewReceipt"]["requestDigest"],
+        old_pointer["requestDigest"]
+    );
+    let refreshed_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after refreshed receipt");
+    assert_eq!(
+        refreshed_status.review_receipt_digest,
+        Some(refreshed_receipt.receipt_digest.clone())
+    );
+    assert!(
+        !refreshed_status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        !refreshed_status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+
     git(
         root,
         &["checkout", "--orphan", "non-ancestor-material-review"],
@@ -612,6 +770,269 @@ fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer()
             .effective_unknowns
             .contains(&"material_review_projection_unavailable".into())
     );
+}
+
+#[test]
+fn stale_material_review_receipt_requires_valid_prior_sidecar() {
+    for tamper in ["corrupt", "wrong_identity", "missing_file"] {
+        let (directory, runtime, contract_path, summary_path, sidecar_path, mut input) =
+            active_recorded_material_review_fixture();
+        let root = directory.path();
+        fs::write(root.join("README.md"), "new source request\n").expect("source change");
+        commit(root);
+        let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
+        input.request_digest = request.request_digest.clone();
+
+        match tamper {
+            "corrupt" => fs::write(&sidecar_path, b"{corrupt receipt").expect("corrupt sidecar"),
+            "wrong_identity" => {
+                let mut receipt: MaterialInspectionReviewDecisionReceipt =
+                    serde_json::from_slice(&fs::read(&sidecar_path).expect("old sidecar"))
+                        .expect("old receipt");
+                receipt.repository_id =
+                    cockpit_core::Digest::sha256_bytes(b"foreign repository").to_string();
+                receipt.receipt_digest = receipt.canonical_digest().expect("receipt digest");
+                let bytes = serde_json::to_vec_pretty(&receipt).expect("forged receipt bytes");
+                fs::write(&sidecar_path, &bytes).expect("write resealed foreign receipt");
+                let mut summary: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+                        .expect("Summary JSON");
+                summary["materialReviewReceipt"]["digest"] =
+                    cockpit_core::Digest::sha256_bytes(&bytes)
+                        .to_string()
+                        .into();
+                summary["materialReviewReceipt"]["receiptDigest"] =
+                    receipt.receipt_digest.to_string().into();
+                fs::write(
+                    &summary_path,
+                    serde_json::to_vec_pretty(&summary).expect("Summary bytes"),
+                )
+                .expect("reseal prior pointer");
+            }
+            "missing_file" => fs::remove_file(&sidecar_path).expect("remove prior sidecar"),
+            _ => unreachable!(),
+        }
+
+        let preflight =
+            cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+                .expect("preflight preserves invalid prior receipt as an Unknown");
+        assert!(
+            preflight
+                .unknowns
+                .contains(&"material_review_receipt_invalid".into()),
+            "tamper case {tamper} must remain invalid"
+        );
+        let status = cockpit_repository::work_item_status_snapshot_with_runtime(
+            root,
+            "WI-MATERIAL",
+            &runtime,
+        )
+        .expect("status after invalid prior receipt");
+        assert!(
+            !status
+                .safe_actions
+                .contains(&"record_material_review_decision".into()),
+            "tamper case {tamper} must not admit a replacement receipt: {status:#?}"
+        );
+        assert!(
+            status
+                .effective_unknowns
+                .contains(&"material_review_receipt_invalid".into())
+        );
+
+        let summary_before = fs::read(&summary_path).expect("Summary before rejected record");
+        let error = cockpit_repository::record_work_item_material_review(
+            root,
+            "WI-MATERIAL",
+            &input,
+            &runtime,
+        )
+        .expect_err("invalid prior receipt must fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("record_material_review_decision")
+                || error.to_string().contains("material-review"),
+            "unexpected refusal for {tamper}: {error}"
+        );
+        assert_eq!(
+            fs::read(&summary_path).expect("Summary after rejected record"),
+            summary_before,
+            "rejected renewal must preserve Summary bytes for {tamper}"
+        );
+        let current_sidecar = root.join(format!(
+            ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
+            request
+                .request_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .expect("request digest prefix")
+        ));
+        assert!(
+            !current_sidecar.exists(),
+            "rejected renewal must not write a current receipt for {tamper}"
+        );
+    }
+}
+
+#[test]
+fn stale_receipt_history_shape_is_validated_before_sidecar_write() {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    fs::write(
+        root.join("README.md"),
+        "new source request with malformed history\n",
+    )
+    .expect("change source");
+    commit(root);
+    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
+    input.request_digest = request.request_digest.clone();
+
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+        .expect("preflight exact new request");
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("admitted stale receipt renewal");
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    summary["materialReviewReceiptHistory"] = json!({"malformed": true});
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("malformed-history Summary"),
+    )
+    .expect("write malformed-history Summary");
+    let summary_before = fs::read(&summary_path).expect("Summary bytes before record");
+    let current_sidecar = root.join(format!(
+        ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
+        request
+            .request_digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .expect("request digest prefix")
+    ));
+    assert!(!current_sidecar.exists());
+
+    let error =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect_err("malformed receipt history must be rejected");
+    assert!(error.to_string().contains("history must be an array"));
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary remains unchanged"),
+        summary_before
+    );
+    assert!(
+        !current_sidecar.exists(),
+        "validation failure must not leave an orphan immutable sidecar"
+    );
+    assert!(old_sidecar_path.exists(), "prior sidecar remains preserved");
+}
+
+#[test]
+fn stale_receipt_with_changed_contract_profile_is_not_renewable() {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    fs::write(
+        root.join("README.md"),
+        "new source request under changed profile\n",
+    )
+    .expect("change source");
+    commit(root);
+
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    contract["governanceProfile"]["materialInspectionReview"]["reviewerActor"] =
+        json!("agent:Raydot-Updated");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("changed Contract bytes"),
+    )
+    .expect("change the review profile");
+    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("new request");
+    input.request_digest = request.request_digest.clone();
+    input.reviewer_actor = "agent:Raydot-Updated".into();
+
+    let preflight =
+        cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+            .expect("preflight changed Contract request");
+    assert!(
+        preflight
+            .unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after changed review profile");
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "a prior receipt bound to a different Contract/profile must not authorize renewal"
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+
+    let summary_before = fs::read(&summary_path).expect("Summary before refused renewal");
+    let current_sidecar = root.join(format!(
+        ".ai/evidence/material-inspection-review/WI-MATERIAL/{}.json",
+        request
+            .request_digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .expect("request digest prefix")
+    ));
+    let error =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect_err("changed Contract/profile must reject prior receipt renewal");
+    assert!(
+        error
+            .to_string()
+            .contains("record_material_review_decision")
+            || error.to_string().contains("material-review")
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("Summary unchanged"),
+        summary_before
+    );
+    assert!(!current_sidecar.exists());
+    assert!(old_sidecar_path.exists());
+}
+
+#[test]
+fn stale_receipt_does_not_block_when_current_request_has_no_reviewable_unknown() {
+    let (directory, runtime, contract_path, _summary_path, old_sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    fs::remove_file(root.join("src/material.rs")).expect("remove reviewed Rust material");
+    commit(root);
+
+    let request = plan_work_item_material_review(root, "WI-MATERIAL").expect("clean request");
+    assert!(request.entries.is_empty());
+    assert!(request.raw_unknown_codes.is_empty());
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+        .expect("preflight the request with no reviewable Unknown");
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after the prior Unknown is removed");
+    assert!(status.raw_scanner_unknowns.is_empty());
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "stale historical evidence must not synthesize an Unknown for a clean current request"
+    );
+    assert!(old_sidecar_path.exists(), "old evidence remains preserved");
 }
 
 #[test]
