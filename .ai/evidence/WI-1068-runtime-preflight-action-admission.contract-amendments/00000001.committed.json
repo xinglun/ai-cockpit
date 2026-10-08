@@ -1,0 +1,46 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:866582320767dca6cec02100cf8cc6007db59a86319b4e6b1d7adea529293f93",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "sequence": 1,
+    "changeId": "wi1068-switch-to-implementation-mode",
+    "requestDigest": "sha256:76e152a40413e6a35b70eb7e3e88b5c3a15e255b08ce09c9c1cc227bd8105259",
+    "reason": "The linked successor is a bounded Runtime code remediation, not a release publication item. Keep the retired predecessor release delivery explicitly incomplete.",
+    "changedValues": [
+      {
+        "path": "/mode",
+        "operation": "set",
+        "oldValue": "release",
+        "newValue": "implementation"
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:9e3682015b86b025f1662f417662cbadc8c20343b90d0c6c2245fe9c488a9806",
+    "newContractDigest": "sha256:196d49d5e826d4b6234e72b5b20b5b6ba6bdc576417a2c760a22741eedad2d0a",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "environmentObservationDigest": "sha256:2e320b75e40d68de4345bcf378ccf0a28932ee99607c7e9f858012aa5f8669eb",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/mode"
+    ],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:1bcc33f05f9c2d7a2e5d4845a819b90ba11a5291fbe0e796d56494cd69b86ff3",
+    "recordedAt": "2026-10-08T01:50:33Z"
+  }
+}

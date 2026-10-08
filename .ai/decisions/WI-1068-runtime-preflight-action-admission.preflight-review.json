@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "ユーザーが Runtime の現在の審閱依頼に対し、修正済み Contract の確認と継続を承認した。",
+  "recordedAt": "2026-10-08T02:09:34Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

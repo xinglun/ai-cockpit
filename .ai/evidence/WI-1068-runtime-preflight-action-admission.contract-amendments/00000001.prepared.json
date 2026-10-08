@@ -1,0 +1,132 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1068-switch-to-implementation-mode",
+      "expectedContractDigest": "sha256:9e3682015b86b025f1662f417662cbadc8c20343b90d0c6c2245fe9c488a9806",
+      "reason": "The linked successor is a bounded Runtime code remediation, not a release publication item. Keep the retired predecessor release delivery explicitly incomplete.",
+      "changes": [
+        {
+          "path": "/mode",
+          "operation": "set",
+          "value": "implementation"
+        }
+      ]
+    },
+    "requestDigest": "sha256:76e152a40413e6a35b70eb7e3e88b5c3a15e255b08ce09c9c1cc227bd8105259",
+    "previousContract": {
+      "acceptanceCriteria": [],
+      "authority": "unknown",
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "createdAt": "2026-10-08T01:49:25Z",
+      "goal": "",
+      "intent": "",
+      "mode": "release",
+      "outOfScope": [],
+      "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+      "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requiredEvidenceClasses": [],
+      "risk": "unknown",
+      "scope": [],
+      "sources": [],
+      "state": "not_ready",
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    "previousContractDigest": "sha256:9e3682015b86b025f1662f417662cbadc8c20343b90d0c6c2245fe9c488a9806",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "unknown",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-08T01:49:25Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+      "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "unknown",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [],
+      "sources": [],
+      "state": "not_ready",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    "newContractDigest": "sha256:196d49d5e826d4b6234e72b5b20b5b6ba6bdc576417a2c760a22741eedad2d0a",
+    "previousSummaryDigest": "sha256:d887ced267ce38a91eb7c3e721c3d799c9c1137fc8c93b55be3097200d0b498d",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "environmentObservationDigest": "sha256:2e320b75e40d68de4345bcf378ccf0a28932ee99607c7e9f858012aa5f8669eb",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [
+      "/mode"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-08T01:50:33Z"
+  },
+  "preparedDigest": "sha256:866582320767dca6cec02100cf8cc6007db59a86319b4e6b1d7adea529293f93"
+}

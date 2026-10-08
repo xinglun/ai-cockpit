@@ -1,0 +1,266 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+    ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.retirement.json",
+    ".ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.b6e9eb137a4f8a9471f6a11b0b507ee5a7952c256e10730accbb65d8f523bbd4.json",
+    ".ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.bd33a747db297bd342be485c7d79bc0fc733c709a56508b4cd6e2f385c18d57b.json",
+    ".ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.c97c08aa80baffd5ccf02b6fe9366cfc84c4a15a5ef810af21a0f5a2d289f721.json",
+    ".ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000003.prepared.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000004.committed.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000004.prepared.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000005.committed.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000005.prepared.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.50420d79abcfc9a9df66bca97aef52cba5d02aa91926d8ebc17cfd19cc2ebadf.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.53fd088cb7a2c8a5324acd7c7e8d5203963c10f8752d7783bb35f916348f992c.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.a39b3586fb2d9b630ab89fff27c5cdd12568e4f4e1b30de0067c05809a07b17a.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.abadf4d5537ad5880b298dd811d1c51108ab8c65c527faa34394bf2a22d0421d.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.bd016a8c4d9d2e32eb4b7173dfea1eff12550f6c223a64ac94503133e7eb2145.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.ddc7e22129adddcec48fe363ebc2920c5dfff9dd2746007559354c09edcdb43d.json",
+    ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json",
+    ".ai/policy.json",
+    ".ai/work-items/active/WI-1055-v1-0-1-bounded-hotfix.contract.json",
+    ".ai/work-items/active/WI-1055-v1-0-1-bounded-hotfix.summary.json",
+    ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json",
+    ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json",
+    ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.archive.json",
+    ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.contract.json",
+    ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.outcome.json",
+    ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.summary.json",
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "checkpointAt": "2026-10-08T02:10:24Z",
+  "checkpointContractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "recorded": true,
+      "recordedAt": "2026-10-08T02:10:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:aa936b46e0e2d1a9579c747368517ce37c8b4bb1cecbb31650e9d6d731bc56ea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "previousContractHash": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "reason": "验证 CLI 跨层一致性：检查非 green preflight 后只允许 run_preflight，并在 fresh green 后恢复 finish。",
+      "recorded": true,
+      "recordedAt": "2026-10-08T03:14:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:66e7629b8c1d87221f552fd8464b80ffe27bed242f20edbb9c8d2ed2fc56f153",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:2c292a88030eb71e67857182b04168b8add4e847494642e58307016658663cea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "previousContractHash": "sha256:aa936b46e0e2d1a9579c747368517ce37c8b4bb1cecbb31650e9d6d731bc56ea",
+      "reason": "ユーザーが WI-1068 に限る有限 600 秒の Runtime verification timeout を明示承認した。既存の全 required verification nodes と check は維持し、timeout ceiling のみを Contract の Work Item policy に記録する。project policy 文書は Work Item policy layer を有効にする空の基底宣言とする。",
+      "recorded": true,
+      "recordedAt": "2026-10-08T04:14:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "previousContractHash": "sha256:2c292a88030eb71e67857182b04168b8add4e847494642e58307016658663cea",
+      "reason": "用户明确授权在 WI-1068 现有 status_projection.rs 测试范围内，将 directory.path() 显式绑定为 &Path，保留 join、现有断言和 run verification 风险文本，并先以最小回归与 preflight 证明材料 Unknown 消除。本 amendment 仅固化该验收，不增加 scope 路径。",
+      "recorded": true,
+      "recordedAt": "2026-10-08T05:40:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ba62c21dc06401e81a17bbb34d35f216efd1ed9c68438bb488e37b3bdc4e492e",
+  "createdAt": "2026-10-08T01:49:25Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+    "reason": "Ray 在本会话确认了此 Contract 与 Snapshot 的绑定审阅，仅接受新增的 typed &Path 材料扫描验收；该决定不将 repository_material_inspection_unavailable、evidence_stale 或验证状态标记为已通过。",
+    "recordedAt": "2026-10-08T05:54:01Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+    "schemaVersion": 1,
+    "workItemId": "WI-1068-runtime-preflight-action-admission"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/tests/status_projection.rs"
+    ],
+    "reason": "当 checkpointed Work Item 的 preflight 缺失、非 green 或绑定过期时，明确提供 run_preflight 并阻止 finish；当前绑定重新评估为 green 后才恢复 finish，避免状态投影与生命周期准入出现不一致。",
+    "state": "resolved"
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+  "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+  "preflightAt": "2026-10-08T06:55:09Z",
+  "preflightContractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ba62c21dc06401e81a17bbb34d35f216efd1ed9c68438bb488e37b3bdc4e492e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-08T06:55:47Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

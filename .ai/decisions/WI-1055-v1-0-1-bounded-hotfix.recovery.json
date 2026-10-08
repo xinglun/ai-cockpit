@@ -1,0 +1,22 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-10-08T01:49:21Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [
+    "AGENTS.md#AI-Cockpit-強制プロトコル"
+  ],
+  "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+  "predecessorSummaryDigest": "sha256:ae4d65e11d10fba0b8ad8c591d5f1763938241e0f74f521e8c120639bfa88c65",
+  "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+  "reason": "User authorized retiring the unstarted WI-1055 scaffold and opening a separate Runtime remediation Work Item. Preserve this predecessor as unverified; its release delivery remains incomplete.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Retire the predecessor as replaced, then activate the linked successor for the bounded Runtime preflight action-admission repair. The predecessor release work remains incomplete and out of scope.",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1068-runtime-preflight-action-admission",
+  "workItemId": "WI-1055-v1-0-1-bounded-hotfix"
+}
