@@ -3011,6 +3011,25 @@ fn observe_linux_process_group_for_recovery(
 
 #[cfg(target_os = "linux")]
 fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
+    verifier_process_using_worktree_with_filter(worktree, |_| true)
+}
+
+#[cfg(target_os = "linux")]
+#[cfg(test)]
+fn verifier_process_using_worktree_for_test_pid(
+    worktree: &Path,
+    expected_pid: u32,
+) -> Result<Option<u32>, String> {
+    // The fixture controls this process, not every same-UID process in the
+    // shared host's /proc. Keep its real procfs checks scoped to that PID.
+    verifier_process_using_worktree_with_filter(worktree, |process_id| process_id == expected_pid)
+}
+
+#[cfg(target_os = "linux")]
+fn verifier_process_using_worktree_with_filter(
+    worktree: &Path,
+    include_process: impl Fn(u32) -> bool,
+) -> Result<Option<u32>, String> {
     use std::os::unix::fs::MetadataExt;
 
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
@@ -3031,6 +3050,9 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         else {
             continue;
         };
+        if !include_process(process_id) {
+            continue;
+        }
         if process_id == std::process::id() || caller_ancestors.contains(&process_id) {
             continue;
         }
@@ -5855,12 +5877,20 @@ mod external_observer_deferred_tests {
         }
     }
 
+    fn observer_diagnostic_process_id(error: &str) -> Option<libc::pid_t> {
+        let error = error
+            .strip_prefix("verifier_process_state_unknown:")
+            .unwrap_or(error);
+        let rest = error.strip_prefix("cannot inspect process pid=")?;
+        rest.split_ascii_whitespace().next()?.parse().ok()
+    }
+
     fn require_controlled_eacces_observation(
         child_pid: libc::pid_t,
         observation: Result<Option<u32>, String>,
     ) -> Result<Option<u32>, String> {
         match observation {
-            Err(error) if error.contains(&format!("pid={child_pid}")) => Err(error),
+            Err(error) if observer_diagnostic_process_id(&error) == Some(child_pid) => Err(error),
             Err(error) => panic!(
                 "observer encountered another process instead of controlled child pid={child_pid}: {error}"
             ),
@@ -5954,7 +5984,7 @@ mod external_observer_deferred_tests {
                 "controlled child did not produce EACCES for cwd: {denied_cwd}"
             ));
         }
-        let observation = verifier_process_using_worktree(&worktree);
+        let observation = verifier_process_using_worktree_for_test_pid(&worktree, child_pid as u32);
         drop(peer);
         require_controlled_eacces_observation(child_pid, observation)
     }
@@ -6235,6 +6265,21 @@ mod external_observer_deferred_tests {
         assert!(
             mismatch.is_err(),
             "a sibling process diagnostic must fail the fixture, not become expected Unknown"
+        );
+    }
+
+    #[test]
+    fn real_eacces_fixture_rejects_a_pid_prefix_collision() {
+        let mismatch = std::panic::catch_unwind(|| {
+            require_controlled_eacces_observation(
+                4242,
+                Err("cannot inspect process pid=42420 phase=procfs.cwd errno=13".into()),
+            )
+        });
+
+        assert!(
+            mismatch.is_err(),
+            "a diagnostic PID with the controlled PID as a prefix must fail the fixture"
         );
     }
 
@@ -6630,10 +6675,11 @@ mod external_observer_deferred_tests {
 #[cfg(all(test, target_os = "linux"))]
 mod verifier_process_observation_tests {
     use super::{
-        LINUX_PROCESS_OBSERVATION_TEST_LOCK, create_private_composition_parent,
-        linux_process_observation_error, parse_linux_process_stat, read_linux_process_identity,
-        reconciliation_error_category, reconciliation_known_observer_error,
-        unique_composition_parent, verifier_process_using_worktree,
+        LINUX_PROCESS_OBSERVATION_TEST_LOCK, LinuxProcessGroupMember,
+        create_private_composition_parent, linux_process_observation_error,
+        parse_linux_process_stat, read_linux_process_identity, reconciliation_error_category,
+        reconciliation_known_observer_error, unique_composition_parent,
+        verifier_process_using_worktree, verifier_process_using_worktree_for_test_pid,
     };
     use std::ffi::CString;
     use std::fs;
@@ -6660,6 +6706,60 @@ mod verifier_process_observation_tests {
                 libc::waitpid(self.0, std::ptr::null_mut(), 0);
             }
         }
+    }
+
+    fn eacces_diagnostic_field<'a>(diagnostic: &'a str, name: &str) -> Option<&'a str> {
+        let diagnostic = diagnostic
+            .strip_prefix("verifier_process_state_unknown:")
+            .unwrap_or(diagnostic);
+        diagnostic
+            .split_ascii_whitespace()
+            .find_map(|field| field.strip_prefix(name))
+    }
+
+    fn eacces_diagnostic_identity_field<'a>(
+        diagnostic: &'a str,
+        record_name: &str,
+        field_name: &str,
+    ) -> Option<&'a str> {
+        let record = eacces_diagnostic_field(diagnostic, record_name)?
+            .strip_prefix("observed(")?
+            .strip_suffix(')')?;
+        let field_name = field_name.strip_suffix('=')?;
+        record.split(',').find_map(|field| {
+            let (key, value) = field.split_once('=')?;
+            (key == field_name).then_some(value)
+        })
+    }
+
+    fn eacces_diagnostic_matches_identity(
+        diagnostic: &str,
+        identity: &LinuxProcessGroupMember,
+        process_uid: u32,
+    ) -> bool {
+        let expected_pid = identity.process_id.to_string();
+        let expected_uid = format!("Some({process_uid})");
+        let expected_errno = libc::EACCES.to_string();
+        eacces_diagnostic_field(diagnostic, "pid=") == Some(expected_pid.as_str())
+            && eacces_diagnostic_field(diagnostic, "phase=") == Some("procfs.cwd")
+            && eacces_diagnostic_field(diagnostic, "errno=") == Some(expected_errno.as_str())
+            && eacces_diagnostic_field(diagnostic, "identity_state=") == Some("observed")
+            && eacces_diagnostic_field(diagnostic, "filter_uid=") == Some(expected_uid.as_str())
+            && eacces_diagnostic_field(diagnostic, "uid=").is_none()
+            && ["identity_before=", "identity_after="]
+                .iter()
+                .all(|record| {
+                    eacces_diagnostic_identity_field(diagnostic, record, "pid=")
+                        == Some(expected_pid.as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "starttime_ticks=")
+                            == Some(identity.start_time_ticks.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "pgid=")
+                            == Some(identity.process_group_id.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "sid=")
+                            == Some(identity.session_id.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "state=")
+                            .is_some_and(|state| state.len() == 1 && state.is_ascii())
+                })
     }
 
     #[test]
@@ -6825,32 +6925,49 @@ mod verifier_process_observation_tests {
             .expect_err("non-dumpable child cwd must be inaccessible");
         assert_eq!(denied_cwd.raw_os_error(), Some(libc::EACCES));
 
-        let observed = verifier_process_using_worktree(&worktree)
+        let observed = verifier_process_using_worktree_for_test_pid(&worktree, child_pid as u32)
             .expect_err("real EACCES must remain an unknown process observation");
         assert!(
-            observed.contains(&format!("pid={child_pid}")),
-            "diagnostic must bind the inaccessible PID: {observed}"
-        );
-        assert!(
-            observed.contains("phase=procfs.cwd"),
-            "diagnostic must identify the failed observation phase: {observed}"
-        );
-        assert!(
-            observed.contains(&format!("errno={}", libc::EACCES)),
-            "diagnostic must retain raw EACCES: {observed}"
-        );
-        assert!(
-            observed.contains("identity_state=observed")
-                && observed.contains(&format!("filter_uid=Some({})", unsafe { libc::getuid() }))
-                && !observed.contains(&format!(" uid=Some({}", unsafe { libc::getuid() }))
-                && observed.contains(&format!("starttime_ticks={}", identity.start_time_ticks))
-                && observed.contains(&format!("pgid={}", identity.process_group_id))
-                && observed.contains(&format!("sid={}", identity.session_id)),
+            eacces_diagnostic_matches_identity(&observed, &identity, unsafe { libc::getuid() },),
             "diagnostic must retain the readable process identity: {observed}"
         );
 
         drop(child);
         drop(parent);
+    }
+
+    #[test]
+    fn fresh_same_uid_diagnostic_rejects_pid_and_identity_prefix_collisions() {
+        let identity = LinuxProcessGroupMember {
+            process_id: 4_242,
+            state: 'S',
+            start_time_ticks: 7,
+            process_group_id: 41,
+            session_id: 41,
+        };
+        let diagnostic = "verifier_process_state_unknown:cannot inspect process pid=42420 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=130 identity_state=observed identity_before=observed(pid=42420,starttime_ticks=70,pgid=410,sid=410,state=S) identity_after=observed(pid=42420,starttime_ticks=70,pgid=410,sid=410,state=S) message=Permission denied";
+
+        assert!(
+            !eacces_diagnostic_matches_identity(diagnostic, &identity, 1000),
+            "longer PID, identity, and errno fields must not match by numeric prefix"
+        );
+    }
+
+    #[test]
+    fn fresh_same_uid_identity_match_allows_process_state_transition() {
+        let identity = LinuxProcessGroupMember {
+            process_id: 4_242,
+            state: 'S',
+            start_time_ticks: 7,
+            process_group_id: 41,
+            session_id: 41,
+        };
+        let diagnostic = "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R) identity_after=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) message=Permission denied";
+
+        assert!(
+            eacces_diagnostic_matches_identity(diagnostic, &identity, 1000),
+            "a scheduler state transition must not invalidate unchanged process identity fields"
+        );
     }
 
     #[test]

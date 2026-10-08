@@ -1193,6 +1193,78 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
 }
 
 #[cfg(target_os = "linux")]
+#[derive(Debug, PartialEq, Eq)]
+struct ProcfsStableIdentity {
+    process_id: u32,
+    start_time_ticks: u64,
+    process_group_id: u32,
+    session_id: u32,
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_identity_field<'a>(identity: &'a str, name: &str) -> Option<&'a str> {
+    let name = name.strip_suffix('=')?;
+    let fields = identity.strip_prefix("observed(")?.strip_suffix(')')?;
+    fields.split(',').find_map(|field| {
+        let (key, value) = field.split_once('=')?;
+        (key == name).then_some(value)
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn parse_procfs_identity(identity: &str) -> Option<(ProcfsStableIdentity, char)> {
+    let state = procfs_identity_field(identity, "state=")?;
+    let mut state_chars = state.chars();
+    let state = state_chars.next()?;
+    if !state.is_ascii() || state_chars.next().is_some() {
+        return None;
+    }
+    Some((
+        ProcfsStableIdentity {
+            process_id: procfs_identity_field(identity, "pid=")?.parse().ok()?,
+            start_time_ticks: procfs_identity_field(identity, "starttime_ticks=")?
+                .parse()
+                .ok()?,
+            process_group_id: procfs_identity_field(identity, "pgid=")?.parse().ok()?,
+            session_id: procfs_identity_field(identity, "sid=")?.parse().ok()?,
+        },
+        state,
+    ))
+}
+
+#[cfg(target_os = "linux")]
+fn diagnostic_field<'a>(diagnostic: &'a str, name: &str) -> Option<&'a str> {
+    diagnostic
+        .split_ascii_whitespace()
+        .find_map(|field| field.strip_prefix(name))
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_identity_pair_is_stable(diagnostic: &str) -> bool {
+    let Some(process_id) =
+        diagnostic_field(diagnostic, "pid=").and_then(|value| value.parse::<u32>().ok())
+    else {
+        return false;
+    };
+    let Some((identity_before, state_before)) =
+        diagnostic_field(diagnostic, "identity_before=").and_then(parse_procfs_identity)
+    else {
+        return false;
+    };
+    let Some((identity_after, state_after)) =
+        diagnostic_field(diagnostic, "identity_after=").and_then(parse_procfs_identity)
+    else {
+        return false;
+    };
+
+    identity_before.process_id == process_id
+        && identity_after.process_id == process_id
+        && identity_before == identity_after
+        && state_before.is_ascii()
+        && state_after.is_ascii()
+}
+
+#[cfg(target_os = "linux")]
 fn assert_procfs_cwd_eacces(failure: &str) {
     let diagnostic = failure
         .strip_prefix("verifier_process_state_unknown:")
@@ -1222,25 +1294,52 @@ fn assert_procfs_cwd_eacces(failure: &str) {
         )),
         "{diagnostic}"
     );
-    let process_id = diagnostic
-        .strip_prefix("cannot inspect process pid=")
-        .and_then(|rest| rest.split_whitespace().next())
-        .and_then(|process_id| process_id.parse::<u32>().ok())
-        .expect("numeric PID in observer diagnostic");
-    let (_, identity_fields) = diagnostic
-        .split_once(" identity_before=")
-        .expect("identity before field");
-    let (identity_before, identity_after_and_message) = identity_fields
-        .split_once(" identity_after=")
-        .expect("identity after field");
-    let (identity_after, _) = identity_after_and_message
-        .split_once(" message=")
-        .expect("permission diagnostic message");
-    assert_eq!(identity_before, identity_after);
-    assert!(
-        identity_before.starts_with(&format!("observed(pid={process_id},")),
-        "{diagnostic}"
+    assert!(procfs_identity_pair_is_stable(diagnostic), "{diagnostic}");
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_eacces_diagnostic(identity_before: &str, identity_after: &str) -> String {
+    format!(
+        "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno={} identity_state=observed identity_before={identity_before} identity_after={identity_after} message=Permission denied (os error {}) working directory",
+        libc::EACCES,
+        libc::EACCES
+    )
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_cwd_eacces_identity_accepts_state_transition() {
+    let failure = procfs_eacces_diagnostic(
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)",
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S)",
     );
+
+    let diagnostic = failure
+        .strip_prefix("verifier_process_state_unknown:")
+        .expect("unknown cleanup prefix");
+    assert!(procfs_identity_pair_is_stable(diagnostic));
+    assert_procfs_cwd_eacces(&failure);
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_cwd_eacces_identity_rejects_each_stable_field_change() {
+    let identity_before = "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)";
+    for identity_after in [
+        "observed(pid=4243,starttime_ticks=7,pgid=41,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=8,pgid=41,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=7,pgid=42,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=42,state=S)",
+    ] {
+        let failure = procfs_eacces_diagnostic(identity_before, identity_after);
+        let diagnostic = failure
+            .strip_prefix("verifier_process_state_unknown:")
+            .expect("unknown cleanup prefix");
+        assert!(
+            !procfs_identity_pair_is_stable(diagnostic),
+            "stable identity change must fail closed: {identity_after}"
+        );
+    }
 }
 
 #[cfg(unix)]
