@@ -1076,13 +1076,13 @@ fn in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escap
         !finish.status.success(),
         "uncheckpointed work cannot finish"
     );
-    let blocked_outcome: serde_json::Value = serde_json::from_slice(
+    let lifecycle_outcome: serde_json::Value = serde_json::from_slice(
         &fs::read(repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"))
-            .expect("blocked outcome is persisted"),
+            .expect("failed lifecycle outcome is persisted"),
     )
-    .expect("blocked outcome JSON");
-    assert_eq!(blocked_outcome["state"], "unknown");
-    assert_eq!(blocked_outcome["decisionState"], "red");
+    .expect("lifecycle outcome JSON");
+    assert_eq!(lifecycle_outcome["state"], "unknown");
+    assert_eq!(lifecycle_outcome["decisionState"], "red");
     fs::write(
         repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"),
         r#"{"verification":{"status":"verified"}}"#,
