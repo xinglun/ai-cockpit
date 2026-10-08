@@ -952,6 +952,22 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         "fn main() { println!(\"ok\"); }\n",
     )
     .expect("in-scope source change");
+    assert!(
+        Command::new("git")
+            .args(["add", "src/main.rs"])
+            .current_dir(&repo)
+            .status()
+            .expect("git add in-scope change")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "in-scope source change"])
+            .current_dir(&repo)
+            .status()
+            .expect("git commit in-scope change")
+            .success()
+    );
     let contract = repo.join(".ai/work-items/active/WI-SCOPE.contract.json");
     let preflight = Command::new(binary)
         .args(["preflight", "--repo"])
@@ -1017,18 +1033,38 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         .success()
     );
     fs::write(repo.join("README.md"), "out of scope\n").expect("out-of-scope change");
-    let contract = repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.contract.json");
-    let preflight = Command::new(binary)
-        .args(["preflight", "--repo"])
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(&repo)
+            .status()
+            .expect("git add out-of-scope change")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "out-of-scope change"])
+            .current_dir(&repo)
+            .status()
+            .expect("git commit out-of-scope change")
+            .success()
+    );
+    let status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
         .arg(&repo)
-        .args(["--contract"])
-        .arg(&contract)
+        .args(["--id", "WI-OUT-OF-SCOPE", "--json"])
         .output()
-        .expect("preflight");
-    assert!(preflight.status.success());
-    let preflight_json: serde_json::Value =
-        serde_json::from_slice(&preflight.stdout).expect("preflight JSON");
-    assert_eq!(preflight_json["state"], "red");
+        .expect("status");
+    assert!(status.status.success());
+    let status_json: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status_json["blockers"]
+            .as_array()
+            .expect("blockers")
+            .iter()
+            .any(|value| value == "scope_exceeded")
+    );
     let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-OUT-OF-SCOPE"], &repo);
     assert!(
         !checkpoint.status.success(),
@@ -1157,7 +1193,7 @@ fn close_rechecks_governance_after_archive() {
 }
 
 #[test]
-fn preflight_derives_prompt_injection_and_terminal_steps_remain_blocked() {
+fn preflight_blocks_prompt_injection_without_echoing_material() {
     let repo = repository();
     fs::write(repo.join("README.md"), "fixture baseline\n").expect("baseline README");
     commit_baseline(&repo);
@@ -1210,18 +1246,38 @@ fn preflight_derives_prompt_injection_and_terminal_steps_remain_blocked() {
         .arg(&contract)
         .output()
         .expect("preflight");
-    assert!(output.status.success());
-    let decision: serde_json::Value = serde_json::from_slice(&output.stdout).expect("decision");
-    assert_eq!(decision["state"], "yellow");
-    assert_eq!(
-        decision["unknowns"],
-        serde_json::json!(["repository_material_untrusted"])
-    );
-    assert!(!String::from_utf8_lossy(&output.stdout).contains("SENTINEL_PRIVATE_TEXT"));
-    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-INPUT-TRUST"], &repo);
-    assert!(checkpoint.status.success());
     assert!(
-        run_output(
+        !output.status.success(),
+        "preflight must be rejected while repository material is blocked"
+    );
+    let preflight_error = format!(
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(preflight_error.contains("repository_prompt_injection"));
+    assert!(!preflight_error.contains("SENTINEL_PRIVATE_TEXT"));
+    let status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-INPUT-TRUST", "--json"])
+        .output()
+        .expect("status");
+    assert!(status.status.success());
+    let status_json: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status_json["blockers"]
+            .as_array()
+            .expect("blockers")
+            .iter()
+            .any(|value| value == "repository_prompt_injection")
+    );
+    assert!(!String::from_utf8_lossy(&status.stdout).contains("SENTINEL_PRIVATE_TEXT"));
+    let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-INPUT-TRUST"], &repo);
+    assert!(!checkpoint.status.success());
+    assert!(
+        !run_output(
             binary,
             &[
                 "verify",
@@ -1239,13 +1295,13 @@ fn preflight_derives_prompt_injection_and_terminal_steps_remain_blocked() {
         !run_output(binary, &["finish", "--id", "WI-INPUT-TRUST"], &repo)
             .status
             .success(),
-        "yellow input-trust decision must block finish"
+        "prompt-injection finding must block finish"
     );
     fs::remove_dir_all(repo).expect("cleanup");
 }
 
 #[test]
-fn preflight_derives_test_and_coverage_weakening_from_tracked_diff() {
+fn preflight_is_blocked_by_test_and_coverage_weakening_from_tracked_diff() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     fs::create_dir_all(repo.join("tests")).expect("tests");
@@ -1301,6 +1357,45 @@ fn preflight_derives_test_and_coverage_weakening_from_tracked_diff() {
     );
     fs::remove_file(repo.join("tests/security.rs")).expect("delete security test");
     fs::write(repo.join("pyproject.toml"), "fail_under = 70\n").expect("lower coverage");
+    assert!(
+        Command::new("git")
+            .args(["add", "--", "tests/security.rs", "pyproject.toml"])
+            .current_dir(&repo)
+            .status()
+            .expect("git add weakening changes")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "weaken test and coverage fixture"])
+            .current_dir(&repo)
+            .status()
+            .expect("git commit weakening changes")
+            .success()
+    );
+    let status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
+        .arg(&repo)
+        .args(["--id", "WI-WEAKENING", "--json"])
+        .output()
+        .expect("status");
+    assert!(status.status.success());
+    let status_json: serde_json::Value =
+        serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status_json["blockers"]
+            .as_array()
+            .expect("blockers")
+            .iter()
+            .any(|value| value == "test_weakening")
+    );
+    assert!(
+        status_json["blockers"]
+            .as_array()
+            .expect("blockers")
+            .iter()
+            .any(|value| value == "coverage_weakening")
+    );
     let contract = repo.join(".ai/work-items/active/WI-WEAKENING.contract.json");
     let output = Command::new(binary)
         .args(["preflight", "--repo"])
@@ -1309,22 +1404,9 @@ fn preflight_derives_test_and_coverage_weakening_from_tracked_diff() {
         .arg(&contract)
         .output()
         .expect("preflight");
-    assert!(output.status.success());
-    let decision: serde_json::Value = serde_json::from_slice(&output.stdout).expect("decision");
-    assert_eq!(decision["state"], "red");
-    assert!(
-        decision["blockers"]
-            .as_array()
-            .expect("blockers")
-            .iter()
-            .any(|value| value == "test_weakening")
-    );
-    assert!(
-        decision["unknowns"]
-            .as_array()
-            .expect("unknowns")
-            .iter()
-            .any(|value| value == "coverage_weakening")
-    );
+    assert!(!output.status.success());
+    let preflight_error = String::from_utf8_lossy(&output.stderr);
+    assert!(preflight_error.contains("test_weakening"));
+    assert!(preflight_error.contains("coverage_weakening"));
     fs::remove_dir_all(repo).expect("cleanup");
 }
