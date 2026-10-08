@@ -239,7 +239,7 @@ fn checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh()
         controls.path().to_str().expect("controls path"),
     ]);
 
-    fs::write(directory.join("README.md"), "changed source\n").expect("change README");
+    commit_baseline(&directory, "changed source\n");
     let status = run_successfully(&["work-item", "status", "--id", work_item_id, "--json"]);
     let status: serde_json::Value = serde_json::from_slice(&status.stdout).expect("status JSON");
     assert!(
@@ -1694,6 +1694,48 @@ fn verification_evidence_uses_snapshot_after_command_side_effects() {
         "[package]\nname = \"side-effect-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
     )
     .expect("manifest");
+    fs::write(
+        directory.join("build.rs"),
+        r#"use std::{env, process::Command};
+
+fn main() {
+    let root = env::var("CARGO_MANIFEST_DIR").expect("manifest dir");
+    let status = Command::new("git")
+        .args(["status", "--porcelain", "--", "Cargo.lock"])
+        .current_dir(&root)
+        .output()
+        .expect("git status");
+    assert!(status.status.success(), "git status failed");
+    if !status.stdout.is_empty() {
+        assert!(
+            Command::new("git")
+                .args(["add", "--", "Cargo.lock"])
+                .current_dir(&root)
+                .status()
+                .expect("git add Cargo.lock")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit@example.invalid",
+                    "commit",
+                    "-qm",
+                    "record generated lockfile",
+                ])
+                .current_dir(&root)
+                .status()
+                .expect("git commit Cargo.lock")
+                .success()
+        );
+    }
+}
+"#,
+    )
+    .expect("build script");
     fs::write(directory.join("src/main.rs"), "fn main() {}\n").expect("source");
     Command::new("git")
         .args(["init", "-q"])
@@ -1846,7 +1888,11 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
         "#!/bin/sh\nsleep 1\nprintf 'after\\n' > tracked.txt\n",
     )
     .expect("slow");
-    fs::write(&fast, "#!/bin/sh\nexit 0\n").expect("fast");
+    fs::write(
+        &fast,
+        "#!/bin/sh\ngit add -- tracked.txt && git -c user.name=AI_Cockpit_Test -c user.email=ai-cockpit@example.invalid commit -qm serial-output\n",
+    )
+    .expect("fast");
     fs::set_permissions(&slow, fs::Permissions::from_mode(0o755)).expect("slow executable");
     fs::set_permissions(&fast, fs::Permissions::from_mode(0o755)).expect("fast executable");
     Command::new("git")
