@@ -2,13 +2,30 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::io::Read;
+#[cfg(target_os = "linux")]
+use std::os::fd::AsRawFd;
 use std::path::PathBuf;
 use std::path::{Component, Path};
 use std::process::{Child, Command, Stdio};
+use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, SyncSender};
 use std::thread;
-use std::time::{Duration, UNIX_EPOCH};
+use std::time::{Duration, Instant, UNIX_EPOCH};
 use thiserror::Error;
+
+#[cfg(target_os = "linux")]
+#[repr(C)]
+struct PollFd {
+    fd: i32,
+    events: i16,
+    revents: i16,
+}
+
+#[cfg(target_os = "linux")]
+unsafe extern "C" {
+    fn poll(fds: *mut PollFd, nfds: std::os::raw::c_ulong, timeout: i32) -> i32;
+}
 
 #[cfg(unix)]
 unsafe extern "C" {
@@ -18,6 +35,7 @@ unsafe extern "C" {
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
 pub const MAX_BOUNDED_GIT_OUTPUT_BYTES: usize = 64 * 1024 * 1024;
 const GIT_OUTPUT_CHUNK_BYTES: usize = 8 * 1024;
+const BOUNDED_PIPE_CLOSE_TIMEOUT: Duration = Duration::from_secs(1);
 
 /// A bounded, repository-local content identity cache. It hashes only declared
 /// relative files and derives a deterministic Merkle root from their
@@ -368,6 +386,90 @@ mod unix_bounded_process_tests {
             }
             thread::sleep(Duration::from_millis(20));
         }
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup() {
+        const STARTED: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED";
+        const DONE: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_DONE";
+        if std::env::var(MODE).ok().as_deref() == Some("escaped-worker") {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let script = "setsid sh -c 'touch \"$COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED\"; sleep 3; touch \"$COCKPIT_GIT_ESCAPED_DESCENDANT_DONE\"' >/dev/null & while [ ! -e \"$COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED\" ]; do sleep 0.01; done; printf 'bounded output\\n'";
+            let mut command = Command::new("sh");
+            command.args(["-c", script]).process_group(0);
+            command.env(STARTED, &started).env(DONE, &done);
+            let open_fds_before = fs::read_dir("/proc/self/fd")
+                .expect("enumerate caller file descriptors")
+                .count();
+            let error = bounded_process_output(command, 1024)
+                .expect_err("escaped descendant must not hold bounded Git output forever");
+            assert!(
+                error
+                    .to_string()
+                    .contains("descendant cleanup could not be confirmed"),
+                "timeout must report uncertain cleanup explicitly: {error}"
+            );
+            assert!(std::path::Path::new(&started).exists());
+            assert!(
+                !std::path::Path::new(&done).exists(),
+                "the detached fixture should still be alive when the bounded read refuses"
+            );
+            assert_eq!(
+                fs::read_dir("/proc/self/fd")
+                    .expect("enumerate caller file descriptors after cancellation")
+                    .count(),
+                open_fds_before,
+                "timed-out bounded output must cancel its pipe readers and close their descriptors"
+            );
+            return;
+        }
+
+        let directory = tempfile::tempdir().expect("tempdir");
+        let started = directory.path().join("escaped-started");
+        let done = directory.path().join("escaped-done");
+        let executable = std::env::current_exe().expect("test executable");
+        let mut worker = Command::new(executable);
+        worker
+            .args([
+                "--exact",
+                "unix_bounded_process_tests::escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup",
+                "--nocapture",
+            ])
+            .env(MODE, "escaped-worker")
+            .env(STARTED, &started)
+            .env(DONE, &done)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .process_group(0);
+        let mut worker = worker.spawn().expect("spawn bounded-output worker");
+        let worker_deadline = Instant::now() + Duration::from_secs(6);
+        let worker_status = loop {
+            if let Some(status) = worker.try_wait().expect("poll bounded-output worker") {
+                break status;
+            }
+            if Instant::now() >= worker_deadline {
+                // SAFETY: this is the isolated process group of the worker.
+                // The escaped helper is independently self-terminating.
+                let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                let _ = worker.wait();
+                panic!("bounded-output worker exceeded its deadline");
+            }
+            thread::sleep(Duration::from_millis(20));
+        };
+
+        let cleanup_deadline = Instant::now() + Duration::from_secs(5);
+        while !done.exists() && Instant::now() < cleanup_deadline {
+            thread::sleep(Duration::from_millis(20));
+        }
+        assert!(done.exists(), "detached test helper must self-terminate");
+        assert!(
+            worker_status.success(),
+            "bounded-output worker failed: {worker_status}"
+        );
+        assert!(started.exists(), "escaped subprocess helper must run");
     }
 }
 
@@ -979,6 +1081,10 @@ pub enum GitError {
     InvalidUtf8,
     #[error("git output exceeded the bounded limit of {limit} bytes")]
     OutputLimitExceeded { limit: usize },
+    #[error(
+        "git output pipes did not close within {timeout_ms}ms after termination; descendant cleanup could not be confirmed"
+    )]
+    OutputPipeCloseTimeout { timeout_ms: u64 },
     #[error("Git revision must be a full 40- or 64-digit object ID: {0}")]
     InvalidRevision(String),
     #[error("git topology path could not be resolved: {0}")]
@@ -1639,13 +1745,58 @@ enum BoundedReadMessage {
     Error(String),
 }
 
-fn forward_pipe<R: Read>(
+#[cfg(target_os = "linux")]
+trait BoundedPipeReader: Read + AsRawFd {}
+
+#[cfg(target_os = "linux")]
+impl<T: Read + AsRawFd> BoundedPipeReader for T {}
+
+#[cfg(not(target_os = "linux"))]
+trait BoundedPipeReader: Read {}
+
+#[cfg(not(target_os = "linux"))]
+impl<T: Read> BoundedPipeReader for T {}
+
+fn forward_pipe<R: BoundedPipeReader>(
     mut reader: R,
     stream: BoundedStream,
     sender: SyncSender<BoundedReadMessage>,
+    cancelled: Arc<AtomicBool>,
 ) {
+    #[cfg(target_os = "linux")]
+    let mut poll_fd = {
+        PollFd {
+            fd: reader.as_raw_fd(),
+            events: 0x001, // POLLIN
+            revents: 0,
+        }
+    };
     let mut buffer = [0_u8; GIT_OUTPUT_CHUNK_BYTES];
     loop {
+        if cancelled.load(Ordering::Acquire) {
+            break;
+        }
+        #[cfg(target_os = "linux")]
+        {
+            let ready = unsafe { poll(&mut poll_fd, 1, 50) };
+            if ready == 0 {
+                continue;
+            }
+            if ready < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                let _ = sender.send(BoundedReadMessage::Error(error.to_string()));
+                break;
+            }
+            if poll_fd.revents & 0x020 != 0 {
+                let _ = sender.send(BoundedReadMessage::Error(
+                    "output pipe became invalid while polling".into(),
+                ));
+                break;
+            }
+        }
         match reader.read(&mut buffer) {
             Ok(0) => break,
             Ok(count) => {
@@ -1656,6 +1807,7 @@ fn forward_pipe<R: Read>(
                     break;
                 }
             }
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
             Err(error) => {
                 let _ = sender.send(BoundedReadMessage::Error(error.to_string()));
                 break;
@@ -1682,50 +1834,54 @@ fn bounded_process_output(
         .take()
         .ok_or_else(|| GitError::Command("git stderr pipe was unavailable".into()))?;
     let (sender, receiver) = mpsc::sync_channel(4);
+    let reader_cancelled = Arc::new(AtomicBool::new(false));
     let stdout_sender = sender.clone();
-    let stdout_reader =
-        thread::spawn(move || forward_pipe(stdout, BoundedStream::Stdout, stdout_sender));
-    let stderr_reader = thread::spawn(move || forward_pipe(stderr, BoundedStream::Stderr, sender));
+    let stdout_cancelled = Arc::clone(&reader_cancelled);
+    let stderr_cancelled = Arc::clone(&reader_cancelled);
+    let stdout_reader = thread::spawn(move || {
+        forward_pipe(
+            stdout,
+            BoundedStream::Stdout,
+            stdout_sender,
+            stdout_cancelled,
+        )
+    });
+    let stderr_reader = thread::spawn(move || {
+        forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)
+    });
 
     let mut stdout_bytes = Vec::new();
     let mut stderr_bytes = Vec::new();
     let mut overflow = false;
     let mut read_error = None;
     let mut process_exit_observed = false;
+    let mut termination_requested_at = None;
     loop {
-        let message = match receiver.recv_timeout(Duration::from_millis(50)) {
-            Ok(message) => Some(message),
-            Err(mpsc::RecvTimeoutError::Timeout) => {
-                if !process_exit_observed {
-                    match child.child.try_wait() {
-                        Ok(Some(_)) => {
-                            process_exit_observed = true;
-                            #[cfg(windows)]
-                            child.terminate_descendants_after_parent_exit();
-                            #[cfg(not(windows))]
-                            terminate_bounded_process_group(&mut child);
-                        }
-                        Ok(None) => {}
-                        Err(error) => {
-                            process_exit_observed = true;
-                            if read_error.is_none() {
-                                read_error =
-                                    Some(format!("failed waiting for git process: {error}"));
-                            }
-                            terminate_bounded_process_group(&mut child);
-                        }
-                    }
-                }
-                continue;
+        if termination_requested_at.is_some_and(|requested_at: Instant| {
+            requested_at.elapsed() >= BOUNDED_PIPE_CLOSE_TIMEOUT
+        }) {
+            // Reader threads can remain blocked if a descendant escaped the
+            // owned process group while retaining an output descriptor. Do
+            // not join indefinitely or claim cleanup succeeded in that case.
+            reader_cancelled.store(true, Ordering::Release);
+            drop(receiver);
+            #[cfg(target_os = "linux")]
+            {
+                let _ = stdout_reader.join();
+                let _ = stderr_reader.join();
             }
-            Err(mpsc::RecvTimeoutError::Disconnected) => None,
-        };
+            #[cfg(not(target_os = "linux"))]
+            {
+                drop(stdout_reader);
+                drop(stderr_reader);
+            }
+            return Err(GitError::OutputPipeCloseTimeout {
+                timeout_ms: BOUNDED_PIPE_CLOSE_TIMEOUT.as_millis() as u64,
+            });
+        }
 
-        let Some(message) = message else {
-            break;
-        };
-        match message {
-            BoundedReadMessage::Chunk(stream, bytes) => {
+        match receiver.recv_timeout(Duration::from_millis(50)) {
+            Ok(BoundedReadMessage::Chunk(stream, bytes)) => {
                 let target = match stream {
                     BoundedStream::Stdout => &mut stdout_bytes,
                     BoundedStream::Stderr => &mut stderr_bytes,
@@ -1733,16 +1889,41 @@ fn bounded_process_output(
                 if target.len().saturating_add(bytes.len()) > max_output_bytes {
                     if !overflow {
                         overflow = true;
-                        terminate_bounded_process_group(&mut child);
+                        request_bounded_termination(&mut child, &mut termination_requested_at);
                     }
                 } else if !overflow {
                     target.extend_from_slice(&bytes);
                 }
             }
-            BoundedReadMessage::Error(error) => {
+            Ok(BoundedReadMessage::Error(error)) => {
                 if read_error.is_none() {
                     read_error = Some(error);
-                    terminate_bounded_process_group(&mut child);
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
+                }
+            }
+            Err(mpsc::RecvTimeoutError::Timeout) => {}
+            Err(mpsc::RecvTimeoutError::Disconnected) => break,
+        }
+
+        if !process_exit_observed {
+            match child.child.try_wait() {
+                Ok(Some(_)) => {
+                    process_exit_observed = true;
+                    #[cfg(windows)]
+                    {
+                        child.terminate_descendants_after_parent_exit();
+                        termination_requested_at = Some(Instant::now());
+                    }
+                    #[cfg(not(windows))]
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
+                }
+                Ok(None) => {}
+                Err(error) => {
+                    process_exit_observed = true;
+                    if read_error.is_none() {
+                        read_error = Some(format!("failed waiting for git process: {error}"));
+                    }
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
                 }
             }
         }
@@ -1776,6 +1957,13 @@ fn bounded_process_output(
 
 fn terminate_bounded_process_group(child: &mut BoundedProcess) {
     child.terminate();
+}
+
+fn request_bounded_termination(child: &mut BoundedProcess, requested_at: &mut Option<Instant>) {
+    if requested_at.is_none() {
+        terminate_bounded_process_group(child);
+        *requested_at = Some(Instant::now());
+    }
 }
 
 fn command_error(stderr: &[u8]) -> GitError {
