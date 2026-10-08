@@ -2086,7 +2086,10 @@ mod tests {
         let current = digest(b"current Contract");
 
         assert!(material_review_contract_amendment_digests_form_chain(
-            vec![(initial.clone(), middle.clone()), (middle, current.clone())],
+            vec![
+                (initial.clone(), middle.clone()),
+                (middle.clone(), current.clone()),
+            ],
             &initial,
             &current,
         ));
