@@ -916,7 +916,7 @@ fn finish_rejects_self_declared_completion_without_receipt() {
 }
 
 #[test]
-fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish() {
+fn in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escape_cannot_finish() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     fs::create_dir_all(repo.join("src")).expect("src");
@@ -1033,22 +1033,6 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         .success()
     );
     fs::write(repo.join("README.md"), "out of scope\n").expect("out-of-scope change");
-    assert!(
-        Command::new("git")
-            .args(["add", "README.md"])
-            .current_dir(&repo)
-            .status()
-            .expect("git add out-of-scope change")
-            .success()
-    );
-    assert!(
-        Command::new("git")
-            .args(["commit", "-qm", "out-of-scope change"])
-            .current_dir(&repo)
-            .status()
-            .expect("git commit out-of-scope change")
-            .success()
-    );
     let status = Command::new(binary)
         .args(["work-item", "status", "--repo"])
         .arg(&repo)
@@ -1058,18 +1042,20 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
     assert!(status.status.success());
     let status_json: serde_json::Value =
         serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(status_json["blocking"].as_bool().expect("blocking"));
     assert!(
         status_json["blockers"]
             .as_array()
             .expect("blockers")
             .iter()
-            .any(|value| value == "scope_exceeded")
+            .any(|value| value == "material_review_projection_unavailable")
     );
     let checkpoint = run_output(binary, &["checkpoint", "--id", "WI-OUT-OF-SCOPE"], &repo);
     assert!(
         !checkpoint.status.success(),
-        "red preflight must block checkpoint"
+        "an out-of-scope change must not be checkpointed"
     );
+    assert!(String::from_utf8_lossy(&checkpoint.stderr).contains("current=red"));
     let verify = run_output(
         binary,
         &[
@@ -1086,13 +1072,16 @@ fn in_scope_changes_do_not_stale_contract_and_out_of_scope_changes_cannot_finish
         "uncheckpointed verification must stop"
     );
     let finish = run_output(binary, &["finish", "--id", "WI-OUT-OF-SCOPE"], &repo);
-    assert!(!finish.status.success(), "red governance must block finish");
+    assert!(
+        !finish.status.success(),
+        "uncheckpointed work cannot finish"
+    );
     let blocked_outcome: serde_json::Value = serde_json::from_slice(
         &fs::read(repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"))
             .expect("blocked outcome is persisted"),
     )
     .expect("blocked outcome JSON");
-    assert_eq!(blocked_outcome["state"], "blocked");
+    assert_eq!(blocked_outcome["state"], "unknown");
     assert_eq!(blocked_outcome["decisionState"], "red");
     fs::write(
         repo.join(".ai/work-items/active/WI-OUT-OF-SCOPE.outcome.json"),
