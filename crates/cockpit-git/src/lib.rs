@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::io::Read;
-#[cfg(target_os = "linux")]
+#[cfg(unix)]
 use std::os::fd::AsRawFd;
 use std::path::PathBuf;
 use std::path::{Component, Path};
@@ -14,7 +14,7 @@ use std::thread;
 use std::time::{Duration, Instant, UNIX_EPOCH};
 use thiserror::Error;
 
-#[cfg(target_os = "linux")]
+#[cfg(unix)]
 #[repr(C)]
 struct PollFd {
     fd: i32,
@@ -22,9 +22,42 @@ struct PollFd {
     revents: i16,
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(any(
+    target_os = "android",
+    target_os = "aix",
+    target_os = "cygwin",
+    target_os = "dragonfly",
+    target_os = "freebsd",
+    target_os = "ios",
+    target_os = "macos",
+    target_os = "netbsd",
+    target_os = "nto",
+    target_os = "openbsd",
+    target_os = "vxworks"
+))]
+type PollNfds = std::os::raw::c_uint;
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "android",
+        target_os = "aix",
+        target_os = "cygwin",
+        target_os = "dragonfly",
+        target_os = "freebsd",
+        target_os = "ios",
+        target_os = "macos",
+        target_os = "netbsd",
+        target_os = "nto",
+        target_os = "openbsd",
+        target_os = "vxworks"
+    ))
+))]
+type PollNfds = std::os::raw::c_ulong;
+
+#[cfg(unix)]
 unsafe extern "C" {
-    fn poll(fds: *mut PollFd, nfds: std::os::raw::c_ulong, timeout: i32) -> i32;
+    fn poll(fds: *mut PollFd, nfds: PollNfds, timeout: i32) -> i32;
 }
 
 #[cfg(unix)]
@@ -330,6 +363,11 @@ mod unix_bounded_process_tests {
 
     const MODE: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MODE";
     const MARKER: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MARKER";
+    const ESCAPED_TEST_NAME: &str = "unix_bounded_process_tests::escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup";
+
+    unsafe extern "C" {
+        fn setsid() -> i32;
+    }
 
     #[test]
     fn parent_exit_terminates_pipe_holding_descendant() {
@@ -388,18 +426,66 @@ mod unix_bounded_process_tests {
         }
     }
 
-    #[cfg(target_os = "linux")]
     #[test]
     fn escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup() {
         const STARTED: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED";
         const DONE: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_DONE";
-        if std::env::var(MODE).ok().as_deref() == Some("escaped-worker") {
+        if std::env::var(MODE).ok().as_deref() == Some("detached-helper") {
             let started = std::env::var(STARTED).expect("started marker path");
             let done = std::env::var(DONE).expect("done marker path");
-            let script = "setsid sh -c 'touch \"$COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED\"; sleep 3; touch \"$COCKPIT_GIT_ESCAPED_DESCENDANT_DONE\"' >/dev/null & while [ ! -e \"$COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED\" ]; do sleep 0.01; done; printf 'bounded output\\n'";
-            let mut command = Command::new("sh");
-            command.args(["-c", script]).process_group(0);
-            command.env(STARTED, &started).env(DONE, &done);
+            fs::write(&started, "started").expect("write started marker");
+            thread::sleep(Duration::from_secs(3));
+            fs::write(&done, "done").expect("write done marker");
+            return;
+        }
+
+        if std::env::var(MODE).ok().as_deref() == Some("parent-helper") {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let executable = std::env::current_exe().expect("test executable");
+            let mut detached = Command::new(executable);
+            detached
+                .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+                .env(MODE, "detached-helper")
+                .env(STARTED, &started)
+                .env(DONE, &done)
+                .stdout(Stdio::null());
+            // SAFETY: setsid is async-signal-safe and the child is not a
+            // process-group leader, so it can escape the bounded child group.
+            unsafe {
+                detached.pre_exec(|| {
+                    // SAFETY: called in the just-forked child before exec.
+                    if setsid() == -1 {
+                        return Err(std::io::Error::last_os_error());
+                    }
+                    Ok(())
+                });
+            }
+            let _detached = detached.spawn().expect("spawn escaped pipe holder");
+            let started_deadline = Instant::now() + Duration::from_secs(2);
+            while !std::path::Path::new(&started).exists() && Instant::now() < started_deadline {
+                thread::sleep(Duration::from_millis(10));
+            }
+            assert!(
+                std::path::Path::new(&started).exists(),
+                "escaped helper must start before its parent exits"
+            );
+            println!("bounded output");
+            return;
+        }
+
+        if std::env::var(MODE).ok().as_deref() == Some("bounded-worker") {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let executable = std::env::current_exe().expect("test executable");
+            let mut command = Command::new(executable);
+            command
+                .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+                .env(MODE, "parent-helper")
+                .env(STARTED, &started)
+                .env(DONE, &done)
+                .process_group(0);
+            #[cfg(target_os = "linux")]
             let open_fds_before = fs::read_dir("/proc/self/fd")
                 .expect("enumerate caller file descriptors")
                 .count();
@@ -416,6 +502,7 @@ mod unix_bounded_process_tests {
                 !std::path::Path::new(&done).exists(),
                 "the detached fixture should still be alive when the bounded read refuses"
             );
+            #[cfg(target_os = "linux")]
             assert_eq!(
                 fs::read_dir("/proc/self/fd")
                     .expect("enumerate caller file descriptors after cancellation")
@@ -432,12 +519,8 @@ mod unix_bounded_process_tests {
         let executable = std::env::current_exe().expect("test executable");
         let mut worker = Command::new(executable);
         worker
-            .args([
-                "--exact",
-                "unix_bounded_process_tests::escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup",
-                "--nocapture",
-            ])
-            .env(MODE, "escaped-worker")
+            .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+            .env(MODE, "bounded-worker")
             .env(STARTED, &started)
             .env(DONE, &done)
             .stdin(Stdio::null())
@@ -1745,16 +1828,16 @@ enum BoundedReadMessage {
     Error(String),
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(unix)]
 trait BoundedPipeReader: Read + AsRawFd {}
 
-#[cfg(target_os = "linux")]
+#[cfg(unix)]
 impl<T: Read + AsRawFd> BoundedPipeReader for T {}
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(unix))]
 trait BoundedPipeReader: Read {}
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(unix))]
 impl<T: Read> BoundedPipeReader for T {}
 
 fn forward_pipe<R: BoundedPipeReader>(
@@ -1763,7 +1846,7 @@ fn forward_pipe<R: BoundedPipeReader>(
     sender: SyncSender<BoundedReadMessage>,
     cancelled: Arc<AtomicBool>,
 ) {
-    #[cfg(target_os = "linux")]
+    #[cfg(unix)]
     let mut poll_fd = {
         PollFd {
             fd: reader.as_raw_fd(),
@@ -1776,7 +1859,7 @@ fn forward_pipe<R: BoundedPipeReader>(
         if cancelled.load(Ordering::Acquire) {
             break;
         }
-        #[cfg(target_os = "linux")]
+        #[cfg(unix)]
         {
             let ready = unsafe { poll(&mut poll_fd, 1, 50) };
             if ready == 0 {
@@ -1865,12 +1948,12 @@ fn bounded_process_output(
             // not join indefinitely or claim cleanup succeeded in that case.
             reader_cancelled.store(true, Ordering::Release);
             drop(receiver);
-            #[cfg(target_os = "linux")]
+            #[cfg(unix)]
             {
                 let _ = stdout_reader.join();
                 let _ = stderr_reader.join();
             }
-            #[cfg(not(target_os = "linux"))]
+            #[cfg(not(unix))]
             {
                 drop(stdout_reader);
                 drop(stderr_reader);
