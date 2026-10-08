@@ -9175,6 +9175,24 @@ mod recovery_retry_consumption_tests {
             "git init failed: {}",
             String::from_utf8_lossy(&output.stderr)
         );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=Test",
+                    "-c",
+                    "user.email=test@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "fixture baseline",
+                ])
+                .current_dir(directory.path())
+                .status()
+                .expect("git commit baseline")
+                .success()
+        );
         attach(directory.path()).expect("attach repository");
         directory
     }

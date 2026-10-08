@@ -870,6 +870,24 @@ mod lifecycle_clock_tests {
                     .expect("git init")
                     .success()
             );
+            assert!(
+                Command::new("git")
+                    .args([
+                        "-c",
+                        "user.name=Test",
+                        "-c",
+                        "user.email=test@example.invalid",
+                        "commit",
+                        "--quiet",
+                        "--allow-empty",
+                        "-m",
+                        "fixture baseline",
+                    ])
+                    .current_dir(directory.path())
+                    .status()
+                    .expect("git commit baseline")
+                    .success()
+            );
             crate::attach(directory.path()).expect("attach");
             let id = "WI-INJECTED-LIFECYCLE";
             let samples = [

@@ -15,6 +15,24 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=Test",
+                "-c",
+                "user.email=test@example.invalid",
+                "commit",
+                "--quiet",
+                "--allow-empty",
+                "-m",
+                "fixture baseline",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
     directory
 }
 
