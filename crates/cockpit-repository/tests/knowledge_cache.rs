@@ -13,6 +13,26 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 fn repository() -> std::path::PathBuf {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -29,6 +49,7 @@ fn repository() -> std::path::PathBuf {
         .current_dir(&path)
         .status()
         .expect("git init");
+    commit_empty_baseline(&path);
     attach(&path).expect("attach");
     path
 }

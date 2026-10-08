@@ -18,6 +18,26 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 fn commit(path: &std::path::Path, message: &str) {
     assert!(
         Command::new("git")
@@ -63,6 +83,7 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     start_work_item_with_options(
         directory.path(),
@@ -321,6 +342,7 @@ fn ready_archived_repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     let id = "WI-ARCHIVED-RECOVERY";
     start_work_item_with_options(
@@ -940,14 +962,14 @@ fn archive_rejects_a_symlink_current_candidate() {
     use std::os::unix::fs::symlink;
 
     let directory = repository();
-    let target = directory.path().join("outside-recovery.json");
+    let target = tempfile::NamedTempFile::new().expect("outside recovery fixture");
     fs::write(
-        &target,
+        target.path(),
         serde_json::to_vec(&receipt(&directory, "symlink")).unwrap(),
     )
     .unwrap();
     symlink(
-        &target,
+        target.path(),
         directory
             .path()
             .join(".ai/decisions/WI-BLOCKED.recovery.json"),

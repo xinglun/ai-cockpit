@@ -15,6 +15,26 @@ use cockpit_repository::{
 use serde_json::{Value, json};
 use std::{fs, process::Command};
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .unwrap()
+            .success()
+    );
+}
+
 const ID: &str = "WI-FINALIZATION-TRANSITION";
 
 fn runtime() -> RuntimeContext {
@@ -45,6 +65,7 @@ fn repository_with_worktree(
             .unwrap()
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).unwrap();
     start_work_item_with_options(
         directory.path(),
@@ -117,12 +138,25 @@ fn repository_with_worktree(
     (directory, context, digest)
 }
 
-fn blocked(repository_id: &str, context: &ResourceFinalizationContext, contract: &Digest) -> Value {
+fn archived_contract_base_revision(directory: &tempfile::TempDir) -> String {
+    let path = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{ID}.contract.json"));
+    let contract: Value = serde_json::from_slice(&fs::read(path).unwrap()).unwrap();
+    contract["baseRevision"].as_str().unwrap().to_owned()
+}
+
+fn blocked(
+    directory: &tempfile::TempDir,
+    repository_id: &str,
+    context: &ResourceFinalizationContext,
+    contract: &Digest,
+) -> Value {
     json!({
         "schemaVersion":1,"receiptId":"blocked-1","operationId":"operation-1",
         "repositoryId":repository_id,
         "workItemId":ID,"runtimeVersion":"test-runtime","runtimeDigest":runtime().runtime_digest,
-        "provider":context.provider,"pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":"unborn"},
+        "provider":context.provider,"pullRequest":{"number":191,"url":context.pull_request,"headRevision":"head-191","baseBranch":"main","baseRemote":"origin","baseRevision":archived_contract_base_revision(directory)},
         "branch":{"name":context.branch,"remote":"origin","headRevision":"head-191"},
         "worktree":{"worktreeId":"worktree-191","path":context.worktree,"branch":context.branch,"headRevision":"head-191"},
         "before":{"pullRequest":"unmerged","branch":"present","worktree":"clean"},
@@ -134,11 +168,12 @@ fn blocked(repository_id: &str, context: &ResourceFinalizationContext, contract:
 }
 
 fn abandoned(
+    directory: &tempfile::TempDir,
     repository_id: &str,
     context: &ResourceFinalizationContext,
     contract: &Digest,
 ) -> Value {
-    let mut receipt = blocked(repository_id, context, contract);
+    let mut receipt = blocked(directory, repository_id, context, contract);
     receipt["receiptId"] = "abandoned-1".into();
     receipt["operationId"] = "abandoned-operation-1".into();
     receipt["after"] = json!({
@@ -397,7 +432,7 @@ fn direct_merge_repository() -> (
 fn canonical_record_rejects_pull_request_base_that_differs_from_archived_contract() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut receipt = blocked(&repository_id, &context, &contract);
+    let mut receipt = blocked(&directory, &repository_id, &context, &contract);
     receipt["pullRequest"]["baseRevision"] = "different-base-revision".into();
     let input = write_input(&directory, "mismatched-base.json", &receipt);
 
@@ -428,7 +463,7 @@ fn canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bo
     let archived_contract: Value =
         serde_json::from_slice(&fs::read(contract_path).unwrap()).unwrap();
     let contract_base = archived_contract["baseRevision"].as_str().unwrap();
-    let mut receipt = blocked(&repository_id, &context, &contract);
+    let mut receipt = blocked(&directory, &repository_id, &context, &contract);
     receipt["pullRequest"]["baseRevision"] = "provider-comparison-base".into();
     receipt["contractBaseRevision"] = contract_base.into();
     let input = write_input(&directory, "distinct-base.json", &receipt);
@@ -456,7 +491,7 @@ fn canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bo
 fn canonical_record_rejects_wrong_explicit_contract_base_without_persisting() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut receipt = blocked(&repository_id, &context, &contract);
+    let mut receipt = blocked(&directory, &repository_id, &context, &contract);
     receipt["pullRequest"]["baseRevision"] = "provider-comparison-base".into();
     receipt["contractBaseRevision"] = "wrong-contract-base".into();
     let input = write_input(&directory, "wrong-contract-base.json", &receipt);
@@ -482,7 +517,7 @@ fn canonical_record_rejects_wrong_explicit_contract_base_without_persisting() {
 fn canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_contract() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let receipt = blocked(&repository_id, &context, &contract);
+    let receipt = blocked(&directory, &repository_id, &context, &contract);
     let input = write_input(&directory, "matching-base.json", &receipt);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
 
@@ -512,7 +547,7 @@ fn closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure(
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
     };
-    let mut receipt = blocked(&repository_id, &context, &contract);
+    let mut receipt = blocked(&directory, &repository_id, &context, &contract);
     receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
     receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
     receipt["pullRequest"] = json!({
@@ -521,7 +556,7 @@ fn closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure(
         "headRevision": "head-191",
         "baseBranch": "main",
         "baseRemote": "origin",
-        "baseRevision": "unborn",
+        "baseRevision": archived_contract_base_revision(&directory),
         "mergeCommit": "merge-191"
     });
     receipt["before"] = json!({
@@ -588,7 +623,7 @@ fn historical_runtime_recovery_accepts_normal_merged_pr_before_close() {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
     };
-    let mut receipt = blocked(&repository_id, &context, &contract);
+    let mut receipt = blocked(&directory, &repository_id, &context, &contract);
     receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
     receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
     receipt["pullRequest"]["mergeCommit"] = "merge-191".into();
@@ -651,7 +686,7 @@ fn historical_runtime_plan_does_not_classify_incomplete_pr_history() {
             protocol_version: 1,
             runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
         };
-        let mut receipt = blocked(&repository_id, &context, &contract);
+        let mut receipt = blocked(&directory, &repository_id, &context, &contract);
         receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
         receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
         receipt["pullRequest"]["mergeCommit"] = if has_merge_commit {
@@ -815,11 +850,15 @@ fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::Pat
     ))
 }
 
-fn post_finalize_evidence(contract: &Digest, head_revision: &str) -> (Value, Value) {
+fn post_finalize_evidence(
+    directory: &tempfile::TempDir,
+    contract: &Digest,
+    head_revision: &str,
+) -> (Value, Value) {
     let manifest_digest = Digest::sha256_bytes(b"repository-gate-manifest").to_string();
     let mut quality_route = json!({
         "automaticProfile": "strict",
-        "baseRevision": "unborn",
+        "baseRevision": archived_contract_base_revision(directory),
         "changedPaths": [format!(".ai/decisions/{ID}.finalize.json")],
         "contractDigest": contract,
         "contractPath": format!(".ai/work-items/archive/{ID}.contract.json"),
@@ -871,7 +910,8 @@ fn commit_post_finalize_evidence(
     contract: &Digest,
     head_revision: &str,
 ) -> String {
-    let (quality_route, repository_gates) = post_finalize_evidence(contract, head_revision);
+    let (quality_route, repository_gates) =
+        post_finalize_evidence(directory, contract, head_revision);
     commit_post_finalize_evidence_values(directory, &quality_route, &repository_gates)
 }
 
@@ -917,7 +957,7 @@ fn refresh_quality_route_digest(quality_route: &mut Value, repository_gates: &mu
 fn wi190_topology_appends_two_transitions_and_resolves_deleted_head() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let canonical_input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
     let canonical = directory
@@ -979,7 +1019,7 @@ fn wi190_topology_appends_two_transitions_and_resolves_deleted_head() {
 fn close_rejects_retained_finalization_before_writing_decision() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let retained = retained_root(&blocked);
     let input = write_input(&directory, "retained-root.json", &retained);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
@@ -1016,7 +1056,7 @@ fn close_rejects_retained_finalization_before_writing_decision() {
 fn abandoned_unmerged_cleanup_can_be_verified_and_closed_without_merge_claim() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let receipt = abandoned(&repository_id, &context, &contract);
+    let receipt = abandoned(&directory, &repository_id, &context, &contract);
     let input = write_input(&directory, "abandoned.json", &receipt);
     let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
         .expect("abandoned cleanup receipt should be recorded");
@@ -1049,7 +1089,7 @@ fn abandoned_unmerged_cleanup_can_be_verified_and_closed_without_merge_claim() {
 fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_predecessor() {
     let (directory, context, contract) = primary_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let mut retained = retained_root(&blocked(&directory, &repository_id, &context, &contract));
     retained["runtimeVersion"] = "0.2.47".into();
     retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
     let canonical = directory
@@ -1068,7 +1108,7 @@ fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_pr
         &repository_id,
         &predecessor_digest,
         "shared_worktree_retained",
-        "unborn",
+        &archived_contract_base_revision(&directory),
     );
     let recovery_input = write_input(&directory, "historical-recovery.json", &recovery);
     let recorded =
@@ -1111,7 +1151,7 @@ fn historical_runtime_recovery_allows_shared_retained_close_without_rewriting_pr
 fn legacy_local_shared_retained_is_projected_without_manual_recovery_marker() {
     let (directory, context, contract) = primary_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let retained = retained_root(&blocked(&directory, &repository_id, &context, &contract));
     let canonical = directory
         .path()
         .join(format!(".ai/decisions/{ID}.finalize.json"));
@@ -1159,7 +1199,7 @@ fn legacy_local_shared_retained_is_projected_without_manual_recovery_marker() {
 fn legacy_local_shared_retained_from_older_runtime_is_still_low_assurance() {
     let (directory, context, contract) = primary_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let mut retained = retained_root(&blocked(&directory, &repository_id, &context, &contract));
     retained["runtimeVersion"] = "0.2.33".into();
     retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.33").to_string().into();
     let canonical = directory
@@ -1178,7 +1218,7 @@ fn legacy_local_shared_retained_from_older_runtime_is_still_low_assurance() {
 fn historical_runtime_recovery_rejects_foreign_and_tampered_bindings() {
     let (directory, context, contract) = primary_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let mut retained = retained_root(&blocked(&directory, &repository_id, &context, &contract));
     retained["runtimeVersion"] = "0.2.47".into();
     retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
     let canonical = directory
@@ -1685,7 +1725,7 @@ fn historical_runtime_recovery_rejects_symlink_destination() {
 
     let (directory, context, contract) = primary_repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let mut retained = retained_root(&blocked(&repository_id, &context, &contract));
+    let mut retained = retained_root(&blocked(&directory, &repository_id, &context, &contract));
     retained["runtimeVersion"] = "0.2.47".into();
     retained["runtimeDigest"] = Digest::sha256_bytes(b"runtime-0.2.47").to_string().into();
     let canonical = directory
@@ -1714,7 +1754,7 @@ fn historical_runtime_recovery_rejects_symlink_destination() {
 fn post_close_reconciliation_appends_deleted_head_without_rewriting_close() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let retained = retained_root(&blocked);
     let input = write_input(&directory, "retained-root.json", &retained);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
@@ -1757,7 +1797,7 @@ fn post_close_reconciliation_appends_deleted_head_without_rewriting_close() {
 fn post_close_reconciliation_rejects_foreign_transition_runtime_identity() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let retained = retained_root(&blocked);
     let input = write_input(&directory, "retained-root.json", &retained);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
@@ -1812,7 +1852,7 @@ fn wi191_governance_receipt_append_allows_bounded_merge_observation() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
     let archive_head = commit_archive(&directory);
-    let mut blocked = blocked(&repository_id, &context, &contract);
+    let mut blocked = blocked(&directory, &repository_id, &context, &contract);
     set_receipt_head(&mut blocked, &archive_head);
     let canonical_input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -1844,7 +1884,7 @@ fn bounded_same_work_item_post_finalize_evidence_append_is_accepted() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
     let archive_head = commit_archive(&directory);
-    let mut blocked = blocked(&repository_id, &context, &contract);
+    let mut blocked = blocked(&directory, &repository_id, &context, &contract);
     set_receipt_head(&mut blocked, &archive_head);
     let canonical_input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -1883,7 +1923,7 @@ fn malformed_or_cross_bound_post_finalize_evidence_fails_closed() {
         let (directory, context, contract) = repository();
         let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
         let archive_head = commit_archive(&directory);
-        let mut blocked = blocked(&repository_id, &context, &contract);
+        let mut blocked = blocked(&directory, &repository_id, &context, &contract);
         set_receipt_head(&mut blocked, &archive_head);
         let canonical_input = write_input(&directory, "blocked.json", &blocked);
         record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -1895,7 +1935,7 @@ fn malformed_or_cross_bound_post_finalize_evidence_fails_closed() {
         );
         let governance_head = git(&directory, &["rev-parse", "HEAD"]);
         let (mut quality_route, mut repository_gates) =
-            post_finalize_evidence(&contract, &governance_head);
+            post_finalize_evidence(&directory, &contract, &governance_head);
         match case {
             "quality_schema" => quality_route["schemaVersion"] = 2.into(),
             "quality_contract" => {
@@ -1946,7 +1986,7 @@ fn unrelated_or_malformed_governance_append_fails_closed() {
         let (directory, context, contract) = repository();
         let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
         let archive_head = commit_archive(&directory);
-        let mut blocked = blocked(&repository_id, &context, &contract);
+        let mut blocked = blocked(&directory, &repository_id, &context, &contract);
         set_receipt_head(&mut blocked, &archive_head);
         let canonical_input = write_input(&directory, "blocked.json", &blocked);
         record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -1976,7 +2016,7 @@ fn incomplete_or_invalid_json_post_finalize_evidence_fails_closed() {
         let (directory, context, contract) = repository();
         let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
         let archive_head = commit_archive(&directory);
-        let mut blocked = blocked(&repository_id, &context, &contract);
+        let mut blocked = blocked(&directory, &repository_id, &context, &contract);
         set_receipt_head(&mut blocked, &archive_head);
         let canonical_input = write_input(&directory, "blocked.json", &blocked);
         record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -1985,7 +2025,8 @@ fn incomplete_or_invalid_json_post_finalize_evidence_fails_closed() {
         let evidence = directory.path().join(&evidence_relative);
         fs::create_dir_all(&evidence).unwrap();
         let governance_head = git(&directory, &["rev-parse", "HEAD"]);
-        let (quality_route, repository_gates) = post_finalize_evidence(&contract, &governance_head);
+        let (quality_route, repository_gates) =
+            post_finalize_evidence(&directory, &contract, &governance_head);
         match case {
             "incomplete" => fs::write(
                 evidence.join("quality-route-post-finalize.json"),
@@ -2054,7 +2095,7 @@ fn modified_deleted_or_renamed_post_finalize_evidence_fails_closed() {
         .unwrap();
         let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
         let archive_head = commit_archive(&directory);
-        let mut blocked = blocked(&repository_id, &context, &contract);
+        let mut blocked = blocked(&directory, &repository_id, &context, &contract);
         set_receipt_head(&mut blocked, &archive_head);
         let canonical_input = write_input(&directory, "blocked.json", &blocked);
         record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -2100,7 +2141,7 @@ fn symlinked_governance_append_receipt_fails_closed() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
     let archive_head = commit_archive(&directory);
-    let mut blocked = blocked(&repository_id, &context, &contract);
+    let mut blocked = blocked(&directory, &repository_id, &context, &contract);
     set_receipt_head(&mut blocked, &archive_head);
     let canonical_input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -2129,7 +2170,7 @@ fn symlinked_post_finalize_evidence_fails_closed() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
     let archive_head = commit_archive(&directory);
-    let mut blocked = blocked(&repository_id, &context, &contract);
+    let mut blocked = blocked(&directory, &repository_id, &context, &contract);
     set_receipt_head(&mut blocked, &archive_head);
     let canonical_input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &canonical_input, &runtime()).unwrap();
@@ -2169,7 +2210,7 @@ fn symlinked_post_finalize_evidence_fails_closed() {
 fn forked_and_symlinked_transition_candidates_fail_closed() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
     let first = transition(&blocked, 1, false);
@@ -2203,7 +2244,7 @@ fn forked_and_symlinked_transition_candidates_fail_closed() {
 fn stale_missing_foreign_runtime_and_contract_transitions_fail_closed() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
-    let blocked = blocked(&repository_id, &context, &contract);
+    let blocked = blocked(&directory, &repository_id, &context, &contract);
     let input = write_input(&directory, "blocked.json", &blocked);
     record_resource_finalization(directory.path(), ID, &input, &runtime()).unwrap();
 

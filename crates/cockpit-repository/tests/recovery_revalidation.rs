@@ -13,6 +13,26 @@ use serde_json::json;
 use std::fs;
 use std::process::Command;
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .unwrap()
+            .success()
+    );
+}
+
 const ID: &str = "WI-ARCHIVED-AMENDMENT";
 const SUCCESSOR: &str = "WI-ARCHIVED-AMENDMENT-REVALIDATION";
 
@@ -69,6 +89,7 @@ fn archived_amended_repository() -> tempfile::TempDir {
             .unwrap()
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).unwrap();
     start_work_item_with_options(
         directory.path(),
@@ -137,7 +158,10 @@ fn archived_amended_repository() -> tempfile::TempDir {
     let predecessor_contract = directory
         .path()
         .join(format!(".ai/work-items/archive/{ID}.contract.json"));
-    let predecessor_digest = Digest::sha256_bytes(&fs::read(&predecessor_contract).unwrap());
+    let predecessor_contract_bytes = fs::read(&predecessor_contract).unwrap();
+    let predecessor_digest = Digest::sha256_bytes(&predecessor_contract_bytes);
+    let predecessor_contract_value: serde_json::Value =
+        serde_json::from_slice(&predecessor_contract_bytes).unwrap();
     let predecessor_context = ResourceFinalizationContext {
         branch: "feature/archived-amendment".into(),
         worktree: directory.path().display().to_string(),
@@ -162,7 +186,7 @@ fn archived_amended_repository() -> tempfile::TempDir {
             "headRevision": "head-archived-amendment",
             "baseBranch": "main",
             "baseRemote": "origin",
-            "baseRevision": "unborn",
+            "baseRevision": predecessor_contract_value["baseRevision"],
             "mergeCommit": "merge-archived-amendment"
         },
         "branch": {

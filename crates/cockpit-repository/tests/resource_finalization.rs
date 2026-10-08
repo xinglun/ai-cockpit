@@ -9,6 +9,26 @@ use cockpit_repository::{
 };
 use std::process::Command;
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 #[test]
 fn resource_lifecycle_module_uses_explicit_imports() {
     let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/resource_lifecycle.rs");
@@ -27,6 +47,7 @@ fn planning_preserves_the_public_resource_context_binding() {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     let work_item_id = "WI-RESOURCE-BOUNDARY-PLAN";
     start_work_item(
@@ -70,6 +91,7 @@ fn planning_rejects_replacing_a_complete_resource_binding() {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     let work_item_id = "WI-RESOURCE-BOUNDARY-REPLAY";
     start_work_item(
@@ -107,6 +129,7 @@ fn archived_finalize_plan_appends_a_resource_binding_without_mutating_archive() 
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     let work_item_id = "WI-ARCHIVED-RESOURCE-BINDING";
     start_work_item(

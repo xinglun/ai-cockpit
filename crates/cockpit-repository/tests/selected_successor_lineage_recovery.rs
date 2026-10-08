@@ -11,6 +11,26 @@ use cockpit_repository::{
 use serde_json::{Value, json};
 use std::{fs, path::Path, process::Command};
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 fn runtime() -> RuntimeContext {
     RuntimeContext {
         runtime_version: "0.1.0".into(),
@@ -29,6 +49,7 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     directory
 }

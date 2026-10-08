@@ -11,6 +11,26 @@ use serde_json::{Value, json};
 use std::fs;
 use std::process::Command;
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(
@@ -21,6 +41,7 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     start_work_item_with_options(
         directory.path(),
@@ -387,6 +408,7 @@ fn ordinary_archive_admission_still_requires_finished_verification() {
             .unwrap()
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach repository");
     let id = "WI-ORDINARY-ARCHIVE";
     let runtime = current_runtime();
