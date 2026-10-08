@@ -1055,7 +1055,7 @@ fn in_scope_committed_changes_do_not_stale_contract_and_unreviewable_scope_escap
         !checkpoint.status.success(),
         "an out-of-scope change must not be checkpointed"
     );
-    assert!(String::from_utf8_lossy(&checkpoint.stderr).contains("current=red"));
+    assert!(String::from_utf8_lossy(&checkpoint.stderr).contains("recorded non-red preflight"));
     let verify = run_output(
         binary,
         &[
