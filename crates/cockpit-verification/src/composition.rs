@@ -5698,6 +5698,7 @@ mod external_observer_deferred_tests {
     use std::ffi::CString;
     use std::os::unix::ffi::OsStrExt;
     use std::sync::Arc;
+    use std::sync::atomic::AtomicBool;
 
     static NEXT_CASE: AtomicU64 = AtomicU64::new(0);
 
@@ -6004,6 +6005,112 @@ mod external_observer_deferred_tests {
         result
     }
 
+    #[derive(Clone, Copy)]
+    enum DeniedReuseFinalObservation {
+        Clean,
+        ProcfsCwdEacces,
+        Active(u32),
+    }
+
+    fn injected_procfs_cwd_eacces(process_id: u32) -> String {
+        let identity = format!(
+            "observed(pid={process_id},starttime_ticks=7,pgid={process_id},sid={process_id},state=S)"
+        );
+        format!(
+            "cannot inspect process pid={process_id} filter_uid=Some({}) phase=procfs.cwd error_kind=PermissionDenied errno={} identity_state=observed identity_before={identity} identity_after={identity} message=Permission denied (os error {}) working directory",
+            unsafe { libc::geteuid() },
+            libc::EACCES,
+            libc::EACCES
+        )
+    }
+
+    fn run_denied_reuse_with_final_observation(
+        input: CompositionInput,
+        previous_worktree: PathBuf,
+        final_observation: DeniedReuseFinalObservation,
+    ) -> CompositionAttempt {
+        const DENIAL: &str =
+            "composition_reuse_not_admitted:safe-noop:coordination_safely_paused:late-request";
+
+        let admission_checked = Arc::new(AtomicBool::new(false));
+        let admission_checked_in_gate = Arc::clone(&admission_checked);
+        let admission_check: ProcessAdmissionCheck = Arc::new(move |node_id, _accept| {
+            assert_eq!(node_id, "safe-noop");
+            admission_checked_in_gate.store(true, Ordering::SeqCst);
+            Err("coordination_safely_paused:late-request".into())
+        });
+        let start_gate_called = Arc::new(AtomicBool::new(false));
+        let start_gate_called_in_gate = Arc::clone(&start_gate_called);
+        let process_start_gate: ProcessStartGate = Arc::new(move |_, _spawn| {
+            start_gate_called_in_gate.store(true, Ordering::SeqCst);
+            Err("process start gate must not run for a denied reuse".into())
+        });
+        let state_dir = input.state_dir.clone();
+        let observe = move |worktree: &Path| {
+            if worktree == previous_worktree {
+                return Ok(None);
+            }
+
+            assert!(worktree.is_dir(), "final observer sees the live worktree");
+            let persisted = fs::read_dir(&state_dir)
+                .expect("enumerate attempt state before final observation")
+                .filter_map(Result::ok)
+                .filter_map(|entry| {
+                    let path = entry.path();
+                    if !path
+                        .extension()
+                        .is_some_and(|extension| extension == "json")
+                    {
+                        return None;
+                    }
+                    let bytes = fs::read(path).ok()?;
+                    let attempt: CompositionAttempt = serde_json::from_slice(&bytes).ok()?;
+                    (Path::new(&attempt.isolated_worktree) == worktree).then_some(attempt)
+                })
+                .next()
+                .expect("durable attempt for final-observed worktree");
+            assert_eq!(persisted.failure.as_deref(), Some(DENIAL));
+            assert!(!persisted.passed);
+            assert_eq!(persisted.processes_spawned, 0);
+            assert!(persisted.execution_records.is_empty());
+            assert!(persisted.supervisor_receipt.is_none());
+
+            match final_observation {
+                DeniedReuseFinalObservation::Clean => Ok(None),
+                DeniedReuseFinalObservation::ProcfsCwdEacces => {
+                    Err(injected_procfs_cwd_eacces(4242))
+                }
+                DeniedReuseFinalObservation::Active(process_id) => Ok(Some(process_id)),
+            }
+        };
+        let attempt = run_composition_inner_with_observer(
+            input,
+            Some(admission_check),
+            Some(process_start_gate),
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| {
+                    panic!("an attempt without a supervisor receipt must not reap descendants")
+                },
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("denied reuse returns a durable fail-closed attempt");
+
+        assert!(admission_checked.load(Ordering::SeqCst));
+        assert!(!start_gate_called.load(Ordering::SeqCst));
+        assert!(!attempt.passed);
+        assert_ne!(
+            attempt.execution_outcome,
+            CompositionExecutionOutcome::Passed
+        );
+        assert_eq!(attempt.processes_spawned, 0);
+        assert!(attempt.execution_records.is_empty());
+        attempt
+    }
+
     fn save_attempt_json(state: &Path, attempt_id: &str, name: &str) -> serde_json::Value {
         let path = attempt_record_path(state, attempt_id);
         let bytes = fs::read(path).expect("durable attempt bytes");
@@ -6129,6 +6236,117 @@ mod external_observer_deferred_tests {
             mismatch.is_err(),
             "a sibling process diagnostic must fail the fixture, not become expected Unknown"
         );
+    }
+
+    #[test]
+    fn admission_change_blocks_reuse_with_controlled_clean_unknown_and_active_observations() {
+        for observation in [
+            DeniedReuseFinalObservation::Clean,
+            DeniedReuseFinalObservation::ProcfsCwdEacces,
+            DeniedReuseFinalObservation::Active(4242),
+        ] {
+            let (repository, _state, input) = composition_case();
+            let first = run_supervisor_case(&input, "");
+            assert!(first.passed);
+            assert!(is_reusable_terminal_attempt(&first));
+            assert_eq!(
+                first.cleanup_disposition,
+                CompositionCleanupDisposition::Cleaned
+            );
+            assert_eq!(first.processes_spawned, 1);
+            assert_eq!(first.execution_records.len(), 1);
+            let previous_worktree = PathBuf::from(&first.isolated_worktree);
+            assert!(!previous_worktree.exists());
+
+            let mut worktrees = OwnedWorktrees::new(repository.path());
+            worktrees.retain_for_assertions(&first.isolated_worktree);
+            let blocked =
+                run_denied_reuse_with_final_observation(input, previous_worktree, observation);
+            worktrees.retain_for_assertions(&blocked.isolated_worktree);
+            assert!(blocked.supervisor_receipt.is_none());
+
+            let worktree = Path::new(&blocked.isolated_worktree);
+            match observation {
+                DeniedReuseFinalObservation::Clean => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(
+                            "composition_reuse_not_admitted:safe-noop:coordination_safely_paused:late-request"
+                        )
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Cleaned
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                    assert!(
+                        blocked
+                            .cleanup
+                            .as_ref()
+                            .is_some_and(|cleanup| cleanup.removed && cleanup.error.is_none())
+                    );
+                    assert!(!worktree.exists());
+                    assert!(
+                        !worktree_is_registered(repository.path(), worktree)
+                            .expect("verify clean worktree registration")
+                    );
+                }
+                DeniedReuseFinalObservation::ProcfsCwdEacces => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(
+                            format!(
+                                "verifier_process_state_unknown:{}",
+                                injected_procfs_cwd_eacces(4242)
+                            )
+                            .as_str()
+                        )
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Retained
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Unknown
+                    );
+                    assert!(!blocked.execution_evidence_complete);
+                    assert!(blocked.owned_tree_termination_unknown);
+                    assert!(blocked.cleanup.is_none());
+                    assert!(worktree.is_dir());
+                    assert!(
+                        worktree_is_registered(repository.path(), worktree)
+                            .expect("verify unknown worktree registration")
+                    );
+                }
+                DeniedReuseFinalObservation::Active(process_id) => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(format!("verifier_descendant_active:{process_id}").as_str())
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Retained
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                    assert!(!blocked.owned_tree_termination_unknown);
+                    assert!(blocked.cleanup.is_none());
+                    assert!(worktree.is_dir());
+                    assert!(
+                        worktree_is_registered(repository.path(), worktree)
+                            .expect("verify active worktree registration")
+                    );
+                }
+            }
+        }
     }
 
     #[test]

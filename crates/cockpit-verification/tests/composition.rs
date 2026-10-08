@@ -18,7 +18,7 @@ use cockpit_verification::{
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
 use std::time::{Duration, Instant};
 
@@ -313,6 +313,18 @@ fn run(root: &Path, args: &[&str]) -> String {
         .expect("utf8")
         .trim()
         .into()
+}
+
+fn worktree_is_registered(root: &Path, worktree: &Path) -> bool {
+    let expected = fs::canonicalize(worktree).unwrap_or_else(|_| worktree.to_path_buf());
+    run(root, &["worktree", "list", "--porcelain"])
+        .lines()
+        .any(|line| {
+            line.strip_prefix("worktree ").is_some_and(|path| {
+                let listed = PathBuf::from(path);
+                fs::canonicalize(&listed).unwrap_or(listed) == expected
+            })
+        })
 }
 
 fn repository() -> TempDir {
@@ -1092,7 +1104,10 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
         run_composition_with_test_supervisor(composition.clone()).expect("seed reusable receipt");
     assert!(first.passed);
 
-    let admission_check: ProcessAdmissionCheck = std::sync::Arc::new(|_node_id: &str, _accept| {
+    let admission_checked = Arc::new(AtomicBool::new(false));
+    let was_admission_checked = Arc::clone(&admission_checked);
+    let admission_check: ProcessAdmissionCheck = Arc::new(move |_node_id: &str, _accept| {
+        was_admission_checked.store(true, Ordering::SeqCst);
         Err("coordination_safely_paused:late-request".into())
     });
     let start_gate: ProcessStartGate = std::sync::Arc::new(
@@ -1103,19 +1118,128 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
     let blocked = run_composition_with_process_gates(composition, admission_check, start_gate)
         .expect("a denied reuse is preserved as a failed attempt");
 
+    assert!(
+        admission_checked.load(Ordering::SeqCst),
+        "the cached result must reach the admission gate before reuse"
+    );
     assert!(!blocked.passed);
+    assert_ne!(
+        blocked.execution_outcome,
+        CompositionExecutionOutcome::Passed
+    );
     assert_eq!(blocked.processes_spawned, 0);
     assert!(blocked.execution_records.is_empty());
+    match blocked.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            assert!(
+                blocked.failure.as_deref()
+                    == Some(
+                        "composition_reuse_not_admitted:reusable:coordination_safely_paused:late-request"
+                    ),
+                "a cleanly observed attempt must retain the admission reason; failure={:?}",
+                blocked.failure,
+            );
+            assert!(
+                blocked
+                    .cleanup
+                    .as_ref()
+                    .is_some_and(|cleanup| cleanup.removed && cleanup.error.is_none())
+            );
+            assert!(!Path::new(&blocked.isolated_worktree).exists());
+            assert!(!worktree_is_registered(
+                root.path(),
+                Path::new(&blocked.isolated_worktree)
+            ));
+        }
+        CompositionCleanupDisposition::Retained => {
+            assert!(blocked.cleanup.is_none());
+            match blocked.failure.as_deref() {
+                Some(failure) if failure.starts_with("verifier_process_state_unknown:") => {
+                    #[cfg(target_os = "linux")]
+                    assert_procfs_cwd_eacces(failure);
+                    #[cfg(not(target_os = "linux"))]
+                    panic!("unexpected cleanup observation on non-Linux Unix: {failure}");
+                    assert!(blocked.owned_tree_termination_unknown);
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Unknown
+                    );
+                    assert!(!blocked.execution_evidence_complete);
+                }
+                Some(failure) if failure.starts_with("verifier_descendant_active:") => {
+                    let process_id = failure
+                        .strip_prefix("verifier_descendant_active:")
+                        .and_then(|value| value.parse::<u32>().ok())
+                        .filter(|process_id| *process_id > 0)
+                        .expect("numeric active process ID");
+                    assert_eq!(failure, format!("verifier_descendant_active:{process_id}"));
+                    assert!(!blocked.owned_tree_termination_unknown);
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                }
+                failure => panic!("unexpected retained-attempt reason: {failure:?}"),
+            }
+            assert!(Path::new(&blocked.isolated_worktree).is_dir());
+            assert!(worktree_is_registered(
+                root.path(),
+                Path::new(&blocked.isolated_worktree)
+            ));
+        }
+        disposition => panic!("denied reuse unexpectedly reached {disposition:?}"),
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn assert_procfs_cwd_eacces(failure: &str) {
+    let diagnostic = failure
+        .strip_prefix("verifier_process_state_unknown:")
+        .expect("unknown cleanup prefix");
     assert!(
-        blocked
-            .failure
-            .as_deref()
-            .is_some_and(|failure| failure.contains("coordination_safely_paused")),
-        "actual failure={:?}; reuse={:?}; execution records={:?}; cleanup={:?}",
-        blocked.failure,
-        blocked.reuse_decision,
-        blocked.execution_records,
-        blocked.cleanup_disposition,
+        diagnostic.starts_with("cannot inspect process pid="),
+        "{diagnostic}"
+    );
+    assert!(diagnostic.contains("filter_uid=Some("), "{diagnostic}");
+    assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+    assert!(
+        diagnostic.contains("error_kind=PermissionDenied"),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains(&format!("errno={}", libc::EACCES)),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains("identity_state=observed"),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains(&format!(
+            "message=Permission denied (os error {}) working directory",
+            libc::EACCES
+        )),
+        "{diagnostic}"
+    );
+    let process_id = diagnostic
+        .strip_prefix("cannot inspect process pid=")
+        .and_then(|rest| rest.split_whitespace().next())
+        .and_then(|process_id| process_id.parse::<u32>().ok())
+        .expect("numeric PID in observer diagnostic");
+    let (_, identity_fields) = diagnostic
+        .split_once(" identity_before=")
+        .expect("identity before field");
+    let (identity_before, identity_after_and_message) = identity_fields
+        .split_once(" identity_after=")
+        .expect("identity after field");
+    let (identity_after, _) = identity_after_and_message
+        .split_once(" message=")
+        .expect("permission diagnostic message");
+    assert_eq!(identity_before, identity_after);
+    assert!(
+        identity_before.starts_with(&format!("observed(pid={process_id},")),
+        "{diagnostic}"
     );
 }
 
