@@ -12,6 +12,37 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(directory.path())
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    std::fs::write(directory.path().join("README.md"), "fixture baseline\n")
+        .expect("baseline README");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git add baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
     directory
 }
 

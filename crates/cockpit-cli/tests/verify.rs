@@ -10,6 +10,39 @@ mod common;
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn commit_baseline(directory: &std::path::Path, readme: &str) {
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(directory)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    fs::write(directory.join("README.md"), readme).expect("baseline README");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(directory)
+            .status()
+            .expect("git add baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(directory)
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
+}
+
 #[test]
 fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
     let suffix = SystemTime::now()
@@ -369,6 +402,7 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
         .current_dir(&directory)
         .status()
         .expect("git init");
+    commit_baseline(&directory, "typed receipt fixture\n");
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let run = |args: &[&str]| {
         let output = Command::new(binary)
@@ -402,7 +436,6 @@ fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() 
         "--required-evidence",
         "verification",
     ]);
-    fs::write(directory.join("README.md"), "typed receipt fixture\n").expect("README");
     run(&[
         "preflight",
         "--contract",
@@ -478,6 +511,7 @@ fn cli_rejected_formal_receipt_supersedes_execution_attempt_in_outcome() {
             .expect("git init")
             .success()
     );
+    commit_baseline(&directory, "rejected receipt fixture\n");
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let work_item_id = "WI-CLI-REJECTED-RECEIPT";
     let run = |args: &[&str]| {
@@ -512,7 +546,6 @@ fn cli_rejected_formal_receipt_supersedes_execution_attempt_in_outcome() {
         "--required-evidence",
         "verification",
     ]);
-    fs::write(directory.join("README.md"), "rejected receipt fixture\n").expect("README");
     run(&[
         "preflight",
         "--contract",

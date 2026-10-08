@@ -7,6 +7,39 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn commit_baseline(root: &std::path::Path) {
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(root)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    fs::write(root.join("README.md"), "fixture baseline\n").expect("baseline README");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(root)
+            .status()
+            .expect("git add baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(root)
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
+}
+
 fn downgrade_to_schema_one(root: &std::path::Path) {
     for name in ["project.json", "agent-interface.json"] {
         let path = root.join(".ai").join(name);
@@ -108,7 +141,17 @@ fn preflight_reports_yellow_when_required_evidence_is_missing() {
     );
     let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
     assert_eq!(json["state"], "yellow");
-    assert_eq!(json["unknowns"][0], "required_evidence_missing");
+    let unknowns = json["unknowns"].as_array().expect("unknowns");
+    assert!(
+        unknowns
+            .iter()
+            .any(|value| value == "material_review_projection_unavailable")
+    );
+    assert!(
+        unknowns
+            .iter()
+            .any(|value| value == "required_evidence_missing")
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -132,6 +175,7 @@ fn repeated_preflight_is_idempotent_and_reports_written_paths() {
             .expect("git init")
             .success()
     );
+    commit_baseline(&directory);
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let attach = Command::new(binary)
         .args(["attach", "--repo"])
@@ -242,6 +286,7 @@ fn preflight_and_status_share_versioned_action_admission() {
             .expect("git init")
             .success()
     );
+    commit_baseline(&directory);
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let attach = Command::new(binary)
         .args(["attach", "--repo"])
@@ -338,6 +383,7 @@ fn preflight_turns_green_after_matching_verification_evidence() {
         .current_dir(&directory)
         .status()
         .expect("git init");
+    commit_baseline(&directory);
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let attach = Command::new(binary)
         .args(["attach", "--repo"])
