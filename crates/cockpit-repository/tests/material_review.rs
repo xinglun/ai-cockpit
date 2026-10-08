@@ -4,7 +4,7 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     MaterialReviewDecisionValidationError, MaterialReviewRequestError, MaterialUnknownCause,
-    material_review_request, validate_material_review_decision,
+    material_review_request, plan_work_item_material_review, validate_material_review_decision,
 };
 use serde_json::json;
 use std::{fs, path::Path, process::Command};
@@ -82,6 +82,94 @@ fn commit(root: &Path) {
             "-qm",
             "candidate",
         ],
+    );
+}
+
+#[test]
+fn active_material_plan_digest_matches_persisted_contract_across_json_shapes() {
+    let (directory, mut contract) = fixture();
+    let root = directory.path();
+    fs::write(root.join("README.md"), "candidate\n").unwrap();
+    commit(root);
+    cockpit_repository::attach(root).expect("attach fixture");
+    contract.repository_id = cockpit_repository::repository_id(root).to_string();
+    let project: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
+    contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
+
+    let active = root.join(".ai/work-items/active");
+    fs::create_dir_all(&active).unwrap();
+    let path = active.join("WI-MATERIAL.contract.json");
+    let mut explicit_nulls = serde_json::to_value(&contract).unwrap();
+    explicit_nulls["predecessorWorkItemId"] = serde_json::Value::Null;
+    explicit_nulls["predecessorContractDigest"] = serde_json::Value::Null;
+    explicit_nulls["recoveryDecisionPath"] = serde_json::Value::Null;
+
+    fs::write(&path, serde_json::to_vec_pretty(&explicit_nulls).unwrap()).unwrap();
+    let explicit_digest = cockpit_protocol::digest_json(&explicit_nulls).unwrap();
+    let explicit_plan = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    assert_eq!(explicit_plan.contract_digest, explicit_digest);
+    let runtime = review_runtime();
+    let explicit_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .unwrap();
+    assert_eq!(
+        explicit_status.source_digests.get("contract"),
+        Some(&explicit_plan.contract_digest)
+    );
+
+    let object = explicit_nulls.as_object().unwrap();
+    let reversed_fields = object
+        .iter()
+        .rev()
+        .map(|(key, value)| {
+            format!(
+                "{}:{}",
+                serde_json::to_string(key).unwrap(),
+                serde_json::to_string(value).unwrap()
+            )
+        })
+        .collect::<Vec<_>>()
+        .join(",");
+    fs::write(&path, format!("{{{reversed_fields}}}")).unwrap();
+    let reordered_raw: serde_json::Value =
+        serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    let reordered_digest = cockpit_protocol::digest_json(&reordered_raw).unwrap();
+    let reordered_plan = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    assert_eq!(reordered_plan.contract_digest, reordered_digest);
+    assert_eq!(
+        reordered_plan.contract_digest,
+        explicit_plan.contract_digest
+    );
+    assert_eq!(reordered_plan.request_digest, explicit_plan.request_digest);
+    let reordered_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .unwrap();
+    assert_eq!(
+        reordered_status.source_digests.get("contract"),
+        Some(&reordered_plan.contract_digest)
+    );
+
+    let mut omitted_nulls = explicit_nulls;
+    for field in [
+        "predecessorWorkItemId",
+        "predecessorContractDigest",
+        "recoveryDecisionPath",
+    ] {
+        omitted_nulls.as_object_mut().unwrap().remove(field);
+    }
+    fs::write(&path, serde_json::to_vec_pretty(&omitted_nulls).unwrap()).unwrap();
+    let omitted_digest = cockpit_protocol::digest_json(&omitted_nulls).unwrap();
+    let omitted_plan = plan_work_item_material_review(root, "WI-MATERIAL").unwrap();
+    assert_eq!(omitted_plan.contract_digest, omitted_digest);
+    assert_ne!(omitted_plan.contract_digest, explicit_plan.contract_digest);
+    assert_ne!(omitted_plan.request_digest, explicit_plan.request_digest);
+    let omitted_status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .unwrap();
+    assert_eq!(
+        omitted_status.source_digests.get("contract"),
+        Some(&omitted_plan.contract_digest)
     );
 }
 
@@ -357,16 +445,25 @@ fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer()
     let project: serde_json::Value =
         serde_json::from_slice(&fs::read(root.join(".ai/project.json")).unwrap()).unwrap();
     contract.project_profile_digest = project["profileDigest"].as_str().unwrap().parse().unwrap();
-    let request = material_review_request(root, &contract).expect("recompute attached request");
-    input.request_digest = request.request_digest.clone();
     let active = root.join(".ai/work-items/active");
     fs::create_dir_all(&active).expect("active directory");
     let contract_path = active.join("WI-MATERIAL.contract.json");
+    let mut persisted_contract = serde_json::to_value(&contract).expect("Contract value");
+    persisted_contract["predecessorWorkItemId"] = serde_json::Value::Null;
+    persisted_contract["predecessorContractDigest"] = serde_json::Value::Null;
+    persisted_contract["recoveryDecisionPath"] = serde_json::Value::Null;
     fs::write(
         &contract_path,
-        serde_json::to_vec_pretty(&contract).expect("Contract JSON"),
+        serde_json::to_vec_pretty(&persisted_contract).expect("Contract JSON"),
     )
     .expect("write active Contract");
+    let request =
+        plan_work_item_material_review(root, "WI-MATERIAL").expect("recompute attached request");
+    assert_eq!(
+        request.contract_digest,
+        cockpit_protocol::digest_json(&persisted_contract).unwrap()
+    );
+    input.request_digest = request.request_digest.clone();
     let summary_path = active.join("WI-MATERIAL.summary.json");
     fs::write(
         &summary_path,

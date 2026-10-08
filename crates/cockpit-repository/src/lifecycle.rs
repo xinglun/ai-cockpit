@@ -2116,7 +2116,7 @@ pub(super) fn decision_state_name(state: DecisionState) -> &'static str {
 
 pub(super) fn contract_digest(path: &Path) -> Result<Digest, ObserverError> {
     let contract: serde_json::Value = read_json(path)?;
-    cockpit_protocol::digest_json(&contract).map_err(|error| ObserverError::State {
+    super::canonical_contract_digest(&contract).map_err(|error| ObserverError::State {
         path: path.to_path_buf(),
         message: error.to_string(),
     })

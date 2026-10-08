@@ -6,12 +6,12 @@ use super::{
     WorkItemActionIssue, WorkItemActionIssueKind, WorkItemAdmissionState,
     WorkItemEvidenceFreshness, WorkItemStatusIndex, WorkItemStatusIndexEntry,
     WorkItemStatusSnapshot, active_artifact_variants, archived_contract_digest,
-    close_decision_is_valid_for_status, closed_finalization_projection_kind, contract_digest,
-    count_suffix, effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
+    close_decision_is_valid_for_status, closed_finalization_projection_kind, count_suffix,
+    effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
     is_regular_non_symlink, legacy_verification_evidence, load_recovery_decision,
     orphaned_active_artifact_names, outcome_state_name, outcome_v2_internal_with_snapshot,
-    read_contract, read_json, read_resource_finalization_transition, repository_id,
-    repository_relative_path, resolve_resource_finalization_head_with_index,
+    read_contract, read_contract_document, read_json, read_resource_finalization_transition,
+    repository_id, repository_relative_path, resolve_resource_finalization_head_with_index,
     resource_cleanup_completion_state, resource_finalization_decision_path,
     retry_recovery_pending_is_valid, selected_successor_lineage_recovery_resolves_pending_close,
     snapshot_digest, validate_protocol_version, validate_work_item_id, verify_archive_manifest,
@@ -1141,7 +1141,9 @@ fn work_item_status_snapshot_with_snapshot(
         path: active.join(format!("{work_item_id}.contract.json")),
         message: "work item contract not found".into(),
     })?;
-    let contract = read_contract(&contract_path)?;
+    let contract_document = read_contract_document(&contract_path)?;
+    let contract = contract_document.contract;
+    let contract_digest_value = contract_document.digest;
     let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let expected_repository_id = repository_id(&root).to_string();
     if contract.repository_id != expected_repository_id {
@@ -1304,7 +1306,12 @@ fn work_item_status_snapshot_with_snapshot(
     }
     unknowns.extend(governance_control_gaps.iter().cloned());
     let material_projection =
-        super::material_review::material_review_gate_projection(&root, &contract, &summary_path);
+        super::material_review::material_review_gate_projection_with_contract_digest(
+            &root,
+            &contract,
+            &contract_digest_value,
+            &summary_path,
+        );
     let (
         raw_scanner_unknowns,
         material_manifest_digest,
@@ -1467,7 +1474,6 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !historical {
         governance_permissions.push("review_evidence".into());
     }
-    let contract_digest_value = contract_digest(&contract_path)?;
     let amendment_review_required = !archived
         && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
         && super::governance_controls::preflight_decision_evidence_state(

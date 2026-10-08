@@ -4216,7 +4216,8 @@ pub fn evaluate_contract_quality_gate(
             path: contract_path.clone(),
             message: "Contract path escapes repository".into(),
         })?;
-    let contract = read_contract(&contract_path)?;
+    let contract_document = read_contract_document(&contract_path)?;
+    let contract = contract_document.contract;
     let effective_resource_context =
         effective_resource_context(&root, &contract.work_item_id, &contract)?;
     if contract.work_item_id.trim().is_empty() {
@@ -4304,13 +4305,8 @@ pub fn evaluate_contract_quality_gate(
         return Err(ObserverError::SnapshotRootMismatch);
     }
     let current_snapshot_digest = snapshot_digest(&snapshot)?;
-    let current_contract_digest = contract_digest(&contract_path)?;
-    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
-        |source| ObserverError::Read {
-            path: contract_path.clone(),
-            source,
-        },
-    )?);
+    let current_contract_digest = contract_document.digest;
+    let contract_file_digest = contract_document.file_digest;
     let route = if archived_contract {
         resolve_verification_route_for_contract(
             &root,
@@ -4341,8 +4337,12 @@ pub fn evaluate_contract_quality_gate(
         .parent()
         .unwrap_or(&root)
         .join(format!("{}.summary.json", contract.work_item_id));
-    let material_projection =
-        material_review::material_review_gate_projection(&root, &contract, &summary_path);
+    let material_projection = material_review::material_review_gate_projection_with_contract_digest(
+        &root,
+        &contract,
+        &current_contract_digest,
+        &summary_path,
+    );
     let (
         raw_scanner_unknowns,
         material_manifest_digest,
@@ -7070,28 +7070,49 @@ fn reject_duplicate_json_keys(bytes: &[u8]) -> Result<(), String> {
 }
 
 pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
+    Ok(read_contract_document(path)?.contract)
+}
+
+pub(crate) fn read_contract_document(
+    path: &Path,
+) -> Result<CanonicalContractDocument, ObserverError> {
     let bytes = fs::read(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
-    parse_contract_bytes(&bytes, path)
+    parse_contract_document(&bytes, path)
 }
 
-pub(crate) fn parse_contract_bytes(
+pub(crate) struct CanonicalContractDocument {
+    pub contract: cockpit_protocol::Contract,
+    pub digest: Digest,
+    pub file_digest: Digest,
+}
+
+/// Digest the persisted Contract JSON value used by lifecycle identity.
+/// Keep this local to Contract handling; `digest_json` remains unchanged for
+/// all other protocol values and historical receipts.
+pub(crate) fn canonical_contract_digest(
+    value: &serde_json::Value,
+) -> Result<Digest, serde_json::Error> {
+    cockpit_protocol::digest_json(value)
+}
+
+pub(crate) fn parse_contract_document(
     bytes: &[u8],
     path: &Path,
-) -> Result<cockpit_protocol::Contract, ObserverError> {
+) -> Result<CanonicalContractDocument, ObserverError> {
     reject_duplicate_json_keys(bytes).map_err(|message| ObserverError::State {
         path: path.to_path_buf(),
         message: format!("invalid Contract JSON: {message}"),
     })?;
-    let value: serde_json::Value =
+    let raw: serde_json::Value =
         serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
     let contract: cockpit_protocol::Contract =
-        serde_json::from_value(value).map_err(|error| ObserverError::State {
+        serde_json::from_value(raw.clone()).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: format!("invalid work item contract: {error}"),
         })?;
@@ -7102,7 +7123,23 @@ pub(crate) fn parse_contract_bytes(
             errors.join("; ")
         ),
     })?;
-    Ok(contract)
+    let digest = canonical_contract_digest(&raw).map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: error.to_string(),
+    })?;
+    let file_digest = Digest::sha256_bytes(bytes);
+    Ok(CanonicalContractDocument {
+        contract,
+        digest,
+        file_digest,
+    })
+}
+
+pub(crate) fn parse_contract_bytes(
+    bytes: &[u8],
+    path: &Path,
+) -> Result<cockpit_protocol::Contract, ObserverError> {
+    Ok(parse_contract_document(bytes, path)?.contract)
 }
 
 fn require_green_governance(

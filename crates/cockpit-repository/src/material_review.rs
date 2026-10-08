@@ -208,6 +208,26 @@ pub fn validate_material_review_decision(
     recorded_by: &str,
     recorded_at: &str,
 ) -> Result<MaterialInspectionReviewDecisionReceipt, MaterialReviewDecisionValidationError> {
+    let contract_digest = json_digest(contract)
+        .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
+    validate_material_review_decision_with_contract_digest(
+        contract,
+        &contract_digest,
+        request,
+        input,
+        recorded_by,
+        recorded_at,
+    )
+}
+
+fn validate_material_review_decision_with_contract_digest(
+    contract: &Contract,
+    contract_digest: &Digest,
+    request: &MaterialReviewRequest,
+    input: &MaterialInspectionReviewDecisionInput,
+    recorded_by: &str,
+    recorded_at: &str,
+) -> Result<MaterialInspectionReviewDecisionReceipt, MaterialReviewDecisionValidationError> {
     let profile = contract
         .material_inspection_review_profile()
         .map_err(MaterialReviewDecisionValidationError::InvalidProfile)?
@@ -222,12 +242,10 @@ pub fn validate_material_review_decision(
     }
     let profile_digest = json_digest(&profile)
         .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
-    let contract_digest = json_digest(contract)
-        .map_err(|_| MaterialReviewDecisionValidationError::RequestIdentityMismatch)?;
     if request.schema_version != 1
         || request.repository_id != contract.repository_id
         || request.work_item_id != contract.work_item_id
-        || request.contract_digest != contract_digest
+        || request.contract_digest != *contract_digest
         || request.immutable_contract_base_revision != contract.base_revision
         || request.material_inspection_review_profile_digest.as_ref() != Some(&profile_digest)
     {
@@ -842,10 +860,10 @@ fn open_checkout_source_nofollow(root: &Path, relative_path: &Path) -> io::Resul
     OpenOptions::new().read(true).open(root.join(relative_path))
 }
 
-fn read_active_contract(
+fn read_active_contract_document(
     root: &Path,
     work_item_id: &str,
-) -> Result<Contract, MaterialReviewRequestError> {
+) -> Result<super::CanonicalContractDocument, MaterialReviewRequestError> {
     let root_dir = Dir::open_ambient_dir(root, ambient_authority())
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
     let ai_path = root.join(".ai");
@@ -864,13 +882,22 @@ fn read_active_contract(
             path: path.display().to_string(),
             reason: error.to_string(),
         })?;
-    super::parse_contract_bytes(&bytes, &path)
+    super::parse_contract_document(&bytes, &path)
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))
 }
 
 pub fn material_review_request(
     root: &Path,
     contract: &Contract,
+) -> Result<MaterialReviewRequest, MaterialReviewRequestError> {
+    let contract_digest = json_digest(contract)?;
+    material_review_request_with_contract_digest(root, contract, &contract_digest)
+}
+
+fn material_review_request_with_contract_digest(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
 ) -> Result<MaterialReviewRequest, MaterialReviewRequestError> {
     let git = GitRepository::discover(root)
         .map_err(|error| MaterialReviewRequestError::Git(error.to_string()))?;
@@ -1150,7 +1177,7 @@ pub fn material_review_request(
         schema_version: 1,
         repository_id: contract.repository_id.clone(),
         work_item_id: contract.work_item_id.clone(),
-        contract_digest: json_digest(contract)?,
+        contract_digest: contract_digest.clone(),
         immutable_contract_base_revision: contract.base_revision.clone(),
         source_snapshot_digest,
         material_manifest_digest,
@@ -1196,13 +1223,46 @@ pub(crate) fn material_review_gate_projection(
     contract: &Contract,
     summary_path: &Path,
 ) -> Result<MaterialReviewGateProjection, ObserverError> {
-    let request =
-        material_review_request(root, contract).map_err(|error| ObserverError::State {
+    let document =
+        read_active_contract_document(root, &contract.work_item_id).map_err(|error| {
+            ObserverError::State {
+                path: root.to_path_buf(),
+                message: format!("material-review projection unavailable: {error}"),
+            }
+        })?;
+    if document.contract != *contract {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: "material-review Contract changed during projection".into(),
+        });
+    }
+    material_review_gate_projection_with_contract_digest(
+        root,
+        contract,
+        &document.digest,
+        summary_path,
+    )
+}
+
+pub(crate) fn material_review_gate_projection_with_contract_digest(
+    root: &Path,
+    contract: &Contract,
+    contract_digest: &Digest,
+    summary_path: &Path,
+) -> Result<MaterialReviewGateProjection, ObserverError> {
+    let request = material_review_request_with_contract_digest(root, contract, contract_digest)
+        .map_err(|error| ObserverError::State {
             path: root.to_path_buf(),
             message: format!("material-review projection unavailable: {error}"),
         })?;
     let blocked_by_finding = request.blocked_by_finding || !request.finding_codes.is_empty();
-    let receipt = match read_valid_material_review_receipt(root, contract, &request, summary_path) {
+    let receipt = match read_valid_material_review_receipt(
+        root,
+        contract,
+        contract_digest,
+        &request,
+        summary_path,
+    ) {
         Ok(receipt) => receipt,
         Err(_error) => {
             let mut effective_unknowns = request.raw_unknown_codes.clone();
@@ -1359,6 +1419,7 @@ pub(crate) fn require_material_review_gate(
 fn read_valid_material_review_receipt(
     root: &Path,
     contract: &Contract,
+    contract_digest: &Digest,
     request: &MaterialReviewRequest,
     summary_path: &Path,
 ) -> Result<Option<MaterialInspectionReviewDecisionReceipt>, ObserverError> {
@@ -1545,8 +1606,9 @@ fn read_valid_material_review_receipt(
     };
     let mut receipt_request = request.clone();
     receipt_request.reviewed_source_head = reviewed_source_head.to_owned();
-    let expected = validate_material_review_decision(
+    let expected = validate_material_review_decision_with_contract_digest(
         contract,
+        contract_digest,
         &receipt_request,
         &input,
         &receipt.recorded_by,
@@ -1576,13 +1638,14 @@ pub fn plan_work_item_material_review(
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
     super::validate_work_item_id(work_item_id)
         .map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))?;
-    let contract = read_active_contract(&root, work_item_id)?;
+    let document = read_active_contract_document(&root, work_item_id)?;
+    let contract = &document.contract;
     if contract.work_item_id != work_item_id
         || contract.repository_id != super::repository_id(&root).to_string()
     {
         return Err(MaterialReviewRequestError::ContractIdentity);
     }
-    material_review_request(&root, &contract)
+    material_review_request_with_contract_digest(&root, contract, &document.digest)
 }
 
 fn material_review_work_item_directory(
@@ -1632,11 +1695,25 @@ pub fn record_work_item_material_review(
     })?;
     validate_work_item_id(work_item_id)?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
-    let request = plan_work_item_material_review(&root, work_item_id).map_err(|error| {
+    let document = read_active_contract_document(&root, work_item_id).map_err(|error| {
         ObserverError::State {
             path: root.join(".ai/work-items/active"),
             message: error.to_string(),
         }
+    })?;
+    let contract = &document.contract;
+    if contract.work_item_id != work_item_id
+        || contract.repository_id != repository_id(&root).to_string()
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "material-review Contract identity does not match this Work Item".into(),
+        });
+    }
+    let request = material_review_request_with_contract_digest(&root, contract, &document.digest)
+        .map_err(|error| ObserverError::State {
+        path: root.join(".ai/work-items/active"),
+        message: error.to_string(),
     })?;
     if !request.review_enabled {
         return Err(ObserverError::State {
@@ -1646,13 +1723,6 @@ pub fn record_work_item_material_review(
             message: "material review decision is not enabled by the current Contract".into(),
         });
     }
-    let contract =
-        read_active_contract(&root, work_item_id).map_err(|error| ObserverError::State {
-            path: root
-                .join(".ai/work-items/active")
-                .join(format!("{work_item_id}.contract.json")),
-            message: error.to_string(),
-        })?;
     require_current_action_admission(
         &root,
         work_item_id,
@@ -1663,14 +1733,20 @@ pub fn record_work_item_material_review(
         "runtime:{}:{}",
         runtime.runtime_version, runtime.runtime_digest
     );
-    let receipt =
-        validate_material_review_decision(&contract, &request, input, &recorded_by, &super::now())
-            .map_err(|error| ObserverError::State {
-                path: root
-                    .join(".ai/work-items/active")
-                    .join(format!("{work_item_id}.contract.json")),
-                message: error.to_string(),
-            })?;
+    let receipt = validate_material_review_decision_with_contract_digest(
+        contract,
+        &document.digest,
+        &request,
+        input,
+        &recorded_by,
+        &super::now(),
+    )
+    .map_err(|error| ObserverError::State {
+        path: root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json")),
+        message: error.to_string(),
+    })?;
 
     let active_path = root.join(".ai/work-items/active");
     let root_dir = Dir::open_ambient_dir(&root, ambient_authority()).map_err(|source| {

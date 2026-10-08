@@ -93,6 +93,13 @@ fn archived_resource_repository() -> (tempfile::TempDir, PathBuf) {
             .expect("Contract JSON");
     value["requiredEvidenceClasses"] =
         serde_json::json!(["verification", "external_evidence", "delegated:github"]);
+    for field in [
+        "predecessorWorkItemId",
+        "predecessorContractDigest",
+        "recoveryDecisionPath",
+    ] {
+        value[field] = serde_json::Value::Null;
+    }
     fs::write(
         &contract,
         serde_json::to_vec_pretty(&value).expect("updated Contract JSON"),
