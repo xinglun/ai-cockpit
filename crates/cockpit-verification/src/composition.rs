@@ -6500,6 +6500,98 @@ mod external_observer_deferred_tests {
     }
 
     #[test]
+    fn no_receipt_execution_record_survives_clean_and_procfs_eacces_observations() {
+        let (repository, state, input) = composition_case();
+        let observe_clean = |_worktree: &Path| Ok(None);
+        let reap_without_receipt = || -> Result<(), String> {
+            panic!("an attempt without a supervisor receipt must not reap descendants")
+        };
+        let clean = run_composition_inner_with_observer(
+            input,
+            None,
+            None,
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe_clean,
+                reap_owned_descendants: &reap_without_receipt,
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("clean observation attempt");
+        let clean_raw = save_attempt_json(state.path(), &clean.attempt_id, "no-receipt-clean.json");
+        assert_eq!(
+            clean_raw,
+            serde_json::to_value(&clean).expect("clean attempt JSON")
+        );
+        assert_eq!(clean_raw["executionRecords"][0]["nodeId"], "safe-noop");
+        assert_eq!(clean_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(clean_raw["executionRecords"][0]["spawned"], true);
+        assert_eq!(clean_raw["executionRecords"][0]["reused"], false);
+        assert_eq!(clean_raw["executionOutcome"], "passed");
+        assert_eq!(clean_raw["cleanupDisposition"], "cleaned");
+        assert!(clean.supervisor_receipt.is_none());
+        assert!(!clean.is_coherent_successful_terminal());
+        assert!(!Path::new(&clean.isolated_worktree).exists());
+        assert!(
+            !git(repository.path(), &["worktree", "list", "--porcelain"])
+                .lines()
+                .any(|line| line == format!("worktree {}", clean.isolated_worktree))
+        );
+
+        let (repository, state, input) = composition_case();
+        let eacces = injected_procfs_cwd_eacces(4242);
+        let observe_eacces = move |_worktree: &Path| Err(eacces.clone());
+        let mut retained_worktrees = OwnedWorktrees::new(repository.path());
+        let unknown = run_composition_inner_with_observer(
+            input,
+            None,
+            None,
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe_eacces,
+                reap_owned_descendants: &reap_without_receipt,
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("unknown observation attempt");
+        retained_worktrees.retain_for_assertions(&unknown.isolated_worktree);
+        let unknown_raw =
+            save_attempt_json(state.path(), &unknown.attempt_id, "no-receipt-unknown.json");
+        assert_eq!(
+            unknown_raw,
+            serde_json::to_value(&unknown).expect("unknown attempt JSON")
+        );
+        assert_eq!(unknown_raw["executionRecords"][0]["nodeId"], "safe-noop");
+        assert_eq!(unknown_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(unknown_raw["executionRecords"][0]["spawned"], true);
+        assert_eq!(unknown_raw["executionRecords"][0]["reused"], false);
+        assert_eq!(unknown_raw["executionRecords"][0]["passed"], true);
+        assert_eq!(unknown_raw["executionOutcome"], "unknown");
+        assert_eq!(unknown_raw["executionEvidenceComplete"], false);
+        assert_eq!(unknown_raw["cleanupDisposition"], "retained");
+        assert_eq!(unknown_raw["cleanup"], serde_json::Value::Null);
+        assert!(unknown_raw.get("supervisorReceipt").is_none());
+        assert!(
+            unknown_raw["failure"]
+                .as_str()
+                .is_some_and(|failure| failure.starts_with("verifier_process_state_unknown:"))
+        );
+        assert!(!unknown.passed);
+        assert!(unknown.supervisor_receipt.is_none());
+        assert!(!unknown.is_coherent_successful_terminal());
+        assert!(unknown.owned_tree_termination_unknown);
+        assert!(unknown.cleanup.is_none());
+        assert!(Path::new(&unknown.isolated_worktree).is_dir());
+        assert!(
+            git(repository.path(), &["worktree", "list", "--porcelain"])
+                .lines()
+                .any(|line| line == format!("worktree {}", unknown.isolated_worktree))
+        );
+    }
+
+    #[test]
     fn external_unknown_without_coherent_owned_binding_blocks_clean_reconcile() {
         let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
             .lock()

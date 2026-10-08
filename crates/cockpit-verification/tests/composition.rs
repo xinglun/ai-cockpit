@@ -703,6 +703,70 @@ fn process_start_gate_rejection_is_persisted_without_running_the_node() {
     );
 }
 
+fn assert_successful_unowned_execution_and_observation(
+    root: &Path,
+    state: &Path,
+    attempt: &CompositionAttempt,
+) -> serde_json::Value {
+    assert!(attempt.supervisor_receipt.is_none());
+    assert_eq!(attempt.processes_spawned, 1);
+    assert_eq!(attempt.execution_records.len(), 1);
+    let record = &attempt.execution_records[0];
+    assert_eq!(record.node_id, "successful");
+    assert!(record.spawned);
+    assert!(!record.reused);
+    assert!(record.passed);
+    assert_eq!(record.exit_code, Some(0));
+    assert!(!record.timed_out);
+    assert_eq!(record.termination_signal, None);
+
+    let value = serde_json::to_value(attempt).expect("serialize composition attempt");
+    let persisted: serde_json::Value = serde_json::from_slice(
+        &fs::read(attempt_record_path(state, &attempt.attempt_id)).expect("durable attempt bytes"),
+    )
+    .expect("durable attempt JSON");
+    assert_eq!(
+        persisted, value,
+        "durable result must match returned attempt"
+    );
+    assert!(persisted.get("supervisorReceipt").is_none());
+    assert!(!attempt.is_coherent_successful_terminal());
+
+    let worktree = Path::new(&attempt.isolated_worktree);
+    match (
+        value["executionOutcome"].as_str(),
+        value["cleanupDisposition"].as_str(),
+    ) {
+        (Some("passed"), Some("cleaned")) => {
+            assert!(attempt.passed);
+            assert!(attempt.execution_evidence_complete);
+            assert!(!attempt.owned_tree_termination_unknown);
+            assert!(attempt.failure.is_none());
+            let cleanup = attempt.cleanup.as_ref().expect("cleaned worktree record");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+            assert!(!worktree.exists());
+            assert!(!worktree_is_registered(root, worktree));
+        }
+        (Some("unknown"), Some("retained")) => {
+            assert!(!attempt.passed);
+            assert!(!attempt.execution_evidence_complete);
+            assert!(attempt.owned_tree_termination_unknown);
+            assert!(attempt.cleanup.is_none());
+            let failure = attempt.failure.as_deref().expect("observer failure");
+            #[cfg(target_os = "linux")]
+            assert_procfs_cwd_eacces(failure);
+            #[cfg(not(target_os = "linux"))]
+            panic!("only the exact Linux procfs cwd EACCES outcome is accepted: {failure}");
+            assert!(worktree.is_dir(), "unknown worktree must be retained");
+            assert!(worktree_is_registered(root, worktree));
+        }
+        outcome => panic!("unexpected execution/cleanup outcome: {outcome:?}; {attempt:?}"),
+    }
+    value
+}
+
 #[test]
 fn composition_attempt_reports_execution_and_cleanup_separately() {
     let root = repository();
@@ -717,15 +781,9 @@ fn composition_attempt_reports_execution_and_cleanup_separately() {
     ))
     .expect("composition attempt");
 
-    assert!(
-        attempt.passed,
-        "composition execution did not pass: {attempt:?}"
-    );
-    let value = serde_json::to_value(&attempt).expect("serialize composition attempt");
+    let value =
+        assert_successful_unowned_execution_and_observation(root.path(), state.path(), &attempt);
     assert_eq!(value["schemaVersion"], 3);
-    assert_eq!(value["executionOutcome"], "passed");
-    assert_eq!(value["executionEvidenceComplete"], true);
-    assert_eq!(value["cleanupDisposition"], "cleaned");
 }
 
 #[test]
@@ -742,14 +800,8 @@ fn execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable() {
     ))
     .expect("composition attempt");
 
-    assert!(
-        attempt.passed,
-        "composition execution did not pass: {attempt:?}"
-    );
-    let value = serde_json::to_value(&attempt).expect("serialize composition attempt");
-    assert_eq!(value["executionOutcome"], "passed");
-    assert_eq!(value["executionEvidenceComplete"], true);
-    assert_eq!(value["cleanupDisposition"], "cleaned");
+    let _value =
+        assert_successful_unowned_execution_and_observation(root.path(), state.path(), &attempt);
     assert!(attempt.supervisor_receipt.is_none());
     assert!(!attempt.is_coherent_successful_terminal());
 }
@@ -1572,8 +1624,10 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first composition");
-    let second = run_composition(composition).expect("second composition");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first composition");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second composition");
 
     assert!(first.passed);
     assert!(second.passed, "second composition attempt: {second:?}");
@@ -3124,7 +3178,8 @@ fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_i
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     first_input.timeout_seconds = 30;
-    let first = run_composition(first_input.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt: {first:?}");
 
     let mut second_input = first_input;
@@ -3132,7 +3187,8 @@ fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_i
         .environment
         .insert("COMPOSITION_FLAVOR".into(), "two".into());
     // Deliberately keep every caller-supplied identity digest unchanged.
-    let second = run_composition(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -3147,7 +3203,7 @@ fn inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse() {
         let state = PathBuf::from(std::env::var_os("COMPOSITION_ENV_STATE").expect("state path"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
         let check = command("inherited-environment-check", "env", &[]);
-        let attempt = run_composition_with_test_supervisor(input(
+        let attempt = run_composition_with_pure_cache_test_supervisor(input(
             &root,
             &state,
             binding(&base, vec![base.clone(), base.clone()]),
@@ -3343,7 +3399,8 @@ fn relative_executable_uses_isolated_worktree_bytes_and_changes_identity() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt: {first:?}");
     assert_ne!(
         first.identity.toolchain_digest,
@@ -3361,7 +3418,8 @@ fn relative_executable_uses_isolated_worktree_bytes_and_changes_identity() {
     let mut second_input = composition;
     second_input.binding.target_sha = next_head.clone();
     second_input.binding.participant_heads = vec![next_head.clone(), next_head];
-    let second = run_composition(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -3533,7 +3591,8 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
         vec![command("check", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("write current attempt");
     assert!(first.passed, "seed attempt failed: {first:?}");
     let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut legacy: serde_json::Value =
@@ -3546,7 +3605,8 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
     )
     .expect("retain legacy attempt as v1");
 
-    let second = run_composition(composition).expect("run without legacy reuse");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("run without legacy reuse");
 
     assert!(second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -3570,13 +3630,14 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
         vec![command("legacy-name", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition_with_test_supervisor(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt failed: {first:?}");
     let portable_path = attempt_record_path(state.path(), &first.attempt_id);
     let legacy_path = state.path().join(format!("{}.json", first.attempt_id));
     fs::rename(&portable_path, &legacy_path).expect("simulate historical Unix filename");
 
-    let second = run_composition_with_test_supervisor(composition)
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
         .expect("attempt should read legacy filename");
 
     assert!(second.passed, "second attempt failed: {second:?}");
@@ -3601,7 +3662,8 @@ fn composition_attempt_without_schema_version_is_not_reused() {
         vec![command("check", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("write current attempt");
     let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut historical: serde_json::Value =
         serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
@@ -3616,7 +3678,8 @@ fn composition_attempt_without_schema_version_is_not_reused() {
     )
     .expect("retain pre-version history");
 
-    let second = run_composition(composition).expect("run without historical reuse");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("run without historical reuse");
 
     assert!(second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -3704,13 +3767,15 @@ fn installed_toolchain_change_child() {
         serde_json::from_slice(&fs::read(input_path).expect("read unchanged composition JSON"))
             .expect("decode composition JSON");
 
-    let first = run_composition(composition.clone()).expect("first toolchain attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first toolchain attempt");
     assert!(first.passed, "first attempt: {first:?}");
     assert_eq!(first.processes_spawned, 1);
     fs::write(toolchain.join("bin/rustc"), b"rustc-v2")
         .expect("update installed rustc without changing composition JSON");
 
-    let second = run_composition(composition).expect("second toolchain attempt");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("second toolchain attempt");
     assert!(second.passed, "second attempt: {second:?}");
     assert_eq!(second.processes_spawned, 1, "changed toolchain must rerun");
     assert!(!second.execution_records[0].reused);
