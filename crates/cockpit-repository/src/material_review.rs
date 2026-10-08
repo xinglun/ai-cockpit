@@ -1715,20 +1715,27 @@ fn material_review_contract_amendment_digests_form_chain(
     previous_contract_digest: &Digest,
     current_contract_digest: &Digest,
 ) -> bool {
-    let mut expected_previous = None;
-    let mut receipt_contract_is_in_chain = false;
-    for (amendment_previous, amendment_new) in amendments {
-        if expected_previous
-            .as_ref()
-            .is_some_and(|expected| expected != &amendment_previous)
-        {
-            return false;
+    let amendments = amendments.into_iter().collect::<Vec<_>>();
+    for start in 0..amendments.len() {
+        let starts_at_receipt_contract = amendments[start].0 == *previous_contract_digest
+            && (start == 0 || amendments[start - 1].1 == *previous_contract_digest);
+        if !starts_at_receipt_contract {
+            continue;
         }
-        receipt_contract_is_in_chain |= &amendment_previous == previous_contract_digest
-            || &amendment_new == previous_contract_digest;
-        expected_previous = Some(amendment_new);
+        let mut expected_previous = previous_contract_digest.clone();
+        let mut continuous_to_current = true;
+        for (amendment_previous, amendment_new) in &amendments[start..] {
+            if amendment_previous != &expected_previous {
+                continuous_to_current = false;
+                break;
+            }
+            expected_previous = amendment_new.clone();
+        }
+        if continuous_to_current && expected_previous == *current_contract_digest {
+            return true;
+        }
     }
-    receipt_contract_is_in_chain && expected_previous.as_ref() == Some(current_contract_digest)
+    false
 }
 
 /// Build the canonical read-only material-review request for one active Work
@@ -1981,12 +1988,15 @@ mod tests {
     use super::*;
 
     #[test]
-    fn material_review_amendment_chain_requires_contract_continuity() {
+    fn material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract() {
         let digest = |bytes: &[u8]| Digest::sha256_bytes(bytes);
         let original = digest(b"original Contract");
         let amended = digest(b"first amended Contract");
         let detached = digest(b"detached Contract");
+        let receipt_contract = digest(b"receipt Contract");
+        let middle = digest(b"middle Contract");
         let current = digest(b"current Contract");
+        let other_terminal = digest(b"other terminal Contract");
 
         assert!(material_review_contract_amendment_digests_form_chain(
             vec![
@@ -1998,15 +2008,37 @@ mod tests {
         ));
         assert!(!material_review_contract_amendment_digests_form_chain(
             vec![
-                (detached.clone(), amended),
+                (detached.clone(), amended.clone()),
                 (original.clone(), current.clone()),
             ],
             &original,
             &current,
         ));
+        assert!(material_review_contract_amendment_digests_form_chain(
+            vec![
+                (detached.clone(), amended),
+                (original.clone(), receipt_contract.clone()),
+                (receipt_contract.clone(), current.clone()),
+            ],
+            &receipt_contract,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (detached, middle),
+                (receipt_contract.clone(), current.clone()),
+            ],
+            &receipt_contract,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![(receipt_contract.clone(), other_terminal)],
+            &receipt_contract,
+            &current,
+        ));
         assert!(!material_review_contract_amendment_digests_form_chain(
             vec![(original.clone(), current.clone())],
-            &detached,
+            &receipt_contract,
             &current,
         ));
     }
