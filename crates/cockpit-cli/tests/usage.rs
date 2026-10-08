@@ -13,6 +13,36 @@ fn fixture() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    fs::write(directory.path().join("README.md"), "fixture baseline\n").expect("baseline README");
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(directory.path())
+                .status()
+                .expect("configure fixture Git identity")
+                .success()
+        );
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(directory.path())
+            .status()
+            .expect("stage baseline README")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(directory.path())
+            .status()
+            .expect("commit fixture baseline")
+            .success()
+    );
     cockpit_repository::attach(directory.path()).expect("attach repository");
     cockpit_repository::start_work_item_with_options(
         directory.path(),
