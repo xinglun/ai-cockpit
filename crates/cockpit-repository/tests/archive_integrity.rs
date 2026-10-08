@@ -29,6 +29,35 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn git_commit(path: &std::path::Path, files: &[&str], message: &str) {
+    if !files.is_empty() {
+        let mut add = Command::new("git");
+        add.args(["add", "--"]).args(files).current_dir(path);
+        assert!(add.status().expect("git add fixture").success());
+    }
+
+    let mut commit = Command::new("git");
+    commit
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+        ])
+        .current_dir(path);
+    if files.is_empty() {
+        commit.arg("--allow-empty");
+    }
+    assert!(
+        commit
+            .args(["-m", message])
+            .status()
+            .expect("git commit fixture")
+            .success()
+    );
+}
+
 fn repository() -> std::path::PathBuf {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -45,6 +74,7 @@ fn repository() -> std::path::PathBuf {
         .current_dir(&path)
         .status()
         .expect("git init");
+    git_commit(&path, &[], "fixture baseline");
     attach(&path).expect("attach");
     path
 }
@@ -760,6 +790,11 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         .join(format!("{work_item_id}.contract.json"));
     let measurement_path = path.join("performance-measurement.txt");
     fs::write(&measurement_path, b"p50=1ms\np95=2ms\n").expect("measurement");
+    git_commit(
+        &path,
+        &["performance-measurement.txt"],
+        "measurement fixture",
+    );
     let contract_value: serde_json::Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
     let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
@@ -1561,6 +1596,7 @@ fn archive_rejects_symlinked_failed_attempt_variant() {
 
     let target = path.join("outside-history.json");
     fs::write(&target, br#"{"foreign":true}"#).expect("target");
+    git_commit(&path, &["outside-history.json"], "history target fixture");
     let variant = path
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.outcome.finish-blocked.json"));
