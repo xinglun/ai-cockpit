@@ -2074,7 +2074,25 @@ fn reconciliation_trace(message: &str) {
 }
 
 fn reconciliation_error_category(error: &str) -> &'static str {
-    if error.contains("Permission denied") || error.starts_with("cannot inspect process ") {
+    let error = error
+        .strip_prefix("verifier_process_state_unknown:")
+        .unwrap_or(error);
+    if let Some(rest) = error.strip_prefix("cannot inspect process pid=") {
+        let top_level = rest
+            .split_once(" identity_before=")
+            .map_or(rest, |(top_level, _)| top_level);
+        let error_kind = top_level
+            .split_whitespace()
+            .find_map(|field| field.strip_prefix("error_kind="));
+        return if error_kind == Some("PermissionDenied") {
+            "permission_denied"
+        } else {
+            "proc_observation_error"
+        };
+    }
+    if error.contains("error_kind=PermissionDenied") || error.contains("Permission denied") {
+        "permission_denied"
+    } else if error.starts_with("cannot inspect process ") {
         "permission_denied"
     } else if error.contains("digest changed") || error.contains("attempt changed") {
         "attempt_changed"
@@ -2101,7 +2119,31 @@ fn reconciliation_error_category(error: &str) -> &'static str {
     }
 }
 
+#[cfg(all(test, target_os = "linux"))]
+static LINUX_PROCESS_OBSERVATION_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 fn reconciliation_known_observer_error(error: &str) -> String {
+    let error = error
+        .strip_prefix("verifier_process_state_unknown:")
+        .unwrap_or(error);
+    if let Some(rest) = error.strip_prefix("cannot inspect process pid=") {
+        let Some((process_id, fields)) = rest.split_once(' ') else {
+            return "opaque".into();
+        };
+        let field = |name: &str| {
+            fields
+                .split_whitespace()
+                .find_map(|part| part.strip_prefix(name))
+        };
+        if let (Some(phase), Some(errno), Some(identity_state)) =
+            (field("phase="), field("errno="), field("identity_state="))
+        {
+            return format!(
+                "pid={process_id} phase={phase} errno={errno} identity_state={identity_state}"
+            );
+        }
+        return "opaque".into();
+    }
     let Some(rest) = error.strip_prefix("cannot inspect process ") else {
         return "opaque".into();
     };
@@ -2997,9 +3039,23 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(metadata) if metadata.uid() == unsafe { libc::getuid() } => metadata,
             Ok(_) => continue,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                let identity_before =
+                    Err("process identity was not observed before metadata".into());
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    None,
+                    "procfs.process-metadata",
+                    &error,
+                    &identity_before,
+                ));
+            }
         };
-        let _ = metadata;
+        // This is the proc-directory UID used to select same-UID candidates;
+        // it is not part of, or cryptographically bound to, the stat identity.
+        let process_uid = metadata.uid();
+        let identity_before = read_linux_process_identity(Path::new("/proc"), process_id);
         let cwd = process_dir.join("cwd");
         match fs::read_link(&cwd) {
             Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
@@ -3012,11 +3068,25 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 }) {
                     continue 'processes;
                 }
-                return Err(format!(
-                    "cannot inspect process {process_id} working directory"
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.cwd",
+                    &error,
+                    &identity_before,
                 ));
             }
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.cwd",
+                    &error,
+                    &identity_before,
+                ));
+            }
         }
         let descriptors = process_dir.join("fd");
         let descriptors = match fs::read_dir(&descriptors) {
@@ -3029,14 +3099,40 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 }) {
                     continue 'processes;
                 }
-                return Err(format!(
-                    "cannot inspect process {process_id} file descriptors"
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-directory",
+                    &error,
+                    &identity_before,
                 ));
             }
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-directory",
+                    &error,
+                    &identity_before,
+                ));
+            }
         };
         for descriptor in descriptors {
-            let descriptor = descriptor.map_err(|error| error.to_string())?;
+            let descriptor = descriptor.map_err(|error| {
+                linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-entry",
+                    &error,
+                    &identity_before,
+                )
+            })?;
+            let descriptor_name = descriptor.file_name();
+            let descriptor_phase =
+                format!("procfs.fd-target:{}", descriptor_name.to_string_lossy());
             match fs::read_link(descriptor.path()) {
                 Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
                 Ok(_) => {}
@@ -3048,13 +3144,105 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                     }) {
                         continue 'processes;
                     }
-                    return Err(format!("cannot inspect process {process_id} open files"));
+                    return Err(linux_process_observation_error(
+                        Path::new("/proc"),
+                        process_id,
+                        Some(process_uid),
+                        &descriptor_phase,
+                        &error,
+                        &identity_before,
+                    ));
                 }
-                Err(error) => return Err(error.to_string()),
+                Err(error) => {
+                    return Err(linux_process_observation_error(
+                        Path::new("/proc"),
+                        process_id,
+                        Some(process_uid),
+                        &descriptor_phase,
+                        &error,
+                        &identity_before,
+                    ));
+                }
             }
         }
     }
     Ok(None)
+}
+
+#[cfg(target_os = "linux")]
+fn read_linux_process_identity(
+    proc_root: &Path,
+    process_id: u32,
+) -> Result<LinuxProcessGroupMember, String> {
+    let stat_path = proc_root.join(process_id.to_string()).join("stat");
+    let stat = fs::read_to_string(&stat_path).map_err(|error| {
+        let errno = error
+            .raw_os_error()
+            .map_or_else(|| "unknown".to_owned(), |value| value.to_string());
+        format!(
+            "identity stat read failed error_kind={:?} errno={errno}: {error}",
+            error.kind()
+        )
+    })?;
+    parse_linux_process_stat(process_id, &stat)
+        .map_err(|error| format!("identity stat parse failed: {error}"))
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_identity_matches(
+    before: &LinuxProcessGroupMember,
+    after: &LinuxProcessGroupMember,
+) -> bool {
+    before.process_id == after.process_id
+        && before.start_time_ticks == after.start_time_ticks
+        && before.process_group_id == after.process_group_id
+        && before.session_id == after.session_id
+}
+
+#[cfg(target_os = "linux")]
+fn render_linux_process_identity(identity: &Result<LinuxProcessGroupMember, String>) -> String {
+    match identity {
+        Ok(identity) => format!(
+            "observed(pid={},starttime_ticks={},pgid={},sid={},state={})",
+            identity.process_id,
+            identity.start_time_ticks,
+            identity.process_group_id,
+            identity.session_id,
+            identity.state
+        ),
+        Err(error) => format!("unknown({error})"),
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_observation_error(
+    proc_root: &Path,
+    process_id: u32,
+    process_uid: Option<u32>,
+    phase: &str,
+    error: &std::io::Error,
+    identity_before: &Result<LinuxProcessGroupMember, String>,
+) -> String {
+    let identity_after = read_linux_process_identity(proc_root, process_id);
+    let identity_state = match (identity_before, &identity_after) {
+        (Ok(before), Ok(after)) if linux_process_identity_matches(before, after) => "observed",
+        _ => "unknown",
+    };
+    let errno = error
+        .raw_os_error()
+        .map_or_else(|| "unknown".to_owned(), |value| value.to_string());
+    let legacy_area = match phase {
+        "procfs.cwd" => " working directory",
+        "procfs.fd-directory" => " file descriptors",
+        phase if phase.starts_with("procfs.fd-target:") => " open files",
+        _ => "",
+    };
+    format!(
+        "cannot inspect process pid={process_id} filter_uid={process_uid:?} phase={phase} error_kind={:?} errno={errno} identity_state={identity_state} identity_before={} identity_after={} message={error}{legacy_area}",
+        error.kind(),
+        render_linux_process_identity(identity_before),
+        render_linux_process_identity(&identity_after),
+    )
 }
 
 #[cfg(target_os = "linux")]
@@ -5507,6 +5695,8 @@ mod linux_process_group_reconciliation_tests {
 mod external_observer_deferred_tests {
     use super::*;
     use cockpit_protocol::{COLLABORATION_CAPABILITY, RuntimeCapabilityBinding};
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
     use std::sync::Arc;
 
     static NEXT_CASE: AtomicU64 = AtomicU64::new(0);
@@ -5538,6 +5728,18 @@ mod external_observer_deferred_tests {
     struct OwnedWorktrees {
         repository: PathBuf,
         paths: Vec<PathBuf>,
+    }
+
+    struct InaccessibleObserverPeer(libc::pid_t);
+
+    impl Drop for InaccessibleObserverPeer {
+        fn drop(&mut self) {
+            // SAFETY: this test owns the child PID returned by fork.
+            unsafe {
+                libc::kill(self.0, libc::SIGKILL);
+                libc::waitpid(self.0, std::ptr::null_mut(), 0);
+            }
+        }
     }
 
     impl OwnedWorktrees {
@@ -5641,6 +5843,119 @@ mod external_observer_deferred_tests {
             timeout_seconds: 30,
         };
         (repository, state, input)
+    }
+
+    fn real_eacces_is_testable_without_ptrace_capability() -> bool {
+        if unsafe { libc::geteuid() } == 0 {
+            eprintln!("skipping real EACCES observer case: root may bypass procfs ptrace checks");
+            false
+        } else {
+            true
+        }
+    }
+
+    fn require_controlled_eacces_observation(
+        child_pid: libc::pid_t,
+        observation: Result<Option<u32>, String>,
+    ) -> Result<Option<u32>, String> {
+        match observation {
+            Err(error) if error.contains(&format!("pid={child_pid}")) => Err(error),
+            Err(error) => panic!(
+                "observer encountered another process instead of controlled child pid={child_pid}: {error}"
+            ),
+            Ok(Some(process_id)) => {
+                panic!("expected unknown EACCES observation, found readable process {process_id}")
+            }
+            Ok(None) => panic!("expected EACCES observation, found no process"),
+        }
+    }
+
+    fn observe_real_eacces_worktree_process(worktree: &Path) -> Result<Option<u32>, String> {
+        let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+        let worktree_c =
+            CString::new(worktree.as_os_str().as_bytes()).map_err(|error| error.to_string())?;
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        if unsafe { libc::pipe(ready_pipe.as_mut_ptr()) } != 0 {
+            return Err(format!(
+                "cannot create EACCES child readiness pipe: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        // SAFETY: the child uses only async-signal-safe libc calls after fork.
+        let child_pid = unsafe { libc::fork() };
+        if child_pid < 0 {
+            // SAFETY: both descriptors were created by this test process.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                libc::close(ready_pipe[1]);
+            }
+            return Err(format!(
+                "cannot fork EACCES child: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        if child_pid == 0 {
+            // SAFETY: the child owns the pipe write end and inherited path bytes.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::chdir(worktree_c.as_ptr()) != 0 {
+                    libc::_exit(111);
+                }
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(112);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(113);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let peer = InaccessibleObserverPeer(child_pid);
+        // SAFETY: the parent closes the unused write end and waits until the
+        // child has entered the worktree and disabled dumpability.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the parent owns the
+        // pipe read end.
+        let read_result = unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) };
+        // SAFETY: the parent owns the pipe read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        if read_result != 1 || ready != b'R' {
+            drop(peer);
+            return Err("EACCES child failed to report its controlled state".into());
+        }
+        let process_stat = fs::read_to_string(format!("/proc/{child_pid}/stat"))
+            .map_err(|error| format!("cannot read controlled process stat: {error}"))?;
+        parse_linux_process_stat(child_pid as u32, &process_stat)
+            .map_err(|error| format!("cannot parse controlled process identity: {error}"))?;
+        let denied_cwd = match fs::read_link(format!("/proc/{child_pid}/cwd")) {
+            Ok(path) => {
+                drop(peer);
+                return Err(format!(
+                    "controlled child cwd was unexpectedly readable: {}",
+                    path.display()
+                ));
+            }
+            Err(error) => error,
+        };
+        if denied_cwd.raw_os_error() != Some(libc::EACCES) {
+            drop(peer);
+            return Err(format!(
+                "controlled child did not produce EACCES for cwd: {denied_cwd}"
+            ));
+        }
+        let observation = verifier_process_using_worktree(&worktree);
+        drop(peer);
+        require_controlled_eacces_observation(child_pid, observation)
     }
 
     fn run_supervisor_case(input: &CompositionInput, unknown_path: &str) -> CompositionAttempt {
@@ -5758,7 +6073,9 @@ mod external_observer_deferred_tests {
             })
         };
         let observe = |path: &Path| {
-            if let Some(active_path) = unknown_path.strip_prefix("active:")
+            if unknown_path == "real-eacces" {
+                observe_real_eacces_worktree_process(path)
+            } else if let Some(active_path) = unknown_path.strip_prefix("active:")
                 && path.to_string_lossy() == active_path
             {
                 Ok(Some(std::process::id()))
@@ -5800,10 +6117,31 @@ mod external_observer_deferred_tests {
     }
 
     #[test]
+    fn real_eacces_fixture_rejects_a_diagnostic_for_another_pid() {
+        let mismatch = std::panic::catch_unwind(|| {
+            require_controlled_eacces_observation(
+                4242,
+                Err("cannot inspect process pid=4343 phase=procfs.cwd errno=13".into()),
+            )
+        });
+
+        assert!(
+            mismatch.is_err(),
+            "a sibling process diagnostic must fail the fixture, not become expected Unknown"
+        );
+    }
+
+    #[test]
     fn complete_owned_execution_survives_external_unknown_and_retries_fresh_noop() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
         let (repository, state, input) = composition_case();
         let mut worktrees = OwnedWorktrees::new(repository.path());
-        let first = run_supervisor_case(&input, "*");
+        let first = run_supervisor_case(&input, "real-eacces");
         worktrees.retain_for_assertions(&first.isolated_worktree);
         let first_raw = save_attempt_json(state.path(), &first.attempt_id, "first.raw.json");
         assert_eq!(first_raw["executionRecords"][0]["exitCode"], 0);
@@ -5831,6 +6169,18 @@ mod external_observer_deferred_tests {
         assert_eq!(first_raw["cleanupDisposition"], "deferred");
         assert_eq!(first_raw["cleanup"]["attempted"], false);
         assert_eq!(first_raw["cleanup"]["removed"], false);
+        let diagnostic = first_raw["cleanup"]["error"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
         assert_eq!(second_raw["processesSpawned"], 1);
         assert_eq!(second_raw["executionOutcome"], "passed");
         assert_ne!(second.attempt_id, first.attempt_id);
@@ -5888,14 +6238,32 @@ mod external_observer_deferred_tests {
 
     #[test]
     fn external_unknown_without_coherent_owned_binding_blocks_clean_reconcile() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
         let (repository, state, input) = composition_case();
         let mut worktrees = OwnedWorktrees::new(repository.path());
-        let first = run_supervisor_case_with_generation(&input, "*", 0);
+        let first = run_supervisor_case_with_generation(&input, "real-eacces", 0);
         worktrees.retain_for_assertions(&first.isolated_worktree);
         let raw = save_attempt_json(state.path(), &first.attempt_id, "unbound-proof.raw.json");
         assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], true);
         assert_eq!(raw["ownedTreeTerminationUnknown"], true);
         assert_eq!(raw["cleanupDisposition"], "retained");
+        let diagnostic = raw["failure"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
         let mut legacy_json = raw.clone();
         legacy_json
             .as_object_mut()
@@ -5933,16 +6301,34 @@ mod external_observer_deferred_tests {
 
     #[test]
     fn failed_execution_result_survives_external_unknown_with_owned_proof() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
         let (repository, state, mut input) = composition_case();
         input.commands[0].program = "false".into();
         let mut worktrees = OwnedWorktrees::new(repository.path());
-        let first = run_supervisor_case(&input, "*");
+        let first = run_supervisor_case(&input, "real-eacces");
         worktrees.retain_for_assertions(&first.isolated_worktree);
         let raw = save_attempt_json(state.path(), &first.attempt_id, "failed-execution.raw.json");
         assert_eq!(raw["executionRecords"][0]["exitCode"], 1);
         assert_eq!(raw["executionOutcome"], "failed");
         assert_eq!(raw["executionEvidenceComplete"], true);
         assert_eq!(raw["cleanupDisposition"], "deferred");
+        let diagnostic = raw["cleanup"]["error"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
         assert!(
             raw["failure"]
                 .as_str()
@@ -6026,14 +6412,25 @@ mod external_observer_deferred_tests {
 #[cfg(all(test, target_os = "linux"))]
 mod verifier_process_observation_tests {
     use super::{
-        create_private_composition_parent, unique_composition_parent,
-        verifier_process_using_worktree,
+        LINUX_PROCESS_OBSERVATION_TEST_LOCK, create_private_composition_parent,
+        linux_process_observation_error, parse_linux_process_stat, read_linux_process_identity,
+        reconciliation_error_category, reconciliation_known_observer_error,
+        unique_composition_parent, verifier_process_using_worktree,
     };
+    use std::ffi::CString;
     use std::fs;
-    use std::sync::Mutex;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::fs::PermissionsExt;
+    use std::path::PathBuf;
     use std::time::Duration;
 
-    static PROCESS_OBSERVATION_TEST_LOCK: Mutex<()> = Mutex::new(());
+    struct TestCompositionParent(PathBuf);
+
+    impl Drop for TestCompositionParent {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
 
     struct InaccessibleProcess(libc::pid_t);
 
@@ -6049,7 +6446,7 @@ mod verifier_process_observation_tests {
 
     #[test]
     fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
-        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
             .lock()
             .expect("process observation tests are serialized");
         let parent = unique_composition_parent();
@@ -6070,7 +6467,7 @@ mod verifier_process_observation_tests {
 
     #[test]
     fn inaccessible_process_started_before_private_worktree_does_not_block_cleanup() {
-        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
             .lock()
             .expect("process observation tests are serialized");
         if unsafe { libc::geteuid() } == 0 {
@@ -6134,6 +6531,174 @@ mod verifier_process_observation_tests {
             observed,
             Ok(None),
             "an inaccessible process that predates the private worktree cannot own its cwd or inherited file descriptors"
+        );
+    }
+
+    #[test]
+    fn fresh_same_uid_nondumpable_process_reports_eacces_and_observable_identity() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        // Let any unrelated inaccessible same-UID process predate this test's
+        // private directory, so the controlled child is the only new candidate.
+        std::thread::sleep(Duration::from_millis(3_100));
+        let parent = TestCompositionParent(unique_composition_parent());
+        create_private_composition_parent(&parent.0).expect("private composition parent");
+        let worktree = parent.0.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+        let worktree_c =
+            CString::new(worktree.as_os_str().as_bytes()).expect("worktree path contains no NUL");
+
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+        // SAFETY: the child uses only async-signal-safe libc calls after fork.
+        let child_pid = unsafe { libc::fork() };
+        assert!(child_pid >= 0, "fork controlled inaccessible process");
+        if child_pid == 0 {
+            // SAFETY: the child owns the pipe write end and the worktree path
+            // points to inherited, NUL-terminated bytes.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::chdir(worktree_c.as_ptr()) != 0 {
+                    libc::_exit(111);
+                }
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(112);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(113);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let child = InaccessibleProcess(child_pid);
+        // SAFETY: the parent closes the unused write end and waits for the
+        // child's chdir and non-dumpable transition before observing procfs.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the parent owns the
+        // pipe read end.
+        assert_eq!(
+            unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) },
+            1
+        );
+        // SAFETY: the parent owns the pipe read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        assert_eq!(ready, b'R');
+
+        let process_stat = fs::read_to_string(format!("/proc/{child_pid}/stat"))
+            .expect("controlled process stat remains readable");
+        let identity = parse_linux_process_stat(child_pid as u32, &process_stat)
+            .expect("controlled process identity");
+        let denied_cwd = fs::read_link(format!("/proc/{child_pid}/cwd"))
+            .expect_err("non-dumpable child cwd must be inaccessible");
+        assert_eq!(denied_cwd.raw_os_error(), Some(libc::EACCES));
+
+        let observed = verifier_process_using_worktree(&worktree)
+            .expect_err("real EACCES must remain an unknown process observation");
+        assert!(
+            observed.contains(&format!("pid={child_pid}")),
+            "diagnostic must bind the inaccessible PID: {observed}"
+        );
+        assert!(
+            observed.contains("phase=procfs.cwd"),
+            "diagnostic must identify the failed observation phase: {observed}"
+        );
+        assert!(
+            observed.contains(&format!("errno={}", libc::EACCES)),
+            "diagnostic must retain raw EACCES: {observed}"
+        );
+        assert!(
+            observed.contains("identity_state=observed")
+                && observed.contains(&format!("filter_uid=Some({})", unsafe { libc::getuid() }))
+                && !observed.contains(&format!(" uid=Some({}", unsafe { libc::getuid() }))
+                && observed.contains(&format!("starttime_ticks={}", identity.start_time_ticks))
+                && observed.contains(&format!("pgid={}", identity.process_group_id))
+                && observed.contains(&format!("sid={}", identity.session_id)),
+            "diagnostic must retain the readable process identity: {observed}"
+        );
+
+        drop(child);
+        drop(parent);
+    }
+
+    #[test]
+    fn unreadable_process_identity_is_explicitly_unknown_in_diagnostic() {
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+        let parent = TestCompositionParent(unique_composition_parent());
+        let process_id = 42_424_u32;
+        let stat_path = parent.0.join(process_id.to_string()).join("stat");
+        fs::create_dir_all(stat_path.parent().expect("stat parent"))
+            .expect("create synthetic proc entry");
+        fs::write(&stat_path, "synthetic identity bytes").expect("write identity fixture");
+        fs::set_permissions(&stat_path, fs::Permissions::from_mode(0o000))
+            .expect("make synthetic process identity unreadable");
+        let before = read_linux_process_identity(&parent.0, process_id);
+        assert!(
+            before
+                .as_ref()
+                .is_err_and(|error| error.contains("errno=13")),
+            "synthetic proc stat read should fail with EACCES: {before:?}"
+        );
+        let denied = std::io::Error::from_raw_os_error(libc::EACCES);
+
+        let diagnostic = linux_process_observation_error(
+            &parent.0,
+            process_id,
+            Some(unsafe { libc::getuid() }),
+            "procfs.cwd",
+            &denied,
+            &before,
+        );
+
+        assert!(diagnostic.contains("errno=13"), "{diagnostic}");
+        assert!(
+            diagnostic.contains("identity_state=unknown"),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_before=unknown("),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_after=unknown("),
+            "{diagnostic}"
+        );
+        drop(parent);
+    }
+
+    #[test]
+    fn recovery_trace_extracts_structured_process_observation_fields() {
+        let error = "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) identity_after=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) message=Permission denied (os error 13)";
+
+        assert_eq!(
+            reconciliation_known_observer_error(error),
+            "pid=4242 phase=procfs.cwd errno=13 identity_state=observed"
+        );
+    }
+
+    #[test]
+    fn recovery_trace_category_ignores_nested_identity_read_error_kind() {
+        let error = "cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=Other errno=5 identity_state=unknown identity_before=unknown(identity stat read failed error_kind=PermissionDenied errno=13) identity_after=unknown(identity stat read failed error_kind=PermissionDenied errno=13)";
+
+        assert_eq!(
+            reconciliation_error_category(error),
+            "proc_observation_error"
         );
     }
 }
