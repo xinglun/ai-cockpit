@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "organization": null,
+  "project": {
+    "policyId": "ai-cockpit-project-v1",
+    "layer": "project",
+    "rules": []
+  }
+}

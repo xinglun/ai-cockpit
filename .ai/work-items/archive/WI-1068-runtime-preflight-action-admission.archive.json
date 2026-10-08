@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-08T07:07:08Z",
+  "files": {
+    "contractDigest": "sha256:b25c5e3eb8fa67583996a72563e97f695c963b2d6892325d548740c51387a9d3",
+    "contractPath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json",
+    "eventsDigest": "sha256:7f777f37dd59596d60c3540016f080f9d218b56f96384a795a306e951bc9a293",
+    "eventsPath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.events.jsonl",
+    "outcomeDigest": "sha256:e1384d0b8a74068cbf43a045fec57ab7102b3deb8ec735346394f93fe6c80f95",
+    "outcomePath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.outcome.json",
+    "summaryDigest": "sha256:f0896eef5bdeb3b95a28ac4082bf61600be460d70d312866c936037634b72f0d",
+    "summaryPath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json",
+    "taskReportDigest": "sha256:bd6c12efedfb90c97aca84acef440fd3d8962408d3dbee081be0dcb08e930338",
+    "taskReportMarkdownDigest": "sha256:9c7d4def7d1e7726862e0f17a327ff03737d1dee2cde5c95ace4a58e988b5d14",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

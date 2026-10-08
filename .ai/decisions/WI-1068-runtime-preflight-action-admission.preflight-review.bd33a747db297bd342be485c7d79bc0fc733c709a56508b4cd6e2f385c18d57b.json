@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2c292a88030eb71e67857182b04168b8add4e847494642e58307016658663cea",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7a8780c3a3fd2bcb78cc2d24dd43a148ae0541c1e6a03e63e357f5633f53c993",
+  "reason": "ユーザーが本会話で本 Contract と Snapshot に束縛された confirm_review を明示した。確認は WI 専用 600 秒の有限 timeout ceiling と空の project policy 基底を含む現在の Contract に限定する。必須検証は変更せず、材料 Unknown と未完了の検証状態を解消済みとは扱わない。",
+  "recordedAt": "2026-10-08T04:21:14Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

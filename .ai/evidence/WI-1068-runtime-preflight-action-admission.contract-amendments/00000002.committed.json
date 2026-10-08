@@ -1,0 +1,63 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:d93fda49c08f4de69aa61743f16b08190279fce3bc7dd4cc38bc98c9b11764c2",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "sequence": 2,
+    "changeId": "legacy-1ee04aa6a811e88081b5f977ba649be13c4e07fa700f2317a920235448b2d750",
+    "requestDigest": "sha256:44633509be0eac75914b8ef9d5211ed8f31c79822a342f15e5790a4e0718d23d",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:1ee04aa6a811e88081b5f977ba649be13c4e07fa700f2317a920235448b2d750",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+          "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+          "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant"
+        ],
+        "newValue": [
+          "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+          "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant",
+          "crates/cockpit-repository/tests/status_projection.rs — action admission regression coverage"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:9eedfa781768f24be9dc92298e6e627a1595443d32fcf645491e61f9fdbcb639",
+    "newContractDigest": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "environmentObservationDigest": "sha256:2e320b75e40d68de4345bcf378ccf0a28932ee99607c7e9f858012aa5f8669eb",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:1bcc33f05f9c2d7a2e5d4845a819b90ba11a5291fbe0e796d56494cd69b86ff3",
+    "journalDigest": "sha256:dce80bb602db8b92bcdacd060e7f20fe4ee8727b6c92eda69dc9f767c6238f8a",
+    "recordedAt": "2026-10-08T01:55:41Z"
+  }
+}

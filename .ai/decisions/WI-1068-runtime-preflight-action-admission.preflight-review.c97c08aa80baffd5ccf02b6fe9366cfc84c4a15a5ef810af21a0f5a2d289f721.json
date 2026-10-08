@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:aa936b46e0e2d1a9579c747368517ce37c8b4bb1cecbb31650e9d6d731bc56ea",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7a8780c3a3fd2bcb78cc2d24dd43a148ae0541c1e6a03e63e357f5633f53c993",
+  "reason": "ユーザーが、追加した CLI 回帰テストの scope 拡大を確認し、当該 Work Item の継続を承認した。",
+  "recordedAt": "2026-10-08T03:19:27Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:66e7629b8c1d87221f552fd8464b80ffe27bed242f20edbb9c8d2ed2fc56f153",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}
