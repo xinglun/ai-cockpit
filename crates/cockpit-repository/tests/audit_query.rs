@@ -46,6 +46,23 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-m",
+                "fixture baseline",
+            ])
+            .current_dir(root.path())
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
     attach(root.path()).expect("attach");
     start_work_item_with_options(
         root.path(),

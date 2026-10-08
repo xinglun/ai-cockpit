@@ -22,6 +22,23 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-m",
+                "fixture baseline",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
     cockpit_repository::attach(directory.path()).expect("attach");
     directory
 }

@@ -19,8 +19,52 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-m",
+                "fixture baseline",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
     attach(directory.path()).expect("attach");
     directory
+}
+
+fn commit_fixture_source(path: &std::path::Path, source: &str, message: &str) {
+    assert!(
+        Command::new("git")
+            .args(["add", "--", source])
+            .current_dir(path)
+            .status()
+            .expect("git add fixture source")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "-m",
+                message,
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git commit fixture source")
+            .success()
+    );
 }
 
 fn start(path: &std::path::Path, id: &str, required: &[&str]) {
@@ -225,6 +269,18 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     );
     assert_eq!(outcome["verification"]["status"], "verified");
     assert_eq!(outcome["decisionState"], "green");
+    commit_fixture_source(directory.path(), "src/main.rs", "verified recovery source");
+    let contract_path = contract(directory.path(), "WI-ORDER-RECOVER");
+    preflight_work_item(directory.path(), &contract_path)
+        .expect("refresh preflight for committed source");
+    record_verification(
+        directory.path(),
+        "WI-ORDER-RECOVER",
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.8",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("record current verification");
     finish_work_item(directory.path(), "WI-ORDER-RECOVER").expect("finish after recovery");
     let finished_summary: serde_json::Value = serde_json::from_slice(
         &fs::read(
@@ -591,6 +647,7 @@ fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
     checkpoint_work_item(directory.path(), id).expect("before_edit checkpoint");
 
     fs::write(directory.path().join("source.rs"), "pub fn changed() {}\n").expect("source edit");
+    commit_fixture_source(directory.path(), "source.rs", "authorized source edit");
     preflight_work_item(directory.path(), &contract_path).expect("fresh preflight");
     record_verification(
         directory.path(),
