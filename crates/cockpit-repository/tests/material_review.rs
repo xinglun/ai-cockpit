@@ -282,6 +282,7 @@ fn material_review_decision_validator_rejects_findings_and_extra_unknowns() {
 
     let mut finding_request = request.clone();
     finding_request.blocked_by_finding = true;
+    finding_request.finding_codes = vec!["test_weakening".into()];
     let finding_error = validate_material_review_decision(
         &contract,
         &finding_request,
@@ -292,6 +293,21 @@ fn material_review_decision_validator_rejects_findings_and_extra_unknowns() {
     .unwrap_err();
     assert_eq!(
         finding_error,
+        MaterialReviewDecisionValidationError::FindingPresent
+    );
+
+    let mut categorized_finding_request = request.clone();
+    categorized_finding_request.finding_codes = vec!["coverage_weakening".into()];
+    let categorized_finding_error = validate_material_review_decision(
+        &contract,
+        &categorized_finding_request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .unwrap_err();
+    assert_eq!(
+        categorized_finding_error,
         MaterialReviewDecisionValidationError::FindingPresent
     );
 
@@ -584,8 +600,50 @@ fn finding_is_never_reviewable() {
     commit(root);
     let request = material_review_request(root, &contract).unwrap();
     assert!(request.blocked_by_finding);
+    assert_eq!(request.finding_codes, vec!["repository_prompt_injection"]);
     assert!(request.entries.iter().all(|entry| entry.unknown_cause
         != Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)));
+}
+
+#[test]
+fn request_binds_each_distinct_blocking_finding_category() {
+    let (directory, mut contract) = fixture();
+    let root = directory.path();
+    fs::create_dir_all(root.join("tests")).unwrap();
+    fs::write(
+        root.join("tests/security.py"),
+        "def test_security():\n    pass\n",
+    )
+    .unwrap();
+    fs::write(root.join("pyproject.toml"), "fail_under = 90\n").unwrap();
+    commit(root);
+    contract.base_revision = git(root, &["rev-parse", "HEAD"]);
+
+    let injection = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    let skip_decorator = ["@", "pytest", ".mark.skip", "(", "reason='disabled'", ")"].concat();
+    fs::write(root.join("README.md"), format!("{injection}\n")).unwrap();
+    fs::write(
+        root.join("tests/security.py"),
+        format!("{skip_decorator}\ndef test_security():\n    pass\n"),
+    )
+    .unwrap();
+    fs::write(root.join("pyproject.toml"), "fail_under = 70\n").unwrap();
+    commit(root);
+
+    let request = material_review_request(root, &contract).unwrap();
+    let value = serde_json::to_value(&request).unwrap();
+    assert_eq!(
+        value["findingCodes"],
+        json!([
+            "coverage_weakening",
+            "repository_prompt_injection",
+            "test_weakening"
+        ])
+    );
+    assert_eq!(value["blockedByFinding"], true);
 }
 
 #[cfg(unix)]

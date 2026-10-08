@@ -4350,6 +4350,7 @@ pub fn evaluate_contract_quality_gate(
         review_assurance,
         material_unknowns,
         discharged_unknowns,
+        material_finding_codes,
         material_finding,
         material_projection_unavailable,
     ) = match material_projection {
@@ -4360,6 +4361,7 @@ pub fn evaluate_contract_quality_gate(
             projection.review_assurance,
             projection.effective_unknowns,
             projection.discharged_unknowns,
+            projection.finding_codes,
             projection.blocked_by_finding,
             false,
         ),
@@ -4370,6 +4372,7 @@ pub fn evaluate_contract_quality_gate(
             None,
             vec!["material_review_projection_unavailable".into()],
             Vec::new(),
+            Vec::new(),
             false,
             true,
         ),
@@ -4379,7 +4382,7 @@ pub fn evaluate_contract_quality_gate(
         blockers.push("material_review_projection_unavailable".into());
     }
     if material_finding {
-        blockers.push("repository_prompt_injection".into());
+        blockers.extend(material_finding_codes);
     }
     blockers.sort();
     blockers.dedup();
@@ -5190,8 +5193,8 @@ fn is_test_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
     let file_name = normalized.rsplit('/').next().unwrap_or(&normalized);
     let spec_source_name = [
-        ".rs", ".py", ".js", ".jsx", ".ts", ".tsx", ".go", ".java", ".kt", ".swift", ".sh", ".rb",
-        ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
+        ".rs", ".py", ".js", ".mjs", ".cjs", ".jsx", ".ts", ".mts", ".cts", ".tsx", ".go", ".java",
+        ".kt", ".swift", ".sh", ".rb", ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
     ]
     .iter()
     .any(|extension| {
@@ -5226,8 +5229,8 @@ fn is_coverage_path(path: &str) -> bool {
 fn is_textual_material_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
     [
-        ".md", ".txt", ".json", ".toml", ".yaml", ".yml", ".rs", ".py", ".js", ".ts", ".tsx",
-        ".jsx", ".java", ".kt", ".swift", ".go", ".sh",
+        ".md", ".txt", ".json", ".toml", ".yaml", ".yml", ".rs", ".py", ".js", ".mjs", ".cjs",
+        ".ts", ".mts", ".cts", ".tsx", ".jsx", ".java", ".kt", ".swift", ".go", ".sh",
     ]
     .iter()
     .any(|extension| normalized.ends_with(extension))
@@ -5242,24 +5245,1019 @@ fn is_strictly_checked_conformance_manifest(path: &str) -> bool {
     path == "tests/conformance/reference_file_inventory.json"
 }
 
-fn contains_skip_marker(lines: &[String]) -> bool {
-    lines.iter().any(|line| {
-        let line = line.to_ascii_lowercase();
-        line.contains("pytest.mark.skip")
-            || line.contains(".skip(")
-            || line.contains("#[ignore]")
-            || line.contains("@disabled")
-            || line.contains("@ignore")
-            || line.contains("disabled_")
-            // Match standalone JavaScript test bypass calls.  A substring
-            // search for `xit(` also matches Rust/Python `SystemExit(` and
-            // would falsely classify an otherwise safe diagnostic helper as
-            // test weakening.
-            || line.starts_with("xit(")
-            || line.contains(" xit(")
-            || line.starts_with("xdescribe(")
-            || line.contains(" xdescribe(")
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum MultilineSourceString {
+    PythonSingle,
+    PythonDouble,
+    TripleDouble,
+    Backtick,
+    GoRaw,
+    RustRaw(usize),
+    Quoted(u8),
+}
+
+#[derive(Default)]
+struct SkipSourceContext {
+    block_comment_depth: usize,
+    multiline_string: Option<MultilineSourceString>,
+}
+
+impl SkipSourceContext {
+    fn is_code(&self) -> bool {
+        self.block_comment_depth == 0 && self.multiline_string.is_none()
+    }
+}
+
+fn is_identifier_byte(byte: u8) -> bool {
+    byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'$') || !byte.is_ascii()
+}
+
+fn has_marker_boundary(line: &str, index: usize) -> bool {
+    line.as_bytes()
+        .get(index.wrapping_sub(1))
+        .is_none_or(|byte| !is_identifier_byte(*byte) && *byte != b'.')
+}
+
+fn has_call(line: &str, marker: &str) -> bool {
+    line.match_indices(marker).any(|(index, _)| {
+        has_marker_boundary(line, index)
+            && line[index + marker.len()..].trim_start().starts_with('(')
     })
+}
+
+fn has_call_or_jest_each(line: &str, marker: &str) -> bool {
+    line.match_indices(marker).any(|(index, _)| {
+        if !has_marker_boundary(line, index) {
+            return false;
+        }
+        let suffix = line[index + marker.len()..].trim_start();
+        suffix.starts_with('(')
+            || suffix
+                .strip_prefix(".each")
+                .is_some_and(|after_each| after_each.trim_start().starts_with('('))
+    })
+}
+
+fn has_bare_python_skip_decorator(line: &str) -> bool {
+    line.match_indices("@pytest.mark.skip").any(|(index, _)| {
+        has_marker_boundary(line, index)
+            && line[index + "@pytest.mark.skip".len()..].trim().is_empty()
+    })
+}
+
+fn has_python_skip_marker(line: &str) -> bool {
+    has_bare_python_skip_decorator(line)
+        || [
+            "@pytest.mark.skip",
+            "@pytest.mark.skipif",
+            "@unittest.skip",
+            "@unittest.skipIf",
+            "pytest.skip",
+            "pytest.skipif",
+        ]
+        .iter()
+        .any(|marker| has_call(line, marker))
+}
+
+fn has_python_parameter_marker_candidate(line: &str) -> bool {
+    ["pytest.mark.skipif", "pytest.mark.skip"]
+        .iter()
+        .any(|marker| {
+            line.match_indices(marker).any(|(index, _)| {
+                if !has_marker_boundary(line, index) {
+                    return false;
+                }
+                let suffix = line[index + marker.len()..].trim_start();
+                if marker.ends_with("skipif") {
+                    suffix.starts_with('(')
+                } else {
+                    suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
+                }
+            })
+        })
+}
+
+fn has_javascript_skip_marker(line: &str) -> bool {
+    ["it.skip", "test.skip", "describe.skip"]
+        .iter()
+        .any(|marker| has_call_or_jest_each(line, marker))
+        || ["xit", "xtest", "xdescribe", "this.skip"]
+            .iter()
+            .any(|marker| has_call(line, marker))
+}
+
+fn has_java_skip_annotation(line: &str) -> bool {
+    let bytes = line.as_bytes();
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] != b'@' {
+            index += 1;
+            continue;
+        }
+        let start = index + 1;
+        let mut end = start;
+        while bytes
+            .get(end)
+            .is_some_and(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'$'))
+        {
+            end += 1;
+        }
+        if end == start {
+            index += 1;
+            continue;
+        }
+        let annotation = &line[start..end];
+        let suffix = &line[end..];
+        if matches!(annotation.rsplit('.').next(), Some("Disabled" | "Ignore"))
+            && (suffix.is_empty()
+                || suffix.starts_with(char::is_whitespace)
+                || suffix.trim_start().starts_with('('))
+        {
+            return true;
+        }
+        index = end;
+    }
+    false
+}
+
+fn is_javascript_extension(extension: &str) -> bool {
+    matches!(
+        extension,
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx"
+    )
+}
+
+// These extensions have a narrowly recognized test-disable syntax below.
+// Other test-like paths still retain deletion, assertion-loss, and CI-bypass
+// detection without interpreting a generic word or method named `skip`.
+fn skip_marker_for_language(extension: &str, line: &str) -> bool {
+    match extension {
+        "rs" => line.match_indices("#[ignore").any(|(index, _)| {
+            has_marker_boundary(line, index)
+                && line[index + "#[ignore".len()..]
+                    .trim_start()
+                    .starts_with(['=', ']'])
+        }),
+        "py" => has_python_skip_marker(line),
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
+            has_javascript_skip_marker(line)
+        }
+        "java" | "kt" => has_java_skip_annotation(line),
+        "go" => ["t.Skip", "t.Skipf", "t.SkipNow"]
+            .iter()
+            .any(|marker| has_call(line, marker)),
+        "swift" => ["XCTSkip", "XCTSkipIf"]
+            .iter()
+            .any(|marker| has_call(line, marker)),
+        _ => false,
+    }
+}
+
+fn matching_parenthesis(source: &str, opening: usize) -> Option<usize> {
+    let mut depth = 0usize;
+    for (index, byte) in source.as_bytes().iter().enumerate().skip(opening) {
+        match byte {
+            b'(' => depth += 1,
+            b')' => {
+                depth = depth.checked_sub(1)?;
+                if depth == 0 {
+                    return Some(index);
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+fn top_level_argument_ranges(source: &str, start: usize, end: usize) -> Vec<(usize, usize)> {
+    let mut ranges = Vec::new();
+    let mut stack = Vec::new();
+    let mut argument_start = start;
+    for index in start..end {
+        match source.as_bytes()[index] {
+            b'(' => stack.push(b')'),
+            b'[' => stack.push(b']'),
+            b'{' => stack.push(b'}'),
+            byte @ (b')' | b']' | b'}') if stack.last() == Some(&byte) => {
+                stack.pop();
+            }
+            b',' if stack.is_empty() => {
+                ranges.push((argument_start, index));
+                argument_start = index + 1;
+            }
+            _ => {}
+        }
+    }
+    if argument_start < end {
+        ranges.push((argument_start, end));
+    }
+    ranges
+}
+
+fn has_python_parameterized_skip_marker(
+    source_lines: &[String],
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let source = source_lines.join("\n");
+    for (parameter_index, _) in source.match_indices("pytest.param") {
+        if !has_marker_boundary(&source, parameter_index) {
+            continue;
+        }
+        let suffix = &source[parameter_index + "pytest.param".len()..];
+        let opening = suffix.len() - suffix.trim_start().len();
+        if !suffix[opening..].starts_with('(') {
+            continue;
+        }
+        let opening = parameter_index + "pytest.param".len() + opening;
+        let Some(closing) = matching_parenthesis(&source, opening) else {
+            continue;
+        };
+        for (argument_start, argument_end) in
+            top_level_argument_ranges(&source, opening + 1, closing)
+        {
+            let argument = &source[argument_start..argument_end];
+            let Some(equal) = argument.find('=') else {
+                continue;
+            };
+            if argument[..equal].trim() != "marks" {
+                continue;
+            }
+            let value_start = argument_start + equal + 1;
+            let value = &source[value_start..argument_end];
+            for marker in ["pytest.mark.skipif", "pytest.mark.skip"] {
+                for (marker_offset, _) in value.match_indices(marker) {
+                    let marker_index = value_start + marker_offset;
+                    if !has_marker_boundary(&source, marker_index) {
+                        continue;
+                    }
+                    let suffix = value[marker_offset + marker.len()..].trim_start();
+                    let marker_is_used = if marker.ends_with("skipif") {
+                        suffix.starts_with('(')
+                    } else {
+                        suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
+                    };
+                    if marker_is_used {
+                        let line_index = source.as_bytes()[..marker_index]
+                            .iter()
+                            .filter(|byte| **byte == b'\n')
+                            .count();
+                        if changed_lines.contains(&line_index) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    false
+}
+
+fn balanced_expression_end(
+    extension: &str,
+    source: &str,
+    start: usize,
+    open: u8,
+    close: u8,
+) -> Option<usize> {
+    let expression = &source[start..];
+    let mut context = SkipSourceContext::default();
+    let mut code = String::with_capacity(expression.len());
+    for (index, line) in expression.split('\n').enumerate() {
+        if index > 0 {
+            code.push('\n');
+        }
+        code.push_str(&code_only_skip_source_line(extension, line, &mut context));
+    }
+    let bytes = code.as_bytes();
+    let mut depth = 1usize;
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] == open {
+            depth += 1;
+        } else if bytes[index] == close {
+            depth = depth.checked_sub(1)?;
+            if depth == 0 {
+                return Some(start + index);
+            }
+        }
+        index += 1;
+    }
+    None
+}
+
+fn expression_may_disable_test(extension: &str, expression: &str) -> bool {
+    skip_marker_for_language(extension, expression)
+        || matches!(extension, "kt" | "swift")
+            && ["skip", "assume", "testaborted", "xctskip"]
+                .iter()
+                .any(|marker| expression.to_ascii_lowercase().contains(marker))
+}
+
+fn has_javascript_template_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        if bytes[quote_index] != b'`' {
+            quote_index += 1;
+            continue;
+        }
+        let Some(literal_end) = quoted_literal_end(bytes, quote_index, 1, b'`') else {
+            return false;
+        };
+        let mut content_index = quote_index + 1;
+        while content_index < literal_end {
+            if bytes.get(content_index..content_index + 2) == Some(b"${") {
+                let escaped = bytes[..content_index]
+                    .iter()
+                    .rev()
+                    .take_while(|byte| **byte == b'\\')
+                    .count()
+                    % 2
+                    == 1;
+                if escaped {
+                    content_index += 2;
+                    continue;
+                }
+                let expression_start = content_index + 2;
+                if let Some(expression_end) =
+                    balanced_expression_end("js", source, expression_start, b'{', b'}')
+                {
+                    if expression_end < literal_end
+                        && has_javascript_regex_brace_ambiguity(
+                            source,
+                            expression_start,
+                            expression_end,
+                        )
+                        && expression_may_disable_test("js", &source[expression_start..literal_end])
+                        && changed_line_intersects_range(
+                            source,
+                            content_index,
+                            literal_end,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                    if expression_end < literal_end
+                        && expression_may_disable_test(
+                            "js",
+                            &source[expression_start..expression_end],
+                        )
+                        && changed_line_intersects_range(
+                            source,
+                            content_index,
+                            expression_end + 1,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                    content_index = expression_end + 1;
+                    continue;
+                }
+                return expression_may_disable_test("js", &source[expression_start..literal_end])
+                    && changed_line_intersects_range(
+                        source,
+                        content_index,
+                        literal_end,
+                        changed_lines,
+                    );
+            }
+            content_index += 1;
+        }
+        quote_index = literal_end + 1;
+    }
+    false
+}
+
+fn has_javascript_regex_brace_ambiguity(
+    source: &str,
+    expression_start: usize,
+    expression_end: usize,
+) -> bool {
+    // This bounded scanner does not lex JavaScript regular-expression bodies.
+    // If a slash occurs before a brace it mistook for the interpolation end,
+    // the caller checks the entire interpolation for skip syntax and defers
+    // the decision instead of treating that brace as code.
+    source[expression_start..=expression_end].contains('/')
+}
+
+fn quoted_literal_end(
+    bytes: &[u8],
+    opening: usize,
+    delimiter_len: usize,
+    quote: u8,
+) -> Option<usize> {
+    let mut index = opening + delimiter_len;
+    while index + delimiter_len <= bytes.len() {
+        if bytes[index] == b'\\' {
+            index = (index + 2).min(bytes.len());
+        } else if bytes[index..index + delimiter_len]
+            .iter()
+            .all(|byte| *byte == quote)
+        {
+            return Some(index);
+        } else {
+            index += 1;
+        }
+    }
+    None
+}
+
+fn interpolated_string_end(
+    extension: &str,
+    source: &str,
+    opening: usize,
+    delimiter_len: usize,
+    raw_hashes: usize,
+) -> Option<usize> {
+    let bytes = source.as_bytes();
+    let mut index = opening + delimiter_len;
+    while index + delimiter_len <= bytes.len() {
+        if bytes[index..index + delimiter_len]
+            .iter()
+            .all(|byte| *byte == b'"')
+            && (extension != "swift"
+                || bytes
+                    .get(index + delimiter_len..index + delimiter_len + raw_hashes)
+                    .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#')))
+        {
+            return Some(index);
+        }
+        if extension == "swift"
+            && swift_interpolation_opening_len(bytes, index, raw_hashes).is_some()
+        {
+            let expression_start =
+                index + swift_interpolation_opening_len(bytes, index, raw_hashes)?;
+            let expression_end =
+                balanced_expression_end(extension, source, expression_start, b'(', b')')?;
+            index = expression_end + 1;
+            continue;
+        }
+        if extension == "kt" && bytes.get(index..index + 2) == Some(b"${") {
+            let expression_start = index + 2;
+            let expression_end =
+                balanced_expression_end(extension, source, expression_start, b'{', b'}')?;
+            index = expression_end + 1;
+            continue;
+        }
+        if bytes[index] == b'\\'
+            && ((extension == "swift" && raw_hashes == 0) || delimiter_len == 1)
+        {
+            index = (index + 2).min(bytes.len());
+        } else {
+            index += 1;
+        }
+    }
+    None
+}
+
+fn swift_interpolation_opening_len(bytes: &[u8], index: usize, raw_hashes: usize) -> Option<usize> {
+    if bytes.get(index) != Some(&b'\\')
+        || !bytes
+            .get(index + 1..index + 1 + raw_hashes)
+            .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#'))
+        || bytes.get(index + 1 + raw_hashes) != Some(&b'(')
+    {
+        return None;
+    }
+    Some(raw_hashes + 2)
+}
+
+fn preceding_swift_raw_hashes(bytes: &[u8], quote_index: usize) -> usize {
+    let mut cursor = quote_index;
+    while cursor > 0 && bytes[cursor - 1] == b'#' {
+        cursor -= 1;
+    }
+    quote_index - cursor
+}
+
+fn changed_line_intersects_range(
+    source: &str,
+    start: usize,
+    end: usize,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let first_line = source.as_bytes()[..start]
+        .iter()
+        .filter(|byte| **byte == b'\n')
+        .count();
+    let last_line = source.as_bytes()[..end.min(source.len())]
+        .iter()
+        .filter(|byte| **byte == b'\n')
+        .count();
+    (first_line..=last_line).any(|line| changed_lines.contains(&line))
+}
+
+fn changed_text_after(source: &str, start: usize, changed_lines: &BTreeSet<usize>) -> String {
+    let mut changed_text = String::new();
+    let mut line_start = 0;
+    for (line_index, line) in source.split_inclusive('\n').enumerate() {
+        let line_end = line_start + line.trim_end_matches('\n').len();
+        if changed_lines.contains(&line_index) && line_end > start {
+            let segment_start = start.max(line_start);
+            changed_text.push_str(&source[segment_start..line_end]);
+            changed_text.push('\n');
+        }
+        line_start += line.len();
+    }
+    changed_text
+}
+
+fn has_python_fstring_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        let quote = bytes[quote_index];
+        if !matches!(quote, b'\'' | b'"') {
+            quote_index += 1;
+            continue;
+        }
+        let formatted_prefix_start = if quote_index > 0
+            && matches!(bytes[quote_index - 1], b'f' | b'F')
+            && (quote_index == 1 || !is_identifier_byte(bytes[quote_index - 2]))
+        {
+            Some(quote_index - 1)
+        } else if quote_index > 1
+            && matches!(
+                &bytes[quote_index - 2..quote_index],
+                b"fr" | b"fR" | b"Fr" | b"FR" | b"rf" | b"rF" | b"Rf" | b"RF"
+            )
+            && (quote_index == 2 || !is_identifier_byte(bytes[quote_index - 3]))
+        {
+            Some(quote_index - 2)
+        } else {
+            None
+        };
+        let Some(_prefix_start) = formatted_prefix_start else {
+            quote_index += 1;
+            continue;
+        };
+        let delimiter_len =
+            if bytes.get(quote_index..quote_index + 3) == Some(&[quote, quote, quote]) {
+                3
+            } else {
+                1
+            };
+        let Some(literal_end) = quoted_literal_end(bytes, quote_index, delimiter_len, quote) else {
+            quote_index += 1;
+            continue;
+        };
+        let content_start = quote_index + delimiter_len;
+        let mut content_index = content_start;
+        while content_index < literal_end {
+            if bytes[content_index] == b'{' {
+                if bytes.get(content_index + 1) == Some(&b'{') {
+                    content_index += 2;
+                    continue;
+                }
+                let expression_start = content_index + 1;
+                // PEP 701 permits the expression to reuse the f-string's
+                // quote. If the outer delimiter scan ended inside that
+                // expression, keep scanning its balanced body and fail closed.
+                if let Some(expression_end) =
+                    balanced_expression_end("py", source, expression_start, b'{', b'}')
+                    && expression_may_disable_test("py", &source[expression_start..expression_end])
+                    && changed_line_intersects_range(
+                        source,
+                        content_index,
+                        expression_end + 1,
+                        changed_lines,
+                    )
+                {
+                    return true;
+                }
+            }
+            content_index += 1;
+        }
+        quote_index = literal_end + delimiter_len;
+    }
+    false
+}
+
+fn has_kotlin_or_swift_interpolation_candidate(
+    extension: &str,
+    source: &str,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        if bytes[quote_index] != b'"' {
+            quote_index += 1;
+            continue;
+        }
+        let delimiter_len = if bytes.get(quote_index..quote_index + 3) == Some(b"\"\"\"") {
+            3
+        } else {
+            1
+        };
+        let raw_hashes = if extension == "swift" {
+            preceding_swift_raw_hashes(bytes, quote_index)
+        } else {
+            0
+        };
+        let Some(literal_end) =
+            interpolated_string_end(extension, source, quote_index, delimiter_len, raw_hashes)
+        else {
+            quote_index += 1;
+            continue;
+        };
+        let content_start = quote_index + delimiter_len;
+        let content = &source[content_start..literal_end];
+        match extension {
+            "kt" => {
+                for (index, _) in content.match_indices("${") {
+                    let expression_start = content_start + index + 2;
+                    if let Some(expression_end) =
+                        balanced_expression_end(extension, source, expression_start, b'{', b'}')
+                        && expression_end < literal_end
+                        && expression_may_disable_test(
+                            extension,
+                            &source[expression_start..expression_end],
+                        )
+                        && changed_line_intersects_range(
+                            source,
+                            content_start + index,
+                            expression_end + 1,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                }
+            }
+            "swift" => {
+                for (index, _) in content.match_indices('\\') {
+                    let Some(opening_len) =
+                        swift_interpolation_opening_len(content.as_bytes(), index, raw_hashes)
+                    else {
+                        continue;
+                    };
+                    let expression_start = content_start + index + opening_len;
+                    if let Some(expression_end) =
+                        balanced_expression_end(extension, source, expression_start, b'(', b')')
+                    {
+                        let changed_suffix = changed_text_after(
+                            source,
+                            expression_end.saturating_add(1),
+                            changed_lines,
+                        );
+                        if expression_end < literal_end
+                            && source[expression_start..=expression_end].contains('/')
+                            && expression_may_disable_test(extension, &changed_suffix)
+                        {
+                            return true;
+                        }
+                        if expression_end < literal_end
+                            && expression_may_disable_test(
+                                extension,
+                                &source[expression_start..expression_end],
+                            )
+                            && changed_line_intersects_range(
+                                source,
+                                content_start + index,
+                                expression_end + 1,
+                                changed_lines,
+                            )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+        quote_index = literal_end + delimiter_len;
+    }
+    false
+}
+
+fn has_skip_interpolation_candidate_in_source(
+    extension: &str,
+    source: &str,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    match extension {
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
+            has_javascript_template_skip_candidate(source, changed_lines)
+        }
+        "py" => has_python_fstring_skip_candidate(source, changed_lines),
+        "kt" | "swift" => {
+            has_kotlin_or_swift_interpolation_candidate(extension, source, changed_lines)
+        }
+        _ => false,
+    }
+}
+
+fn rust_raw_string_open(bytes: &[u8], index: usize) -> Option<(usize, usize)> {
+    if index > 0 && (bytes[index - 1].is_ascii_alphanumeric() || bytes[index - 1] == b'_') {
+        return None;
+    }
+    let marker_start = if bytes.get(index..index + 2) == Some(b"br") {
+        index + 2
+    } else if bytes.get(index) == Some(&b'r') {
+        index + 1
+    } else {
+        return None;
+    };
+    let mut cursor = marker_start;
+    while bytes.get(cursor) == Some(&b'#') {
+        cursor += 1;
+    }
+    (bytes.get(cursor) == Some(&b'"')).then_some((cursor - marker_start, cursor + 1))
+}
+
+fn close_multiline_string(
+    bytes: &[u8],
+    index: usize,
+    string: MultilineSourceString,
+) -> Option<usize> {
+    match string {
+        MultilineSourceString::PythonSingle if bytes.get(index..index + 3) == Some(b"'''") => {
+            Some(index + 3)
+        }
+        MultilineSourceString::PythonDouble | MultilineSourceString::TripleDouble
+            if bytes.get(index..index + 3) == Some(b"\"\"\"") =>
+        {
+            Some(index + 3)
+        }
+        MultilineSourceString::Backtick | MultilineSourceString::GoRaw
+            if bytes.get(index) == Some(&b'`') =>
+        {
+            Some(index + 1)
+        }
+        MultilineSourceString::Quoted(quote) if bytes.get(index) == Some(&quote) => Some(index + 1),
+        MultilineSourceString::RustRaw(hashes)
+            if bytes.get(index) == Some(&b'"')
+                && bytes
+                    .get(index + 1..index + 1 + hashes)
+                    .is_some_and(|closing| closing.iter().all(|byte| *byte == b'#')) =>
+        {
+            Some(index + 1 + hashes)
+        }
+        _ => None,
+    }
+}
+
+fn code_only_skip_source_line(
+    extension: &str,
+    line: &str,
+    context: &mut SkipSourceContext,
+) -> String {
+    let bytes = line.as_bytes();
+    let mut code = vec![b' '; bytes.len()];
+    let nested_comments = matches!(extension, "rs" | "kt" | "swift");
+    let block_comments = matches!(
+        extension,
+        "rs" | "js"
+            | "mjs"
+            | "cjs"
+            | "jsx"
+            | "ts"
+            | "mts"
+            | "cts"
+            | "tsx"
+            | "java"
+            | "kt"
+            | "swift"
+            | "go"
+    );
+    let mut index = 0;
+    while index < bytes.len() {
+        if let Some(string) = context.multiline_string {
+            if let Some(next) = close_multiline_string(bytes, index, string) {
+                context.multiline_string = None;
+                index = next;
+            } else if matches!(
+                string,
+                MultilineSourceString::PythonSingle
+                    | MultilineSourceString::PythonDouble
+                    | MultilineSourceString::Backtick
+                    | MultilineSourceString::Quoted(_)
+            ) && bytes[index] == b'\\'
+            {
+                index = (index + 2).min(bytes.len());
+            } else {
+                index += 1;
+            }
+            continue;
+        }
+        if context.block_comment_depth > 0 {
+            if nested_comments && bytes.get(index..index + 2) == Some(b"/*") {
+                context.block_comment_depth += 1;
+                index += 2;
+            } else if bytes.get(index..index + 2) == Some(b"*/") {
+                context.block_comment_depth -= 1;
+                index += 2;
+            } else {
+                index += 1;
+            }
+            continue;
+        }
+
+        if matches!(extension, "py") && bytes.get(index..index + 3) == Some(b"'''") {
+            context.multiline_string = Some(MultilineSourceString::PythonSingle);
+            index += 3;
+            continue;
+        }
+        if matches!(extension, "py" | "java" | "kt" | "swift")
+            && bytes.get(index..index + 3) == Some(b"\"\"\"")
+        {
+            context.multiline_string = Some(if extension == "py" {
+                MultilineSourceString::PythonDouble
+            } else {
+                MultilineSourceString::TripleDouble
+            });
+            index += 3;
+            continue;
+        }
+        if extension == "rs"
+            && let Some((hashes, next)) = rust_raw_string_open(bytes, index)
+        {
+            context.multiline_string = Some(MultilineSourceString::RustRaw(hashes));
+            index = next;
+            continue;
+        }
+        if is_javascript_extension(extension) && bytes[index] == b'`' {
+            context.multiline_string = Some(MultilineSourceString::Backtick);
+            index += 1;
+            continue;
+        }
+        if extension == "go" && bytes[index] == b'`' {
+            context.multiline_string = Some(MultilineSourceString::GoRaw);
+            index += 1;
+            continue;
+        }
+        if block_comments && bytes.get(index..index + 2) == Some(b"/*") {
+            context.block_comment_depth = 1;
+            index += 2;
+            continue;
+        }
+        if (extension != "py" && bytes.get(index..index + 2) == Some(b"//"))
+            || (extension == "py" && bytes[index] == b'#')
+        {
+            break;
+        }
+        if matches!(bytes[index], b'\'' | b'"') {
+            let quote = bytes[index];
+            if extension == "rs" && quote == b'\'' {
+                let mut cursor = index + 1;
+                let mut closes_on_line = false;
+                while cursor < bytes.len() {
+                    if bytes[cursor] == b'\\' {
+                        cursor = (cursor + 2).min(bytes.len());
+                    } else if bytes[cursor] == b'\'' {
+                        closes_on_line = true;
+                        break;
+                    } else {
+                        cursor += 1;
+                    }
+                }
+                if !closes_on_line {
+                    index += 1;
+                    continue;
+                }
+            }
+            index += 1;
+            let mut closed = false;
+            while index < bytes.len() {
+                if bytes[index] == b'\\' {
+                    index = (index + 2).min(bytes.len());
+                } else if bytes[index] == quote {
+                    index += 1;
+                    closed = true;
+                    break;
+                } else {
+                    index += 1;
+                }
+            }
+            if !closed {
+                context.multiline_string = Some(MultilineSourceString::Quoted(quote));
+            }
+            continue;
+        }
+        code[index] = bytes[index];
+        index += 1;
+    }
+    String::from_utf8(code).expect("masking source bytes preserves UTF-8")
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SkipMarkerScan {
+    Finding,
+    Clean,
+    Ambiguous,
+}
+
+fn contains_skip_marker(path: &str, change: &cockpit_git::ChangeEvidence) -> SkipMarkerScan {
+    let extension = path
+        .rsplit('.')
+        .next()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    if !matches!(
+        extension.as_str(),
+        "rs" | "py"
+            | "js"
+            | "mjs"
+            | "cjs"
+            | "jsx"
+            | "ts"
+            | "mts"
+            | "cts"
+            | "tsx"
+            | "java"
+            | "kt"
+            | "go"
+            | "swift"
+    ) {
+        return SkipMarkerScan::Clean;
+    }
+    let Some(source) = change.after_text.as_deref() else {
+        let all_added_lines = (0..change.added_lines.len()).collect::<BTreeSet<_>>();
+        let added_source = change.added_lines.join("\n");
+        let parameterized_skip = extension == "py"
+            && has_python_parameterized_skip_marker(&change.added_lines, &all_added_lines);
+        return if parameterized_skip
+            || has_skip_interpolation_candidate_in_source(
+                &extension,
+                &added_source,
+                &all_added_lines,
+            )
+            || change.added_lines.iter().any(|line| {
+                skip_marker_for_language(&extension, line)
+                    || (extension == "py" && has_python_parameter_marker_candidate(line))
+            }) {
+            SkipMarkerScan::Ambiguous
+        } else {
+            SkipMarkerScan::Clean
+        };
+    };
+    let source_lines = source.lines().collect::<Vec<_>>();
+    let mut changed_lines = BTreeSet::new();
+    if !change.added_line_origins.is_empty() {
+        if change.added_line_origins.len() != change.added_lines.len() {
+            return SkipMarkerScan::Ambiguous;
+        }
+        for (origin, added_line) in change.added_line_origins.iter().zip(&change.added_lines) {
+            let Some(line_index) = origin.after_line.checked_sub(1) else {
+                return SkipMarkerScan::Ambiguous;
+            };
+            if source_lines
+                .get(line_index)
+                .is_none_or(|line| line.trim_end_matches('\r') != added_line)
+            {
+                return SkipMarkerScan::Ambiguous;
+            }
+            changed_lines.insert(line_index);
+        }
+    } else if change.kind == ChangeKind::Added
+        || source_lines.join("\n") == change.added_lines.join("\n")
+    {
+        changed_lines.extend(0..source_lines.len());
+    } else if change.added_lines.is_empty() {
+        return SkipMarkerScan::Clean;
+    } else if change.added_lines.iter().any(|line| {
+        skip_marker_for_language(&extension, line)
+            || (extension == "py" && has_python_parameter_marker_candidate(line))
+    }) || has_skip_interpolation_candidate_in_source(
+        &extension,
+        &change.added_lines.join("\n"),
+        &(0..change.added_lines.len()).collect(),
+    ) || (extension == "py"
+        && has_python_parameterized_skip_marker(
+            &change.added_lines,
+            &(0..change.added_lines.len()).collect(),
+        ))
+    {
+        return SkipMarkerScan::Ambiguous;
+    } else {
+        return SkipMarkerScan::Clean;
+    }
+
+    if has_skip_interpolation_candidate_in_source(&extension, source, &changed_lines) {
+        return SkipMarkerScan::Ambiguous;
+    }
+
+    let mut context = SkipSourceContext::default();
+    let mut code_lines = Vec::with_capacity(source_lines.len());
+    for (index, line) in source_lines.iter().enumerate() {
+        let code_line = code_only_skip_source_line(&extension, line, &mut context);
+        if changed_lines.contains(&index) && skip_marker_for_language(&extension, &code_line) {
+            return SkipMarkerScan::Finding;
+        }
+        code_lines.push(code_line);
+    }
+    if extension == "py" && has_python_parameterized_skip_marker(&code_lines, &changed_lines) {
+        return SkipMarkerScan::Finding;
+    }
+    if context.is_code() {
+        SkipMarkerScan::Clean
+    } else {
+        SkipMarkerScan::Ambiguous
+    }
 }
 
 fn assertion_count(lines: &[String]) -> usize {
@@ -5412,9 +6410,19 @@ fn derive_governance_signals_with_diagnostics(
             result.untrusted_material = true;
             result.findings.push("repository_prompt_injection".into());
         }
+        let skip_marker = if test_path {
+            contains_skip_marker(&change.path, change)
+        } else {
+            SkipMarkerScan::Clean
+        };
+        if skip_marker == SkipMarkerScan::Ambiguous {
+            result
+                .unknowns
+                .push("test_weakening_inspection_unavailable".into());
+        }
         if test_path
             && (change.kind == ChangeKind::Deleted
-                || contains_skip_marker(&change.added_lines)
+                || skip_marker == SkipMarkerScan::Finding
                 || assertion_count(&change.removed_lines) > assertion_count(&change.added_lines)
                 || contains_test_bypass(&added_text))
         {

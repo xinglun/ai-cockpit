@@ -1282,6 +1282,60 @@ fn status_rechecks_committed_contract_base_material_with_empty_worktree_diff() {
 }
 
 #[test]
+fn status_projection_keeps_material_finding_categories_distinct() {
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("pyproject.toml"), "fail_under = 90\n").expect("coverage baseline");
+    commit_all(root, "add coverage baseline");
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-FINDINGS",
+        "preserve material finding categories",
+        "project each distinct scanner finding into status blockers",
+        &[
+            "README.md".into(),
+            "tests/ci/**".into(),
+            "pyproject.toml".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+
+    let injection = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    let skip_decorator = ["@", "pytest", ".mark.skip", "(", "reason='disabled'", ")"].concat();
+    fs::write(root.join("README.md"), format!("{injection}\n")).expect("injected documentation");
+    fs::create_dir_all(root.join("tests/ci")).expect("CI test directory");
+    fs::write(
+        root.join("tests/ci/security.py"),
+        format!("{skip_decorator}\ndef test_security():\n    pass\n"),
+    )
+    .expect("security test");
+    fs::write(root.join("pyproject.toml"), "fail_under = 70\n").expect("lower coverage threshold");
+    commit_all(root, "exercise distinct material findings");
+
+    let status = work_item_status_snapshot_with_runtime(root, "WI-MATERIAL-FINDINGS", &runtime())
+        .expect("status");
+    assert!(status.blocking);
+    for finding in [
+        "coverage_weakening",
+        "repository_prompt_injection",
+        "test_weakening",
+    ] {
+        assert!(
+            status.blockers.iter().any(|blocker| blocker == finding),
+            "missing {finding} in {:?}",
+            status.blockers
+        );
+    }
+}
+
+#[test]
 fn finish_and_archive_reject_canonical_material_unknowns() {
     let directory = repository();
     let root = directory.path();

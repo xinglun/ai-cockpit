@@ -859,6 +859,526 @@ fn adding_a_test_and_assertion_does_not_weaken_verification() {
 }
 
 #[test]
+fn skip_detection_uses_language_syntax_and_ignores_identifiers_comments_and_strings() {
+    let iterator_call = ["values", ".", "skip", "(", "1", ")"].concat();
+    let identifier = ["stage_one_", "dis", "abled", "_", "state"].concat();
+    let rust_attribute = ["#", "[", "ignore", "]"].concat();
+    let python_decorator = ["@", "pytest", ".mark.skip", "("].concat();
+    let javascript_call = ["it", ".skip", "(", "'case'", ",", " () => {}", ")"].concat();
+    let python_call = ["pytest", ".skip", "(", "'reason'", ")"].concat();
+    let java_annotation = ["@", "org.junit.", "Disabled"].concat();
+    let go_call = ["t", ".", "Skip", "(", "'reason'", ")"].concat();
+    let swift_call = ["XCTSkip", "(", "'reason'", ")"].concat();
+
+    for (path, lines) in [
+        (
+            "tests/iterators.rs",
+            vec![format!("fn {identifier}() {{ let _ = {iterator_call}; }}")],
+        ),
+        (
+            "tests/notes.rs",
+            vec![
+                format!("// {rust_attribute}"),
+                format!("const NOTE: &str = {rust_attribute:?};"),
+                format!("const OTHER: &str = {python_decorator:?};"),
+            ],
+        ),
+        (
+            "tests/notes.py",
+            vec![
+                format!("# {python_decorator}"),
+                format!("note = {python_decorator:?}"),
+                "pytest.skip".into(),
+                "pytest.skip.__name__".into(),
+                "NOTE = \"\"\"".into(),
+                python_decorator.clone(),
+                "\"\"\"".into(),
+            ],
+        ),
+        (
+            "tests/notes.rs",
+            vec!["/*".into(), rust_attribute.clone(), "*/".into()],
+        ),
+        (
+            "tests/notes.js",
+            vec!["/*".into(), javascript_call.clone(), "*/".into()],
+        ),
+        (
+            "tests/notes.java",
+            vec!["/*".into(), java_annotation.clone(), "*/".into()],
+        ),
+        (
+            "tests/notes.go",
+            vec!["/*".into(), go_call.clone(), "*/".into()],
+        ),
+        (
+            "tests/notes.swift",
+            vec![
+                "let note = \"\"\"".into(),
+                swift_call.clone(),
+                "\"\"\"".into(),
+            ],
+        ),
+        (
+            "tests/notes.js",
+            vec!["const note = `".into(), javascript_call.clone(), "`".into()],
+        ),
+        (
+            "tests/unsupported.sh",
+            vec![
+                format!("{python_call} # no supported test framework"),
+                "".into(),
+            ],
+        ),
+        (
+            "tests/iterators.js",
+            vec![format!(
+                "const first = values{}; // {javascript_call}",
+                [".", "skip", "(", "1", ")"].concat()
+            )],
+        ),
+    ] {
+        let assessment = derive_governance_signals(&snapshot(text_change(
+            path,
+            ChangeKind::Added,
+            &[],
+            &lines.iter().map(String::as_str).collect::<Vec<_>>(),
+        )));
+        assert!(
+            !assessment.test_weakening,
+            "ordinary language syntax was mistaken for a disabled test in {path}: {assessment:?}"
+        );
+    }
+
+    let ambiguous_marker = format!("{python_decorator}'reason')");
+    let mut ambiguous_change = text_change(
+        "tests/ambiguous.py",
+        ChangeKind::Modified,
+        &["def test_old(): pass"],
+        &[&ambiguous_marker],
+    );
+    ambiguous_change.added_line_origins.clear();
+    ambiguous_change.after_text = Some(format!("baseline = True\n{ambiguous_marker}\n"));
+    let ambiguous = derive_governance_signals(&snapshot(ambiguous_change));
+    assert!(!ambiguous.test_weakening, "{ambiguous:?}");
+    assert!(
+        ambiguous
+            .unknowns
+            .contains(&"test_weakening_inspection_unavailable".into()),
+        "ambiguous changed-line provenance must fail closed: {ambiguous:?}"
+    );
+
+    let rust_ignore = derive_governance_signals(&snapshot(text_change(
+        "tests/ignored.rs",
+        ChangeKind::Added,
+        &[],
+        &[&rust_attribute, "fn intentionally_ignored() {}"],
+    )));
+    assert!(rust_ignore.test_weakening, "{rust_ignore:?}");
+
+    let rust_ignore_reason = format!("{} = \"reason\"]", ["#", "[", "ignore"].concat());
+    let rust_ignore_reason = derive_governance_signals(&snapshot(text_change(
+        "tests/ignored_reason.rs",
+        ChangeKind::Added,
+        &[],
+        &[&rust_ignore_reason, "fn intentionally_ignored() {}"],
+    )));
+    assert!(rust_ignore_reason.test_weakening, "{rust_ignore_reason:?}");
+
+    let python_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/ignored.py",
+        ChangeKind::Added,
+        &[],
+        &[&format!("{python_decorator}'reason')")],
+    )));
+    assert!(python_skip.test_weakening, "{python_skip:?}");
+
+    let python_call = derive_governance_signals(&snapshot(text_change(
+        "tests/ignored_call.py",
+        ChangeKind::Added,
+        &[],
+        &[&python_call],
+    )));
+    assert!(python_call.test_weakening, "{python_call:?}");
+
+    let javascript_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/ignored.ts",
+        ChangeKind::Added,
+        &[],
+        &[&javascript_call],
+    )));
+    assert!(javascript_skip.test_weakening, "{javascript_skip:?}");
+
+    let mocha_skip = ["this", ".", "skip", "(", ")"].concat();
+    let mocha_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/mocha.js",
+        ChangeKind::Added,
+        &[],
+        &[&mocha_skip],
+    )));
+    assert!(mocha_skip.test_weakening, "{mocha_skip:?}");
+
+    let java_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/java/ExampleTest.java",
+        ChangeKind::Added,
+        &[],
+        &[&java_annotation, "void disabledTest() {}"],
+    )));
+    assert!(java_skip.test_weakening, "{java_skip:?}");
+
+    let kotlin_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/kotlin/ExampleTest.kt",
+        ChangeKind::Added,
+        &[],
+        &[&["@", "Ignore"].concat(), "fun ignoredTest() {}"],
+    )));
+    assert!(kotlin_skip.test_weakening, "{kotlin_skip:?}");
+
+    let go_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/example_test.go",
+        ChangeKind::Added,
+        &[],
+        &[&go_call],
+    )));
+    assert!(go_skip.test_weakening, "{go_skip:?}");
+
+    let swift_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/ExampleTests.swift",
+        ChangeKind::Added,
+        &[],
+        &[&format!("throw {swift_call}")],
+    )));
+    assert!(swift_skip.test_weakening, "{swift_skip:?}");
+
+    let python_call_source = ["pytest", ".", "skip", "(", "'reason'", ")"].concat();
+    let conditional_python_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/conditional.py",
+        ChangeKind::Added,
+        &[],
+        &[&format!("if not online: {python_call_source}")],
+    )));
+    assert!(
+        conditional_python_skip.test_weakening,
+        "{conditional_python_skip:?}"
+    );
+
+    let mocha_skip_source = ["this", ".", "skip", "(", ")"].concat();
+    let conditional_javascript_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/conditional.js",
+        ChangeKind::Added,
+        &[],
+        &[&format!("if (offline) {{ {mocha_skip_source} }}")],
+    )));
+    assert!(
+        conditional_javascript_skip.test_weakening,
+        "{conditional_javascript_skip:?}"
+    );
+
+    let conditional_go_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/conditional_test.go",
+        ChangeKind::Added,
+        &[],
+        &[&format!("if offline {{ {go_call} }}")],
+    )));
+    assert!(
+        conditional_go_skip.test_weakening,
+        "{conditional_go_skip:?}"
+    );
+
+    let conditional_swift_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/ConditionalTests.swift",
+        ChangeKind::Added,
+        &[],
+        &[&format!("if offline {{ throw {swift_call} }}")],
+    )));
+    assert!(
+        conditional_swift_skip.test_weakening,
+        "{conditional_swift_skip:?}"
+    );
+
+    let same_line_java_annotation = derive_governance_signals(&snapshot(text_change(
+        "tests/java/SameLineTest.java",
+        ChangeKind::Added,
+        &[],
+        &[&format!("@Test {java_annotation}")],
+    )));
+    assert!(
+        same_line_java_annotation.test_weakening,
+        "{same_line_java_annotation:?}"
+    );
+
+    let same_line_kotlin_annotation = derive_governance_signals(&snapshot(text_change(
+        "tests/kotlin/SameLineTest.kt",
+        ChangeKind::Added,
+        &[],
+        &[&format!("@Test {}", ["@", "Ignore"].concat())],
+    )));
+    assert!(
+        same_line_kotlin_annotation.test_weakening,
+        "{same_line_kotlin_annotation:?}"
+    );
+
+    let nested_kotlin_comment = derive_governance_signals(&snapshot(text_change(
+        "tests/kotlin/Notes.kt",
+        ChangeKind::Added,
+        &[],
+        &["/* outer /* inner */", "@Ignore", "*/"],
+    )));
+    assert!(
+        !nested_kotlin_comment.test_weakening,
+        "nested Kotlin block comments must stay comments: {nested_kotlin_comment:?}"
+    );
+
+    for extension in ["mjs", "cjs", "mts", "cts"] {
+        let assessment = derive_governance_signals(&snapshot(text_change(
+            &format!("tests/ignored.{extension}"),
+            ChangeKind::Added,
+            &[],
+            &[&javascript_call],
+        )));
+        assert!(
+            assessment.test_weakening,
+            "JavaScript skip syntax should be recognized in .{extension}: {assessment:?}"
+        );
+    }
+
+    let spec_suffix_skip = derive_governance_signals(&snapshot(text_change(
+        "src/Example.spec.mjs",
+        ChangeKind::Added,
+        &[],
+        &[&javascript_call],
+    )));
+    assert!(spec_suffix_skip.test_weakening, "{spec_suffix_skip:?}");
+
+    let pytest_parameter_skip = derive_governance_signals(&snapshot(text_change(
+        "tests/parameterized.py",
+        ChangeKind::Added,
+        &[],
+        &["pytest.param('case', marks=pytest.mark.skip)"],
+    )));
+    assert!(
+        pytest_parameter_skip.test_weakening,
+        "{pytest_parameter_skip:?}"
+    );
+
+    let pytest_parameter_skipif = derive_governance_signals(&snapshot(text_change(
+        "tests/parameterized_multiline.py",
+        ChangeKind::Added,
+        &[],
+        &[
+            "pytest.param(",
+            "    'case',",
+            "    marks=pytest.mark.skipif(condition),",
+            ")",
+        ],
+    )));
+    assert!(
+        pytest_parameter_skipif.test_weakening,
+        "{pytest_parameter_skipif:?}"
+    );
+
+    let mut ambiguous_parameter_marker = text_change(
+        "tests/ambiguous_parameter.py",
+        ChangeKind::Modified,
+        &["def test_existing(): pass"],
+        &["    marks=pytest.mark.skip,"],
+    );
+    ambiguous_parameter_marker.added_line_origins.clear();
+    ambiguous_parameter_marker.after_text =
+        Some("pytest.param(\n    'case',\n    marks=pytest.mark.skip,\n)\n".into());
+    let ambiguous_parameter_marker =
+        derive_governance_signals(&snapshot(ambiguous_parameter_marker));
+    assert!(
+        !ambiguous_parameter_marker.test_weakening,
+        "{ambiguous_parameter_marker:?}"
+    );
+    assert!(
+        ambiguous_parameter_marker
+            .unknowns
+            .contains(&"test_weakening_inspection_unavailable".into()),
+        "a marker-looking added line with missing provenance must fail closed: {ambiguous_parameter_marker:?}"
+    );
+
+    let ordinary_python_marker_reference = derive_governance_signals(&snapshot(text_change(
+        "tests/marker_reference.py",
+        ChangeKind::Added,
+        &[],
+        &["skip_marker = pytest.mark.skip"],
+    )));
+    assert!(
+        !ordinary_python_marker_reference.test_weakening,
+        "a marker reference without a pytest.param marks argument is not a skip: {ordinary_python_marker_reference:?}"
+    );
+
+    let dollar_identifier_method = derive_governance_signals(&snapshot(text_change(
+        "tests/helper.js",
+        ChangeKind::Added,
+        &[],
+        &["const $test = { skip() {} }; $test.skip();"],
+    )));
+    assert!(
+        !dollar_identifier_method.test_weakening,
+        "a dollar-prefixed helper method is not a Jest test skip: {dollar_identifier_method:?}"
+    );
+
+    for (path, line) in [
+        (
+            "tests/interpolation.js",
+            ["const note = `", "${", &mocha_skip_source, "}`;"].concat(),
+        ),
+        (
+            "tests/interpolation_brace.js",
+            ["const note = `${\"}\" + ", &mocha_skip_source, "}`;"].concat(),
+        ),
+        (
+            "tests/interpolation_regex.js",
+            [
+                "const note = `${/",
+                "[}]/.test(input) && ",
+                &mocha_skip_source,
+                "}`;",
+            ]
+            .concat(),
+        ),
+        (
+            "tests/interpolation_regex_escape.js",
+            [
+                "const note = `${/",
+                r"\}/.test(input) && ",
+                &mocha_skip_source,
+                "}`;",
+            ]
+            .concat(),
+        ),
+        (
+            "tests/interpolation_regex_escaped_class_close.js",
+            [
+                "const note = `${typeof /",
+                r"[\]}]/.test(input) && ",
+                &mocha_skip_source,
+                "}`;",
+            ]
+            .concat(),
+        ),
+        (
+            "tests/interpolation_regex_nested_block.js",
+            "const note = `${(() => { /[}]/.test(input); })(), this.skip()}`;".into(),
+        ),
+        (
+            "tests/interpolation.py",
+            format!("note = f\"{{{python_call_source}}}\""),
+        ),
+        (
+            "tests/interpolation_brace.py",
+            ["note = f\"{' }' + ", &python_call_source, "}\""].concat(),
+        ),
+        (
+            "tests/interpolation.kt",
+            "val note = \"${some.skip()}\"".into(),
+        ),
+        (
+            "tests/InterpolationTests.swift",
+            ["let note = \"\\(XCTSkip(", "\"offline\"", "))\""].concat(),
+        ),
+        (
+            "tests/RegexInterpolationTests.swift",
+            [
+                "let note = \"\\(try { () throws -> String in if /[)]/.firstMatch(in: input) != nil { let reason = ",
+                "\"offline\"",
+                "; throw XCTSkip(reason) ",
+                ") }; return \"ok\" }())\"",
+            ]
+            .concat(),
+        ),
+        (
+            "tests/RawInterpolationTests.swift",
+            "let note = #\"\\#(XCTSkip(\"offline\"))\"#".into(),
+        ),
+        (
+            "tests/interpolation_pep701.py",
+            "note = f\"{pytest.skip(\"reason\")}\"".into(),
+        ),
+    ] {
+        let assessment = derive_governance_signals(&snapshot(text_change(
+            path,
+            ChangeKind::Added,
+            &[],
+            &[&line],
+        )));
+        assert!(
+            !assessment.test_weakening,
+            "interpolation candidate should be Unknown until parsed: {path}: {assessment:?}"
+        );
+        assert!(
+            assessment
+                .unknowns
+                .contains(&"test_weakening_inspection_unavailable".into()),
+            "an executable interpolation candidate must fail closed: {path}: {assessment:?}"
+        );
+    }
+
+    for (path, lines) in [
+        (
+            "tests/multiline_interpolation.js",
+            vec![
+                "const note = `text ${".into(),
+                mocha_skip_source.clone(),
+                "}`;".into(),
+            ],
+        ),
+        (
+            "tests/multiline_interpolation.py",
+            vec![
+                "note = f\"\"\"{".into(),
+                python_call_source.clone(),
+                "}\"\"\"".into(),
+            ],
+        ),
+        (
+            "tests/multiline_interpolation.kt",
+            vec![
+                "val note = \"\"\"".into(),
+                "${some.skip()}".into(),
+                "\"\"\"".into(),
+            ],
+        ),
+        (
+            "tests/MultilineInterpolationTests.swift",
+            vec![
+                "let note = \"\"\"".into(),
+                "\\(XCTSkip(\"offline\"))".into(),
+                "\"\"\"".into(),
+            ],
+        ),
+        (
+            "tests/RawMultilineInterpolationTests.swift",
+            vec![
+                "let note = #\"\"\"".into(),
+                "\\#(XCTSkip(\"offline\"))".into(),
+                "\"\"\"#".into(),
+            ],
+        ),
+    ] {
+        let assessment = derive_governance_signals(&snapshot(text_change(
+            path,
+            ChangeKind::Added,
+            &[],
+            &lines.iter().map(String::as_str).collect::<Vec<_>>(),
+        )));
+        assert!(
+            !assessment.test_weakening,
+            "multiline interpolation candidates should be Unknown until parsed: {path}: {assessment:?}"
+        );
+        assert!(
+            assessment
+                .unknowns
+                .contains(&"test_weakening_inspection_unavailable".into()),
+            "a multiline interpolation candidate must fail closed: {path}: {assessment:?}"
+        );
+    }
+}
+
+#[test]
 fn uninspectable_relevant_test_change_is_explicitly_unknown() {
     let assessment = derive_governance_signals(&snapshot(ChangeEvidence {
         path: "tests/security.rs".into(),

@@ -85,6 +85,7 @@ pub struct MaterialReviewRequest {
     pub effective_policy_digest: Digest,
     pub entries: Vec<MaterialReviewEntry>,
     pub raw_unknown_codes: Vec<String>,
+    pub finding_codes: Vec<String>,
     pub blocked_by_finding: bool,
     pub review_enabled: bool,
     pub review_diagnostic: Option<String>,
@@ -102,6 +103,7 @@ pub(crate) struct MaterialReviewGateProjection {
     pub review_assurance: Option<MaterialInspectionReviewAssurance>,
     pub effective_unknowns: Vec<String>,
     pub discharged_unknowns: Vec<String>,
+    pub finding_codes: Vec<String>,
     pub blocked_by_finding: bool,
     pub projection_unavailable: bool,
     pub review_decision_available: bool,
@@ -232,6 +234,7 @@ pub fn validate_material_review_decision(
         return Err(MaterialReviewDecisionValidationError::RequestIdentityMismatch);
     }
     if request.blocked_by_finding
+        || !request.finding_codes.is_empty()
         || request
             .entries
             .iter()
@@ -1141,6 +1144,8 @@ pub fn material_review_request(
             .required_runtime_capabilities
             .iter()
             .any(|capability| capability == MATERIAL_INSPECTION_REVIEW_CAPABILITY);
+    let finding_codes = signals.findings;
+    let blocked_by_finding = !finding_codes.is_empty();
     let mut request = MaterialReviewRequest {
         schema_version: 1,
         repository_id: contract.repository_id.clone(),
@@ -1156,7 +1161,8 @@ pub fn material_review_request(
         effective_policy_digest: json_digest(&policy)?,
         entries,
         raw_unknown_codes: signals.unknowns,
-        blocked_by_finding: !signals.findings.is_empty(),
+        finding_codes,
+        blocked_by_finding,
         review_enabled,
         review_diagnostic: (!review_enabled).then(|| "material_review_not_enabled".into()),
         request_digest: Digest::sha256_bytes(b"uncomputed"),
@@ -1195,6 +1201,7 @@ pub(crate) fn material_review_gate_projection(
             path: root.to_path_buf(),
             message: format!("material-review projection unavailable: {error}"),
         })?;
+    let blocked_by_finding = request.blocked_by_finding || !request.finding_codes.is_empty();
     let receipt = match read_valid_material_review_receipt(root, contract, &request, summary_path) {
         Ok(receipt) => receipt,
         Err(_error) => {
@@ -1209,7 +1216,8 @@ pub(crate) fn material_review_gate_projection(
                 review_assurance: None,
                 effective_unknowns,
                 discharged_unknowns: Vec::new(),
-                blocked_by_finding: request.blocked_by_finding,
+                finding_codes: request.finding_codes,
+                blocked_by_finding,
                 projection_unavailable: false,
                 review_decision_available: false,
             });
@@ -1226,13 +1234,13 @@ pub(crate) fn material_review_gate_projection(
         && request.raw_unknown_codes[0] == "repository_material_inspection_unavailable";
     let review_decision_available = request.review_enabled
         && receipt.is_none()
-        && !request.blocked_by_finding
+        && !blocked_by_finding
         && has_reviewable_unknown
         && all_unknowns_reviewable
         && permitted_unknown_set;
     let may_discharge = request.review_enabled
         && receipt.is_some()
-        && !request.blocked_by_finding
+        && !blocked_by_finding
         && has_reviewable_unknown
         && all_unknowns_reviewable
         && permitted_unknown_set;
@@ -1255,7 +1263,8 @@ pub(crate) fn material_review_gate_projection(
         } else {
             Vec::new()
         },
-        blocked_by_finding: request.blocked_by_finding,
+        finding_codes: request.finding_codes,
+        blocked_by_finding,
         projection_unavailable: false,
         review_decision_available,
     })
@@ -1276,6 +1285,7 @@ pub(crate) fn apply_material_review_gate_to_decision(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
+            finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,
             review_decision_available: false,
@@ -1293,7 +1303,9 @@ pub(crate) fn apply_material_review_gate_to_decision(
             .push("material_review_projection_unavailable".into());
     }
     if projection.blocked_by_finding {
-        decision.blockers.push("repository_prompt_injection".into());
+        decision
+            .blockers
+            .extend(projection.finding_codes.iter().cloned());
         decision.state = cockpit_core::DecisionState::Red;
         decision.outcome_state = "not_ready".into();
         decision.review_state = Some("blocked".into());
@@ -1773,6 +1785,41 @@ pub fn record_work_item_material_review(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn material_request_digest_binds_finding_categories() {
+        let digest = || Digest::sha256_bytes(b"fixture");
+        let mut request = MaterialReviewRequest {
+            schema_version: 1,
+            repository_id: "repository".into(),
+            work_item_id: "WI-TEST".into(),
+            contract_digest: digest(),
+            immutable_contract_base_revision: "base".into(),
+            source_snapshot_digest: digest(),
+            material_manifest_digest: digest(),
+            scanner_semantic_version: "scanner".into(),
+            analysis_implementation_digest: digest(),
+            analysis_target_semantic_profile: "target".into(),
+            material_inspection_review_profile_digest: None,
+            effective_policy_digest: digest(),
+            entries: Vec::new(),
+            raw_unknown_codes: Vec::new(),
+            finding_codes: Vec::new(),
+            blocked_by_finding: false,
+            review_enabled: false,
+            review_diagnostic: None,
+            request_digest: digest(),
+            reviewed_source_head: "head".into(),
+        };
+        let without_findings = material_review_request_digest(&request).expect("request digest");
+        request.finding_codes.push("test_weakening".into());
+        let with_findings = material_review_request_digest(&request).expect("request digest");
+        assert_ne!(without_findings, with_findings);
+        request.finding_codes.clear();
+        request.blocked_by_finding = true;
+        let boolean_only = material_review_request_digest(&request).expect("request digest");
+        assert_ne!(without_findings, boolean_only);
+    }
 
     #[test]
     fn implementation_digest_is_build_independent_and_source_sensitive() {

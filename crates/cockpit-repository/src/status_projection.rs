@@ -1312,6 +1312,7 @@ fn work_item_status_snapshot_with_snapshot(
         review_assurance,
         material_unknowns,
         material_discharged_unknowns,
+        material_finding_codes,
         material_blocked_by_finding,
         material_projection_unavailable,
         material_review_decision_available,
@@ -1323,6 +1324,7 @@ fn work_item_status_snapshot_with_snapshot(
             projection.review_assurance,
             projection.effective_unknowns,
             projection.discharged_unknowns,
+            projection.finding_codes,
             projection.blocked_by_finding,
             projection.projection_unavailable,
             projection.review_decision_available,
@@ -1333,6 +1335,7 @@ fn work_item_status_snapshot_with_snapshot(
             None,
             None,
             vec!["material_review_projection_unavailable".into()],
+            Vec::new(),
             Vec::new(),
             false,
             true,
@@ -1363,7 +1366,7 @@ fn work_item_status_snapshot_with_snapshot(
         blockers.push("material_review_projection_unavailable".into());
     }
     if material_blocked_by_finding {
-        blockers.push("repository_prompt_injection".into());
+        blockers.extend(material_finding_codes);
     }
     if governance_state == "red" {
         blockers.push("governance_red".into());

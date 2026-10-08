@@ -46,6 +46,7 @@ fn repository() -> tempfile::TempDir {
     git(root, &["config", "user.name", "CI gate test"]);
     git(root, &["config", "user.email", "ci-gate@example.invalid"]);
     fs::write(root.join("README.md"), "CI gate fixture\n").expect("fixture");
+    fs::write(root.join("pyproject.toml"), "fail_under = 90\n").expect("coverage fixture");
     git(root, &["add", "."]);
     git(root, &["commit", "-qm", "base"]);
     attach(root).expect("attach");
@@ -54,7 +55,12 @@ fn repository() -> tempfile::TempDir {
         "WI-CI-GATE",
         "make the CI route consume the Contract",
         "validate a repository-bound read-only quality gate",
-        &["crates/**".into(), "tests/ci/**".into()],
+        &[
+            "crates/**".into(),
+            "tests/ci/**".into(),
+            "README.md".into(),
+            "pyproject.toml".into(),
+        ],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             risk: "normal".into(),
@@ -264,6 +270,58 @@ fn quality_gate_blocks_dirty_non_ai_source_before_material_review() {
             .unknowns
             .contains(&"material_review_projection_unavailable".into())
     );
+}
+
+#[test]
+fn quality_gate_preserves_each_material_finding_category_as_a_blocker() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let injection = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    let skip_decorator = ["@", "pytest", ".mark.skip", "(", "reason='disabled'", ")"].concat();
+    fs::write(root.join("README.md"), format!("{injection}\n")).expect("injected documentation");
+    fs::create_dir_all(root.join("tests/ci")).expect("CI test directory");
+    fs::write(
+        root.join("tests/ci/security.py"),
+        format!("{skip_decorator}\ndef test_security():\n    pass\n"),
+    )
+    .expect("security test");
+    fs::write(root.join("pyproject.toml"), "fail_under = 70\n").expect("lower coverage threshold");
+    git(root, &["add", "."]);
+    git(
+        root,
+        &["commit", "-qm", "exercise distinct material findings"],
+    );
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("quality gate report");
+    assert_eq!(report.state, "blocked");
+    for finding in [
+        "coverage_weakening",
+        "repository_prompt_injection",
+        "test_weakening",
+    ] {
+        assert!(
+            report.blockers.iter().any(|blocker| blocker == finding),
+            "missing {finding} in {:?}",
+            report.blockers
+        );
+    }
 }
 
 #[test]
