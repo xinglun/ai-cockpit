@@ -7,9 +7,7 @@ use std::path::{Component, Path};
 use std::process::{Child, Command, Stdio};
 use std::sync::mpsc::{self, SyncSender};
 use std::thread;
-#[cfg(windows)]
-use std::time::Duration;
-use std::time::UNIX_EPOCH;
+use std::time::{Duration, UNIX_EPOCH};
 use thiserror::Error;
 
 #[cfg(unix)]
@@ -298,6 +296,78 @@ mod suspended_job_setup_tests {
 
         assert_eq!(result.unwrap_err(), "resume failed");
         assert_eq!(*events.borrow(), ["assign", "resume", "terminate_and_wait"]);
+    }
+}
+
+#[cfg(all(test, unix))]
+mod unix_bounded_process_tests {
+    use super::bounded_process_output;
+    use std::{
+        fs,
+        os::unix::process::CommandExt,
+        process::{Command, Stdio},
+        thread,
+        time::{Duration, Instant},
+    };
+
+    const MODE: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MODE";
+    const MARKER: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MARKER";
+
+    #[test]
+    fn parent_exit_terminates_pipe_holding_descendant() {
+        if std::env::var(MODE).ok().as_deref() == Some("worker") {
+            let marker = std::env::var(MARKER).expect("marker path");
+            let script = format!(
+                "printf '%s\\n' \"$$\" > '{marker}'; sleep 30 >/dev/null & printf 'bounded output\\n';"
+            );
+            let mut command = Command::new("sh");
+            command.args(["-c", script.as_str()]).process_group(0);
+            let output = bounded_process_output(command, 1024).expect("bounded output");
+            assert!(output.success);
+            assert_eq!(output.stdout, b"bounded output\n");
+            return;
+        }
+
+        let directory = tempfile::tempdir().expect("tempdir");
+        let marker = directory.path().join("git-pid");
+        let executable = std::env::current_exe().expect("test executable");
+        let mut worker = Command::new(executable);
+        worker
+            .args([
+                "--exact",
+                "unix_bounded_process_tests::parent_exit_terminates_pipe_holding_descendant",
+                "--nocapture",
+            ])
+            .env(MODE, "worker")
+            .env(MARKER, &marker)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .process_group(0);
+        let mut worker = worker.spawn().expect("spawn bounded-output worker");
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            if let Some(status) = worker.try_wait().expect("poll bounded-output worker") {
+                assert!(status.success(), "worker exited unsuccessfully: {status}");
+                assert!(marker.exists(), "bounded subprocess helper must run");
+                break;
+            }
+            if Instant::now() >= deadline {
+                if let Ok(pid) = fs::read_to_string(&marker)
+                    && let Ok(pid) = pid.trim().parse::<i32>()
+                {
+                    // SAFETY: the recorded PID is the shell process group
+                    // created by the bounded runner for this test.
+                    let _ = unsafe { super::kill(-pid, 9) };
+                }
+                // SAFETY: this is the isolated process group of the test
+                // worker; terminate it so a regression cannot leak a runner.
+                let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                let _ = worker.wait();
+                panic!("bounded-output worker hung after its parent exited");
+            }
+            thread::sleep(Duration::from_millis(20));
+        }
     }
 }
 
@@ -1621,10 +1691,8 @@ fn bounded_process_output(
     let mut stderr_bytes = Vec::new();
     let mut overflow = false;
     let mut read_error = None;
-    #[cfg(windows)]
     let mut process_exit_observed = false;
     loop {
-        #[cfg(windows)]
         let message = match receiver.recv_timeout(Duration::from_millis(50)) {
             Ok(message) => Some(message),
             Err(mpsc::RecvTimeoutError::Timeout) => {
@@ -1632,7 +1700,10 @@ fn bounded_process_output(
                     match child.child.try_wait() {
                         Ok(Some(_)) => {
                             process_exit_observed = true;
+                            #[cfg(windows)]
                             child.terminate_descendants_after_parent_exit();
+                            #[cfg(not(windows))]
+                            terminate_bounded_process_group(&mut child);
                         }
                         Ok(None) => {}
                         Err(error) => {
@@ -1649,9 +1720,6 @@ fn bounded_process_output(
             }
             Err(mpsc::RecvTimeoutError::Disconnected) => None,
         };
-
-        #[cfg(not(windows))]
-        let message = receiver.recv().ok();
 
         let Some(message) = message else {
             break;
