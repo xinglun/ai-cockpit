@@ -1603,14 +1603,28 @@ fn read_material_review_receipt(
             path: summary_path.to_path_buf(),
             message: error.to_string(),
         })?;
-    if receipt.contract_digest != *contract_digest
-        || receipt.profile_digest != current_profile_digest
-    {
+    if receipt.profile_digest != current_profile_digest {
         return Err(ObserverError::State {
             path: sidecar_path,
-            message: "material-review receipt is bound to a different current Contract/profile"
+            message: "material-review receipt is bound to a different current review profile"
                 .into(),
         });
+    }
+    let contract_was_amended = receipt.contract_digest != *contract_digest;
+    if contract_was_amended {
+        if !stale_request
+            || !material_review_contract_amendment_chain_reaches(
+                &root,
+                &contract.work_item_id,
+                &receipt.contract_digest,
+                contract_digest,
+            )?
+        {
+            return Err(ObserverError::State {
+                path: sidecar_path,
+                message: "material-review receipt is bound to a different current Contract without a validated amendment chain".into(),
+            });
+        }
     }
     let reviewed_source_head =
         receipt
@@ -1675,6 +1689,46 @@ fn read_material_review_receipt(
         });
     }
     Ok(MaterialReviewReceiptState::Current(receipt))
+}
+
+fn material_review_contract_amendment_chain_reaches(
+    root: &Path,
+    work_item_id: &str,
+    previous_contract_digest: &Digest,
+    current_contract_digest: &Digest,
+) -> Result<bool, ObserverError> {
+    let amendments = super::read_work_item_contract_amendments(root, work_item_id)?;
+    Ok(material_review_contract_amendment_digests_form_chain(
+        amendments.into_iter().map(|amendment| {
+            (
+                amendment.previous_contract_digest,
+                amendment.new_contract_digest,
+            )
+        }),
+        previous_contract_digest,
+        current_contract_digest,
+    ))
+}
+
+fn material_review_contract_amendment_digests_form_chain(
+    amendments: impl IntoIterator<Item = (Digest, Digest)>,
+    previous_contract_digest: &Digest,
+    current_contract_digest: &Digest,
+) -> bool {
+    let mut expected_previous = None;
+    let mut receipt_contract_is_in_chain = false;
+    for (amendment_previous, amendment_new) in amendments {
+        if expected_previous
+            .as_ref()
+            .is_some_and(|expected| expected != &amendment_previous)
+        {
+            return false;
+        }
+        receipt_contract_is_in_chain |= &amendment_previous == previous_contract_digest
+            || &amendment_new == previous_contract_digest;
+        expected_previous = Some(amendment_new);
+    }
+    receipt_contract_is_in_chain && expected_previous.as_ref() == Some(current_contract_digest)
 }
 
 /// Build the canonical read-only material-review request for one active Work
@@ -1925,6 +1979,37 @@ pub fn record_work_item_material_review(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn material_review_amendment_chain_requires_contract_continuity() {
+        let digest = |bytes: &[u8]| Digest::sha256_bytes(bytes);
+        let original = digest(b"original Contract");
+        let amended = digest(b"first amended Contract");
+        let detached = digest(b"detached Contract");
+        let current = digest(b"current Contract");
+
+        assert!(material_review_contract_amendment_digests_form_chain(
+            vec![
+                (original.clone(), amended.clone()),
+                (amended.clone(), current.clone()),
+            ],
+            &original,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (detached.clone(), amended),
+                (original.clone(), current.clone()),
+            ],
+            &original,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![(original.clone(), current.clone())],
+            &detached,
+            &current,
+        ));
+    }
 
     #[test]
     fn material_request_digest_binds_finding_categories() {

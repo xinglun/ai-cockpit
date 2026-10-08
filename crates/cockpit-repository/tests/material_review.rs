@@ -4,7 +4,9 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     MaterialReviewDecisionValidationError, MaterialReviewRequestError, MaterialUnknownCause,
-    material_review_request, plan_work_item_material_review, validate_material_review_decision,
+    amend_work_item_contract_with_runtime, material_review_request, plan_work_item_material_review,
+    read_work_item_contract_amendments, record_work_item_governance_controls_with_runtime,
+    validate_material_review_decision,
 };
 use serde_json::json;
 use std::{
@@ -1007,6 +1009,212 @@ fn stale_receipt_with_changed_contract_profile_is_not_renewable() {
     );
     assert!(!current_sidecar.exists());
     assert!(old_sidecar_path.exists());
+}
+
+#[test]
+fn stale_receipt_after_valid_contract_amendment_is_classified_stale() {
+    let (directory, runtime, contract_path, summary_path, old_sidecar_path, mut input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let original_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let old_pointer = original_summary["materialReviewReceipt"].clone();
+    let old_sidecar_bytes = fs::read(&old_sidecar_path).expect("old immutable sidecar");
+    let old_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    let old_contract_digest = cockpit_protocol::digest_json(&old_contract).expect("old digest");
+    let reason = "preserve the prior review as history after an authorized Contract amendment";
+    amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "material-review-safe-goal-update",
+            "expectedContractDigest": old_contract_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/goal",
+                "operation": "replace",
+                "value": "retain exact material evidence after the approved plan update"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect("record a typed amendment through the official journal route");
+
+    let current_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("amended Contract"))
+            .expect("amended Contract JSON");
+    let current_contract_digest =
+        cockpit_protocol::digest_json(&current_contract).expect("current Contract digest");
+    let amendments = read_work_item_contract_amendments(root, "WI-MATERIAL")
+        .expect("validated append-only amendment journal");
+    assert_eq!(amendments.len(), 1);
+    assert_eq!(amendments[0].previous_contract_digest, old_contract_digest);
+    assert_eq!(amendments[0].new_contract_digest, current_contract_digest);
+
+    let request = plan_work_item_material_review(root, "WI-MATERIAL")
+        .expect("new exact request after Contract amendment");
+    assert_ne!(request.contract_digest, old_contract_digest);
+    assert_ne!(
+        request.request_digest.to_string(),
+        old_pointer["requestDigest"]
+            .as_str()
+            .expect("old request digest")
+    );
+    input.request_digest = request.request_digest.clone();
+
+    cockpit_repository::preflight_work_item_with_runtime(root, &contract_path, &runtime)
+        .expect("refresh preflight for the amended Contract");
+    let current_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("preflight Summary"))
+            .expect("preflight Summary JSON");
+    let preflight_decision = json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-MATERIAL",
+        "repositoryId": cockpit_repository::repository_id(root).to_string(),
+        "contractDigest": current_contract_digest,
+        "preflightDecisionDigest": current_summary["preflightDecisionDigest"],
+        "repositorySnapshotDigest": current_summary["preflightRepositorySnapshotDigest"],
+        "recordedAt": "2026-10-08T00:00:00Z",
+        "recordedBy": "human:test-fixture",
+        "reason": "test fixture confirms its exact amended Contract"
+    });
+    record_work_item_governance_controls_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({"decisionEvidence": preflight_decision}),
+        &runtime,
+    )
+    .expect("record only the test fixture's exact preflight decision");
+
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status after valid amendment");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into()),
+        "a valid superseded receipt is stale history, not malformed: {status:#?}"
+    );
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+    assert!(
+        status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "the old receipt must remain stale until a fresh current-request decision is recorded"
+    );
+
+    let renewed =
+        cockpit_repository::record_work_item_material_review(root, "WI-MATERIAL", &input, &runtime)
+            .expect("record the fresh exact-request test decision");
+    assert_eq!(renewed.request_digest, request.request_digest);
+    assert_eq!(
+        fs::read(&old_sidecar_path).expect("prior sidecar remains immutable"),
+        old_sidecar_bytes
+    );
+    let renewed_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("updated Summary"))
+            .expect("updated Summary JSON");
+    assert_eq!(
+        renewed_summary["materialReviewReceiptHistory"],
+        json!([old_pointer])
+    );
+    assert_eq!(
+        renewed_summary["materialReviewReceipt"]["requestDigest"],
+        request.request_digest.to_string()
+    );
+}
+
+#[test]
+fn stale_receipt_without_contract_amendment_chain_remains_invalid() {
+    let (directory, runtime, contract_path, _summary_path, _old_sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    contract["goal"] = json!("unrecorded direct Contract mutation");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("mutated Contract bytes"),
+    )
+    .expect("write Contract without journal entry");
+
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status preserves the invalid old pointer as a diagnostic");
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into()),
+        "a digest mismatch without a validated amendment chain remains invalid: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "an unjournaled Contract edit must not admit receipt renewal"
+    );
+}
+
+#[test]
+fn stale_receipt_with_corrupt_contract_amendment_chain_remains_invalid() {
+    let (directory, runtime, contract_path, _summary_path, _old_sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+            .expect("Contract JSON");
+    let contract_digest = cockpit_protocol::digest_json(&contract).expect("Contract digest");
+    let reason = "create an amendment chain that the reader must validate";
+    amend_work_item_contract_with_runtime(
+        root,
+        "WI-MATERIAL",
+        &json!({
+            "schemaVersion": 1,
+            "changeId": "corrupted-material-review-journal",
+            "expectedContractDigest": contract_digest,
+            "reason": reason,
+            "changes": [{
+                "path": "/goal",
+                "operation": "replace",
+                "value": "amended before the journal is corrupted"
+            }]
+        }),
+        reason,
+        &runtime,
+    )
+    .expect("record an amendment before tampering with the test journal");
+
+    let committed_path =
+        root.join(".ai/evidence/WI-MATERIAL.contract-amendments/00000001.committed.json");
+    let mut committed: serde_json::Value =
+        serde_json::from_slice(&fs::read(&committed_path).expect("committed amendment"))
+            .expect("committed amendment JSON");
+    committed["receipt"]["journalDigest"] =
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000".into();
+    fs::write(
+        &committed_path,
+        serde_json::to_vec_pretty(&committed).expect("corrupted journal bytes"),
+    )
+    .expect("corrupt committed journal digest");
+
+    let error =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect_err("a damaged amendment journal must fail closed");
+    assert!(
+        error.to_string().contains("invalid digest chain"),
+        "unexpected journal rejection: {error}"
+    );
 }
 
 #[test]
