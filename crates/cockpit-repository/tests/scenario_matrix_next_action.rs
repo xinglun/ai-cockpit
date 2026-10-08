@@ -30,8 +30,54 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    let baseline = Command::new("git")
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--allow-empty",
+            "--quiet",
+            "-m",
+            "fixture baseline",
+        ])
+        .current_dir(directory.path())
+        .output()
+        .expect("create fixture baseline");
+    assert!(
+        baseline.status.success(),
+        "fixture baseline failed: {}",
+        String::from_utf8_lossy(&baseline.stderr)
+    );
     attach(directory.path()).expect("attach");
     directory
+}
+
+fn commit_fixture_paths(root: &std::path::Path, paths: &[&str]) {
+    let mut add = Command::new("git");
+    add.args(["add", "--"]).args(paths);
+    let added = add
+        .current_dir(root)
+        .status()
+        .expect("stage source snapshot");
+    assert!(added.success(), "stage source snapshot");
+
+    let committed = Command::new("git")
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "fixture source snapshot",
+        ])
+        .current_dir(root)
+        .status()
+        .expect("commit source snapshot");
+    assert!(committed.success(), "commit source snapshot");
 }
 
 fn runtime() -> RuntimeContext {
@@ -117,6 +163,7 @@ fn assert_checkpointed_preflight_recovery(
         fs::create_dir_all(directory.path().join("src")).expect("create source directory");
         fs::write(directory.path().join("src/lib.rs"), "// snapshot changed\n")
             .expect("change source snapshot");
+        commit_fixture_paths(directory.path(), &["src/lib.rs"]);
     }
 
     let stale = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
@@ -548,6 +595,7 @@ fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
 
     fs::create_dir_all(directory.path().join("src")).expect("source directory");
     fs::write(directory.path().join("src/lib.rs"), "// snapshot drift\n").expect("source mutation");
+    commit_fixture_paths(directory.path(), &["src/lib.rs"]);
     let changed_snapshot = GitRepository::discover(directory.path())
         .expect("git repository")
         .snapshot()

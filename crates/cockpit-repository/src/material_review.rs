@@ -1716,26 +1716,41 @@ fn material_review_contract_amendment_digests_form_chain(
     current_contract_digest: &Digest,
 ) -> bool {
     let amendments = amendments.into_iter().collect::<Vec<_>>();
-    for start in 0..amendments.len() {
-        let starts_at_receipt_contract = amendments[start].0 == *previous_contract_digest
-            && (start == 0 || amendments[start - 1].1 == *previous_contract_digest);
-        if !starts_at_receipt_contract {
-            continue;
-        }
-        let mut expected_previous = previous_contract_digest.clone();
-        let mut continuous_to_current = true;
-        for (amendment_previous, amendment_new) in &amendments[start..] {
-            if amendment_previous != &expected_previous {
-                continuous_to_current = false;
-                break;
-            }
-            expected_previous = amendment_new.clone();
-        }
-        if continuous_to_current && expected_previous == *current_contract_digest {
-            return true;
-        }
+    let incoming_anchors = amendments
+        .iter()
+        .enumerate()
+        .filter_map(|(index, (_, new))| (new == previous_contract_digest).then_some(index))
+        .collect::<Vec<_>>();
+    let outgoing_anchors = amendments
+        .iter()
+        .enumerate()
+        .filter_map(|(index, (previous, _))| {
+            (previous == previous_contract_digest).then_some(index)
+        })
+        .collect::<Vec<_>>();
+
+    let [start] = outgoing_anchors.as_slice() else {
+        return false;
+    };
+    match incoming_anchors.as_slice() {
+        // A receipt at the initial Contract digest has no incoming amendment;
+        // its only verifiable origin is the first journal entry.
+        [] if *start == 0 => {}
+        // A later receipt digest must have one unique incoming edge directly
+        // before its unique outgoing edge. This rejects branched histories
+        // that happen to rejoin at the receipt digest.
+        [incoming] if incoming + 1 == *start => {}
+        _ => return false,
     }
-    false
+
+    let mut expected_previous = previous_contract_digest.clone();
+    for (amendment_previous, amendment_new) in &amendments[*start..] {
+        if amendment_previous != &expected_previous {
+            return false;
+        }
+        expected_previous = amendment_new.clone();
+    }
+    expected_previous == *current_contract_digest
 }
 
 /// Build the canonical read-only material-review request for one active Work
@@ -2038,6 +2053,76 @@ mod tests {
         ));
         assert!(!material_review_contract_amendment_digests_form_chain(
             vec![(original.clone(), current.clone())],
+            &receipt_contract,
+            &current,
+        ));
+    }
+
+    #[test]
+    fn material_review_amendment_chain_rejects_duplicate_receipt_anchor() {
+        let digest = |bytes: &[u8]| Digest::sha256_bytes(bytes);
+        let first_origin = digest(b"first origin");
+        let second_origin = digest(b"second origin");
+        let receipt_contract = digest(b"receipt contract");
+        let current = digest(b"current contract");
+
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (first_origin, receipt_contract.clone()),
+                (second_origin, receipt_contract.clone()),
+                (receipt_contract.clone(), current.clone()),
+            ],
+            &receipt_contract,
+            &current,
+        ));
+    }
+
+    #[test]
+    fn material_review_initial_base_anchor_requires_a_unique_origin() {
+        let digest = |bytes: &[u8]| Digest::sha256_bytes(bytes);
+        let unrelated = digest(b"unrelated");
+        let initial = digest(b"initial Contract");
+        let middle = digest(b"middle Contract");
+        let current = digest(b"current Contract");
+
+        assert!(material_review_contract_amendment_digests_form_chain(
+            vec![(initial.clone(), middle.clone()), (middle, current.clone())],
+            &initial,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (unrelated, digest(b"unrelated successor")),
+                (initial.clone(), current.clone())
+            ],
+            &initial,
+            &current,
+        ));
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (initial.clone(), middle),
+                (initial.clone(), current.clone()),
+            ],
+            &initial,
+            &current,
+        ));
+    }
+
+    #[test]
+    fn material_review_amendment_anchor_requires_adjacent_unique_receipt_edges() {
+        let digest = |bytes: &[u8]| Digest::sha256_bytes(bytes);
+        let origin = digest(b"origin");
+        let receipt_contract = digest(b"receipt Contract");
+        let detached = digest(b"detached Contract");
+        let detached_successor = digest(b"detached successor");
+        let current = digest(b"current Contract");
+
+        assert!(!material_review_contract_amendment_digests_form_chain(
+            vec![
+                (origin, receipt_contract.clone()),
+                (detached, detached_successor),
+                (receipt_contract.clone(), current.clone()),
+            ],
             &receipt_contract,
             &current,
         ));
