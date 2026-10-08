@@ -1621,7 +1621,13 @@ fn work_item_status_snapshot_with_snapshot(
             actions.push("close_after_review".into());
         }
         actions
-    } else if material_projection_unavailable && !archived {
+    } else if material_projection_unavailable
+        && !archived
+        && matches!(
+            lifecycle_phase.as_str(),
+            "not_ready" | "implementation_active" | "checkpointed" | "finish_ready"
+        )
+    {
         // Keep the preflight route available to record the material blocker,
         // but do not let retry or supersede markers bypass an unavailable
         // committed-source projection. This admits neither verification nor
