@@ -774,10 +774,10 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:13d41a37816de91af6f79d0db779f7f7600f19ee7a02be73ca6b2fd39d6efae8",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd.json",
-    "receiptDigest": "sha256:144ae8223df175ca8a5c9a59243c2021a8fd2ee99e85db132949fdd2b0bb94f5",
-    "requestDigest": "sha256:cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd"
+    "digest": "sha256:d98d07188457e1ac22947f0f3e62dd91dfaffd3a8adcd311c2eef469674431b9",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb.json",
+    "receiptDigest": "sha256:95d92be2721b2e7afd46ccb9acfadec5328ac77b282439ea37095e454285dde5",
+    "requestDigest": "sha256:20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb"
   },
   "materialReviewReceiptHistory": [
     {
@@ -809,14 +809,20 @@
       "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4.json",
       "receiptDigest": "sha256:3175b7f561e2e6749023a39140c215ac9af058848a8ab0fb93f320e267225c52",
       "requestDigest": "sha256:4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4"
+    },
+    {
+      "digest": "sha256:13d41a37816de91af6f79d0db779f7f7600f19ee7a02be73ca6b2fd39d6efae8",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd.json",
+      "receiptDigest": "sha256:144ae8223df175ca8a5c9a59243c2021a8fd2ee99e85db132949fdd2b0bb94f5",
+      "requestDigest": "sha256:cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd"
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T20:15:41Z",
+  "preflightAt": "2026-10-09T20:42:59Z",
   "preflightContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
-  "preflightState": "green",
+  "preflightDecisionDigest": "sha256:5cab2873c63589d4ed5b8d66dd3878fcb28f09a9cc68f62b0f6e2de13c49243c",
+  "preflightRepositorySnapshotDigest": "sha256:4e6ad91d082d85d7666bf55acfade866454d87cef934a847f6cad8721c2a16a1",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
