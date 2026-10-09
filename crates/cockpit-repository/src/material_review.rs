@@ -112,7 +112,7 @@ pub(crate) struct MaterialReviewGateProjection {
 #[derive(Clone, Debug, PartialEq, Eq)]
 enum MaterialReviewReceiptState {
     Missing,
-    Current(MaterialInspectionReviewDecisionReceipt),
+    Current(Box<MaterialInspectionReviewDecisionReceipt>),
     Stale,
 }
 
@@ -1267,7 +1267,7 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
         match read_material_review_receipt(root, contract, contract_digest, &request, summary_path)
         {
             Ok(MaterialReviewReceiptState::Missing) => (None, false),
-            Ok(MaterialReviewReceiptState::Current(receipt)) => (Some(receipt), false),
+            Ok(MaterialReviewReceiptState::Current(receipt)) => (Some(*receipt), false),
             Ok(MaterialReviewReceiptState::Stale) => (None, true),
             Err(_error) => {
                 let mut effective_unknowns = request.raw_unknown_codes.clone();
@@ -1621,20 +1621,19 @@ fn read_material_review_receipt(
         });
     }
     let contract_was_amended = receipt.contract_digest != *contract_digest;
-    if contract_was_amended {
-        if !stale_request
+    if contract_was_amended
+        && (!stale_request
             || !material_review_contract_amendment_chain_reaches(
                 &root,
                 &contract.work_item_id,
                 &receipt.contract_digest,
                 contract_digest,
-            )?
-        {
-            return Err(ObserverError::State {
-                path: sidecar_path,
-                message: "material-review receipt is bound to a different current Contract without a validated amendment chain".into(),
-            });
-        }
+            )?)
+    {
+        return Err(ObserverError::State {
+            path: sidecar_path,
+            message: "material-review receipt is bound to a different current Contract without a validated amendment chain".into(),
+        });
     }
     let reviewed_source_head =
         receipt
@@ -1698,7 +1697,7 @@ fn read_material_review_receipt(
             message: "material-review receipt does not match current request or Contract".into(),
         });
     }
-    Ok(MaterialReviewReceiptState::Current(receipt))
+    Ok(MaterialReviewReceiptState::Current(Box::new(receipt)))
 }
 
 fn material_review_contract_amendment_chain_reaches(

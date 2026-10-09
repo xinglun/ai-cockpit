@@ -290,7 +290,7 @@ fn worktree_remove_injection_is_consumed_once_for_old_worktree() {
     let old_worktree = worktree_parent.join("old-worktree");
     let fresh_worktree = worktree_parent.join("fresh-worktree");
 
-    let old_add = wrapped_worktree_add(&wrapper, root.path(), &old_worktree, &head);
+    let old_add = wrapped_worktree_add(wrapper, root.path(), &old_worktree, &head);
     assert!(
         old_add.status.success(),
         "old worktree add: {}",
@@ -302,7 +302,7 @@ fn worktree_remove_injection_is_consumed_once_for_old_worktree() {
             .trim(),
         old_worktree.to_string_lossy()
     );
-    let old_remove = wrapped_worktree_remove(&wrapper, root.path(), &old_worktree);
+    let old_remove = wrapped_worktree_remove(wrapper, root.path(), &old_worktree);
     assert!(!old_remove.status.success());
     assert!(
         String::from_utf8_lossy(&old_remove.stderr)
@@ -315,13 +315,13 @@ fn worktree_remove_injection_is_consumed_once_for_old_worktree() {
         old_worktree.to_string_lossy()
     );
 
-    let fresh_add = wrapped_worktree_add(&wrapper, root.path(), &fresh_worktree, &head);
+    let fresh_add = wrapped_worktree_add(wrapper, root.path(), &fresh_worktree, &head);
     assert!(
         fresh_add.status.success(),
         "fresh worktree add: {}",
         String::from_utf8_lossy(&fresh_add.stderr)
     );
-    let fresh_remove = wrapped_worktree_remove(&wrapper, root.path(), &fresh_worktree);
+    let fresh_remove = wrapped_worktree_remove(wrapper, root.path(), &fresh_worktree);
     assert!(
         fresh_remove.status.success(),
         "fresh worktree must not receive the old worktree's injection: {}",
@@ -358,13 +358,13 @@ fn unconsumed_worktree_remove_injection_does_not_move_to_fresh_worktree() {
     let old_worktree = worktree_parent.join("old-worktree");
     let fresh_worktree = worktree_parent.join("fresh-worktree");
 
-    let old_add = wrapped_worktree_add(&wrapper, root.path(), &old_worktree, &head);
+    let old_add = wrapped_worktree_add(wrapper, root.path(), &old_worktree, &head);
     assert!(
         old_add.status.success(),
         "old worktree add: {}",
         String::from_utf8_lossy(&old_add.stderr)
     );
-    let fresh_add = wrapped_worktree_add(&wrapper, root.path(), &fresh_worktree, &head);
+    let fresh_add = wrapped_worktree_add(wrapper, root.path(), &fresh_worktree, &head);
     assert!(
         fresh_add.status.success(),
         "fresh worktree add: {}",
@@ -380,7 +380,7 @@ fn unconsumed_worktree_remove_injection_does_not_move_to_fresh_worktree() {
 
     // Model an old attempt deferred before it reaches Git cleanup: the one-shot
     // hook must remain reserved for that exact path, not migrate to this retry.
-    let fresh_remove = wrapped_worktree_remove(&wrapper, root.path(), &fresh_worktree);
+    let fresh_remove = wrapped_worktree_remove(wrapper, root.path(), &fresh_worktree);
     assert!(
         fresh_remove.status.success(),
         "an unconsumed old-worktree injection must not reject the fresh worktree: {}",

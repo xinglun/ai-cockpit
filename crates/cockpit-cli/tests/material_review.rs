@@ -199,8 +199,8 @@ fn material_review_record_fails_closed_when_stage_one_has_no_opt_in() {
             .exists()
     );
     assert!(
-        root.join(".ai/work-items/active/WI-MATERIAL.summary.json")
+        !root
+            .join(".ai/work-items/active/WI-MATERIAL.summary.json")
             .exists()
-            == false
     );
 }

@@ -496,7 +496,7 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
 
     let syntax_unknown = benign_syntax_unknown_source();
     fs::create_dir_all(root.join("src")).unwrap();
-    fs::write(root.join("src/material.rs"), &syntax_unknown).unwrap();
+    fs::write(root.join("src/material.rs"), syntax_unknown).unwrap();
     commit(root);
 
     let one_unknown = material_review_request(root, &contract).unwrap();
@@ -535,7 +535,7 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
     assert!(one_unknown.finding_codes.is_empty());
     assert!(!one_unknown.blocked_by_finding);
 
-    fs::write(root.join("src/report.rs"), &syntax_unknown).unwrap();
+    fs::write(root.join("src/report.rs"), syntax_unknown).unwrap();
     commit(root);
 
     let two_unknowns = material_review_request(root, &contract).unwrap();

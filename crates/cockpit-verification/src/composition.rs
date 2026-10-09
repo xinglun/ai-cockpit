@@ -2106,9 +2106,10 @@ fn reconciliation_error_category(error: &str) -> &'static str {
             "proc_observation_error"
         };
     }
-    if error.contains("error_kind=PermissionDenied") || error.contains("Permission denied") {
-        "permission_denied"
-    } else if error.starts_with("cannot inspect process ") {
+    if error.contains("error_kind=PermissionDenied")
+        || error.contains("Permission denied")
+        || error.starts_with("cannot inspect process ")
+    {
         "permission_denied"
     } else if error.contains("digest changed") || error.contains("attempt changed") {
         "attempt_changed"
