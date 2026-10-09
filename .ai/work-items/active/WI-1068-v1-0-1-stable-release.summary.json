@@ -369,12 +369,9 @@
       ]
     }
   ],
-  "changedPaths": [
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.4a5e329d7466a40c8c97f33eefc474d462b19caee2c8715e895228330b2a2b1b.json",
-    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-06T06:23:41Z",
-  "checkpointContractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+  "checkpointContractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -732,7 +729,7 @@
       "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
+  "checkpointRepositorySnapshotDigest": "sha256:c932796b8f5ab23875fb8cdfceec5e1d67c45c22d3bd690f5284bf3705493bc7",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
     "contractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
@@ -781,11 +778,11 @@
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T14:35:52Z",
+  "preflightAt": "2026-10-09T14:48:59Z",
   "preflightContractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
-  "preflightDecisionDigest": "sha256:fdc597f99b0db324017bcc61d472e4e9f708dd8e3835f98e1d77cedf38e2c25a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:c932796b8f5ab23875fb8cdfceec5e1d67c45c22d3bd690f5284bf3705493bc7",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
@@ -1227,11 +1224,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-09T10:20:09Z"
-  },
-  "verificationRecoveryReconciled": "sha256:8cbd5974701d9b29d3e4e17b938b2f7523ad6a999a3763c5a7c050cff1a6104f",
+  "verificationRecoveryReconciled": "sha256:e5269744ff129e93e9b7c22444fa6be117c61672aa55ae314ec96af409fa09cb",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }
