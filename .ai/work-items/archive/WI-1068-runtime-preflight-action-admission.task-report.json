@@ -1,0 +1,333 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ba62c21dc06401e81a17bbb34d35f216efd1ed9c68438bb488e37b3bdc4e492e",
+    "workItemId": "WI-1068-runtime-preflight-action-admission"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1055-v1-0-1-bounded-hotfix.retirement.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.b6e9eb137a4f8a9471f6a11b0b507ee5a7952c256e10730accbb65d8f523bbd4.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.bd33a747db297bd342be485c7d79bc0fc733c709a56508b4cd6e2f385c18d57b.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.c97c08aa80baffd5ccf02b6fe9366cfc84c4a15a5ef810af21a0f5a2d289f721.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1068-runtime-preflight-action-admission.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000001.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000001.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000002.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000002.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000003.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000003.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000004.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000004.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000005.committed.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.contract-amendments/00000005.prepared.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.50420d79abcfc9a9df66bca97aef52cba5d02aa91926d8ebc17cfd19cc2ebadf.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.53fd088cb7a2c8a5324acd7c7e8d5203963c10f8752d7783bb35f916348f992c.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.a39b3586fb2d9b630ab89fff27c5cdd12568e4f4e1b30de0067c05809a07b17a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.abadf4d5537ad5880b298dd811d1c51108ab8c65c527faa34394bf2a22d0421d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.bd016a8c4d9d2e32eb4b7173dfea1eff12550f6c223a64ac94503133e7eb2145.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification-attempt.ddc7e22129adddcec48fe363ebc2920c5dfff9dd2746007559354c09edcdb43d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/policy.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1055-v1-0-1-bounded-hotfix.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1055-v1-0-1-bounded-hotfix.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/collaboration_consistency.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/status_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json"
+        ],
+        "inference": false,
+        "text": "让 Status projection 与 finish 的 green preflight 前置条件一致；只有当前 Contract 与 Snapshot 的 preflight 结果为 green 后才允许 finish。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

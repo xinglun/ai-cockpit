@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "reason": "Ray 在本会话确认了此 Contract 与 Snapshot 的绑定审阅，仅接受新增的 typed &Path 材料扫描验收；该决定不将 repository_material_inspection_unavailable、evidence_stale 或验证状态标记为已通过。",
+  "recordedAt": "2026-10-08T05:54:01Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

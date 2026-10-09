@@ -1,0 +1,112 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "checkpointed 且 verification evidence 有效时，若 preflight 未执行、非 green 或绑定已过期，safeActions 包含 run_preflight 且不包含 finish。",
+    "当前 Contract 与 Snapshot 的 preflight 重新评估为 green 后，safeActions 才重新包含 finish。",
+    "回归验证 Runtime 对 run_preflight/finish 的实际 action admission；现有 verification、governance control 与 human review 阻塞保持有效。",
+    "对 crates/cockpit-repository/tests/status_projection.rs 中 verified_checkpointed_item helper 的源片段执行 derive_governance_signals 时，显式将 directory.path() 绑定为 &std::path::Path 并对该绑定调用 join；保留现有操作语义、断言及字符串 run verification，assessment 不含 repository_material_inspection_unavailable。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-08T01:49:25Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "让 Status projection 与 finish 的 green preflight 前置条件一致；只有当前 Contract 与 Snapshot 的 preflight 结果为 green 后才允许 finish。",
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi1068-verification-timeout-v1",
+    "rules": [
+      {
+        "approvalMode": "single_authorized_human",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 600,
+          "policyRefs": [
+            "wi1068-verification-timeout-v1"
+          ],
+          "reason": "User-authorized 600-second finite ceiling for the complete existing WI-1068 Runtime verification plan; no required node or check is removed or weakened.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task"
+          ]
+        }
+      }
+    ]
+  },
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "验证完成但 green preflight 尚未生成时，Runtime 必须提供可执行的 preflight 后续动作。",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "crates/cockpit-repository/src/lifecycle.rs（保留 finish 对 green preflight 的要求）",
+    "crates/cockpit-cli/** 与 crates/cockpit-mcp/**（不改变 CLI/MCP 接口）",
+    "crates/cockpit-protocol/**（不改变协议 schema）",
+    "Sentinel 交易日、canonical 报告与交易语义"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+  "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    ".ai/policy.json"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+    "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant",
+    "crates/cockpit-repository/tests/status_projection.rs — action admission regression coverage"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets -- -D warnings"
+  ],
+  "workItemId": "WI-1068-runtime-preflight-action-admission"
+}

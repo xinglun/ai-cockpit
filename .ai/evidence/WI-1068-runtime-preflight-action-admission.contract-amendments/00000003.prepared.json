@@ -1,0 +1,212 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "sequence": 3,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-1a1f988cebdfce463cb570783b285102b434cf09c84986ecf5f3e703ff9debbb",
+      "expectedContractDigest": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+      "reason": "验证 CLI 跨层一致性：检查非 green preflight 后只允许 run_preflight，并在 fresh green 后恢复 finish。",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-cli/tests/collaboration_consistency.rs"
+        }
+      ]
+    },
+    "requestDigest": "sha256:28691884cb08c579e0033e38ca36e4af59e710024cb2838d3d6fbc2cfc7e0a6d",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "checkpointed 且 verification evidence 有效时，若 preflight 未执行、非 green 或绑定已过期，safeActions 包含 run_preflight 且不包含 finish。",
+        "当前 Contract 与 Snapshot 的 preflight 重新评估为 green 后，safeActions 才重新包含 finish。",
+        "回归验证 Runtime 对 run_preflight/finish 的实际 action admission；现有 verification、governance control 与 human review 阻塞保持有效。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-08T01:49:25Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "让 Status projection 与 finish 的 green preflight 前置条件一致；只有当前 Contract 与 Snapshot 的 preflight 结果为 green 后才允许 finish。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "验证完成但 green preflight 尚未生成时，Runtime 必须提供可执行的 preflight 后续动作。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-repository/src/lifecycle.rs（保留 finish 对 green preflight 的要求）",
+        "crates/cockpit-cli/** 与 crates/cockpit-mcp/**（不改变 CLI/MCP 接口）",
+        "crates/cockpit-protocol/**（不改变协议 schema）",
+        "Sentinel 交易日、canonical 报告与交易语义"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+      "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "sources": [
+        "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+        "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant",
+        "crates/cockpit-repository/tests/status_projection.rs — action admission regression coverage"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo test --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets -- -D warnings"
+      ],
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    "previousContractDigest": "sha256:e9f04f9b6b4b1c0ed5afab68eaeed94f4fe2fbda40c45a20868aebfa190802f3",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "checkpointed 且 verification evidence 有效时，若 preflight 未执行、非 green 或绑定已过期，safeActions 包含 run_preflight 且不包含 finish。",
+        "当前 Contract 与 Snapshot 的 preflight 重新评估为 green 后，safeActions 才重新包含 finish。",
+        "回归验证 Runtime 对 run_preflight/finish 的实际 action admission；现有 verification、governance control 与 human review 阻塞保持有效。"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-08T01:49:25Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "让 Status projection 与 finish 的 green preflight 前置条件一致；只有当前 Contract 与 Snapshot 的 preflight 结果为 green 后才允许 finish。",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "验证完成但 green preflight 尚未生成时，Runtime 必须提供可执行的 preflight 后续动作。",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "crates/cockpit-repository/src/lifecycle.rs（保留 finish 对 green preflight 的要求）",
+        "crates/cockpit-cli/** 与 crates/cockpit-mcp/**（不改变 CLI/MCP 接口）",
+        "crates/cockpit-protocol/**（不改变协议 schema）",
+        "Sentinel 交易日、canonical 报告与交易语义"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+      "predecessorWorkItemId": "WI-1055-v1-0-1-bounded-hotfix",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/collaboration_consistency.rs"
+      ],
+      "sources": [
+        "crates/cockpit-repository/src/status_projection.rs — next-action projection and preflight binding",
+        "crates/cockpit-repository/src/lifecycle.rs — finish green preflight invariant",
+        "crates/cockpit-repository/tests/status_projection.rs — action admission regression coverage"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo fmt --all -- --check",
+        "cargo test --locked --workspace",
+        "cargo clippy --locked --workspace --all-targets -- -D warnings"
+      ],
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    "newContractDigest": "sha256:aa936b46e0e2d1a9579c747368517ce37c8b4bb1cecbb31650e9d6d731bc56ea",
+    "previousSummaryDigest": "sha256:ed4a97354f605d26ec177342daaa47013adad6c9daad5fd4a1df0edb87e01334",
+    "repositorySnapshotDigest": "sha256:66e7629b8c1d87221f552fd8464b80ffe27bed242f20edbb9c8d2ed2fc56f153",
+    "environmentObservationDigest": "sha256:2e320b75e40d68de4345bcf378ccf0a28932ee99607c7e9f858012aa5f8669eb",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:dce80bb602db8b92bcdacd060e7f20fe4ee8727b6c92eda69dc9f767c6238f8a",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": "sha256:1a1f988cebdfce463cb570783b285102b434cf09c84986ecf5f3e703ff9debbb",
+    "preparedAt": "2026-10-08T03:14:10Z"
+  },
+  "preparedDigest": "sha256:bd4bb5df3099951b81f56ca62cb2aaeeabab4c3ace561418b2726cec1320b38f"
+}

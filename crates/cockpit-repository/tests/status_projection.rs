@@ -113,6 +113,94 @@ fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
     .expect("record identity-bound human review");
 }
 
+fn verified_checkpointed_item(work_item_id: &str) -> tempfile::TempDir {
+    let directory = repository();
+    let root: &::std::path::Path = directory.path();
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        root,
+        work_item_id,
+        "keep verified Work Items able to refresh preflight",
+        "admit preflight until the current snapshot has a green result",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["finish follows a fresh green preflight".into()],
+            required_evidence_classes: vec!["verification".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start Work Item");
+    let contract_path = root.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(root, &contract_path).expect("initial preflight");
+    checkpoint_work_item(root, work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "status-preflight-admission-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("run verification");
+    record_verification_with_runtime(
+        root,
+        work_item_id,
+        &serde_json::to_value(&run.receipt).expect("verification receipt"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+    directory
+}
+
+#[test]
+fn verified_checkpointed_item_source_is_inspectable_as_path_composition() {
+    let source = include_str!("status_projection.rs");
+    let helper = source
+        .split("fn verified_checkpointed_item(")
+        .nth(1)
+        .expect("verified checkpointed helper")
+        .split(
+            "\n#[test]\nfn verified_checkpointed_item_source_is_inspectable_as_path_composition(",
+        )
+        .next()
+        .expect("helper boundary");
+    let helper = format!("fn verified_checkpointed_item({helper}");
+    let added_lines = helper.lines().collect::<Vec<_>>();
+    let mut snapshot = governance_snapshot(
+        "crates/cockpit-repository/tests/status_projection.rs",
+        &added_lines,
+    );
+    snapshot.change_evidence[0].added_line_origins = added_lines
+        .iter()
+        .enumerate()
+        .map(|(index, _)| cockpit_git::AddedLineOrigin {
+            after_line: index + 1,
+            hunk_index: 0,
+        })
+        .collect();
+    let assessment = cockpit_repository::derive_governance_signals(&snapshot);
+
+    assert!(
+        !assessment
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "the helper's path composition must remain inspectable: {assessment:?}"
+    );
+}
+
 fn write_unclosed_archive(root: &std::path::Path, id: &str, scope: &[&str]) {
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
@@ -2899,6 +2987,84 @@ fn status_progress_counts_array_acceptance_evidence_entries() {
         .expect("status projection");
     assert_eq!(status.progress_facts["acceptanceCriteriaDeclared"], 2);
     assert_eq!(status.progress_facts["acceptanceEvidenceEntries"], 2);
+}
+
+#[test]
+fn verified_checkpoint_requires_fresh_green_preflight_before_finish() {
+    let current_runtime = runtime();
+    for (index, preflight_case) in ["missing", "yellow", "stale"].into_iter().enumerate() {
+        let work_item_id = format!("WI-STATUS-PREFLIGHT-ADMISSION-{index}");
+        let directory = verified_checkpointed_item(&work_item_id);
+        let root = directory.path();
+        let active = root.join(".ai/work-items/active");
+        let contract_path = active.join(format!("{work_item_id}.contract.json"));
+        let summary_path = active.join(format!("{work_item_id}.summary.json"));
+        let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).expect("Summary"))
+            .expect("Summary JSON");
+        match preflight_case {
+            "missing" => summary["preflightState"] = json!("not_run"),
+            "yellow" => summary["preflightState"] = json!("yellow"),
+            "stale" => summary["preflightRepositorySnapshotDigest"] = json!("sha256:stale"),
+            _ => unreachable!("listed preflight case"),
+        }
+        fs::write(
+            &summary_path,
+            serde_json::to_vec_pretty(&summary).expect("serialized Summary"),
+        )
+        .expect("write simulated preflight state");
+
+        let status = work_item_status_snapshot_with_runtime(root, &work_item_id, &current_runtime)
+            .expect("status before preflight refresh");
+        assert_eq!(status.verification, "verified", "case={preflight_case}");
+        assert!(
+            status
+                .safe_actions
+                .iter()
+                .any(|action| action == "run_preflight"),
+            "case={preflight_case} must admit preflight: {status:#?}"
+        );
+        assert!(
+            !status.safe_actions.iter().any(|action| action == "finish"),
+            "case={preflight_case} must withhold finish: {status:#?}"
+        );
+        cockpit_repository::require_current_action_admission(
+            root,
+            &work_item_id,
+            "run_preflight",
+            &current_runtime,
+        )
+        .expect("Runtime must admit preflight refresh");
+        let finish_admission = cockpit_repository::require_current_action_admission(
+            root,
+            &work_item_id,
+            "finish",
+            &current_runtime,
+        )
+        .expect_err("Runtime must withhold finish before fresh green preflight");
+        assert!(finish_admission.to_string().contains("finish"));
+
+        preflight_work_item_with_runtime_report(root, &contract_path, &current_runtime)
+            .expect("Runtime-admitted preflight refresh");
+        let refreshed =
+            work_item_status_snapshot_with_runtime(root, &work_item_id, &current_runtime)
+                .expect("status after preflight refresh");
+        assert!(
+            refreshed
+                .safe_actions
+                .iter()
+                .any(|action| action == "finish"),
+            "fresh green preflight must admit finish: {refreshed:#?}"
+        );
+        cockpit_repository::require_current_action_admission(
+            root,
+            &work_item_id,
+            "finish",
+            &current_runtime,
+        )
+        .expect("Runtime must admit finish after fresh green preflight");
+        finish_work_item_with_runtime(root, &work_item_id, &current_runtime)
+            .expect("finish after green preflight");
+    }
 }
 
 #[test]

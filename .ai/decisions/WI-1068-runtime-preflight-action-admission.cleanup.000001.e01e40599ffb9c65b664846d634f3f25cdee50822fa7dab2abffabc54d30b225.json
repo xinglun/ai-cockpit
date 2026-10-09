@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:b52568285098f00ce8f99687207e6b1f2052dd3c2e480e2213420457bdc73057",
+  "branchRef": "refs/heads/codex/runtime-wi1068-close-context",
+  "contractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+  "headRevision": "be2c27c8a73ff98b6b3b115650fc9bcd20e11182",
+  "observation": {
+    "branch": "removed",
+    "worktree": "unknown"
+  },
+  "observedAt": "2026-10-08T08:10:05Z",
+  "operationId": "sha256:ae6434b52399f4413827f2c1dfe3aeb6d9b13de3d3ea26540babaad25412730a",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "worktree_unknown"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1068-runtime-preflight-action-admission",
+  "worktreeId": "sha256:bd4a25adebdc48d5ae372587c5053c06567f5e539c91f94f9054c16a4e164b4a"
+}

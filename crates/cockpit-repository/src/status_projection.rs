@@ -1487,6 +1487,8 @@ fn work_item_status_snapshot_with_snapshot(
         == Some(snapshot_digest_string.as_str())
         && summary["preflightContractDigest"].as_str() == Some(contract_digest_string.as_str())
         && matches!(summary["preflightState"].as_str(), Some("green" | "yellow"));
+    let preflight_green_current =
+        preflight_binding_current && summary["preflightState"] == serde_json::json!("green");
     let mut source_digests = BTreeMap::new();
     source_digests.insert("contract".into(), contract_digest_value.clone());
     source_digests.insert("repositorySnapshot".into(), snapshot_digest_value.clone());
@@ -1657,10 +1659,8 @@ fn work_item_status_snapshot_with_snapshot(
                     "run_verification".into(),
                 ]
             }
-            // A verified checkpoint is ready for finish, while the existing
-            // verification entrypoint still admits an explicit revalidation
-            // or receipt-reuse request. Keep finish first so the projection's
-            // recommendation remains the ordinary success path.
+            "checkpointed" if !preflight_green_current => vec!["run_preflight".into()],
+            // Contract と repository snapshot に結び付く green preflight がある場合だけ finish を先に提示する。
             "checkpointed" => vec!["finish".into(), "run_verification".into()],
             "finish_ready" if verification != "verified" && !preflight_binding_current => {
                 vec!["run_preflight".into()]

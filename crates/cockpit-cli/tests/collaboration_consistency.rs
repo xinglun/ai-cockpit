@@ -134,6 +134,66 @@ fn start_fixture(binary: &str, repo: &Path, id: &str) {
     .expect("mutate fixture contract");
 }
 
+fn start_review_free_fixture(binary: &str, repo: &Path, id: &str) {
+    run_json(binary, repo, &["attach"]);
+    let output = run(
+        binary,
+        repo,
+        &[
+            "start",
+            "--id",
+            id,
+            "--intent",
+            "prove preflight and finish admissions remain consistent",
+            "--goal",
+            "exercise the fresh green preflight requirement in a controlled repository",
+            "--scope",
+            "README.md",
+            "--out-of-scope",
+            "production behavior",
+            "--authority",
+            "authorized",
+            "--acceptance",
+            "finish requires a current green preflight",
+            "--required-evidence",
+            "verification",
+        ],
+    );
+    assert!(
+        output.status.success(),
+        "start stderr={}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+fn record_test_data_intent_alignment(repo: &Path, id: &str) {
+    let input = tempfile::NamedTempFile::new().expect("intent alignment input");
+    fs::write(
+        input.path(),
+        serde_json::to_vec_pretty(&json!({
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["tests/collaboration_consistency.rs"]
+            }
+        }))
+        .expect("intent alignment JSON"),
+    )
+    .expect("write intent alignment input");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["work-item", "controls", "--id", id, "--input"])
+        .arg(input.path())
+        .args(["--repo"])
+        .arg(repo)
+        .output()
+        .expect("record test-data intent alignment");
+    assert!(
+        output.status.success(),
+        "controls stderr={}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
 fn contract(repo: &Path, id: &str) -> serde_json::Value {
     serde_json::from_slice(
         &fs::read(
@@ -374,16 +434,12 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
     );
     assert_eq!(resumed["passed"], true);
     assert!(evidence.is_file(), "resume must publish current evidence");
-    // The candidate Runtime now admits verification/finish directly, so do
-    // not force a redundant preflight just to inspect the persisted decision.
-    // Status remains read-only and must not report that the recorded review
-    // became invalid after the verification snapshot changed.
+    // 検証が成功しても、現在の preflight が green になるまでは finish を許可しない。
     let resumed_projection = run_json(
         binary,
         repo.path(),
         &["work-item", "status", "--id", id, "--json"],
     );
-    assert_eq!(resumed_projection["governanceState"], "green");
     assert_eq!(resumed_projection["lifecyclePhase"], "checkpointed");
     assert_eq!(resumed_projection["verification"], "verified");
     assert_eq!(resumed_projection["evidenceFreshness"]["state"], "fresh");
@@ -402,6 +458,13 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
             .as_array()
             .expect("safe actions")
             .iter()
+            .any(|action| action == "run_preflight")
+    );
+    assert!(
+        !resumed_projection["safeActions"]
+            .as_array()
+            .expect("safe actions")
+            .iter()
             .any(|action| action == "finish")
     );
     assert!(
@@ -416,4 +479,85 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
             .iter()
             .any(|unknown| unknown == "preflight_decision_evidence_invalid")
     );
+
+    let premature_finish = run(binary, repo.path(), &["finish", "--id", id]);
+    assert!(
+        !premature_finish.status.success(),
+        "finish must remain withheld until a fresh green preflight"
+    );
+}
+
+#[test]
+fn finish_requires_fresh_green_preflight_after_verification() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-COLLAB-FRESH-PREFLIGHT";
+    let repo = repository();
+    start_review_free_fixture(binary, repo.path(), id);
+    record_test_data_intent_alignment(repo.path(), id);
+
+    let contract = format!(".ai/work-items/active/{id}.contract.json");
+    run_json(binary, repo.path(), &["preflight", "--contract", &contract]);
+    run_json(binary, repo.path(), &["checkpoint", "--id", id]);
+    run_json(
+        binary,
+        repo.path(),
+        &["verify", "--work-item", id, "--command", "true"],
+    );
+
+    // 一時 repository 内で、検証後に保存された非 green preflight を再現する。
+    let summary_path = repo
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{id}.summary.json"));
+    let mut summary = summary(repo.path(), id);
+    summary["preflightState"] = json!("yellow");
+    fs::write(
+        summary_path,
+        serde_json::to_vec_pretty(&summary).expect("serialize yellow preflight fixture"),
+    )
+    .expect("write yellow preflight fixture");
+
+    let verified_projection = run_json(
+        binary,
+        repo.path(),
+        &["work-item", "status", "--id", id, "--json"],
+    );
+    assert_eq!(verified_projection["verification"], "verified");
+    assert!(
+        verified_projection["safeActions"]
+            .as_array()
+            .expect("safe actions after verification")
+            .iter()
+            .any(|action| action == "run_preflight")
+    );
+    assert!(
+        !verified_projection["safeActions"]
+            .as_array()
+            .expect("safe actions after verification")
+            .iter()
+            .any(|action| action == "finish")
+    );
+    assert!(
+        !run(binary, repo.path(), &["finish", "--id", id])
+            .status
+            .success(),
+        "finish must be withheld before fresh green preflight"
+    );
+
+    let fresh_preflight = run_json(binary, repo.path(), &["preflight", "--contract", &contract]);
+    assert_eq!(fresh_preflight["state"], "green", "{fresh_preflight:#}");
+    let green_projection = run_json(
+        binary,
+        repo.path(),
+        &["work-item", "status", "--id", id, "--json"],
+    );
+    assert!(
+        green_projection["safeActions"]
+            .as_array()
+            .expect("safe actions after green preflight")
+            .iter()
+            .any(|action| action == "finish")
+    );
+    let finished = run_json(binary, repo.path(), &["finish", "--id", id]);
+    assert_eq!(finished["outcome"]["verification"]["status"], "verified");
 }

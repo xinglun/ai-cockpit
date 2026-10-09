@@ -1,0 +1,49 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:90a1089b0f31b922f329d40b69846186ed1b562a0af561fa079df36f3cc82214",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "sequence": 5,
+    "changeId": "wi1068-typed-tempdir-path-material-regression",
+    "requestDigest": "sha256:d09472730e4b1a165e122c797374afe4f34551d9b088e14a61ea50bbbb061e24",
+    "reason": "用户明确授权在 WI-1068 现有 status_projection.rs 测试范围内，将 directory.path() 显式绑定为 &Path，保留 join、现有断言和 run verification 风险文本，并先以最小回归与 preflight 证明材料 Unknown 消除。本 amendment 仅固化该验收，不增加 scope 路径。",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "checkpointed 且 verification evidence 有效时，若 preflight 未执行、非 green 或绑定已过期，safeActions 包含 run_preflight 且不包含 finish。",
+          "当前 Contract 与 Snapshot 的 preflight 重新评估为 green 后，safeActions 才重新包含 finish。",
+          "回归验证 Runtime 对 run_preflight/finish 的实际 action admission；现有 verification、governance control 与 human review 阻塞保持有效。"
+        ],
+        "newValue": [
+          "checkpointed 且 verification evidence 有效时，若 preflight 未执行、非 green 或绑定已过期，safeActions 包含 run_preflight 且不包含 finish。",
+          "当前 Contract 与 Snapshot 的 preflight 重新评估为 green 后，safeActions 才重新包含 finish。",
+          "回归验证 Runtime 对 run_preflight/finish 的实际 action admission；现有 verification、governance control 与 human review 阻塞保持有效。",
+          "对 crates/cockpit-repository/tests/status_projection.rs 中 verified_checkpointed_item helper 的源片段执行 derive_governance_signals 时，显式将 directory.path() 绑定为 &std::path::Path 并对该绑定调用 join；保留现有操作语义、断言及字符串 run verification，assessment 不含 repository_material_inspection_unavailable。"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:2c292a88030eb71e67857182b04168b8add4e847494642e58307016658663cea",
+    "newContractDigest": "sha256:bbd70c21a469caf91a47987b059c18bb4b91e6eddc787166ad53eed0bbc2c21d",
+    "repositorySnapshotDigest": "sha256:e12132bc3010e3ae7a243d95b8c49032a23a45a8ca1e346a31f52cd0bf62645f",
+    "environmentObservationDigest": "sha256:6b944eccfb43354cbd639111c19338ec2ef3f179631880b25006fabbb7fdb8e0",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria"
+    ],
+    "previousJournalDigest": "sha256:6357d52d1b0d51c8d9a4c7624b9692c518765cb219ba9ad96feeb6c0b312b681",
+    "journalDigest": "sha256:d37ff67a9160674e927a7b9e29321f1394e3443350dc5c82f1a2a65368cbe1bc",
+    "recordedAt": "2026-10-08T05:40:29Z"
+  }
+}

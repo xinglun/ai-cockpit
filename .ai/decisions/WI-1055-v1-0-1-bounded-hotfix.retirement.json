@@ -1,0 +1,34 @@
+{
+  "actor": "human:Ray",
+  "archiveManifestDigest": "sha256:2bea17325c582277bb3d34d5432f4902e9169028b4c3d1972e533e2a979d86ab",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:fe5907619082652d8a97a797252530ae90056536f3d0dee1141540c74f2cc3a9",
+      "path": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:5e6b58772067dcdd63a3e0f317baebb405447a469d1ede394910de34baf91eef",
+      "path": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a13a2f7985021d87813472fe69c685f0963e833bc9dde8988ad7b6ec6baff738",
+      "path": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:3b2025cfacee7a77023d2266171686293fc09524a8394d726252ef516627bab4",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "User explicitly authorized retirement of this unstarted scaffold so a separate Runtime remediation Work Item can proceed. The predecessor remains unverified and its release delivery is incomplete; no integration or release completion is claimed.",
+  "recordedAt": "2026-10-08T01:49:42Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+  "runtimeDigest": "sha256:3342f01ceb50cc08109737d6b8d481ec354a2495cc4590bd2907a125149a5d4f",
+  "runtimeVersion": "1.0.1-rc.2",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1068-runtime-preflight-action-admission",
+  "summaryDigest": "sha256:ae4d65e11d10fba0b8ad8c591d5f1763938241e0f74f521e8c120639bfa88c65",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1055-v1-0-1-bounded-hotfix"
+}

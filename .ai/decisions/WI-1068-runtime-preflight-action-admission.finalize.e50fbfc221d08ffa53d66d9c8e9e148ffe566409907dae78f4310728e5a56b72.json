@@ -1,0 +1,66 @@
+{
+  "governanceAppendRevision": "692e9ed3e451dd1e2c7b13257c795ffbd504af0f",
+  "predecessorReceiptDigest": "sha256:8cd0e35593273e9b2ab976c5343caf840e3a774ffee9f871df6d9be9924cd6c6",
+  "receipt": {
+    "actor": "agent:Codex",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "Ray explicit authorization in this conversation on 2026-10-08 for Runtime WI-1068 commit, push, PR/CI, merge after gates pass, and cleanup of the merged task branch.",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "692e9ed3e451dd1e2c7b13257c795ffbd504af0f",
+      "name": "codex/runtime-preflight-action-admission",
+      "remote": "origin"
+    },
+    "contractBaseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+    "contractDigest": "sha256:b25c5e3eb8fa67583996a72563e97f695c963b2d6892325d548740c51387a9d3",
+    "operationId": "github-pr-1023-merge-observation-20261008",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "headRevision": "692e9ed3e451dd1e2c7b13257c795ffbd504af0f",
+      "mergeCommit": "4c51ca41485cc72bda6d09e42d734a2ec5da1f8e",
+      "number": 1023,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/1023"
+    },
+    "reason": "GitHub reports PR #1023 merged at 4c51ca41485cc72bda6d09e42d734a2ec5da1f8e. The exact task branch and clean worktree remain present pending separately recorded cleanup.",
+    "receiptId": "WI-1068-pr1023-merged-20261008",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/runtime-preflight-action-admission",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1023",
+      "worktree": "/Users/sei-rinn/.codex/worktrees/runtime-preflight-action-admission/ai-cockpit"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:5eecd30ff68882075d78c0406da08951aed57053918df655faeae085babb4964",
+    "runtimeVersion": "1.0.1-rc.2",
+    "schemaVersion": 1,
+    "timestamp": "2026-10-08T08:03:50Z",
+    "workItemId": "WI-1068-runtime-preflight-action-admission",
+    "worktree": {
+      "branch": "codex/runtime-preflight-action-admission",
+      "headRevision": "692e9ed3e451dd1e2c7b13257c795ffbd504af0f",
+      "path": "/Users/sei-rinn/.codex/worktrees/runtime-preflight-action-admission/ai-cockpit",
+      "worktreeId": "WI-1068-runtime-preflight-action-admission"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-1068-pr1023-merge-observation-20261008"
+}

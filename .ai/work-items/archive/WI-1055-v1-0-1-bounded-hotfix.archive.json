@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-10-08T01:49:42Z",
+  "files": {
+    "contractDigest": "sha256:fe5907619082652d8a97a797252530ae90056536f3d0dee1141540c74f2cc3a9",
+    "contractPath": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.contract.json",
+    "outcomeDigest": "sha256:5e6b58772067dcdd63a3e0f317baebb405447a469d1ede394910de34baf91eef",
+    "outcomePath": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.outcome.json",
+    "summaryDigest": "sha256:a13a2f7985021d87813472fe69c685f0963e833bc9dde8988ad7b6ec6baff738",
+    "summaryPath": ".ai/work-items/archive/WI-1055-v1-0-1-bounded-hotfix.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1055-v1-0-1-bounded-hotfix.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1068-runtime-preflight-action-admission",
+  "workItemId": "WI-1055-v1-0-1-bounded-hotfix"
+}
