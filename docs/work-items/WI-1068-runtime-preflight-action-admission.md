@@ -6,8 +6,12 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1068-runtime-preflight-action-admission
-status: archived
+status: implemented
 authority: historical-projection
+lastVerifiedBy: WI-1068-runtime-preflight-action-admission
+terminalArchive: .ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json
+terminalVerification: .ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json
+terminalDecision: .ai/decisions/WI-1068-runtime-preflight-action-admission.close.json
 ---
 
 # WI-1068 — Runtime preflight action admission
