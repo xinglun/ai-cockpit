@@ -2231,8 +2231,23 @@ fn launch_composition_supervisor(
             }
         };
     let observed_supervisor =
-        cockpit_verification::observe_composition_process_identity(child.id())
-            .map_err(recovery_error)?;
+        match cockpit_verification::observe_composition_process_identity(child.id()) {
+            Ok(identity) => identity,
+            Err(observer_error) => {
+                let failure = match stop_unreleased_supervisor_bounded(&mut child) {
+                    Ok(()) => observer_error,
+                    Err(cleanup_error) => format!("{observer_error}; {cleanup_error}"),
+                };
+                if let Err(persist_error) =
+                    persist_supervisor_failure(&input, &attempt_id, None, &failure)
+                {
+                    return Err(recovery_error(format!(
+                        "{failure}; persist composition supervisor failure: {persist_error}"
+                    )));
+                }
+                return Err(recovery_error(failure));
+            }
+        };
     if ready.schema_version != 1
         || ready.supervisor.process_id != child.id()
         || ready.supervisor != observed_supervisor
@@ -2764,6 +2779,36 @@ fn write_supervisor_message<W: Write, T: Serialize>(
 fn stop_unreleased_supervisor(child: &mut Child) {
     let _ = child.kill();
     let _ = child.wait();
+}
+
+fn stop_unreleased_supervisor_bounded(child: &mut Child) -> Result<(), String> {
+    const CLEANUP_TIMEOUT: Duration = Duration::from_secs(2);
+    let kill_error = child.kill().err();
+    let deadline = std::time::Instant::now() + CLEANUP_TIMEOUT;
+    loop {
+        match child.try_wait() {
+            Ok(Some(_)) => return Ok(()),
+            Ok(None) => {
+                let now = std::time::Instant::now();
+                if now >= deadline {
+                    return Err(match kill_error {
+                        Some(error) => format!(
+                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?} after kill failed: {error}"
+                        ),
+                        None => format!(
+                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?}"
+                        ),
+                    });
+                }
+                std::thread::sleep(Duration::from_millis(10).min(deadline - now));
+            }
+            Err(error) => {
+                return Err(format!(
+                    "reap composition supervisor after identity error: {error}"
+                ));
+            }
+        }
+    }
 }
 
 fn persist_supervisor_failure(

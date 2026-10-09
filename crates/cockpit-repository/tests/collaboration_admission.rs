@@ -664,6 +664,11 @@ fn composition_supervisor_test_helper_entry() {
             .register(registration)
             .expect("advance Work Item generation before Ready");
     }
+    if mode == "identity-observation-error" {
+        let path = std::env::var_os("AI_COCKPIT_SUPERVISOR_IDENTITY_PID_FILE")
+            .expect("identity observer test PID file");
+        fs::write(path, std::process::id().to_string()).expect("write supervisor PID marker");
+    }
     // libtest's serial PrettyFormatter leaves this test's `... ` prefix open
     // on stdout. The parent protocol reader is line framed, so terminate that
     // prefix before the Ready JSON is written to the same stdout stream.
@@ -1090,6 +1095,190 @@ fn supervisor_exit_before_ready_records_unknown_without_spawning_verifier() {
         cockpit_verification::CompositionExecutionOutcome::Unknown
     );
     assert!(!projection.execution_evidence_complete);
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn supervisor_identity_observation_error_reaps_before_return() {
+    const INNER: &str = "AI_COCKPIT_SUPERVISOR_IDENTITY_TEST_INNER";
+    if std::env::var_os(INNER).is_some() {
+        let root = repository();
+        let store = store(root.path());
+        let marker = root.path().join("identity-observation-must-not-run");
+        declare_required_checks(
+            root.path(),
+            "WI-CONSUMER",
+            &[format!("touch {}", marker.display())],
+        );
+        store
+            .register(registration(
+                root.path(),
+                "WI-CONSUMER",
+                1,
+                declaration(root.path(), &[], &[]),
+            ))
+            .expect("register consumer");
+        let mut input = composition_input(root.path(), &marker);
+        input.commands[0].program = "touch".into();
+        input.commands[0].args = vec![marker.to_string_lossy().into_owned()];
+        input.identity.command_digest = composition_commands_digest(&input.commands);
+
+        let result = run_admitted_composition_with_supervisor_mode(
+            &store,
+            "WI-CONSUMER",
+            1,
+            input,
+            "identity-observation-error",
+        );
+        let pid_file = std::env::var_os("AI_COCKPIT_SUPERVISOR_IDENTITY_PID_FILE")
+            .expect("supervisor PID file path");
+        let supervisor_pid = fs::read_to_string(pid_file)
+            .expect("supervisor PID marker")
+            .trim()
+            .parse::<libc::pid_t>()
+            .expect("supervisor PID");
+        let error = result.expect_err("identity observer error must block verifier execution");
+
+        let mut status = 0;
+        let waited = unsafe { libc::waitpid(supervisor_pid, &mut status, libc::WNOHANG) };
+        let reaped_before_return =
+            waited == -1 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD);
+        if !reaped_before_return && waited == 0 {
+            unsafe {
+                libc::kill(supervisor_pid, libc::SIGKILL);
+                libc::waitpid(supervisor_pid, &mut status, 0);
+            }
+        }
+        assert!(
+            reaped_before_return,
+            "supervisor {supervisor_pid} must be reaped before returning the observer error"
+        );
+        assert!(error.to_string().contains("Permission denied"), "{error:?}");
+        assert!(
+            !marker.exists(),
+            "verifier command ran after supervisor identity observation failed"
+        );
+
+        let attempts = fs::read_dir(store.root().join("compositions"))
+            .expect("composition attempts")
+            .flatten()
+            .map(|entry| entry.path())
+            .filter(|path| {
+                path.extension()
+                    .is_some_and(|extension| extension == "json")
+            })
+            .collect::<Vec<_>>();
+        assert_eq!(attempts.len(), 1);
+        let attempt: cockpit_verification::CompositionAttempt =
+            serde_json::from_slice(&fs::read(&attempts[0]).expect("attempt evidence"))
+                .expect("attempt JSON");
+        assert!(!attempt.passed);
+        assert_eq!(attempt.processes_spawned, 0);
+        assert!(
+            attempt
+                .failure
+                .as_deref()
+                .is_some_and(|failure| failure.contains("Permission denied")),
+            "observer error must remain in durable attempt: {attempt:?}"
+        );
+        return;
+    }
+
+    let fixture = tempfile::tempdir().expect("fault shim directory");
+    let source = fixture.path().join("identity-observer-fault.c");
+    let library = fixture.path().join("identity-observer-fault.so");
+    let pid_file = fixture.path().join("supervisor.pid");
+    fs::write(
+        &source,
+        r#"#define _GNU_SOURCE
+#include <errno.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/syscall.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+static int injected_failure = 0;
+
+static pid_t marked_supervisor_pid(void) {
+    const char *path = getenv("AI_COCKPIT_SUPERVISOR_IDENTITY_PID_FILE");
+    if (!path) return -1;
+    int fd = (int)syscall(SYS_openat, AT_FDCWD, path, O_RDONLY, 0);
+    if (fd < 0) return -1;
+    char value[32] = {0};
+    ssize_t size = syscall(SYS_read, fd, value, sizeof(value) - 1);
+    syscall(SYS_close, fd);
+    return size > 0 ? (pid_t)strtol(value, NULL, 10) : -1;
+}
+
+static int injected_openat(int dirfd, const char *path, int flags, mode_t mode) {
+    pid_t target = marked_supervisor_pid();
+    char expected[80];
+    int size = target > 0 ? snprintf(expected, sizeof(expected), "/proc/%ld/stat", (long)target) : -1;
+    if (target > 0 && getpid() != target && size > 0 &&
+        (size_t)size < sizeof(expected) && strcmp(path, expected) == 0 &&
+        __sync_bool_compare_and_swap(&injected_failure, 0, 1)) {
+        errno = EACCES;
+        return -1;
+    }
+    return (int)syscall(SYS_openat, dirfd, path, flags, mode);
+}
+
+int openat(int dirfd, const char *path, int flags, ...) {
+    mode_t mode = 0;
+    if (flags & O_CREAT) { va_list args; va_start(args, flags); mode = va_arg(args, mode_t); va_end(args); }
+    return injected_openat(dirfd, path, flags, mode);
+}
+int openat64(int dirfd, const char *path, int flags, ...) {
+    mode_t mode = 0;
+    if (flags & O_CREAT) { va_list args; va_start(args, flags); mode = va_arg(args, mode_t); va_end(args); }
+    return injected_openat(dirfd, path, flags, mode);
+}
+int open(const char *path, int flags, ...) {
+    mode_t mode = 0;
+    if (flags & O_CREAT) { va_list args; va_start(args, flags); mode = va_arg(args, mode_t); va_end(args); }
+    return injected_openat(AT_FDCWD, path, flags, mode);
+}
+int open64(const char *path, int flags, ...) {
+    mode_t mode = 0;
+    if (flags & O_CREAT) { va_list args; va_start(args, flags); mode = va_arg(args, mode_t); va_end(args); }
+    return injected_openat(AT_FDCWD, path, flags, mode);
+}
+"#,
+    )
+    .expect("write controlled identity-observer fault shim");
+    let compile = Command::new("cc")
+        .args(["-shared", "-fPIC", "-o"])
+        .arg(&library)
+        .arg(&source)
+        .output()
+        .expect("compile controlled identity-observer fault shim");
+    assert!(
+        compile.status.success(),
+        "C shim: {}",
+        String::from_utf8_lossy(&compile.stderr)
+    );
+    let output = Command::new(std::env::current_exe().expect("test executable"))
+        .args([
+            "--exact",
+            "supervisor_identity_observation_error_reaps_before_return",
+            "--nocapture",
+        ])
+        .env(INNER, "1")
+        .env("AI_COCKPIT_SUPERVISOR_IDENTITY_PID_FILE", &pid_file)
+        .env("LD_PRELOAD", &library)
+        .output()
+        .expect("run isolated identity-observer fault test");
+    assert!(
+        output.status.success(),
+        "isolated fault test failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
 }
 
 #[test]
