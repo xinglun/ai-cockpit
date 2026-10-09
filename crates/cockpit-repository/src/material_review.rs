@@ -12,7 +12,7 @@ use crate::rust_material::{MaterialUnknownCause, RustMaterialAssessment};
 #[cfg(windows)]
 use cap_fs_ext::{DirExt, FollowSymlinks, OpenOptionsFollowExt};
 #[cfg(windows)]
-use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
+use cap_std::fs::OpenOptions as CapOpenOptions;
 use cap_std::{ambient_authority, fs::Dir};
 use cockpit_core::Digest;
 use cockpit_git::{
