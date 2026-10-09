@@ -369,9 +369,11 @@
       ]
     }
   ],
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.964f74abd13ffc2236c7c697c766408f2b32a93229a92c69fb9dcc26096c57f7.json"
+  ],
   "checkpointAt": "2026-10-06T06:23:41Z",
-  "checkpointContractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
+  "checkpointContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -749,7 +751,7 @@
       "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c932796b8f5ab23875fb8cdfceec5e1d67c45c22d3bd690f5284bf3705493bc7",
+  "checkpointRepositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
     "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
@@ -810,11 +812,11 @@
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T19:34:29Z",
+  "preflightAt": "2026-10-09T20:15:41Z",
   "preflightContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "preflightDecisionDigest": "sha256:16764ac1fed83031604a86d942e026b9b1056ac1ff575f91ef06579b85138afa",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
@@ -1207,10 +1209,6 @@
   "updatedAt": "2026-10-09T19:04:21.548562955+00:00",
   "verification": [
     {
-      "check": "project-command-0",
-      "result": "passed"
-    },
-    {
       "check": "project-command-0-package-cockpit-agent",
       "result": "passed"
     },
@@ -1261,13 +1259,12 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-09T19:03:20Z"
-  },
-  "verificationRecoveryReconciled": "sha256:e5269744ff129e93e9b7c22444fa6be117c61672aa55ae314ec96af409fa09cb",
+  "verificationRecoveryReconciled": "sha256:13d144e69bec228c4c851a8b2f7137a97a01d3e63d90d2204c40c9f13d849e69",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }
