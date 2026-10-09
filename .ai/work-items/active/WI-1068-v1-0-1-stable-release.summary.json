@@ -755,10 +755,10 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:e732292fb2cbc215526da9c2498091c9b41e687697fe0ad30ed0d2c83a1c37f5",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53.json",
-    "receiptDigest": "sha256:3e160b2f7cadc1c86e65a3de599ab724b6f1f91cfd35ac98ebe16b01effff614",
-    "requestDigest": "sha256:015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53"
+    "digest": "sha256:13f05479dd4f10a164823a206dad3fa975126ee305d191a7f68ec3004bc5a1c8",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/a164188a5f040594b23082602275ea4d22db485206ac30bce4319cba2351fb21.json",
+    "receiptDigest": "sha256:f5ff9523b55a7175cce4236036bbb507d69d4c526e9214558c8c49b36630b667",
+    "requestDigest": "sha256:a164188a5f040594b23082602275ea4d22db485206ac30bce4319cba2351fb21"
   },
   "materialReviewReceiptHistory": [
     {
@@ -766,6 +766,12 @@
       "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf.json",
       "receiptDigest": "sha256:ef6871ee3e0c9d0f7b01109b2f17ca7a605a94145889b92d04280df9d55391a0",
       "requestDigest": "sha256:70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf"
+    },
+    {
+      "digest": "sha256:e732292fb2cbc215526da9c2498091c9b41e687697fe0ad30ed0d2c83a1c37f5",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53.json",
+      "receiptDigest": "sha256:3e160b2f7cadc1c86e65a3de599ab724b6f1f91cfd35ac98ebe16b01effff614",
+      "requestDigest": "sha256:015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53"
     }
   ],
   "mode": "release",
