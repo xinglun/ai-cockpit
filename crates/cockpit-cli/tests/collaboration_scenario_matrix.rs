@@ -373,6 +373,41 @@ fn normalized_handoff(text: &str) -> &str {
     text.trim_end_matches(['\r', '\n'])
 }
 
+fn redacted_diagnostic_json(value: &serde_json::Value) -> String {
+    fn redact_sensitive_fields(value: &mut serde_json::Value) {
+        match value {
+            serde_json::Value::Object(fields) => {
+                for (key, value) in fields.iter_mut() {
+                    let normalized_key = key.to_ascii_lowercase();
+                    if normalized_key.contains("environment")
+                        || normalized_key.contains("credential")
+                        || normalized_key.contains("secret")
+                        || matches!(
+                            normalized_key.as_str(),
+                            "authorization" | "linuxbootid" | "password" | "token"
+                        )
+                    {
+                        *value = serde_json::Value::String("[redacted]".into());
+                    } else {
+                        redact_sensitive_fields(value);
+                    }
+                }
+            }
+            serde_json::Value::Array(values) => {
+                for value in values {
+                    redact_sensitive_fields(value);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    let mut redacted = value.clone();
+    redact_sensitive_fields(&mut redacted);
+    serde_json::to_string_pretty(&redacted)
+        .unwrap_or_else(|error| format!("<diagnostic serialization failed: {error}>"))
+}
+
 fn expected_headings(language: &str, view: &str) -> Vec<&'static str> {
     match (expected_language(language), view) {
         ("en", "summary") => vec![
@@ -522,7 +557,34 @@ fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
     let cli_json: serde_json::Value =
         serde_json::from_slice(&cli_output.stdout).expect("CLI composition JSON");
     let cli_attempt = &cli_json["result"];
-    assert_eq!(cli_attempt["passed"], true);
+
+    let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
+    assert_eq!(
+        mcp_output["result"]["isError"],
+        false,
+        "MCP composition returned an error before producing an attempt.\nCLI attempt:\n{}\nMCP result:\n{}",
+        redacted_diagnostic_json(cli_attempt),
+        redacted_diagnostic_json(&mcp_output["result"])
+    );
+    let mcp_attempt = &mcp_output["result"]["structuredContent"]["result"];
+
+    let cli_diagnostics = redacted_diagnostic_json(cli_attempt);
+    let mcp_diagnostics = redacted_diagnostic_json(mcp_attempt);
+    let failure_diagnostics = format!(
+        "CLI failure reason: {}\nCLI attempt:\n{}\nMCP failure reason: {}\nMCP attempt:\n{}",
+        redacted_diagnostic_json(&cli_attempt["failure"]),
+        cli_diagnostics,
+        redacted_diagnostic_json(&mcp_attempt["failure"]),
+        mcp_diagnostics
+    );
+    assert_eq!(
+        cli_attempt["passed"], true,
+        "CLI composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+    );
+    assert_eq!(
+        mcp_attempt["passed"], true,
+        "MCP composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+    );
     assert_eq!(cli_attempt["executionOutcome"], "passed");
     assert_eq!(cli_attempt["cleanupDisposition"], "cleaned");
     assert_eq!(cli_attempt["processesSpawned"], 1);
@@ -537,11 +599,6 @@ fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
         "the supervisor must be a distinct exact Runtime process"
     );
     assert_eq!(cli_receipt["descendantsReapedToEchild"], true);
-
-    let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
-    assert_eq!(mcp_output["result"]["isError"], false);
-    let mcp_attempt = &mcp_output["result"]["structuredContent"]["result"];
-    assert_eq!(mcp_attempt["passed"], true);
     assert_eq!(
         mcp_attempt["executionOutcome"],
         cli_attempt["executionOutcome"]
