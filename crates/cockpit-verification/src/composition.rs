@@ -225,7 +225,11 @@ pub fn reap_composition_supervisor_descendants() -> Result<(), String> {
 #[cfg(target_os = "linux")]
 fn reap_linux_composition_descendants() -> Result<(), String> {
     let own_pid = std::process::id();
+    let deadline = Instant::now() + MAX_LINUX_COMPOSITION_DESCENDANT_REAP_DURATION;
     loop {
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
         let mut status = 0;
         let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
         if result > 0 {
@@ -239,14 +243,30 @@ fn reap_linux_composition_descendants() -> Result<(), String> {
             return Err(format!("reap Linux composition child: {error}"));
         }
 
-        let children = linux_direct_children(own_pid)?;
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
+        let children = linux_direct_children(own_pid, deadline)?;
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
         if children.is_empty() {
             return Err("waitpid reported a child but /proc lists no owned child".into());
         }
         for child in children {
+            if Instant::now() >= deadline {
+                return Err(
+                    "reap Linux composition descendants exceeded its total deadline".into(),
+                );
+            }
             // An unreaped child cannot have its PID recycled, so this identity
             // observation binds the signal to the process in our child list.
             let current = observe_composition_process_identity(child.process_id)?;
+            if Instant::now() >= deadline {
+                return Err(
+                    "reap Linux composition descendants exceeded its total deadline".into(),
+                );
+            }
             if current != child {
                 return Err(format!(
                     "owned Linux child {} changed identity before termination",
@@ -264,32 +284,28 @@ fn reap_linux_composition_descendants() -> Result<(), String> {
                 }
             }
         }
-        loop {
-            let mut status = 0;
-            let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
-            if result > 0 {
-                continue;
-            }
-            if result < 0 {
-                let error = std::io::Error::last_os_error();
-                if error.raw_os_error() == Some(libc::ECHILD) {
-                    return Ok(());
-                }
-                return Err(format!("reap terminated Linux composition child: {error}"));
-            }
-            std::thread::sleep(Duration::from_millis(10));
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
         }
+        std::thread::sleep(Duration::from_millis(10).min(remaining));
     }
 }
 
 #[cfg(target_os = "linux")]
 fn linux_direct_children(
     parent_process_id: u32,
+    deadline: Instant,
 ) -> Result<Vec<CompositionProcessIdentity>, String> {
     let entries = fs::read_dir("/proc")
         .map_err(|error| format!("enumerate Linux processes for child ownership: {error}"))?;
     let mut children = Vec::new();
     for entry in entries {
+        if Instant::now() >= deadline {
+            return Err(
+                "enumerate Linux composition children exceeded the reaping deadline".into(),
+            );
+        }
         let entry = entry.map_err(|error| format!("enumerate Linux processes: {error}"))?;
         let Some(process_id) = entry
             .file_name()
@@ -2521,6 +2537,8 @@ const MAX_LINUX_PROC_SCAN_ENTRIES: usize = 65_536;
 const MAX_LINUX_PROC_SCAN_DURATION: Duration = Duration::from_millis(500);
 #[cfg(target_os = "linux")]
 const LINUX_PROC_STABILITY_DELAY: Duration = Duration::from_millis(10);
+#[cfg(target_os = "linux")]
+const MAX_LINUX_COMPOSITION_DESCENDANT_REAP_DURATION: Duration = Duration::from_secs(3);
 #[cfg(target_os = "linux")]
 const MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS: usize = 3;
 #[cfg(target_os = "linux")]

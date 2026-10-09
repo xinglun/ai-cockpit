@@ -1601,7 +1601,7 @@ fn run_hunkless_git_worker(
     let wrapper = wrapper_directory.path().join("git");
     fs::write(
         &wrapper,
-        "#!/bin/sh\nfor arg in \"$@\"; do\n  if [ \"$arg\" = \"--binary\" ]; then\n    tmp=\"${TMPDIR:-/tmp}/ai-cockpit-git-hunkless-$$\"\n    \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\" >\"$tmp\"\n    result=$?\n    if [ \"$result\" -eq 0 ]; then\n      sed -n -e '/^diff --git /p' -e '/^index /p' -e '/^old mode /p' -e '/^new mode /p' -e '/^new file mode /p' -e '/^deleted file mode /p' -e '/^--- /p' -e '/^+++ /p' \"$tmp\"\n    else\n      cat \"$tmp\"\n    fi\n    rm -f \"$tmp\"\n    exit \"$result\"\n  fi\ndone\nexec \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\"\n",
+        "#!/bin/sh\nfor arg in \"$@\"; do\n  if [ \"$arg\" = \"--binary\" ]; then\n    tmp=\"${TMPDIR:-/tmp}/ai-cockpit-git-hunkless-$$\"\n    case \"$tmp\" in \"$AI_COCKPIT_TEST_PRIVATE_TMP\"/*) ;; *) printf 'temporary output escaped private directory: %s\\n' \"$tmp\" >&2; exit 97 ;; esac\n    \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\" >\"$tmp\"\n    result=$?\n    if [ \"$result\" -eq 0 ]; then\n      sed -n -e '/^diff --git /p' -e '/^index /p' -e '/^old mode /p' -e '/^new mode /p' -e '/^new file mode /p' -e '/^deleted file mode /p' -e '/^--- /p' -e '/^+++ /p' \"$tmp\"\n    else\n      cat \"$tmp\"\n    fi\n    rm -f \"$tmp\"\n    exit \"$result\"\n  fi\ndone\nexec \"$AI_COCKPIT_TEST_REAL_GIT\" \"$@\"\n",
     )
     .unwrap();
     let mut permissions = fs::metadata(&wrapper).unwrap().permissions();
@@ -1628,6 +1628,8 @@ fn run_hunkless_git_worker(
         .env("AI_COCKPIT_TEST_PATH", expected_path)
         .env("AI_COCKPIT_TEST_EXPECTATION", expectation)
         .env("AI_COCKPIT_TEST_REAL_GIT", real_git)
+        .env("AI_COCKPIT_TEST_PRIVATE_TMP", wrapper_directory.path())
+        .env("TMPDIR", wrapper_directory.path())
         .env("PATH", child_path)
         .output()
         .unwrap();

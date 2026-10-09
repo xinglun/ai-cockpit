@@ -17,6 +17,8 @@ use cockpit_verification::{
 };
 use std::fs;
 use std::path::{Path, PathBuf};
+#[cfg(target_os = "linux")]
+use std::process::Stdio;
 use std::process::{Child, Command};
 use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
@@ -1243,48 +1245,115 @@ fn composition_subreaper_test_helper() {
         initialize_composition_supervisor_backend().expect("initialize subreaper"),
         CompositionSupervisorBackend::LinuxSubreaper
     );
+    let child_group_path = PathBuf::from(
+        std::env::var_os("AI_COCKPIT_SUBREAPER_CHILD_GROUP_PATH")
+            .expect("test child process group path"),
+    );
+    let mut release_pipe = [0; 2];
+    let mut ready_pipe = [0; 2];
+    assert_eq!(unsafe { libc::pipe(release_pipe.as_mut_ptr()) }, 0);
+    assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
     let child = unsafe { libc::fork() };
     assert!(child >= 0, "fork direct verifier-like child");
     if child == 0 {
+        unsafe {
+            libc::close(release_pipe[1]);
+            libc::close(ready_pipe[0]);
+            if libc::setpgid(0, 0) != 0 {
+                libc::_exit(2);
+            }
+            libc::alarm(6);
+        }
+        let mut release = 0_u8;
+        if unsafe {
+            libc::read(
+                release_pipe[0],
+                (&mut release as *mut u8).cast::<libc::c_void>(),
+                1,
+            )
+        } != 1
+            || release != b'A'
+        {
+            unsafe { libc::_exit(3) };
+        }
+        unsafe { libc::close(release_pipe[0]) };
         let grandchild = unsafe { libc::fork() };
         if grandchild == 0 {
             unsafe {
+                libc::alarm(6);
                 libc::close(libc::STDIN_FILENO);
                 libc::close(libc::STDOUT_FILENO);
                 libc::close(libc::STDERR_FILENO);
-                libc::alarm(3);
             }
+            let ready = b'G';
+            if unsafe {
+                libc::write(
+                    ready_pipe[1],
+                    (&ready as *const u8).cast::<libc::c_void>(),
+                    1,
+                )
+            } != 1
+            {
+                unsafe { libc::_exit(4) };
+            }
+            unsafe { libc::close(ready_pipe[1]) };
             loop {
                 unsafe { libc::pause() };
             }
         }
-        unsafe { libc::_exit(i32::from(grandchild < 0)) };
+        unsafe { libc::close(ready_pipe[1]) };
+        if grandchild < 0 {
+            unsafe { libc::_exit(5) };
+        }
+        loop {
+            unsafe { libc::pause() };
+        }
     }
-    let mut status = 0;
-    assert_eq!(unsafe { libc::waitpid(child, &mut status, 0) }, child);
-    assert!(libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == 0);
-
-    let own_pid = std::process::id();
-    let owned_children = fs::read_dir("/proc")
-        .expect("enumerate Linux process table")
-        .filter_map(Result::ok)
-        .filter_map(|entry| {
-            let process_id = entry.file_name().to_str()?.parse::<u32>().ok()?;
-            let stat = fs::read_to_string(entry.path().join("stat")).ok()?;
-            let close = stat.rfind(')')?;
-            let parent_id = stat[close + 1..]
-                .split_whitespace()
-                .nth(1)?
-                .parse::<u32>()
-                .ok()?;
-            (parent_id == own_pid).then_some(process_id)
-        })
-        .collect::<Vec<_>>();
-    assert!(
-        !owned_children.is_empty(),
-        "the orphaned verifier descendant must be reparented to this subreaper"
+    unsafe {
+        libc::close(release_pipe[0]);
+        libc::close(ready_pipe[1]);
+    }
+    let group_set = unsafe { libc::setpgid(child, child) };
+    assert_eq!(
+        group_set, 0,
+        "place only test descendants in their own group"
     );
-    reap_composition_supervisor_descendants().expect("reap all adopted descendants");
+    fs::write(&child_group_path, child.to_string()).expect("record test child process group");
+    let release = b'A';
+    assert_eq!(
+        unsafe {
+            libc::write(
+                release_pipe[1],
+                (&release as *const u8).cast::<libc::c_void>(),
+                1,
+            )
+        },
+        1
+    );
+    unsafe { libc::close(release_pipe[1]) };
+    let mut ready = 0_u8;
+    let ready_read = unsafe {
+        libc::read(
+            ready_pipe[0],
+            (&mut ready as *mut u8).cast::<libc::c_void>(),
+            1,
+        )
+    };
+    unsafe { libc::close(ready_pipe[0]) };
+    if ready_read != 1 || ready != b'G' {
+        terminate_subreaper_test_child_group_and_reap(child as u32);
+        panic!("verifier-like grandchild did not become ready");
+    }
+
+    let started = Instant::now();
+    if let Err(error) = reap_composition_supervisor_descendants() {
+        terminate_subreaper_test_child_group_and_reap(child as u32);
+        panic!("reaper did not prove complete child cleanup: {error}");
+    }
+    assert!(
+        started.elapsed() < Duration::from_secs(3),
+        "reaper waited for the newly adopted live grandchild instead of rescanning it"
+    );
     let mut status = 0;
     assert_eq!(unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) }, -1);
     assert_eq!(
@@ -1294,17 +1363,103 @@ fn composition_subreaper_test_helper() {
 }
 
 #[cfg(target_os = "linux")]
+fn terminate_subreaper_test_child_group_and_reap(process_group_id: u32) {
+    let killed = unsafe { libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL) };
+    if killed != 0 {
+        assert_eq!(
+            std::io::Error::last_os_error().raw_os_error(),
+            Some(libc::ESRCH),
+            "terminate only the test-owned descendant process group"
+        );
+    }
+    let deadline = Instant::now() + Duration::from_secs(2);
+    loop {
+        let mut status = 0;
+        let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+        if result > 0 {
+            continue;
+        }
+        if result < 0 {
+            let error = std::io::Error::last_os_error();
+            assert_eq!(error.raw_os_error(), Some(libc::ECHILD));
+            return;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "test child cleanup exceeded deadline"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+#[cfg(target_os = "linux")]
 #[test]
 fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
-    let output = Command::new(std::env::current_exe().expect("test binary path"))
+    let watchdog_directory = tempdir("subreaper-watchdog");
+    let child_group_path = watchdog_directory.path().join("child-group");
+    let mut helper = Command::new(std::env::current_exe().expect("test binary path"));
+    helper
         .args([
             "--exact",
             "composition_subreaper_test_helper",
             "--nocapture",
         ])
         .env("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER", "1")
-        .output()
-        .expect("run isolated subreaper test helper");
+        .env("AI_COCKPIT_SUBREAPER_CHILD_GROUP_PATH", &child_group_path)
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = helper.spawn().expect("run isolated subreaper test helper");
+    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut timed_out = false;
+    loop {
+        if child
+            .try_wait()
+            .expect("poll isolated subreaper test helper")
+            .is_some()
+        {
+            break;
+        }
+        if Instant::now() >= deadline {
+            if let Ok(group_id) = fs::read_to_string(&child_group_path)
+                && let Ok(group_id) = group_id.parse::<libc::pid_t>()
+            {
+                let killed = unsafe { libc::kill(-group_id, libc::SIGKILL) };
+                if killed != 0 {
+                    assert_eq!(
+                        std::io::Error::last_os_error().raw_os_error(),
+                        Some(libc::ESRCH),
+                        "watchdog terminates only the test-owned descendant group"
+                    );
+                }
+            }
+            timed_out = true;
+            let cleanup_deadline = Instant::now() + Duration::from_secs(3);
+            while Instant::now() < cleanup_deadline
+                && child
+                    .try_wait()
+                    .expect("poll helper after descendant cleanup")
+                    .is_none()
+            {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            if child
+                .try_wait()
+                .expect("poll helper after cleanup deadline")
+                .is_none()
+            {
+                child.kill().expect("stop timed-out isolated helper");
+            }
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    let output = child
+        .wait_with_output()
+        .expect("collect isolated subreaper test helper output");
+    assert!(
+        !timed_out,
+        "subreaper helper exceeded its 10s external watchdog"
+    );
     assert!(
         output.status.success(),
         "subreaper helper failed: stdout={} stderr={}",
