@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
+  "materialManifestDigest": "sha256:5c45bc264c085e09e070f6e04b08117c77e2226654525d633abad5d400133217",
+  "profileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "requestDigest": "sha256:015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53",
+  "reviewedSourceHead": "e21a8ae5f9e244c92adec92e8c1dfd64a55a7eaf",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:ea9356525807192f23d6dcae10b636723957878ac73c8d1c65e45bc365f265a9",
+  "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "digest": "sha256:9623568b1b6af6b1a8c6d61de50739cafabd0a22e40a614ae624f140c2528de4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/material_review.rs",
+      "digest": "sha256:64d3b7eda92e11bed537cfd088e82e206d56e0a06d85fe632b127afbb02fd7ed"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "digest": "sha256:2e4e8a1ac26fefcffb945f4949908f7f9152b79c028941721c24426771e4fede"
+    },
+    {
+      "path": "crates/cockpit-git/tests/repository.rs",
+      "digest": "sha256:53289c35042e4e8d3c0528d2cd5485d5bdbec4ee39fef1cb233f0a88a60f2fb8"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/usage.rs",
+      "digest": "sha256:d6d01256f482973e4a68d4f47ac7c2c749636c41511cca8efcf1b3f13b1dcfb4"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/audit_query.rs",
+      "digest": "sha256:ceae742cf15bcee137c9ec213b60df5fe916091c15c9a337dbf9cf903c8efd85"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "digest": "sha256:cdfb1361c5267ac90370d12f569b32ef3d0b35759049955ab34fb38ba1d3ae1d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "digest": "sha256:f7ccc148089fd39b6b547716e6e5e80a0757fb2ac326d25a45c4cb47a0b20439"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "digest": "sha256:73d8194b17d8a960bf0f5046c27fc802d936b6c243a7d08804f98533a56b0f79"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "digest": "sha256:0590bf9cf98e237a425b05f415a99edfb25398656b9b16ae2eea6b1a5f59f4c5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "digest": "sha256:e364b2882f0be899bb0c999ba893a15d8a8277d2bda5d372be02d9a451318e14"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "digest": "sha256:365770ac956923e33047a71049479bfd35b23afecaaad607c928d850310269f4"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "digest": "sha256:d509dcb82c86a55e890c27fc69afb786861e613a09bcd3b766baad0603b2e33f"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:cf4e877a4a68ec6f355b3650f76b8521e53d6791a4eb8f443c32699f6b4d6589"
+    }
+  ],
+  "rationale": "agent:Raydot approved this exact merge-content request. Its 14 readable_committed_rust_syntax_unknown blobs match the reviewed merge content; the three newly reviewed blobs were individually checked. The current merge commit e21a8ae5f9e244c92adec92e8c1dfd64a55a7eaf has the same complete non-.ai tree and material manifest as reviewed synthetic merge 33a278a0889f7740cc10cd2c3c2cef6570d07896. Accept only the Contract-permitted cause. No Finding or other Unknown is accepted. This is self-declared technical review, not human or release approval.",
+  "residualRisk": "The source scanner retains repository_material_inspection_unavailable and all 14 raw Unknown classifications. This decision applies only to readable_committed_rust_syntax_unknown for this exact request; it does not convert Unknown to Clean, waive Findings or other Unknowns, or satisfy the six unverified scenarios.",
+  "recordedAt": "2026-10-09T12:25:45Z",
+  "receiptDigest": "sha256:3e160b2f7cadc1c86e65a3de599ab724b6f1f91cfd35ac98ebe16b01effff614"
+}

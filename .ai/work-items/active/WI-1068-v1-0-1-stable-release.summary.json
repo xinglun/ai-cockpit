@@ -755,16 +755,24 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:37bcb28c041bfa0888a26f497a7fdb4690fe5bb3e9712dca416c27d47f495556",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf.json",
-    "receiptDigest": "sha256:ef6871ee3e0c9d0f7b01109b2f17ca7a605a94145889b92d04280df9d55391a0",
-    "requestDigest": "sha256:70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf"
+    "digest": "sha256:e732292fb2cbc215526da9c2498091c9b41e687697fe0ad30ed0d2c83a1c37f5",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53.json",
+    "receiptDigest": "sha256:3e160b2f7cadc1c86e65a3de599ab724b6f1f91cfd35ac98ebe16b01effff614",
+    "requestDigest": "sha256:015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:37bcb28c041bfa0888a26f497a7fdb4690fe5bb3e9712dca416c27d47f495556",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf.json",
+      "receiptDigest": "sha256:ef6871ee3e0c9d0f7b01109b2f17ca7a605a94145889b92d04280df9d55391a0",
+      "requestDigest": "sha256:70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf"
+    }
+  ],
   "mode": "release",
-  "preflightAt": "2026-10-09T11:47:14Z",
+  "preflightAt": "2026-10-09T12:25:08Z",
   "preflightContractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
-  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
-  "preflightRepositorySnapshotDigest": "sha256:40e4085c2c4fa6bde5fe3533b7edbecda4330aece005629e3e1d16a599384a89",
+  "preflightDecisionDigest": "sha256:4de5fba8077e965f38d9914263bbd4780e188133992c06edcabfc0d0628825b5",
+  "preflightRepositorySnapshotDigest": "sha256:eced45ac4effba2867d8d419b5ec6f4bd2e661ec71a624b1baac8da42d8da4e0",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
