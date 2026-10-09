@@ -22,6 +22,59 @@ use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
 use std::time::{Duration, Instant};
 
+#[cfg(target_os = "linux")]
+#[test]
+fn external_default_feature_consumer_cannot_compile_test_support_seam() {
+    let project = tempdir("default-feature-negative");
+    let source_dir = project.path().join("src");
+    fs::create_dir_all(&source_dir).expect("create external source directory");
+    let dependency_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let escaped_dependency_path = serde_json::to_string(
+        &dependency_path
+            .to_str()
+            .expect("verification crate path is UTF-8"),
+    )
+    .expect("encode dependency path");
+    fs::write(
+        project.path().join("Cargo.toml"),
+        format!(
+            "[package]\nname = \"default-feature-negative\"\nversion = \"0.1.0\"\nedition = \"2024\"\n\n[dependencies]\ncockpit-verification = {{ path = {escaped_dependency_path} }}\n"
+        ),
+    )
+    .expect("write external Cargo manifest");
+    fs::write(
+        source_dir.join("main.rs"),
+        "use cockpit_verification::{TestCompletedWorktreeObservation, run_composition_with_test_completed_worktree_observation};\nfn main() {}\n",
+    )
+    .expect("write default-feature probe");
+
+    let cargo = std::env::var_os("CARGO").unwrap_or_else(|| "cargo".into());
+    let output = std::process::Command::new(cargo)
+        .args([
+            "check",
+            "--offline",
+            "--manifest-path",
+            project
+                .path()
+                .join("Cargo.toml")
+                .to_str()
+                .expect("manifest path is UTF-8"),
+        ])
+        .env("CARGO_TARGET_DIR", project.path().join("target"))
+        .output()
+        .expect("run external default-feature compile probe");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        !output.status.success(),
+        "default-feature consumer unexpectedly compiled the test seam"
+    );
+    assert!(
+        stderr.contains("TestCompletedWorktreeObservation")
+            && stderr.contains("run_composition_with_test_completed_worktree_observation"),
+        "compile failure did not identify the cfg-gated test API: {stderr}"
+    );
+}
+
 static NEXT_TEMP_DIR: AtomicU64 = AtomicU64::new(0);
 const RETAINED_UNKNOWN_OWNER_MANIFEST: &str = ".ai-cockpit-retained-unknown-owner.json";
 

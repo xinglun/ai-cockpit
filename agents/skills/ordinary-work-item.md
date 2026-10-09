@@ -26,37 +26,25 @@ required controls block `finish`.
 
 ## Material review
 
-Use `work-item material-review plan --repo <repository> --id <work-item>` or
-MCP `work_item_material_review_plan` for the read-only canonical request. It
-requires committed, clean non-`.ai` source and preserves scanner Findings and
-raw Unknowns; a plan is not a decision and does not discharge an Unknown.
-`work-item material-review record --repo <repository> --id <work-item> --input <decision.json>` and MCP `work_item_material_review_record` share the same typed repository service. Recording is admitted only when the exact
-Contract opt-in and current Runtime action admission both allow it. The
-decision records `assurance=self_declared`; its `reviewerActor` is a claim,
-not authenticated identity, human approval, provider/host verification, or
-release approval. It never labels machine-Unknown material Clean. At Stage 1,
-the opt-in is absent, so no material Unknown can be discharged. Keep the raw
-scanner result and residual risk visible. See the English, Chinese, and
-Japanese plan/record entries in the [command reference](../../docs/reference/commands.md).
+See the [material review commands](../../docs/reference/commands.md). Stage 1 has no opt-in.
 
 ## Serial and cross-Work-Item use
 
-One Work Item is serial by default; lifecycle and snapshot-changing writes
-stay serial. Work Item-bound verify defaults to --workers 1; explicit
---workers >1 fails closed until Runtime verifies per-node dependency readiness
-and output isolation. Independent CI jobs may fan out as siblings with ready
-dependencies, isolated outputs, and bounded resources. Keep receipt
-producer-consumer serial; reuse fresh matching receipts.
+Keep lifecycle, snapshot-changing, and receipt producer-consumer actions
+serial. Verification defaults to `--workers 1`; parallelism requires
+Runtime-verified dependency readiness and output isolation. Independent CI
+jobs may fan out only with ready dependencies, isolated outputs, and bounded
+resources.
 
-Cross-Work-Item work needs supported CLI/MCP, compatible declarations, linked
-worktrees, registration, a slot lease, and fresh per-action admission. Check
-`capability show`, CLI help, and MCP `tools/list`; fields or an older Runtime do
-not prove support. If unavailable, use admitted serial work or stop. See the
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations,
+linked worktrees, registration, a slot lease, and fresh admission. Check
+`capability show`, CLI help, and `tools/list`; declarations alone do not prove
+support. Otherwise use admitted serial work or stop. See the
 [agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
 
-Inspection is read-only; registration, reports, coordination, leases, and drift
-recovery are explicit writes. Recovery appends events; re-admit unrelated work.
-For closeout transfer, see the [recovery commands](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
+Inspection is read-only; registration, reports, coordination, leases, and
+drift recovery are explicit writes. Recovery appends events; re-admit unrelated
+work. For closeout transfer, see the [recovery commands](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
 
 ## Plan changes and environment drift
 

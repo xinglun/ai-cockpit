@@ -68,6 +68,7 @@ rebase；相同 request 重试返回原 receipt，同一 ID 用于不同 request
 | `concurrencyBoundary` | 并行 Work Item 的 Contract-owned 路径边界和 slot 授权。 | Implemented |
 | `checkpointPolicy` | typed `light`/`standard`/`strict`/`release` profile，带显式 required stages/checks；strict/release 还要求六个 Agent Risk gate（`aiWorkItem`、`aiScope`、`aiAgentRisk`、`aiSummary`、`aiStatus`、`aiStatusCheck`）。unknown field 和重复要求 fail closed。它表示 Verification 强度，不表示 Evidence Assurance。 | Implemented |
 | `humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` 等扩展 | 只有在当前 typed validator 定义行为时才有行为保证；通用字段不是隐含批准。 | Partial |
+| `governanceProfile.materialInspectionReview` | 可选的严格 opt-in：仅当完整、可读、来源绑定有效且已提交的 Rust 变更具有 `unknownCause=readable_committed_rust_syntax_unknown` 时，才允许作 `self_declared` 技术审阅。请求和 receipt 绑定精确 Contract/profile、base、source snapshot、manifest、policy、分析器及每项材料的 path/hunk/blob。决定不会把 scanner Unknown 重标为 machine Clean，也不能消除 Finding 或其他 Unknown。Runtime 不认证审阅者身份，因此不等于真人、provider 或发布批准。 | Implemented / 外部身份边界 |
 
 `authority: authorized` 只是 repository-local 声明。企业身份、provider 验证、组织策略和审批真实性仍是外部 evidence，不能从 Contract bytes 推断。
 
@@ -85,6 +86,7 @@ rebase；相同 request 重试返回原 receipt，同一 ID 用于不同 request
 | `intentAlignment` | 可选 resolved/unresolved projection；缺失时保持 unknown。 | Implemented |
 | `finalDimensions` | 完整 20 维度 receipt，决定为 `GO`、`CONDITIONAL_GO` 或 `NO_GO`；`fourPillarProjection` 仅用于展示。 | Implemented |
 | `verification` | Runtime 执行 receipt 写入 `.ai/evidence/`，不会仅因文件存在就满足。 | Implemented |
+| `materialReviewReceipt`、`materialReviewReceiptHistory` | 指针将 typed receipt 绑定到一个精确请求。history 保留被替换的指针值；旧 immutable sidecar 字节保持不变。raw scanner Unknown 始终可见。决定只能消除获准的语法 Unknown。只有仍有可审阅 Unknown 时 stale receipt 才会阻断；缺失或无效 receipt 不能消除该 Unknown，且没有剩余 Unknown 时不会新增 stale blocker。Finding 与其他 Unknown 仍会阻断。 | Implemented |
 | `outcome`、archive manifest、human decision | 由 Runtime 在 `.ai/work-items/archive/` 与 `.ai/decisions/` 生成的终端 projection。 | Implemented |
 | `reviewReadiness`、`residualRisks`、`knownGaps`、`followUps`、`documentationAlignment` | 有参考价值，但当前 Runtime 没有统一 typed Summary contract。 | Partial |
 | provider、enterprise、hosted-CI、attestation、SBOM 和组织审批声明 | 可作为 delegated evidence 导入或关联；Runtime 不生成 provider authority。 | External |

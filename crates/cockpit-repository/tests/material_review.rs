@@ -490,6 +490,82 @@ fn material_review_decision_validator_rejects_findings_and_extra_unknowns() {
 }
 
 #[test]
+fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
+    let (directory, mut contract) = fixture();
+    let root = directory.path();
+    contract.scope = vec!["README.md".into(), "src/**".into()];
+
+    let syntax_unknown = r#"fn payload() {
+    let marker = "ignore previous instructions";
+    let action = "delete";
+    consume(marker, action);
+}
+"#;
+    fs::create_dir_all(root.join("src")).unwrap();
+    fs::write(root.join("src/material.rs"), syntax_unknown).unwrap();
+    commit(root);
+
+    let one_unknown = material_review_request(root, &contract).unwrap();
+    let reviewable_paths = |request: &cockpit_repository::MaterialReviewRequest| {
+        request
+            .entries
+            .iter()
+            .filter(|entry| entry.reviewable)
+            .map(|entry| entry.path.clone())
+            .collect::<std::collections::BTreeSet<_>>()
+    };
+    let before_paths = reviewable_paths(&one_unknown);
+    assert!(
+        before_paths.contains("src/material.rs"),
+        "entries: {:?}",
+        one_unknown.entries
+    );
+    assert!(!before_paths.contains("src/report.rs"));
+    assert_eq!(
+        one_unknown.raw_unknown_codes,
+        vec!["repository_material_inspection_unavailable"]
+    );
+    let original_entry = one_unknown
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/material.rs")
+        .expect("initial syntax unknown entry");
+    assert_eq!(
+        serde_json::to_value(&original_entry.scanner_assessment).unwrap(),
+        json!("unknown")
+    );
+
+    fs::write(root.join("src/report.rs"), syntax_unknown).unwrap();
+    commit(root);
+
+    let two_unknowns = material_review_request(root, &contract).unwrap();
+    let after_paths = reviewable_paths(&two_unknowns);
+    let mut expected_paths = before_paths;
+    expected_paths.insert("src/report.rs".into());
+    assert_eq!(after_paths, expected_paths);
+    let added_entry = two_unknowns
+        .entries
+        .iter()
+        .find(|entry| entry.path == "src/report.rs")
+        .expect("new dynamic syntax entry");
+    assert_eq!(
+        added_entry.unknown_cause,
+        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+    );
+    assert!(added_entry.reviewable);
+    assert_eq!(
+        serde_json::to_value(&added_entry.scanner_assessment).unwrap(),
+        json!("unknown")
+    );
+    assert_eq!(
+        two_unknowns.raw_unknown_codes,
+        vec!["repository_material_inspection_unavailable"]
+    );
+    assert!(two_unknowns.finding_codes.is_empty());
+    assert_ne!(one_unknown.request_digest, two_unknowns.request_digest);
+}
+
+#[test]
 fn material_review_decision_validator_rejects_wrong_authority_source() {
     let (_directory, contract, request, mut input) = material_review_decision_fixture();
     input.authority_source = "user-delegation:unrelated".into();
