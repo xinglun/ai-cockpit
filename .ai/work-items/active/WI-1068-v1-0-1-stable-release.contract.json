@@ -45,7 +45,36 @@
   "documentationImpact": null,
   "executionDecision": null,
   "goal": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact original 16-path stable v1.0.1 update and the already-scoped Linux-only zombie-only verifier process-group liveness correction; retain the unique full-workspace verification declaration and independent Linux regression evidence; implement opt-in repository-bound Work Item usage receipts, distinct Runtime-recorded start/finish/archive/close facts, a typed read-only audit query and MCP surface, filtered audit export that preserves the legacy unfiltered wire, accurate UTC/IANA-zone time rendering, and complete CLI/MCP discovery/docs; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset.",
-  "governancePolicy": null,
+  "governancePolicy": {
+    "layer": "work_item",
+    "policyId": "wi1068-a14-workspace-test-timeout",
+    "rules": [
+      {
+        "approvalMode": "single_authorized_human",
+        "operation": "modify_source",
+        "requiredEvidence": [],
+        "verificationRequirement": {
+          "gateRefs": [],
+          "maxTimeoutSeconds": 900,
+          "policyRefs": [
+            "wi1068-a14-workspace-test-timeout",
+            "WI-1068-v1-0-1-stable-release:A14"
+          ],
+          "reason": "This Work Item rule permits any already-admitted modify_source verification command at stages task, pre_ci, pr, merge, and release to explicitly request a timeout up to 900 seconds. This is a ceiling only: an omitted timeout retains the 300-second default. It does not change the declared verification command, required evidence, success criteria, or release/publication authorization. The Work Item verification plan continues to enforce one worker; worker count is not controlled by this policy. single_authorized_human imposes a real authorized-human approval requirement for governed modify_source operations. If close is requested, the separate structured human close decision remains required. This request records neither human decision and does not change the agent:Raydot material-review decision.",
+          "requiredAssurance": "self_declared",
+          "requiredTier": "T0",
+          "schemaVersion": 1,
+          "stageRefs": [
+            "task",
+            "pre_ci",
+            "pr",
+            "merge",
+            "release"
+          ]
+        }
+      }
+    ]
+  },
   "governanceProfile": {
     "materialInspectionReview": {
       "acceptResidualRisk": true,
@@ -544,7 +573,10 @@
     "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
     "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
     "crates/cockpit-repository/tests/supersede_archive.rs",
-    "crates/cockpit-repository/tests/task_outcome_events.rs"
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "docs/work-items/WI-1068-runtime-preflight-action-admission.md",
+    "docs/work-items/WI-1068-runtime-preflight-action-admission.zh-CN.md",
+    "docs/work-items/WI-1068-runtime-preflight-action-admission.ja.md"
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
