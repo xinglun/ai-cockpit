@@ -139,7 +139,61 @@ fn run_admitted_composition_with_supervisor_environment(
 }
 
 #[cfg(target_os = "linux")]
-fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> {
+struct WorktreeRemoveFault {
+    repository_root: PathBuf,
+    wrapper: PathBuf,
+    supervisor_environment: Vec<(String, String)>,
+    target_worktree_path_file: PathBuf,
+    injected_worktree_path_file: PathBuf,
+}
+
+#[cfg(target_os = "linux")]
+struct PreserveTempDirOnPanic(Option<tempfile::TempDir>);
+
+#[cfg(target_os = "linux")]
+impl PreserveTempDirOnPanic {
+    fn new(tempdir: tempfile::TempDir) -> Self {
+        Self(Some(tempdir))
+    }
+
+    fn path(&self) -> &Path {
+        self.0.as_ref().expect("fixture owner retained").path()
+    }
+}
+
+#[cfg(target_os = "linux")]
+impl Drop for PreserveTempDirOnPanic {
+    fn drop(&mut self) {
+        if std::thread::panicking()
+            && let Some(tempdir) = self.0.take()
+        {
+            let path = tempdir.keep();
+            eprintln!("preserved_test_fixture_owner={}", path.display());
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn persist_composition_attempt_snapshot(
+    repository_root: &Path,
+    name: &str,
+    attempt: &cockpit_verification::CompositionAttempt,
+) -> PathBuf {
+    let directory = repository_root
+        .join("target")
+        .join("collaboration-admission-attempts");
+    fs::create_dir_all(&directory).expect("create composition attempt snapshot directory");
+    let path = directory.join(format!("{name}.json"));
+    fs::write(
+        &path,
+        serde_json::to_vec_pretty(attempt).expect("serialize complete composition attempt"),
+    )
+    .expect("persist complete composition attempt snapshot");
+    path
+}
+
+#[cfg(target_os = "linux")]
+fn fail_first_worktree_remove_environment(root: &Path) -> WorktreeRemoveFault {
     use std::os::unix::fs::PermissionsExt;
 
     let actual_git = std::env::split_paths(&std::env::var_os("PATH").expect("test PATH"))
@@ -149,9 +203,14 @@ fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> 
     let wrapper_dir = root.join("test-bin");
     fs::create_dir_all(&wrapper_dir).expect("create Git wrapper directory");
     let wrapper = wrapper_dir.join("git");
+    let target_worktree_path_file = root.join(".injected-worktree-remove-target");
     let failure_marker = root.join(".injected-worktree-remove-failure-used");
     let script = format!(
-        "#!/bin/sh\nif [ \"$1\" = -C ] && [ \"$3\" = worktree ] && [ \"$4\" = remove ] && [ ! -e '{}' ]; then\n  : > '{}' || exit 98\n  echo 'injected one-time worktree cleanup refusal' >&2\n  exit 1\nfi\nexec '{}' \"$@\"\n",
+        "#!/bin/sh\nif [ \"$1\" = -C ] && [ \"$3\" = worktree ] && [ \"$4\" = add ] && [ \"$5\" = --detach ] && [ ! -e '{}' ]; then\n  printf '%s\\n' \"$6\" > '{}' || exit 98\nfi\nif [ \"$1\" = -C ] && [ \"$3\" = worktree ] && [ \"$4\" = remove ] && [ -e '{}' ] && [ \"$6\" = \"$(cat '{}')\" ] && [ ! -e '{}' ]; then\n  printf '%s\\n' \"$6\" > '{}' || exit 98\n  echo 'injected one-time worktree cleanup refusal' >&2\n  exit 1\nfi\nexec '{}' \"$@\"\n",
+        target_worktree_path_file.display(),
+        target_worktree_path_file.display(),
+        target_worktree_path_file.display(),
+        target_worktree_path_file.display(),
         failure_marker.display(),
         failure_marker.display(),
         actual_git.display(),
@@ -167,13 +226,182 @@ fn fail_first_worktree_remove_environment(root: &Path) -> Vec<(String, String)> 
         .expect("compose controlled supervisor PATH")
         .into_string()
         .expect("supervisor PATH UTF-8");
-    vec![
-        (
-            "AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER".into(),
-            "run".into(),
-        ),
-        ("PATH".into(), path),
-    ]
+    WorktreeRemoveFault {
+        repository_root: root.to_path_buf(),
+        wrapper,
+        supervisor_environment: vec![
+            (
+                "AI_COCKPIT_COMPOSITION_SUPERVISOR_TEST_HELPER".into(),
+                "run".into(),
+            ),
+            ("PATH".into(), path),
+        ],
+        target_worktree_path_file,
+        injected_worktree_path_file: failure_marker,
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn wrapped_worktree_add(
+    wrapper: &Path,
+    repository: &Path,
+    worktree: &Path,
+    target_sha: &str,
+) -> std::process::Output {
+    Command::new(wrapper)
+        .arg("-C")
+        .arg(repository)
+        .args(["worktree", "add", "--detach"])
+        .arg(worktree)
+        .arg(target_sha)
+        .output()
+        .expect("run controlled Git worktree add")
+}
+
+#[cfg(target_os = "linux")]
+fn wrapped_worktree_remove(
+    wrapper: &Path,
+    repository: &Path,
+    worktree: &Path,
+) -> std::process::Output {
+    Command::new(wrapper)
+        .arg("-C")
+        .arg(repository)
+        .args(["worktree", "remove", "--force"])
+        .arg(worktree)
+        .output()
+        .expect("run controlled Git worktree remove")
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn worktree_remove_injection_is_consumed_once_for_old_worktree() {
+    let root = PreserveTempDirOnPanic::new(repository());
+    let fault = fail_first_worktree_remove_environment(root.path());
+    let wrapper = &fault.wrapper;
+    let head = GitRepository::discover(root.path())
+        .expect("discover repository")
+        .topology()
+        .expect("repository topology")
+        .head
+        .expect("repository HEAD");
+    let worktree_parent = root.path().join("worktrees");
+    fs::create_dir_all(&worktree_parent).expect("worktree parent");
+    let old_worktree = worktree_parent.join("old-worktree");
+    let fresh_worktree = worktree_parent.join("fresh-worktree");
+
+    let old_add = wrapped_worktree_add(&wrapper, root.path(), &old_worktree, &head);
+    assert!(
+        old_add.status.success(),
+        "old worktree add: {}",
+        String::from_utf8_lossy(&old_add.stderr)
+    );
+    assert_eq!(
+        fs::read_to_string(&fault.target_worktree_path_file)
+            .expect("old add captures target path")
+            .trim(),
+        old_worktree.to_string_lossy()
+    );
+    let old_remove = wrapped_worktree_remove(&wrapper, root.path(), &old_worktree);
+    assert!(!old_remove.status.success());
+    assert!(
+        String::from_utf8_lossy(&old_remove.stderr)
+            .contains("injected one-time worktree cleanup refusal")
+    );
+    assert_eq!(
+        fs::read_to_string(&fault.injected_worktree_path_file)
+            .expect("consumed injection marker")
+            .trim(),
+        old_worktree.to_string_lossy()
+    );
+
+    let fresh_add = wrapped_worktree_add(&wrapper, root.path(), &fresh_worktree, &head);
+    assert!(
+        fresh_add.status.success(),
+        "fresh worktree add: {}",
+        String::from_utf8_lossy(&fresh_add.stderr)
+    );
+    let fresh_remove = wrapped_worktree_remove(&wrapper, root.path(), &fresh_worktree);
+    assert!(
+        fresh_remove.status.success(),
+        "fresh worktree must not receive the old worktree's injection: {}",
+        String::from_utf8_lossy(&fresh_remove.stderr)
+    );
+    assert!(old_worktree.is_dir(), "the old worktree remains untouched");
+    assert!(!fresh_worktree.exists(), "the fresh worktree was cleaned");
+
+    run(
+        root.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            old_worktree.to_str().expect("UTF-8 worktree path"),
+        ],
+    );
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn unconsumed_worktree_remove_injection_does_not_move_to_fresh_worktree() {
+    let root = PreserveTempDirOnPanic::new(repository());
+    let fault = fail_first_worktree_remove_environment(root.path());
+    let wrapper = &fault.wrapper;
+    let head = GitRepository::discover(root.path())
+        .expect("discover repository")
+        .topology()
+        .expect("repository topology")
+        .head
+        .expect("repository HEAD");
+    let worktree_parent = root.path().join("worktrees");
+    fs::create_dir_all(&worktree_parent).expect("worktree parent");
+    let old_worktree = worktree_parent.join("old-worktree");
+    let fresh_worktree = worktree_parent.join("fresh-worktree");
+
+    let old_add = wrapped_worktree_add(&wrapper, root.path(), &old_worktree, &head);
+    assert!(
+        old_add.status.success(),
+        "old worktree add: {}",
+        String::from_utf8_lossy(&old_add.stderr)
+    );
+    let fresh_add = wrapped_worktree_add(&wrapper, root.path(), &fresh_worktree, &head);
+    assert!(
+        fresh_add.status.success(),
+        "fresh worktree add: {}",
+        String::from_utf8_lossy(&fresh_add.stderr)
+    );
+    assert_eq!(
+        fs::read_to_string(&fault.target_worktree_path_file)
+            .expect("old add captures target path")
+            .trim(),
+        old_worktree.to_string_lossy(),
+        "adding a fresh attempt cannot retarget the reserved injection"
+    );
+
+    // Model an old attempt deferred before it reaches Git cleanup: the one-shot
+    // hook must remain reserved for that exact path, not migrate to this retry.
+    let fresh_remove = wrapped_worktree_remove(&wrapper, root.path(), &fresh_worktree);
+    assert!(
+        fresh_remove.status.success(),
+        "an unconsumed old-worktree injection must not reject the fresh worktree: {}",
+        String::from_utf8_lossy(&fresh_remove.stderr)
+    );
+    assert!(old_worktree.is_dir(), "the old worktree remains untouched");
+    assert!(!fresh_worktree.exists(), "the fresh worktree was cleaned");
+    assert!(
+        !fault.injected_worktree_path_file.exists(),
+        "the fresh worktree must not consume the old worktree's injection"
+    );
+
+    run(
+        root.path(),
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            old_worktree.to_str().expect("UTF-8 worktree path"),
+        ],
+    );
 }
 
 #[cfg(target_os = "linux")]
@@ -253,7 +481,7 @@ ssize_t readlink(const char *path, char *buffer, size_t size) {
 fn defer_successful_composition_cleanup(
     store: &CoordinationStore,
     input: CompositionInput,
-    extra_environment: &[(String, String)],
+    fault: &WorktreeRemoveFault,
 ) -> (
     cockpit_verification::CompositionAttempt,
     PathBuf,
@@ -267,35 +495,70 @@ fn defer_successful_composition_cleanup(
         1,
         input.clone(),
         &executable,
-        extra_environment,
+        &fault.supervisor_environment,
     )
     .expect("first formal composition");
+    persist_composition_attempt_snapshot(&fault.repository_root, "old-attempt", &first);
+    let (attempt_path, attempt) = fs::read_dir(store.root().join("compositions"))
+        .expect("composition attempts")
+        .flatten()
+        .filter_map(|entry| {
+            let path = entry.path();
+            if !path
+                .extension()
+                .is_some_and(|extension| extension == "json")
+            {
+                return None;
+            }
+            let bytes = fs::read(&path).ok()?;
+            let value: serde_json::Value = serde_json::from_slice(&bytes).ok()?;
+            (value["attemptId"].as_str() == Some(first.attempt_id.as_str()))
+                .then_some((path, value))
+        })
+        .next()
+        .expect("persisted first attempt matches its exact ID");
+    let diagnostic = format!(
+        "first attempt diagnostics: fixture_owner={}\nfirst={first:#?}\npersisted={attempt:#}",
+        fault.repository_root.display()
+    );
     assert_eq!(
         first.execution_outcome,
         cockpit_verification::CompositionExecutionOutcome::Passed,
-        "first execution must pass: {first:?}"
+        "first execution must pass; {diagnostic}"
     );
+    assert!(first.execution_evidence_complete, "{diagnostic}");
     assert_eq!(
         first.cleanup_disposition,
         cockpit_verification::CompositionCleanupDisposition::Deferred,
-        "the injected cleanup refusal must be recorded separately"
+        "first attempt must be explicitly deferred; {diagnostic}"
     );
-    let attempt_path = fs::read_dir(store.root().join("compositions"))
-        .expect("composition attempts")
-        .flatten()
-        .map(|entry| entry.path())
-        .find(|path| {
-            path.extension()
-                .is_some_and(|extension| extension == "json")
-        })
-        .expect("first attempt record");
-    let attempt: serde_json::Value =
-        serde_json::from_slice(&fs::read(&attempt_path).expect("first attempt bytes"))
-            .expect("first attempt JSON");
-
+    assert!(
+        !first.passed,
+        "Deferred is not a passing terminal; {diagnostic}"
+    );
+    assert!(
+        !first.is_coherent_successful_terminal(),
+        "Deferred cannot be reused as a terminal result; {diagnostic}"
+    );
+    assert!(
+        first
+            .supervisor_receipt
+            .as_ref()
+            .is_some_and(|receipt| receipt.attempt_id == first.attempt_id),
+        "old attempt must retain its exact supervisor termination binding; {diagnostic}"
+    );
+    assert!(
+        first
+            .supervisor_receipt
+            .as_ref()
+            .is_some_and(|receipt| receipt.descendants_reaped_to_echild),
+        "old attempt must retain owned descendant termination proof; {diagnostic}"
+    );
     assert_eq!(attempt["failure"], "composition_cleanup_deferred");
+    assert_eq!(attempt["attemptId"], first.attempt_id);
     assert_eq!(attempt["executionOutcome"], "passed");
     assert_eq!(attempt["cleanupDisposition"], "deferred");
+    assert_eq!(attempt["passed"], first.passed);
 
     let old_worktree = Path::new(
         attempt["isolatedWorktree"]
@@ -303,12 +566,74 @@ fn defer_successful_composition_cleanup(
             .expect("old worktree path"),
     )
     .to_path_buf();
+    assert_eq!(first.isolated_worktree, old_worktree.to_string_lossy());
     assert!(
         old_worktree.is_dir(),
-        "deferred worktree must remain on disk"
+        "deferred worktree must remain on disk; {diagnostic}"
     );
+    assert_eq!(
+        fs::read_to_string(&fault.target_worktree_path_file)
+            .expect("wrapper captured the first formal worktree")
+            .trim(),
+        old_worktree.to_string_lossy(),
+        "injection target must bind to the old worktree; {diagnostic}"
+    );
+    let cleanup = first.cleanup.as_ref().expect("deferred cleanup evidence");
+    assert_eq!(attempt["cleanup"]["attempted"], cleanup.attempted);
+    assert_eq!(attempt["cleanup"]["removed"], cleanup.removed);
+    assert_eq!(
+        attempt["cleanup"]["error"].as_str(),
+        cleanup.error.as_deref()
+    );
+    match cleanup.error.as_deref() {
+        Some(error) if error.contains("injected one-time worktree cleanup refusal") => {
+            assert!(
+                cleanup.attempted,
+                "injected Git refusal must be attempted; {diagnostic}"
+            );
+            assert_eq!(
+                fs::read_to_string(&fault.injected_worktree_path_file)
+                    .expect("injected old worktree path marker")
+                    .trim(),
+                old_worktree.to_string_lossy(),
+                "injection marker must name the old worktree; {diagnostic}"
+            );
+        }
+        Some(error) if error.starts_with("verifier_process_state_unknown:") => {
+            assert!(
+                !cleanup.attempted,
+                "observer Err must defer before cleanup; {diagnostic}"
+            );
+            assert!(
+                !fault.injected_worktree_path_file.exists(),
+                "observer Err must not consume the Git cleanup injection; {diagnostic}"
+            );
+            assert!(
+                first
+                    .supervisor_receipt
+                    .as_ref()
+                    .is_some_and(|receipt| receipt.descendants_reaped_to_echild),
+                "observer Err cannot stand in for owned termination proof; {diagnostic}"
+            );
+        }
+        _ => panic!(
+            "Deferred must name the injected Git refusal or a pre-cleanup observer Err; {diagnostic}"
+        ),
+    }
     let old_marker = old_worktree.join(".deferred-tree-marker");
     fs::write(&old_marker, "retain this deferred tree\n").expect("write old tree marker");
+    let registered_worktrees = Command::new("git")
+        .args(["worktree", "list", "--porcelain"])
+        .current_dir(&fault.repository_root)
+        .output()
+        .expect("list deferred worktrees");
+    assert!(registered_worktrees.status.success(), "{diagnostic}");
+    assert!(
+        String::from_utf8_lossy(&registered_worktrees.stdout)
+            .lines()
+            .any(|line| line == format!("worktree {}", old_worktree.display())),
+        "old Deferred worktree registration must remain; {diagnostic}"
+    );
 
     (first, attempt_path, old_worktree, old_marker)
 }
@@ -940,7 +1265,7 @@ fn revoked_admission_after_registration_persists_receipt_and_allows_a_later_retr
 #[cfg(target_os = "linux")]
 #[test]
 fn deferred_execution_projection_keeps_execution_and_cleanup_distinct() {
-    let root = repository();
+    let root = PreserveTempDirOnPanic::new(repository());
     let store = store(root.path());
     let marker = root.path().join("deferred-projection-marker");
     declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
@@ -957,9 +1282,8 @@ fn deferred_execution_projection_keeps_execution_and_cleanup_distinct() {
     input.commands[0].args.clear();
     input.commands[0].input_paths.clear();
     input.identity.command_digest = composition_commands_digest(&input.commands);
-    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
-    let (attempt, _, _, _) =
-        defer_successful_composition_cleanup(&store, input, &supervisor_environment);
+    let fault = fail_first_worktree_remove_environment(root.path());
+    let (attempt, _, _, _) = defer_successful_composition_cleanup(&store, input, &fault);
 
     assert_eq!(
         attempt.execution_outcome,
@@ -984,7 +1308,7 @@ fn deferred_execution_projection_keeps_execution_and_cleanup_distinct() {
 #[cfg(target_os = "linux")]
 #[test]
 fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
-    let root = repository();
+    let root = PreserveTempDirOnPanic::new(repository());
     let store = store(root.path());
     let marker = root.path().join("deferred-retry-marker");
     declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
@@ -1001,9 +1325,9 @@ fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
     input.commands[0].args.clear();
     input.commands[0].input_paths.clear();
     input.identity.command_digest = composition_commands_digest(&input.commands);
-    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
-    let (first, _attempt_path, old_worktree, old_marker) =
-        defer_successful_composition_cleanup(&store, input.clone(), &supervisor_environment);
+    let fault = fail_first_worktree_remove_environment(root.path());
+    let (first, old_attempt_path, old_worktree, old_marker) =
+        defer_successful_composition_cleanup(&store, input.clone(), &fault);
 
     let executable = std::env::current_exe().expect("controlled test helper path");
     let second = run_admitted_composition_with_supervisor_environment(
@@ -1012,11 +1336,21 @@ fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
         1,
         input,
         &executable,
-        &supervisor_environment,
+        &fault.supervisor_environment,
     )
     .expect("safe retry creates a fresh formal attempt");
-    assert!(second.passed, "fresh retry must pass: {second:?}");
-    assert_ne!(first.attempt_id, second.attempt_id);
+    let fresh_attempt_path =
+        persist_composition_attempt_snapshot(root.path(), "fresh-attempt", &second);
+    let diagnostic = format!(
+        "fixture_owner={}\nold_attempt_snapshot={}\nfresh_attempt_snapshot={}\nold={first:#?}\nfresh={second:#?}",
+        root.path().display(),
+        old_attempt_path.display(),
+        fresh_attempt_path.display(),
+    );
+    assert_ne!(
+        first.attempt_id, second.attempt_id,
+        "fresh attempt identity; {diagnostic}"
+    );
     assert_ne!(
         first
             .supervisor_receipt
@@ -1025,33 +1359,171 @@ fn deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree() {
         second
             .supervisor_receipt
             .as_ref()
-            .map(|receipt| &receipt.run_nonce)
+            .map(|receipt| &receipt.run_nonce),
+        "fresh nonce; {diagnostic}"
+    );
+    assert_eq!(
+        second.identity, first.identity,
+        "same bound source identity; {diagnostic}"
+    );
+    assert_eq!(
+        second
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| receipt.attempt_id.as_str()),
+        Some(second.attempt_id.as_str()),
+        "fresh receipt must bind the fresh attempt; {diagnostic}"
     );
     assert_eq!(
         second.processes_spawned, 1,
-        "no prior node result is reused"
+        "no prior node result is reused; {diagnostic}"
+    );
+    assert_eq!(
+        second.execution_records.len(),
+        1,
+        "one fresh command record; {diagnostic}"
+    );
+    assert!(
+        second.execution_records[0].spawned,
+        "fresh attempt spawned the command; {diagnostic}"
+    );
+    assert!(
+        !second.execution_records[0].reused,
+        "predecessor result was not reused; {diagnostic}"
+    );
+    assert!(
+        second.execution_records[0].passed,
+        "fresh command passed; {diagnostic}"
+    );
+    assert_eq!(
+        second.execution_records[0].exit_code,
+        Some(0),
+        "fresh command exit; {diagnostic}"
+    );
+    assert_eq!(
+        second.execution_outcome,
+        cockpit_verification::CompositionExecutionOutcome::Passed,
+        "execution evidence remains complete independent of cleanup; {diagnostic}"
+    );
+    assert!(
+        second.execution_evidence_complete,
+        "fresh execution evidence must be complete; {diagnostic}"
     );
     assert_eq!(
         second.reuse_decision.kind,
-        cockpit_verification::ReuseDecisionKind::Execute
+        cockpit_verification::ReuseDecisionKind::Execute,
+        "deferred retry must execute; {diagnostic}"
+    );
+    assert_eq!(
+        second.reuse_decision.predecessor_attempt_id.as_deref(),
+        Some(first.attempt_id.as_str()),
+        "fresh execution binds the old attempt as predecessor without reusing results; {diagnostic}"
+    );
+    assert_ne!(
+        second.isolated_worktree, first.isolated_worktree,
+        "fresh attempt must use a distinct worktree; {diagnostic}"
     );
     assert!(
         old_marker.is_file(),
-        "deferred old tree must remain untouched"
+        "deferred old tree must remain untouched; {diagnostic}"
     );
     let worktrees = Command::new("git")
         .args(["worktree", "list", "--porcelain"])
         .current_dir(root.path())
         .output()
         .expect("list worktrees");
-    assert!(worktrees.status.success());
+    assert!(worktrees.status.success(), "{diagnostic}");
     let worktrees = String::from_utf8(worktrees.stdout).expect("worktree list UTF-8");
     assert!(
         worktrees
             .lines()
             .any(|line| line == format!("worktree {}", old_worktree.display())),
-        "old deferred worktree registration must remain"
+        "old deferred worktree registration must remain; {diagnostic}"
     );
+    let old_cleanup_was_injected = fs::read_to_string(&fault.injected_worktree_path_file)
+        .ok()
+        .map(|path| path.trim().to_owned());
+    if let Some(path) = old_cleanup_was_injected.as_deref() {
+        assert_eq!(
+            path,
+            old_worktree.to_string_lossy(),
+            "only the old attempt may consume the injection; {diagnostic}"
+        );
+    }
+    let fresh_worktree = PathBuf::from(&second.isolated_worktree);
+    let fresh_cleanup = second.cleanup.as_ref().expect("fresh cleanup record");
+    match second.cleanup_disposition {
+        cockpit_verification::CompositionCleanupDisposition::Cleaned => {
+            assert!(second.passed, "cleaned fresh attempt passes; {diagnostic}");
+            assert!(
+                fresh_cleanup.attempted && fresh_cleanup.removed,
+                "fresh cleanup record must prove cleanup; {diagnostic}"
+            );
+            assert!(
+                fresh_cleanup.error.is_none(),
+                "cleaned attempt has no cleanup error; {diagnostic}"
+            );
+            assert!(
+                !fresh_worktree.exists(),
+                "fresh worktree was cleaned; {diagnostic}"
+            );
+        }
+        cockpit_verification::CompositionCleanupDisposition::Deferred => {
+            assert!(
+                !second.passed,
+                "Deferred fresh attempt cannot pass; {diagnostic}"
+            );
+            assert!(
+                !fresh_cleanup.attempted && !fresh_cleanup.removed,
+                "observer Err must stop before cleanup; {diagnostic}"
+            );
+            assert!(
+                fresh_cleanup
+                    .error
+                    .as_deref()
+                    .is_some_and(|error| error.starts_with("verifier_process_state_unknown:")),
+                "fresh Deferred must report the actual observer Err, never the old injection; {diagnostic}"
+            );
+            assert!(
+                fresh_worktree.is_dir(),
+                "fresh Deferred tree remains on disk; {diagnostic}"
+            );
+            assert!(
+                worktrees
+                    .lines()
+                    .any(|line| line == format!("worktree {}", fresh_worktree.display())),
+                "fresh Deferred worktree remains registered; {diagnostic}"
+            );
+            assert!(
+                !second.is_coherent_successful_terminal(),
+                "fresh Deferred result cannot be terminal or reusable; {diagnostic}"
+            );
+            let projection =
+                collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+            assert_eq!(
+                projection.composition_state, "unknown",
+                "Deferred fresh attempt is not terminal; {diagnostic}"
+            );
+            assert_eq!(
+                projection.cleanup_state, "deferred",
+                "cleanup stays Deferred; {diagnostic}"
+            );
+            assert_eq!(
+                projection.execution_outcome,
+                cockpit_verification::CompositionExecutionOutcome::Passed,
+                "execution remains separately observable; {diagnostic}"
+            );
+            assert!(
+                projection.execution_evidence_complete,
+                "complete execution evidence is retained; {diagnostic}"
+            );
+            assert!(
+                projection.reusable_checks.is_empty(),
+                "Deferred attempt cannot contribute reusable checks; {diagnostic}"
+            );
+        }
+        other => panic!("fresh attempt has unexpected cleanup disposition {other:?}; {diagnostic}"),
+    }
 }
 
 #[cfg(target_os = "linux")]
@@ -1067,7 +1539,7 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
         }
     }
 
-    let root = repository();
+    let root = PreserveTempDirOnPanic::new(repository());
     let store = store(root.path());
     let marker = root.path().join("observer-error-marker");
     declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
@@ -1108,29 +1580,65 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
         &environment,
     )
     .expect("first formal result remains representable");
-    assert!(!first.passed);
-    assert_eq!(first.processes_spawned, 1);
-    assert_eq!(first.execution_records[0].exit_code, Some(0));
+    let old_attempt_path = persist_composition_attempt_snapshot(root.path(), "old-attempt", &first);
+    let first_diagnostic = format!(
+        "fixture_owner={}\nold_attempt_snapshot={}\nold={first:#?}",
+        root.path().display(),
+        old_attempt_path.display(),
+    );
+    assert!(
+        !first.passed,
+        "Deferred old attempt cannot pass; {first_diagnostic}"
+    );
+    assert_eq!(first.processes_spawned, 1, "{first_diagnostic}");
+    assert_eq!(first.execution_records.len(), 1, "{first_diagnostic}");
+    assert!(first.execution_records[0].spawned, "{first_diagnostic}");
+    assert!(!first.execution_records[0].reused, "{first_diagnostic}");
+    assert_eq!(
+        first.execution_records[0].exit_code,
+        Some(0),
+        "{first_diagnostic}"
+    );
+    assert!(first.execution_records[0].passed, "{first_diagnostic}");
     assert_eq!(
         first.execution_outcome,
-        cockpit_verification::CompositionExecutionOutcome::Passed
+        cockpit_verification::CompositionExecutionOutcome::Passed,
+        "observer failure must preserve the completed execution outcome; {first_diagnostic}"
     );
-    assert!(first.execution_evidence_complete);
+    assert!(first.execution_evidence_complete, "{first_diagnostic}");
     assert_eq!(
         first.cleanup_disposition,
-        cockpit_verification::CompositionCleanupDisposition::Deferred
+        cockpit_verification::CompositionCleanupDisposition::Deferred,
+        "{first_diagnostic}"
+    );
+    assert_eq!(
+        first.failure.as_deref(),
+        Some("composition_cleanup_deferred"),
+        "{first_diagnostic}"
+    );
+    assert!(
+        first
+            .supervisor_receipt
+            .as_ref()
+            .is_some_and(|receipt| receipt.attempt_id == first.attempt_id
+                && receipt.descendants_reaped_to_echild),
+        "old Deferred attempt retains exact receipt and owned termination proof; {first_diagnostic}"
+    );
+    assert!(
+        !first.is_coherent_successful_terminal(),
+        "Deferred old attempt is not terminal; {first_diagnostic}"
     );
     let cleanup = first.cleanup.as_ref().expect("deferred cleanup evidence");
     assert!(
-        !cleanup.attempted,
-        "no deletion was attempted after observer error"
+        !cleanup.attempted && !cleanup.removed,
+        "no deletion was attempted after observer error; {first_diagnostic}"
     );
-    assert!(!cleanup.removed);
     assert!(
         cleanup
             .error
             .as_deref()
-            .is_some_and(|error| error.starts_with("verifier_process_state_unknown:"))
+            .is_some_and(|error| error.starts_with("verifier_process_state_unknown:")),
+        "Deferred cause must be the actual observer Err; {first_diagnostic}"
     );
     assert!(
         first
@@ -1139,7 +1647,7 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
             .is_some_and(|receipt| receipt.descendants_reaped_to_echild)
     );
     let old_worktree = PathBuf::from(&first.isolated_worktree);
-    assert!(old_worktree.is_dir());
+    assert!(old_worktree.is_dir(), "{first_diagnostic}");
     let old_marker = old_worktree.join(".observer-error-preserve");
     fs::write(&old_marker, "old deferred tree\n").expect("mark old worktree");
     let projection =
@@ -1150,7 +1658,7 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
         projection.execution_outcome,
         cockpit_verification::CompositionExecutionOutcome::Passed
     );
-    assert!(projection.reusable_checks.is_empty());
+    assert!(projection.reusable_checks.is_empty(), "{first_diagnostic}");
     assert_eq!(
         fs::read_to_string(root.path().join("observer-fault-count"))
             .expect("first observer fault count"),
@@ -1166,25 +1674,57 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
         &environment,
     )
     .expect("second formal result remains representable");
+    let fresh_attempt_path =
+        persist_composition_attempt_snapshot(root.path(), "fresh-attempt", &second);
+    let diagnostic = format!(
+        "fixture_owner={}\nold_attempt_snapshot={}\nfresh_attempt_snapshot={}\nold={first:#?}\nfresh={second:#?}",
+        root.path().display(),
+        old_attempt_path.display(),
+        fresh_attempt_path.display(),
+    );
     assert_eq!(
         second.execution_outcome,
         cockpit_verification::CompositionExecutionOutcome::Passed,
-        "fresh execution result: {second:?}"
+        "fresh execution result remains separate from cleanup: {diagnostic}"
     );
-    assert!(second.execution_evidence_complete);
-    assert!(matches!(
-        second.cleanup_disposition,
-        cockpit_verification::CompositionCleanupDisposition::Cleaned
-            | cockpit_verification::CompositionCleanupDisposition::Deferred
-    ));
+    assert!(second.execution_evidence_complete, "{diagnostic}");
+    assert_eq!(second.processes_spawned, 1, "{diagnostic}");
+    assert_eq!(second.execution_records.len(), 1, "{diagnostic}");
+    assert!(second.execution_records[0].spawned, "{diagnostic}");
+    assert!(second.execution_records[0].passed, "{diagnostic}");
     assert_eq!(
-        second.passed,
-        second.cleanup_disposition == cockpit_verification::CompositionCleanupDisposition::Cleaned
+        second.execution_records[0].exit_code,
+        Some(0),
+        "{diagnostic}"
     );
-    assert_eq!(second.processes_spawned, 1);
-    assert_eq!(second.execution_records.len(), 1);
-    assert!(!second.execution_records[0].reused);
-    assert_ne!(second.attempt_id, first.attempt_id);
+    assert!(!second.execution_records[0].reused, "{diagnostic}");
+    assert_ne!(second.attempt_id, first.attempt_id, "{diagnostic}");
+    assert_eq!(
+        second.identity, first.identity,
+        "same bound source identity on fresh attempt; {diagnostic}"
+    );
+    assert_eq!(
+        second.reuse_decision.kind,
+        cockpit_verification::ReuseDecisionKind::Execute,
+        "fresh attempt must execute; {diagnostic}"
+    );
+    assert_eq!(
+        second.reuse_decision.predecessor_attempt_id.as_deref(),
+        Some(first.attempt_id.as_str()),
+        "fresh attempt binds predecessor without reusing its result; {diagnostic}"
+    );
+    assert_ne!(
+        second.isolated_worktree, first.isolated_worktree,
+        "fresh retry worktree; {diagnostic}"
+    );
+    assert_eq!(
+        second
+            .supervisor_receipt
+            .as_ref()
+            .map(|receipt| receipt.attempt_id.as_str()),
+        Some(second.attempt_id.as_str()),
+        "fresh supervisor receipt identity; {diagnostic}"
+    );
     assert_ne!(
         second
             .supervisor_receipt
@@ -1195,24 +1735,104 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
             .as_ref()
             .map(|receipt| &receipt.run_nonce)
     );
-    assert!(old_marker.is_file());
+    assert!(
+        old_marker.is_file(),
+        "old tree marker remains; {diagnostic}"
+    );
     let worktrees = Command::new("git")
         .args(["worktree", "list", "--porcelain"])
         .current_dir(root.path())
         .output()
         .expect("inspect retained worktree registration");
-    assert!(worktrees.status.success());
+    assert!(worktrees.status.success(), "{diagnostic}");
+    let worktree_list = String::from_utf8_lossy(&worktrees.stdout);
     assert!(
-        String::from_utf8_lossy(&worktrees.stdout)
+        worktree_list
             .lines()
-            .any(|line| line == format!("worktree {}", old_worktree.display()))
+            .any(|line| line == format!("worktree {}", old_worktree.display())),
+        "old worktree registration retained; {diagnostic}"
     );
+    let fresh_worktree = PathBuf::from(&second.isolated_worktree);
+    let fresh_cleanup = second.cleanup.as_ref().expect("fresh cleanup record");
+    match second.cleanup_disposition {
+        cockpit_verification::CompositionCleanupDisposition::Cleaned => {
+            assert!(second.passed, "cleaned fresh attempt passes; {diagnostic}");
+            assert!(
+                fresh_cleanup.attempted && fresh_cleanup.removed,
+                "fresh cleanup must prove removal; {diagnostic}"
+            );
+            assert!(
+                fresh_cleanup.error.is_none(),
+                "clean fresh cleanup has no error; {diagnostic}"
+            );
+            assert!(
+                !fresh_worktree.exists(),
+                "fresh worktree removed; {diagnostic}"
+            );
+        }
+        cockpit_verification::CompositionCleanupDisposition::Deferred => {
+            assert!(
+                !second.passed,
+                "Deferred fresh attempt cannot pass; {diagnostic}"
+            );
+            assert!(
+                !fresh_cleanup.attempted && !fresh_cleanup.removed,
+                "observer Err must stop before deletion; {diagnostic}"
+            );
+            assert!(
+                fresh_cleanup
+                    .error
+                    .as_deref()
+                    .is_some_and(|error| error.starts_with("verifier_process_state_unknown:")),
+                "fresh Deferred must name actual observer Err; {diagnostic}"
+            );
+            assert!(
+                fresh_worktree.is_dir(),
+                "fresh Deferred tree retained; {diagnostic}"
+            );
+            assert!(
+                worktree_list
+                    .lines()
+                    .any(|line| line == format!("worktree {}", fresh_worktree.display())),
+                "fresh Deferred worktree registration retained; {diagnostic}"
+            );
+            assert!(
+                !second.is_coherent_successful_terminal(),
+                "Deferred attempt is not terminal or reusable; {diagnostic}"
+            );
+            let projection =
+                collaboration_outcome_projection(root.path(), "WI-CONSUMER", &runtime_context());
+            assert_eq!(
+                projection.composition_state, "unknown",
+                "Deferred attempt cannot be terminal; {diagnostic}"
+            );
+            assert_eq!(
+                projection.cleanup_state, "deferred",
+                "Deferred cleanup remains visible; {diagnostic}"
+            );
+            assert_eq!(
+                projection.execution_outcome,
+                cockpit_verification::CompositionExecutionOutcome::Passed,
+                "execution remains separately visible; {diagnostic}"
+            );
+            assert!(
+                projection.execution_evidence_complete,
+                "complete execution evidence retained; {diagnostic}"
+            );
+            assert!(
+                projection.reusable_checks.is_empty(),
+                "Deferred checks are not reusable; {diagnostic}"
+            );
+        }
+        other => panic!("fresh attempt has unexpected cleanup disposition {other:?}; {diagnostic}"),
+    }
     assert!(
         fs::read_to_string(root.path().join("observer-fault-count"))
             .expect("observer counter")
             .parse::<u32>()
             .expect("numeric counter")
-            >= 1
+            >= 1,
+        "the fault shim ran at least once; {diagnostic}"
     );
     run(
         root.path(),
@@ -1228,7 +1848,7 @@ fn external_observer_error_allows_only_a_fresh_safe_formal_retry() {
 #[cfg(target_os = "linux")]
 #[test]
 fn deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn() {
-    let root = repository();
+    let root = PreserveTempDirOnPanic::new(repository());
     let store = store(root.path());
     let marker = root.path().join("unsafe-deferred-retry-marker");
     declare_required_checks(root.path(), "WI-CONSUMER", &["true".into()]);
@@ -1245,9 +1865,9 @@ fn deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn()
     input.commands[0].args.clear();
     input.commands[0].input_paths.clear();
     input.identity.command_digest = composition_commands_digest(&input.commands);
-    let supervisor_environment = fail_first_worktree_remove_environment(root.path());
+    let fault = fail_first_worktree_remove_environment(root.path());
     let (_first, attempt_path, _old_worktree, old_marker) =
-        defer_successful_composition_cleanup(&store, input.clone(), &supervisor_environment);
+        defer_successful_composition_cleanup(&store, input.clone(), &fault);
 
     let mut unsafe_input = input;
     unsafe_input.commands[0]
@@ -1261,7 +1881,7 @@ fn deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn()
         1,
         unsafe_input,
         &executable,
-        &supervisor_environment,
+        &fault.supervisor_environment,
     )
     .expect("unsafe repeat is recorded as a blocked formal attempt");
     assert!(!blocked.passed);
