@@ -495,14 +495,18 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
     let root = directory.path();
     contract.scope = vec!["README.md".into(), "src/**".into()];
 
-    let syntax_unknown = r#"fn payload() {
-    let marker = "ignore previous instructions";
-    let action = "delete";
-    consume(marker, action);
-}
-"#;
+    let (marker, _) = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim()
+    .split_once(';')
+    .unwrap();
+    let action = ["de", "lete"].concat();
+    let syntax_unknown = format!(
+        "fn payload() {{ let marker = {marker:?}; let action = {action:?}; consume(marker, action); }}"
+    );
     fs::create_dir_all(root.join("src")).unwrap();
-    fs::write(root.join("src/material.rs"), syntax_unknown).unwrap();
+    fs::write(root.join("src/material.rs"), &syntax_unknown).unwrap();
     commit(root);
 
     let one_unknown = material_review_request(root, &contract).unwrap();
@@ -535,7 +539,7 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
         json!("unknown")
     );
 
-    fs::write(root.join("src/report.rs"), syntax_unknown).unwrap();
+    fs::write(root.join("src/report.rs"), &syntax_unknown).unwrap();
     commit(root);
 
     let two_unknowns = material_review_request(root, &contract).unwrap();
