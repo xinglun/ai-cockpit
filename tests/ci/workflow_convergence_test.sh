@@ -65,15 +65,18 @@ assert "\n    needs: quality\n" not in workflow, "independent CI validation must
 ordinary_guide = Path(sys.argv[1]).parents[2] / "agents/skills/ordinary-work-item.md"
 ordinary_guide_text = re.sub(r"[\s`]+", " ", ordinary_guide.read_text(encoding="utf-8").lower())
 for required_rule in (
-    "lifecycle and snapshot-changing writes stay serial",
-    "work item-bound verify defaults to --workers 1",
-    "explicit --workers >1 fails closed until runtime verifies per-node dependency readiness and output isolation",
-    "ci jobs may fan out as siblings",
+    "keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial",
+    "verification defaults to --workers 1",
+    "parallelism requires runtime-verified dependency readiness and output isolation",
+    "independent ci jobs may fan out only with ready dependencies, isolated outputs, and bounded resources",
+    "cross-work-item work requires supported cli/mcp",
+    "declarations alone do not prove support",
+    "otherwise use admitted serial work or stop",
+    "reuse only fresh, complete evidence",
     "ready dependencies",
     "isolated outputs",
     "bounded resources",
-    "keep receipt producer-consumer serial",
-    "reuse fresh matching receipts",
+    "before dependent actions, check environment drift read-only; record changes before refreshing admission",
 ):
     assert required_rule in ordinary_guide_text, f"ordinary guide omits parallel boundary: {required_rule}"
 
@@ -112,7 +115,11 @@ for filename, required_rules in command_guidance.items():
     for required_rule in required_rules:
         assert required_rule in text, f"{filename} omits Work Item verification concurrency boundary: {required_rule}"
 
-assert 'merge_parents[2]' in workflow
+assert "GITHUB_EVENT_PATH" in workflow
+assert "eventBaseRevision" in workflow and "testedBaseRevision" in workflow
+assert "git merge-base --is-ancestor" in workflow
+assert "exactly two parents" in workflow
+assert "checked-out commit does not match GITHUB_SHA" in workflow
 windows_job = workflow[workflow.index("  windows-runtime:"):]
 windows_checkout = windows_job.split("      - name: Bind source and tested revisions", 1)[0]
 assert "fetch-depth: 0" in windows_checkout
@@ -129,8 +136,19 @@ assert "if: always()" in windows_upload_step
 windows_binding = windows_job.split("      - name: Bind source and tested revisions", 1)[1].split(
     "      - uses: dtolnay/rust-toolchain", 1
 )[0]
-assert windows_binding.index("Set-Content -Encoding utf8 target/ci-revision-binding.json") < windows_binding.index(
-    "throw 'tested PR merge commit does not bind"
+assert "Test-CiRevisionBindingCases" in windows_binding
+for case in (
+    "stale event base",
+    "caller-supplied base",
+    "non-ancestor event base",
+    "wrong PR head",
+    "checkout/GITHUB_SHA mismatch",
+    "one-parent commit",
+    "three-parent commit",
+):
+    assert case in windows_binding, f"Windows binding test omits {case}"
+assert windows_binding.index("Set-Content -Encoding utf8 -LiteralPath $BindingPath") < windows_binding.index(
+    "throw 'tested PR merge commit must have exactly two parents'"
 ), "write Windows revision diagnostics before lineage assertions"
 quality_binding = workflow.split(
     "      - name: Bind source and tested revisions; validate the shared typed quality route", 1
@@ -169,15 +187,52 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-stage-lanes-") as temporary:
     git("commit", "-qm", "feature")
     source = git("rev-parse", "HEAD")
     git("switch", "-q", "main")
+    (repository / "main.txt").write_text("advanced main\n", encoding="utf-8")
+    git("add", "main.txt")
+    git("commit", "-qm", "advance main after the PR event")
+    tested_base = git("rev-parse", "HEAD")
+    git("switch", "-q", "-c", "alternate", base)
+    (repository / "alternate.txt").write_text("alternate head\n", encoding="utf-8")
+    git("add", "alternate.txt")
+    git("commit", "-qm", "alternate source head")
+    alternate = git("rev-parse", "HEAD")
+    git("switch", "-q", "main")
     git("merge", "-q", "--no-ff", "feature", "-m", "tested merge")
     tested = git("rev-parse", "HEAD")
+    merge_tree = git("rev-parse", f"{tested}^{{tree}}")
+    wrong_head_merge = git(
+        "commit-tree", merge_tree, "-p", tested_base, "-p", alternate, "-m", "wrong PR head"
+    )
+    three_parent_merge = git(
+        "commit-tree", merge_tree, "-p", tested_base, "-p", source, "-p", alternate,
+        "-m", "three-parent merge",
+    )
+    unrelated_base = git("commit-tree", merge_tree, "-m", "unrelated event base")
     (repository / "target").mkdir()
     for area in ("active", "archive"):
         contract = repository / f".ai/work-items/{area}/WI-LANE.contract.json"
         contract.parent.mkdir(parents=True)
         contract.write_text("{}\n", encoding="utf-8")
 
-    def run_lane(selection_method, contract_path, event="pull_request"):
+    def run_lane(
+        selection_method,
+        contract_path,
+        event="pull_request",
+        *,
+        checkout_revision=None,
+        github_sha=None,
+        event_base=None,
+        context_base=None,
+        event_head=None,
+        context_head=None,
+    ):
+        checkout_revision = checkout_revision or tested
+        github_sha = github_sha or checkout_revision
+        event_base = event_base or base
+        context_base = context_base or event_base
+        event_head = event_head or source
+        context_head = context_head or event_head
+        git("checkout", "-q", "--detach", checkout_revision)
         stage = "pull_request" if event == "pull_request" else "merge"
         head = source if event == "pull_request" else tested
         (repository / "target/quality-selection.json").write_text(json.dumps({
@@ -186,11 +241,19 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-stage-lanes-") as temporary:
         }), encoding="utf-8")
         (repository / "target/quality-route.json").write_text(json.dumps({
             "headRevision": head,
-            "baseRevision": base,
+            "baseRevision": event_base if event == "pull_request" else base,
             "stage": stage,
             "contractPath": contract_path,
             "selectedProfile": "strict",
         }), encoding="utf-8")
+        event_path = repository / "target/github-event.json"
+        if event == "pull_request":
+            event_path.write_text(json.dumps({
+                "pull_request": {
+                    "base": {"sha": event_base},
+                    "head": {"sha": event_head},
+                },
+            }), encoding="utf-8")
         output = repository / "target/step-output"
         output.write_text("", encoding="utf-8")
         package_marker = repository / "target/package-process-started"
@@ -202,16 +265,19 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-stage-lanes-") as temporary:
         environment = dict(__import__("os").environ)
         environment.update({
             "EVENT_NAME": event,
-            "GITHUB_SHA": tested,
-            "PR_HEAD_SHA": source,
-            "PR_BASE_SHA": base,
+            "GITHUB_SHA": github_sha,
+            "GITHUB_EVENT_PATH": str(event_path),
+            "PR_HEAD_SHA": context_head,
+            "PR_BASE_SHA": context_base,
             "GITHUB_OUTPUT": str(output),
         })
         result = subprocess.run(
             ["bash", "-c", route_binding_script + '\nbash target/package-spy.sh target/package-process-started\n'], cwd=repository,
             env=environment, capture_output=True, text=True,
         )
-        return result, output.read_text(encoding="utf-8"), package_marker.exists()
+        binding_path = repository / "target/ci-revision-binding.json"
+        binding = json.loads(binding_path.read_text(encoding="utf-8")) if binding_path.exists() else None
+        return result, output.read_text(encoding="utf-8"), package_marker.exists(), binding
 
     active_path = ".ai/work-items/active/WI-LANE.contract.json"
     archived_path = ".ai/work-items/archive/WI-LANE.contract.json"
@@ -221,16 +287,37 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-stage-lanes-") as temporary:
         ("ordinary_repository_route", "", "pull_request", "ordinary"),
         ("ordinary_repository_route", "", "push", "ordinary"),
     ):
-        result, output, package_started = run_lane(method, path, event)
+        result, output, package_started, binding = run_lane(method, path, event)
         assert result.returncode == 0, (method, result.stderr)
         assert f"lane={expected}\n" in output, (method, output)
         assert package_started, method
+        if event == "pull_request":
+            assert binding["eventBaseRevision"] == base
+            assert binding["testedBaseRevision"] == tested_base
+            assert binding["testedParents"] == [tested_base, source]
+
+    invalid_bindings = (
+        ("wrong PR head", {"event_head": alternate, "context_head": alternate}),
+        ("forged base context", {"context_base": tested_base}),
+        ("non-ancestor event base", {"event_base": unrelated_base}),
+        ("checkout/GITHUB_SHA mismatch", {"github_sha": source}),
+        ("one-parent commit", {"checkout_revision": source}),
+        ("three-parent commit", {"checkout_revision": three_parent_merge}),
+        ("wrong merge second parent", {"checkout_revision": wrong_head_merge}),
+    )
+    for name, overrides in invalid_bindings:
+        result, output, package_started, _ = run_lane(
+            "ordinary_repository_route", "", **overrides
+        )
+        assert result.returncode != 0, (name, output)
+        assert not package_started, name
+
     for method, path, event in (
         ("unexpected_route", archived_path, "pull_request"),
         ("archived_contract_read_only", active_path, "pull_request"),
         ("archived_contract_read_only", archived_path, "push"),
     ):
-        result, output, package_started = run_lane(method, path, event)
+        result, output, package_started, _ = run_lane(method, path, event)
         assert result.returncode != 0, (method, output)
         assert "lane=" not in output, (method, output)
         assert not package_started, method

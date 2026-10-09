@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:eaa20d2d0eb0f45af1cd9aa021824e9d0822bce5f7426712aa2c54c55c917505",
+  "reason": "The user confirmed confirm_review for this exact amended Contract after the parent supplied the human confirmation transcript (2026-10-09T08:48:58Z). Recorded by the executing agent under delegated authority; this record does not claim the agent is the human approver.",
+  "recordedAt": "2026-10-09T08:52:26Z",
+  "recordedBy": "agent:Codex (/root)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

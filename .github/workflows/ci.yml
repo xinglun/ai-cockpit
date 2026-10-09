@@ -139,28 +139,62 @@ jobs:
         run: |
           set -euo pipefail
           tested_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          checkout_revision="$(git rev-parse HEAD)"
+          test "$tested_revision" = "$checkout_revision" || {
+            echo 'checked-out commit does not match GITHUB_SHA' >&2
+            exit 1
+          }
           source_revision="$tested_revision"
-          [[ "$EVENT_NAME" != pull_request ]] || source_revision="$PR_HEAD_SHA"
+          event_base_revision=""
+          tested_base_revision=""
+          tested_parents_text="$(git show -s --format=%P "$tested_revision")"
+          read -r -a tested_parents <<<"$tested_parents_text"
+          tested_base_revision="${tested_parents[0]:-}"
+          if [[ "$EVENT_NAME" == pull_request ]]; then
+            jq -e '.pull_request | type == "object" and (.base.sha | type == "string") and (.head.sha | type == "string")' "$GITHUB_EVENT_PATH" >/dev/null || {
+              echo 'GitHub event payload does not contain a pull_request base and head' >&2
+              exit 1
+            }
+            event_base_sha="$(jq -er '.pull_request.base.sha' "$GITHUB_EVENT_PATH")"
+            event_head_sha="$(jq -er '.pull_request.head.sha' "$GITHUB_EVENT_PATH")"
+            test "$PR_BASE_SHA" = "$event_base_sha" || {
+              echo 'PR base context does not match the trusted event payload' >&2
+              exit 1
+            }
+            test "$PR_HEAD_SHA" = "$event_head_sha" || {
+              echo 'PR head context does not match the trusted event payload' >&2
+              exit 1
+            }
+            [[ "$event_base_sha" =~ ^([0-9a-f]{40}|[0-9a-f]{64})$ && "$event_head_sha" =~ ^([0-9a-f]{40}|[0-9a-f]{64})$ ]] || {
+              echo 'pull_request event base and head must be full commit IDs' >&2
+              exit 1
+            }
+            event_base_revision="$(git rev-parse --verify "${event_base_sha}^{commit}")"
+            source_revision="$(git rev-parse --verify "${event_head_sha}^{commit}")"
+          fi
           receipt_head="$(jq -r '.headRevision // empty' target/quality-route.json 2>/dev/null || true)"
-          tested_parents="$(git show -s --format=%P "$tested_revision" 2>/dev/null || true)"
+          tested_parents_json="$(printf '%s\n' "${tested_parents[@]:-}" | jq -Rsc 'split("\n") | map(select(length > 0))')"
           jq -n \
             --arg eventName "$EVENT_NAME" \
             --arg sourceHeadRevision "$source_revision" \
             --arg routeHeadRevision "$receipt_head" \
             --arg testedRevision "$tested_revision" \
-            --arg testedParents "$tested_parents" \
-            '{schemaVersion:1,kind:"ci_revision_binding",eventName:$eventName,sourceHeadRevision:$sourceHeadRevision,routeHeadRevision:$routeHeadRevision,testedRevision:$testedRevision,testedParents:($testedParents|split(" ")|map(select(length>0)))}' \
+            --arg eventBaseRevision "$event_base_revision" \
+            --arg testedBaseRevision "$tested_base_revision" \
+            --argjson testedParents "$tested_parents_json" \
+            '{schemaVersion:1,kind:"ci_revision_binding",eventName:$eventName,sourceHeadRevision:$sourceHeadRevision,routeHeadRevision:$routeHeadRevision,testedRevision:$testedRevision,eventBaseRevision:$eventBaseRevision,testedBaseRevision:$testedBaseRevision,testedParents:$testedParents}' \
             > target/ci-revision-binding.json
           if [[ "$EVENT_NAME" == pull_request ]]; then
-            source_revision="$(git rev-parse "${PR_HEAD_SHA}^{commit}")"
-            expected_base="$(git rev-parse "${PR_BASE_SHA}^{commit}")"
-            read -r -a merge_parents <<<"$(git rev-list --parents -n 1 "$tested_revision")"
-            test "${merge_parents[1]:-}" = "$expected_base" || {
-              echo 'tested PR merge commit does not bind the declared base revision' >&2
+            if [[ "${#tested_parents[@]}" -ne 2 ]]; then
+              echo 'tested PR merge commit must have exactly two parents' >&2
+              exit 1
+            fi
+            test "${tested_parents[1]}" = "$source_revision" || {
+              echo 'tested PR merge commit does not bind the declared source head' >&2
               exit 1
             }
-            test "${merge_parents[2]:-}" = "$source_revision" || {
-              echo 'tested PR merge commit does not bind the declared source head' >&2
+            git merge-base --is-ancestor "$event_base_revision" "$tested_base_revision" || {
+              echo 'declared event base is not an ancestor of the tested base revision' >&2
               exit 1
             }
           fi
@@ -425,32 +459,176 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           New-Item -ItemType Directory -Force -Path target | Out-Null
-          $testedRevision = (git rev-parse "$($env:GITHUB_SHA)^{commit}").Trim()
-          $sourceRevision = $testedRevision
-          if ($env:EVENT_NAME -eq 'pull_request') {
-            $sourceRevision = $env:PR_HEAD_SHA
+          function Invoke-GitText {
+            param([string]$Repository, [string[]]$Arguments)
+            $output = & git -C $Repository @Arguments 2>&1
+            if ($LASTEXITCODE -ne 0) {
+              throw "git command failed: $($Arguments -join ' ') ($($output -join ' '))"
+            }
+            return [string]::Join("`n", @($output)).Trim()
           }
-          $testedParents = @(((git show -s --format=%P $testedRevision).Trim() -split '\s+') | Where-Object { $_ })
-          $binding = [ordered]@{
-            schemaVersion = 1
-            kind = 'ci_revision_binding'
-            eventName = $env:EVENT_NAME
-            sourceHeadRevision = $sourceRevision
-            routeHeadRevision = $sourceRevision
-            testedRevision = $testedRevision
-            testedParents = $testedParents
+          function Resolve-GitCommit {
+            param([string]$Repository, [string]$Revision)
+            if ($Revision -notmatch '^(?:[0-9a-f]{40}|[0-9a-f]{64})$') {
+              throw 'pull_request event base and head must be full commit IDs'
+            }
+            return Invoke-GitText -Repository $Repository -Arguments @('rev-parse', '--verify', "$Revision^{commit}")
           }
-          $binding | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 target/ci-revision-binding.json
-          if ($env:EVENT_NAME -eq 'pull_request') {
-            $resolvedSourceRevision = (git rev-parse "$($env:PR_HEAD_SHA)^{commit}").Trim()
-            $expectedBase = (git rev-parse "$($env:PR_BASE_SHA)^{commit}").Trim()
-            if ($testedParents.Count -ne 2 -or $testedParents[0] -ne $expectedBase -or $testedParents[1] -ne $resolvedSourceRevision) {
-              throw 'tested PR merge commit does not bind the declared base and source head'
+          function Get-CiRevisionBinding {
+            param(
+              [string]$Repository,
+              [string]$EventName,
+              [string]$GithubSha,
+              [string]$EventPath,
+              [string]$PrHeadSha,
+              [string]$PrBaseSha,
+              [string]$BindingPath
+            )
+            $testedRevision = Resolve-GitCommit -Repository $Repository -Revision $GithubSha
+            $checkoutRevision = Invoke-GitText -Repository $Repository -Arguments @('rev-parse', 'HEAD')
+            $parentText = Invoke-GitText -Repository $Repository -Arguments @('show', '-s', '--format=%P', $testedRevision)
+            $testedParents = @($parentText -split '\s+' | Where-Object { $_ })
+            $testedBaseRevision = ''
+            if ($testedParents.Count -gt 0) { $testedBaseRevision = $testedParents[0] }
+            $eventBaseRevision = ''
+            $sourceRevision = $testedRevision
+            if ($EventName -eq 'pull_request') {
+              if (-not (Test-Path -LiteralPath $EventPath)) {
+                throw 'GitHub event payload is unavailable for pull_request binding'
+              }
+              $eventPayload = Get-Content -LiteralPath $EventPath -Raw | ConvertFrom-Json
+              $pullRequest = $eventPayload.pull_request
+              if ($null -eq $pullRequest -or $null -eq $pullRequest.base -or $null -eq $pullRequest.head) {
+                throw 'GitHub event payload does not contain a pull_request base and head'
+              }
+              $eventBaseSha = [string]$pullRequest.base.sha
+              $eventHeadSha = [string]$pullRequest.head.sha
+              if ($PrBaseSha -ne $eventBaseSha) {
+                throw 'PR base context does not match the trusted event payload'
+              }
+              if ($PrHeadSha -ne $eventHeadSha) {
+                throw 'PR head context does not match the trusted event payload'
+              }
+              $eventBaseRevision = Resolve-GitCommit -Repository $Repository -Revision $eventBaseSha
+              $sourceRevision = Resolve-GitCommit -Repository $Repository -Revision $eventHeadSha
+            }
+            $binding = [ordered]@{
+              schemaVersion = 1
+              kind = 'ci_revision_binding'
+              eventName = $EventName
+              sourceHeadRevision = $sourceRevision
+              routeHeadRevision = $sourceRevision
+              testedRevision = $testedRevision
+              eventBaseRevision = $eventBaseRevision
+              testedBaseRevision = $testedBaseRevision
+              testedParents = $testedParents
+            }
+            if ($BindingPath) {
+              $binding | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 -LiteralPath $BindingPath
+            }
+            if ($testedRevision -ne $checkoutRevision) {
+              throw 'checked-out commit does not match GITHUB_SHA'
+            }
+            if ($EventName -eq 'pull_request') {
+              if ($testedParents.Count -ne 2) {
+                throw 'tested PR merge commit must have exactly two parents'
+              }
+              if ($testedParents[1] -ne $sourceRevision) {
+                throw 'tested PR merge commit does not bind the declared source head'
+              }
+              & git -C $Repository merge-base --is-ancestor $eventBaseRevision $testedBaseRevision 2>$null
+              if ($LASTEXITCODE -ne 0) {
+                throw 'declared event base is not an ancestor of the tested base revision'
+              }
+            }
+            return $binding
+          }
+          function Write-TestPullRequestEvent {
+            param([string]$Path, [string]$Base, [string]$Head)
+            $payload = [ordered]@{
+              pull_request = [ordered]@{
+                base = [ordered]@{ sha = $Base }
+                head = [ordered]@{ sha = $Head }
+              }
+            }
+            $payload | ConvertTo-Json -Depth 4 | Set-Content -Encoding utf8 -LiteralPath $Path
+          }
+          function Assert-CiRevisionBindingRejected {
+            param(
+              [string]$CaseName,
+              [string]$Repository,
+              [string]$EventPath,
+              [string]$CheckoutRevision,
+              [string]$GithubSha,
+              [string]$EventBase,
+              [string]$EventHead,
+              [string]$ContextBase,
+              [string]$ContextHead,
+              [string]$ExpectedMessage
+            )
+            $null = Invoke-GitText -Repository $Repository -Arguments @('checkout', '--detach', $CheckoutRevision)
+            Write-TestPullRequestEvent -Path $EventPath -Base $EventBase -Head $EventHead
+            try {
+              $null = Get-CiRevisionBinding -Repository $Repository -EventName 'pull_request' -GithubSha $GithubSha -EventPath $EventPath -PrBaseSha $ContextBase -PrHeadSha $ContextHead
+            } catch {
+              if ($_.Exception.Message -like "*$ExpectedMessage*") { return }
+              throw
+            }
+            throw "Windows binding test accepted invalid case: $CaseName"
+          }
+          function Test-CiRevisionBindingCases {
+            $testRoot = Join-Path $env:RUNNER_TEMP ("ci-revision-binding-" + [guid]::NewGuid().ToString('N'))
+            New-Item -ItemType Directory -Force -Path $testRoot | Out-Null
+            try {
+              $repository = Join-Path $testRoot 'repo'
+              New-Item -ItemType Directory -Force -Path $repository | Out-Null
+              $null = Invoke-GitText -Repository $repository -Arguments @('init', '-q', '-b', 'main')
+              $null = Invoke-GitText -Repository $repository -Arguments @('config', 'user.name', 'CI Revision Binding Test')
+              $null = Invoke-GitText -Repository $repository -Arguments @('config', 'user.email', 'ci-revision@example.invalid')
+              Set-Content -LiteralPath (Join-Path $repository 'README.txt') -Value 'base' -NoNewline
+              $null = Invoke-GitText -Repository $repository -Arguments @('add', 'README.txt')
+              $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'event base')
+              $eventBase = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')
+              $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', '-c', 'feature')
+              Set-Content -LiteralPath (Join-Path $repository 'feature.txt') -Value 'feature' -NoNewline
+              $null = Invoke-GitText -Repository $repository -Arguments @('add', 'feature.txt')
+              $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'PR head')
+              $sourceHead = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')
+              $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', '-c', 'alternate', $eventBase)
+              Set-Content -LiteralPath (Join-Path $repository 'alternate.txt') -Value 'alternate' -NoNewline
+              $null = Invoke-GitText -Repository $repository -Arguments @('add', 'alternate.txt')
+              $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'alternate PR head')
+              $alternateHead = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')
+              $null = Invoke-GitText -Repository $repository -Arguments @('switch', '-q', 'main')
+              Set-Content -LiteralPath (Join-Path $repository 'main.txt') -Value 'advance main' -NoNewline
+              $null = Invoke-GitText -Repository $repository -Arguments @('add', 'main.txt')
+              $null = Invoke-GitText -Repository $repository -Arguments @('commit', '-q', '-m', 'advance main after event')
+              $testedBase = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')
+              $null = Invoke-GitText -Repository $repository -Arguments @('merge', '--no-ff', '-q', '-m', 'synthetic PR merge', 'feature')
+              $testedMerge = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD')
+              $mergeTree = Invoke-GitText -Repository $repository -Arguments @('rev-parse', 'HEAD^{tree}')
+              $wrongHeadMerge = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-p', $testedBase, '-p', $alternateHead, '-m', 'wrong PR head')
+              $threeParentMerge = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-p', $testedBase, '-p', $sourceHead, '-p', $alternateHead, '-m', 'three-parent merge')
+              $unrelatedBase = Invoke-GitText -Repository $repository -Arguments @('commit-tree', $mergeTree, '-m', 'unrelated event base')
+              $eventPath = Join-Path $testRoot 'pull-request-event.json'
+              Write-TestPullRequestEvent -Path $eventPath -Base $eventBase -Head $sourceHead
+              $valid = Get-CiRevisionBinding -Repository $repository -EventName 'pull_request' -GithubSha $testedMerge -EventPath $eventPath -PrBaseSha $eventBase -PrHeadSha $sourceHead
+              if ($valid.eventBaseRevision -ne $eventBase -or $valid.testedBaseRevision -ne $testedBase) {
+                throw 'stale event base did not preserve eventBaseRevision and testedBaseRevision separately'
+              }
+              Assert-CiRevisionBindingRejected -CaseName 'caller-supplied base' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $testedBase -ContextHead $sourceHead -ExpectedMessage 'PR base context does not match the trusted event payload'
+              Assert-CiRevisionBindingRejected -CaseName 'non-ancestor event base' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $unrelatedBase -EventHead $sourceHead -ContextBase $unrelatedBase -ContextHead $sourceHead -ExpectedMessage 'declared event base is not an ancestor of the tested base revision'
+              Assert-CiRevisionBindingRejected -CaseName 'wrong PR head' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $testedMerge -EventBase $eventBase -EventHead $alternateHead -ContextBase $eventBase -ContextHead $alternateHead -ExpectedMessage 'tested PR merge commit does not bind the declared source head'
+              Assert-CiRevisionBindingRejected -CaseName 'checkout/GITHUB_SHA mismatch' -Repository $repository -EventPath $eventPath -CheckoutRevision $testedMerge -GithubSha $sourceHead -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'checked-out commit does not match GITHUB_SHA'
+              Assert-CiRevisionBindingRejected -CaseName 'one-parent commit' -Repository $repository -EventPath $eventPath -CheckoutRevision $sourceHead -GithubSha $sourceHead -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit must have exactly two parents'
+              Assert-CiRevisionBindingRejected -CaseName 'three-parent commit' -Repository $repository -EventPath $eventPath -CheckoutRevision $threeParentMerge -GithubSha $threeParentMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit must have exactly two parents'
+              Assert-CiRevisionBindingRejected -CaseName 'wrong merge second parent' -Repository $repository -EventPath $eventPath -CheckoutRevision $wrongHeadMerge -GithubSha $wrongHeadMerge -EventBase $eventBase -EventHead $sourceHead -ContextBase $eventBase -ContextHead $sourceHead -ExpectedMessage 'tested PR merge commit does not bind the declared source head'
+            } finally {
+              Remove-Item -LiteralPath $testRoot -Recurse -Force -ErrorAction SilentlyContinue
             }
           }
-          if ((git cat-file -t $sourceRevision).Trim() -ne 'commit') {
-            throw 'source head is not an available commit'
-          }
+          $binding = Get-CiRevisionBinding -Repository $env:GITHUB_WORKSPACE -EventName $env:EVENT_NAME -GithubSha $env:GITHUB_SHA -EventPath $env:GITHUB_EVENT_PATH -PrHeadSha $env:PR_HEAD_SHA -PrBaseSha $env:PR_BASE_SHA -BindingPath 'target/ci-revision-binding.json'
+          Test-CiRevisionBindingCases
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.98.1

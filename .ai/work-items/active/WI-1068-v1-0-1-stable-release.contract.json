@@ -505,7 +505,10 @@
     "crates/cockpit-protocol/src/contract_amendment.rs",
     "crates/cockpit-git/src/lib.rs",
     "crates/cockpit-git/tests/repository.rs",
-    "crates/cockpit-git/Cargo.toml"
+    "crates/cockpit-git/Cargo.toml",
+    ".github/workflows/ci.yml",
+    "tests/ci/workflow_convergence_test.sh",
+    "tests/ci/quality_route_test.py"
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",

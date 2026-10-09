@@ -312,25 +312,69 @@
           "verification": "At source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8, RED exit 101 missing Clap argument display-timezone (Arg.id is display_timezone); GREEN cargo test --locked -p cockpit-cli --bin ai-cockpit exit 0, 23/23. The bin unit asserts actual get_long and the canonical displayTimezone to public CLI display-timezone mapping while retaining requiredness/help/default/enum assertions."
         }
       ]
+    },
+    {
+      "acceptanceId": "A24",
+      "evidence": [
+        {
+          "locator": "material_review integration suite; raw Finding/Unknown classification, non-reviewable Finding, provenance, symlink, unreadable, and budget cases",
+          "path": "crates/cockpit-repository/tests/material_review.rs",
+          "type": "local_targeted_rust_regression",
+          "verification": "On Linux x86_64 at head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818. This supports the local scanner-boundary checks; the WI scenario remains unverified pending the remaining candidate-specific acceptance review."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A25",
+      "evidence": [
+        {
+          "locator": "current Runtime plan identity and material_review integration tests for plan binding, ai-only descendants, dirty source, and non-ancestor refusal",
+          "path": "/tmp/WI-1068-material-review-plan.json; crates/cockpit-repository/tests/material_review.rs",
+          "type": "runtime_material_review_plan_and_regression",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: plan JSON sha256:13bd57a95dc8a57eef40302c13014087736727ad1bd3d659e5936eb768d43de8; requestDigest sha256:94811485f595d564444d5c2eacf9e3bad768d05f79fe56ed771e055c6e57f090; reviewedSourceHead 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; sourceSnapshotDigest sha256:8d00e542e4feb8e948a0e9d6ddbd34fa1d963695bd891c9b8662b9e13394121a; materialManifestDigest sha256:9700d855ca43c21d8a34a0aad1da1fe86f778f12165bb9834e18808cec0d803b; analysisImplementationDigest sha256:ea269472ea5eba00927094bce35a4ba101f28cecffb22afb7bcdd8c5174dfac3; effectivePolicyDigest sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b; rawUnknownCodes=['repository_material_inspection_unavailable']; findingCodes=[]; reviewEnabled=False. Regression result: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818. This is local Linux evidence only; no hosted binary/cross-environment run is claimed and the scenario remains unverified."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A26",
+      "evidence": [
+        {
+          "locator": "typed decision validator/protected capability guard; CLI and MCP stage-one no-opt-in rejection; shared repository-service tests",
+          "path": "crates/cockpit-repository/tests/material_review.rs; crates/cockpit-repository/tests/contract_amendment.rs; crates/cockpit-cli/tests/material_review.rs; crates/cockpit-mcp/tests/material_review.rs",
+          "type": "stage_one_and_typed_writer_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; cargo test --locked -p cockpit-repository --test contract_amendment material_review_profile_amendment_adds_audited_protected_guard -- --exact --nocapture; 1 passed, 0 failed; log sha256:d5eaab9d279b1f376a8c39392b7e6253ab463c3e5461a0c92b571d44de061f95; cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09. Test fixtures exercise implementation only. The active Contract still has no materialInspectionReview opt-in, the current plan reports reviewEnabled=false, and neither of the two required human Contract reviews/amendments was recorded. A26 is not accepted; no human approval is represented."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A27",
+      "evidence": [
+        {
+          "locator": "status/preflight recomputation with empty worktree diff; forged-green report rejection; repository-bound CLI report validation",
+          "path": "crates/cockpit-repository/tests/status_projection.rs; crates/cockpit-repository/tests/ci_quality_gate.rs; crates/cockpit-cli/tests/ci_gate.rs",
+          "type": "local_status_and_quality_gate_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test status_projection status_rechecks_committed_contract_base_material_with_empty_worktree_diff -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:e6a8052c7fbdaf6d3ed122b98f9837916a4ddd939d96c6fa642fbb3976504b53; cargo test --locked -p cockpit-repository --test ci_quality_gate report_validator_rejects_self_reported_green_over_material_unknown -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:a3d9570268b062af42f99bdd2c8bb6faa6e0c3fd6c55bc8b2bc0aff560fde50d; cargo test --locked -p cockpit-cli --test ci_gate gate_report_cli_validates_repository_bound_report -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:b3d4445dadaec939c9170c5fd54d6c2decbedb2846ec2190ff28b096b08720dc. Local Linux route behavior only; hosted comparison-base/merge-head consumption and all hosted gate evidence remain unrun, so the scenario is not accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A28",
+      "evidence": [
+        {
+          "locator": "CLI/MCP plan/read-only and record/no-opt-in tests; protocol capability descriptions; English, Chinese, Japanese material-review trust boundaries",
+          "path": "crates/cockpit-cli/tests/material_review.rs; crates/cockpit-mcp/tests/material_review.rs; crates/cockpit-protocol/tests/interface_description.rs; agents/skills/ordinary-work-item.md; docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md; docs/reference/contract-fields.md; docs/reference/contract-fields.zh-CN.md; docs/reference/contract-fields.ja.md",
+          "type": "local_cli_mcp_and_documentation_surface_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09; cargo test --locked -p cockpit-protocol --test interface_description material_review_ -- --test-threads=1; 2 passed, 0 failed; log sha256:2c0e4dce0ca65c57b1847cbda2862b0b2b9c123daabd2933115fd394c3b64153. Inspected the named docs for self-declared identity limits and no human/provider/release approval claims. These are local CLI/MCP/docs checks; hosted evidence remains unrun and the scenario remains unverified."
+        }
+      ]
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.c0798c1a94d5175afb61f2a98d0d1d8f63e002afa325484ba19498a830188772.json",
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.e6c56a95c4919176539a6af3388b871ca4295da1b0ed04e01926ddcc1223b362.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000010.committed.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000010.prepared.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000011.committed.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.contract-amendments/00000011.prepared.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.08ce087d5768049b05eed07ee2388a28435df53f13a4a5904e0bd3263c9c56e4.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.2cd44b0f391608d289372aef493397e9d1831ac91e0600b9ec2fce221c89bd0d.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.36461353b09153340f6ec029009b0a4bdbefbd7a79bd9430aa624c5416d1162a.json",
-    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json",
-    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json",
-    "crates/cockpit-verification/src/composition.rs",
-    "crates/cockpit-verification/tests/composition.rs"
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.4a5e329d7466a40c8c97f33eefc474d462b19caee2c8715e895228330b2a2b1b.json",
+    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
   ],
   "checkpointAt": "2026-10-06T06:23:41Z",
-  "checkpointContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+  "checkpointContractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -646,20 +690,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+      "reason": "Declare only the existing PR CI workflow and regression files needed to bind the exact tested merge, source head, and tested base. Preserve baseRevision, Acceptance, and scenarios.",
+      "recorded": true,
+      "recordedAt": "2026-10-09T08:02:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
+  "checkpointRepositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+    "contractDigest": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "The user selected option 1 (confirm this exact Contract and continue) in response to Runtime decision contract-preflight-review. Official user_message.read_messages evidence relayed by the parent reports channel=chatgpt, message_id=Sentinel_29a3196d104c819198598edec20c658f, author=user, author_id=user-1lSz36PWE5SpWu8hYO6DjdOp, sent_at=2026-10-07T21:13:08.303777+00:00, content.text=\"1\", partial=false; the immediately preceding Runtime prompt explicitly bound the confirmation to Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113. The preflight admission digest was sha256:497f46cc3c63b0295b8fde11754dadaef10ea7e0566f721ca56f7f730f9a0518 and the repository snapshot digest is sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb. Recorded by agent:Codex (/root) under the user's explicit delegation; the recording agent is not the human decision-maker.",
-    "recordedAt": "2026-10-07T21:15:15Z",
+    "preflightDecisionDigest": "sha256:eaa20d2d0eb0f45af1cd9aa021824e9d0822bce5f7426712aa2c54c55c917505",
+    "reason": "The user confirmed confirm_review for this exact amended Contract after the parent supplied the human confirmation transcript (2026-10-09T08:48:58Z). Recorded by the executing agent under delegated authority; this record does not claim the agent is the human approver.",
+    "recordedAt": "2026-10-09T08:52:26Z",
     "recordedBy": "agent:Codex (/root)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb",
+    "repositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -671,10 +735,10 @@
     "state": "resolved"
   },
   "mode": "release",
-  "preflightAt": "2026-10-07T21:52:13Z",
-  "preflightContractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
-  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
-  "preflightRepositorySnapshotDigest": "sha256:177456a65701cbe967c23d2d06c301fd93b3b3a06df8dfd772683ac55997860e",
+  "preflightAt": "2026-10-09T08:51:31Z",
+  "preflightContractDigest": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
+  "preflightDecisionDigest": "sha256:eaa20d2d0eb0f45af1cd9aa021824e9d0822bce5f7426712aa2c54c55c917505",
+  "preflightRepositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
@@ -969,7 +1033,8 @@
         "Independent Linux acceptance rerun after S17/S24 test-source changes: candidate head 5435a3d70138df74cb5c288b3005faa0738a1fd4; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:2b346e8d666a6d3638be440b86f8738f77bcedaa48ea20785df9415d38108559; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:8299f02024552e8eedded50b3bb46ef1c3feea457ef93ca537e18498759e357e; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.63s\n\n",
         "Independent Linux acceptance on source head 95fd1571a89f6425b4aebeedfc80c75a785c152d; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; repository snapshot sha256:e26fd3e9c7a45cccfb073641f3820924a911dc1faec97a7072041542df4ff470; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b93a1c9397ad193101b58bfbddec8aca0d10a36e1ae5f4122d882bd5deb7361c; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.60s\n\n",
         "Independent Linux regression at source head 22fb101533c302435b4307b32af377619d36eca8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:7c7a21796d026e04ed034c29f3ee7a7e693496703cfd478aab96fb1e676aa1f8; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:fc952c948d674900df8c5bf5f16dc651ef8436b7c9034311f7bd973749ab8c98; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.26s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n",
-        "Independent Linux regression at source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:a58e27e3d58d708f3a097ad8aa7fb1e5d1414ace2fe9fee109d1bb2061a604a2; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:3dc681181c569af5531e17efac18de3a66de622d625078e1e199706aa81e4731; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n"
+        "Independent Linux regression at source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:a58e27e3d58d708f3a097ad8aa7fb1e5d1414ace2fe9fee109d1bb2061a604a2; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:3dc681181c569af5531e17efac18de3a66de622d625078e1e199706aa81e4731; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n",
+        "Current cloud Linux x86_64 A11 independent regression; candidate head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113; repository snapshot sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:e0c8a9dce0cf0a2a218488eeac9fbd0090a640600a18d0d95cb37ddfb5ce77c3; raw output captured at /tmp/WI-1068-A11-4c31bdf.log; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/wi1068-pr1022/crates/cockpit-verification)\n    Finished `test` profile [unoptimized] target(s) in 5.86s\n     Running tests/composition.rs (/workspace/.wi1068-target-7c37f5f/debug/deps/composition-9b8b18e520d84dfb)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.31s\n\n"
       ],
       "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
       "required": true,
@@ -1006,7 +1071,9 @@
       "verificationPlan": "Run single-package and unique workspace tests plus actual default debug/release CLI/MCP builds and a default-feature external compile-negative check; independently run Linux safety and cache invalidation regressions, and record workspace test feature unification accurately."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Partial local Linux evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; scenario remains unverified pending candidate-specific acceptance."
+      ],
       "expected": "The current seven candidate Rust Unknowns remain raw Unknown; only complete readable provenance-valid syntax Unknowns are reviewable, while Finding and non-reviewable Unknown remain blocking.",
       "required": true,
       "scenario": "material-review-raw-and-reviewable-boundary",
@@ -1014,7 +1081,9 @@
       "verificationPlan": "Use typed per-file scanner diagnostics and adversarial fixture cases for direct/composed Finding, dynamic syntax Unknown, unreadable/symlink/truncated/budget/provenance-invalid input, and a new second Unknown path; compare raw and effective projections."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Local plan/test evidence: plan JSON sha256:13bd57a95dc8a57eef40302c13014087736727ad1bd3d659e5936eb768d43de8; requestDigest sha256:94811485f595d564444d5c2eacf9e3bad768d05f79fe56ed771e055c6e57f090; reviewedSourceHead 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; sourceSnapshotDigest sha256:8d00e542e4feb8e948a0e9d6ddbd34fa1d963695bd891c9b8662b9e13394121a; materialManifestDigest sha256:9700d855ca43c21d8a34a0aad1da1fe86f778f12165bb9834e18808cec0d803b; analysisImplementationDigest sha256:ea269472ea5eba00927094bce35a4ba101f28cecffb22afb7bcdd8c5174dfac3; effectivePolicyDigest sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b; rawUnknownCodes=['repository_material_inspection_unavailable']; findingCodes=[]; reviewEnabled=False. cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; hosted binary comparison not run; scenario remains unverified."
+      ],
       "expected": "A committed clean-source Contract-base material manifest and scanner implementation digest bind the review; matching source on Linux and hosted binaries with different SHA and legitimate .ai-only or tested-merge heads may reuse it, while changed scanner source with the same semantic version, target semantics, policy, diff or source cannot.",
       "required": true,
       "scenario": "material-review-canonical-context-and-cross-environment",
@@ -1022,7 +1091,9 @@
       "verificationPlan": "Exercise local and hosted binary identity differences with identical embedded analysis source digest and canonical material; test comparison-base-specific extra Unknown/Finding/scope, source dirty, same-version scanner change, cfg/features mismatch, ancestry and non-ancestor rebase refusal."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Local stage-one and typed-writer regression evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; cargo test --locked -p cockpit-repository --test contract_amendment material_review_profile_amendment_adds_audited_protected_guard -- --exact --nocapture; 1 passed, 0 failed; log sha256:d5eaab9d279b1f376a8c39392b7e6253ab463c3e5461a0c92b571d44de061f95; cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09. No actual human Contract review/approval is represented; scenario remains unverified."
+      ],
       "expected": "Stage one uses the old Runtime to authorize implementation while materialInspectionReview is absent and discharge disabled. Stage two uses the new Runtime typed amendment writer to install strict Contract.governanceProfile.materialInspectionReview opt-in and automatically add protected requiredRuntimeCapabilities=material-inspection-review. Old Runtime rejects the guarded Contract; only exact Contract review, fresh source preflight, delegated Raydot exact-source technical review and intact sidecar/summary binding allow discharge.",
       "required": true,
       "scenario": "material-review-authorization-and-receipt-integrity",
@@ -1030,7 +1101,9 @@
       "verificationPlan": "Prove old Runtime preserves governanceProfile JSON but cannot add protected unsupported capability; prove stage-one candidate has no material opt-in and old local green grants no release authority. Prove new writer adds marker only with strict opt-in, rejects malformed/unknown nested fields and mismatched actor/cause/assurance, and old Runtime rejects the amended Contract. Test two separate exact Contract review receipts, source freshness, reviewer evidence, sidecar wrong-pointer/truncation/replay and same tuple idempotence."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Local Linux gate evidence: cargo test --locked -p cockpit-repository --test status_projection status_rechecks_committed_contract_base_material_with_empty_worktree_diff -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:e6a8052c7fbdaf6d3ed122b98f9837916a4ddd939d96c6fa642fbb3976504b53; cargo test --locked -p cockpit-repository --test ci_quality_gate report_validator_rejects_self_reported_green_over_material_unknown -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:a3d9570268b062af42f99bdd2c8bb6faa6e0c3fd6c55bc8b2bc0aff560fde50d; cargo test --locked -p cockpit-cli --test ci_gate gate_report_cli_validates_repository_bound_report -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:b3d4445dadaec939c9170c5fd54d6c2decbedb2846ec2190ff28b096b08720dc. Hosted comparison remains unrun; scenario remains unverified."
+      ],
       "expected": "Status, preflight, finish/archive, quality gate and report validator recompute the same canonical committed material even when local changedPaths is empty; only exactly reviewed inspection Unknown can be discharged. Raw scanner result remains visible and forged green report fails.",
       "required": true,
       "scenario": "material-review-unified-gate-and-report-validation",
@@ -1038,7 +1111,9 @@
       "verificationPlan": "Test every consumer with a clean committed branch and reviewed receipt; mutate one binding at a time; assert raw/effective/report digests and assurance; assert Finding, scope/test weakening, failed/stale verification, additional hosted Unknown/Finding and other Unknown remain blocking."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "Local interface/docs evidence: cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09; cargo test --locked -p cockpit-protocol --test interface_description material_review_ -- --test-threads=1; 2 passed, 0 failed; log sha256:2c0e4dce0ca65c57b1847cbda2862b0b2b9c123daabd2933115fd394c3b64153. Scenario remains unverified pending final acceptance."
+      ],
       "expected": "CLI/MCP plan and record use the same repository service; help, schemas, ordinary guide and three-language trust/command/contract-field docs disclose self_declared identity risk and never call review machine Clean, human/provider approval, or release acceptance.",
       "required": true,
       "scenario": "material-review-discovery-and-trilingual-boundary",
@@ -1047,8 +1122,12 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-07T21:15:52.766480628+00:00",
+  "updatedAt": "2026-10-09T08:52:46.293293403+00:00",
   "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
     {
       "check": "project-command-0-package-cockpit-agent",
       "result": "passed"
@@ -1100,17 +1179,13 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
-    },
-    {
-      "check": "project-command-0",
-      "result": "passed"
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+    "contractHash": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-07T19:52:13Z"
+    "recordedAt": "2026-10-09T08:02:32Z"
   },
-  "verificationRecoveryReconciled": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265",
+  "verificationRecoveryReconciled": "sha256:8cbd5974701d9b29d3e4e17b938b2f7523ad6a999a3763c5a7c050cff1a6104f",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }
