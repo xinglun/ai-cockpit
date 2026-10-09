@@ -495,16 +495,14 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
     let root = directory.path();
     contract.scope = vec!["README.md".into(), "src/**".into()];
 
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let action = ["de", "lete"].concat();
-    let syntax_unknown = format!(
-        "fn payload() {{ let marker = {marker:?}; let action = {action:?}; consume(marker, action); }}"
-    );
+    // This benign string composition exercises the conservative Unknown
+    // boundary without an instruction or destructive operation.
+    let syntax_unknown = r#"
+fn payload() {
+    let mut label = String::from("token");
+    label.push_str("ization");
+}
+"#;
     fs::create_dir_all(root.join("src")).unwrap();
     fs::write(root.join("src/material.rs"), &syntax_unknown).unwrap();
     commit(root);
@@ -535,9 +533,15 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
         .find(|entry| entry.path == "src/material.rs")
         .expect("initial syntax unknown entry");
     assert_eq!(
+        original_entry.unknown_cause,
+        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+    );
+    assert_eq!(
         serde_json::to_value(&original_entry.scanner_assessment).unwrap(),
         json!("unknown")
     );
+    assert!(one_unknown.finding_codes.is_empty());
+    assert!(!one_unknown.blocked_by_finding);
 
     fs::write(root.join("src/report.rs"), &syntax_unknown).unwrap();
     commit(root);
@@ -566,6 +570,7 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
         vec!["repository_material_inspection_unavailable"]
     );
     assert!(two_unknowns.finding_codes.is_empty());
+    assert!(!two_unknowns.blocked_by_finding);
     assert_ne!(one_unknown.request_digest, two_unknowns.request_digest);
 }
 
