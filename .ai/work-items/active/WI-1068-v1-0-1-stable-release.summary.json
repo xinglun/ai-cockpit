@@ -754,6 +754,12 @@
     "reason": "The accepted scope and staged criteria align with the human-approved goal; release and install outcomes remain pending evidence.",
     "state": "resolved"
   },
+  "materialReviewReceipt": {
+    "digest": "sha256:37bcb28c041bfa0888a26f497a7fdb4690fe5bb3e9712dca416c27d47f495556",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf.json",
+    "receiptDigest": "sha256:ef6871ee3e0c9d0f7b01109b2f17ca7a605a94145889b92d04280df9d55391a0",
+    "requestDigest": "sha256:70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf"
+  },
   "mode": "release",
   "preflightAt": "2026-10-09T11:47:14Z",
   "preflightContractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
