@@ -30,6 +30,15 @@ use sha2::{Digest as ShaDigest, Sha256};
 
 mod common;
 
+#[cfg(target_os = "linux")]
+fn lock_process_observer_fixture() -> std::sync::MutexGuard<'static, ()> {
+    static PROCESS_OBSERVER_FIXTURE_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    PROCESS_OBSERVER_FIXTURE_LOCK
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+}
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(
@@ -521,6 +530,10 @@ fn assert_outcome_semantics_equal(
 
 #[test]
 fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
+    // Declare the guard first so fixtures and child handles drop before it.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repository = repository();
     let (work_item_id, input) = composition_fixture(repository.path());
@@ -625,6 +638,10 @@ fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
 
 #[test]
 fn collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio() {
+    // Keep subprocess fixtures isolated from sibling process-observer tests.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let work_item_id = "WI-COLLABORATION-MATRIX";
     let repository = repository();
@@ -1120,6 +1137,10 @@ fn assert_typed_finalization(
 
 #[test]
 fn finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales() {
+    // Keep subprocess fixtures isolated from sibling process-observer tests.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     for case in [
         FinalizationCase::Retained,
