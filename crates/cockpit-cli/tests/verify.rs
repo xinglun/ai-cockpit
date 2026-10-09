@@ -1,5 +1,6 @@
 use std::{
     fs,
+    path::Path,
     process::Command,
     sync::atomic::{AtomicU64, Ordering},
     time::{SystemTime, UNIX_EPOCH},
@@ -41,6 +42,59 @@ fn commit_baseline(directory: &std::path::Path, readme: &str) {
             .expect("git commit baseline")
             .success()
     );
+}
+
+fn git_head(directory: &Path) -> String {
+    let output = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(directory)
+        .output()
+        .expect("git rev-parse HEAD");
+    assert!(
+        output.status.success(),
+        "git rev-parse HEAD failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8_lossy(&output.stdout).trim().to_owned()
+}
+
+fn committed_paths_between(directory: &Path, before: &str, after: &str) -> Vec<String> {
+    let output = Command::new("git")
+        .args(["diff", "--name-only", "--no-renames"])
+        .arg(before)
+        .arg(after)
+        .current_dir(directory)
+        .output()
+        .expect("git diff committed paths");
+    assert!(
+        output.status.success(),
+        "git diff committed paths failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8_lossy(&output.stdout)
+        .lines()
+        .map(str::to_owned)
+        .collect()
+}
+
+fn repository_snapshot_digest(binary: &str, directory: &Path, work_item_id: &str) -> String {
+    let output = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
+        .arg(directory)
+        .args(["--id", work_item_id, "--json"])
+        .output()
+        .expect("repository status");
+    assert!(
+        output.status.success(),
+        "repository status failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let status: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("repository status JSON");
+    status["snapshotDigest"]
+        .as_str()
+        .expect("repository snapshot digest")
+        .to_owned()
 }
 
 #[test]
@@ -1824,6 +1878,8 @@ fn main() {
             .expect("checkpoint")
             .success()
     );
+    let head_before_verify = git_head(&directory);
+    let snapshot_before_verify = repository_snapshot_digest(binary, &directory, "WI-SIDE-EFFECT");
     assert!(
         Command::new(binary)
             .args(["verify", "--repo"])
@@ -1840,6 +1896,10 @@ fn main() {
             .expect("verify")
             .success()
     );
+    let head_after_verify = git_head(&directory);
+    let committed_paths =
+        committed_paths_between(&directory, &head_before_verify, &head_after_verify);
+    let snapshot_after_verify = repository_snapshot_digest(binary, &directory, "WI-SIDE-EFFECT");
     let evidence: serde_json::Value = serde_json::from_slice(
         &fs::read(directory.join(".ai/evidence/WI-SIDE-EFFECT.verification.json"))
             .expect("verification evidence"),
@@ -1851,6 +1911,13 @@ fn main() {
     .to_string();
     assert_eq!(evidence["runtimeVersion"], env!("CARGO_PKG_VERSION"));
     assert_eq!(evidence["runtimeDigest"], expected_runtime_digest);
+    assert_ne!(head_before_verify, head_after_verify);
+    assert_eq!(committed_paths, vec!["Cargo.lock"]);
+    assert_ne!(snapshot_before_verify, snapshot_after_verify);
+    assert_eq!(
+        evidence["repositorySnapshotDigest"], snapshot_after_verify,
+        "verification evidence must bind the final post-command repository snapshot"
+    );
     let finish = Command::new(binary)
         .args(["finish", "--repo"])
         .arg(&directory)
@@ -1863,6 +1930,182 @@ fn main() {
         String::from_utf8_lossy(&finish.stderr)
     );
     assert!(directory.join("Cargo.lock").is_file());
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn verification_rejects_uncommitted_command_side_effects_at_finish() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-uncommitted-side-effect-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::write(directory.join(".gitignore"), "target/\n").expect("gitignore");
+    fs::write(
+        directory.join("Cargo.toml"),
+        "[package]\nname = \"uncommitted-side-effect-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(directory.join("build.rs"), "fn main() {}\n").expect("build script");
+    fs::write(directory.join("src/main.rs"), "fn main() {}\n").expect("source");
+    assert!(
+        Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&directory)
+            .status()
+            .expect("git init")
+            .success()
+    );
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(&directory)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "baseline"])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(
+        Command::new(binary)
+            .args(["attach", "--repo"])
+            .arg(&directory)
+            .status()
+            .expect("attach")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["start", "--repo"])
+            .arg(&directory)
+            .args([
+                "--id",
+                "WI-UNCOMMITTED-SIDE-EFFECT",
+                "--intent",
+                "verify",
+                "--goal",
+                "reject uncommitted command output",
+                "--scope",
+                "Cargo.lock",
+                "--authority",
+                "authorized",
+                "--required-evidence",
+                "verification",
+            ])
+            .status()
+            .expect("start")
+            .success()
+    );
+    common::plan(binary, &directory, "WI-UNCOMMITTED-SIDE-EFFECT");
+    assert!(
+        Command::new(binary)
+            .args(["preflight", "--repo"])
+            .arg(&directory)
+            .args([
+                "--contract",
+                ".ai/work-items/active/WI-UNCOMMITTED-SIDE-EFFECT.contract.json"
+            ])
+            .status()
+            .expect("preflight")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["checkpoint", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-UNCOMMITTED-SIDE-EFFECT"])
+            .status()
+            .expect("checkpoint")
+            .success()
+    );
+    let head_before_verify = git_head(&directory);
+    let verify = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args([
+            "--work-item",
+            "WI-UNCOMMITTED-SIDE-EFFECT",
+            "--command",
+            "cargo",
+            "--args",
+            "check",
+        ])
+        .output()
+        .expect("verify");
+    assert!(
+        verify.status.success(),
+        "verification command should complete before finish review: {}",
+        String::from_utf8_lossy(&verify.stderr)
+    );
+
+    let head_after_verify = git_head(&directory);
+    let status = Command::new("git")
+        .args(["status", "--porcelain", "--", "Cargo.lock"])
+        .current_dir(&directory)
+        .output()
+        .expect("git status Cargo.lock");
+    assert!(status.status.success());
+    assert_eq!(
+        String::from_utf8_lossy(&status.stdout).trim(),
+        "?? Cargo.lock",
+        "fixture must leave the generated lockfile uncommitted"
+    );
+    assert_eq!(
+        head_before_verify, head_after_verify,
+        "the negative side-effect case must not commit the generated lockfile"
+    );
+
+    let evidence: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.join(".ai/evidence/WI-UNCOMMITTED-SIDE-EFFECT.verification.json"))
+            .expect("verification evidence"),
+    )
+    .expect("verification evidence JSON");
+    assert_eq!(evidence["passed"], true);
+    let finish = Command::new(binary)
+        .args(["finish", "--repo"])
+        .arg(&directory)
+        .args(["--id", "WI-UNCOMMITTED-SIDE-EFFECT"])
+        .output()
+        .expect("finish");
+    let finish_report = format!(
+        "{}{}",
+        String::from_utf8_lossy(&finish.stdout),
+        String::from_utf8_lossy(&finish.stderr)
+    );
+    assert!(
+        !finish.status.success(),
+        "finish must reject uncommitted command side effects"
+    );
+    assert!(
+        finish_report.contains("material-review projection unavailable")
+            && finish_report.contains("Cargo.lock"),
+        "finish must identify the material-review blocker, not a missing checkpoint: {finish_report}"
+    );
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
@@ -1974,6 +2217,7 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
             .expect("checkpoint")
             .success()
     );
+    let head_before_parallel = git_head(&directory);
     let parallel_verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)
@@ -1989,7 +2233,11 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
         .unwrap_or(serde_json::Value::Null);
     let source_after_parallel =
         fs::read(directory.join("tracked.txt")).expect("tracked after parallel attempt");
+    assert_eq!(git_head(&directory), head_before_parallel);
 
+    let head_before_serial = git_head(&directory);
+    let snapshot_before_serial =
+        repository_snapshot_digest(binary, &directory, "WI-FINAL-SNAPSHOT");
     let serial_verify = Command::new(binary)
         .args(["verify", "--repo"])
         .arg(&directory)
@@ -2003,6 +2251,15 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
     let serial_error = String::from_utf8_lossy(&serial_verify.stderr).into_owned();
     let serial_result = serde_json::from_slice::<serde_json::Value>(&serial_verify.stdout)
         .unwrap_or(serde_json::Value::Null);
+    let head_after_serial = git_head(&directory);
+    let committed_paths =
+        committed_paths_between(&directory, &head_before_serial, &head_after_serial);
+    let snapshot_after_serial = repository_snapshot_digest(binary, &directory, "WI-FINAL-SNAPSHOT");
+    let evidence: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.join(".ai/evidence/WI-FINAL-SNAPSHOT.verification.json"))
+            .expect("serial verification evidence"),
+    )
+    .expect("serial verification evidence JSON");
 
     let finish = Command::new(binary)
         .args(["finish", "--repo"])
@@ -2028,6 +2285,13 @@ fn work_item_parallel_verification_fails_closed_and_serial_execution_remains_ava
     );
     assert_eq!(serial_result["passed"], true);
     assert_eq!(serial_result["processesSpawned"], 2);
+    assert_ne!(head_before_serial, head_after_serial);
+    assert_eq!(committed_paths, vec!["tracked.txt"]);
+    assert_ne!(snapshot_before_serial, snapshot_after_serial);
+    assert_eq!(
+        evidence["repositorySnapshotDigest"], snapshot_after_serial,
+        "serial verification evidence must bind the final post-command snapshot"
+    );
     assert!(
         finish_succeeded,
         "serial evidence must bind the final snapshot: {finish_error}"

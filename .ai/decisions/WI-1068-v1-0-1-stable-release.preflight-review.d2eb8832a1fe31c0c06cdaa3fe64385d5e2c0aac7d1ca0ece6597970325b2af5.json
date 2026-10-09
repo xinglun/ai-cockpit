@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b747b15852db8f82b5643e6fca1dd57cac6134eaf0beccf72341b636d296ac85",
+  "reason": "The user explicitly approved the exact amendment request with the literal response “批准” at 2026-10-09T10:18:06Z (Sentinel f98d2ff645388191b7e0c9025155b5e0). The approval was in response to Raydot’s 2026-10-09T10:17:06Z message (Sentinel 6fcf26e9a4948191a3c5169fac0d4a20), which bound request digest sha256:b31bd618e6b6a900308c8331d8548a5f33d91374568fd11844b34095b29d6348 and prospective Contract digest sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61; scope/profile details were provided at 2026-10-09T10:12:10Z (Sentinel 46dbaf47fb208191b6a526f1f1c7bdbb). This records that bounded approval for the current Runtime preflight review only; it does not assert verification, scenario completion, or release approval. Recorded by agent:Codex at 2026-10-09T10:23:25Z from the cited user approval; the Runtime receipt is self-declared and does not independently authenticate identities.",
+  "recordedAt": "2026-10-09T10:23:25Z",
+  "recordedBy": "user (explicit conversation approval; entered by agent:Codex)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27c2ce1912587a690755e9406539456e7fef50766be19059d93b78eb3ca535bb",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

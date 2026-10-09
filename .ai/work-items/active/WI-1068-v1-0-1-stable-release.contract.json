@@ -46,7 +46,17 @@
   "executionDecision": null,
   "goal": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact original 16-path stable v1.0.1 update and the already-scoped Linux-only zombie-only verifier process-group liveness correction; retain the unique full-workspace verification declaration and independent Linux regression evidence; implement opt-in repository-bound Work Item usage receipts, distinct Runtime-recorded start/finish/archive/close facts, a typed read-only audit query and MCP surface, filtered audit export that preserves the legacy unfiltered wire, accurate UTC/IANA-zone time rendering, and complete CLI/MCP discovery/docs; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset.",
   "governancePolicy": null,
-  "governanceProfile": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:Raydot",
+      "schemaVersion": 1
+    }
+  },
   "guidelines": [],
   "humanDecisionPoints": null,
   "implementationSurface": null,
@@ -81,6 +91,7 @@
     "external_evidence"
   ],
   "requiredRuntimeCapabilities": [
+    "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
   ],
@@ -508,7 +519,32 @@
     "crates/cockpit-git/Cargo.toml",
     ".github/workflows/ci.yml",
     "tests/ci/workflow_convergence_test.sh",
-    "tests/ci/quality_route_test.py"
+    "tests/ci/quality_route_test.py",
+    "crates/cockpit-cli/tests/collaboration_consistency.rs",
+    "crates/cockpit-cli/tests/collaboration_handoff.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-cli/tests/preflight.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "crates/cockpit-cli/tests/scope_amendment.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/preflight_review.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/recovery_events.rs",
+    "crates/cockpit-repository/tests/recovery_revalidation.rs",
+    "crates/cockpit-repository/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
+    "crates/cockpit-repository/tests/supersede_archive.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs"
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
