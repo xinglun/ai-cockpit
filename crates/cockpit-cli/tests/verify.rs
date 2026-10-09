@@ -2106,6 +2106,30 @@ fn verification_rejects_uncommitted_command_side_effects_at_finish() {
             && finish_report.contains("Cargo.lock"),
         "finish must identify the material-review blocker, not a missing checkpoint: {finish_report}"
     );
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.join(".ai/work-items/active/WI-UNCOMMITTED-SIDE-EFFECT.summary.json"))
+            .expect("work-item summary after rejected finish"),
+    )
+    .expect("work-item summary JSON");
+    assert_eq!(summary["state"], "checkpointed");
+    assert!(
+        summary["lifecycleFacts"].get("finish").is_none(),
+        "rejected finish must not record a finish lifecycle fact"
+    );
+    let work_item_status = Command::new(binary)
+        .args(["work-item", "status", "--repo"])
+        .arg(&directory)
+        .args(["--id", "WI-UNCOMMITTED-SIDE-EFFECT", "--json"])
+        .output()
+        .expect("status after rejected finish");
+    assert!(
+        work_item_status.status.success(),
+        "status after rejected finish: {}",
+        String::from_utf8_lossy(&work_item_status.stderr)
+    );
+    let work_item_status: serde_json::Value = serde_json::from_slice(&work_item_status.stdout)
+        .expect("status JSON after rejected finish");
+    assert_eq!(work_item_status["lifecyclePhase"], "checkpointed");
     fs::remove_dir_all(directory).expect("cleanup");
 }
 
