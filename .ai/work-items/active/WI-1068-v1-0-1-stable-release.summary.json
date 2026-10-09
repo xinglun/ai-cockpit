@@ -772,10 +772,10 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:885b7456f2830c8f6b246fe8e4dc7d236600f1b241d1a46b5fe159abf835358a",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4.json",
-    "receiptDigest": "sha256:3175b7f561e2e6749023a39140c215ac9af058848a8ab0fb93f320e267225c52",
-    "requestDigest": "sha256:4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4"
+    "digest": "sha256:13d41a37816de91af6f79d0db779f7f7600f19ee7a02be73ca6b2fd39d6efae8",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd.json",
+    "receiptDigest": "sha256:144ae8223df175ca8a5c9a59243c2021a8fd2ee99e85db132949fdd2b0bb94f5",
+    "requestDigest": "sha256:cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd"
   },
   "materialReviewReceiptHistory": [
     {
@@ -801,13 +801,19 @@
       "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/bc99821f081b7a513ee06b2c061151aa11651accefc0fb715b606752dbed732a.json",
       "receiptDigest": "sha256:0b712bc1dcf25de54fbce51cae93f9c77d2e67e7b07416330648b7ddc708b882",
       "requestDigest": "sha256:bc99821f081b7a513ee06b2c061151aa11651accefc0fb715b606752dbed732a"
+    },
+    {
+      "digest": "sha256:885b7456f2830c8f6b246fe8e4dc7d236600f1b241d1a46b5fe159abf835358a",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4.json",
+      "receiptDigest": "sha256:3175b7f561e2e6749023a39140c215ac9af058848a8ab0fb93f320e267225c52",
+      "requestDigest": "sha256:4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4"
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T19:03:37Z",
+  "preflightAt": "2026-10-09T19:34:29Z",
   "preflightContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "preflightDecisionDigest": "sha256:bafc39b895a7c8afb6cf25d5f7302899b32aa63177de30f3b708b22cc4b7ceef",
-  "preflightRepositorySnapshotDigest": "sha256:bc1c6582fe0613acada79a529ced87b53511206fd3b6ab8c06b14a8200e2b797",
+  "preflightDecisionDigest": "sha256:16764ac1fed83031604a86d942e026b9b1056ac1ff575f91ef06579b85138afa",
+  "preflightRepositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
