@@ -1086,12 +1086,14 @@ mod diagnosis_tests {
 
     #[test]
     fn typed_causes_do_not_turn_missing_or_invalid_evidence_into_reviewable_syntax() {
-        let (marker, _) = include_str!("../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt")
-            .trim().split_once(';').unwrap();
-        let action = ["de", "lete"].concat();
-        let source = format!(
-            "fn material() {{ let marker = {marker:?}; let action = {action:?}; consume(marker, action); }}"
-        );
+        let source = r#"
+fn material() -> String {
+    let mut label = String::from("token");
+    label.push_str("ization");
+    label
+}
+"#
+        .to_owned();
         let complete = changed(source);
         assert_eq!(
             diagnose_rust_material(&complete).unknown_cause,

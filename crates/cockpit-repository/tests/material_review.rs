@@ -75,6 +75,16 @@ fn fixture() -> (tempfile::TempDir, Contract) {
     (directory, contract)
 }
 
+fn benign_syntax_unknown_source() -> &'static str {
+    r#"
+fn material() -> String {
+    let mut label = String::from("token");
+    label.push_str("ization");
+    label
+}
+"#
+}
+
 fn commit(root: &Path) {
     git(root, &["add", "."]);
     git(
@@ -310,18 +320,7 @@ fn material_review_decision_fixture() -> (
 
     let root = directory.path();
     fs::create_dir_all(root.join("src")).unwrap();
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let operation = ["de", "lete"].concat();
-    fs::write(
-        root.join("src/material.rs"),
-        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
-    )
-    .unwrap();
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
     commit(root);
 
     let request = material_review_request(root, &contract).unwrap();
@@ -495,14 +494,7 @@ fn adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality() {
     let root = directory.path();
     contract.scope = vec!["README.md".into(), "src/**".into()];
 
-    // This benign string composition exercises the conservative Unknown
-    // boundary without an instruction or destructive operation.
-    let syntax_unknown = r#"
-fn payload() {
-    let mut label = String::from("token");
-    label.push_str("ization");
-}
-"#;
+    let syntax_unknown = benign_syntax_unknown_source();
     fs::create_dir_all(root.join("src")).unwrap();
     fs::write(root.join("src/material.rs"), &syntax_unknown).unwrap();
     commit(root);
@@ -1333,14 +1325,7 @@ fn committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent() {
     let (directory, contract) = fixture();
     let root = directory.path();
     fs::create_dir(root.join("src")).unwrap();
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let operation = ["de", "lete"].concat();
-    fs::write(root.join("src/material.rs"), format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n")).unwrap();
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
     fs::write(root.join("README.md"), "new source\n").unwrap();
     commit(root);
     let request = material_review_request(root, &contract).unwrap();
@@ -1664,18 +1649,7 @@ fn changed_rust_blob_without_hunks_is_unknown_and_not_reviewable() {
     commit(root);
     contract.base_revision = git(root, &["rev-parse", "HEAD"]);
 
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let action = ["de", "lete"].concat();
-    fs::write(
-        root.join("src/material.rs"),
-        format!("fn material() {{ let marker = {marker:?}; let action = {action:?}; consume(marker, action); }}\n"),
-    )
-    .unwrap();
+    fs::write(root.join("src/material.rs"), benign_syntax_unknown_source()).unwrap();
     commit(root);
 
     run_hunkless_git_worker(root, &contract, "src/material.rs", "unknown");

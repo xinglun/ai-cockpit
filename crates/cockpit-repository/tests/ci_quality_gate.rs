@@ -80,6 +80,16 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+fn benign_syntax_unknown_source() -> &'static str {
+    r#"
+fn material() -> String {
+    let mut label = String::from("token");
+    label.push_str("ization");
+    label
+}
+"#
+}
+
 fn contract_path(root: &Path) -> PathBuf {
     root.join(".ai/work-items/active/WI-CI-GATE.contract.json")
 }
@@ -341,17 +351,10 @@ fn report_validator_rejects_self_reported_green_over_material_unknown() {
         .as_str()
         .unwrap()
         .to_owned();
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let operation = ["de", "lete"].concat();
     fs::create_dir_all(root.join("crates")).expect("source directory");
     fs::write(
         root.join("crates/material_unknown.rs"),
-        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+        benign_syntax_unknown_source(),
     )
     .expect("unknown source");
     git(root, &["add", "crates/material_unknown.rs"]);

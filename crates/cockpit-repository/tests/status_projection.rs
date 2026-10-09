@@ -72,6 +72,16 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+fn benign_syntax_unknown_source() -> &'static str {
+    r#"
+fn material() -> String {
+    let mut label = String::from("token");
+    label.push_str("ization");
+    label
+}
+"#
+}
+
 fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
     let active = root.join(".ai/work-items/active");
     let contract: Value = serde_json::from_slice(
@@ -1219,17 +1229,10 @@ fn status_rechecks_committed_contract_base_material_with_empty_worktree_diff() {
         },
     )
     .expect("start");
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let operation = ["de", "lete"].concat();
     fs::create_dir_all(root.join("crates")).expect("source directory");
     fs::write(
         root.join("crates/material_unknown.rs"),
-        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+        benign_syntax_unknown_source(),
     )
     .expect("material source");
     commit_all(root, "commit material with bounded syntax Unknown");
@@ -1475,17 +1478,10 @@ fn finish_and_archive_reject_canonical_material_unknowns() {
         },
     )
     .expect("start");
-    let (marker, _) = include_str!(
-        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
-    )
-    .trim()
-    .split_once(';')
-    .unwrap();
-    let operation = ["de", "lete"].concat();
     fs::create_dir_all(root.join("crates")).expect("source directory");
     fs::write(
         root.join("crates/material_unknown.rs"),
-        format!("fn material() {{ let marker = {marker:?}; let operation = {operation:?}; consume(marker, operation); }}\n"),
+        benign_syntax_unknown_source(),
     )
     .expect("material source");
     commit_all(root, "commit material Unknown");
