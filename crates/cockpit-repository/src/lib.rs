@@ -4319,13 +4319,13 @@ pub fn evaluate_contract_quality_gate(
     } else {
         resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?
     };
-    let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
+    let contract_blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
     // This gate runs before the command represented by the route.  Contract
     // evidence classes describe lifecycle completion, so release, adopter,
     // close, and cleanup evidence cannot be required before those stages can
     // produce it.  The mutable lifecycle gates still use the strict normal
     // governance path below and enforce every declared class.
-    let decision = governance_decision_for_pre_execution_quality_gate(
+    let mut decision = governance_decision_for_pre_execution_quality_gate(
         &root,
         &contract,
         &snapshot,
@@ -4333,74 +4333,48 @@ pub fn evaluate_contract_quality_gate(
         runtime,
         archived_contract,
     )?;
+    decision.blockers.extend(contract_blockers);
     let summary_path = contract_path
         .parent()
         .unwrap_or(&root)
         .join(format!("{}.summary.json", contract.work_item_id));
-    let material_projection = material_review::material_review_gate_projection_with_contract_digest(
+    let projection = match material_review::material_review_gate_projection_with_contract_digest(
         &root,
         &contract,
         &current_contract_digest,
         &summary_path,
-    );
-    let (
-        raw_scanner_unknowns,
-        material_manifest_digest,
-        review_receipt_digest,
-        review_assurance,
-        material_unknowns,
-        discharged_unknowns,
-        material_finding_codes,
-        material_finding,
-        material_projection_unavailable,
-    ) = match material_projection {
-        Ok(projection) => (
-            projection.raw_scanner_unknowns,
-            projection.material_manifest_digest,
-            projection.review_receipt_digest,
-            projection.review_assurance,
-            projection.effective_unknowns,
-            projection.discharged_unknowns,
-            projection.finding_codes,
-            projection.blocked_by_finding,
-            false,
-        ),
-        Err(_) => (
-            Vec::new(),
-            None,
-            None,
-            None,
-            vec!["material_review_projection_unavailable".into()],
-            Vec::new(),
-            Vec::new(),
-            false,
-            true,
-        ),
+    ) {
+        Ok(projection) => projection,
+        Err(_) => material_review::MaterialReviewGateProjection {
+            raw_scanner_unknowns: Vec::new(),
+            material_manifest_digest: None,
+            review_receipt_digest: None,
+            review_assurance: None,
+            effective_unknowns: vec!["material_review_projection_unavailable".into()],
+            discharged_unknowns: Vec::new(),
+            finding_codes: Vec::new(),
+            blocked_by_finding: false,
+            projection_unavailable: true,
+            review_decision_available: false,
+        },
     };
-    blockers.extend(decision.blockers.clone());
-    if material_projection_unavailable {
-        blockers.push("material_review_projection_unavailable".into());
-    }
-    if material_finding {
-        blockers.extend(material_finding_codes);
-    }
+    let projection =
+        material_review::apply_material_review_projection_to_decision(projection, &mut decision);
+    decision.recompute_state_from_effective_facts();
+    let raw_scanner_unknowns = projection.raw_scanner_unknowns;
+    let material_manifest_digest = projection.material_manifest_digest;
+    let review_receipt_digest = projection.review_receipt_digest;
+    let review_assurance = projection.review_assurance;
+    let mut blockers = decision.blockers.clone();
     blockers.sort();
     blockers.dedup();
     let mut unknowns = decision.unknowns.clone();
-    unknowns.retain(|unknown| !discharged_unknowns.contains(unknown));
-    unknowns.extend(material_unknowns);
     unknowns.sort();
     unknowns.dedup();
     let mut required_checks = decision.required_checks.clone();
     required_checks.sort();
     required_checks.dedup();
-    let decision_state = if material_finding {
-        "red".to_owned()
-    } else if !unknowns.is_empty() && decision.state == DecisionState::Green {
-        "yellow".to_owned()
-    } else {
-        decision_state_name(decision.state.clone()).to_string()
-    };
+    let decision_state = decision_state_name(decision.state.clone()).to_string();
     let mut report = ContractQualityGateReport {
         schema_version: 1,
         kind: "repository_contract_quality_gate".into(),

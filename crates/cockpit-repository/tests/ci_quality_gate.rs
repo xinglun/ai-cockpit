@@ -1,14 +1,18 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
-use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext, VerificationStage};
+use cockpit_protocol::{
+    MATERIAL_INSPECTION_REVIEW_CAPABILITY, MaterialInspectionReviewDecisionInput,
+    ResourceFinalizationContext, RuntimeContext, VerificationStage,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item, close_work_item_with_decision,
     evaluate_contract_quality_gate, finish_work_item_with_runtime,
-    governance_decision_for_contract, plan_resource_finalization, preflight_work_item,
-    preflight_work_item_with_runtime, record_verification_with_runtime,
-    record_work_item_governance_controls, run_repository_verification,
-    start_work_item_with_options, validate_contract_quality_gate_report,
+    governance_decision_for_contract, plan_resource_finalization, plan_work_item_material_review,
+    preflight_work_item, preflight_work_item_with_runtime, record_verification_with_runtime,
+    record_work_item_governance_controls, record_work_item_material_review,
+    run_repository_verification, start_work_item_with_options,
+    validate_contract_quality_gate_report,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -92,6 +96,84 @@ fn material() -> String {
 
 fn contract_path(root: &Path) -> PathBuf {
     root.join(".ai/work-items/active/WI-CI-GATE.contract.json")
+}
+
+fn reviewed_material_repository() -> (tempfile::TempDir, PathBuf) {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material.rs"),
+        benign_syntax_unknown_source(),
+    )
+    .expect("material source");
+    git(root, &["add", "crates/material.rs"]);
+    git(root, &["commit", "-qm", "add bounded syntax Unknown"]);
+
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).expect("Contract bytes"))
+            .expect("Contract JSON");
+    contract_value["governanceProfile"] = serde_json::json!({
+        "materialInspectionReview": {
+            "schemaVersion": 1,
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "assurance": "self_declared",
+            "reviewerActor": "agent:Raydot",
+            "authoritySource": "user-delegation:ray-approved-WI1068",
+            "acceptResidualRisk": true
+        }
+    });
+    contract_value["requiredRuntimeCapabilities"] =
+        serde_json::json!([MATERIAL_INSPECTION_REVIEW_CAPABILITY]);
+    fs::write(
+        &contract,
+        serde_json::to_vec_pretty(&contract_value).expect("Contract JSON bytes"),
+    )
+    .expect("write material-review Contract");
+
+    let request = plan_work_item_material_review(root, "WI-CI-GATE").expect("plan material review");
+    let current_runtime = runtime();
+    preflight_work_item_with_runtime(root, &contract, &current_runtime).expect("fresh preflight");
+    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user-delegation:ray-approved-WI1068",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "docs/review-evidence.md",
+            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }],
+        "rationale": "Review the exact bounded syntax unknown.",
+        "residualRisk": "The bounded source scanner remains incomplete for this syntax."
+    }))
+    .expect("typed material-review input");
+    record_work_item_material_review(root, "WI-CI-GATE", &input, &current_runtime)
+        .expect("record typed material-review receipt");
+    (directory, contract)
+}
+
+fn pull_request_gate_report(
+    root: &Path,
+    contract: &Path,
+) -> cockpit_repository::ContractQualityGateReport {
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    evaluate_contract_quality_gate(
+        root,
+        contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("quality gate report")
 }
 
 fn archived_resource_repository() -> (tempfile::TempDir, PathBuf) {
@@ -255,6 +337,151 @@ fn valid_gate_is_identity_bound_and_read_only() {
 }
 
 #[test]
+fn quality_gate_recomputes_state_after_material_review_discharge() {
+    let (directory, contract) = reviewed_material_repository();
+    let root = directory.path();
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("quality gate report");
+
+    assert_eq!(
+        report.raw_scanner_unknowns,
+        vec!["repository_material_inspection_unavailable"]
+    );
+    assert!(report.review_receipt_digest.is_some());
+    assert_eq!(
+        report.review_assurance,
+        Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
+    );
+    assert!(report.effective_unknowns.is_empty());
+    assert!(report.unknowns.is_empty());
+    assert_eq!(report.decision_state, "green");
+    assert_eq!(report.state, "passed");
+}
+
+#[test]
+fn quality_gate_keeps_material_unknown_when_review_receipt_is_tampered() {
+    let (directory, contract) = reviewed_material_repository();
+    let root = directory.path();
+    let summary_path = root.join(".ai/work-items/active/WI-CI-GATE.summary.json");
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
+            .expect("Summary JSON");
+    let receipt_path = root.join(
+        summary["materialReviewReceipt"]["path"]
+            .as_str()
+            .expect("receipt sidecar path"),
+    );
+    fs::write(&receipt_path, b"tampered receipt\n").expect("tamper receipt sidecar");
+
+    let report = pull_request_gate_report(root, &contract);
+
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
+    assert_eq!(report.review_receipt_digest, None);
+    assert!(
+        report
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+}
+
+#[test]
+fn quality_gate_keeps_material_unknown_when_review_receipt_is_stale() {
+    let (directory, contract) = reviewed_material_repository();
+    let root = directory.path();
+    let source_path = root.join("crates/material.rs");
+    let mut source = fs::read_to_string(&source_path).expect("material source");
+    source.push_str("\n// changed after the review receipt\n");
+    fs::write(&source_path, source).expect("change reviewed source");
+    git(root, &["add", "crates/material.rs"]);
+    git(
+        root,
+        &["commit", "-qm", "change reviewed material after receipt"],
+    );
+
+    let report = pull_request_gate_report(root, &contract);
+
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
+    assert_eq!(report.review_receipt_digest, None);
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+}
+
+#[test]
+fn quality_gate_keeps_material_unknown_when_a_second_unknown_is_added() {
+    let (directory, contract) = reviewed_material_repository();
+    let root = directory.path();
+    fs::write(root.join("crates/second.rs"), b"binary\0material")
+        .expect("second non-reviewable Rust Unknown");
+    git(root, &["add", "crates/second.rs"]);
+    git(
+        root,
+        &["commit", "-qm", "add a second non-reviewable Unknown"],
+    );
+
+    let current_request =
+        plan_work_item_material_review(root, "WI-CI-GATE").expect("current material request");
+    let second = current_request
+        .entries
+        .iter()
+        .find(|entry| entry.path == "crates/second.rs")
+        .expect("second material entry");
+    assert_eq!(
+        serde_json::to_value(&second.scanner_assessment).expect("assessment JSON"),
+        serde_json::json!("unknown")
+    );
+    assert!(!second.reviewable);
+
+    let report = pull_request_gate_report(root, &contract);
+
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
+    assert_eq!(report.review_receipt_digest, None);
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"material_review_receipt_stale".into())
+    );
+}
+
+#[test]
 fn quality_gate_blocks_dirty_non_ai_source_before_material_review() {
     let directory = repository();
     let root = directory.path();
@@ -328,6 +555,7 @@ fn quality_gate_preserves_each_material_finding_category_as_a_blocker() {
     )
     .expect("quality gate report");
     assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "red");
     for finding in [
         "coverage_weakening",
         "repository_prompt_injection",
@@ -371,6 +599,13 @@ fn report_validator_rejects_self_reported_green_over_material_unknown() {
     .expect("canonical gate report");
     assert_eq!(actual.state, "blocked");
     assert!(!actual.raw_scanner_unknowns.is_empty());
+    assert_eq!(actual.decision_state, "yellow");
+    assert_eq!(actual.review_receipt_digest, None);
+    assert!(
+        actual
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
 
     let mut forged = serde_json::to_value(&actual).expect("report JSON");
     forged["state"] = "passed".into();

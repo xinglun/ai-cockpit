@@ -695,6 +695,21 @@ pub struct GovernanceDecision {
     pub human_decision_request: Option<HumanDecisionRequest>,
 }
 
+impl GovernanceDecision {
+    /// Recompute the classification after a projection changes effective
+    /// blockers or unknowns. A pending human review remains a yellow gate even
+    /// if another projection removes its own bounded Unknown.
+    pub fn recompute_state_from_effective_facts(&mut self) {
+        self.state = decision_state_from_effective_facts(&self.blockers, &self.unknowns);
+        if self.state == DecisionState::Green
+            && (self.human_decision_request.is_some()
+                || self.review_state.as_deref() == Some("needs_human_confirmation"))
+        {
+            self.state = DecisionState::Yellow;
+        }
+    }
+}
+
 fn matches_pattern(path: &str, pattern: &str) -> bool {
     if pattern == "**" || pattern == "*" {
         return true;
@@ -770,6 +785,19 @@ fn requires_human_confirmation_unknown(unknown: &str) -> bool {
         || unknown.starts_with("execution_decision:")
         || unknown.starts_with("scenario_coverage_")
         || unknown.starts_with("required_scenario_unverified:")
+}
+
+pub fn decision_state_from_effective_facts(
+    blockers: &[String],
+    unknowns: &[String],
+) -> DecisionState {
+    if !blockers.is_empty() {
+        DecisionState::Red
+    } else if !unknowns.is_empty() {
+        DecisionState::Yellow
+    } else {
+        DecisionState::Green
+    }
 }
 
 pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
@@ -981,13 +1009,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     required_checks.sort();
     required_checks.dedup();
 
-    let state = if !blockers.is_empty() {
-        DecisionState::Red
-    } else if !unknowns.is_empty() {
-        DecisionState::Yellow
-    } else {
-        DecisionState::Green
-    };
+    let state = decision_state_from_effective_facts(&blockers, &unknowns);
     let outcome_state = input.outcome_state_override.unwrap_or_else(|| match state {
         DecisionState::Green => "ready".into(),
         DecisionState::Yellow

@@ -1359,6 +1359,24 @@ pub(crate) fn apply_material_review_gate_to_decision(
             review_decision_available: false,
         },
     };
+    let projection = apply_material_review_projection_to_decision(projection, decision);
+    if projection.blocked_by_finding {
+        decision.state = cockpit_core::DecisionState::Red;
+        decision.outcome_state = "not_ready".into();
+        decision.review_state = Some("blocked".into());
+    } else if !decision.unknowns.is_empty() && decision.state == cockpit_core::DecisionState::Green
+    {
+        decision.state = cockpit_core::DecisionState::Yellow;
+        decision.outcome_state = "verification_pending".into();
+        decision.review_state = Some("verification_pending".into());
+    }
+    projection
+}
+
+pub(crate) fn apply_material_review_projection_to_decision(
+    projection: MaterialReviewGateProjection,
+    decision: &mut cockpit_core::GovernanceDecision,
+) -> MaterialReviewGateProjection {
     decision
         .unknowns
         .retain(|unknown| !projection.discharged_unknowns.contains(unknown));
@@ -1374,14 +1392,6 @@ pub(crate) fn apply_material_review_gate_to_decision(
         decision
             .blockers
             .extend(projection.finding_codes.iter().cloned());
-        decision.state = cockpit_core::DecisionState::Red;
-        decision.outcome_state = "not_ready".into();
-        decision.review_state = Some("blocked".into());
-    } else if !decision.unknowns.is_empty() && decision.state == cockpit_core::DecisionState::Green
-    {
-        decision.state = cockpit_core::DecisionState::Yellow;
-        decision.outcome_state = "verification_pending".into();
-        decision.review_state = Some("verification_pending".into());
     }
     decision.unknowns.sort();
     decision.unknowns.dedup();
