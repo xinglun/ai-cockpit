@@ -1,21 +1,62 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:b29ce2eaf213a0fe489af5b11e4c06c3c9b500783c0a11da9534cba2e5a4ca82",
+  "commands": [
+    {
+      "args": [
+        "test --locked --package cockpit-cli --test collaboration_scenario_matrix"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:fd9dbfb67c32199b7299b5b1fd4933cae796daa642e97e16bf2affb17e54944a",
+      "nodeId": "project-command-0",
+      "program": "/workspace/.cloud-tools/cargo/bin/cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "createdAt": "2026-10-09T21:38:57Z",
-  "evidenceSchemaVersion": 2,
-  "passed": true,
+  "contractExecutionScopeDigest": "sha256:6da53fe30c03060931e7ef8f85808ae6b1bc09e8f5aa30f7e3e3ea01e9ba9b1c",
+  "createdAt": "2026-10-09T21:37:44Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:fd9dbfb67c32199b7299b5b1fd4933cae796daa642e97e16bf2affb17e54944a",
+      "deadlineMs": 1791582164483,
+      "elapsedMs": 101,
+      "exitCode": 101,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "6572726f723a206e6f207375636820636f6d6d616e643a206074657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d6174726978600a0a68656c703a207669657720616c6c20696e7374616c6c656420636f6d6d616e647320776974682060636172676f202d2d6c697374600a68656c703a2066696e642061207061636b61676520746f20696e7374616c6c206074657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d61747269786020776974682060636172676f2073656172636820636172676f2d74657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d6174726978600a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 23773,
-      "executionElapsedMs": 23609,
+      "elapsedMs": 284,
+      "executionElapsedMs": 101,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
       "nodesReused": 0,
-      "passed": true,
+      "passed": false,
       "planningElapsedMs": 0,
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
@@ -25,23 +66,23 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 23773,
-    "executionElapsedMs": 23609,
+    "elapsedMs": 284,
+    "executionElapsedMs": 101,
     "executionRecords": [
       {
-        "commandDigest": "sha256:6b9809957ca84d180148f82623df62117cd5d6400120af809c8c463700792c03",
-        "deadlineMs": 1791582513550,
-        "elapsedMs": 23609,
-        "exitCode": 0,
+        "commandDigest": "sha256:fd9dbfb67c32199b7299b5b1fd4933cae796daa642e97e16bf2affb17e54944a",
+        "deadlineMs": 1791582164483,
+        "elapsedMs": 101,
+        "exitCode": 101,
         "nodeId": "project-command-0",
-        "passed": true,
+        "passed": false,
         "spawned": true,
-        "stderr": "202020436f6d70696c696e6720636f636b7069742d636c692076312e302e3120282f776f726b73706163652f7769313036382d7072313032322f6372617465732f636f636b7069742d636c69290a2020202046696e6973686564206074657374602070726f66696c65205b756e6f7074696d697a65645d2074617267657428732920696e20312e3138730a202020202052756e6e696e672074657374732f636f6c6c61626f726174696f6e5f7363656e6172696f5f6d61747269782e727320282f746d702f7769313036382d7461726765742f64656275672f646570732f636f6c6c61626f726174696f6e5f7363656e6172696f5f6d61747269782d63663566613365323661633238376637290a",
+        "stderr": "6572726f723a206e6f207375636820636f6d6d616e643a206074657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d6174726978600a0a68656c703a207669657720616c6c20696e7374616c6c656420636f6d6d616e647320776974682060636172676f202d2d6c697374600a68656c703a2066696e642061207061636b61676520746f20696e7374616c6c206074657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d61747269786020776974682060636172676f2073656172636820636172676f2d74657374202d2d6c6f636b6564202d2d7061636b61676520636f636b7069742d636c69202d2d7465737420636f6c6c61626f726174696f6e5f7363656e6172696f5f6d6174726978600a",
         "stderrTruncated": false,
-        "stdout": "0a72756e6e696e6720342074657374730a7465737420756e6b6e6f776e5f66696e616c697a6174696f6e5f636173655f69735f6578706c696369746c795f756e617661696c61626c655f696e5f7468655f6d6174726978202e2e2e206f6b0a7465737420636c695f616e645f6d63705f636f6d706f736974696f6e5f73686172655f65786163745f72756e74696d655f73757065727669736f725f616e645f6f7574636f6d6573202e2e2e206f6b0a746573742066696e616c697a6174696f6e5f63617365735f6b6565705f74797065645f6e6578745f616374696f6e5f657175616c5f6163726f73735f636c695f6d63705f76696577735f616e645f6c6f63616c6573202e2e2e206f6b0a7465737420636f6c6c61626f726174696f6e5f6d61747269785f666978747572655f7072657365727665735f6f7574636f6d655f73656d616e746963735f7468726f7567685f636c695f616e645f6d63705f737464696f202e2e2e206f6b0a0a7465737420726573756c743a206f6b2e2034207061737365643b2030206661696c65643b20302069676e6f7265643b2030206d656173757265643b20302066696c7465726564206f75743b2066696e697368656420696e2032322e3337730a0a",
+        "stdout": "",
         "stdoutTruncated": false,
         "timedOut": false,
-        "timeoutSeconds": 600
+        "timeoutSeconds": 300
       }
     ],
     "filesHashed": 5,
@@ -51,7 +92,7 @@
     "nodesExecuted": 1,
     "nodesPlanned": 1,
     "nodesReused": 0,
-    "passed": true,
+    "passed": false,
     "planReceipt": {
       "affectedPaths": [],
       "assurance": "repository_verified",
@@ -61,7 +102,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 23609,
+      "executionElapsedMs": 101,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -81,7 +122,7 @@
       ],
       "sharedNodes": [],
       "stage": "task",
-      "timeoutSeconds": 600,
+      "timeoutSeconds": 300,
       "workItemId": "WI-1068-v1-0-1-stable-release"
     },
     "planningElapsedMs": 0,
@@ -97,9 +138,9 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:d13f9a99807970e90b45aa060412dd7040f78c598c774fcad430fd2aea107fcd",
+        "outputDigest": "sha256:eff9e4cc77fe461cb230ead390c609fe066f42c137a3f9fabfe315277a7e3d64",
         "outputTruncated": false,
-        "passed": true,
+        "passed": false,
         "protected": false,
         "reason": "reuse_not_configured",
         "receiptId": null,
@@ -111,13 +152,14 @@
     ],
     "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
     "runtimeVersion": "1.0.1",
-    "timeoutSeconds": 600,
+    "timeoutSeconds": 300,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
-  "receiptDigest": "sha256:29e446efe85e7a024ebf7b2e64bf8df4946b40f8950aea8f09435a40d4082ecf",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
   "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
   "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_failed",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

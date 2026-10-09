@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "materialManifestDigest": "sha256:a69d01f6181e7fe74ef367865156a881b580395e9f49febe6a4614d67c2a760b",
+  "profileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "requestDigest": "sha256:3bad30c3ecfe2a49a3003d5d6606a5a91d00b164ad350964481aa2ef91c2d737",
+  "reviewedSourceHead": "e627b3e78bba2c702a5a16c928e6cd9cb49163ec",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+  "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.55477db2154faf2e9fca5940f6f5d6a6aebf07e161041d59172e2538945952e3.json",
+      "digest": "sha256:13430fd8f487495391a8288ea776345967a140ca9041a035cbe3dc6a53c93443"
+    },
+    {
+      "path": "/tmp/WI-1068-e627-current-material-review-plan.json",
+      "digest": "sha256:1ef42b7e4321b5f68bc847f77b1adf8388f9787b83c957a4a907af56b57db58d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+      "digest": "sha256:56628d2d11af8273e066ead26a2e38ac1a3f7b61c4c3277611d2253cb7ab6dc4"
+    }
+  ],
+  "rationale": "Per agent:Raydot independent review of the exact e627 request, accept the 15 readable committed Rust syntax Unknown entries within the Contract-permitted cause. The minimal delta from b1f78 is limited to 21 Linux-only mutex lines in the in-scope collaboration scenario test file; existing assertions and fixture cleanup remain, guards are acquired before fixture creation and released after cleanup, poison recovery retains the lock, the static JSON case remains unlocked, and production code is unchanged. This review does not claim global test isolation or establish the source or ownership of PID 22584.",
+  "residualRisk": "The syntax scanner remains incomplete and does not establish compile or semantic correctness for the accepted Unknown entries. This agent self-declared decision is not authenticated human, provider, or release approval. The shared mutex only serializes the three subprocess-spawning tests within this Linux test binary; it does not prove global process isolation or identify PID 22584.",
+  "recordedAt": "2026-10-09T21:51:25Z",
+  "receiptDigest": "sha256:3692888c1f40e6e85d662d053338d2270d0f314ee33cb79633302fcd1167f1d8"
+}

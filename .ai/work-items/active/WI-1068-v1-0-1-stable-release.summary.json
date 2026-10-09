@@ -370,7 +370,16 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.964f74abd13ffc2236c7c697c766408f2b32a93229a92c69fb9dcc26096c57f7.json"
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.2256e72b1ac26015b370cd21d14b7a637c7810f849be4bd2f4d5a46790b65f4d.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.5599c33d30adee832b18985428b9939413d379da9b49904d1a6bb53ca22f6e7d.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.57a4fba45dfb61d6f4d01db75ee16fdd93262cda6dcf4f61a98f87bb0eefce03.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.a42df20dcd91cf7f23e16cac23c5711adcf4547a4dca2c06dfa1bbd7d36620d3.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.aaa303024863053d79d53bc89b5ef064a54dd48e7393b8a43e61e85c3f461e96.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.b1d5b91f2557eda6398df96dfbc8e0aad0e4d35e3e84cd2ddb54855f1eddce02.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.b29ce2eaf213a0fe489af5b11e4c06c3c9b500783c0a11da9534cba2e5a4ca82.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.d2c7998817171c85cb57bd62829fad4e8c1bf0355147540da3cb6865f76f8a59.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
   ],
   "checkpointAt": "2026-10-06T06:23:41Z",
   "checkpointContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
@@ -751,7 +760,7 @@
       "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
+  "checkpointRepositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
     "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
@@ -774,10 +783,10 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:d98d07188457e1ac22947f0f3e62dd91dfaffd3a8adcd311c2eef469674431b9",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb.json",
-    "receiptDigest": "sha256:95d92be2721b2e7afd46ccb9acfadec5328ac77b282439ea37095e454285dde5",
-    "requestDigest": "sha256:20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb"
+    "digest": "sha256:682201665ed843f2d249eaf96109467319c949858e85bf8c5bff9c86e13ce1a6",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/3bad30c3ecfe2a49a3003d5d6606a5a91d00b164ad350964481aa2ef91c2d737.json",
+    "receiptDigest": "sha256:3692888c1f40e6e85d662d053338d2270d0f314ee33cb79633302fcd1167f1d8",
+    "requestDigest": "sha256:3bad30c3ecfe2a49a3003d5d6606a5a91d00b164ad350964481aa2ef91c2d737"
   },
   "materialReviewReceiptHistory": [
     {
@@ -815,14 +824,20 @@
       "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd.json",
       "receiptDigest": "sha256:144ae8223df175ca8a5c9a59243c2021a8fd2ee99e85db132949fdd2b0bb94f5",
       "requestDigest": "sha256:cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd"
+    },
+    {
+      "digest": "sha256:d98d07188457e1ac22947f0f3e62dd91dfaffd3a8adcd311c2eef469674431b9",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb.json",
+      "receiptDigest": "sha256:95d92be2721b2e7afd46ccb9acfadec5328ac77b282439ea37095e454285dde5",
+      "requestDigest": "sha256:20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb"
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T20:42:59Z",
+  "preflightAt": "2026-10-09T21:38:57Z",
   "preflightContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "preflightDecisionDigest": "sha256:5cab2873c63589d4ed5b8d66dd3878fcb28f09a9cc68f62b0f6e2de13c49243c",
-  "preflightRepositorySnapshotDigest": "sha256:4e6ad91d082d85d7666bf55acfade866454d87cef934a847f6cad8721c2a16a1",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
