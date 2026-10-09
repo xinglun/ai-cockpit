@@ -1245,14 +1245,11 @@ fn composition_subreaper_test_helper() {
         initialize_composition_supervisor_backend().expect("initialize subreaper"),
         CompositionSupervisorBackend::LinuxSubreaper
     );
-    let child_group_path = PathBuf::from(
-        std::env::var_os("AI_COCKPIT_SUBREAPER_CHILD_GROUP_PATH")
-            .expect("test child process group path"),
-    );
     let mut release_pipe = [0; 2];
     let mut ready_pipe = [0; 2];
     assert_eq!(unsafe { libc::pipe(release_pipe.as_mut_ptr()) }, 0);
     assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+    let started = Instant::now();
     let child = unsafe { libc::fork() };
     assert!(child >= 0, "fork direct verifier-like child");
     if child == 0 {
@@ -1318,7 +1315,11 @@ fn composition_subreaper_test_helper() {
         group_set, 0,
         "place only test descendants in their own group"
     );
-    fs::write(&child_group_path, child.to_string()).expect("record test child process group");
+    assert_eq!(
+        unsafe { libc::getpgid(child) },
+        child,
+        "verifier-like child retains its test-owned process group"
+    );
     let release = b'A';
     assert_eq!(
         unsafe {
@@ -1341,13 +1342,12 @@ fn composition_subreaper_test_helper() {
     };
     unsafe { libc::close(ready_pipe[0]) };
     if ready_read != 1 || ready != b'G' {
-        terminate_subreaper_test_child_group_and_reap(child as u32);
+        reap_subreaper_test_children_after_alarm();
         panic!("verifier-like grandchild did not become ready");
     }
 
-    let started = Instant::now();
     if let Err(error) = reap_composition_supervisor_descendants() {
-        terminate_subreaper_test_child_group_and_reap(child as u32);
+        reap_subreaper_test_children_after_alarm();
         panic!("reaper did not prove complete child cleanup: {error}");
     }
     assert!(
@@ -1363,16 +1363,8 @@ fn composition_subreaper_test_helper() {
 }
 
 #[cfg(target_os = "linux")]
-fn terminate_subreaper_test_child_group_and_reap(process_group_id: u32) {
-    let killed = unsafe { libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL) };
-    if killed != 0 {
-        assert_eq!(
-            std::io::Error::last_os_error().raw_os_error(),
-            Some(libc::ESRCH),
-            "terminate only the test-owned descendant process group"
-        );
-    }
-    let deadline = Instant::now() + Duration::from_secs(2);
+fn reap_subreaper_test_children_after_alarm() {
+    let deadline = Instant::now() + Duration::from_secs(7);
     loop {
         let mut status = 0;
         let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
@@ -1393,10 +1385,38 @@ fn terminate_subreaper_test_child_group_and_reap(process_group_id: u32) {
 }
 
 #[cfg(target_os = "linux")]
+fn private_subreaper_watchdog_tempdir() -> TempDir {
+    use std::os::unix::fs::{DirBuilderExt, PermissionsExt};
+
+    let sequence = NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed);
+    let path = std::env::temp_dir().join(format!(
+        "cockpit-composition-subreaper-watchdog-{}-{sequence}",
+        std::process::id()
+    ));
+    let mut builder = fs::DirBuilder::new();
+    builder.mode(0o700);
+    builder
+        .create(&path)
+        .expect("create private subreaper watchdog directory");
+    assert_eq!(
+        fs::metadata(&path)
+            .expect("watchdog directory metadata")
+            .permissions()
+            .mode()
+            & 0o077,
+        0,
+        "subreaper watchdog directory must not allow group or other access"
+    );
+    TempDir {
+        path,
+        preserve_on_drop: false,
+    }
+}
+
+#[cfg(target_os = "linux")]
 #[test]
 fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
-    let watchdog_directory = tempdir("subreaper-watchdog");
-    let child_group_path = watchdog_directory.path().join("child-group");
+    let watchdog_directory = private_subreaper_watchdog_tempdir();
     let mut helper = Command::new(std::env::current_exe().expect("test binary path"));
     helper
         .args([
@@ -1405,7 +1425,7 @@ fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
             "--nocapture",
         ])
         .env("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER", "1")
-        .env("AI_COCKPIT_SUBREAPER_CHILD_GROUP_PATH", &child_group_path)
+        .env("TMPDIR", watchdog_directory.path())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
     let mut child = helper.spawn().expect("run isolated subreaper test helper");
@@ -1420,19 +1440,9 @@ fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
             break;
         }
         if Instant::now() >= deadline {
-            if let Ok(group_id) = fs::read_to_string(&child_group_path)
-                && let Ok(group_id) = group_id.parse::<libc::pid_t>()
-            {
-                let killed = unsafe { libc::kill(-group_id, libc::SIGKILL) };
-                if killed != 0 {
-                    assert_eq!(
-                        std::io::Error::last_os_error().raw_os_error(),
-                        Some(libc::ESRCH),
-                        "watchdog terminates only the test-owned descendant group"
-                    );
-                }
-            }
             timed_out = true;
+            // The descendants have six-second alarms. The watchdog owns only
+            // this helper handle; do not signal a reusable numeric process-group ID.
             let cleanup_deadline = Instant::now() + Duration::from_secs(3);
             while Instant::now() < cleanup_deadline
                 && child

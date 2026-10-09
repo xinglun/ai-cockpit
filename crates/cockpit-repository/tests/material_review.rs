@@ -1597,7 +1597,22 @@ fn run_hunkless_git_worker(
         .map(|directory| directory.join("git"))
         .find(|candidate| candidate.is_file())
         .expect("locate real git executable");
-    let wrapper_directory = tempfile::tempdir().unwrap();
+    let wrapper_directory = tempfile::Builder::new()
+        .prefix("ai-cockpit-hunkless-git-")
+        .permissions(fs::Permissions::from_mode(0o700))
+        .tempdir()
+        .unwrap();
+    assert_eq!(
+        wrapper_directory
+            .path()
+            .metadata()
+            .unwrap()
+            .permissions()
+            .mode()
+            & 0o077,
+        0,
+        "hunkless Git wrapper directory must not allow group or other access"
+    );
     let wrapper = wrapper_directory.path().join("git");
     fs::write(
         &wrapper,
