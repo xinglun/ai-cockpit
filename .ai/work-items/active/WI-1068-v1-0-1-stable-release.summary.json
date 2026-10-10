@@ -1235,18 +1235,18 @@
     },
     {
       "evidence": [
-        "Local interface/docs evidence: cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09; cargo test --locked -p cockpit-protocol --test interface_description material_review_ -- --test-threads=1; 2 passed, 0 failed; log sha256:2c0e4dce0ca65c57b1847cbda2862b0b2b9c123daabd2933115fd394c3b64153. Scenario remains unverified pending final acceptance.",
-        "Partial current-source evidence only: CLI tests material_review_command_is_discoverable_from_work_item_help, material_review_record_help_exposes_admission_and_self_declared_limits, material_review_plan_is_read_only_and_reports_stage_one_disabled_state, and material_review_record_fails_closed_when_stage_one_has_no_opt_in passed; MCP shared-service/closed-record tests and protocol plan/record interface-description tests passed in the same 13-package receipt. CI documentation_acceptance passed, but docs_governance_integrity failed on stale parity projections. Not all required CLI/MCP/schema/three-language claims are proven current, so status stays unverified."
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10b.json sha256:f33424192f14ff1dc57a58679a26606785cc774309fec25be597a981ee139545",
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10.json sha256:228353ab69801d3cf288b06ad166b4caa6789546a18d5f25e056b959ab42486c"
       ],
       "expected": "CLI/MCP plan and record use the same repository service; help, schemas, ordinary guide and three-language trust/command/contract-field docs disclose self_declared identity risk and never call review machine Clean, human/provider approval, or release acceptance.",
       "required": true,
       "scenario": "material-review-discovery-and-trilingual-boundary",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Assert CLI top-level/group/leaf/parameter help, MCP initialize/tools/list/requests, docs key claims and receipt output; preserve hidden helper secrecy and existing usage/audit/timezone guide corrections."
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-10T01:49:06.216955681+00:00",
+  "updatedAt": "2026-10-10T01:53:16.087620073+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

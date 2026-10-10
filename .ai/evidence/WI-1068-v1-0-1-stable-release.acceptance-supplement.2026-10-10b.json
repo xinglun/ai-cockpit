@@ -1,0 +1,352 @@
+{
+  "schemaVersion": 1,
+  "kind": "wi1068_acceptance_supplemental_evidence",
+  "recordedAt": "2026-10-10T01:53:00Z",
+  "classification": "agent evidence index; no human or provider approval is asserted",
+  "binding": {
+    "repository": "xinglun/ai-cockpit",
+    "branch": "codex/wi1068-v1-0-1-stable-release",
+    "sourceHead": "7d0c21596e5fe03bdfe8df1fc935d013d387fc4c",
+    "evidenceHead": "336e94fd149eb4ed172ff918c62e6c77914f1d65",
+    "repositorySnapshotDigest": "sha256:59c56b3e19f122a9d8ddffa9722d5fa317d88dfe1c17f80010bf341f3e206a91",
+    "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3"
+  },
+  "docsAndDiscovery": {
+    "cliHelpSnapshots": [
+      {
+        "command": "top-level",
+        "exitCode": 0,
+        "stdout": {
+          "path": "/tmp/wi1068-doc-supplement-336e94fd/top-level.stdout",
+          "bytes": 1818,
+          "sha256": "sha256:bdaf59e9e365426da9b3e6b2196c1a4b9f64b16293253402a90b5f6679df8c65"
+        },
+        "containsHiddenSupervisor": false
+      },
+      {
+        "command": "work-item-group",
+        "exitCode": 0,
+        "stdout": {
+          "path": "/tmp/wi1068-doc-supplement-336e94fd/work-item-group.stdout",
+          "bytes": 3317,
+          "sha256": "sha256:e4bbf786f9a47ae5fda0168216b8fe01ddd5c66a0fe8d6597d9ff804b953a4b3"
+        },
+        "containsHiddenSupervisor": false
+      },
+      {
+        "command": "material-review-group",
+        "exitCode": 0,
+        "stdout": {
+          "path": "/tmp/wi1068-doc-supplement-336e94fd/material-review-group.stdout",
+          "bytes": 491,
+          "sha256": "sha256:01b47a11ac4d4ca2d405998436b073e75ac9f5413b4620e468b3e216c571b37e"
+        },
+        "containsHiddenSupervisor": false
+      },
+      {
+        "command": "material-review-plan",
+        "exitCode": 0,
+        "stdout": {
+          "path": "/tmp/wi1068-doc-supplement-336e94fd/material-review-plan.stdout",
+          "bytes": 302,
+          "sha256": "sha256:18b5cabb3c7ae424556450a2bf46b53009575ecf30fd3094254286703de811e9"
+        },
+        "containsHiddenSupervisor": false
+      },
+      {
+        "command": "material-review-record",
+        "exitCode": 0,
+        "stdout": {
+          "path": "/tmp/wi1068-doc-supplement-336e94fd/material-review-record.stdout",
+          "bytes": 490,
+          "sha256": "sha256:b6c45a599de276a019f7f22838285a511d4fe66db73929b94a82b7e116da310e"
+        },
+        "containsHiddenSupervisor": false
+      }
+    ],
+    "mcpMaterialReviewTests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-mcp",
+        "--test",
+        "material_review",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "passed": 2,
+      "failed": 0,
+      "stdout": {
+        "path": "/tmp/wi1068-targeted-acceptance-7d0c2159/mcp-material-review.stdout",
+        "bytes": 270,
+        "sha256": "sha256:37138601ab38256977a494fe675fe8948f529c271c03480a98bbe1fb9b21ef49"
+      }
+    },
+    "interfaceDescriptionTests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "interface_description",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "passed": 17,
+      "failed": 0,
+      "stdout": {
+        "path": "/tmp/wi1068-targeted-acceptance-7d0c2159/protocol-interface-description.stdout",
+        "bytes": 1357,
+        "sha256": "sha256:ee4d05cd41fb3f5347aaad05e5377f48220f2cf14a9237ffa4bce9ac6c14d044"
+      }
+    },
+    "cliMaterialReviewTests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "material_review",
+        "--",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0,
+      "stdout": {
+        "path": "/tmp/wi1068-targeted-acceptance-7d0c2159/cli-material-review.stdout",
+        "bytes": 428,
+        "sha256": "sha256:1d8aeacd119dedc25b781ddceb2929376108c3c4efccb16419681e380bbe1776"
+      }
+    },
+    "otherPublicSurfaceTests": {
+      "summary": {
+        "path": "/tmp/wi1068-discovery-tests-336e94fd/summary.json",
+        "bytes": 1867,
+        "sha256": "sha256:ca148ba451bbb48ea94dc59f7b5022f2d04027b041ca62e02a46018e6116941b"
+      },
+      "results": [
+        {
+          "label": "cli-usage",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "-p",
+            "cockpit-cli",
+            "--test",
+            "usage",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit": 0,
+          "summaries": [
+            [
+              "ok",
+              "3",
+              "0",
+              "0",
+              "0"
+            ]
+          ],
+          "stdoutBytes": 332,
+          "stderrBytes": 234,
+          "stdoutSha256": "e0aec12827025296b55c58c352f34edff57849a73b84d0f2cadb0b0e177ea342",
+          "stderrSha256": "b16136651d6036ccdb9fc9420af9d22a55a47bd7a53da1bc02adb2e8bb0150ea"
+        },
+        {
+          "label": "cli-mcp-outcome-parity",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "-p",
+            "cockpit-cli",
+            "--test",
+            "cli_mcp_outcome_parity",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit": 0,
+          "summaries": [
+            [
+              "ok",
+              "6",
+              "0",
+              "0",
+              "0"
+            ]
+          ],
+          "stdoutBytes": 572,
+          "stderrBytes": 268,
+          "stdoutSha256": "cb66d32ad451a92fecdb5efd0dfc2a50f94632b92498b657f81f94f3517a7877",
+          "stderrSha256": "765d55de29887f938f14ed583f8c345fbca9e62f919b124855d39c995238fc6b"
+        },
+        {
+          "label": "mcp-usage",
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "-p",
+            "cockpit-mcp",
+            "--test",
+            "usage",
+            "--",
+            "--test-threads=1"
+          ],
+          "exit": 0,
+          "summaries": [
+            [
+              "ok",
+              "3",
+              "0",
+              "0",
+              "0"
+            ]
+          ],
+          "stdoutBytes": 328,
+          "stderrBytes": 234,
+          "stdoutSha256": "d9c96d9aa31fbd632312b25a9f18561d51b572354cf67f11828cba0fcee987a7",
+          "stderrSha256": "31bd3c9ed4598ca6f118d420d41e6ebf567e250ce595e80bc8902eba27d9decf"
+        }
+      ]
+    },
+    "threeLanguageReferenceFiles": [
+      {
+        "path": "docs/reference/commands.md",
+        "bytes": 57717,
+        "sha256": "sha256:ecf3f67916ccbd06f963c6bf77558231e829f9f73e25b51596e3652b2cc4aa2e"
+      },
+      {
+        "path": "docs/reference/commands.zh-CN.md",
+        "bytes": 51062,
+        "sha256": "sha256:8be21730d25a013e50d9bd3c4a06b3bb4e21817b1402b3a6b407a3f4ae50b450"
+      },
+      {
+        "path": "docs/reference/commands.ja.md",
+        "bytes": 61193,
+        "sha256": "sha256:e995dfbfa3902a2c58ca3fb10b6783aa106565597dbb528d7acc642fe6a21f2f"
+      },
+      {
+        "path": "docs/reference/contract-fields.md",
+        "bytes": 11563,
+        "sha256": "sha256:6063a2216994f6e429c880f3bad7136d10fc93c43c3e2866939a14f580f22da3"
+      },
+      {
+        "path": "docs/reference/contract-fields.zh-CN.md",
+        "bytes": 10818,
+        "sha256": "sha256:80ac8647b21c2816e6b5e6af748eabfb21a593846d6027d408f83b0ddf90c020"
+      },
+      {
+        "path": "docs/reference/contract-fields.ja.md",
+        "bytes": 12554,
+        "sha256": "sha256:01327f88b4d65eefc3d21cdb3b84f0e8572882165146bcef8b3cf7555694d231"
+      },
+      {
+        "path": "docs/reference/collaboration-language-contract.md",
+        "bytes": 25097,
+        "sha256": "sha256:74bfe8641fd0745e4bb068cd9d2cb002fd8db269f245b8a818236c6e6a3e16d8"
+      },
+      {
+        "path": "docs/reference/collaboration-language-contract.zh-CN.md",
+        "bytes": 23183,
+        "sha256": "sha256:decc358e74cc797fba9bba61587df63ef91f4084e639744c1d64def56906db0b"
+      },
+      {
+        "path": "docs/reference/collaboration-language-contract.ja.md",
+        "bytes": 30859,
+        "sha256": "sha256:5e4590c5e5cd073840e7d29e019bf0a4a50602babfd609e9ffc45d620679639e"
+      }
+    ],
+    "generatedInterfaceReferenceCheck": {
+      "command": [
+        "python3",
+        "scripts/generate_interface_references.py",
+        "--repo",
+        "/workspace/wi1068-pr1022",
+        "--check"
+      ],
+      "exitCode": 0,
+      "stdoutSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "governanceIntegrityCheck": {
+      "command": [
+        "tests/docs/parity_status_check.sh",
+        "/workspace/wi1068-pr1022",
+        "/tmp/wi1068-doc-supplement-336e94fd/governance-integrity-report.json"
+      ],
+      "exitCode": 0,
+      "output": "governance integrity gate passed: 900 work items",
+      "report": {
+        "path": "/tmp/wi1068-doc-supplement-336e94fd/governance-integrity-report.json",
+        "bytes": 169660,
+        "sha256": "sha256:f5a13cf63d167aba96da7dd8d91be748b510d782dfad1f001f0c8c6c2c6135f1"
+      },
+      "reportState": "passed",
+      "findings": 0,
+      "problems": 0,
+      "log": {
+        "path": "/tmp/wi1068-doc-supplement-336e94fd/docs-governance.stdout",
+        "bytes": 49,
+        "sha256": "sha256:76c7155120914af3b29de94b725d7ba64fc4d677dd71bb5bfb09bbac8f3b6703"
+      }
+    },
+    "workItemTrilingualCounterparts": {
+      "workflowEquivalentLoop": "find docs/work-items -maxdepth 1 -name WI-*.md excluding *.zh-CN.md and *.ja.md; require matching .zh-CN.md and .ja.md",
+      "englishFiles": 700,
+      "exitCode": 0,
+      "stdoutSha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "environmentCorrectionHistory": [
+      {
+        "attempt": 1,
+        "exitCode": 1,
+        "result": "docs script did not start because cargo was absent from that shell PATH",
+        "correctedAttempt": 2,
+        "environment": "HOME=/tmp; full existing PATH retained with /workspace/.cloud-tools/cargo/bin prepended; CARGO_HOME and RUSTUP_HOME set to the verified workspace paths",
+        "correctedExitCode": 0
+      }
+    ],
+    "reviewerBoundary": "Current recorded receipt remains assurance=self_declared; these technical checks do not authenticate a reviewer or create human/provider approval."
+  },
+  "scenarioCoverage": {
+    "composition-test-support-feature-isolation": "verified in prior supplement",
+    "material-review-raw-and-reviewable-boundary": "unverified; the current bound request has 15 reviewable syntax Unknown entries while the Contract plan describes seven candidate Unknowns; reconcile exact population before claiming scenario completion",
+    "material-review-canonical-context-and-cross-environment": "unverified",
+    "material-review-authorization-and-receipt-integrity": "unverified",
+    "material-review-unified-gate-and-report-validation": "unverified; prior exact-head CI failed in gate-report recomputation before launching repository gates",
+    "material-review-discovery-and-trilingual-boundary": "verified by CLI/MCP/protocol surface tests, direct default CLI help outputs, checked-in reference projections, multilingual trust-boundary references, and successful documentation integrity gate"
+  },
+  "targetedMaterialSuiteSummary": {
+    "testSummary": {
+      "path": "/tmp/wi1068-targeted-acceptance-7d0c2159/summary.json",
+      "bytes": 4484,
+      "sha256": "sha256:c15ba27eebfd734730ed0618487b5f6b9202236a9d65092958ec31180c5e64b5"
+    },
+    "passed": 132,
+    "failed": 0
+  },
+  "remainingAcceptance": {
+    "sixNamedScenariosVerified": 2,
+    "sixNamedScenariosTotal": 6,
+    "stillUnverified": [
+      "material-review-raw-and-reviewable-boundary",
+      "material-review-canonical-context-and-cross-environment",
+      "material-review-authorization-and-receipt-integrity",
+      "material-review-unified-gate-and-report-validation"
+    ],
+    "merge": false,
+    "tag": false,
+    "release": false
+  }
+}
