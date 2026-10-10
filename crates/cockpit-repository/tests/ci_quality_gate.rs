@@ -156,9 +156,9 @@ fn reviewed_material_repository() -> (tempfile::TempDir, PathBuf) {
     (directory, contract)
 }
 
-fn reviewed_material_repository_with_comparison_base_unknown() ->
-    (tempfile::TempDir, PathBuf, String)
-{
+fn reviewed_material_repository_with_comparison_base_unknown(
+    comparison_material: &[u8],
+) -> (tempfile::TempDir, PathBuf, String) {
     let directory = tempfile::tempdir().expect("tempdir");
     let root = directory.path();
     git(root, &["init", "-q"]);
@@ -169,8 +169,7 @@ fn reviewed_material_repository_with_comparison_base_unknown() ->
 
     let comparison_path = "crates/comparison_base.rs";
     fs::create_dir_all(root.join("crates")).expect("source directory");
-    fs::write(root.join(comparison_path), benign_syntax_unknown_source())
-        .expect("base Rust source");
+    fs::write(root.join(comparison_path), comparison_material).expect("base comparison material");
     git(root, &["add", "."]);
     git(root, &["commit", "-qm", "base with Rust comparison material"]);
     attach(root).expect("attach");
@@ -203,8 +202,8 @@ fn reviewed_material_repository_with_comparison_base_unknown() ->
     git(root, &["commit", "-qm", "advance CI comparison base"]);
     let comparison_base = git_revision(root);
 
-    fs::write(root.join(comparison_path), benign_syntax_unknown_source())
-        .expect("restore base Rust material in candidate");
+    fs::write(root.join(comparison_path), comparison_material)
+        .expect("restore base comparison material in candidate");
     fs::write(
         root.join("crates/material.rs"),
         benign_syntax_unknown_source(),
@@ -483,7 +482,9 @@ fn quality_gate_recomputes_state_after_material_review_discharge() {
 #[test]
 fn quality_gate_does_not_discharge_comparison_base_only_material_unknown() {
     let (directory, contract, comparison_base) =
-        reviewed_material_repository_with_comparison_base_unknown();
+        reviewed_material_repository_with_comparison_base_unknown(
+            benign_syntax_unknown_source().as_bytes(),
+        );
     let root = directory.path();
 
     let report = evaluate_contract_quality_gate(
@@ -519,6 +520,48 @@ fn quality_gate_does_not_discharge_comparison_base_only_material_unknown() {
             "repository_material_inspection_unavailable".into()
         ),
         "the Contract-base receipt must not discharge an extra comparison-base Unknown"
+    );
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
+}
+
+#[test]
+fn quality_gate_keeps_unreviewable_comparison_base_material_unknown() {
+    let (directory, contract, comparison_base) =
+        reviewed_material_repository_with_comparison_base_unknown(b"\0binary\xffmaterial\0");
+    let root = directory.path();
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&comparison_base),
+        &runtime(),
+    )
+    .expect("quality gate report");
+
+    assert_eq!(report.comparison_base_revision, comparison_base);
+    assert!(
+        report
+            .changed_paths
+            .iter()
+            .any(|path| path == "crates/comparison_base.rs"),
+        "CI comparison diff must contain the binary material path"
+    );
+    assert!(report.review_receipt_digest.is_some());
+    assert_eq!(
+        report.review_assurance,
+        Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
+    );
+    assert!(report.raw_scanner_unknowns.contains(
+        &"repository_material_inspection_unavailable".into()
+    ));
+    assert!(
+        report.effective_unknowns.contains(
+            &"repository_material_inspection_unavailable".into()
+        ),
+        "a canonical receipt cannot discharge unreviewable comparison-base material"
     );
     assert_eq!(report.state, "blocked");
     assert_eq!(report.decision_state, "yellow");
