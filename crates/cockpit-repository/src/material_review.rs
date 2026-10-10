@@ -16,8 +16,8 @@ use cap_std::fs::OpenOptions as CapOpenOptions;
 use cap_std::{ambient_authority, fs::Dir};
 use cockpit_core::Digest;
 use cockpit_git::{
-    BoundedGitOutput, ChangeContentState, ChangeKind, GitError, GitRepository,
-    MAX_BOUNDED_GIT_OUTPUT_BYTES, MAX_CHANGE_TEXT_BYTES,
+    BoundedGitOutput, ChangeContentState, ChangeEvidence, ChangeKind, GitError, GitRepository,
+    MAX_BOUNDED_GIT_OUTPUT_BYTES, MAX_CHANGE_TEXT_BYTES, RepositorySnapshot,
 };
 use cockpit_protocol::{
     Contract, MATERIAL_INSPECTION_REVIEW_CAPABILITY,
@@ -103,10 +103,20 @@ pub(crate) struct MaterialReviewGateProjection {
     pub review_assurance: Option<MaterialInspectionReviewAssurance>,
     pub effective_unknowns: Vec<String>,
     pub discharged_unknowns: Vec<String>,
+    pub reviewed_source_head: Option<String>,
+    pub reviewed_unknown_members: Vec<ReviewedMaterialMemberIdentity>,
     pub finding_codes: Vec<String>,
     pub blocked_by_finding: bool,
     pub projection_unavailable: bool,
     pub review_decision_available: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub(crate) struct ReviewedMaterialMemberIdentity {
+    path: String,
+    kind: String,
+    changed_hunk_digest: Digest,
+    after_blob_digest: Digest,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -177,6 +187,15 @@ struct ManifestEntry<'a> {
 
 fn json_digest(value: &impl Serialize) -> Result<Digest, MaterialReviewRequestError> {
     digest_json(value).map_err(|error| MaterialReviewRequestError::Identity(error.to_string()))
+}
+
+fn changed_hunk_digest(change: &ChangeEvidence) -> Result<Digest, MaterialReviewRequestError> {
+    let origins = change
+        .added_line_origins
+        .iter()
+        .map(|origin| (origin.after_line, origin.hunk_index))
+        .collect::<Vec<_>>();
+    json_digest(&(&change.added_lines, &origins, &change.removed_lines))
 }
 
 fn material_review_request_digest(
@@ -1085,8 +1104,7 @@ fn material_review_request_with_contract_digest(
             .iter()
             .map(|origin| (origin.after_line, origin.hunk_index))
             .collect::<Vec<_>>();
-        let changed_hunk_digest =
-            json_digest(&(&change.added_lines, &origins, &change.removed_lines))?;
+        let changed_hunk_digest = changed_hunk_digest(change)?;
         let diagnosis = rust_diagnostics.get(&change.path);
         let scanner_assessment = if !matches!(
             change.content_state,
@@ -1281,6 +1299,8 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
                     review_assurance: None,
                     effective_unknowns,
                     discharged_unknowns: Vec::new(),
+                    reviewed_source_head: None,
+                    reviewed_unknown_members: Vec::new(),
                     finding_codes: request.finding_codes,
                     blocked_by_finding,
                     projection_unavailable: false,
@@ -1289,15 +1309,28 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
             }
         };
     let mut effective_unknowns = request.raw_unknown_codes.clone();
-    let has_reviewable_unknown = request.entries.iter().any(|entry| {
-        entry.scanner_assessment == MaterialScannerAssessment::Unknown && entry.reviewable
-    });
+    let unknown_entries = request
+        .entries
+        .iter()
+        .filter(|entry| entry.scanner_assessment == MaterialScannerAssessment::Unknown)
+        .collect::<Vec<_>>();
+    let has_reviewable_unknown = unknown_entries.iter().any(|entry| entry.reviewable);
     if stale_receipt && has_reviewable_unknown {
         effective_unknowns.push("material_review_receipt_stale".into());
     }
-    let all_unknowns_reviewable = request.entries.iter().all(|entry| {
-        entry.scanner_assessment != MaterialScannerAssessment::Unknown || entry.reviewable
-    });
+    let all_unknowns_reviewable = unknown_entries.iter().all(|entry| entry.reviewable);
+    let reviewed_unknown_members = unknown_entries
+        .iter()
+        .filter_map(|entry| {
+            Some(ReviewedMaterialMemberIdentity {
+                path: entry.path.clone(),
+                kind: entry.kind.clone(),
+                changed_hunk_digest: entry.changed_hunk_digest.clone(),
+                after_blob_digest: entry.after_blob_digest.clone()?,
+            })
+        })
+        .collect::<Vec<_>>();
+    let all_unknowns_have_blob_proof = reviewed_unknown_members.len() == unknown_entries.len();
     let permitted_unknown_set = request.raw_unknown_codes.len() == 1
         && request.raw_unknown_codes[0] == "repository_material_inspection_unavailable";
     let review_decision_available = request.review_enabled
@@ -1305,12 +1338,14 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
         && !blocked_by_finding
         && has_reviewable_unknown
         && all_unknowns_reviewable
+        && all_unknowns_have_blob_proof
         && permitted_unknown_set;
     let may_discharge = request.review_enabled
         && receipt.is_some()
         && !blocked_by_finding
         && has_reviewable_unknown
         && all_unknowns_reviewable
+        && all_unknowns_have_blob_proof
         && permitted_unknown_set;
     if may_discharge {
         effective_unknowns
@@ -1331,11 +1366,106 @@ pub(crate) fn material_review_gate_projection_with_contract_digest(
         } else {
             Vec::new()
         },
+        reviewed_source_head: may_discharge.then(|| request.reviewed_source_head.clone()),
+        reviewed_unknown_members: if may_discharge {
+            reviewed_unknown_members
+        } else {
+            Vec::new()
+        },
         finding_codes: request.finding_codes,
         blocked_by_finding,
         projection_unavailable: false,
         review_decision_available,
     })
+}
+
+/// Restrict a canonical material-review discharge to exact members also
+/// present in the CI comparison snapshot. The review request builder checks
+/// that its committed source is clean and that its own HEAD/source identity is
+/// stable before and after bounded blob reads. CI and canonical request
+/// snapshots use different tree-digest algorithms, so this comparison binds
+/// the canonical committed-blob proof only when both snapshots name the same
+/// HEAD.
+pub(crate) fn preserve_unreviewed_comparison_material_unknowns(
+    comparison_snapshot: &RepositorySnapshot,
+    projection: &mut MaterialReviewGateProjection,
+) {
+    const MATERIAL_UNKNOWN: &str = "repository_material_inspection_unavailable";
+
+    if !projection
+        .discharged_unknowns
+        .iter()
+        .any(|unknown| unknown == MATERIAL_UNKNOWN)
+    {
+        return;
+    }
+
+    let same_reviewed_head = projection
+        .reviewed_source_head
+        .as_deref()
+        .is_some_and(|reviewed_head| comparison_snapshot.head.as_deref() == Some(reviewed_head));
+    if !same_reviewed_head {
+        preserve_material_unknown(
+            &mut projection.discharged_unknowns,
+            &mut projection.effective_unknowns,
+        );
+        return;
+    }
+
+    let mut unreviewed_snapshot = comparison_snapshot.clone();
+    unreviewed_snapshot.change_evidence.retain(|change| {
+        !projection
+            .reviewed_unknown_members
+            .iter()
+            .any(|member| comparison_change_matches_reviewed_member(change, member))
+    });
+    let (signals, _) = derive_governance_signals_with_diagnostics(&unreviewed_snapshot);
+    if signals
+        .unknowns
+        .iter()
+        .any(|unknown| unknown == MATERIAL_UNKNOWN)
+    {
+        preserve_material_unknown(
+            &mut projection.discharged_unknowns,
+            &mut projection.effective_unknowns,
+        );
+    }
+}
+
+fn comparison_change_matches_reviewed_member(
+    change: &ChangeEvidence,
+    member: &ReviewedMaterialMemberIdentity,
+) -> bool {
+    let kind = format!("{:?}", change.kind).to_ascii_lowercase();
+    if change.path != member.path || kind != member.kind {
+        return false;
+    }
+    let Ok(changed_hunk_digest) = changed_hunk_digest(change) else {
+        return false;
+    };
+
+    // ChangeEvidence intentionally does not carry committed blob digests.
+    // With an exact request HEAD match, the canonical request's bounded,
+    // committed afterBlobDigest is the source identity for this path; never
+    // derive it from checkout after_text, which can be filtered or truncated.
+    let comparison_member = ReviewedMaterialMemberIdentity {
+        path: change.path.clone(),
+        kind,
+        changed_hunk_digest,
+        after_blob_digest: member.after_blob_digest.clone(),
+    };
+    &comparison_member == member
+}
+
+fn preserve_material_unknown(
+    discharged_unknowns: &mut Vec<String>,
+    effective_unknowns: &mut Vec<String>,
+) {
+    const MATERIAL_UNKNOWN: &str = "repository_material_inspection_unavailable";
+    discharged_unknowns.retain(|unknown| unknown != MATERIAL_UNKNOWN);
+    effective_unknowns.push(MATERIAL_UNKNOWN.into());
+    effective_unknowns.sort();
+    effective_unknowns.dedup();
 }
 
 pub(crate) fn apply_material_review_gate_to_decision(
@@ -1353,6 +1483,8 @@ pub(crate) fn apply_material_review_gate_to_decision(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
+            reviewed_source_head: None,
+            reviewed_unknown_members: Vec::new(),
             finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,

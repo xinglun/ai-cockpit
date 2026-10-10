@@ -171,7 +171,10 @@ fn reviewed_material_repository_with_comparison_base_unknown(
     fs::create_dir_all(root.join("crates")).expect("source directory");
     fs::write(root.join(comparison_path), comparison_material).expect("base comparison material");
     git(root, &["add", "."]);
-    git(root, &["commit", "-qm", "base with Rust comparison material"]);
+    git(
+        root,
+        &["commit", "-qm", "base with Rust comparison material"],
+    );
     attach(root).expect("attach");
     start_work_item_with_options(
         root,
@@ -210,7 +213,14 @@ fn reviewed_material_repository_with_comparison_base_unknown(
     )
     .expect("reviewed source");
     git(root, &["add", comparison_path, "crates/material.rs"]);
-    git(root, &["commit", "-qm", "restore base material and add reviewed source"]);
+    git(
+        root,
+        &[
+            "commit",
+            "-qm",
+            "restore base material and add reviewed source",
+        ],
+    );
 
     let contract = contract_path(root);
     let mut contract_value: serde_json::Value =
@@ -235,10 +245,13 @@ fn reviewed_material_repository_with_comparison_base_unknown(
     )
     .expect("write material-review Contract");
 
-    let request = plan_work_item_material_review(root, "WI-CI-GATE")
-        .expect("plan canonical material review");
+    let request =
+        plan_work_item_material_review(root, "WI-CI-GATE").expect("plan canonical material review");
     assert!(
-        !request.entries.iter().any(|entry| entry.path == comparison_path),
+        !request
+            .entries
+            .iter()
+            .any(|entry| entry.path == comparison_path),
         "comparison-base-only Rust path must not enter the Contract-base review manifest"
     );
     let current_runtime = runtime();
@@ -511,14 +524,14 @@ fn quality_gate_does_not_discharge_comparison_base_only_material_unknown() {
         Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
     );
     assert!(
-        report.raw_scanner_unknowns.contains(&
-            "repository_material_inspection_unavailable".into()
-        )
+        report
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
     );
     assert!(
-        report.effective_unknowns.contains(&
-            "repository_material_inspection_unavailable".into()
-        ),
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
         "the Contract-base receipt must not discharge an extra comparison-base Unknown"
     );
     assert_eq!(report.state, "blocked");
@@ -554,13 +567,15 @@ fn quality_gate_keeps_unreviewable_comparison_base_material_unknown() {
         report.review_assurance,
         Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
     );
-    assert!(report.raw_scanner_unknowns.contains(
-        &"repository_material_inspection_unavailable".into()
-    ));
     assert!(
-        report.effective_unknowns.contains(
-            &"repository_material_inspection_unavailable".into()
-        ),
+        report
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
         "a canonical receipt cannot discharge unreviewable comparison-base material"
     );
     assert_eq!(report.state, "blocked");

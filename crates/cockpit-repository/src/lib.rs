@@ -4338,7 +4338,7 @@ pub fn evaluate_contract_quality_gate(
         .parent()
         .unwrap_or(&root)
         .join(format!("{}.summary.json", contract.work_item_id));
-    let projection = match material_review::material_review_gate_projection_with_contract_digest(
+    let mut projection = match material_review::material_review_gate_projection_with_contract_digest(
         &root,
         &contract,
         &current_contract_digest,
@@ -4352,12 +4352,15 @@ pub fn evaluate_contract_quality_gate(
             review_assurance: None,
             effective_unknowns: vec!["material_review_projection_unavailable".into()],
             discharged_unknowns: Vec::new(),
+            reviewed_source_head: None,
+            reviewed_unknown_members: Vec::new(),
             finding_codes: Vec::new(),
             blocked_by_finding: false,
             projection_unavailable: true,
             review_decision_available: false,
         },
     };
+    material_review::preserve_unreviewed_comparison_material_unknowns(&snapshot, &mut projection);
     let projection =
         material_review::apply_material_review_projection_to_decision(projection, &mut decision);
     decision.recompute_state_from_effective_facts();
