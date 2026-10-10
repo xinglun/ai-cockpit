@@ -92,6 +92,14 @@
     "work-item-environment-drift"
   ],
   "residualRiskExpectation": null,
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1070-wi1068-parity-repair-20261010",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1024",
+    "worktree": "/workspace/ai-cockpit-wi1070"
+  },
   "restrictedWriteApproval": null,
   "resumeHistory": [],
   "risk": "high",
