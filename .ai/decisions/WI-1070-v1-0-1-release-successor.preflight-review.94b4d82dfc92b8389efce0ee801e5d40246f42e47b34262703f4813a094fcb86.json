@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1",
+  "reason": "The user explicitly replied “confirm review” at 2026-10-10 20:06 UTC in the supplied transcript, bound to this exact Contract sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657, preflight decision sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1, and repository snapshot sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2. This confirms review of the WI-1070 modify_source verification policy stage bindings and its finite explicit 900-second ceiling across task, pre_ci, pr, merge, and release; omission keeps the 300-second default. It does not authorize merge, release, publication, tag, provider action, or close.",
+  "recordedAt": "2026-10-10T20:07:38Z",
+  "recordedBy": "Human user Ray (explicit confirmation in the supplied transcript; Runtime does not independently authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

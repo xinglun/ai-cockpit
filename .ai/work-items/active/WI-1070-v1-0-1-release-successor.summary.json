@@ -133,9 +133,12 @@
       ]
     }
   ],
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+  ],
   "checkpointAt": "2026-10-10T09:36:05Z",
-  "checkpointContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+  "checkpointContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -233,18 +236,18 @@
       "workItemId": "WI-1070-v1-0-1-release-successor"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+  "checkpointRepositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
   "createdAt": "2026-10-10T07:23:43Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+    "contractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
-    "reason": "The user supplied this exact human confirmation: Assistant, 2026-10-10 13:48:58 UTC, Sentinel_55cd9d40f06c81919a469416348a75a7, requested confirm_review for canonical Contract sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68 and the real PR/worktree binding; User, 2026-10-10 15:37:39 UTC, Sentinel_fa47f07d34bc819182ebb91b54ec1e74, replied ‘confirm review’. This receipt binds preflight decision sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc and repository snapshot sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2 for repository ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b. It confirms only the bounded review of the actual PR #1024 resource binding; the existing acceptance criteria, scope, and 900-second task-stage ceiling remain unchanged. It does not claim tests passed or authorize merge, tag, release, publication, or close.",
-    "recordedAt": "2026-10-10T15:40:13Z",
-    "recordedBy": "human user Ray (explicit confirmation in the supplied conversation transcript; Runtime does not independently authenticate identity)",
+    "preflightDecisionDigest": "sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1",
+    "reason": "The user explicitly replied “confirm review” at 2026-10-10 20:06 UTC in the supplied transcript, bound to this exact Contract sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657, preflight decision sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1, and repository snapshot sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2. This confirms review of the WI-1070 modify_source verification policy stage bindings and its finite explicit 900-second ceiling across task, pre_ci, pr, merge, and release; omission keeps the 300-second default. It does not authorize merge, release, publication, tag, provider action, or close.",
+    "recordedAt": "2026-10-10T20:07:38Z",
+    "recordedBy": "Human user Ray (explicit confirmation in the supplied transcript; Runtime does not independently authenticate identity)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+    "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
     "schemaVersion": 1,
     "workItemId": "WI-1070-v1-0-1-release-successor"
   },
@@ -263,8 +266,8 @@
     "finish": {
       "actorProvenance": "unknown",
       "eventType": "work_item_finished",
-      "occurredAt": "2026-10-10T15:50:37.183392501Z",
-      "recordedAt": "2026-10-10T15:50:37.183392501Z",
+      "occurredAt": "2026-10-10T20:16:52.209176768Z",
+      "recordedAt": "2026-10-10T20:16:52.209176768Z",
       "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
       "runtimeVersion": "1.0.1"
     },
@@ -280,11 +283,11 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T16:13:49Z",
+  "preflightAt": "2026-10-10T20:14:09Z",
   "preflightContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
-  "preflightDecisionDigest": "sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
   "recoveryRetryConsumed": {
@@ -365,8 +368,8 @@
       "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-10T15:50:37.183392501Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T20:16:52.209176768Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -425,10 +428,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-10T16:12:52Z"
-  },
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }

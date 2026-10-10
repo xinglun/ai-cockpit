@@ -5,7 +5,7 @@
     "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
     "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
     "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
-    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite 900-second bound under this Work Item's task-stage timeout ceiling. Use one Runtime worker; omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
+    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite explicit 900-second timeout under this Work Item's modify_source verification policy. The policy stage refs are task, pre_ci, pr, merge, and release; the full-workspace command runs at task stage with one Runtime worker. Omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
     "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
     "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
     "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
@@ -13,9 +13,9 @@
     "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
     "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
   ],
-  "createdAt": "2026-10-10T15:50:37.183392501Z",
+  "createdAt": "2026-10-10T20:16:52.209176768Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:833333449746d568a176203face3d5fa8a6477f0f5f5c9c7c90192f3ae34b96c",
+  "evidenceDigest": "sha256:ddf77d342926201dbedc27fb2b51647e8b5613054268a5dfbb9a85fffc1394e8",
   "evidenceRefs": [
     ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
   ],
@@ -41,7 +41,7 @@
         ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+      "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
       "workItemId": "WI-1070-v1-0-1-release-successor"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,7 +49,22 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+        }
+      ],
       "evidence": [
         {
           "evidenceRefs": [
@@ -70,15 +85,7 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-          ],
-          "inference": false,
-          "text": "No repository paths were observed as changed by the current Summary."
-        }
-      ],
+      "nonRiskExplanations": [],
       "outcomeSummary": [
         {
           "evidenceRefs": [
@@ -130,7 +137,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-10T15:50:37.183392501Z",
+      "cutoff": "2026-10-10T20:16:52.209176768Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -147,8 +154,8 @@
     },
     "workItemId": "WI-1070-v1-0-1-release-successor"
   },
-  "taskReportDigest": "sha256:016bd24e2126d4607a0367d304a7e32a78626e98632b782517a57a509f821436",
-  "taskReportMarkdownDigest": "sha256:6c4876f861f8983961943b1fcd67e14a372e11f5fb8ef639d09e6296feb98a1f",
+  "taskReportDigest": "sha256:dd3760ab816b3e0155407973555afbc6292cdbbf867d737adfc050f11f4a0a3b",
+  "taskReportMarkdownDigest": "sha256:3629ad35c0a749c5a8e03682d35c4ae10e588c907423872c1c9200238ff6c220",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -14,7 +14,8 @@
 
 ## Delivered changes
 
-- None
+- Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json
+- Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json
 
 ## Findings
 
