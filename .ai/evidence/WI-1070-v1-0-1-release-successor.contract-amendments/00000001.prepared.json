@@ -1,0 +1,188 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-7837d855e38bfa4fae5cc5a2b3f5b02b6f427adc8f4f244de1b12a6e2dd8a508",
+      "expectedContractDigest": "sha256:b2b2cc211226a866fe6274dafa67e4978185db20ff2fe1523c47b11b22052cb9",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation."
+        }
+      ]
+    },
+    "requestDigest": "sha256:fe3100a62c76a317b1aabaa857b989ff5536253acb54395bf55963d0a4e3a1e4",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "A1: WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior success or failure remain byte-identical; the new successor receipt is append-only and no historical result is relabeled.",
+        "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+        "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; the projections match the finalized Contract and no WI-1069 record or worktree is overwritten.",
+        "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route on the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+        "A5: A fresh Runtime-bound release plan binds PR #1022, the exact merge commit and source, the v1.0.0 N-1 reference, unused v1.0.1 tag/Release names, provider immutability metadata, and publication workflow gates; do not infer publication from branch evidence.",
+        "A6: Run the currently admitted formal verification and exact-head CI checks, and preserve old failed attempts. Release artifact checks are accepted only against immutable published artifacts; no source checkout or local Runtime binary substitutes.",
+        "A7: Keep tag creation, public Release publication, official manifest/checksum/download/install checks, staged N-1 upgrade, Apple Silicon installation, and predecessor close explicitly pending; do not claim them complete or execute them without separate authorization."
+      ],
+      "authority": "authorized",
+      "baseRevision": "dae495743e9a8bc2054ab8521a7e728520d5539d",
+      "createdAt": "2026-10-10T07:23:43Z",
+      "goal": "Complete current authorized prepublication acceptance on the exact merged source and the canonical English, Simplified Chinese, and Japanese parity projections. Preserve all predecessor evidence and failures. Keep unfinished publication and post-publication gates pending.",
+      "intent": "Resume WI-1068 remaining v1.0.1 release acceptance through its authorized recovery successor and repair the approved three-row WI-1068 parity projection with the required trilingual Work Item documentation.",
+      "mode": "release",
+      "outOfScope": [
+        "Product source changes",
+        "Test source changes",
+        "CI policy changes",
+        "WI-1068 archive and all prior evidence changes",
+        "Merge",
+        "Tag creation",
+        "Release publication or public asset mutation",
+        "Apple Silicon host installation"
+      ],
+      "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "risk": "high",
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "previousContractDigest": "sha256:b2b2cc211226a866fe6274dafa67e4978185db20ff2fe1523c47b11b22052cb9",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior success or failure remain byte-identical; the new successor receipt is append-only and no historical result is relabeled.",
+        "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+        "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; the projections match the finalized Contract and no WI-1069 record or worktree is overwritten.",
+        "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route on the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+        "A5: A fresh Runtime-bound release plan binds PR #1022, the exact merge commit and source, the v1.0.0 N-1 reference, unused v1.0.1 tag/Release names, provider immutability metadata, and publication workflow gates; do not infer publication from branch evidence.",
+        "A6: Run the currently admitted formal verification and exact-head CI checks, and preserve old failed attempts. Release artifact checks are accepted only against immutable published artifacts; no source checkout or local Runtime binary substitutes.",
+        "A7: Keep tag creation, public Release publication, official manifest/checksum/download/install checks, staged N-1 upgrade, Apple Silicon installation, and predecessor close explicitly pending; do not claim them complete or execute them without separate authorization."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "dae495743e9a8bc2054ab8521a7e728520d5539d",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-10T07:23:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Complete current authorized prepublication acceptance on the exact merged source and the canonical English, Simplified Chinese, and Japanese parity projections. Preserve all predecessor evidence and failures. Keep unfinished publication and post-publication gates pending.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Resume WI-1068 remaining v1.0.1 release acceptance through its authorized recovery successor and repair the approved three-row WI-1068 parity projection with the required trilingual Work Item documentation.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Product source changes",
+        "Test source changes",
+        "CI policy changes",
+        "WI-1068 archive and all prior evidence changes",
+        "Merge",
+        "Tag creation",
+        "Release publication or public asset mutation",
+        "Apple Silicon host installation"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+      ],
+      "sources": [
+        "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "newContractDigest": "sha256:5017ac38e363b665abee74419f5306004636fb05b0266a6d7fc25dc922169f44",
+    "previousSummaryDigest": "sha256:1e579f95090dfc41221a0c47423c7b8aa29e2cea496579edd402ccf62d450431",
+    "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+    "environmentObservationDigest": "sha256:660979fc57ded9683f0509af115af1b3261041f2487d80cb6c97f75f22fdd4cf",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:7837d855e38bfa4fae5cc5a2b3f5b02b6f427adc8f4f244de1b12a6e2dd8a508",
+    "preparedAt": "2026-10-10T07:25:06Z"
+  },
+  "preparedDigest": "sha256:bc1dcff92a1693963a53bb3269846991c92c36ad094ed4fb828c3ef92838246d"
+}

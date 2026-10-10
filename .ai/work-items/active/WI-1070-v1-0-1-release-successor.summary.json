@@ -1,0 +1,33 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-10-10T07:23:43Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-10T07:25:06.727651962Z",
+      "recordedAt": "2026-10-10T07:25:06.727651962Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+  "preflightAt": "2026-10-10T07:25:07Z",
+  "preflightContractDigest": "sha256:5017ac38e363b665abee74419f5306004636fb05b0266a6d7fc25dc922169f44",
+  "preflightDecisionDigest": "sha256:6173b2857cc0c3a9e5eb099c28402407d6e430e65aaa53a45c17c936f6cd4ca6",
+  "preflightRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-10-10T07:25:06Z",
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}
