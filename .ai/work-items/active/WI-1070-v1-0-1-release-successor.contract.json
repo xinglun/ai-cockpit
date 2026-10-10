@@ -6,7 +6,7 @@
     "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
     "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
     "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
-    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite 900-second bound under this Work Item's task-stage timeout ceiling. Use one Runtime worker; omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
+    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite explicit 900-second timeout under this Work Item's modify_source verification policy. The policy stage refs are task, pre_ci, pr, merge, and release; the full-workspace command runs at task stage with one Runtime worker. Omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
     "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
     "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
     "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
@@ -45,12 +45,16 @@
             "wi1070-a6-task-workspace-timeout",
             "WI-1070-v1-0-1-release-successor:A6"
           ],
-          "reason": "This Work Item rule permits an explicit timeout up to 900 seconds for otherwise admitted task-stage modify_source verification, to allow one complete run of the currently declared cargo test --locked --workspace check. It is a ceiling only: an omitted timeout retains the Runtime's 300-second default. The rule is limited to stage task and does not authorize pre_ci, pr, merge, release, publication, tag, or provider actions. The verification still uses one Runtime worker and the exact declared test command and assertions. Runtime policy binds timeout to operation/stage rather than command digest, so the ceiling applies to otherwise admitted task-stage modify_source verification under this Work Item. single_authorized_human requires actual human approval; this amendment records none.",
+          "reason": "This Work Item rule permits a finite explicit timeout up to 900 seconds for otherwise admitted modify_source verification at each supported Runtime stage: task, pre_ci, pr, merge, and release. It is an authorization ceiling only; omitting an explicit timeout retains the Runtime's 300-second default. The declared full-workspace command is run at task stage with one Runtime worker and its exact assertions. Binding all five stages keeps the same Contract-aware verification policy traceable through task, pre-CI, pull-request, merge, and release quality routes. This rule does not authorize separate merge, release, publication, tag, provider, or close actions. The existing single_authorized_human approval mode remains in force; this amendment records no preflight review confirmation.",
           "requiredAssurance": "self_declared",
           "requiredTier": "T0",
           "schemaVersion": 1,
           "stageRefs": [
-            "task"
+            "task",
+            "pre_ci",
+            "pr",
+            "merge",
+            "release"
           ]
         }
       }

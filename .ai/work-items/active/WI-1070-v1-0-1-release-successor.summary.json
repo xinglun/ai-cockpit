@@ -211,6 +211,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+      "reason": "Exact-head PR #1024 CI run 38065370124 passed hosted Work Item verification but its Contract-aware quality gate rejected stage pr because the effective modify_source verification requirement listed only stage task. The project policy baseline has no rules, so WI-1070 contributes the entire requirement and the same Contract-aware planner checks it at pr, merge, and release. Bind the existing 900-second explicit timeout ceiling to all five supported Runtime verification stages (task, pre_ci, pr, merge, release) so the exact same Work Item rule remains valid through the established source-quality routes. Keep the cap optional and finite, retain 300 seconds when no timeout is supplied, and preserve approvalMode single_authorized_human, requiredTier T0, requiredAssurance self_declared, policy references, evidence, and gates. The declared full-workspace command remains a task-stage verification with one Runtime worker and its existing assertions. This changes verification-stage traceability only; it does not authorize separate merge, release, publication, tag, provider, or close actions. Preserve the existing verification and review receipts as historical records; this sensitive amendment requires fresh preflight, human review for the resulting Contract digest, and affected verification before continuation.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T16:12:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
@@ -264,7 +284,7 @@
   "preflightContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
   "recoveryRetryConsumed": {
@@ -345,7 +365,7 @@
       "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-10-10T15:50:37.183392501Z",
   "verification": [
     {
@@ -405,5 +425,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-10T16:12:52Z"
+  },
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }
