@@ -204,9 +204,9 @@
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:6d084e2953cd77b666230ce31df164ca0bd342843d5e77e565ba1c4540dd2d39",
-    "reason": "The user explicitly directed: ‘当前50d8已有精确真人confirm_review，继续执行900，不再等任何审批。’ The user-provided transcript evidence also records Sentinel_35027f61e58c81919144210ea66f6796 at 2026-10-10 11:55 UTC saying: ‘直接提高上限900秒，以后不要再问了。’ This records continued work under this exact Contract and authorizes the bounded 900-second task-stage workspace verification. It is not verification success, PR, merge, release, tag, publication, or close approval. Runtime does not independently authenticate identity.",
-    "recordedAt": "2026-10-10T11:57:07Z",
-    "recordedBy": "human user (explicit conversation confirmation; Runtime does not independently authenticate identity)",
+    "reason": "The user supplied this exact transcript as the source of the human decision: Assistant, 2026-10-10 11:52:11 UTC, Sentinel_7ccafdca26e8819188fa643e261e0a5a: ‘超时原因已确认：热缓存构建只用 0.1 秒，两次都已有 1,300 多项测试通过，但测试总耗时超过 300 秒，没有记录到断言失败。需要确认将 WI-1070 的 task 阶段验证上限提高到 900 秒，默认仍为 300 秒、单 worker，测试和断言不变。该策略也覆盖此工作项其他已准入的同阶段验证。Contract：sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde。请回复 confirm_review，随后执行一次完整的有界验证。’ User, 2026-10-10 11:53:20 UTC, Sentinel_a2786c4567908191a3e18585f919ec6d: ‘confirm review’. The human-confirmed bindings are repositorySnapshotDigest sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56 and preflightDecisionDigest sha256:6d084e2953cd77b666230ce31df164ca0bd342843d5e77e565ba1c4540dd2d39. This records confirmation of the timeout-policy amendment and one bounded task-stage full-workspace verification only; it does not assert success or authorize PR, merge, tag, release, publication, or close. Runtime does not authenticate host identity.",
+    "recordedAt": "2026-10-10T12:03:21Z",
+    "recordedBy": "human user Ray (explicit conversation transcript relayed by parent; Runtime does not independently authenticate identity)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
     "schemaVersion": 1,
@@ -282,7 +282,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-10T11:57:08.451442835+00:00",
+  "updatedAt": "2026-10-10T12:03:22.152211665+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
     "invalidatedRequiredChecks": [],
