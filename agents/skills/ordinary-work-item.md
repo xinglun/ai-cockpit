@@ -14,11 +14,11 @@ Before launching a declared check, inspect `work-item status` and `work-item val
 
 ## Operations
 
-On admission, record controls with `work-item controls --repo <repository> --id <work-item> --input <json>` or MCP `work_item_controls`; both recheck. Refresh status; required controls block `finish`. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
+On admission, record controls with `work-item controls --repo <repository> --id <work-item> --input <json>` or MCP `work_item_controls`; both recheck. Refresh status; missing required controls block `finish`. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
 
 One Work Item is serial by default; keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
 
-Cross-Work-Item work requires supported CLI/MCP. Discover with `capability show`, CLI help, and MCP `tools/list`. Requires compatible declarations, linked worktrees, registration, current slot lease, and fresh admission; declarations alone do not prove support; fields or an older Runtime do not prove support. If unavailable, use admitted serial work or stop. Otherwise use admitted serial work or stop. See [workflow](../../docs/reference/agent-workflow.md).
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Discover with `capability show`, CLI help, and MCP `tools/list`; declarations alone do not prove support; fields or an older Runtime do not prove support. If unavailable, use admitted serial work or stop. See [workflow](../../docs/reference/agent-workflow.md).
 
 Inspection is read-only; registration, reports, coordination, leases, and drift recovery write. Recovery appends events; re-admit unrelated work. Closeout: [closeout](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
 
