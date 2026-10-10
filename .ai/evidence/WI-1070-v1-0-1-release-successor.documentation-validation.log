@@ -1,0 +1,608 @@
+WI-1070 documentation validation raw output
+Captured at: 2026-10-10T13:07:54Z
+Work Item: WI-1070-v1-0-1-release-successor
+Contract digest: sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde
+Repository snapshot digest: sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56
+Source head during validation: becc2d4ad132359f2eb4eb410637fe58a16f351d
+
+Command: python3 tests/docs/promote_closed_work_item.py --repo . --check-all
+Exit status: 0
+STDOUT (raw):
+{
+  "checked": 48,
+  "excludedBeforePolicyEffectiveAt": 517,
+  "reports": [
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-1013-release-v0-2-109.contract.json",
+        "close": ".ai/decisions/WI-1013-release-v0-2-109.close.json",
+        "finalization": ".ai/decisions/WI-1013-release-v0-2-109.finalize.json",
+        "verification": ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+      },
+      "workItemId": "WI-1013-release-v0-2-109"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json",
+        "close": ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json",
+        "finalization": ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.finalize.json",
+        "verification": ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+      },
+      "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-1028-release-v0-2-113-strict-lineage-repair.contract.json",
+        "close": ".ai/decisions/WI-1028-release-v0-2-113-strict-lineage-repair.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-1028-release-v0-2-113-strict-lineage-repair.verification.json"
+      },
+      "workItemId": "WI-1028-release-v0-2-113-strict-lineage-repair"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-1038-task8-parity-projection-recovery.contract.json",
+        "close": ".ai/decisions/WI-1038-task8-parity-projection-recovery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-1038-task8-parity-projection-recovery.verification.json"
+      },
+      "workItemId": "WI-1038-task8-parity-projection-recovery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-1068-runtime-preflight-action-admission.contract.json",
+        "close": ".ai/decisions/WI-1068-runtime-preflight-action-admission.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-1068-runtime-preflight-action-admission.verification.json"
+      },
+      "workItemId": "WI-1068-runtime-preflight-action-admission"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-852-active-work-item-retirement.contract.json",
+        "close": ".ai/decisions/WI-852-active-work-item-retirement.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
+      },
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json",
+        "close": ".ai/decisions/WI-854-verification-command-timeout.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+      },
+      "workItemId": "WI-854-verification-command-timeout"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json",
+        "close": ".ai/decisions/WI-855-selected-successor-lineage-recovery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+      },
+      "workItemId": "WI-855-selected-successor-lineage-recovery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json",
+        "close": ".ai/decisions/WI-858-ai-cockpit-explorer-reference.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+      },
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json",
+        "close": ".ai/decisions/WI-859-governance-retirement-compat.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+      },
+      "workItemId": "WI-859-governance-retirement-compat"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-860-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-860-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-860-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-860-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-861-ordinary-close-guard.contract.json",
+        "close": ".ai/decisions/WI-861-ordinary-close-guard.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-861-ordinary-close-guard.verification.json"
+      },
+      "workItemId": "WI-861-ordinary-close-guard"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json",
+        "close": ".ai/decisions/WI-862-ordinary-cleanup-binding.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+      },
+      "workItemId": "WI-862-ordinary-cleanup-binding"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-863-cli-json-flags.contract.json",
+        "close": ".ai/decisions/WI-863-cli-json-flags.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-863-cli-json-flags.verification.json"
+      },
+      "workItemId": "WI-863-cli-json-flags"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-864-release-v0-2-93.contract.json",
+        "close": ".ai/decisions/WI-864-release-v0-2-93.close.json",
+        "finalization": ".ai/decisions/WI-864-release-v0-2-93.finalize.f3e40d1588a72e30731f6ca72d3ebb782437d3f8f61b135a78a83b433fffd65f.json",
+        "verification": ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+      },
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-865-four-direction-convergence.contract.json",
+        "close": ".ai/decisions/WI-865-four-direction-convergence.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+      },
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-867-closed-work-item-docs-promotion.contract.json",
+        "close": ".ai/decisions/WI-867-closed-work-item-docs-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json"
+      },
+      "workItemId": "WI-867-closed-work-item-docs-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json",
+        "close": ".ai/decisions/WI-869-archive-outcome-delivery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+      },
+      "workItemId": "WI-869-archive-outcome-delivery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json",
+        "close": ".ai/decisions/WI-872-outcome-host-delivery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+      },
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-876-performance-current-proof.contract.json",
+        "close": ".ai/decisions/WI-876-performance-current-proof.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-876-performance-current-proof.verification.json"
+      },
+      "workItemId": "WI-876-performance-current-proof"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json",
+        "close": ".ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+      },
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-879-verification-target-policy.contract.json",
+        "close": ".ai/decisions/WI-879-verification-target-policy.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-879-verification-target-policy.verification.json"
+      },
+      "workItemId": "WI-879-verification-target-policy"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json",
+        "close": ".ai/decisions/WI-886-verification-isolation-v0-2-95.close.json",
+        "finalization": ".ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json",
+        "verification": ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+      },
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-889-object-performance-current.contract.json",
+        "close": ".ai/decisions/WI-889-object-performance-current.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-889-object-performance-current.verification.json"
+      },
+      "workItemId": "WI-889-object-performance-current"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-892-release-v0-2-97.contract.json",
+        "close": ".ai/decisions/WI-892-release-v0-2-97.close.json",
+        "finalization": ".ai/decisions/WI-892-release-v0-2-97.finalize.json",
+        "verification": ".ai/evidence/WI-892-release-v0-2-97.verification.json"
+      },
+      "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-895-release-docs-promotion.contract.json",
+        "close": ".ai/decisions/WI-895-release-docs-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-895-release-docs-promotion.verification.json"
+      },
+      "workItemId": "WI-895-release-docs-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-898-hci-terminology.contract.json",
+        "close": ".ai/decisions/WI-898-hci-terminology.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-898-hci-terminology.verification.json"
+      },
+      "workItemId": "WI-898-hci-terminology"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-903-wi899-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-903-wi899-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-903-wi899-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-904-interface-description-ssot.contract.json",
+        "close": ".ai/decisions/WI-904-interface-description-ssot.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+      },
+      "workItemId": "WI-904-interface-description-ssot"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json",
+        "close": ".ai/decisions/WI-911-release-v0-2-99.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+      },
+      "workItemId": "WI-911-release-v0-2-99"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-912-wi911-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-912-wi911-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-912-wi911-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-918-release-v0-2-100.contract.json",
+        "close": ".ai/decisions/WI-918-release-v0-2-100.close.json",
+        "finalization": ".ai/decisions/WI-918-release-v0-2-100.finalize.json",
+        "verification": ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+      },
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-925-current-performance.contract.json",
+        "close": ".ai/decisions/WI-925-current-performance.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-925-current-performance.verification.json"
+      },
+      "workItemId": "WI-925-current-performance"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-927-first-typed-verification.contract.json",
+        "close": ".ai/decisions/WI-927-first-typed-verification.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-927-first-typed-verification.verification.json"
+      },
+      "workItemId": "WI-927-first-typed-verification"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json",
+        "close": ".ai/decisions/WI-929-outcome-hci-public-handoff.close.json",
+        "finalization": ".ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json",
+        "verification": ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+      },
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-930-wi929-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-930-wi929-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-952-release-finalization.contract.json",
+        "close": ".ai/decisions/WI-952-release-finalization.close.json",
+        "finalization": ".ai/decisions/WI-952-release-finalization.finalize.json",
+        "verification": ".ai/evidence/WI-952-release-finalization.verification.json"
+      },
+      "workItemId": "WI-952-release-finalization"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-954-start-verification-declaration.contract.json",
+        "close": ".ai/decisions/WI-954-start-verification-declaration.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-954-start-verification-declaration.verification.json"
+      },
+      "workItemId": "WI-954-start-verification-declaration"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-957-start-authority-recovery.contract.json",
+        "close": ".ai/decisions/WI-957-start-authority-recovery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+      },
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json",
+        "close": ".ai/decisions/WI-964-archive-boundary-recovery.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-964-archive-boundary-recovery.verification.json"
+      },
+      "workItemId": "WI-964-archive-boundary-recovery"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-982-outcome-cleanup-summary.contract.json",
+        "close": ".ai/decisions/WI-982-outcome-cleanup-summary.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+      },
+      "workItemId": "WI-982-outcome-cleanup-summary"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-984-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-984-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-984-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-984-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json",
+        "close": ".ai/decisions/WI-985-repository-resource-lifecycle.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+      },
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-986-wi985-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-986-wi985-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-986-wi985-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-988-wi986-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-988-wi986-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-988-wi986-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-988-wi986-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-990-wi988-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-990-wi988-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-990-wi988-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-992-wi991-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-992-wi991-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-992-wi991-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-992-wi991-doc-promotion"
+    },
+    {
+      "changedPaths": [],
+      "mode": "check",
+      "state": "current",
+      "terminalEvidence": {
+        "archive": ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json",
+        "close": ".ai/decisions/WI-993-wi867-doc-promotion.close.json",
+        "finalization": null,
+        "verification": ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+      },
+      "workItemId": "WI-993-wi867-doc-promotion"
+    }
+  ],
+  "state": "current"
+}
+STDERR (raw): empty
+
+Command: /tmp/wi1070-runtime-env.sh bash tests/docs/documentation_acceptance.sh
+Launcher precondition: Runtime 1.0.1, SHA-256 9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433
+Exit status: 0
+STDOUT (raw):
+{"baselineBytes": 22081, "currentBytes": 13247, "files": {".ai/README.md": 1998, ".ai/agent-interface.json": 809, "AGENTS.md": 5639, "agents/skills/README.md": 1762, "agents/skills/ordinary-work-item.md": 3039}, "reductionBytes": 8834, "reductionPercent": 40.0}
+work item status consistency passed
+reference comparison metadata check passed
+getting-started semantic checks passed: 13 tri-language routes and 35 reference records
+validated 26 current command examples
+documentation acceptance passed
+STDERR (raw): empty
+
+An initial documentation-acceptance invocation without the toolchain launcher failed because cargo was absent from PATH; it is not counted as a product check. Its raw output remains at /tmp/wi1070-documentation-acceptance.stdout and /tmp/wi1070-documentation-acceptance.stderr.

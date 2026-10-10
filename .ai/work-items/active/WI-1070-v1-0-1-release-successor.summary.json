@@ -133,7 +133,12 @@
       ]
     }
   ],
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.e53199b69b8694901c267d29e36f84fd49cec73b0e943f09be0823956c32e04c.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+  ],
   "checkpointAt": "2026-10-10T09:36:05Z",
   "checkpointContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
   "checkpointCount": 1,
@@ -209,10 +214,25 @@
     "workItemId": "WI-1070-v1-0-1-release-successor"
   },
   "intentAlignment": {
-    "reason": "The Contract states the expected user benefit as a goal only; WI-1070 documentation, published artifacts, installation, and upgrade outcomes remain unverified.",
-    "state": "unresolved"
+    "evidence": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.documentation-validation.log",
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.f5a8d2d7b8c5f20b990ea455a634584280818ca567c458f42e170283e1234fb3.json",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+    ],
+    "reason": "The verified trilingual documentation and formal source verification align with the WI-1070 source-stage intent. This does not claim the stable-release user benefit was delivered; candidate/publication, install, N-1, Apple Silicon, and close acceptance remain unverified.",
+    "state": "resolved"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-10T13:10:01.567897505Z",
+      "recordedAt": "2026-10-10T13:10:01.567897505Z",
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -225,66 +245,150 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T12:36:09Z",
+  "preflightAt": "2026-10-10T13:06:16Z",
   "preflightContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-10T12:57:06Z",
+    "contractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+    "decisionDigest": "sha256:075447cf9825aec69ff2979594cef51be964aa4277f332f32d48f47cda782d5f",
+    "decisionPath": ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json",
+    "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:71a8745304053f8092eed90f3f532a90eabae9b54e7d5e353b8cd91c30b567e6"
+  },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
-      "reason": "Planned only; no WI-1070 execution evidence exists.",
+      "evidence": [
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.documentation-validation.log",
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.f5a8d2d7b8c5f20b990ea455a634584280818ca567c458f42e170283e1234fb3.json",
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+      ],
+      "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment.",
+      "reason": "The trilingual WI-1068/WI-1070 parity and task-page projections pass canonical check-all and documentation acceptance; the complete cognitive_benefit test target passes 8/8 within the exact RUST_TEST_THREADS=2 workspace run with its private Runtime copy and full JSON/Markdown equality; and the single-node declared cargo test --locked --workspace -- --quiet verification passes under the current Runtime and Contract. This records source-stage alignment only; all release, public install, N-1, macOS, and close outcomes remain pending.",
       "required": true,
       "scenario": "documentation-and-formal-verification",
-      "status": "unverified"
+      "status": "verified",
+      "verificationPlan": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
     },
     {
       "evidence": [],
-      "reason": "Planned only; no current successor PR-head or pre-tag evidence exists.",
+      "expected": "The successor PR's exact current head has all required CI gates green; a fresh Runtime release plan binds PR #1022 and the exact merged source, identifies stable v1.0.0 as N-1, confirms v1.0.1 tag/Release names are unused before creation, records provider immutability metadata accurately, and verifies workflow dependencies for all later checks.",
+      "reason": "No WI-1070 PR-head or fresh release-plan evidence has been recorded.",
       "required": false,
       "scenario": "exact-head-ci-and-pretag-release-plan",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "After documentation implementation and push, bind the successor PR and its exact head to all required hosted checks. Separately query PR #1022 and merge/source identities; use the A27 release-plan command against the current Contract and source; inspect the release workflow and provider tag/Release fields. Preserve the earlier revision-binding failure and do not reuse it as current green evidence."
     },
     {
       "evidence": [],
-      "reason": "Planned only; no WI-1070 candidate build or target smoke evidence exists.",
+      "expected": "The release workflow builds and passes candidate install/smoke for aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc before public Release publication.",
+      "reason": "The immutable v1.0.1 candidate has not been created or tested under WI-1070.",
       "required": false,
       "scenario": "four-target-candidate-install-smoke",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "After the successor PR merge and fresh Runtime publication admission, create the v1.0.1 immutable tag once and execute the existing candidate-publication workflow. Bind all four target logs and artifacts to the exact source and tag; stop on any failed or skipped required job."
     },
     {
       "evidence": [],
-      "reason": "Planned only; no WI-1070 staged v1.0.0-to-v1.0.1 upgrade evidence exists.",
+      "expected": "The staged Linux x86_64 workflow installs stable v1.0.0, upgrades to candidate v1.0.1, and passes post-upgrade checks before the public Release is created.",
+      "reason": "The staged v1.0.0-to-v1.0.1 candidate upgrade has not been executed under WI-1070.",
       "required": false,
       "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "In the explicitly admitted candidate workflow, bind the actual v1.0.0 N-1 install, v1.0.1 candidate, upgrade output, and post-upgrade checks. Do not substitute N/A or another predecessor."
     },
     {
       "evidence": [],
-      "reason": "Planned only; public release, official asset acceptance, and close have not occurred.",
+      "expected": "After public Release publication, official manifest/SHA256SUMS and the Linux x86_64 asset verify; public install and N-1 upgrade from v1.0.0 pass; only after every required platform gate passes does Runtime admit branch/worktree finalization and successor close.",
+      "reason": "Public publication, downloaded-asset checks, upgrade acceptance, and finalization have not been executed under WI-1070.",
       "required": false,
       "scenario": "public-release-install-upgrade-and-close",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "After candidate and N-1 gates pass and Runtime admits publication, publish the new immutable Release once. Download and bind official manifests, sums, and Linux asset; run the public install/N-1 adopter checks; then re-query Runtime and perform only admitted exact-resource finalization, finalization verification, and close. Keep the Work Item unverified until these real executions and receipts exist."
     },
     {
       "evidence": [],
-      "reason": "Planned only; no published macOS binary has been installed or exercised on Apple Silicon.",
+      "expected": "The published macOS binary's archive, manifest, checksum, actual installed SHA-256, and version agree; the declared absolute CLI path runs version 1.0.1 and MCP initialize plus a read-only request succeeds.",
+      "reason": "The official macOS asset has not been installed or exercised on the local Apple Silicon host under WI-1070.",
       "required": false,
       "scenario": "apple-silicon-macos-cli-mcp-identity",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-10T12:03:22.152211665+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T13:10:01.567897505Z",
   "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:a803fe1f740b9b237d482b752bb325549763dbacf8ebc04b8c5f821496f832e9",
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }

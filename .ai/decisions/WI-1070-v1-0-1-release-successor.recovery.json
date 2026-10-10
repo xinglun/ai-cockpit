@@ -1,0 +1,28 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Explicit user instruction in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 (2026-10-10): Raydot may decide ordinary technical recovery within the delegated WI-1070 scope; authorize one same-Contract full verification retry under the pinned Runtime identity. This is not human-owner identity or release approval.",
+  "decidedAt": "2026-10-10T12:48:22Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.1f88c22b417f17044416326e33b0cdf30320e3903fe0b80503fb9fb07002b246.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.5a07acd374f05fc5a3ac0314f14020d25ba5193cfea9214301d6804902b0a224.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.04d4717ce7ec6c01a89fd00510a5d70bedbc22e42a1fabd28f348567aee0de63.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.055e36a98ae88e0f217e53c0f9b0af0e89db5b2d200d52c2e6d4d5f3708bbbf6.json"
+  ],
+  "policyRefs": [
+    "agents/skills/verification-failure-recovery.md",
+    "docs/reference/commands.md#verification-and-governance-controls",
+    "WI-1070-v1-0-1-release-successor:A6"
+  ],
+  "predecessorContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+  "predecessorSummaryDigest": "sha256:34b05c2e9915cae55a9ca145167accd001c7c2becc98fcdf0f6e5f45fbfabb11",
+  "predecessorWorkItemId": "WI-1070-v1-0-1-release-successor",
+  "reason": "The earlier full-workspace pass was produced by Runtime 1.0.0 (sha256:d91b267cf3df92809997db95a61b45f5287aea2301e6d452f38724cee5c899e9) and does not authorize current Runtime 1.0.1. Preserve that pass and every failed/rejected attempt unchanged. Authorize exactly one full declared task-stage workspace verification retry under current Contract sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde, using Runtime 1.0.1 sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433 and the existing bounded A6 policy. No Contract, source, test, gate, publication, or historical receipt changes are authorized by this retry.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After Runtime records this exact retry and status confirms the current retry marker plus run_verification admission, run the declared cargo test --locked --workspace -- --quiet once at task stage with the Contract-authorized finite 900-second ceiling, one Runtime worker, RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, and CARGO_INCREMENTAL=0 through the launcher pinned to Runtime 1.0.1 SHA-256 9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433. Preserve any failure; do not retry again or continue to finish unless Runtime accepts fresh successful evidence.",
+  "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}
