@@ -156,6 +156,115 @@ fn reviewed_material_repository() -> (tempfile::TempDir, PathBuf) {
     (directory, contract)
 }
 
+fn reviewed_material_repository_with_comparison_base_unknown() ->
+    (tempfile::TempDir, PathBuf, String)
+{
+    let directory = tempfile::tempdir().expect("tempdir");
+    let root = directory.path();
+    git(root, &["init", "-q"]);
+    git(root, &["config", "user.name", "CI gate test"]);
+    git(root, &["config", "user.email", "ci-gate@example.invalid"]);
+    fs::write(root.join("README.md"), "CI gate fixture\n").expect("fixture");
+    fs::write(root.join("pyproject.toml"), "fail_under = 90\n").expect("coverage fixture");
+
+    let comparison_path = "crates/comparison_base.rs";
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(root.join(comparison_path), benign_syntax_unknown_source())
+        .expect("base Rust source");
+    git(root, &["add", "."]);
+    git(root, &["commit", "-qm", "base with Rust comparison material"]);
+    attach(root).expect("attach");
+    start_work_item_with_options(
+        root,
+        "WI-CI-GATE",
+        "make the CI route consume the Contract",
+        "validate a repository-bound read-only quality gate",
+        &[
+            "crates/**".into(),
+            "tests/ci/**".into(),
+            "README.md".into(),
+            "pyproject.toml".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            risk: "normal".into(),
+            acceptance_criteria: vec!["the gate remains read-only".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+
+    fs::write(
+        root.join(comparison_path),
+        "fn comparison_material() -> i32 { 1 }\n",
+    )
+    .expect("clean comparison-base material");
+    git(root, &["add", comparison_path]);
+    git(root, &["commit", "-qm", "advance CI comparison base"]);
+    let comparison_base = git_revision(root);
+
+    fs::write(root.join(comparison_path), benign_syntax_unknown_source())
+        .expect("restore base Rust material in candidate");
+    fs::write(
+        root.join("crates/material.rs"),
+        benign_syntax_unknown_source(),
+    )
+    .expect("reviewed source");
+    git(root, &["add", comparison_path, "crates/material.rs"]);
+    git(root, &["commit", "-qm", "restore base material and add reviewed source"]);
+
+    let contract = contract_path(root);
+    let mut contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).expect("Contract bytes"))
+            .expect("Contract JSON");
+    contract_value["governanceProfile"] = serde_json::json!({
+        "materialInspectionReview": {
+            "schemaVersion": 1,
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "assurance": "self_declared",
+            "reviewerActor": "agent:Raydot",
+            "authoritySource": "user-delegation:ray-approved-WI1068",
+            "acceptResidualRisk": true
+        }
+    });
+    contract_value["requiredRuntimeCapabilities"] =
+        serde_json::json!([MATERIAL_INSPECTION_REVIEW_CAPABILITY]);
+    fs::write(
+        &contract,
+        serde_json::to_vec_pretty(&contract_value).expect("Contract JSON bytes"),
+    )
+    .expect("write material-review Contract");
+
+    let request = plan_work_item_material_review(root, "WI-CI-GATE")
+        .expect("plan canonical material review");
+    assert!(
+        !request.entries.iter().any(|entry| entry.path == comparison_path),
+        "comparison-base-only Rust path must not enter the Contract-base review manifest"
+    );
+    let current_runtime = runtime();
+    preflight_work_item_with_runtime(root, &contract, &current_runtime).expect("fresh preflight");
+    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(serde_json::json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user-delegation:ray-approved-WI1068",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "docs/review-evidence.md",
+            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }],
+        "rationale": "Review only the exact Contract-base material request.",
+        "residualRisk": "The CI comparison base may contain additional unreviewed Rust syntax."
+    }))
+    .expect("typed material-review input");
+    record_work_item_material_review(root, "WI-CI-GATE", &input, &current_runtime)
+        .expect("record typed material-review receipt");
+
+    (directory, contract, comparison_base)
+}
+
 fn pull_request_gate_report(
     root: &Path,
     contract: &Path,
@@ -369,6 +478,50 @@ fn quality_gate_recomputes_state_after_material_review_discharge() {
     assert!(report.unknowns.is_empty());
     assert_eq!(report.decision_state, "green");
     assert_eq!(report.state, "passed");
+}
+
+#[test]
+fn quality_gate_does_not_discharge_comparison_base_only_material_unknown() {
+    let (directory, contract, comparison_base) =
+        reviewed_material_repository_with_comparison_base_unknown();
+    let root = directory.path();
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&comparison_base),
+        &runtime(),
+    )
+    .expect("quality gate report");
+
+    assert_eq!(report.comparison_base_revision, comparison_base);
+    assert!(
+        report
+            .changed_paths
+            .iter()
+            .any(|path| path == "crates/comparison_base.rs"),
+        "CI comparison diff must contain its additional Rust path"
+    );
+    assert!(report.review_receipt_digest.is_some());
+    assert_eq!(
+        report.review_assurance,
+        Some(cockpit_protocol::MaterialInspectionReviewAssurance::SelfDeclared)
+    );
+    assert!(
+        report.raw_scanner_unknowns.contains(&
+            "repository_material_inspection_unavailable".into()
+        )
+    );
+    assert!(
+        report.effective_unknowns.contains(&
+            "repository_material_inspection_unavailable".into()
+        ),
+        "the Contract-base receipt must not discharge an extra comparison-base Unknown"
+    );
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
 }
 
 #[test]
