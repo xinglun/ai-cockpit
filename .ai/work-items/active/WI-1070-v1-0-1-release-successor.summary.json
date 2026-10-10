@@ -141,6 +141,42 @@
   "checkpointAt": "2026-10-10T09:36:05Z",
   "checkpointContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "recorded": true,
+      "recordedAt": "2026-10-10T09:36:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "reason": "Add only crates/cockpit-cli/tests/cognitive_benefit.rs to WI-1070 scope and record the reproduced report-comparison RED. On exact head a777cfd42229dd784568bbdc83bfced9d923ee61, the same existing cognitive_benefit integration-test binary (SHA-256 7c39e2fcf62b64c21f5d90ee88ab128648a567d703c5e72de170f35e8ef0c80c) ran with RUST_TEST_THREADS=2: 7 passed, 1 failed. The only full-report difference was $.runtimeBinaryDigest (Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc); all other JSON fields were identical after normalizing only that digest. The repository-gate sibling runs cargo run with the same CARGO_TARGET_DIR. A single filtered test passed 1/1, while the full 8-test binary reproduced the 7/1 RED. This is diagnosis, not green verification; preserve the previous full-workspace failure and all earlier attempts. No test edit is authorized before this Contract is freshly preflighted and explicitly human-confirmed.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T11:21:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
   "createdAt": "2026-10-10T07:23:43Z",
   "decisionEvidence": {
@@ -173,9 +209,9 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T09:40:28Z",
-  "preflightContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
-  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightAt": "2026-10-10T11:21:11Z",
+  "preflightContractDigest": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+  "preflightDecisionDigest": "sha256:d10c56cb87a5d92904961a944831950e130fb7da3e03d2be6b1abedbd593bca3",
   "preflightRepositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
   "preflightState": "yellow",
   "protocolVersion": 1,
@@ -227,5 +263,10 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-10T09:36:05Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-10T11:21:06Z"
+  },
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }

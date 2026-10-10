@@ -6,7 +6,7 @@
     "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
     "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
     "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
-    "A6: The sole declared formal verification cargo test --locked --workspace passes on the exact accepted successor source; preserve all earlier failures as historical evidence and record the new run separately.",
+    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a 300-second bound. Preserve all previous failures as historical evidence.",
     "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
     "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
     "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
@@ -76,12 +76,12 @@
   "scenarioCoverage": [
     {
       "evidence": [],
-      "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; cargo test --locked --workspace passes on the exact successor source.",
-      "reason": "No WI-1070 execution has been recorded; WI-1068 evidence remains historical and unchanged.",
+      "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment.",
+      "reason": "RED reproduced on exact head a777cfd42229dd784568bbdc83bfced9d923ee61: the complete cognitive_benefit integration binary ran 8 tests at RUST_TEST_THREADS=2, with 7 passed and generated_json_and_markdown_match_python_in_an_isolated_checkout failed. The only report difference was $.runtimeBinaryDigest: Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc. All other report fields matched after normalizing only this field. The sibling repository_gate_runs_without_invoking_python test executes cargo run in the same CARGO_TARGET_DIR, so the compared binary can be replaced between digest reads. The isolated single test passed 1/1; neither result is formal workspace success. Existing workspace attempt 9d2c92246203b27568ccdf4d831b50c5f54e186324d68123a20d7a70ca2edba5 remains failed and historical.",
       "required": true,
       "scenario": "documentation-and-formal-verification",
       "status": "unverified",
-      "verificationPlan": "After current preflight admission and checkpoint, update only the declared documentation paths using the canonical Runtime promotion validator. Run documentation acceptance and check-all, then execute the single declared full-workspace verification command. Capture each command, exact head, Contract digest, exit status, and output as new WI-1070 evidence."
+      "verificationPlan": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
     },
     {
       "evidence": [],
@@ -135,7 +135,8 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-1070-v1-0-1-release-successor.md",
     "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
-    "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+    "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+    "crates/cockpit-cli/tests/cognitive_benefit.rs"
   ],
   "sources": [
     "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation.",
