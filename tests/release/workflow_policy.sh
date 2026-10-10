@@ -323,6 +323,46 @@ job_block() {
     job == wanted { print }
   ' "$workflow"
 }
+source_quality_block="$(job_block source_quality)"
+for required_source_runtime_line in \
+  'install -m 0755 "$GITHUB_WORKSPACE/target/release/ai-cockpit" "$source_target/release/ai-cockpit"' \
+  'test -x "$source_target/release/ai-cockpit"' \
+  'legacy_runtime_revision=73f8bd2b86338f8025ef12ba9fff15bf45ef5782' \
+  'git worktree add --detach "$legacy_worktree" "$legacy_runtime_revision"' \
+  'CARGO_TARGET_DIR="$source_target/legacy-runtime" cargo build \' \
+  '--locked --release --manifest-path "$legacy_worktree/Cargo.toml" --package cockpit-cli' \
+  'test -x "$source_target/legacy-runtime/release/ai-cockpit"'; do
+  if ! grep -Fq -- "$required_source_runtime_line" <<<"$source_quality_block"; then
+    printf 'policy failure: source_quality must stage both the typed and pinned legacy Runtime at the canonical source-local paths; missing %s\n' "$required_source_runtime_line" >&2
+    exit 1
+  fi
+done
+
+aggregate_block="$(job_block aggregate)"
+for required_release_binding in \
+  'HEAD_REVISION: ${{ needs.release_input_preflight.outputs.head_revision }}' \
+  'RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}' \
+  'head_revision="$HEAD_REVISION"' \
+  'release_source_revision="$RELEASE_SOURCE_REVISION"' \
+  'test "$head_revision" = "$GITHUB_SHA"' \
+  'test "$tag_commit" = "$release_source_revision"' \
+  'commit="$release_source_revision"'; do
+  if ! grep -Fq -- "$required_release_binding" <<<"$aggregate_block"; then
+    printf 'policy failure: aggregate must preserve the workflow head and bind the normal release manifest to the typed source revision; missing %s\n' "$required_release_binding" >&2
+    exit 1
+  fi
+done
+
+normal_release_branch="$(awk '
+  /elif \[\[ "\$PLAN_MODE" == normal_release \]\]; then/ { in_branch=1; next }
+  in_branch && /^          else$/ { exit }
+  in_branch { print }
+' <<<"$aggregate_block")"
+if grep -Fq 'commit="$GITHUB_SHA"' <<<"$normal_release_branch"; then
+  printf 'policy failure: normal release manifest must not use the workflow execution head as its product source commit\n' >&2
+  exit 1
+fi
+
 build_block="$(job_block build)"
 require_match 'name: Build the target binary' 'release build must retain the target binary step'
 if ! grep -Fq 'CARGO_INCREMENTAL:' <<<"$build_block" || ! grep -Fq 'CARGO_INCREMENTAL: 0' <<<"$build_block"; then
