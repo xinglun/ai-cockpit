@@ -1180,12 +1180,13 @@
     },
     {
       "evidence": [
-        "Partial current-source evidence only: Runtime 1.0.1 package verification receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 ran at head 77cff103b73e535944962cea24ab9eebbb3e34d8, repository snapshot sha256:c932796b8f5ab23875fb8cdfceec5e1d67c45c22d3bd690f5284bf3705493bc7, Contract digest sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61. cockpit-verification package node passed; external_default_feature_consumer_cannot_compile_test_support_seam passed in crates/cockpit-verification/tests/composition.rs:29 (file sha256:cf4e877a4a68ec6f355b3650f76b8521e53d6791a4eb8f443c32699f6b4d6589, unchanged through 1e7c10c5). Not a new execution. Actual default CLI/MCP debug+release builds and single-node A14 workspace test remain outstanding; status stays unverified."
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.22e2e0f5d21a0815255bfc85cbf43bb4b9526ad72439dfd0bb5dbbda4b9b4c84.json sha256:4b0f9bed0759d9c3fc033dc2f1297ed7e80df34ceb01ee384e3511f4e941f9c5",
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10.json sha256:228353ab69801d3cf288b06ad166b4caa6789546a18d5f25e056b959ab42486c"
       ],
       "expected": "The verification package self dev-dependency enables typed KnownEmpty only for selected pure cache/dependency test fixtures, while ordinary default-feature CLI/MCP debug and release artifacts omit the interface and real safety observation remains authoritative.",
       "required": true,
       "scenario": "composition-test-support-feature-isolation",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run single-package and unique workspace tests plus actual default debug/release CLI/MCP builds and a default-feature external compile-negative check; independently run Linux safety and cache invalidation regressions, and record workspace test feature unification accurately."
     },
     {
@@ -1245,7 +1246,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-10T01:08:50.944746427+00:00",
+  "updatedAt": "2026-10-10T01:49:06.216955681+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
