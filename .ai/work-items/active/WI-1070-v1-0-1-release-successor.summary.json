@@ -133,13 +133,9 @@
       ]
     }
   ],
-  "changedPaths": [
-    ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
-    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json",
-    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-10T09:36:05Z",
-  "checkpointContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+  "checkpointContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -197,7 +193,7 @@
       "workItemId": "WI-1070-v1-0-1-release-successor"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+  "checkpointRepositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
   "createdAt": "2026-10-10T07:23:43Z",
   "decisionEvidence": {
     "contractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
@@ -229,11 +225,11 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T11:49:13Z",
+  "preflightAt": "2026-10-10T12:36:09Z",
   "preflightContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
-  "preflightDecisionDigest": "sha256:6d084e2953cd77b666230ce31df164ca0bd342843d5e77e565ba1c4540dd2d39",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -283,10 +279,12 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-10-10T12:03:22.152211665+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-10T11:49:08Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a803fe1f740b9b237d482b752bb325549763dbacf8ebc04b8c5f821496f832e9",
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }
