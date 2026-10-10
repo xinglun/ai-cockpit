@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:6d084e2953cd77b666230ce31df164ca0bd342843d5e77e565ba1c4540dd2d39",
+  "reason": "The user explicitly directed: ‘当前50d8已有精确真人confirm_review，继续执行900，不再等任何审批。’ The user-provided transcript evidence also records Sentinel_35027f61e58c81919144210ea66f6796 at 2026-10-10 11:55 UTC saying: ‘直接提高上限900秒，以后不要再问了。’ This records continued work under this exact Contract and authorizes the bounded 900-second task-stage workspace verification. It is not verification success, PR, merge, release, tag, publication, or close approval. Runtime does not independently authenticate identity.",
+  "recordedAt": "2026-10-10T11:57:07Z",
+  "recordedBy": "human user (explicit conversation confirmation; Runtime does not independently authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}
