@@ -8,10 +8,10 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item_with_runtime, attach, checkpoint_work_item, close_work_item_with_decision,
     evaluate_contract_quality_gate, finish_work_item_with_runtime,
-    governance_decision_for_contract, plan_resource_finalization, plan_work_item_material_review,
-    preflight_work_item, preflight_work_item_with_runtime, record_verification_with_runtime,
-    record_work_item_governance_controls, record_work_item_material_review,
-    run_repository_verification, start_work_item_with_options,
+    governance_decision_for_contract, persist_verification_attempt, plan_resource_finalization,
+    plan_work_item_material_review, preflight_work_item, preflight_work_item_with_runtime,
+    record_verification_with_runtime, record_work_item_governance_controls,
+    record_work_item_material_review, run_repository_verification, start_work_item_with_options,
     validate_contract_quality_gate_report, work_item_status_snapshot_with_runtime,
 };
 use std::fs;
@@ -88,6 +88,21 @@ fn runtime() -> RuntimeContext {
         runtime_version: "test-runtime".into(),
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    }
+}
+
+fn verification_exit_command(passed: bool) -> (String, Vec<String>) {
+    #[cfg(windows)]
+    {
+        let command = if passed { "exit 0" } else { "exit 1" };
+        (
+            std::env::var("COMSPEC").unwrap_or_else(|_| "cmd.exe".into()),
+            vec!["/C".into(), command.into()],
+        )
+    }
+    #[cfg(not(windows))]
+    {
+        (if passed { "true" } else { "false" }.into(), Vec::new())
     }
 }
 
@@ -518,6 +533,10 @@ fn quality_gate_discharges_exact_reviewed_material_across_different_comparison_b
     .expect("exact reviewed material may be consumed from a different comparison base");
 
     assert_eq!(report.comparison_base_revision, comparison_base);
+    assert_eq!(
+        report.raw_scanner_unknowns,
+        vec!["repository_material_inspection_unavailable"]
+    );
     assert!(report.review_receipt_digest.is_some());
     assert!(report.effective_unknowns.is_empty());
     assert_eq!(report.state, "passed");
@@ -891,58 +910,36 @@ fn quality_gate_preserves_each_material_finding_category_as_a_blocker() {
 
 #[test]
 fn report_validator_rejects_self_reported_green_with_an_extra_material_unknown() {
-    let directory = repository();
+    let (directory, contract, comparison_base) =
+        reviewed_material_repository_with_comparison_base_unknown(
+            benign_syntax_unknown_source().as_bytes(),
+        );
     let root = directory.path();
-    let contract = contract_path(root);
-    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
-        ["baseRevision"]
-        .as_str()
-        .unwrap()
-        .to_owned();
-    fs::create_dir_all(root.join("crates")).expect("source directory");
-    fs::write(
-        root.join("crates/material_unknown.rs"),
-        benign_syntax_unknown_source(),
-    )
-    .expect("unknown source");
-    fs::write(root.join("crates/second_unknown.rs"), b"binary\0material")
-        .expect("additional unreviewable Unknown");
-    git(
-        root,
-        &[
-            "add",
-            "crates/material_unknown.rs",
-            "crates/second_unknown.rs",
-        ],
-    );
-    git(
-        root,
-        &["commit", "-qm", "add an extra unreviewable Unknown"],
-    );
 
     let actual = evaluate_contract_quality_gate(
         root,
         &contract,
         VerificationStage::PullRequest,
         "hosted",
-        Some(&base),
+        Some(&comparison_base),
         &runtime(),
     )
     .expect("canonical gate report");
     assert_eq!(actual.state, "blocked");
     assert!(!actual.raw_scanner_unknowns.is_empty());
     assert_eq!(actual.decision_state, "yellow");
-    assert_eq!(actual.review_receipt_digest, None);
+    assert!(actual.review_receipt_digest.is_some());
+    assert!(
+        actual
+            .effective_unknowns
+            .iter()
+            .any(|unknown| { unknown == "repository_material_inspection_unavailable" })
+    );
     assert!(
         actual
             .changed_paths
             .iter()
-            .any(|path| path == "crates/second_unknown.rs")
-    );
-    assert!(
-        actual
-            .effective_unknowns
-            .contains(&"repository_material_inspection_unavailable".into())
+            .any(|path| path == "crates/comparison_base.rs")
     );
 
     let mut forged = serde_json::to_value(&actual).expect("report JSON");
@@ -997,34 +994,68 @@ fn valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verifica
     );
     checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
 
-    let failed_attempt = run_repository_verification(
-        root,
-        &RepositoryVerificationRequest {
-            node_id: "reviewed-material-failed-verification".into(),
-            program: "false".into(),
-            args: Vec::new(),
-            scope: vec!["crates/**".into()],
-            stage: "task".into(),
-            runner: "local".into(),
-            runtime_digest: current_runtime.runtime_digest.to_string(),
-            base_commit: None,
-            workers: 1,
-            work_item_id: None,
-            timeout_seconds: None,
-            policy: RepositoryVerificationPolicy::NeverReuse,
-        },
+    let (failed_program, failed_args) = verification_exit_command(false);
+    let failed_request = RepositoryVerificationRequest {
+        node_id: "reviewed-material-failed-verification".into(),
+        program: failed_program,
+        args: failed_args,
+        scope: vec!["crates/**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: current_runtime.runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        work_item_id: Some("WI-CI-GATE".into()),
+        timeout_seconds: None,
+        policy: RepositoryVerificationPolicy::NeverReuse,
+    };
+    let failed_attempt = run_repository_verification(root, &failed_request);
+    let failed_run = failed_attempt.expect("verification command should return a failed receipt");
+    assert!(
+        !failed_run.receipt.passed,
+        "the failing command must not pass"
     );
-    match failed_attempt {
-        Ok(run) => assert!(!run.receipt.passed, "the false command must not pass"),
-        Err(error) => assert!(
-            error.to_string().contains("failed") || error.to_string().contains("exit"),
-            "unexpected failure while running the false command: {error}"
-        ),
-    }
+    let failed_receipt = serde_json::to_value(&failed_run.receipt).expect("failed receipt JSON");
+    let persisted_attempt = persist_verification_attempt(
+        root,
+        "WI-CI-GATE",
+        std::slice::from_ref(&failed_request),
+        &failed_run.final_snapshot,
+        &current_runtime,
+        "execution_failed",
+        Some((
+            "verification_execution",
+            "verification command did not pass",
+        )),
+        Some(&failed_receipt),
+    )
+    .expect("persist the failed verification attempt");
+    let attempt_path = persisted_attempt["path"].as_str().expect("attempt path");
+    let stored_attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(root.join(attempt_path)).expect("attempt bytes"))
+            .expect("attempt JSON");
+    assert_eq!(stored_attempt["receipt"]["passed"], false);
+
+    let record_error = record_verification_with_runtime(
+        root,
+        "WI-CI-GATE",
+        &failed_receipt,
+        &current_runtime,
+        &failed_run.final_snapshot,
+    )
+    .expect_err("a failed attempt cannot be recorded as completion evidence");
+    assert!(
+        record_error
+            .to_string()
+            .contains("failed verification cannot be recorded as completion evidence"),
+        "rejection must identify the receipt as not passed: {record_error}"
+    );
     let finish_error = finish_work_item_with_runtime(root, "WI-CI-GATE", &current_runtime)
         .expect_err("a valid material review cannot replace failed verification");
     assert!(
-        finish_error.to_string().contains("verification"),
+        finish_error
+            .to_string()
+            .contains("verification_evidence_missing"),
         "unexpected finish rejection: {finish_error}"
     );
 
@@ -1039,12 +1070,13 @@ fn valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verifica
     preflight_work_item_with_runtime(root, &contract_path(root), &recorded_runtime)
         .expect("preflight under the verification Runtime");
     checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
+    let (passed_program, passed_args) = verification_exit_command(true);
     let run = run_repository_verification(
         root,
         &RepositoryVerificationRequest {
             node_id: "reviewed-material-stale-runtime-verification".into(),
-            program: "true".into(),
-            args: Vec::new(),
+            program: passed_program,
+            args: passed_args,
             scope: vec!["crates/**".into()],
             stage: "task".into(),
             runner: "local".into(),

@@ -479,6 +479,17 @@ fn old_material_decision_is_stale_after_analysis_or_policy_identity_changes() {
             "{field}"
         );
 
+        let mut current_input = input.clone();
+        current_input.request_digest = current_request.request_digest.clone();
+        validate_material_review_decision(
+            &contract,
+            &current_request,
+            &current_input,
+            "agent:codex-executor",
+            "2026-10-07T14:00:00Z",
+        )
+        .expect("a decision rebound to the current request must be valid");
+
         let error = validate_material_review_decision(
             &contract,
             &current_request,
