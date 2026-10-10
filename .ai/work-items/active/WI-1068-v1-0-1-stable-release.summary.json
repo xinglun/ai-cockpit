@@ -795,10 +795,10 @@
     "state": "resolved"
   },
   "materialReviewReceipt": {
-    "digest": "sha256:cdde72960aebe10ab0394294961be045711256590d511f38628ba6492ad8ef09",
-    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573.json",
-    "receiptDigest": "sha256:1993066f9667f23d9c2689a9e9c17a7ee750128076e8647d9e59940e50ec78bb",
-    "requestDigest": "sha256:a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573"
+    "digest": "sha256:96492fe6c5dcbd8f0730ec3303bcda4ddda0e152a245acbb23b02e0049b24e3c",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51.json",
+    "receiptDigest": "sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1",
+    "requestDigest": "sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51"
   },
   "materialReviewReceiptHistory": [
     {
@@ -854,6 +854,12 @@
       "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb.json",
       "receiptDigest": "sha256:6b873b8dc7ab0188fbaffb4731b88bb700d3da3e1486994f07a6c281777e7941",
       "requestDigest": "sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb"
+    },
+    {
+      "digest": "sha256:cdde72960aebe10ab0394294961be045711256590d511f38628ba6492ad8ef09",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573.json",
+      "receiptDigest": "sha256:1993066f9667f23d9c2689a9e9c17a7ee750128076e8647d9e59940e50ec78bb",
+      "requestDigest": "sha256:a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573"
     }
   ],
   "mode": "release",

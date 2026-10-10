@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "materialManifestDigest": "sha256:35d46a192461f2e6615a61e0ad66f91b8e493d0df4f4c1b75d1b0879c4e49dd3",
+  "profileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "requestDigest": "sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51",
+  "reviewedSourceHead": "56fcdcc8785bee83e364e3ad95accf3b7abe8334",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "/tmp/wi1068-material-plan-56fcdcc8.json",
+      "digest": "sha256:3ea29bee50d1a873bd432139af7b30a18e90c4ec24e956ba46d60e59b5eb9567"
+    }
+  ],
+  "rationale": "Parent Raydot independently reviewed the finite test delta and this exact canonical request, including the bound source, Contract, manifest, policy, profile, and analysis identities. Acceptance is limited to the 15 reviewable syntax Unknowns in this request.",
+  "residualRisk": "Fifteen reviewable syntax Unknowns remain for this exact request. This decision does not classify them as machine Clean, authorize future or additional Unknowns, waive Findings, or constitute human, provider, or release approval.",
+  "recordedAt": "2026-10-10T04:09:09Z",
+  "receiptDigest": "sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1"
+}
