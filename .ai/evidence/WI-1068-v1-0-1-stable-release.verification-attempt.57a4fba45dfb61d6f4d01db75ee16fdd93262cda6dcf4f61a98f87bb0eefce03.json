@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:57a4fba45dfb61d6f4d01db75ee16fdd93262cda6dcf4f61a98f87bb0eefce03",
+  "commands": [
+    {
+      "args": [
+        "test --locked --package cockpit-cli --test collaboration_scenario_matrix"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:50ba1603f0cd6db65c0f78cc2b09ed7d7b5d150d3d29f975d5f53530fae199a4",
+      "nodeId": "project-command-0",
+      "program": "/workspace/.cloud-tools/cargo/bin/cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "contractExecutionScopeDigest": "sha256:6da53fe30c03060931e7ef8f85808ae6b1bc09e8f5aa30f7e3e3ea01e9ba9b1c",
+  "createdAt": "2026-10-09T21:36:07Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:459251cf449e2305bb42098d42072fdf3fabe16abca42b5afd9d33f66ddb1312, issues=[\"evidence_stale\", \"material_review_projection_unavailable\", \"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\"]; additional verification precondition: repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: verification requires a preflight result for…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
+  "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

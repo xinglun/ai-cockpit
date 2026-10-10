@@ -131,3 +131,25 @@ fn trusted_complete_bounded_change_is_green() {
     assert!(decision.blockers.is_empty());
     assert!(decision.unknowns.is_empty());
 }
+
+#[test]
+fn recomputing_effective_state_preserves_pending_human_review() {
+    let mut input = base_input();
+    input.action = ActionKind::Destructive;
+    input.authority = AuthorityState::Missing;
+    let mut decision = evaluate(input);
+    let required_checks = decision.required_checks.clone();
+    assert!(decision.human_decision_request.is_some());
+
+    decision.unknowns.clear();
+    decision.recompute_state_from_effective_facts();
+
+    assert_eq!(decision.state, DecisionState::Yellow);
+    assert_eq!(
+        decision.review_state.as_deref(),
+        Some("needs_human_confirmation")
+    );
+    assert_eq!(decision.outcome_state, "needs_human_decision");
+    assert_eq!(decision.required_checks, required_checks);
+    assert!(decision.human_decision_request.is_some());
+}

@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use clap::{ArgAction, Parser, Subcommand};
+use clap::{ArgAction, Args, Parser, Subcommand};
 use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query_with_metrics};
@@ -465,7 +465,53 @@ enum AuditCommand {
         repo: PathBuf,
         #[arg(long)]
         output: Option<PathBuf>,
+        #[command(flatten)]
+        filters: AuditQueryArgs,
     },
+    Query {
+        #[arg(long)]
+        repo: PathBuf,
+        #[command(flatten)]
+        filters: AuditQueryArgs,
+    },
+}
+
+#[derive(Debug, Default, Args)]
+struct AuditQueryArgs {
+    #[arg(long)]
+    work_item_id: Option<String>,
+    #[arg(long)]
+    from: Option<String>,
+    #[arg(long)]
+    to: Option<String>,
+    #[arg(long)]
+    reported_model: Option<String>,
+    #[arg(long)]
+    actor: Option<String>,
+    #[arg(long)]
+    event_type: Option<String>,
+    #[arg(long)]
+    limit: Option<u16>,
+    #[arg(long)]
+    cursor: Option<String>,
+    #[arg(long)]
+    display_timezone: Option<String>,
+}
+
+impl From<AuditQueryArgs> for cockpit_protocol::AuditQueryFilters {
+    fn from(args: AuditQueryArgs) -> Self {
+        Self {
+            work_item_id: args.work_item_id,
+            from: args.from,
+            to: args.to,
+            reported_model: args.reported_model,
+            actor: args.actor,
+            event_type: args.event_type,
+            limit: args.limit,
+            cursor: args.cursor,
+            display_timezone: args.display_timezone,
+        }
+    }
 }
 
 #[derive(Debug, Subcommand)]
@@ -628,6 +674,16 @@ enum WorkItemCommand {
         repo: PathBuf,
         #[command(flatten)]
         query: cockpit_protocol::WorkItemOutcomeQueryArgs,
+    },
+    /// Record an explicit repository-bound usage claim through Runtime admission.
+    Usage {
+        #[command(subcommand)]
+        command: WorkItemUsageCommand,
+    },
+    /// Inspect the exact committed material considered by the review boundary.
+    MaterialReview {
+        #[command(subcommand)]
+        command: WorkItemMaterialReviewCommand,
     },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
@@ -827,6 +883,37 @@ enum WorkItemCommand {
         /// JSON CompositionInput. Repository and state paths are resolved by
         /// this command and are not trusted from the input document.
         #[arg(long)]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemUsageCommand {
+    /// Append one strict UsageRecordRequest JSON claim.
+    Record {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long, help = cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION)]
+        input: PathBuf,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+enum WorkItemMaterialReviewCommand {
+    /// Build the canonical read-only material-review request for an active Work Item.
+    Plan {
+        #[arg(long, help = "Repository path for source identity.")]
+        repo: PathBuf,
+        #[arg(long, help = "Active Work Item identifier.")]
+        id: String,
+    },
+    /// Record a self-declared typed decision only when Contract opt-in and current Runtime admission allow it; this is not human, provider, or release approval.
+    Record {
+        #[arg(long, help = "Repository path for current Runtime admission.")]
+        repo: PathBuf,
+        #[arg(long, help = "Active Work Item identifier.")]
+        id: String,
+        #[arg(long, help = "Strict MaterialInspectionReviewDecisionInput JSON file.")]
         input: PathBuf,
     },
 }
@@ -1521,6 +1608,11 @@ fn main() {
 }
 
 fn run() -> Result<()> {
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("__composition-supervisor"))
+    {
+        return cockpit_repository::run_composition_supervisor_stdio().map_err(anyhow::Error::msg);
+    }
     let cli = Cli::parse();
     if let CommandKind::IsolationManifest {
         root,
@@ -2762,27 +2854,76 @@ fn run() -> Result<()> {
                 binary,
                 check,
             } => cognitive_benefit::run(&repo, binary.as_deref(), check)?,
-            AuditCommand::Export { repo, output } => {
+            AuditCommand::Query { repo, filters } => {
                 require_compatible(&repo, &runtime_context)?;
-                let manifest = cockpit_repository::export_audit_events(&repo, &runtime_context)
-                    .context("export audit events")?;
+                let page = cockpit_repository::query_audit_events(
+                    &repo,
+                    &runtime_context,
+                    &filters.into(),
+                )
+                .context("query audit events")?;
+                println!("{}", serde_json::to_string_pretty(&page)?);
+            }
+            AuditCommand::Export {
+                repo,
+                output,
+                filters,
+            } => {
+                require_compatible(&repo, &runtime_context)?;
+                let filters: cockpit_protocol::AuditQueryFilters = filters.into();
+                let bytes = if filters == cockpit_protocol::AuditQueryFilters::default() {
+                    serde_json::to_vec_pretty(
+                        &cockpit_repository::export_audit_events(&repo, &runtime_context)
+                            .context("export audit events")?,
+                    )?
+                } else {
+                    serde_json::to_vec_pretty(
+                        &cockpit_repository::export_audit_events_filtered(
+                            &repo,
+                            &runtime_context,
+                            &filters,
+                        )
+                        .context("export filtered audit events")?,
+                    )?
+                };
                 if let Some(output) = output {
-                    let bytes = serde_json::to_vec_pretty(&manifest)?;
-                    if output.exists() {
-                        let existing =
-                            std::fs::read(&output).context("read existing audit export")?;
-                        if existing != bytes {
-                            anyhow::bail!("audit export target already exists with different bytes")
+                    if let Some(parent) = output.parent() {
+                        std::fs::create_dir_all(parent).context("create audit export parent")?;
+                    }
+                    match std::fs::OpenOptions::new()
+                        .write(true)
+                        .create_new(true)
+                        .open(&output)
+                    {
+                        Ok(mut file) => {
+                            use std::io::Write;
+                            file.write_all(&bytes).context("write audit export")?;
                         }
-                    } else {
-                        if let Some(parent) = output.parent() {
-                            std::fs::create_dir_all(parent)
-                                .context("create audit export parent")?;
+                        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+                            let existing =
+                                std::fs::read(&output).context("read existing audit export")?;
+                            let same_page = serde_json::from_slice::<
+                                cockpit_protocol::AuditQueryPage,
+                            >(&existing)
+                            .ok()
+                            .zip(
+                                serde_json::from_slice::<cockpit_protocol::AuditQueryPage>(&bytes)
+                                    .ok(),
+                            )
+                            .is_some_and(|(mut old, current)| {
+                                old.as_of = current.as_of.clone();
+                                old == current
+                            });
+                            if existing != bytes && !same_page {
+                                anyhow::bail!(
+                                    "audit export target already exists with different bytes"
+                                )
+                            }
                         }
-                        std::fs::write(&output, &bytes).context("write audit export")?;
+                        Err(error) => return Err(error).context("create audit export"),
                     }
                 }
-                println!("{}", serde_json::to_string_pretty(&manifest)?);
+                println!("{}", String::from_utf8(bytes)?);
             }
         },
         CommandKind::WorkItem { command } => match command {
@@ -2918,6 +3059,9 @@ fn run() -> Result<()> {
             }
             WorkItemCommand::Outcome { repo, query } => {
                 require_compatible(&repo, &runtime_context)?;
+                if query.delivery && query.display_timezone.is_some() {
+                    anyhow::bail!("displayTimezone is unavailable for immutable archive delivery");
+                }
                 let language = query.language.map(|language| language.as_str().to_owned());
                 if query.delivery {
                     let prepared = prepare_archive_outcome_delivery(
@@ -2972,14 +3116,39 @@ fn run() -> Result<()> {
                     if query.json {
                         let mut output = serde_json::to_value(&input.outcome)?;
                         output["collaboration"] = serde_json::to_value(&collaboration)?;
+                        if let Some(zone) = query.display_timezone.as_deref() {
+                            let language = output_language(language.as_deref());
+                            output["humanHandoff"] =
+                                cockpit_repository::render_human_outcome_with_timezone(
+                                    &repo,
+                                    &input,
+                                    &runtime_context,
+                                    language,
+                                    outcome_repository_view(query.view.as_str()),
+                                    zone,
+                                )?
+                                .into();
+                            output["displayTimezone"] = zone.into();
+                        }
                         println!("{}", serde_json::to_string_pretty(&output)?);
                     } else {
                         let language = output_language(language.as_deref());
-                        let handoff = cockpit_repository::render_human_outcome_with_view(
-                            &input,
-                            language,
-                            outcome_repository_view(query.view.as_str()),
-                        );
+                        let handoff = if let Some(zone) = query.display_timezone.as_deref() {
+                            cockpit_repository::render_human_outcome_with_timezone(
+                                &repo,
+                                &input,
+                                &runtime_context,
+                                language,
+                                outcome_repository_view(query.view.as_str()),
+                                zone,
+                            )?
+                        } else {
+                            cockpit_repository::render_human_outcome_with_view(
+                                &input,
+                                language,
+                                outcome_repository_view(query.view.as_str()),
+                            )
+                        };
                         println!(
                             "{}\n{}",
                             handoff,
@@ -2991,6 +3160,46 @@ fn run() -> Result<()> {
                     }
                 }
             }
+            WorkItemCommand::Usage { command } => match command {
+                WorkItemUsageCommand::Record { repo, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::UsageRecordRequest = serde_json::from_slice(
+                        &std::fs::read(&input).context("read usage request")?,
+                    )
+                    .context("parse strict UsageRecordRequest")?;
+                    let receipt = cockpit_repository::record_work_item_usage(
+                        &repo,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("record Work Item usage")?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
+            WorkItemCommand::MaterialReview { command } => match command {
+                WorkItemMaterialReviewCommand::Plan { repo, id } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request = cockpit_repository::plan_work_item_material_review(&repo, &id)
+                        .context("plan Work Item material review")?;
+                    println!("{}", serde_json::to_string_pretty(&request)?);
+                }
+                WorkItemMaterialReviewCommand::Record { repo, id, input } => {
+                    require_compatible(&repo, &runtime_context)?;
+                    let request: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+                        serde_json::from_slice(
+                            &fs::read(&input).context("read material review decision input")?,
+                        )
+                        .context("parse strict MaterialInspectionReviewDecisionInput")?;
+                    let receipt = cockpit_repository::record_work_item_material_review(
+                        &repo,
+                        &id,
+                        &request,
+                        &runtime_context,
+                    )
+                    .context("record Work Item material review decision")?;
+                    println!("{}", serde_json::to_string_pretty(&receipt)?);
+                }
+            },
             WorkItemCommand::ReconcileArtifacts { repo, id } => {
                 require_compatible(&repo, &runtime_context)?;
                 let receipt = cockpit_repository::reconcile_active_artifacts(&repo, &id)
@@ -3330,13 +3539,11 @@ fn run() -> Result<()> {
                 language,
             } => {
                 if let Some(surface) = surface {
-                    if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
-                        anyhow::bail!(
-                            "unknown capability description surface `{surface}`; supported surface: {}",
-                            cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE
-                        );
-                    }
-                    let description = cockpit_protocol::work_item_outcome_interface_description();
+                    let description = cockpit_protocol::interface_description_for_surface(&surface)
+                        .ok_or_else(|| anyhow::anyhow!(
+                            "unknown capability description surface `{surface}`; supported surfaces: {}",
+                            cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.join(", ")
+                        ))?;
                     match format.as_str() {
                         cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
                             println!("{}", serde_json::to_string_pretty(&description)?);
@@ -4196,11 +4403,14 @@ mod tests {
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
     use cockpit_protocol::{
-        RuntimeContext, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY, WORK_ITEM_OUTCOME_CANONICAL_JSON,
+        RuntimeContext, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+        WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE, WORK_ITEM_OUTCOME_CANONICAL_JSON,
         WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE, WORK_ITEM_OUTCOME_CANONICAL_VIEW,
         WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID, WORK_ITEM_OUTCOME_CLI_DELIVERY,
-        WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
+        WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE, WORK_ITEM_OUTCOME_CLI_JSON,
+        WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
         WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, work_item_outcome_interface_description,
+        work_item_outcome_parameter_spec_by_canonical,
     };
     use std::{path::Path, process::Command};
 
@@ -4499,7 +4709,7 @@ mod tests {
         for parameter in &cli_surface.parameters {
             let argument = outcome
                 .get_arguments()
-                .find(|argument| argument.get_id().as_str() == parameter.name)
+                .find(|argument| argument.get_long() == Some(parameter.name.as_str()))
                 .unwrap_or_else(|| panic!("missing Clap argument {}", parameter.name));
             let expected_long = match parameter.name.as_str() {
                 WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID => (
@@ -4520,9 +4730,21 @@ mod tests {
                     WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
                     WORK_ITEM_OUTCOME_CLI_LANGUAGE,
                 ),
+                WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE => (
+                    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE,
+                    WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE,
+                ),
                 other => panic!("unexpected CLI interface parameter {other}"),
             };
             assert_eq!(parameter.name, expected_long.1, "{}", expected_long.0);
+            assert_eq!(
+                work_item_outcome_parameter_spec_by_canonical("cli", expected_long.0)
+                    .expect("canonical CLI parameter")
+                    .name,
+                expected_long.1,
+                "{}",
+                expected_long.0
+            );
             assert_eq!(
                 argument.get_long().map(str::to_owned),
                 Some(expected_long.1.to_owned()),

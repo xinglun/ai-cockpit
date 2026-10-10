@@ -16,10 +16,11 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-The v1.0.0 release source supersedes the preceding public installation
-baseline `v0.2.113`; the v1.0.0 artifact becomes the current public baseline
-after publication and post-release acceptance. The preceding public
-`v0.2.106` Release remains historical evidence.
+The v1.0.0 release superseded the preceding public installation baseline
+`v0.2.113` and retained its N-1 evidence. Stable v1.0.1 supersedes v1.0.0;
+after publication and post-release acceptance, v1.0.1 becomes the current
+public baseline. The preceding public `v0.2.106` Release remains historical
+evidence.
 The failed `v0.2.88` tag is retained as immutable publication-failure history
 (WI-764, workflow run `34371183927`); it has no provider Release and is never
 reused or treated as an installation baseline.
@@ -170,11 +171,10 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The v1.0.0 release supersedes `v0.2.113`, which is the N-1 source for its
-  upgrade acceptance. The v1.0.0 artifact becomes the immutable public
-  installation baseline only after publication and acceptance. The preceding
-  public `v0.2.106` Release remains historical evidence. An external Homebrew tap is a separate provider surface
-  and is not implied by this repository.
+- v1.0.0 superseded `v0.2.113` and used it for its N-1 upgrade acceptance.
+  Stable v1.0.1 follows v1.0.0; v1.0.0 is its N-1 source. The preceding
+  public `v0.2.106` Release remains historical evidence. An external Homebrew
+  tap is a separate provider surface and is not implied by this repository.
 - The reserved `v0.2.24` tag and immutable `v0.2.25` tag are retained as failed
   pre-publication history; neither is treated as a public Release or reused.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.

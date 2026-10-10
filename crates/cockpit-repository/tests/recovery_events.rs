@@ -6,6 +6,26 @@ use cockpit_repository::{
 };
 use std::{fs, process::Command};
 
+fn commit_empty_baseline(path: &std::path::Path) {
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit test fixture",
+                "-c",
+                "user.email=ai-cockpit-test@example.invalid",
+                "commit",
+                "--allow-empty",
+                "-qm",
+                "test fixture baseline",
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git baseline commit")
+            .success()
+    );
+}
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(
@@ -16,6 +36,7 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    commit_empty_baseline(directory.path());
     attach(directory.path()).expect("attach");
     start_work_item_with_options(
         directory.path(),

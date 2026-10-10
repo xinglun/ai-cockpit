@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:88323068fbccf774f33f265c7ffabbee420ed34ab917c4afb524b47dec9b117d",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:7cc48bce016d0b687c39afa7317e17c0ed406a2c1c3cd74dabeb046e33fcb064",
+      "nodeId": "project-command-0",
+      "program": "/workspace/.cargo/bin/cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:3603fa3e4b92913999c278066587b9957f769ec563f5aa1cba6211bf22fe4ad0",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+  "contractExecutionScopeDigest": "sha256:5ba66f1be30203dfef1aeaa9c06711d9222e030ef2d1fa50238c7fecf5c5613d",
+  "createdAt": "2026-10-07T23:01:40Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"stop\"], nextAction=Some(\"resolve_blockers\"), admissionDigest=sha256:d0eaf5b75c9e1806d2241ba16326298766e0bf7117d4608d62a1b0b7c0d3b85c, issues=[\"acceptance_evidence_insufficient\", \"acceptance_evidence_item_missing\", \"evidence_stale\", \"material_review_projection_unavailable\", \"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\"]; additional verification precondition: repository protocol state error at /workspace/ai-cockpit/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.j…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:79903d8e9a1150a28b31b31266e511885c0a58d95c3094d9a81e49cde6d7de96",
+  "runtimeDigest": "sha256:3603fa3e4b92913999c278066587b9957f769ec563f5aa1cba6211bf22fe4ad0",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

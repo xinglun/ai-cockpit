@@ -66,11 +66,13 @@ failed/unknown は pass ではありません。
 | Migration | `migrate apply --approved` | review 済みの repository schema migration だけを適用し、Runtime-bound migration receipt を作る。 |
 | Governance write entry | `preflight` | Contract を評価して明示的な preflight projection を永続化する。同じ入力での再実行は冪等で `changedPaths` を返す。不完全・不確実な Contract は human-review yellow となり checkpoint を越えられない。 |
 | Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` は理由と現 Contract digest に束縛された schema-aware 変更を適用し、`--input --reason` は旧来の追加専用 adapter として残ります。履歴 query は読み取り専用です。変更後は影響する evidence が無効化されるため、`work-item status` を確認し、Runtime が現在 admit する次の action に従ってください（通常は `run_preflight` ですが固定ではありません）。cross-checkout plan は読み取り専用で、recovery は別の明示的な write です。 |
+| 明示的な使用量 | `work-item usage record --repo <path> --input <request.json>` | 現在の Runtime が `record_usage` を admit するときだけ strict な `UsageRecordRequest` を追記します。同一 request の replay は冪等です。provider/host の出所ラベルは申告であり、検証済み telemetry ではありません。`capability show --surface work-item-usage-record` は CLI/MCP parameter を読み取り専用で記述します。 |
+| Material review | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` は読み取り専用で、commit 済みかつ `.ai` 以外が clean な source snapshot の canonical request を返し、scanner Unknown を raw のまま示します。`record` は Contract opt-in と新鮮な Runtime admission がある場合だけ typed decision を受け、immutable sidecar と Summary pointer に bind します。reviewer identity は self-declared で、本人認証・provider/host の証明・人による承認・release approval ではなく、Unknown を machine Clean に変えません。Stage 1 は opt-in がないため Unknown は discharge されません。`capability show --surface work-item-material-review-plan` と `--surface work-item-material-review-record` で両 transport を確認できます。 |
 | Parallel Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | Contract の並列境界を bind し、repository-local slot を管理する。不明な場合は serialize する。 |
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | inspect と drift check は読み取り専用です。drift の記録は影響 action 前の明示的な永続 write です。 |
 | Verification | `verify` | bounded command を実行し evidence を記録する。Work Item に bind できる。 |
 | External evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | exact provider bytes の bind、bounded persistence policy の宣言、または決定論的な非破壊 disposal plan の生成。 |
-| Audit | `audit export`、`audit cognitive-benefit` | repository-bound event の export、または固定された Rust cognitive-benefit 評価を実行する。いずれも release 権限を与えない。 |
+| Audit | `audit query`、`audit export`、`audit cognitive-benefit` | repository-bound event の query/export、または固定された Rust cognitive-benefit 評価を実行します。いずれも release 権限を与えません。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 明示的に選択した repository-local Agent adapter を管理し、または stdio で JSON-RPC を提供する。すべて `--repo` に bind する。 |
 
 ## Contract amendment と environment drift
@@ -149,7 +151,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | Tool | 引数 | 典型的な call |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`。`capability_show` は read-only interface description 用に `surface`、`format`、`language` も任意で受け付けます。 | repository の事実または capability registry を読む。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は現在の会話言語 `language`（`en`、`zh`、`zh-CN`、`ja`）を任意で受け付ける。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は現在の会話言語 `language`（`en`、`zh`、`zh-CN`、`ja`）と、人向け lifecycle 表示用の IANA `displayTimezone` を任意で受け付ける。 | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_status` | `{"all":true}`、または Work Item id をちょうど 1 つ。 | `{"all":true}` |
 | `preflight` | repository 相対の `contract` が必須。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | repository 相対の `contract` は任意。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -157,6 +159,10 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `evidence_get` | `path`、`evidencePath`、`id` のいずれか 1 つ。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | `workItemId` が必須。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_usage_record` | repository/Work Item identity、source event と label、unit、nullable token count、evidence ref/digest を含む strict な `request` object が必須です。CLI と同じ Runtime-admitted Rust service を使います。 | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
+| `work_item_material_review_plan` | active Work Item の read-only canonical request。`.ai` 以外の commit 済み source は clean で、raw scanner Unknown を保持します。 | `{"workItemId":"WI-123"}` |
+| `work_item_material_review_record` | 必須の `workItemId` と strict typed `decision`。CLI と同じ Rust service が Contract opt-in と fresh Runtime admission を再確認します。`reviewerActor` は self-declared で本人を認証せず、人/provider/release approval を与えません。Stage 1 は opt-in なしです。 | `{"workItemId":"WI-123","decision":{"schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":"sha256:<digest>","reviewerActor":"agent:Raydot","authoritySource":"user-delegation:<source>","assurance":"self_declared","evidenceRefs":[{"path":"docs/review.md","digest":"sha256:<digest>"}],"rationale":"Reviewed exact bounded syntax material.","residualRisk":"The bounded scanner remains incomplete."}}` |
+| `audit_query` | 読み取り専用の exact Work Item/model/actor/event filter、Runtime `recordedAt` の inclusive `from` と exclusive `to`、1–100 件の limit、cursor、IANA `displayTimezone` を使います。不明な時刻とページ内の usage subtotal を区別します。 | `{"workItemId":"WI-123","eventType":"work_item_started","limit":50,"displayTimezone":"Asia/Tokyo"}` |
 | `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 両方とも `workItemId` と絶対 path の `sourceRepo` が必須。前者は読み取り専用、後者は検証済み evidence を MCP-bound destination へ書く明示操作です。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | `workItemId`、`command`、string 配列 `args`、有限な `timeoutSeconds`、boolean の `planOnly` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
@@ -211,6 +217,11 @@ Agent は次の順序で capability を発見します。repository-bound の st
   automation には `--json` を使います。status marker と言語規則は[人間向け Outcome](outcome-report.ja.md)を参照してください。
   Work Item の完了時には型付きの `*.task-report.json`、人間向けの `*.task-report.md`、append-only の `*.events.jsonl` も bind されます。
   これらは evidence-bound projection であり、追加の authority でも Contract/verification receipt の代替でもありません。
+- `work-item outcome --display-timezone Asia/Tokyo` は人向けの結果に IANA タイムゾーンを
+  明示した lifecycle 時刻を追加します。表示値には各イベントの recordedAt を使います。
+  開始、完了、アーカイブ、終了の UTC evidence は別々に保持し、未到達の終端と信頼できない壁時計の
+  経過時間は不明のままです。壁時計の経過時間には待機が含まれ、プロセスの `elapsedMs` は単調時計を使います。
+  既定の出力と immutable な `--delivery` bytes は変えません。
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` は immutable な旧
   finalization receipt に対する append-only の Runtime-bound 歴史分類を記録します。入力には正確な
   predecessor digest、repository/Work Item/Contract base、current Runtime、actor、authority、reason、
@@ -293,7 +304,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1-rc.2`
+- Runtime: `1.0.1`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
@@ -305,6 +316,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 
@@ -313,6 +325,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
@@ -356,6 +369,14 @@ Agent は次の順序で capability を発見します。repository-bound の st
   Runtime identity を含む安定した `AuditEvent` を出力します。manifest は
   `externalRetentionRequired: true` を設定し、output file は idempotent です。これは SIEM、WORM、
   S3 Object Lock など外部 retention owner への handoff に限られます。
+- `audit query --repo <path> [--work-item-id <id>] [--from <RFC3339>] [--to <RFC3339>]
+  [--reported-model <model>] [--actor <actor>] [--event-type <type>]
+  [--limit <1..100>] [--cursor <cursor>] [--display-timezone <IANA>]` は読み取り専用の typed page を返します。
+  時間範囲は Runtime `recordedAt` のみに適用し、別の時刻から補完しません。source が変わると cursor は `stale_cursor` を返します。
+  `capability show --surface audit-query` で CLI/MCP parameter を確認できます。
+- `audit export` に query filter を指定すると同じ page 形式を使い、filter のない呼び出しは schema-v1 manifest を維持します。
+  明示的な `--output` は legacy の同一バイト、または filtered export の同じ source snapshot と page を受け入れます。既存ファイルは書き換えず、異なる結果は拒否します。
+  `capability show --surface audit-export` で CLI parameter を確認できます。
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` は固定の 7 ケース評価を Rust で実行します。
   `--check` は評価 artifact を書き換えません。指定しない場合は選択した repository の `.ai/evidence/` に JSON、
   `.ai/evidence/external/` に Markdown を書きます。明示的な `--binary` は存在する実行可能ファイルを指す必要があり、

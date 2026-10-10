@@ -23,6 +23,20 @@ fn repository(name: &str) -> tempfile::TempDir {
         root.path(),
         &["config", "user.email", "cli-gate@example.invalid"],
     );
+    fs::write(root.path().join(".git/info/exclude"), "").expect("empty repository excludes");
+    let empty_global_excludes = root.path().join(".git/empty-global-excludes");
+    fs::write(&empty_global_excludes, "").expect("empty global excludes");
+    let configure_excludes = Command::new("git")
+        .args(["config", "core.excludesFile"])
+        .arg(&empty_global_excludes)
+        .current_dir(root.path())
+        .status()
+        .expect("disable inherited global Git excludes");
+    assert!(
+        configure_excludes.success(),
+        "configure fixture Git excludes"
+    );
+    fs::write(root.path().join(".gitignore"), "/target/\n").expect("Cargo target ignore rule");
     fs::write(root.path().join("README.md"), "fixture\n").expect("fixture");
     git(root.path(), &["add", "."]);
     git(root.path(), &["commit", "-qm", "base"]);
@@ -146,6 +160,15 @@ fn route_receipt(root: &tempfile::TempDir, report: &serde_json::Value) -> std::p
 fn gate_report_cli_validates_repository_bound_report() {
     let root = repository("cockpit-cli-gate-report-");
     start(&root, None);
+    let target_is_ignored = Command::new("git")
+        .args(["check-ignore", "--quiet", "target/ci-gate.json"])
+        .current_dir(root.path())
+        .status()
+        .expect("check Cargo target output ignore rule");
+    assert!(
+        target_is_ignored.success(),
+        "generated quality-gate reports must not become source changes in the isolated repository"
+    );
     let report_path = root.path().join("target/ci-gate.json");
     let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
         .args(["gate", "--repo"])
@@ -182,6 +205,64 @@ fn gate_report_cli_validates_repository_bound_report() {
         serde_json::from_slice(&validated.stdout).expect("validated report");
     assert_eq!(validated_report["state"], "passed");
     assert_eq!(validated_report["decisionState"], "green");
+}
+
+#[test]
+fn gate_report_cli_rejects_unignored_out_of_scope_source() {
+    let root = repository("cockpit-cli-gate-report-unignored-");
+    start(&root, None);
+    let report_path = root.path().join("target/ci-gate.json");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate", "--repo"])
+        .arg(root.path())
+        .args(["--contract"])
+        .arg(contract(&root))
+        .args(["--stage", "pull_request", "--runner", "hosted", "--report"])
+        .arg(&report_path)
+        .output()
+        .expect("gate");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).unwrap()).unwrap();
+    let route_path = route_receipt(&root, &report);
+    fs::write(
+        root.path().join("unignored-out-of-scope.txt"),
+        "unexpected source\n",
+    )
+    .expect("unignored out-of-scope source");
+    let ignored_probe = Command::new("git")
+        .args(["check-ignore", "--quiet", "--no-index"])
+        .arg(root.path().join("unignored-out-of-scope.txt"))
+        .current_dir(root.path())
+        .status()
+        .expect("check unignored out-of-scope source");
+    assert_eq!(
+        ignored_probe.code(),
+        Some(1),
+        "negative fixture must remain visible to Git status"
+    );
+
+    let validated = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate-report", "--repo"])
+        .arg(root.path())
+        .args(["--report"])
+        .arg(&report_path)
+        .args(["--route-receipt"])
+        .arg(&route_path)
+        .output()
+        .expect("gate report");
+    assert!(!validated.status.success());
+    assert!(
+        String::from_utf8_lossy(&validated.stderr).contains(
+            "Contract gate report does not match freshly recomputed canonical material projection"
+        ),
+        "{}",
+        String::from_utf8_lossy(&validated.stderr)
+    );
 }
 
 #[test]

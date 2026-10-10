@@ -5,6 +5,10 @@ edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
 
+[features]
+default = []
+test-support = []
+
 [dependencies]
 cockpit-core = { path = "../cockpit-core" }
 cockpit-evidence = { path = "../cockpit-evidence" }
@@ -12,6 +16,9 @@ cockpit-protocol = { path = "../cockpit-protocol" }
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true
+
+[dev-dependencies]
+cockpit-verification = { path = ".", features = ["test-support"] }
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2"

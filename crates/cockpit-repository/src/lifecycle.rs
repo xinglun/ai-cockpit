@@ -82,6 +82,38 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    start_work_item_with_options_internal(root, work_item_id, intent, goal, scope, options, None)
+}
+
+pub fn start_work_item_with_options_and_runtime(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    start_work_item_with_options_internal(
+        root,
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        Some(runtime),
+    )
+}
+
+fn start_work_item_with_options_internal(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+    runtime: Option<&RuntimeContext>,
+) -> Result<LifecycleReceipt, ObserverError> {
     if !matches!(options.authority.as_str(), "authorized" | "missing") {
         return Err(ObserverError::State {
             path: root.join(".ai/work-items/active"),
@@ -111,9 +143,12 @@ pub fn start_work_item_with_options(
         recovery_continuation,
         &start_advisory.conflicts,
     )?;
-    if let Some(receipt) =
+    if let Some(mut receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
+        let timestamp = now();
+        record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
+        receipt.timestamp = timestamp;
         return Ok(LifecycleReceipt {
             start_advisory: Some(start_advisory),
             ..receipt
@@ -131,12 +166,37 @@ pub fn start_work_item_with_options(
             state: "implementation_active",
         },
     )?;
+    let timestamp = now();
+    record_start_lifecycle_fact(root, work_item_id, &super::usage::lifecycle_now(), runtime)?;
     Ok(LifecycleReceipt {
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
-        timestamp: now(),
+        timestamp,
         start_advisory: Some(start_advisory),
     })
+}
+
+fn record_start_lifecycle_fact(
+    root: &Path,
+    work_item_id: &str,
+    timestamp: &str,
+    runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    let path = root.join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value = read_json(&path)?;
+    summary["lifecycleFacts"]["start"] = serde_json::json!({
+        "eventType": "work_item_started",
+        "occurredAt": timestamp,
+        "recordedAt": timestamp,
+        "actorProvenance": "unknown",
+    });
+    if let Some(runtime) = runtime {
+        summary["lifecycleFacts"]["start"]["runtimeVersion"] =
+            runtime.runtime_version.clone().into();
+        summary["lifecycleFacts"]["start"]["runtimeDigest"] =
+            runtime.runtime_digest.to_string().into();
+    }
+    atomic_json(&path, &summary)
 }
 
 /// Inspect residual Work Item resources before a new Work Item is started.
@@ -518,7 +578,15 @@ pub fn start_work_item_prepared(
     sources: &[String],
     runtime: &RuntimeContext,
 ) -> Result<serde_json::Value, ObserverError> {
-    let start = start_work_item_with_options(root, work_item_id, intent, goal, scope, options)?;
+    let start = start_work_item_with_options_and_runtime(
+        root,
+        work_item_id,
+        intent,
+        goal,
+        scope,
+        options,
+        runtime,
+    )?;
     let source_amendment = if sources.is_empty() {
         None
     } else {
@@ -1848,13 +1916,22 @@ fn preflight_work_item_internal_unlocked(
         contract_path,
     )?;
     let snapshot = observation_context.snapshot().clone();
-    let raw_decision = governance_decision_for_pre_execution_boundary(
+    let mut raw_decision = governance_decision_for_pre_execution_boundary(
         root,
         &contract,
         &snapshot,
         current_runtime,
         Some(&observation_context),
     )?;
+    let material_summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    super::material_review::apply_material_review_gate_to_decision(
+        root,
+        &contract,
+        &material_summary_path,
+        &mut raw_decision,
+    );
     let decision = apply_preflight_review_evidence(root, &contract, raw_decision.clone(), false)?;
     observation_context.validate_current()?;
 
@@ -2039,7 +2116,7 @@ pub(super) fn decision_state_name(state: DecisionState) -> &'static str {
 
 pub(super) fn contract_digest(path: &Path) -> Result<Digest, ObserverError> {
     let contract: serde_json::Value = read_json(path)?;
-    cockpit_protocol::digest_json(&contract).map_err(|error| ObserverError::State {
+    super::canonical_contract_digest(&contract).map_err(|error| ObserverError::State {
         path: path.to_path_buf(),
         message: error.to_string(),
     })
@@ -2116,6 +2193,42 @@ pub fn finish_work_item_with_runtime(
     finish_work_item_internal(root, work_item_id, Some(runtime))
 }
 
+fn snapshot_finish_artifact(path: &Path) -> Result<Option<Vec<u8>>, ObserverError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => fs::read(path)
+            .map(Some)
+            .map_err(|source| ObserverError::Read {
+                path: path.into(),
+                source,
+            }),
+        Ok(_) => Err(ObserverError::State {
+            path: path.into(),
+            message: "existing finish artifact is not a regular file".into(),
+        }),
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => Ok(None),
+        Err(source) => Err(ObserverError::Read {
+            path: path.into(),
+            source,
+        }),
+    }
+}
+
+fn restore_finish_artifacts(artifacts: &[(PathBuf, Option<Vec<u8>>)]) -> Result<(), ObserverError> {
+    for (path, original) in artifacts.iter().rev() {
+        if let Some(bytes) = original {
+            atomic_write(path, bytes)?;
+        } else if let Err(source) = fs::remove_file(path)
+            && source.kind() != std::io::ErrorKind::NotFound
+        {
+            return Err(ObserverError::Read {
+                path: path.clone(),
+                source,
+            });
+        }
+    }
+    Ok(())
+}
+
 fn finish_work_item_internal(
     root: &Path,
     work_item_id: &str,
@@ -2178,6 +2291,12 @@ fn finish_work_item_internal_unlocked(
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    super::material_review::require_material_review_gate(
+        &root,
+        &contract,
+        &summary_path,
+        "finish",
+    )?;
     if let Some(runtime) = current_runtime {
         super::require_current_action_admission(&root, work_item_id, "finish", runtime)?;
     }
@@ -2324,7 +2443,7 @@ fn finish_work_item_internal_unlocked(
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "finish")?;
     }
-    let timestamp = now();
+    let timestamp = super::usage::lifecycle_now();
     // A prior failed `finish` persists a blocked projection so recovery is
     // visible.  Once a fresh verification and governance pass succeeds, that
     // transient failure metadata is no longer current; keeping it would make
@@ -2339,7 +2458,18 @@ fn finish_work_item_internal_unlocked(
     }
     summary["state"] = "finish_ready".into();
     summary["updatedAt"] = timestamp.clone().into();
-    atomic_json(&summary_path, &summary)?;
+    summary["lifecycleFacts"]["finish"] = serde_json::json!({
+        "eventType": "work_item_finished",
+        "occurredAt": timestamp,
+        "recordedAt": timestamp,
+        "actorProvenance": "unknown",
+    });
+    if let Some(runtime) = current_runtime {
+        summary["lifecycleFacts"]["finish"]["runtimeVersion"] =
+            runtime.runtime_version.clone().into();
+        summary["lifecycleFacts"]["finish"]["runtimeDigest"] =
+            runtime.runtime_digest.to_string().into();
+    }
     let evidence_ref = format!(".ai/evidence/{work_item_id}.verification.json");
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
@@ -2355,13 +2485,39 @@ fn finish_work_item_internal_unlocked(
         failed_gate_override: None,
         recovery_condition_override: None,
         historical: false,
-    });
-    let (task_report_digest, task_report_markdown_digest) = write_task_outcome_artifacts(
-        &root,
-        work_item_id,
-        &task_report,
-        retry_recovery_pending || verification_recovery_reconciled,
-    )?;
+        usage_cutoff: Some(&timestamp),
+        closed_usage_validation: None,
+    })?;
+    let replace_reports = retry_recovery_pending || verification_recovery_reconciled;
+    let report_json_path = active.join(format!("{work_item_id}.task-report.json"));
+    let report_markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let prior_artifacts = [report_json_path, report_markdown_path, outcome_path]
+        .into_iter()
+        .map(|path| snapshot_finish_artifact(&path).map(|bytes| (path, bytes)))
+        .collect::<Result<Vec<_>, _>>()?;
+    if !replace_reports
+        && prior_artifacts[..2]
+            .iter()
+            .any(|(_, bytes)| bytes.is_some())
+    {
+        return Err(ObserverError::State {
+            path: active,
+            message: "Task Outcome report artifact already exists".into(),
+        });
+    }
+    let (task_report_digest, task_report_markdown_digest) =
+        match write_task_outcome_artifacts(&root, work_item_id, &task_report, replace_reports) {
+            Ok(digests) => digests,
+            Err(error) => {
+                restore_finish_artifacts(&prior_artifacts)?;
+                return Err(error);
+            }
+        };
+    if let Err(error) = atomic_json(&summary_path, &summary) {
+        restore_finish_artifacts(&prior_artifacts)?;
+        return Err(error);
+    }
     if retry_recovery_pending {
         summary
             .as_object_mut()
@@ -2382,9 +2538,8 @@ fn finish_work_item_internal_unlocked(
         if let Err(error) = atomic_json(&summary_path, &summary) {
             // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
             // finish_ready と retry marker の矛盾した投影を残さない。
-            let _ = atomic_json(&summary_path, &original_summary);
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-            let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+            atomic_json(&summary_path, &original_summary)?;
+            restore_finish_artifacts(&prior_artifacts)?;
             return Err(error);
         }
     }
@@ -2435,13 +2590,9 @@ fn finish_work_item_internal_unlocked(
     outcome["taskReportDigest"] = task_report_digest.to_string().into();
     outcome["taskReportMarkdownDigest"] = task_report_markdown_digest.to_string().into();
     outcome["createdAt"] = timestamp.clone().into();
-    if let Err(error) = atomic_json(
-        &active.join(format!("{work_item_id}.outcome.json")),
-        &outcome,
-    ) {
-        let _ = atomic_json(&summary_path, &original_summary);
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
+    if let Err(error) = atomic_json(&prior_artifacts[2].0, &outcome) {
+        atomic_json(&summary_path, &original_summary)?;
+        restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
     }
     if let Err(error) = append_task_outcome_events(
@@ -2450,10 +2601,8 @@ fn finish_work_item_internal_unlocked(
         &task_report,
         retry_recovery_pending || verification_recovery_reconciled,
     ) {
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
-        let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
-        let _ = atomic_json(&summary_path, &original_summary);
+        atomic_json(&summary_path, &original_summary)?;
+        restore_finish_artifacts(&prior_artifacts)?;
         return Err(error);
     }
     Ok(LifecycleReceipt {
@@ -5026,31 +5175,12 @@ fn closeout_status_projection(status: &WorkItemStatusSnapshot) -> serde_json::Va
     })
 }
 
-fn validate_closeout_history_chain(
+fn validate_closeout_final_report(
     root: &Path,
     work_item_id: &str,
     expected_repository_id: &str,
-    visited: &mut BTreeSet<String>,
-) -> Result<serde_json::Value, ObserverError> {
-    if !visited.insert(work_item_id.to_owned()) || visited.len() > 32 {
-        return Err(closeout_recovery_error(
-            root,
-            "closeout_recovery_history_cycle",
-            "historical closeout successor chain is cyclic or exceeds the supported depth",
-        ));
-    }
-    if !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id) {
-        return Err(closeout_recovery_error(
-            root,
-            "closeout_recovery_close_invalid",
-            format!("historical close decision is invalid for {work_item_id}"),
-        ));
-    }
-
-    let close_path = root
-        .join(".ai/decisions")
-        .join(format!("{work_item_id}.close.json"));
-    let close: serde_json::Value = read_json(&close_path)?;
+    close: &serde_json::Value,
+) -> Result<(), ObserverError> {
     let final_report = close.get("finalReport").ok_or_else(|| {
         closeout_recovery_error(
             root,
@@ -5079,6 +5209,35 @@ fn validate_closeout_history_chain(
         ));
     }
 
+    Ok(())
+}
+
+fn validate_closeout_history_chain(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+    visited: &mut BTreeSet<String>,
+) -> Result<serde_json::Value, ObserverError> {
+    if !visited.insert(work_item_id.to_owned()) || visited.len() > 32 {
+        return Err(closeout_recovery_error(
+            root,
+            "closeout_recovery_history_cycle",
+            "historical closeout successor chain is cyclic or exceeds the supported depth",
+        ));
+    }
+    if !close_decision_is_valid_for_status(root, work_item_id, expected_repository_id) {
+        return Err(closeout_recovery_error(
+            root,
+            "closeout_recovery_close_invalid",
+            format!("historical close decision is invalid for {work_item_id}"),
+        ));
+    }
+
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let close: serde_json::Value = read_json(&close_path)?;
+    validate_closeout_final_report(root, work_item_id, expected_repository_id, &close)?;
     let archive = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
@@ -5602,6 +5761,14 @@ fn build_closeout_recovery_plan(
                 });
             }
         }
+    }
+    // A bound close may fail the broader status gate because its final report
+    // was tampered with. Diagnose that narrow defect first, then keep the
+    // existing status and frozen-usage admission checks in force.
+    if close_decision_is_valid_for_status(&source, work_item_id, &source_repository_id) {
+        let close_path = source.join(format!(".ai/decisions/{work_item_id}.close.json"));
+        let close: serde_json::Value = read_json(&close_path)?;
+        validate_closeout_final_report(&source, work_item_id, &source_repository_id, &close)?;
     }
     let source_status = work_item_status_snapshot_with_runtime(&source, work_item_id, runtime)?;
     if source_status.repository_id != source_repository_id
@@ -9008,6 +9175,24 @@ mod recovery_retry_consumption_tests {
             "git init failed: {}",
             String::from_utf8_lossy(&output.stderr)
         );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=Test",
+                    "-c",
+                    "user.email=test@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "fixture baseline",
+                ])
+                .current_dir(directory.path())
+                .status()
+                .expect("git commit baseline")
+                .success()
+        );
         attach(directory.path()).expect("attach repository");
         directory
     }
@@ -9823,6 +10008,12 @@ mod cross_checkout_closeout_tests {
             status.lifecycle_phase, "closed",
             "missing receipt-bound evidence must prevent a closed projection"
         );
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+        assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
+        assert!(
+            crate::read_work_item_usage(&root, WORK_ITEM_ID, None).is_err(),
+            "direct usage query must still reject the damaged close evidence"
+        );
     }
 
     #[test]
@@ -9862,6 +10053,12 @@ mod cross_checkout_closeout_tests {
         assert_ne!(
             status.lifecycle_phase, "closed",
             "receipt omissions cannot launder missing archived evidence"
+        );
+        assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+        assert!(status.unknowns.contains(&"frozen_usage_invalid".into()));
+        assert!(
+            crate::read_work_item_usage(&root, WORK_ITEM_ID, None).is_err(),
+            "direct usage query must still reject the damaged close evidence"
         );
     }
 

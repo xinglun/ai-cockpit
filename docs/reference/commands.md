@@ -70,11 +70,13 @@ language uses the locale fallback. Add `--json` for the stable machine-readable
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance write entry | `preflight` | Evaluate a Contract and persist its explicit preflight projection. Repeating an unchanged preflight is idempotent and returns `changedPaths`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
 | Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `amend`, `amendments`, `revalidate-amendment`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan`, `closeout-recovery-plan`, `closeout-recover` | `amend --request` applies reasoned schema-aware changes against the current digest; `--input --reason` remains the legacy additive adapter. History is read-only. Accepted amendments invalidate affected evidence; query `work-item status` and follow Runtime's currently admitted next action (`run_preflight` is common, not unconditional). `revalidate-amendment` is only for direct Contract edits. Cross-checkout plan is read-only; recovery is a separate explicit write. |
+| Explicit usage | `work-item usage record --repo <path> --input <request.json>` | Append one strict `UsageRecordRequest` only when the current Runtime admits `record_usage`; replay is idempotent. A provider/host source label is a caller claim, not verified telemetry. `capability show --surface work-item-usage-record` describes CLI and MCP parameters without writing state. |
+| Material review | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` is read-only and emits the canonical request for a committed, clean non-`.ai` source snapshot, including raw scanner Unknowns. `record` accepts a strict typed decision only when Contract opt-in and fresh Runtime admission allow it, then binds an immutable sidecar and Summary pointer. The decision's reviewer identity is self-declared; it is not human, provider, or release approval and does not turn Unknown into machine Clean. Stage 1 has no opt-in, so Unknown discharge stays disabled. `capability show --surface work-item-material-review-plan` and `--surface work-item-material-review-record` describe both transports. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Cross-Work-Item coordination | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | Inspection and drift check are read-only; recording drift is an explicit persistent write before affected actions. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
-| Audit | `audit export`, `audit cognitive-benefit` | Export repository-bound events or run the fixed Rust cognitive-benefit evaluation; neither result grants release authority. |
+| Audit | `audit query`, `audit export`, `audit cognitive-benefit` | Query or export repository-bound events, or run the fixed Rust cognitive-benefit evaluation; none grants release authority. |
 | Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
 
 ## Contract amendments and environment drift
@@ -175,7 +177,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1-rc.2`
+- Runtime: `1.0.1`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
@@ -187,6 +189,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 
@@ -195,6 +198,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
@@ -228,7 +232,7 @@ before any repository operation runs.
 | Tool | Arguments | Typical call |
 | --- | --- | --- |
 | `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}`; `capability_show` also accepts optional `surface`, `format`, and `language` for a read-only interface description. | Read repository facts or the capability registry. |
-| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts the active conversation `language` (`en`, `zh`, `zh-CN`, `ja`). | `{"workItemId":"WI-123"}` |
+| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts the active conversation `language` (`en`, `zh`, `zh-CN`, `ja`) and IANA `displayTimezone` for a human lifecycle view. | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_start` | Required `workItemId`, human-supplied `intent` and `goal`, and non-empty `scope`; optional `outOfScope`, `risk`, `authority`, `acceptanceCriteria`, `requiredEvidenceClasses`, and `sources`. It persists preflight and creates exactly one before-edit checkpoint only when no blocker or human-confirmation boundary is present. | `{"workItemId":"WI-123","intent":"reduce repeated setup","goal":"prepare before implementation","scope":["src/**"],"authority":"authorized","sources":["issue:123"]}` |
 | `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |
 | `preflight` | Required repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -237,6 +241,10 @@ before any repository operation runs.
 | `evidence_get` | Exactly one of `path`, `evidencePath`, or `id`. | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_usage_record` | Required strict `request` object with repository and Work Item identity, source event, source label, unit, nullable token counts, and evidence ref/digest. It uses the same admitted Rust service as CLI. | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
+| `work_item_material_review_plan` | Read-only canonical request for an active Work Item with committed, clean non-`.ai` source. Raw scanner Unknowns remain explicit. | `{"workItemId":"WI-123"}` |
+| `work_item_material_review_record` | Required `workItemId` and strict typed `decision`; the same Rust repository service enforces Contract opt-in and fresh Runtime admission. `reviewerActor` is self-declared and does not authenticate a person or grant human/provider/release approval. Stage 1 has no opt-in. | `{"workItemId":"WI-123","decision":{"schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":"sha256:<digest>","reviewerActor":"agent:Raydot","authoritySource":"user-delegation:<source>","assurance":"self_declared","evidenceRefs":[{"path":"docs/review.md","digest":"sha256:<digest>"}],"rationale":"Reviewed exact bounded syntax material.","residualRisk":"The bounded scanner remains incomplete."}}` |
+| `audit_query` | Read-only query using exact Work Item/model/actor/event filters, an inclusive `from` and exclusive `to` on Runtime `recordedAt`, limit 1–100, cursor, and optional IANA `displayTimezone`. The page preserves unknown timestamps and page-only usage subtotals. | `{"workItemId":"WI-123","eventType":"work_item_started","limit":50,"displayTimezone":"Asia/Tokyo"}` |
 | `work_item_closeout_recovery_plan`, `work_item_closeout_recover` | Both require `workItemId` and absolute `sourceRepo`; the first is read-only and the second explicitly writes validated evidence to the MCP-bound destination checkout. | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | Optional `workItemId`, `command`, string-array `args`, finite `timeoutSeconds`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
@@ -373,6 +381,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   `*.task-report.md`, and an append-only `*.events.jsonl` stream; these are
   evidence-bound projections, not extra authority or a replacement for the
   Contract and verification receipt.
+- `work-item outcome --display-timezone Asia/Tokyo` adds a labeled IANA
+  lifecycle view to the human handoff. Start, finish, archive, and close remain
+  separate UTC evidence facts. The display uses the recorded time for each
+  transition. Missing transitions and unreliable wall elapsed remain unknown.
+  Wall elapsed includes waiting; process `elapsedMs` uses a monotonic clock.
+  Default output and immutable `--delivery` bytes are unchanged.
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>`
   records one append-only, Runtime-bound classification for an immutable
   legacy finalization receipt. The input must bind the exact predecessor
@@ -584,6 +598,19 @@ review when the returned state is yellow, red, unknown, or not ready.
   identity. The manifest sets `externalRetentionRequired: true`; an output file
   is idempotent and is only a handoff to SIEM, WORM, S3 Object Lock, or another
   external retention owner.
+- `audit query --repo <path> [--work-item-id <id>] [--from <RFC3339>] [--to <RFC3339>]
+  [--reported-model <model>] [--actor <actor>] [--event-type <type>]
+  [--limit <1..100>] [--cursor <cursor>] [--display-timezone <IANA>]` emits a
+  read-only typed page. Time bounds apply only to Runtime `recordedAt` (`from`
+  inclusive, `to` exclusive); missing timestamps remain unknown. The cursor
+  binds filters and source bytes, and a changed source returns `stale_cursor`.
+  `capability show --surface audit-query` describes the CLI/MCP parameters.
+- Adding any query filter to `audit export` selects the same typed page and
+  pagination behavior; no-filter export retains its schema-v1 manifest.
+  Explicit `--output` accepts identical legacy bytes or the same filtered
+  source snapshot and page without replacing the existing file; a different
+  result is rejected. `capability show --surface audit-export` describes its CLI
+  parameters.
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` runs the
   fixed seven-case evaluation in Rust. `--check` is read-only with respect to
   evaluation artifacts; without it, the command writes the JSON report under

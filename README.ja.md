@@ -38,16 +38,41 @@ verification と audit evidence を保持します。active Work Item の Runtim
 
 ## 実際の初回利用を試す
 
-Apple Silicon macOS では、次の command で公開済み stable v1.0.0 を install し、archive の SHA-256 を検証できます。curl、shasum、tar、install が必要です。
+Apple Silicon macOS では公開後、次の command で stable v1.0.1 を install できます。download した archive は release manifest と SHA256SUMS で検証します。curl、shasum、tar、install、Python 3 が必要です。
 
 ~~~bash
 set -eu
-asset=ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz
+tag=v1.0.1
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
+asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 cd "$tmpdir"
-curl -fL "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0/$asset" -o "$asset"
-printf '%s  %s\n' 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 "$asset" | shasum -a 256 -c -
+curl -fL "$release_url/$asset" -o "$asset"
+curl -fL "$release_url/SHA256SUMS" -o SHA256SUMS
+curl -fL "$release_url/release-manifest.json" -o release-manifest.json
+manifest_sum="$(awk '$2 == "release-manifest.json" {print $1}' SHA256SUMS)"
+manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
+test -n "$manifest_sum" && test "$manifest_actual" = "$manifest_sum"
+expected="$(python3 - "$asset" <<'PY'
+import json
+import sys
+filename = sys.argv[1]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+    raise SystemExit("release manifest identity mismatch")
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename
+               and item["target"] == "aarch64-apple-darwin"), None)
+if record is None:
+    raise SystemExit("Apple Silicon macOS artifact missing from manifest")
+print(record["archive"]["sha256"])
+PY
+)"
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
+test -n "$expected" && test "$expected" = "$listed" && test "$actual" = "$listed"
 tar -xzf "$asset" ai-cockpit
 mkdir -p "$HOME/.local/bin"
 install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
@@ -83,9 +108,7 @@ ai-cockpit doctor --repo $repo
 
 ## Stable 版と optional prerelease
 
-既定では stable v1.0.0 を使います。[Release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0)に Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU、Windows x86_64 の artifact があります。v1.0.0 には Intel macOS、Linux musl、Windows ARM64 向け Release archive はありません。
-
-macOS ARM64 v1.0.1-rc.1 は独立試用向けの optional prerelease です。既定の install 先ではありません。この prerelease の正式な release acceptance check はまだ完了していません。[prerelease page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
+既定では stable v1.0.1 を使います。[Release page](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1)に Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU、Windows x86_64 の artifact があります。以前の stable v1.0.0 は今回の N-1 upgrade acceptance の source です。v1.0.1-rc.2 prerelease は独立した過去の release として保持し、既定の install には使いません。Intel macOS、Linux musl、Windows ARM64 の archive はありません。
 
 ## 境界
 

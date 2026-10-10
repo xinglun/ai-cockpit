@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:bafc39b895a7c8afb6cf25d5f7302899b32aa63177de30f3b708b22cc4b7ceef",
+  "reason": "The user explicitly confirmed this exact five-stage Work Item amendment: at 2026-10-09 18:59 UTC, the user message Sentinel_c4616db290388191a159b13d2918fa8e said \"确认\"; at 19:00 UTC, user message Sentinel_a6fdba8e8db88191aae85ffc08177a13 said \"confirm_review\". These responded to Raydot's 2026-10-09 16:41:51 UTC message Sentinel_a08f118f62408191b9950f13fc7dfd33, which supplied the three historical language projection paths and five-stage 900-second timeout policy bound to prospective Contract digest sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e. This is the source of the user's bounded approval for this exact Contract and preflight review. Entered by agent:Codex as self-declared evidence; Runtime does not independently authenticate the user's identity. It does not assert tests passed, a new material-review decision, stable-release acceptance, merge, tag, publication, or close.",
+  "recordedAt": "2026-10-09T19:04:07Z",
+  "recordedBy": "user (explicit conversation approval; entered by agent:Codex)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bc1c6582fe0613acada79a529ced87b53511206fd3b6ab8c06b14a8200e2b797",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

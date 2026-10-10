@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5c36dd2f7f2f1c8373c5eeaa177910826617df80fa0f820ef9d787cdbc9b6460",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Ray confirmed the exact amended WI-1068 Contract sha256:5c36dd2f7f2f1c8373c5eeaa177910826617df80fa0f820ef9d787cdbc9b6460 and repository snapshot sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7 after Runtime explicitly requested a fresh identity-bound confirm_review. Continue the previously authorized stable v1.0.1 release; keep product/source limited to 16 paths, no-overwrite protection, exact-head CI and publication Runtime admission.",
+  "recordedAt": "2026-10-06T07:05:14Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

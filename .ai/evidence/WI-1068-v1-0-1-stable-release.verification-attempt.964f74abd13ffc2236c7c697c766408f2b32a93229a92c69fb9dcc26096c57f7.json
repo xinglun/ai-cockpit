@@ -1,0 +1,169 @@
+{
+  "attemptId": "sha256:964f74abd13ffc2236c7c697c766408f2b32a93229a92c69fb9dcc26096c57f7",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace",
+        "--",
+        "--quiet"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:be4d66c5e6b7418d672be0f28171e3467e04df03d6b2a312769e71f89b77c37a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "contractExecutionScopeDigest": "sha256:6da53fe30c03060931e7ef8f85808ae6b1bc09e8f5aa30f7e3e3ea01e9ba9b1c",
+  "createdAt": "2026-10-09T20:11:16Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:be4d66c5e6b7418d672be0f28171e3467e04df03d6b2a312769e71f89b77c37a",
+      "deadlineMs": 1791577576944,
+      "elapsedMs": 2,
+      "exitCode": null,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": false,
+      "stderr": "4e6f20737563682066696c65206f72206469726563746f727920286f73206572726f72203229",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 900
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 80,
+      "executionElapsedMs": 2,
+      "maxConcurrentProcesses": 0,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 0,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 80,
+    "executionElapsedMs": 2,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:be4d66c5e6b7418d672be0f28171e3467e04df03d6b2a312769e71f89b77c37a",
+        "deadlineMs": 1791577576944,
+        "elapsedMs": 2,
+        "exitCode": null,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": false,
+        "stderr": "4e6f20737563682066696c65206f72206469726563746f727920286f73206572726f72203229",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 900
+      }
+    ],
+    "filesHashed": 4,
+    "filesRead": 4,
+    "gitCalls": 4,
+    "maxConcurrentProcesses": 0,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 2,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [
+        "wi1068-a14-workspace-test-timeout",
+        "WI-1068-v1-0-1-stable-release:A14"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
+      "requiredAssurance": "self_declared",
+      "requiredTier": "T0",
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "effective:ai-cockpit-project-v1:wi1068-a14-workspace-test-timeout: This Work Item rule permits any already-admitted modify_source verification command at stages task, pre_ci, pr, merge, and release to explicitly request a timeout up to 900 seconds. This is a ceiling only: an omitted timeout retains the 300-second default. It does not change the declared verification command, required evidence, success criteria, or release/publication authorization. The Work Item verification plan continues to enforce one worker; worker count is not controlled by this policy. single_authorized_human imposes a real authorized-human approval requirement for governed modify_source operations. If close is requested, the separate structured human close decision remains required. This request records neither human decision and does not change the agent:Raydot material-review decision."
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 900,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 1,
+    "processesSpawned": 0,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": null,
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+    "runtimeVersion": "1.0.1",
+    "timeoutSeconds": 900,
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23cc061f2d315c64fce9fbb9ae349e8362b3cf12c217653a3cfdacfcf1c6264e",
+  "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

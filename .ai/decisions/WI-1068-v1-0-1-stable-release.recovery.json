@@ -1,0 +1,26 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "Human:Ray's full-access authorization in this conversation to complete WI-1068 stable v1.0.1 delivery, following confirmation of Contract sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef and repository snapshot sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8.",
+  "decidedAt": "2026-10-06T09:03:50Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/37436590400",
+    "https://github.com/xinglun/ai-cockpit/pull/1022/commits/243bfbc63b7326fd5a18867ad1764429e9bd585e",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+  ],
+  "policyRefs": [
+    "Contract sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+    "agents/skills/verification-failure-recovery.md"
+  ],
+  "predecessorContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+  "predecessorSummaryDigest": "sha256:c7aa586d69974b7c7121271d3cee27b597b1302f82b6e3f5b2f54c80f90cd88f",
+  "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+  "reason": "Exact-head PR #1022 workflow run 37436590400 used the stable 1.0.1 candidate Runtime and refused hosted verification because the preserved, structurally valid verification receipt was produced by Runtime 1.0.1-rc.2 (sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243). The current Runtime classifies this cross-version identity transition as evidence_contradictory. Authorize one same-Work-Item replacement verification under Runtime 1.0.1, preserving the predecessor receipt and every prior attempt unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Retain the predecessor verification receipt and all failed attempts. Allow exactly one fresh same-Work-Item verification with Runtime 1.0.1 against the confirmed Contract and current source snapshot. Continue only if the Runtime records the retry and then reports current evidence fresh with run_verification admitted; stop on any rejection, identity mismatch, or remaining red blocker. Exact-head CI, required review, merge, release admission, tag, and publication remain separate gates.",
+  "runtimeDigest": "sha256:6b8af7caf9685a7447fe69d8da319043931f8538e6a9c673d8e082dc8a793f73",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

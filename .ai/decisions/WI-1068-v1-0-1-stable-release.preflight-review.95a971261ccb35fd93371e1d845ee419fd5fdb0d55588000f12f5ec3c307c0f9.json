@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The user replied '确认继续' to the current Runtime human decision request after reviewing Contract sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef and repository snapshot sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8. This confirms continued WI-1068 execution under the amended workflow_dispatch plan; it does not waive verification, review, exact-head CI, later Runtime publication admission, or no-overwrite restrictions.",
+  "recordedAt": "2026-10-06T07:38:47Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

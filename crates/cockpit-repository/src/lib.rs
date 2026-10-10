@@ -47,6 +47,7 @@ use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
 mod action_admission;
+mod audit_query;
 mod collaboration;
 mod contract_amendment;
 mod coordination_store;
@@ -56,18 +57,28 @@ mod governance_controls;
 mod historical_compatibility;
 mod knowledge_projection;
 mod lifecycle;
+mod material_review;
 mod observation_ledger;
 mod outcome_render;
 mod project_governance;
 mod resource_lifecycle;
 mod rust_material;
 mod status_projection;
+mod usage;
 
+pub use material_review::{
+    MaterialReviewDecisionValidationError, MaterialReviewEntry, MaterialReviewRequest,
+    MaterialReviewRequestError, material_review_request, plan_work_item_material_review,
+    record_work_item_material_review, validate_material_review_decision,
+};
+pub use rust_material::MaterialUnknownCause;
 use rust_material::{
-    RustMaterialAssessment, assess_rust_material, contains_strong_instruction_injection,
+    RustMaterialAssessment, RustMaterialDiagnosis, contains_strong_instruction_injection,
+    diagnose_rust_material,
 };
 
 pub use action_admission::require_current_action_admission;
+pub use audit_query::{export_audit_events_filtered, query_audit_events};
 pub use collaboration::{
     CollaborationAction, CollaborationActionKind, CollaborationAdmission,
     CollaborationExecutionError, CollaborationOutcomeProjection, CollaborationProjection,
@@ -75,6 +86,8 @@ pub use collaboration::{
     collaboration_projection, publish_outcome, recover_impact,
     refresh_and_admit_collaboration_action, refresh_dependency_state, report_impact,
     request_safe_pause, resume_and_re_evaluate, run_admitted_composition,
+    run_admitted_composition_supervisor, run_admitted_composition_with_supervisor_executable,
+    run_composition_supervisor_stdio,
 };
 pub use contract_amendment::{
     ContractAmendmentChangedValue, ContractAmendmentReceipt, read_work_item_contract_amendments,
@@ -128,7 +141,7 @@ pub use outcome_render::{
     OutcomeRenderView, outcome_render_input, outcome_render_input_from_outcome,
     outcome_render_input_with_runtime, prepare_archive_outcome_delivery,
     render_collaboration_outcome, render_full_human_outcome, render_human_outcome,
-    render_human_outcome_with_view,
+    render_human_outcome_with_timezone, render_human_outcome_with_view,
 };
 pub use project_governance::*;
 pub use resource_lifecycle::{
@@ -155,6 +168,10 @@ use status_projection::{
 pub use status_projection::{
     status, status_with_runtime, work_item_status_index_with_runtime,
     work_item_status_snapshot_with_runtime,
+};
+pub use usage::{
+    query_work_item_usage, read_work_item_usage, read_work_item_usage_receipts,
+    record_work_item_usage,
 };
 
 static NEXT_ATOMIC_WRITE_ID: AtomicU64 = AtomicU64::new(0);
@@ -637,6 +654,21 @@ pub struct ContractQualityGateReport {
     pub decision_state: String,
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
+    /// Raw Unknowns emitted by the canonical Contract-base material scanner.
+    #[serde(default)]
+    pub raw_scanner_unknowns: Vec<String>,
+    /// Canonical non-`.ai` material manifest identity, when available.
+    #[serde(default)]
+    pub material_manifest_digest: Option<Digest>,
+    /// Digest of a validated immutable review receipt, never a caller claim.
+    #[serde(default)]
+    pub review_receipt_digest: Option<Digest>,
+    /// Assurance level of the validated review receipt.
+    #[serde(default)]
+    pub review_assurance: Option<cockpit_protocol::MaterialInspectionReviewAssurance>,
+    /// Effective Unknowns after only a precisely bound eligible receipt.
+    #[serde(default)]
+    pub effective_unknowns: Vec<String>,
     pub required_checks: Vec<String>,
     pub runtime_version: String,
     pub runtime_digest: Digest,
@@ -2859,6 +2891,65 @@ pub fn evidence_purge_plan(
 /// Build a deterministic, repository-bound audit export. The export is a
 /// handoff artifact: local Git/.ai storage is not claimed to be immutable
 /// enterprise retention.
+fn validated_delegated_audit_source(
+    root: &Path,
+    receipt_ref: &str,
+) -> Result<(DelegatedEvidenceReceipt, Digest), ObserverError> {
+    let safe_external_ref = |reference: &str| {
+        reference
+            .strip_prefix(".ai/evidence/external/")
+            .is_some_and(|name| {
+                !name.is_empty()
+                    && name != "."
+                    && name != ".."
+                    && !name.contains('/')
+                    && !name.contains('\\')
+            })
+    };
+    if !safe_external_ref(receipt_ref) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence/external"),
+            message: "delegated audit receipt ref is unsafe".into(),
+        });
+    }
+    let receipt_bytes = collaboration::read_registered_worktree_file_bounded(
+        root,
+        receipt_ref,
+        MAX_REUSABLE_RECEIPT_BYTES as usize,
+    )
+    .map_err(|message| ObserverError::State {
+        path: root.join(receipt_ref),
+        message: format!("delegated audit receipt unreadable: {message}"),
+    })?;
+    let receipt: DelegatedEvidenceReceipt =
+        serde_json::from_slice(&receipt_bytes).map_err(|source| ObserverError::State {
+            path: root.join(receipt_ref),
+            message: format!("delegated audit receipt invalid: {source}"),
+        })?;
+    if !safe_external_ref(&receipt.evidence.raw_evidence_ref) {
+        return Err(ObserverError::State {
+            path: root.join(receipt_ref),
+            message: "delegated audit raw ref is unsafe".into(),
+        });
+    }
+    let raw = collaboration::read_registered_worktree_file_bounded(
+        root,
+        &receipt.evidence.raw_evidence_ref,
+        MAX_EXTERNAL_EVIDENCE_BYTES,
+    )
+    .map_err(|message| ObserverError::State {
+        path: root.join(&receipt.evidence.raw_evidence_ref),
+        message: format!("delegated audit raw source unreadable: {message}"),
+    })?;
+    if Digest::sha256_bytes(&raw) != receipt.evidence.digest {
+        return Err(ObserverError::State {
+            path: root.join(&receipt.evidence.raw_evidence_ref),
+            message: "delegated audit raw source digest differs".into(),
+        });
+    }
+    Ok((receipt, Digest::sha256_bytes(&receipt_bytes)))
+}
+
 pub fn export_audit_events(
     root: &Path,
     runtime: &RuntimeContext,
@@ -2870,7 +2961,17 @@ pub fn export_audit_events(
     let repository_id = repository_id(&root).to_string();
     let mut events = Vec::new();
     let evidence_dir = root.join(".ai/evidence");
-    if let Ok(entries) = fs::read_dir(&evidence_dir) {
+    if let Some(entries) =
+        fs::read_dir(&evidence_dir)
+            .map(Some)
+            .or_else(|source| match source.kind() {
+                std::io::ErrorKind::NotFound => Ok(None),
+                _ => Err(ObserverError::Read {
+                    path: evidence_dir.clone(),
+                    source,
+                }),
+            })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: evidence_dir.clone(),
@@ -2909,7 +3010,25 @@ pub fn export_audit_events(
         }
     }
     let external_dir = evidence_dir.join("external");
-    if let Ok(entries) = fs::read_dir(&external_dir) {
+    if let Ok(metadata) = fs::symlink_metadata(&external_dir)
+        && (!metadata.is_dir() || metadata.file_type().is_symlink())
+    {
+        return Err(ObserverError::State {
+            path: external_dir,
+            message: "audit external evidence source is not a regular directory".into(),
+        });
+    }
+    if let Some(entries) =
+        fs::read_dir(&external_dir)
+            .map(Some)
+            .or_else(|source| match source.kind() {
+                std::io::ErrorKind::NotFound => Ok(None),
+                _ => Err(ObserverError::Read {
+                    path: external_dir.clone(),
+                    source,
+                }),
+            })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: external_dir.clone(),
@@ -2923,22 +3042,26 @@ pub fn export_audit_events(
                 continue;
             }
             let name = entry.file_name().to_string_lossy().into_owned();
-            let Some(work_item_id) = name.strip_suffix(".delegated.json") else {
+            let Some(stem) = name.strip_suffix(".delegated.json") else {
                 continue;
             };
-            let bytes = fs::read(entry.path()).map_err(|source| ObserverError::Read {
-                path: entry.path(),
-                source,
-            })?;
-            let receipt: DelegatedEvidenceReceipt =
-                serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
-                    path: external_dir.join(&name),
-                    message: error.to_string(),
-                })?;
-            if receipt.repository_id != repository_id || receipt.work_item_id != work_item_id {
+            let Some((work_item_id, digest_hex)) = stem.rsplit_once('.') else {
                 return Err(ObserverError::State {
                     path: external_dir.join(&name),
-                    message: "audit export found a cross-repository delegated receipt".into(),
+                    message: "audit export found an invalid delegated receipt filename".into(),
+                });
+            };
+            let receipt_ref = format!(".ai/evidence/external/{name}");
+            let (receipt, _) = validated_delegated_audit_source(&root, &receipt_ref)?;
+            if validate_work_item_id(work_item_id).is_err()
+                || receipt.repository_id != repository_id
+                || receipt.work_item_id != work_item_id
+                || receipt.evidence.digest.as_str().strip_prefix("sha256:") != Some(digest_hex)
+            {
+                return Err(ObserverError::State {
+                    path: external_dir.join(&name),
+                    message: "audit export found a delegated receipt identity or digest mismatch"
+                        .into(),
                 });
             }
             events.push(stable_audit_event(
@@ -2956,7 +3079,16 @@ pub fn export_audit_events(
         }
     }
     let decisions_dir = root.join(".ai/decisions");
-    if let Ok(entries) = fs::read_dir(&decisions_dir) {
+    if let Some(entries) = fs::read_dir(&decisions_dir)
+        .map(Some)
+        .or_else(|source| match source.kind() {
+            std::io::ErrorKind::NotFound => Ok(None),
+            _ => Err(ObserverError::Read {
+                path: decisions_dir.clone(),
+                source,
+            }),
+        })?
+    {
         for entry in entries {
             let entry = entry.map_err(|source| ObserverError::Read {
                 path: decisions_dir.clone(),
@@ -4084,7 +4216,8 @@ pub fn evaluate_contract_quality_gate(
             path: contract_path.clone(),
             message: "Contract path escapes repository".into(),
         })?;
-    let contract = read_contract(&contract_path)?;
+    let contract_document = read_contract_document(&contract_path)?;
+    let contract = contract_document.contract;
     let effective_resource_context =
         effective_resource_context(&root, &contract.work_item_id, &contract)?;
     if contract.work_item_id.trim().is_empty() {
@@ -4172,13 +4305,8 @@ pub fn evaluate_contract_quality_gate(
         return Err(ObserverError::SnapshotRootMismatch);
     }
     let current_snapshot_digest = snapshot_digest(&snapshot)?;
-    let current_contract_digest = contract_digest(&contract_path)?;
-    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
-        |source| ObserverError::Read {
-            path: contract_path.clone(),
-            source,
-        },
-    )?);
+    let current_contract_digest = contract_document.digest;
+    let contract_file_digest = contract_document.file_digest;
     let route = if archived_contract {
         resolve_verification_route_for_contract(
             &root,
@@ -4191,13 +4319,13 @@ pub fn evaluate_contract_quality_gate(
     } else {
         resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?
     };
-    let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
+    let contract_blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
     // This gate runs before the command represented by the route.  Contract
     // evidence classes describe lifecycle completion, so release, adopter,
     // close, and cleanup evidence cannot be required before those stages can
     // produce it.  The mutable lifecycle gates still use the strict normal
     // governance path below and enforce every declared class.
-    let decision = governance_decision_for_pre_execution_quality_gate(
+    let mut decision = governance_decision_for_pre_execution_quality_gate(
         &root,
         &contract,
         &snapshot,
@@ -4205,7 +4333,42 @@ pub fn evaluate_contract_quality_gate(
         runtime,
         archived_contract,
     )?;
-    blockers.extend(decision.blockers.clone());
+    decision.blockers.extend(contract_blockers);
+    let summary_path = contract_path
+        .parent()
+        .unwrap_or(&root)
+        .join(format!("{}.summary.json", contract.work_item_id));
+    let mut projection = match material_review::material_review_gate_projection_with_contract_digest(
+        &root,
+        &contract,
+        &current_contract_digest,
+        &summary_path,
+    ) {
+        Ok(projection) => projection,
+        Err(_) => material_review::MaterialReviewGateProjection {
+            raw_scanner_unknowns: Vec::new(),
+            material_manifest_digest: None,
+            review_receipt_digest: None,
+            review_assurance: None,
+            effective_unknowns: vec!["material_review_projection_unavailable".into()],
+            discharged_unknowns: Vec::new(),
+            reviewed_source_head: None,
+            reviewed_unknown_members: Vec::new(),
+            finding_codes: Vec::new(),
+            blocked_by_finding: false,
+            projection_unavailable: true,
+            review_decision_available: false,
+        },
+    };
+    material_review::preserve_unreviewed_comparison_material_unknowns(&snapshot, &mut projection);
+    let projection =
+        material_review::apply_material_review_projection_to_decision(projection, &mut decision);
+    decision.recompute_state_from_effective_facts();
+    let raw_scanner_unknowns = projection.raw_scanner_unknowns;
+    let material_manifest_digest = projection.material_manifest_digest;
+    let review_receipt_digest = projection.review_receipt_digest;
+    let review_assurance = projection.review_assurance;
+    let mut blockers = decision.blockers.clone();
     blockers.sort();
     blockers.dedup();
     let mut unknowns = decision.unknowns.clone();
@@ -4218,7 +4381,10 @@ pub fn evaluate_contract_quality_gate(
     let mut report = ContractQualityGateReport {
         schema_version: 1,
         kind: "repository_contract_quality_gate".into(),
-        state: if decision.state == DecisionState::Green && blockers.is_empty() {
+        state: if decision.state == DecisionState::Green
+            && blockers.is_empty()
+            && unknowns.is_empty()
+        {
             "passed".into()
         } else {
             "blocked".into()
@@ -4240,7 +4406,12 @@ pub fn evaluate_contract_quality_gate(
         dependency_confidence: route.dependency_confidence,
         decision_state,
         blockers,
-        unknowns,
+        unknowns: unknowns.clone(),
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        effective_unknowns: unknowns,
         required_checks,
         runtime_version: runtime.runtime_version.clone(),
         runtime_digest: runtime.runtime_digest.clone(),
@@ -4433,7 +4604,7 @@ pub fn validate_contract_quality_gate_report(
         .get("stage")
         .and_then(serde_json::Value::as_str)
         .ok_or_else(|| ObserverError::State {
-            path: route_receipt_path,
+            path: route_receipt_path.clone(),
             message: "Contract route receipt stage is required".into(),
         })?;
     let expected_stage = if route_stage == "pull_request" {
@@ -4449,8 +4620,52 @@ pub fn validate_contract_quality_gate_report(
     }
     if !report.blockers.is_empty() || !report.unknowns.is_empty() {
         return Err(ObserverError::State {
-            path: report_path,
+            path: report_path.clone(),
             message: "green Contract gate cannot contain blockers or unknowns".into(),
+        });
+    }
+    let mut report_payload =
+        serde_json::to_value(&report).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("cannot encode Contract gate report: {error}"),
+        })?;
+    report_payload
+        .as_object_mut()
+        .expect("typed Contract gate report serializes as an object")
+        .remove("receiptDigest");
+    let canonical_receipt_digest =
+        cockpit_protocol::digest_json(&report_payload).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("cannot digest Contract gate report: {error}"),
+        })?;
+    if report.receipt_digest != canonical_receipt_digest {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate report receiptDigest does not match canonical content".into(),
+        });
+    }
+    let verification_stage =
+        VerificationStage::parse(expected_stage).map_err(|error| ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: error,
+        })?;
+    let validation_runtime = RuntimeContext {
+        runtime_version: report.runtime_version.clone(),
+        protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+        runtime_digest: report.runtime_digest.clone(),
+    };
+    let recomputed = evaluate_contract_quality_gate(
+        &root,
+        &contract_path,
+        verification_stage,
+        "hosted",
+        Some(&report.comparison_base_revision),
+        &validation_runtime,
+    )?;
+    if recomputed != report {
+        return Err(ObserverError::State {
+            path: report_path,
+            message: "Contract gate report does not match freshly recomputed canonical material projection".into(),
         });
     }
     Ok(report)
@@ -4955,8 +5170,8 @@ fn is_test_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
     let file_name = normalized.rsplit('/').next().unwrap_or(&normalized);
     let spec_source_name = [
-        ".rs", ".py", ".js", ".jsx", ".ts", ".tsx", ".go", ".java", ".kt", ".swift", ".sh", ".rb",
-        ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
+        ".rs", ".py", ".js", ".mjs", ".cjs", ".jsx", ".ts", ".mts", ".cts", ".tsx", ".go", ".java",
+        ".kt", ".swift", ".sh", ".rb", ".php", ".cs", ".c", ".cc", ".cpp", ".h", ".hpp",
     ]
     .iter()
     .any(|extension| {
@@ -4991,8 +5206,8 @@ fn is_coverage_path(path: &str) -> bool {
 fn is_textual_material_path(path: &str) -> bool {
     let normalized = path.to_ascii_lowercase();
     [
-        ".md", ".txt", ".json", ".toml", ".yaml", ".yml", ".rs", ".py", ".js", ".ts", ".tsx",
-        ".jsx", ".java", ".kt", ".swift", ".go", ".sh",
+        ".md", ".txt", ".json", ".toml", ".yaml", ".yml", ".rs", ".py", ".js", ".mjs", ".cjs",
+        ".ts", ".mts", ".cts", ".tsx", ".jsx", ".java", ".kt", ".swift", ".go", ".sh",
     ]
     .iter()
     .any(|extension| normalized.ends_with(extension))
@@ -5007,24 +5222,1019 @@ fn is_strictly_checked_conformance_manifest(path: &str) -> bool {
     path == "tests/conformance/reference_file_inventory.json"
 }
 
-fn contains_skip_marker(lines: &[String]) -> bool {
-    lines.iter().any(|line| {
-        let line = line.to_ascii_lowercase();
-        line.contains("pytest.mark.skip")
-            || line.contains(".skip(")
-            || line.contains("#[ignore]")
-            || line.contains("@disabled")
-            || line.contains("@ignore")
-            || line.contains("disabled_")
-            // Match standalone JavaScript test bypass calls.  A substring
-            // search for `xit(` also matches Rust/Python `SystemExit(` and
-            // would falsely classify an otherwise safe diagnostic helper as
-            // test weakening.
-            || line.starts_with("xit(")
-            || line.contains(" xit(")
-            || line.starts_with("xdescribe(")
-            || line.contains(" xdescribe(")
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum MultilineSourceString {
+    PythonSingle,
+    PythonDouble,
+    TripleDouble,
+    Backtick,
+    GoRaw,
+    RustRaw(usize),
+    Quoted(u8),
+}
+
+#[derive(Default)]
+struct SkipSourceContext {
+    block_comment_depth: usize,
+    multiline_string: Option<MultilineSourceString>,
+}
+
+impl SkipSourceContext {
+    fn is_code(&self) -> bool {
+        self.block_comment_depth == 0 && self.multiline_string.is_none()
+    }
+}
+
+fn is_identifier_byte(byte: u8) -> bool {
+    byte.is_ascii_alphanumeric() || matches!(byte, b'_' | b'$') || !byte.is_ascii()
+}
+
+fn has_marker_boundary(line: &str, index: usize) -> bool {
+    line.as_bytes()
+        .get(index.wrapping_sub(1))
+        .is_none_or(|byte| !is_identifier_byte(*byte) && *byte != b'.')
+}
+
+fn has_call(line: &str, marker: &str) -> bool {
+    line.match_indices(marker).any(|(index, _)| {
+        has_marker_boundary(line, index)
+            && line[index + marker.len()..].trim_start().starts_with('(')
     })
+}
+
+fn has_call_or_jest_each(line: &str, marker: &str) -> bool {
+    line.match_indices(marker).any(|(index, _)| {
+        if !has_marker_boundary(line, index) {
+            return false;
+        }
+        let suffix = line[index + marker.len()..].trim_start();
+        suffix.starts_with('(')
+            || suffix
+                .strip_prefix(".each")
+                .is_some_and(|after_each| after_each.trim_start().starts_with('('))
+    })
+}
+
+fn has_bare_python_skip_decorator(line: &str) -> bool {
+    line.match_indices("@pytest.mark.skip").any(|(index, _)| {
+        has_marker_boundary(line, index)
+            && line[index + "@pytest.mark.skip".len()..].trim().is_empty()
+    })
+}
+
+fn has_python_skip_marker(line: &str) -> bool {
+    has_bare_python_skip_decorator(line)
+        || [
+            "@pytest.mark.skip",
+            "@pytest.mark.skipif",
+            "@unittest.skip",
+            "@unittest.skipIf",
+            "pytest.skip",
+            "pytest.skipif",
+        ]
+        .iter()
+        .any(|marker| has_call(line, marker))
+}
+
+fn has_python_parameter_marker_candidate(line: &str) -> bool {
+    ["pytest.mark.skipif", "pytest.mark.skip"]
+        .iter()
+        .any(|marker| {
+            line.match_indices(marker).any(|(index, _)| {
+                if !has_marker_boundary(line, index) {
+                    return false;
+                }
+                let suffix = line[index + marker.len()..].trim_start();
+                if marker.ends_with("skipif") {
+                    suffix.starts_with('(')
+                } else {
+                    suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
+                }
+            })
+        })
+}
+
+fn has_javascript_skip_marker(line: &str) -> bool {
+    ["it.skip", "test.skip", "describe.skip"]
+        .iter()
+        .any(|marker| has_call_or_jest_each(line, marker))
+        || ["xit", "xtest", "xdescribe", "this.skip"]
+            .iter()
+            .any(|marker| has_call(line, marker))
+}
+
+fn has_java_skip_annotation(line: &str) -> bool {
+    let bytes = line.as_bytes();
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] != b'@' {
+            index += 1;
+            continue;
+        }
+        let start = index + 1;
+        let mut end = start;
+        while bytes
+            .get(end)
+            .is_some_and(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'$'))
+        {
+            end += 1;
+        }
+        if end == start {
+            index += 1;
+            continue;
+        }
+        let annotation = &line[start..end];
+        let suffix = &line[end..];
+        if matches!(annotation.rsplit('.').next(), Some("Disabled" | "Ignore"))
+            && (suffix.is_empty()
+                || suffix.starts_with(char::is_whitespace)
+                || suffix.trim_start().starts_with('('))
+        {
+            return true;
+        }
+        index = end;
+    }
+    false
+}
+
+fn is_javascript_extension(extension: &str) -> bool {
+    matches!(
+        extension,
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx"
+    )
+}
+
+// These extensions have a narrowly recognized test-disable syntax below.
+// Other test-like paths still retain deletion, assertion-loss, and CI-bypass
+// detection without interpreting a generic word or method named `skip`.
+fn skip_marker_for_language(extension: &str, line: &str) -> bool {
+    match extension {
+        "rs" => line.match_indices("#[ignore").any(|(index, _)| {
+            has_marker_boundary(line, index)
+                && line[index + "#[ignore".len()..]
+                    .trim_start()
+                    .starts_with(['=', ']'])
+        }),
+        "py" => has_python_skip_marker(line),
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
+            has_javascript_skip_marker(line)
+        }
+        "java" | "kt" => has_java_skip_annotation(line),
+        "go" => ["t.Skip", "t.Skipf", "t.SkipNow"]
+            .iter()
+            .any(|marker| has_call(line, marker)),
+        "swift" => ["XCTSkip", "XCTSkipIf"]
+            .iter()
+            .any(|marker| has_call(line, marker)),
+        _ => false,
+    }
+}
+
+fn matching_parenthesis(source: &str, opening: usize) -> Option<usize> {
+    let mut depth = 0usize;
+    for (index, byte) in source.as_bytes().iter().enumerate().skip(opening) {
+        match byte {
+            b'(' => depth += 1,
+            b')' => {
+                depth = depth.checked_sub(1)?;
+                if depth == 0 {
+                    return Some(index);
+                }
+            }
+            _ => {}
+        }
+    }
+    None
+}
+
+fn top_level_argument_ranges(source: &str, start: usize, end: usize) -> Vec<(usize, usize)> {
+    let mut ranges = Vec::new();
+    let mut stack = Vec::new();
+    let mut argument_start = start;
+    for index in start..end {
+        match source.as_bytes()[index] {
+            b'(' => stack.push(b')'),
+            b'[' => stack.push(b']'),
+            b'{' => stack.push(b'}'),
+            byte @ (b')' | b']' | b'}') if stack.last() == Some(&byte) => {
+                stack.pop();
+            }
+            b',' if stack.is_empty() => {
+                ranges.push((argument_start, index));
+                argument_start = index + 1;
+            }
+            _ => {}
+        }
+    }
+    if argument_start < end {
+        ranges.push((argument_start, end));
+    }
+    ranges
+}
+
+fn has_python_parameterized_skip_marker(
+    source_lines: &[String],
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let source = source_lines.join("\n");
+    for (parameter_index, _) in source.match_indices("pytest.param") {
+        if !has_marker_boundary(&source, parameter_index) {
+            continue;
+        }
+        let suffix = &source[parameter_index + "pytest.param".len()..];
+        let opening = suffix.len() - suffix.trim_start().len();
+        if !suffix[opening..].starts_with('(') {
+            continue;
+        }
+        let opening = parameter_index + "pytest.param".len() + opening;
+        let Some(closing) = matching_parenthesis(&source, opening) else {
+            continue;
+        };
+        for (argument_start, argument_end) in
+            top_level_argument_ranges(&source, opening + 1, closing)
+        {
+            let argument = &source[argument_start..argument_end];
+            let Some(equal) = argument.find('=') else {
+                continue;
+            };
+            if argument[..equal].trim() != "marks" {
+                continue;
+            }
+            let value_start = argument_start + equal + 1;
+            let value = &source[value_start..argument_end];
+            for marker in ["pytest.mark.skipif", "pytest.mark.skip"] {
+                for (marker_offset, _) in value.match_indices(marker) {
+                    let marker_index = value_start + marker_offset;
+                    if !has_marker_boundary(&source, marker_index) {
+                        continue;
+                    }
+                    let suffix = value[marker_offset + marker.len()..].trim_start();
+                    let marker_is_used = if marker.ends_with("skipif") {
+                        suffix.starts_with('(')
+                    } else {
+                        suffix.is_empty() || suffix.starts_with(['(', ',', ')', ']'])
+                    };
+                    if marker_is_used {
+                        let line_index = source.as_bytes()[..marker_index]
+                            .iter()
+                            .filter(|byte| **byte == b'\n')
+                            .count();
+                        if changed_lines.contains(&line_index) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    false
+}
+
+fn balanced_expression_end(
+    extension: &str,
+    source: &str,
+    start: usize,
+    open: u8,
+    close: u8,
+) -> Option<usize> {
+    let expression = &source[start..];
+    let mut context = SkipSourceContext::default();
+    let mut code = String::with_capacity(expression.len());
+    for (index, line) in expression.split('\n').enumerate() {
+        if index > 0 {
+            code.push('\n');
+        }
+        code.push_str(&code_only_skip_source_line(extension, line, &mut context));
+    }
+    let bytes = code.as_bytes();
+    let mut depth = 1usize;
+    let mut index = 0;
+    while index < bytes.len() {
+        if bytes[index] == open {
+            depth += 1;
+        } else if bytes[index] == close {
+            depth = depth.checked_sub(1)?;
+            if depth == 0 {
+                return Some(start + index);
+            }
+        }
+        index += 1;
+    }
+    None
+}
+
+fn expression_may_disable_test(extension: &str, expression: &str) -> bool {
+    skip_marker_for_language(extension, expression)
+        || matches!(extension, "kt" | "swift")
+            && ["skip", "assume", "testaborted", "xctskip"]
+                .iter()
+                .any(|marker| expression.to_ascii_lowercase().contains(marker))
+}
+
+fn has_javascript_template_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        if bytes[quote_index] != b'`' {
+            quote_index += 1;
+            continue;
+        }
+        let Some(literal_end) = quoted_literal_end(bytes, quote_index, 1, b'`') else {
+            return false;
+        };
+        let mut content_index = quote_index + 1;
+        while content_index < literal_end {
+            if bytes.get(content_index..content_index + 2) == Some(b"${") {
+                let escaped = bytes[..content_index]
+                    .iter()
+                    .rev()
+                    .take_while(|byte| **byte == b'\\')
+                    .count()
+                    % 2
+                    == 1;
+                if escaped {
+                    content_index += 2;
+                    continue;
+                }
+                let expression_start = content_index + 2;
+                if let Some(expression_end) =
+                    balanced_expression_end("js", source, expression_start, b'{', b'}')
+                {
+                    if expression_end < literal_end
+                        && has_javascript_regex_brace_ambiguity(
+                            source,
+                            expression_start,
+                            expression_end,
+                        )
+                        && expression_may_disable_test("js", &source[expression_start..literal_end])
+                        && changed_line_intersects_range(
+                            source,
+                            content_index,
+                            literal_end,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                    if expression_end < literal_end
+                        && expression_may_disable_test(
+                            "js",
+                            &source[expression_start..expression_end],
+                        )
+                        && changed_line_intersects_range(
+                            source,
+                            content_index,
+                            expression_end + 1,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                    content_index = expression_end + 1;
+                    continue;
+                }
+                return expression_may_disable_test("js", &source[expression_start..literal_end])
+                    && changed_line_intersects_range(
+                        source,
+                        content_index,
+                        literal_end,
+                        changed_lines,
+                    );
+            }
+            content_index += 1;
+        }
+        quote_index = literal_end + 1;
+    }
+    false
+}
+
+fn has_javascript_regex_brace_ambiguity(
+    source: &str,
+    expression_start: usize,
+    expression_end: usize,
+) -> bool {
+    // This bounded scanner does not lex JavaScript regular-expression bodies.
+    // If a slash occurs before a brace it mistook for the interpolation end,
+    // the caller checks the entire interpolation for skip syntax and defers
+    // the decision instead of treating that brace as code.
+    source[expression_start..=expression_end].contains('/')
+}
+
+fn quoted_literal_end(
+    bytes: &[u8],
+    opening: usize,
+    delimiter_len: usize,
+    quote: u8,
+) -> Option<usize> {
+    let mut index = opening + delimiter_len;
+    while index + delimiter_len <= bytes.len() {
+        if bytes[index] == b'\\' {
+            index = (index + 2).min(bytes.len());
+        } else if bytes[index..index + delimiter_len]
+            .iter()
+            .all(|byte| *byte == quote)
+        {
+            return Some(index);
+        } else {
+            index += 1;
+        }
+    }
+    None
+}
+
+fn interpolated_string_end(
+    extension: &str,
+    source: &str,
+    opening: usize,
+    delimiter_len: usize,
+    raw_hashes: usize,
+) -> Option<usize> {
+    let bytes = source.as_bytes();
+    let mut index = opening + delimiter_len;
+    while index + delimiter_len <= bytes.len() {
+        if bytes[index..index + delimiter_len]
+            .iter()
+            .all(|byte| *byte == b'"')
+            && (extension != "swift"
+                || bytes
+                    .get(index + delimiter_len..index + delimiter_len + raw_hashes)
+                    .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#')))
+        {
+            return Some(index);
+        }
+        if extension == "swift"
+            && swift_interpolation_opening_len(bytes, index, raw_hashes).is_some()
+        {
+            let expression_start =
+                index + swift_interpolation_opening_len(bytes, index, raw_hashes)?;
+            let expression_end =
+                balanced_expression_end(extension, source, expression_start, b'(', b')')?;
+            index = expression_end + 1;
+            continue;
+        }
+        if extension == "kt" && bytes.get(index..index + 2) == Some(b"${") {
+            let expression_start = index + 2;
+            let expression_end =
+                balanced_expression_end(extension, source, expression_start, b'{', b'}')?;
+            index = expression_end + 1;
+            continue;
+        }
+        if bytes[index] == b'\\'
+            && ((extension == "swift" && raw_hashes == 0) || delimiter_len == 1)
+        {
+            index = (index + 2).min(bytes.len());
+        } else {
+            index += 1;
+        }
+    }
+    None
+}
+
+fn swift_interpolation_opening_len(bytes: &[u8], index: usize, raw_hashes: usize) -> Option<usize> {
+    if bytes.get(index) != Some(&b'\\')
+        || !bytes
+            .get(index + 1..index + 1 + raw_hashes)
+            .is_some_and(|hashes| hashes.iter().all(|byte| *byte == b'#'))
+        || bytes.get(index + 1 + raw_hashes) != Some(&b'(')
+    {
+        return None;
+    }
+    Some(raw_hashes + 2)
+}
+
+fn preceding_swift_raw_hashes(bytes: &[u8], quote_index: usize) -> usize {
+    let mut cursor = quote_index;
+    while cursor > 0 && bytes[cursor - 1] == b'#' {
+        cursor -= 1;
+    }
+    quote_index - cursor
+}
+
+fn changed_line_intersects_range(
+    source: &str,
+    start: usize,
+    end: usize,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let first_line = source.as_bytes()[..start]
+        .iter()
+        .filter(|byte| **byte == b'\n')
+        .count();
+    let last_line = source.as_bytes()[..end.min(source.len())]
+        .iter()
+        .filter(|byte| **byte == b'\n')
+        .count();
+    (first_line..=last_line).any(|line| changed_lines.contains(&line))
+}
+
+fn changed_text_after(source: &str, start: usize, changed_lines: &BTreeSet<usize>) -> String {
+    let mut changed_text = String::new();
+    let mut line_start = 0;
+    for (line_index, line) in source.split_inclusive('\n').enumerate() {
+        let line_end = line_start + line.trim_end_matches('\n').len();
+        if changed_lines.contains(&line_index) && line_end > start {
+            let segment_start = start.max(line_start);
+            changed_text.push_str(&source[segment_start..line_end]);
+            changed_text.push('\n');
+        }
+        line_start += line.len();
+    }
+    changed_text
+}
+
+fn has_python_fstring_skip_candidate(source: &str, changed_lines: &BTreeSet<usize>) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        let quote = bytes[quote_index];
+        if !matches!(quote, b'\'' | b'"') {
+            quote_index += 1;
+            continue;
+        }
+        let formatted_prefix_start = if quote_index > 0
+            && matches!(bytes[quote_index - 1], b'f' | b'F')
+            && (quote_index == 1 || !is_identifier_byte(bytes[quote_index - 2]))
+        {
+            Some(quote_index - 1)
+        } else if quote_index > 1
+            && matches!(
+                &bytes[quote_index - 2..quote_index],
+                b"fr" | b"fR" | b"Fr" | b"FR" | b"rf" | b"rF" | b"Rf" | b"RF"
+            )
+            && (quote_index == 2 || !is_identifier_byte(bytes[quote_index - 3]))
+        {
+            Some(quote_index - 2)
+        } else {
+            None
+        };
+        let Some(_prefix_start) = formatted_prefix_start else {
+            quote_index += 1;
+            continue;
+        };
+        let delimiter_len =
+            if bytes.get(quote_index..quote_index + 3) == Some(&[quote, quote, quote]) {
+                3
+            } else {
+                1
+            };
+        let Some(literal_end) = quoted_literal_end(bytes, quote_index, delimiter_len, quote) else {
+            quote_index += 1;
+            continue;
+        };
+        let content_start = quote_index + delimiter_len;
+        let mut content_index = content_start;
+        while content_index < literal_end {
+            if bytes[content_index] == b'{' {
+                if bytes.get(content_index + 1) == Some(&b'{') {
+                    content_index += 2;
+                    continue;
+                }
+                let expression_start = content_index + 1;
+                // PEP 701 permits the expression to reuse the f-string's
+                // quote. If the outer delimiter scan ended inside that
+                // expression, keep scanning its balanced body and fail closed.
+                if let Some(expression_end) =
+                    balanced_expression_end("py", source, expression_start, b'{', b'}')
+                    && expression_may_disable_test("py", &source[expression_start..expression_end])
+                    && changed_line_intersects_range(
+                        source,
+                        content_index,
+                        expression_end + 1,
+                        changed_lines,
+                    )
+                {
+                    return true;
+                }
+            }
+            content_index += 1;
+        }
+        quote_index = literal_end + delimiter_len;
+    }
+    false
+}
+
+fn has_kotlin_or_swift_interpolation_candidate(
+    extension: &str,
+    source: &str,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    let bytes = source.as_bytes();
+    let mut quote_index = 0;
+    while quote_index < bytes.len() {
+        if bytes[quote_index] != b'"' {
+            quote_index += 1;
+            continue;
+        }
+        let delimiter_len = if bytes.get(quote_index..quote_index + 3) == Some(b"\"\"\"") {
+            3
+        } else {
+            1
+        };
+        let raw_hashes = if extension == "swift" {
+            preceding_swift_raw_hashes(bytes, quote_index)
+        } else {
+            0
+        };
+        let Some(literal_end) =
+            interpolated_string_end(extension, source, quote_index, delimiter_len, raw_hashes)
+        else {
+            quote_index += 1;
+            continue;
+        };
+        let content_start = quote_index + delimiter_len;
+        let content = &source[content_start..literal_end];
+        match extension {
+            "kt" => {
+                for (index, _) in content.match_indices("${") {
+                    let expression_start = content_start + index + 2;
+                    if let Some(expression_end) =
+                        balanced_expression_end(extension, source, expression_start, b'{', b'}')
+                        && expression_end < literal_end
+                        && expression_may_disable_test(
+                            extension,
+                            &source[expression_start..expression_end],
+                        )
+                        && changed_line_intersects_range(
+                            source,
+                            content_start + index,
+                            expression_end + 1,
+                            changed_lines,
+                        )
+                    {
+                        return true;
+                    }
+                }
+            }
+            "swift" => {
+                for (index, _) in content.match_indices('\\') {
+                    let Some(opening_len) =
+                        swift_interpolation_opening_len(content.as_bytes(), index, raw_hashes)
+                    else {
+                        continue;
+                    };
+                    let expression_start = content_start + index + opening_len;
+                    if let Some(expression_end) =
+                        balanced_expression_end(extension, source, expression_start, b'(', b')')
+                    {
+                        let changed_suffix = changed_text_after(
+                            source,
+                            expression_end.saturating_add(1),
+                            changed_lines,
+                        );
+                        if expression_end < literal_end
+                            && source[expression_start..=expression_end].contains('/')
+                            && expression_may_disable_test(extension, &changed_suffix)
+                        {
+                            return true;
+                        }
+                        if expression_end < literal_end
+                            && expression_may_disable_test(
+                                extension,
+                                &source[expression_start..expression_end],
+                            )
+                            && changed_line_intersects_range(
+                                source,
+                                content_start + index,
+                                expression_end + 1,
+                                changed_lines,
+                            )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+        quote_index = literal_end + delimiter_len;
+    }
+    false
+}
+
+fn has_skip_interpolation_candidate_in_source(
+    extension: &str,
+    source: &str,
+    changed_lines: &BTreeSet<usize>,
+) -> bool {
+    match extension {
+        "js" | "mjs" | "cjs" | "jsx" | "ts" | "mts" | "cts" | "tsx" => {
+            has_javascript_template_skip_candidate(source, changed_lines)
+        }
+        "py" => has_python_fstring_skip_candidate(source, changed_lines),
+        "kt" | "swift" => {
+            has_kotlin_or_swift_interpolation_candidate(extension, source, changed_lines)
+        }
+        _ => false,
+    }
+}
+
+fn rust_raw_string_open(bytes: &[u8], index: usize) -> Option<(usize, usize)> {
+    if index > 0 && (bytes[index - 1].is_ascii_alphanumeric() || bytes[index - 1] == b'_') {
+        return None;
+    }
+    let marker_start = if bytes.get(index..index + 2) == Some(b"br") {
+        index + 2
+    } else if bytes.get(index) == Some(&b'r') {
+        index + 1
+    } else {
+        return None;
+    };
+    let mut cursor = marker_start;
+    while bytes.get(cursor) == Some(&b'#') {
+        cursor += 1;
+    }
+    (bytes.get(cursor) == Some(&b'"')).then_some((cursor - marker_start, cursor + 1))
+}
+
+fn close_multiline_string(
+    bytes: &[u8],
+    index: usize,
+    string: MultilineSourceString,
+) -> Option<usize> {
+    match string {
+        MultilineSourceString::PythonSingle if bytes.get(index..index + 3) == Some(b"'''") => {
+            Some(index + 3)
+        }
+        MultilineSourceString::PythonDouble | MultilineSourceString::TripleDouble
+            if bytes.get(index..index + 3) == Some(b"\"\"\"") =>
+        {
+            Some(index + 3)
+        }
+        MultilineSourceString::Backtick | MultilineSourceString::GoRaw
+            if bytes.get(index) == Some(&b'`') =>
+        {
+            Some(index + 1)
+        }
+        MultilineSourceString::Quoted(quote) if bytes.get(index) == Some(&quote) => Some(index + 1),
+        MultilineSourceString::RustRaw(hashes)
+            if bytes.get(index) == Some(&b'"')
+                && bytes
+                    .get(index + 1..index + 1 + hashes)
+                    .is_some_and(|closing| closing.iter().all(|byte| *byte == b'#')) =>
+        {
+            Some(index + 1 + hashes)
+        }
+        _ => None,
+    }
+}
+
+fn code_only_skip_source_line(
+    extension: &str,
+    line: &str,
+    context: &mut SkipSourceContext,
+) -> String {
+    let bytes = line.as_bytes();
+    let mut code = vec![b' '; bytes.len()];
+    let nested_comments = matches!(extension, "rs" | "kt" | "swift");
+    let block_comments = matches!(
+        extension,
+        "rs" | "js"
+            | "mjs"
+            | "cjs"
+            | "jsx"
+            | "ts"
+            | "mts"
+            | "cts"
+            | "tsx"
+            | "java"
+            | "kt"
+            | "swift"
+            | "go"
+    );
+    let mut index = 0;
+    while index < bytes.len() {
+        if let Some(string) = context.multiline_string {
+            if let Some(next) = close_multiline_string(bytes, index, string) {
+                context.multiline_string = None;
+                index = next;
+            } else if matches!(
+                string,
+                MultilineSourceString::PythonSingle
+                    | MultilineSourceString::PythonDouble
+                    | MultilineSourceString::Backtick
+                    | MultilineSourceString::Quoted(_)
+            ) && bytes[index] == b'\\'
+            {
+                index = (index + 2).min(bytes.len());
+            } else {
+                index += 1;
+            }
+            continue;
+        }
+        if context.block_comment_depth > 0 {
+            if nested_comments && bytes.get(index..index + 2) == Some(b"/*") {
+                context.block_comment_depth += 1;
+                index += 2;
+            } else if bytes.get(index..index + 2) == Some(b"*/") {
+                context.block_comment_depth -= 1;
+                index += 2;
+            } else {
+                index += 1;
+            }
+            continue;
+        }
+
+        if matches!(extension, "py") && bytes.get(index..index + 3) == Some(b"'''") {
+            context.multiline_string = Some(MultilineSourceString::PythonSingle);
+            index += 3;
+            continue;
+        }
+        if matches!(extension, "py" | "java" | "kt" | "swift")
+            && bytes.get(index..index + 3) == Some(b"\"\"\"")
+        {
+            context.multiline_string = Some(if extension == "py" {
+                MultilineSourceString::PythonDouble
+            } else {
+                MultilineSourceString::TripleDouble
+            });
+            index += 3;
+            continue;
+        }
+        if extension == "rs"
+            && let Some((hashes, next)) = rust_raw_string_open(bytes, index)
+        {
+            context.multiline_string = Some(MultilineSourceString::RustRaw(hashes));
+            index = next;
+            continue;
+        }
+        if is_javascript_extension(extension) && bytes[index] == b'`' {
+            context.multiline_string = Some(MultilineSourceString::Backtick);
+            index += 1;
+            continue;
+        }
+        if extension == "go" && bytes[index] == b'`' {
+            context.multiline_string = Some(MultilineSourceString::GoRaw);
+            index += 1;
+            continue;
+        }
+        if block_comments && bytes.get(index..index + 2) == Some(b"/*") {
+            context.block_comment_depth = 1;
+            index += 2;
+            continue;
+        }
+        if (extension != "py" && bytes.get(index..index + 2) == Some(b"//"))
+            || (extension == "py" && bytes[index] == b'#')
+        {
+            break;
+        }
+        if matches!(bytes[index], b'\'' | b'"') {
+            let quote = bytes[index];
+            if extension == "rs" && quote == b'\'' {
+                let mut cursor = index + 1;
+                let mut closes_on_line = false;
+                while cursor < bytes.len() {
+                    if bytes[cursor] == b'\\' {
+                        cursor = (cursor + 2).min(bytes.len());
+                    } else if bytes[cursor] == b'\'' {
+                        closes_on_line = true;
+                        break;
+                    } else {
+                        cursor += 1;
+                    }
+                }
+                if !closes_on_line {
+                    index += 1;
+                    continue;
+                }
+            }
+            index += 1;
+            let mut closed = false;
+            while index < bytes.len() {
+                if bytes[index] == b'\\' {
+                    index = (index + 2).min(bytes.len());
+                } else if bytes[index] == quote {
+                    index += 1;
+                    closed = true;
+                    break;
+                } else {
+                    index += 1;
+                }
+            }
+            if !closed {
+                context.multiline_string = Some(MultilineSourceString::Quoted(quote));
+            }
+            continue;
+        }
+        code[index] = bytes[index];
+        index += 1;
+    }
+    String::from_utf8(code).expect("masking source bytes preserves UTF-8")
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum SkipMarkerScan {
+    Finding,
+    Clean,
+    Ambiguous,
+}
+
+fn contains_skip_marker(path: &str, change: &cockpit_git::ChangeEvidence) -> SkipMarkerScan {
+    let extension = path
+        .rsplit('.')
+        .next()
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    if !matches!(
+        extension.as_str(),
+        "rs" | "py"
+            | "js"
+            | "mjs"
+            | "cjs"
+            | "jsx"
+            | "ts"
+            | "mts"
+            | "cts"
+            | "tsx"
+            | "java"
+            | "kt"
+            | "go"
+            | "swift"
+    ) {
+        return SkipMarkerScan::Clean;
+    }
+    let Some(source) = change.after_text.as_deref() else {
+        let all_added_lines = (0..change.added_lines.len()).collect::<BTreeSet<_>>();
+        let added_source = change.added_lines.join("\n");
+        let parameterized_skip = extension == "py"
+            && has_python_parameterized_skip_marker(&change.added_lines, &all_added_lines);
+        return if parameterized_skip
+            || has_skip_interpolation_candidate_in_source(
+                &extension,
+                &added_source,
+                &all_added_lines,
+            )
+            || change.added_lines.iter().any(|line| {
+                skip_marker_for_language(&extension, line)
+                    || (extension == "py" && has_python_parameter_marker_candidate(line))
+            }) {
+            SkipMarkerScan::Ambiguous
+        } else {
+            SkipMarkerScan::Clean
+        };
+    };
+    let source_lines = source.lines().collect::<Vec<_>>();
+    let mut changed_lines = BTreeSet::new();
+    if !change.added_line_origins.is_empty() {
+        if change.added_line_origins.len() != change.added_lines.len() {
+            return SkipMarkerScan::Ambiguous;
+        }
+        for (origin, added_line) in change.added_line_origins.iter().zip(&change.added_lines) {
+            let Some(line_index) = origin.after_line.checked_sub(1) else {
+                return SkipMarkerScan::Ambiguous;
+            };
+            if source_lines
+                .get(line_index)
+                .is_none_or(|line| line.trim_end_matches('\r') != added_line)
+            {
+                return SkipMarkerScan::Ambiguous;
+            }
+            changed_lines.insert(line_index);
+        }
+    } else if change.kind == ChangeKind::Added
+        || source_lines.join("\n") == change.added_lines.join("\n")
+    {
+        changed_lines.extend(0..source_lines.len());
+    } else if change.added_lines.is_empty() {
+        return SkipMarkerScan::Clean;
+    } else if change.added_lines.iter().any(|line| {
+        skip_marker_for_language(&extension, line)
+            || (extension == "py" && has_python_parameter_marker_candidate(line))
+    }) || has_skip_interpolation_candidate_in_source(
+        &extension,
+        &change.added_lines.join("\n"),
+        &(0..change.added_lines.len()).collect(),
+    ) || (extension == "py"
+        && has_python_parameterized_skip_marker(
+            &change.added_lines,
+            &(0..change.added_lines.len()).collect(),
+        ))
+    {
+        return SkipMarkerScan::Ambiguous;
+    } else {
+        return SkipMarkerScan::Clean;
+    }
+
+    if has_skip_interpolation_candidate_in_source(&extension, source, &changed_lines) {
+        return SkipMarkerScan::Ambiguous;
+    }
+
+    let mut context = SkipSourceContext::default();
+    let mut code_lines = Vec::with_capacity(source_lines.len());
+    for (index, line) in source_lines.iter().enumerate() {
+        let code_line = code_only_skip_source_line(&extension, line, &mut context);
+        if changed_lines.contains(&index) && skip_marker_for_language(&extension, &code_line) {
+            return SkipMarkerScan::Finding;
+        }
+        code_lines.push(code_line);
+    }
+    if extension == "py" && has_python_parameterized_skip_marker(&code_lines, &changed_lines) {
+        return SkipMarkerScan::Finding;
+    }
+    if context.is_code() {
+        SkipMarkerScan::Clean
+    } else {
+        SkipMarkerScan::Ambiguous
+    }
 }
 
 fn assertion_count(lines: &[String]) -> usize {
@@ -5109,7 +6319,17 @@ fn coverage_weakened(removed: &[String], added: &[String]) -> bool {
 }
 
 pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSignalAssessment {
+    derive_governance_signals_with_diagnostics(snapshot).0
+}
+
+fn derive_governance_signals_with_diagnostics(
+    snapshot: &RepositorySnapshot,
+) -> (
+    GovernanceSignalAssessment,
+    BTreeMap<String, RustMaterialDiagnosis>,
+) {
     let mut result = GovernanceSignalAssessment::default();
+    let mut rust_diagnostics = BTreeMap::new();
     for change in &snapshot.change_evidence {
         if change.path.starts_with(".ai/") {
             continue;
@@ -5151,7 +6371,9 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             &added_text
         };
         if change.path.to_ascii_lowercase().ends_with(".rs") {
-            match assess_rust_material(change) {
+            let diagnosis = diagnose_rust_material(change);
+            rust_diagnostics.insert(change.path.clone(), diagnosis);
+            match diagnosis.assessment {
                 RustMaterialAssessment::Finding => {
                     result.untrusted_material = true;
                     result.findings.push("repository_prompt_injection".into());
@@ -5165,9 +6387,19 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
             result.untrusted_material = true;
             result.findings.push("repository_prompt_injection".into());
         }
+        let skip_marker = if test_path {
+            contains_skip_marker(&change.path, change)
+        } else {
+            SkipMarkerScan::Clean
+        };
+        if skip_marker == SkipMarkerScan::Ambiguous {
+            result
+                .unknowns
+                .push("test_weakening_inspection_unavailable".into());
+        }
         if test_path
             && (change.kind == ChangeKind::Deleted
-                || contains_skip_marker(&change.added_lines)
+                || skip_marker == SkipMarkerScan::Finding
                 || assertion_count(&change.removed_lines) > assertion_count(&change.added_lines)
                 || contains_test_bypass(&added_text))
         {
@@ -5183,7 +6415,7 @@ pub fn derive_governance_signals(snapshot: &RepositorySnapshot) -> GovernanceSig
     result.unknowns.dedup();
     result.findings.sort();
     result.findings.dedup();
-    result
+    (result, rust_diagnostics)
 }
 
 pub fn contract_freshness_findings(
@@ -5815,28 +7047,49 @@ fn reject_duplicate_json_keys(bytes: &[u8]) -> Result<(), String> {
 }
 
 pub(crate) fn read_contract(path: &Path) -> Result<cockpit_protocol::Contract, ObserverError> {
+    Ok(read_contract_document(path)?.contract)
+}
+
+pub(crate) fn read_contract_document(
+    path: &Path,
+) -> Result<CanonicalContractDocument, ObserverError> {
     let bytes = fs::read(path).map_err(|source| ObserverError::Read {
         path: path.into(),
         source,
     })?;
-    parse_contract_bytes(&bytes, path)
+    parse_contract_document(&bytes, path)
 }
 
-pub(crate) fn parse_contract_bytes(
+pub(crate) struct CanonicalContractDocument {
+    pub contract: cockpit_protocol::Contract,
+    pub digest: Digest,
+    pub file_digest: Digest,
+}
+
+/// Digest the persisted Contract JSON value used by lifecycle identity.
+/// Keep this local to Contract handling; `digest_json` remains unchanged for
+/// all other protocol values and historical receipts.
+pub(crate) fn canonical_contract_digest(
+    value: &serde_json::Value,
+) -> Result<Digest, serde_json::Error> {
+    cockpit_protocol::digest_json(value)
+}
+
+pub(crate) fn parse_contract_document(
     bytes: &[u8],
     path: &Path,
-) -> Result<cockpit_protocol::Contract, ObserverError> {
+) -> Result<CanonicalContractDocument, ObserverError> {
     reject_duplicate_json_keys(bytes).map_err(|message| ObserverError::State {
         path: path.to_path_buf(),
         message: format!("invalid Contract JSON: {message}"),
     })?;
-    let value: serde_json::Value =
+    let raw: serde_json::Value =
         serde_json::from_slice(bytes).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
     let contract: cockpit_protocol::Contract =
-        serde_json::from_value(value).map_err(|error| ObserverError::State {
+        serde_json::from_value(raw.clone()).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: format!("invalid work item contract: {error}"),
         })?;
@@ -5847,7 +7100,23 @@ pub(crate) fn parse_contract_bytes(
             errors.join("; ")
         ),
     })?;
-    Ok(contract)
+    let digest = canonical_contract_digest(&raw).map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: error.to_string(),
+    })?;
+    let file_digest = Digest::sha256_bytes(bytes);
+    Ok(CanonicalContractDocument {
+        contract,
+        digest,
+        file_digest,
+    })
+}
+
+pub(crate) fn parse_contract_bytes(
+    bytes: &[u8],
+    path: &Path,
+) -> Result<cockpit_protocol::Contract, ObserverError> {
+    Ok(parse_contract_document(bytes, path)?.contract)
 }
 
 fn require_green_governance(
@@ -7538,6 +8807,7 @@ fn archive_work_item_internal(
     let contract = read_contract(&contract_path)?;
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
+    material_review::require_material_review_gate(&root, &contract, &summary_path, "archive")?;
     let active_leases = list_parallel_slots(&root)?;
     if let Some(lease) = active_leases
         .iter()
@@ -7706,6 +8976,26 @@ fn archive_work_item_internal(
         artifacts.push((format!("historicalArtifact{index}"), suffix.to_owned()));
     }
     let mut pending = Vec::new();
+    let cutoff_bound_report = if artifacts
+        .iter()
+        .any(|(_, suffix)| suffix == "task-report.json")
+    {
+        let bytes = fs::read(&report_source).map_err(|source| ObserverError::Read {
+            path: report_source.clone(),
+            source,
+        })?;
+        let report: TaskOutcomeReport =
+            serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+                path: report_source.clone(),
+                message: format!("active Task Outcome report is invalid: {error}"),
+            })?;
+        if let Some(usage) = report.usage.as_ref() {
+            usage::validate_frozen_usage_snapshot(&root, usage)?;
+        }
+        report.usage.is_some()
+    } else {
+        false
+    };
     for (name, suffix) in artifacts {
         let source_path = active.join(format!("{work_item_id}.{suffix}"));
         if name.starts_with("historicalArtifact")
@@ -7718,8 +9008,14 @@ fn archive_work_item_internal(
             path: source_path.clone(),
             source: error,
         })?;
-        let archived_bytes =
-            normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?;
+        let archived_bytes = if cutoff_bound_report
+            && matches!(suffix.as_str(), "task-report.json" | "task-report.md")
+        {
+            // The cutoff-bound finish report is an immutable source record.
+            source_bytes.clone()
+        } else {
+            normalized_archive_artifact_bytes(&suffix, &source_bytes, work_item_id)?
+        };
         if target.exists() {
             return Err(ObserverError::State {
                 path: target,
@@ -7837,15 +9133,24 @@ fn archive_work_item_internal(
         }
     }
     let timestamp = now();
+    let lifecycle_time = usage::lifecycle_now();
     let mut manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
+        "repositoryId": repository_id(&root).to_string(),
         "state": "archived",
         "closeRequired": true,
         "files": files,
         "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
+        "occurredAt": lifecycle_time,
+        "recordedAt": lifecycle_time,
+        "actorProvenance": "unknown",
     });
+    if let Some(runtime) = current_runtime {
+        manifest["runtimeVersion"] = runtime.runtime_version.clone().into();
+        manifest["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    }
     if let Some(binding) = historical_evidence {
         manifest["historicalEvidence"] = binding;
         manifest["archiveRoute"] = serde_json::json!("historical_evidence_compatibility");
@@ -8467,6 +9772,14 @@ fn close_work_item_with_structured_decision_internal(
     }
     let mut decision = receipt_value;
     decision["repositoryId"] = contract.repository_id.clone().into();
+    let lifecycle_time = usage::lifecycle_now();
+    decision["occurredAt"] = lifecycle_time.clone().into();
+    decision["recordedAt"] = lifecycle_time.into();
+    decision["actorProvenance"] = "structuredDecision.actor".into();
+    if let Some(runtime) = current_runtime {
+        decision["runtimeVersion"] = runtime.runtime_version.clone().into();
+        decision["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    }
     if let Some(binding) = finalization_binding {
         decision["resourceFinalizationHeadPath"] = binding["headPath"].clone();
         decision["resourceFinalizationHeadDigest"] = binding["headDigest"].clone();
@@ -8532,6 +9845,16 @@ fn close_work_item_with_structured_decision_internal(
             evidence_refs: human_decision.evidence_refs.clone(),
             inference: human_decision.evidence_refs.is_empty(),
         });
+        if let Some(frozen) = final_report.usage.as_ref() {
+            usage::validate_frozen_usage_snapshot(&root, frozen)?;
+        }
+        let close_cutoff = usage::now_nanos();
+        final_report.usage = Some(read_work_item_usage(
+            &root,
+            work_item_id,
+            Some(&close_cutoff),
+        )?);
+        decision["usageCutoff"] = close_cutoff.into();
         let final_report =
             serde_json::to_value(&final_report).map_err(|error| ObserverError::State {
                 path: outcome.clone(),
@@ -8777,6 +10100,9 @@ fn verify_archive_manifest_with_options(
                     path,
                     message: "archived Task Outcome report identity does not match repository or Work Item".into(),
                 });
+            }
+            if let Some(usage) = report.usage.as_ref() {
+                usage::validate_frozen_usage_snapshot(root, usage)?;
             }
         } else if name == "intelligence" {
             let value: serde_json::Value =
@@ -9344,6 +10670,7 @@ fn persist_blocked_lifecycle_outcome(
         .as_ref()
         .and_then(|value| snapshot_digest(value).ok());
     let unknowns = vec!["lifecycle_gate_failed".to_string()];
+    let usage_cutoff = usage::now_nanos();
     let task_report = task_outcome_report(TaskOutcomeReportInput {
         root: &root,
         contract_path: &contract_path,
@@ -9358,7 +10685,9 @@ fn persist_blocked_lifecycle_outcome(
         failed_gate_override: Some(&failed_gate),
         recovery_condition_override: Some(&recovery_condition),
         historical: false,
-    });
+        usage_cutoff: Some(&usage_cutoff),
+        closed_usage_validation: None,
+    })?;
     append_task_outcome_recovery_event(
         &root,
         &contract,
@@ -9487,9 +10816,14 @@ struct TaskOutcomeReportInput<'a> {
     failed_gate_override: Option<&'a str>,
     recovery_condition_override: Option<&'a str>,
     historical: bool,
+    usage_cutoff: Option<&'a str>,
+    closed_usage_validation:
+        Option<&'a Result<Option<cockpit_protocol::UsageSummary>, ObserverError>>,
 }
 
-fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
+fn task_outcome_report(
+    input: TaskOutcomeReportInput<'_>,
+) -> Result<TaskOutcomeReport, ObserverError> {
     let TaskOutcomeReportInput {
         root,
         contract_path,
@@ -9504,6 +10838,8 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
         failed_gate_override,
         recovery_condition_override,
         historical,
+        usage_cutoff,
+        closed_usage_validation,
     } = input;
     let contract_ref = repository_relative_path(root, contract_path);
     let summary_ref = contract_path
@@ -9634,7 +10970,42 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
     };
 
     let release = release_projection_from_summary(root, summary);
-    TaskOutcomeReport {
+    let cutoff = usage_cutoff
+        .or_else(|| summary.and_then(|value| value["updatedAt"].as_str()))
+        .or(contract.created_at.as_deref())
+        .unwrap_or("1970-01-01T00:00:00Z");
+    let closed_usage = if usage_cutoff.is_none() {
+        let invalid = || {
+            Some(cockpit_protocol::UsageSummary::unknown(
+                &contract.work_item_id,
+                cutoff.to_owned(),
+                "frozen_usage_invalid",
+            ))
+        };
+        match closed_usage_validation {
+            Some(Ok(usage)) => usage.clone(),
+            Some(Err(_)) => invalid(),
+            None => {
+                match usage::validate_existing_frozen_usage_snapshots(root, &contract.work_item_id)
+                {
+                    Ok(usage) => usage,
+                    Err(_) => invalid(),
+                }
+            }
+        }
+    } else {
+        None
+    };
+    let usage = closed_usage.unwrap_or_else(|| {
+        read_work_item_usage(root, &contract.work_item_id, Some(cutoff)).unwrap_or_else(|_| {
+            cockpit_protocol::UsageSummary::unknown(
+                &contract.work_item_id,
+                cutoff.to_owned(),
+                "usage_receipts_unavailable",
+            )
+        })
+    });
+    Ok(TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
         schema_version: 1,
         work_item_id: contract.work_item_id.clone(),
@@ -9647,10 +11018,11 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             repository_snapshot_digest: snapshot_digest,
         },
         sections,
+        usage: Some(usage),
         release,
         failed_gate,
         recovery_condition,
-    }
+    })
 }
 
 fn task_outcome_event_path(root: &Path, work_item_id: &str, archived: bool) -> PathBuf {
@@ -10374,13 +11746,19 @@ fn outcome_v2_internal_with_snapshot(
     let close_decision_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
+    let closed_usage_validation =
+        usage::validate_existing_frozen_usage_snapshots(&root, work_item_id);
+    let frozen_usage_invalid = archived && !historical && closed_usage_validation.is_err();
     let close_pending = archived
         && !historical
-        && !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
+        && (frozen_usage_invalid
+            || !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id));
     if close_pending && state == OutcomeState::Verified {
         decision_state = DecisionState::Yellow;
         summary = "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending.";
-        evidence_unknown = Some(if fs::symlink_metadata(&close_decision_path).is_ok() {
+        evidence_unknown = Some(if frozen_usage_invalid {
+            "frozen_usage_invalid"
+        } else if fs::symlink_metadata(&close_decision_path).is_ok() {
             "close_decision_invalid"
         } else {
             "close_decision_pending"
@@ -10547,7 +11925,9 @@ fn outcome_v2_internal_with_snapshot(
             .as_ref()
             .map(|(_, recovery)| recovery.as_str()),
         historical,
-    });
+        usage_cutoff: None,
+        closed_usage_validation: Some(&closed_usage_validation),
+    })?;
     let failed_gate = task_report.failed_gate.clone();
     let recovery_condition = task_report.recovery_condition.clone();
     Ok(OutcomeV2 {

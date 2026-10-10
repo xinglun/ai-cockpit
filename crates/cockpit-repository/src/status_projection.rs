@@ -6,12 +6,12 @@ use super::{
     WorkItemActionIssue, WorkItemActionIssueKind, WorkItemAdmissionState,
     WorkItemEvidenceFreshness, WorkItemStatusIndex, WorkItemStatusIndexEntry,
     WorkItemStatusSnapshot, active_artifact_variants, archived_contract_digest,
-    close_decision_is_valid_for_status, closed_finalization_projection_kind, contract_digest,
-    count_suffix, effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
+    close_decision_is_valid_for_status, closed_finalization_projection_kind, count_suffix,
+    effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
     is_regular_non_symlink, legacy_verification_evidence, load_recovery_decision,
     orphaned_active_artifact_names, outcome_state_name, outcome_v2_internal_with_snapshot,
-    read_contract, read_json, read_resource_finalization_transition, repository_id,
-    repository_relative_path, resolve_resource_finalization_head_with_index,
+    read_contract, read_contract_document, read_json, read_resource_finalization_transition,
+    repository_id, repository_relative_path, resolve_resource_finalization_head_with_index,
     resource_cleanup_completion_state, resource_finalization_decision_path,
     retry_recovery_pending_is_valid, selected_successor_lineage_recovery_resolves_pending_close,
     snapshot_digest, validate_protocol_version, validate_work_item_id, verify_archive_manifest,
@@ -1141,7 +1141,9 @@ fn work_item_status_snapshot_with_snapshot(
         path: active.join(format!("{work_item_id}.contract.json")),
         message: "work item contract not found".into(),
     })?;
-    let contract = read_contract(&contract_path)?;
+    let contract_document = read_contract_document(&contract_path)?;
+    let contract = contract_document.contract;
+    let contract_digest_value = contract_document.digest;
     let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let expected_repository_id = repository_id(&root).to_string();
     if contract.repository_id != expected_repository_id {
@@ -1184,6 +1186,16 @@ fn work_item_status_snapshot_with_snapshot(
         .or(owned_snapshot.as_ref());
     let outcome =
         outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
+    let frozen_usage_invalid = outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .is_some_and(|usage| {
+            usage
+                .unknown_reasons
+                .iter()
+                .any(|reason| reason == "frozen_usage_invalid")
+        });
     let summary_path = contract_path
         .parent()
         .unwrap_or(&active)
@@ -1197,6 +1209,7 @@ fn work_item_status_snapshot_with_snapshot(
         .join(format!("{work_item_id}.close.json"));
     let close_decision_present = fs::symlink_metadata(&close_decision_path).is_ok();
     let close_decision_valid = archived
+        && !frozen_usage_invalid
         && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
     // An older Runtime may have left an immutable, non-canonical close
     // decision behind even though its explicitly bound successor has since
@@ -1288,7 +1301,62 @@ fn work_item_status_snapshot_with_snapshot(
     if historical {
         unknowns.push("legacy_evidence_historical".into());
     }
+    if frozen_usage_invalid {
+        unknowns.push("frozen_usage_invalid".into());
+    }
     unknowns.extend(governance_control_gaps.iter().cloned());
+    let material_projection =
+        super::material_review::material_review_gate_projection_with_contract_digest(
+            &root,
+            &contract,
+            &contract_digest_value,
+            &summary_path,
+        );
+    let (
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        material_unknowns,
+        material_discharged_unknowns,
+        material_finding_codes,
+        material_blocked_by_finding,
+        material_projection_unavailable,
+        material_review_decision_available,
+    ) = match material_projection {
+        Ok(projection) => (
+            projection.raw_scanner_unknowns,
+            projection.material_manifest_digest,
+            projection.review_receipt_digest,
+            projection.review_assurance,
+            projection.effective_unknowns,
+            projection.discharged_unknowns,
+            projection.finding_codes,
+            projection.blocked_by_finding,
+            projection.projection_unavailable,
+            projection.review_decision_available,
+        ),
+        Err(_) => (
+            Vec::new(),
+            None,
+            None,
+            None,
+            vec!["material_review_projection_unavailable".into()],
+            Vec::new(),
+            Vec::new(),
+            false,
+            true,
+            false,
+        ),
+    };
+    unknowns.retain(|unknown| !material_discharged_unknowns.contains(unknown));
+    unknowns.extend(material_unknowns);
+    if material_projection_unavailable && governance_state == "green" {
+        governance_state = "yellow".into();
+    }
+    if material_blocked_by_finding {
+        governance_state = "red".into();
+    }
     if historical_recovery_resolved {
         unknowns.push("historical_close_decision_preserved".into());
     } else if archived && !close_decision_valid {
@@ -1301,6 +1369,12 @@ fn work_item_status_snapshot_with_snapshot(
     unknowns.sort();
     unknowns.dedup();
     let mut blockers = Vec::new();
+    if material_projection_unavailable {
+        blockers.push("material_review_projection_unavailable".into());
+    }
+    if material_blocked_by_finding {
+        blockers.extend(material_finding_codes);
+    }
     if governance_state == "red" {
         blockers.push("governance_red".into());
     }
@@ -1400,7 +1474,6 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !historical {
         governance_permissions.push("review_evidence".into());
     }
-    let contract_digest_value = contract_digest(&contract_path)?;
     let amendment_review_required = !archived
         && super::contract_amendment::has_sensitive_amendment(&root, work_item_id)?
         && super::governance_controls::preflight_decision_evidence_state(
@@ -1423,6 +1496,12 @@ fn work_item_status_snapshot_with_snapshot(
         && let Ok(digest) = cockpit_protocol::digest_json(&summary)
     {
         source_digests.insert("summary".into(), digest);
+    }
+    if let Some(digest) = &material_manifest_digest {
+        source_digests.insert("materialManifest".into(), digest.clone());
+    }
+    if let Some(digest) = &review_receipt_digest {
+        source_digests.insert("materialReviewReceipt".into(), digest.clone());
     }
     let evidence_path = root
         .join(".ai/evidence")
@@ -1544,6 +1623,22 @@ fn work_item_status_snapshot_with_snapshot(
             actions.push("close_after_review".into());
         }
         actions
+    } else if material_projection_unavailable
+        && !archived
+        && matches!(
+            lifecycle_phase.as_str(),
+            "not_ready" | "implementation_active" | "checkpointed" | "finish_ready"
+        )
+    {
+        // Keep the preflight route available to record the material blocker,
+        // but do not let retry or supersede markers bypass an unavailable
+        // committed-source projection. This admits neither verification nor
+        // material-review recording.
+        vec![
+            "run_preflight".into(),
+            "resolve_blockers".into(),
+            "stop".into(),
+        ]
     } else if supersede_archive_ready {
         vec!["archive_when_reviewed".into()]
     } else if retry_recovery_pending {
@@ -1610,12 +1705,22 @@ fn work_item_status_snapshot_with_snapshot(
     if !archived && !matches!(lifecycle_phase.as_str(), "closed" | "recovered") {
         safe_actions.push("record_governance_controls".into());
     }
+    if !historical && !close_decision_present {
+        // Usage is an explicit, separately admitted receipt append. A
+        // verification blocker does not erase truthful caller claims, but a
+        // close marker freezes the Work Item even when malformed.
+        safe_actions.push("record_usage".into());
+    }
+    if !archived && !blocking && preflight_binding_current && material_review_decision_available {
+        safe_actions.push("record_material_review_decision".into());
+    }
     if let Some(error) = &verification_precondition_error {
         unknowns.push("verification_action_preconditions_blocked".into());
         diagnostics.push(error.to_string());
     }
     unknowns.sort();
     unknowns.dedup();
+    let effective_unknowns = unknowns.clone();
     let recommended_action = safe_actions
         .iter()
         .find(|action| action.as_str() != "refresh_status")
@@ -1675,6 +1780,11 @@ fn work_item_status_snapshot_with_snapshot(
         "governancePermissions": governance_permissions,
         "sourceDigests": source_digests,
         "unknowns": unknowns,
+        "rawScannerUnknowns": raw_scanner_unknowns,
+        "materialManifestDigest": material_manifest_digest,
+        "reviewReceiptDigest": review_receipt_digest,
+        "reviewAssurance": review_assurance,
+        "effectiveUnknowns": effective_unknowns,
         "diagnostics": diagnostics,
         "snapshotDigest": snapshot_digest_value,
         "evidenceFreshness": evidence_freshness,
@@ -1710,6 +1820,11 @@ fn work_item_status_snapshot_with_snapshot(
         governance_permissions,
         source_digests,
         unknowns,
+        raw_scanner_unknowns,
+        material_manifest_digest,
+        review_receipt_digest,
+        review_assurance,
+        effective_unknowns,
         diagnostics,
         snapshot_digest: snapshot_digest_value,
         evidence_freshness,

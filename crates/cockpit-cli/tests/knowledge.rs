@@ -59,6 +59,36 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
         .current_dir(&directory)
         .status()
         .expect("git init");
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(&directory)
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    fs::write(directory.join("README.md"), "fixture baseline\n").expect("baseline README");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(&directory)
+            .status()
+            .expect("git add baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let attach = Command::new(binary)
         .args(["attach", "--repo"])

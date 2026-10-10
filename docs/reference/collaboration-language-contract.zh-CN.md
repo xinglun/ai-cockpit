@@ -104,6 +104,30 @@ lastVerifiedBy: WI-679-p0-collaboration-language-contract
 - **下一步/停止边界**：完全以 `next action` 字段所述为准。
 - **缺失/误解/取消的处理**：空白小节渲染为"未记录"或"未评估"，绝不当作正面事实；如果读者把一行绿色的 Verification 误认为发布已完成，正确的纠正方式是重新引导其查看四条分离的状态行，而不是改动 Outcome 的措辞。
 
+CLI 与 MCP 的 `collaboration` 投影共用 schema version 2。它将
+`compositionState` 与 `executionOutcome`、`executionEvidenceComplete` 分开，
+并通过 `cleanupDisposition` 报告 `cleaned`/`deferred`/`retained`/`failed`/`unknown`。
+v3 attempt 的命令已通过但清理被延迟时，投影为
+`compositionState: unknown`、`executionOutcome: passed`、
+`cleanupDisposition: deferred`；不会被写成执行失败或可复用的终态。对于 legacy
+v1/v2 attempt，旧 `passed` 布尔值只作显示兼容提示；缺少 v3 所有权与证据时，它不能授权复用或重试。
+
+执行状态为 `unknown` 或执行证据不完整，绝不表示通过，也不能授权复用节点。
+清理延迟同样不等于组合成功或生命周期 `finish`；投影分别呈现这些事实，
+不能替代 Work Item 的 finish gate。当前 deferred-cleanup retry 政策刻意受限：
+只接受一个受保护的系统 no-op `true`，且不得带参数、依赖、命令环境变量或
+声明输入路径，并须具有有界的系统工具身份。Linux 重试还必须将前序 v3 attempt
+及 receipt 与当前仓库、快照、命令、环境、Runtime、generation 和 boot 绑定，
+并证明前序 supervisor 已完全回收。重试会创建全新的 attempt 与 worktree，
+不复用旧结果，并保留旧的 deferred 目录。所有权、效果、源码或绑定未知时，
+必须在 verifier spawn 前阻断。
+
+这不代表已经支持对 `cargo` 或任意测试做通用重试。Cargo 验证可以作为普通
+获准的首次执行运行；若其清理被延迟，结果仍不是终态，当前 deferred retry
+政策不会准许再次运行 Cargo。在非 Linux 平台，Unix/Windows process-group
+backend 不声称 `descendantsReapedToEchild`；Linux 专用的 deferred-tree
+证明在这些平台不可用。这些边界不改变普通非 Linux supervisor 行为。
+
 ### 七、Agent 或会话交接
 
 - **触发/事实来源**：新的 Agent、新的会话，或不同的底层模型，在同一仓库与同一 Work Item 上接续工作。

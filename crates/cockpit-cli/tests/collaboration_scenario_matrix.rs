@@ -12,9 +12,32 @@ use std::{
     process::{Command, Stdio},
 };
 
+use cockpit_core::Digest;
+use cockpit_git::GitRepository;
+use cockpit_protocol::{
+    CollaborationDeclaration, CompositionBinding, CompositionVerification,
+    ENVIRONMENT_DRIFT_CAPABILITY, IntegrationResponsibility, RuntimeCapabilityBinding,
+    WorktreeRegistration,
+};
+use cockpit_repository::{
+    CoordinationStore, WorkItemStartOptions, attach, repository_id, start_work_item_with_options,
+};
+use cockpit_verification::{
+    CompositionCommand, CompositionIdentity, CompositionInput, CompositionPrecondition,
+    composition_commands_digest,
+};
 use sha2::{Digest as ShaDigest, Sha256};
 
 mod common;
+
+#[cfg(target_os = "linux")]
+fn lock_process_observer_fixture() -> std::sync::MutexGuard<'static, ()> {
+    static PROCESS_OBSERVER_FIXTURE_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+    PROCESS_OBSERVER_FIXTURE_LOCK
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner)
+}
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -26,7 +49,232 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    for (key, value) in [
+        ("user.email", "test@example.invalid"),
+        ("user.name", "Test"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", key, value])
+                .current_dir(directory.path())
+                .status()
+                .expect("git config")
+                .success()
+        );
+    }
+    fs::write(directory.path().join("README.md"), "fixture baseline\n").expect("baseline README");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git add baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-qm", "fixture baseline"])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit baseline")
+            .success()
+    );
     directory
+}
+
+fn run_git(root: &Path, args: &[&str]) {
+    assert!(
+        Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .status()
+            .expect("git command")
+            .success()
+    );
+}
+
+fn candidate_composition_runtime() -> RuntimeCapabilityBinding {
+    let executable = Path::new(env!("CARGO_BIN_EXE_ai-cockpit"));
+    let digest = Digest::sha256_bytes(&fs::read(executable).expect("candidate Runtime bytes"));
+    RuntimeCapabilityBinding {
+        schema_version: 1,
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        runtime_digest: digest,
+        capability: ENVIRONMENT_DRIFT_CAPABILITY.into(),
+    }
+}
+
+fn composition_fixture(root: &Path) -> (String, CompositionInput) {
+    let work_item_id = "WI-CLI-MCP-COMPOSITION".to_owned();
+    run_git(root, &["config", "user.email", "test@example.invalid"]);
+    run_git(root, &["config", "user.name", "Test"]);
+    fs::write(root.join("README.md"), "composition fixture\n").expect("fixture README");
+    run_git(root, &["add", "README.md"]);
+    run_git(root, &["commit", "-qm", "composition fixture"]);
+    run_git(root, &["branch", "-M", "main"]);
+    attach(root).expect("attach composition fixture");
+    start_work_item_with_options(
+        root,
+        &work_item_id,
+        "verify the CLI and MCP Runtime route",
+        "use one exact Runtime supervisor for both entry points",
+        &["README.md".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["CLI and MCP agree on composition evidence".into()],
+            verification_commands: vec!["true".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start composition Work Item");
+
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("Contract bytes"))
+            .expect("Contract JSON");
+    contract["verification"] = serde_json::json!([{"check":"true", "required":true}]);
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("serialize typed verification check"),
+    )
+    .expect("write explicit required check");
+    let contract_digest = cockpit_protocol::digest_json(&contract).expect("Contract digest");
+    let git = GitRepository::discover(root).expect("discover test repository");
+    let topology = git.topology().expect("test repository topology");
+    let head = topology.head.expect("test repository HEAD");
+    let runtime = candidate_composition_runtime();
+    let declaration = CollaborationDeclaration {
+        integration_responsibility: IntegrationResponsibility {
+            responsible_work_item_id: work_item_id.clone(),
+            target_branch: "main".into(),
+            composition_order: vec![work_item_id.clone()],
+            rationale: "CLI and MCP supervisor parity fixture".into(),
+        },
+        composition_verification: CompositionVerification {
+            reusable_nodes: vec!["check".into()],
+            ..CompositionVerification::default()
+        },
+        ..CollaborationDeclaration::default()
+    };
+    let store = CoordinationStore::open(&git, runtime.clone()).expect("open test coordination");
+    store
+        .register(WorktreeRegistration {
+            schema_version: 1,
+            repository_id: repository_id(root),
+            work_item_id: work_item_id.clone(),
+            contract_digest: contract_digest.clone(),
+            worktree_path: root.to_string_lossy().into_owned(),
+            branch: topology.branch.expect("test repository branch"),
+            head: head.clone(),
+            generation: 1,
+            declaration,
+            runtime: runtime.clone(),
+            environment: None,
+        })
+        .expect("register composition Work Item");
+
+    let commands = vec![CompositionCommand {
+        node_id: "check".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        depends_on: Vec::new(),
+        environment: Default::default(),
+        input_paths: vec!["README.md".into()],
+        covered_scenarios: Vec::new(),
+        covered_constraints: Vec::new(),
+    }];
+    let identity = CompositionIdentity {
+        command_digest: composition_commands_digest(&commands),
+        ..Default::default()
+    };
+    (
+        work_item_id.clone(),
+        CompositionInput {
+            repository_root: root.to_path_buf(),
+            state_dir: root.join("unused-composition-state"),
+            binding: CompositionBinding {
+                schema_version: 1,
+                repository_id: repository_id(root),
+                binding_id: "cli-mcp-composition".into(),
+                target_branch: "main".into(),
+                target_sha: head.clone(),
+                participant_work_items: vec![work_item_id],
+                participant_heads: vec![head],
+                contract_digests: vec![contract_digest],
+                verifier: runtime,
+            },
+            identity,
+            commands,
+            reusable_node_ids: vec!["check".into()],
+            preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+            timeout_seconds: 30,
+        },
+    )
+}
+
+fn cli_composition(
+    binary: &str,
+    repo: &Path,
+    id: &str,
+    input: &serde_json::Value,
+) -> std::process::Output {
+    let file = tempfile::NamedTempFile::new().expect("composition input file");
+    fs::write(
+        file.path(),
+        serde_json::to_vec_pretty(input).expect("input JSON"),
+    )
+    .expect("write composition input");
+    Command::new(binary)
+        .args(["work-item", "composition", "--repo"])
+        .arg(repo)
+        .args(["--id", id, "--generation", "1", "--input"])
+        .arg(file.path())
+        .current_dir(repo)
+        .output()
+        .expect("CLI composition")
+}
+
+fn mcp_composition(
+    binary: &str,
+    repo: &Path,
+    id: &str,
+    input: &serde_json::Value,
+) -> serde_json::Value {
+    let request = serde_json::json!({
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "tools/call",
+        "params": {
+            "name": "work_item_composition",
+            "arguments": {"workItemId": id, "generation": 1, "input": input}
+        }
+    });
+    let mut child = Command::new(binary)
+        .args(["mcp", "--repo"])
+        .arg(repo)
+        .current_dir(repo)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("MCP composition Runtime");
+    let mut bytes = serde_json::to_vec(&request).expect("MCP request JSON");
+    bytes.push(b'\n');
+    child
+        .stdin
+        .as_mut()
+        .expect("MCP stdin")
+        .write_all(&bytes)
+        .expect("write MCP composition request");
+    let output = child.wait_with_output().expect("MCP composition response");
+    assert!(
+        output.status.success(),
+        "MCP composition process failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    serde_json::from_slice(&output.stdout).expect("MCP composition JSON-RPC response")
 }
 
 fn run_json(binary: &str, repo: &Path, args: &[&str]) -> serde_json::Value {
@@ -134,6 +382,41 @@ fn normalized_handoff(text: &str) -> &str {
     text.trim_end_matches(['\r', '\n'])
 }
 
+fn redacted_diagnostic_json(value: &serde_json::Value) -> String {
+    fn redact_sensitive_fields(value: &mut serde_json::Value) {
+        match value {
+            serde_json::Value::Object(fields) => {
+                for (key, value) in fields.iter_mut() {
+                    let normalized_key = key.to_ascii_lowercase();
+                    if normalized_key.contains("environment")
+                        || normalized_key.contains("credential")
+                        || normalized_key.contains("secret")
+                        || matches!(
+                            normalized_key.as_str(),
+                            "authorization" | "linuxbootid" | "password" | "token"
+                        )
+                    {
+                        *value = serde_json::Value::String("[redacted]".into());
+                    } else {
+                        redact_sensitive_fields(value);
+                    }
+                }
+            }
+            serde_json::Value::Array(values) => {
+                for value in values {
+                    redact_sensitive_fields(value);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    let mut redacted = value.clone();
+    redact_sensitive_fields(&mut redacted);
+    serde_json::to_string_pretty(&redacted)
+        .unwrap_or_else(|error| format!("<diagnostic serialization failed: {error}>"))
+}
+
 fn expected_headings(language: &str, view: &str) -> Vec<&'static str> {
     match (expected_language(language), view) {
         ("en", "summary") => vec![
@@ -199,6 +482,16 @@ fn assert_outcome_semantics_equal(
 ) {
     assert_eq!(cli_outcome, mcp_outcome, "CLI/MCP Outcome objects diverged");
     assert_eq!(cli_outcome["workItemId"], work_item_id);
+    assert_eq!(cli_outcome["collaboration"]["schemaVersion"], 2);
+    assert_eq!(cli_outcome["collaboration"]["executionOutcome"], "unknown");
+    assert_eq!(
+        cli_outcome["collaboration"]["executionEvidenceComplete"],
+        false
+    );
+    assert_eq!(
+        cli_outcome["collaboration"]["cleanupDisposition"],
+        "unknown"
+    );
     for field in [
         "state",
         "decisionState",
@@ -236,7 +529,119 @@ fn assert_outcome_semantics_equal(
 }
 
 #[test]
+fn cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes() {
+    // Declare the guard first so fixtures and child handles drop before it.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repository = repository();
+    let (work_item_id, input) = composition_fixture(repository.path());
+    let candidate = candidate_composition_runtime();
+    let valid_input = serde_json::to_value(&input).expect("composition input JSON");
+
+    let mut blocked_input = input.clone();
+    blocked_input.commands[0].program = "false".into();
+    blocked_input.identity.command_digest = composition_commands_digest(&blocked_input.commands);
+    let blocked_json = serde_json::to_value(blocked_input).expect("blocked input JSON");
+    let cli_blocked = cli_composition(binary, repository.path(), &work_item_id, &blocked_json);
+    assert!(!cli_blocked.status.success());
+    let cli_blocked_error = String::from_utf8_lossy(&cli_blocked.stderr);
+    assert!(
+        cli_blocked_error.contains("required_check_identity_mismatch"),
+        "CLI must reject the same unadmitted command before starting a supervisor: {cli_blocked_error}"
+    );
+    let mcp_blocked = mcp_composition(binary, repository.path(), &work_item_id, &blocked_json);
+    assert_eq!(mcp_blocked["result"]["isError"], true);
+    assert!(
+        mcp_blocked["result"]["content"][0]["text"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("required_check_identity_mismatch"),
+        "MCP must preserve the same admission blocker: {mcp_blocked}"
+    );
+
+    let cli_output = cli_composition(binary, repository.path(), &work_item_id, &valid_input);
+    assert!(
+        cli_output.status.success(),
+        "CLI composition failed: {}",
+        String::from_utf8_lossy(&cli_output.stderr)
+    );
+    let cli_json: serde_json::Value =
+        serde_json::from_slice(&cli_output.stdout).expect("CLI composition JSON");
+    let cli_attempt = &cli_json["result"];
+
+    let mcp_output = mcp_composition(binary, repository.path(), &work_item_id, &valid_input);
+    assert_eq!(
+        mcp_output["result"]["isError"],
+        false,
+        "MCP composition returned an error before producing an attempt.\nCLI attempt:\n{}\nMCP result:\n{}",
+        redacted_diagnostic_json(cli_attempt),
+        redacted_diagnostic_json(&mcp_output["result"])
+    );
+    let mcp_attempt = &mcp_output["result"]["structuredContent"]["result"];
+
+    let cli_diagnostics = redacted_diagnostic_json(cli_attempt);
+    let mcp_diagnostics = redacted_diagnostic_json(mcp_attempt);
+    let failure_diagnostics = format!(
+        "CLI failure reason: {}\nCLI attempt:\n{}\nMCP failure reason: {}\nMCP attempt:\n{}",
+        redacted_diagnostic_json(&cli_attempt["failure"]),
+        cli_diagnostics,
+        redacted_diagnostic_json(&mcp_attempt["failure"]),
+        mcp_diagnostics
+    );
+    assert_eq!(
+        cli_attempt["passed"], true,
+        "CLI composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+    );
+    assert_eq!(
+        mcp_attempt["passed"], true,
+        "MCP composition attempt failed. Full CLI/MCP diagnostics:\n{failure_diagnostics}"
+    );
+    assert_eq!(cli_attempt["executionOutcome"], "passed");
+    assert_eq!(cli_attempt["cleanupDisposition"], "cleaned");
+    assert_eq!(cli_attempt["processesSpawned"], 1);
+    let cli_receipt = &cli_attempt["supervisorReceipt"];
+    assert_eq!(cli_receipt["runtimeVersion"], candidate.runtime_version);
+    assert_eq!(
+        cli_receipt["runtimeDigest"],
+        candidate.runtime_digest.to_string()
+    );
+    assert_ne!(
+        cli_receipt["supervisor"]["processId"], cli_receipt["owner"]["processId"],
+        "the supervisor must be a distinct exact Runtime process"
+    );
+    assert_eq!(cli_receipt["descendantsReapedToEchild"], true);
+    assert_eq!(
+        mcp_attempt["executionOutcome"],
+        cli_attempt["executionOutcome"]
+    );
+    assert_eq!(
+        mcp_attempt["cleanupDisposition"],
+        cli_attempt["cleanupDisposition"]
+    );
+    assert_eq!(
+        mcp_attempt["supervisorReceipt"]["runtimeVersion"],
+        candidate.runtime_version
+    );
+    assert_eq!(
+        mcp_attempt["supervisorReceipt"]["runtimeDigest"],
+        candidate.runtime_digest.to_string()
+    );
+    assert_eq!(
+        mcp_attempt["processesSpawned"],
+        if cfg!(unix) { 0 } else { 1 },
+        "the second exact CLI/MCP action should share the durable reusable result where supported"
+    );
+    assert!(mcp_output["result"]["structuredContent"]["projection"].is_object());
+}
+
+#[test]
 fn collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio() {
+    // Keep subprocess fixtures isolated from sibling process-observer tests.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let work_item_id = "WI-COLLABORATION-MATRIX";
     let repository = repository();
@@ -732,6 +1137,10 @@ fn assert_typed_finalization(
 
 #[test]
 fn finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales() {
+    // Keep subprocess fixtures isolated from sibling process-observer tests.
+    #[cfg(target_os = "linux")]
+    let _process_observer_guard = lock_process_observer_fixture();
+
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     for case in [
         FinalizationCase::Retained,

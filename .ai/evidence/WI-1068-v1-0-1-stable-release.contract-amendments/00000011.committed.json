@@ -1,0 +1,90 @@
+{
+  "sequence": 11,
+  "preparedDigest": "sha256:36fcd612df1173034dbf25beab62a62c999a855b59eca9cf9a7f209e98169018",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 11,
+    "changeId": "wi1068-single-workspace-verification-20261007-01",
+    "requestDigest": "sha256:48f42675de78def75d163aaea8a61b0870f203099c381340d1b7c76fc3d6cffd",
+    "reason": "Correct the verification declaration added by amendment 10: the current hosted workspace-package consumer accepts only a unique full unfiltered Cargo workspace test and rejects the added filtered targeted command. Keep cargo test --locked --workspace as the sole Contract.verification declaration and preserve the Linux targeted regression as a separate A11 acceptance check. Record the current user authorization and its approval boundaries without manufacturing any future exact human decision receipt.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "remove",
+        "oldValue": [
+          "cargo test --locked --workspace",
+          "Linux targeted regression: cargo test --locked --package cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact"
+        ],
+        "newValue": [
+          "cargo test --locked --workspace"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "add",
+        "oldValue": [
+          "A1: Preserve the exact original 16 stable-release product paths and add only crates/cockpit-verification/src/composition.rs for Linux-only process-group liveness plus crates/cockpit-verification/tests/composition.rs for its deterministic regression tests; no other product/source/test paths change. The nine documentation paths remain protocol projections only: three Work Item pages, three parity ledgers, and three localized generated command-reference pages. Workspace/package identity remains plain stable SemVer 1.0.1; package, generated interface-version, and localized version/distribution guidance agree; historical v1.0.0 and v1.0.1-rc.2 identities remain separate.",
+          "A2: The stable v1.0.1 source, including the added Linux liveness code and regression tests, has an independent technical review with no blocking product-code findings; attribute the conclusion to its actual reviewer (agent:Raydot), not human:Ray, and review the exact candidate head.",
+          "A3: Before any tag is created, a Runtime-bound release plan consumes fresh evidence for the exact current source/PR, confirms the existing public stable v1.0.0 tag and Release are the selected no-write N-1 reference, confirms the v1.0.1 tag and Release names are unused, records the provider's actual immutability metadata without overstating it, and confirms the existing workflow gates public Release publication on candidate checks.",
+          "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+          "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+          "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+          "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted.",
+          "Before marking PR #1022 ready or performing its normal merge, GitHub Actions must be fully successful for the exact current PR head after Runtime admits its hosted Work Item verification. This includes all required route, quality, Rust Contract, repository-gate and 13-package coverage, Windows Runtime, and behavioral-oracle checks. Preserve failed attempts; a changed head requires new exact-head CI.",
+          "A10: Linux records the process-group leader identity at activation (PID, starttime, PGID, SID) and reconciles only against that generation. Treat the group as exited only after a complete, bounded, repeatable /proc scan finds no members or finds only Z/X members with a stable identical (PID,starttime,PGID) set, a matching leader identity, and an unchanged latest-attempt digest before cleanup. Any non-Z/X member is active. Missing/inconsistent leader identity while members remain, PID reuse, attempt-state change, scan race, proc read/parse/permission failure, or budget exhaustion is unknown and preserves the worktree. Preserve the existing cwd/open-file verifier check; no per-stateDir single-writer assumption; non-Linux behavior is unchanged. Deterministic tests cover zombie-only, mixed zombie/live, live then killed/reaped, injected malformed/unreadable/identity-change/budget cases; the fixture retains zombie state with WNOWAIT and reaps its own child after assertions, never relying on PID 1."
+        ],
+        "newValue": [
+          "A1: Preserve the exact original 16 stable-release product paths and add only crates/cockpit-verification/src/composition.rs for Linux-only process-group liveness plus crates/cockpit-verification/tests/composition.rs for its deterministic regression tests; no other product/source/test paths change. The nine documentation paths remain protocol projections only: three Work Item pages, three parity ledgers, and three localized generated command-reference pages. Workspace/package identity remains plain stable SemVer 1.0.1; package, generated interface-version, and localized version/distribution guidance agree; historical v1.0.0 and v1.0.1-rc.2 identities remain separate.",
+          "A2: The stable v1.0.1 source, including the added Linux liveness code and regression tests, has an independent technical review with no blocking product-code findings; attribute the conclusion to its actual reviewer (agent:Raydot), not human:Ray, and review the exact candidate head.",
+          "A3: Before any tag is created, a Runtime-bound release plan consumes fresh evidence for the exact current source/PR, confirms the existing public stable v1.0.0 tag and Release are the selected no-write N-1 reference, confirms the v1.0.1 tag and Release names are unused, records the provider's actual immutability metadata without overstating it, and confirms the existing workflow gates public Release publication on candidate checks.",
+          "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+          "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+          "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+          "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted.",
+          "Before marking PR #1022 ready or performing its normal merge, GitHub Actions must be fully successful for the exact current PR head after Runtime admits its hosted Work Item verification. This includes all required route, quality, Rust Contract, repository-gate and 13-package coverage, Windows Runtime, and behavioral-oracle checks. Preserve failed attempts; a changed head requires new exact-head CI.",
+          "A10: Linux records the process-group leader identity at activation (PID, starttime, PGID, SID) and reconciles only against that generation. Treat the group as exited only after a complete, bounded, repeatable /proc scan finds no members or finds only Z/X members with a stable identical (PID,starttime,PGID) set, a matching leader identity, and an unchanged latest-attempt digest before cleanup. Any non-Z/X member is active. Missing/inconsistent leader identity while members remain, PID reuse, attempt-state change, scan race, proc read/parse/permission failure, or budget exhaustion is unknown and preserves the worktree. Preserve the existing cwd/open-file verifier check; no per-stateDir single-writer assumption; non-Linux behavior is unchanged. Deterministic tests cover zombie-only, mixed zombie/live, live then killed/reaped, injected malformed/unreadable/identity-change/budget cases; the fixture retains zombie state with WNOWAIT and reaps its own child after assertions, never relying on PID 1.",
+          "A11: Run the Linux zombie-only process-group regression as an independent acceptance check, separate from the hosted package-coverage check. Preserve its exact command, exit status, candidate head, Contract digest, snapshot digest, and output as separate acceptance evidence. Keep Contract.verification to the single unfiltered command cargo test --locked --workspace; do not place the targeted Cargo test there because the hosted consumer requires a unique complete workspace-test declaration."
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+          "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow.",
+          "Current user direction in this conversation (2026-10-06): The user states they authorized agent:Raydot and directs this agent to follow Raydot's supported WI-1068 verification environment instruction: set CARGO_TARGET_DIR=/workspace/ai-cockpit/target/wi1068-verify, RUSTUP_HOME=/workspace/.rustup, CARGO_HOME=/workspace/.cargo, preserve the current PATH, and leave HOME and sandbox permissions unchanged. This records the user's conversation assertion; it is not host-authenticated proof of either person's identity.",
+          "Current user direction (2026-10-06): The user authorizes agent:Raydot to review and direct the bounded WI-1068 Linux zombie-only process-group correction, and authorizes this operator to apply the reviewed correction and associated deterministic regression tests. This records user-stated delegation; it does not independently authenticate external identities."
+        ],
+        "newValue": [
+          "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+          "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow.",
+          "Current user direction in this conversation (2026-10-06): The user states they authorized agent:Raydot and directs this agent to follow Raydot's supported WI-1068 verification environment instruction: set CARGO_TARGET_DIR=/workspace/ai-cockpit/target/wi1068-verify, RUSTUP_HOME=/workspace/.rustup, CARGO_HOME=/workspace/.cargo, preserve the current PATH, and leave HOME and sandbox permissions unchanged. This records the user's conversation assertion; it is not host-authenticated proof of either person's identity.",
+          "Current user direction (2026-10-06): The user authorizes agent:Raydot to review and direct the bounded WI-1068 Linux zombie-only process-group correction, and authorizes this operator to apply the reviewed correction and associated deterministic regression tests. This records user-stated delegation; it does not independently authenticate external identities.",
+          "Current user direction received 2026-10-07 (Asia/Tokyo): The user authorizes this execution thread to coordinate with agent:Raydot on completing AI Cockpit v1.0.1 formal release and installation acceptance, then continue Task9 remaining work. The user permits in-scope code and documentation changes, official dependency installation, tests, CI, commits, pushes, and PRs; normal merge only after independent review and exact-candidate CI success; tag, release, artifact acceptance, cleanup, and closure only after Runtime admission. The user forbids fabricated user signatures for future exact requests, overwriting existing tags or assets, irreversible deletion, or bypassing host/security rejection. This records user-stated authorization, not host-authenticated identity. Task9 must use its own active Work Item Contract."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:80d00666c0f5462d4e5bd74b78e3ea36090860280b0066aca8516a2ca66024c5",
+    "newContractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+    "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+    "environmentObservationDigest": "sha256:2e354129041e73b64af70003061fc83e6d7a60cfd8a6b73ea283d4ccbc59e1a1",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:2251a21401a1cba0558e9751ae3b7141fe6e305686601ebd3e607c75a08a8754",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:89e66bf2ff2a3d74775de92b007b6b971075a033b8e97e2661bcbef7ffe3cccc",
+    "journalDigest": "sha256:8821130e772842fa2c47aa080763a958d126eea32255215498ab777b8c78a2ff",
+    "recordedAt": "2026-10-06T15:12:33Z"
+  }
+}

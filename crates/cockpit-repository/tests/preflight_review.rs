@@ -15,6 +15,26 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    let baseline = Command::new("git")
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--allow-empty",
+            "--quiet",
+            "-m",
+            "fixture baseline",
+        ])
+        .current_dir(directory.path())
+        .output()
+        .expect("create fixture baseline");
+    assert!(
+        baseline.status.success(),
+        "fixture baseline failed: {}",
+        String::from_utf8_lossy(&baseline.stderr)
+    );
     attach(directory.path()).expect("attach");
     start_work_item_with_options(
         directory.path(),
@@ -251,6 +271,27 @@ fn bounded_human_review_survives_snapshot_refresh_but_not_contract_change() {
         b"changed after review\n",
     )
     .unwrap();
+    let add_source = Command::new("git")
+        .args(["add", "--", "crates/reviewed-after.rs"])
+        .current_dir(directory.path())
+        .status()
+        .expect("stage source snapshot");
+    assert!(add_source.success(), "stage source snapshot");
+    let commit_source = Command::new("git")
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "fixture source snapshot",
+        ])
+        .current_dir(directory.path())
+        .status()
+        .expect("commit source snapshot");
+    assert!(commit_source.success(), "commit source snapshot");
     let stale = preflight_work_item(directory.path(), &contract).expect("stale preflight");
     assert_eq!(
         stale.review_state.as_deref(),

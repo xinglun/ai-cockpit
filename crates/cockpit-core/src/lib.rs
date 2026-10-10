@@ -660,6 +660,16 @@ pub struct GovernanceDecision {
     pub state: DecisionState,
     pub blockers: Vec<String>,
     pub unknowns: Vec<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub raw_scanner_unknowns: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub material_manifest_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_receipt_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub review_assurance: Option<String>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub effective_unknowns: Vec<String>,
     pub safe_actions: Vec<String>,
     pub required_checks: Vec<String>,
     pub authority: String,
@@ -683,6 +693,21 @@ pub struct GovernanceDecision {
         skip_serializing_if = "Option::is_none"
     )]
     pub human_decision_request: Option<HumanDecisionRequest>,
+}
+
+impl GovernanceDecision {
+    /// Recompute the classification after a projection changes effective
+    /// blockers or unknowns. A pending human review remains a yellow gate even
+    /// if another projection removes its own bounded Unknown.
+    pub fn recompute_state_from_effective_facts(&mut self) {
+        self.state = decision_state_from_effective_facts(&self.blockers, &self.unknowns);
+        if self.state == DecisionState::Green
+            && (self.human_decision_request.is_some()
+                || self.review_state.as_deref() == Some("needs_human_confirmation"))
+        {
+            self.state = DecisionState::Yellow;
+        }
+    }
 }
 
 fn matches_pattern(path: &str, pattern: &str) -> bool {
@@ -760,6 +785,19 @@ fn requires_human_confirmation_unknown(unknown: &str) -> bool {
         || unknown.starts_with("execution_decision:")
         || unknown.starts_with("scenario_coverage_")
         || unknown.starts_with("required_scenario_unverified:")
+}
+
+pub fn decision_state_from_effective_facts(
+    blockers: &[String],
+    unknowns: &[String],
+) -> DecisionState {
+    if !blockers.is_empty() {
+        DecisionState::Red
+    } else if !unknowns.is_empty() {
+        DecisionState::Yellow
+    } else {
+        DecisionState::Green
+    }
 }
 
 pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
@@ -971,13 +1009,7 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
     required_checks.sort();
     required_checks.dedup();
 
-    let state = if !blockers.is_empty() {
-        DecisionState::Red
-    } else if !unknowns.is_empty() {
-        DecisionState::Yellow
-    } else {
-        DecisionState::Green
-    };
+    let state = decision_state_from_effective_facts(&blockers, &unknowns);
     let outcome_state = input.outcome_state_override.unwrap_or_else(|| match state {
         DecisionState::Green => "ready".into(),
         DecisionState::Yellow
@@ -1043,6 +1075,11 @@ pub fn evaluate(input: GovernanceInput) -> GovernanceDecision {
         state,
         blockers,
         unknowns,
+        raw_scanner_unknowns: Vec::new(),
+        material_manifest_digest: None,
+        review_receipt_digest: None,
+        review_assurance: None,
+        effective_unknowns: Vec::new(),
         safe_actions,
         required_checks,
         authority,

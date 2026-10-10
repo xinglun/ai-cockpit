@@ -1,0 +1,24 @@
+{
+  "attemptId": "sha256:0c46b37852191b6497c3d07f6f4e736091a98a5cb24599893af30c207156ffa0",
+  "commands": [],
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "contractExecutionScopeDigest": "sha256:6da53fe30c03060931e7ef8f85808ae6b1bc09e8f5aa30f7e3e3ea01e9ba9b1c",
+  "createdAt": "2026-10-09T19:11:32Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/wi1068-pr1022/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:63a1ace8139c1082c866ea5b1556442a6559fcbd79dcbee20cbbe4097d66b1a7",
+  "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

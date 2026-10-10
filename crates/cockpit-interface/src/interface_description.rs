@@ -9,6 +9,15 @@ use serde::{Deserialize, Serialize};
 
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
+pub const WORK_ITEM_USAGE_RECORD_SURFACE: &str = "work-item-usage-record";
+pub const WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE: &str = "work-item-material-review-plan";
+pub const WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE: &str = "work-item-material-review-record";
+pub const AUDIT_QUERY_SURFACE: &str = "audit-query";
+pub const AUDIT_EXPORT_SURFACE: &str = "audit-export";
+pub const WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION: &str =
+    "Strict UsageRecordRequest JSON file; the Runtime admits and records one caller claim.";
+pub const WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION: &str =
+    "Strict UsageRecordRequest object; sourceKind is a caller label, not verified provenance.";
 pub const WORK_ITEM_OUTCOME_VIEW_SUMMARY: &str = "summary";
 pub const WORK_ITEM_OUTCOME_VIEW_FULL: &str = "full";
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
@@ -22,11 +31,14 @@ pub const WORK_ITEM_OUTCOME_JSON_DESCRIPTION: &str =
 pub const WORK_ITEM_OUTCOME_VIEW_DESCRIPTION: &str =
     "Select the reader-first summary or complete human view.";
 pub const WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION: &str = "Active conversation language for the human Outcome; adapters should pass it explicitly, with locale fallback only when omitted.";
+pub const WORK_ITEM_OUTCOME_DISPLAY_TIMEZONE_DESCRIPTION: &str =
+    "Optional IANA timezone for the human lifecycle display; persisted UTC facts remain unchanged.";
 pub const WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID: &str = "workItemId";
 pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY: &str = "delivery";
 pub const WORK_ITEM_OUTCOME_CANONICAL_JSON: &str = "json";
 pub const WORK_ITEM_OUTCOME_CANONICAL_VIEW: &str = "view";
 pub const WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE: &str = "language";
+pub const WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE: &str = "displayTimezone";
 pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS: &str = "deliveryProgress";
 // Transport bindings are protocol-owned facts too.  Keeping the CLI spelling
 // here prevents the derive parser from becoming a second interface registry.
@@ -35,10 +47,13 @@ pub const WORK_ITEM_OUTCOME_CLI_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DEL
 pub const WORK_ITEM_OUTCOME_CLI_JSON: &str = WORK_ITEM_OUTCOME_CANONICAL_JSON;
 pub const WORK_ITEM_OUTCOME_CLI_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_CLI_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE: &str = "display-timezone";
 pub const WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID: &str = WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DELIVERY;
 pub const WORK_ITEM_OUTCOME_MCP_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_MCP_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE: &str =
+    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS: &str =
     WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS;
 /// Define one Outcome enum and its public value list from the same declaration.
@@ -119,6 +134,8 @@ pub struct WorkItemOutcomeQueryArgs {
     pub view: WorkItemOutcomeView,
     #[arg(long, value_enum, help = WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION)]
     pub language: Option<WorkItemOutcomeLanguage>,
+    #[arg(long, help = WORK_ITEM_OUTCOME_DISPLAY_TIMEZONE_DESCRIPTION)]
+    pub display_timezone: Option<String>,
 }
 
 /// Return the actual Clap command fragment shared by query parsing and
@@ -143,6 +160,14 @@ pub fn work_item_outcome_language_is_valid(value: &str) -> bool {
 }
 
 pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
+pub const CAPABILITY_SHOW_SURFACE_VALUES: &[&str] = &[
+    WORK_ITEM_OUTCOME_SURFACE,
+    WORK_ITEM_USAGE_RECORD_SURFACE,
+    WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE,
+    WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE,
+    AUDIT_QUERY_SURFACE,
+    AUDIT_EXPORT_SURFACE,
+];
 pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
 pub const CAPABILITY_SHOW_FORMAT_MARKDOWN: &str = "markdown";
 pub const CAPABILITY_SHOW_FORMAT_VALUES: &[&str] =
@@ -200,7 +225,9 @@ pub struct InterfaceParameter {
 }
 
 fn cli_parameter_from_query_argument(argument: &clap::Arg) -> InterfaceParameter {
-    let name = argument.get_id().as_str();
+    let name = argument
+        .get_long()
+        .unwrap_or_else(|| argument.get_id().as_str());
     let boolean = matches!(
         argument.get_action(),
         ArgAction::SetTrue | ArgAction::SetFalse
@@ -562,10 +589,14 @@ fn cli_outcome_parameter_specs() -> Vec<OutcomeInterfaceParameterSpec> {
     cli_outcome_parameters_from_query_parser()
         .into_iter()
         .map(|parameter| OutcomeInterfaceParameterSpec {
-            canonical_name: if parameter.name == WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID {
-                WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID.into()
-            } else {
-                parameter.name.clone()
+            canonical_name: match parameter.name.as_str() {
+                WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID => {
+                    WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID.into()
+                }
+                WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE => {
+                    WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE.into()
+                }
+                _ => parameter.name.clone(),
             },
             name: parameter.name,
             wire_type: parameter.wire_type,
@@ -589,6 +620,8 @@ fn mcp_outcome_parameter_from_cli(
         canonical_name: parameter.canonical_name.clone(),
         name: if identity {
             WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID.into()
+        } else if parameter.canonical_name == WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE {
+            WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE.into()
         } else {
             parameter.name.clone()
         },
@@ -632,6 +665,7 @@ pub fn work_item_outcome_mcp_request_parameter_specs() -> Vec<OutcomeInterfacePa
         WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
         WORK_ITEM_OUTCOME_MCP_LANGUAGE,
         WORK_ITEM_OUTCOME_MCP_VIEW,
+        WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE,
         WORK_ITEM_OUTCOME_MCP_DELIVERY,
     ];
     specs.sort_by_key(|spec| {
@@ -651,7 +685,7 @@ static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
         wire_type: "enum",
         required: false,
         default: None,
-        enum_values: &[CAPABILITY_SHOW_SURFACE],
+        enum_values: CAPABILITY_SHOW_SURFACE_VALUES,
         aliases: &[],
         description: CAPABILITY_SHOW_SURFACE_DESCRIPTION,
     },
@@ -767,6 +801,251 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
     }
 }
 
+/// Shared public facts for the explicit usage-record write. Both transports
+/// pass the same typed request to the repository service.
+pub fn work_item_usage_record_interface_description() -> InterfaceDescription {
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_USAGE_RECORD_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    InterfaceParameter {
+                        name: "repo".into(),
+                        wire_type: "string".into(),
+                        required: true,
+                        default: None,
+                        enum_values: Vec::new(),
+                        aliases: Vec::new(),
+                        description: "Repository path for current Runtime admission.".into(),
+                    },
+                    InterfaceParameter {
+                        name: "input".into(),
+                        wire_type: "string".into(),
+                        required: true,
+                        default: None,
+                        enum_values: Vec::new(),
+                        aliases: Vec::new(),
+                        description: WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION.into(),
+                    },
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![InterfaceParameter {
+                    name: "request".into(),
+                    wire_type: "object".into(),
+                    required: true,
+                    default: None,
+                    enum_values: Vec::new(),
+                    aliases: Vec::new(),
+                    description: WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION.into(),
+                }],
+            },
+        ],
+    }
+}
+
+/// Shared read-only parameter facts for the canonical material-review plan.
+pub fn work_item_material_review_plan_interface_description() -> InterfaceDescription {
+    let parameter = |name: &str, required: bool, description: &str| InterfaceParameter {
+        name: name.into(),
+        wire_type: "string".into(),
+        required,
+        default: None,
+        enum_values: Vec::new(),
+        aliases: Vec::new(),
+        description: description.into(),
+    };
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    parameter("repo", true, "Repository path for source identity."),
+                    parameter("id", true, "Active Work Item identifier."),
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![parameter(
+                    "workItemId",
+                    true,
+                    "Active Work Item identifier in the repository bound to this MCP request.",
+                )],
+            },
+        ],
+    }
+}
+
+/// Shared parameter facts for the explicit, Runtime-admitted material-review
+/// decision writer. The reviewer identity in the input is self-declared.
+pub fn work_item_material_review_record_interface_description() -> InterfaceDescription {
+    let parameter =
+        |name: &str, wire_type: &str, required: bool, description: &str| InterfaceParameter {
+            name: name.into(),
+            wire_type: wire_type.into(),
+            required,
+            default: None,
+            enum_values: Vec::new(),
+            aliases: Vec::new(),
+            description: description.into(),
+        };
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces: vec![
+            InterfaceSurface {
+                name: "cli".into(),
+                transport: "argv".into(),
+                parameters: vec![
+                    parameter(
+                        "repo",
+                        "string",
+                        true,
+                        "Repository path for Runtime admission.",
+                    ),
+                    parameter("id", "string", true, "Active Work Item identifier."),
+                    parameter(
+                        "input",
+                        "string",
+                        true,
+                        "Strict typed decision JSON; reviewer identity is self-declared and does not prove human, provider, or release approval.",
+                    ),
+                ],
+            },
+            InterfaceSurface {
+                name: "mcp".into(),
+                transport: "json-rpc".into(),
+                parameters: vec![
+                    parameter("workItemId", "string", true, "Active Work Item identifier."),
+                    parameter(
+                        "decision",
+                        "object",
+                        true,
+                        "Strict typed decision object; reviewer identity is self-declared and does not prove human, provider, or release approval.",
+                    ),
+                ],
+            },
+        ],
+    }
+}
+
+fn audit_interface_description(surface: &str, export: bool) -> InterfaceDescription {
+    let fields = [
+        (
+            "workItemId",
+            "work-item-id",
+            "string",
+            "Exact Work Item ID.",
+        ),
+        (
+            "from",
+            "from",
+            "string",
+            "Inclusive RFC3339 Runtime recordedAt.",
+        ),
+        (
+            "to",
+            "to",
+            "string",
+            "Exclusive RFC3339 Runtime recordedAt.",
+        ),
+        (
+            "reportedModel",
+            "reported-model",
+            "string",
+            "Exact reported model.",
+        ),
+        ("actor", "actor", "string", "Exact actor."),
+        ("eventType", "event-type", "string", "Exact event type."),
+        (
+            "limit",
+            "limit",
+            "integer",
+            "Page limit from 1 to 100; default 50.",
+        ),
+        ("cursor", "cursor", "string", "Opaque source-bound cursor."),
+        (
+            "displayTimezone",
+            "display-timezone",
+            "string",
+            "IANA display timezone.",
+        ),
+    ];
+    let make =
+        |name: &str, wire_type: &str, required: bool, description: &str| InterfaceParameter {
+            name: name.into(),
+            wire_type: wire_type.into(),
+            required,
+            default: None,
+            enum_values: Vec::new(),
+            aliases: Vec::new(),
+            description: description.into(),
+        };
+    let mut cli = vec![make("repo", "string", true, "Repository path.")];
+    cli.extend(
+        fields
+            .iter()
+            .map(|(_, cli_name, kind, description)| make(cli_name, kind, false, description)),
+    );
+    if export {
+        cli.push(make(
+            "output",
+            "string",
+            false,
+            "Explicit local output path; identical legacy bytes or the same filtered source snapshot and page are accepted without replacing the file.",
+        ));
+    }
+    let mut surfaces = vec![InterfaceSurface {
+        name: "cli".into(),
+        transport: "argv".into(),
+        parameters: cli,
+    }];
+    if !export {
+        surfaces.push(InterfaceSurface {
+            name: "mcp".into(),
+            transport: "json-rpc".into(),
+            parameters: fields
+                .iter()
+                .map(|(mcp_name, _, kind, description)| make(mcp_name, kind, false, description))
+                .collect(),
+        });
+    }
+    InterfaceDescription {
+        schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
+        name: surface.into(),
+        runtime_version: env!("CARGO_PKG_VERSION").into(),
+        surfaces,
+    }
+}
+
+pub fn interface_description_for_surface(surface: &str) -> Option<InterfaceDescription> {
+    match surface {
+        WORK_ITEM_OUTCOME_SURFACE => Some(work_item_outcome_interface_description()),
+        WORK_ITEM_USAGE_RECORD_SURFACE => Some(work_item_usage_record_interface_description()),
+        WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE => {
+            Some(work_item_material_review_plan_interface_description())
+        }
+        WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE => {
+            Some(work_item_material_review_record_interface_description())
+        }
+        AUDIT_QUERY_SURFACE => Some(audit_interface_description(surface, false)),
+        AUDIT_EXPORT_SURFACE => Some(audit_interface_description(surface, true)),
+        _ => None,
+    }
+}
+
 fn localized_labels(language: &str) -> (&'static str, &'static str, &'static str, &'static str) {
     match language {
         "zh" | "zh-CN" => ("接口事实", "传输", "参数", "类型"),
@@ -831,7 +1110,10 @@ pub fn render_interface_description_markdown(
     let enum_label = localized_enum(language);
     let aliases_label = localized_aliases(language);
     let mut output = String::new();
-    output.push_str("<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->\n");
+    output.push_str(&format!(
+        "<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN {} -->\n",
+        description.name
+    ));
     output.push_str(&format!("### {}: `{}`\n\n", title, description.name));
     output.push_str(&format!(
         "- Schema: `v{}`\n- Runtime: `{}`\n- {}\n\n",
@@ -872,6 +1154,9 @@ pub fn render_interface_description_markdown(
         }
         output.push('\n');
     }
-    output.push_str("<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->\n");
+    output.push_str(&format!(
+        "<!-- AI_COCKPIT_INTERFACE_FACTS:END {} -->\n",
+        description.name
+    ));
     output
 }

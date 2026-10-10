@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "materialManifestDigest": "sha256:df6c7134f89a5b2aa24f588cce63888dc86f68bb38eb015a10ec57465348ad54",
+  "profileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "requestDigest": "sha256:a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573",
+  "reviewedSourceHead": "94ea67655848078a9beef04410b16155d6e21954",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "/tmp/wi1068-a27-material-review-green.log",
+      "digest": "sha256:1b0d2ec4dd1af09990f31cff8cd8eebf049362c7c1566f7f3d60d615bf71a7a4"
+    },
+    {
+      "path": "/tmp/wi1068-a27-quality-gate-green.log",
+      "digest": "sha256:2b4e114c50d69b40bcc379b8d7a84c34b445a6dd7b3334775637de07d19fbacb"
+    },
+    {
+      "path": "/tmp/wi1068-a27-unknown-byte-audit-94ea6765.json",
+      "digest": "sha256:f73743eb8465368302a5724527f391640914c3e333809b60ec26146716e5eda7"
+    },
+    {
+      "path": "/tmp/wi1068-material-plan-94ea6765.json",
+      "digest": "sha256:1889f5f13ac5774bf9a826fa2eb1d0b5b5cb52ce4ceeb722dd853ecb7a8d3376"
+    }
+  ],
+  "rationale": "Independent Raydot technical review accepted the exact current A27 production delta and this canonical material request, including exact path/kind/hunk+origin matching, rescanning of unmatched comparison material, and preservation of scope, Findings, and extra Unknown blockers.",
+  "residualRisk": "Fifteen reviewable syntax Unknowns remain for this exact request. This decision is limited to the bound request, source head, Contract, manifest, policy, profile, and analysis implementation; it does not convert Unknown to machine Clean, accept future or additional Unknowns, waive Findings, or constitute human, provider, or release approval.",
+  "recordedAt": "2026-10-10T03:31:17Z",
+  "receiptDigest": "sha256:1993066f9667f23d9c2689a9e9c17a7ee750128076e8647d9e59940e50ec78bb"
+}

@@ -29,6 +29,35 @@ use std::{
 
 static NEXT_REPOSITORY_ID: AtomicU64 = AtomicU64::new(0);
 
+fn git_commit(path: &std::path::Path, files: &[&str], message: &str) {
+    if !files.is_empty() {
+        let mut add = Command::new("git");
+        add.args(["add", "--"]).args(files).current_dir(path);
+        assert!(add.status().expect("git add fixture").success());
+    }
+
+    let mut commit = Command::new("git");
+    commit
+        .args([
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+        ])
+        .current_dir(path);
+    if files.is_empty() {
+        commit.arg("--allow-empty");
+    }
+    assert!(
+        commit
+            .args(["-m", message])
+            .status()
+            .expect("git commit fixture")
+            .success()
+    );
+}
+
 fn repository() -> std::path::PathBuf {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -45,6 +74,7 @@ fn repository() -> std::path::PathBuf {
         .current_dir(&path)
         .status()
         .expect("git init");
+    git_commit(&path, &[], "fixture baseline");
     attach(&path).expect("attach");
     path
 }
@@ -760,6 +790,11 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         .join(format!("{work_item_id}.contract.json"));
     let measurement_path = path.join("performance-measurement.txt");
     fs::write(&measurement_path, b"p50=1ms\np95=2ms\n").expect("measurement");
+    git_commit(
+        &path,
+        &["performance-measurement.txt"],
+        "measurement fixture",
+    );
     let contract_value: serde_json::Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
     let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
@@ -1561,6 +1596,7 @@ fn archive_rejects_symlinked_failed_attempt_variant() {
 
     let target = path.join("outside-history.json");
     fs::write(&target, br#"{"foreign":true}"#).expect("target");
+    git_commit(&path, &["outside-history.json"], "history target fixture");
     let variant = path
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.outcome.finish-blocked.json"));
@@ -1723,13 +1759,10 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
     let archive = path.join(".ai/work-items/archive");
     let active_reference = format!(".ai/work-items/active/{work_item_id}");
     let archive_reference = format!(".ai/work-items/archive/{work_item_id}");
-    for suffix in [
-        "outcome.json",
-        "summary.json",
-        "task-report.json",
-        "task-report.md",
-        "events.jsonl",
-    ] {
+    // The generated Outcome remains a reader projection with archive-local
+    // references. The cutoff-bound report itself is an immutable finish
+    // snapshot and retains its original bytes after archive.
+    for suffix in ["outcome.json", "summary.json", "events.jsonl"] {
         let bytes = fs::read(archive.join(format!("{work_item_id}.{suffix}")))
             .unwrap_or_else(|error| panic!("read archived {suffix}: {error}"));
         let text = String::from_utf8(bytes).expect("archived artifact is UTF-8");
@@ -1737,7 +1770,7 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
             !text.contains(&active_reference),
             "archived {suffix} still references a removed active artifact"
         );
-        if matches!(suffix, "outcome.json" | "task-report.json" | "events.jsonl") {
+        if matches!(suffix, "outcome.json" | "events.jsonl") {
             assert!(
                 text.contains(&archive_reference),
                 "archived {suffix} does not expose its archive reference"
@@ -2386,6 +2419,60 @@ fn audit_export_is_deterministic_and_marks_external_retention_boundary() {
     assert_eq!(first.events[0].runtime_version, "0.2.2");
     assert_eq!(first.events[0].work_item_id.as_deref(), Some("WI-AUDIT"));
     assert!(first.events[0].event_id.starts_with("sha256:"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn audit_export_accepts_the_canonical_delegated_receipt_filename() {
+    let path = repository();
+    let id = "WI-AUDIT-DELEGATED";
+    start_work_item(&path, id, "audit", "delegated evidence", &[".ai/**".into()]).expect("start");
+    let raw = br#"{"provider":"github","run":789}"#;
+    let runtime = RuntimeContext {
+        runtime_version: "1.0.1".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"audit runtime"),
+    };
+    let receipt = import_delegated_evidence(
+        &path,
+        id,
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:789".into(),
+            origin: "https://github.com/example/repo/actions/runs/789".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-10-07T00:00:00Z".into(),
+            digest: Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-789.json".into(),
+        },
+        raw,
+        &runtime,
+    )
+    .expect("import delegated evidence");
+    let events = export_audit_events(&path, &runtime)
+        .expect("canonical delegated filename must be accepted")
+        .events;
+    assert_eq!(events.len(), 1);
+    assert_eq!(events[0].work_item_id.as_deref(), Some(id));
+    assert_eq!(events[0].event_type, "external_evidence_bound");
+    assert_eq!(receipt.work_item_id, id);
+    let external = path.join(".ai/evidence/external");
+    let original = fs::read_dir(&external)
+        .expect("external entries")
+        .map(|entry| entry.expect("entry").path())
+        .find(|entry| entry.to_string_lossy().ends_with(".delegated.json"))
+        .expect("delegated receipt file");
+    let mismatched = external.join(format!("{id}.{}.delegated.json", "0".repeat(64)));
+    fs::rename(&original, &mismatched).expect("change only receipt filename digest");
+    let error = export_audit_events(&path, &runtime)
+        .expect_err("filename digest must match parsed delegated evidence");
+    assert!(
+        error
+            .to_string()
+            .contains("delegated receipt identity or digest mismatch"),
+        "{error}"
+    );
     fs::remove_dir_all(path).expect("cleanup");
 }
 

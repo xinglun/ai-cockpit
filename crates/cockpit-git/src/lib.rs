@@ -1,13 +1,74 @@
 use serde::{Deserialize, Serialize};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
+use std::io::Read;
+#[cfg(unix)]
+use std::os::fd::AsRawFd;
 use std::path::PathBuf;
 use std::path::{Component, Path};
-use std::process::Command;
-use std::time::UNIX_EPOCH;
+use std::process::{Child, Command, Stdio};
+use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::mpsc::{self, SyncSender};
+use std::thread;
+use std::time::{Duration, Instant, UNIX_EPOCH};
 use thiserror::Error;
 
+#[cfg(unix)]
+#[repr(C)]
+struct PollFd {
+    fd: i32,
+    events: i16,
+    revents: i16,
+}
+
+#[cfg(any(
+    target_os = "android",
+    target_os = "aix",
+    target_os = "cygwin",
+    target_os = "dragonfly",
+    target_os = "freebsd",
+    target_os = "ios",
+    target_os = "macos",
+    target_os = "netbsd",
+    target_os = "nto",
+    target_os = "openbsd",
+    target_os = "vxworks"
+))]
+type PollNfds = std::os::raw::c_uint;
+
+#[cfg(all(
+    unix,
+    not(any(
+        target_os = "android",
+        target_os = "aix",
+        target_os = "cygwin",
+        target_os = "dragonfly",
+        target_os = "freebsd",
+        target_os = "ios",
+        target_os = "macos",
+        target_os = "netbsd",
+        target_os = "nto",
+        target_os = "openbsd",
+        target_os = "vxworks"
+    ))
+))]
+type PollNfds = std::os::raw::c_ulong;
+
+#[cfg(unix)]
+unsafe extern "C" {
+    fn poll(fds: *mut PollFd, nfds: PollNfds, timeout: i32) -> i32;
+}
+
+#[cfg(unix)]
+unsafe extern "C" {
+    fn kill(pid: i32, signal: i32) -> i32;
+}
+
 pub const MAX_CHANGE_TEXT_BYTES: usize = 262_144;
+pub const MAX_BOUNDED_GIT_OUTPUT_BYTES: usize = 64 * 1024 * 1024;
+const GIT_OUTPUT_CHUNK_BYTES: usize = 8 * 1024;
+const BOUNDED_PIPE_CLOSE_TIMEOUT: Duration = Duration::from_secs(1);
 
 /// A bounded, repository-local content identity cache. It hashes only declared
 /// relative files and derives a deterministic Merkle root from their
@@ -209,6 +270,1194 @@ mod incremental_merkle_tests {
     }
 }
 
+#[cfg(test)]
+mod suspended_job_setup_tests {
+    use super::{JobAssignmentStage, assign_job_before_resume};
+    use std::cell::RefCell;
+
+    #[test]
+    fn suspended_process_is_assigned_before_resume() {
+        let events = RefCell::new(Vec::new());
+        let process = assign_job_before_resume(
+            "git",
+            |process| {
+                assert_eq!(*process, "git");
+                events.borrow_mut().push("assign");
+                Ok(())
+            },
+            |process| {
+                assert_eq!(*process, "git");
+                events.borrow_mut().push("resume");
+                Ok(())
+            },
+            |process, stage| {
+                let _ = (process, stage);
+                events.borrow_mut().push("fail_closed");
+                Ok(())
+            },
+        )
+        .expect("assigned and resumed process");
+
+        assert_eq!(process, "git");
+        assert_eq!(*events.borrow(), ["assign", "resume"]);
+    }
+
+    #[test]
+    fn assignment_failure_terminates_and_waits_without_resume() {
+        let events = RefCell::new(Vec::new());
+        let result = assign_job_before_resume(
+            "git",
+            |_| {
+                events.borrow_mut().push("assign");
+                Err("assignment failed".to_owned())
+            },
+            |_| panic!("resume must not run after failed assignment"),
+            |process, stage| {
+                assert_eq!(process, "git");
+                assert_eq!(stage, JobAssignmentStage::NotAssigned);
+                events.borrow_mut().push("terminate_and_wait");
+                Ok(())
+            },
+        );
+
+        assert_eq!(result.unwrap_err(), "assignment failed");
+        assert_eq!(*events.borrow(), ["assign", "terminate_and_wait"]);
+    }
+
+    #[test]
+    fn resume_failure_terminates_and_waits_after_assignment() {
+        let events = RefCell::new(Vec::new());
+        let result = assign_job_before_resume(
+            "git",
+            |_| {
+                events.borrow_mut().push("assign");
+                Ok(())
+            },
+            |_| {
+                events.borrow_mut().push("resume");
+                Err("resume failed".to_owned())
+            },
+            |process, stage| {
+                assert_eq!(process, "git");
+                assert_eq!(stage, JobAssignmentStage::Assigned);
+                events.borrow_mut().push("terminate_and_wait");
+                Ok(())
+            },
+        );
+
+        assert_eq!(result.unwrap_err(), "resume failed");
+        assert_eq!(*events.borrow(), ["assign", "resume", "terminate_and_wait"]);
+    }
+}
+
+#[cfg(all(test, unix))]
+mod unix_bounded_process_tests {
+    #[cfg(target_os = "linux")]
+    use super::Path;
+    use super::bounded_process_output;
+    use std::{
+        fs,
+        os::unix::process::CommandExt,
+        process::{Command, Stdio},
+        thread,
+        time::{Duration, Instant},
+    };
+
+    const MODE: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MODE";
+    const MARKER: &str = "COCKPIT_GIT_BOUNDED_PROCESS_TEST_MARKER";
+    const ESCAPED_TEST_NAME: &str = "unix_bounded_process_tests::escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup";
+    const STARTED: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_STARTED";
+    const DONE: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_DONE";
+    #[cfg(target_os = "linux")]
+    const CHILD_PID: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_PID";
+    const HOLD_MS: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_HOLD_MS";
+    #[cfg(target_os = "linux")]
+    const CLEANUP_RESULT: &str = "COCKPIT_GIT_ESCAPED_DESCENDANT_CLEANUP_RESULT";
+    #[cfg(target_os = "linux")]
+    const SUPERVISOR_MODE: &str = "supervisor";
+    const BOUNDED_WORKER_MODE: &str = "bounded-worker";
+    const PARENT_HELPER_MODE: &str = "parent-helper";
+    const DETACHED_HELPER_MODE: &str = "detached-helper";
+    #[cfg(target_os = "linux")]
+    const WORKER_DEADLINE: Duration = Duration::from_secs(6);
+    #[cfg(target_os = "linux")]
+    const FIXTURE_REAP_DEADLINE: Duration = Duration::from_secs(5);
+    #[cfg(target_os = "linux")]
+    const FORCED_REAP_DEADLINE: Duration = Duration::from_secs(1);
+    #[cfg(target_os = "linux")]
+    const OUTER_WATCHDOG: Duration = Duration::from_secs(16);
+
+    unsafe extern "C" {
+        fn setsid() -> i32;
+    }
+
+    #[cfg(target_os = "linux")]
+    unsafe extern "C" {
+        fn prctl(option: i32, ...) -> i32;
+        fn waitpid(pid: i32, status: *mut i32, options: i32) -> i32;
+    }
+
+    #[cfg(target_os = "linux")]
+    fn enable_and_verify_subreaper() -> Result<(), String> {
+        const PR_SET_CHILD_SUBREAPER: i32 = 36;
+        const PR_GET_CHILD_SUBREAPER: i32 = 37;
+        let zero = 0 as std::ffi::c_ulong;
+        // SAFETY: PR_SET_CHILD_SUBREAPER is process-local and this function is
+        // called only in the dedicated supervisor child, never in libtest.
+        let set_result = unsafe {
+            prctl(
+                PR_SET_CHILD_SUBREAPER,
+                1 as std::ffi::c_ulong,
+                zero,
+                zero,
+                zero,
+            )
+        };
+        if set_result != 0 {
+            return Err(format!(
+                "PR_SET_CHILD_SUBREAPER failed: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+
+        let mut enabled = 0i32;
+        // SAFETY: PR_GET_CHILD_SUBREAPER writes one int to the provided
+        // process-local pointer and has no side effects.
+        let get_result = unsafe {
+            prctl(
+                PR_GET_CHILD_SUBREAPER,
+                &mut enabled as *mut i32,
+                zero,
+                zero,
+                zero,
+            )
+        };
+        if get_result != 0 || enabled != 1 {
+            return Err(format!(
+                "PR_GET_CHILD_SUBREAPER verification failed: result={get_result}, enabled={enabled}, error={}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        Ok(())
+    }
+
+    #[cfg(target_os = "linux")]
+    fn poll_waitpid(pid: i32) -> Result<Option<i32>, String> {
+        const WNOHANG: i32 = 1;
+        loop {
+            let mut status = 0i32;
+            // SAFETY: `status` is a valid writable pointer and this call only
+            // waits for a child owned by the dedicated supervisor.
+            let result = unsafe { waitpid(pid, &mut status, WNOHANG) };
+            if result == pid {
+                return Ok(Some(status));
+            }
+            if result == 0 {
+                return Ok(None);
+            }
+            let error = std::io::Error::last_os_error();
+            if error.kind() == std::io::ErrorKind::Interrupted {
+                continue;
+            }
+            return Err(format!("waitpid({pid}, WNOHANG) failed: {error}"));
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn wait_for_fixture_reap(pid: i32) -> Result<(i32, bool), String> {
+        const SIGKILL: i32 = 9;
+        const ESRCH: i32 = 3;
+        let natural_deadline = Instant::now() + FIXTURE_REAP_DEADLINE;
+        loop {
+            if let Some(status) = poll_waitpid(pid)? {
+                return Ok((status, false));
+            }
+            if Instant::now() >= natural_deadline {
+                // Recheck immediately before signaling. A zero WNOHANG result
+                // proves this exact PID is still a direct child of supervisor;
+                // it cannot have been reused while it remains waitable here.
+                if let Some(status) = poll_waitpid(pid)? {
+                    return Ok((status, false));
+                }
+                // SAFETY: `pid` came from this supervisor's spawn marker and
+                // waitpid just proved it is its live adopted child.
+                let result = unsafe { super::kill(pid, SIGKILL) };
+                if result != 0 && std::io::Error::last_os_error().raw_os_error() != Some(ESRCH) {
+                    return Err(format!(
+                        "SIGKILL for adopted fixture child {pid} failed: {}",
+                        std::io::Error::last_os_error()
+                    ));
+                }
+                let reap_deadline = Instant::now() + FORCED_REAP_DEADLINE;
+                loop {
+                    if let Some(status) = poll_waitpid(pid)? {
+                        return Ok((status, true));
+                    }
+                    if Instant::now() >= reap_deadline {
+                        return Err(format!(
+                            "adopted fixture child {pid} was not reaped within the forced-reap deadline"
+                        ));
+                    }
+                    thread::sleep(Duration::from_millis(20));
+                }
+            }
+            thread::sleep(Duration::from_millis(20));
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn verify_supervisor_has_no_children() -> Result<(), String> {
+        const WNOHANG: i32 = 1;
+        const ECHILD: i32 = 10;
+        let deadline = Instant::now() + FORCED_REAP_DEADLINE;
+        loop {
+            let mut status = 0i32;
+            // SAFETY: `waitpid(-1)` is used only by the dedicated supervisor
+            // to confirm all of its owned children have been reaped.
+            let result = unsafe { waitpid(-1, &mut status, WNOHANG) };
+            if result == -1 {
+                let error = std::io::Error::last_os_error();
+                if error.raw_os_error() == Some(ECHILD) {
+                    return Ok(());
+                }
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                return Err(format!("waitpid(-1, WNOHANG) failed: {error}"));
+            }
+            if result > 0 {
+                return Err(format!(
+                    "unexpected adopted child {result} was still waitable after fixture cleanup"
+                ));
+            }
+            if Instant::now() >= deadline {
+                return Err("supervisor still has a live child after fixture cleanup".into());
+            }
+            thread::sleep(Duration::from_millis(20));
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn exit_status_is_success(status: i32) -> bool {
+        status & 0x7f == 0 && (status >> 8) & 0xff == 0
+    }
+
+    #[cfg(target_os = "linux")]
+    fn exit_status_is_signal(status: i32, signal: i32) -> bool {
+        status & 0x7f == signal
+    }
+
+    #[cfg(target_os = "linux")]
+    fn linux_subreaper_supervisor() -> Result<(), String> {
+        enable_and_verify_subreaper()?;
+        let started = std::env::var(STARTED).map_err(|error| error.to_string())?;
+        let done = std::env::var(DONE).map_err(|error| error.to_string())?;
+        let child_pid_path = std::env::var(CHILD_PID).map_err(|error| error.to_string())?;
+        let cleanup_result_path =
+            std::env::var(CLEANUP_RESULT).map_err(|error| error.to_string())?;
+        let hold_ms = std::env::var(HOLD_MS)
+            .map_err(|error| error.to_string())?
+            .parse::<u64>()
+            .map_err(|error| error.to_string())?;
+        let expects_forced_cleanup = hold_ms > 3_000;
+        let executable = std::env::current_exe().map_err(|error| error.to_string())?;
+        let mut worker = Command::new(executable);
+        worker
+            .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+            .env(MODE, BOUNDED_WORKER_MODE)
+            .env(STARTED, &started)
+            .env(DONE, &done)
+            .env(CHILD_PID, &child_pid_path)
+            .env(HOLD_MS, hold_ms.to_string())
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .process_group(0);
+        let mut worker = worker.spawn().map_err(|error| error.to_string())?;
+        let worker_deadline = Instant::now() + WORKER_DEADLINE;
+        let mut worker_timed_out = false;
+        let mut worker_poll_error = None;
+        let worker_status = loop {
+            match worker.try_wait() {
+                Ok(Some(status)) => break Some(status),
+                Ok(None) if Instant::now() < worker_deadline => {
+                    thread::sleep(Duration::from_millis(20));
+                }
+                Ok(None) => {
+                    // SAFETY: worker created this isolated process group with
+                    // process_group(0); it is owned by the held Child handle.
+                    let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                    worker_timed_out = true;
+                    break loop {
+                        match worker.try_wait() {
+                            Ok(Some(status)) => break Some(status),
+                            Ok(None) if Instant::now() < worker_deadline + FORCED_REAP_DEADLINE => {
+                                thread::sleep(Duration::from_millis(20));
+                            }
+                            Ok(None) => break None,
+                            Err(error) => {
+                                worker_poll_error = Some(error.to_string());
+                                break None;
+                            }
+                        }
+                    };
+                }
+                Err(error) => {
+                    // SAFETY: same isolated worker process group as above.
+                    let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                    worker_timed_out = true;
+                    worker_poll_error = Some(error.to_string());
+                    break loop {
+                        match worker.try_wait() {
+                            Ok(Some(status)) => break Some(status),
+                            Ok(None) if Instant::now() < worker_deadline + FORCED_REAP_DEADLINE => {
+                                thread::sleep(Duration::from_millis(20));
+                            }
+                            Ok(None) => break None,
+                            Err(error) => {
+                                worker_poll_error = Some(error.to_string());
+                                break None;
+                            }
+                        }
+                    };
+                }
+            }
+        };
+
+        let child_pid = std::fs::read_to_string(&child_pid_path)
+            .map_err(|error| format!("fixture PID marker unavailable: {error}"))
+            .and_then(|value| {
+                value
+                    .trim()
+                    .parse::<i32>()
+                    .map_err(|error| format!("fixture PID marker is invalid: {error}"))
+            });
+        let (reap_result, started_result) = match child_pid {
+            Ok(pid) if pid > 0 => (
+                wait_for_fixture_reap(pid),
+                std::fs::read_to_string(&started)
+                    .map(|started| {
+                        if started.trim() == format!("pid={pid}") {
+                            Ok(())
+                        } else {
+                            Err(format!(
+                                "fixture started PID does not match spawn PID: started={started:?}, spawn={pid}"
+                            ))
+                        }
+                    })
+                    .map_err(|error| format!("fixture did not write its started marker: {error}"))
+                    .and_then(|result| result),
+            ),
+            Ok(pid) => (
+                Err(format!("fixture PID marker must be positive, got {pid}")),
+                Ok(()),
+            ),
+            Err(error) => (Err(error), Ok(())),
+        };
+        let no_children_result = verify_supervisor_has_no_children();
+        let (fixture_status, forced_cleanup) = reap_result?;
+        no_children_result?;
+        started_result?;
+        if worker_timed_out
+            || worker_poll_error.is_some()
+            || !worker_status.is_some_and(|status| status.success())
+        {
+            return Err(format!(
+                "bounded worker did not finish successfully: status={worker_status:?}, timed_out={worker_timed_out}, poll_error={worker_poll_error:?}"
+            ));
+        }
+
+        let done_exists = std::path::Path::new(&done).exists();
+        if expects_forced_cleanup {
+            if !forced_cleanup || done_exists || !exit_status_is_signal(fixture_status, 9) {
+                return Err(format!(
+                    "injected cleanup timeout did not prove bounded kill/reap: forced={forced_cleanup}, done={done_exists}, wait_status={fixture_status}"
+                ));
+            }
+            std::fs::write(cleanup_result_path, "killed_after_reap_deadline")
+                .map_err(|error| error.to_string())?;
+        } else {
+            if forced_cleanup || !done_exists || !exit_status_is_success(fixture_status) {
+                return Err(format!(
+                    "natural fixture cleanup was not reaped successfully: forced={forced_cleanup}, done={done_exists}, wait_status={fixture_status}"
+                ));
+            }
+            std::fs::write(cleanup_result_path, "natural_exit_reaped")
+                .map_err(|error| error.to_string())?;
+        }
+        Ok(())
+    }
+
+    #[cfg(target_os = "linux")]
+    fn run_linux_supervisor_case(directory: &Path, hold_ms: u64, expected: &str) {
+        let started = directory.join("escaped-started");
+        let done = directory.join("escaped-done");
+        let child_pid = directory.join("escaped-pid");
+        let cleanup_result = directory.join("cleanup-result");
+        let executable = std::env::current_exe().expect("test executable");
+        let mut supervisor = Command::new(executable);
+        supervisor
+            .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+            .env(MODE, SUPERVISOR_MODE)
+            .env(STARTED, &started)
+            .env(DONE, &done)
+            .env(CHILD_PID, &child_pid)
+            .env(HOLD_MS, hold_ms.to_string())
+            .env(CLEANUP_RESULT, &cleanup_result)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .process_group(0);
+        let mut supervisor = supervisor.spawn().expect("spawn isolated supervisor");
+        let deadline = Instant::now() + OUTER_WATCHDOG;
+        let mut supervisor_poll_error = None;
+        let status = loop {
+            match supervisor.try_wait() {
+                Ok(Some(status)) => break status,
+                Ok(None) => {}
+                Err(error) => supervisor_poll_error = Some(error.to_string()),
+            }
+            if Instant::now() >= deadline {
+                // The 16-second outer watchdog exceeds the worker (6 seconds),
+                // fixture reap (5 seconds), forced reap (1 second), and
+                // startup margin. It only kills the supervisor through its
+                // held Child handle after that complete cleanup budget.
+                let supervisor_pid = supervisor.id();
+                let kill_result = match supervisor.kill() {
+                    Ok(()) => "sent".to_owned(),
+                    Err(error) => format!("error:{error}"),
+                };
+                let cleanup_deadline = Instant::now() + Duration::from_secs(1);
+                let mut cleanup_polls = Vec::new();
+                let mut cleanup_confirmed = false;
+                let terminal_record = loop {
+                    if Instant::now() >= cleanup_deadline {
+                        break "deadline_elapsed_before_exit_confirmation".to_owned();
+                    }
+                    match supervisor.try_wait() {
+                        Ok(Some(status)) => {
+                            let record = format!("exit_confirmed:{status:?}");
+                            cleanup_polls.push(record.clone());
+                            cleanup_confirmed = true;
+                            break record;
+                        }
+                        Ok(None) => {
+                            cleanup_polls.push("still_running".to_owned());
+                            let remaining =
+                                cleanup_deadline.saturating_duration_since(Instant::now());
+                            if remaining.is_zero() {
+                                break "deadline_expired_while_running".to_owned();
+                            }
+                            thread::sleep(remaining.min(Duration::from_millis(20)));
+                        }
+                        Err(error) => {
+                            let record = format!("poll_error:{error}");
+                            cleanup_polls.push(record.clone());
+                            break record;
+                        }
+                    }
+                };
+                panic!(
+                    "isolated supervisor exceeded its worker plus cleanup watchdog; \
+                     supervisor_pid={supervisor_pid}; watchdog_poll_error={supervisor_poll_error:?}; \
+                     kill_result={kill_result}; cleanup_budget_ms=1000; cleanup_poll_interval_ms=20; \
+                     cleanup_poll_count={}; cleanup_polls={cleanup_polls:?}; \
+                     terminal={terminal_record}; \
+                     cleanup_confirmed={cleanup_confirmed}; cleanup_unconfirmed={}; \
+                     possible_residual_supervisor={}; blocking_wait_attempted=false",
+                    cleanup_polls.len(),
+                    !cleanup_confirmed,
+                    !cleanup_confirmed
+                );
+            }
+            thread::sleep(Duration::from_millis(20));
+        };
+        assert!(
+            supervisor_poll_error.is_none(),
+            "isolated supervisor polling failed: {supervisor_poll_error:?}"
+        );
+        assert!(status.success(), "isolated supervisor failed: {status}");
+        let cleanup_result = std::fs::read_to_string(cleanup_result)
+            .expect("supervisor must report its verified cleanup path");
+        assert_eq!(cleanup_result, expected);
+    }
+
+    #[test]
+    fn parent_exit_terminates_pipe_holding_descendant() {
+        if std::env::var(MODE).ok().as_deref() == Some("worker") {
+            let marker = std::env::var(MARKER).expect("marker path");
+            let script = format!(
+                "printf '%s\\n' \"$$\" > '{marker}'; sleep 30 >/dev/null & printf 'bounded output\\n';"
+            );
+            let mut command = Command::new("sh");
+            command.args(["-c", script.as_str()]).process_group(0);
+            let output = bounded_process_output(command, 1024).expect("bounded output");
+            assert!(output.success);
+            assert_eq!(output.stdout, b"bounded output\n");
+            return;
+        }
+
+        let directory = tempfile::tempdir().expect("tempdir");
+        let marker = directory.path().join("git-pid");
+        let executable = std::env::current_exe().expect("test executable");
+        let mut worker = Command::new(executable);
+        worker
+            .args([
+                "--exact",
+                "unix_bounded_process_tests::parent_exit_terminates_pipe_holding_descendant",
+                "--nocapture",
+            ])
+            .env(MODE, "worker")
+            .env(MARKER, &marker)
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .process_group(0);
+        let mut worker = worker.spawn().expect("spawn bounded-output worker");
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            if let Some(status) = worker.try_wait().expect("poll bounded-output worker") {
+                assert!(status.success(), "worker exited unsuccessfully: {status}");
+                assert!(marker.exists(), "bounded subprocess helper must run");
+                break;
+            }
+            if Instant::now() >= deadline {
+                if let Ok(pid) = fs::read_to_string(&marker)
+                    && let Ok(pid) = pid.trim().parse::<i32>()
+                {
+                    // SAFETY: the recorded PID is the shell process group
+                    // created by the bounded runner for this test.
+                    let _ = unsafe { super::kill(-pid, 9) };
+                }
+                // SAFETY: this is the isolated process group of the test
+                // worker; terminate it so a regression cannot leak a runner.
+                let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                let _ = worker.wait();
+                panic!("bounded-output worker hung after its parent exited");
+            }
+            thread::sleep(Duration::from_millis(20));
+        }
+    }
+
+    #[test]
+    fn escaped_pipe_descendant_returns_explicit_timeout_without_claiming_cleanup() {
+        #[cfg(target_os = "linux")]
+        if std::env::var(MODE).ok().as_deref() == Some(SUPERVISOR_MODE) {
+            linux_subreaper_supervisor()
+                .unwrap_or_else(|error| panic!("isolated supervisor failed: {error}"));
+            return;
+        }
+
+        if std::env::var(MODE).ok().as_deref() == Some(DETACHED_HELPER_MODE) {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let hold_ms = std::env::var(HOLD_MS)
+                .ok()
+                .and_then(|value| value.parse::<u64>().ok())
+                .unwrap_or(3_000);
+            fs::write(&started, format!("pid={}", std::process::id()))
+                .expect("write started marker");
+            thread::sleep(Duration::from_millis(hold_ms));
+            fs::write(&done, "done").expect("write done marker");
+            return;
+        }
+
+        if std::env::var(MODE).ok().as_deref() == Some(PARENT_HELPER_MODE) {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let executable = std::env::current_exe().expect("test executable");
+            let mut detached = Command::new(executable);
+            detached
+                .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+                .env(MODE, DETACHED_HELPER_MODE)
+                .env(STARTED, &started)
+                .env(DONE, &done)
+                .stdout(Stdio::null());
+            #[cfg(target_os = "linux")]
+            let child_pid_path = std::env::var(CHILD_PID).expect("fixture PID marker path");
+            // SAFETY: setsid is async-signal-safe and the child is not a
+            // process-group leader, so it can escape the bounded child group.
+            unsafe {
+                detached.pre_exec(|| {
+                    // SAFETY: called in the just-forked child before exec.
+                    if setsid() == -1 {
+                        return Err(std::io::Error::last_os_error());
+                    }
+                    Ok(())
+                });
+            }
+            #[cfg(target_os = "linux")]
+            {
+                // This process intentionally exits before the setsid child so
+                // it keeps the bounded reader's pipe open. The separate
+                // Linux supervisor is verified as a subreaper and waitpids
+                // this exact child before it exits.
+                #[expect(
+                    clippy::zombie_processes,
+                    reason = "the isolated Linux supervisor adopts and waitpids this exact escaped fixture child"
+                )]
+                let mut detached_child = detached.spawn().expect("spawn escaped pipe holder");
+                if let Err(error) = fs::write(&child_pid_path, detached_child.id().to_string()) {
+                    let _ = detached_child.kill();
+                    let _ = detached_child.wait();
+                    panic!("write fixture PID marker failed: {error}");
+                }
+            }
+            #[cfg(not(target_os = "linux"))]
+            let _detached = detached.spawn().expect("spawn escaped pipe holder");
+            let started_deadline = Instant::now() + Duration::from_secs(2);
+            while !std::path::Path::new(&started).exists() && Instant::now() < started_deadline {
+                thread::sleep(Duration::from_millis(10));
+            }
+            assert!(
+                std::path::Path::new(&started).exists(),
+                "escaped helper must start before its parent exits"
+            );
+            println!("bounded output");
+            return;
+        }
+
+        if std::env::var(MODE).ok().as_deref() == Some(BOUNDED_WORKER_MODE) {
+            let started = std::env::var(STARTED).expect("started marker path");
+            let done = std::env::var(DONE).expect("done marker path");
+            let executable = std::env::current_exe().expect("test executable");
+            let mut command = Command::new(executable);
+            command
+                .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+                .env(MODE, PARENT_HELPER_MODE)
+                .env(STARTED, &started)
+                .env(DONE, &done)
+                .process_group(0);
+            #[cfg(target_os = "linux")]
+            command
+                .env(
+                    CHILD_PID,
+                    std::env::var(CHILD_PID).expect("fixture PID marker path"),
+                )
+                .env(
+                    HOLD_MS,
+                    std::env::var(HOLD_MS).expect("fixture hold duration"),
+                );
+            #[cfg(target_os = "linux")]
+            let open_fds_before = fs::read_dir("/proc/self/fd")
+                .expect("enumerate caller file descriptors")
+                .count();
+            let error = bounded_process_output(command, 1024)
+                .expect_err("escaped descendant must not hold bounded Git output forever");
+            assert!(
+                error
+                    .to_string()
+                    .contains("descendant cleanup could not be confirmed"),
+                "timeout must report uncertain cleanup explicitly: {error}"
+            );
+            assert!(std::path::Path::new(&started).exists());
+            assert!(
+                !std::path::Path::new(&done).exists(),
+                "the detached fixture should still be alive when the bounded read refuses"
+            );
+            #[cfg(target_os = "linux")]
+            assert_eq!(
+                fs::read_dir("/proc/self/fd")
+                    .expect("enumerate caller file descriptors after cancellation")
+                    .count(),
+                open_fds_before,
+                "timed-out bounded output must cancel its pipe readers and close their descriptors"
+            );
+            return;
+        }
+
+        #[cfg(target_os = "linux")]
+        {
+            let normal_case = tempfile::tempdir().expect("normal cleanup tempdir");
+            run_linux_supervisor_case(normal_case.path(), 3_000, "natural_exit_reaped");
+
+            let cleanup_timeout_case = tempfile::tempdir().expect("cleanup-timeout tempdir");
+            run_linux_supervisor_case(
+                cleanup_timeout_case.path(),
+                30_000,
+                "killed_after_reap_deadline",
+            );
+        }
+
+        #[cfg(not(target_os = "linux"))]
+        {
+            let directory = tempfile::tempdir().expect("tempdir");
+            let started = directory.path().join("escaped-started");
+            let done = directory.path().join("escaped-done");
+            let executable = std::env::current_exe().expect("test executable");
+            let mut worker = Command::new(executable);
+            worker
+                .args(["--exact", ESCAPED_TEST_NAME, "--nocapture"])
+                .env(MODE, BOUNDED_WORKER_MODE)
+                .env(STARTED, &started)
+                .env(DONE, &done)
+                .stdin(Stdio::null())
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .process_group(0);
+            let mut worker = worker.spawn().expect("spawn bounded-output worker");
+            let worker_deadline = Instant::now() + Duration::from_secs(6);
+            let worker_status = loop {
+                if let Some(status) = worker.try_wait().expect("poll bounded-output worker") {
+                    break status;
+                }
+                if Instant::now() >= worker_deadline {
+                    // SAFETY: this is the isolated process group of the worker.
+                    // The escaped helper is independently self-terminating.
+                    let _ = unsafe { super::kill(-(worker.id() as i32), 9) };
+                    let _ = worker.wait();
+                    panic!("bounded-output worker exceeded its deadline");
+                }
+                thread::sleep(Duration::from_millis(20));
+            };
+
+            let cleanup_deadline = Instant::now() + Duration::from_secs(5);
+            while !done.exists() && Instant::now() < cleanup_deadline {
+                thread::sleep(Duration::from_millis(20));
+            }
+            assert!(done.exists(), "detached test helper must self-terminate");
+            assert!(
+                worker_status.success(),
+                "bounded-output worker failed: {worker_status}"
+            );
+            assert!(started.exists(), "escaped subprocess helper must run");
+        }
+    }
+}
+
+#[cfg(all(test, windows))]
+mod windows_job_object_tests {
+    use super::{GitError, bounded_process_output};
+    use std::{
+        io::Write,
+        process::{Child, Command, Stdio},
+        thread,
+        time::{Duration, Instant},
+    };
+
+    const MODE: &str = "COCKPIT_GIT_WINDOWS_JOB_TEST_MODE";
+    const OUTPUT_LIMIT: usize = 8 * 1024;
+
+    #[test]
+    fn overflow_parent_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("parent") {
+            return;
+        }
+        let descendant = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "windows_job_object_tests::pipe_descendant_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "descendant")
+            .spawn()
+            .expect("spawn pipe-holding descendant");
+
+        let mut stderr = std::io::stderr().lock();
+        stderr
+            .write_all(&vec![b'x'; 32 * 1024])
+            .expect("write overflow bytes");
+        stderr.flush().expect("flush overflow bytes");
+        drop(descendant);
+        loop {
+            thread::sleep(Duration::from_secs(60));
+        }
+    }
+
+    #[test]
+    fn pipe_descendant_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("descendant") {
+            return;
+        }
+        loop {
+            thread::sleep(Duration::from_secs(60));
+        }
+    }
+
+    #[test]
+    fn bounded_runner_entry() {
+        if std::env::var(MODE).ok().as_deref() != Some("runner") {
+            return;
+        }
+        let mut command = Command::new(std::env::current_exe().expect("test executable"));
+        command
+            .args([
+                "--exact",
+                "windows_job_object_tests::overflow_parent_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "parent")
+            .stdin(Stdio::null());
+        assert!(matches!(
+            bounded_process_output(command, OUTPUT_LIMIT),
+            Err(GitError::OutputLimitExceeded {
+                limit: OUTPUT_LIMIT
+            })
+        ));
+    }
+
+    #[test]
+    fn output_overflow_kills_descendant_holding_inherited_pipe() {
+        use std::os::windows::process::CommandExt;
+
+        let supervisor_job = super::windows_job::Job::new().expect("create supervisor Job Object");
+        let mut runner_command = Command::new(std::env::current_exe().expect("test executable"));
+        runner_command
+            .args([
+                "--exact",
+                "windows_job_object_tests::bounded_runner_entry",
+                "--nocapture",
+            ])
+            .env(MODE, "runner");
+        runner_command.creation_flags(super::windows_job::CREATE_SUSPENDED);
+        let mut runner = runner_command
+            .spawn()
+            .expect("spawn suspended bounded runner process");
+        let setup = supervisor_job
+            .assign(&runner)
+            .and_then(|()| super::windows_job::resume_primary_thread(runner.id()));
+        if let Err(error) = setup {
+            let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+            panic!("could not start supervised runner: {error}; runner_stopped={runner_stopped}");
+        }
+        let deadline = Instant::now() + Duration::from_secs(10);
+        let status = loop {
+            match runner.try_wait() {
+                Ok(Some(status)) => break status,
+                Ok(None) if Instant::now() < deadline => thread::sleep(Duration::from_millis(10)),
+                Ok(None) => {
+                    let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+                    panic!("bounded output timed out; runner_stopped={runner_stopped}");
+                }
+                Err(error) => {
+                    let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+                    panic!(
+                        "could not wait for bounded runner: {error}; runner_stopped={runner_stopped}"
+                    );
+                }
+            }
+        };
+        if !status.success() {
+            let runner_stopped = cleanup_test_processes(&mut runner, &supervisor_job);
+            panic!("bounded runner subprocess failed: {status}; runner_stopped={runner_stopped}");
+        }
+        drop(runner);
+
+        let deadline = Instant::now() + Duration::from_secs(2);
+        let mut active_processes = supervisor_job
+            .active_processes()
+            .expect("query supervised process count");
+        while active_processes != 0 && Instant::now() < deadline {
+            thread::sleep(Duration::from_millis(10));
+            active_processes = supervisor_job
+                .active_processes()
+                .expect("query supervised process count while waiting for descendants");
+        }
+        assert_eq!(
+            active_processes, 0,
+            "the bounded process Job Object must terminate its descendants"
+        );
+    }
+
+    fn cleanup_test_processes(
+        runner: &mut Child,
+        supervisor_job: &super::windows_job::Job,
+    ) -> bool {
+        let _ = supervisor_job.terminate();
+        let _ = runner.kill();
+        let deadline = Instant::now() + Duration::from_secs(2);
+        loop {
+            match runner.try_wait() {
+                Ok(Some(_)) => return true,
+                Ok(None) if Instant::now() < deadline => thread::sleep(Duration::from_millis(10)),
+                Ok(None) | Err(_) => return false,
+            }
+        }
+    }
+}
+
+#[cfg(any(windows, test))]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum JobAssignmentStage {
+    NotAssigned,
+    Assigned,
+}
+
+#[cfg(any(windows, test))]
+fn assign_job_before_resume<T>(
+    process: T,
+    assign: impl FnOnce(&T) -> Result<(), String>,
+    resume: impl FnOnce(&T) -> Result<(), String>,
+    fail_closed: impl FnOnce(T, JobAssignmentStage) -> Result<(), String>,
+) -> Result<T, String> {
+    if let Err(error) = assign(&process) {
+        let cleanup = fail_closed(process, JobAssignmentStage::NotAssigned);
+        return Err(append_cleanup_error(error, cleanup));
+    }
+    if let Err(error) = resume(&process) {
+        let cleanup = fail_closed(process, JobAssignmentStage::Assigned);
+        return Err(append_cleanup_error(error, cleanup));
+    }
+    Ok(process)
+}
+
+#[cfg(any(windows, test))]
+fn append_cleanup_error(error: String, cleanup: Result<(), String>) -> String {
+    match cleanup {
+        Ok(()) => error,
+        Err(cleanup) => format!("{error}; fail-closed cleanup failed: {cleanup}"),
+    }
+}
+
+struct BoundedProcess {
+    child: Child,
+    #[cfg(windows)]
+    job: Option<windows_job::Job>,
+}
+
+impl BoundedProcess {
+    fn spawn(mut command: Command) -> Result<Self, GitError> {
+        #[cfg(windows)]
+        {
+            use std::os::windows::process::CommandExt;
+            use windows_job::CREATE_SUSPENDED;
+
+            let job =
+                windows_job::Job::new().map_err(|error| GitError::Command(error.to_string()))?;
+            command.creation_flags(CREATE_SUSPENDED);
+            let child = command
+                .spawn()
+                .map_err(|error| GitError::Command(error.to_string()))?;
+            let process = Self {
+                child,
+                job: Some(job),
+            };
+            return assign_job_before_resume(
+                process,
+                |process| process.assign_to_job(),
+                |process| process.resume_primary_thread(),
+                |mut process, stage| process.fail_closed_start(stage),
+            )
+            .map_err(GitError::Command);
+        }
+
+        #[cfg(not(windows))]
+        {
+            let child = command
+                .spawn()
+                .map_err(|error| GitError::Command(error.to_string()))?;
+            Ok(Self { child })
+        }
+    }
+
+    fn terminate(&mut self) {
+        #[cfg(unix)]
+        {
+            // Every bounded Git child owns a fresh process group. Killing the
+            // group also closes pipes inherited by Git filters and helpers.
+            const SIGKILL: i32 = 9;
+            let process_group = -(self.child.id() as i32);
+            // SAFETY: the process group ID is the PID assigned by CommandExt.
+            let _ = unsafe { kill(process_group, SIGKILL) };
+        }
+        #[cfg(windows)]
+        self.terminate_job();
+        let _ = self.child.kill();
+    }
+
+    #[cfg(windows)]
+    fn assign_to_job(&self) -> Result<(), String> {
+        self.job
+            .as_ref()
+            .expect("job is present until setup completes")
+            .assign(&self.child)
+            .map_err(|error| {
+                format!("could not assign suspended Git process to Job Object: {error}")
+            })
+    }
+
+    #[cfg(windows)]
+    fn resume_primary_thread(&self) -> Result<(), String> {
+        windows_job::resume_primary_thread(self.child.id())
+            .map_err(|error| format!("could not resume suspended Git process: {error}"))
+    }
+
+    #[cfg(windows)]
+    fn fail_closed_start(&mut self, stage: JobAssignmentStage) -> Result<(), String> {
+        if stage == JobAssignmentStage::Assigned {
+            self.terminate_job();
+        }
+        // Closing a configured KILL_ON_JOB_CLOSE job is the fallback if
+        // TerminateJobObject itself failed. If assignment failed, the child
+        // is still suspended outside the job and must be killed directly.
+        self.job.take();
+        let _ = self.child.kill();
+        self.child
+            .wait()
+            .map(|_| ())
+            .map_err(|error| format!("could not wait for failed suspended Git process: {error}"))
+    }
+
+    #[cfg(windows)]
+    fn terminate_job(&mut self) {
+        if let Some(job) = self.job.take() {
+            let _ = job.terminate();
+            drop(job);
+        }
+    }
+
+    #[cfg(windows)]
+    fn terminate_descendants_after_parent_exit(&mut self) {
+        self.terminate_job();
+    }
+}
+
+#[cfg(windows)]
+mod windows_job {
+    #[cfg(test)]
+    use std::ptr::null_mut;
+    use std::{io, mem::size_of, os::windows::io::AsRawHandle, process::Child, ptr::null};
+    #[cfg(test)]
+    use windows_sys::Win32::System::JobObjects::{
+        JOBOBJECT_BASIC_ACCOUNTING_INFORMATION, JobObjectBasicAccountingInformation,
+        QueryInformationJobObject,
+    };
+    use windows_sys::Win32::{
+        Foundation::{CloseHandle, HANDLE, INVALID_HANDLE_VALUE},
+        System::{
+            Diagnostics::ToolHelp::{
+                CreateToolhelp32Snapshot, TH32CS_SNAPTHREAD, THREADENTRY32, Thread32First,
+                Thread32Next,
+            },
+            JobObjects::{
+                AssignProcessToJobObject, CreateJobObjectW, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+                JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JobObjectExtendedLimitInformation,
+                SetInformationJobObject, TerminateJobObject,
+            },
+            Threading::{OpenThread, ResumeThread, THREAD_SUSPEND_RESUME},
+        },
+    };
+
+    pub(super) use windows_sys::Win32::System::Threading::CREATE_SUSPENDED;
+
+    pub(super) struct Job(Handle);
+
+    impl Job {
+        pub(super) fn new() -> io::Result<Self> {
+            let handle = unsafe { CreateJobObjectW(null(), null()) };
+            if handle.is_null() {
+                return Err(io::Error::last_os_error());
+            }
+            let job = Self(Handle(handle));
+            let mut limits = JOBOBJECT_EXTENDED_LIMIT_INFORMATION::default();
+            limits.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+            let configured = unsafe {
+                SetInformationJobObject(
+                    job.0.0,
+                    JobObjectExtendedLimitInformation,
+                    (&limits as *const JOBOBJECT_EXTENDED_LIMIT_INFORMATION).cast(),
+                    size_of::<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>() as u32,
+                )
+            };
+            if configured == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(job)
+        }
+
+        pub(super) fn assign(&self, child: &Child) -> io::Result<()> {
+            let process = child.as_raw_handle() as HANDLE;
+            if unsafe { AssignProcessToJobObject(self.0.0, process) } == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(())
+        }
+
+        pub(super) fn terminate(&self) -> io::Result<()> {
+            if unsafe { TerminateJobObject(self.0.0, 1) } == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(())
+        }
+
+        #[cfg(test)]
+        pub(super) fn active_processes(&self) -> io::Result<u32> {
+            let mut accounting = JOBOBJECT_BASIC_ACCOUNTING_INFORMATION::default();
+            let queried = unsafe {
+                QueryInformationJobObject(
+                    self.0.0,
+                    JobObjectBasicAccountingInformation,
+                    (&mut accounting as *mut JOBOBJECT_BASIC_ACCOUNTING_INFORMATION).cast(),
+                    size_of::<JOBOBJECT_BASIC_ACCOUNTING_INFORMATION>() as u32,
+                    null_mut(),
+                )
+            };
+            if queried == 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(accounting.ActiveProcesses)
+        }
+    }
+
+    struct Handle(HANDLE);
+
+    impl Drop for Handle {
+        fn drop(&mut self) {
+            if !self.0.is_null() && self.0 != INVALID_HANDLE_VALUE {
+                let _ = unsafe { CloseHandle(self.0) };
+            }
+        }
+    }
+
+    fn suspended_thread_id(process_id: u32) -> io::Result<u32> {
+        let snapshot = unsafe { CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0) };
+        if snapshot.is_null() || snapshot == INVALID_HANDLE_VALUE {
+            return Err(io::Error::last_os_error());
+        }
+        let _snapshot = Handle(snapshot);
+        let mut entry = THREADENTRY32 {
+            dwSize: size_of::<THREADENTRY32>() as u32,
+            ..THREADENTRY32::default()
+        };
+        if unsafe { Thread32First(snapshot, &mut entry) } == 0 {
+            return Err(io::Error::last_os_error());
+        }
+        let mut thread_id = None;
+        loop {
+            if entry.th32OwnerProcessID == process_id {
+                if thread_id.replace(entry.th32ThreadID).is_some() {
+                    return Err(io::Error::other(
+                        "suspended Git process had more than one thread before resume",
+                    ));
+                }
+            }
+            if unsafe { Thread32Next(snapshot, &mut entry) } == 0 {
+                break;
+            }
+        }
+        thread_id
+            .ok_or_else(|| io::Error::other("suspended Git process primary thread was not found"))
+    }
+
+    pub(super) fn resume_primary_thread(process_id: u32) -> io::Result<()> {
+        let thread_id = suspended_thread_id(process_id)?;
+        let thread = unsafe { OpenThread(THREAD_SUSPEND_RESUME, 0, thread_id) };
+        if thread.is_null() {
+            return Err(io::Error::last_os_error());
+        }
+        let _thread = Handle(thread);
+        let previous_suspend_count = unsafe { ResumeThread(thread) };
+        if previous_suspend_count == u32::MAX {
+            return Err(io::Error::last_os_error());
+        }
+        if previous_suspend_count != 1 {
+            return Err(io::Error::other(format!(
+                "expected one suspended primary thread, found suspend count {previous_suspend_count}"
+            )));
+        }
+        Ok(())
+    }
+}
+
 fn normalize_identity_path(path: &Path) -> Result<String, ContentIdentityError> {
     if path.is_absolute() {
         return Err(ContentIdentityError::AbsolutePath(path.to_path_buf()));
@@ -315,6 +1564,27 @@ pub struct RepositorySnapshot {
     pub source_tree_digest: Option<String>,
 }
 
+/// Minimal current-source observation for bounded request construction. The
+/// status output contains working-tree changes while the tree digests are
+/// derived from the index; `.ai` paths are excluded from source_tree_digest.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BoundedSourceSnapshot {
+    pub head: Option<String>,
+    pub changed_paths: Vec<String>,
+    pub tree_digest: String,
+    pub source_tree_digest: String,
+}
+
+/// Captured stdout and stderr from one bounded Git subprocess. Each stream is
+/// capped independently at the requested byte limit.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BoundedGitOutput {
+    pub success: bool,
+    pub stdout: Vec<u8>,
+    pub stderr: Vec<u8>,
+    exit_code: Option<i32>,
+}
+
 pub struct GitRepository {
     root: PathBuf,
 }
@@ -360,6 +1630,14 @@ pub enum GitError {
     Command(String),
     #[error("git output was not valid UTF-8")]
     InvalidUtf8,
+    #[error("git output exceeded the bounded limit of {limit} bytes")]
+    OutputLimitExceeded { limit: usize },
+    #[error(
+        "git output pipes did not close within {timeout_ms}ms after termination; descendant cleanup could not be confirmed"
+    )]
+    OutputPipeCloseTimeout { timeout_ms: u64 },
+    #[error("Git revision must be a full 40- or 64-digit object ID: {0}")]
+    InvalidRevision(String),
     #[error("git topology path could not be resolved: {0}")]
     InvalidTopology(PathBuf),
 }
@@ -383,6 +1661,163 @@ impl GitRepository {
 
     pub fn root(&self) -> &Path {
         &self.root
+    }
+
+    /// Run a Git subprocess while bounding stdout and stderr independently.
+    /// If either stream exceeds `max_output_bytes`, the child is killed and
+    /// waited for before this method returns an error.
+    fn output_bounded<const N: usize>(
+        &self,
+        args: [&str; N],
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(args)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Read the tracked index flags through a fixed, read-only Git command.
+    pub fn index_flags_bounded(
+        &self,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        self.output_bounded(["ls-files", "-v", "-z"], max_output_bytes)
+    }
+
+    /// Read a committed tree through Git's NUL-delimited tree format.
+    pub fn committed_tree_bounded(
+        &self,
+        revision: &str,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        if revision != "HEAD" && !valid_commit_oid(revision) {
+            return Err(GitError::InvalidRevision(revision.to_owned()));
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(["ls-tree", "-r", "-z"])
+            .arg(revision)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Read one committed blob by object ID through a fixed Git command.
+    pub fn blob_bounded(
+        &self,
+        object_id: &str,
+        max_output_bytes: usize,
+    ) -> Result<BoundedGitOutput, GitError> {
+        if !valid_commit_oid(object_id) {
+            return Err(GitError::InvalidRevision(object_id.to_owned()));
+        }
+        let mut command = Command::new("git");
+        command
+            .args(["-C"])
+            .arg(&self.root)
+            .args(["cat-file", "blob"])
+            .arg(object_id)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        #[cfg(unix)]
+        {
+            use std::os::unix::process::CommandExt;
+            command.process_group(0);
+        }
+        bounded_process_output(command, max_output_bytes)
+    }
+
+    /// Test ancestry with `merge-base --is-ancestor`, distinguishing its
+    /// normal false result from a Git command failure.
+    pub fn is_ancestor_bounded(
+        &self,
+        base: &str,
+        head: &str,
+        max_output_bytes: usize,
+    ) -> Result<bool, GitError> {
+        if !valid_commit_oid(base) {
+            return Err(GitError::InvalidRevision(base.to_owned()));
+        }
+        if !valid_commit_oid(head) {
+            return Err(GitError::InvalidRevision(head.to_owned()));
+        }
+        let output = self.output_bounded(
+            ["merge-base", "--is-ancestor", base, head],
+            max_output_bytes,
+        )?;
+        match output.exit_code {
+            Some(0) => Ok(true),
+            Some(1) => Ok(false),
+            _ => Err(command_error(&output.stderr)),
+        }
+    }
+
+    /// Capture only current Git status and index-tree identities. This avoids
+    /// reading changed checkout files while a material request checks that
+    /// source is clean.
+    pub fn source_snapshot_bounded(
+        &self,
+        max_output_bytes: usize,
+    ) -> Result<BoundedSourceSnapshot, GitError> {
+        let status = self.output_bounded(
+            [
+                "-c",
+                "core.fsmonitor=false",
+                "status",
+                "--porcelain=v2",
+                "--branch",
+                "--untracked-files=all",
+                "-z",
+            ],
+            max_output_bytes,
+        )?;
+        if !status.success {
+            return Err(command_error(&status.stderr));
+        }
+        let tree = self.output_bounded(["ls-files", "-s", "-z"], max_output_bytes)?;
+        if !tree.success {
+            return Err(command_error(&tree.stderr));
+        }
+        let mut source_tree_hasher = Sha256::new();
+        for record in tree
+            .stdout
+            .split(|byte| *byte == 0)
+            .filter(|record| !record.is_empty())
+        {
+            let Some(tab) = record.iter().position(|byte| *byte == b'\t') else {
+                continue;
+            };
+            let path = &record[tab + 1..];
+            if is_ai_path(path) {
+                continue;
+            }
+            source_tree_hasher.update(record);
+            source_tree_hasher.update([0]);
+        }
+        let (changed_paths, _) = status_change_facts_nul(&status.stdout)?;
+        Ok(BoundedSourceSnapshot {
+            head: status_v2_head_nul(&status.stdout)?,
+            changed_paths,
+            tree_digest: digest(&tree.stdout),
+            source_tree_digest: format!("sha256:{}", hex::encode(source_tree_hasher.finalize())),
+        })
     }
 
     /// Resolve the actual Git common directory and worktree identity.  This
@@ -482,7 +1917,7 @@ impl GitRepository {
                 )
             })
             .collect::<BTreeMap<_, _>>();
-        apply_patch_facts(&diff, &mut change_evidence);
+        apply_patch_facts(&diff, &mut change_evidence, None);
         let mut changed_hasher = Sha256::new();
         let mut changed_files_read = 0;
         let mut changed_files_hashed = 0;
@@ -674,7 +2109,7 @@ impl GitRepository {
                 )
             })
             .collect::<BTreeMap<_, _>>();
-        apply_patch_facts(&patch, &mut change_evidence);
+        apply_patch_facts(&patch, &mut change_evidence, None);
         for change in working_change_evidence {
             if !changed_paths.iter().any(|path| path == &change.path) {
                 changed_paths.push(change.path.clone());
@@ -720,6 +2155,120 @@ impl GitRepository {
         Ok(snapshot)
     }
 
+    /// Capture committed source changes against `base` with bounded Git
+    /// output. The resulting change and patch identities exclude `.ai` paths;
+    /// unlike `snapshot_against`, this request-oriented API does not read
+    /// working-tree file contents or merge uncommitted evidence.
+    pub fn source_snapshot_against_bounded(
+        &self,
+        base: &str,
+        max_output_bytes: usize,
+    ) -> Result<RepositorySnapshot, GitError> {
+        if !valid_commit_oid(base) {
+            return Err(GitError::InvalidRevision(base.to_owned()));
+        }
+        let working = self.source_snapshot_bounded(max_output_bytes)?;
+        let head = working.head.clone().ok_or_else(|| {
+            GitError::Command("comparison snapshot requires a committed HEAD".into())
+        })?;
+        let name_status = self.output_bounded(
+            [
+                "-c",
+                "core.quotePath=false",
+                "diff",
+                "--name-status",
+                "--no-renames",
+                "-z",
+                "-O/dev/null",
+                "--no-ext-diff",
+                "--no-color",
+                base,
+                head.as_str(),
+                "--",
+                ".",
+                ":(exclude).ai",
+                ":(exclude).ai/**",
+            ],
+            max_output_bytes,
+        )?;
+        if !name_status.success {
+            return Err(command_error(&name_status.stderr));
+        }
+        let name_status_text =
+            String::from_utf8(name_status.stdout).map_err(|_| GitError::InvalidUtf8)?;
+        let (mut changed_paths, change_kinds) = comparison_change_facts(&name_status_text);
+        changed_paths.retain(|path| path != ".ai" && !path.starts_with(".ai/"));
+        let mut change_evidence = changed_paths
+            .iter()
+            .map(|path| {
+                (
+                    path.clone(),
+                    ChangeEvidence {
+                        path: path.clone(),
+                        kind: change_kinds
+                            .get(path)
+                            .cloned()
+                            .unwrap_or(ChangeKind::Unknown),
+                        added_lines: Vec::new(),
+                        added_line_origins: Vec::new(),
+                        removed_lines: Vec::new(),
+                        after_text: None,
+                        content_state: ChangeContentState::Unavailable,
+                    },
+                )
+            })
+            .collect::<BTreeMap<_, _>>();
+        let patch = self.output_bounded(
+            [
+                "-c",
+                "core.quotePath=false",
+                "diff",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--no-color",
+                "--no-renames",
+                "--diff-algorithm=myers",
+                "--binary",
+                "--unified=0",
+                "-O/dev/null",
+                base,
+                head.as_str(),
+                "--",
+                ".",
+                ":(exclude).ai",
+                ":(exclude).ai/**",
+            ],
+            max_output_bytes,
+        )?;
+        if !patch.success {
+            return Err(command_error(&patch.stderr));
+        }
+        let patch_text = String::from_utf8_lossy(&patch.stdout);
+        apply_patch_facts(&patch_text, &mut change_evidence, Some(&changed_paths));
+        for change in change_evidence.values_mut() {
+            if change.kind == ChangeKind::Deleted {
+                change.content_state = ChangeContentState::Deleted;
+            }
+        }
+        let empty_digest = digest(b"");
+        Ok(RepositorySnapshot {
+            root: self.root.clone(),
+            git_root: self.root.clone(),
+            head: Some(head),
+            changed_paths,
+            change_evidence: change_evidence.into_values().collect(),
+            git_calls: 4,
+            tree_digest: working.tree_digest,
+            diff_digest: digest(&patch.stdout),
+            dependency_fingerprint: empty_digest,
+            files_read: 0,
+            files_hashed: 0,
+            bytes_read: 0,
+            bytes_hashed: 0,
+            source_tree_digest: Some(working.source_tree_digest),
+        })
+    }
+
     fn run<const N: usize>(&self, args: [&str; N]) -> Result<String, GitError> {
         let output = Command::new("git")
             .args(["-C"])
@@ -734,6 +2283,242 @@ impl GitRepository {
         }
         String::from_utf8(output.stdout).map_err(|_| GitError::InvalidUtf8)
     }
+}
+
+#[derive(Clone, Copy)]
+enum BoundedStream {
+    Stdout,
+    Stderr,
+}
+
+enum BoundedReadMessage {
+    Chunk(BoundedStream, Vec<u8>),
+    Error(String),
+}
+
+#[cfg(unix)]
+trait BoundedPipeReader: Read + AsRawFd {}
+
+#[cfg(unix)]
+impl<T: Read + AsRawFd> BoundedPipeReader for T {}
+
+#[cfg(not(unix))]
+trait BoundedPipeReader: Read {}
+
+#[cfg(not(unix))]
+impl<T: Read> BoundedPipeReader for T {}
+
+fn forward_pipe<R: BoundedPipeReader>(
+    mut reader: R,
+    stream: BoundedStream,
+    sender: SyncSender<BoundedReadMessage>,
+    cancelled: Arc<AtomicBool>,
+) {
+    #[cfg(unix)]
+    let mut poll_fd = {
+        PollFd {
+            fd: reader.as_raw_fd(),
+            events: 0x001, // POLLIN
+            revents: 0,
+        }
+    };
+    let mut buffer = [0_u8; GIT_OUTPUT_CHUNK_BYTES];
+    loop {
+        if cancelled.load(Ordering::Acquire) {
+            break;
+        }
+        #[cfg(unix)]
+        {
+            let ready = unsafe { poll(&mut poll_fd, 1, 50) };
+            if ready == 0 {
+                continue;
+            }
+            if ready < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    continue;
+                }
+                let _ = sender.send(BoundedReadMessage::Error(error.to_string()));
+                break;
+            }
+            if poll_fd.revents & 0x020 != 0 {
+                let _ = sender.send(BoundedReadMessage::Error(
+                    "output pipe became invalid while polling".into(),
+                ));
+                break;
+            }
+        }
+        match reader.read(&mut buffer) {
+            Ok(0) => break,
+            Ok(count) => {
+                if sender
+                    .send(BoundedReadMessage::Chunk(stream, buffer[..count].to_vec()))
+                    .is_err()
+                {
+                    break;
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::Interrupted => continue,
+            Err(error) => {
+                let _ = sender.send(BoundedReadMessage::Error(error.to_string()));
+                break;
+            }
+        }
+    }
+}
+
+fn bounded_process_output(
+    mut command: Command,
+    max_output_bytes: usize,
+) -> Result<BoundedGitOutput, GitError> {
+    command.env("GIT_NO_LAZY_FETCH", "1");
+    command.stdout(Stdio::piped()).stderr(Stdio::piped());
+    let mut child = BoundedProcess::spawn(command)?;
+    let stdout = child
+        .child
+        .stdout
+        .take()
+        .ok_or_else(|| GitError::Command("git stdout pipe was unavailable".into()))?;
+    let stderr = child
+        .child
+        .stderr
+        .take()
+        .ok_or_else(|| GitError::Command("git stderr pipe was unavailable".into()))?;
+    let (sender, receiver) = mpsc::sync_channel(4);
+    let reader_cancelled = Arc::new(AtomicBool::new(false));
+    let stdout_sender = sender.clone();
+    let stdout_cancelled = Arc::clone(&reader_cancelled);
+    let stderr_cancelled = Arc::clone(&reader_cancelled);
+    let stdout_reader = thread::spawn(move || {
+        forward_pipe(
+            stdout,
+            BoundedStream::Stdout,
+            stdout_sender,
+            stdout_cancelled,
+        )
+    });
+    let stderr_reader = thread::spawn(move || {
+        forward_pipe(stderr, BoundedStream::Stderr, sender, stderr_cancelled)
+    });
+
+    let mut stdout_bytes = Vec::new();
+    let mut stderr_bytes = Vec::new();
+    let mut overflow = false;
+    let mut read_error = None;
+    let mut process_exit_observed = false;
+    let mut termination_requested_at = None;
+    loop {
+        if termination_requested_at.is_some_and(|requested_at: Instant| {
+            requested_at.elapsed() >= BOUNDED_PIPE_CLOSE_TIMEOUT
+        }) {
+            // Reader threads can remain blocked if a descendant escaped the
+            // owned process group while retaining an output descriptor. Do
+            // not join indefinitely or claim cleanup succeeded in that case.
+            reader_cancelled.store(true, Ordering::Release);
+            drop(receiver);
+            #[cfg(unix)]
+            {
+                let _ = stdout_reader.join();
+                let _ = stderr_reader.join();
+            }
+            #[cfg(not(unix))]
+            {
+                drop(stdout_reader);
+                drop(stderr_reader);
+            }
+            return Err(GitError::OutputPipeCloseTimeout {
+                timeout_ms: BOUNDED_PIPE_CLOSE_TIMEOUT.as_millis() as u64,
+            });
+        }
+
+        match receiver.recv_timeout(Duration::from_millis(50)) {
+            Ok(BoundedReadMessage::Chunk(stream, bytes)) => {
+                let target = match stream {
+                    BoundedStream::Stdout => &mut stdout_bytes,
+                    BoundedStream::Stderr => &mut stderr_bytes,
+                };
+                if target.len().saturating_add(bytes.len()) > max_output_bytes {
+                    if !overflow {
+                        overflow = true;
+                        request_bounded_termination(&mut child, &mut termination_requested_at);
+                    }
+                } else if !overflow {
+                    target.extend_from_slice(&bytes);
+                }
+            }
+            Ok(BoundedReadMessage::Error(error)) => {
+                if read_error.is_none() {
+                    read_error = Some(error);
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
+                }
+            }
+            Err(mpsc::RecvTimeoutError::Timeout) => {}
+            Err(mpsc::RecvTimeoutError::Disconnected) => break,
+        }
+
+        if !process_exit_observed {
+            match child.child.try_wait() {
+                Ok(Some(_)) => {
+                    process_exit_observed = true;
+                    #[cfg(windows)]
+                    {
+                        child.terminate_descendants_after_parent_exit();
+                        termination_requested_at = Some(Instant::now());
+                    }
+                    #[cfg(not(windows))]
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
+                }
+                Ok(None) => {}
+                Err(error) => {
+                    process_exit_observed = true;
+                    if read_error.is_none() {
+                        read_error = Some(format!("failed waiting for git process: {error}"));
+                    }
+                    request_bounded_termination(&mut child, &mut termination_requested_at);
+                }
+            }
+        }
+    }
+    let status = child
+        .child
+        .wait()
+        .map_err(|error| GitError::Command(error.to_string()))?;
+    let stdout_panicked = stdout_reader.join().is_err();
+    let stderr_panicked = stderr_reader.join().is_err();
+    if overflow {
+        return Err(GitError::OutputLimitExceeded {
+            limit: max_output_bytes,
+        });
+    }
+    if let Some(error) = read_error {
+        return Err(GitError::Command(format!(
+            "failed reading git output: {error}"
+        )));
+    }
+    if stdout_panicked || stderr_panicked {
+        return Err(GitError::Command("git output reader failed".into()));
+    }
+    Ok(BoundedGitOutput {
+        success: status.success(),
+        stdout: stdout_bytes,
+        stderr: stderr_bytes,
+        exit_code: status.code(),
+    })
+}
+
+fn terminate_bounded_process_group(child: &mut BoundedProcess) {
+    child.terminate();
+}
+
+fn request_bounded_termination(child: &mut BoundedProcess, requested_at: &mut Option<Instant>) {
+    if requested_at.is_none() {
+        terminate_bounded_process_group(child);
+        *requested_at = Some(Instant::now());
+    }
+}
+
+fn command_error(stderr: &[u8]) -> GitError {
+    GitError::Command(String::from_utf8_lossy(stderr).trim().to_owned())
 }
 
 fn resolve_git_path(root: &Path, value: &str) -> Result<PathBuf, GitError> {
@@ -792,11 +2577,81 @@ fn status_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKin
     (kinds.keys().cloned().collect(), kinds)
 }
 
+fn status_change_facts_nul(
+    status: &[u8],
+) -> Result<(Vec<String>, BTreeMap<String, ChangeKind>), GitError> {
+    let mut kinds = BTreeMap::new();
+    let mut records = status
+        .split(|byte| *byte == 0)
+        .filter(|record| !record.is_empty());
+    while let Some(record) = records.next() {
+        let record = std::str::from_utf8(record).map_err(|_| GitError::InvalidUtf8)?;
+        let mut renamed_source = None;
+        let parsed = if let Some(path) = record.strip_prefix("? ") {
+            Some(("??", path))
+        } else if let Some(fields) = record.strip_prefix("1 ") {
+            let columns = fields.splitn(8, ' ').collect::<Vec<_>>();
+            (columns.len() == 8).then(|| (columns[0], columns[7]))
+        } else if let Some(fields) = record.strip_prefix("2 ") {
+            let columns = fields.splitn(9, ' ').collect::<Vec<_>>();
+            // Porcelain v2 emits the original rename path as the next NUL
+            // record. Keep it as a source deletion so moving a source file
+            // into `.ai` cannot hide the dirty source path.
+            let original_path = records.next();
+            if columns.len() != 9 {
+                None
+            } else {
+                if columns[0].contains('R')
+                    && let Some(original_path) = original_path
+                {
+                    renamed_source = Some(
+                        std::str::from_utf8(original_path).map_err(|_| GitError::InvalidUtf8)?,
+                    );
+                }
+                Some((columns[0], columns[8]))
+            }
+        } else if let Some(fields) = record.strip_prefix("u ") {
+            let columns = fields.splitn(10, ' ').collect::<Vec<_>>();
+            (columns.len() == 10).then(|| (columns[0], columns[9]))
+        } else {
+            None
+        };
+        let Some((code, raw_path)) = parsed else {
+            continue;
+        };
+        let Some(path) = normalize_changed_paths([raw_path]).into_iter().next() else {
+            continue;
+        };
+        kinds.insert(path, change_kind_from_status_code(code));
+        if let Some(original_path) = renamed_source
+            && let Some(path) = normalize_changed_paths([original_path]).into_iter().next()
+        {
+            kinds.insert(path, ChangeKind::Deleted);
+        }
+    }
+    Ok((kinds.keys().cloned().collect(), kinds))
+}
+
 fn status_v2_head(status: &str) -> Option<String> {
     let head = status
         .lines()
         .find_map(|line| line.strip_prefix("# branch.oid "))?;
-    (head.len() == 40 && head.bytes().all(|byte| byte.is_ascii_hexdigit())).then(|| head.to_owned())
+    valid_commit_oid(head).then(|| head.to_owned())
+}
+
+fn status_v2_head_nul(status: &[u8]) -> Result<Option<String>, GitError> {
+    for record in status.split(|byte| *byte == 0) {
+        let Some(head) = record.strip_prefix(b"# branch.oid ") else {
+            continue;
+        };
+        let head = std::str::from_utf8(head).map_err(|_| GitError::InvalidUtf8)?;
+        return Ok(valid_commit_oid(head).then(|| head.to_owned()));
+    }
+    Ok(None)
+}
+
+fn valid_commit_oid(head: &str) -> bool {
+    matches!(head.len(), 40 | 64) && head.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 fn status_v2_has_changes(status: &str) -> bool {
@@ -882,17 +2737,24 @@ fn push_bounded(
     }
 }
 
-fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence>) {
+fn apply_patch_facts(
+    patch: &str,
+    evidence: &mut BTreeMap<String, ChangeEvidence>,
+    diff_header_paths: Option<&[String]>,
+) {
     let mut previous_path = None;
     let mut current_path = None;
     let mut retained_bytes = BTreeMap::<String, usize>::new();
     let mut hunk_counts = BTreeMap::<String, usize>::new();
     let mut current_hunk = None;
     let mut after_line = None;
+    let mut diff_header_index = 0;
     for line in patch.lines() {
         if line.starts_with("diff --git ") {
-            previous_path = None;
-            current_path = None;
+            current_path =
+                diff_header_paths.and_then(|paths| paths.get(diff_header_index).cloned());
+            diff_header_index = diff_header_index.saturating_add(1);
+            previous_path = current_path.clone();
             current_hunk = None;
             after_line = None;
         } else if let Some(path) = diff_path(line, "--- a/") {
@@ -914,6 +2776,11 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
             let next = hunk_counts.entry(path.clone()).or_default();
             current_hunk = Some(*next);
             *next = next.saturating_add(1);
+        } else if line == "GIT binary patch"
+            && let Some(path) = current_path.as_ref()
+            && let Some(change) = evidence.get_mut(path)
+        {
+            change.content_state = ChangeContentState::Binary;
         } else if let Some(path) = current_path.as_ref()
             && let Some(change) = evidence.get_mut(path)
         {
@@ -963,6 +2830,10 @@ fn apply_patch_facts(patch: &str, evidence: &mut BTreeMap<String, ChangeEvidence
             change.content_state = ChangeContentState::Text;
         }
     }
+}
+
+fn is_ai_path(path: &[u8]) -> bool {
+    path == b".ai" || path.starts_with(b".ai/")
 }
 
 fn digest(bytes: &[u8]) -> String {

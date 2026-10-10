@@ -29,16 +29,17 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-1.0.0
+1.0.1
 
 repository:
 protocol_version = 1
 repository_schema_version = 2
 ```
 
-The source workspace candidate is 1.0.1-rc.2 (prerelease, Apple Silicon macOS
-only). The default stable installation baseline remains v1.0.0; a candidate
-does not replace it or become GitHub Latest.
+Stable v1.0.1 is the target package identity and becomes the default installation
+baseline after its public Release acceptance. The v1.0.1-rc.2 prerelease remains
+a separate immutable historical identity; it is not the stable artifact. The
+preceding stable v1.0.0 Release is the N-1 source for v1.0.1.
 
 `v0.2.93` is the preceding public patch release and remains historical evidence;
 the failed `v0.2.88` tag is immutable unpublished history from WI-764's
@@ -54,7 +55,7 @@ failed `v0.2.49` tag is retained as unpublished history and is not reused;
 `v0.2.77` is retained as failed unpublished history and is not the package identity;
 `v0.2.93` remains the preceding public patch history; `v0.2.94` is the previous
 candidate/release identity, `v0.2.95` is the previous runtime identity, and
-`v0.2.98` and `v0.2.99` are previous package identities, `v0.2.106` is a preceding public package identity, `v0.2.101` is an unpublished immutable candidate tag, `v0.2.107` is an immutable unpublished candidate retained as failed publication history, `v0.2.108` is an immutable unpublished candidate retained as failed publication history, `v0.2.110` is an immutable unpublished candidate retained as failed publication history after the lifecycle-transition preflight stopped before publication, `v0.2.111` is an immutable unpublished candidate retained after its five-target workflow was canceled before publication, `v0.2.112` is a preceding public candidate, `v0.2.113` is the preceding public package identity, and `v1.0.0` is the current package identity. The immutable failed `v0.2.96`
+`v0.2.98` and `v0.2.99` are previous package identities, `v0.2.106` is a preceding public package identity, `v0.2.101` is an unpublished immutable candidate tag, `v0.2.107` is an immutable unpublished candidate retained as failed publication history, `v0.2.108` is an immutable unpublished candidate retained as failed publication history, `v0.2.110` is an immutable unpublished candidate retained as failed publication history after the lifecycle-transition preflight stopped before publication, `v0.2.111` is an immutable unpublished candidate retained after its five-target workflow was canceled before publication, `v0.2.112` is a preceding public candidate, `v0.2.113` is the preceding public package identity, and `v1.0.1` is the stable package identity; `v1.0.0` is its predecessor. The immutable failed `v0.2.96`
 candidate is retained as publication-failure history.
 The failed `v0.2.56` tag is immutable unpublished history from a source-quality
 failure and is never reused as an installation identity.

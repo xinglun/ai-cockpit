@@ -15,13 +15,17 @@ use std::io::Read;
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+use std::sync::Arc;
 #[cfg(unix)]
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
+#[cfg(target_os = "linux")]
+use std::time::{Duration, Instant};
 use std::time::{SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
-pub const COMPOSITION_SCHEMA_VERSION: u32 = 2;
+pub const COMPOSITION_SCHEMA_VERSION: u32 = 3;
 const COMPOSITION_BINDING_SCHEMA_VERSION: u32 = 1;
 const PROCESS_OBSERVATION_SCHEMA_VERSION: u32 = 1;
 const MAX_OUTPUT_BYTES: usize = 64 * 1024;
@@ -104,6 +108,234 @@ impl Drop for OwnerInterruptionGuard {
 pub(crate) fn owner_interruption_signal() -> Option<i32> {
     let signal = OWNER_INTERRUPTION_SIGNAL.load(Ordering::SeqCst);
     (signal != 0).then_some(signal)
+}
+
+pub fn observe_composition_process_identity(
+    process_id: u32,
+) -> Result<CompositionProcessIdentity, String> {
+    #[cfg(target_os = "linux")]
+    {
+        let stat = fs::read_to_string(format!("/proc/{process_id}/stat"))
+            .map_err(|error| format!("read Linux process identity for {process_id}: {error}"))?;
+        let member = parse_linux_process_stat(process_id, &stat)?;
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: Some(member.start_time_ticks),
+            process_group_id: Some(member.process_group_id),
+            session_id: Some(member.session_id),
+        })
+    }
+    #[cfg(all(unix, not(target_os = "linux")))]
+    {
+        let pid = process_id as libc::pid_t;
+        let process_group_id = unsafe { libc::getpgid(pid) };
+        let session_id = unsafe { libc::getsid(pid) };
+        if process_group_id < 0 || session_id < 0 {
+            return Err(format!(
+                "observe Unix process group/session for {process_id}: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: None,
+            process_group_id: Some(process_group_id as u32),
+            session_id: Some(session_id as u32),
+        })
+    }
+    #[cfg(windows)]
+    {
+        Ok(CompositionProcessIdentity {
+            process_id,
+            start_time_ticks: None,
+            process_group_id: None,
+            session_id: None,
+        })
+    }
+}
+
+pub fn current_composition_process_identity() -> Result<CompositionProcessIdentity, String> {
+    observe_composition_process_identity(std::process::id())
+}
+
+pub fn initialize_composition_supervisor_backend() -> Result<CompositionSupervisorBackend, String> {
+    #[cfg(target_os = "linux")]
+    {
+        // PR_SET_CHILD_SUBREAPER is scoped to this dedicated helper process.
+        let set_result = unsafe { libc::prctl(libc::PR_SET_CHILD_SUBREAPER, 1, 0, 0, 0) };
+        if set_result != 0 {
+            return Err(format!(
+                "enable process-local Linux child subreaper: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        let mut enabled: libc::c_int = 0;
+        let get_result = unsafe {
+            libc::prctl(
+                libc::PR_GET_CHILD_SUBREAPER,
+                &mut enabled as *mut libc::c_int,
+                0,
+                0,
+                0,
+            )
+        };
+        if get_result != 0 || enabled != 1 {
+            return Err("Linux child subreaper state could not be verified".into());
+        }
+        Ok(CompositionSupervisorBackend::LinuxSubreaper)
+    }
+    #[cfg(all(unix, not(target_os = "linux")))]
+    {
+        Ok(CompositionSupervisorBackend::UnixProcessGroup)
+    }
+    #[cfg(windows)]
+    {
+        Ok(CompositionSupervisorBackend::WindowsProcessGroup)
+    }
+}
+
+pub fn composition_linux_boot_id() -> Result<Option<String>, String> {
+    #[cfg(target_os = "linux")]
+    {
+        let value = fs::read_to_string("/proc/sys/kernel/random/boot_id")
+            .map_err(|error| format!("read Linux boot identity: {error}"))?;
+        let value = value.trim();
+        if value.is_empty() || value.len() > 64 {
+            return Err("Linux boot identity is empty or malformed".into());
+        }
+        Ok(Some(value.to_owned()))
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        Ok(None)
+    }
+}
+
+pub fn reap_composition_supervisor_descendants() -> Result<(), String> {
+    #[cfg(target_os = "linux")]
+    {
+        reap_linux_composition_descendants()
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        Ok(())
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn reap_linux_composition_descendants() -> Result<(), String> {
+    let own_pid = std::process::id();
+    let deadline = Instant::now() + MAX_LINUX_COMPOSITION_DESCENDANT_REAP_DURATION;
+    loop {
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
+        let mut status = 0;
+        let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+        if result > 0 {
+            continue;
+        }
+        if result < 0 {
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::ECHILD) {
+                return Ok(());
+            }
+            return Err(format!("reap Linux composition child: {error}"));
+        }
+
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
+        let children = linux_direct_children(own_pid, deadline)?;
+        if Instant::now() >= deadline {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
+        if children.is_empty() {
+            return Err("waitpid reported a child but /proc lists no owned child".into());
+        }
+        for child in children {
+            if Instant::now() >= deadline {
+                return Err(
+                    "reap Linux composition descendants exceeded its total deadline".into(),
+                );
+            }
+            // An unreaped child cannot have its PID recycled, so this identity
+            // observation binds the signal to the process in our child list.
+            let current = observe_composition_process_identity(child.process_id)?;
+            if Instant::now() >= deadline {
+                return Err(
+                    "reap Linux composition descendants exceeded its total deadline".into(),
+                );
+            }
+            if current != child {
+                return Err(format!(
+                    "owned Linux child {} changed identity before termination",
+                    child.process_id
+                ));
+            }
+            let killed = unsafe { libc::kill(child.process_id as libc::pid_t, libc::SIGKILL) };
+            if killed != 0 {
+                let error = std::io::Error::last_os_error();
+                if error.raw_os_error() != Some(libc::ESRCH) {
+                    return Err(format!(
+                        "terminate owned Linux child {}: {error}",
+                        child.process_id
+                    ));
+                }
+            }
+        }
+        let remaining = deadline.saturating_duration_since(Instant::now());
+        if remaining.is_zero() {
+            return Err("reap Linux composition descendants exceeded its total deadline".into());
+        }
+        std::thread::sleep(Duration::from_millis(10).min(remaining));
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn linux_direct_children(
+    parent_process_id: u32,
+    deadline: Instant,
+) -> Result<Vec<CompositionProcessIdentity>, String> {
+    let entries = fs::read_dir("/proc")
+        .map_err(|error| format!("enumerate Linux processes for child ownership: {error}"))?;
+    let mut children = Vec::new();
+    for entry in entries {
+        if Instant::now() >= deadline {
+            return Err(
+                "enumerate Linux composition children exceeded the reaping deadline".into(),
+            );
+        }
+        let entry = entry.map_err(|error| format!("enumerate Linux processes: {error}"))?;
+        let Some(process_id) = entry
+            .file_name()
+            .to_str()
+            .and_then(|name| name.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        let stat_path = entry.path().join("stat");
+        let stat = match fs::read_to_string(&stat_path) {
+            Ok(stat) => stat,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => {
+                return Err(format!(
+                    "read Linux process stat {} while proving child ownership: {error}",
+                    stat_path.display()
+                ));
+            }
+        };
+        if parse_linux_process_parent_id(process_id, &stat)? == parent_process_id {
+            let member = parse_linux_process_stat(process_id, &stat)?;
+            children.push(CompositionProcessIdentity {
+                process_id,
+                start_time_ticks: Some(member.start_time_ticks),
+                process_group_id: Some(member.process_group_id),
+                session_id: Some(member.session_id),
+            });
+        }
+    }
+    Ok(children)
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -246,6 +478,117 @@ pub struct CompositionCleanup {
     pub error: Option<String>,
 }
 
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionExecutionOutcome {
+    Passed,
+    Failed,
+    #[default]
+    Unknown,
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionCleanupDisposition {
+    Cleaned,
+    Deferred,
+    Retained,
+    Failed,
+    #[default]
+    Unknown,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum CompositionSupervisorBackend {
+    LinuxSubreaper,
+    UnixProcessGroup,
+    WindowsProcessGroup,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionProcessIdentity {
+    pub process_id: u32,
+    pub start_time_ticks: Option<u64>,
+    pub process_group_id: Option<u32>,
+    pub session_id: Option<u32>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReceipt {
+    pub schema_version: u32,
+    pub backend: CompositionSupervisorBackend,
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub generation: u64,
+    pub owner: CompositionProcessIdentity,
+    pub supervisor: CompositionProcessIdentity,
+    pub linux_boot_id: Option<String>,
+    pub environment_digest: Digest,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub repository_id: Digest,
+    pub target_sha: String,
+    pub snapshot_digest: Digest,
+    pub command_plan_digest: Digest,
+    pub input_environment_digest: Digest,
+    pub execution_records_digest: Digest,
+    pub descendants_reaped_to_echild: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorLaunch {
+    pub repository_root: PathBuf,
+    pub work_item_id: String,
+    pub generation: u64,
+    pub input: CompositionInput,
+    pub attempt_id: String,
+    pub run_nonce: String,
+    pub owner: CompositionProcessIdentity,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReady {
+    pub schema_version: u32,
+    pub supervisor: CompositionProcessIdentity,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case", deny_unknown_fields)]
+pub enum CompositionSupervisorControl {
+    Release {
+        receipt: CompositionSupervisorReceipt,
+    },
+    Abort {
+        reason: String,
+        receipt: CompositionSupervisorReceipt,
+    },
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct CompositionSupervisorReply {
+    pub attempt: Option<CompositionAttempt>,
+    pub error: Option<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ProcessGroupLeaderIdentity {
+    pub leader_pid: u32,
+    pub leader_start_time_ticks: u64,
+    pub process_group_id: u32,
+    pub session_id: u32,
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct CompositionAttempt {
@@ -262,6 +605,14 @@ pub struct CompositionAttempt {
     pub reuse_decision: ReuseDecision,
     pub passed: bool,
     pub failure: Option<String>,
+    #[serde(default)]
+    pub execution_outcome: CompositionExecutionOutcome,
+    #[serde(default)]
+    pub execution_evidence_complete: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    #[serde(default)]
+    pub cleanup_disposition: CompositionCleanupDisposition,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub owner_termination_signal: Option<i32>,
     #[serde(default)]
@@ -276,6 +627,14 @@ pub struct CompositionAttempt {
     pub active_execution_node: Option<String>,
     #[serde(default)]
     pub active_process_group_id: Option<u32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub active_process_group_identity: Option<ProcessGroupLeaderIdentity>,
+    #[serde(default, skip_serializing_if = "bool_is_false")]
+    pub owned_tree_termination_unknown: bool,
+}
+
+fn bool_is_false(value: &bool) -> bool {
+    !*value
 }
 
 impl CompositionAttempt {
@@ -329,7 +688,7 @@ pub enum CompositionError {
 }
 
 pub fn run_composition(input: CompositionInput) -> Result<CompositionAttempt, CompositionError> {
-    run_composition_inner(input, None, None)
+    run_composition_inner(input, None, None, None, None)
 }
 
 pub fn run_composition_with_process_gates(
@@ -341,14 +700,169 @@ pub fn run_composition_with_process_gates(
         input,
         Some(process_admission_check),
         Some(process_start_gate),
+        None,
+        None,
     )
+}
+
+pub fn run_composition_with_supervisor_receipt(
+    input: CompositionInput,
+    process_admission_check: ProcessAdmissionCheck,
+    process_start_gate: ProcessStartGate,
+    receipt: CompositionSupervisorReceipt,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    run_composition_inner(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+    )
+}
+
+/// Test-only final worktree observation for selected pure cache fixtures.
+/// The production observer remains authoritative for recovery and retry.
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+#[doc(hidden)]
+pub enum TestCompletedWorktreeObservation {
+    KnownEmpty,
+}
+
+#[cfg(all(feature = "test-support", target_os = "linux"))]
+#[doc(hidden)]
+pub fn run_composition_with_test_completed_worktree_observation(
+    input: CompositionInput,
+    receipt: CompositionSupervisorReceipt,
+    observation: TestCompletedWorktreeObservation,
+) -> Result<CompositionAttempt, CompositionError> {
+    let attempt_id = receipt.attempt_id.clone();
+    let final_observation = match observation {
+        TestCompletedWorktreeObservation::KnownEmpty => FinalWorktreeObservation::KnownEmpty,
+    };
+    // This fixed test fixture keeps every verifier on the normal admission
+    // and ProcessStartGate call path. The observation interface cannot accept
+    // caller-provided gates, admission results, observers, or reapers.
+    let process_admission_check: ProcessAdmissionCheck = Arc::new(|_, accept| accept());
+    let process_start_gate: ProcessStartGate = Arc::new(|_, spawn| spawn());
+    run_composition_inner_with_observer(
+        input,
+        Some(process_admission_check),
+        Some(process_start_gate),
+        Some(receipt),
+        Some(attempt_id),
+        CompositionObservationHooks {
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation,
+        },
+    )
+}
+
+pub fn record_composition_supervisor_failure(
+    input: CompositionInput,
+    attempt_id: String,
+    receipt: Option<CompositionSupervisorReceipt>,
+    failure: String,
+) -> Result<CompositionAttempt, CompositionError> {
+    let record_path = attempt_record_path(&input.state_dir, &attempt_id);
+    if record_path.exists() {
+        let bytes = fs::read(&record_path).map_err(|source| CompositionError::Io {
+            path: record_path.clone(),
+            source,
+        })?;
+        let attempt: CompositionAttempt = serde_json::from_slice(&bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        return Ok(attempt);
+    }
+    let recorded_at_unix_nanos = now_unix_nanos();
+    let mut attempt = CompositionAttempt {
+        schema_version: COMPOSITION_SCHEMA_VERSION,
+        attempt_id,
+        binding: input.binding.clone(),
+        identity: CompositionIdentity::default(),
+        preconditions: input.preconditions.clone(),
+        isolated_worktree: String::new(),
+        text_conflicts: Vec::new(),
+        execution_records: Vec::new(),
+        processes_spawned: 0,
+        reuse_decision: ReuseDecision {
+            kind: ReuseDecisionKind::Unknown,
+            reason: "supervisor handshake did not authorize execution".into(),
+            predecessor_attempt_id: None,
+        },
+        passed: false,
+        failure: Some(failure),
+        execution_outcome: CompositionExecutionOutcome::Unknown,
+        execution_evidence_complete: false,
+        supervisor_receipt: receipt,
+        cleanup_disposition: CompositionCleanupDisposition::Cleaned,
+        owner_termination_signal: None,
+        cleanup: Some(CompositionCleanup {
+            attempted: false,
+            removed: true,
+            error: None,
+        }),
+        recorded_at_unix_nanos,
+        owner_pid: Some(std::process::id()),
+        process_observation_schema_version: PROCESS_OBSERVATION_SCHEMA_VERSION,
+        active_execution_node: None,
+        active_process_group_id: None,
+        active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
+    };
+    refresh_execution_records_digest(&mut attempt);
+    persist_attempt(&input.state_dir, &attempt)?;
+    Ok(attempt)
 }
 
 fn run_composition_inner(
     input: CompositionInput,
     process_admission_check: Option<ProcessAdmissionCheck>,
     process_start_gate: Option<ProcessStartGate>,
+    supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    supervised_attempt_id: Option<String>,
 ) -> Result<CompositionAttempt, CompositionError> {
+    run_composition_inner_with_observer(
+        input,
+        process_admission_check,
+        process_start_gate,
+        supervisor_receipt,
+        supervised_attempt_id,
+        CompositionObservationHooks {
+            observe_worktree_process: &verifier_process_using_worktree,
+            reap_owned_descendants: &reap_composition_supervisor_descendants,
+            final_observation: FinalWorktreeObservation::Real,
+        },
+    )
+}
+
+#[derive(Clone, Copy)]
+enum FinalWorktreeObservation {
+    Real,
+    #[cfg(all(feature = "test-support", target_os = "linux"))]
+    KnownEmpty,
+}
+
+struct CompositionObservationHooks<'a> {
+    observe_worktree_process: &'a dyn Fn(&Path) -> Result<Option<u32>, String>,
+    reap_owned_descendants: &'a dyn Fn() -> Result<(), String>,
+    final_observation: FinalWorktreeObservation,
+}
+
+fn run_composition_inner_with_observer(
+    input: CompositionInput,
+    process_admission_check: Option<ProcessAdmissionCheck>,
+    process_start_gate: Option<ProcessStartGate>,
+    supervisor_receipt: Option<CompositionSupervisorReceipt>,
+    supervised_attempt_id: Option<String>,
+    hooks: CompositionObservationHooks<'_>,
+) -> Result<CompositionAttempt, CompositionError> {
+    let CompositionObservationHooks {
+        observe_worktree_process,
+        reap_owned_descendants,
+        final_observation,
+    } = hooks;
     let mut input = input;
     input.binding.verifier.validate_candidate()?;
     validate_binding(&input.binding)?;
@@ -357,11 +871,41 @@ fn run_composition_inner(
     input.identity = CompositionIdentity::default();
     input.identity.command_digest = composition_commands_digest(&input.commands);
 
-    let predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
-    let predecessor =
-        reconcile_abandoned_attempt(&input.repository_root, &input.state_dir, predecessor)?;
+    validate_supervisor_registrations(&input.state_dir, supervisor_receipt.as_ref())?;
+    let loaded_predecessor = load_latest_attempt(&input.state_dir, &input.binding)?;
+    let deferred_predecessor = loaded_predecessor
+        .as_ref()
+        .is_some_and(is_deferred_cleanup_attempt);
+    let deferred_retry_blocked_reason = if deferred_predecessor {
+        loaded_predecessor.as_ref().and_then(|previous| {
+            validate_deferred_cleanup_retry(
+                previous,
+                &input,
+                supervisor_receipt.as_ref(),
+                observe_worktree_process,
+            )
+            .err()
+        })
+    } else {
+        None
+    };
+    let predecessor = if deferred_predecessor {
+        // A deferred tree is never passed to abandoned-attempt cleanup. It is
+        // either validated as a safe retry predecessor or preserved while
+        // the new attempt is rejected below.
+        loaded_predecessor
+    } else {
+        reconcile_abandoned_attempt_with_observer(
+            &input.repository_root,
+            &input.state_dir,
+            loaded_predecessor,
+            observe_worktree_process,
+        )?
+    };
+    let fresh_deferred_retry = deferred_predecessor && deferred_retry_blocked_reason.is_none();
     let recorded_at_unix_nanos = now_unix_nanos();
-    let attempt_id = new_attempt_id(&input, recorded_at_unix_nanos);
+    let attempt_id =
+        supervised_attempt_id.unwrap_or_else(|| new_attempt_id(&input, recorded_at_unix_nanos));
     let reuse_decision = predecessor.as_ref().map_or(
         ReuseDecision {
             kind: ReuseDecisionKind::Execute,
@@ -383,6 +927,10 @@ fn run_composition_inner(
         reuse_decision,
         passed: false,
         failure: Some("in_progress".into()),
+        execution_outcome: CompositionExecutionOutcome::Unknown,
+        execution_evidence_complete: false,
+        supervisor_receipt,
+        cleanup_disposition: CompositionCleanupDisposition::Unknown,
         owner_termination_signal: None,
         cleanup: None,
         recorded_at_unix_nanos,
@@ -390,6 +938,8 @@ fn run_composition_inner(
         process_observation_schema_version: PROCESS_OBSERVATION_SCHEMA_VERSION,
         active_execution_node: None,
         active_process_group_id: None,
+        active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
     };
 
     // This snapshot is the recovery boundary: an interrupted parent leaves a
@@ -398,6 +948,14 @@ fn run_composition_inner(
 
     if input.commands.is_empty() {
         fail_without_worktree(&input.state_dir, &mut attempt, "required_checks_empty")?;
+        return Ok(attempt);
+    }
+    if let Some(reason) = deferred_retry_blocked_reason {
+        fail_without_worktree(
+            &input.state_dir,
+            &mut attempt,
+            &format!("unsafe_deferred_cleanup_retry:{reason}"),
+        )?;
         return Ok(attempt);
     }
     if !valid_command_graph(&input.commands) {
@@ -458,6 +1016,8 @@ fn run_composition_inner(
     if !added.success {
         attempt.failure = Some(format!("worktree_add_failed:{}", bounded(&added.stderr)));
         attempt.cleanup = Some(worktree_guard.cleanup());
+        set_cleanup_disposition(&mut attempt);
+        set_execution_outcome(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
@@ -482,6 +1042,8 @@ fn run_composition_inner(
             attempt.failure = Some("text_conflict_or_merge_failure".into());
             let _ = git_command(&worktree, &["merge", "--abort"]);
             attempt.cleanup = Some(worktree_guard.cleanup());
+            set_cleanup_disposition(&mut attempt);
+            set_execution_outcome(&mut attempt);
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
@@ -495,6 +1057,8 @@ fn run_composition_inner(
     if !commands_bound {
         attempt.failure = Some("composition_executable_unbound".into());
         attempt.cleanup = Some(worktree_guard.cleanup());
+        set_cleanup_disposition(&mut attempt);
+        set_execution_outcome(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         return Ok(attempt);
     }
@@ -507,6 +1071,49 @@ fn run_composition_inner(
         } else {
             (false, None)
         };
+    if fresh_deferred_retry {
+        let previous = predecessor
+            .as_ref()
+            .expect("deferred retry has a predecessor");
+        let retry_identity_matches = identity_observed
+            && previous.identity == input.identity
+            && previous
+                .execution_records
+                .first()
+                .zip(input.commands.first())
+                .and_then(|(record, command)| {
+                    let environment = controlled_command_environment(command)?;
+                    let executable = resolve_executable(&worktree, &command.program, &environment)?;
+                    let runtime_toolchain_digest = runtime_toolchain_digest.as_ref()?;
+                    observed_node_identity(
+                        &worktree,
+                        &input,
+                        command,
+                        &[],
+                        &executable,
+                        &environment,
+                        Some(runtime_toolchain_digest),
+                    )
+                    .map(|identity| identity == record.identity_digest)
+                })
+                .unwrap_or(false);
+        if !retry_identity_matches {
+            attempt.failure =
+                Some("unsafe_deferred_cleanup_retry:source_or_toolchain_changed".into());
+            attempt.cleanup = Some(worktree_guard.cleanup());
+            set_cleanup_disposition(&mut attempt);
+            set_execution_outcome(&mut attempt);
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        attempt.reuse_decision = ReuseDecision {
+            kind: ReuseDecisionKind::Execute,
+            reason: "fresh execution after deferred cleanup; predecessor results are not reused"
+                .into(),
+            predecessor_attempt_id: Some(previous.attempt_id.clone()),
+        };
+        persist_attempt(&input.state_dir, &attempt)?;
+    }
     let predecessor_id = predecessor
         .as_ref()
         .map(|previous| previous.attempt_id.as_str());
@@ -554,7 +1161,8 @@ fn run_composition_inner(
         if current_identity.is_none() {
             node_identities_observed = false;
         }
-        let reusable = if identity_observed
+        let reusable = if !fresh_deferred_retry
+            && identity_observed
             && predecessor
                 .as_ref()
                 .is_some_and(is_reusable_terminal_attempt)
@@ -587,6 +1195,7 @@ fn run_composition_inner(
                 let mut accept_reuse = || {
                     accepted = true;
                     attempt.execution_records.push(record.clone());
+                    refresh_execution_records_digest(&mut attempt);
                     match persist_attempt(&input.state_dir, &attempt) {
                         Ok(()) => Ok(()),
                         Err(error) => {
@@ -625,6 +1234,7 @@ fn run_composition_inner(
         all_nodes_reused = false;
         attempt.active_execution_node = Some(command.node_id.clone());
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         persist_attempt(&input.state_dir, &attempt)?;
         let record = execute_node(
             command,
@@ -640,9 +1250,11 @@ fn run_composition_inner(
         );
         attempt.active_execution_node = None;
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         attempt.processes_spawned += usize::from(record.spawned);
         let passed = record.passed;
         attempt.execution_records.push(record);
+        refresh_execution_records_digest(&mut attempt);
         persist_attempt(&input.state_dir, &attempt)?;
         if let Some(signal) = owner_interruption_signal() {
             persist_owner_interruption(&input.state_dir, &mut attempt, signal)?;
@@ -673,6 +1285,7 @@ fn run_composition_inner(
     if attempt.passed {
         attempt.failure = None;
     }
+    set_execution_outcome(&mut attempt);
     attempt.reuse_decision = ReuseDecision {
         kind: if !identity_observed || !node_identities_observed {
             ReuseDecisionKind::Unknown
@@ -692,31 +1305,90 @@ fn run_composition_inner(
         },
         predecessor_attempt_id: predecessor_id.map(str::to_owned),
     };
-    match verifier_process_using_worktree(&worktree) {
-        Ok(Some(process_id)) => {
+    if attempt.supervisor_receipt.is_some() {
+        if let Err(error) = reap_owned_descendants() {
             attempt.passed = false;
-            attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
+            attempt.failure = Some(format!("composition_supervisor_reap_unknown:{error}"));
+            attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+            attempt.execution_evidence_complete = false;
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+            attempt.owned_tree_termination_unknown = true;
             worktree_guard.preserve();
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
-        Err(error) => {
+        if let Some(receipt) = attempt.supervisor_receipt.as_mut() {
+            receipt.descendants_reaped_to_echild =
+                receipt.backend == CompositionSupervisorBackend::LinuxSubreaper;
+        }
+        persist_attempt(&input.state_dir, &attempt)?;
+    }
+    let completed_worktree_observation = match final_observation {
+        FinalWorktreeObservation::Real => observe_worktree_process(&worktree),
+        #[cfg(all(feature = "test-support", target_os = "linux"))]
+        FinalWorktreeObservation::KnownEmpty => {
+            if completed_owned_execution_is_coherent(&attempt, &input) {
+                Ok(None)
+            } else {
+                Err("test KnownEmpty requires coherent, reaped owned execution".into())
+            }
+        }
+    };
+    match completed_worktree_observation {
+        Ok(Some(process_id)) => {
             attempt.passed = false;
-            attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
+            attempt.failure = Some(format!("verifier_descendant_active:{process_id}"));
             worktree_guard.preserve();
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+            persist_attempt(&input.state_dir, &attempt)?;
+            return Ok(attempt);
+        }
+        Err(error) => {
+            let owned_execution_complete = completed_owned_execution_is_coherent(&attempt, &input);
+            attempt.passed = false;
+            worktree_guard.preserve();
+            if owned_execution_complete {
+                attempt.cleanup = Some(CompositionCleanup {
+                    attempted: false,
+                    removed: false,
+                    error: Some(format!("verifier_process_state_unknown:{error}")),
+                });
+                attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+                if attempt.execution_outcome == CompositionExecutionOutcome::Passed {
+                    attempt.failure = Some("composition_cleanup_deferred".into());
+                }
+            } else {
+                attempt.owned_tree_termination_unknown = true;
+                attempt.failure = Some(format!("verifier_process_state_unknown:{error}"));
+                attempt.cleanup_disposition = CompositionCleanupDisposition::Retained;
+                attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+                attempt.execution_evidence_complete = false;
+            }
             persist_attempt(&input.state_dir, &attempt)?;
             return Ok(attempt);
         }
         Ok(None) => {}
     }
     attempt.cleanup = Some(worktree_guard.cleanup());
+    set_cleanup_disposition(&mut attempt);
     if !attempt
         .cleanup
         .as_ref()
         .is_some_and(|cleanup| cleanup.removed)
     {
         attempt.passed = false;
-        attempt.failure = Some("composition_cleanup_failed".into());
+        if attempt.execution_outcome == CompositionExecutionOutcome::Passed
+            && attempt
+                .supervisor_receipt
+                .as_ref()
+                .is_some_and(|receipt| receipt.descendants_reaped_to_echild)
+        {
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+            attempt.failure = Some("composition_cleanup_deferred".into());
+        } else {
+            attempt.cleanup_disposition = CompositionCleanupDisposition::Failed;
+            attempt.failure = Some("composition_cleanup_failed".into());
+        }
     }
     persist_attempt(&input.state_dir, &attempt)?;
     Ok(attempt)
@@ -809,7 +1481,49 @@ fn fail_without_worktree(
         removed: true,
         error: None,
     });
+    attempt.execution_outcome = CompositionExecutionOutcome::Failed;
+    attempt.execution_evidence_complete = true;
+    set_cleanup_disposition(attempt);
     persist_attempt(state_dir, attempt)
+}
+
+fn set_execution_outcome(attempt: &mut CompositionAttempt) {
+    if attempt.owner_termination_signal.is_some()
+        || attempt.active_execution_node.is_some()
+        || attempt.active_process_group_id.is_some()
+        || attempt.failure.as_deref().is_some_and(|failure| {
+            failure == "in_progress" || failure.starts_with("verifier_process_state_unknown:")
+        })
+    {
+        attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+        attempt.execution_evidence_complete = false;
+    } else if attempt.passed {
+        attempt.execution_outcome = CompositionExecutionOutcome::Passed;
+        attempt.execution_evidence_complete = true;
+    } else if attempt.failure.is_some() {
+        attempt.execution_outcome = CompositionExecutionOutcome::Failed;
+        attempt.execution_evidence_complete = true;
+    } else {
+        attempt.execution_outcome = CompositionExecutionOutcome::Unknown;
+        attempt.execution_evidence_complete = false;
+    }
+}
+
+fn set_cleanup_disposition(attempt: &mut CompositionAttempt) {
+    attempt.cleanup_disposition = match attempt.cleanup.as_ref() {
+        Some(cleanup) if cleanup.removed && cleanup.error.is_none() => {
+            CompositionCleanupDisposition::Cleaned
+        }
+        Some(cleanup) if cleanup.error.is_some() => CompositionCleanupDisposition::Failed,
+        Some(_) => CompositionCleanupDisposition::Deferred,
+        None => CompositionCleanupDisposition::Unknown,
+    };
+}
+
+fn refresh_execution_records_digest(attempt: &mut CompositionAttempt) {
+    if let Some(receipt) = attempt.supervisor_receipt.as_mut() {
+        receipt.execution_records_digest = execution_records_digest(&attempt.execution_records);
+    }
 }
 
 fn load_latest_attempt(
@@ -871,6 +1585,86 @@ fn load_latest_attempt(
     Ok(latest)
 }
 
+fn validate_supervisor_registrations(
+    state_dir: &Path,
+    active_receipt: Option<&CompositionSupervisorReceipt>,
+) -> Result<(), CompositionError> {
+    let directory = state_dir.join("supervisors");
+    let entries = match fs::read_dir(&directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(source) => {
+            return Err(CompositionError::Io {
+                path: directory,
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| CompositionError::Io {
+            path: directory.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        if path.extension().and_then(|extension| extension.to_str()) != Some("json") {
+            continue;
+        }
+        let metadata = fs::symlink_metadata(&path).map_err(|source| CompositionError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        if !metadata.file_type().is_file() {
+            return Err(CompositionError::Serialization(format!(
+                "supervisor registration is not a regular file: {}",
+                path.display()
+            )));
+        }
+        let bytes = fs::read(&path).map_err(|source| CompositionError::Io {
+            path: path.clone(),
+            source,
+        })?;
+        let registered: CompositionSupervisorReceipt = serde_json::from_slice(&bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let attempt_path = attempt_record_path(state_dir, &registered.attempt_id);
+        let attempt_bytes = match fs::read(&attempt_path) {
+            Ok(bytes) => bytes,
+            Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
+                let active_identity = active_receipt
+                    .filter(|active| *active == &registered)
+                    .and_then(|_| current_composition_process_identity().ok());
+                if active_identity.as_ref() == Some(&registered.supervisor) {
+                    continue;
+                }
+                return Err(CompositionError::UnknownAttemptOwner {
+                    attempt_id: registered.attempt_id.clone(),
+                });
+            }
+            Err(source) => {
+                return Err(CompositionError::Io {
+                    path: attempt_path.clone(),
+                    source,
+                });
+            }
+        };
+        let attempt: CompositionAttempt = serde_json::from_slice(&attempt_bytes)
+            .map_err(|error| CompositionError::Serialization(error.to_string()))?;
+        let Some(actual) = attempt.supervisor_receipt.as_ref() else {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: registered.attempt_id,
+            });
+        };
+        let mut registered_identity = registered;
+        registered_identity.execution_records_digest = actual.execution_records_digest.clone();
+        registered_identity.descendants_reaped_to_echild = actual.descendants_reaped_to_echild;
+        if attempt.attempt_id != actual.attempt_id || &registered_identity != actual {
+            return Err(CompositionError::UnknownAttemptOwner {
+                attempt_id: attempt.attempt_id,
+            });
+        }
+    }
+    Ok(())
+}
+
 fn same_composition_lineage(previous: &CompositionBinding, current: &CompositionBinding) -> bool {
     previous.repository_id == current.repository_id
         && previous.target_branch == current.target_branch
@@ -878,8 +1672,352 @@ fn same_composition_lineage(previous: &CompositionBinding, current: &Composition
         && previous.verifier == current.verifier
 }
 
+fn is_deferred_cleanup_attempt(attempt: &CompositionAttempt) -> bool {
+    attempt.cleanup_disposition == CompositionCleanupDisposition::Deferred
+        || attempt.failure.as_deref() == Some("composition_cleanup_deferred")
+}
+
+fn completed_owned_execution_is_coherent(
+    attempt: &CompositionAttempt,
+    input: &CompositionInput,
+) -> bool {
+    let Some(receipt) = attempt.supervisor_receipt.as_ref() else {
+        return false;
+    };
+    attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.process_observation_schema_version >= PROCESS_OBSERVATION_SCHEMA_VERSION
+        && attempt.cleanup.is_none()
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Unknown
+        && attempt.text_conflicts.is_empty()
+        && attempt.preconditions == input.preconditions
+        && attempt.preconditions.iter().all(|item| item.satisfied)
+        && receipt.schema_version == 1
+        && receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+        && receipt.attempt_id == attempt.attempt_id
+        && !receipt.run_nonce.is_empty()
+        && receipt.generation > 0
+        && receipt.owner.process_id > 0
+        && receipt.owner.start_time_ticks.is_some()
+        && receipt.supervisor.process_id > 0
+        && receipt.supervisor.start_time_ticks.is_some()
+        && receipt.supervisor.process_group_id.is_some()
+        && receipt.supervisor.session_id.is_some()
+        && current_composition_process_identity().ok().as_ref() == Some(&receipt.supervisor)
+        && composition_linux_boot_id().ok().as_ref() == Some(&receipt.linux_boot_id)
+        && receipt
+            .linux_boot_id
+            .as_ref()
+            .is_some_and(|id| !id.is_empty())
+        && attempt.owner_pid == Some(receipt.supervisor.process_id)
+        && receipt.runtime_version == input.binding.verifier.runtime_version
+        && receipt.runtime_digest == input.binding.verifier.runtime_digest
+        && receipt.repository_id == input.binding.repository_id
+        && receipt.target_sha == input.binding.target_sha
+        && composition_target_snapshot_digest(input).as_ref() == Some(&receipt.snapshot_digest)
+        && receipt.command_plan_digest == composition_commands_digest(&input.commands)
+        && receipt.command_plan_digest == attempt.identity.command_digest
+        && receipt.input_environment_digest == composition_input_environment_digest(input)
+        && receipt.execution_records_digest == execution_records_digest(&attempt.execution_records)
+        && receipt.descendants_reaped_to_echild
+        && attempt.binding == input.binding
+        && attempt.execution_outcome != CompositionExecutionOutcome::Unknown
+        && attempt.execution_evidence_complete
+        && match attempt.execution_outcome {
+            CompositionExecutionOutcome::Passed => {
+                attempt.passed
+                    && attempt.failure.is_none()
+                    && attempt.execution_records.len() == input.commands.len()
+                    && attempt.execution_records.iter().all(|record| record.passed)
+            }
+            CompositionExecutionOutcome::Failed => !attempt.passed && attempt.failure.is_some(),
+            CompositionExecutionOutcome::Unknown => false,
+        }
+        && attempt.owner_termination_signal.is_none()
+        && attempt.active_execution_node.is_none()
+        && attempt.active_process_group_id.is_none()
+        && attempt.active_process_group_identity.is_none()
+        && !attempt.owned_tree_termination_unknown
+        && !attempt.execution_records.is_empty()
+        && attempt.execution_records.len() <= input.commands.len()
+        && attempt.processes_spawned
+            == attempt
+                .execution_records
+                .iter()
+                .filter(|record| record.spawned)
+                .count()
+        && attempt
+            .execution_records
+            .iter()
+            .zip(&input.commands)
+            .all(|(record, command)| {
+                record.node_id == command.node_id
+                    && record.program == command.program
+                    && record.args == command.args
+                    && (record.spawned ^ record.reused)
+            })
+}
+
+fn validate_deferred_cleanup_retry(
+    previous: &CompositionAttempt,
+    input: &CompositionInput,
+    current_receipt: Option<&CompositionSupervisorReceipt>,
+    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
+) -> Result<(), String> {
+    if !cfg!(target_os = "linux") {
+        return Err("reliable deferred-tree retry proof is Linux-only".into());
+    }
+    if !has_concrete_safe_deferred_retry_effects(input) {
+        return Err("command effects are outside the safe retry allowlist".into());
+    }
+    if previous.schema_version != COMPOSITION_SCHEMA_VERSION
+        || previous.binding != input.binding
+        || previous.execution_outcome != CompositionExecutionOutcome::Passed
+        || !previous.execution_evidence_complete
+        || previous.cleanup_disposition != CompositionCleanupDisposition::Deferred
+        || previous.passed
+        || previous.failure.as_deref() != Some("composition_cleanup_deferred")
+        || previous.owner_termination_signal.is_some()
+        || previous.active_execution_node.is_some()
+        || previous.active_process_group_id.is_some()
+        || previous.active_process_group_identity.is_some()
+        || previous.owned_tree_termination_unknown
+        || previous.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
+        || !previous.text_conflicts.is_empty()
+        || !previous
+            .preconditions
+            .iter()
+            .all(|precondition| precondition.satisfied)
+    {
+        return Err("deferred attempt state or exact binding is inconsistent".into());
+    }
+    let cleanup = previous
+        .cleanup
+        .as_ref()
+        .ok_or_else(|| "deferred attempt has no cleanup evidence".to_string())?;
+    if cleanup.removed
+        || cleanup.error.as_deref().is_none_or(str::is_empty)
+        || (!cleanup.attempted
+            && !cleanup
+                .error
+                .as_deref()
+                .is_some_and(|error| error.starts_with("verifier_process_state_unknown:")))
+    {
+        return Err("deferred attempt cleanup evidence is incomplete".into());
+    }
+
+    let current_receipt = current_receipt
+        .ok_or_else(|| "current formal supervisor receipt is missing".to_string())?;
+    let receipt = previous
+        .supervisor_receipt
+        .as_ref()
+        .ok_or_else(|| "deferred attempt has no supervisor receipt".to_string())?;
+    let current_boot_id = composition_linux_boot_id()
+        .map_err(|error| format!("cannot verify current Linux boot identity: {error}"))?;
+    let target_snapshot_digest = composition_target_snapshot_digest(input)
+        .ok_or_else(|| "current target tree snapshot cannot be observed".to_string())?;
+    if current_receipt.schema_version != 1
+        || current_receipt.backend != CompositionSupervisorBackend::LinuxSubreaper
+        || current_receipt.attempt_id.is_empty()
+        || current_receipt.run_nonce.is_empty()
+        || current_receipt.generation == 0
+        || current_receipt.owner.process_id == 0
+        || current_receipt.owner.start_time_ticks.is_none()
+        || current_receipt.supervisor.process_id == 0
+        || current_receipt.supervisor.start_time_ticks.is_none()
+        || current_receipt.supervisor.process_group_id.is_none()
+        || current_receipt.supervisor.session_id.is_none()
+        || current_composition_process_identity().ok().as_ref() != Some(&current_receipt.supervisor)
+        || current_receipt.linux_boot_id != current_boot_id
+        || current_receipt.runtime_version != input.binding.verifier.runtime_version
+        || current_receipt.runtime_digest != input.binding.verifier.runtime_digest
+        || current_receipt.repository_id != input.binding.repository_id
+        || current_receipt.target_sha != input.binding.target_sha
+        || current_receipt.snapshot_digest != target_snapshot_digest
+        || current_receipt.command_plan_digest != composition_commands_digest(&input.commands)
+        || current_receipt.input_environment_digest != composition_input_environment_digest(input)
+        || current_receipt.execution_records_digest != execution_records_digest(&[])
+        || current_receipt.descendants_reaped_to_echild
+    {
+        return Err("current supervisor receipt does not bind a fresh exact attempt".into());
+    }
+    if receipt.schema_version != 1
+        || receipt.backend != CompositionSupervisorBackend::LinuxSubreaper
+        || receipt.attempt_id != previous.attempt_id
+        || receipt.run_nonce.is_empty()
+        || receipt.attempt_id == current_receipt.attempt_id
+        || receipt.run_nonce == current_receipt.run_nonce
+        || receipt.generation != current_receipt.generation
+        || receipt.owner.process_id == 0
+        || receipt.owner.start_time_ticks.is_none()
+        || receipt.supervisor.process_id == 0
+        || receipt.supervisor.start_time_ticks.is_none()
+        || receipt.supervisor.process_group_id.is_none()
+        || receipt.supervisor.session_id.is_none()
+        || previous.owner_pid != Some(receipt.supervisor.process_id)
+        || receipt.linux_boot_id.is_none()
+        || receipt.linux_boot_id != current_boot_id
+        || receipt.runtime_version != input.binding.verifier.runtime_version
+        || receipt.runtime_digest != input.binding.verifier.runtime_digest
+        || receipt.repository_id != input.binding.repository_id
+        || receipt.target_sha != input.binding.target_sha
+        || receipt.snapshot_digest != target_snapshot_digest
+        || receipt.command_plan_digest != composition_commands_digest(&input.commands)
+        || receipt.command_plan_digest != previous.identity.command_digest
+        || receipt.input_environment_digest != composition_input_environment_digest(input)
+        || receipt.environment_digest != current_receipt.environment_digest
+        || receipt.execution_records_digest != execution_records_digest(&previous.execution_records)
+        || !receipt.descendants_reaped_to_echild
+    {
+        return Err(
+            "supervisor receipt does not prove a current, fully reaped exact attempt".into(),
+        );
+    }
+    if previous.preconditions != input.preconditions
+        || previous.execution_records.len() != input.commands.len()
+        || previous.processes_spawned != input.commands.len()
+        || previous
+            .execution_records
+            .iter()
+            .zip(&input.commands)
+            .any(|(record, command)| {
+                record.node_id != command.node_id
+                    || record.program != command.program
+                    || record.args != command.args
+                    || !record.spawned
+                    || record.reused
+                    || !record.passed
+                    || record.exit_code != Some(0)
+                    || record.timed_out
+                    || record.termination_signal.is_some()
+                    || record.predecessor_attempt_id.is_some()
+            })
+    {
+        return Err(
+            "deferred attempt execution evidence does not match the current command plan".into(),
+        );
+    }
+
+    let owner_pid = previous
+        .owner_pid
+        .ok_or_else(|| "deferred attempt owner PID is missing".to_string())?;
+    let (worktree, _) = validated_composition_paths(previous, owner_pid)
+        .ok_or_else(|| "deferred worktree is outside its owned temporary namespace".to_string())?;
+    let metadata = fs::symlink_metadata(&worktree)
+        .map_err(|error| format!("cannot inspect deferred worktree: {error}"))?;
+    if !metadata.is_dir() || metadata.file_type().is_symlink() {
+        return Err("deferred worktree is not a real directory".into());
+    }
+    if !worktree_is_registered(&input.repository_root, &worktree)
+        .map_err(|error| format!("cannot verify deferred worktree registration: {error}"))?
+    {
+        return Err("deferred worktree is not registered to the repository".into());
+    }
+    linux_prior_supervisor_termination_proven(receipt)?;
+    match observe_worktree_process(&worktree) {
+        Ok(None) => {}
+        Ok(Some(process_id)) => {
+            return Err(format!(
+                "process {process_id} still uses the deferred worktree"
+            ));
+        }
+        // Exact owned-tree ECHILD proof and the side-effect-safe no-op policy
+        // permit a fresh attempt while this old worktree remains untouched.
+        Err(_) => {}
+    }
+    Ok(())
+}
+
+fn has_concrete_safe_deferred_retry_effects(input: &CompositionInput) -> bool {
+    let [command] = input.commands.as_slice() else {
+        return false;
+    };
+    command.program == "true"
+        && command.args.is_empty()
+        && command.depends_on.is_empty()
+        && command.environment.is_empty()
+        && command.input_paths.is_empty()
+}
+
+fn composition_target_snapshot_digest(input: &CompositionInput) -> Option<Digest> {
+    let tree = format!("{}^{{tree}}", input.binding.target_sha);
+    let tree = git_text(&input.repository_root, &["rev-parse", "--verify", &tree])?;
+    Some(Digest::sha256_bytes(tree.as_bytes()))
+}
+
+fn composition_input_environment_digest(input: &CompositionInput) -> Digest {
+    let values = input
+        .commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    Digest::sha256_bytes(&serde_json::to_vec(&values).expect("command environments serialize"))
+}
+
+#[cfg(target_os = "linux")]
+fn linux_prior_supervisor_termination_proven(
+    receipt: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    let path = format!("/proc/{}/stat", receipt.supervisor.process_id);
+    let stat = match fs::read_to_string(&path) {
+        Ok(stat) => stat,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(error) => return Err(format!("cannot inspect prior supervisor identity: {error}")),
+    };
+    let current = parse_linux_process_stat(receipt.supervisor.process_id, &stat)
+        .map_err(|error| format!("cannot parse prior supervisor identity: {error}"))?;
+    if receipt.supervisor.start_time_ticks == Some(current.start_time_ticks)
+        && receipt.supervisor.process_group_id == Some(current.process_group_id)
+        && receipt.supervisor.session_id == Some(current.session_id)
+    {
+        return Err("prior composition supervisor is still active".into());
+    }
+    // A PID reused on the same boot is distinct from the recorded supervisor;
+    // the exact process identity, not the numeric PID, controls this proof.
+    Ok(())
+}
+
+#[cfg(not(target_os = "linux"))]
+fn linux_prior_supervisor_termination_proven(
+    _receipt: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    Err("Linux supervisor termination proof is unavailable".into())
+}
+
 fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
     attempt.schema_version == COMPOSITION_SCHEMA_VERSION
+        && attempt.supervisor_receipt.as_ref().is_some_and(|receipt| {
+            receipt.schema_version == 1
+                && receipt.attempt_id == attempt.attempt_id
+                && !receipt.run_nonce.is_empty()
+                && receipt.owner.process_id > 0
+                && receipt.supervisor.process_id > 0
+                && receipt.runtime_version == attempt.binding.verifier.runtime_version
+                && receipt.runtime_digest == attempt.binding.verifier.runtime_digest
+                && receipt.repository_id == attempt.binding.repository_id
+                && receipt.target_sha == attempt.binding.target_sha
+                && receipt.command_plan_digest == attempt.identity.command_digest
+                && receipt.execution_records_digest
+                    == execution_records_digest(&attempt.execution_records)
+                && receipt.supervisor.process_id == attempt.owner_pid.unwrap_or_default()
+                && match receipt.backend {
+                    CompositionSupervisorBackend::LinuxSubreaper => {
+                        receipt.descendants_reaped_to_echild
+                            && receipt
+                                .linux_boot_id
+                                .as_ref()
+                                .is_some_and(|value| !value.is_empty())
+                            && receipt.owner.start_time_ticks.is_some()
+                            && receipt.supervisor.start_time_ticks.is_some()
+                    }
+                    CompositionSupervisorBackend::UnixProcessGroup
+                    | CompositionSupervisorBackend::WindowsProcessGroup => {
+                        !receipt.descendants_reaped_to_echild
+                    }
+                }
+        })
+        && attempt.execution_outcome == CompositionExecutionOutcome::Passed
+        && attempt.execution_evidence_complete
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Cleaned
         && attempt.owner_termination_signal.is_none()
         && attempt.passed
         && attempt.failure.is_none()
@@ -892,6 +2030,8 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
             .is_some_and(|cleanup| cleanup.attempted && cleanup.removed && cleanup.error.is_none())
         && attempt.active_execution_node.is_none()
         && attempt.active_process_group_id.is_none()
+        && attempt.active_process_group_identity.is_none()
+        && !attempt.owned_tree_termination_unknown
         && !attempt.execution_records.is_empty()
         && attempt.processes_spawned
             == attempt
@@ -912,6 +2052,26 @@ fn is_reusable_terminal_attempt(attempt: &CompositionAttempt) -> bool {
         })
 }
 
+pub fn execution_records_digest(records: &[CompositionExecutionRecord]) -> Digest {
+    let bytes = serde_json::to_vec(records)
+        .expect("composition execution records always serialize to JSON");
+    Digest::sha256_bytes(&bytes)
+}
+
+pub fn new_composition_run_nonce() -> String {
+    let sequence = NEXT_COMPOSITION_PARENT_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    Digest::sha256_bytes(
+        format!("{}:{}:{sequence}", std::process::id(), now_unix_nanos()).as_bytes(),
+    )
+    .to_string()
+}
+
+pub fn new_supervised_composition_attempt_id(input: &CompositionInput, run_nonce: &str) -> String {
+    let identity = serde_json::to_vec(&(&input.binding, &input.identity, run_nonce))
+        .expect("composition attempt identity always serializes to JSON");
+    format!("composition-{}", Digest::sha256_bytes(&identity))
+}
+
 fn persist_owner_interruption(
     state_dir: &Path,
     attempt: &mut CompositionAttempt,
@@ -923,14 +2083,137 @@ fn persist_owner_interruption(
     persist_attempt(state_dir, attempt)
 }
 
-fn reconcile_abandoned_attempt(
+fn reconciliation_trace(message: &str) {
+    if std::env::var("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE").as_deref() == Ok("1") {
+        eprintln!("composition_reconcile_trace {message}");
+    }
+}
+
+fn reconciliation_error_category(error: &str) -> &'static str {
+    let error = error
+        .strip_prefix("verifier_process_state_unknown:")
+        .unwrap_or(error);
+    if let Some(rest) = error.strip_prefix("cannot inspect process pid=") {
+        let top_level = rest
+            .split_once(" identity_before=")
+            .map_or(rest, |(top_level, _)| top_level);
+        let error_kind = top_level
+            .split_whitespace()
+            .find_map(|field| field.strip_prefix("error_kind="));
+        return if error_kind == Some("PermissionDenied") {
+            "permission_denied"
+        } else {
+            "proc_observation_error"
+        };
+    }
+    if error.contains("error_kind=PermissionDenied")
+        || error.contains("Permission denied")
+        || error.starts_with("cannot inspect process ")
+    {
+        "permission_denied"
+    } else if error.contains("digest changed") || error.contains("attempt changed") {
+        "attempt_changed"
+    } else if error.contains("cannot parse current composition attempt") {
+        "attempt_parse_error"
+    } else if error.contains("time budget") || error.contains("deadline") {
+        "deadline"
+    } else if error.contains("entry budget") {
+        "entry_budget"
+    } else if error.contains("directory race") {
+        "directory_race"
+    } else if error.contains("cannot enumerate proc root") {
+        "proc_enumeration_error"
+    } else if error.contains("could not read") {
+        "stat_read_error"
+    } else if error.contains("could not parse") {
+        "stat_parse_error"
+    } else if error.contains("disappeared") {
+        "stat_disappeared"
+    } else if error.contains("inconsistent") {
+        "identity_inconsistent"
+    } else {
+        "other"
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+static LINUX_PROCESS_OBSERVATION_TEST_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+fn reconciliation_known_observer_error(error: &str) -> String {
+    let error = error
+        .strip_prefix("verifier_process_state_unknown:")
+        .unwrap_or(error);
+    if let Some(rest) = error.strip_prefix("cannot inspect process pid=") {
+        let Some((process_id, fields)) = rest.split_once(' ') else {
+            return "opaque".into();
+        };
+        let field = |name: &str| {
+            fields
+                .split_whitespace()
+                .find_map(|part| part.strip_prefix(name))
+        };
+        if let (Some(phase), Some(errno), Some(identity_state)) =
+            (field("phase="), field("errno="), field("identity_state="))
+        {
+            return format!(
+                "pid={process_id} phase={phase} errno={errno} identity_state={identity_state}"
+            );
+        }
+        return "opaque".into();
+    }
+    let Some(rest) = error.strip_prefix("cannot inspect process ") else {
+        return "opaque".into();
+    };
+    for suffix in [" working directory", " file descriptors", " open files"] {
+        if let Some(pid) = rest.strip_suffix(suffix)
+            && let Ok(pid) = pid.parse::<u32>()
+        {
+            return format!("pid={pid} area={}", suffix.trim());
+        }
+    }
+    "opaque".into()
+}
+
+fn reconcile_abandoned_attempt_with_observer(
     repository_root: &Path,
     state_dir: &Path,
     previous: Option<CompositionAttempt>,
+    observe_worktree_process: &dyn Fn(&Path) -> Result<Option<u32>, String>,
 ) -> Result<Option<CompositionAttempt>, CompositionError> {
     let Some(mut attempt) = previous else {
         return Ok(None);
     };
+    reconciliation_trace(&format!(
+        "stage=loaded attempt={} schema={} owner_pid={:?} observation_schema={} group_id={:?} leader={:?} owned_tree_unknown={}",
+        attempt.attempt_id,
+        attempt.schema_version,
+        attempt.owner_pid,
+        attempt.process_observation_schema_version,
+        attempt.active_process_group_id,
+        attempt.active_process_group_identity,
+        attempt.owned_tree_termination_unknown,
+    ));
+    // External Ok(None) cannot replace a missing proof about descendants
+    // owned by the prior supervisor. Keep the old tree and registration until
+    // an explicit supported recovery route supplies that proof.
+    if !attempt.isolated_worktree.is_empty()
+        && (attempt.owned_tree_termination_unknown
+            || (attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+                && attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+                && attempt
+                    .failure
+                    .as_deref()
+                    .is_some_and(|failure| failure.starts_with("verifier_process_state_unknown:")))
+            || attempt.supervisor_receipt.as_ref().is_some_and(|receipt| {
+                receipt.backend == CompositionSupervisorBackend::LinuxSubreaper
+                    && !receipt.descendants_reaped_to_echild
+            }))
+    {
+        reconciliation_trace("stage=prior_owned_termination_unknown");
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
+    }
     let cleanup_pending = attempt.failure.as_deref() == Some("in_progress")
         || attempt
             .cleanup
@@ -941,11 +2224,20 @@ fn reconcile_abandoned_attempt(
         return Ok(Some(attempt));
     }
     let Some(owner_pid) = attempt.owner_pid else {
+        reconciliation_trace("stage=missing_owner_pid");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
     };
-    if process_is_alive(owner_pid) {
+    #[cfg(unix)]
+    let (owner_alive, owner_probe_result, owner_probe_errno) = process_liveness_probe(owner_pid);
+    #[cfg(unix)]
+    reconciliation_trace(&format!(
+        "stage=owner_probe owner_pid={owner_pid} kill_result={owner_probe_result} errno={owner_probe_errno:?} alive={owner_alive}"
+    ));
+    #[cfg(windows)]
+    let owner_alive = process_is_alive(owner_pid);
+    if owner_alive {
         return Err(CompositionError::ActiveAttempt {
             attempt_id: attempt.attempt_id,
             owner_pid,
@@ -955,26 +2247,65 @@ fn reconcile_abandoned_attempt(
     if attempt.failure.as_deref() == Some("in_progress")
         && attempt.process_observation_schema_version < PROCESS_OBSERVATION_SCHEMA_VERSION
     {
+        reconciliation_trace("stage=legacy_observation_schema");
         return Err(CompositionError::UnknownAttemptOwner {
             attempt_id: attempt.attempt_id,
         });
     }
 
+    #[cfg(target_os = "linux")]
+    let mut attempt_digest_before_group_cleanup = None;
     match (
         attempt.active_execution_node.as_deref(),
         attempt.active_process_group_id,
     ) {
-        (Some(_), Some(process_group_id)) if process_group_is_alive(process_group_id) => {
-            return Err(CompositionError::ActiveVerifierProcessGroup {
-                attempt_id: attempt.attempt_id,
-                process_group_id,
-            });
-        }
-        (Some(_), Some(_)) => {
+        (Some(_), Some(process_group_id)) => {
+            #[cfg(target_os = "linux")]
+            {
+                match observe_linux_process_group_for_recovery(
+                    state_dir,
+                    &attempt,
+                    process_group_id,
+                ) {
+                    Ok((LinuxProcessGroupLiveness::Active, _)) => {
+                        return Err(CompositionError::ActiveVerifierProcessGroup {
+                            attempt_id: attempt.attempt_id,
+                            process_group_id,
+                        });
+                    }
+                    Ok((LinuxProcessGroupLiveness::Exited, digest)) => {
+                        attempt_digest_before_group_cleanup = Some(digest);
+                    }
+                    Ok((LinuxProcessGroupLiveness::Unknown, _)) => {
+                        reconciliation_trace("stage=group_observation_unknown");
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id,
+                        });
+                    }
+                    Err(error) => {
+                        reconciliation_trace(&format!(
+                            "stage=group_observation_error category={}",
+                            reconciliation_error_category(&error)
+                        ));
+                        return Err(CompositionError::UnknownAttemptOwner {
+                            attempt_id: attempt.attempt_id,
+                        });
+                    }
+                }
+            }
+            #[cfg(not(target_os = "linux"))]
+            if process_group_is_alive(process_group_id) {
+                return Err(CompositionError::ActiveVerifierProcessGroup {
+                    attempt_id: attempt.attempt_id,
+                    process_group_id,
+                });
+            }
             attempt.active_execution_node = None;
             attempt.active_process_group_id = None;
+            attempt.active_process_group_identity = None;
         }
         (Some(_), None) | (None, Some(_)) => {
+            reconciliation_trace("stage=incomplete_active_group_fields");
             return Err(CompositionError::UnknownAttemptOwner {
                 attempt_id: attempt.attempt_id,
             });
@@ -995,20 +2326,35 @@ fn reconcile_abandoned_attempt(
         )
     };
     if let Some((worktree, _)) = &validated_paths {
-        match verifier_process_using_worktree(worktree) {
+        match observe_worktree_process(worktree) {
             Ok(Some(process_id)) => {
                 return Err(CompositionError::ActiveVerifierDescendant {
                     attempt_id: attempt.attempt_id,
                     process_id,
                 });
             }
-            Err(_) => {
+            Err(error) => {
+                reconciliation_trace(&format!(
+                    "stage=worktree_observer_error category={} detail={}",
+                    reconciliation_error_category(&error),
+                    reconciliation_known_observer_error(&error)
+                ));
                 return Err(CompositionError::UnknownAttemptOwner {
                     attempt_id: attempt.attempt_id,
                 });
             }
             Ok(None) => {}
         }
+    }
+    #[cfg(target_os = "linux")]
+    if let Some(expected_digest) = attempt_digest_before_group_cleanup
+        && require_attempt_digest_unchanged(state_dir, &attempt.attempt_id, &expected_digest)
+            .is_err()
+    {
+        reconciliation_trace("stage=attempt_digest_changed_after_group_observation");
+        return Err(CompositionError::UnknownAttemptOwner {
+            attempt_id: attempt.attempt_id,
+        });
     }
     let cleanup = if let Some((worktree, parent)) = validated_paths {
         let registered = worktree_is_registered(repository_root, &worktree)?;
@@ -1027,6 +2373,7 @@ fn reconcile_abandoned_attempt(
         )));
     }
     attempt.cleanup = Some(cleanup);
+    set_cleanup_disposition(&mut attempt);
     if let Some(signal) = attempt.owner_termination_signal {
         attempt.failure = Some(format!("interrupted_owner_terminated:signal={signal}"));
     } else if attempt.failure.as_deref() == Some("in_progress") {
@@ -1101,18 +2448,21 @@ fn worktree_is_registered(
     }))
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "linux")))]
 fn process_is_alive(pid: u32) -> bool {
+    process_liveness_probe(pid).0
+}
+
+#[cfg(unix)]
+fn process_liveness_probe(pid: u32) -> (bool, i32, Option<i32>) {
     // SAFETY: `kill(pid, 0)` performs no signal delivery and only probes the
     // process table. A permission error is treated as live, failing closed.
     let result = unsafe { libc::kill(pid as libc::pid_t, 0) };
     if result == 0 {
-        return true;
+        return (true, result, None);
     }
-    !matches!(
-        std::io::Error::last_os_error().raw_os_error(),
-        Some(code) if code == libc::ESRCH
-    )
+    let errno = std::io::Error::last_os_error().raw_os_error();
+    (errno != Some(libc::ESRCH), result, errno)
 }
 
 #[cfg(windows)]
@@ -1138,7 +2488,7 @@ fn process_is_alive(pid: u32) -> bool {
     }
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_os = "linux")))]
 fn process_group_is_alive(process_group_id: u32) -> bool {
     // SAFETY: a negative pid probes the process group without delivering a signal.
     let result = unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) };
@@ -1152,7 +2502,553 @@ fn process_group_is_alive(process_group_id: u32) -> bool {
 }
 
 #[cfg(target_os = "linux")]
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct LinuxProcessGroupMember {
+    process_id: u32,
+    state: char,
+    start_time_ticks: u64,
+    process_group_id: u32,
+    session_id: u32,
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum LinuxProcessGroupLiveness {
+    Active,
+    Exited,
+    Unknown,
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Debug, Error)]
+enum LinuxProcessGroupScanError {
+    #[error("proc scan could not read {path} after enumeration: {source}")]
+    StatEntryDisappeared {
+        path: PathBuf,
+        #[source]
+        source: std::io::Error,
+    },
+    #[error("{0}")]
+    Other(String),
+}
+
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_SCAN_ENTRIES: usize = 65_536;
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_SCAN_DURATION: Duration = Duration::from_millis(500);
+#[cfg(target_os = "linux")]
+const LINUX_PROC_STABILITY_DELAY: Duration = Duration::from_millis(10);
+#[cfg(target_os = "linux")]
+const MAX_LINUX_COMPOSITION_DESCENDANT_REAP_DURATION: Duration = Duration::from_secs(3);
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS: usize = 3;
+#[cfg(target_os = "linux")]
+const MAX_LINUX_PROC_GROUP_OBSERVATION_DURATION: Duration = Duration::from_secs(3);
+
+#[cfg(target_os = "linux")]
+fn trace_linux_group_scan(
+    process_group_id: u32,
+    attempt_index: usize,
+    phase: &str,
+    result: &Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+) {
+    if std::env::var("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE").as_deref() != Ok("1") {
+        return;
+    }
+    match result {
+        Ok(members) => {
+            let bounded_members = members
+                .iter()
+                .take(8)
+                .map(|member| {
+                    format!(
+                        "{}:{}:{}:{}:{}",
+                        member.process_id,
+                        member.state,
+                        member.start_time_ticks,
+                        member.process_group_id,
+                        member.session_id
+                    )
+                })
+                .collect::<Vec<_>>();
+            reconciliation_trace(&format!(
+                "stage=group_scan pgid={process_group_id} attempt={} phase={phase} target_member_count={} target_members={bounded_members:?}",
+                attempt_index + 1,
+                members.len()
+            ));
+        }
+        Err(error) => {
+            let category = match error {
+                LinuxProcessGroupScanError::StatEntryDisappeared { .. } => "stat_disappeared",
+                LinuxProcessGroupScanError::Other(message) => {
+                    reconciliation_error_category(message)
+                }
+            };
+            reconciliation_trace(&format!(
+                "stage=group_scan pgid={process_group_id} attempt={} phase={phase} error_category={category}",
+                attempt_index + 1
+            ));
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn parse_linux_process_stat(
+    process_id: u32,
+    stat: &str,
+) -> Result<LinuxProcessGroupMember, String> {
+    let command_open = stat
+        .find('(')
+        .ok_or_else(|| "proc stat is missing command opener".to_string())?;
+    let parsed_process_id = stat[..command_open]
+        .trim()
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process id".to_string())?;
+    if parsed_process_id != process_id {
+        return Err("proc stat process id does not match its directory".into());
+    }
+    let command_close = stat
+        .rfind(')')
+        .filter(|close| *close > command_open)
+        .ok_or_else(|| "proc stat is missing command terminator".to_string())?;
+    let fields = stat[command_close + 1..]
+        .split_whitespace()
+        .collect::<Vec<_>>();
+    if fields.len() <= 19 {
+        return Err("proc stat has too few fields".into());
+    }
+    let state = fields[0]
+        .chars()
+        .next()
+        .ok_or_else(|| "proc stat has an empty state".to_string())?;
+    let process_group_id = fields[2]
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process group id".to_string())?;
+    let session_id = fields[3]
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid session id".to_string())?;
+    let start_time_ticks = fields[19]
+        .parse::<u64>()
+        .map_err(|_| "proc stat has an invalid starttime".to_string())?;
+    Ok(LinuxProcessGroupMember {
+        process_id,
+        state,
+        start_time_ticks,
+        process_group_id,
+        session_id,
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn parse_linux_process_parent_id(process_id: u32, stat: &str) -> Result<u32, String> {
+    let command_open = stat
+        .find('(')
+        .ok_or_else(|| "proc stat is missing command opener".to_string())?;
+    let parsed_process_id = stat[..command_open]
+        .trim()
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid process id".to_string())?;
+    if parsed_process_id != process_id {
+        return Err("proc stat process id does not match its directory".into());
+    }
+    let command_close = stat
+        .rfind(')')
+        .filter(|close| *close > command_open)
+        .ok_or_else(|| "proc stat is missing command terminator".to_string())?;
+    let fields = stat[command_close + 1..]
+        .split_whitespace()
+        .collect::<Vec<_>>();
+    fields
+        .get(1)
+        .ok_or_else(|| "proc stat has too few fields to read parent PID".to_string())?
+        .parse::<u32>()
+        .map_err(|_| "proc stat has an invalid parent PID".to_string())
+}
+
+#[cfg(target_os = "linux")]
+fn read_linux_process_group_leader_identity(
+    proc_root: &Path,
+    process_group_id: u32,
+) -> Result<ProcessGroupLeaderIdentity, String> {
+    let stat_path = proc_root.join(process_group_id.to_string()).join("stat");
+    let stat = fs::read_to_string(&stat_path).map_err(|error| {
+        format!(
+            "cannot read process-group leader stat {}: {error}",
+            stat_path.display()
+        )
+    })?;
+    let leader = parse_linux_process_stat(process_group_id, &stat)?;
+    if leader.process_id != process_group_id
+        || leader.process_group_id != process_group_id
+        || leader.start_time_ticks == 0
+    {
+        return Err("observed process is not the expected process-group leader".into());
+    }
+    Ok(ProcessGroupLeaderIdentity {
+        leader_pid: leader.process_id,
+        leader_start_time_ticks: leader.start_time_ticks,
+        process_group_id: leader.process_group_id,
+        session_id: leader.session_id,
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn scan_linux_process_group_once(
+    proc_root: &Path,
+    process_group_id: u32,
+    maximum_entries: usize,
+    scan_deadline: Instant,
+) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError> {
+    let entries = fs::read_dir(proc_root).map_err(|error| {
+        LinuxProcessGroupScanError::Other(format!(
+            "cannot enumerate proc root {}: {error}",
+            proc_root.display()
+        ))
+    })?;
+    let mut numeric_entries = 0usize;
+    let mut members = Vec::new();
+    for entry in entries {
+        if Instant::now() >= scan_deadline {
+            return Err(LinuxProcessGroupScanError::Other(
+                "proc scan exceeded its time budget".into(),
+            ));
+        }
+        let entry = entry.map_err(|error| {
+            LinuxProcessGroupScanError::Other(format!("proc scan directory race: {error}"))
+        })?;
+        let Some(process_id) = entry
+            .file_name()
+            .to_str()
+            .and_then(|name| name.parse::<u32>().ok())
+        else {
+            continue;
+        };
+        numeric_entries = numeric_entries.saturating_add(1);
+        if numeric_entries > maximum_entries {
+            return Err(LinuxProcessGroupScanError::Other(
+                "proc scan exceeded its entry budget".into(),
+            ));
+        }
+        let stat_path = entry.path().join("stat");
+        let stat = fs::read_to_string(&stat_path).map_err(|source| {
+            if source.kind() == std::io::ErrorKind::NotFound {
+                LinuxProcessGroupScanError::StatEntryDisappeared {
+                    path: stat_path.clone(),
+                    source,
+                }
+            } else {
+                LinuxProcessGroupScanError::Other(format!(
+                    "proc scan could not read {}: {source}",
+                    stat_path.display()
+                ))
+            }
+        })?;
+        let process = parse_linux_process_stat(process_id, &stat).map_err(|error| {
+            LinuxProcessGroupScanError::Other(format!(
+                "proc scan could not parse {}: {error}",
+                stat_path.display()
+            ))
+        })?;
+        if process.process_group_id == process_group_id {
+            members.push(process);
+        }
+    }
+    if Instant::now() >= scan_deadline {
+        return Err(LinuxProcessGroupScanError::Other(
+            "proc scan exceeded its time budget".into(),
+        ));
+    }
+    members.sort_by_key(|member| {
+        (
+            member.process_id,
+            member.start_time_ticks,
+            member.process_group_id,
+        )
+    });
+    Ok(members)
+}
+
+#[cfg(target_os = "linux")]
+fn classify_linux_process_group_scans(
+    process_group_id: u32,
+    leader_identity: Option<&ProcessGroupLeaderIdentity>,
+    first: &[LinuxProcessGroupMember],
+    second: &[LinuxProcessGroupMember],
+) -> LinuxProcessGroupLiveness {
+    let identity_keys = |members: &[LinuxProcessGroupMember]| {
+        members
+            .iter()
+            .map(|member| {
+                (
+                    member.process_id,
+                    member.start_time_ticks,
+                    member.process_group_id,
+                    member.session_id,
+                )
+            })
+            .collect::<Vec<_>>()
+    };
+    if identity_keys(first) != identity_keys(second) {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    if first.is_empty() {
+        return LinuxProcessGroupLiveness::Exited;
+    }
+    let Some(leader_identity) = leader_identity else {
+        return LinuxProcessGroupLiveness::Unknown;
+    };
+    if leader_identity.leader_pid != process_group_id
+        || leader_identity.process_group_id != process_group_id
+        || leader_identity.leader_start_time_ticks == 0
+        || leader_identity.session_id == 0
+    {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    let Some(leader) = first
+        .iter()
+        .find(|member| member.process_id == leader_identity.leader_pid)
+    else {
+        return LinuxProcessGroupLiveness::Unknown;
+    };
+    if leader.start_time_ticks != leader_identity.leader_start_time_ticks
+        || leader.process_group_id != leader_identity.process_group_id
+        || leader.session_id != leader_identity.session_id
+        || first
+            .iter()
+            .any(|member| member.session_id != leader_identity.session_id)
+    {
+        return LinuxProcessGroupLiveness::Unknown;
+    }
+    if first
+        .iter()
+        .chain(second.iter())
+        .any(|member| !matches!(member.state, 'Z' | 'X' | 'x'))
+    {
+        LinuxProcessGroupLiveness::Active
+    } else {
+        LinuxProcessGroupLiveness::Exited
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn observe_linux_process_group_with_retries<S, V, W, N>(
+    process_group_id: u32,
+    leader_identity: Option<&ProcessGroupLeaderIdentity>,
+    total_deadline: Instant,
+    mut scan_once: S,
+    mut validate_attempt: V,
+    mut wait: W,
+    mut now: N,
+) -> Result<LinuxProcessGroupLiveness, String>
+where
+    S: FnMut(Instant) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+    V: FnMut() -> Result<(), String>,
+    W: FnMut(Duration),
+    N: FnMut() -> Instant,
+{
+    let deadline_error = "process-group observation exceeded its total deadline";
+    for attempt_index in 0..MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS {
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+        validate_attempt()?;
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+
+        let first_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
+        let first_result = scan_once(first_scan_deadline);
+        trace_linux_group_scan(process_group_id, attempt_index, "first", &first_result);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        let first = match first_result {
+            Ok(members) => members,
+            Err(error) => {
+                validate_attempt()?;
+                if now() >= total_deadline {
+                    return Err(deadline_error.into());
+                }
+                match error {
+                    LinuxProcessGroupScanError::StatEntryDisappeared { .. }
+                        if attempt_index + 1 < MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS =>
+                    {
+                        continue;
+                    }
+                    error => return Err(error.to_string()),
+                }
+            }
+        };
+
+        if total_deadline.saturating_duration_since(now()) < LINUX_PROC_STABILITY_DELAY {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        wait(LINUX_PROC_STABILITY_DELAY);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+
+        let second_scan_deadline = (now() + MAX_LINUX_PROC_SCAN_DURATION).min(total_deadline);
+        let second_result = scan_once(second_scan_deadline);
+        trace_linux_group_scan(process_group_id, attempt_index, "second", &second_result);
+        if now() >= total_deadline {
+            validate_attempt()?;
+            return Err(deadline_error.into());
+        }
+        let second = match second_result {
+            Ok(members) => members,
+            Err(error) => {
+                validate_attempt()?;
+                if now() >= total_deadline {
+                    return Err(deadline_error.into());
+                }
+                match error {
+                    LinuxProcessGroupScanError::StatEntryDisappeared { .. }
+                        if attempt_index + 1 < MAX_LINUX_PROC_GROUP_SCAN_ATTEMPTS =>
+                    {
+                        continue;
+                    }
+                    error => return Err(error.to_string()),
+                }
+            }
+        };
+
+        let liveness =
+            classify_linux_process_group_scans(process_group_id, leader_identity, &first, &second);
+        reconciliation_trace(&format!(
+            "stage=group_classification pgid={process_group_id} attempt={} leader={leader_identity:?} liveness={liveness:?}",
+            attempt_index + 1
+        ));
+        validate_attempt()?;
+        if now() >= total_deadline {
+            return Err(deadline_error.into());
+        }
+        return match liveness {
+            LinuxProcessGroupLiveness::Unknown => {
+                Err("paired process-group member set or leader identity is inconsistent".into())
+            }
+            LinuxProcessGroupLiveness::Active | LinuxProcessGroupLiveness::Exited => Ok(liveness),
+        };
+    }
+    Err("process-group observation exhausted its retry budget".into())
+}
+
+#[cfg(target_os = "linux")]
+fn attempt_file_bytes(state_dir: &Path, attempt_id: &str) -> Result<Vec<u8>, String> {
+    let path = attempt_record_path(state_dir, attempt_id);
+    let metadata = fs::symlink_metadata(&path).map_err(|error| error.to_string())?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err("composition attempt is not a regular non-symlink file".into());
+    }
+    fs::read(&path).map_err(|error| error.to_string())
+}
+
+#[cfg(target_os = "linux")]
+fn current_attempt_file_digest(state_dir: &Path, attempt_id: &str) -> Result<Digest, String> {
+    Ok(Digest::sha256_bytes(&attempt_file_bytes(
+        state_dir, attempt_id,
+    )?))
+}
+
+#[cfg(target_os = "linux")]
+fn require_attempt_digest_unchanged(
+    state_dir: &Path,
+    attempt_id: &str,
+    expected: &Digest,
+) -> Result<(), String> {
+    if &current_attempt_file_digest(state_dir, attempt_id)? == expected {
+        Ok(())
+    } else {
+        Err("latest composition attempt digest changed".into())
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn observe_linux_process_group_for_recovery(
+    state_dir: &Path,
+    attempt: &CompositionAttempt,
+    process_group_id: u32,
+) -> Result<(LinuxProcessGroupLiveness, Digest), String> {
+    let total_deadline = Instant::now() + MAX_LINUX_PROC_GROUP_OBSERVATION_DURATION;
+    let initial_bytes = attempt_file_bytes(state_dir, &attempt.attempt_id)?;
+    let stored_attempt: CompositionAttempt = serde_json::from_slice(&initial_bytes)
+        .map_err(|error| format!("cannot parse current composition attempt: {error}"))?;
+    if stored_attempt != *attempt
+        || stored_attempt.active_process_group_id != Some(process_group_id)
+    {
+        reconciliation_trace("stage=initial_attempt_fields_changed");
+        return Err(
+            "latest composition attempt changed before process-group reconciliation".into(),
+        );
+    }
+    let initial_digest = Digest::sha256_bytes(&initial_bytes);
+    let validate_attempt = || -> Result<(), String> {
+        let current_bytes =
+            attempt_file_bytes(state_dir, &attempt.attempt_id).inspect_err(|error| {
+                reconciliation_trace(&format!(
+                    "stage=attempt_validation_read_error category={}",
+                    reconciliation_error_category(error)
+                ));
+            })?;
+        if Digest::sha256_bytes(&current_bytes) != initial_digest {
+            reconciliation_trace("stage=attempt_validation_digest_changed");
+            return Err("latest composition attempt digest changed".into());
+        }
+        let current_attempt: CompositionAttempt = serde_json::from_slice(&current_bytes)
+            .map_err(|error| format!("cannot parse current composition attempt: {error}"))?;
+        if current_attempt != *attempt
+            || current_attempt.active_process_group_id != Some(process_group_id)
+        {
+            reconciliation_trace("stage=attempt_validation_fields_changed");
+            return Err(
+                "latest composition attempt changed during process-group observation".into(),
+            );
+        }
+        Ok(())
+    };
+    let liveness = observe_linux_process_group_with_retries(
+        process_group_id,
+        attempt.active_process_group_identity.as_ref(),
+        total_deadline,
+        |scan_deadline| {
+            scan_linux_process_group_once(
+                Path::new("/proc"),
+                process_group_id,
+                MAX_LINUX_PROC_SCAN_ENTRIES,
+                scan_deadline,
+            )
+        },
+        validate_attempt,
+        std::thread::sleep,
+        Instant::now,
+    );
+    Ok((liveness?, initial_digest))
+}
+
+#[cfg(target_os = "linux")]
 fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, String> {
+    verifier_process_using_worktree_with_filter(worktree, |_| true)
+}
+
+#[cfg(target_os = "linux")]
+#[cfg(test)]
+fn verifier_process_using_worktree_for_test_pid(
+    worktree: &Path,
+    expected_pid: u32,
+) -> Result<Option<u32>, String> {
+    // The fixture controls this process, not every same-UID process in the
+    // shared host's /proc. Keep its real procfs checks scoped to that PID.
+    verifier_process_using_worktree_with_filter(worktree, |process_id| process_id == expected_pid)
+}
+
+#[cfg(target_os = "linux")]
+fn verifier_process_using_worktree_with_filter(
+    worktree: &Path,
+    include_process: impl Fn(u32) -> bool,
+) -> Result<Option<u32>, String> {
     use std::os::unix::fs::MetadataExt;
 
     let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
@@ -1173,6 +3069,9 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
         else {
             continue;
         };
+        if !include_process(process_id) {
+            continue;
+        }
         if process_id == std::process::id() || caller_ancestors.contains(&process_id) {
             continue;
         }
@@ -1181,9 +3080,23 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
             Ok(metadata) if metadata.uid() == unsafe { libc::getuid() } => metadata,
             Ok(_) => continue,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                let identity_before =
+                    Err("process identity was not observed before metadata".into());
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    None,
+                    "procfs.process-metadata",
+                    &error,
+                    &identity_before,
+                ));
+            }
         };
-        let _ = metadata;
+        // This is the proc-directory UID used to select same-UID candidates;
+        // it is not part of, or cryptographically bound to, the stat identity.
+        let process_uid = metadata.uid();
+        let identity_before = read_linux_process_identity(Path::new("/proc"), process_id);
         let cwd = process_dir.join("cwd");
         match fs::read_link(&cwd) {
             Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
@@ -1196,11 +3109,25 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 }) {
                     continue 'processes;
                 }
-                return Err(format!(
-                    "cannot inspect process {process_id} working directory"
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.cwd",
+                    &error,
+                    &identity_before,
                 ));
             }
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.cwd",
+                    &error,
+                    &identity_before,
+                ));
+            }
         }
         let descriptors = process_dir.join("fd");
         let descriptors = match fs::read_dir(&descriptors) {
@@ -1213,14 +3140,40 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                 }) {
                     continue 'processes;
                 }
-                return Err(format!(
-                    "cannot inspect process {process_id} file descriptors"
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-directory",
+                    &error,
+                    &identity_before,
                 ));
             }
-            Err(error) => return Err(error.to_string()),
+            Err(error) => {
+                return Err(linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-directory",
+                    &error,
+                    &identity_before,
+                ));
+            }
         };
         for descriptor in descriptors {
-            let descriptor = descriptor.map_err(|error| error.to_string())?;
+            let descriptor = descriptor.map_err(|error| {
+                linux_process_observation_error(
+                    Path::new("/proc"),
+                    process_id,
+                    Some(process_uid),
+                    "procfs.fd-entry",
+                    &error,
+                    &identity_before,
+                )
+            })?;
+            let descriptor_name = descriptor.file_name();
+            let descriptor_phase =
+                format!("procfs.fd-target:{}", descriptor_name.to_string_lossy());
             match fs::read_link(descriptor.path()) {
                 Ok(path) if path_is_within(&worktree, &path) => return Ok(Some(process_id)),
                 Ok(_) => {}
@@ -1232,13 +3185,105 @@ fn verifier_process_using_worktree(worktree: &Path) -> Result<Option<u32>, Strin
                     }) {
                         continue 'processes;
                     }
-                    return Err(format!("cannot inspect process {process_id} open files"));
+                    return Err(linux_process_observation_error(
+                        Path::new("/proc"),
+                        process_id,
+                        Some(process_uid),
+                        &descriptor_phase,
+                        &error,
+                        &identity_before,
+                    ));
                 }
-                Err(error) => return Err(error.to_string()),
+                Err(error) => {
+                    return Err(linux_process_observation_error(
+                        Path::new("/proc"),
+                        process_id,
+                        Some(process_uid),
+                        &descriptor_phase,
+                        &error,
+                        &identity_before,
+                    ));
+                }
             }
         }
     }
     Ok(None)
+}
+
+#[cfg(target_os = "linux")]
+fn read_linux_process_identity(
+    proc_root: &Path,
+    process_id: u32,
+) -> Result<LinuxProcessGroupMember, String> {
+    let stat_path = proc_root.join(process_id.to_string()).join("stat");
+    let stat = fs::read_to_string(&stat_path).map_err(|error| {
+        let errno = error
+            .raw_os_error()
+            .map_or_else(|| "unknown".to_owned(), |value| value.to_string());
+        format!(
+            "identity stat read failed error_kind={:?} errno={errno}: {error}",
+            error.kind()
+        )
+    })?;
+    parse_linux_process_stat(process_id, &stat)
+        .map_err(|error| format!("identity stat parse failed: {error}"))
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_identity_matches(
+    before: &LinuxProcessGroupMember,
+    after: &LinuxProcessGroupMember,
+) -> bool {
+    before.process_id == after.process_id
+        && before.start_time_ticks == after.start_time_ticks
+        && before.process_group_id == after.process_group_id
+        && before.session_id == after.session_id
+}
+
+#[cfg(target_os = "linux")]
+fn render_linux_process_identity(identity: &Result<LinuxProcessGroupMember, String>) -> String {
+    match identity {
+        Ok(identity) => format!(
+            "observed(pid={},starttime_ticks={},pgid={},sid={},state={})",
+            identity.process_id,
+            identity.start_time_ticks,
+            identity.process_group_id,
+            identity.session_id,
+            identity.state
+        ),
+        Err(error) => format!("unknown({error})"),
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_observation_error(
+    proc_root: &Path,
+    process_id: u32,
+    process_uid: Option<u32>,
+    phase: &str,
+    error: &std::io::Error,
+    identity_before: &Result<LinuxProcessGroupMember, String>,
+) -> String {
+    let identity_after = read_linux_process_identity(proc_root, process_id);
+    let identity_state = match (identity_before, &identity_after) {
+        (Ok(before), Ok(after)) if linux_process_identity_matches(before, after) => "observed",
+        _ => "unknown",
+    };
+    let errno = error
+        .raw_os_error()
+        .map_or_else(|| "unknown".to_owned(), |value| value.to_string());
+    let legacy_area = match phase {
+        "procfs.cwd" => " working directory",
+        "procfs.fd-directory" => " file descriptors",
+        phase if phase.starts_with("procfs.fd-target:") => " open files",
+        _ => "",
+    };
+    format!(
+        "cannot inspect process pid={process_id} filter_uid={process_uid:?} phase={phase} error_kind={:?} errno={errno} identity_state={identity_state} identity_before={} identity_after={} message={error}{legacy_area}",
+        error.kind(),
+        render_linux_process_identity(identity_before),
+        render_linux_process_identity(&identity_after),
+    )
 }
 
 #[cfg(target_os = "linux")]
@@ -1627,16 +3672,31 @@ fn update_active_process_record(
     {
         return Err("composition active-process identity changed".into());
     }
+    #[cfg(target_os = "linux")]
+    let process_group_identity = if active {
+        Some(read_linux_process_group_leader_identity(
+            Path::new("/proc"),
+            process_group_id,
+        )?)
+    } else {
+        None
+    };
+    #[cfg(not(target_os = "linux"))]
+    let process_group_identity = None;
     if active {
-        if attempt.active_process_group_id.is_some() {
+        if attempt.active_process_group_id.is_some()
+            || attempt.active_process_group_identity.is_some()
+        {
             return Err("composition already records an active process group".into());
         }
         attempt.active_process_group_id = Some(process_group_id);
+        attempt.active_process_group_identity = process_group_identity;
     } else {
         if attempt.active_process_group_id != Some(process_group_id) {
             return Err("composition active process group does not match".into());
         }
         attempt.active_process_group_id = None;
+        attempt.active_process_group_identity = None;
         attempt.active_execution_node = None;
     }
     persist_attempt(state_dir, &attempt).map_err(|error| error.to_string())
@@ -1716,13 +3776,30 @@ fn observe_runtime_toolchain_digest(
     }
 
     let mut cargo_configuration = Vec::new();
-    for path in [".cargo/config", ".cargo/config.toml"] {
-        let bytes = read_optional_regular_file_beneath(&home, Path::new(path))?;
+    let cargo_home = environment.get("CARGO_HOME").map(PathBuf::from);
+    let (cargo_configuration_root, cargo_configuration_paths) = if let Some(cargo_home) = cargo_home
+    {
+        let metadata = fs::symlink_metadata(&cargo_home).ok()?;
+        if metadata.file_type().is_symlink() || !metadata.is_dir() {
+            return None;
+        }
+        (
+            fs::canonicalize(&cargo_home).ok()?,
+            ["config", "config.toml"],
+        )
+    } else {
+        (home.clone(), [".cargo/config", ".cargo/config.toml"])
+    };
+    for path in cargo_configuration_paths {
+        let bytes = read_optional_regular_file_beneath(&cargo_configuration_root, Path::new(path))?;
         cargo_configuration.push((path, bytes.as_deref().map(Digest::sha256_bytes)));
     }
 
     let workspace_channel = read_workspace_toolchain_channel(worktree)?;
-    let rustup_home = home.join(".rustup");
+    let rustup_home = environment
+        .get("RUSTUP_HOME")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| home.join(".rustup"));
     let rustup_metadata = match fs::symlink_metadata(&rustup_home) {
         Ok(metadata) => metadata,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
@@ -1737,17 +3814,14 @@ fn observe_runtime_toolchain_digest(
         return None;
     }
 
-    let settings = read_regular_file_beneath(&home, Path::new(".rustup/settings.toml"))?;
+    let rustup_home = fs::canonicalize(rustup_home).ok()?;
+    let settings = read_regular_file_beneath(&rustup_home, Path::new("settings.toml"))?;
     let default_channel = parse_rustup_default_toolchain(&settings)?;
     let requested_channel = workspace_channel.unwrap_or(default_channel);
     if !is_safe_toolchain_channel(&requested_channel) {
         return None;
     }
 
-    let rustup_home = fs::canonicalize(rustup_home).ok()?;
-    if !rustup_home.starts_with(&home) {
-        return None;
-    }
     let installed_toolchain = resolve_rustup_toolchain_directory(&rustup_home, &requested_channel)?;
     let toolchain_root = PathBuf::from("toolchains").join(&installed_toolchain);
     let bin_root = toolchain_root.join("bin");
@@ -2640,6 +4714,12 @@ fn trusted_executable_directories() -> Vec<PathBuf> {
         if let Some(home) = std::env::var_os("HOME") {
             candidates.push(PathBuf::from(home).join(".cargo/bin"));
         }
+        if let Some(cargo_home) = std::env::var_os("CARGO_HOME") {
+            let cargo_home = PathBuf::from(cargo_home);
+            if cargo_home.is_absolute() {
+                candidates.push(cargo_home.join("bin"));
+            }
+        }
         candidates.extend(
             [
                 "/usr/bin",
@@ -2706,6 +4786,20 @@ fn controlled_command_environment(
     if let Some(home) = std::env::var_os("HOME") {
         let home = fs::canonicalize(home).ok()?;
         environment.insert("HOME".into(), home.to_string_lossy().into_owned());
+    }
+    for key in ["CARGO_HOME", "RUSTUP_HOME"] {
+        if let Some(directory) = std::env::var_os(key) {
+            let directory = PathBuf::from(directory);
+            if !directory.is_absolute() {
+                return None;
+            }
+            let metadata = fs::symlink_metadata(&directory).ok()?;
+            if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                return None;
+            }
+            let directory = fs::canonicalize(directory).ok()?;
+            environment.insert(key.into(), directory.to_string_lossy().into_owned());
+        }
     }
     #[cfg(windows)]
     {
@@ -2847,7 +4941,18 @@ fn persist_attempt(state_dir: &Path, attempt: &CompositionAttempt) -> Result<(),
         path: temporary.clone(),
         source,
     })?;
-    fs::rename(&temporary, &path).map_err(|source| CompositionError::Io { path, source })
+    fs::rename(&temporary, &path).map_err(|source| CompositionError::Io {
+        path: path.clone(),
+        source,
+    })?;
+    #[cfg(unix)]
+    File::open(state_dir)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|source| CompositionError::Io {
+            path: state_dir.to_path_buf(),
+            source,
+        })?;
+    Ok(())
 }
 
 fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
@@ -2945,16 +5050,1762 @@ mod composition_parent_tests {
 }
 
 #[cfg(all(test, target_os = "linux"))]
+mod linux_process_group_reconciliation_tests {
+    use super::{
+        LinuxProcessGroupLiveness, LinuxProcessGroupMember, LinuxProcessGroupScanError,
+        ProcessGroupLeaderIdentity, classify_linux_process_group_scans,
+        current_attempt_file_digest, observe_linux_process_group_with_retries,
+        parse_linux_process_stat, require_attempt_digest_unchanged, scan_linux_process_group_once,
+    };
+    use std::cell::Cell;
+    use std::fs;
+    use std::path::{Path, PathBuf};
+    use std::sync::atomic::{AtomicU64, Ordering};
+    use std::time::{Duration, Instant};
+
+    static NEXT_PROC_ROOT: AtomicU64 = AtomicU64::new(0);
+
+    struct FakeProcRoot(PathBuf);
+
+    impl FakeProcRoot {
+        fn new() -> Self {
+            let sequence = NEXT_PROC_ROOT.fetch_add(1, Ordering::Relaxed);
+            let path = std::env::temp_dir().join(format!(
+                "cockpit-fake-proc-{}-{sequence}",
+                std::process::id()
+            ));
+            fs::create_dir_all(&path).expect("fake proc root");
+            Self(path)
+        }
+
+        fn path(&self) -> &Path {
+            &self.0
+        }
+
+        fn add_process(&self, process: LinuxProcessGroupMember) {
+            let process_dir = self.0.join(process.process_id.to_string());
+            fs::create_dir_all(&process_dir).expect("fake process directory");
+            self.write_stat(&process);
+        }
+
+        fn write_stat(&self, process: &LinuxProcessGroupMember) {
+            let mut fields = vec![
+                process.state.to_string(),
+                "1".into(),
+                process.process_group_id.to_string(),
+                process.session_id.to_string(),
+            ];
+            while fields.len() < 19 {
+                fields.push("0".into());
+            }
+            fields.push(process.start_time_ticks.to_string());
+            let stat = format!(
+                "{} (test command (with parens)) {}\n",
+                process.process_id,
+                fields.join(" ")
+            );
+            fs::write(
+                self.0.join(process.process_id.to_string()).join("stat"),
+                stat,
+            )
+            .expect("write fake process stat");
+        }
+    }
+
+    impl Drop for FakeProcRoot {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn member(pid: u32, state: char, start: u64, pgid: u32, sid: u32) -> LinuxProcessGroupMember {
+        LinuxProcessGroupMember {
+            process_id: pid,
+            state,
+            start_time_ticks: start,
+            process_group_id: pgid,
+            session_id: sid,
+        }
+    }
+
+    fn leader_identity(pid: u32, start: u64, pgid: u32, sid: u32) -> ProcessGroupLeaderIdentity {
+        ProcessGroupLeaderIdentity {
+            leader_pid: pid,
+            leader_start_time_ticks: start,
+            process_group_id: pgid,
+            session_id: sid,
+        }
+    }
+
+    fn disappeared_stat(path: &str) -> LinuxProcessGroupScanError {
+        LinuxProcessGroupScanError::StatEntryDisappeared {
+            path: PathBuf::from(path),
+            source: std::io::Error::from_raw_os_error(libc::ENOENT),
+        }
+    }
+
+    fn observe_with_injected_scans<S, V, W, N>(
+        process_group_id: u32,
+        identity: Option<&ProcessGroupLeaderIdentity>,
+        total_deadline: Instant,
+        scan: S,
+        validate_attempt: V,
+        wait: W,
+        now: N,
+    ) -> Result<LinuxProcessGroupLiveness, String>
+    where
+        S: FnMut(Instant) -> Result<Vec<LinuxProcessGroupMember>, LinuxProcessGroupScanError>,
+        V: FnMut() -> Result<(), String>,
+        W: FnMut(Duration),
+        N: FnMut() -> Instant,
+    {
+        observe_linux_process_group_with_retries(
+            process_group_id,
+            identity,
+            total_deadline,
+            scan,
+            validate_attempt,
+            wait,
+            now,
+        )
+    }
+
+    #[test]
+    fn one_disappeared_stat_in_a_partial_pair_restarts_and_stable_active_group_succeeds() {
+        let leader = member(4051, 'S', 51, 4051, 4051);
+        let identity = leader_identity(4051, 51, 4051, 4051);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let wait_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+
+        let observed = observe_with_injected_scans(
+            4051,
+            Some(&identity),
+            deadline,
+            |scan_deadline| {
+                assert!(scan_deadline <= deadline);
+                let index = scan_count.get();
+                scan_count.set(index + 1);
+                match index {
+                    0 => Ok(vec![leader.clone()]),
+                    1 => Err(disappeared_stat("/proc/4999/stat")),
+                    2 | 3 => Ok(vec![leader.clone()]),
+                    _ => panic!("unexpected extra process scan"),
+                }
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |delay| {
+                wait_count.set(wait_count.get() + 1);
+                clock.set(clock.get() + delay);
+            },
+            || clock.get(),
+        )
+        .expect("a fresh stable pair should recover from one unrelated PID exit");
+
+        assert_eq!(observed, LinuxProcessGroupLiveness::Active);
+        assert_eq!(scan_count.get(), 4, "retry starts over from the first scan");
+        assert_eq!(
+            validation_count.get(),
+            4,
+            "each pair is bound before and after"
+        );
+        assert_eq!(
+            wait_count.get(),
+            2,
+            "the abandoned partial pair is discarded"
+        );
+    }
+
+    #[test]
+    fn three_disappeared_stat_entries_leave_the_process_group_unknown() {
+        let identity = leader_identity(4052, 52, 4052, 4052);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let wait_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+
+        let error = observe_with_injected_scans(
+            4052,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Err(disappeared_stat("/proc/4998/stat"))
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| wait_count.set(wait_count.get() + 1),
+            || clock.get(),
+        )
+        .expect_err("a process group remains unknown after three incomplete attempts");
+
+        assert!(error.contains("/proc/4998/stat"));
+        assert_eq!(
+            scan_count.get(),
+            3,
+            "the retry budget is exactly three attempts"
+        );
+        assert_eq!(
+            validation_count.get(),
+            6,
+            "each incomplete pair is revalidated"
+        );
+        assert_eq!(
+            wait_count.get(),
+            0,
+            "no stability wait follows an incomplete scan"
+        );
+    }
+
+    #[test]
+    fn permission_and_parse_errors_are_not_retried() {
+        for message in [
+            "proc scan could not read /proc/4997/stat: permission denied",
+            "proc scan could not parse /proc/4996/stat: malformed stat",
+        ] {
+            let identity = leader_identity(4053, 53, 4053, 4053);
+            let clock = Cell::new(Instant::now());
+            let scan_count = Cell::new(0);
+            let validation_count = Cell::new(0);
+            let deadline = clock.get() + Duration::from_secs(3);
+            let error = observe_with_injected_scans(
+                4053,
+                Some(&identity),
+                deadline,
+                |_| {
+                    scan_count.set(scan_count.get() + 1);
+                    Err(LinuxProcessGroupScanError::Other(message.into()))
+                },
+                || {
+                    validation_count.set(validation_count.get() + 1);
+                    Ok(())
+                },
+                |_| panic!("non-ENOENT scanner failures do not retry"),
+                || clock.get(),
+            )
+            .expect_err("non-ENOENT proc scan errors remain unknown");
+
+            assert!(error.contains(message));
+            assert_eq!(scan_count.get(), 1);
+            assert_eq!(validation_count.get(), 2);
+        }
+    }
+
+    #[test]
+    fn stable_active_and_zombie_only_groups_return_their_normal_liveness() {
+        for (process, expected) in [
+            (
+                member(4054, 'R', 54, 4054, 4054),
+                LinuxProcessGroupLiveness::Active,
+            ),
+            (
+                member(4055, 'Z', 55, 4055, 4055),
+                LinuxProcessGroupLiveness::Exited,
+            ),
+        ] {
+            let identity = leader_identity(
+                process.process_id,
+                process.start_time_ticks,
+                process.process_group_id,
+                process.session_id,
+            );
+            let clock = Cell::new(Instant::now());
+            let scan_count = Cell::new(0);
+            let validation_count = Cell::new(0);
+            let deadline = clock.get() + Duration::from_secs(3);
+            let observed = observe_with_injected_scans(
+                process.process_group_id,
+                Some(&identity),
+                deadline,
+                |_| {
+                    scan_count.set(scan_count.get() + 1);
+                    Ok(vec![process.clone()])
+                },
+                || {
+                    validation_count.set(validation_count.get() + 1);
+                    Ok(())
+                },
+                |delay| clock.set(clock.get() + delay),
+                || clock.get(),
+            )
+            .expect("stable group observation should complete");
+
+            assert_eq!(observed, expected);
+            assert_eq!(scan_count.get(), 2, "stable results do not retry");
+            assert_eq!(validation_count.get(), 2);
+        }
+    }
+
+    #[test]
+    fn member_or_leader_identity_inconsistency_is_unknown_without_retry() {
+        let live = member(4056, 'S', 56, 4056, 4056);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4056,
+            Some(&leader_identity(4056, 999, 4056, 4056)),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("a changed leader identity must remain unknown");
+        assert!(error.contains("identity") || error.contains("Unknown"));
+        assert_eq!(scan_count.get(), 2, "identity mismatch does not retry");
+        assert_eq!(validation_count.get(), 2);
+
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4056,
+            Some(&leader_identity(4056, 56, 4056, 4056)),
+            deadline,
+            |_| {
+                let index = scan_count.get();
+                scan_count.set(index + 1);
+                if index == 0 {
+                    Ok(vec![live.clone()])
+                } else {
+                    Ok(Vec::new())
+                }
+            },
+            || Ok(()),
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("membership changes between scans must remain unknown");
+        assert!(error.contains("member") || error.contains("Unknown"));
+        assert_eq!(scan_count.get(), 2, "membership mismatch does not retry");
+    }
+
+    #[test]
+    fn attempt_digest_change_after_a_pair_rejects_the_observation() {
+        let live = member(4057, 'S', 57, 4057, 4057);
+        let identity = leader_identity(4057, 57, 4057, 4057);
+        let clock = Cell::new(Instant::now());
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = clock.get() + Duration::from_secs(3);
+        let error = observe_with_injected_scans(
+            4057,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                if validation_count.get() == 2 {
+                    Err("latest composition attempt digest changed".into())
+                } else {
+                    Ok(())
+                }
+            },
+            |delay| clock.set(clock.get() + delay),
+            || clock.get(),
+        )
+        .expect_err("a changed attempt digest rejects even a stable process scan");
+
+        assert!(error.contains("digest changed"));
+        assert_eq!(scan_count.get(), 2);
+        assert_eq!(validation_count.get(), 2);
+    }
+
+    #[test]
+    fn total_deadline_includes_the_stability_delay() {
+        let live = member(4058, 'S', 58, 4058, 4058);
+        let identity = leader_identity(4058, 58, 4058, 4058);
+        let start = Instant::now();
+        let clock = Cell::new(start);
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = start + Duration::from_secs(1);
+        let error = observe_with_injected_scans(
+            4058,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |delay| clock.set(clock.get() + delay + Duration::from_secs(1)),
+            || clock.get(),
+        )
+        .expect_err("the shared deadline also bounds the stability wait");
+
+        assert!(error.contains("deadline"));
+        assert_eq!(scan_count.get(), 1, "no second scan starts after deadline");
+        assert_eq!(
+            validation_count.get(),
+            2,
+            "the attempt is rebound after timeout"
+        );
+    }
+
+    #[test]
+    fn total_deadline_includes_scan_execution() {
+        let live = member(4059, 'S', 59, 4059, 4059);
+        let identity = leader_identity(4059, 59, 4059, 4059);
+        let start = Instant::now();
+        let clock = Cell::new(start);
+        let scan_count = Cell::new(0);
+        let validation_count = Cell::new(0);
+        let deadline = start + Duration::from_secs(1);
+        let error = observe_with_injected_scans(
+            4059,
+            Some(&identity),
+            deadline,
+            |_| {
+                scan_count.set(scan_count.get() + 1);
+                clock.set(clock.get() + Duration::from_secs(2));
+                Ok(vec![live.clone()])
+            },
+            || {
+                validation_count.set(validation_count.get() + 1);
+                Ok(())
+            },
+            |_| {},
+            || clock.get(),
+        )
+        .expect_err("the overall deadline also bounds scan execution");
+
+        assert!(error.contains("deadline"));
+        assert_eq!(scan_count.get(), 1, "no second scan starts after deadline");
+        assert_eq!(
+            validation_count.get(),
+            2,
+            "the attempt is rebound after timeout"
+        );
+    }
+
+    #[test]
+    fn stable_zombie_only_group_exits_but_a_mixed_group_is_active() {
+        let zombie_leader = member(4101, 'Z', 91, 4101, 4101);
+        let identity = leader_identity(4101, 91, 4101, 4101);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4101,
+                Some(&identity),
+                std::slice::from_ref(&zombie_leader),
+                std::slice::from_ref(&zombie_leader),
+            ),
+            LinuxProcessGroupLiveness::Exited
+        );
+
+        let live_child = member(4102, 'S', 92, 4101, 4101);
+        let mixed = vec![zombie_leader.clone(), live_child];
+        assert_eq!(
+            classify_linux_process_group_scans(4101, Some(&identity), &mixed, &mixed),
+            LinuxProcessGroupLiveness::Active
+        );
+    }
+
+    #[test]
+    fn live_group_is_active_then_empty_reaped_group_is_exited() {
+        let identity = leader_identity(4201, 101, 4201, 4201);
+        let live = member(4201, 'R', 101, 4201, 4201);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4201,
+                Some(&identity),
+                std::slice::from_ref(&live),
+                std::slice::from_ref(&live),
+            ),
+            LinuxProcessGroupLiveness::Active
+        );
+        let changed_session = member(4201, 'R', 101, 4201, 4202);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4201,
+                Some(&identity),
+                std::slice::from_ref(&live),
+                std::slice::from_ref(&changed_session),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "a session change between scans is a PID/process-group reuse race"
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(4201, Some(&identity), &[], &[]),
+            LinuxProcessGroupLiveness::Exited
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(4201, Some(&identity), &[live], &[]),
+            LinuxProcessGroupLiveness::Unknown,
+            "membership changing during the paired scan is a race"
+        );
+    }
+
+    #[test]
+    fn missing_reused_or_inconsistent_leader_identity_is_unknown_while_members_remain() {
+        let zombie = member(4301, 'Z', 111, 4301, 4301);
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                None,
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                Some(&leader_identity(4301, 112, 4301, 4301)),
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "a reused leader PID has a different starttime"
+        );
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4301,
+                Some(&leader_identity(4301, 111, 4301, 7)),
+                std::slice::from_ref(&zombie),
+                std::slice::from_ref(&zombie),
+            ),
+            LinuxProcessGroupLiveness::Unknown,
+            "the session identity must also match"
+        );
+    }
+
+    #[test]
+    fn proc_stat_parser_handles_parentheses_and_rejects_malformed_identity() {
+        let mut fields = vec!["Z".to_string(), "1".into(), "4401".into(), "4401".into()];
+        while fields.len() < 19 {
+            fields.push("0".into());
+        }
+        fields.push("121".into());
+        let stat = format!("4401 (command (worker)) {}\n", fields.join(" "));
+        assert_eq!(
+            parse_linux_process_stat(4401, &stat).expect("well-formed stat"),
+            member(4401, 'Z', 121, 4401, 4401)
+        );
+        assert!(parse_linux_process_stat(4401, "4401 (broken) Z 1 2").is_err());
+        assert!(parse_linux_process_stat(4402, &stat).is_err());
+    }
+
+    #[test]
+    fn proc_scanner_fails_closed_on_unreadable_racing_and_over_budget_entries() {
+        let malformed = FakeProcRoot::new();
+        let malformed_stat = malformed.path().join("4501");
+        fs::create_dir_all(&malformed_stat).expect("numeric proc entry");
+        fs::create_dir_all(malformed_stat.join("stat")).expect("unreadable stat directory");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                malformed.path(),
+                4501,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("proc scan could not read")
+        ));
+
+        let missing_root = malformed.path().join("missing-proc-root");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                &missing_root,
+                4501,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("cannot enumerate proc root")
+        ));
+
+        let racing = FakeProcRoot::new();
+        let racing_entry = racing.path().join("4502");
+        fs::create_dir_all(&racing_entry).expect("racing proc entry");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                racing.path(),
+                4502,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::StatEntryDisappeared { path, source })
+                if path == racing_entry.join("stat")
+                    && source.kind() == std::io::ErrorKind::NotFound
+        ));
+
+        let over_budget = FakeProcRoot::new();
+        over_budget.add_process(member(4503, 'S', 1, 4503, 4503));
+        over_budget.add_process(member(4504, 'S', 2, 4504, 4504));
+        assert!(matches!(
+            scan_linux_process_group_once(
+                over_budget.path(),
+                4503,
+                1,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("entry budget")
+        ));
+
+        let malformed_stat = FakeProcRoot::new();
+        malformed_stat.add_process(member(4505, 'S', 3, 4505, 4505));
+        fs::write(
+            malformed_stat.path().join("4505/stat"),
+            "4505 (malformed stat) Z 1 2\n",
+        )
+        .expect("write malformed stat contents");
+        assert!(matches!(
+            scan_linux_process_group_once(
+                malformed_stat.path(),
+                4505,
+                10,
+                Instant::now() + Duration::from_secs(1)
+            ),
+            Err(LinuxProcessGroupScanError::Other(message))
+                if message.contains("proc scan could not parse")
+        ));
+    }
+
+    #[test]
+    fn proc_scans_detect_pid_reuse_between_snapshots() {
+        let proc_root = FakeProcRoot::new();
+        let original = member(4601, 'Z', 131, 4601, 4601);
+        proc_root.add_process(original.clone());
+        let first = scan_linux_process_group_once(
+            proc_root.path(),
+            4601,
+            10,
+            Instant::now() + Duration::from_secs(1),
+        )
+        .expect("first complete scan");
+        proc_root.write_stat(&member(4601, 'Z', 132, 4601, 4601));
+        let second = scan_linux_process_group_once(
+            proc_root.path(),
+            4601,
+            10,
+            Instant::now() + Duration::from_secs(1),
+        )
+        .expect("second complete scan");
+        assert_eq!(
+            classify_linux_process_group_scans(
+                4601,
+                Some(&leader_identity(4601, 131, 4601, 4601)),
+                &first,
+                &second,
+            ),
+            LinuxProcessGroupLiveness::Unknown
+        );
+    }
+
+    #[test]
+    fn cleanup_guard_rejects_a_changed_latest_attempt_digest() {
+        let state = FakeProcRoot::new();
+        let attempt_id = "digest-stability";
+        let path = state.path().join(format!("{attempt_id}.json"));
+        fs::write(&path, br#"{"activeProcessGroupId":77}"#).expect("initial attempt");
+        let observed = current_attempt_file_digest(state.path(), attempt_id)
+            .expect("read initial attempt digest");
+        require_attempt_digest_unchanged(state.path(), attempt_id, &observed)
+            .expect("unchanged attempt digest");
+
+        fs::write(&path, br#"{"activeProcessGroupId":78}"#).expect("changed attempt");
+        assert!(require_attempt_digest_unchanged(state.path(), attempt_id, &observed).is_err());
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
+mod external_observer_deferred_tests {
+    use super::*;
+    use cockpit_protocol::{COLLABORATION_CAPABILITY, RuntimeCapabilityBinding};
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+    use std::sync::Arc;
+    use std::sync::atomic::AtomicBool;
+
+    static NEXT_CASE: AtomicU64 = AtomicU64::new(0);
+
+    struct TestDir(PathBuf);
+
+    impl TestDir {
+        fn new(label: &str) -> Self {
+            let sequence = NEXT_CASE.fetch_add(1, Ordering::Relaxed);
+            let path = std::env::temp_dir().join(format!(
+                "cockpit-a12-{label}-{}-{sequence}",
+                std::process::id()
+            ));
+            fs::create_dir_all(&path).expect("create composition case directory");
+            Self(path)
+        }
+
+        fn path(&self) -> &Path {
+            &self.0
+        }
+    }
+
+    impl Drop for TestDir {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    struct OwnedWorktrees {
+        repository: PathBuf,
+        paths: Vec<PathBuf>,
+    }
+
+    struct InaccessibleObserverPeer(libc::pid_t);
+
+    impl Drop for InaccessibleObserverPeer {
+        fn drop(&mut self) {
+            // SAFETY: this test owns the child PID returned by fork.
+            unsafe {
+                libc::kill(self.0, libc::SIGKILL);
+                libc::waitpid(self.0, std::ptr::null_mut(), 0);
+            }
+        }
+    }
+
+    impl OwnedWorktrees {
+        fn new(repository: &Path) -> Self {
+            Self {
+                repository: repository.to_path_buf(),
+                paths: Vec::new(),
+            }
+        }
+
+        fn retain_for_assertions(&mut self, path: &str) {
+            if !path.is_empty() {
+                self.paths.push(PathBuf::from(path));
+            }
+        }
+    }
+
+    impl Drop for OwnedWorktrees {
+        fn drop(&mut self) {
+            for path in &self.paths {
+                let _ = Command::new("git")
+                    .args(["-C"])
+                    .arg(&self.repository)
+                    .args(["worktree", "remove", "--force"])
+                    .arg(path)
+                    .output();
+                if let Some(parent) = path.parent() {
+                    let _ = fs::remove_dir_all(parent);
+                }
+            }
+        }
+    }
+
+    fn git(root: &Path, args: &[&str]) -> String {
+        let output = Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .output()
+            .expect("run fixture git command");
+        assert!(
+            output.status.success(),
+            "git {args:?}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout)
+            .expect("git fixture output is UTF-8")
+            .trim()
+            .into()
+    }
+
+    fn composition_case() -> (TestDir, TestDir, CompositionInput) {
+        let repository = TestDir::new("repository");
+        git(repository.path(), &["init", "-q"]);
+        git(
+            repository.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(repository.path(), &["config", "user.name", "Test"]);
+        fs::write(repository.path().join("README.md"), "fixture\n").expect("write fixture");
+        git(repository.path(), &["add", "."]);
+        git(repository.path(), &["commit", "-qm", "fixture"]);
+        git(repository.path(), &["branch", "-M", "main"]);
+        let head = git(repository.path(), &["rev-parse", "HEAD"]);
+        let state = TestDir::new("state");
+        let command = CompositionCommand {
+            node_id: "safe-noop".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            depends_on: Vec::new(),
+            environment: Default::default(),
+            input_paths: Vec::new(),
+            covered_scenarios: Vec::new(),
+            covered_constraints: Vec::new(),
+        };
+        let input = CompositionInput {
+            repository_root: repository.path().to_path_buf(),
+            state_dir: state.path().to_path_buf(),
+            binding: CompositionBinding {
+                schema_version: 1,
+                repository_id: Digest::sha256_bytes(b"a12 repository"),
+                binding_id: "a12-observer-unknown".into(),
+                target_branch: "main".into(),
+                target_sha: head.clone(),
+                participant_work_items: vec!["WI-A12-PROVIDER".into(), "WI-A12-CONSUMER".into()],
+                participant_heads: vec![head.clone(), head],
+                contract_digests: vec![
+                    Digest::sha256_bytes(b"provider Contract"),
+                    Digest::sha256_bytes(b"consumer Contract"),
+                ],
+                verifier: RuntimeCapabilityBinding {
+                    schema_version: 1,
+                    runtime_version: "0.2.113".into(),
+                    runtime_digest: Digest::sha256_bytes(b"a12 Runtime"),
+                    capability: COLLABORATION_CAPABILITY.into(),
+                },
+            },
+            identity: CompositionIdentity::default(),
+            reusable_node_ids: vec!["safe-noop".into()],
+            commands: vec![command],
+            preconditions: vec![CompositionPrecondition::satisfied("bound")],
+            timeout_seconds: 30,
+        };
+        (repository, state, input)
+    }
+
+    fn real_eacces_is_testable_without_ptrace_capability() -> bool {
+        if unsafe { libc::geteuid() } == 0 {
+            eprintln!("skipping real EACCES observer case: root may bypass procfs ptrace checks");
+            false
+        } else {
+            true
+        }
+    }
+
+    fn observer_diagnostic_process_id(error: &str) -> Option<libc::pid_t> {
+        let error = error
+            .strip_prefix("verifier_process_state_unknown:")
+            .unwrap_or(error);
+        let rest = error.strip_prefix("cannot inspect process pid=")?;
+        rest.split_ascii_whitespace().next()?.parse().ok()
+    }
+
+    fn require_controlled_eacces_observation(
+        child_pid: libc::pid_t,
+        observation: Result<Option<u32>, String>,
+    ) -> Result<Option<u32>, String> {
+        match observation {
+            Err(error) if observer_diagnostic_process_id(&error) == Some(child_pid) => Err(error),
+            Err(error) => panic!(
+                "observer encountered another process instead of controlled child pid={child_pid}: {error}"
+            ),
+            Ok(Some(process_id)) => {
+                panic!("expected unknown EACCES observation, found readable process {process_id}")
+            }
+            Ok(None) => panic!("expected EACCES observation, found no process"),
+        }
+    }
+
+    fn observe_real_eacces_worktree_process(worktree: &Path) -> Result<Option<u32>, String> {
+        let worktree = fs::canonicalize(worktree).map_err(|error| error.to_string())?;
+        let worktree_c =
+            CString::new(worktree.as_os_str().as_bytes()).map_err(|error| error.to_string())?;
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        if unsafe { libc::pipe(ready_pipe.as_mut_ptr()) } != 0 {
+            return Err(format!(
+                "cannot create EACCES child readiness pipe: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        // SAFETY: the child uses only async-signal-safe libc calls after fork.
+        let child_pid = unsafe { libc::fork() };
+        if child_pid < 0 {
+            // SAFETY: both descriptors were created by this test process.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                libc::close(ready_pipe[1]);
+            }
+            return Err(format!(
+                "cannot fork EACCES child: {}",
+                std::io::Error::last_os_error()
+            ));
+        }
+        if child_pid == 0 {
+            // SAFETY: the child owns the pipe write end and inherited path bytes.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::chdir(worktree_c.as_ptr()) != 0 {
+                    libc::_exit(111);
+                }
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(112);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(113);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let peer = InaccessibleObserverPeer(child_pid);
+        // SAFETY: the parent closes the unused write end and waits until the
+        // child has entered the worktree and disabled dumpability.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the parent owns the
+        // pipe read end.
+        let read_result = unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) };
+        // SAFETY: the parent owns the pipe read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        if read_result != 1 || ready != b'R' {
+            drop(peer);
+            return Err("EACCES child failed to report its controlled state".into());
+        }
+        let process_stat = fs::read_to_string(format!("/proc/{child_pid}/stat"))
+            .map_err(|error| format!("cannot read controlled process stat: {error}"))?;
+        parse_linux_process_stat(child_pid as u32, &process_stat)
+            .map_err(|error| format!("cannot parse controlled process identity: {error}"))?;
+        let denied_cwd = match fs::read_link(format!("/proc/{child_pid}/cwd")) {
+            Ok(path) => {
+                drop(peer);
+                return Err(format!(
+                    "controlled child cwd was unexpectedly readable: {}",
+                    path.display()
+                ));
+            }
+            Err(error) => error,
+        };
+        if denied_cwd.raw_os_error() != Some(libc::EACCES) {
+            drop(peer);
+            return Err(format!(
+                "controlled child did not produce EACCES for cwd: {denied_cwd}"
+            ));
+        }
+        let observation = verifier_process_using_worktree_for_test_pid(&worktree, child_pid as u32);
+        drop(peer);
+        require_controlled_eacces_observation(child_pid, observation)
+    }
+
+    fn run_supervisor_case(input: &CompositionInput, unknown_path: &str) -> CompositionAttempt {
+        run_supervisor_case_with_generation(input, unknown_path, 1)
+    }
+
+    fn run_supervisor_case_with_generation(
+        input: &CompositionInput,
+        unknown_path: &str,
+        generation: u64,
+    ) -> CompositionAttempt {
+        run_supervisor_case_result(input, unknown_path, generation)
+            .expect("supervisor fixture attempt")
+    }
+
+    fn run_supervisor_case_result(
+        input: &CompositionInput,
+        unknown_path: &str,
+        generation: u64,
+    ) -> Result<CompositionAttempt, String> {
+        let io = TestDir::new("supervisor-io");
+        let input_path = io.path().join("input.json");
+        let output_path = io.path().join("output.json");
+        fs::write(
+            &input_path,
+            serde_json::to_vec(input).expect("serialize input"),
+        )
+        .expect("write input");
+        let output = Command::new(std::env::current_exe().expect("unit test binary"))
+            .args(["external_observer_test_child_entry", "--nocapture"])
+            .env("AI_COCKPIT_A12_CHILD_INPUT", &input_path)
+            .env("AI_COCKPIT_A12_CHILD_OUTPUT", &output_path)
+            .env("AI_COCKPIT_A12_UNKNOWN_PATH", unknown_path)
+            .env("AI_COCKPIT_A12_GENERATION", generation.to_string())
+            .output()
+            .expect("run isolated composition supervisor fixture");
+        assert!(
+            output.status.success(),
+            "supervisor fixture: stdout={} stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        let result: Result<CompositionAttempt, String> =
+            serde_json::from_slice(&fs::read(&output_path).expect("supervisor fixture output"))
+                .expect("decode supervisor fixture result");
+        result
+    }
+
+    #[derive(Clone, Copy)]
+    enum DeniedReuseFinalObservation {
+        Clean,
+        ProcfsCwdEacces,
+        Active(u32),
+    }
+
+    fn injected_procfs_cwd_eacces(process_id: u32) -> String {
+        let identity = format!(
+            "observed(pid={process_id},starttime_ticks=7,pgid={process_id},sid={process_id},state=S)"
+        );
+        format!(
+            "cannot inspect process pid={process_id} filter_uid=Some({}) phase=procfs.cwd error_kind=PermissionDenied errno={} identity_state=observed identity_before={identity} identity_after={identity} message=Permission denied (os error {}) working directory",
+            unsafe { libc::geteuid() },
+            libc::EACCES,
+            libc::EACCES
+        )
+    }
+
+    fn run_denied_reuse_with_final_observation(
+        input: CompositionInput,
+        previous_worktree: PathBuf,
+        final_observation: DeniedReuseFinalObservation,
+    ) -> CompositionAttempt {
+        const DENIAL: &str =
+            "composition_reuse_not_admitted:safe-noop:coordination_safely_paused:late-request";
+
+        let admission_checked = Arc::new(AtomicBool::new(false));
+        let admission_checked_in_gate = Arc::clone(&admission_checked);
+        let admission_check: ProcessAdmissionCheck = Arc::new(move |node_id, _accept| {
+            assert_eq!(node_id, "safe-noop");
+            admission_checked_in_gate.store(true, Ordering::SeqCst);
+            Err("coordination_safely_paused:late-request".into())
+        });
+        let start_gate_called = Arc::new(AtomicBool::new(false));
+        let start_gate_called_in_gate = Arc::clone(&start_gate_called);
+        let process_start_gate: ProcessStartGate = Arc::new(move |_, _spawn| {
+            start_gate_called_in_gate.store(true, Ordering::SeqCst);
+            Err("process start gate must not run for a denied reuse".into())
+        });
+        let state_dir = input.state_dir.clone();
+        let observe = move |worktree: &Path| {
+            if worktree == previous_worktree {
+                return Ok(None);
+            }
+
+            assert!(worktree.is_dir(), "final observer sees the live worktree");
+            let persisted = fs::read_dir(&state_dir)
+                .expect("enumerate attempt state before final observation")
+                .filter_map(Result::ok)
+                .filter_map(|entry| {
+                    let path = entry.path();
+                    if !path
+                        .extension()
+                        .is_some_and(|extension| extension == "json")
+                    {
+                        return None;
+                    }
+                    let bytes = fs::read(path).ok()?;
+                    let attempt: CompositionAttempt = serde_json::from_slice(&bytes).ok()?;
+                    (Path::new(&attempt.isolated_worktree) == worktree).then_some(attempt)
+                })
+                .next()
+                .expect("durable attempt for final-observed worktree");
+            assert_eq!(persisted.failure.as_deref(), Some(DENIAL));
+            assert!(!persisted.passed);
+            assert_eq!(persisted.processes_spawned, 0);
+            assert!(persisted.execution_records.is_empty());
+            assert!(persisted.supervisor_receipt.is_none());
+
+            match final_observation {
+                DeniedReuseFinalObservation::Clean => Ok(None),
+                DeniedReuseFinalObservation::ProcfsCwdEacces => {
+                    Err(injected_procfs_cwd_eacces(4242))
+                }
+                DeniedReuseFinalObservation::Active(process_id) => Ok(Some(process_id)),
+            }
+        };
+        let attempt = run_composition_inner_with_observer(
+            input,
+            Some(admission_check),
+            Some(process_start_gate),
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| {
+                    panic!("an attempt without a supervisor receipt must not reap descendants")
+                },
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("denied reuse returns a durable fail-closed attempt");
+
+        assert!(admission_checked.load(Ordering::SeqCst));
+        assert!(!start_gate_called.load(Ordering::SeqCst));
+        assert!(!attempt.passed);
+        assert_ne!(
+            attempt.execution_outcome,
+            CompositionExecutionOutcome::Passed
+        );
+        assert_eq!(attempt.processes_spawned, 0);
+        assert!(attempt.execution_records.is_empty());
+        attempt
+    }
+
+    fn save_attempt_json(state: &Path, attempt_id: &str, name: &str) -> serde_json::Value {
+        let path = attempt_record_path(state, attempt_id);
+        let bytes = fs::read(path).expect("durable attempt bytes");
+        if let Ok(directory) = std::env::var("AI_COCKPIT_A12_EVIDENCE_DIR") {
+            fs::create_dir_all(&directory).expect("create A12 diagnostic directory");
+            fs::write(Path::new(&directory).join(name), &bytes)
+                .expect("save exact A12 diagnostic attempt bytes");
+        }
+        serde_json::from_slice(&bytes).expect("durable attempt JSON")
+    }
+
+    #[test]
+    fn external_observer_test_child_entry() {
+        let (Ok(input_path), Ok(output_path), Ok(unknown_path)) = (
+            std::env::var("AI_COCKPIT_A12_CHILD_INPUT"),
+            std::env::var("AI_COCKPIT_A12_CHILD_OUTPUT"),
+            std::env::var("AI_COCKPIT_A12_UNKNOWN_PATH"),
+        ) else {
+            return;
+        };
+        let input: CompositionInput =
+            serde_json::from_slice(&fs::read(input_path).expect("child input"))
+                .expect("child input JSON");
+        let backend = initialize_composition_supervisor_backend().expect("Linux subreaper");
+        assert_eq!(backend, CompositionSupervisorBackend::LinuxSubreaper);
+        let process = current_composition_process_identity().expect("supervisor identity");
+        let run_nonce = new_composition_run_nonce();
+        let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+        let generation = std::env::var("AI_COCKPIT_A12_GENERATION")
+            .expect("child generation")
+            .parse()
+            .expect("numeric child generation");
+        let receipt = CompositionSupervisorReceipt {
+            schema_version: 1,
+            backend,
+            attempt_id: attempt_id.clone(),
+            run_nonce,
+            generation,
+            owner: process.clone(),
+            supervisor: process,
+            linux_boot_id: composition_linux_boot_id().expect("Linux boot identity"),
+            environment_digest: Digest::sha256_bytes(b"a12 supervisor environment"),
+            runtime_version: input.binding.verifier.runtime_version.clone(),
+            runtime_digest: input.binding.verifier.runtime_digest.clone(),
+            repository_id: input.binding.repository_id.clone(),
+            target_sha: input.binding.target_sha.clone(),
+            snapshot_digest: composition_target_snapshot_digest(&input)
+                .expect("bound target snapshot"),
+            command_plan_digest: composition_commands_digest(&input.commands),
+            input_environment_digest: composition_input_environment_digest(&input),
+            execution_records_digest: execution_records_digest(&[]),
+            descendants_reaped_to_echild: false,
+        };
+        let check: ProcessAdmissionCheck = Arc::new(|_, accept| accept());
+        let spawn_marker = input.state_dir.join("a12-verifier-spawns");
+        let gate: ProcessStartGate = if unknown_path.starts_with("deny:") {
+            Arc::new(|_, _| Err("injected current admission denial".into()))
+        } else {
+            Arc::new(move |_, spawn| {
+                OpenOptions::new()
+                    .create(true)
+                    .append(true)
+                    .open(&spawn_marker)
+                    .and_then(|mut marker| marker.write_all(b"x"))
+                    .map_err(|error| format!("cannot mark A12 verifier spawn: {error}"))?;
+                spawn()
+            })
+        };
+        let observe = |path: &Path| {
+            if unknown_path == "real-eacces" {
+                observe_real_eacces_worktree_process(path)
+            } else if let Some(active_path) = unknown_path.strip_prefix("active:")
+                && path.to_string_lossy() == active_path
+            {
+                Ok(Some(std::process::id()))
+            } else if unknown_path == "*"
+                || path.to_string_lossy() == unknown_path
+                || unknown_path
+                    .strip_prefix("deny:")
+                    .is_some_and(|denied_path| path.to_string_lossy() == denied_path)
+            {
+                Err("injected external /proc cwd observation error".into())
+            } else {
+                Ok(None)
+            }
+        };
+        let result = run_composition_inner_with_observer(
+            input,
+            Some(check),
+            Some(gate),
+            Some(receipt),
+            Some(attempt_id),
+            CompositionObservationHooks {
+                observe_worktree_process: &observe,
+                reap_owned_descendants: &|| {
+                    if unknown_path == "owned-proof-unknown" {
+                        Err("injected owned descendant reap uncertainty".into())
+                    } else {
+                        reap_composition_supervisor_descendants()
+                    }
+                },
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .map_err(|error| error.to_string());
+        fs::write(
+            output_path,
+            serde_json::to_vec(&result).expect("serialize child result"),
+        )
+        .expect("write child result");
+    }
+
+    #[test]
+    fn real_eacces_fixture_rejects_a_diagnostic_for_another_pid() {
+        let mismatch = std::panic::catch_unwind(|| {
+            require_controlled_eacces_observation(
+                4242,
+                Err("cannot inspect process pid=4343 phase=procfs.cwd errno=13".into()),
+            )
+        });
+
+        assert!(
+            mismatch.is_err(),
+            "a sibling process diagnostic must fail the fixture, not become expected Unknown"
+        );
+    }
+
+    #[test]
+    fn real_eacces_fixture_rejects_a_pid_prefix_collision() {
+        let mismatch = std::panic::catch_unwind(|| {
+            require_controlled_eacces_observation(
+                4242,
+                Err("cannot inspect process pid=42420 phase=procfs.cwd errno=13".into()),
+            )
+        });
+
+        assert!(
+            mismatch.is_err(),
+            "a diagnostic PID with the controlled PID as a prefix must fail the fixture"
+        );
+    }
+
+    #[test]
+    fn admission_change_blocks_reuse_with_controlled_clean_unknown_and_active_observations() {
+        for observation in [
+            DeniedReuseFinalObservation::Clean,
+            DeniedReuseFinalObservation::ProcfsCwdEacces,
+            DeniedReuseFinalObservation::Active(4242),
+        ] {
+            let (repository, _state, input) = composition_case();
+            let first = run_supervisor_case(&input, "");
+            assert!(first.passed);
+            assert!(is_reusable_terminal_attempt(&first));
+            assert_eq!(
+                first.cleanup_disposition,
+                CompositionCleanupDisposition::Cleaned
+            );
+            assert_eq!(first.processes_spawned, 1);
+            assert_eq!(first.execution_records.len(), 1);
+            let previous_worktree = PathBuf::from(&first.isolated_worktree);
+            assert!(!previous_worktree.exists());
+
+            let mut worktrees = OwnedWorktrees::new(repository.path());
+            worktrees.retain_for_assertions(&first.isolated_worktree);
+            let blocked =
+                run_denied_reuse_with_final_observation(input, previous_worktree, observation);
+            worktrees.retain_for_assertions(&blocked.isolated_worktree);
+            assert!(blocked.supervisor_receipt.is_none());
+
+            let worktree = Path::new(&blocked.isolated_worktree);
+            match observation {
+                DeniedReuseFinalObservation::Clean => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(
+                            "composition_reuse_not_admitted:safe-noop:coordination_safely_paused:late-request"
+                        )
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Cleaned
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                    assert!(
+                        blocked
+                            .cleanup
+                            .as_ref()
+                            .is_some_and(|cleanup| cleanup.removed && cleanup.error.is_none())
+                    );
+                    assert!(!worktree.exists());
+                    assert!(
+                        !worktree_is_registered(repository.path(), worktree)
+                            .expect("verify clean worktree registration")
+                    );
+                }
+                DeniedReuseFinalObservation::ProcfsCwdEacces => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(
+                            format!(
+                                "verifier_process_state_unknown:{}",
+                                injected_procfs_cwd_eacces(4242)
+                            )
+                            .as_str()
+                        )
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Retained
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Unknown
+                    );
+                    assert!(!blocked.execution_evidence_complete);
+                    assert!(blocked.owned_tree_termination_unknown);
+                    assert!(blocked.cleanup.is_none());
+                    assert!(worktree.is_dir());
+                    assert!(
+                        worktree_is_registered(repository.path(), worktree)
+                            .expect("verify unknown worktree registration")
+                    );
+                }
+                DeniedReuseFinalObservation::Active(process_id) => {
+                    assert_eq!(
+                        blocked.failure.as_deref(),
+                        Some(format!("verifier_descendant_active:{process_id}").as_str())
+                    );
+                    assert_eq!(
+                        blocked.cleanup_disposition,
+                        CompositionCleanupDisposition::Retained
+                    );
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                    assert!(!blocked.owned_tree_termination_unknown);
+                    assert!(blocked.cleanup.is_none());
+                    assert!(worktree.is_dir());
+                    assert!(
+                        worktree_is_registered(repository.path(), worktree)
+                            .expect("verify active worktree registration")
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn complete_owned_execution_survives_external_unknown_and_retries_fresh_noop() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "real-eacces");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let first_raw = save_attempt_json(state.path(), &first.attempt_id, "first.raw.json");
+        assert_eq!(first_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(
+            first_raw["supervisorReceipt"]["descendantsReapedToEchild"],
+            true
+        );
+        assert_eq!(
+            first_raw["supervisorReceipt"]["attemptId"],
+            first.attempt_id
+        );
+        assert_eq!(first_raw["processesSpawned"], 1);
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
+
+        let second = run_supervisor_case(&input, &first.isolated_worktree);
+        worktrees.retain_for_assertions(&second.isolated_worktree);
+        let second_raw = save_attempt_json(state.path(), &second.attempt_id, "second.raw.json");
+
+        assert_eq!(first_raw["executionOutcome"], "passed");
+        assert_eq!(first_raw["executionEvidenceComplete"], true);
+        assert_eq!(first_raw["cleanupDisposition"], "deferred");
+        assert_eq!(first_raw["cleanup"]["attempted"], false);
+        assert_eq!(first_raw["cleanup"]["removed"], false);
+        let diagnostic = first_raw["cleanup"]["error"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
+        assert_eq!(second_raw["processesSpawned"], 1);
+        assert_eq!(second_raw["executionOutcome"], "passed");
+        assert_ne!(second.attempt_id, first.attempt_id);
+        assert_ne!(second.isolated_worktree, first.isolated_worktree);
+        assert_ne!(
+            second
+                .supervisor_receipt
+                .as_ref()
+                .map(|receipt| &receipt.run_nonce),
+            first
+                .supervisor_receipt
+                .as_ref()
+                .map(|receipt| &receipt.run_nonce)
+        );
+        assert_eq!(second.execution_records.len(), 1);
+        assert!(!second.execution_records[0].reused);
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old registration remains after fresh retry")
+        );
+    }
+
+    #[test]
+    fn external_unknown_without_current_owned_proof_retains_unknown() {
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "owned-proof-unknown");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "no-proof.raw.json");
+        assert_eq!(raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], false);
+        assert_eq!(raw["ownedTreeTerminationUnknown"], true);
+        assert_eq!(raw["executionOutcome"], "unknown");
+        assert_eq!(raw["executionEvidenceComplete"], false);
+        assert_eq!(raw["cleanupDisposition"], "retained");
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        let retry = run_supervisor_case_result(&input, "", 1)
+            .expect_err("clean external observer cannot replace missing owned-tree proof");
+        assert!(
+            retry.contains("has no verifiable owner; preserving its worktree"),
+            "unexpected recovery rejection: {retry}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("spawn marker"),
+            b"x",
+            "retry must not start another verifier"
+        );
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
+    }
+
+    #[test]
+    fn no_receipt_execution_record_survives_clean_and_procfs_eacces_observations() {
+        let (repository, state, input) = composition_case();
+        let observe_clean = |_worktree: &Path| Ok(None);
+        let reap_without_receipt = || -> Result<(), String> {
+            panic!("an attempt without a supervisor receipt must not reap descendants")
+        };
+        let clean = run_composition_inner_with_observer(
+            input,
+            None,
+            None,
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe_clean,
+                reap_owned_descendants: &reap_without_receipt,
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("clean observation attempt");
+        let clean_raw = save_attempt_json(state.path(), &clean.attempt_id, "no-receipt-clean.json");
+        assert_eq!(
+            clean_raw,
+            serde_json::to_value(&clean).expect("clean attempt JSON")
+        );
+        assert_eq!(clean_raw["executionRecords"][0]["nodeId"], "safe-noop");
+        assert_eq!(clean_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(clean_raw["executionRecords"][0]["spawned"], true);
+        assert_eq!(clean_raw["executionRecords"][0]["reused"], false);
+        assert_eq!(clean_raw["executionOutcome"], "passed");
+        assert_eq!(clean_raw["cleanupDisposition"], "cleaned");
+        assert!(clean.supervisor_receipt.is_none());
+        assert!(!clean.is_coherent_successful_terminal());
+        assert!(!Path::new(&clean.isolated_worktree).exists());
+        assert!(
+            !git(repository.path(), &["worktree", "list", "--porcelain"])
+                .lines()
+                .any(|line| line == format!("worktree {}", clean.isolated_worktree))
+        );
+
+        let (repository, state, input) = composition_case();
+        let eacces = injected_procfs_cwd_eacces(4242);
+        let observe_eacces = move |_worktree: &Path| Err(eacces.clone());
+        let mut retained_worktrees = OwnedWorktrees::new(repository.path());
+        let unknown = run_composition_inner_with_observer(
+            input,
+            None,
+            None,
+            None,
+            None,
+            CompositionObservationHooks {
+                observe_worktree_process: &observe_eacces,
+                reap_owned_descendants: &reap_without_receipt,
+                final_observation: FinalWorktreeObservation::Real,
+            },
+        )
+        .expect("unknown observation attempt");
+        retained_worktrees.retain_for_assertions(&unknown.isolated_worktree);
+        let unknown_raw =
+            save_attempt_json(state.path(), &unknown.attempt_id, "no-receipt-unknown.json");
+        assert_eq!(
+            unknown_raw,
+            serde_json::to_value(&unknown).expect("unknown attempt JSON")
+        );
+        assert_eq!(unknown_raw["executionRecords"][0]["nodeId"], "safe-noop");
+        assert_eq!(unknown_raw["executionRecords"][0]["exitCode"], 0);
+        assert_eq!(unknown_raw["executionRecords"][0]["spawned"], true);
+        assert_eq!(unknown_raw["executionRecords"][0]["reused"], false);
+        assert_eq!(unknown_raw["executionRecords"][0]["passed"], true);
+        assert_eq!(unknown_raw["executionOutcome"], "unknown");
+        assert_eq!(unknown_raw["executionEvidenceComplete"], false);
+        assert_eq!(unknown_raw["cleanupDisposition"], "retained");
+        assert_eq!(unknown_raw["cleanup"], serde_json::Value::Null);
+        assert!(unknown_raw.get("supervisorReceipt").is_none());
+        assert!(
+            unknown_raw["failure"]
+                .as_str()
+                .is_some_and(|failure| failure.starts_with("verifier_process_state_unknown:"))
+        );
+        assert!(!unknown.passed);
+        assert!(unknown.supervisor_receipt.is_none());
+        assert!(!unknown.is_coherent_successful_terminal());
+        assert!(unknown.owned_tree_termination_unknown);
+        assert!(unknown.cleanup.is_none());
+        assert!(Path::new(&unknown.isolated_worktree).is_dir());
+        assert!(
+            git(repository.path(), &["worktree", "list", "--porcelain"])
+                .lines()
+                .any(|line| line == format!("worktree {}", unknown.isolated_worktree))
+        );
+    }
+
+    #[test]
+    fn external_unknown_without_coherent_owned_binding_blocks_clean_reconcile() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
+        let (repository, state, input) = composition_case();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case_with_generation(&input, "real-eacces", 0);
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "unbound-proof.raw.json");
+        assert_eq!(raw["supervisorReceipt"]["descendantsReapedToEchild"], true);
+        assert_eq!(raw["ownedTreeTerminationUnknown"], true);
+        assert_eq!(raw["cleanupDisposition"], "retained");
+        let diagnostic = raw["failure"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
+        let mut legacy_json = raw.clone();
+        legacy_json
+            .as_object_mut()
+            .expect("attempt JSON object")
+            .remove("ownedTreeTerminationUnknown");
+        let legacy: CompositionAttempt =
+            serde_json::from_value(legacy_json).expect("pre-guard attempt format");
+        let legacy_error = reconcile_abandoned_attempt_with_observer(
+            repository.path(),
+            state.path(),
+            Some(legacy),
+            &|_| Ok(None),
+        )
+        .expect_err("legacy retained unknown cannot be cleaned by external Ok(None)");
+        assert!(matches!(
+            legacy_error,
+            CompositionError::UnknownAttemptOwner { .. }
+        ));
+        let retry = run_supervisor_case_result(&input, "", 1)
+            .expect_err("external Ok(None) cannot repair incoherent owned proof");
+        assert!(
+            retry.contains("has no verifiable owner; preserving its worktree"),
+            "unexpected recovery rejection: {retry}"
+        );
+        assert_eq!(
+            fs::read(state.path().join("a12-verifier-spawns")).expect("spawn marker"),
+            b"x"
+        );
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+        assert!(
+            worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                .expect("old worktree registration")
+        );
+    }
+
+    #[test]
+    fn failed_execution_result_survives_external_unknown_with_owned_proof() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("real EACCES observer tests are serialized");
+        if !real_eacces_is_testable_without_ptrace_capability() {
+            return;
+        }
+        let (repository, state, mut input) = composition_case();
+        input.commands[0].program = "false".into();
+        let mut worktrees = OwnedWorktrees::new(repository.path());
+        let first = run_supervisor_case(&input, "real-eacces");
+        worktrees.retain_for_assertions(&first.isolated_worktree);
+        let raw = save_attempt_json(state.path(), &first.attempt_id, "failed-execution.raw.json");
+        assert_eq!(raw["executionRecords"][0]["exitCode"], 1);
+        assert_eq!(raw["executionOutcome"], "failed");
+        assert_eq!(raw["executionEvidenceComplete"], true);
+        assert_eq!(raw["cleanupDisposition"], "deferred");
+        let diagnostic = raw["cleanup"]["error"]
+            .as_str()
+            .expect("durable process observation diagnostic");
+        assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+        assert!(
+            diagnostic.contains(&format!("errno={}", libc::EACCES)),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_state=observed"),
+            "{diagnostic}"
+        );
+        assert!(
+            raw["failure"]
+                .as_str()
+                .is_some_and(|failure| failure.starts_with("command_failed:"))
+        );
+        assert!(Path::new(&first.isolated_worktree).is_dir());
+    }
+
+    #[test]
+    fn node_without_observable_inputs_executes_again_under_clean_observer() {
+        let (_repository, _state, mut input) = composition_case();
+        input.commands[0].program = "sh".into();
+        input.commands[0].args = vec!["-c".into(), "true".into()];
+        let first = run_supervisor_case(&input, "");
+        assert!(first.passed, "first clean observation: {first:?}");
+        let second = run_supervisor_case(&input, "");
+        assert!(second.passed, "second clean observation: {second:?}");
+        assert_eq!(second.processes_spawned, 1);
+        assert!(!second.execution_records[0].reused);
+        assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
+        assert_ne!(first.attempt_id, second.attempt_id);
+        assert!(!Path::new(&first.isolated_worktree).exists());
+        assert!(!Path::new(&second.isolated_worktree).exists());
+    }
+
+    #[test]
+    fn external_unknown_retry_rejects_known_active_process_and_unsafe_command() {
+        for mode in ["active", "unsafe", "denied", "stale"] {
+            let (repository, state, input) = composition_case();
+            let mut worktrees = OwnedWorktrees::new(repository.path());
+            let first = run_supervisor_case(&input, "*");
+            worktrees.retain_for_assertions(&first.isolated_worktree);
+            assert_eq!(
+                first.cleanup_disposition,
+                CompositionCleanupDisposition::Deferred
+            );
+            let mut retry_input = input.clone();
+            let observation = if mode == "active" {
+                format!("active:{}", first.isolated_worktree)
+            } else if mode == "unsafe" {
+                retry_input.commands[0].program = "sh".into();
+                retry_input.commands[0].args = vec!["-c".into(), "true".into()];
+                first.isolated_worktree.clone()
+            } else if mode == "denied" {
+                format!("deny:{}", first.isolated_worktree)
+            } else {
+                first.isolated_worktree.clone()
+            };
+            let second = run_supervisor_case_with_generation(
+                &retry_input,
+                &observation,
+                if mode == "stale" { 0 } else { 1 },
+            );
+            let raw = save_attempt_json(
+                state.path(),
+                &second.attempt_id,
+                &format!("{mode}-retry.raw.json"),
+            );
+            assert_eq!(raw["processesSpawned"], 0);
+            let failure = raw["failure"].as_str().expect("failed retry reason");
+            if mode == "denied" {
+                assert_eq!(failure, "command_failed:exit=None");
+                assert_eq!(
+                    raw["executionRecords"][0]["stderr"],
+                    "injected current admission denial"
+                );
+                assert!(!Path::new(&second.isolated_worktree).exists());
+            } else {
+                assert_eq!(raw["isolatedWorktree"], "");
+                assert!(failure.starts_with("unsafe_deferred_cleanup_retry:"));
+            }
+            assert!(Path::new(&first.isolated_worktree).is_dir());
+            assert!(
+                worktree_is_registered(repository.path(), Path::new(&first.isolated_worktree))
+                    .expect("old worktree registration stays intact")
+            );
+        }
+    }
+}
+
+#[cfg(all(test, target_os = "linux"))]
 mod verifier_process_observation_tests {
     use super::{
-        create_private_composition_parent, unique_composition_parent,
-        verifier_process_using_worktree,
+        LINUX_PROCESS_OBSERVATION_TEST_LOCK, LinuxProcessGroupMember,
+        create_private_composition_parent, linux_process_observation_error,
+        parse_linux_process_stat, read_linux_process_identity, reconciliation_error_category,
+        reconciliation_known_observer_error, unique_composition_parent,
+        verifier_process_using_worktree, verifier_process_using_worktree_for_test_pid,
     };
+    use std::ffi::CString;
     use std::fs;
-    use std::sync::Mutex;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::fs::PermissionsExt;
+    use std::path::PathBuf;
     use std::time::Duration;
 
-    static PROCESS_OBSERVATION_TEST_LOCK: Mutex<()> = Mutex::new(());
+    struct TestCompositionParent(PathBuf);
+
+    impl Drop for TestCompositionParent {
+        fn drop(&mut self) {
+            let _ = fs::remove_dir_all(&self.0);
+        }
+    }
 
     struct InaccessibleProcess(libc::pid_t);
 
@@ -2968,9 +6819,63 @@ mod verifier_process_observation_tests {
         }
     }
 
+    fn eacces_diagnostic_field<'a>(diagnostic: &'a str, name: &str) -> Option<&'a str> {
+        let diagnostic = diagnostic
+            .strip_prefix("verifier_process_state_unknown:")
+            .unwrap_or(diagnostic);
+        diagnostic
+            .split_ascii_whitespace()
+            .find_map(|field| field.strip_prefix(name))
+    }
+
+    fn eacces_diagnostic_identity_field<'a>(
+        diagnostic: &'a str,
+        record_name: &str,
+        field_name: &str,
+    ) -> Option<&'a str> {
+        let record = eacces_diagnostic_field(diagnostic, record_name)?
+            .strip_prefix("observed(")?
+            .strip_suffix(')')?;
+        let field_name = field_name.strip_suffix('=')?;
+        record.split(',').find_map(|field| {
+            let (key, value) = field.split_once('=')?;
+            (key == field_name).then_some(value)
+        })
+    }
+
+    fn eacces_diagnostic_matches_identity(
+        diagnostic: &str,
+        identity: &LinuxProcessGroupMember,
+        process_uid: u32,
+    ) -> bool {
+        let expected_pid = identity.process_id.to_string();
+        let expected_uid = format!("Some({process_uid})");
+        let expected_errno = libc::EACCES.to_string();
+        eacces_diagnostic_field(diagnostic, "pid=") == Some(expected_pid.as_str())
+            && eacces_diagnostic_field(diagnostic, "phase=") == Some("procfs.cwd")
+            && eacces_diagnostic_field(diagnostic, "errno=") == Some(expected_errno.as_str())
+            && eacces_diagnostic_field(diagnostic, "identity_state=") == Some("observed")
+            && eacces_diagnostic_field(diagnostic, "filter_uid=") == Some(expected_uid.as_str())
+            && eacces_diagnostic_field(diagnostic, "uid=").is_none()
+            && ["identity_before=", "identity_after="]
+                .iter()
+                .all(|record| {
+                    eacces_diagnostic_identity_field(diagnostic, record, "pid=")
+                        == Some(expected_pid.as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "starttime_ticks=")
+                            == Some(identity.start_time_ticks.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "pgid=")
+                            == Some(identity.process_group_id.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "sid=")
+                            == Some(identity.session_id.to_string().as_str())
+                        && eacces_diagnostic_identity_field(diagnostic, record, "state=")
+                            .is_some_and(|state| state.len() == 1 && state.is_ascii())
+                })
+    }
+
     #[test]
     fn inaccessible_runner_ancestors_do_not_block_fresh_worktree_cleanup() {
-        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
             .lock()
             .expect("process observation tests are serialized");
         let parent = unique_composition_parent();
@@ -2991,7 +6896,7 @@ mod verifier_process_observation_tests {
 
     #[test]
     fn inaccessible_process_started_before_private_worktree_does_not_block_cleanup() {
-        let _guard = PROCESS_OBSERVATION_TEST_LOCK
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
             .lock()
             .expect("process observation tests are serialized");
         if unsafe { libc::geteuid() } == 0 {
@@ -3055,6 +6960,191 @@ mod verifier_process_observation_tests {
             observed,
             Ok(None),
             "an inaccessible process that predates the private worktree cannot own its cwd or inherited file descriptors"
+        );
+    }
+
+    #[test]
+    fn fresh_same_uid_nondumpable_process_reports_eacces_and_observable_identity() {
+        let _guard = LINUX_PROCESS_OBSERVATION_TEST_LOCK
+            .lock()
+            .expect("process observation tests are serialized");
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+
+        // Let any unrelated inaccessible same-UID process predate this test's
+        // private directory, so the controlled child is the only new candidate.
+        std::thread::sleep(Duration::from_millis(3_100));
+        let parent = TestCompositionParent(unique_composition_parent());
+        create_private_composition_parent(&parent.0).expect("private composition parent");
+        let worktree = parent.0.join("composition");
+        fs::create_dir(&worktree).expect("composition worktree directory");
+        let worktree_c =
+            CString::new(worktree.as_os_str().as_bytes()).expect("worktree path contains no NUL");
+
+        let mut ready_pipe = [0; 2];
+        // SAFETY: ready_pipe points to two writable file descriptors.
+        assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+        // SAFETY: the child uses only async-signal-safe libc calls after fork.
+        let child_pid = unsafe { libc::fork() };
+        assert!(child_pid >= 0, "fork controlled inaccessible process");
+        if child_pid == 0 {
+            // SAFETY: the child owns the pipe write end and the worktree path
+            // points to inherited, NUL-terminated bytes.
+            unsafe {
+                libc::close(ready_pipe[0]);
+                if libc::chdir(worktree_c.as_ptr()) != 0 {
+                    libc::_exit(111);
+                }
+                if libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) != 0 {
+                    libc::_exit(112);
+                }
+                let ready = b'R';
+                if libc::write(ready_pipe[1], (&ready as *const u8).cast(), 1) != 1 {
+                    libc::_exit(113);
+                }
+                libc::close(ready_pipe[1]);
+                loop {
+                    libc::pause();
+                }
+            }
+        }
+        let child = InaccessibleProcess(child_pid);
+        // SAFETY: the parent closes the unused write end and waits for the
+        // child's chdir and non-dumpable transition before observing procfs.
+        unsafe {
+            libc::close(ready_pipe[1]);
+        }
+        let mut ready = 0_u8;
+        // SAFETY: ready points to one writable byte and the parent owns the
+        // pipe read end.
+        assert_eq!(
+            unsafe { libc::read(ready_pipe[0], (&mut ready as *mut u8).cast(), 1) },
+            1
+        );
+        // SAFETY: the parent owns the pipe read descriptor.
+        unsafe {
+            libc::close(ready_pipe[0]);
+        }
+        assert_eq!(ready, b'R');
+
+        let process_stat = fs::read_to_string(format!("/proc/{child_pid}/stat"))
+            .expect("controlled process stat remains readable");
+        let identity = parse_linux_process_stat(child_pid as u32, &process_stat)
+            .expect("controlled process identity");
+        let denied_cwd = fs::read_link(format!("/proc/{child_pid}/cwd"))
+            .expect_err("non-dumpable child cwd must be inaccessible");
+        assert_eq!(denied_cwd.raw_os_error(), Some(libc::EACCES));
+
+        let observed = verifier_process_using_worktree_for_test_pid(&worktree, child_pid as u32)
+            .expect_err("real EACCES must remain an unknown process observation");
+        assert!(
+            eacces_diagnostic_matches_identity(&observed, &identity, unsafe { libc::getuid() },),
+            "diagnostic must retain the readable process identity: {observed}"
+        );
+
+        drop(child);
+        drop(parent);
+    }
+
+    #[test]
+    fn fresh_same_uid_diagnostic_rejects_pid_and_identity_prefix_collisions() {
+        let identity = LinuxProcessGroupMember {
+            process_id: 4_242,
+            state: 'S',
+            start_time_ticks: 7,
+            process_group_id: 41,
+            session_id: 41,
+        };
+        let diagnostic = "verifier_process_state_unknown:cannot inspect process pid=42420 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=130 identity_state=observed identity_before=observed(pid=42420,starttime_ticks=70,pgid=410,sid=410,state=S) identity_after=observed(pid=42420,starttime_ticks=70,pgid=410,sid=410,state=S) message=Permission denied";
+
+        assert!(
+            !eacces_diagnostic_matches_identity(diagnostic, &identity, 1000),
+            "longer PID, identity, and errno fields must not match by numeric prefix"
+        );
+    }
+
+    #[test]
+    fn fresh_same_uid_identity_match_allows_process_state_transition() {
+        let identity = LinuxProcessGroupMember {
+            process_id: 4_242,
+            state: 'S',
+            start_time_ticks: 7,
+            process_group_id: 41,
+            session_id: 41,
+        };
+        let diagnostic = "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R) identity_after=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) message=Permission denied";
+
+        assert!(
+            eacces_diagnostic_matches_identity(diagnostic, &identity, 1000),
+            "a scheduler state transition must not invalidate unchanged process identity fields"
+        );
+    }
+
+    #[test]
+    fn unreadable_process_identity_is_explicitly_unknown_in_diagnostic() {
+        if unsafe { libc::geteuid() } == 0 {
+            return;
+        }
+        let parent = TestCompositionParent(unique_composition_parent());
+        let process_id = 42_424_u32;
+        let stat_path = parent.0.join(process_id.to_string()).join("stat");
+        fs::create_dir_all(stat_path.parent().expect("stat parent"))
+            .expect("create synthetic proc entry");
+        fs::write(&stat_path, "synthetic identity bytes").expect("write identity fixture");
+        fs::set_permissions(&stat_path, fs::Permissions::from_mode(0o000))
+            .expect("make synthetic process identity unreadable");
+        let before = read_linux_process_identity(&parent.0, process_id);
+        assert!(
+            before
+                .as_ref()
+                .is_err_and(|error| error.contains("errno=13")),
+            "synthetic proc stat read should fail with EACCES: {before:?}"
+        );
+        let denied = std::io::Error::from_raw_os_error(libc::EACCES);
+
+        let diagnostic = linux_process_observation_error(
+            &parent.0,
+            process_id,
+            Some(unsafe { libc::getuid() }),
+            "procfs.cwd",
+            &denied,
+            &before,
+        );
+
+        assert!(diagnostic.contains("errno=13"), "{diagnostic}");
+        assert!(
+            diagnostic.contains("identity_state=unknown"),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_before=unknown("),
+            "{diagnostic}"
+        );
+        assert!(
+            diagnostic.contains("identity_after=unknown("),
+            "{diagnostic}"
+        );
+        drop(parent);
+    }
+
+    #[test]
+    fn recovery_trace_extracts_structured_process_observation_fields() {
+        let error = "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno=13 identity_state=observed identity_before=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) identity_after=observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S) message=Permission denied (os error 13)";
+
+        assert_eq!(
+            reconciliation_known_observer_error(error),
+            "pid=4242 phase=procfs.cwd errno=13 identity_state=observed"
+        );
+    }
+
+    #[test]
+    fn recovery_trace_category_ignores_nested_identity_read_error_kind() {
+        let error = "cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=Other errno=5 identity_state=unknown identity_before=unknown(identity stat read failed error_kind=PermissionDenied errno=13) identity_after=unknown(identity stat read failed error_kind=PermissionDenied errno=13)";
+
+        assert_eq!(
+            reconciliation_error_category(error),
+            "proc_observation_error"
         );
     }
 }

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user selected option 1 (confirm this exact Contract and continue) in response to Runtime decision contract-preflight-review. Official user_message.read_messages evidence relayed by the parent reports channel=chatgpt, message_id=Sentinel_29a3196d104c819198598edec20c658f, author=user, author_id=user-1lSz36PWE5SpWu8hYO6DjdOp, sent_at=2026-10-07T21:13:08.303777+00:00, content.text=\"1\", partial=false; the immediately preceding Runtime prompt explicitly bound the confirmation to Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113. The preflight admission digest was sha256:497f46cc3c63b0295b8fde11754dadaef10ea7e0566f721ca56f7f730f9a0518 and the repository snapshot digest is sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb. Recorded by agent:Codex (/root) under the user's explicit delegation; the recording agent is not the human decision-maker.",
+  "recordedAt": "2026-10-07T21:15:15Z",
+  "recordedBy": "agent:Codex (/root)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

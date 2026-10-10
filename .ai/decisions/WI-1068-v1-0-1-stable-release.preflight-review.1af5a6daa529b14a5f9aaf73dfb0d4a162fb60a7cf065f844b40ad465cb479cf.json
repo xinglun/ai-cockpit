@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:cc8852e2db55f7b39fbca8403113901c0eea7af32c304f4e2cd4c17b3ba31651",
+  "reason": "The user replied exactly “Confirm review” at 2026-10-10T01:06:17Z (message Sentinel_efa97741f8988191b245818dfd127f97) to Raydot’s exact-scope confirmation request at 2026-10-10T00:18:37Z (message Sentinel_732d638b5a408191a19fbfd7dec50032), bound to requestDigest sha256:7f0505921b87f80195998cb20a1eaea67b707030adb78e7cee2eb33fd186816e and expected Contract digest sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3. This records the user’s bounded approval to add only tests/acceptance/cross_wi_coordination_processes.py to WI-1068 scope. It does not approve verification, merge, tag, release, publication, or close. The decision was entered by agent:Codex; Runtime does not independently authenticate the user identity.",
+  "recordedAt": "2026-10-10T01:08:38Z",
+  "recordedBy": "human:user (explicit conversation approval; entered by agent:Codex)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

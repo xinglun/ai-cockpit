@@ -1,0 +1,49 @@
+{
+  "attemptId": "sha256:aaa303024863053d79d53bc89b5ef064a54dd48e7393b8a43e61e85c3f461e96",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "collaboration_scenario_matrix",
+        "cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes",
+        "--",
+        "--exact"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:310214382fd8b610cb4a752f0a7ddf44fc30d57c629f2abe7dd65c0adc43c792",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+  "contractExecutionScopeDigest": "sha256:6da53fe30c03060931e7ef8f85808ae6b1bc09e8f5aa30f7e3e3ea01e9ba9b1c",
+  "createdAt": "2026-10-09T20:43:06Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:1ad364de971c4f29b81eaf0fc85160ac8107873d41529ef20a63e09d5501b054, issues=[\"evidence_stale\", \"material_review_projection_unavailable\", \"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e6ad91d082d85d7666bf55acfade866454d87cef934a847f6cad8721c2a16a1",
+  "runtimeDigest": "sha256:e8e97343474b6f3a92cc724eb83786f004a9c01d6d69ecae9fde0a2dca6cf51f",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

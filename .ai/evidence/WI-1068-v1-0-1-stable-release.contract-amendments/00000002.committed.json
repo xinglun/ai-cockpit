@@ -1,0 +1,367 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:2ee062a111fa79d9ddf43ee1a977246e7ddb29c1c59932f40b57806d0f0876d9",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 2,
+    "changeId": "wi1068-contract-scenarios-20261006-02",
+    "requestDigest": "sha256:ff8ba3c586f4c79be21c472eb5ccd3097e01365747203a42c2cc9a0b4dc12b7f",
+    "reason": "Complete the high-risk release Contract with the exact planned scenarios and expected results from the already authorized scope; this adds plans only and claims no executed evidence.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+            "required": true,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+            "required": true,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+            "required": true,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output."
+          },
+          {
+            "evidence": [],
+            "expected": "On the local Apple Silicon macOS host, CLI and MCP invocation switching resolves each configured repository identity to its intended root without changing provider-global configuration.",
+            "required": true,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "Run the declared local CLI/MCP identity-switch checks against both configured repository roots and preserve invocation, identity, and cleanup evidence."
+          }
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "add",
+        "oldValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+            "required": true,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output."
+          },
+          {
+            "evidence": [],
+            "expected": "On the local Apple Silicon macOS host, CLI and MCP invocation switching resolves each configured repository identity to its intended root without changing provider-global configuration.",
+            "required": true,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "Run the declared local CLI/MCP identity-switch checks against both configured repository roots and preserve invocation, identity, and cleanup evidence."
+          }
+        ],
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "The current candidate metadata and built package identify version 1.0.1 as stable without a prerelease suffix; historical v1.0.1-rc.2 remains a separate immutable prerelease.",
+            "required": true,
+            "scenario": "stable-v1.0.1-identity",
+            "status": "unverified",
+            "verificationPlan": "Inspect Cargo.toml, Cargo.lock, candidate metadata, version output from each built target, and localized release/version documents; verify historical prerelease labels remain accurate."
+          },
+          {
+            "evidence": [],
+            "expected": "Every required repository and release gate passes on the exact candidate PR head, including actual coverage completion for all 13 packages.",
+            "required": true,
+            "scenario": "exact-head-repository-and-release-ci",
+            "status": "unverified",
+            "verificationPlan": "Run the existing required PR CI and release validation route; bind run ID, exact head SHA, job statuses, package coverage outputs, and any produced artifacts."
+          },
+          {
+            "evidence": [],
+            "expected": "Candidate build and installation smoke pass for Apple Silicon macOS Homebrew, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, including each target's declared doctor/smoke checks.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "Use the existing release workflow's Homebrew, Linux, and Windows candidate smoke jobs and retain per-target build, install, doctor, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only x86_64-unknown-linux-gnu runs the full upgrade from the immediately previous stable release to candidate 1.0.1, and the upgraded installation passes its declared doctor checks.",
+            "required": true,
+            "scenario": "linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "After confirming the immutable previous stable tag and candidate identity, execute the existing N-1 acceptance path only for x86_64-unknown-linux-gnu; preserve installed-version, upgrade, and post-upgrade doctor output."
+          },
+          {
+            "evidence": [],
+            "expected": "On the local Apple Silicon macOS host, CLI and MCP invocation switching resolves each configured repository identity to its intended root without changing provider-global configuration.",
+            "required": true,
+            "scenario": "local-macos-cli-mcp-identity-switch",
+            "status": "unverified",
+            "verificationPlan": "Run the declared local CLI/MCP identity-switch checks against both configured repository roots and preserve invocation, identity, and cleanup evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "Only after the other release scenarios pass and Runtime admits the bound resource plan, stable v1.0.1 is published with assets matching the accepted candidate; no existing immutable tag or asset is replaced.",
+            "required": true,
+            "scenario": "stable-v1.0.1-publication",
+            "status": "unverified",
+            "verificationPlan": "At the publication boundary, query the exact tag and Release identity, obtain the Runtime-admitted finalization plan and current human decision, publish only if the name is unused and evidence is fresh, then verify tag, Release, and asset digests."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:c0a1d3404788beb3e5a7a6943883137e2cb64257bc25e0e22df3af1f2652ee29",
+    "newContractDigest": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+    "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+    "environmentObservationDigest": "sha256:169f405409612597f6ed91ac4d1d69b1d16ee733ffb1760b0c2e0735f1b7f72f",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:a0606945ac366fd85d2b11ff108070f9c1747eb39900ea9d3030b65120b72fac",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:1b3d24a8c8b797059f9eeb49558ca9086eb75531dc3586a79756b685ab658ea4",
+    "journalDigest": "sha256:08b660aad1cdae0b01daf0de53a9f524ab7ecfd02784c19a7ea1f6f37decab6e",
+    "recordedAt": "2026-10-06T05:29:45Z"
+  }
+}

@@ -34,16 +34,41 @@ capabilityClaims:
 
 ## 运行真实的首次使用流程
 
-Apple Silicon macOS 可用以下命令安装已发布的稳定版 v1.0.0，并校验 archive 的 SHA-256。需要 curl、shasum、tar 和 install：
+Apple Silicon macOS 可在发布后用以下命令安装稳定版 v1.0.1。命令会用 release manifest 和 SHA256SUMS 校验下载的 archive。需要 curl、shasum、tar、install 和 Python 3：
 
 ~~~bash
 set -eu
-asset=ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz
+tag=v1.0.1
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
+asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 cd "$tmpdir"
-curl -fL "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0/$asset" -o "$asset"
-printf '%s  %s\n' 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 "$asset" | shasum -a 256 -c -
+curl -fL "$release_url/$asset" -o "$asset"
+curl -fL "$release_url/SHA256SUMS" -o SHA256SUMS
+curl -fL "$release_url/release-manifest.json" -o release-manifest.json
+manifest_sum="$(awk '$2 == "release-manifest.json" {print $1}' SHA256SUMS)"
+manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
+test -n "$manifest_sum" && test "$manifest_actual" = "$manifest_sum"
+expected="$(python3 - "$asset" <<'PY'
+import json
+import sys
+filename = sys.argv[1]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+    raise SystemExit("release manifest identity mismatch")
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename
+               and item["target"] == "aarch64-apple-darwin"), None)
+if record is None:
+    raise SystemExit("Apple Silicon macOS artifact missing from manifest")
+print(record["archive"]["sha256"])
+PY
+)"
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
+test -n "$expected" && test "$expected" = "$listed" && test "$actual" = "$listed"
 tar -xzf "$asset" ai-cockpit
 mkdir -p "$HOME/.local/bin"
 install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
@@ -79,9 +104,7 @@ ai-cockpit doctor --repo $repo
 
 ## 稳定版与可选预发布版
 
-默认使用稳定版 v1.0.0。[Release 页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.0)列出 v1.0.0 的 Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 制品。v1.0.0 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
-
-macOS ARM64 v1.0.1-rc.1 是供独立试用的可选预发布版，不是默认安装路径；该预发布版本的正式发布验收检查尚未完成。[预发布页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
+默认使用稳定版 v1.0.1。[Release 页面](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1)列出 Apple Silicon macOS、Linux ARM64 GNU、Linux x86_64 GNU 和 Windows x86_64 制品。此前稳定版 v1.0.0 是本次 N-1 升级验收的来源。v1.0.1-rc.2 保持为独立的历史预发布版本，不作为默认安装版本。没有提供 Intel macOS、Linux musl 或 Windows ARM64 archive。
 
 ## 边界
 

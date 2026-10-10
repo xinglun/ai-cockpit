@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:4a5e329d7466a40c8c97f33eefc474d462b19caee2c8715e895228330b2a2b1b",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "commandDigest": "sha256:d26100e15098eeac2b1eaf271a3e4e6ff2b45993576ba855b38bf592d4db6e10",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:ea9356525807192f23d6dcae10b636723957878ac73c8d1c65e45bc365f265a9",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+  "contractExecutionScopeDigest": "sha256:5ba66f1be30203dfef1aeaa9c06711d9222e030ef2d1fa50238c7fecf5c5613d",
+  "createdAt": "2026-10-09T06:32:57Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\"], nextAction=Some(\"record_governance_controls\"), admissionDigest=sha256:248ef421986c507b79f2b522dcbc80e6e2d43e43d7da8f1edd386bb7263d911f, issues=[\"acceptance_evidence_insufficient\", \"acceptance_evidence_item_missing\", \"evidence_stale\", \"repository_material_inspection_unavailable\", \"required_scenario_unverified\", \"scenario_coverage_insufficient\", \"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\"]; additional verification precondition: repository protocol state error at /workspace/wi1068-pr1022/.ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
+  "runtimeDigest": "sha256:ea9356525807192f23d6dcae10b636723957878ac73c8d1c65e45bc365f265a9",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

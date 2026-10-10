@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
@@ -10,8 +10,9 @@ use cockpit_repository::{
     preflight_work_item, preflight_work_item_with_runtime_report, record_recovery_decision,
     record_resource_finalization, record_verification, record_verification_with_runtime,
     record_work_item_governance_controls, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
-    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
+    require_current_action_admission, run_repository_verification, start_work_item,
+    start_work_item_with_options, work_item_status_index_with_runtime,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, path::PathBuf, process::Command};
@@ -53,7 +54,13 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
-    attach(directory.path()).expect("attach");
+    let root = directory.path();
+    git(root, &["config", "user.name", "Status Test"]);
+    git(root, &["config", "user.email", "status@example.invalid"]);
+    fs::write(root.join("README.md"), "status projection baseline\n").expect("baseline");
+    git(root, &["add", "README.md"]);
+    git(root, &["commit", "-qm", "status projection baseline"]);
+    attach(root).expect("attach");
     directory
 }
 
@@ -63,6 +70,16 @@ fn runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"status-runtime"),
     }
+}
+
+fn benign_syntax_unknown_source() -> &'static str {
+    r#"
+fn material() -> String {
+    let mut label = String::from("token");
+    label.push_str("ization");
+    label
+}
+"#
 }
 
 fn record_human_preflight_review(root: &std::path::Path, work_item_id: &str) {
@@ -1280,6 +1297,304 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
             .any(|input| input.contains("verification"))
     );
     assert!(explanation.admission_digest.as_str().starts_with("sha256:"));
+}
+
+#[test]
+fn status_rechecks_committed_contract_base_material_with_empty_worktree_diff() {
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("README.md"), "material status baseline\n").expect("baseline");
+    commit_all(root, "material status baseline");
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-STATUS",
+        "project committed material",
+        "retain canonical scanner Unknowns in status",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material_unknown.rs"),
+        benign_syntax_unknown_source(),
+    )
+    .expect("material source");
+    commit_all(root, "commit material with bounded syntax Unknown");
+    cockpit_repository::plan_work_item_material_review(root, "WI-MATERIAL-STATUS")
+        .expect("canonical material request after commit");
+
+    let status = work_item_status_snapshot_with_runtime(root, "WI-MATERIAL-STATUS", &runtime())
+        .expect("status");
+    assert!(
+        status
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "status must include the canonical committed-source scanner result: {:?}",
+        status.unknowns
+    );
+    assert!(
+        status
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert_eq!(status.effective_unknowns, status.unknowns);
+    assert!(status.material_manifest_digest.is_some());
+    assert_eq!(status.review_receipt_digest, None);
+    assert_eq!(status.review_assurance, None);
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into())
+    );
+
+    let preflight = preflight_work_item(
+        root,
+        &root.join(".ai/work-items/active/WI-MATERIAL-STATUS.contract.json"),
+    )
+    .expect("preflight");
+    assert_eq!(preflight.state, DecisionState::Yellow);
+    assert!(
+        preflight
+            .unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        preflight
+            .raw_scanner_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert_eq!(preflight.effective_unknowns, preflight.unknowns);
+    assert!(preflight.material_manifest_digest.is_some());
+    assert_eq!(preflight.review_receipt_digest, None);
+    assert_eq!(preflight.review_assurance, None);
+}
+
+#[test]
+fn unavailable_material_projection_blocks_verification_even_with_pending_retry() {
+    let directory = repository();
+    let root = directory.path();
+    let id = "WI-STATUS-RETRY-MATERIAL-UNAVAILABLE";
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        root,
+        id,
+        "keep unavailable material fail-closed",
+        "a retry decision cannot authorize verification while committed material is unavailable",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{id}.contract.json"));
+    preflight_work_item(root, &contract_path).expect("preflight");
+    checkpoint_work_item(root, id).expect("checkpoint");
+
+    let repository_id = repository_id(root).to_string();
+    let outcome = json!({
+        "state": "blocked",
+        "workItemId": id,
+        "repositoryId": repository_id,
+        "failedGate": "finish.governance",
+        "recoveryCondition": "retry after restoring the lifecycle gate"
+    });
+    let outcome_path = active.join(format!("{id}.outcome.json"));
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&outcome).expect("outcome JSON"),
+    )
+    .expect("blocked outcome");
+    let events = format!(
+        "{{\"schemaVersion\":1,\"eventId\":\"{id}-blocked\",\"repositoryId\":\"{repository_id}\",\"workItemId\":\"{id}\",\"eventType\":\"blocked\",\"timestamp\":\"2026-08-23T00:00:00Z\",\"detail\":\"blocked for recovery\"}}\n"
+    );
+    let events_path = active.join(format!("{id}.events.jsonl"));
+    fs::write(&events_path, events.as_bytes()).expect("blocked event");
+
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).expect("Contract"))
+        .expect("Contract JSON");
+    let summary_path = active.join(format!("{id}.summary.json"));
+    let summary: Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary")).expect("Summary JSON");
+    let retry = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": id,
+        "repositoryId": repository_id,
+        "predecessorWorkItemId": id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("Contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("Summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).expect("Outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(events.as_bytes()),
+        "runtimeVersion": current_runtime.runtime_version,
+        "runtimeDigest": current_runtime.runtime_digest,
+        "actor": "human:test-fixture",
+        "authoritySource": "repository-local test fixture",
+        "reason": "exercise retry admission while material projection is unavailable",
+        "evidenceRefs": [format!(".ai/work-items/active/{id}.outcome.json")],
+        "policyRefs": [],
+        "decidedAt": "2026-08-23T00:00:00Z",
+        "resumeCondition": "material projection is available and current preflight is recorded"
+    });
+    record_recovery_decision(root, id, &retry, &current_runtime).expect("record retry");
+
+    fs::write(root.join("README.md"), "uncommitted support change\n")
+        .expect("make committed-source material unavailable");
+    let status = work_item_status_snapshot_with_runtime(root, id, &current_runtime)
+        .expect("status with unavailable material projection");
+    assert!(
+        status
+            .blockers
+            .contains(&"material_review_projection_unavailable".into()),
+        "the material blocker must remain visible: {status:#?}"
+    );
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_preflight"),
+        "red preflight remains available to record the blocker: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "a pending retry must not bypass unavailable material: {status:#?}"
+    );
+    assert!(
+        !status
+            .safe_actions
+            .iter()
+            .any(|action| action == "record_material_review_decision"),
+        "unavailable material must not admit a review decision: {status:#?}"
+    );
+    require_current_action_admission(root, id, "run_verification", &current_runtime)
+        .expect_err("verification must remain rejected");
+    require_current_action_admission(
+        root,
+        id,
+        "record_material_review_decision",
+        &current_runtime,
+    )
+    .expect_err("material-review recording must remain rejected");
+
+    let preflight = preflight_work_item_with_runtime_report(root, &contract_path, &current_runtime)
+        .expect("preflight can record the unresolved material blocker");
+    assert_eq!(preflight.decision.state, DecisionState::Red);
+    assert!(
+        preflight
+            .decision
+            .blockers
+            .contains(&"material_review_projection_unavailable".into())
+    );
+}
+
+#[test]
+fn status_projection_keeps_material_finding_categories_distinct() {
+    let directory = repository();
+    let root = directory.path();
+    fs::write(root.join("pyproject.toml"), "fail_under = 90\n").expect("coverage baseline");
+    commit_all(root, "add coverage baseline");
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-FINDINGS",
+        "preserve material finding categories",
+        "project each distinct scanner finding into status blockers",
+        &[
+            "README.md".into(),
+            "tests/ci/**".into(),
+            "pyproject.toml".into(),
+        ],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+
+    let injection = include_str!(
+        "../../../tests/conformance/fixtures/repository-prompt-injection/repository/material.txt"
+    )
+    .trim();
+    let skip_decorator = ["@", "pytest", ".mark.skip", "(", "reason='disabled'", ")"].concat();
+    fs::write(root.join("README.md"), format!("{injection}\n")).expect("injected documentation");
+    fs::create_dir_all(root.join("tests/ci")).expect("CI test directory");
+    fs::write(
+        root.join("tests/ci/security.py"),
+        format!("{skip_decorator}\ndef test_security():\n    pass\n"),
+    )
+    .expect("security test");
+    fs::write(root.join("pyproject.toml"), "fail_under = 70\n").expect("lower coverage threshold");
+    commit_all(root, "exercise distinct material findings");
+
+    let status = work_item_status_snapshot_with_runtime(root, "WI-MATERIAL-FINDINGS", &runtime())
+        .expect("status");
+    assert!(status.blocking);
+    for finding in [
+        "coverage_weakening",
+        "repository_prompt_injection",
+        "test_weakening",
+    ] {
+        assert!(
+            status.blockers.iter().any(|blocker| blocker == finding),
+            "missing {finding} in {:?}",
+            status.blockers
+        );
+    }
+}
+
+#[test]
+fn finish_and_archive_reject_canonical_material_unknowns() {
+    let directory = repository();
+    let root = directory.path();
+    start_work_item_with_options(
+        root,
+        "WI-MATERIAL-LIFECYCLE",
+        "gate lifecycle on canonical material",
+        "do not finish with unresolved scanner Unknowns",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material_unknown.rs"),
+        benign_syntax_unknown_source(),
+    )
+    .expect("material source");
+    commit_all(root, "commit material Unknown");
+
+    let summary_path = root.join(".ai/work-items/active/WI-MATERIAL-LIFECYCLE.summary.json");
+    let mut summary: Value = serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["state"] = "checkpointed".into();
+    summary["checkpointCount"] = 1.into();
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+    let finish = finish_work_item(root, "WI-MATERIAL-LIFECYCLE")
+        .expect_err("finish must fail on canonical material Unknown");
+    assert!(
+        finish.to_string().contains("canonical material Unknowns"),
+        "{finish}"
+    );
+
+    summary["state"] = "finish_ready".into();
+    summary["preflightState"] = "green".into();
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+    let archive = archive_work_item(root, "WI-MATERIAL-LIFECYCLE")
+        .expect_err("archive must fail on canonical material Unknown");
+    assert!(
+        archive.to_string().contains("canonical material Unknowns"),
+        "{archive}"
+    );
 }
 
 #[test]

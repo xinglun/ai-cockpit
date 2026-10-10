@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "materialManifestDigest": "sha256:03b6a971accce2d1148380a1bea99cb25a94a3d9fec867bbb1ff43832434ee50",
+  "profileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "requestDigest": "sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb",
+  "reviewedSourceHead": "e87cbf780bb6829638826d5138ea7f8d66bd77b9",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:7df04c6fc3298c2e5b11b9606b01efaf12445f69cda059a6b9769432031b8e8f",
+  "authoritySource": "User authorization received 2026-10-07: the execution thread may continuously coordinate with agent:Raydot, complete the authorized WI-1068 work, and follow the reviewed technical direction without asking again for routine decisions. This is delegated/user-stated authorization, not a human signature over a future exact Contract digest and not independent host authentication of identities.",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1068-v1-0-1-stable-release.material-review-raydot-relay-e87.json",
+      "digest": "sha256:c50c97073f88b9271a0fe332d96b02e203178adf072f8035d3c852bee586679b"
+    },
+    {
+      "path": ".ai/evidence/WI-1068-v1-0-1-stable-release.material-review-request.e87.json",
+      "digest": "sha256:0e289aadaaf8d4d2a86a8cad43b8da15a3bd0832b022ba749f0bfbe0f5d64eb9"
+    }
+  ],
+  "rationale": "The parent-relayed independent review accepted the exact e87-bound request and script change. The 15 readable committed Rust syntax Unknown entries were reviewed as a bounded residual risk; all 15 paths and file-byte digests match the earlier reviewed 16ef plan, with no Finding.",
+  "residualRisk": "The scanner still cannot inspect these readable committed Rust syntax entries. This self-declared agent identity is not host-authenticated, and the review does not discharge any other Unknown or Finding, nor grant human, provider, merge, tag, or release approval.",
+  "recordedAt": "2026-10-10T01:20:50Z",
+  "receiptDigest": "sha256:6b873b8dc7ab0188fbaffb4731b88bb700d3da3e1486994f07a6c281777e7941"
+}

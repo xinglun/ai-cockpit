@@ -1,0 +1,412 @@
+{
+  "schemaVersion": 1,
+  "kind": "wi1068_acceptance_supplemental_evidence",
+  "recordedAt": "2026-10-10T01:40:00Z",
+  "classification": "agent evidence index; does not create or impersonate human approval",
+  "binding": {
+    "repository": "xinglun/ai-cockpit",
+    "branch": "codex/wi1068-v1-0-1-stable-release",
+    "sourceHead": "7d0c21596e5fe03bdfe8df1fc935d013d387fc4c",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+    "repositorySnapshotDigest": "sha256:59c56b3e19f122a9d8ddffa9722d5fa317d88dfe1c17f80010bf341f3e206a91",
+    "materialManifestDigest": "sha256:03b6a971accce2d1148380a1bea99cb25a94a3d9fec867bbb1ff43832434ee50",
+    "materialReviewReceiptDigest": "sha256:6b873b8dc7ab0188fbaffb4731b88bb700d3da3e1486994f07a6c281777e7941"
+  },
+  "runtime": {
+    "version": "1.0.1",
+    "sha256": "sha256:7df04c6fc3298c2e5b11b9606b01efaf12445f69cda059a6b9769432031b8e8f"
+  },
+  "formalWorkspaceVerification": {
+    "attemptId": "sha256:22e2e0f5d21a0815255bfc85cbf43bb4b9526ad72439dfd0bb5dbbda4b9b4c84",
+    "passed": 1556,
+    "exitCode": 0,
+    "elapsedMs": 450684,
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--workspace",
+      "--",
+      "--quiet"
+    ],
+    "testBinaries": 187,
+    "failed": 0,
+    "ignored": 1,
+    "maxConcurrentProcesses": 1,
+    "timedOut": false,
+    "outputTruncated": false,
+    "receipt": {
+      "path": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.22e2e0f5d21a0815255bfc85cbf43bb4b9526ad72439dfd0bb5dbbda4b9b4c84.json",
+      "bytes": 351954,
+      "sha256": "sha256:4b0f9bed0759d9c3fc033dc2f1297ed7e80df34ceb01ee384e3511f4e941f9c5"
+    },
+    "runtimeVerification": {
+      "path": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+      "bytes": 177905,
+      "sha256": "sha256:a1831ff1ddd32730fc7b2f85328b1f0c3ff4feecdc0cf1a7068c0509a6a758e3"
+    },
+    "runtimeRawOutput": {
+      "path": "/tmp/wi1068-workspace-verify-7d0c2159.stdout",
+      "bytes": 177959,
+      "sha256": "sha256:706440a6735d3347b70b24f19c0c75be64863e0c867bde8ab87b2fbc375a8d1a"
+    },
+    "decodedCargoStdout": {
+      "path": "/tmp/wi1068-workspace-cargo-7d0c2159.stdout",
+      "bytes": 62451,
+      "sha256": "sha256:353d7383e65a270207e25a27962987a0f7be55743082db9f7945a15eb8687a17"
+    },
+    "decodedCargoStderr": {
+      "path": "/tmp/wi1068-workspace-cargo-7d0c2159.stderr",
+      "bytes": 23971,
+      "sha256": "sha256:8046764fd514dc80e4afd27fb9d3b84cff5b66f810b2d4add6c15d7f1046384d"
+    }
+  },
+  "singlePackageVerification": {
+    "argv": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "cockpit-verification",
+      "--",
+      "--test-threads=1"
+    ],
+    "exitCode": 0,
+    "testBinaries": 19,
+    "passed": 170,
+    "failed": 0,
+    "ignored": 0,
+    "stdout": {
+      "path": "/tmp/wi1068-cockpit-verification-single-package-7d0c2159.stdout",
+      "bytes": 16393,
+      "sha256": "sha256:e1310e5956c04b635751b86945f07cd50e23218dd6cc0525f0263fd1d9a42f9a"
+    },
+    "stderr": {
+      "path": "/tmp/wi1068-cockpit-verification-single-package-7d0c2159.stderr",
+      "bytes": 1977,
+      "sha256": "sha256:2bdb3044e885b1a5f30f69a075991f19c87d5e0350705a8b14b263a553dd7b88"
+    }
+  },
+  "defaultFeatureIsolation": {
+    "commands": [
+      {
+        "argv": [
+          "cargo",
+          "build",
+          "--locked",
+          "-p",
+          "cockpit-cli",
+          "-p",
+          "cockpit-mcp"
+        ],
+        "profile": "debug",
+        "exitCode": 0,
+        "binaryVersion": "ai-cockpit 1.0.1",
+        "cliBinary": {
+          "bytes": 50327728,
+          "sha256": "sha256:4fa3d8ff7b268f138361fe7a4e77dd52d2bb5e98238f817810904cd6d2e3933d"
+        },
+        "stderr": {
+          "path": "/tmp/wi1068-default-debug-build-7d0c2159.stderr",
+          "bytes": 60,
+          "sha256": "sha256:63bd8a3ac13f8b1c160887cdaf9b30715b07e638d60df463cb8815f661518191"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "build",
+          "--locked",
+          "--release",
+          "-p",
+          "cockpit-cli",
+          "-p",
+          "cockpit-mcp"
+        ],
+        "profile": "release",
+        "exitCode": 0,
+        "binaryVersion": "ai-cockpit 1.0.1",
+        "cliBinary": {
+          "bytes": 19252544,
+          "sha256": "sha256:7df04c6fc3298c2e5b11b9606b01efaf12445f69cda059a6b9769432031b8e8f"
+        },
+        "stderr": {
+          "path": "/tmp/wi1068-default-release-build-7d0c2159.stderr",
+          "bytes": 3349,
+          "sha256": "sha256:b059da33b4b7f015cf7c76437c93053b8df577173868abda26c95c32f6e284dd"
+        }
+      }
+    ],
+    "featureTree": {
+      "path": "/tmp/wi1068-default-feature-tree-7d0c2159.txt",
+      "bytes": 32374,
+      "sha256": "sha256:f009c03aee709ec242476defe4f3e8a40685d599be7cbdf6ffdcd19ac899a10e"
+    },
+    "defaultTreeContainsTestSupport": false,
+    "workspaceTestFeatureInterpretation": "Cargo resolver=2 and cockpit-verification self dev-dependency expose test-support to that package test target. The formal workspace test receipt includes its test target; no claim is made that default CLI/MCP build artifacts include test-support. The separately built default CLI/MCP feature tree contains no test-support.",
+    "externalDefaultFeatureNegativeTest": "external_default_feature_consumer_cannot_compile_test_support_seam (passed in cockpit-verification single-package test output)"
+  },
+  "supplementalTargetedSuites": {
+    "allPassed": true,
+    "passed": 132,
+    "failed": 0,
+    "summary": {
+      "path": "/tmp/wi1068-targeted-acceptance-7d0c2159/summary.json",
+      "bytes": 4484,
+      "sha256": "sha256:c15ba27eebfd734730ed0618487b5f6b9202236a9d65092958ec31180c5e64b5"
+    },
+    "suites": [
+      {
+        "label": "repository-material-review",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-repository",
+          "--test",
+          "material_review",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "39",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 2952,
+        "stderr_bytes": 268,
+        "stdout_sha256": "ed5b2bb85c6f059dbb52b419a94f0bbe5f8c053a3e884541fe491fe9f9f38281",
+        "stderr_sha256": "fdcf10b8fac449709eea978c4a51930e764affcca837b30cb57fd0f383a7f5fb"
+      },
+      {
+        "label": "repository-ci-quality-gate",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-repository",
+          "--test",
+          "ci_quality_gate",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "23",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 1803,
+        "stderr_bytes": 268,
+        "stdout_sha256": "a7655f18c3b730d556ff3fadc93fdcd64bbebb828ecef2b7b627af20e782ba88",
+        "stderr_sha256": "f1799322edb1ae582384365d362c771e022b9dca8527fd3457820cde42077fb0"
+      },
+      {
+        "label": "repository-status-projection",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-repository",
+          "--test",
+          "status_projection",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "42",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 3411,
+        "stderr_bytes": 272,
+        "stdout_sha256": "ee612fbfcfe8b60bbe9adaed50c48fb296450b13751a7a854d4b99f7fdae3168",
+        "stderr_sha256": "17cad00204552c89a073903b88931ceaba882bf51e3f13c64ae7a62a70320201"
+      },
+      {
+        "label": "cli-material-review",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-cli",
+          "--test",
+          "material_review",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "4",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 428,
+        "stderr_bytes": 254,
+        "stdout_sha256": "1d8aeacd119dedc25b781ddceb2929376108c3c4efccb16419681e380bbe1776",
+        "stderr_sha256": "872a823f849f2266e4826f553ea6c2677a1a3fed3c2cb92eaf79243adfcd8763"
+      },
+      {
+        "label": "cli-ci-gate",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-cli",
+          "--test",
+          "ci_gate",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "5",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 426,
+        "stderr_bytes": 238,
+        "stdout_sha256": "0909fcee74cb5b2ed60f4a94591fb52563bab29a30c8a7b486253b8dec8b6190",
+        "stderr_sha256": "3e863e5463c0925b766b2791210eade1d58439a41b0647bd6d1ca2bca28188db"
+      },
+      {
+        "label": "mcp-material-review",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-mcp",
+          "--test",
+          "material_review",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "2",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 270,
+        "stderr_bytes": 254,
+        "stdout_sha256": "37138601ab38256977a494fe675fe8948f529c271c03480a98bbe1fb9b21ef49",
+        "stderr_sha256": "e5a535149f532cc7585bb26a5249b5f5716601bbcd082e1341a14599104e81a2"
+      },
+      {
+        "label": "protocol-interface-description",
+        "argv": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "cockpit-protocol",
+          "--test",
+          "interface_description",
+          "--",
+          "--test-threads=1"
+        ],
+        "exit": 0,
+        "summaries": [
+          [
+            "ok",
+            "17",
+            "0",
+            "0",
+            "0"
+          ]
+        ],
+        "stdout_bytes": 1357,
+        "stderr_bytes": 276,
+        "stdout_sha256": "ee4d05cd41fb3f5347aaad05e5377f48220f2cf14a9237ffa4bce9ac6c14d044",
+        "stderr_sha256": "893ca629e6a2be514902b814b303ab2524823e78f1842a032030ff8d3a82b859"
+      }
+    ]
+  },
+  "scenarioEvidence": {
+    "composition-test-support-feature-isolation": {
+      "coverage": "complete for the declared test-support isolation scenario",
+      "evidence": [
+        "formal workspace receipt and independent cockpit-verification package tests",
+        "default CLI/MCP debug and release build receipts plus feature tree",
+        "external default-feature compile-negative test",
+        "Linux zombie-only/mixed-group and cache invalidation tests"
+      ]
+    },
+    "material-review-raw-and-reviewable-boundary": "not marked verified; targeted suite and workspace tests pass, but the declared adversarial boundary matrix is not fully documented here",
+    "material-review-canonical-context-and-cross-environment": "not marked verified; exact-head CI remains blocked by report recomputation preflight",
+    "material-review-authorization-and-receipt-integrity": "not marked verified; do not infer human approval or identity from Runtime self-declared assurance",
+    "material-review-unified-gate-and-report-validation": "not marked verified; exact-head CI runner report validation failed before any repository gates launched",
+    "material-review-discovery-and-trilingual-boundary": "not marked verified; CI trilingual step did not run after prior quality failure"
+  },
+  "priorExactHeadCi": {
+    "runId": "38012849357",
+    "head": "7d0c21596e5fe03bdfe8df1fc935d013d387fc4c",
+    "conclusion": "failure",
+    "failurePhase": "preflight",
+    "failureCode": "gate_runner_preflight_failed",
+    "failureMessage": "validate Contract quality-gate report: Contract gate report does not match freshly recomputed canonical material projection",
+    "contractGateState": "passed",
+    "contractDecisionState": "green",
+    "blockers": 0,
+    "unknowns": 0,
+    "effectiveUnknowns": 0,
+    "repositoryGatesLaunched": 0,
+    "contractGateArtifact": {
+      "path": "/tmp/wi1068-ci-38012849357-contract-gate/rust-contract-quality-gate.json",
+      "sha256": "sha256:f8d43a45fdcb2fcf6f2a0ebba7ab9c624ffbd15ba2a4081888ea8b5d8072b62f"
+    },
+    "repositoryGatesArtifact": {
+      "path": "/tmp/wi1068-ci-38012849357-repository-gate-receipts/repository-gates.json",
+      "sha256": "sha256:942538df3e0e4f057350996b86b04e28a65bd66d558e4eb5c7079a30f9be3755"
+    },
+    "qualityRouteArtifact": {
+      "path": "/tmp/wi1068-ci-38012849357-repository-gate-receipts/quality-route.json",
+      "sha256": "sha256:bbe482b865464bfaa39e61c958caf35e3cafe25aac552411460ada9cffab0cbd"
+    },
+    "fullQualityLog": {
+      "path": "/tmp/wi1068-ci-38012849357-quality-full.log",
+      "bytes": 165400,
+      "sha256": "sha256:2c3cf783cc9f72ada0cf399a1bdbbc00c9a77c2c82addcf62f9582b02fecaa79"
+    }
+  },
+  "remainingAcceptance": {
+    "requiredMaterialReviewScenariosVerified": 1,
+    "requiredMaterialReviewScenariosTotal": 6,
+    "merge": false,
+    "tag": false,
+    "release": false
+  }
+}

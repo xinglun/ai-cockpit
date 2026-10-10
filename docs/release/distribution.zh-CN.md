@@ -1,7 +1,7 @@
 ---
 author: AI Cockpit maintainers
 title: "发布与分发"
-description: "稳定版 v1.0.0 的校验安装与 Runtime 边界。"
+description: "稳定版 v1.0.1 的安装与 Runtime 边界。"
 audience:
   - adopter
   - maintainer
@@ -15,54 +15,64 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 
 # 发布与分发
 
-## 稳定版安装：v1.0.0
+## 稳定版安装：v1.0.1
 
-默认安装已发布稳定版 v1.0.0。release-manifest.json 是该 release 的 JSON 清单，列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。该文件自身的 SHA-256 为 dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013。
+默认安装稳定版 v1.0.1。release-manifest.json 列出各 archive 文件名、目标平台、字节数和 SHA-256 digest。下列命令会用公开的 SHA256SUMS 分别校验 manifest 和 archive；历史表格仍保留前一稳定版 v1.0.0 的校验和。
 
-安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.0，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
+发布时，稳定版 v1.0.1 的四个归档文件名如下。
+
+| Target | Stable v1.0.1 archive |
+| --- | --- |
+| Apple Silicon macOS | `ai-cockpit-v1.0.1-aarch64-apple-darwin.tar.gz` |
+| Linux ARM64（GNU） | `ai-cockpit-v1.0.1-aarch64-unknown-linux-gnu.tar.gz` |
+| Linux x86_64（GNU） | `ai-cockpit-v1.0.1-x86_64-unknown-linux-gnu.tar.gz` |
+| Windows x86_64 | `ai-cockpit-v1.0.1-x86_64-pc-windows-msvc.zip` |
+
+安装前，Apple Silicon macOS 命令会检查 release-manifest.json 是否属于 v1.0.1，以及是否列出 aarch64-apple-darwin archive。随后，它会将 archive 实测 SHA-256 与清单及 SHA256SUMS 中的值进行比较。需要 curl、Python 3、shasum、awk、tar 和 install。
 
 ~~~bash
 set -eu
-release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
-asset="ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz"
-expected="3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3"
-expected_manifest="dc8085b53a0fab3504cb61c04254578f3abb46a50d40da82123a0deee6f50013"
+version=1.0.1
+tag="v$version"
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
+asset="ai-cockpit-$tag-aarch64-apple-darwin.tar.gz"
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 cd "$tmpdir"
-curl -fsSLO "$release_url/$asset"
-curl -fsSLO "$release_url/release-manifest.json"
-curl -fsSLO "$release_url/SHA256SUMS"
+curl -fL "$release_url/$asset" -o "$asset"
+curl -fL "$release_url/SHA256SUMS" -o SHA256SUMS
+curl -fL "$release_url/release-manifest.json" -o release-manifest.json
+manifest_sum="$(awk '$2 == "release-manifest.json" {print $1}' SHA256SUMS)"
 manifest_actual="$(shasum -a 256 release-manifest.json | awk '{print $1}')"
-test "$manifest_actual" = "$expected_manifest"
-python3 - "$asset" "$expected" <<'PY'
+test -n "$manifest_sum" && test "$manifest_actual" = "$manifest_sum"
+expected="$(python3 - "$asset" <<'PY'
 import json
 import sys
-filename, digest = sys.argv[1:]
+filename = sys.argv[1]
 with open("release-manifest.json", encoding="utf-8") as stream:
     manifest = json.load(stream)
-record = next((item for item in manifest["artifacts"]
-               if item["archive"]["filename"] == filename), None)
-if manifest.get("version") != "1.0.0" or manifest.get("tag") != "v1.0.0":
+if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
     raise SystemExit("release manifest identity mismatch")
-if record is None or record.get("target") != "aarch64-apple-darwin":
-    raise SystemExit("release manifest target mismatch")
-if record["archive"]["sha256"] != digest:
-    raise SystemExit("release manifest archive checksum mismatch")
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename
+               and item["target"] == "aarch64-apple-darwin"), None)
+if record is None:
+    raise SystemExit("Apple Silicon macOS artifact missing from manifest")
+print(record["archive"]["sha256"])
 PY
+)"
 listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$asset" | awk '{print $1}')"
-test "$listed" = "$expected"
-test "$actual" = "$expected"
+test -n "$expected" && test "$expected" = "$listed" && test "$actual" = "$listed"
 mkdir -p "$HOME/.local/bin"
 tar -xzf "$asset" ai-cockpit
 install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 "$HOME/.local/bin/ai-cockpit" --version
 ~~~
 
-如果在新终端输入 `ai-cockpit` 后提示找不到命令，请将 `$HOME/.local/bin` 加入 shell 启动配置中的 PATH。支持的 target：
+如果在新终端输入 `ai-cockpit` 后提示找不到命令，请将 `$HOME/.local/bin` 加入 shell 启动配置中的 PATH。v1.0.1 提供下表所列的四种 target 架构；表格记录前一稳定版 v1.0.0 的校验和。
 
-| Target | Stable v1.0.0 archive | SHA-256 |
+| Target | Previous stable v1.0.0 archive | SHA-256 |
 | --- | --- | --- |
 | Apple Silicon macOS | ai-cockpit-v1.0.0-aarch64-apple-darwin.tar.gz | 3af024699ffdc14e095273945d55507a950c6c115ae1ea8f228ef5425fb7b4f3 |
 | Linux ARM64（GNU） | ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz | 7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a |
@@ -71,35 +81,58 @@ install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
 
 ### Linux GNU 安装（ARM64 与 x86_64）
 
-Linux 制品适用于 GNU libc（glibc）系统，不适用于 musl。以下命令按机器架构选择制品，将 SHA-256 与上表核对，再安装到 $HOME/.local/bin。需要 curl、sha256sum、tar 和 install。
+Linux 制品适用于 GNU libc（glibc）系统，不适用于 musl。以下命令按机器架构选择 v1.0.1 制品，在安装到 $HOME/.local/bin 前，将 SHA-256 与 release-manifest.json 和 SHA256SUMS 核对。上表保留前一稳定版 v1.0.0 的历史校验和。需要 curl、Python 3、sha256sum、tar 和 install。
 
 ~~~bash
 set -eu
-release_url="https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
+version=1.0.1
+tag="v$version"
+release_url="https://github.com/xinglun/ai-cockpit/releases/download/$tag"
 case "$(uname -m)" in
   aarch64|arm64)
-    asset="ai-cockpit-v1.0.0-aarch64-unknown-linux-gnu.tar.gz"
-    expected="7c4a16587e33a6bc426703ecdcad28354085c9866c6743513da7de925f0eb19a"
+    target=aarch64-unknown-linux-gnu
     ;;
   x86_64|amd64)
-    asset="ai-cockpit-v1.0.0-x86_64-unknown-linux-gnu.tar.gz"
-    expected="467eeaee8595e93d86808df350e1e43481e74db939fdd0b4ecb7b2250fbefede"
+    target=x86_64-unknown-linux-gnu
     ;;
   *)
-    echo "不支持的 Linux 架构：$(uname -m)" >&2
+    echo "Unsupported Linux architecture: $(uname -m)" >&2
     exit 1
     ;;
 esac
+asset="ai-cockpit-$tag-$target.tar.gz"
 tmpdir="$(mktemp -d)"
 trap 'rm -rf "$tmpdir"' EXIT
 cd "$tmpdir"
 curl -fL "$release_url/$asset" -o "$asset"
-printf '%s  %s\n' "$expected" "$asset" | sha256sum -c -
-tar -xzf "$asset" ai-cockpit
+curl -fL "$release_url/SHA256SUMS" -o SHA256SUMS
+curl -fL "$release_url/release-manifest.json" -o release-manifest.json
+manifest_sum="$(awk '$2 == "release-manifest.json" {print $1}' SHA256SUMS)"
+manifest_actual="$(sha256sum release-manifest.json | awk '{print $1}')"
+test -n "$manifest_sum" && test "$manifest_actual" = "$manifest_sum"
+expected="$(python3 - "$asset" "$target" <<'PY'
+import json
+import sys
+filename, target = sys.argv[1:]
+with open("release-manifest.json", encoding="utf-8") as stream:
+    manifest = json.load(stream)
+if manifest.get("version") != "1.0.1" or manifest.get("tag") != "v1.0.1":
+    raise SystemExit("release manifest identity mismatch")
+record = next((item for item in manifest["artifacts"]
+               if item["archive"]["filename"] == filename
+               and item["target"] == target), None)
+if record is None:
+    raise SystemExit("Linux artifact missing from manifest")
+print(record["archive"]["sha256"])
+PY
+)"
+listed="$(awk -v name="$asset" '$2 == name {print $1}' SHA256SUMS)"
+actual="$(sha256sum "$asset" | awk '{print $1}')"
+test -n "$expected" && test "$expected" = "$listed" && test "$actual" = "$listed"
 mkdir -p "$HOME/.local/bin"
+tar -xzf "$asset" ai-cockpit
 install -m 0755 ai-cockpit "$HOME/.local/bin/ai-cockpit"
-export PATH="$HOME/.local/bin:$PATH"
-ai-cockpit --version
+"$HOME/.local/bin/ai-cockpit" --version
 ~~~
 
 如需在新终端使用该命令，请将 $HOME/.local/bin 加入 shell 启动配置的 PATH。
@@ -110,27 +143,45 @@ ai-cockpit --version
 
 ~~~powershell
 $ErrorActionPreference = "Stop"
-$releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/v1.0.0"
-$archive = "ai-cockpit-v1.0.0-x86_64-pc-windows-msvc.zip"
-$expected = "7cf500e32047809be084df3ac4bdd3f7db17c78d9c67f6d958213762050a66ce"
+$version = "1.0.1"
+$tag = "v$version"
+$releaseUrl = "https://github.com/xinglun/ai-cockpit/releases/download/$tag"
+$target = "x86_64-pc-windows-msvc"
+$archive = "ai-cockpit-$tag-$target.zip"
 $tmpDir = Join-Path $env:TEMP ("ai-cockpit-" + [guid]::NewGuid().ToString())
 New-Item -ItemType Directory -Path $tmpDir | Out-Null
 try {
   $archivePath = Join-Path $tmpDir $archive
   Invoke-WebRequest -Uri "$releaseUrl/$archive" -OutFile $archivePath
+  Invoke-WebRequest -Uri "$releaseUrl/SHA256SUMS" -OutFile (Join-Path $tmpDir "SHA256SUMS")
+  Invoke-WebRequest -Uri "$releaseUrl/release-manifest.json" -OutFile (Join-Path $tmpDir "release-manifest.json")
+  $manifest = Get-Content (Join-Path $tmpDir "release-manifest.json") -Raw | ConvertFrom-Json
+  if ($manifest.version -ne $version -or $manifest.tag -ne $tag) { throw "Release manifest identity mismatch" }
+  $record = $manifest.artifacts | Where-Object { $_.target -eq $target -and $_.archive.filename -eq $archive }
+  if ($null -eq $record) { throw "Windows artifact missing from manifest" }
+  $expected = $record.archive.sha256.ToLowerInvariant()
+  $sums = Get-Content (Join-Path $tmpDir "SHA256SUMS")
+  $archiveLine = $sums | Where-Object { ($_ -split '\s+', 2)[1] -eq $archive }
+  $manifestLine = $sums | Where-Object { ($_ -split '\s+', 2)[1] -eq "release-manifest.json" }
+  if ($null -eq $archiveLine -or $null -eq $manifestLine) { throw "Release checksums missing expected entries" }
+  $sumDigest = ($archiveLine -split '\s+', 2)[0].ToLowerInvariant()
+  $manifestDigest = ($manifestLine -split '\s+', 2)[0].ToLowerInvariant()
+  $manifestActual = (Get-FileHash (Join-Path $tmpDir "release-manifest.json") -Algorithm SHA256).Hash.ToLowerInvariant()
   $actual = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerInvariant()
-  if ($actual -ne $expected) { throw "Archive SHA-256 mismatch" }
+  if ($manifestActual -ne $manifestDigest -or $expected -ne $sumDigest -or $actual -ne $sumDigest) {
+    throw "Release manifest or archive SHA-256 mismatch"
+  }
   Expand-Archive -LiteralPath $archivePath -DestinationPath $tmpDir
   $destination = Join-Path $env:USERPROFILE "bin"
   New-Item -ItemType Directory -Force -Path $destination | Out-Null
-  Copy-Item -LiteralPath (Join-Path $tmpDir "ai-cockpit.exe") -Destination $destination
+  $binaryPath = Join-Path $destination "ai-cockpit.exe"
+  Copy-Item -LiteralPath (Join-Path $tmpDir "ai-cockpit.exe") -Destination $binaryPath
   $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
   if (($userPath -split ';') -notcontains $destination) {
     $separator = if ([string]::IsNullOrEmpty($userPath)) { "" } else { ";" }
     [Environment]::SetEnvironmentVariable("Path", ($userPath + $separator + $destination), "User")
   }
-  $env:Path = "$destination;$env:Path"
-  & (Join-Path $destination "ai-cockpit.exe") --version
+  & $binaryPath --version
 }
 finally {
   Remove-Item -LiteralPath $tmpDir -Recurse -Force
@@ -140,6 +191,8 @@ finally {
 v1.0.0 没有 Intel macOS、Linux musl 或 Windows ARM64 archive。
 
 macOS ARM64 v1.0.1-rc.1 是供独立试用的可选预发布版，不是稳定版路径；该预发布版本的正式发布验收检查尚未完成。[v1.0.1-rc.1 Release](https://github.com/xinglun/ai-cockpit/releases/tag/v1.0.1-rc.1)。
+
+v1.0.1-rc.2 仍是与稳定版 v1.0.1 分开的历史预发布版本，不复用其 tag 或资产。
 
 安装后请参阅[开始使用](../getting-started/README.zh-CN.md)。安装不会 attach repository 或批准工作。AI Cockpit 记录范围、验证证据和人类决定，不替代代码审查、provider 权限、生产隔离或组织安全控制。
 

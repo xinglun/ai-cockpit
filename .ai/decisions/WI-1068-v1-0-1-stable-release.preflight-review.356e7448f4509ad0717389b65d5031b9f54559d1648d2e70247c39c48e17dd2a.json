@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:143a6daa55b55e8747e4b176120d7f176b6aed7d95be68ae5470d4059552ab72",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The human user explicitly authorized complete stable v1.0.1 delivery and authorized the exact PR #1022 resource binding: commit/push/PR, independent review and exact CI, normal merge, new immutable tag/Release/assets only after Runtime admission, public download/install acceptance, local CLI/MCP update, cleanup and close. Do not replace existing tags/assets or bypass Runtime safety refusals.",
+  "recordedAt": "2026-10-06T06:34:56Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

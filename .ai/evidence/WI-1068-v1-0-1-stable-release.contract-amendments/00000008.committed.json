@@ -1,0 +1,52 @@
+{
+  "sequence": 8,
+  "preparedDigest": "sha256:99f5894936b2d518d0e222081ff10d992d5e3a90a60600f796b2d7826d5307f8",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 8,
+    "changeId": "wi1068-dispatch-trigger-accuracy-20261006",
+    "requestDigest": "sha256:48740dacdba4506bb4f941b1d8747ba05a442deacaa320ad0703d57569c428a6",
+    "reason": "The independent review found that future-stage WI-1068 scenario text says the new tag triggers the release workflow, while .github/workflows/release.yml is workflow_dispatch-only and the published documentation states that a tag push alone does not start publication. Correct only the expected result and verification plans to require explicit dispatch after fresh Runtime publication admission and the annotated tag push. Preserve the 16 product paths, actual v1.0.0 N-1 route, four targets, and no-overwrite restriction.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/2/expected",
+        "operation": "replace",
+        "oldValue": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+        "newValue": "After Runtime publication admission and creation of the new immutable v1.0.1 tag, explicitly dispatch the existing workflow in candidate-publication mode; require four-target candidate install/smoke and staged N-1 checks to finish before public Release publication."
+      },
+      {
+        "path": "/scenarioCoverage/2/verificationPlan",
+        "operation": "replace",
+        "oldValue": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload.",
+        "newValue": "After normal PR merge and fresh Runtime publication admission, create and push the new v1.0.1 annotated tag once, then explicitly dispatch the existing release workflow with from_tag=v1.0.0, to_tag=v1.0.1, publish_candidate=true, and WI-1068 identity. Require candidate install/smoke for all four declared targets and staged Linux x86_64 N-1 acceptance before public Release upload."
+      },
+      {
+        "path": "/scenarioCoverage/3/verificationPlan",
+        "operation": "replace",
+        "oldValue": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor.",
+        "newValue": "In the explicitly dispatched publication workflow, verify the actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+      }
+    ],
+    "previousContractDigest": "sha256:5c36dd2f7f2f1c8373c5eeaa177910826617df80fa0f820ef9d787cdbc9b6460",
+    "newContractDigest": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+    "repositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
+    "environmentObservationDigest": "sha256:cb797291694150c84bdf456a8e43a1cda19cbe6c327500b8f972f45e3826dabf",
+    "runtimeVersion": "1.0.1-rc.2",
+    "runtimeDigest": "sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/2/expected",
+      "/scenarioCoverage/2/verificationPlan",
+      "/scenarioCoverage/3/verificationPlan"
+    ],
+    "previousJournalDigest": "sha256:8d7bf68d87a22074093515d31bed2cdeab5de7068c19e40866586f9ce7b87984",
+    "journalDigest": "sha256:1861b03d1ba1c9e310ca135622952eac3e3ddb1c82673ec890c47e60d16bc4ea",
+    "recordedAt": "2026-10-06T07:27:46Z"
+  }
+}

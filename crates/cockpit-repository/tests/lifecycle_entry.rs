@@ -55,6 +55,20 @@ fn output(root: &Path, args: &[&str]) -> String {
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("repository");
     run(directory.path(), &["init", "-q"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--allow-empty",
+            "--quiet",
+            "-m",
+            "fixture baseline",
+        ],
+    );
     attach(directory.path()).expect("attach");
     directory
 }
@@ -1490,6 +1504,7 @@ fn verification_preconditions_accept_bound_retry_after_snapshot_drift() {
 
     fs::create_dir_all(directory.path().join("src")).expect("source directory");
     fs::write(directory.path().join("src/lib.rs"), "// snapshot drift\n").expect("source mutation");
+    commit_fixture_baseline(directory.path());
     let changed_snapshot = GitRepository::discover(directory.path())
         .expect("git repository")
         .snapshot()
@@ -1920,6 +1935,7 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
         "pub fn value() -> u8 { 2 }\n",
     )
     .expect("source mutation");
+    commit_fixture_baseline(directory.path());
     let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("stale evidence is a yellow preflight result");
     assert_eq!(preflight.state, DecisionState::Yellow);
@@ -2218,6 +2234,7 @@ fn verification_preconditions_accept_complete_repository_bound_custom_evidence()
         serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
     let contract_digest = cockpit_protocol::digest_json(&contract).expect("contract digest");
     let evidence_digest = Digest::sha256_bytes(&fs::read(&evidence_path).expect("evidence"));
+    commit_fixture_baseline(directory.path());
     record_work_item_governance_controls(
         directory.path(),
         work_item_id,
@@ -2453,6 +2470,7 @@ fn verification_preconditions_reject_projection_before_project_execution() {
     .expect("start");
     enable_tri_language_projection_convention(directory.path());
     write_prearchive_projection(directory.path(), work_item_id);
+    commit_fixture_baseline(directory.path());
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
@@ -2503,6 +2521,7 @@ fn close_rejects_missing_projection_before_writing_a_close_decision() {
     .expect("start");
     enable_tri_language_projection_convention(directory.path());
     write_prearchive_projection(directory.path(), work_item_id);
+    commit_fixture_baseline(directory.path());
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
@@ -2524,6 +2543,7 @@ fn close_rejects_missing_projection_before_writing_a_close_decision() {
             .join(format!("docs/work-items/{work_item_id}.md")),
     )
     .expect("remove projection page");
+    commit_fixture_baseline(directory.path());
 
     let error = close_work_item_with_structured_decision(
         directory.path(),

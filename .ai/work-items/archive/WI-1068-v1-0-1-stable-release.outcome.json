@@ -1,0 +1,176 @@
+{
+  "acceptanceResults": [
+    "A1: Preserve the exact original 16 stable-release product paths and stable SemVer 1.0.1 invariants. The only additional product/source/test paths are the paths explicitly declared in Contract.scope for the already-scoped Linux composition supervisor/attempt/reconciliation correction, usage receipts and Outcome projection, lifecycle/audit read/query/export, timezone rendering, CLI/MCP parity, deterministic Linux/query/export/help regression coverage, and the bounded exact Rust material-review service with adversarial regressions. The only additional documentation projections are the declared collaboration language/scenario matrix and usage, lifecycle, audit, command-reference, and three-language input-trust pages. No other product/source/test or documentation paths change. The original Work Item, parity, and generated command-reference pages remain protocol projections. Historical v1.0.0 and v1.0.1-rc.2 identities remain separate. The newly scoped cockpit-verification Cargo manifest is restricted to the non-default test-support self dev-dependency; the existing Cargo.lock is already scoped. The previously changed cockpit-interface/src/lib.rs is explicitly scoped only for the existing Outcome display-timezone constant re-exports; its prior omission is preserved as a finding, not erased.",
+    "A2: The stable v1.0.1 source, scoped Linux process-supervision/retry correction, and bounded exact-source material-review mechanism have independent technical review with no blocking product-code findings, bound to the exact accepted candidate. Attribute agent:Raydot or any other actual reviewer as agent technical review, not as human:Ray; preserve the user’s separate policy-direction choice and the Runtime-required exact human Contract review.",
+    "A3: Before any tag is created, a Runtime-bound release plan consumes fresh evidence for the exact current source/PR, confirms the existing public stable v1.0.0 tag and Release are the selected no-write N-1 reference, confirms the v1.0.1 tag and Release names are unused, records the provider's actual immutability metadata without overstating it, and confirms the existing workflow gates public Release publication on candidate checks.",
+    "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+    "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+    "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+    "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted.",
+    "Before marking PR #1022 ready or performing its normal merge, GitHub Actions must be fully successful for the exact current PR head after Runtime admits its hosted Work Item verification. This includes all required route, quality, Rust Contract, repository-gate and 13-package coverage, Windows Runtime, and behavioral-oracle checks. Preserve failed attempts; a changed head requires new exact-head CI.",
+    "A10: Linux records the process-group leader identity at activation (PID, starttime, PGID, SID) and reconciles only against that generation. Treat the group as exited only after a complete, bounded, repeatable /proc scan finds no members or finds only Z/X members with a stable identical (PID,starttime,PGID) set, a matching leader identity, and an unchanged latest-attempt digest before cleanup. Any non-Z/X member is active. Missing/inconsistent leader identity while members remain, PID reuse, attempt-state change, scan race, proc read/parse/permission failure, or budget exhaustion is unknown and preserves the worktree. Preserve the existing cwd/open-file verifier check; no per-stateDir single-writer assumption; non-Linux behavior is unchanged. Deterministic tests cover zombie-only, mixed zombie/live, live then killed/reaped, injected malformed/unreadable/identity-change/budget cases; the fixture retains zombie state with WNOWAIT and reaps its own child after assertions, never relying on PID 1.",
+    "A11: Run the Linux zombie-only process-group regression as an independent acceptance check, separate from the hosted package-coverage check. Preserve its exact command, exit status, candidate head, Contract digest, snapshot digest, and output as separate acceptance evidence. Keep Contract.verification to the single unfiltered command cargo test --locked --workspace; do not place the targeted Cargo test there because the hosted consumer requires a unique complete workspace-test declaration.",
+    "A12: Composition attempts separate execution outcome, execution-evidence completeness, supervisor ownership/termination proof, and cleanup disposition. After the command result is durably captured, the exact owner identity and all owned descendants are fully reaped to waitpid ECHILD, and the bound supervisor receipt is coherent, a later external `verifier_process_using_worktree` observation error in `run_composition_inner` does not erase the observed command result: preserve executionOutcome as passed/failed and executionEvidenceComplete=true, set cleanupDisposition=deferred, and retain the worktree plus registration. This observer error never authorizes cleanup or terminal reuse. If owned termination proof, exact command result, receipt durability, or generation coherence is missing, remain unknown/retained and fail closed. Legacy v1/v2 attempts without owner and termination proof remain unknown. Linux receipts bind schema, attemptId, runNonce/generation, owner/supervisor identities, Linux boot/environment identity, Runtime identity, repository/target/snapshot, command plan, input environment, and ordered execution-record digest. Enforce spawn→ready→durable registration/fsync→release; stop new spawns on revocation/completion, reap descendants to ECHILD, and durably persist receipts. EOF, leader exit, heartbeat, or a successful external cwd scan alone is insufficient. Crash or concurrent generation change fails closed; non-Linux behavior remains compatible.",
+    "A13: A deferred retry requires a current coherent receipt, exact owner/termination proof for the prior owned tree, exact command/source binding, current trusted policy, fresh ordinary admission, and the existing concrete side-effect-safe/no-op policy. Path location alone never proves isolation. A pure external observation error may defer cleanup and retain the prior path without discarding execution facts; a fresh retry is allowed only under the protected no-op policy after owned termination proof, uses a second formal `run_admitted_composition` call with a fresh attempt/nonce/worktree, reuses no prior result, and leaves the old directory untouched. Confirmed active use, unknown or incomplete owned termination, stale generation/binding, unknown command effects, or denied admission blocks before spawn. Tests inject the external observer error only at the cleanup-decision boundary and assert retained path/registration; they separately prove a safe fresh no-op retry and that active/unknown owned trees remain blocked.",
+    "A14: Use the approved hidden ai-cockpit internal composition supervisor entry in the existing crates/cockpit-cli/src/main.rs; do not add an implicit module or new binary. crates/cockpit-mcp/src/lib.rs must use the exact Runtime helper identity; library tests use a controlled test helper, with no PATH guessing. Every actual verifier spawn still passes through ProcessStartGate; helper IPC errors or admission revocation produce zero verifier spawns. Keep execution, cleanup, projection, and lifecycle state distinct. After composition, a separate current-receipt verify and green preflight remain required before finish. A non-default cockpit-verification/test-support feature, activated for the verification package tests by that package's own self dev-dependency, may compile a doc-hidden, conditionally public test interface for explicitly selected pure cache/dependency fixtures. Its sole observation choice is typed KnownEmpty at the completed-worktree cleanup decision after real owned-descendant reaping and coherent receipt checks; it cannot supply an arbitrary observer, reaper, owner/termination proof, ProcessStartGate, or admission result. Prior-attempt reconciliation, deferred retry, Linux group liveness, and all production paths continue using the real observer. The interface is absent from default CLI and MCP debug/release builds, and no Runtime, CLI, MCP, or environment switch selects it. The original integration-test assertions stay in place. The A11 zombie-only, active/mixed-group, signal, cleanup-safety, and gate acceptance routes do not select KnownEmpty. Explicit A12/A13 observer-error fixtures remain separate and unknown observations fail closed. In a single cargo test --locked --workspace invocation, Cargo feature unification may also compile the interface into CLI/MCP test dependencies; those test builds do not select the KnownEmpty route for safety cases. The no-hook requirement applies to ordinary default-feature product builds, not all workspace test artifacts.",
+    "A15: Usage receipts are explicitly submitted to one repository-bound Work Item before it is closed, including while archived but not yet closed, only through a currently admitted Runtime-native Rust record call. Each append binds repositoryId, workItemId, sourceEventId, sourceKind (provider-reported/host-reported/agent-declared), actor or explicit unknown, configuredModel, reportedModel, role, phase, non-overlapping unit (invocation or turn), nullable inputTokens/outputTokens/cachedInputTokens/reasoningTokens, sourceObservedAt, Runtime receivedAt, and evidence digest/ref. The sourceKind label is a caller claim, not authentication: self-reported provider/host labels and reportedModel never become verified host measurements merely by their wording or digest. Only an independently verified supported adapter/evidence route may raise provenance assurance; digest proves byte binding only. Model and token-count provenance remain separate. Replaying the same (repositoryId, workItemId, sourceKind, sourceEventId) with identical content is idempotent; conflicting content, cross-Work-Item binding, overflow, or invalid subset totals is rejected. Ordinary recording after close is rejected. Only explicit admitted record calls write usage receipts; query does not, and no provider credentials or background collection are introduced.",
+    "A16: Token counts are u64-or-null; null means unknown and is never rendered as zero. cachedInputTokens is a subset of inputTokens and reasoningTokens is a subset of outputTokens; subsets are never counted twice. Query model filtering uses actual reportedModel, with configuredModel separately retained. Provenance and assurance for model identity and token counts are independently represented; an agent-declared or caller-labeled reportedModel is not described as host-observed, and a sourceKind value alone never raises assurance. sourceObservedAt is accepted only with an explicit RFC3339 offset and trusted source provenance; otherwise it is unknown. Runtime receivedAt is separate. Cumulative counters that cannot be safely differenced produce partial/unknown coverage, not estimates. A content digest establishes bytes and identity binding, not the accuracy of self-declared fields.",
+    "A17: TaskOutcomeReport usage is optional only when decoding historical pre-feature reports. Every newly generated finish or terminal report durably includes a usage state, receipt refs/digests, per-reported-model/role/phase subtotals when known, coverage, and an explicit cutoff. With no usage receipts, coverage is unknown, token counts are null, and a reason is recorded; the field is not omitted and counts are never zero-filled. Summary and full Outcome views in English, Simplified Chinese, and Japanese show coverage, unknown reason, and cutoff. Missing or unknown usage does not fail software verification. Read-only query/export expose safe receipt refs/digests and metadata without writing receipts or returning raw payloads by default.",
+    "A18: Finish freezes its cutoff-bound usage snapshot and report bytes; archive preserves those report bytes. Until close, an admitted explicit usage record may append to the same Work Item, including when archived but not yet closed, without modifying the finish report or archive. Close creates a distinct finalReport referencing all usage receipts received by its explicit close cutoff; it does not rewrite earlier reports. Ordinary recording after close is rejected. Final replies or usage not yet reported by the close cutoff remain partial/unknown and cannot be claimed as a complete Work Item total. Historical reports without the optional usage field remain readable and byte-identical. Audit query page subtotals are page-scoped, never whole-Work-Item totals.",
+    "A19: Runtime reads its execution machine clock at the successful lifecycle transition and stores UTC RFC3339. Start, finish, archive, and close are separate observed facts, each with occurredAt and recordedAt plus event type, actor provenance, receipt refs, and digest. A terminal transition not yet reached is null; a historical missing fact is explicitly unknown and never inferred from scaffold createdAt, mtime, or unrelated evidence. For external usage/CI facts, sourceObservedAt and Runtime receivedAt remain separate. Process elapsedMs uses a monotonic clock and is kept distinct from Work Item wallElapsed, which spans observed start to terminal close, includes waiting, and is never calculated by summing verification nodes. Missing external offsets/unreliable sources, cross-host negative intervals, or clock anomalies are unknown/anomalous rather than fabricated precision. Human-readable Outcome/query output names its IANA timezone; the requested view uses Asia/Tokyo without changing host/system TZ, backed by the scoped IANA timezone database dependency rather than hand-written DST rules.",
+    "A20: Reuse current repository-bound AuditEvent/export and existing lifecycle/authorization/verification/release/recovery/cleanup/close evidence as the fact source; do not add a second fact store, SIEM, full logging service, or claim local export is immutable external retention. Lifecycle event rows bind repository, Work Item, Runtime identity, event type, actor provenance (or unknown), actual UTC timestamp, source evidence digest, and refs. An interval is labeled wall-clock elapsed, never active execution or thinking time.",
+    "A21: Add typed read-only ai-cockpit audit query and MCP audit_query backed by one shared Rust protocol/repository read service over existing .ai/evidence and AuditEvent sources. Exact filters are Work Item ID, inclusive from and exclusive to RFC3339 bounds applied only to Runtime recordedAt, actual reported model, actor, event type, limit (1..=100; default 50), opaque cursor, and optional IANA displayTimezone. No fallback from missing recordedAt to occurredAt, sourceObservedAt, receivedAt, createdAt, or mtime is allowed; unknown timestamps remain explicit coverage gaps while their source fields are preserved for inspection. Results use a stable order with eventID as tie-break. The structured page includes schemaVersion, repositoryId, Runtime version/digest, canonical UTC asOf, sourceSnapshotDigest, normalized filters, items with event identity/type, Work Item, occurredAt/recordedAt/sourceObservedAt/receivedAt, reportedModel/configuredModel, actor, nullable token counts and receipt refs/digests, coverage (complete/partial/unknown plus knownCount, nullable unknownCount when indeterminate, unknownSources/reasons), page-only usage subtotals, returnedCount, truncated, and nextCursor. Cursor binds filters, source snapshot, and stable ordering; changed sources reject with stale_cursor. Query writes no repository evidence, collects no secrets, uploads nothing, and returns no raw payloads.",
+    "A22: Extend `audit export` with the same typed filters, pagination, coverage, and snapshot behavior while keeping a no-filter invocation wire-compatible with the existing schema-v1 AuditExportManifest and preserving explicit local `--output` idempotency. Filtered export uses the shared query envelope; timestamps remain canonical UTC. MCP exposes `audit_query` through the same read service. Do not reuse generic raw `evidence_get` payloads as safe export. The shared reader regression uses the actual `{workItemId}.{digest}.delegated.json` filename and validates it against the parsed receipt identity; a mismatch is rejected, and any filename-derived binding defect is fixed only after that RED test demonstrates it.",
+    "A23: Before release, verify top-level/group/leaf/parameter `--help`, all three `docs/reference/commands.{md,zh-CN.md,ja.md}` command and MCP-tool tables, and actual MCP `initialize` plus `tools/list` schemas for `work-item usage record`, `audit query`, filtered `audit export`, Outcome timezone display, and material-review plan/record. Public help/docs/tool discovery contain no `__composition-supervisor`; its existing internal helper path remains separately exercised. Usage record/query/export and rendering are native Rust Runtime surfaces sharing protocol/repository services, never shell/Python helpers or chat-only bookkeeping. Preserve the existing hidden-helper identity and admission/security boundaries. Material review CLI/MCP surfaces share one Rust repository service and report raw scanner Unknown, effective governance unknowns, exact receipt identity and self_declared assurance without claiming provider/host authentication or machine Clean.",
+    "A24: The unchanged Rust material scanner retains its raw Finding/Unknown/Clean classification and emits typed per-path unknown causes. Only a complete, readable, provenance-valid changed Rust source file whose bounded syntax analysis is Unknown is reviewable. Direct or composed malicious Findings, unreadable/symlinked/truncated/over-budget or provenance-invalid material, and every other unknown remain fail-closed. No reviewer receipt labels machine-Unknown as machine-Clean.",
+    "A25: A material-review request is generated only for a committed candidate with no staged, unstaged, or untracked non-.ai source changes. Its canonical validity digest binds repository, Work Item, exact Contract and immutable Contract base, source snapshot, sorted full non-.ai Contract-base-to-HEAD material manifest and diff, reviewed path/hunk/file-byte digests, raw scanner unknown set, built-in scanner semantic version, cross-platform reproducible implementation digest of the actual scanner/diff/decision-validator source bytes and locked parser dependency configuration, analysis target semantic profile, exact materialInspectionReview profile-subobject digest, and effective policy digest. Comparison base, reviewed source HEAD, and producer Runtime path/platform/binary digest are provenance outside approval-request equality; a different binary SHA or legitimate CI merge HEAD alone does not stale identical canonical material. Target cfg/features that change analysis semantics must match or be proven platform independent. The normal verification receipt retains its separate exact binary binding. Different scanner code with the same semantic version, changed policy, changed source/diff/Contract base, and an additional Unknown all stale review.",
+    "A26: An append-only typed material-review decision binds the exact request and separately records reviewerActor, recordedBy, authoritySource, assurance=self_declared, evidenceRefs/digests, rationale, residualRisk, and time. Machine opt-in requires Contract.governanceProfile.materialInspectionReview parsed by a deny-unknown-fields typed schema with schemaVersion=1, permittedUnknown=repository_material_inspection_unavailable, permittedCause=readable_committed_rust_syntax_unknown, assurance=self_declared, reviewerActor=agent:Raydot, a concrete user-delegation authoritySource, and acceptResidualRisk=true; the exact subobject digest binds the request. Contract authority, exact policy review, fresh source preflight, independent exact-source review, and the protected requiredRuntimeCapabilities marker material-inspection-review are also required; prose, generic confirm_review alone, or the receipt itself grants no permission. At stage one this machine opt-in is absent, so material Unknown discharge is disabled. The old Runtime can amend implementation scope but cannot add the protected unknown capability; its local green is not material-review or release admission. After candidate implementation, a second formal typed amendment activates the profile and the new Runtime writer automatically adds the protected capability, causing older Runtimes to reject the Contract. Both exact sensitive Contract amendments require their own human review; delegated exact-source technical review remains separate. The Runtime stores an immutable sidecar and exact Summary path+digest pointer and rejects malformed, foreign, conflicting, or replayed evidence.",
+    "A27: One governance helper re-runs the canonical committed Contract-base scanner for preflight, status, quality gate and its report validator, and finish/archive even when a local working-tree snapshot has no changed paths. It preserves rawScannerUnknowns, materialManifestDigest, reviewReceiptDigest, and reviewAssurance alongside effectiveUnknowns. Only the precisely reviewed inspection-unavailable entries may be discharged; Finding, scope_exceeded, test/coverage weakening, failed or stale verification, and all other Unknown remain blocking. A self-reported green quality-gate JSON fails validator. A different hosted comparison base or tested-merge HEAD may consume the decision only when the reviewed head is an ancestor and the entire canonical non-.ai Contract-base manifest/diff and source snapshot remain identical; the hosted comparison-base scope and any additional Unknown/Finding are checked separately and still block. This does not authorize a rebase. Any source edit or dirty source fails closed.",
+    "A28: CLI and MCP expose the same read-only material-review plan and explicit record service, with precise capability/help and English, Chinese, and Japanese trust/command documentation. The ordinary guide distinguishes review from machine scanning, explains self_declared identity limits, and does not turn it into release, human, or provider approval. Deterministic regression tests cover the seven current candidate Unknown paths, an additional Unknown path, malicious Finding, dirty/symlink/unreadable source, changed identity/diff/analysis/policy, receipt tampering/replay, exact report validation, and all consumer boundaries. Positive tests prove the same canonical source/policy/analysis digest can be consumed by local Linux and hosted builds with different binary SHA, and by an .ai-only descendant or legitimate tested merge with identical canonical material and approved ancestry; negative tests prove same-version different scanner code, changed target semantics, different material, extra hosted Unknown/Finding, and non-ancestor rebase cannot reuse it. The unique formal verification declaration remains cargo test --locked --workspace; prior failed evidence is preserved."
+  ],
+  "createdAt": "2026-10-10T05:00:02.486509067Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b930568b00e6ff0a0654e746d96cbabfc928ee4d75be37fe964f5512b0fefaa7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json"
+          ],
+          "inference": false,
+          "text": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact original 16-path stable v1.0.1 update and the already-scoped Linux-only zombie-only verifier process-group liveness correction; retain the unique full-workspace verification declaration and independent Linux regression evidence; implement opt-in repository-bound Work Item usage receipts, distinct Runtime-recorded start/finish/archive/close facts, a typed read-only audit query and MCP surface, filtered audit export that preserves the legacy unfiltered wire, accurate UTC/IANA-zone time rendering, and complete CLI/MCP discovery/docs; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-10T05:00:02.486509067Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "taskReportDigest": "sha256:7654c3d90f105c1825724019b407b46c35ef5626c2f35fe32cac71664110015e",
+  "taskReportMarkdownDigest": "sha256:32e37cda34984b7fb0424b0aa375a7d94e70c2c04493b403aa6fd4cb2756c5ed",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

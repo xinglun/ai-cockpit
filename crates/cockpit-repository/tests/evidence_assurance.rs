@@ -29,6 +29,40 @@ fn repository() -> tempfile::TempDir {
             .expect("git init")
             .success()
     );
+    for (key, value) in [
+        ("user.name", "AI Cockpit Tests"),
+        ("user.email", "ai-cockpit-tests@example.invalid"),
+    ] {
+        assert!(
+            Command::new("git")
+                .args(["config", "--local", key, value])
+                .current_dir(directory.path())
+                .status()
+                .expect("configure fixture-local git identity")
+                .success()
+        );
+    }
+    fs::write(
+        directory.path().join("README.md"),
+        "# AI Cockpit evidence assurance fixture\n",
+    )
+    .expect("write fixture baseline");
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(directory.path())
+            .status()
+            .expect("stage fixture baseline")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["commit", "-q", "-m", "fixture baseline"])
+            .current_dir(directory.path())
+            .status()
+            .expect("commit fixture baseline")
+            .success()
+    );
     attach(directory.path()).expect("attach");
     directory
 }

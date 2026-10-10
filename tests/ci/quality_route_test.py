@@ -299,6 +299,23 @@ assert "stage=pull_request" in ci_workflow
 assert '--stage "$stage"' in ci_workflow
 assert "PR_HEAD_REF" in ci_workflow
 assert "PR_URL" in ci_workflow
+assert "GITHUB_EVENT_PATH" in ci_workflow
+assert 'PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}' in ci_workflow
+assert 'PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}' in ci_workflow
+assert "PR base context does not match the trusted event payload" in ci_workflow
+assert "PR head context does not match the trusted event payload" in ci_workflow
+assert "eventBaseRevision" in ci_workflow and "testedBaseRevision" in ci_workflow
+assert "checked-out commit does not match GITHUB_SHA" in ci_workflow
+assert "tested PR merge commit must have exactly two parents" in ci_workflow
+assert 'git merge-base --is-ancestor "$event_base_revision" "$tested_base_revision"' in ci_workflow
+assert 'testedParents[0] -ne $expectedBase' not in ci_workflow
+assert "Test-CiRevisionBindingCases" in ci_workflow
+assert "caller-supplied base" in ci_workflow
+assert "non-ancestor event base" in ci_workflow
+assert "wrong PR head" in ci_workflow
+assert "checkout/GITHUB_SHA mismatch" in ci_workflow
+assert "one-parent commit" in ci_workflow
+assert "three-parent commit" in ci_workflow
 assert "resolve_work_item.sh" in ci_workflow
 assert "'.resourceContext.branch // empty'" in resolver
 assert "work_item_contract_ambiguous" in resolver

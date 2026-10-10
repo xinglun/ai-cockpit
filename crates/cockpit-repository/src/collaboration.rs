@@ -1,6 +1,7 @@
 use crate::{CoordinationError, CoordinationStore};
 use cap_fs_ext::{FollowSymlinks, OpenOptionsFollowExt};
 use cap_std::fs::{Dir, OpenOptions as CapOpenOptions};
+use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     ConsumedOutcome, CoordinationEvent, CoordinationIntent, CoordinationRecovery,
@@ -8,16 +9,23 @@ use cockpit_protocol::{
     RuntimeContext, WorktreeRegistration,
 };
 use cockpit_verification::{
-    CompositionAttempt, CompositionError, CompositionInput, CompositionPrecondition,
-    ProcessAdmissionCheck, ProcessStartGate, run_composition_with_process_gates,
+    CompositionAttempt, CompositionCleanupDisposition, CompositionError,
+    CompositionExecutionOutcome, CompositionInput, CompositionPrecondition,
+    CompositionSupervisorBackend, CompositionSupervisorControl, CompositionSupervisorLaunch,
+    CompositionSupervisorReady, CompositionSupervisorReceipt, CompositionSupervisorReply,
+    ProcessAdmissionCheck, ProcessStartGate, composition_linux_boot_id,
+    current_composition_process_identity, execution_records_digest, new_composition_run_nonce,
+    new_supervised_composition_attempt_id, run_composition_with_supervisor_receipt,
 };
-use serde::Serialize;
+use serde::{Serialize, de::DeserializeOwned};
 use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
-use std::io::{self, Read};
+use std::io::{self, BufRead, BufReader, Read, Write};
 use std::path::{Component, Path};
-use std::process::{Child, Command};
+use std::process::{Child, ChildStdout, Command, Stdio};
 use std::sync::Arc;
+use std::sync::mpsc;
+use std::time::Duration;
 use thiserror::Error;
 
 #[cfg(test)]
@@ -83,9 +91,12 @@ pub struct CollaborationOutcomeProjection {
     pub composition_order: Vec<String>,
     pub implementation_state: String,
     pub composition_state: String,
+    pub execution_outcome: CompositionExecutionOutcome,
+    pub execution_evidence_complete: bool,
     pub composition_applicability: String,
     pub target_merge_state: String,
     pub cleanup_state: String,
+    pub cleanup_disposition: CompositionCleanupDisposition,
     pub revalidation: String,
     pub reusable_checks: Vec<String>,
     pub blockers: Vec<String>,
@@ -1114,6 +1125,33 @@ pub(crate) fn read_registered_worktree_file(
     read_registered_worktree_file_with_opener(root, reference, open_leaf_nofollow)
 }
 
+/// Bound a repository-relative evidence read while retaining the same pinned
+/// directory handles and post-read mutation checks as the ordinary reader.
+pub(crate) fn read_registered_worktree_file_bounded(
+    root: &Path,
+    reference: &str,
+    maximum_bytes: usize,
+) -> Result<Vec<u8>, String> {
+    let mut opened = open_registered_worktree_file_with_context(root, reference)?;
+    let mut bytes = Vec::new();
+    Read::by_ref(&mut opened.file)
+        .take(maximum_bytes as u64 + 1)
+        .read_to_end(&mut bytes)
+        .map_err(|error| format!("cannot read bounded evidence {reference}: {error}"))?;
+    if bytes.len() > maximum_bytes {
+        return Err(format!("evidence exceeds bounded read limit: {reference}"));
+    }
+    verify_opened_directory_chain(
+        &opened.canonical_root,
+        &opened.directory_chain,
+        &opened.reference,
+    )?;
+    opened
+        .mutation_observer
+        .verify_unchanged(&opened.reference)?;
+    Ok(bytes)
+}
+
 pub(crate) fn read_registered_worktree_file_with_opener<F>(
     root: &Path,
     reference: &str,
@@ -1239,7 +1277,7 @@ pub fn collaboration_outcome_projection(
     runtime: &RuntimeContext,
 ) -> CollaborationOutcomeProjection {
     let fallback = |state: &str, reason: String| CollaborationOutcomeProjection {
-        schema_version: 1,
+        schema_version: 2,
         work_item_id: work_item_id.into(),
         state: state.into(),
         providers: Vec::new(),
@@ -1251,9 +1289,12 @@ pub fn collaboration_outcome_projection(
         composition_order: Vec::new(),
         implementation_state: "separate_lifecycle_outcome".into(),
         composition_state: "not_observed".into(),
+        execution_outcome: CompositionExecutionOutcome::Unknown,
+        execution_evidence_complete: false,
         composition_applicability: "not_observed".into(),
         target_merge_state: "not_observed".into(),
         cleanup_state: "not_observed".into(),
+        cleanup_disposition: CompositionCleanupDisposition::Unknown,
         revalidation: "unknown".into(),
         reusable_checks: Vec::new(),
         blockers: Vec::new(),
@@ -1375,36 +1416,21 @@ pub fn collaboration_outcome_projection(
     };
     let mut unknowns = projection.unknowns.clone();
     unknowns.extend(admission_unknowns);
-    let (
-        (composition_state, target_merge_state, cleanup_state, reusable_checks),
-        composition_applicability,
-    ) = match latest_composition_attempt(store.root(), work_item_id) {
-        Ok(Some(attempt)) => (
-            composition_facts(store.root(), &attempt),
-            composition_applicability(store.root(), &attempt, &projection),
-        ),
-        Ok(None) => (
-            (
-                "not_observed".into(),
-                "not_observed".into(),
-                "not_observed".into(),
-                Vec::new(),
+    let (composition, composition_applicability) =
+        match latest_composition_attempt(store.root(), work_item_id) {
+            Ok(Some(attempt)) => (
+                composition_facts(store.root(), &attempt),
+                composition_applicability(store.root(), &attempt, &projection),
             ),
-            "not_observed".into(),
-        ),
-        Err(error) => {
-            unknowns.push(format!("composition_projection:{error}"));
-            (
-                (
-                    "unknown".into(),
-                    "unknown".into(),
-                    "unknown".into(),
-                    Vec::new(),
-                ),
-                "unknown".into(),
-            )
-        }
-    };
+            Ok(None) => (
+                CompositionProjectionFacts::not_observed(),
+                "not_observed".into(),
+            ),
+            Err(error) => {
+                unknowns.push(format!("composition_projection:{error}"));
+                (CompositionProjectionFacts::unknown(), "unknown".into())
+            }
+        };
     let state = if !unknowns.is_empty() {
         "unknown"
     } else if !blockers.is_empty() {
@@ -1422,7 +1448,7 @@ pub fn collaboration_outcome_projection(
         "refresh dependency state before the next dependent action"
     };
     CollaborationOutcomeProjection {
-        schema_version: 1,
+        schema_version: 2,
         work_item_id: work_item_id.into(),
         state: state.into(),
         providers,
@@ -1447,17 +1473,20 @@ pub fn collaboration_outcome_projection(
             })
             .unwrap_or_default(),
         implementation_state: "separate_lifecycle_outcome".into(),
-        composition_state,
+        composition_state: composition.composition_state,
+        execution_outcome: composition.execution_outcome,
+        execution_evidence_complete: composition.execution_evidence_complete,
         composition_applicability,
-        target_merge_state,
-        cleanup_state,
+        target_merge_state: composition.target_merge_state,
+        cleanup_state: composition.cleanup_state,
+        cleanup_disposition: composition.cleanup_disposition,
         revalidation: if invalidated_event_ids.is_empty() {
             "not_required"
         } else {
             "required"
         }
         .into(),
-        reusable_checks,
+        reusable_checks: composition.reusable_checks,
         blockers,
         unknowns,
         // A coordination request is an agent-to-agent protocol state. It is
@@ -1512,26 +1541,85 @@ fn latest_composition_attempt(
     Ok(latest)
 }
 
-fn composition_facts(
-    root: &Path,
-    attempt: &CompositionAttempt,
-) -> (String, String, String, Vec<String>) {
+struct CompositionProjectionFacts {
+    composition_state: String,
+    target_merge_state: String,
+    cleanup_state: String,
+    execution_outcome: CompositionExecutionOutcome,
+    execution_evidence_complete: bool,
+    cleanup_disposition: CompositionCleanupDisposition,
+    reusable_checks: Vec<String>,
+}
+
+impl CompositionProjectionFacts {
+    fn not_observed() -> Self {
+        Self {
+            composition_state: "not_observed".into(),
+            target_merge_state: "not_observed".into(),
+            cleanup_state: "not_observed".into(),
+            execution_outcome: CompositionExecutionOutcome::Unknown,
+            execution_evidence_complete: false,
+            cleanup_disposition: CompositionCleanupDisposition::Unknown,
+            reusable_checks: Vec::new(),
+        }
+    }
+
+    fn unknown() -> Self {
+        Self {
+            composition_state: "unknown".into(),
+            target_merge_state: "unknown".into(),
+            cleanup_state: "unknown".into(),
+            execution_outcome: CompositionExecutionOutcome::Unknown,
+            execution_evidence_complete: false,
+            cleanup_disposition: CompositionCleanupDisposition::Unknown,
+            reusable_checks: Vec::new(),
+        }
+    }
+}
+
+fn composition_facts(root: &Path, attempt: &CompositionAttempt) -> CompositionProjectionFacts {
     let coherent_success = attempt.is_coherent_successful_terminal();
+    let execution_outcome = if attempt.schema_version >= 3 {
+        attempt.execution_outcome
+    } else if attempt.passed {
+        CompositionExecutionOutcome::Passed
+    } else if attempt
+        .failure
+        .as_deref()
+        .is_some_and(|failure| failure.starts_with("command_failed:"))
+    {
+        CompositionExecutionOutcome::Failed
+    } else {
+        CompositionExecutionOutcome::Unknown
+    };
+    let execution_evidence_complete =
+        attempt.schema_version >= 3 && attempt.execution_evidence_complete;
+    let cleanup_disposition = if attempt.schema_version >= 3 {
+        attempt.cleanup_disposition
+    } else {
+        match &attempt.cleanup {
+            Some(cleanup) if cleanup.removed => CompositionCleanupDisposition::Cleaned,
+            Some(cleanup) if cleanup.attempted => CompositionCleanupDisposition::Failed,
+            _ => CompositionCleanupDisposition::Unknown,
+        }
+    };
     let composition_state = if coherent_success {
         "passed"
     } else if attempt.failure.as_deref() == Some("in_progress") {
         "in_progress"
-    } else if attempt.passed {
-        "unknown"
     } else {
-        "failed"
+        match execution_outcome {
+            CompositionExecutionOutcome::Failed => "failed",
+            CompositionExecutionOutcome::Passed | CompositionExecutionOutcome::Unknown => "unknown",
+        }
     };
     let target_merge_state = target_merge_state(root, attempt);
-    let cleanup_state = match &attempt.cleanup {
-        Some(cleanup) if cleanup.removed => "cleaned",
-        Some(cleanup) if cleanup.attempted => "failed",
-        Some(_) => "not_observed",
-        None => "unknown",
+    let cleanup_state = match cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => "cleaned",
+        CompositionCleanupDisposition::Deferred => "deferred",
+        CompositionCleanupDisposition::Retained => "retained",
+        CompositionCleanupDisposition::Failed => "failed",
+        CompositionCleanupDisposition::Unknown => "unknown",
     };
     let reusable_checks = if coherent_success {
         attempt
@@ -1543,12 +1631,15 @@ fn composition_facts(
     } else {
         Vec::new()
     };
-    (
-        composition_state.into(),
+    CompositionProjectionFacts {
+        composition_state: composition_state.into(),
         target_merge_state,
-        cleanup_state.into(),
+        cleanup_state: cleanup_state.into(),
+        execution_outcome,
+        execution_evidence_complete,
+        cleanup_disposition,
         reusable_checks,
-    )
+    }
 }
 
 fn target_merge_state(root: &Path, attempt: &CompositionAttempt) -> String {
@@ -1875,6 +1966,94 @@ pub fn run_admitted_composition(
     generation: u64,
     input: CompositionInput,
 ) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    let executable = std::env::current_exe().map_err(|error| {
+        CollaborationExecutionError::Coordination(CoordinationError::RecoveryRequired(format!(
+            "resolve exact Runtime composition helper: {error}"
+        )))
+    })?;
+    let input = prepare_admitted_composition(store, work_item_id, generation, input)?;
+    launch_composition_supervisor(
+        store,
+        work_item_id,
+        generation,
+        input,
+        &executable,
+        &["__composition-supervisor".into()],
+        &[],
+    )
+}
+
+#[doc(hidden)]
+pub fn run_admitted_composition_with_supervisor_executable(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    executable: &Path,
+    arguments: &[String],
+    environment: &[(String, String)],
+) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    let input = prepare_admitted_composition(store, work_item_id, generation, input)?;
+    launch_composition_supervisor(
+        store,
+        work_item_id,
+        generation,
+        input,
+        executable,
+        arguments,
+        environment,
+    )
+}
+
+pub fn run_composition_supervisor_stdio() -> Result<(), String> {
+    let stdin = io::stdin();
+    let stdout = io::stdout();
+    run_composition_supervisor_protocol(stdin.lock(), stdout.lock())
+}
+
+pub fn run_admitted_composition_supervisor(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    receipt: CompositionSupervisorReceipt,
+) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    run_admitted_composition_in_process(store, work_item_id, generation, input, receipt)
+}
+
+fn prepare_admitted_composition(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    mut input: CompositionInput,
+) -> Result<CompositionInput, CollaborationExecutionError> {
+    let action = composition_action(store, work_item_id)?;
+    let admission =
+        refresh_and_admit_collaboration_action(store, work_item_id, generation, action)?;
+    if !admission.allowed {
+        return Err(CollaborationExecutionError::Blocked {
+            work_item_id: work_item_id.into(),
+            blockers: admission.blockers,
+            unknowns: admission.unknowns,
+        });
+    }
+    let identity_blockers =
+        verify_composition_identity(store, work_item_id, generation, &mut input)?;
+    if !identity_blockers.is_empty() {
+        return Err(CollaborationExecutionError::Blocked {
+            work_item_id: work_item_id.into(),
+            blockers: identity_blockers,
+            unknowns: Vec::new(),
+        });
+    }
+    input.state_dir = store.root().join("compositions");
+    Ok(input)
+}
+
+fn composition_action(
+    store: &CoordinationStore,
+    work_item_id: &str,
+) -> Result<CollaborationAction, CoordinationError> {
     let outcomes = store
         .inspect()?
         .registrations
@@ -1892,34 +2071,22 @@ pub fn run_admitted_composition(
                 .collect()
         })
         .unwrap_or_default();
-    let action = CollaborationAction {
+    Ok(CollaborationAction {
         kind: CollaborationActionKind::Composition,
         consumer_work_item_id: work_item_id.into(),
         outcomes,
-    };
-    let admission =
-        refresh_and_admit_collaboration_action(store, work_item_id, generation, action.clone())?;
-    if !admission.allowed {
-        return Err(CollaborationExecutionError::Blocked {
-            work_item_id: work_item_id.into(),
-            blockers: admission.blockers,
-            unknowns: admission.unknowns,
-        });
-    }
-    let mut input = input;
-    let identity_blockers =
-        verify_composition_identity(store, work_item_id, generation, &mut input)?;
-    if !identity_blockers.is_empty() {
-        return Err(CollaborationExecutionError::Blocked {
-            work_item_id: work_item_id.into(),
-            blockers: identity_blockers,
-            unknowns: Vec::new(),
-        });
-    }
-    // The caller may be in a linked worktree. Composition facts are shared
-    // coordination evidence, so they must be written below the Git common
-    // directory rather than the caller's private checkout.
-    input.state_dir = store.root().join("compositions");
+    })
+}
+
+fn run_admitted_composition_in_process(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    supervisor_receipt: CompositionSupervisorReceipt,
+) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    let input = prepare_admitted_composition(store, work_item_id, generation, input)?;
+    let action = composition_action(store, work_item_id)?;
     let check_store = store.clone();
     let check_work_item_id = work_item_id.to_owned();
     let check_action = action.clone();
@@ -1965,11 +2132,702 @@ pub fn run_admitted_composition(
         },
     );
     let _owner_interruption_guard = cockpit_verification::OwnerInterruptionGuard::install()?;
-    Ok(run_composition_with_process_gates(
+    Ok(run_composition_with_supervisor_receipt(
         input,
         process_admission_check,
         process_start_gate,
+        supervisor_receipt,
     )?)
+}
+
+fn launch_composition_supervisor(
+    store: &CoordinationStore,
+    work_item_id: &str,
+    generation: u64,
+    input: CompositionInput,
+    executable: &Path,
+    arguments: &[String],
+    extra_environment: &[(String, String)],
+) -> Result<CompositionAttempt, CollaborationExecutionError> {
+    let actual_runtime_digest = executable_digest(executable).map_err(recovery_error)?;
+    let expected_runtime_digest = &input.binding.verifier.runtime_digest;
+    if actual_runtime_digest != *expected_runtime_digest
+        || input.binding.verifier.runtime_version != env!("CARGO_PKG_VERSION")
+    {
+        return Err(recovery_error(
+            "composition supervisor executable does not match the exact Runtime identity".into(),
+        ));
+    }
+    let owner = current_composition_process_identity().map_err(recovery_error)?;
+    let run_nonce = new_composition_run_nonce();
+    let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+    let launch = CompositionSupervisorLaunch {
+        repository_root: input.repository_root.clone(),
+        work_item_id: work_item_id.into(),
+        generation,
+        input: input.clone(),
+        attempt_id: attempt_id.clone(),
+        run_nonce,
+        owner: owner.clone(),
+        runtime_version: input.binding.verifier.runtime_version.clone(),
+        runtime_digest: actual_runtime_digest.clone(),
+    };
+    let action = composition_action(store, work_item_id)?;
+    let spawn_store = store.clone();
+    let spawn_work_item_id = work_item_id.to_owned();
+    let spawn_input = input.clone();
+    let spawn_executable = executable.to_path_buf();
+    let spawn_arguments = arguments.to_vec();
+    let spawn_environment = extra_environment.to_vec();
+    let spawn_helper = || {
+        Command::new(&spawn_executable)
+            .args(&spawn_arguments)
+            .envs(spawn_environment.iter().cloned())
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::inherit())
+            .spawn()
+            .map_err(|error| format!("spawn exact Runtime composition supervisor: {error}"))
+    };
+    let mut child = with_composition_process_start_admission(
+        store,
+        work_item_id,
+        generation,
+        action,
+        || {
+            validate_composition_identity_for_process_start(
+                &spawn_store,
+                &spawn_work_item_id,
+                generation,
+                &spawn_input,
+            )
+        },
+        spawn_helper,
+    )
+    .map_err(recovery_error)?;
+    let stdout = child
+        .stdout
+        .take()
+        .ok_or_else(|| recovery_error("composition supervisor stdout is unavailable".into()))?;
+    let stdin = child
+        .stdin
+        .take()
+        .ok_or_else(|| recovery_error("composition supervisor stdin is unavailable".into()))?;
+    let messages = supervisor_output_channel(stdout);
+    let mut stdin = stdin;
+    if let Err(error) = write_supervisor_message(&mut stdin, &launch) {
+        stop_unreleased_supervisor(&mut child);
+        persist_supervisor_failure(&input, &attempt_id, None, &error)?;
+        return Err(recovery_error(error));
+    }
+
+    let ready: CompositionSupervisorReady =
+        match read_supervisor_message(&messages, Some(Duration::from_secs(30))) {
+            Ok(ready) => ready,
+            Err(error) => {
+                stop_unreleased_supervisor(&mut child);
+                persist_supervisor_failure(&input, &attempt_id, None, &error)?;
+                return Err(recovery_error(error));
+            }
+        };
+    let observed_supervisor =
+        match cockpit_verification::observe_composition_process_identity(child.id()) {
+            Ok(identity) => identity,
+            Err(observer_error) => {
+                let failure = match stop_unreleased_supervisor_bounded(&mut child) {
+                    Ok(()) => observer_error,
+                    Err(cleanup_error) => format!("{observer_error}; {cleanup_error}"),
+                };
+                if let Err(persist_error) =
+                    persist_supervisor_failure(&input, &attempt_id, None, &failure)
+                {
+                    return Err(recovery_error(format!(
+                        "{failure}; persist composition supervisor failure: {persist_error}"
+                    )));
+                }
+                return Err(recovery_error(failure));
+            }
+        };
+    if ready.schema_version != 1
+        || ready.supervisor.process_id != child.id()
+        || ready.supervisor != observed_supervisor
+        || ready.runtime_version != launch.runtime_version
+        || ready.runtime_digest != launch.runtime_digest
+    {
+        let error = "composition supervisor ready identity does not match the spawned Runtime";
+        stop_unreleased_supervisor(&mut child);
+        persist_supervisor_failure(&input, &attempt_id, None, error)?;
+        return Err(recovery_error(error.into()));
+    }
+
+    let receipt = match build_supervisor_receipt(&input, &launch, &ready, extra_environment) {
+        Ok(receipt) => receipt,
+        Err(error) => {
+            stop_unreleased_supervisor(&mut child);
+            persist_supervisor_failure(&input, &attempt_id, None, &error)?;
+            return Err(recovery_error(error));
+        }
+    };
+    if let Err(error) = persist_supervisor_registration(&input.state_dir, &receipt) {
+        stop_unreleased_supervisor(&mut child);
+        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
+        return Err(recovery_error(error));
+    }
+
+    let prepared_again =
+        prepare_admitted_composition(store, work_item_id, generation, input.clone());
+    if let Err(error) = prepared_again {
+        let detail = error.to_string();
+        let _ = write_supervisor_message(
+            &mut stdin,
+            &CompositionSupervisorControl::Abort {
+                reason: detail.clone(),
+                receipt: receipt.clone(),
+            },
+        );
+        let abort_reply = read_supervisor_message::<CompositionSupervisorReply>(&messages, None);
+        let status = child.wait().map_err(|wait_error| {
+            recovery_error(format!(
+                "wait for aborted composition supervisor: {wait_error}"
+            ))
+        })?;
+        let aborted_attempt = match abort_reply {
+            Ok(reply) if status.success() && reply.error.as_deref() == Some(detail.as_str()) => {
+                reply.attempt
+            }
+            Ok(reply) => {
+                return Err(recovery_error(format!(
+                    "composition supervisor abort reply was inconsistent (status={status}, reply={reply:?})"
+                )));
+            }
+            Err(reply_error) => {
+                return Err(recovery_error(format!(
+                    "composition supervisor did not durably acknowledge abort: {reply_error}"
+                )));
+            }
+        };
+        let Some(aborted_attempt) = aborted_attempt else {
+            return Err(recovery_error(
+                "composition supervisor abort reply omitted its durable attempt".into(),
+            ));
+        };
+        if aborted_attempt.attempt_id != attempt_id
+            || aborted_attempt.supervisor_receipt.as_ref() != Some(&receipt)
+            || aborted_attempt.execution_outcome
+                != cockpit_verification::CompositionExecutionOutcome::Unknown
+            || aborted_attempt.processes_spawned != 0
+            || !aborted_attempt.execution_records.is_empty()
+        {
+            return Err(recovery_error(
+                "composition supervisor abort attempt did not close the registered receipt without spawning a verifier".into(),
+            ));
+        }
+        return Err(error);
+    }
+
+    if let Err(error) = write_supervisor_message(
+        &mut stdin,
+        &CompositionSupervisorControl::Release {
+            receipt: receipt.clone(),
+        },
+    ) {
+        stop_unreleased_supervisor(&mut child);
+        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
+        return Err(recovery_error(error));
+    }
+    drop(stdin);
+
+    let reply: CompositionSupervisorReply = match read_supervisor_message(&messages, None) {
+        Ok(reply) => reply,
+        Err(error) => {
+            let _ = child.wait();
+            persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
+            return Err(recovery_error(error));
+        }
+    };
+    let status = child
+        .wait()
+        .map_err(|error| recovery_error(format!("wait for composition supervisor: {error}")))?;
+    let Some(attempt) = reply.attempt else {
+        let error = reply
+            .error
+            .unwrap_or_else(|| "composition supervisor returned no attempt".into());
+        persist_supervisor_failure(&input, &attempt_id, Some(receipt), &error)?;
+        return Err(recovery_error(error));
+    };
+    if attempt.attempt_id != attempt_id
+        || attempt.supervisor_receipt.as_ref().is_none_or(|returned| {
+            returned.attempt_id != receipt.attempt_id
+                || returned.run_nonce != receipt.run_nonce
+                || returned.supervisor != receipt.supervisor
+                || returned.execution_records_digest
+                    != execution_records_digest(&attempt.execution_records)
+        })
+    {
+        return Err(recovery_error(
+            "composition supervisor returned an attempt with mismatched ownership evidence".into(),
+        ));
+    }
+    if !status.success() || reply.error.is_some() {
+        return Err(recovery_error(reply.error.unwrap_or_else(|| {
+            format!("composition supervisor exited with {status}")
+        })));
+    }
+    Ok(attempt)
+}
+
+fn run_composition_supervisor_protocol<R, W>(mut reader: R, mut writer: W) -> Result<(), String>
+where
+    R: BufRead,
+    W: Write,
+{
+    let backend = cockpit_verification::initialize_composition_supervisor_backend()?;
+    let supervisor = current_composition_process_identity()?;
+    let executable = std::env::current_exe()
+        .map_err(|error| format!("resolve running Runtime executable: {error}"))?;
+    let actual_runtime_digest = executable_digest(&executable)?;
+    let mut line = String::new();
+    if reader
+        .read_line(&mut line)
+        .map_err(|error| format!("read composition supervisor launch: {error}"))?
+        == 0
+    {
+        return Err("composition supervisor launch channel closed before request".into());
+    }
+    let launch: CompositionSupervisorLaunch = serde_json::from_str(&line)
+        .map_err(|error| format!("decode composition supervisor launch: {error}"))?;
+    let runtime_version = env!("CARGO_PKG_VERSION");
+    if launch.runtime_version != runtime_version
+        || launch.runtime_digest != actual_runtime_digest
+        || launch.input.binding.verifier.runtime_version != runtime_version
+        || launch.input.binding.verifier.runtime_digest != actual_runtime_digest
+        || launch.repository_root != launch.input.repository_root
+        || launch.attempt_id.trim().is_empty()
+        || launch.run_nonce.trim().is_empty()
+    {
+        return Err("composition supervisor launch is not bound to this exact Runtime".into());
+    }
+    let ready = CompositionSupervisorReady {
+        schema_version: 1,
+        supervisor: supervisor.clone(),
+        runtime_version: runtime_version.into(),
+        runtime_digest: actual_runtime_digest.clone(),
+    };
+    write_supervisor_message(&mut writer, &ready)?;
+
+    line.clear();
+    if reader
+        .read_line(&mut line)
+        .map_err(|error| format!("read composition supervisor release: {error}"))?
+        == 0
+    {
+        let failure = "composition supervisor control channel closed before release".to_owned();
+        let receipt = read_supervisor_registration(&launch.input.state_dir, &launch.attempt_id)?;
+        let attempt = cockpit_verification::record_composition_supervisor_failure(
+            launch.input.clone(),
+            launch.attempt_id.clone(),
+            receipt,
+            failure.clone(),
+        )
+        .map_err(|error| format!("persist closed-channel composition attempt: {error}"))?;
+        write_supervisor_message(
+            &mut writer,
+            &CompositionSupervisorReply {
+                attempt: Some(attempt),
+                error: Some(failure.clone()),
+            },
+        )?;
+        return Err(failure);
+    }
+    let control: CompositionSupervisorControl = serde_json::from_str(&line)
+        .map_err(|error| format!("decode composition supervisor control: {error}"))?;
+    let receipt = match control {
+        CompositionSupervisorControl::Abort { reason, receipt } => {
+            validate_supervisor_registration(&launch.input.state_dir, &receipt)?;
+            let attempt = cockpit_verification::record_composition_supervisor_failure(
+                launch.input.clone(),
+                launch.attempt_id.clone(),
+                Some(receipt),
+                format!("supervisor_aborted_before_release:{reason}"),
+            )
+            .map_err(|error| format!("persist aborted composition attempt: {error}"))?;
+            write_supervisor_message(
+                &mut writer,
+                &CompositionSupervisorReply {
+                    attempt: Some(attempt),
+                    error: Some(reason),
+                },
+            )?;
+            return Ok(());
+        }
+        CompositionSupervisorControl::Release { receipt } => receipt,
+    };
+    if let Err(error) = validate_supervisor_release(&launch, &receipt, &supervisor, backend) {
+        let attempt = cockpit_verification::record_composition_supervisor_failure(
+            launch.input.clone(),
+            launch.attempt_id.clone(),
+            Some(receipt),
+            format!("supervisor_release_invalid:{error}"),
+        )
+        .ok();
+        write_supervisor_message(
+            &mut writer,
+            &CompositionSupervisorReply {
+                attempt,
+                error: Some(error),
+            },
+        )?;
+        return Ok(());
+    }
+
+    let repository = GitRepository::discover(&launch.repository_root)
+        .map_err(|error| format!("discover supervisor repository: {error}"))?;
+    let store = CoordinationStore::open(&repository, launch.input.binding.verifier.clone())
+        .map_err(|error| format!("open supervisor coordination store: {error}"))?;
+    let result = run_admitted_composition_supervisor(
+        &store,
+        &launch.work_item_id,
+        launch.generation,
+        launch.input.clone(),
+        receipt.clone(),
+    );
+    match result {
+        Ok(attempt) => write_supervisor_message(
+            &mut writer,
+            &CompositionSupervisorReply {
+                attempt: Some(attempt),
+                error: None,
+            },
+        ),
+        Err(error) => {
+            let detail = error.to_string();
+            let attempt = cockpit_verification::record_composition_supervisor_failure(
+                launch.input,
+                launch.attempt_id,
+                Some(receipt),
+                detail.clone(),
+            )
+            .ok();
+            write_supervisor_message(
+                &mut writer,
+                &CompositionSupervisorReply {
+                    attempt,
+                    error: Some(detail),
+                },
+            )
+        }
+    }
+}
+
+fn validate_supervisor_release(
+    launch: &CompositionSupervisorLaunch,
+    receipt: &CompositionSupervisorReceipt,
+    supervisor: &cockpit_verification::CompositionProcessIdentity,
+    backend: CompositionSupervisorBackend,
+) -> Result<(), String> {
+    if receipt.schema_version != 1
+        || receipt.backend != backend
+        || receipt.attempt_id != launch.attempt_id
+        || receipt.run_nonce != launch.run_nonce
+        || receipt.generation != launch.generation
+        || receipt.owner != launch.owner
+        || receipt.supervisor != *supervisor
+        || receipt.runtime_version != launch.runtime_version
+        || receipt.runtime_digest != launch.runtime_digest
+        || receipt.repository_id != launch.input.binding.repository_id
+        || receipt.target_sha != launch.input.binding.target_sha
+        || receipt.command_plan_digest
+            != cockpit_verification::composition_commands_digest(&launch.input.commands)
+        || receipt.input_environment_digest != input_environment_digest(&launch.input)
+        || receipt.environment_digest != process_environment_digest(&[])
+        || receipt.snapshot_digest != target_snapshot_digest(&launch.input)?
+        || receipt.linux_boot_id != composition_linux_boot_id()?
+        || receipt.execution_records_digest != execution_records_digest(&[])
+        || receipt.descendants_reaped_to_echild
+    {
+        return Err(
+            "supervisor receipt does not bind the ready Runtime and exact composition input".into(),
+        );
+    }
+    validate_supervisor_registration(&launch.input.state_dir, receipt)
+}
+
+fn build_supervisor_receipt(
+    input: &CompositionInput,
+    launch: &CompositionSupervisorLaunch,
+    ready: &CompositionSupervisorReady,
+    extra_environment: &[(String, String)],
+) -> Result<CompositionSupervisorReceipt, String> {
+    let backend = if cfg!(target_os = "linux") {
+        CompositionSupervisorBackend::LinuxSubreaper
+    } else if cfg!(windows) {
+        CompositionSupervisorBackend::WindowsProcessGroup
+    } else {
+        CompositionSupervisorBackend::UnixProcessGroup
+    };
+    if backend == CompositionSupervisorBackend::LinuxSubreaper
+        && (launch.owner.start_time_ticks.is_none() || ready.supervisor.start_time_ticks.is_none())
+    {
+        return Err("Linux supervisor receipt lacks PID start-time identities".into());
+    }
+    Ok(CompositionSupervisorReceipt {
+        schema_version: 1,
+        backend,
+        attempt_id: launch.attempt_id.clone(),
+        run_nonce: launch.run_nonce.clone(),
+        generation: launch.generation,
+        owner: launch.owner.clone(),
+        supervisor: ready.supervisor.clone(),
+        linux_boot_id: composition_linux_boot_id()?,
+        environment_digest: process_environment_digest(extra_environment),
+        runtime_version: launch.runtime_version.clone(),
+        runtime_digest: launch.runtime_digest.clone(),
+        repository_id: input.binding.repository_id.clone(),
+        target_sha: input.binding.target_sha.clone(),
+        snapshot_digest: target_snapshot_digest(input)?,
+        command_plan_digest: cockpit_verification::composition_commands_digest(&input.commands),
+        input_environment_digest: input_environment_digest(input),
+        execution_records_digest: execution_records_digest(&[]),
+        descendants_reaped_to_echild: false,
+    })
+}
+
+fn target_snapshot_digest(input: &CompositionInput) -> Result<Digest, String> {
+    let tree = format!("{}^{{tree}}", input.binding.target_sha);
+    let output = Command::new("git")
+        .args(["-C"])
+        .arg(&input.repository_root)
+        .args(["rev-parse", "--verify", &tree])
+        .output()
+        .map_err(|error| format!("resolve composition target snapshot: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "resolve composition target tree failed: {}",
+            String::from_utf8_lossy(&output.stderr).trim()
+        ));
+    }
+    Ok(Digest::sha256_bytes(
+        String::from_utf8_lossy(&output.stdout).trim().as_bytes(),
+    ))
+}
+
+fn input_environment_digest(input: &CompositionInput) -> Digest {
+    let values = input
+        .commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    Digest::sha256_bytes(&serde_json::to_vec(&values).expect("command environments serialize"))
+}
+
+fn process_environment_digest(extra: &[(String, String)]) -> Digest {
+    let mut environment = std::env::vars_os()
+        .map(|(key, value)| {
+            (
+                key.to_string_lossy().into_owned(),
+                value.to_string_lossy().into_owned(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    environment.extend(extra.iter().cloned());
+    Digest::sha256_bytes(&serde_json::to_vec(&environment).expect("process environment serializes"))
+}
+
+fn executable_digest(executable: &Path) -> Result<Digest, String> {
+    let bytes = fs::read(executable).map_err(|error| {
+        format!(
+            "read exact Runtime executable {}: {error}",
+            executable.display()
+        )
+    })?;
+    Ok(Digest::sha256_bytes(&bytes))
+}
+
+fn persist_supervisor_registration(
+    state_dir: &Path,
+    receipt: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    let directory = state_dir.join("supervisors");
+    fs::create_dir_all(&directory)
+        .map_err(|error| format!("create supervisor registration directory: {error}"))?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(&directory, fs::Permissions::from_mode(0o700))
+            .map_err(|error| format!("restrict supervisor registration directory: {error}"))?;
+    }
+    let path = supervisor_registration_path(&directory, &receipt.attempt_id);
+    let temporary = path.with_extension(format!("{}.tmp", new_composition_run_nonce()));
+    let bytes = serde_json::to_vec_pretty(receipt)
+        .map_err(|error| format!("encode supervisor registration: {error}"))?;
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&temporary)
+        .map_err(|error| format!("create supervisor registration: {error}"))?;
+    file.write_all(&bytes)
+        .map_err(|error| format!("write supervisor registration: {error}"))?;
+    file.sync_all()
+        .map_err(|error| format!("sync supervisor registration: {error}"))?;
+    fs::rename(&temporary, &path)
+        .map_err(|error| format!("publish supervisor registration: {error}"))?;
+    #[cfg(unix)]
+    fs::File::open(&directory)
+        .and_then(|directory| directory.sync_all())
+        .map_err(|error| format!("sync supervisor registration directory: {error}"))?;
+    Ok(())
+}
+
+fn validate_supervisor_registration(
+    state_dir: &Path,
+    expected: &CompositionSupervisorReceipt,
+) -> Result<(), String> {
+    let registered = read_supervisor_registration(state_dir, &expected.attempt_id)?
+        .ok_or_else(|| "durable supervisor registration is missing".to_owned())?;
+    if registered != *expected {
+        return Err("durable supervisor registration differs from release receipt".into());
+    }
+    Ok(())
+}
+
+fn read_supervisor_registration(
+    state_dir: &Path,
+    attempt_id: &str,
+) -> Result<Option<CompositionSupervisorReceipt>, String> {
+    let path = supervisor_registration_path(&state_dir.join("supervisors"), attempt_id);
+    let bytes = match fs::read(&path) {
+        Ok(bytes) => bytes,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(error) => {
+            return Err(format!(
+                "read durable supervisor registration {}: {error}",
+                path.display()
+            ));
+        }
+    };
+    let registered: CompositionSupervisorReceipt = serde_json::from_slice(&bytes)
+        .map_err(|error| format!("decode durable supervisor registration: {error}"))?;
+    if registered.attempt_id != attempt_id {
+        return Err("durable supervisor registration attempt identity mismatch".into());
+    }
+    Ok(Some(registered))
+}
+
+fn supervisor_registration_path(directory: &Path, attempt_id: &str) -> std::path::PathBuf {
+    let stem = Digest::sha256_bytes(attempt_id.as_bytes())
+        .to_string()
+        .replace(':', "-");
+    directory.join(format!("{stem}.json"))
+}
+
+fn supervisor_output_channel(stdout: ChildStdout) -> mpsc::Receiver<Result<String, String>> {
+    let (sender, receiver) = mpsc::channel();
+    std::thread::spawn(move || {
+        let mut reader = BufReader::new(stdout);
+        loop {
+            let mut line = String::new();
+            match reader.read_line(&mut line) {
+                Ok(0) => break,
+                Ok(_) => {
+                    if sender.send(Ok(line)).is_err() {
+                        break;
+                    }
+                }
+                Err(error) => {
+                    let _ = sender.send(Err(error.to_string()));
+                    break;
+                }
+            }
+        }
+    });
+    receiver
+}
+
+fn read_supervisor_message<T: DeserializeOwned>(
+    receiver: &mpsc::Receiver<Result<String, String>>,
+    timeout: Option<Duration>,
+) -> Result<T, String> {
+    for _ in 0..64 {
+        let line = match timeout {
+            Some(duration) => receiver
+                .recv_timeout(duration)
+                .map_err(|error| format!("wait for composition supervisor protocol: {error}"))?,
+            None => receiver
+                .recv()
+                .map_err(|error| format!("composition supervisor protocol closed: {error}"))?,
+        }
+        .map_err(|error| format!("read composition supervisor output: {error}"))?;
+        if let Ok(message) = serde_json::from_str::<T>(&line) {
+            return Ok(message);
+        }
+    }
+    Err("composition supervisor emitted too many non-protocol lines".into())
+}
+
+fn write_supervisor_message<W: Write, T: Serialize>(
+    writer: &mut W,
+    message: &T,
+) -> Result<(), String> {
+    serde_json::to_writer(&mut *writer, message)
+        .map_err(|error| format!("encode composition supervisor protocol: {error}"))?;
+    writer
+        .write_all(b"\n")
+        .and_then(|()| writer.flush())
+        .map_err(|error| format!("write composition supervisor protocol: {error}"))
+}
+
+fn stop_unreleased_supervisor(child: &mut Child) {
+    let _ = child.kill();
+    let _ = child.wait();
+}
+
+fn stop_unreleased_supervisor_bounded(child: &mut Child) -> Result<(), String> {
+    const CLEANUP_TIMEOUT: Duration = Duration::from_secs(2);
+    let kill_error = child.kill().err();
+    let deadline = std::time::Instant::now() + CLEANUP_TIMEOUT;
+    loop {
+        match child.try_wait() {
+            Ok(Some(_)) => return Ok(()),
+            Ok(None) => {
+                let now = std::time::Instant::now();
+                if now >= deadline {
+                    return Err(match kill_error {
+                        Some(error) => format!(
+                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?} after kill failed: {error}"
+                        ),
+                        None => format!(
+                            "composition supervisor was not reaped within {CLEANUP_TIMEOUT:?}"
+                        ),
+                    });
+                }
+                std::thread::sleep(Duration::from_millis(10).min(deadline - now));
+            }
+            Err(error) => {
+                return Err(format!(
+                    "reap composition supervisor after identity error: {error}"
+                ));
+            }
+        }
+    }
+}
+
+fn persist_supervisor_failure(
+    input: &CompositionInput,
+    attempt_id: &str,
+    receipt: Option<CompositionSupervisorReceipt>,
+    failure: &str,
+) -> Result<(), CollaborationExecutionError> {
+    cockpit_verification::record_composition_supervisor_failure(
+        input.clone(),
+        attempt_id.into(),
+        receipt,
+        failure.into(),
+    )?;
+    Ok(())
+}
+
+fn recovery_error(detail: String) -> CollaborationExecutionError {
+    CoordinationError::RecoveryRequired(detail).into()
 }
 
 fn validate_composition_identity_for_process_start(

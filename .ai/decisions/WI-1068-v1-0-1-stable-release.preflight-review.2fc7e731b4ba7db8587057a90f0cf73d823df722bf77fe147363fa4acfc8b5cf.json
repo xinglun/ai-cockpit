@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Ray selected confirm_review (response \"1\") in response to agent:Raydot's exact WI-1068 approval request at 2026-10-07T01:15:36Z (message Sentinel_645e602e99048191b56344b6d7f2f21a). Ray's response was received at 2026-10-07T01:32:47Z (message Sentinel_fbeb7e52d0088191b3f1fc7af2396e38). The requested decision is bound to Contract sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb, snapshot sha256:aa98a405cf744e071a7490f7f5d5cb2efdc68575d270dc4f59ba8e26e2d4d6ce, and preflight decision sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f. Decision actor recorded as human:Ray from the user-provided transcript. Actual execution and Runtime recording actor: agent:Codex (/root), recorded at 2026-10-07T01:35:39Z; this attribution does not claim independent host authentication.",
+  "recordedAt": "2026-10-07T01:35:39Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:aa98a405cf744e071a7490f7f5d5cb2efdc68575d270dc4f59ba8e26e2d4d6ce",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

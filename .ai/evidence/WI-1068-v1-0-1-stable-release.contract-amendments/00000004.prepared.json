@@ -1,0 +1,371 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1068-v1-0-1-stable-release",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1068-stable-v101-later-acceptance-boundary-20261006-05",
+      "expectedContractDigest": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+      "reason": "Keep the three exact evidence-backed pre-finish criteria explicitly numbered for current acceptanceEvidence, while expressing candidate-tag, post-publication, local install, and cleanup steps as later-stage unnumbered Contract conditions. This follows the lifecycle boundary where these outputs cannot exist before the tag/Release and prevents any future-stage assertion from being treated as verified early.",
+      "changes": [
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "replace",
+          "value": [
+            "A1: The product/source diff changes only the 16 declared product paths; workspace/package identity is plain stable SemVer 1.0.1, localized version/distribution guidance is consistent, and historical v1.0.0 and v1.0.1-rc.2 identities remain separate. The exact six required Work Item/parity pages are governance projections, not additional product-source scope.",
+            "A2: The declared Rust workspace verification and every required repository gate pass for the exact PR #1022 head. Evidence records the exact head, workflow run/job conclusions, actual completion of all 13 package-coverage obligations, and the independent review conclusion without attributing agent review to a human.",
+            "A3: Before any tag is created, the Runtime-bound release plan consumes fresh evidence for this exact source/PR and confirms the real immutable v1.0.0 stable release is the N-1 source, v1.0.1 tag and Release names are unused, and the existing release workflow enforces candidate checks before public Release publication.",
+            "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+            "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+            "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+            "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted."
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:c0c2d9ff4da395b3e0fc32b41acec081159890a1828afccc58e558a903d810bd",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: The product/source diff changes only the 16 declared product paths; workspace/package identity is plain stable SemVer 1.0.1, localized version/distribution guidance is consistent, and historical v1.0.0 and v1.0.1-rc.2 identities remain separate. The exact six required Work Item/parity pages are governance projections, not additional product-source scope.",
+        "A2: The declared Rust workspace verification and every required repository gate pass for the exact PR #1022 head. Evidence records the exact head, workflow run/job conclusions, actual completion of all 13 package-coverage obligations, and the independent review conclusion without attributing agent review to a human.",
+        "A3: Before any tag is created, the Runtime-bound release plan consumes fresh evidence for this exact source/PR and confirms the real immutable v1.0.0 stable release is the N-1 source, v1.0.1 tag and Release names are unused, and the existing release workflow enforces candidate checks before public Release publication.",
+        "A4: Only after normal PR merge and fresh Runtime publication admission, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+        "A5: After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+        "A6: On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+        "A7: After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-06T05:10:22Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact 16-path stable v1.0.1 update; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted Contract review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Prepare the existing v1.0.1 line as a genuine stable release rather than a prerelease, with corrected release identity and consistent localized version/distribution documentation.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Any product or governance path outside the 16-path allowlist; .github/workflows/release.yml unless a demonstrated defect requires a separately admitted amendment; editing historical evidence; merging before exact-head CI and required review; tagging or publishing before Contract review and candidate acceptance."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+          "required": true,
+          "scenario": "stable-v1.0.1-identity",
+          "status": "unverified",
+          "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+        },
+        {
+          "evidence": [],
+          "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+          "required": true,
+          "scenario": "exact-head-repository-and-release-ci",
+          "status": "unverified",
+          "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+        },
+        {
+          "evidence": [],
+          "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+          "required": false,
+          "scenario": "four-target-candidate-install-smoke",
+          "status": "unverified",
+          "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+        },
+        {
+          "evidence": [],
+          "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+          "required": false,
+          "scenario": "linux-x86_64-n-minus-one-upgrade",
+          "status": "unverified",
+          "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+        },
+        {
+          "evidence": [],
+          "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+          "required": false,
+          "scenario": "local-macos-cli-mcp-identity-switch",
+          "status": "unverified",
+          "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+        },
+        {
+          "evidence": [],
+          "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+          "required": false,
+          "scenario": "stable-v1.0.1-publication",
+          "status": "unverified",
+          "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+        },
+        {
+          "evidence": [],
+          "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+          "required": false,
+          "scenario": "public-download-linux-n-minus-one-acceptance",
+          "status": "unverified",
+          "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+        },
+        {
+          "evidence": [],
+          "expected": "Before publication, a current Runtime-bound release plan consumes exact fresh CI/source evidence, selects immutable v1.0.0 as the real N-1 source, confirms stable v1.0.1 tag/Release names are unused, and retains candidate validation before public publication.",
+          "required": true,
+          "scenario": "release-plan-immutability-and-evidence-consumption",
+          "status": "unverified",
+          "verificationPlan": "Inspect current provider tag/Release identities and the existing release workflow; bind the exact candidate PR and evidence digests, all four target smoke jobs, and x86_64-unknown-linux-gnu staged N-1 from v1.0.0. No tag or publication mutation occurs in this pre-finish scenario."
+        }
+      ],
+      "scope": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/candidate.json",
+        "docs/reference/reference-comparison-metadata.json",
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/architecture/release-distribution.zh-CN.md",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md"
+      ],
+      "sources": [
+        "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+        "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "previousContractDigest": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: The product/source diff changes only the 16 declared product paths; workspace/package identity is plain stable SemVer 1.0.1, localized version/distribution guidance is consistent, and historical v1.0.0 and v1.0.1-rc.2 identities remain separate. The exact six required Work Item/parity pages are governance projections, not additional product-source scope.",
+        "A2: The declared Rust workspace verification and every required repository gate pass for the exact PR #1022 head. Evidence records the exact head, workflow run/job conclusions, actual completion of all 13 package-coverage obligations, and the independent review conclusion without attributing agent review to a human.",
+        "A3: Before any tag is created, the Runtime-bound release plan consumes fresh evidence for this exact source/PR and confirms the real immutable v1.0.0 stable release is the N-1 source, v1.0.1 tag and Release names are unused, and the existing release workflow enforces candidate checks before public Release publication.",
+        "After normal PR merge and fresh Runtime publication admission only, create the new immutable v1.0.1 tag on the accepted merge commit. The existing workflow must build and pass candidate install/smoke for aarch64-apple-darwin (Homebrew), x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and staged full N-1 upgrade from stable v1.0.0 must pass on x86_64-unknown-linux-gnu before public Release publication. Do not substitute N/A or another predecessor.",
+        "After public Release publication, download the official manifest, SHA256SUMS, and Linux x86_64 artifact; verify their identities and digests and pass public install plus N-1 upgrade from v1.0.0 with post-upgrade checks. Preserve any failure and never replace existing immutable assets.",
+        "On the local Apple Silicon macOS host, install the published macOS binary at the declared absolute path and update the CLI/MCP executable binding. Verify that official archive/manifest/SHA256SUMS agree, record the actual installed binary SHA-256 and version 1.0.1, confirm CLI absolute path and MCP initialize plus read-only request. Check a local build only for source/provenance/version; do not require its binary hash to equal the official artifact or mutate provider-global identity configuration.",
+        "After every release acceptance step succeeds, Runtime admits cleanup and close, and the exact merged PR branch/worktree cleanup plus final lifecycle receipts are recorded. No tag, release, or asset is overwritten or deleted."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-06T05:10:22Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact 16-path stable v1.0.1 update; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted Contract review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Prepare the existing v1.0.1 line as a genuine stable release rather than a prerelease, with corrected release identity and consistent localized version/distribution documentation.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Any product or governance path outside the 16-path allowlist; .github/workflows/release.yml unless a demonstrated defect requires a separately admitted amendment; editing historical evidence; merging before exact-head CI and required review; tagging or publishing before Contract review and candidate acceptance."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ecb5dc3ace130214040952b4ca491ba06635a264488df63a5be4bf8c2038ff81",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+          "required": true,
+          "scenario": "stable-v1.0.1-identity",
+          "status": "unverified",
+          "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact product diff, and localized release/version documents; preserve only accurate historical prerelease references."
+        },
+        {
+          "evidence": [],
+          "expected": "Declared workspace verification and all required repository gates pass on the exact PR #1022 head, including actual coverage completion for all 13 packages and a non-blocking independent technical review.",
+          "required": true,
+          "scenario": "exact-head-repository-and-release-ci",
+          "status": "unverified",
+          "verificationPlan": "Bind exact PR head SHA, current GitHub workflow run and every required job conclusion, Rust gate receipt, all 13 package-coverage outputs, and the available agent review conclusion. Do not claim a human approval from an agent review."
+        },
+        {
+          "evidence": [],
+          "expected": "After Runtime publication admission, the new immutable v1.0.1 tag triggers four-target candidate install/smoke and those checks finish before public Release publication.",
+          "required": false,
+          "scenario": "four-target-candidate-install-smoke",
+          "status": "unverified",
+          "verificationPlan": "After merge and fresh Runtime admission only, create the new v1.0.1 tag once; retain the existing release workflow's candidate install/smoke outcome for aarch64-apple-darwin, both Linux targets, and x86_64-pc-windows-msvc before any public Release upload."
+        },
+        {
+          "evidence": [],
+          "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+          "required": false,
+          "scenario": "linux-x86_64-n-minus-one-upgrade",
+          "status": "unverified",
+          "verificationPlan": "In the tag-triggered release workflow, verify its actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+        },
+        {
+          "evidence": [],
+          "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+          "required": false,
+          "scenario": "local-macos-cli-mcp-identity-switch",
+          "status": "unverified",
+          "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+        },
+        {
+          "evidence": [],
+          "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+          "required": false,
+          "scenario": "stable-v1.0.1-publication",
+          "status": "unverified",
+          "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+        },
+        {
+          "evidence": [],
+          "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+          "required": false,
+          "scenario": "public-download-linux-n-minus-one-acceptance",
+          "status": "unverified",
+          "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+        },
+        {
+          "evidence": [],
+          "expected": "Before publication, a current Runtime-bound release plan consumes exact fresh CI/source evidence, selects immutable v1.0.0 as the real N-1 source, confirms stable v1.0.1 tag/Release names are unused, and retains candidate validation before public publication.",
+          "required": true,
+          "scenario": "release-plan-immutability-and-evidence-consumption",
+          "status": "unverified",
+          "verificationPlan": "Inspect current provider tag/Release identities and the existing release workflow; bind the exact candidate PR and evidence digests, all four target smoke jobs, and x86_64-unknown-linux-gnu staged N-1 from v1.0.0. No tag or publication mutation occurs in this pre-finish scenario."
+        }
+      ],
+      "scope": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/candidate.json",
+        "docs/reference/reference-comparison-metadata.json",
+        "README.md",
+        "README.zh-CN.md",
+        "README.ja.md",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md",
+        "docs/architecture/release-distribution.md",
+        "docs/architecture/release-distribution.zh-CN.md",
+        "docs/architecture/release-distribution.ja.md",
+        "docs/architecture/versioning.md",
+        "docs/architecture/versioning.zh-CN.md",
+        "docs/architecture/versioning.ja.md"
+      ],
+      "sources": [
+        "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
+        "Current user direction to proceed with stable v1.0.1 through the AI Cockpit release workflow."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "newContractDigest": "sha256:c67fa253315dac851f60c107dd090a57a4f6656087b8b87531939770962ba0e9",
+    "previousSummaryDigest": "sha256:d91b8048a03da60b59b056e2a0492620a453f954cdf130510d8fde2f6a4b0abb",
+    "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+    "environmentObservationDigest": "sha256:cb797291694150c84bdf456a8e43a1cda19cbe6c327500b8f972f45e3826dabf",
+    "runtime": {
+      "runtimeVersion": "1.0.1-rc.2",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:ee2c5997217b2b6558f2230857721fb8d4ddf433a89434531786b6eceea4da2e",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-06T06:31:22Z"
+  },
+  "preparedDigest": "sha256:1850c5d129220401a9bb571f17a17220adf60764d605b0a656ac1cb4c146978a"
+}

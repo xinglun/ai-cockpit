@@ -1,0 +1,112 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json"
+        ],
+        "inference": false,
+        "text": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact original 16-path stable v1.0.1 update and the already-scoped Linux-only zombie-only verifier process-group liveness correction; retain the unique full-workspace verification declaration and independent Linux regression evidence; implement opt-in repository-bound Work Item usage receipts, distinct Runtime-recorded start/finish/archive/close facts, a typed read-only audit query and MCP surface, filtered audit export that preserves the legacy unfiltered wire, accurate UTC/IANA-zone time rendering, and complete CLI/MCP discovery/docs; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1068-v1-0-1-stable-release.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-10T05:00:02.486509067Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

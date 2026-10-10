@@ -71,6 +71,7 @@ digest、snapshot、無効化された check を bind して追記専用で保�
 | `concurrencyBoundary` | parallel Work Item の Contract-owned path boundary と slot authorization。 | Implemented |
 | `checkpointPolicy` | typed な `light`/`standard`/`strict`/`release` profile と明示的な required stages/checks。strict/release は Agent Risk の 6 gate（`aiWorkItem`、`aiScope`、`aiAgentRisk`、`aiSummary`、`aiStatus`、`aiStatusCheck`）も要求する。unknown field と重複要求は fail closed。Verification strength であり Evidence Assurance ではない。 | Implemented |
 | `humanDecisionPoints`、`documentationImpact`、`performanceImpact`、`governanceProfile` など | current typed validator が behavior を定義する場合だけ意味を持つ additive value。generic field は approval ではない。 | Partial |
+| `governanceProfile.materialInspectionReview` | `unknownCause=readable_committed_rust_syntax_unknown` となる、完全で読み取り可能かつ provenance が有効な commit 済み Rust 変更だけを対象にする、`self_declared` 技術 review の strict な任意 opt-in です。request と receipt は正確な Contract/profile、base、source snapshot、manifest、policy、analyzer、および各 path/hunk/blob に bind されます。decision は scanner Unknown を machine Clean と再ラベルせず、Finding やその他の Unknown も解消しません。Runtime は reviewer identity を認証しないため、人間、provider、release の approval ではありません。 | Implemented / External identity boundary |
 
 `authority: authorized` は repository-local declaration です。enterprise identity、provider verification、organization policy、approval authenticity は外部 evidence であり、Contract bytes から推測しません。
 
@@ -88,6 +89,7 @@ digest、snapshot、無効化された check を bind して追記専用で保�
 | `intentAlignment` | optional resolved/unresolved projection。欠落は unknown のまま。 | Implemented |
 | `finalDimensions` | exact twenty dimensions の receipt。decision は `GO`、`CONDITIONAL_GO`、`NO_GO`。`fourPillarProjection` は表示用。 | Implemented |
 | `verification` | Runtime execution receipt は `.ai/evidence/` に書き、path の存在だけでは満たさない。 | Implemented |
+| `materialReviewReceipt`、`materialReviewReceiptHistory` | pointer は typed receipt を一つの正確な request に bind します。history は置き換えられた pointer 値を保持し、古い immutable sidecar の bytes は変わりません。raw scanner Unknown は表示上も保持されます。decision が解消できるのは許可された syntax Unknown だけです。reviewable Unknown が残っている場合だけ stale receipt が blocking になります。missing または invalid receipt はその Unknown を解消せず、Unknown が残っていない場合に stale blocker は追加されません。Finding と他の Unknown は引き続き blocking です。 | Implemented |
 | `outcome`、archive manifest、human decision | `.ai/work-items/archive/` と `.ai/decisions/` の Runtime-generated terminal projection。 | Implemented |
 | `reviewReadiness`、`residualRisks`、`knownGaps`、`followUps`、`documentationAlignment` | reference として有用だが、current Runtime の universal typed Summary contract ではない。 | Partial |
 | provider、enterprise、hosted-CI、attestation、SBOM、organization approval | delegated evidence として import/link できるが、Runtime は provider authority を生成しない。 | External |

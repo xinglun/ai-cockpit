@@ -7,7 +7,8 @@ use cockpit_protocol::{
     OutcomeFinalizationResource, OutcomeFinalizationResourceDisposition, OutcomeReleaseProjection,
     OutcomeState, OutcomeV2, ResourceFinalizationBranchState, ResourceFinalizationPullRequestState,
     ResourceFinalizationReceipt, ResourceFinalizationWorktreeState, RuntimeContext,
-    TaskOutcomeReport,
+    TaskOutcomeReport, UsageAssurance, UsageCoverage, UsageSourceKind, UsageSummary,
+    UsageTokenCounts,
 };
 use serde_json::Value;
 use std::fs;
@@ -93,7 +94,12 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
         .join(format!("{}.contract.json", outcome.work_item_id));
     let archived_unclosed = !historical
         && archived_contract.is_file()
-        && !close_decision_is_valid_for_status(root, &outcome.work_item_id, &outcome.repository_id);
+        && (outcome_has_invalid_frozen_usage(&outcome)
+            || !close_decision_is_valid_for_status(
+                root,
+                &outcome.work_item_id,
+                &outcome.repository_id,
+            ));
     let human_decision = load_human_decision(root, &outcome.work_item_id);
     let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
     OutcomeRenderInput {
@@ -166,11 +172,12 @@ fn assemble_outcome_render_input_with_hook(
             .join(format!("{work_item_id}.contract.json"));
         let archived_unclosed = !historical
             && archived_contract.is_file()
-            && !close_decision_is_valid_for_status(
-                context.root(),
-                work_item_id,
-                &outcome.repository_id,
-            );
+            && (outcome_has_invalid_frozen_usage(&outcome)
+                || !close_decision_is_valid_for_status(
+                    context.root(),
+                    work_item_id,
+                    &outcome.repository_id,
+                ));
         let human_decision = load_human_decision(context.root(), work_item_id);
         let lifecycle_status = lifecycle_status(context.root(), &outcome, historical, superseded);
         let finalization =
@@ -1212,6 +1219,135 @@ pub fn render_human_outcome_with_view(
     }
 }
 
+/// Add a requested IANA lifecycle view to the human handoff. Audit query owns
+/// the timestamp source and timezone conversion; this function never changes
+/// the persisted UTC facts or the ordinary Outcome representation.
+pub fn render_human_outcome_with_timezone(
+    root: &Path,
+    input: &OutcomeRenderInput,
+    runtime: &RuntimeContext,
+    language: &str,
+    view: OutcomeRenderView,
+    display_timezone: &str,
+) -> Result<String, ObserverError> {
+    render_human_outcome_with_timezone_with_hook(
+        root,
+        input,
+        runtime,
+        language,
+        view,
+        display_timezone,
+        None,
+    )
+}
+
+fn render_human_outcome_with_timezone_with_hook(
+    root: &Path,
+    input: &OutcomeRenderInput,
+    runtime: &RuntimeContext,
+    language: &str,
+    view: OutcomeRenderView,
+    display_timezone: &str,
+    mut after_first_guard: Option<&mut dyn FnMut()>,
+) -> Result<String, ObserverError> {
+    // The base Outcome was assembled under a guarded observation. Check that
+    // those same repository facts still exist on both sides of the audit read;
+    // otherwise a later close/archive could be spliced into an older Outcome.
+    require_outcome_generation(root, input)?;
+    if let Some(hook) = after_first_guard.as_mut() {
+        hook();
+    }
+    let mut filters = cockpit_protocol::AuditQueryFilters {
+        work_item_id: Some(input.outcome.work_item_id.clone()),
+        limit: Some(100),
+        display_timezone: Some(display_timezone.into()),
+        ..Default::default()
+    };
+    let event_types = [
+        "work_item_started",
+        "work_item_finished",
+        "work_item_archived",
+        "work_item_closed",
+    ];
+    let mut display_times: [Option<String>; 4] = std::array::from_fn(|_| None);
+    let mut wall_elapsed_ms = None;
+    loop {
+        let page = crate::query_audit_events(root, runtime, &filters)?;
+        for item in page.items {
+            if let Some(index) = event_types.iter().position(|kind| *kind == item.event_type) {
+                display_times[index] = item.display_time;
+                if index == 3 {
+                    wall_elapsed_ms = item.wall_elapsed_ms;
+                }
+            }
+        }
+        let Some(cursor) = page.next_cursor else {
+            break;
+        };
+        filters.cursor = Some(cursor);
+    }
+    require_outcome_generation(root, input)?;
+    let language = normalized_language(language);
+    let (zone_label, labels, unknown, elapsed_label) = match language {
+        "zh" => (
+            "时区",
+            ["开始", "完成", "归档", "关闭"],
+            "未知",
+            "墙钟历时（含等待）",
+        ),
+        "ja" => (
+            "タイムゾーン",
+            ["開始", "完了", "アーカイブ", "終了"],
+            "不明",
+            "壁時計の経過時間（待機を含む）",
+        ),
+        _ => (
+            "Time zone",
+            ["start", "finish", "archive", "close"],
+            "unknown",
+            "wall elapsed (includes waiting)",
+        ),
+    };
+    let parts = labels
+        .iter()
+        .zip(display_times.iter())
+        .map(|(label, time)| format!("{label}: {}", time.as_deref().unwrap_or(unknown)))
+        .collect::<Vec<_>>();
+    let elapsed = wall_elapsed_ms
+        .map(|ms| format!("{ms} ms"))
+        .unwrap_or_else(|| unknown.into());
+    Ok(format!(
+        "{}\n{zone_label}: {display_timezone}; {}; {elapsed_label}: {elapsed}",
+        render_human_outcome_with_view(input, language, view),
+        parts.join("; "),
+    ))
+}
+
+fn require_outcome_generation(
+    root: &Path,
+    input: &OutcomeRenderInput,
+) -> Result<(), ObserverError> {
+    let Some(assembly) = input.assembly.as_ref() else {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message: "Outcome lifecycle generation is unavailable; result is unknown".into(),
+        });
+    };
+    let context = RepositoryExecutionContext::capture(root)?;
+    let snapshot = super::snapshot_digest(context.snapshot())?;
+    let facts =
+        assembly_observation_ledger(context.root(), &input.outcome.work_item_id)?.facts_digest();
+    if snapshot != assembly.snapshot_digest || facts != assembly.facts_digest {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message:
+                "Outcome lifecycle facts changed during timezone projection; result is unknown"
+                    .into(),
+        });
+    }
+    Ok(())
+}
+
 /// Render the complete evidence-oriented handoff explicitly.
 pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
     render_human_outcome_with_view(input, language, OutcomeRenderView::Full)
@@ -1228,9 +1364,12 @@ pub fn render_collaboration_outcome(
             "状态",
             "实现状态",
             "组合验证",
+            "执行结果",
+            "执行证据完整",
             "组合适用性",
             "目标合并",
             "清理",
+            "清理处置",
             "提供方",
             "消费者",
             "等待边",
@@ -1247,9 +1386,12 @@ pub fn render_collaboration_outcome(
             "状態",
             "実装状態",
             "構成検証",
+            "実行結果",
+            "実行証拠の完全性",
             "構成適用性",
             "対象マージ",
             "クリーンアップ",
+            "クリーンアップ処置",
             "提供元",
             "利用者",
             "待機エッジ",
@@ -1266,9 +1408,12 @@ pub fn render_collaboration_outcome(
             "State",
             "Implementation state",
             "Composition verification",
+            "Execution outcome",
+            "Execution evidence complete",
             "Composition applicability",
             "Target merge",
             "Cleanup",
+            "Cleanup disposition",
             "Providers",
             "Consumers",
             "Waiting edges",
@@ -1286,7 +1431,7 @@ pub fn render_collaboration_outcome(
         .as_deref()
         .unwrap_or("not observed");
     format!(
-        "{}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- integration owner/order: {}/{}\n",
+        "{}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- {}: {}\n- integration owner/order: {}/{}\n",
         labels.0,
         projection.work_item_id,
         labels.1,
@@ -1296,30 +1441,46 @@ pub fn render_collaboration_outcome(
         labels.3,
         projection.composition_state,
         labels.4,
-        projection.composition_applicability,
+        match projection.execution_outcome {
+            cockpit_verification::CompositionExecutionOutcome::Passed => "passed",
+            cockpit_verification::CompositionExecutionOutcome::Failed => "failed",
+            cockpit_verification::CompositionExecutionOutcome::Unknown => "unknown",
+        },
         labels.5,
-        projection.target_merge_state,
+        projection.execution_evidence_complete,
         labels.6,
-        projection.cleanup_state,
+        projection.composition_applicability,
         labels.7,
-        projection.providers.join(", "),
+        projection.target_merge_state,
         labels.8,
-        projection.consumers.join(", "),
+        projection.cleanup_state,
         labels.9,
-        projection.waiting_edges.join(", "),
+        match projection.cleanup_disposition {
+            cockpit_verification::CompositionCleanupDisposition::Cleaned => "cleaned",
+            cockpit_verification::CompositionCleanupDisposition::Deferred => "deferred",
+            cockpit_verification::CompositionCleanupDisposition::Retained => "retained",
+            cockpit_verification::CompositionCleanupDisposition::Failed => "failed",
+            cockpit_verification::CompositionCleanupDisposition::Unknown => "unknown",
+        },
         labels.10,
-        projection.invalidated_event_ids.join(", "),
+        projection.providers.join(", "),
         labels.11,
-        projection.blockers.join(", "),
+        projection.consumers.join(", "),
         labels.12,
-        projection.unknowns.join(", "),
+        projection.waiting_edges.join(", "),
         labels.13,
-        projection.human_decision_required,
+        projection.invalidated_event_ids.join(", "),
         labels.14,
-        projection.revalidation,
+        projection.blockers.join(", "),
         labels.15,
-        projection.reusable_checks.join(", "),
+        projection.unknowns.join(", "),
         labels.16,
+        projection.human_decision_required,
+        labels.17,
+        projection.revalidation,
+        labels.18,
+        projection.reusable_checks.join(", "),
+        labels.19,
         projection.next_action,
         owner,
         projection.composition_order.join(" -> "),
@@ -1837,8 +1998,17 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         "Outcome: {marker} {status} — {}\n{result_title}",
         outcome.work_item_id
     );
+    let usage_items = task_report
+        .and_then(|report| report.usage.as_ref())
+        .map(|usage| {
+            format!(
+                "\n{}",
+                bullet_lines(&localized_usage_items(usage, language), not_recorded)
+            )
+        })
+        .unwrap_or_default();
     format!(
-        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
+        "{header}\n- {}\n- {}\n- {}\n- {}\n- {}\n- {}{usage_items}\n\n{key_changes}\n{}\n\n{uncertainty}\n{}\n\n{next_action}\n- {next}\n- {decision_detail}\n- {full_report_hint}",
         result_items[0],
         result_items[1],
         result_items[2],
@@ -1848,6 +2018,175 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         bullet_lines(&key_change_items, not_recorded),
         bullet_lines(&uncertainty_items, not_recorded),
     )
+}
+
+fn localized_usage_count(value: Option<u64>, language: &str) -> String {
+    value.map_or_else(
+        || match language {
+            "zh" => "未知".into(),
+            "ja" => "不明".into(),
+            _ => "unknown".into(),
+        },
+        |value| value.to_string(),
+    )
+}
+
+fn localized_usage_counts(counts: &UsageTokenCounts, language: &str) -> String {
+    let labels = match language {
+        "zh" => ["输入", "输出", "缓存输入", "推理"],
+        "ja" => ["入力", "出力", "キャッシュ入力", "推論"],
+        _ => ["input", "output", "cached input", "reasoning"],
+    };
+    [
+        counts.input_tokens,
+        counts.output_tokens,
+        counts.cached_input_tokens,
+        counts.reasoning_tokens,
+    ]
+    .into_iter()
+    .enumerate()
+    .map(|(index, count)| {
+        format!(
+            "{} {}",
+            labels[index],
+            localized_usage_count(count, language)
+        )
+    })
+    .collect::<Vec<_>>()
+    .join(", ")
+}
+
+fn localized_usage_assurance(value: UsageAssurance, language: &str) -> &'static str {
+    match (language, value) {
+        ("zh", UsageAssurance::CallerClaim) => "调用方声明",
+        ("ja", UsageAssurance::CallerClaim) => "呼び出し元の申告",
+        (_, UsageAssurance::CallerClaim) => "caller claim",
+        ("zh", UsageAssurance::VerifiedAdapter) => "已验证适配器",
+        ("ja", UsageAssurance::VerifiedAdapter) => "検証済みアダプター",
+        (_, UsageAssurance::VerifiedAdapter) => "verified adapter",
+        ("zh", UsageAssurance::Unknown) => "未知",
+        ("ja", UsageAssurance::Unknown) => "不明",
+        (_, UsageAssurance::Unknown) => "unknown",
+    }
+}
+
+fn localized_usage_items(usage: &UsageSummary, language: &str) -> Vec<String> {
+    let (
+        coverage_label,
+        cutoff_label,
+        reasons_label,
+        totals_label,
+        subtotal_label,
+        reported_label,
+        configured_label,
+        source_label,
+        model_assurance_label,
+        token_assurance_label,
+        records_label,
+    ) = match language {
+        "zh" => (
+            "用量覆盖",
+            "截止时间",
+            "未知原因",
+            "用量小计",
+            "分组小计",
+            "报告模型",
+            "配置模型",
+            "来源标签（调用方声明）",
+            "模型可信度",
+            "令牌可信度",
+            "记录数",
+        ),
+        "ja" => (
+            "使用量の範囲",
+            "締切時刻",
+            "不明の理由",
+            "使用量の小計",
+            "グループ小計",
+            "報告モデル",
+            "設定モデル",
+            "出所ラベル（申告）",
+            "モデルの保証",
+            "トークンの保証",
+            "記録数",
+        ),
+        _ => (
+            "Usage coverage",
+            "cutoff",
+            "unknown reasons",
+            "Usage totals",
+            "Usage subtotal",
+            "reported model",
+            "configured model",
+            "source labels (caller declared)",
+            "model assurance",
+            "token assurance",
+            "records",
+        ),
+    };
+    let coverage = match (language, usage.coverage) {
+        ("zh", UsageCoverage::Unknown) => "未知 (unknown)",
+        ("zh", UsageCoverage::Partial) => "部分 (partial)",
+        ("zh", UsageCoverage::Complete) => "完整 (complete)",
+        ("ja", UsageCoverage::Unknown) => "不明 (unknown)",
+        ("ja", UsageCoverage::Partial) => "一部 (partial)",
+        ("ja", UsageCoverage::Complete) => "完全 (complete)",
+        (_, UsageCoverage::Unknown) => "unknown",
+        (_, UsageCoverage::Partial) => "partial",
+        (_, UsageCoverage::Complete) => "complete",
+    };
+    let reasons = if usage.unknown_reasons.is_empty() {
+        match language {
+            "zh" => "无",
+            "ja" => "なし",
+            _ => "none",
+        }
+        .to_owned()
+    } else {
+        usage.unknown_reasons.join(", ")
+    };
+    let mut items = vec![format!(
+        "{coverage_label}: {coverage}; {cutoff_label}: {}; {reasons_label}: {reasons}; {records_label}: {}",
+        usage.cutoff,
+        usage.receipt_refs.len()
+    )];
+    items.push(format!(
+        "{totals_label}: {}",
+        localized_usage_counts(&usage.totals, language)
+    ));
+    for subtotal in &usage.subtotals {
+        let missing = match language {
+            "zh" => "未报告",
+            "ja" => "未報告",
+            _ => "not reported",
+        };
+        let reported = subtotal.reported_model.as_deref().unwrap_or(missing);
+        let configured = if subtotal.configured_models.is_empty() {
+            missing.to_owned()
+        } else {
+            subtotal.configured_models.join(", ")
+        };
+        let source_kinds = subtotal
+            .source_kinds
+            .iter()
+            .map(|kind| match kind {
+                UsageSourceKind::ProviderReported => "provider-reported",
+                UsageSourceKind::HostReported => "host-reported",
+                UsageSourceKind::AgentDeclared => "agent-declared",
+            })
+            .collect::<Vec<_>>()
+            .join(", ");
+        items.push(format!(
+            "{subtotal_label}: {reported_label} {reported}; {configured_label} {configured}; {source_label} {source_kinds}; {model_assurance_label} {}; {token_assurance_label} {}; role {}; phase {}; {records_label} {}; {}",
+            localized_usage_assurance(subtotal.model_assurance, language),
+            localized_usage_assurance(subtotal.token_assurance, language),
+            subtotal.role,
+            subtotal.phase,
+            subtotal.record_count,
+            localized_usage_counts(&subtotal.counts, language),
+        ));
+    }
+    items
 }
 
 fn normalized_language(language: &str) -> &str {
@@ -2622,8 +2961,22 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
         status_labels.3,
         governance_signal,
     );
+    let usage_section = task_report
+        .and_then(|report| report.usage.as_ref())
+        .map(|usage| {
+            let heading = match language {
+                "zh" => "用量",
+                "ja" => "使用量",
+                _ => "Usage",
+            };
+            format!(
+                "\n\n{heading}\n{}",
+                bullet_lines(&localized_usage_items(usage, language), not_recorded)
+            )
+        })
+        .unwrap_or_default();
     format!(
-        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
+        "{header}\n\n{completed}\n{}\n\n{problems}\n{}\n\n{stops}\n{}\n\n{resolved}\n{}\n\n{avoided}\n{}\n\n{remaining}\n{}\n\n{unknowns}\n{}\n\n{decisions}\n{}\n\n{verification}\n{}{usage_section}\n\n{impact}\n{}\n\n{next_action}\n- {next}\n\n{evidence}\n{}",
         bullet_lines(&completed_items, not_recorded),
         bullet_lines(&problems_found, not_recorded),
         bullet_lines(&stop_items, not_recorded),
@@ -3001,11 +3354,13 @@ fn lifecycle_status(
         .join(".ai/work-items/archive")
         .join(format!("{}.contract.json", outcome.work_item_id));
     if archive_contract.is_file() {
-        if crate::close_decision_is_valid_for_status(
-            root,
-            &outcome.work_item_id,
-            &outcome.repository_id,
-        ) {
+        if !outcome_has_invalid_frozen_usage(outcome)
+            && crate::close_decision_is_valid_for_status(
+                root,
+                &outcome.work_item_id,
+                &outcome.repository_id,
+            )
+        {
             return "closed".into();
         }
         return "archived".into();
@@ -3023,6 +3378,19 @@ fn lifecycle_status(
                 .map(str::to_owned)
         })
         .unwrap_or_else(|| "unknown".into())
+}
+
+fn outcome_has_invalid_frozen_usage(outcome: &OutcomeV2) -> bool {
+    outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.usage.as_ref())
+        .is_some_and(|usage| {
+            usage
+                .unknown_reasons
+                .iter()
+                .any(|reason| reason == "frozen_usage_invalid")
+        })
 }
 
 fn localized_lifecycle_status(status: String, language: &str) -> String {
@@ -3314,7 +3682,7 @@ mod render_tests {
         FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
         FinalizationObservationState, FinalizationSafety, HumanBenefitReport, HumanDecision,
         OutcomeFinalizationCleanupProjection, OutcomeFinalizationResource,
-        OutcomeFinalizationResourceDisposition, OutcomeState, OutcomeV2,
+        OutcomeFinalizationResourceDisposition, OutcomeState, OutcomeV2, RuntimeContext,
     };
     use std::{fs, path::Path, process::Command};
 
@@ -3540,6 +3908,45 @@ mod render_tests {
                 .expect_err("continuous mutation must fail closed");
         assert!(error.to_string().contains("bounded assembly"));
         assert!(error.to_string().contains("result is unknown"));
+    }
+
+    #[test]
+    fn timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read() {
+        let directory = observed_repository();
+        let id = "WI-OBSERVATION-BOUNDARY";
+        let input = assemble_outcome_render_input_with_hook(directory.path(), id, None, None)
+            .expect("guarded Outcome assembly");
+        let summary = directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.summary.json"));
+        let mut drift = || {
+            let mut changed: serde_json::Value =
+                serde_json::from_slice(&fs::read(&summary).expect("summary")).expect("JSON");
+            changed["lifecycleFacts"]["close"] = serde_json::json!({
+                "eventType":"work_item_closed",
+                "occurredAt":"2026-10-07T08:00:00Z",
+                "recordedAt":"2026-10-07T08:00:00Z",
+                "actorProvenance":"unknown"
+            });
+            fs::write(&summary, serde_json::to_vec_pretty(&changed).expect("JSON"))
+                .expect("lifecycle drift");
+        };
+        let runtime = RuntimeContext {
+            runtime_version: "1.0.1-test".into(),
+            protocol_version: cockpit_protocol::PROTOCOL_VERSION,
+            runtime_digest: Digest::sha256_bytes(b"timezone-drift-test"),
+        };
+        let error = super::render_human_outcome_with_timezone_with_hook(
+            directory.path(),
+            &input,
+            &runtime,
+            "en",
+            super::OutcomeRenderView::Summary,
+            "Asia/Tokyo",
+            Some(&mut drift),
+        )
+        .expect_err("a timezone line must not mix lifecycle generations");
+        assert!(error.to_string().contains("changed"), "{error}");
     }
 
     #[test]

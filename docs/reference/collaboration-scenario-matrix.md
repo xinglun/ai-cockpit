@@ -12,14 +12,10 @@ lastVerifiedBy: WI-781-trust-diagnostics
 
 This page is the readable companion to
 [`collaboration-scenario-matrix.json`](collaboration-scenario-matrix.json),
-which is the structured source of truth for automated consumption. It
-extends the collaboration language contract delivered by
-[WI-679](../work-items/WI-679-p0-collaboration-language-contract.md) (its
-`docs/reference/collaboration-language-contract.md` page is not yet on the
-default branch as of this Work Item; link here once WI-679 merges)
-with concrete scenarios generated from the repository's actual supported
-lifecycle, evidence states, authorization states, and operation types, per
-the collaboration-language initiative's P1 scope.
+which is the structured source of truth for automated consumption. It extends
+the current [collaboration language contract](collaboration-language-contract.md)
+with concrete scenarios grounded in the repository's supported lifecycle,
+evidence, authorization, composition, and operation semantics.
 
 ## How to read this matrix
 
@@ -32,7 +28,8 @@ Each scenario names:
   available real record; never a claim about proven real-world behavior).
 - **category** — lifecycle transition, evidence, authorization,
   verification, merge/close, historical query, Agent/session hand-off, or
-  multi-language/entry-point consistency.
+  multi-language/entry-point consistency, composition execution/retry,
+  process supervision, or legacy composition.
 - **expected result** and the **semantic invariant(s)** (from the
   collaboration language contract's ten invariants) it exercises.
 
@@ -52,15 +49,24 @@ Cartesian enumeration of every state times every operation.
 | Historical query | SCN-020 | 0 | 1 | 0 |
 | Agent/session hand-off | SCN-021..022, SCN-026 | 2 | 1 | 0 |
 | Multi-language/entry-point | SCN-023..024 | 0 | 2 | 0 |
+| Finalization observation | SCN-027..033 | 6 | 0 | 0 |
+| Composition execution | SCN-034 | 0 | 1 | 0 |
+| Composition retry | SCN-035..036 | 0 | 2 | 0 |
+| Process supervision | SCN-037 | 0 | 1 | 0 |
+| Legacy composition | SCN-038 | 0 | 1 | 0 |
+| Verification retry boundary | SCN-039 | 0 | 1 | 0 |
 
-Most scenarios in this delivery are `observed` or `documented`; none are
-`designed`, because the repository's own canonical docs and the delivery's
-real Runtime interactions cover every required category.
+SCN-033 is unavailable and is reported separately; it is not included in the
+observed, documented, or designed counts above.
+
+SCN-034 through SCN-039 are `documented` cases based on Contract A12-A14 and
+the current implementation. They are not claims that those outcomes were
+observed in this cloud run. No new `designed` case is added.
 
 ## Full matrix
 
 See `collaboration-scenario-matrix.json` for the complete, structured
-26-scenario table (SCN-001 through SCN-026; IDs are stable and may be
+39-scenario table (SCN-001 through SCN-039; IDs are stable and may be
 extended, never renumbered, by future Work Items). A representative sample:
 
 | ID | Category | Title | Source | Result |
@@ -74,6 +80,11 @@ extended, never renumbered, by future Work Items). A representative sample:
 | SCN-022 | handoff | One Agent's incomplete predecessor closure structurally blocks another Agent's fresh start | observed | rejected_until_predecessor_closed |
 | SCN-025 | verification | Displayed option, selected test-data decision, interruption, and resumed Runtime transition remain consistent | observed | consistent_with_safe_retry |
 | SCN-026 | handoff | A fresh subprocess reconstructs the handoff from Runtime records without conversation history | observed | state_fully_recoverable_with_explicit_block |
+| SCN-034 | composition_execution | Passed execution with deferred cleanup remains unknown and non-reusable | documented | nonterminal_unknown |
+| SCN-036 | composition_retry | Only the bound Linux system no-op gets a fresh deferred-cleanup retry | documented | fresh_attempt_old_tree_preserved |
+| SCN-037 | process_supervision | Linux ECHILD proof is not claimed by Unix/Windows process-group backends | documented | backend_specific |
+| SCN-038 | legacy_composition | Legacy v1/v2 booleans do not establish reusable v3 evidence | documented | compatibility_only |
+| SCN-039 | verification | A Cargo first run is not a supported deferred-cleanup repeat | documented | retry_blocked_before_spawn |
 
 ## Known limitations
 
@@ -85,3 +96,9 @@ classification, bounded Outcome assembly retry, and staged Runtime diagnostics;
 unsupported process counts remain explicitly unavailable. None of these checks
 claims exhaustive Cartesian coverage of every invariant or state; future Work
 Items may add bounded checks without renumbering scenarios.
+
+The new composition cases are documented boundaries, not a hosted acceptance
+receipt. A Cargo command may run as an admitted first execution, but the current
+deferred-cleanup retry policy admits only a single protected system no-op
+`true`; it does not establish retry support for Cargo or arbitrary tests.
+The projection does not replace the Work Item `finish` gates.

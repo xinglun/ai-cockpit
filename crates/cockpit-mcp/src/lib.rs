@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 27] = [
+const TOOL_NAMES: [&str; 31] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -21,6 +21,10 @@ const TOOL_NAMES: [&str; 27] = [
     "capability_show",
     "preflight",
     "work_item_controls",
+    "work_item_usage_record",
+    "work_item_material_review_plan",
+    "work_item_material_review_record",
+    "audit_query",
     "work_item_recover",
     "work_item_closeout_recovery_plan",
     "work_item_closeout_recover",
@@ -485,6 +489,28 @@ fn capability_parameter_required(
         .collect()
 }
 
+fn audit_query_tool_schema() -> Value {
+    let description =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_QUERY_SURFACE)
+            .expect("protocol-owned audit query surface");
+    let mcp = description
+        .surfaces
+        .iter()
+        .find(|surface| surface.name == "mcp")
+        .expect("MCP audit query parameters");
+    let mut properties = serde_json::Map::new();
+    for parameter in &mcp.parameters {
+        let schema = if parameter.name == "limit" {
+            json!({"type":"integer","minimum":1,"maximum":100,"default":50,
+                "description": parameter.description})
+        } else {
+            string_property(&parameter.description)
+        };
+        properties.insert(parameter.name.clone(), schema);
+    }
+    object_schema(Value::Object(properties), &[])
+}
+
 fn mcp_tool_schema(name: &str) -> Value {
     let id_properties = json!({
         "workItemId": string_property("Canonical Work Item identifier."),
@@ -610,6 +636,26 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_usage_record" => object_schema(
+            json!({
+                "request": cockpit_protocol::usage::usage_record_request_schema(),
+            }),
+            &["request"],
+        ),
+        "work_item_material_review_plan" => object_schema(
+            json!({
+                "workItemId": string_property("Active Work Item whose committed material is being planned for review."),
+            }),
+            &["workItemId"],
+        ),
+        "work_item_material_review_record" => object_schema(
+            json!({
+                "workItemId": string_property("Active Work Item whose material-review decision is being recorded."),
+                "decision": cockpit_protocol::material_inspection_review_decision_input_schema(),
+            }),
+            &["workItemId", "decision"],
+        ),
+        "audit_query" => audit_query_tool_schema(),
         "work_item_recover" => {
             let mut properties = id_properties;
             properties["receipt"] = json!({
@@ -786,6 +832,22 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Record explicitly supplied Work Item governance controls only when a fresh Runtime status admits record_governance_controls.",
         ),
         (
+            "work_item_usage_record",
+            cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
+        ),
+        (
+            "work_item_material_review_plan",
+            "Build the canonical read-only committed-source material-review request for an active Work Item.",
+        ),
+        (
+            "work_item_material_review_record",
+            "Record a typed self-declared material-review decision only when the exact Contract opt-in and current Runtime action admission allow it.",
+        ),
+        (
+            "audit_query",
+            "Read a filtered, source-bound audit page without writing evidence.",
+        ),
+        (
             "work_item_recover",
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
@@ -874,6 +936,22 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
         "delegated_evidence_list" => Some(&["workItemId"][..]),
         "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
+        "work_item_usage_record" => Some(&["request"][..]),
+        "work_item_material_review_plan" => Some(&["workItemId"][..]),
+        "work_item_material_review_record" => Some(&["workItemId", "decision"][..]),
+        "audit_query" => Some(
+            &[
+                "workItemId",
+                "from",
+                "to",
+                "reportedModel",
+                "actor",
+                "eventType",
+                "limit",
+                "cursor",
+                "displayTimezone",
+            ][..],
+        ),
         "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
         "work_item_closeout_recovery_plan" | "work_item_closeout_recover" => {
             Some(&["workItemId", "sourceRepo"][..])
@@ -1034,6 +1112,39 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_controls" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
+        }
+        "work_item_usage_record" => {
+            let value = object.get("request").ok_or_else(|| {
+                "invalid arguments for work_item_usage_record: request is required".to_owned()
+            })?;
+            let request: cockpit_protocol::UsageRecordRequest =
+                serde_json::from_value(value.clone()).map_err(|error| {
+                    format!("invalid arguments for work_item_usage_record: {error}")
+                })?;
+            request.validate().map_err(|error| {
+                format!("invalid arguments for work_item_usage_record: {error}")
+            })?;
+        }
+        "work_item_material_review_plan" => {
+            require_string(object, "workItemId", name)?;
+        }
+        "work_item_material_review_record" => {
+            require_string(object, "workItemId", name)?;
+            let decision = object.get("decision").ok_or_else(|| {
+                "invalid arguments for work_item_material_review_record: decision is required"
+                    .to_owned()
+            })?;
+            serde_json::from_value::<cockpit_protocol::MaterialInspectionReviewDecisionInput>(
+                decision.clone(),
+            )
+            .map_err(|error| {
+                format!("invalid arguments for work_item_material_review_record: {error}")
+            })?;
+        }
+        "audit_query" => {
+            let _: cockpit_protocol::AuditQueryFilters =
+                serde_json::from_value(Value::Object(object.clone()))
+                    .map_err(|error| format!("invalid arguments for audit_query: {error}"))?;
         }
         "work_item_recover" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
@@ -1738,7 +1849,11 @@ pub fn handle_request_for_repo(
         "repository_observe" => repository_observe(repo),
         "capability_show" => {
             if arguments.get("surface").is_some() {
-                let description = cockpit_protocol::work_item_outcome_interface_description();
+                let surface = arguments["surface"]
+                    .as_str()
+                    .expect("validated capability surface");
+                let description = cockpit_protocol::interface_description_for_surface(surface)
+                    .expect("validated capability surface");
                 match arguments
                     .get("format")
                     .and_then(Value::as_str)
@@ -1748,7 +1863,7 @@ pub fn handle_request_for_repo(
                         serde_json::to_value(description).map_err(|error| error.to_string())
                     }
                     cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => Ok(json!({
-                        "surface": cockpit_protocol::CAPABILITY_SHOW_SURFACE,
+                        "surface": surface,
                         "format": cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN,
                         "language": arguments
                             .get("language")
@@ -1851,6 +1966,49 @@ pub fn handle_request_for_repo(
             .and_then(|_| preflight_for_repo(repo, &arguments, runtime)),
         "work_item_controls" => require_compatible(repo, runtime)
             .and_then(|_| work_item_controls(repo, &arguments, runtime)),
+        "work_item_usage_record" => require_compatible(repo, runtime).and_then(|_| {
+            let request: cockpit_protocol::UsageRecordRequest =
+                serde_json::from_value(arguments["request"].clone())
+                    .map_err(|error| format!("invalid usage request: {error}"))?;
+            cockpit_repository::record_work_item_usage(repo, &request, runtime)
+                .map_err(|error| error.to_string())
+                .and_then(|receipt| {
+                    serde_json::to_value(receipt).map_err(|error| error.to_string())
+                })
+        }),
+        "work_item_material_review_plan" => require_compatible(repo, runtime).and_then(|_| {
+            let work_item_id = arguments["workItemId"]
+                .as_str()
+                .expect("validated material review Work Item ID");
+            cockpit_repository::plan_work_item_material_review(repo, work_item_id)
+                .map_err(|error| error.to_string())
+                .and_then(|request| {
+                    serde_json::to_value(request).map_err(|error| error.to_string())
+                })
+        }),
+        "work_item_material_review_record" => require_compatible(repo, runtime).and_then(|_| {
+            let work_item_id = arguments["workItemId"]
+                .as_str()
+                .expect("validated material review Work Item ID");
+            let decision: cockpit_protocol::MaterialInspectionReviewDecisionInput =
+                serde_json::from_value(arguments["decision"].clone())
+                    .map_err(|error| format!("invalid material review decision: {error}"))?;
+            cockpit_repository::record_work_item_material_review(
+                repo,
+                work_item_id,
+                &decision,
+                runtime,
+            )
+            .map_err(|error| error.to_string())
+            .and_then(|receipt| serde_json::to_value(receipt).map_err(|error| error.to_string()))
+        }),
+        "audit_query" => require_compatible(repo, runtime).and_then(|_| {
+            let filters: cockpit_protocol::AuditQueryFilters =
+                serde_json::from_value(arguments).map_err(|error| error.to_string())?;
+            cockpit_repository::query_audit_events(repo, runtime, &filters)
+                .map_err(|error| error.to_string())
+                .and_then(|page| serde_json::to_value(page).map_err(|error| error.to_string()))
+        }),
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
         "work_item_closeout_recovery_plan" => require_compatible(repo, runtime)
@@ -2548,6 +2706,14 @@ fn work_item_outcome(
             .as_deref()
             .is_some_and(|default| default == "true")
     });
+    let display_timezone = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE,
+    )
+    .and_then(Value::as_str);
+    if delivery_requested && display_timezone.is_some() {
+        return Err("displayTimezone is unavailable for immutable archive delivery".into());
+    }
     let view = outcome_argument(
         arguments,
         cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_VIEW,
@@ -2618,9 +2784,17 @@ fn work_item_outcome(
     let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
         .map_err(|error| error.to_string())?;
     let collaboration = cockpit_repository::collaboration_outcome_projection(repo, id, runtime);
+    let human = if let Some(zone) = display_timezone {
+        cockpit_repository::render_human_outcome_with_timezone(
+            repo, &input, runtime, language, view, zone,
+        )
+        .map_err(|error| error.to_string())?
+    } else {
+        cockpit_repository::render_human_outcome_with_view(&input, language, view)
+    };
     let handoff = format!(
         "{}\n{}",
-        cockpit_repository::render_human_outcome_with_view(&input, language, view),
+        human,
         cockpit_repository::render_collaboration_outcome(&collaboration, language)
     );
     let mut outcome = serde_json::to_value(&input.outcome).map_err(|error| error.to_string())?;

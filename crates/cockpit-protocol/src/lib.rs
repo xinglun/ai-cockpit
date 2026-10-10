@@ -5,8 +5,15 @@ use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub use cockpit_interface as interface_description;
+pub mod audit_query;
 mod contract_amendment;
 pub mod release_plan;
+pub mod usage;
+
+pub use audit_query::{
+    AUDIT_QUERY_SCHEMA_VERSION, AuditEvidenceRef, AuditQueryCoverage, AuditQueryFilters,
+    AuditQueryItem, AuditQueryPage,
+};
 
 pub use contract_amendment::{
     CONTRACT_AMENDMENT_SCHEMA_VERSION, ContractAmendmentChange, ContractAmendmentError,
@@ -22,17 +29,20 @@ pub use interface_description::{
     CAPABILITY_SHOW_LANGUAGE_DESCRIPTION, CAPABILITY_SHOW_LANGUAGE_VALUES, CAPABILITY_SHOW_SURFACE,
     CAPABILITY_SHOW_SURFACE_DESCRIPTION, INTERFACE_DESCRIPTION_SCHEMA_VERSION,
     InterfaceDescription, InterfaceParameter, InterfaceParameterSpec, InterfaceSurface,
-    OutcomeInterfaceParameterSpec, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
-    WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_CANONICAL_JSON,
-    WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE, WORK_ITEM_OUTCOME_CANONICAL_VIEW,
-    WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID, WORK_ITEM_OUTCOME_CLI_DELIVERY,
+    OutcomeInterfaceParameterSpec, WORK_ITEM_MATERIAL_REVIEW_PLAN_SURFACE,
+    WORK_ITEM_MATERIAL_REVIEW_RECORD_SURFACE, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+    WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_CANONICAL_DISPLAY_TIMEZONE,
+    WORK_ITEM_OUTCOME_CANONICAL_JSON, WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
+    WORK_ITEM_OUTCOME_CANONICAL_VIEW, WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+    WORK_ITEM_OUTCOME_CLI_DELIVERY, WORK_ITEM_OUTCOME_CLI_DISPLAY_TIMEZONE,
     WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
     WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
     WORK_ITEM_OUTCOME_DEFAULT_JSON, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
-    WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION, WORK_ITEM_OUTCOME_ID_DESCRIPTION,
-    WORK_ITEM_OUTCOME_JSON_DESCRIPTION, WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
-    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_MCP_DELIVERY,
-    WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_MCP_LANGUAGE,
+    WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION, WORK_ITEM_OUTCOME_DISPLAY_TIMEZONE_DESCRIPTION,
+    WORK_ITEM_OUTCOME_ID_DESCRIPTION, WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
+    WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION, WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+    WORK_ITEM_OUTCOME_MCP_DELIVERY, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS,
+    WORK_ITEM_OUTCOME_MCP_DISPLAY_TIMEZONE, WORK_ITEM_OUTCOME_MCP_LANGUAGE,
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_SURFACE,
     WORK_ITEM_OUTCOME_VIEW_DESCRIPTION, WORK_ITEM_OUTCOME_VIEW_FULL,
     WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_VALUES, WorkItemCoordinationActionSpec,
@@ -41,11 +51,19 @@ pub use interface_description::{
     capability_show_language_is_valid, capability_show_parameter_spec,
     normalize_work_item_outcome_language, render_interface_description_markdown,
     work_item_coordination_action_specs, work_item_coordination_action_values,
-    work_item_coordination_parameter_specs, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs, work_item_outcome_language_is_valid,
-    work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec,
-    work_item_outcome_parameter_spec_by_canonical, work_item_outcome_query_command,
-    work_item_outcome_view_is_valid,
+    work_item_coordination_parameter_specs, work_item_material_review_plan_interface_description,
+    work_item_material_review_record_interface_description,
+    work_item_outcome_interface_description, work_item_outcome_interface_specs,
+    work_item_outcome_language_is_valid, work_item_outcome_mcp_request_parameter_specs,
+    work_item_outcome_parameter_spec, work_item_outcome_parameter_spec_by_canonical,
+    work_item_outcome_query_command, work_item_outcome_view_is_valid,
+};
+
+pub use interface_description::interface_description::{
+    AUDIT_EXPORT_SURFACE, AUDIT_QUERY_SURFACE, CAPABILITY_SHOW_SURFACE_VALUES,
+    WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION, WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION,
+    WORK_ITEM_USAGE_RECORD_SURFACE, interface_description_for_surface,
+    work_item_usage_record_interface_description,
 };
 
 pub use release_plan::{
@@ -53,10 +71,15 @@ pub use release_plan::{
     ReleasePlanEnvelope, ReleasePlanError, ReleaseRequest, ReleaseRequestInput, ReleaseStage,
     ReleaseStageTransition,
 };
+pub use usage::{
+    USAGE_SCHEMA_VERSION, UsageAssurance, UsageCoverage, UsageReceipt, UsageReceiptRef,
+    UsageRecordRequest, UsageSourceKind, UsageSubtotal, UsageSummary, UsageTokenCounts, UsageUnit,
+};
 
 pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;
+pub const MATERIAL_INSPECTION_REVIEW_CAPABILITY: &str = "material-inspection-review";
 
 /// Stable command-level capabilities advertised by a repository's discovery
 /// manifest.  These names describe Runtime surfaces only; they do not claim
@@ -86,6 +109,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-parallel",
     "work-item-contract-amendment",
     "work-item-environment-drift",
+    MATERIAL_INSPECTION_REVIEW_CAPABILITY,
     "evidence",
     "audit",
     "capability-show",
@@ -2886,6 +2910,200 @@ pub struct DestructiveChangePolicy {
     pub approval_evidence: Option<serde_json::Value>,
 }
 
+/// Exact Contract opt-in for reviewable Rust syntax Unknowns. The declaration
+/// is self-asserted evidence, not proof of a reviewer's real-world identity.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewProfile {
+    pub schema_version: u32,
+    pub permitted_unknown: String,
+    pub permitted_cause: String,
+    pub assurance: String,
+    pub reviewer_actor: String,
+    pub authority_source: String,
+    pub accept_residual_risk: bool,
+}
+
+impl MaterialInspectionReviewProfile {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != 1 {
+            return Err("materialInspectionReview schemaVersion must be 1".into());
+        }
+        if self.permitted_unknown != "repository_material_inspection_unavailable" {
+            return Err("materialInspectionReview permittedUnknown is unsupported".into());
+        }
+        if self.permitted_cause != "readable_committed_rust_syntax_unknown" {
+            return Err("materialInspectionReview permittedCause is unsupported".into());
+        }
+        if self.assurance != "self_declared" {
+            return Err("materialInspectionReview assurance must be self_declared".into());
+        }
+        let actor = self.reviewer_actor.strip_prefix("agent:");
+        if !actor.is_some_and(|actor| {
+            actor.len() <= 128
+                && actor
+                    .as_bytes()
+                    .first()
+                    .is_some_and(u8::is_ascii_alphanumeric)
+                && actor.bytes().all(|byte| {
+                    byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b'_' | b'-' | b'/')
+                })
+        }) {
+            return Err(
+                "materialInspectionReview reviewerActor must be a concrete agent actor".into(),
+            );
+        }
+        if self.authority_source.trim().is_empty()
+            || self.authority_source.trim() != self.authority_source
+        {
+            return Err("materialInspectionReview authoritySource must be concrete".into());
+        }
+        if !self.accept_residual_risk {
+            return Err("materialInspectionReview acceptResidualRisk must be true".into());
+        }
+        Ok(())
+    }
+}
+
+pub const MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialInspectionReviewDecision {
+    AcceptPermittedUnknowns,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialInspectionReviewAssurance {
+    SelfDeclared,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewEvidenceRef {
+    pub path: String,
+    pub digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewDecisionInput {
+    pub schema_version: u32,
+    pub decision: MaterialInspectionReviewDecision,
+    pub request_digest: Digest,
+    pub reviewer_actor: String,
+    pub authority_source: String,
+    pub assurance: MaterialInspectionReviewAssurance,
+    pub evidence_refs: Vec<MaterialInspectionReviewEvidenceRef>,
+    pub rationale: String,
+    pub residual_risk: String,
+}
+
+pub fn material_inspection_review_decision_input_schema() -> serde_json::Value {
+    serde_json::json!({
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Self-declared decision bound to one canonical material-review request. It records no authenticated identity or release approval.",
+        "required": [
+            "schemaVersion", "decision", "requestDigest", "reviewerActor",
+            "authoritySource", "assurance", "evidenceRefs", "rationale", "residualRisk"
+        ],
+        "properties": {
+            "schemaVersion": {"type": "integer", "const": MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION},
+            "decision": {"type": "string", "enum": ["accept_permitted_unknowns"]},
+            "requestDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+            "reviewerActor": {"type": "string", "minLength": 1},
+            "authoritySource": {"type": "string", "minLength": 1},
+            "assurance": {"type": "string", "enum": ["self_declared"]},
+            "evidenceRefs": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["path", "digest"],
+                    "properties": {
+                        "path": {"type": "string", "minLength": 1},
+                        "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+                    }
+                }
+            },
+            "rationale": {"type": "string", "minLength": 1},
+            "residualRisk": {"type": "string", "minLength": 1}
+        }
+    })
+}
+
+/// Typed, self-declared review evidence. `recorded_by` and `reviewer_actor`
+/// are separate provenance facts; neither field authenticates a real-world
+/// identity.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct MaterialInspectionReviewDecisionReceipt {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub material_manifest_digest: Digest,
+    pub profile_digest: Digest,
+    pub request_digest: Digest,
+    /// Provenance outside request equality; it must be an ancestor of a
+    /// later consumer head before a hosted projection can reuse this receipt.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reviewed_source_head: Option<String>,
+    pub decision: MaterialInspectionReviewDecision,
+    pub reviewer_actor: String,
+    pub recorded_by: String,
+    pub authority_source: String,
+    pub assurance: MaterialInspectionReviewAssurance,
+    pub evidence_refs: Vec<MaterialInspectionReviewEvidenceRef>,
+    pub rationale: String,
+    pub residual_risk: String,
+    pub recorded_at: String,
+    pub receipt_digest: Digest,
+}
+
+impl MaterialInspectionReviewDecisionReceipt {
+    pub fn canonical_digest(&self) -> Result<Digest, String> {
+        let mut value = serde_json::to_value(self)
+            .map_err(|error| format!("cannot encode material review receipt: {error}"))?;
+        let fields = value
+            .as_object_mut()
+            .ok_or_else(|| "material review receipt did not encode as a JSON object".to_owned())?;
+        if fields.remove("receiptDigest").is_none() {
+            return Err("material review receipt digest field is missing".into());
+        }
+        digest_json(&("ai-cockpit:material-inspection-review-decision:v1", value))
+            .map_err(|error| format!("cannot digest material review receipt: {error}"))
+    }
+
+    pub fn validate_integrity(&self) -> Result<(), String> {
+        for digest in [
+            &self.contract_digest,
+            &self.material_manifest_digest,
+            &self.profile_digest,
+            &self.request_digest,
+            &self.receipt_digest,
+        ]
+        .into_iter()
+        .chain(self.evidence_refs.iter().map(|reference| &reference.digest))
+        {
+            digest
+                .as_str()
+                .parse::<Digest>()
+                .map_err(|_| "material review receipt contains an invalid digest".to_owned())?;
+        }
+        if self.schema_version != MATERIAL_INSPECTION_REVIEW_DECISION_SCHEMA_VERSION {
+            return Err("unsupported material review receipt schema version".into());
+        }
+        if self.canonical_digest()? != self.receipt_digest {
+            return Err("material review receipt digest does not match canonical content".into());
+        }
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct Contract {
@@ -3015,6 +3233,23 @@ pub struct Contract {
 }
 
 impl Contract {
+    pub fn material_inspection_review_profile(
+        &self,
+    ) -> Result<Option<MaterialInspectionReviewProfile>, String> {
+        let Some(value) = self
+            .governance_profile
+            .as_ref()
+            .and_then(serde_json::Value::as_object)
+            .and_then(|profile| profile.get("materialInspectionReview"))
+        else {
+            return Ok(None);
+        };
+        let profile: MaterialInspectionReviewProfile = serde_json::from_value(value.clone())
+            .map_err(|error| format!("materialInspectionReview is invalid: {error}"))?;
+        profile.validate()?;
+        Ok(Some(profile))
+    }
+
     /// Validate Contract-owned schema and cross-field invariants.
     ///
     /// Deserialization rejects unknown fields and malformed typed nested
@@ -3047,6 +3282,21 @@ impl Contract {
                 errors.push("requiredRuntimeCapabilities must be unique and sorted".into());
             }
             previous_capability = Some(capability);
+        }
+
+        let has_material_review_guard = self
+            .required_runtime_capabilities
+            .iter()
+            .any(|capability| capability == MATERIAL_INSPECTION_REVIEW_CAPABILITY);
+        match self.material_inspection_review_profile() {
+            Ok(Some(_)) if !has_material_review_guard => errors.push(format!(
+                "materialInspectionReview requires protected requiredRuntimeCapabilities {MATERIAL_INSPECTION_REVIEW_CAPABILITY}"
+            )),
+            Ok(None) if has_material_review_guard => errors.push(format!(
+                "requiredRuntimeCapabilities {MATERIAL_INSPECTION_REVIEW_CAPABILITY} requires materialInspectionReview opt-in"
+            )),
+            Err(error) => errors.push(error),
+            _ => {}
         }
 
         if let Some(resource_context) = &self.resource_context
@@ -4016,6 +4266,8 @@ pub struct TaskOutcomeReport {
     pub bindings: OutcomeReportBindings,
     pub sections: OutcomeReportSections,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage: Option<UsageSummary>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub release: Option<OutcomeReleaseProjection>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub failed_gate: Option<String>,
@@ -4615,6 +4867,21 @@ pub struct WorkItemStatusSnapshot {
     pub governance_permissions: Vec<String>,
     pub source_digests: BTreeMap<String, Digest>,
     pub unknowns: Vec<String>,
+    /// Raw Unknowns emitted by the canonical Contract-base material scanner.
+    #[serde(default)]
+    pub raw_scanner_unknowns: Vec<String>,
+    /// Canonical non-`.ai` material manifest identity, when available.
+    #[serde(default)]
+    pub material_manifest_digest: Option<Digest>,
+    /// Digest of a validated immutable review receipt, never a caller claim.
+    #[serde(default)]
+    pub review_receipt_digest: Option<Digest>,
+    /// Assurance level of the validated review receipt.
+    #[serde(default)]
+    pub review_assurance: Option<MaterialInspectionReviewAssurance>,
+    /// Effective Unknowns after only a precisely bound eligible receipt.
+    #[serde(default)]
+    pub effective_unknowns: Vec<String>,
     pub diagnostics: Vec<String>,
     pub snapshot_digest: Digest,
     pub evidence_freshness: WorkItemEvidenceFreshness,

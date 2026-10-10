@@ -1,7 +1,0 @@
-{
-  "schemaVersion": 1,
-  "channel": "prerelease",
-  "candidateVersion": "1.0.1-rc.2",
-  "stableBaselineVersion": "1.0.0",
-  "target": "aarch64-apple-darwin"
-}

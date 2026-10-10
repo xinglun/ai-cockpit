@@ -1,57 +1,37 @@
 # Ordinary Work Item
 
-Use for Runtime-selected implementation, verification, archive, or cleanup.
-For failed/stale evidence, use recovery guide.
+## Applicability
 
-## Governed work
+Use for implementation, verification, archive, or cleanup. Route failed, stale, timed-out, or invalid checks to [recovery](verification-failure-recovery.md).
 
-Read the active Contract; query `inspect`, `status`, and `doctor` with `--repo`.
-Runtime admits; this guide grants none. Preserve scope, history,
-and failures; re-query at lifecycle boundaries. Never hand-edit generated
-records. Queries are read-only; `preflight` is not verification. At handoff,
-deliver the human Outcome per `AGENTS.md`.
+## Authoritative inputs
+
+Read Contract; query `inspect`, `status`, `doctor`, and `agent doctor --json` with `--repo <repository>`. Runtime admits actions; use current help/capabilities. Never edit generated records; re-query after Contract/snapshot changes.
 
 ## Before verification
 
-Before launching a declared check, inspect Runtime `work-item status` and
-`work-item validate`, inventory its formal receipt, and reuse only fresh,
-complete evidence; otherwise follow Runtime's admitted next action. See
-[verification evidence reuse](../../docs/reference/agent-workflow.md#verification-evidence-reuse)
-for identity bindings, targeted reruns, and hosted boundaries.
+Before launching a declared check, inspect `work-item status` and `work-item validate`, inventory its formal receipt, and reuse only fresh, complete evidence. Otherwise follow Runtime's admitted next action. See [reuse](../../docs/reference/agent-workflow.md#verification-evidence-reuse).
 
-When status admits `record_governance_controls`, submit explicit evidence via
-`work-item controls --repo <repository> --id <work-item> --input <json>` or MCP
-`work_item_controls`; both re-check admission. Refresh status; incomplete
-required controls block `finish`.
+## Operations
 
-## Serial and cross-Work-Item use
+On admission, record controls with `work-item controls --repo <repository> --id <work-item> --input <json>` or MCP `work_item_controls`; both recheck. Refresh status; missing required controls block `finish`. Material review: [commands](../../docs/reference/commands.md); Stage 1 has no opt-in.
 
-One Work Item is serial by default; lifecycle and snapshot-changing writes
-stay serial. Work Item-bound verify defaults to --workers 1; explicit
---workers >1 fails closed until Runtime verifies per-node dependency readiness
-and output isolation. Independent CI jobs may fan out as siblings with ready
-dependencies, isolated outputs, and bounded resources. Keep receipt
-producer-consumer serial; reuse fresh matching receipts.
+One Work Item is serial by default; keep lifecycle, snapshot-changing, and receipt producer-consumer actions serial. Verification defaults to --workers 1. Parallelism requires Runtime-verified dependency readiness and output isolation. Independent CI jobs may fan out only with ready dependencies, isolated outputs, and bounded resources.
 
-Cross-Work-Item work needs supported CLI/MCP, compatible declarations, linked
-worktrees, registration, a slot lease, and fresh per-action admission. Check
-`capability show`, CLI help, and MCP `tools/list`; fields or an older Runtime do
-not prove support. If unavailable, use admitted serial work or stop. See the
-[agent workflow](../../docs/reference/agent-workflow.md#serial-fallback-and-cross-work-item-coordination).
+Cross-Work-Item work requires supported CLI/MCP, compatible declarations, linked worktrees, registration, a current slot lease, and fresh admission; otherwise use admitted serial work or stop. Discover with `capability show`, CLI help, and MCP `tools/list`; declarations alone do not prove support; fields or an older Runtime do not prove support. If unavailable, use admitted serial work or stop. See [workflow](../../docs/reference/agent-workflow.md).
 
-Inspection is read-only; registration, reports, coordination, leases, and drift
-recovery are explicit writes. Recovery appends events; re-admit unrelated work.
-For closeout transfer, see the [recovery commands](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
+Inspection is read-only; registration, reports, coordination, leases, and drift recovery write. Recovery appends events; re-admit unrelated work. Closeout: [closeout](../../docs/reference/commands.md#cross-checkout-work-item-closeout-recovery).
 
-## Plan changes and environment drift
+Amend via `work-item amend --request` with a reason and current `expectedContractDigest`; `work-item amendments` reads append-only history. Protect identity, lifecycle, observations, and evidence; sensitive edits rerun policy and invalidate checks. Before dependent actions, check environment drift read-only; record changes before refreshing admission.
 
-Amend plans with `work-item amend --request`, a reason, and current
-`expectedContractDigest`; `work-item amendments` reads append-only history.
-Identity, lifecycle, observations, and evidence stay protected; sensitive edits
-rerun policy and invalidate affected checks.
+## Success conditions
 
-Before dependent actions, check environment drift read-only; record changes
-before refreshing admission. Shared events are durable, append-only, and
-generation-bound; the request-scoped ledger is not a cross-process bus. Admit
-unrelated work independently; use serial execution if capability is absent.
-See the [agent workflow](../../docs/reference/agent-workflow.md).
+Continue only when Runtime admits the action and required inputs. At handoff, deliver the human Outcome per `AGENTS.md`.
+
+## Failure evidence
+
+Preserve scope, history, failures, receipts, and bindings; never edit generated records. Queries are read-only; `preflight` is not verification. Report blockers and unknowns.
+
+## Continue or stop
+
+Preserve unknowns; unknowns alone do not stop an operation admitted by the current Runtime. Stop for missing authority, contradictory evidence, or required human decision; show the Runtime reason.

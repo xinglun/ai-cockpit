@@ -58,11 +58,13 @@ locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown
 | 迁移 | `migrate apply --approved` | 只应用经过审查的 repository schema migration，并写入绑定 Runtime 的 migration receipt。 |
 | 治理写入入口 | `preflight` | 评估 Contract 并持久化显式 preflight 投影。输入不变时重复调用幂等并返回 `changedPaths`；不完整或不确定的 Contract 为需人工确认的 yellow，不能越过 checkpoint。 |
 | Work Item | `work-item new`、`start`、`status`、`checkpoint`、`finish`、`archive`、`close`、`validate`、`controls`、`amend`、`amendments`、`revalidate-amendment`、`recover`、`revalidate-archived`、`finalize-recovery`、`closeout-recovery-plan`、`closeout-recover` | `amend --request` 接受绑定当前 Contract digest 且带明确理由的 schema-aware 变更；`--input --reason` 保留为旧的追加型 adapter。历史查询只读。修订会使受影响 evidence 失效；应查询 `work-item status` 并按 Runtime 当前准入的下一动作继续（通常是 `run_preflight`，但并非固定）。跨 checkout 的 plan 只读；recovery 是独立的显式写入。 |
+| 显式用量 | `work-item usage record --repo <path> --input <request.json>` | 仅在当前 Runtime 准入 `record_usage` 时追加严格的 `UsageRecordRequest`；同一请求重放幂等。provider/host 来源标签只是调用方声明，并非已验证遥测。`capability show --surface work-item-usage-record` 只读描述 CLI/MCP 参数。 |
+| 材料审阅 | `work-item material-review plan --repo <path> --id <id>` / `work-item material-review record --repo <path> --id <id> --input <decision.json>` | `plan` 只读生成针对已提交且非 `.ai` 源码干净快照的规范请求，并显式保留扫描器 Unknown。只有 Contract opt-in 与新鲜 Runtime 准入均允许时，`record` 才接受严格类型化决策并绑定不可变 sidecar 与 Summary 指针。审阅者身份是 self-declared，不是人的身份认证、provider/host 证明或发布批准，也不会把 Unknown 变成机器 Clean。Stage 1 尚无 opt-in，因此 Unknown 不可豁免。用 `capability show --surface work-item-material-review-plan` 与 `--surface work-item-material-review-record` 查看两种传输的参数。 |
 | 并行 Work Item | `work-item boundary`、`work-item declare`、`work-item slot acquire|release|list` | 绑定 Contract 并行路径并管理 repository-local slot；unknown 时序列化。 |
 | 跨 Work Item 协调 | `work-item coordination inspect|register|report-impact|publish-outcome|request-pause|acknowledge|resume|recover|check-environment-drift|record-environment-drift` | 检查和漂移查询只读；登记漂移是受影响动作前的显式持久化写入。 |
 | Verification | `verify` | 执行有界命令、记录 evidence，并可绑定 Work Item。 |
 | 外部 evidence | `evidence import`、`evidence list`、`evidence policy`、`evidence purge-plan` | 将精确 provider bytes 绑定到 Work Item，声明有界持久化策略，或生成确定性的非破坏性处置计划。 |
-| Audit | `audit export`、`audit cognitive-benefit` | 导出绑定 repository 的事件，或运行固定的 Rust cognitive-benefit 评估；两者均不授予发布权限。 |
+| Audit | `audit query`、`audit export`、`audit cognitive-benefit` | 查询或导出绑定 repository 的事件，或运行固定的 Rust cognitive-benefit 评估；均不授予发布权限。 |
 | Adapter | `agent list/install/doctor/repair/detach`、`mcp` | 管理显式选择的 repository-local Agent adapter，或通过 stdio 提供 JSON-RPC；所有操作都绑定 `--repo`。 |
 
 ## Contract 修订与环境漂移
@@ -132,7 +134,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | 工具 | 参数 | 常用调用 |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`；`capability_show` 还可选 `surface`、`format` 和 `language` 获取只读接口描述。 | 读取仓库事实或能力注册表。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选当前对话语言 `language`（`en`、`zh`、`zh-CN`、`ja`）。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选当前对话语言 `language`（`en`、`zh`、`zh-CN`、`ja`）及人类可读生命周期视图的 IANA `displayTimezone`。 | `{"workItemId":"WI-123","displayTimezone":"Asia/Tokyo"}` |
 | `work_item_status` | `{"all":true}`，或只提供一个 Work Item id。 | `{"all":true}` |
 | `preflight` | 必填、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | 可选、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -140,6 +142,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `evidence_get` | `path`、`evidencePath`、`id` 三者只能提供一个。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | 必填 `workItemId`。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
+| `work_item_usage_record` | 必填严格的 `request` 对象：仓库/Work Item 身份、来源事件与标签、计量单位、可为空的令牌数、证据引用及摘要。与 CLI 共用 Runtime 准入的 Rust 服务。 | `{"request":{"schemaVersion":1,"repositoryId":"sha256:<digest>","workItemId":"WI-123","sourceEventId":"turn-1","sourceKind":"agent-declared","role":"implementer","phase":"implementation","unit":"turn","evidenceRef":".ai/evidence/source.json","evidenceDigest":"sha256:<digest>"}}` |
+| `work_item_material_review_plan` | 只读生成 active Work Item 的规范请求，要求非 `.ai` 已提交源码干净；保留原始扫描器 Unknown。 | `{"workItemId":"WI-123"}` |
+| `work_item_material_review_record` | 必填 `workItemId` 与严格类型化 `decision`；与 CLI 共用 Rust 服务，重新检查 Contract opt-in 和新鲜 Runtime 准入。`reviewerActor` 是 self-declared，不认证真实人员，也不授予 human/provider/release approval；Stage 1 尚无 opt-in。 | `{"workItemId":"WI-123","decision":{"schemaVersion":1,"decision":"accept_permitted_unknowns","requestDigest":"sha256:<digest>","reviewerActor":"agent:Raydot","authoritySource":"user-delegation:<source>","assurance":"self_declared","evidenceRefs":[{"path":"docs/review.md","digest":"sha256:<digest>"}],"rationale":"已审阅精确的有界语法材料。","residualRisk":"有界扫描器对该语法仍不完整。"}}` |
+| `audit_query` | 只读查询：精确 Work Item／模型／actor／事件过滤；`from` 包含、`to` 不包含，且只作用于 Runtime `recordedAt`。支持 1–100 条分页、cursor 和 IANA `displayTimezone`；未知时间与页内用量小计保持独立。 | `{"workItemId":"WI-123","eventType":"work_item_started","limit":50,"displayTimezone":"Asia/Tokyo"}` |
 | `work_item_closeout_recovery_plan`、`work_item_closeout_recover` | 两者都需要 `workItemId` 和绝对路径 `sourceRepo`；前者只读，后者显式地向 MCP 绑定的 destination checkout 写入已验证 evidence。 | `{"workItemId":"WI-123","sourceRepo":"/absolute/path/to/source"}` |
 | `verify` | 可选 `workItemId`、`command`、字符串数组 `args`、有限的 `timeoutSeconds` 和布尔值 `planOnly`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |
@@ -189,6 +195,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   自动化请使用 `--json`。状态标记和语言规则见[面向人的 Outcome](outcome-report.zh-CN.md)。Work Item 完成后还会绑定类型化的
   `*.task-report.json`、面向人的 `*.task-report.md` 和 append-only 的 `*.events.jsonl`；它们是绑定 evidence 的投影，
   不是额外的 authority，也不能替代 Contract 或 verification receipt。
+- `work-item outcome --display-timezone Asia/Tokyo` 给面向人的结果增加标明 IANA 时区的
+  生命周期时间，显示值取各事件的 recordedAt。开始、完成、归档、关闭的 UTC 证据原件保持独立；
+  缺失的终态和不可靠的墙钟历时保持未知。墙钟历时包含等待，进程 `elapsedMs` 使用单调时钟。
+  默认输出及不可变的 `--delivery` 字节不变。
 - `work-item finalize-recovery --repo <path> --id <id> --input <receipt.json>` 为不可变的旧
   finalization receipt 记录一条 append-only、绑定当前 Runtime 的历史分类。输入必须绑定准确的
   predecessor digest、repository/Work Item/Contract base、当前 Runtime、actor、authority、reason
@@ -258,7 +268,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 ### 接口事实: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `1.0.1-rc.2`
+- Runtime: `1.0.1`
 - 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
 
 #### `cli` · 传输: `argv`
@@ -270,6 +280,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
+| `display-timezone` | `string` | `no` | `—` | `—` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 
@@ -278,6 +289,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
 | `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `displayTimezone` | `string` | `no` | `—` | `—` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
 
@@ -319,6 +331,14 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `audit export --repo <path> [--output <file>]` 输出稳定的 `AuditEvent`，包含 event ID、主题 digest、
   repository/Work Item identity 和 Runtime identity。manifest 会设置 `externalRetentionRequired: true`；
   输出文件幂等，只是交给 SIEM、WORM、S3 Object Lock 或其他外部保留方的 handoff。
+- `audit query --repo <path> [--work-item-id <id>] [--from <RFC3339>] [--to <RFC3339>]
+  [--reported-model <model>] [--actor <actor>] [--event-type <type>]
+  [--limit <1..100>] [--cursor <cursor>] [--display-timezone <IANA>]` 输出只读类型化分页。
+  时间边界只过滤 Runtime `recordedAt`，不从其他时间推断；来源变化使 cursor 返回 `stale_cursor`。
+  `capability show --surface audit-query` 描述 CLI/MCP 参数。
+- 给 `audit export` 增加任一查询过滤参数时，它使用同一分页结构；无过滤调用仍输出 v1 manifest。
+  显式 `--output` 对旧版接受相同字节，对筛选导出接受相同来源快照和分页；已有文件保持原字节，不同结果被拒绝。
+  `capability show --surface audit-export` 描述 CLI 参数。
 - `audit cognitive-benefit --repo <path> [--binary <path>] [--check]` 用 Rust 执行固定的七案例评估。
   `--check` 不改写评估产物；不指定时，在所选仓库的 `.ai/evidence/` 写入 JSON，
   在 `.ai/evidence/external/` 写入 Markdown。显式 `--binary` 必须指向存在且可执行的文件；

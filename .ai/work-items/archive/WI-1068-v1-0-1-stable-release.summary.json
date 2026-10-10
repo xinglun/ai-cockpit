@@ -1,0 +1,1336 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Observed PR #1022 remote head f470976545f3e28beb5ea50c6a6139a64743e5fa and original product commit 0ce09fe4307d6c1cfc98f2b41aaf161632c58ccf.",
+          "path": "https://github.com/xinglun/ai-cockpit/compare/c417b65c3f3608b7fd2336314d7432fd72fa8723...f470976545f3e28beb5ea50c6a6139a64743e5fa",
+          "type": "product_source_diff_audit",
+          "verification": "At this remote head, the product/source diff is exactly the 16 declared paths; the 37-file PR comparison separately includes 6 WI/parity projections and 15 Runtime Work Item records. This observation does not claim that the later local doc-only changes are already included in PR head f470976."
+        },
+        {
+          "locator": "AI_COCKPIT_INTERFACE_DESCRIPTION_BIN=/tmp/wi1068-runtime-target-20261006-0659/debug/ai-cockpit python3 scripts/generate_interface_references.py --repo /private/tmp/ai-cockpit-stable-v101-intake-20261006 --check; git diff --check",
+          "path": "docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md; docs/release/distribution.md; docs/release/distribution.zh-CN.md; docs/release/distribution.ja.md",
+          "type": "generated_interface_reference_and_distribution_projection",
+          "verification": "Both commands exited 0. The source-built CLI reports ai-cockpit 1.0.1; each generated interface region reports Runtime 1.0.1. The three localized distribution descriptions now identify v1.0.1 and do not claim it has already shipped. The three command-reference files are scoped documentation projections; the product/source allowlist remains the original 16 paths."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "Sentinel_a163ed26f04481918316363a7e3543ce",
+          "path": "agent:Raydot",
+          "type": "independent_agent_review",
+          "verification": "The actual independent reviewer concluded the original 16-path product/source change had no blocking technical code findings. Raydot also identified the release-description and dispatch wording issues addressed in the current local documentation/Contract changes. This is attributed to agent:Raydot and is not represented as human:Ray approval or as a new review of the unpublished exact head."
+        },
+        {
+          "locator": "Independent review agent /root/review_linux_proc_retry reviewed the complete tests/composition.rs diff against HEAD 230eb19160de054c611f53f3f9a0240233ef225a; reviewed file SHA256 7e02f57cce35dc3f7f7c258c5ba471592e43f8b3c28eb0c65def945de3c52d86.",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_agent_review",
+          "verification": "The reviewer first identified a PGID reuse risk in the test guard. After the guard was changed to one-shot Option ownership, waitpid(-pgid) reaping through ECHILD, and normal-path disarm, the reviewer found no blocking issue. The remaining 60-second helper-timeout descendant-cleanup risk is nonblocking and limited to abnormal timeout. Reviewer ran no tests/builds. This is attributed to the independent agent, not human:Ray approval."
+        },
+        {
+          "locator": "Independent review agent /root/review_linux_proc_retry reviewed the exact one-line fixture change against candidate d83d672fb1b38866db7de8c689eec8416b8072e6; reviewed tests/composition.rs SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954 and source/test diff SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_agent_review",
+          "verification": "The reviewer confirmed ::serde_json::json! is a minimal supported absolute macro path equivalent to serde_json::json!, with no semantic change and no blocking concern. Reviewer ran no tests/builds. This is agent review, not human:Ray approval."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "planId sha256:af3015150b61fdb81dcd362605905a2219d509e33250d503076d84add59949f1; planDigest sha256:352b97aec88bbfea142dad40aa931ae8b9dd3546abebf6d470fd0893cf294990.",
+          "path": "/tmp/wi1068-v101-release-plan-f13d-current.json",
+          "type": "typed_runtime_release_plan",
+          "verification": "The specified absolute Runtime binary (sha256:87d1759180e4a1f476655125aa51095d8038c8ce5f141f2c002d2373ddd77243) resolved mode normal_release, event workflow_dispatch, and bound repository ee02a04c…, WI-1068, PR/source f4709765…, base c417b65c…, current canonical Contract f13d9b2d… and raw file SHA256 f293933b…, predecessor v1.0.0, and target v1.0.1. Resolver performed no build, verification, or publication."
+        },
+        {
+          "locator": "Current GitHub API GET release/tags/v1.0.0 and git/ref/tags/v1.0.0; dereferenced annotated tag object at git/tags/2c57e784b180cc3cb737739c7fc3f93152690da7; also checked the v1.0.1 tag and Release endpoints.",
+          "path": "https://api.github.com/repos/xinglun/ai-cockpit/releases/tags/v1.0.0",
+          "type": "provider_release_identity_and_workflow_gate",
+          "verification": "The existing public stable v1.0.0 Release is id 399756778, reports immutable=false, and currently lists 11 assets; its annotated tag object 2c57e784b180cc3cb737739c7fc3f93152690da7 peels to d56c1a8acf22d53da482a40c509818748a793790. Both v1.0.1 tag-ref and Release lookups returned 404. .github/workflows/release.yml is workflow_dispatch-only; tag push alone does not publish, and attest/publish depend on verification, four target smoke routes, and staged v1.0.0 N-1 checks. The prior 13-asset count was stale; this records the current API result. No provider resource was modified."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "cargo test --locked --package cockpit-verification --lib linux_process_group_reconciliation_tests; exit 0; output sha256 4d0f82ac22bf0eacaa75ed9044c672ed213eee20e9b66395c9bc92c173ed230c; source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af.",
+          "path": "/tmp/wi1068-proc-retry-unit-green-2.txt",
+          "type": "linux_process_group_reconciliation_unit_tests",
+          "verification": "The focused Linux unit target reported 15 passed, 0 failed, bound to the unchanged current composition.rs source bytes. It does not verify integration-test fixture bytes. No full workspace test/build was run locally."
+        },
+        {
+          "locator": "GitHub Actions run #4849 / run ID 37546256087 for exact PR head d83d672fb1b38866db7de8c689eec8416b8072e6; Rust Contract artifact 11451295617, digest sha256:a72600…; hosted Work Item verification artifact 11451395429, digest sha256:8f634fd2….",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37546256087",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The run completed with overall failure: hosted Work Item Runtime verification passed 13/13 nodes for exact head d83d672, but rust-contract-quality-gate reported state=blocked, decisionState=yellow, no blockers, and unknown repository_material_inspection_unavailable; downstream repository gates and package coverage were skipped. Artifact inspection traced the unknown to the scanner not recognizing relative serde_json::json! in the zombie fixture and conservatively treating its execute literal as unresolved material. The old artifacts and failed attempt evidence remain preserved. This is not a passing full CI result."
+        },
+        {
+          "locator": "One-line scanner-compatible fixture macro correction: current source SHA256 38bef2212ea5c1d5a0c3b54f17b52c4578b6a49b50c2658150fcad8d33f742af; current integration-test SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; patch against candidate d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
+          "path": "crates/cockpit-verification/src/composition.rs; crates/cockpit-verification/tests/composition.rs",
+          "type": "current_linux_process_group_source_and_test_candidate",
+          "verification": "The exact 7ff8c217 candidate was exercised by admitted hosted Work Item verification: 13/13 package nodes passed, including cockpit-verification (exit 0, 23.2s) under the Contract cargo test --locked --workspace route. The overall exact-head Actions run then failed later at workspace_clippy, so the candidate is not fully accepted. Its independent exact targeted-regression command remains pending; no local full workspace test/build was run."
+        },
+        {
+          "locator": "GitHub Actions run #4850 / run ID 37547568278, PR candidate head 7ff8c217059c210545b57d00be6e621b200ad0b6; Runtime hosted verification artifact 11451553083 sha256:6d8afd9775dd6ec1a4efce76a137163ad1a12cba7c2bc41ce611c817c6dd5f04; Rust Contract artifact 11451473224 sha256:148343da6d0b1b0127b1f75f42fa60c221d70d727c64c481c75165fe56a57f61; repository gate receipts artifact 11451752466 sha256:58f44b076d341af119ec21f37e466a10f3b8e87b82065253bec432d1e754ecda; diagnostics artifact 11451443321 sha256:5436f16d704576030a0bc22bf7646c0be8ef53d1a063608492a01822880ea4fa.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37547568278",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The run completed failure on exact PR candidate 7ff8c217. Hosted Runtime verification passed 13/13 package nodes; cockpit-verification passed exit 0 under the unique Contract cargo test --locked --workspace route. Rust Contract quality gate reported passed/green with no blockers or unknowns; route, Windows Runtime, behavioral oracle and workspace_format passed. workspace_clippy failed with exit 101 on clippy::collapsible_if at crates/cockpit-verification/src/composition.rs:1058 (`if let Some(expected_digest)` nested around `.is_err()`, under -D warnings). Diagnostic SHA256 is d52f2c9a2248642fe6120dbd00f7fae2b760c05a80e6b4bcb16c2a1987f1f9cc. workspace_package_tests was blocked by workspace_clippy, so the independent package-coverage receipt was not produced. All artifacts and failure evidence remain preserved; this is not a passing full CI result."
+        },
+        {
+          "locator": "cargo test --locked --package cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact; exit 0; candidate HEAD 7ff8c217059c210545b57d00be6e621b200ad0b6; contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e; snapshot sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a; source SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; integration test SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-linux-zombie-final2.txt",
+          "type": "linux_zombie_process_group_focused_regression",
+          "verification": "The standalone Linux zombie-only regression passed 1/1. Output SHA256 10d390ac254ce5a7279d01a08e658f4b4426708742868cd0d349084a1d6391ef. This records the focused zombie-only case; remaining CI and broader scan fault-injection acceptance are not claimed."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "Preserved earlier green targeted regression log is bound to superseded test file SHA256 5f0e52e5491832a9eec5f12387e0f183c6b01b54ccf6d4c857099dad8fe91246; first hosted full CI on candidate d83d672 is run ID 37546256087 and failed at the Rust Contract gate (see A10 failure evidence).",
+          "path": "/tmp/wi1068-proc-retry-zombie-green.txt; https://github.com/xinglun/ai-cockpit/actions/runs/37546256087",
+          "type": "superseded_targeted_run_and_preserved_hosted_failure",
+          "verification": "The targeted green output does not bind to the current fixture and is not counted as current acceptance. Exact-head run d83d672 preserved a scanner unknown and failed overall; its artifacts remain available and are not rewritten."
+        },
+        {
+          "locator": "Current regression retry_reconciles_zombie_only_verifier_process_group; integration-test file SHA256 784a1397d26f00f4db27c62b27bd8ca76a2ff1053ee94b35067ce2be05d71954; one-line patch against d83d672fb1b38866db7de8c689eec8416b8072e6 SHA256 e6f8faf394f688682de808139a9a85b78f0ef157494c2c545a196c151be885e1 (744 bytes).",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "linux_zombie_only_process_group_regression_candidate",
+          "verification": "The exact current test file ran as part of admitted hosted verification for PR head 7ff8c217059c210545b57d00be6e621b200ad0b6; the cockpit-verification package node passed (exit 0). The full Actions run later failed at workspace_clippy and the independent workspace package-coverage receipt was skipped. The prior standalone targeted green log is tied to superseded test bytes; a standalone targeted command for this exact hash remains required. Contract.verification remains exactly cargo test --locked --workspace."
+        },
+        {
+          "locator": "Exact-head GitHub Actions run #4850 / run ID 37547568278 failed at workspace_clippy after hosted verification; diagnostic digest sha256:d52f2c9a2248642fe6120dbd00f7fae2b760c05a80e6b4bcb16c2a1987f1f9cc. See the full failure record in A10.",
+          "path": "https://github.com/xinglun/ai-cockpit/actions/runs/37547568278",
+          "type": "preserved_exact_head_ci_failure",
+          "verification": "The candidate cockpit-verification package tests passed as part of hosted workspace verification, but the standalone targeted regression for the exact test hash remains unexecuted. workspace_package_tests coverage was blocked by the separate clippy failure; no evidence is promoted to acceptance beyond its exact observed scope."
+        },
+        {
+          "locator": "Exact command: cargo test --locked --package cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact; exit 0; candidate HEAD 7ff8c217059c210545b57d00be6e621b200ad0b6; Contract sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e; snapshot sha256:34be8557f9dc0ced7ead2fc5903baeb0ea68e526af0a7e135995c8f26456968a; output SHA256 10d390ac254ce5a7279d01a08e658f4b4426708742868cd0d349084a1d6391ef; source SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; test file SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-linux-zombie-final2.txt",
+          "type": "linux_zombie_only_process_group_independent_acceptance",
+          "verification": "This is a separate targeted acceptance command, distinct from cargo test --locked --workspace. It passed 1/1. It does not claim the complete hosted workspace/PR gate passed."
+        },
+        {
+          "locator": "retry_reconciles_zombie_only_verifier_process_group",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_linux_regression_current_source",
+          "verification": "Independent Linux acceptance on source head 95fd1571a89f6425b4aebeedfc80c75a785c152d; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; repository snapshot sha256:e26fd3e9c7a45cccfb073641f3820924a911dc1faec97a7072041542df4ff470; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b93a1c9397ad193101b58bfbddec8aca0d10a36e1ae5f4122d882bd5deb7361c; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.60s\n\n"
+        },
+        {
+          "locator": "retry_reconciles_zombie_only_verifier_process_group",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_linux_regression_current_source",
+          "verification": "Independent Linux regression at source head 22fb101533c302435b4307b32af377619d36eca8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:7c7a21796d026e04ed034c29f3ee7a7e693496703cfd478aab96fb1e676aa1f8; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:fc952c948d674900df8c5bf5f16dc651ef8436b7c9034311f7bd973749ab8c98; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.26s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n"
+        },
+        {
+          "locator": "retry_reconciles_zombie_only_verifier_process_group",
+          "path": "crates/cockpit-verification/tests/composition.rs",
+          "type": "independent_linux_regression_current_source",
+          "verification": "Independent Linux regression at source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:a58e27e3d58d708f3a097ad8aa7fb1e5d1414ace2fe9fee109d1bb2061a604a2; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:3dc681181c569af5531e17efac18de3a66de622d625078e1e199706aa81e4731; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission legacy_incomplete_composition_attempts_project_unknown_execution -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-legacy-unknown-final.txt",
+          "type": "legacy_execution_projection_regression",
+          "verification": "Legacy in_progress and verifier_process_state_unknown attempts project executionOutcome=unknown with incomplete evidence. Output SHA256 27bdee4c2f67149f3b3d21efc78d42d29741d73b33ffb489b8fe6a52db9d26e0."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_execution_projection_keeps_execution_and_cleanup_distinct -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-deferred-projection-final.txt",
+          "type": "deferred_execution_cleanup_projection_regression",
+          "verification": "Passed 1/1; execution passed with complete evidence while overall composition remained unknown and cleanup remained deferred. Output SHA256 1713c1af260af9ad7c3b96c07028154059d5324860ce64c3d3e6a104fd240f8d."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-verification --test composition process_group_backend_does_not_claim_linux_echild_proof -- --exact; exit 0; composition.rs SHA256 b339f2d56f0ed1c5be8eabc8c5bda4f94a7b44b4b68ac9643682fa3bc5da0c96; test SHA256 1074cff631264d7df0ade8272dd537d01cdda83c9b8ef0021572164e9f37e9dc.",
+          "path": "/tmp/wi1068-processgroup-final2.txt",
+          "type": "process_group_backend_receipt_semantics",
+          "verification": "Passed 1/1 for synthetic Unix and Windows process-group receipts; neither claims Linux waitpid ECHILD. Output SHA256 3621e1254bb8e13127d0021cfd68141e7b142dcb29e206eebbde223da75dde38."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A13",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-safe-retry-final.txt",
+          "type": "safe_fresh_retry_regression",
+          "verification": "Passed 1/1: the second formal attempt used a fresh ID/nonce, spawned rather than reused execution, succeeded, and left the first deferred tree registered. Output SHA256 5b62045c57973ba1e7b4f9a883cdaad89675cdc8cd0e3466fc8c8aaa92022bc1."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn -- --exact; exit 0; test file SHA256 0462cbbcf5dc654a31631aef4f253aa4aa028ae2f4d1a75284ffacd27c409fc5.",
+          "path": "/tmp/wi1068-unsafe-retry-final.txt",
+          "type": "unsafe_retry_blocked_regression",
+          "verification": "Passed 1/1: unsafe command-source/effects drift was blocked before any verifier spawn and the old deferred tree remained. Output SHA256 d9129c80afd031bdaf04bd158401edef5440f07d417aae8c1d180d86d5e81006."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A14",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0.",
+          "path": "/tmp/wi1068-cli-mcp-supervisor.txt",
+          "type": "cli_mcp_runtime_supervisor_parity",
+          "verification": "Passed 1/1; CLI/MCP exercised the same Runtime helper identity and supervisor outcome route. Output SHA256 f4fd04945953312fc8915a05c6afd961517c09da73c5963e4fab9a3d01839418."
+        },
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test lifecycle_order skipped_preflight_and_checkpoint_fail_closed -- --exact and cargo test --locked -p cockpit-cli --test verify checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh -- --exact; both exit 0.",
+          "path": "/tmp/wi1068-finish-gate.txt; /tmp/wi1068-current-verify-gate.txt",
+          "type": "finish_preflight_and_current_verification_gate_tests",
+          "verification": "Passed 1/1 each. These test the lifecycle gates; this current Work Item still requires its separate current snapshot verification and a green preflight before finish. Output SHA256 values: 5af1810f6a98086b411ce3f1ccbe4ba5c4f498c488ee9c01e1cf25e86ac854a5 and 65639370616feda100b92c8c76481457158737ad3e3e9a03874143b7f86337be."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A15",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --test usage; cargo test --locked -p cockpit-cli --test usage; cargo test --locked -p cockpit-mcp --test usage",
+          "path": "crates/cockpit-repository/tests/usage.rs; crates/cockpit-cli/tests/usage.rs; crates/cockpit-mcp/tests/usage.rs",
+          "type": "usage_repository_and_transport_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: 19/19, 3/3, 3/3. Explicit bound record, idempotency, conflict, close rejection and source provenance cases pass; no claim of authenticated host measurement."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A16",
+      "evidence": [
+        {
+          "locator": "usage_matrix_keeps_model_role_phase_source_and_unknown_counts_distinct; unknown_counts_remain_null_and_source_time_needs_trusted_provenance",
+          "path": "crates/cockpit-repository/tests/usage.rs",
+          "type": "usage_provenance_and_unknown_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, repository usage suite exit 0, 19/19; nullable counts, model/actor provenance, subset non-double-counting and source-time trust cases pass."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A17",
+      "evidence": [
+        {
+          "locator": "usage_projection_is_visible_in_summary_and_full_in_three_languages; archived_unclosed_usage_updates_only_the_distinct_close_report",
+          "path": "crates/cockpit-repository/tests/outcome_report.rs; crates/cockpit-repository/tests/usage.rs",
+          "type": "outcome_usage_report_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, outcome 17/17 and usage 19/19 pass; present, unknown and three-language usage projections are covered."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A18",
+      "evidence": [
+        {
+          "locator": "archived_unclosed_usage_updates_only_the_distinct_close_report; rebound_future_late_receipt_cannot_escape_the_close_cutoff; legacy_closed_report_without_usage_fields_remains_readable",
+          "path": "crates/cockpit-repository/tests/usage.rs",
+          "type": "frozen_usage_cutoff_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, usage 19/19 pass; finish/archive bytes and close cutoff are distinct; page subtotal is covered by audit query 15/15."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A19",
+      "evidence": [
+        {
+          "locator": "cargo test --locked -p cockpit-repository --lib lifecycle_; cargo test --locked -p cockpit-repository --test audit_query; cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity",
+          "path": "crates/cockpit-repository/src/usage.rs; crates/cockpit-repository/tests/audit_query.rs; crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+          "type": "lifecycle_time_timezone_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: 2/2 + 15/15 + 6/6. Clock seam tests same-second and rollback; actual successful transitions persist distinct UTC facts; Tokyo view is shared, labeled, and does not alter source bytes. External source without trusted offset stays unknown. Process Instant remains separate from wall elapsed."
+        },
+        {
+          "locator": "injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown; wall_elapsed_includes_wait_and_rejects_clock_rollback; timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read",
+          "path": "crates/cockpit-repository/src/usage.rs; crates/cockpit-repository/src/audit_query.rs; crates/cockpit-repository/src/outcome_render.rs",
+          "type": "service_lifecycle_clock_and_generation_repair",
+          "verification": "At source head 22fb101533c302435b4307b32af377619d36eca8, repository --lib 70/70 exit 0. Exact -1 ns rollback RED Some(0) then GREEN None. Test-only clock drives real successful start/finish/archive/close and persisted UTC times; positive same-second wall 0 ms, negative 1 ns unknown. Same-call lifecycle generation drift returns unknown; closed Tokyo Outcome succeeds on unchanged generation."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A20",
+      "evidence": [
+        {
+          "locator": "terminal_lifecycle_events_come_from_each_successful_boundary; filtered_export_reuses_query_page_and_legacy_export_remains_schema_one",
+          "path": "crates/cockpit-repository/tests/audit_query.rs",
+          "type": "shared_lifecycle_audit_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, audit query suite exit 0, 15/15; lifecycle facts use the existing evidence/audit reader, refs, digests and wall-clock labels."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A21",
+      "evidence": [
+        {
+          "locator": "combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit; cli_and_mcp_share_combined_filters_and_bound_cursor_pages",
+          "path": "crates/cockpit-repository/tests/audit_query.rs; crates/cockpit-cli/tests/audit_query.rs",
+          "type": "typed_query_transport_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: repository 15/15, CLI 5/5; exact filters, cutoff, cursor/snapshot, source mutation and page totals are exercised through shared CLI/MCP read service."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A22",
+      "evidence": [
+        {
+          "locator": "unfiltered_export_accepts_existing_schema_one_bytes; audit_export_accepts_the_canonical_delegated_receipt_filename",
+          "path": "crates/cockpit-cli/tests/audit_query.rs; crates/cockpit-repository/tests/archive_integrity.rs",
+          "type": "audit_export_compatibility_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, CLI audit 5/5 and repository audit 15/15 pass. Pre-feature typed schema-v1 bytes, idempotent --output, conflicting-byte rejection, filtered envelope and actual delegated receipt filename binding are exercised; RED before source fix was preserved in earlier Summary evidence."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A23",
+      "evidence": [
+        {
+          "locator": "public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper; checked_in_reference_regions_match_the_protocol_projection; cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes",
+          "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs; crates/cockpit-protocol/tests/interface_description.rs; docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md",
+          "type": "public_interface_and_hidden_helper_regression",
+          "verification": "At source head 95fd1571a89f6425b4aebeedfc80c75a785c152d, exit 0: CLI Outcome 6/6, protocol 15/15, hidden supervisor focused test 1/1, generated reference --check. Public help/MCP discovery include native usage/audit/timezone and exclude the hidden helper; internal route remains exercised."
+        },
+        {
+          "locator": "cli_outcome_help_projects_protocol_owned_parameter_descriptions; cli_description_is_extracted_from_the_shared_outcome_query_parser; transport_specs_reuse_the_shared_query_parser_facts",
+          "path": "crates/cockpit-interface/src/interface_description.rs; crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs; crates/cockpit-protocol/tests/interface_description.rs; docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md",
+          "type": "actual_cli_long_name_projection_repair",
+          "verification": "At source head 22fb101533c302435b4307b32af377619d36eca8, RED descriptor used display_timezone Arg.id while public help used --display-timezone; GREEN CLI 6/6, protocol 15/15, generated reference --check exit 0. Each CLI descriptor name now derives actual Clap public long flag; generated EN/ZH/JA tables show display-timezone and MCP retains displayTimezone."
+        },
+        {
+          "locator": "outcome_description_facts_match_clap_arguments",
+          "path": "crates/cockpit-cli/src/main.rs",
+          "type": "actual_cli_bin_unit_long_name_parity",
+          "verification": "At source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8, RED exit 101 missing Clap argument display-timezone (Arg.id is display_timezone); GREEN cargo test --locked -p cockpit-cli --bin ai-cockpit exit 0, 23/23. The bin unit asserts actual get_long and the canonical displayTimezone to public CLI display-timezone mapping while retaining requiredness/help/default/enum assertions."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A24",
+      "evidence": [
+        {
+          "locator": "material_review integration suite; raw Finding/Unknown classification, non-reviewable Finding, provenance, symlink, unreadable, and budget cases",
+          "path": "crates/cockpit-repository/tests/material_review.rs",
+          "type": "local_targeted_rust_regression",
+          "verification": "On Linux x86_64 at head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818. This supports the local scanner-boundary checks; the WI scenario remains unverified pending the remaining candidate-specific acceptance review."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A25",
+      "evidence": [
+        {
+          "locator": "current Runtime plan identity and material_review integration tests for plan binding, ai-only descendants, dirty source, and non-ancestor refusal",
+          "path": "/tmp/WI-1068-material-review-plan.json; crates/cockpit-repository/tests/material_review.rs",
+          "type": "runtime_material_review_plan_and_regression",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: plan JSON sha256:13bd57a95dc8a57eef40302c13014087736727ad1bd3d659e5936eb768d43de8; requestDigest sha256:94811485f595d564444d5c2eacf9e3bad768d05f79fe56ed771e055c6e57f090; reviewedSourceHead 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; sourceSnapshotDigest sha256:8d00e542e4feb8e948a0e9d6ddbd34fa1d963695bd891c9b8662b9e13394121a; materialManifestDigest sha256:9700d855ca43c21d8a34a0aad1da1fe86f778f12165bb9834e18808cec0d803b; analysisImplementationDigest sha256:ea269472ea5eba00927094bce35a4ba101f28cecffb22afb7bcdd8c5174dfac3; effectivePolicyDigest sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b; rawUnknownCodes=['repository_material_inspection_unavailable']; findingCodes=[]; reviewEnabled=False. Regression result: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818. This is local Linux evidence only; no hosted binary/cross-environment run is claimed and the scenario remains unverified."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A26",
+      "evidence": [
+        {
+          "locator": "typed decision validator/protected capability guard; CLI and MCP stage-one no-opt-in rejection; shared repository-service tests",
+          "path": "crates/cockpit-repository/tests/material_review.rs; crates/cockpit-repository/tests/contract_amendment.rs; crates/cockpit-cli/tests/material_review.rs; crates/cockpit-mcp/tests/material_review.rs",
+          "type": "stage_one_and_typed_writer_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; cargo test --locked -p cockpit-repository --test contract_amendment material_review_profile_amendment_adds_audited_protected_guard -- --exact --nocapture; 1 passed, 0 failed; log sha256:d5eaab9d279b1f376a8c39392b7e6253ab463c3e5461a0c92b571d44de061f95; cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09. Test fixtures exercise implementation only. The active Contract still has no materialInspectionReview opt-in, the current plan reports reviewEnabled=false, and neither of the two required human Contract reviews/amendments was recorded. A26 is not accepted; no human approval is represented."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A27",
+      "evidence": [
+        {
+          "locator": "status/preflight recomputation with empty worktree diff; forged-green report rejection; repository-bound CLI report validation",
+          "path": "crates/cockpit-repository/tests/status_projection.rs; crates/cockpit-repository/tests/ci_quality_gate.rs; crates/cockpit-cli/tests/ci_gate.rs",
+          "type": "local_status_and_quality_gate_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-repository --test status_projection status_rechecks_committed_contract_base_material_with_empty_worktree_diff -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:e6a8052c7fbdaf6d3ed122b98f9837916a4ddd939d96c6fa642fbb3976504b53; cargo test --locked -p cockpit-repository --test ci_quality_gate report_validator_rejects_self_reported_green_over_material_unknown -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:a3d9570268b062af42f99bdd2c8bb6faa6e0c3fd6c55bc8b2bc0aff560fde50d; cargo test --locked -p cockpit-cli --test ci_gate gate_report_cli_validates_repository_bound_report -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:b3d4445dadaec939c9170c5fd54d6c2decbedb2846ec2190ff28b096b08720dc. Local Linux route behavior only; hosted comparison-base/merge-head consumption and all hosted gate evidence remain unrun, so the scenario is not accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A28",
+      "evidence": [
+        {
+          "locator": "CLI/MCP plan/read-only and record/no-opt-in tests; protocol capability descriptions; English, Chinese, Japanese material-review trust boundaries",
+          "path": "crates/cockpit-cli/tests/material_review.rs; crates/cockpit-mcp/tests/material_review.rs; crates/cockpit-protocol/tests/interface_description.rs; agents/skills/ordinary-work-item.md; docs/reference/commands.md; docs/reference/commands.zh-CN.md; docs/reference/commands.ja.md; docs/reference/contract-fields.md; docs/reference/contract-fields.zh-CN.md; docs/reference/contract-fields.ja.md",
+          "type": "local_cli_mcp_and_documentation_surface_regressions",
+          "verification": "At head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09, Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113: cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09; cargo test --locked -p cockpit-protocol --test interface_description material_review_ -- --test-threads=1; 2 passed, 0 failed; log sha256:2c0e4dce0ca65c57b1847cbda2862b0b2b9c123daabd2933115fd394c3b64153. Inspected the named docs for self-declared identity limits and no human/provider/release approval claims. These are local CLI/MCP/docs checks; hosted evidence remains unrun and the scenario remains unverified."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [],
+  "checkpointAt": "2026-10-06T06:23:41Z",
+  "checkpointContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:23:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "reason": "The human has explicitly authorized full stable v1.0.1 delivery. Separate the three pre-finish checks from candidate/publication steps that cannot exist until Runtime admits a later release stage; keep every future acceptance step explicit as planned but non-required for pre-finish verification. Retain the 16 product paths and require the actual v1.0.0 Linux x86_64 N-1 route, official public asset digest checks, and no immutable resource replacement.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:29:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c67fa253315dac851f60c107dd090a57a4f6656087b8b87531939770962ba0e9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:1321a3e6a0f52f1bdfc3823498868a6b0a731a130e1337b314a5ca4560d21475",
+      "reason": "Keep the three exact evidence-backed pre-finish criteria explicitly numbered for current acceptanceEvidence, while expressing candidate-tag, post-publication, local install, and cleanup steps as later-stage unnumbered Contract conditions. This follows the lifecycle boundary where these outputs cannot exist before the tag/Release and prevents any future-stage assertion from being treated as verified early.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:31:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa62b2de4fc4461fa3480776c29f9c3f32bff8ed357d6e80b98c0fa0f1246e2a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:c6d35ac80e96c1285fd80792523681bb1fe3f9a0578e99a6e15972c393961522",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:c67fa253315dac851f60c107dd090a57a4f6656087b8b87531939770962ba0e9",
+      "reason": "The current Runtime preflight identifies scope_exceeded for the six mandatory pre-verification governance projections. Add only the three current WI pages and three exact parity ledgers to the Contract scope as protocol projections, while preserving exactly the existing 16 product/source paths and clearly separating the six governance files.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:33:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:0a50e2f866ee22dd51973e68298a0127a8fcef0135c8e0a44c112a9ca6fd4db4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:c6d35ac80e96c1285fd80792523681bb1fe3f9a0578e99a6e15972c393961522",
+      "reason": "The exact-head quality workflow's hosted Runtime verification is its first required quality step. On this exact PR head, Runtime rejected run_preflight and run_verification because the same Contract made successful exact-head CI a required pre-verification scenario and numbered acceptance item; repository gates and all 13 package-coverage checks were consequently skipped. Keep exact-head CI, every required gate, and 13-package coverage as mandatory before PR ready/normal merge, but move that external result after admitted Work Item verification. Keep the pre-verification numbered evidence limited to facts available before the check: stable identity, non-blocking independent agent review, and the bound pre-tag release plan/provider identity. The v1.0.0 API reports immutable:false; record that provider fact honestly and use its existing public stable identity as a no-write N-1 reference. This repairs ordering and factual wording without weakening no-overwrite protection or release/merge gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T06:49:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:5c36dd2f7f2f1c8373c5eeaa177910826617df80fa0f820ef9d787cdbc9b6460",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:0a50e2f866ee22dd51973e68298a0127a8fcef0135c8e0a44c112a9ca6fd4db4",
+      "reason": "The Runtime-admitted cargo test --locked --workspace exposed a real checked-in interface projection mismatch: cockpit-protocol's generated work-item-outcome reference reports package Runtime 1.0.1, while the three localized docs/reference/commands pages still say 1.0.1-rc.2. The test fails at checked_in_reference_regions_match_the_protocol_projection (language=en). Include only those three generated reference-page paths as protocol projections, preserve the exact 16 product/source paths, revise A1 and the scope boundary to distinguish product source from nine scoped documentation projections, and verify all three language regions. The attempt receipts and sandbox failures remain preserved.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T07:01:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1ba2e66418e9724b636a9743071c1e83f08cbb08ad24ab868b188f4f444549b7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:5c36dd2f7f2f1c8373c5eeaa177910826617df80fa0f820ef9d787cdbc9b6460",
+      "reason": "The independent review found that future-stage WI-1068 scenario text says the new tag triggers the release workflow, while .github/workflows/release.yml is workflow_dispatch-only and the published documentation states that a tag push alone does not start publication. Correct only the expected result and verification plans to require explicit dispatch after fresh Runtime publication admission and the annotated tag push. Preserve the 16 product paths, actual v1.0.0 N-1 route, four targets, and no-overwrite restriction.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T07:27:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:91e3ecc75d63b6c35eb9deec511a55355023fa93e1a73792f4e798d7c8ba87e8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef",
+      "reason": "Record the user's explicit authorization to follow Raydot's supported workspace-local Cargo target override for the admitted WI-1068 verification retry; this adds provenance only and changes no scope or acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T12:34:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:80d00666c0f5462d4e5bd74b78e3ea36090860280b0066aca8516a2ca66024c5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:8c2ed8f321f7bd9da0d10654f8c462fae8d6b76a68777e28895e4b812fc64f98",
+      "reason": "Bounded Linux diagnostics and independent source review identified a production liveness candidate: killpg(pgid, 0) and process_group_is_alive currently map an unreaped zombie-only group to active. The two prior integration failures themselves stop in fixture polling before post-termination reconciliation; this proposed amendment requires a deterministic formal-reconcile RED before implementation. It limits changes to Linux process-group liveness and listed regression paths, keeps unknown states fail-closed, preserves cwd/open-file checks, and leaves non-Linux behavior unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T14:50:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:80d00666c0f5462d4e5bd74b78e3ea36090860280b0066aca8516a2ca66024c5",
+      "reason": "Correct the verification declaration added by amendment 10: the current hosted workspace-package consumer accepts only a unique full unfiltered Cargo workspace test and rejects the added filtered targeted command. Keep cargo test --locked --workspace as the sole Contract.verification declaration and preserve the Linux targeted regression as a separate A11 acceptance check. Record the current user authorization and its approval boundaries without manufacturing any future exact human decision receipt.",
+      "recorded": true,
+      "recordedAt": "2026-10-06T15:12:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8b45d5168e39bd65fd721bf5eebac75a07f6b358f47e74e5a4bb037eb18f11f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+      "reason": "Formally repair WI-1068 verification while preserving all prior failure evidence: keep the sole complete verification command cargo test --locked --workspace, and treat the Linux zombie-only targeted regression as separate acceptance evidence. Expand the reviewed Linux composition scope to specify owned-tree supervisor receipts, fail-closed spawn/registration/reaping, distinct execution and cleanup states, and a narrowly admitted fresh repeat after deferred cleanup. Record user-stated delegation, Raydot's user-relayed technical approval, and the actual Codex execution identity without fabricating a human signature. Add unverified scenarios only; do not assert implementation or test success.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T01:07:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa98a405cf744e071a7490f7f5d5cb2efdc68575d270dc4f59ba8e26e2d4d6ce",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:119db1509540a3afd5e46c8be458ed5bc51ffbe1bb9693a7825fd4def6e7ddcb",
+      "reason": "Add only the missing repository library-facade path needed by the already authorized composition supervisor entry. crates/cockpit-repository/src/collaboration.rs defines the supervisor APIs, while crates/cockpit-repository/src/lib.rs declares collaboration as a private module and must re-export those APIs for the existing CLI hidden supervisor entry and controlled integration helper. This records the narrow implementation provenance; it changes no acceptance criteria, verification command, policy, resource identity, or historical failure evidence.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T02:56:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c729c3c341cc53eb01cf7801a278ed053d0d10a3135c8f684a8710a82e57d51",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:d0ab4f684d3764348a0d398e93218d9a1e328be2cf9b50a65caefef8fcb3d45e",
+      "reason": "One typed amendment under the user-stated WI-1068 authorization and agent:Raydot technical review, as relayed in the parent delegation. The user:Ray messages are Sentinel_3d44572341308191b9010dc77d067d39, Sentinel_4971c4ecefe48191a9276fc5f38e24fe, Sentinel_74bd65aad058819180d21a190b56b4a2, Sentinel_a282cc23f2a08191a0073aed1f758644, Sentinel_1d349bb209e4819195a848df1971c203, Sentinel_bc329b5933d881918344a6b25f7b3529, Sentinel_7a6c9ebe8254819189979a8bb6d2846d, Sentinel_01aea40430808191aead1ad3c7d0aeb1, Sentinel_521c03056dd08191a0a3078e2d88a9b6, and Sentinel_2885ec3be4d08191b377ce837a186a8a. The agent:Raydot recommendations are technical input, not a human signature; agent:Codex is the amendment executor. These actor labels come from the supplied transcript and are not independently host-authenticated. Preserve unique cargo test --locked --workspace verification, A10/A11 independent Linux regression, all previous failures and release gates. Add explicitly recorded Work Item usage and source-specific provenance, immutable finish/archive report bytes with a separate close finalReport/cutoff, observed lifecycle times, a shared read-only typed audit query/export, and complete native Rust CLI/MCP help. Query from/to applies to Runtime recordedAt only, without fallback. IANA display requires the scoped timezone dependency. Fix the source-confirmed A12/A13 external observer uncertainty gap while retaining owned-tree proof and the protected no-op retry boundary. Do not claim this amendment approves the source diff or constitutes a new exact human review receipt.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T05:28:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+      "reason": "Stage one authorizes implementation scope, test-support isolation, the missed interface path, and bounded material-review code/docs while Contract.governanceProfile.materialInspectionReview remains absent and material Unknown discharge stays disabled. The old Runtime cannot add the protected unknown requiredRuntimeCapabilities marker. After candidate implementation, stage two requires a separate exact typed amendment by the new Runtime to enable the strict profile and auto-add material-inspection-review guard, followed by its own exact human review. Preserve old failures and the unique cargo test --locked --workspace verification declaration.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T11:24:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f813563ec9e716be1d63c07c29878f093d805c2d8ecca85e4fe4d485c4a83e39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:ca1e9939317600a475cd4e50da17a2d663ff35e1bb4acbc4457eb02baaa98eea",
+      "reason": "Correct the previously omitted protocol-writer scope path and declare the bounded Git snapshot implementation and test paths for Stage 1. Keep material-review opt-in absent, leave acceptance criteria unchanged, and retain the unique verification command cargo test --locked --workspace. Preserve the earlier omission as history; this amendment does not retroactively authorize the prior edit.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T12:51:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0d075b2bb0cf188963d88821ca18e6718dc2c7c20253270de2daeadb383b9a9c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:4e8c56a1b5e5182169fe96bcc421f0ca02ed006620c87a62dd9df1f6df31345c",
+      "reason": "Narrowly declare the already reviewed Windows Job Object dependency needed to terminate descendant Git processes on bounded snapshot overflow. The direct child-only kill path can leave a descendant holding stdout or stderr open, keeping pipe collection blocked. This changes only the manifest scope and records the reported risk/plan; acceptance, verification, and material-review profile remain unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-10-07T19:52:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c984dc0e3f1899c5ad4ab924bb9ace5d2f9cf96219a1704cabc8895b0684a3fb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113",
+      "reason": "Declare only the existing PR CI workflow and regression files needed to bind the exact tested merge, source head, and tested base. Preserve baseRevision, Acceptance, and scenarios.",
+      "recorded": true,
+      "recordedAt": "2026-10-09T08:02:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a",
+      "reason": "Add only the 25 exact existing CLI and repository regression-test paths omitted from the currently observed Contract, for committed-source material-review fixture and fail-closed adaptations plus the minimal verification side-effect, snapshot, output-commit, receipt-binding, and uncommitted-output blocking regressions. Keep each test path explicit; do not infer anything about detached amendment history. Enable only the strict Stage 2 self-declared profile for readable committed Rust syntax Unknown. Findings and all other Unknowns remain blocking. Preserve baseRevision, acceptanceCriteria, scenarioCoverage, verification, and every production/release boundary. The profile authoritySource is the exact existing user-authorization entry in Contract.sources; it records delegated agent authority and explicitly is not a signature over the prospective Contract digest.",
+      "recorded": true,
+      "recordedAt": "2026-10-09T10:20:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27c2ce1912587a690755e9406539456e7fef50766be19059d93b78eb3ca535bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61",
+      "reason": "Add exactly the three English, Simplified Chinese, and Japanese projection paths for the already closed historical sibling WI-1068-runtime-preflight-action-admission, and replace the current null Work Item governancePolicy with a finite 900-second modify_source verification timeout ceiling spanning task, pre_ci, pr, merge, and release. The Runtime policy schema cannot bind this timeout to a command digest, so it applies to any already-admitted verification command governed by modify_source at those stages. The ceiling preserves the 300-second default and leaves declared commands, required evidence, success criteria, and release/publication authorization unchanged; the Work Item verification plan continues to enforce one worker. single_authorized_human requires real authorized-human approval for governed modify_source operations, and a separate structured human close decision remains required if close is requested. This request records neither human decision, rewrites no historical receipts or evidence, and does not claim WI-1068 stable-release acceptance or completion.",
+      "recorded": true,
+      "recordedAt": "2026-10-09T19:03:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc1c6582fe0613acada79a529ced87b53511206fd3b6ab8c06b14a8200e2b797",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+      "reason": "Add the existing cross-Work-Item process acceptance driver to scope so its current behavior can be reviewed as an in-scope acceptance artifact. This path-only change does not alter the script, acceptance criteria, authority, immutable base, release decisions, or verification timeout budget.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T01:08:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+  "createdAt": "2026-10-06T05:10:22Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:cc8852e2db55f7b39fbca8403113901c0eea7af32c304f4e2cd4c17b3ba31651",
+    "reason": "The user replied exactly “Confirm review” at 2026-10-10T01:06:17Z (message Sentinel_efa97741f8988191b245818dfd127f97) to Raydot’s exact-scope confirmation request at 2026-10-10T00:18:37Z (message Sentinel_732d638b5a408191a19fbfd7dec50032), bound to requestDigest sha256:7f0505921b87f80195998cb20a1eaea67b707030adb78e7cee2eb33fd186816e and expected Contract digest sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3. This records the user’s bounded approval to add only tests/acceptance/cross_wi_coordination_processes.py to WI-1068 scope. It does not approve verification, merge, tag, release, publication, or close. The decision was entered by agent:Codex; Runtime does not independently authenticate the user identity.",
+    "recordedAt": "2026-10-10T01:08:38Z",
+    "recordedBy": "human:user (explicit conversation approval; entered by agent:Codex)",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
+    "schemaVersion": 1,
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "human:Ray full stable v1.0.1 authorization; Contract criteria A1-A6 define stable identity, verified official download, v1.0.0 N-1, and CLI/MCP installation benefit"
+    ],
+    "reason": "The accepted scope and staged criteria align with the human-approved goal; release and install outcomes remain pending evidence.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-10T05:00:02.486509067Z",
+      "recordedAt": "2026-10-10T05:00:02.486509067Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:96492fe6c5dcbd8f0730ec3303bcda4ddda0e152a245acbb23b02e0049b24e3c",
+    "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51.json",
+    "receiptDigest": "sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1",
+    "requestDigest": "sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51"
+  },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:37bcb28c041bfa0888a26f497a7fdb4690fe5bb3e9712dca416c27d47f495556",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf.json",
+      "receiptDigest": "sha256:ef6871ee3e0c9d0f7b01109b2f17ca7a605a94145889b92d04280df9d55391a0",
+      "requestDigest": "sha256:70d60ff583182f75d1c20899c5f4b1a3a3862d7d134f258a412f3ec71da837bf"
+    },
+    {
+      "digest": "sha256:e732292fb2cbc215526da9c2498091c9b41e687697fe0ad30ed0d2c83a1c37f5",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53.json",
+      "receiptDigest": "sha256:3e160b2f7cadc1c86e65a3de599ab724b6f1f91cfd35ac98ebe16b01effff614",
+      "requestDigest": "sha256:015b86788e1de8affcfbe17f34421ad8ed8030a2149905816a5523e88bbdcd53"
+    },
+    {
+      "digest": "sha256:13f05479dd4f10a164823a206dad3fa975126ee305d191a7f68ec3004bc5a1c8",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/a164188a5f040594b23082602275ea4d22db485206ac30bce4319cba2351fb21.json",
+      "receiptDigest": "sha256:f5ff9523b55a7175cce4236036bbb507d69d4c526e9214558c8c49b36630b667",
+      "requestDigest": "sha256:a164188a5f040594b23082602275ea4d22db485206ac30bce4319cba2351fb21"
+    },
+    {
+      "digest": "sha256:13ebfbf72afbea50ecd7f8886fb4617db8261fcc9439f75247e6bf2bc19f68bd",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/bc99821f081b7a513ee06b2c061151aa11651accefc0fb715b606752dbed732a.json",
+      "receiptDigest": "sha256:0b712bc1dcf25de54fbce51cae93f9c77d2e67e7b07416330648b7ddc708b882",
+      "requestDigest": "sha256:bc99821f081b7a513ee06b2c061151aa11651accefc0fb715b606752dbed732a"
+    },
+    {
+      "digest": "sha256:885b7456f2830c8f6b246fe8e4dc7d236600f1b241d1a46b5fe159abf835358a",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4.json",
+      "receiptDigest": "sha256:3175b7f561e2e6749023a39140c215ac9af058848a8ab0fb93f320e267225c52",
+      "requestDigest": "sha256:4d9a8170d9f3b143f95091a2750d827e71b3c52e73f6cfaafc6b3efab855d6c4"
+    },
+    {
+      "digest": "sha256:13d41a37816de91af6f79d0db779f7f7600f19ee7a02be73ca6b2fd39d6efae8",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd.json",
+      "receiptDigest": "sha256:144ae8223df175ca8a5c9a59243c2021a8fd2ee99e85db132949fdd2b0bb94f5",
+      "requestDigest": "sha256:cb13b206094b312c6362071d181773cc8dca2c26f621a2d678ae720f62c282fd"
+    },
+    {
+      "digest": "sha256:d98d07188457e1ac22947f0f3e62dd91dfaffd3a8adcd311c2eef469674431b9",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb.json",
+      "receiptDigest": "sha256:95d92be2721b2e7afd46ccb9acfadec5328ac77b282439ea37095e454285dde5",
+      "requestDigest": "sha256:20d4060ecc699144bdbe57600cc211d8316fba8ae1a47d26896c94900edbe5fb"
+    },
+    {
+      "digest": "sha256:682201665ed843f2d249eaf96109467319c949858e85bf8c5bff9c86e13ce1a6",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/3bad30c3ecfe2a49a3003d5d6606a5a91d00b164ad350964481aa2ef91c2d737.json",
+      "receiptDigest": "sha256:3692888c1f40e6e85d662d053338d2270d0f314ee33cb79633302fcd1167f1d8",
+      "requestDigest": "sha256:3bad30c3ecfe2a49a3003d5d6606a5a91d00b164ad350964481aa2ef91c2d737"
+    },
+    {
+      "digest": "sha256:8d033fee248ab2c9876fdf8593d5981a27aa8f5449f3cbf4ab2732b5cc76d2cf",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb.json",
+      "receiptDigest": "sha256:6b873b8dc7ab0188fbaffb4731b88bb700d3da3e1486994f07a6c281777e7941",
+      "requestDigest": "sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb"
+    },
+    {
+      "digest": "sha256:cdde72960aebe10ab0394294961be045711256590d511f38628ba6492ad8ef09",
+      "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573.json",
+      "receiptDigest": "sha256:1993066f9667f23d9c2689a9e9c17a7ee750128076e8647d9e59940e50ec78bb",
+      "requestDigest": "sha256:a26ac2d74098e11c8d2234fd6e0ed51bb02477a9b5c7bee44dd397688a273573"
+    }
+  ],
+  "mode": "release",
+  "preflightAt": "2026-10-10T04:23:52Z",
+  "preflightContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-06T21:24:09Z",
+    "contractDigest": "sha256:07b049a6ebe8ac0a0d12e6c2efe2abb9ed5c6c21f5838fb74971f5b2adc6629b",
+    "decisionDigest": "sha256:8658d25f053efbcbf7b107e4b6ef13c6d5fbe77038d33217584bd541a128c31a",
+    "decisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.json",
+    "repositorySnapshotDigest": "sha256:3586b0cbec0a53c4b280f9ddd206dcb8c7bee0408cc9a93978e1e5ec16399021",
+    "runtimeDigest": "sha256:32ced3019b24e587006d1bdaf259b18dc3a1614355f3f3cd3c953b7b329ade56",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:06f1ac82e18a82f9c74e3dffd395fe7a67897f3749b5cd66c948eb5b18e8d265"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Remote PR #1022 head f470976545f3e28beb5ea50c6a6139a64743e5fa was compared with base c417b65c3f3608b7fd2336314d7432fd72fa8723: 16 declared product/source paths, six WI/parity documentation projections, and 15 Runtime Work Item records. This describes the observed remote head only; the locally generated command-reference projection changes are not yet in that PR head.",
+        "Official scripts/generate_interface_references.py --check with the source-built Cargo 1.0.1 CLI exited 0. All three generated work-item-outcome interface regions report Runtime 1.0.1. The three localized distribution frontmatter descriptions now describe stable v1.0.1 without claiming publication. git diff --check exited 0."
+      ],
+      "expected": "The exact candidate and declared 16 product paths identify stable 1.0.1 with no prerelease suffix; historical v1.0.0 and rc.2 remain distinct.",
+      "required": true,
+      "scenario": "stable-v1.0.1-identity",
+      "status": "verified",
+      "verificationPlan": "Inspect Cargo.toml, Cargo.lock, release metadata, package/version source, the exact 16 product/source paths, all three generated work-item-outcome reference regions in docs/reference/commands.md and its zh-CN/ja counterparts, and localized release/version documents; require every Runtime projection to report stable 1.0.1 and preserve historical v1.0.0 and rc.2 references."
+    },
+    {
+      "evidence": [
+        "Preserved failed exact-head attempt: https://github.com/xinglun/ai-cockpit/actions/runs/37424705626 (quality rejected candidate Runtime preflight; not a pass and not final required CI)"
+      ],
+      "expected": "After Runtime admits hosted Work Item verification, the exact current PR #1022 head completes every required CI job successfully, including the Rust Contract gate, repository gates, all 13 package-coverage obligations, Windows Runtime, and behavioral oracle, before any PR-ready or normal-merge action.",
+      "required": false,
+      "scenario": "exact-head-repository-and-release-ci",
+      "status": "unverified",
+      "verificationPlan": "Once pre-verification evidence admits the hosted Runtime check, bind the exact current PR head to the final GitHub Actions run and all required route/quality/oracle/Windows jobs, the Rust Contract gate receipt, repository-gate receipts, and all 13 completed package-coverage outputs. Require every job green before PR ready or normal merge; any head change requires fresh exact-head CI."
+    },
+    {
+      "evidence": [],
+      "expected": "After Runtime publication admission and creation of the new immutable v1.0.1 tag, explicitly dispatch the existing workflow in candidate-publication mode; require four-target candidate install/smoke and staged N-1 checks to finish before public Release publication.",
+      "required": false,
+      "scenario": "four-target-candidate-install-smoke",
+      "status": "unverified",
+      "verificationPlan": "After normal PR merge and fresh Runtime publication admission, create and push the new v1.0.1 annotated tag once, then explicitly dispatch the existing release workflow with from_tag=v1.0.0, to_tag=v1.0.1, publish_candidate=true, and WI-1068 identity. Require candidate install/smoke for all four declared targets and staged Linux x86_64 N-1 acceptance before public Release upload."
+    },
+    {
+      "evidence": [],
+      "expected": "Staged N-1 upgrade from immutable stable v1.0.0 to candidate v1.0.1 passes only on x86_64-unknown-linux-gnu before the public Release is created.",
+      "required": false,
+      "scenario": "linux-x86_64-n-minus-one-upgrade",
+      "status": "unverified",
+      "verificationPlan": "In the explicitly dispatched publication workflow, verify the actual staged Linux x86_64 N-1 job installs previous stable v1.0.0, upgrades to candidate 1.0.1, and passes post-upgrade checks; never substitute N/A or another predecessor."
+    },
+    {
+      "evidence": [],
+      "expected": "The local Apple Silicon macOS CLI and MCP run the official published stable v1.0.1 binary from its intended absolute path and pass initialize plus a read-only request.",
+      "required": false,
+      "scenario": "local-macos-cli-mcp-identity-switch",
+      "status": "unverified",
+      "verificationPlan": "After public release acceptance, install the official macOS asset; verify archive/manifest/SHA256SUMS, actual installed-binary SHA-256, version, absolute CLI path, and MCP initialize/read-only behavior. Do not compare its SHA-256 with an independent local build and do not change provider-global identity configuration."
+    },
+    {
+      "evidence": [],
+      "expected": "Only after all required pre-finish evidence and fresh Runtime publication admission, publish the new stable v1.0.1 tag/release with accepted workflow assets and without replacing existing immutable resources.",
+      "required": false,
+      "scenario": "stable-v1.0.1-publication",
+      "status": "unverified",
+      "verificationPlan": "After candidate smoke and actual v1.0.0 N-1 succeed, inspect immutable tag/Release identity, downloaded public manifest/SHA256SUMS and archive digests; preserve failed evidence, never overwrite any tag or asset."
+    },
+    {
+      "evidence": [],
+      "expected": "A downloaded public Linux x86_64 v1.0.1 asset verifies against its official manifest and SHA256SUMS, installs, and passes N-1 upgrade/post-upgrade checks from v1.0.0.",
+      "required": false,
+      "scenario": "public-download-linux-n-minus-one-acceptance",
+      "status": "unverified",
+      "verificationPlan": "After the public Release exists, use the declared isolated adopter acceptance harness against the actual public Linux x86_64 asset; retain manifest/checksum/archive identity and install/upgrade/cleanup receipts."
+    },
+    {
+      "evidence": [
+        "Typed Runtime ReleasePlan planId sha256:af3015150b61fdb81dcd362605905a2219d509e33250d503076d84add59949f1; planDigest sha256:352b97aec88bbfea142dad40aa931ae8b9dd3546abebf6d470fd0893cf294990. Bound to PR/source f470976545f3e28beb5ea50c6a6139a64743e5fa, base c417b65c3f3608b7fd2336314d7432fd72fa8723, current canonical Contract sha256:f13d9b2de539987b3592438df2f67ae8aed87e49d9ca88b8ed76c2a649eb69ef (raw file SHA256 ba7a770a456e0715a43992097763e594cc76d796234290ec7da82f4828579fa4 was prior; current raw file digest is f293933bbe440983ae28d7048fa2bfaaab451c8922ed9dc53eb3424550cd5e4b), mode normal_release, workflow_dispatch, v1.0.0 -> v1.0.1. Resolver ran no build, verification, or publication.",
+        "Current GitHub API observations: v1.0.0 annotated tag object 2c57e784b180cc3cb737739c7fc3f93152690da7 peels to commit d56c1a8acf22d53da482a40c509818748a793790; public stable Release id 399756778 currently lists 11 assets and immutable=false. v1.0.1 tag-ref and Release lookup returned 404. The workflow is workflow_dispatch-only, tag push does not start publication, and attest/publish depend on verify, the Homebrew/Linux/Windows smokes, and staged v1.0.0 acceptance/upgrade checks. No existing tag, Release, or asset was changed."
+      ],
+      "expected": "A Runtime-bound plan binds the current PR source and Contract; the existing public stable v1.0.0 tag/Release is the no-write N-1 reference, v1.0.1 tag/Release names are unused, the actual provider immutability field is recorded accurately, and the release workflow requires all four target candidate checks plus Linux x86_64 N-1 from v1.0.0 before public Release publication.",
+      "required": true,
+      "scenario": "release-plan-immutability-and-evidence-consumption",
+      "status": "verified",
+      "verificationPlan": "Resolve the typed normal-release plan against the exact current PR head, base and raw Contract file digest. Bind GitHub API evidence for the v1.0.0 tag object/peeled commit and public stable Release, including its reported immutable field; bind 404 results for v1.0.1 tag and Release; inspect release.yml to verify attest/publish dependencies include the four target candidate smoke routes and staged Linux x86_64 upgrade from v1.0.0. Do not create a tag or mutate any existing Release asset in this pre-tag check."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission supervisor_exit_before_ready_records_unknown_without_spawning_verifier -- --exact; exit 0; output SHA256 b1881fb2d3fb49c9c993cea494fcc65e96c246ee35ce4b21892a36712807677c.",
+        "cargo test --locked -p cockpit-repository --test collaboration_admission revoked_admission_after_registration_persists_receipt_and_allows_a_later_retry -- --exact; exit 0; output SHA256 7c04e8ce553c521ebf19908b680deb764845cf0dca916594419f5520fac7be1c."
+      ],
+      "expected": "Handshake, helper IPC, durable registration, or admission-revocation failures produce zero verifier spawns and a fail-closed receipt.",
+      "required": true,
+      "scenario": "composition-supervisor-handshake-fail-closed",
+      "status": "verified",
+      "verificationPlan": "Exercise spawn→ready→registration/fsync→release failure points and admission revocation; assert zero verifier starts and durable unknown/failure classification."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_execution_projection_keeps_execution_and_cleanup_distinct -- --exact; exit 0; output SHA256 1713c1af260af9ad7c3b96c07028154059d5324860ce64c3d3e6a104fd240f8d."
+      ],
+      "expected": "A successful execution with deferred cleanup records execution pass separately, preserves the owned directory, and is not classified as a cleaned reusable terminal attempt.",
+      "required": true,
+      "scenario": "composition-pass-with-deferred-cleanup",
+      "status": "verified",
+      "verificationPlan": "Run a controlled formal composition whose command passes while cleanup is deferred; inspect the bound attempt receipt, projection, and preserved directory."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_uses_a_fresh_attempt_and_preserves_the_old_tree -- --exact; exit 0; output SHA256 5b62045c57973ba1e7b4f9a883cdaad89675cdc8cd0e3466fc8c8aaa92022bc1."
+      ],
+      "expected": "Two consecutive formal run_admitted_composition calls prove a safe second attempt gets a fresh nonce/worktree, reuses no old result, succeeds, and leaves the first deferred directory untouched.",
+      "required": true,
+      "scenario": "safe-fresh-retry-after-deferred-cleanup",
+      "status": "verified",
+      "verificationPlan": "Use a first formal call that passes with deferred cleanup, then a second admitted formal call under current policy and exact command/source binding; compare attempt IDs, nonces, worktrees, results, and the old directory."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test collaboration_admission deferred_cleanup_retry_blocks_unbound_command_effects_before_verifier_spawn -- --exact; exit 0; output SHA256 d9129c80afd031bdaf04bd158401edef5440f07d417aae8c1d180d86d5e81006."
+      ],
+      "expected": "Unknown ownership, side effects, source/command binding, stale generation, or denied admission blocks a repeat before any verifier spawn and preserves existing data.",
+      "required": true,
+      "scenario": "unsafe-repeat-blocked-before-spawn",
+      "status": "verified",
+      "verificationPlan": "Inject each unsafe or unknown precondition; assert admission rejection, zero verifier spawns, preserved deferred path, and retained failure evidence."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --test composition process_group_backend_does_not_claim_linux_echild_proof -- --exact; exit 0; output SHA256 3621e1254bb8e13127d0021cfd68141e7b142dcb29e206eebbde223da75dde38. This Linux-hosted classifier test covers synthetic UnixProcessGroup and WindowsProcessGroup receipts; it is not an end-to-end non-Linux host run."
+      ],
+      "expected": "Backend-tagged supervisor receipt requirements do not break supported non-Linux composition behavior.",
+      "required": true,
+      "scenario": "non-linux-composition-compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the controlled non-Linux backend coverage and confirm Linux-only identity fields are not required outside Linux while shared execution/cleanup semantics remain coherent."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0; output SHA256 f4fd04945953312fc8915a05c6afd961517c09da73c5963e4fab9a3d01839418.",
+        "cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio -- --exact; exit 0; output SHA256 f862aa7f0d36094370319ff6f1ea3bb211d0ded7e9804c12359b8d27163c005c."
+      ],
+      "expected": "CLI and MCP use the exact Runtime helper identity and agree on attempt, execution, cleanup, and admission outcomes.",
+      "required": true,
+      "scenario": "cli-mcp-composition-helper-parity",
+      "status": "verified",
+      "verificationPlan": "Exercise the hidden CLI supervisor entry and MCP route with controlled helpers; compare serialized receipts/projections and assert PATH lookup is not used."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test lifecycle_order skipped_preflight_and_checkpoint_fail_closed -- --exact; exit 0; output SHA256 5af1810f6a98086b411ce3f1ccbe4ba5c4f498c488ee9c01e1cf25e86ac854a5.",
+        "cargo test --locked -p cockpit-cli --test verify checkpointed_snapshot_drift_rejects_verify_until_explicit_preflight_refresh -- --exact; exit 0; output SHA256 65639370616feda100b92c8c76481457158737ad3e3e9a03874143b7f86337be."
+      ],
+      "expected": "A composition result alone cannot finish WI-1068; a separate current-receipt verification and green preflight are required.",
+      "required": true,
+      "scenario": "finish-requires-independent-verify-and-preflight",
+      "status": "verified",
+      "verificationPlan": "Show finish remains inadmissible after composition alone, then bind independent current verify and green preflight evidence before the finish gate can admit."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage --test outcome_report; exit 0; usage 18/18 and outcome_report 17/17. Tests unknown_counts_remain_null_and_source_time_needs_trusted_provenance, usage_projection_is_visible_in_summary_and_full_in_three_languages, archived_unclosed_usage_updates_only_the_distinct_close_report; read-only no-receipt query remains unknown/null."
+      ],
+      "expected": "A recorded usage receipt is projected in Outcome; absent or incomplete data is displayed as unknown/partial and does not fail software verification.",
+      "required": true,
+      "scenario": "usage-present-absent-partial",
+      "status": "verified",
+      "verificationPlan": "Exercise explicit repository recording and every new finish/terminal TaskOutcomeReport projection with present, absent, nullable, and partial fields; no receipts must persist coverage unknown, null counts, and a reason rather than omit usage or write zero. Confirm query does not create a receipt and software verification is unchanged."
+    },
+    {
+      "evidence": [
+        "At source head d2f943d778aa014b9f983ce8b2cac3f96fb114f9, cargo test --locked -p cockpit-repository --test usage --test audit_query exited 0 (usage 19/19, audit_query 15/15). usage_matrix_keeps_model_role_phase_source_and_unknown_counts_distinct records provider/host/agent claims across two reported/configured models and two role/phase groups; exact totals keep missing input/cached counts null, cached/reasoning subsets are not added twice, and host label remains caller-claim assurance.",
+        "Unsupported cumulative unit deserialization rejects before append; the existing partial summary and three receipt refs remain unchanged rather than estimating a delta. Actual reported-model filtering selects only that model."
+      ],
+      "expected": "Different reported/configured models, sources, roles, and phases remain distinct; cached/reasoning subsets do not double count and unknown remains null.",
+      "required": true,
+      "scenario": "usage-multimodel-subset-accounting",
+      "status": "verified",
+      "verificationPlan": "Record multiple explicit invocation/turn units and assert exact per-dimension subtotals, subset bounds, no double counting, and partial coverage for non-differentiable cumulative data. Keep model-identity provenance separate from token-count provenance; caller-labeled provider/host and reportedModel remain self-declared unless a supported adapter independently verifies them."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage usage_is_idempotent_bound_and_does_not_double_count_subsets -- --exact; exit 0. Identical replay returns identical receipt; conflicting payload/source and cross-WI sourceEventId reject; prior summary retains one reference."
+      ],
+      "expected": "Replaying the same sourceEventID and identical payload is idempotent; a conflicting payload and cross-Work-Item event are rejected without changing prior receipts.",
+      "required": true,
+      "scenario": "usage-source-event-idempotency-conflict",
+      "status": "verified",
+      "verificationPlan": "Submit identical, conflicting, and cross-WI event IDs; compare append-only receipt bytes, sequence, and digest before and after each request."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage legacy_closed_report_without_usage_fields_remains_readable -- --exact; exit 0 at 05bb3c2f. Pre-feature-shaped report decodes; archived report bytes remain unchanged through close and read-only usage query; historical missing usage is unknown/null."
+      ],
+      "expected": "Pre-feature TaskOutcomeReport/archive records decode without usage and their archived bytes remain unchanged.",
+      "required": true,
+      "scenario": "usage-legacy-report-compatibility",
+      "status": "verified",
+      "verificationPlan": "Load existing report fixtures with no usage field, render them, and verify archive integrity and original byte digests."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test usage archived_unclosed_usage_updates_only_the_distinct_close_report -- --exact; exit 0. Finish and archive bytes remain frozen; later admitted usage is included only in separate close finalReport/cutoff; post-close append rejects."
+      ],
+      "expected": "Finish/close captures a bound cutoff and usage snapshot; no post-close mutation or retroactive archive edit occurs, and missing late data remains partial/unknown.",
+      "required": true,
+      "scenario": "usage-finish-close-cutoff",
+      "status": "verified",
+      "verificationPlan": "Record usage before finish and verify the frozen report cutoff and archive bytes. Record additional usage through current Runtime admission after archive but before close, and assert finish/archive digests remain unchanged while close creates a distinct finalReport referencing receipts received by its explicit close cutoff. Reject ordinary post-close recording; final reply or missing late data remains partial/unknown, never a complete total."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test usage; exit 0, 3/3. cli_and_mcp_record_have_identical_receipts_and_conflict_outcomes compares shared CLI/MCP service results. cargo test --locked -p cockpit-mcp --test usage; exit 0, 3/3."
+      ],
+      "expected": "CLI and MCP usage-record entry points share repository semantics and return equivalent receipt identities, digests, idempotency, and rejection outcomes.",
+      "required": true,
+      "scenario": "usage-cli-mcp-parity",
+      "status": "verified",
+      "verificationPlan": "Run paired CLI/MCP requests against the same repository service test fixture and compare normalized receipts and errors."
+    },
+    {
+      "evidence": [
+        "Source head 95fd1571a89f6425b4aebeedfc80c75a785c152d. cargo test --locked -p cockpit-repository --test audit_query --test outcome_report --test usage; exit 0, 15/15 + 17/17 + 19/19. terminal_lifecycle_events_come_from_each_successful_boundary checks four UTC occurredAt/recordedAt facts; lifecycle_query_uses_only_persisted_successful_transition_facts checks unended/historical unknown; tokyo_display_changes_only_labels_not_utc_facts_or_snapshot checks Asia/Tokyo IANA display and unchanged UTC/snapshot; unknown_counts_remain_null_and_source_time_needs_trusted_provenance rejects source time lacking trusted provenance/offset.",
+        "cargo test --locked -p cockpit-repository --lib lifecycle_; exit 0, 2/2. Injected UTC nanosecond samples distinguish same-second readings; wall_elapsed_includes_wait_and_rejects_clock_rollback yields 0 ms, 5000 ms, and None for rollback. Production start/finish/archive/close call lifecycle_now at the transition. cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity; exit 0, 6/6; shared CLI/MCP Asia/Tokyo lifecycle line names the zone, leaves unended terminal and elapsed unknown, and preserves UTC Summary bytes. Process execution elapsed uses Rust Instant in cockpit-verification and remains distinct from Work Item wall elapsed.",
+        "Repair candidate 22fb101533c302435b4307b32af377619d36eca8 with snapshot sha256:7c7a21796d026e04ed034c29f3ee7a7e693496703cfd478aab96fb1e676aa1f8. RED on locked chrono 0.4.45: -1 ns start/end rollback returned Some(0); GREEN after sign check before millisecond conversion. RED service injection test failed to compile without a service hook; GREEN repository --lib 70/70 runs real start, finish, archive, close using thread-local test-only UTC samples, checks persisted occurredAt/recordedAt and same-second positive/negative wall elapsed, plus closed Tokyo Outcome. RED mixed-generation Outcome test returned stale handoff; GREEN deterministic same-call mutation between initial guard and audit read fails unknown after full source/facts revalidation. Repository audit_query 15/15 and outcome_report 17/17, CLI Outcome 6/6 pass. No system TZ or production clock override."
+      ],
+      "expected": "Runtime start/finish/archive/close facts are separate UTC RFC3339 events with occurredAt/recordedAt and source refs; unfinished terminal times are null, historical missing values unknown, process duration monotonic, wall elapsed includes waiting, Tokyo rendering is explicit, and anomalies remain unknown.",
+      "required": true,
+      "scenario": "work-item-lifecycle-time-source-zone-and-duration",
+      "status": "verified",
+      "verificationPlan": "Drive lifecycle actions through the Runtime service with an injectable clock; assert successful-action timestamps and evidence bindings, legacy missing facts, external offset/source handling, Asia/Tokyo formatting via IANA data, monotonic process elapsedMs, and cross-host/clock-anomaly unknown behavior without changing host TZ."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test audit_query; exit 0, 14/14. terminal_lifecycle_events_come_from_each_successful_boundary asserts four persisted UTC transition facts and filtered export/query parity with digest refs; failed_finish_report_write_leaves_no_successful_finish_fact and stale cursor cases pass."
+      ],
+      "expected": "The existing AuditEvent/audit export and new typed query expose repository-bound start/finish/archive/close facts with timestamps, digests, refs, coverage, and cutoff; no second store is introduced.",
+      "required": true,
+      "scenario": "work-item-lifecycle-audit-query-export",
+      "status": "verified",
+      "verificationPlan": "Record and query lifecycle events using the same repository read service; test exact filters, page/cursor binding, source mutation to stale_cursor, exported references, and wall-clock labels."
+    },
+    {
+      "evidence": [
+        "At source head d2f943d778aa014b9f983ce8b2cac3f96fb114f9, cargo test --locked -p cockpit-repository --test audit_query exited 0 (15/15); combined_filters_cursor_and_page_totals_keep_unknown_coverage_explicit covers WI, inclusive from/exclusive to, reportedModel, actor, eventType, limit 1, cursor filter binding, limit 0/101 and invalid timezone/bounds, UTC asOf, source digest, receipt digests, page-only totals, and explicit known/unknown coverage. Nullable unknownCount wire round-trip is asserted; an unreadable source returns a closed error rather than an invented page count.",
+        "cargo test --locked -p cockpit-cli --test audit_query exited 0 (5/5); cli_and_mcp_share_combined_filters_and_bound_cursor_pages exercises both actual transports over two pages with the same combined filters, cursor, items, coverage, and snapshot digest. Existing source mutation tests reject stale_cursor, and historical missing recordedAt remains a coverage gap without time fallback."
+      ],
+      "expected": "CLI, MCP, and export share typed exact filters; UTC asOf/sourceSnapshotDigest, coverage/unknown, receipt refs, page-only usage totals, nextCursor, and stale_cursor behavior are consistent.",
+      "required": true,
+      "scenario": "audit-query-filter-pagination-snapshot",
+      "status": "verified",
+      "verificationPlan": "Query fixtures by Work Item, inclusive/exclusive RFC3339 bounds on Runtime recordedAt only, reported model, actor, and event; preserve other timestamp fields without fallback and mark unknown recordedAt coverage. Page with limit 1..=100 using stable eventID tie-break; assert returnedCount, truncated, nextCursor, nullable indeterminate unknownCount; mutate a source before the next cursor, compare CLI/MCP envelopes, and assert stale_cursor."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-cli --test audit_query unfiltered_export_accepts_existing_schema_one_bytes -- --exact; RED before fix exit 101 with different bytes; GREEN after fix exit 0. Pre-feature typed manifest bytes remain identical and --output idempotent. Entire CLI audit_query suite 4/4 including conflict and filtered envelope; repository filtered_export_reuses_query_page_and_legacy_export_remains_schema_one passes."
+      ],
+      "expected": "The existing no-filter audit export retains its schema-v1 wire shape and explicit local output behavior; filtered export uses the shared query envelope.",
+      "required": true,
+      "scenario": "audit-export-unfiltered-wire-compatibility",
+      "status": "verified",
+      "verificationPlan": "Compare no-filter export JSON and digest to a pre-feature fixture; verify identical --output is idempotent and conflicting bytes fail; then compare filtered CLI/MCP query results."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-repository --test archive_integrity audit_export_accepts_the_canonical_delegated_receipt_filename -- --exact; exit 0. Existing writer filename parsed to actual WI; digest-mismatched filename rejects. Shared query invokes legacy reader; delegated_cursor_binds_actual_raw_bytes_on_every_page passes."
+      ],
+      "expected": "A receipt stored as `{workItemId}.{digest}.delegated.json` is attributed to the parsed repository-bound Work Item ID; mismatched path/receipt binding fails closed.",
+      "required": true,
+      "scenario": "audit-delegated-receipt-filename-binding",
+      "status": "verified",
+      "verificationPlan": "Create the valid receipt using the existing writer, feed it to the same shared audit reader used by export/query, assert the event has exactly receipt.workItemId, then alter the path or receipt identity and assert rejection. Apply only the minimal source fix if the first case is RED."
+    },
+    {
+      "evidence": [
+        "Source head 95fd1571a89f6425b4aebeedfc80c75a785c152d. cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity; exit 0, 6/6. public_help_localized_tables_and_mcp_discovery_include_timezone_without_hidden_helper executes top-level/group/leaf help, checks EN/ZH/JA command/MCP references, actual MCP initialize/tools/list and timezone schema, and rejects public supervisor exposure. cargo test --locked -p cockpit-protocol --test interface_description; exit 0, 15/15, including generated reference/schema parity.",
+        "cargo test --locked -p cockpit-cli --test usage --test audit_query; exit 0, 3/3 + 5/5, usage record/audit query/export help and CLI/MCP parity. cargo test --locked -p cockpit-mcp --test usage --test rpc; exit 0, 3/3 + 38/38, native tool discovery and schemas. AI_COCKPIT_INTERFACE_DESCRIPTION_BIN=/workspace/ai-cockpit/target/debug/ai-cockpit python3 scripts/generate_interface_references.py --repo /workspace/ai-cockpit --check; exit 0. cargo test --locked -p cockpit-cli --test collaboration_scenario_matrix cli_and_mcp_composition_share_exact_runtime_supervisor_and_outcomes -- --exact; exit 0, 1/1; internal supervisor route stays exercised.",
+        "Repair candidate 22fb101533c302435b4307b32af377619d36eca8. RED public CLI descriptor lookup for display-timezone; GREEN after parameter.name derives actual Clap get_long rather than Arg.id. CLI Outcome 6/6 checks each descriptor flag and description against actual work-item outcome --help plus three-language tables, real MCP initialize/tools/list and hidden helper absence. Protocol interface 15/15 matches every public long parameter to actual parser; generated three-language reference --check exit 0; MCP rpc 38/38, CLI audit 5/5, repository audit 15/15. Internal supervisor focused route was exercised on prior same production logic.",
+        "Final CLI bin test correction at source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8. cargo test --locked -p cockpit-cli --bin ai-cockpit outcome_description_facts_match_clap_arguments was RED exit 101: descriptor display-timezone did not match Clap Arg.id display_timezone. After matching the actual public get_long and asserting canonical displayTimezone/CLI display-timezone binding, cargo test --locked -p cockpit-cli --bin ai-cockpit exited 0, 23/23 including the corrected test. This supplements prior integration 6/6 and protocol 15/15; no full workspace run was started."
+      ],
+      "expected": "Rust Runtime CLI help, three-language command/MCP tables, MCP initialize/tools/list, and schemas expose usage record, audit query, and filtered export completely while the supervisor helper remains hidden.",
+      "required": true,
+      "scenario": "runtime-native-usage-audit-public-surface",
+      "status": "verified",
+      "verificationPlan": "Run top-level, group, leaf, and parameter help snapshots; compare English/Simplified Chinese/Japanese command and MCP tables with actual CLI parser and tools/list; assert __composition-supervisor is absent publicly and the existing internal test route remains callable."
+    },
+    {
+      "evidence": [
+        "Independent Linux acceptance at candidate 05bb3c2ff86baff492643354eb3ace6cd37cf883; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; pre-controls snapshot sha256:a893c432a22434402baac536fd54f5b2958bda900f6c81f73360165972c101fb; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b1320b947e8431771cb982df99e43880ac16c058d21c57c3e2792c1daed09361; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.61s\n\n",
+        "cargo test --locked -p cockpit-verification --lib process_group -- --nocapture; exit 0, 15/15 covering zombie-only, live/mixed, identity changes, proc read/parse/permission/race/budget and attempt-digest change. Older failed receipts were not removed. Non-Linux host execution remains unrun.",
+        "Independent Linux acceptance rerun after S17/S24 test-source changes: candidate head 5435a3d70138df74cb5c288b3005faa0738a1fd4; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:2b346e8d666a6d3638be440b86f8738f77bcedaa48ea20785df9415d38108559; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:8299f02024552e8eedded50b3bb46ef1c3feea457ef93ca537e18498759e357e; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.63s\n\n",
+        "Independent Linux acceptance on source head 95fd1571a89f6425b4aebeedfc80c75a785c152d; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; repository snapshot sha256:e26fd3e9c7a45cccfb073641f3820924a911dc1faec97a7072041542df4ff470; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:b93a1c9397ad193101b58bfbddec8aca0d10a36e1ae5f4122d882bd5deb7361c; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.14s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.60s\n\n",
+        "Independent Linux regression at source head 22fb101533c302435b4307b32af377619d36eca8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:7c7a21796d026e04ed034c29f3ee7a7e693496703cfd478aab96fb1e676aa1f8; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:fc952c948d674900df8c5bf5f16dc651ef8436b7c9034311f7bd973749ab8c98; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit/crates/cockpit-verification)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.26s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n",
+        "Independent Linux regression at source head 06e16bba0ab22d77e49bdc8cd23d2d7c27a4dac8; Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726; snapshot sha256:a58e27e3d58d708f3a097ad8aa7fb1e5d1414ace2fe9fee109d1bb2061a604a2; command cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:3dc681181c569af5531e17efac18de3a66de622d625078e1e199706aa81e4731; exact output:\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s\n     Running tests/composition.rs (target/debug/deps/composition-09d506c697fa6381)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.72s\n\n",
+        "Current cloud Linux x86_64 A11 independent regression; candidate head 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; Contract sha256:7cc746aa21a101c849e31a7429527269815789a74e3a6d48d4ca3cbab4478113; repository snapshot sha256:cf496b99ebf7b679b51c408e88784955f0e53416dab325b2bc92d06f379cda3f; command: cargo test --locked -p cockpit-verification --test composition retry_reconciles_zombie_only_verifier_process_group -- --exact --nocapture; exit 0; output SHA256 sha256:e0c8a9dce0cf0a2a218488eeac9fbd0090a640600a18d0d95cb37ddfb5ce77c3; raw output captured at /tmp/WI-1068-A11-4c31bdf.log; exact output:\n   Compiling cockpit-verification v1.0.1 (/workspace/wi1068-pr1022/crates/cockpit-verification)\n    Finished `test` profile [unoptimized] target(s) in 5.86s\n     Running tests/composition.rs (/workspace/.wi1068-target-7c37f5f/debug/deps/composition-9b8b18e520d84dfb)\n\nrunning 1 test\n\nrunning 1 test\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.00s\n\ntest retry_reconciles_zombie_only_verifier_process_group ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 48 filtered out; finished in 0.31s\n\n"
+      ],
+      "expected": "The existing Linux-only zombie group fix passes its independent targeted regression; live/mixed groups and procfs uncertainty remain fail-closed; no non-Linux behavior changes and older failure receipts remain intact.",
+      "required": true,
+      "scenario": "linux-zombie-only-process-group-regression",
+      "status": "verified",
+      "verificationPlan": "Use the exact independent command declared by A11, bind exit code/output to exact candidate and Contract/snapshot digests, separately run the unique workspace declaration only when formally admitted, and preserve all existing red evidence."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --lib external_observer_deferred_tests -- --nocapture; exit 0, 7/7. Passed and failed exact execution remain represented after injected cleanup observer error; missing/coherence-invalid owned proof remains unknown and retained. cargo test --locked -p cockpit-repository --test collaboration_admission external_observer_error_allows_only_a_fresh_safe_formal_retry -- --exact; exit 0."
+      ],
+      "expected": "When exact command result and owned-tree ECHILD termination are durable, an external `/proc/<pid>/cwd` observer error yields deferred cleanup and retained directory/registration without changing execution passed/failed or evidence completeness.",
+      "required": true,
+      "scenario": "composition-observer-error-preserves-execution",
+      "status": "verified",
+      "verificationPlan": "Inject observer Err at the narrow cleanup-decision seam in `run_composition_inner`; assert exact execution outcome/completeness, deferred disposition, and untouched worktree plus registration. Also assert missing owner/reap proof remains unknown and retained."
+    },
+    {
+      "evidence": [
+        "cargo test --locked -p cockpit-verification --lib external_observer_deferred_tests -- --nocapture; exit 0, 7/7 including fresh no-op, active/unsafe rejection, and unknown owned proof. cargo test --locked -p cockpit-repository --test collaboration_admission external_observer_error_allows_only_a_fresh_safe_formal_retry -- --exact; exit 0; second formal call uses fresh nonce/worktree and preserves old registration."
+      ],
+      "expected": "With a current protected no-op policy and prior owned termination proof, a fresh admitted composition can retry after external observation uncertainty without deleting or reusing the old path; active/unknown owned tree remains blocked.",
+      "required": true,
+      "scenario": "safe-noop-retry-after-observer-unknown",
+      "status": "verified",
+      "verificationPlan": "Call `run_admitted_composition` twice under the current safe no-op strategy; first call records completed execution plus deferred cleanup under injected observer Err, second receives fresh attempt/nonce/worktree, reuses no result, preserves old directory, and succeeds. Add denied/active/unknown-owned-tree cases asserting zero second verifier spawns. Keep this distinct from `repeated_exact_composition_reuses_only_when_inputs_are_observable` and `node_without_observable_inputs_executes_again_instead_of_reusing`."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.22e2e0f5d21a0815255bfc85cbf43bb4b9526ad72439dfd0bb5dbbda4b9b4c84.json sha256:4b0f9bed0759d9c3fc033dc2f1297ed7e80df34ceb01ee384e3511f4e941f9c5",
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10.json sha256:228353ab69801d3cf288b06ad166b4caa6789546a18d5f25e056b959ab42486c"
+      ],
+      "expected": "The verification package self dev-dependency enables typed KnownEmpty only for selected pure cache/dependency test fixtures, while ordinary default-feature CLI/MCP debug and release artifacts omit the interface and real safety observation remains authoritative.",
+      "required": true,
+      "scenario": "composition-test-support-feature-isolation",
+      "status": "verified",
+      "verificationPlan": "Run single-package and unique workspace tests plus actual default debug/release CLI/MCP builds and a default-feature external compile-negative check; independently run Linux safety and cache invalidation regressions, and record workspace test feature unification accurately."
+    },
+    {
+      "evidence": [
+        "Partial local Linux evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; scenario remains unverified pending candidate-specific acceptance.",
+        "Partial current-source evidence only: the cockpit-repository node in Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed; its material_review integration suite reported 39 passed, including adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality, binary_rust_material_is_unknown_but_not_reviewable, finding_is_never_reviewable, committed_symlink_refuses_request, unreadable_committed_source_refuses_request, changed_file_count_budget_rejects_before_material_scan, and request_binds_each_distinct_blocking_finding_category. Captured stdout is explicitly truncated at 65,536 bytes in the receipt. Test file sha256:e364b2882f0be899bb0c999ba893a15d8a8277d2bda5d372be02d9a451318e14 is unchanged from tested head 77cff103 to 1e7c10c5. This does not establish every composed/dynamic/provenance-invalid projection; status stays unverified.",
+        "Exact candidate evidence at c32746c9fe1651e81e9c97323660397abeb6526b: material plan request sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 has 121 entries, 15 reviewable readable committed Rust syntax Unknowns, raw code repository_material_inspection_unavailable, and 0 Findings (plan SHA256 c63fac8cea70aa7921cac50bf4216a951f54f7e01cb8c7ed0aa5eb72b7afcd5b). `cargo test --locked -p cockpit-repository --test material_review --test ci_quality_gate` passed 41/41 and 28/28. The Runtime full-workspace receipt .ai/evidence/WI-1068-v1-0-1-stable-release.verification.json (file sha256:5573c8a5875c5d964b193468221f9b256bc921aeb7144e9a5ccfc274df99aba3) reports 1 node, exit 0, 1,563 passed, 0 failed, 1 ignored, and no stdout/stderr truncation. Evidence is candidate-bound; unexercised combinations remain unverified.",
+        "At exact source candidate 884cdef241cdcfa0fc477a0f8a8abd63321ff244, Runtime 1.0.1 plan request sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 covers 121 entries: raw repository_material_inspection_unavailable remains Unknown, 15 complete readable provenance-valid Rust syntax Unknowns are reviewable, and there are 0 Findings. The current 41/41 material_review suite covers dynamic second Unknown membership (no fixed count), Finding/binary/unreadable/symlink/budget/provenance boundaries, and typed diagnostics. Current 28/28 ci_quality_gate covers additional Unknown and forged-green blocking. Full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed 1,563/0/1 with no output truncation. The earlier seven-Unknown wording is not treated as a fixed-cardinality rule; the Contract test plan explicitly adds a second Unknown path."
+      ],
+      "expected": "The current seven candidate Rust Unknowns remain raw Unknown; only complete readable provenance-valid syntax Unknowns are reviewable, while Finding and non-reviewable Unknown remain blocking.",
+      "required": true,
+      "scenario": "material-review-raw-and-reviewable-boundary",
+      "status": "verified",
+      "verificationPlan": "Use typed per-file scanner diagnostics and adversarial fixture cases for direct/composed Finding, dynamic syntax Unknown, unreadable/symlink/truncated/budget/provenance-invalid input, and a new second Unknown path; compare raw and effective projections."
+    },
+    {
+      "evidence": [
+        "Local plan/test evidence: plan JSON sha256:13bd57a95dc8a57eef40302c13014087736727ad1bd3d659e5936eb768d43de8; requestDigest sha256:94811485f595d564444d5c2eacf9e3bad768d05f79fe56ed771e055c6e57f090; reviewedSourceHead 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; sourceSnapshotDigest sha256:8d00e542e4feb8e948a0e9d6ddbd34fa1d963695bd891c9b8662b9e13394121a; materialManifestDigest sha256:9700d855ca43c21d8a34a0aad1da1fe86f778f12165bb9834e18808cec0d803b; analysisImplementationDigest sha256:ea269472ea5eba00927094bce35a4ba101f28cecffb22afb7bcdd8c5174dfac3; effectivePolicyDigest sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b; rawUnknownCodes=['repository_material_inspection_unavailable']; findingCodes=[]; reviewEnabled=False. cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; hosted binary comparison not run; scenario remains unverified.",
+        "Partial evidence only: the 39-test repository suite passed, including implementation_digest_is_build_independent_and_source_sensitive, committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent, ai_only_descendant_retains_request_identity_but_source_change_stales_it, and non_ancestor_rebase_cannot_become_a_canonical_request. Hosted CI run 37948082699 also passed the Rust Contract gate and consumed review receipt sha256:0b712bc1dcf25de54fbce51cae93f9c77d2e67e7b07416330648b7ddc708b882; CI reported reviewAssurance=self_declared, hosted Runtime sha256:5327a38654a622fe5cc2cc266a1aa08c9db3de031a7373d86cbe606387e366f0, and the reviewed material manifest. This is not a new Raydot decision or human approval; comparison-base mutation, same-version analyzer change, cfg/features mismatch, and full cross-environment rejection matrix remain unverified.",
+        "At exact candidate c32746c9fe1651e81e9c97323660397abeb6526b, material plan request d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 remains the same across receipt-only .ai commits; source snapshot is sha256:9a1932215579bb6995ad1e8804a5e405aae332f4731cdc88054f466d237c845f and manifest is sha256:35d46a192461f2e6615a61e0ad66f91b8e493d0df4f4c1b75d1b0879c4e49dd3. `old_material_decision_is_stale_after_analysis_or_policy_identity_changes` proves a correctly rebound current decision validates and the old input fails after analysis implementation, target semantic profile, or effective policy identity changes. The targeted suite passed 41/41; full workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed. This is not a hosted-binary cross-environment comparison and does not claim origin-single-field isolation; scenario remains unverified.",
+        "Current d331 request binds source snapshot sha256:9a1932215579bb6995ad1e8804a5e405aae332f4731cdc88054f466d237c845f, manifest sha256:35d46a192461f2e6615a61e0ad66f91b8e493d0df4f4c1b75d1b0879c4e49dd3, and analysis implementation sha256:9b143ca0ea389d934c1e83a71a920a2a651b3fc6c4c89e0665c976593f5d4538. Material-review tests cover build-independent/source-sensitive analyzer identity, stale same-version/source/policy identity, clean committed-source vs dirty source, .ai-only descendant identity retention, and non-ancestor refusal; quality-gate tests cover differing comparison base, extra comparison-base Unknown/Finding, and unreviewable scope. GitHub Actions run 38024102103 on exact source head 884cdef has passed hosted candidate Runtime verification and the Rust Contract-aware gate; run and artifact evidence are under https://github.com/xinglun/ai-cockpit/actions/runs/38024102103. It is a hosted candidate run over the exact reviewed material; no origin-single-field isolation or repeated combination matrix is claimed."
+      ],
+      "expected": "A committed clean-source Contract-base material manifest and scanner implementation digest bind the review; matching source on Linux and hosted binaries with different SHA and legitimate .ai-only or tested-merge heads may reuse it, while changed scanner source with the same semantic version, target semantics, policy, diff or source cannot.",
+      "required": true,
+      "scenario": "material-review-canonical-context-and-cross-environment",
+      "status": "verified",
+      "verificationPlan": "Exercise local and hosted binary identity differences with identical embedded analysis source digest and canonical material; test comparison-base-specific extra Unknown/Finding/scope, source dirty, same-version scanner change, cfg/features mismatch, ancestry and non-ancestor rebase refusal."
+    },
+    {
+      "evidence": [
+        "Local stage-one and typed-writer regression evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; cargo test --locked -p cockpit-repository --test contract_amendment material_review_profile_amendment_adds_audited_protected_guard -- --exact --nocapture; 1 passed, 0 failed; log sha256:d5eaab9d279b1f376a8c39392b7e6253ab463c3e5461a0c92b571d44de061f95; cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09. No actual human Contract review/approval is represented; scenario remains unverified.",
+        "Partial current-source evidence only: repository material_review tests passed 39/39, including admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer, material_review_decision_types_reject_unknown_fields_and_receipt_tampering, material_review_decision_validator_rejects_stale_input_and_tampered_request, material_review_decision_validator_rejects_findings_and_extra_unknowns, material_review_decision_validator_rejects_unapproved_profile_actor, and material_review_decision_validator_rejects_wrong_authority_source. CLI and MCP stage-one record tests also passed. No human Contract approval or new typed Raydot decision is claimed; exact human-review freshness and replay matrix remains outstanding, so status stays unverified.",
+        "Runtime 1.0.1 recorded exact request d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 as agent:Raydot / self_declared; receipt is .ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51.json, receiptDigest sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1. The targeted material-review suite passed 41/41, including exact summary-pointer and sidecar-integrity coverage; full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed. This is delegated technical review, not a human Contract approval; broader replay/identity cases remain outside this evidence, so scenario remains unverified.",
+        "Two-stage governance is recorded: stage-one Contract amendment sequence 15 keeps materialInspectionReview absent and discharge disabled; the corresponding exact Contract human-review record is .ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.6eb3f832a6b3eb04994265c823abbc9a9b6a80d48789b94b199503336ef6f4da.json (Contract sha256:9342ea403d3d306e83d3d15744de11a659765f04ed2cc263a39ce9e943c5214a). Stage two typed amendment sequence 19 adds strict opt-in and protected capability; explicit approval receipt .ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.d2eb8832a1fe31c0c06cdaa3fe64385d5e2c0aac7d1ca0ece6597970325b2af5.json binds prospective Contract sha256:fb36d615bc52fdfab044458bf1a2cdd9465378372eb1288cfd12dedfe7ce2c61; current Contract review receipt .ai/decisions/WI-1068-v1-0-1-stable-release.preflight-review.1af5a6daa529b14a5f9aaf73dfb0d4a162fb60a7cf065f844b40ad465cb479cf.json binds current Contract sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3. Runtime typed material-review decision d331 has receiptDigest sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1. Current 41/41 suite covers strict type/actor/cause/authority, stale request/policy, exact summary pointer and intact sidecar validation, tamper, stale/replay, and writer idempotence. The Raydot receipt is agent self_declared technical review; these records do not assert a GitHub PR review or provider-authenticated human identity."
+      ],
+      "expected": "Stage one uses the old Runtime to authorize implementation while materialInspectionReview is absent and discharge disabled. Stage two uses the new Runtime typed amendment writer to install strict Contract.governanceProfile.materialInspectionReview opt-in and automatically add protected requiredRuntimeCapabilities=material-inspection-review. Old Runtime rejects the guarded Contract; only exact Contract review, fresh source preflight, delegated Raydot exact-source technical review and intact sidecar/summary binding allow discharge.",
+      "required": true,
+      "scenario": "material-review-authorization-and-receipt-integrity",
+      "status": "verified",
+      "verificationPlan": "Prove old Runtime preserves governanceProfile JSON but cannot add protected unsupported capability; prove stage-one candidate has no material opt-in and old local green grants no release authority. Prove new writer adds marker only with strict opt-in, rejects malformed/unknown nested fields and mismatched actor/cause/assurance, and old Runtime rejects the amended Contract. Test two separate exact Contract review receipts, source freshness, reviewer evidence, sidecar wrong-pointer/truncation/replay and same tuple idempotence."
+    },
+    {
+      "evidence": [
+        "Local Linux gate evidence: cargo test --locked -p cockpit-repository --test status_projection status_rechecks_committed_contract_base_material_with_empty_worktree_diff -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:e6a8052c7fbdaf6d3ed122b98f9837916a4ddd939d96c6fa642fbb3976504b53; cargo test --locked -p cockpit-repository --test ci_quality_gate report_validator_rejects_self_reported_green_over_material_unknown -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:a3d9570268b062af42f99bdd2c8bb6faa6e0c3fd6c55bc8b2bc0aff560fde50d; cargo test --locked -p cockpit-cli --test ci_gate gate_report_cli_validates_repository_bound_report -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:b3d4445dadaec939c9170c5fd54d6c2decbedb2846ec2190ff28b096b08720dc. Hosted comparison remains unrun; scenario remains unverified.",
+        "Partial current-source evidence only: Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed package nodes, including status_rechecks_committed_contract_base_material_with_empty_worktree_diff, report_validator_rejects_self_reported_green_over_material_unknown, and gate_report_cli_validates_repository_bound_report. Hosted Contract gate was green but the same CI run then failed only at docs_governance_integrity, so downstream gates were blocked; review assurance remained self_declared. Binding-mutation and complete consumer matrix remains outstanding, so status stays unverified.",
+        "The targeted quality-gate suite passed 28/28: `quality_gate_discharges_exact_reviewed_material_across_different_comparison_base` confirms a valid receipt discharges only the canonical reviewed material while raw scanner Unknown is present; `report_validator_rejects_self_reported_green_with_an_extra_material_unknown` preserves a second unreviewed Unknown and rejects forged green; `valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verification` persists a false attempt, rejects its completion recording, keeps finish blocked, and rejects archive under a different Runtime binding. Full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed with no output truncation. These exact cases do not exhaust every consumer/binding mutation; scenario remains unverified.",
+        "Current 28/28 ci_quality_gate suite covers status recomputation, exact reviewed material discharge, second Unknown, changed comparison base, stale/tampered receipt, forged-green report rejection, and failed verification/stale archive preservation; the 41/41 material_review suite and full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 pass. GitHub Actions run 38024102103 on exact source head 884cdef passed hosted Work Item verification and Rust Contract-aware quality gate (exact run: https://github.com/xinglun/ai-cockpit/actions/runs/38024102103). Raw scanner Unknown remains in output; only the exact reviewable material is discharged, and additional Unknown/Finding/failed or stale verification continues to block."
+      ],
+      "expected": "Status, preflight, finish/archive, quality gate and report validator recompute the same canonical committed material even when local changedPaths is empty; only exactly reviewed inspection Unknown can be discharged. Raw scanner result remains visible and forged green report fails.",
+      "required": true,
+      "scenario": "material-review-unified-gate-and-report-validation",
+      "status": "verified",
+      "verificationPlan": "Test every consumer with a clean committed branch and reviewed receipt; mutate one binding at a time; assert raw/effective/report digests and assurance; assert Finding, scope/test weakening, failed/stale verification, additional hosted Unknown/Finding and other Unknown remain blocking."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10b.json sha256:f33424192f14ff1dc57a58679a26606785cc774309fec25be597a981ee139545",
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.acceptance-supplement.2026-10-10.json sha256:228353ab69801d3cf288b06ad166b4caa6789546a18d5f25e056b959ab42486c"
+      ],
+      "expected": "CLI/MCP plan and record use the same repository service; help, schemas, ordinary guide and three-language trust/command/contract-field docs disclose self_declared identity risk and never call review machine Clean, human/provider approval, or release acceptance.",
+      "required": true,
+      "scenario": "material-review-discovery-and-trilingual-boundary",
+      "status": "verified",
+      "verificationPlan": "Assert CLI top-level/group/leaf/parameter help, MCP initialize/tools/list/requests, docs key claims and receipt output; preserve hidden helper secrecy and existing usage/audit/timezone guide corrections."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T05:00:02.486509067Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

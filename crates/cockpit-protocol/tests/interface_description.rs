@@ -17,6 +17,103 @@ use cockpit_protocol::{
 use serde_json::json;
 use std::collections::BTreeSet;
 
+#[test]
+fn usage_record_description_projects_both_transports_and_capability_surface() {
+    let description = cockpit_protocol::work_item_usage_record_interface_description();
+    assert_eq!(
+        description.name,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_SURFACE
+    );
+    let cli = surface(&description, "cli");
+    let input = parameter(cli, "input");
+    assert!(input.required);
+    assert_eq!(
+        input.description,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_INPUT_DESCRIPTION
+    );
+    let mcp = surface(&description, "mcp");
+    let request = parameter(mcp, "request");
+    assert_eq!(request.wire_type, "object");
+    assert_eq!(
+        request.description,
+        cockpit_protocol::WORK_ITEM_USAGE_RECORD_REQUEST_DESCRIPTION
+    );
+    let schema = cockpit_protocol::usage::usage_record_request_schema();
+    assert_eq!(schema["description"], request.description);
+    let surfaces =
+        cockpit_protocol::capability_show_parameter_spec("surface").expect("surface parameter");
+    assert!(surfaces.enum_values.contains(&description.name.as_str()));
+    let markdown = render_interface_description_markdown(&description, "zh");
+    assert!(markdown.contains("AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-usage-record"));
+}
+
+#[test]
+fn material_review_plan_interface_is_discoverable_and_read_only() {
+    let description =
+        cockpit_protocol::interface_description_for_surface("work-item-material-review-plan")
+            .expect("material review plan capability surface");
+    assert_eq!(description.name, "work-item-material-review-plan");
+    let cli = surface(&description, "cli");
+    assert!(parameter(cli, "repo").required);
+    assert!(parameter(cli, "id").required);
+    let mcp = surface(&description, "mcp");
+    assert!(parameter(mcp, "workItemId").required);
+    assert!(cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.contains(&description.name.as_str()));
+    assert!(
+        render_interface_description_markdown(&description, "zh")
+            .contains("work-item-material-review-plan")
+    );
+}
+
+#[test]
+fn material_review_record_interface_discloses_cli_and_mcp_decision_boundaries() {
+    let description =
+        cockpit_protocol::interface_description_for_surface("work-item-material-review-record")
+            .expect("material review record capability surface");
+    assert_eq!(description.name, "work-item-material-review-record");
+    let cli = surface(&description, "cli");
+    assert!(parameter(cli, "repo").required);
+    assert!(parameter(cli, "id").required);
+    assert!(parameter(cli, "input").required);
+    let mcp = surface(&description, "mcp");
+    assert!(parameter(mcp, "workItemId").required);
+    assert!(parameter(mcp, "decision").required);
+    assert!(
+        description
+            .surfaces
+            .iter()
+            .flat_map(|surface| &surface.parameters)
+            .any(|parameter| parameter.description.contains("self-declared"))
+    );
+    assert!(cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES.contains(&description.name.as_str()));
+}
+
+#[test]
+fn audit_descriptions_bind_cli_and_mcp_filter_names() {
+    let query =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_QUERY_SURFACE)
+            .expect("audit query surface");
+    assert_eq!(query.name, "audit-query");
+    assert!(parameter(surface(&query, "cli"), "repo").required);
+    assert!(!parameter(surface(&query, "cli"), "display-timezone").required);
+    assert_eq!(
+        parameter(surface(&query, "mcp"), "displayTimezone").wire_type,
+        "string"
+    );
+    assert_eq!(
+        parameter(surface(&query, "mcp"), "limit").wire_type,
+        "integer"
+    );
+    let export =
+        cockpit_protocol::interface_description_for_surface(cockpit_protocol::AUDIT_EXPORT_SURFACE)
+            .expect("audit export surface");
+    assert_eq!(export.surfaces.len(), 1);
+    assert!(!parameter(surface(&export, "cli"), "output").required);
+    let surfaces = cockpit_protocol::CAPABILITY_SHOW_SURFACE_VALUES;
+    assert!(surfaces.contains(&cockpit_protocol::AUDIT_QUERY_SURFACE));
+    assert!(surfaces.contains(&cockpit_protocol::AUDIT_EXPORT_SURFACE));
+}
+
 fn surface<'a>(
     description: &'a cockpit_protocol::InterfaceDescription,
     name: &str,
@@ -48,7 +145,7 @@ fn cli_description_is_extracted_from_the_shared_outcome_query_parser() {
     for parameter in &cli.parameters {
         let argument = command
             .get_arguments()
-            .find(|argument| argument.get_id().as_str() == parameter.name)
+            .find(|argument| argument.get_long() == Some(parameter.name.as_str()))
             .unwrap_or_else(|| panic!("missing parser argument {}", parameter.name));
         assert_eq!(
             argument.is_required_set(),
@@ -145,12 +242,14 @@ fn outcome_description_has_stable_shared_facts() {
     assert_eq!(cli_specs[2].name, WORK_ITEM_OUTCOME_CLI_JSON);
     assert_eq!(cli_specs[3].name, WORK_ITEM_OUTCOME_CLI_VIEW);
     assert_eq!(cli_specs[4].name, WORK_ITEM_OUTCOME_CLI_LANGUAGE);
+    assert_eq!(cli_specs[5].canonical_name, "displayTimezone");
     let mcp_specs = work_item_outcome_interface_specs("mcp").expect("MCP specs");
     assert_eq!(mcp_specs[0].name, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID);
     assert_eq!(mcp_specs[1].name, WORK_ITEM_OUTCOME_MCP_LANGUAGE);
     assert_eq!(mcp_specs[2].name, WORK_ITEM_OUTCOME_MCP_VIEW);
-    assert_eq!(mcp_specs[3].name, WORK_ITEM_OUTCOME_MCP_DELIVERY);
-    assert_eq!(mcp_specs[4].name, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS);
+    assert_eq!(mcp_specs[3].name, "displayTimezone");
+    assert_eq!(mcp_specs[4].name, WORK_ITEM_OUTCOME_MCP_DELIVERY);
+    assert_eq!(mcp_specs[5].name, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS);
 
     let cli = surface(&description, "cli");
     let view = parameter(cli, "view");
@@ -260,6 +359,7 @@ fn mcp_request_schema_and_discovery_share_the_same_parameter_projection() {
             "workItemId",
             "language",
             "view",
+            "displayTimezone",
             "delivery",
             "deliveryProgress"
         ]
@@ -301,7 +401,7 @@ fn transport_specs_reuse_the_shared_query_parser_facts() {
                     .expect("shared CLI parser binding");
             let argument = command
                 .get_arguments()
-                .find(|argument| argument.get_id().as_str() == cli_spec.name)
+                .find(|argument| argument.get_long() == Some(cli_spec.name.as_str()))
                 .unwrap_or_else(|| panic!("missing parser argument {}", cli_spec.name));
             assert_eq!(
                 spec.default.as_deref(),
@@ -361,6 +461,10 @@ fn cli_and_mcp_share_common_outcome_parameter_facts() {
             "{name}"
         );
     }
+    let cli_timezone = parameter(cli, "display-timezone");
+    let mcp_timezone = parameter(mcp, "displayTimezone");
+    assert_eq!(cli_timezone.wire_type, mcp_timezone.wire_type);
+    assert_eq!(cli_timezone.description, mcp_timezone.description);
 }
 
 #[test]

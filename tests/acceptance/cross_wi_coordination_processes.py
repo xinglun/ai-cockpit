@@ -10,6 +10,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -111,6 +112,98 @@ def digest_json(value: object) -> str:
     # Runtime digests serde_json::Value, whose object keys serialize in sorted
     # order; match its compact byte representation.
     return digest_bytes(json.dumps(value, sort_keys=True, separators=(",", ":")).encode())
+
+
+def execution_records_digest(records: list[dict]) -> str:
+    # CompositionExecutionRecord is a typed serde struct, so its fields use
+    # declaration order rather than serde_json::Value's sorted-key order.
+    fields = (
+        "nodeId",
+        "program",
+        "args",
+        "identityDigest",
+        "spawned",
+        "reused",
+        "passed",
+        "exitCode",
+        "terminationSignal",
+        "stdout",
+        "stderr",
+        "outputDigest",
+        "timedOut",
+        "predecessorAttemptId",
+    )
+
+    def compact(value: object) -> str:
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+    serialized_records = []
+    for record in records:
+        assert set(record).issubset(fields), record
+        serialized_records.append(
+            "{"
+            + ",".join(
+                f"{compact(field)}:{compact(record[field])}"
+                for field in fields
+                if field in record
+            )
+            + "}"
+        )
+    return digest_bytes(("[" + ",".join(serialized_records) + "]").encode())
+
+
+def assert_successful_composition_result(
+    result: dict,
+    runtime: dict,
+    *,
+    expected_generation: int,
+) -> None:
+    assert result["schemaVersion"] == 3, result
+    assert result["passed"] is True, result
+    assert result["failure"] is None, result
+    assert result["executionOutcome"] == "passed", result
+    assert result["executionEvidenceComplete"] is True, result
+    assert result["cleanupDisposition"] == "cleaned", result
+    cleanup = result["cleanup"]
+    assert cleanup["attempted"] is True, result
+    assert cleanup["removed"] is True, result
+    assert cleanup["error"] is None, result
+    assert result["executionRecords"], result
+    assert all(
+        record["passed"] is True for record in result["executionRecords"]
+    ), result
+
+    binding = result["binding"]
+    assert binding["schemaVersion"] == 1, binding
+    verifier = binding["verifier"]
+    receipt = result["supervisorReceipt"]
+    assert isinstance(receipt, dict), result
+    assert receipt["schemaVersion"] == 1, receipt
+    assert receipt["attemptId"] == result["attemptId"], result
+    assert receipt["runNonce"], receipt
+    assert receipt["generation"] == expected_generation, receipt
+    assert (
+        receipt["runtimeVersion"]
+        == runtime["runtimeVersion"]
+        == verifier["runtimeVersion"]
+    ), receipt
+    assert (
+        receipt["runtimeDigest"]
+        == runtime["runtimeDigest"]
+        == verifier["runtimeDigest"]
+    ), receipt
+    assert receipt["repositoryId"] == binding["repositoryId"], receipt
+    assert receipt["targetSha"] == binding["targetSha"], receipt
+    assert receipt["commandPlanDigest"] == result["identity"]["commandDigest"], receipt
+    assert receipt["executionRecordsDigest"] == execution_records_digest(
+        result["executionRecords"]
+    ), receipt
+    assert receipt["supervisor"]["processId"] == result["ownerPid"], receipt
+
+    if sys.platform == "linux":
+        assert receipt["backend"] == "linux_subreaper", receipt
+        assert receipt["descendantsReapedToEchild"] is True, receipt
+        assert receipt["linuxBootId"], receipt
 
 
 def contract_digest(path: Path) -> str:
@@ -741,7 +834,10 @@ def main() -> None:
         composition_bytes = composition_path.read_bytes()
         first_result = first["result"]
         assert first_result["passed"] is True, first
-        assert first_result["schemaVersion"] == 2, first_result
+        assert first_result["schemaVersion"] == 3, first_result
+        assert_successful_composition_result(
+            first_result, runtime, expected_generation=1
+        )
         assert first_result["processesSpawned"] == 2, first_result
         assert affected_marker.exists(), "first dependent composition did not execute its process"
         affected_marker.unlink()
@@ -842,10 +938,20 @@ def main() -> None:
         unrelated_result = unrelated_first["result"]
         changed_environment_result = changed_environment["result"]
         assert unrelated_result["passed"] is True, unrelated_first
+        assert_successful_composition_result(
+            unrelated_result, runtime, expected_generation=1
+        )
         assert unrelated_result["processesSpawned"] == 1, unrelated_result
+        unrelated_second_result = unrelated_second["result"]
+        assert_successful_composition_result(
+            unrelated_second_result, runtime, expected_generation=1
+        )
         assert unrelated_second["result"]["processesSpawned"] == 0, unrelated_second
         assert unrelated_second["result"]["executionRecords"][0]["reused"] is True, unrelated_second
         assert changed_environment_result["passed"] is True, changed_environment
+        assert_successful_composition_result(
+            changed_environment_result, runtime, expected_generation=1
+        )
         assert changed_environment_result["processesSpawned"] == 1, changed_environment_result
         assert changed_environment_result["executionRecords"][0]["reused"] is False, changed_environment_result
         assert changed_environment_result["identity"]["environmentDigest"] != unrelated_second["result"]["identity"]["environmentDigest"]
@@ -874,6 +980,9 @@ def main() -> None:
         post_recovery_marker.unlink(missing_ok=True)
         post_recovery = json.loads(require_cli(binary, composition_args))
         assert post_recovery["result"]["passed"] is True, post_recovery
+        assert_successful_composition_result(
+            post_recovery["result"], runtime, expected_generation=1
+        )
         assert post_recovery["result"]["processesSpawned"] == 2, post_recovery
         assert post_recovery_marker.exists(), "post-recovery validation did not spawn"
 

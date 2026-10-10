@@ -1,31 +1,106 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{COLLABORATION_CAPABILITY, CompositionBinding, RuntimeCapabilityBinding};
+use cockpit_verification::composition::CompositionCleanup;
 use cockpit_verification::{
-    CompositionCommand, CompositionError, CompositionIdentity, CompositionInput,
-    CompositionPrecondition, ProcessAdmissionCheck, ProcessStartGate, ReuseDecisionKind,
-    classify_reuse, composition_commands_digest, run_composition,
-    run_composition_with_process_gates,
+    CompositionAttempt, CompositionCleanupDisposition, CompositionCommand, CompositionError,
+    CompositionExecutionOutcome, CompositionExecutionRecord, CompositionIdentity, CompositionInput,
+    CompositionPrecondition, CompositionSupervisorBackend, CompositionSupervisorReceipt,
+    ProcessAdmissionCheck, ProcessStartGate, ReuseDecision, ReuseDecisionKind, classify_reuse,
+    composition_commands_digest, composition_linux_boot_id, current_composition_process_identity,
+    execution_records_digest, initialize_composition_supervisor_backend, new_composition_run_nonce,
+    new_supervised_composition_attempt_id, reap_composition_supervisor_descendants,
+    run_composition, run_composition_with_process_gates, run_composition_with_supervisor_receipt,
+};
+#[cfg(target_os = "linux")]
+use cockpit_verification::{
+    TestCompletedWorktreeObservation, run_composition_with_test_completed_worktree_observation,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
+#[cfg(target_os = "linux")]
+use std::process::Stdio;
 use std::process::{Child, Command};
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, mpsc};
 use std::time::{Duration, Instant};
 
-static NEXT_TEMP_DIR: AtomicU64 = AtomicU64::new(0);
+#[cfg(target_os = "linux")]
+#[test]
+fn external_default_feature_consumer_cannot_compile_test_support_seam() {
+    let project = tempdir("default-feature-negative");
+    let source_dir = project.path().join("src");
+    fs::create_dir_all(&source_dir).expect("create external source directory");
+    let dependency_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let escaped_dependency_path = serde_json::to_string(
+        &dependency_path
+            .to_str()
+            .expect("verification crate path is UTF-8"),
+    )
+    .expect("encode dependency path");
+    fs::write(
+        project.path().join("Cargo.toml"),
+        format!(
+            "[package]\nname = \"default-feature-negative\"\nversion = \"0.1.0\"\nedition = \"2024\"\n\n[dependencies]\ncockpit-verification = {{ path = {escaped_dependency_path} }}\n"
+        ),
+    )
+    .expect("write external Cargo manifest");
+    fs::write(
+        source_dir.join("main.rs"),
+        "use cockpit_verification::{TestCompletedWorktreeObservation, run_composition_with_test_completed_worktree_observation};\nfn main() {}\n",
+    )
+    .expect("write default-feature probe");
 
-struct TempDir(PathBuf);
+    let cargo = std::env::var_os("CARGO").unwrap_or_else(|| "cargo".into());
+    let output = std::process::Command::new(cargo)
+        .args([
+            "check",
+            "--offline",
+            "--manifest-path",
+            project
+                .path()
+                .join("Cargo.toml")
+                .to_str()
+                .expect("manifest path is UTF-8"),
+        ])
+        .env("CARGO_TARGET_DIR", project.path().join("target"))
+        .output()
+        .expect("run external default-feature compile probe");
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(
+        !output.status.success(),
+        "default-feature consumer unexpectedly compiled the test seam"
+    );
+    assert!(
+        stderr.contains("TestCompletedWorktreeObservation")
+            && stderr.contains("run_composition_with_test_completed_worktree_observation"),
+        "compile failure did not identify the cfg-gated test API: {stderr}"
+    );
+}
+
+static NEXT_TEMP_DIR: AtomicU64 = AtomicU64::new(0);
+const RETAINED_UNKNOWN_OWNER_MANIFEST: &str = ".ai-cockpit-retained-unknown-owner.json";
+
+struct TempDir {
+    path: PathBuf,
+    preserve_on_drop: bool,
+}
 
 impl TempDir {
     fn path(&self) -> &Path {
-        &self.0
+        &self.path
+    }
+
+    fn preserve(&mut self) {
+        self.preserve_on_drop = true;
     }
 }
 
 impl Drop for TempDir {
     fn drop(&mut self) {
-        let _ = fs::remove_dir_all(&self.0);
+        if self.preserve_on_drop || self.path.join(RETAINED_UNKNOWN_OWNER_MANIFEST).exists() {
+            return;
+        }
+        let _ = fs::remove_dir_all(&self.path);
     }
 }
 
@@ -36,7 +111,443 @@ fn tempdir(label: &str) -> TempDir {
         std::process::id()
     ));
     fs::create_dir_all(&path).expect("temp directory");
-    TempDir(path)
+    TempDir {
+        path,
+        preserve_on_drop: false,
+    }
+}
+
+fn preserve_unknown_fixture_owners(
+    repository: &mut TempDir,
+    state: &mut TempDir,
+    test_name: &str,
+    attempt_id: &str,
+    worktree: &Path,
+    failure: Option<&str>,
+) {
+    repository.preserve();
+    state.preserve();
+
+    let manifest = serde_json::json!({
+        "schemaVersion": 1,
+        "reason": "unknown_retained_composition_attempt",
+        "testName": test_name,
+        "attemptId": attempt_id,
+        "executionOutcome": "unknown",
+        "cleanupDisposition": "retained",
+        "repositoryPath": repository.path().display().to_string(),
+        "statePath": state.path().display().to_string(),
+        "worktreePath": worktree.display().to_string(),
+        "attemptRecordPath": attempt_record_path(state.path(), attempt_id)
+            .display()
+            .to_string(),
+        "failure": failure,
+    });
+    let bytes = serde_json::to_vec_pretty(&manifest)
+        .expect("serialize real-observer retained-owner manifest");
+    eprintln!(
+        "preserving Unknown/Retained composition fixture: test={} attempt={} repository={} state={} worktree={} manifest={}",
+        test_name,
+        attempt_id,
+        repository.path().display(),
+        state.path().display(),
+        worktree.display(),
+        state.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST).display(),
+    );
+    fs::write(
+        repository.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST),
+        &bytes,
+    )
+    .expect("write repository owner-retention manifest");
+    fs::write(state.path().join(RETAINED_UNKNOWN_OWNER_MANIFEST), &bytes)
+        .expect("write state owner-retention manifest");
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn unknown_observer_fixture_owners_survive_assertion_unwind() {
+    let mut worktree_owner = tempdir("retained-unknown-worktree-owner");
+    worktree_owner.preserve();
+    let worktree_parent = worktree_owner.path().join("worktrees");
+    fs::create_dir_all(&worktree_parent).expect("create synthetic worktree parent");
+    let worktree = worktree_parent.join("composition");
+    let mut owner_paths = None;
+
+    let failure = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        let mut repository = repository();
+        let base = run(repository.path(), &["rev-parse", "HEAD"]);
+        let mut state = tempdir("retained-unknown-state");
+        run(
+            repository.path(),
+            &[
+                "worktree",
+                "add",
+                "--detach",
+                worktree.to_str().expect("utf8 worktree path"),
+                &base,
+            ],
+        );
+        let attempt = CompositionAttempt {
+            schema_version: 3,
+            attempt_id: "lifecycle-regression".into(),
+            binding: binding(&base, vec![base.clone(), base.clone()]),
+            identity: identity("lifecycle-regression"),
+            preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+            isolated_worktree: worktree.display().to_string(),
+            text_conflicts: Vec::new(),
+            execution_records: vec![CompositionExecutionRecord {
+                node_id: "successful".into(),
+                program: "true".into(),
+                args: Vec::new(),
+                identity_digest: digest("lifecycle-regression-node"),
+                spawned: true,
+                reused: false,
+                passed: true,
+                exit_code: Some(0),
+                termination_signal: None,
+                stdout: String::new(),
+                stderr: String::new(),
+                output_digest: digest("lifecycle-regression-output"),
+                timed_out: false,
+                predecessor_attempt_id: None,
+            }],
+            processes_spawned: 1,
+            reuse_decision: ReuseDecision {
+                kind: ReuseDecisionKind::Execute,
+                reason: "synthetic lifecycle regression".into(),
+                predecessor_attempt_id: None,
+            },
+            passed: false,
+            failure: Some(procfs_eacces_diagnostic(
+                "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)",
+                "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S)",
+            )),
+            execution_outcome: CompositionExecutionOutcome::Unknown,
+            execution_evidence_complete: false,
+            supervisor_receipt: None,
+            cleanup_disposition: CompositionCleanupDisposition::Retained,
+            owner_termination_signal: None,
+            cleanup: None,
+            recorded_at_unix_nanos: 0,
+            owner_pid: None,
+            process_observation_schema_version: 0,
+            active_execution_node: None,
+            active_process_group_id: None,
+            active_process_group_identity: None,
+            owned_tree_termination_unknown: true,
+        };
+        fs::write(
+            state.path().join(format!("{}.json", attempt.attempt_id)),
+            serde_json::to_vec_pretty(&attempt).expect("serialize synthetic Unknown attempt"),
+        )
+        .expect("persist synthetic Unknown attempt");
+        owner_paths = Some((repository.path().to_path_buf(), state.path().to_path_buf()));
+        assert_successful_unowned_execution_and_observation(&mut repository, &mut state, &attempt);
+        panic!("simulate a later assertion failure after the real assertion helper");
+    }));
+
+    assert!(failure.is_err(), "the simulated assertion must unwind");
+    let (repository_path, state_path) = owner_paths.expect("capture fixture owner paths");
+    assert!(
+        repository_path.is_dir(),
+        "repository owner must survive unwind"
+    );
+    assert!(state_path.is_dir(), "state owner must survive unwind");
+    assert!(worktree.is_dir(), "worktree must survive unwind");
+    assert!(
+        worktree_is_registered(&repository_path, &worktree),
+        "retained worktree must remain registered after unwind"
+    );
+    let attempt_path = attempt_record_path(&state_path, "lifecycle-regression");
+    assert!(
+        attempt_path.is_file(),
+        "durable Unknown attempt must survive"
+    );
+    for owner_path in [&repository_path, &state_path] {
+        let manifest: serde_json::Value = serde_json::from_slice(
+            &fs::read(owner_path.join(RETAINED_UNKNOWN_OWNER_MANIFEST))
+                .expect("retained owner manifest bytes"),
+        )
+        .expect("retained owner manifest JSON");
+        assert_eq!(
+            manifest["repositoryPath"],
+            repository_path.to_string_lossy().as_ref()
+        );
+        assert_eq!(manifest["statePath"], state_path.to_string_lossy().as_ref());
+        assert_eq!(manifest["attemptId"], "lifecycle-regression");
+        assert_eq!(
+            manifest["attemptRecordPath"],
+            attempt_path.to_string_lossy().as_ref()
+        );
+        assert_eq!(
+            manifest["worktreePath"],
+            worktree.to_string_lossy().as_ref()
+        );
+    }
+
+    // The synthetic retained worktree is test-owned and has no running child.
+    run(
+        &repository_path,
+        &[
+            "worktree",
+            "remove",
+            "--force",
+            worktree.to_str().expect("utf8 worktree path"),
+        ],
+    );
+    fs::remove_dir_all(&repository_path).expect("remove synthetic repository owner");
+    fs::remove_dir_all(&state_path).expect("remove synthetic state owner");
+    fs::remove_dir_all(worktree_owner.path()).expect("remove synthetic worktree owner");
+}
+
+fn run_composition_with_test_supervisor(
+    input: CompositionInput,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
+    run_composition_with_named_test_supervisor(input, "composition_supervisor_run_test_helper")
+}
+
+fn run_composition_with_pure_cache_test_supervisor(
+    input: CompositionInput,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
+    run_composition_with_named_test_supervisor(
+        input,
+        "composition_pure_cache_supervisor_run_test_helper",
+    )
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn pure_cache_observation_interface_cannot_supply_admission_or_start_gate() {
+    let _: fn(
+        CompositionInput,
+        CompositionSupervisorReceipt,
+        TestCompletedWorktreeObservation,
+    ) -> Result<CompositionAttempt, CompositionError> =
+        run_composition_with_test_completed_worktree_observation;
+}
+
+fn run_composition_with_named_test_supervisor(
+    input: CompositionInput,
+    helper_name: &str,
+) -> Result<cockpit_verification::CompositionAttempt, String> {
+    let helper_files = tempdir("supervisor-runner");
+    let input_path = helper_files.path().join("input.json");
+    let output_path = helper_files.path().join("result.json");
+    fs::write(
+        &input_path,
+        serde_json::to_vec(&input).map_err(|error| error.to_string())?,
+    )
+    .map_err(|error| error.to_string())?;
+    let output = Command::new(std::env::current_exe().map_err(|error| error.to_string())?)
+        .args(["--exact", helper_name, "--nocapture"])
+        .env("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT", &input_path)
+        .env(
+            "AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT",
+            &output_path,
+        )
+        .env("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE", "1")
+        .output()
+        .map_err(|error| format!("run isolated composition supervisor helper: {error}"))?;
+    if !output.status.success() {
+        return Err(format!(
+            "composition supervisor helper failed: stdout={}; stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        ));
+    }
+    let result: Result<cockpit_verification::CompositionAttempt, String> = serde_json::from_slice(
+        &fs::read(&output_path)
+            .map_err(|error| format!("read composition supervisor helper result: {error}"))?,
+    )
+    .map_err(|error| format!("decode composition supervisor helper result: {error}"))?;
+    result.map_err(|error| {
+        format!(
+            "{error}; isolated helper diagnostic: {}",
+            String::from_utf8_lossy(&output.stderr)
+        )
+    })
+}
+
+#[test]
+fn composition_supervisor_run_test_helper() {
+    run_composition_supervisor_test_helper(false);
+}
+
+#[test]
+fn composition_pure_cache_supervisor_run_test_helper() {
+    run_composition_supervisor_test_helper(true);
+}
+
+fn run_composition_supervisor_test_helper(pure_cache: bool) {
+    let (Ok(input_path), Ok(output_path)) = (
+        std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_INPUT"),
+        std::env::var("AI_COCKPIT_RUN_COMPOSITION_TEST_HELPER_OUTPUT"),
+    ) else {
+        return;
+    };
+    let input: CompositionInput =
+        serde_json::from_slice(&fs::read(&input_path).expect("composition helper input bytes"))
+            .expect("composition helper input JSON");
+    let backend = initialize_composition_supervisor_backend().expect("initialize subreaper");
+    let process_identity = current_composition_process_identity().expect("process identity");
+    let run_nonce = new_composition_run_nonce();
+    let attempt_id = new_supervised_composition_attempt_id(&input, &run_nonce);
+    let target_tree = run(
+        &input.repository_root,
+        &[
+            "rev-parse",
+            "--verify",
+            &format!("{}^{{tree}}", input.binding.target_sha),
+        ],
+    );
+    let input_environment = input
+        .commands
+        .iter()
+        .map(|command| (&command.node_id, &command.environment))
+        .collect::<Vec<_>>();
+    let receipt = CompositionSupervisorReceipt {
+        schema_version: 1,
+        backend,
+        attempt_id,
+        run_nonce,
+        generation: 1,
+        owner: process_identity.clone(),
+        supervisor: process_identity,
+        linux_boot_id: composition_linux_boot_id().expect("Linux boot identity"),
+        environment_digest: digest("test supervisor environment"),
+        runtime_version: input.binding.verifier.runtime_version.clone(),
+        runtime_digest: input.binding.verifier.runtime_digest.clone(),
+        repository_id: input.binding.repository_id.clone(),
+        target_sha: input.binding.target_sha.clone(),
+        snapshot_digest: Digest::sha256_bytes(target_tree.as_bytes()),
+        command_plan_digest: composition_commands_digest(&input.commands),
+        input_environment_digest: Digest::sha256_bytes(
+            &serde_json::to_vec(&input_environment).expect("input environments serialize"),
+        ),
+        execution_records_digest: execution_records_digest(&[]),
+        descendants_reaped_to_echild: false,
+    };
+    let admission_check: ProcessAdmissionCheck = Arc::new(|_node_id, accept| accept());
+    let process_start_gate: ProcessStartGate = Arc::new(|_node_id, spawn| spawn());
+    let result = if pure_cache {
+        #[cfg(target_os = "linux")]
+        {
+            run_composition_with_test_completed_worktree_observation(
+                input,
+                receipt,
+                TestCompletedWorktreeObservation::KnownEmpty,
+            )
+        }
+        #[cfg(not(target_os = "linux"))]
+        {
+            run_composition_with_supervisor_receipt(
+                input,
+                admission_check,
+                process_start_gate,
+                receipt,
+            )
+        }
+    } else {
+        run_composition_with_supervisor_receipt(input, admission_check, process_start_gate, receipt)
+    }
+    .map_err(|error| error.to_string());
+    fs::write(
+        output_path,
+        serde_json::to_vec(&result).expect("helper result serializes"),
+    )
+    .expect("write composition helper result");
+}
+
+#[cfg(target_os = "linux")]
+fn linux_process_group_proc_observation(process_group_id: u32) -> String {
+    let group_probe = unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) };
+    let group_probe_error = (group_probe < 0).then(std::io::Error::last_os_error);
+    let leader_stat = fs::read_to_string(format!("/proc/{process_group_id}/stat"));
+    let mut members = Vec::new();
+    let mut unreadable_stats = Vec::new();
+    let mut unreadable_stat_count = 0usize;
+    let mut malformed_stats = Vec::new();
+    let mut malformed_stat_count = 0usize;
+    let mut directory_errors = Vec::new();
+    let mut directory_error_count = 0usize;
+
+    match fs::read_dir("/proc") {
+        Ok(entries) => {
+            for entry in entries {
+                let entry = match entry {
+                    Ok(entry) => entry,
+                    Err(error) => {
+                        directory_error_count += 1;
+                        if directory_errors.len() < 8 {
+                            directory_errors.push(error.to_string());
+                        }
+                        continue;
+                    }
+                };
+                let Some(process_id) = entry
+                    .file_name()
+                    .to_str()
+                    .and_then(|name| name.parse::<u32>().ok())
+                else {
+                    continue;
+                };
+                let stat_path = entry.path().join("stat");
+                let stat = match fs::read_to_string(&stat_path) {
+                    Ok(stat) => stat,
+                    Err(error) => {
+                        unreadable_stat_count += 1;
+                        if unreadable_stats.len() < 8 {
+                            unreadable_stats.push(format!("{}: {error}", stat_path.display()));
+                        }
+                        continue;
+                    }
+                };
+                let Some(command_open) = stat.find('(') else {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: missing command opener"));
+                    }
+                    continue;
+                };
+                let Some(command_close) = stat.rfind(')').filter(|close| *close > command_open)
+                else {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: missing command terminator"));
+                    }
+                    continue;
+                };
+                let fields = stat[command_close + 1..]
+                    .split_whitespace()
+                    .collect::<Vec<_>>();
+                if fields.len() <= 19 {
+                    malformed_stat_count += 1;
+                    if malformed_stats.len() < 8 {
+                        malformed_stats.push(format!("{process_id}: too few stat fields"));
+                    }
+                    continue;
+                }
+                if fields[2].parse::<u32>().ok() == Some(process_group_id) {
+                    members.push(format!(
+                        "pid={process_id} state={} ppid={} pgid={} sid={} start={}",
+                        fields[0], fields[1], fields[2], fields[3], fields[19]
+                    ));
+                }
+            }
+        }
+        Err(error) => {
+            directory_error_count += 1;
+            directory_errors.push(error.to_string());
+        }
+    }
+
+    format!(
+        "kill(-{process_group_id}, 0)={group_probe} error={group_probe_error:?}; \
+         leader_stat={leader_stat:?}; members={members:?}; \
+         unreadable_stat_count={unreadable_stat_count} samples={unreadable_stats:?}; \
+         malformed_stat_count={malformed_stat_count} samples={malformed_stats:?}; \
+         proc_directory_error_count={directory_error_count} samples={directory_errors:?}"
+    )
 }
 
 fn digest(label: &str) -> Digest {
@@ -54,6 +565,18 @@ fn run(root: &Path, args: &[&str]) -> String {
         .expect("utf8")
         .trim()
         .into()
+}
+
+fn worktree_is_registered(root: &Path, worktree: &Path) -> bool {
+    let expected = fs::canonicalize(worktree).unwrap_or_else(|_| worktree.to_path_buf());
+    run(root, &["worktree", "list", "--porcelain"])
+        .lines()
+        .any(|line| {
+            line.strip_prefix("worktree ").is_some_and(|path| {
+                let listed = PathBuf::from(path);
+                fs::canonicalize(&listed).unwrap_or(listed) == expected
+            })
+        })
 }
 
 fn repository() -> TempDir {
@@ -252,6 +775,10 @@ fn input(
 fn attempt_record_path(state_dir: &Path, attempt_id: &str) -> PathBuf {
     for entry in fs::read_dir(state_dir).expect("attempt state directory") {
         let path = entry.expect("attempt entry").path();
+        if path.file_name().and_then(|name| name.to_str()) == Some(RETAINED_UNKNOWN_OWNER_MANIFEST)
+        {
+            continue;
+        }
         if path.extension().is_none_or(|extension| extension != "json") {
             continue;
         }
@@ -432,6 +959,525 @@ fn process_start_gate_rejection_is_persisted_without_running_the_node() {
     );
 }
 
+fn assert_successful_unowned_execution_and_observation(
+    root: &mut TempDir,
+    state: &mut TempDir,
+    attempt: &CompositionAttempt,
+) -> serde_json::Value {
+    if attempt.execution_outcome == CompositionExecutionOutcome::Unknown
+        && attempt.cleanup_disposition == CompositionCleanupDisposition::Retained
+    {
+        preserve_unknown_fixture_owners(
+            root,
+            state,
+            std::thread::current()
+                .name()
+                .unwrap_or("unknown-observer-test"),
+            &attempt.attempt_id,
+            Path::new(&attempt.isolated_worktree),
+            attempt.failure.as_deref(),
+        );
+    }
+
+    let root_path = root.path().to_path_buf();
+    let state_path = state.path().to_path_buf();
+    assert!(attempt.supervisor_receipt.is_none());
+    assert_eq!(attempt.processes_spawned, 1);
+    assert_eq!(attempt.execution_records.len(), 1);
+    let record = &attempt.execution_records[0];
+    assert_eq!(record.node_id, "successful");
+    assert!(record.spawned);
+    assert!(!record.reused);
+    assert!(record.passed);
+    assert_eq!(record.exit_code, Some(0));
+    assert!(!record.timed_out);
+    assert_eq!(record.termination_signal, None);
+
+    let value = serde_json::to_value(attempt).expect("serialize composition attempt");
+    let persisted: serde_json::Value = serde_json::from_slice(
+        &fs::read(attempt_record_path(&state_path, &attempt.attempt_id))
+            .expect("durable attempt bytes"),
+    )
+    .expect("durable attempt JSON");
+    assert_eq!(
+        persisted, value,
+        "durable result must match returned attempt"
+    );
+    assert!(persisted.get("supervisorReceipt").is_none());
+    assert!(!attempt.is_coherent_successful_terminal());
+
+    let worktree = Path::new(&attempt.isolated_worktree);
+    match (
+        value["executionOutcome"].as_str(),
+        value["cleanupDisposition"].as_str(),
+    ) {
+        (Some("passed"), Some("cleaned")) => {
+            assert!(attempt.passed);
+            assert!(attempt.execution_evidence_complete);
+            assert!(!attempt.owned_tree_termination_unknown);
+            assert!(attempt.failure.is_none());
+            let cleanup = attempt.cleanup.as_ref().expect("cleaned worktree record");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+            assert!(!worktree.exists());
+            assert!(!worktree_is_registered(&root_path, worktree));
+        }
+        (Some("unknown"), Some("retained")) => {
+            assert!(!attempt.passed);
+            assert!(!attempt.execution_evidence_complete);
+            assert!(attempt.owned_tree_termination_unknown);
+            assert!(attempt.cleanup.is_none());
+            let failure = attempt.failure.as_deref().expect("observer failure");
+            #[cfg(target_os = "linux")]
+            assert_procfs_cwd_eacces(failure);
+            #[cfg(not(target_os = "linux"))]
+            panic!("only the exact Linux procfs cwd EACCES outcome is accepted: {failure}");
+            assert!(worktree.is_dir(), "unknown worktree must be retained");
+            assert!(worktree_is_registered(&root_path, worktree));
+        }
+        outcome => panic!("unexpected execution/cleanup outcome: {outcome:?}; {attempt:?}"),
+    }
+    value
+}
+
+#[test]
+fn composition_attempt_reports_execution_and_cleanup_separately() {
+    let mut root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let mut state = tempdir("execution-cleanup-outcomes");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+
+    let value =
+        assert_successful_unowned_execution_and_observation(&mut root, &mut state, &attempt);
+    assert_eq!(value["schemaVersion"], 3);
+}
+
+#[test]
+fn execution_pass_without_a_supervisor_receipt_is_not_terminal_or_reusable() {
+    let mut root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let mut state = tempdir("missing-supervisor-receipt");
+    let attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+
+    let _value =
+        assert_successful_unowned_execution_and_observation(&mut root, &mut state, &attempt);
+    assert!(attempt.supervisor_receipt.is_none());
+    assert!(!attempt.is_coherent_successful_terminal());
+}
+
+#[test]
+fn coherent_supervisor_receipt_is_required_for_a_successful_terminal() {
+    let root = repository();
+    let base = run(root.path(), &["rev-parse", "HEAD"]);
+    let state = tempdir("coherent-supervisor-receipt");
+    let mut attempt = run_composition(input(
+        root.path(),
+        state.path(),
+        binding(&base.clone(), vec![base.clone(), base]),
+        vec![command("successful", "true", &[])],
+        vec![CompositionPrecondition::satisfied("identity-bound")],
+    ))
+    .expect("composition attempt");
+    let process_identity =
+        current_composition_process_identity().expect("current process identity");
+    let boot_id = composition_linux_boot_id().expect("Linux boot identity");
+    #[cfg(target_os = "linux")]
+    let backend = CompositionSupervisorBackend::LinuxSubreaper;
+    #[cfg(all(unix, not(target_os = "linux")))]
+    let backend = CompositionSupervisorBackend::UnixProcessGroup;
+    #[cfg(windows)]
+    let backend = CompositionSupervisorBackend::WindowsProcessGroup;
+    let receipt = CompositionSupervisorReceipt {
+        schema_version: 1,
+        backend,
+        attempt_id: attempt.attempt_id.clone(),
+        run_nonce: "test-run-nonce".into(),
+        generation: 1,
+        owner: process_identity.clone(),
+        supervisor: process_identity,
+        linux_boot_id: if backend == CompositionSupervisorBackend::LinuxSubreaper {
+            boot_id
+        } else {
+            None
+        },
+        environment_digest: digest("environment"),
+        runtime_version: attempt.binding.verifier.runtime_version.clone(),
+        runtime_digest: attempt.binding.verifier.runtime_digest.clone(),
+        repository_id: attempt.binding.repository_id.clone(),
+        target_sha: attempt.binding.target_sha.clone(),
+        snapshot_digest: digest("snapshot"),
+        command_plan_digest: attempt.identity.command_digest.clone(),
+        input_environment_digest: digest("input-environment"),
+        execution_records_digest: execution_records_digest(&attempt.execution_records),
+        descendants_reaped_to_echild: backend == CompositionSupervisorBackend::LinuxSubreaper,
+    };
+    attempt.supervisor_receipt = Some(receipt);
+
+    assert!(attempt.is_coherent_successful_terminal());
+    attempt.cleanup_disposition = CompositionCleanupDisposition::Deferred;
+    assert!(!attempt.is_coherent_successful_terminal());
+    attempt.cleanup_disposition = CompositionCleanupDisposition::Cleaned;
+    attempt.execution_records[0].stdout.push_str("tampered");
+    assert!(!attempt.is_coherent_successful_terminal());
+}
+
+#[test]
+fn process_group_backend_does_not_claim_linux_echild_proof() {
+    let process_identity =
+        current_composition_process_identity().expect("current process identity");
+    let execution = CompositionExecutionRecord {
+        node_id: "successful".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        identity_digest: digest("process-group-execution"),
+        spawned: true,
+        reused: false,
+        passed: true,
+        exit_code: Some(0),
+        termination_signal: None,
+        stdout: String::new(),
+        stderr: String::new(),
+        output_digest: digest("process-group-output"),
+        timed_out: false,
+        predecessor_attempt_id: None,
+    };
+    let identity = identity("process-group-reap-proof");
+    let mut attempt = CompositionAttempt {
+        schema_version: 3,
+        attempt_id: "composition-process-group-reap-proof".into(),
+        binding: binding("target-sha", vec!["participant-sha".into()]),
+        identity: identity.clone(),
+        preconditions: vec![CompositionPrecondition::satisfied("identity-bound")],
+        isolated_worktree: "/tmp/composition-process-group-reap-proof".into(),
+        text_conflicts: Vec::new(),
+        execution_records: vec![execution],
+        processes_spawned: 1,
+        reuse_decision: ReuseDecision {
+            kind: ReuseDecisionKind::Execute,
+            reason: "test execution".into(),
+            predecessor_attempt_id: None,
+        },
+        passed: true,
+        failure: None,
+        execution_outcome: CompositionExecutionOutcome::Passed,
+        execution_evidence_complete: true,
+        supervisor_receipt: None,
+        cleanup_disposition: CompositionCleanupDisposition::Cleaned,
+        owner_termination_signal: None,
+        cleanup: Some(CompositionCleanup {
+            attempted: true,
+            removed: true,
+            error: None,
+        }),
+        recorded_at_unix_nanos: 1,
+        owner_pid: Some(process_identity.process_id),
+        process_observation_schema_version: 1,
+        active_execution_node: None,
+        active_process_group_id: None,
+        active_process_group_identity: None,
+        owned_tree_termination_unknown: false,
+    };
+    for (backend, nonce) in [
+        (
+            CompositionSupervisorBackend::UnixProcessGroup,
+            "unix-process-group",
+        ),
+        (
+            CompositionSupervisorBackend::WindowsProcessGroup,
+            "windows-process-group",
+        ),
+    ] {
+        attempt.supervisor_receipt = Some(CompositionSupervisorReceipt {
+            schema_version: 1,
+            backend,
+            attempt_id: attempt.attempt_id.clone(),
+            run_nonce: nonce.into(),
+            generation: 1,
+            owner: process_identity.clone(),
+            supervisor: process_identity.clone(),
+            linux_boot_id: None,
+            environment_digest: digest("environment"),
+            runtime_version: attempt.binding.verifier.runtime_version.clone(),
+            runtime_digest: attempt.binding.verifier.runtime_digest.clone(),
+            repository_id: attempt.binding.repository_id.clone(),
+            target_sha: attempt.binding.target_sha.clone(),
+            snapshot_digest: digest("snapshot"),
+            command_plan_digest: identity.command_digest.clone(),
+            input_environment_digest: digest("input-environment"),
+            execution_records_digest: execution_records_digest(&attempt.execution_records),
+            descendants_reaped_to_echild: false,
+        });
+
+        let receipt = attempt
+            .supervisor_receipt
+            .as_ref()
+            .expect("supervisor receipt");
+        assert!(!receipt.descendants_reaped_to_echild);
+        assert!(
+            attempt.is_coherent_successful_terminal(),
+            "{backend:?} receipts must retain their platform semantics without claiming Linux ECHILD"
+        );
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn composition_subreaper_test_helper() {
+    if std::env::var_os("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER").is_none() {
+        return;
+    }
+    assert_eq!(
+        initialize_composition_supervisor_backend().expect("initialize subreaper"),
+        CompositionSupervisorBackend::LinuxSubreaper
+    );
+    let mut release_pipe = [0; 2];
+    let mut ready_pipe = [0; 2];
+    assert_eq!(unsafe { libc::pipe(release_pipe.as_mut_ptr()) }, 0);
+    assert_eq!(unsafe { libc::pipe(ready_pipe.as_mut_ptr()) }, 0);
+    let started = Instant::now();
+    let child = unsafe { libc::fork() };
+    assert!(child >= 0, "fork direct verifier-like child");
+    if child == 0 {
+        unsafe {
+            libc::close(release_pipe[1]);
+            libc::close(ready_pipe[0]);
+            if libc::setpgid(0, 0) != 0 {
+                libc::_exit(2);
+            }
+            libc::alarm(6);
+        }
+        let mut release = 0_u8;
+        if unsafe {
+            libc::read(
+                release_pipe[0],
+                (&mut release as *mut u8).cast::<libc::c_void>(),
+                1,
+            )
+        } != 1
+            || release != b'A'
+        {
+            unsafe { libc::_exit(3) };
+        }
+        unsafe { libc::close(release_pipe[0]) };
+        let grandchild = unsafe { libc::fork() };
+        if grandchild == 0 {
+            unsafe {
+                libc::alarm(6);
+                libc::close(libc::STDIN_FILENO);
+                libc::close(libc::STDOUT_FILENO);
+                libc::close(libc::STDERR_FILENO);
+            }
+            let ready = b'G';
+            if unsafe {
+                libc::write(
+                    ready_pipe[1],
+                    (&ready as *const u8).cast::<libc::c_void>(),
+                    1,
+                )
+            } != 1
+            {
+                unsafe { libc::_exit(4) };
+            }
+            unsafe { libc::close(ready_pipe[1]) };
+            loop {
+                unsafe { libc::pause() };
+            }
+        }
+        unsafe { libc::close(ready_pipe[1]) };
+        if grandchild < 0 {
+            unsafe { libc::_exit(5) };
+        }
+        loop {
+            unsafe { libc::pause() };
+        }
+    }
+    unsafe {
+        libc::close(release_pipe[0]);
+        libc::close(ready_pipe[1]);
+    }
+    let group_set = unsafe { libc::setpgid(child, child) };
+    assert_eq!(
+        group_set, 0,
+        "place only test descendants in their own group"
+    );
+    assert_eq!(
+        unsafe { libc::getpgid(child) },
+        child,
+        "verifier-like child retains its test-owned process group"
+    );
+    let release = b'A';
+    assert_eq!(
+        unsafe {
+            libc::write(
+                release_pipe[1],
+                (&release as *const u8).cast::<libc::c_void>(),
+                1,
+            )
+        },
+        1
+    );
+    unsafe { libc::close(release_pipe[1]) };
+    let mut ready = 0_u8;
+    let ready_read = unsafe {
+        libc::read(
+            ready_pipe[0],
+            (&mut ready as *mut u8).cast::<libc::c_void>(),
+            1,
+        )
+    };
+    unsafe { libc::close(ready_pipe[0]) };
+    if ready_read != 1 || ready != b'G' {
+        reap_subreaper_test_children_after_alarm();
+        panic!("verifier-like grandchild did not become ready");
+    }
+
+    if let Err(error) = reap_composition_supervisor_descendants() {
+        reap_subreaper_test_children_after_alarm();
+        panic!("reaper did not prove complete child cleanup: {error}");
+    }
+    assert!(
+        started.elapsed() < Duration::from_secs(3),
+        "reaper waited for the newly adopted live grandchild instead of rescanning it"
+    );
+    let mut status = 0;
+    assert_eq!(unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) }, -1);
+    assert_eq!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(libc::ECHILD)
+    );
+}
+
+#[cfg(target_os = "linux")]
+fn reap_subreaper_test_children_after_alarm() {
+    let deadline = Instant::now() + Duration::from_secs(7);
+    loop {
+        let mut status = 0;
+        let result = unsafe { libc::waitpid(-1, &mut status, libc::WNOHANG) };
+        if result > 0 {
+            continue;
+        }
+        if result < 0 {
+            let error = std::io::Error::last_os_error();
+            assert_eq!(error.raw_os_error(), Some(libc::ECHILD));
+            return;
+        }
+        assert!(
+            Instant::now() < deadline,
+            "test child cleanup exceeded deadline"
+        );
+        std::thread::sleep(Duration::from_millis(10));
+    }
+}
+
+#[cfg(target_os = "linux")]
+fn private_subreaper_watchdog_tempdir() -> TempDir {
+    use std::os::unix::fs::{DirBuilderExt, PermissionsExt};
+
+    let sequence = NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed);
+    let path = std::env::temp_dir().join(format!(
+        "cockpit-composition-subreaper-watchdog-{}-{sequence}",
+        std::process::id()
+    ));
+    let mut builder = fs::DirBuilder::new();
+    builder.mode(0o700);
+    builder
+        .create(&path)
+        .expect("create private subreaper watchdog directory");
+    assert_eq!(
+        fs::metadata(&path)
+            .expect("watchdog directory metadata")
+            .permissions()
+            .mode()
+            & 0o077,
+        0,
+        "subreaper watchdog directory must not allow group or other access"
+    );
+    TempDir {
+        path,
+        preserve_on_drop: false,
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn composition_supervisor_reaps_orphaned_descendants_to_echild() {
+    let watchdog_directory = private_subreaper_watchdog_tempdir();
+    let mut helper = Command::new(std::env::current_exe().expect("test binary path"));
+    helper
+        .args([
+            "--exact",
+            "composition_subreaper_test_helper",
+            "--nocapture",
+        ])
+        .env("AI_COCKPIT_RUN_COMPOSITION_SUBREAPER_HELPER", "1")
+        .env("TMPDIR", watchdog_directory.path())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = helper.spawn().expect("run isolated subreaper test helper");
+    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut timed_out = false;
+    loop {
+        if child
+            .try_wait()
+            .expect("poll isolated subreaper test helper")
+            .is_some()
+        {
+            break;
+        }
+        if Instant::now() >= deadline {
+            timed_out = true;
+            // The descendants have six-second alarms. The watchdog owns only
+            // this helper handle; do not signal a reusable numeric process-group ID.
+            let cleanup_deadline = Instant::now() + Duration::from_secs(3);
+            while Instant::now() < cleanup_deadline
+                && child
+                    .try_wait()
+                    .expect("poll helper after descendant cleanup")
+                    .is_none()
+            {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            if child
+                .try_wait()
+                .expect("poll helper after cleanup deadline")
+                .is_none()
+            {
+                child.kill().expect("stop timed-out isolated helper");
+            }
+            break;
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    let output = child
+        .wait_with_output()
+        .expect("collect isolated subreaper test helper output");
+    assert!(
+        !timed_out,
+        "subreaper helper exceeded its 10s external watchdog"
+    );
+    assert!(
+        output.status.success(),
+        "subreaper helper failed: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
 #[test]
 fn failed_attempts_are_append_only_and_exact_identity_controls_reuse() {
     let root = repository();
@@ -504,8 +1550,10 @@ fn repeated_exact_composition_reuses_only_when_inputs_are_observable() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first attempt");
-    let second = run_composition(composition).expect("second attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed);
     assert!(second.passed);
@@ -541,10 +1589,14 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
         vec![command("reusable", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    let first =
+        run_composition_with_test_supervisor(composition.clone()).expect("seed reusable receipt");
     assert!(first.passed);
 
-    let admission_check: ProcessAdmissionCheck = std::sync::Arc::new(|_node_id: &str, _accept| {
+    let admission_checked = Arc::new(AtomicBool::new(false));
+    let was_admission_checked = Arc::clone(&admission_checked);
+    let admission_check: ProcessAdmissionCheck = Arc::new(move |_node_id: &str, _accept| {
+        was_admission_checked.store(true, Ordering::SeqCst);
         Err("coordination_safely_paused:late-request".into())
     });
     let start_gate: ProcessStartGate = std::sync::Arc::new(
@@ -555,15 +1607,228 @@ fn admission_change_blocks_reuse_even_when_no_process_would_start() {
     let blocked = run_composition_with_process_gates(composition, admission_check, start_gate)
         .expect("a denied reuse is preserved as a failed attempt");
 
+    assert!(
+        admission_checked.load(Ordering::SeqCst),
+        "the cached result must reach the admission gate before reuse"
+    );
     assert!(!blocked.passed);
+    assert_ne!(
+        blocked.execution_outcome,
+        CompositionExecutionOutcome::Passed
+    );
     assert_eq!(blocked.processes_spawned, 0);
     assert!(blocked.execution_records.is_empty());
+    match blocked.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            assert!(
+                blocked.failure.as_deref()
+                    == Some(
+                        "composition_reuse_not_admitted:reusable:coordination_safely_paused:late-request"
+                    ),
+                "a cleanly observed attempt must retain the admission reason; failure={:?}",
+                blocked.failure,
+            );
+            assert!(
+                blocked
+                    .cleanup
+                    .as_ref()
+                    .is_some_and(|cleanup| cleanup.removed && cleanup.error.is_none())
+            );
+            assert!(!Path::new(&blocked.isolated_worktree).exists());
+            assert!(!worktree_is_registered(
+                root.path(),
+                Path::new(&blocked.isolated_worktree)
+            ));
+        }
+        CompositionCleanupDisposition::Retained => {
+            assert!(blocked.cleanup.is_none());
+            match blocked.failure.as_deref() {
+                Some(failure) if failure.starts_with("verifier_process_state_unknown:") => {
+                    #[cfg(target_os = "linux")]
+                    assert_procfs_cwd_eacces(failure);
+                    #[cfg(not(target_os = "linux"))]
+                    panic!("unexpected cleanup observation on non-Linux Unix: {failure}");
+                    assert!(blocked.owned_tree_termination_unknown);
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Unknown
+                    );
+                    assert!(!blocked.execution_evidence_complete);
+                }
+                Some(failure) if failure.starts_with("verifier_descendant_active:") => {
+                    let process_id = failure
+                        .strip_prefix("verifier_descendant_active:")
+                        .and_then(|value| value.parse::<u32>().ok())
+                        .filter(|process_id| *process_id > 0)
+                        .expect("numeric active process ID");
+                    assert_eq!(failure, format!("verifier_descendant_active:{process_id}"));
+                    assert!(!blocked.owned_tree_termination_unknown);
+                    assert_eq!(
+                        blocked.execution_outcome,
+                        CompositionExecutionOutcome::Failed
+                    );
+                    assert!(blocked.execution_evidence_complete);
+                }
+                failure => panic!("unexpected retained-attempt reason: {failure:?}"),
+            }
+            assert!(Path::new(&blocked.isolated_worktree).is_dir());
+            assert!(worktree_is_registered(
+                root.path(),
+                Path::new(&blocked.isolated_worktree)
+            ));
+        }
+        disposition => panic!("denied reuse unexpectedly reached {disposition:?}"),
+    }
+}
+
+#[cfg(target_os = "linux")]
+#[derive(Debug, PartialEq, Eq)]
+struct ProcfsStableIdentity {
+    process_id: u32,
+    start_time_ticks: u64,
+    process_group_id: u32,
+    session_id: u32,
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_identity_field<'a>(identity: &'a str, name: &str) -> Option<&'a str> {
+    let name = name.strip_suffix('=')?;
+    let fields = identity.strip_prefix("observed(")?.strip_suffix(')')?;
+    fields.split(',').find_map(|field| {
+        let (key, value) = field.split_once('=')?;
+        (key == name).then_some(value)
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn parse_procfs_identity(identity: &str) -> Option<(ProcfsStableIdentity, char)> {
+    let state = procfs_identity_field(identity, "state=")?;
+    let mut state_chars = state.chars();
+    let state = state_chars.next()?;
+    if !state.is_ascii() || state_chars.next().is_some() {
+        return None;
+    }
+    Some((
+        ProcfsStableIdentity {
+            process_id: procfs_identity_field(identity, "pid=")?.parse().ok()?,
+            start_time_ticks: procfs_identity_field(identity, "starttime_ticks=")?
+                .parse()
+                .ok()?,
+            process_group_id: procfs_identity_field(identity, "pgid=")?.parse().ok()?,
+            session_id: procfs_identity_field(identity, "sid=")?.parse().ok()?,
+        },
+        state,
+    ))
+}
+
+#[cfg(target_os = "linux")]
+fn diagnostic_field<'a>(diagnostic: &'a str, name: &str) -> Option<&'a str> {
+    diagnostic
+        .split_ascii_whitespace()
+        .find_map(|field| field.strip_prefix(name))
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_identity_pair_is_stable(diagnostic: &str) -> bool {
+    let Some(process_id) =
+        diagnostic_field(diagnostic, "pid=").and_then(|value| value.parse::<u32>().ok())
+    else {
+        return false;
+    };
+    let Some((identity_before, state_before)) =
+        diagnostic_field(diagnostic, "identity_before=").and_then(parse_procfs_identity)
+    else {
+        return false;
+    };
+    let Some((identity_after, state_after)) =
+        diagnostic_field(diagnostic, "identity_after=").and_then(parse_procfs_identity)
+    else {
+        return false;
+    };
+
+    identity_before.process_id == process_id
+        && identity_after.process_id == process_id
+        && identity_before == identity_after
+        && state_before.is_ascii()
+        && state_after.is_ascii()
+}
+
+#[cfg(target_os = "linux")]
+fn assert_procfs_cwd_eacces(failure: &str) {
+    let diagnostic = failure
+        .strip_prefix("verifier_process_state_unknown:")
+        .expect("unknown cleanup prefix");
     assert!(
-        blocked
-            .failure
-            .as_deref()
-            .is_some_and(|failure| failure.contains("coordination_safely_paused"))
+        diagnostic.starts_with("cannot inspect process pid="),
+        "{diagnostic}"
     );
+    assert!(diagnostic.contains("filter_uid=Some("), "{diagnostic}");
+    assert!(diagnostic.contains("phase=procfs.cwd"), "{diagnostic}");
+    assert!(
+        diagnostic.contains("error_kind=PermissionDenied"),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains(&format!("errno={}", libc::EACCES)),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains("identity_state=observed"),
+        "{diagnostic}"
+    );
+    assert!(
+        diagnostic.contains(&format!(
+            "message=Permission denied (os error {}) working directory",
+            libc::EACCES
+        )),
+        "{diagnostic}"
+    );
+    assert!(procfs_identity_pair_is_stable(diagnostic), "{diagnostic}");
+}
+
+#[cfg(target_os = "linux")]
+fn procfs_eacces_diagnostic(identity_before: &str, identity_after: &str) -> String {
+    format!(
+        "verifier_process_state_unknown:cannot inspect process pid=4242 filter_uid=Some(1000) phase=procfs.cwd error_kind=PermissionDenied errno={} identity_state=observed identity_before={identity_before} identity_after={identity_after} message=Permission denied (os error {}) working directory",
+        libc::EACCES,
+        libc::EACCES
+    )
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_cwd_eacces_identity_accepts_state_transition() {
+    let failure = procfs_eacces_diagnostic(
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)",
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=S)",
+    );
+
+    let diagnostic = failure
+        .strip_prefix("verifier_process_state_unknown:")
+        .expect("unknown cleanup prefix");
+    assert!(procfs_identity_pair_is_stable(diagnostic));
+    assert_procfs_cwd_eacces(&failure);
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_cwd_eacces_identity_rejects_each_stable_field_change() {
+    let identity_before = "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)";
+    for identity_after in [
+        "observed(pid=4243,starttime_ticks=7,pgid=41,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=8,pgid=41,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=7,pgid=42,sid=41,state=S)",
+        "observed(pid=4242,starttime_ticks=7,pgid=41,sid=42,state=S)",
+    ] {
+        let failure = procfs_eacces_diagnostic(identity_before, identity_after);
+        let diagnostic = failure
+            .strip_prefix("verifier_process_state_unknown:")
+            .expect("unknown cleanup prefix");
+        assert!(
+            !procfs_identity_pair_is_stable(diagnostic),
+            "stable identity change must fail closed: {identity_after}"
+        );
+    }
 }
 
 #[cfg(unix)]
@@ -579,7 +1844,8 @@ fn pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance() {
         vec![command("reusable", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("seed reusable receipt");
+    let first =
+        run_composition_with_test_supervisor(composition.clone()).expect("seed reusable receipt");
     assert!(first.passed);
 
     let paused = Arc::new(Mutex::new(false));
@@ -702,7 +1968,10 @@ fn inherited_path_cannot_substitute_a_composition_verifier() {
             !marker.exists(),
             "an inherited PATH entry must not substitute the Contract-required verifier"
         );
-        assert!(attempt.passed, "the Runtime-bound cargo verifier must pass");
+        assert!(
+            attempt.passed,
+            "the Runtime-bound cargo verifier must pass: {attempt:?}"
+        );
         assert_eq!(attempt.processes_spawned, 1);
 
         let mut unbound_override = input(
@@ -792,8 +2061,10 @@ fn read_set_under_a_parent_symlink_is_not_reusable() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first composition");
-    let second = run_composition(composition).expect("second composition");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first composition");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second composition");
 
     assert!(first.passed);
     assert!(second.passed, "second composition attempt: {second:?}");
@@ -1024,7 +2295,65 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         return;
     }
 
+    #[cfg(target_os = "linux")]
+    if std::env::var_os("COMPOSITION_CRASH_TEST_HELPER").is_none() {
+        let mut original_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut original_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state before isolated helper"
+        );
+        let mut helper = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "retry_reconciles_an_interrupted_owner_after_process_exit",
+                "--nocapture",
+            ])
+            .env("COMPOSITION_CRASH_TEST_HELPER", "1")
+            .spawn()
+            .expect("spawn isolated interrupted-owner test helper");
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            if let Some(status) = helper.try_wait().expect("check isolated test helper") {
+                break status;
+            }
+            if Instant::now() >= deadline {
+                let _ = helper.kill();
+                let _ = helper.wait();
+                panic!("isolated interrupted-owner test helper did not terminate");
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        };
+        assert!(
+            status.success(),
+            "isolated interrupted-owner test helper failed: {status}"
+        );
+        let mut final_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut final_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state after isolated helper"
+        );
+        assert_eq!(
+            final_subreaper_state, original_subreaper_state,
+            "isolated helper must not change the test harness subreaper state"
+        );
+        return;
+    }
+
     let root = repository();
+    #[cfg(target_os = "linux")]
+    let _subreaper = ChildSubreaperGuard::enable();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
     let state = tempdir("crash-recovery-state");
     let mut child = Command::new(std::env::current_exe().expect("test executable"))
@@ -1033,6 +2362,7 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
             "retry_reconciles_an_interrupted_owner_after_process_exit",
         ])
         .env("COMPOSITION_CRASH_CHILD", "1")
+        .env_remove("COMPOSITION_CRASH_TEST_HELPER")
         .env("COMPOSITION_CRASH_ROOT", root.path())
         .env("COMPOSITION_CRASH_STATE", state.path())
         .spawn()
@@ -1134,15 +2464,44 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
         "none",
         "detached verifier must open a worktree file and leave its working directory"
     );
-    struct DetachedProcessGuard(u32);
+    struct DetachedProcessGuard {
+        process_id: u32,
+        reaped: bool,
+    }
     impl Drop for DetachedProcessGuard {
         fn drop(&mut self) {
+            if self.reaped {
+                return;
+            }
             unsafe {
-                libc::kill(self.0 as libc::pid_t, libc::SIGKILL);
+                libc::kill(self.process_id as libc::pid_t, libc::SIGKILL);
+            }
+            #[cfg(target_os = "linux")]
+            {
+                let deadline = Instant::now() + Duration::from_secs(5);
+                loop {
+                    let mut status = 0;
+                    let waited = unsafe {
+                        libc::waitpid(self.process_id as libc::pid_t, &mut status, libc::WNOHANG)
+                    };
+                    if waited == self.process_id as libc::pid_t
+                        || (waited < 0
+                            && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD))
+                    {
+                        break;
+                    }
+                    if Instant::now() >= deadline {
+                        break;
+                    }
+                    std::thread::sleep(Duration::from_millis(5));
+                }
             }
         }
     }
-    let _escaped_process_guard = DetachedProcessGuard(escaped_process_id);
+    let mut escaped_process_guard = DetachedProcessGuard {
+        process_id: escaped_process_id,
+        reaped: false,
+    };
     let blocked = run_composition(input(
         root.path(),
         state.path(),
@@ -1165,13 +2524,92 @@ fn retry_reconciles_an_interrupted_owner_after_process_exit() {
     unsafe {
         libc::kill(escaped_process_id as libc::pid_t, libc::SIGKILL);
     }
-    let escaped_deadline = Instant::now() + Duration::from_secs(5);
-    while unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) } == 0 {
-        assert!(
-            Instant::now() < escaped_deadline,
-            "detached verifier did not exit after termination"
+    #[cfg(target_os = "linux")]
+    let zombie_identity = {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let stat = fs::read_to_string(format!("/proc/{escaped_process_id}/stat"))
+                .expect("detached verifier process stat");
+            let close = stat.rfind(')').expect("proc stat command terminator");
+            let fields = stat[close + 2..].split_whitespace().collect::<Vec<_>>();
+            let state = fields[0].chars().next().expect("process state");
+            let parent_pid = fields[1].parse::<u32>().expect("parent pid");
+            let process_group_id = fields[2].parse::<u32>().expect("process group id");
+            let session_id = fields[3].parse::<u32>().expect("session id");
+            if state == 'Z' {
+                break (state, parent_pid, process_group_id, session_id);
+            }
+            assert!(
+                Instant::now() < deadline,
+                "detached verifier did not become a zombie after SIGKILL"
+            );
+            std::thread::sleep(Duration::from_millis(5));
+        }
+    };
+    #[cfg(target_os = "linux")]
+    {
+        assert_eq!(zombie_identity.1, std::process::id());
+        assert_eq!(zombie_identity.2, escaped_process_id);
+        assert_eq!(zombie_identity.3, escaped_process_id);
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        assert_eq!(
+            unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    escaped_process_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            },
+            0,
+            "waitid WNOWAIT observes the detached verifier zombie without reaping it"
         );
-        std::thread::sleep(Duration::from_millis(10));
+        assert_eq!(
+            unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) },
+            0,
+            "kill(pid, 0) still sees the unreaped detached verifier zombie"
+        );
+        eprintln!(
+            "observed detached verifier zombie: pid={} state={:?} ppid={} pgid={} sid={}; waitid(WNOWAIT)=0; kill(pid, 0)=0",
+            escaped_process_id,
+            zombie_identity.0,
+            zombie_identity.1,
+            zombie_identity.2,
+            zombie_identity.3
+        );
+    }
+    #[cfg(not(target_os = "linux"))]
+    let escaped_process_details = "process state unavailable";
+    #[cfg(target_os = "linux")]
+    {
+        let mut status = 0;
+        let waited = unsafe { libc::waitpid(escaped_process_id as libc::pid_t, &mut status, 0) };
+        assert_eq!(
+            waited, escaped_process_id as libc::pid_t,
+            "the isolated subreaper must explicitly reap its detached zombie"
+        );
+        escaped_process_guard.reaped = true;
+        assert_eq!(
+            unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) },
+            -1,
+            "the detached verifier PID must be absent after waitpid reaps it"
+        );
+        assert_eq!(
+            std::io::Error::last_os_error().raw_os_error(),
+            Some(libc::ESRCH)
+        );
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        let escaped_deadline = Instant::now() + Duration::from_secs(5);
+        while unsafe { libc::kill(escaped_process_id as libc::pid_t, 0) } == 0 {
+            assert!(
+                Instant::now() < escaped_deadline,
+                "detached verifier pid={escaped_process_id} {escaped_process_details} remained visible after SIGKILL"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        escaped_process_guard.reaped = true;
     }
 
     let retry = run_composition(input(
@@ -1236,8 +2674,66 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
         panic!("the verifier command should terminate its composition owner");
     }
 
+    #[cfg(target_os = "linux")]
+    if std::env::var_os("COMPOSITION_ORPHAN_TEST_HELPER").is_none() {
+        let mut original_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut original_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state before isolated helper"
+        );
+        let mut helper = Command::new(std::env::current_exe().expect("test executable"))
+            .args([
+                "--exact",
+                "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
+            ])
+            .env("COMPOSITION_ORPHAN_TEST_HELPER", "1")
+            .env("AI_COCKPIT_COMPOSITION_RECONCILE_TRACE", "1")
+            .spawn()
+            .expect("spawn isolated subreaper test helper");
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let status = loop {
+            if let Some(status) = helper.try_wait().expect("check isolated test helper") {
+                break status;
+            }
+            if Instant::now() >= deadline {
+                let _ = helper.kill();
+                let _ = helper.wait();
+                panic!("isolated subreaper test helper did not terminate");
+            }
+            std::thread::sleep(Duration::from_millis(10));
+        };
+        assert!(
+            status.success(),
+            "isolated subreaper test helper failed: {status}"
+        );
+        let mut final_subreaper_state = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut final_subreaper_state as *mut libc::c_int,
+                )
+            },
+            0,
+            "read test harness child-subreaper state after isolated helper"
+        );
+        assert_eq!(
+            final_subreaper_state, original_subreaper_state,
+            "isolated helper must not change the test harness subreaper state"
+        );
+        return;
+    }
+
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
+    #[cfg(target_os = "linux")]
+    let _subreaper = ChildSubreaperGuard::enable();
     let state = tempdir("orphan-verifier-state");
     let pid_file = state.path().join("orphan-verifier.pid");
     let mut child = Command::new(std::env::current_exe().expect("test executable"))
@@ -1246,6 +2742,7 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
             "retry_preserves_worktree_while_orphan_verifier_process_group_is_alive",
         ])
         .env("COMPOSITION_ORPHAN_CHILD", "1")
+        .env_remove("COMPOSITION_ORPHAN_TEST_HELPER")
         .env("COMPOSITION_ORPHAN_ROOT", root.path())
         .env("COMPOSITION_ORPHAN_STATE", state.path())
         .env("COMPOSITION_ORPHAN_PID_FILE", &pid_file)
@@ -1295,20 +2792,62 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
             .as_str()
             .expect("durable worktree path"),
     );
+    let canonical_worktree = fs::canonicalize(&worktree).expect("canonical interrupted worktree");
+    let worktree_registration = format!("worktree {}", canonical_worktree.display());
     assert!(
         worktree.is_dir(),
         "interrupted worktree must remain recoverable"
     );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "live owner's original linked worktree must remain registered"
+    );
 
-    struct ProcessGroupGuard(u32);
+    struct ProcessGroupGuard(Option<u32>);
+    impl ProcessGroupGuard {
+        fn disarm(&mut self) {
+            self.0 = None;
+        }
+    }
     impl Drop for ProcessGroupGuard {
         fn drop(&mut self) {
+            let Some(process_group_id) = self.0.take() else {
+                return;
+            };
             unsafe {
-                libc::kill(-(self.0 as libc::pid_t), libc::SIGKILL);
+                libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL);
+            }
+            #[cfg(target_os = "linux")]
+            {
+                let deadline = Instant::now() + Duration::from_secs(5);
+                loop {
+                    let mut status = 0;
+                    let waited = unsafe {
+                        libc::waitpid(
+                            -(process_group_id as libc::pid_t),
+                            &mut status,
+                            libc::WNOHANG,
+                        )
+                    };
+                    if waited > 0 {
+                        continue;
+                    }
+                    if waited < 0
+                        && std::io::Error::last_os_error().raw_os_error() == Some(libc::ECHILD)
+                    {
+                        break;
+                    }
+                    if Instant::now() >= deadline {
+                        break;
+                    }
+                    std::thread::sleep(Duration::from_millis(5));
+                }
             }
         }
     }
-    let process_group_guard = ProcessGroupGuard(process_group_id);
+    let mut process_group_guard = ProcessGroupGuard(Some(process_group_id));
     let retry_input = input(
         root.path(),
         state.path(),
@@ -1317,30 +2856,127 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     let blocked = run_composition(retry_input.clone());
-    assert!(matches!(
-        blocked,
-        Err(CompositionError::ActiveVerifierProcessGroup {
-            process_group_id: active_group,
-            ..
-        }) if active_group == process_group_id
-    ));
+    #[cfg(target_os = "linux")]
+    let proc_observation = linux_process_group_proc_observation(process_group_id);
+    assert!(
+        matches!(
+            &blocked,
+            Err(CompositionError::ActiveVerifierProcessGroup {
+                process_group_id: active_group,
+                ..
+            }) if *active_group == process_group_id
+        ),
+        "expected ActiveVerifierProcessGroup for {process_group_id}; actual result: {blocked:?}; \
+        same-time /proc observation: {}",
+        {
+            #[cfg(target_os = "linux")]
+            {
+                proc_observation.as_str()
+            }
+            #[cfg(not(target_os = "linux"))]
+            {
+                "unavailable on this platform"
+            }
+        }
+    );
     assert!(
         worktree.is_dir(),
         "live verifier group worktree must be preserved"
     );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "live verifier group must preserve its worktree registration"
+    );
+
+    let mut unknown_attempt = interrupted.clone();
+    unknown_attempt["activeProcessGroupIdentity"] = serde_json::Value::Null;
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&unknown_attempt).expect("serialize unknown attempt"),
+    )
+    .expect("persist missing-identity unknown fixture");
+    let unknown = run_composition(retry_input.clone())
+        .expect_err("missing leader identity must preserve the worktree as unknown");
+    assert!(
+        matches!(unknown, CompositionError::UnknownAttemptOwner { .. }),
+        "missing leader identity must fail closed as unknown: {unknown:?}"
+    );
+    let still_unknown: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("unknown attempt remains durable"))
+            .expect("unknown attempt JSON");
+    assert!(still_unknown["cleanup"].is_null());
+    assert!(
+        worktree.is_dir(),
+        "unknown verifier group must preserve worktree"
+    );
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "unknown verifier group must preserve worktree registration"
+    );
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&interrupted).expect("restore complete attempt identity"),
+    )
+    .expect("restore complete process-group identity");
 
     unsafe {
         libc::kill(-(process_group_id as libc::pid_t), libc::SIGKILL);
     }
-    let group_deadline = Instant::now() + Duration::from_secs(5);
-    while unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) } == 0 {
-        assert!(
-            Instant::now() < group_deadline,
-            "verifier process group did not exit"
+    #[cfg(target_os = "linux")]
+    {
+        let zombie_deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+            let wait_result = unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    process_group_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            };
+            assert_eq!(wait_result, 0, "waitid WNOWAIT observes verifier exit");
+            let stat = fs::read_to_string(format!("/proc/{process_group_id}/stat"))
+                .expect("retained zombie process stat");
+            let close = stat.rfind(')').expect("proc stat command terminator");
+            if stat[close + 1..].split_whitespace().next() == Some("Z") {
+                break;
+            }
+            assert!(
+                Instant::now() < zombie_deadline,
+                "verifier process group leader did not become a retained zombie"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        assert_eq!(
+            unsafe {
+                libc::waitid(
+                    libc::P_PID,
+                    process_group_id as libc::id_t,
+                    &mut info,
+                    libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+                )
+            },
+            0,
+            "waitid WNOWAIT observes the retained zombie without reaping it"
         );
-        std::thread::sleep(Duration::from_millis(10));
     }
-    drop(process_group_guard);
+    #[cfg(not(target_os = "linux"))]
+    {
+        let group_deadline = Instant::now() + Duration::from_secs(5);
+        while unsafe { libc::kill(-(process_group_id as libc::pid_t), 0) } == 0 {
+            assert!(
+                Instant::now() < group_deadline,
+                "verifier process group did not exit"
+            );
+            std::thread::sleep(Duration::from_millis(10));
+        }
+    }
 
     let _ = run_composition(retry_input).expect("retry reconciles after verifier exit");
     let reconciled: serde_json::Value =
@@ -1351,47 +2987,393 @@ fn retry_preserves_worktree_while_orphan_verifier_process_group_is_alive() {
         !worktree.exists(),
         "dead verifier worktree should be cleaned on retry"
     );
+    assert!(
+        !run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "dead verifier group cleanup removes the worktree registration"
+    );
+    #[cfg(target_os = "linux")]
+    {
+        let deadline = Instant::now() + Duration::from_secs(5);
+        loop {
+            let mut status = 0;
+            let waited = unsafe {
+                libc::waitpid(
+                    -(process_group_id as libc::pid_t),
+                    &mut status,
+                    libc::WNOHANG,
+                )
+            };
+            if waited > 0 {
+                continue;
+            }
+            if waited == 0 {
+                assert!(
+                    Instant::now() < deadline,
+                    "verifier process group children were not fully reaped"
+                );
+                std::thread::sleep(Duration::from_millis(5));
+                continue;
+            }
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::ECHILD) {
+                break;
+            }
+            if error.kind() == std::io::ErrorKind::Interrupted {
+                continue;
+            }
+            panic!("failed to reap verifier process group children: {error}");
+        }
+    }
+    process_group_guard.disarm();
 }
 
+#[cfg(target_os = "linux")]
+struct ChildSubreaperGuard(libc::c_int);
+
+#[cfg(target_os = "linux")]
+impl ChildSubreaperGuard {
+    fn enable() -> Self {
+        let mut previous = 0;
+        assert_eq!(
+            unsafe {
+                libc::prctl(
+                    libc::PR_GET_CHILD_SUBREAPER,
+                    &mut previous as *mut libc::c_int,
+                )
+            },
+            0,
+            "read prior child-subreaper state"
+        );
+        assert_eq!(
+            unsafe { libc::prctl(libc::PR_SET_CHILD_SUBREAPER, 1) },
+            0,
+            "make the fixture its descendants' subreaper"
+        );
+        Self(previous)
+    }
+}
+
+#[cfg(target_os = "linux")]
+impl Drop for ChildSubreaperGuard {
+    fn drop(&mut self) {
+        unsafe {
+            libc::prctl(libc::PR_SET_CHILD_SUBREAPER, self.0);
+        }
+    }
+}
+
+#[cfg(target_os = "linux")]
 #[test]
-fn node_without_observable_inputs_executes_again_instead_of_reusing() {
+fn retry_reconciles_zombie_only_verifier_process_group() {
+    if std::env::var_os("COMPOSITION_ZOMBIE_GROUP_HELPER").is_some() {
+        return;
+    }
+
+    fn proc_identity(pid: u32) -> (char, u64, u32, u32) {
+        let stat = fs::read_to_string(format!("/proc/{pid}/stat")).expect("process stat");
+        let close = stat.rfind(')').expect("stat command terminator");
+        let fields = stat[close + 2..].split_whitespace().collect::<Vec<_>>();
+        (
+            fields[0].chars().next().expect("process state"),
+            fields[19].parse().expect("process starttime"),
+            fields[2].parse().expect("process group id"),
+            fields[3].parse().expect("session id"),
+        )
+    }
+
+    struct ReapChild(Child);
+    impl Drop for ReapChild {
+        fn drop(&mut self) {
+            let _ = self.0.wait();
+        }
+    }
+
+    let mut helper = Command::new(std::env::current_exe().expect("test executable"));
+    helper
+        .args([
+            "--exact",
+            "retry_reconciles_zombie_only_verifier_process_group",
+        ])
+        .env("COMPOSITION_ZOMBIE_GROUP_HELPER", "1");
+    use std::os::unix::process::CommandExt;
+    helper.process_group(0);
+    let child = ReapChild(helper.spawn().expect("spawn process-group leader"));
+    let leader_pid = child.0.id();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let leader_identity = loop {
+        let (state, start_time_ticks, process_group_id, session_id) = proc_identity(leader_pid);
+        if state == 'Z' {
+            break (start_time_ticks, process_group_id, session_id);
+        }
+        assert!(
+            Instant::now() < deadline,
+            "helper process did not become a zombie"
+        );
+        std::thread::sleep(Duration::from_millis(5));
+    };
+    assert_eq!(leader_identity.1, leader_pid);
+    let mut zombie_info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+    assert_eq!(
+        unsafe {
+            libc::waitid(
+                libc::P_PID,
+                leader_pid as libc::id_t,
+                &mut zombie_info,
+                libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+            )
+        },
+        0,
+        "waitid WNOWAIT observes the direct child zombie without reaping it"
+    );
+    assert_eq!(
+        unsafe { libc::kill(-(leader_pid as libc::pid_t), 0) },
+        0,
+        "Linux reports a zombie-only process group as present"
+    );
+
     let root = repository();
     let base = run(root.path(), &["rev-parse", "HEAD"]);
-    let state = tempdir("state");
-    let mut unverifiable = command("unverifiable", "sh", &["-c", "true"]);
-    unverifiable.input_paths.clear();
-    let composition = input(
+    let mut exited_owner = Command::new("true")
+        .spawn()
+        .expect("spawn owner PID fixture");
+    let owner_pid = exited_owner.id();
+    assert!(
+        exited_owner
+            .wait()
+            .expect("reap owner PID fixture")
+            .success()
+    );
+    let owner_proc = PathBuf::from(format!("/proc/{owner_pid}"));
+    assert!(
+        !owner_proc.exists(),
+        "owner PID fixture must be reaped before retry"
+    );
+
+    let state = tempdir("zombie-only-verifier-state");
+    let worktree_parent = std::env::temp_dir().join(format!(
+        "ai-cockpit-composition-{owner_pid}-{}-{}",
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .expect("clock after UNIX epoch")
+            .as_nanos(),
+        NEXT_TEMP_DIR.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir(&worktree_parent).expect("create owned worktree parent");
+    let _worktree_parent = TempDir {
+        path: worktree_parent.clone(),
+        preserve_on_drop: false,
+    };
+    let worktree = worktree_parent.join("composition");
+    run(
+        root.path(),
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            worktree.to_str().expect("UTF-8 worktree path"),
+            &base,
+        ],
+    );
+    let canonical_worktree = fs::canonicalize(&worktree).expect("canonical linked worktree");
+    let worktree_registration = format!("worktree {}", canonical_worktree.display());
+    assert!(
+        run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "interrupted attempt fixture must start with an owned linked worktree"
+    );
+
+    let attempt_binding = binding(&base, vec![base.clone(), base.clone()]);
+    let attempt_id = "interrupted-zombie-only-verifier";
+    let preconditions = vec![CompositionPrecondition::satisfied("identity-bound")];
+    let interrupted = ::serde_json::json!({
+        "schemaVersion": 2,
+        "attemptId": attempt_id,
+        "binding": attempt_binding,
+        "identity": identity("zombie-only-fixture"),
+        "preconditions": preconditions,
+        "isolatedWorktree": worktree.to_string_lossy(),
+        "textConflicts": [],
+        "executionRecords": [],
+        "processesSpawned": 1,
+        "reuseDecision": {
+            "kind": "execute",
+            "reason": "interrupted fixture",
+            "predecessorAttemptId": null
+        },
+        "passed": false,
+        "failure": "in_progress",
+        "ownerTerminationSignal": null,
+        "cleanup": null,
+        "recordedAtUnixNanos": 1,
+        "ownerPid": owner_pid,
+        "processObservationSchemaVersion": 1,
+        "activeExecutionNode": "orphan-verifier",
+        "activeProcessGroupId": leader_pid,
+        "activeProcessGroupIdentity": {
+            "leaderPid": leader_pid,
+            "leaderStartTimeTicks": leader_identity.0,
+            "processGroupId": leader_identity.1,
+            "sessionId": leader_identity.2
+        }
+    });
+    fs::write(
+        state.path().join(format!("{attempt_id}.json")),
+        serde_json::to_vec_pretty(&interrupted).expect("serialize interrupted attempt"),
+    )
+    .expect("write interrupted attempt");
+
+    let retry = input(
         root.path(),
         state.path(),
-        binding(&base.clone(), vec![base.clone(), base]),
-        vec![unverifiable],
-        vec![CompositionPrecondition::satisfied("identity-bound")],
+        binding(&base, vec![base.clone(), base.clone()]),
+        vec![command("retry", "sh", &["-c", "true"])],
+        preconditions,
     );
-    let first = run_composition(composition.clone()).expect("first attempt");
     assert!(
-        first.passed,
-        "first attempt failed before retry: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
-        first.failure,
-        first.cleanup,
-        first.owner_pid,
-        first.active_execution_node,
-        first.active_process_group_id
+        !owner_proc.exists(),
+        "owner PID fixture remains absent immediately before reconciliation"
     );
-    let second = run_composition(composition).unwrap_or_else(|error| {
-        panic!(
-            "second attempt failed: {error}; first attempt state: failure={:?}, cleanup={:?}, owner_pid={:?}, active_node={:?}, active_process_group={:?}",
-            first.failure,
-            first.cleanup,
-            first.owner_pid,
-            first.active_execution_node,
-            first.active_process_group_id
-        )
+    let recovered = run_composition_with_test_supervisor(retry).unwrap_or_else(|error| {
+        panic!("zombie-only verifier group should be reconciled safely: {error}")
     });
+    let target_tree = run(
+        root.path(),
+        &["rev-parse", "--verify", &format!("{base}^{{tree}}")],
+    );
+    let receipt = recovered
+        .supervisor_receipt
+        .as_ref()
+        .expect("fresh retry needs a real supervisor receipt");
 
-    assert!(first.passed && second.passed);
-    assert_eq!(second.processes_spawned, 1);
-    assert!(!second.execution_records[0].reused);
-    assert_eq!(second.reuse_decision.kind, ReuseDecisionKind::Unknown);
+    let interrupted_path = attempt_record_path(state.path(), attempt_id);
+    let reconciled: serde_json::Value = serde_json::from_slice(
+        &fs::read(&interrupted_path).expect("reconciled interrupted attempt"),
+    )
+    .expect("reconciled attempt JSON");
+    assert_eq!(reconciled["failure"], "interrupted_owner_terminated");
+    assert_eq!(reconciled["schemaVersion"], 2);
+    assert_eq!(reconciled["ownerPid"], owner_pid);
+    assert_eq!(reconciled["cleanup"]["attempted"], true);
+    assert_eq!(reconciled["cleanup"]["removed"], true);
+    assert_eq!(
+        reconciled["isolatedWorktree"],
+        worktree.to_string_lossy().as_ref()
+    );
+    assert!(
+        !worktree.exists(),
+        "reconciliation removes the old worktree directory"
+    );
+    assert!(
+        !run(root.path(), &["worktree", "list", "--porcelain"])
+            .lines()
+            .any(|line| line == worktree_registration),
+        "reconciliation removes the old worktree registration"
+    );
+    assert_eq!(reconciled["activeProcessGroupId"], serde_json::Value::Null);
+    assert_eq!(
+        reconciled["activeProcessGroupIdentity"],
+        serde_json::Value::Null
+    );
+
+    assert_eq!(
+        receipt.snapshot_digest,
+        Digest::sha256_bytes(target_tree.as_bytes()),
+        "supervisor receipt must bind the observed target tree"
+    );
+    assert_eq!(
+        recovered.execution_outcome,
+        CompositionExecutionOutcome::Passed
+    );
+    assert!(recovered.execution_evidence_complete);
+    assert_eq!(recovered.processes_spawned, 1);
+    assert_eq!(recovered.execution_records.len(), 1);
+    assert_eq!(recovered.execution_records[0].node_id, "retry");
+    assert!(recovered.execution_records[0].spawned);
+    assert!(!recovered.execution_records[0].reused);
+    assert!(recovered.execution_records[0].passed);
+    assert_eq!(recovered.execution_records[0].exit_code, Some(0));
+    assert_eq!(recovered.binding.target_sha, base);
+    assert!(recovered.text_conflicts.is_empty());
+    assert!(recovered.preconditions.iter().all(|item| item.satisfied));
+    assert_eq!(receipt.schema_version, 1);
+    assert_eq!(
+        receipt.backend,
+        CompositionSupervisorBackend::LinuxSubreaper
+    );
+    assert_eq!(receipt.attempt_id, recovered.attempt_id);
+    assert!(!receipt.run_nonce.is_empty());
+    assert_eq!(receipt.generation, 1);
+    assert_eq!(receipt.repository_id, recovered.binding.repository_id);
+    assert_eq!(receipt.target_sha, recovered.binding.target_sha);
+    assert_eq!(
+        receipt.runtime_version,
+        recovered.binding.verifier.runtime_version
+    );
+    assert_eq!(
+        receipt.runtime_digest,
+        recovered.binding.verifier.runtime_digest
+    );
+    assert_eq!(
+        receipt.command_plan_digest,
+        recovered.identity.command_digest
+    );
+    assert_eq!(receipt.owner, receipt.supervisor);
+    assert!(receipt.owner.process_id > 0);
+    assert!(receipt.owner.start_time_ticks.is_some());
+    assert!(receipt.supervisor.process_group_id.is_some());
+    assert!(receipt.supervisor.session_id.is_some());
+    assert_eq!(recovered.owner_pid, Some(receipt.supervisor.process_id));
+    assert!(receipt.descendants_reaped_to_echild);
+    assert!(!recovered.owned_tree_termination_unknown);
+    let durable: CompositionAttempt = serde_json::from_slice(
+        &fs::read(attempt_record_path(state.path(), &recovered.attempt_id))
+            .expect("durable fresh retry attempt"),
+    )
+    .expect("decode fresh retry attempt");
+    assert_eq!(durable.supervisor_receipt, recovered.supervisor_receipt);
+
+    match recovered.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            assert!(recovered.passed, "retry failed: {recovered:?}");
+            assert!(recovered.is_coherent_successful_terminal());
+            let cleanup = recovered.cleanup.as_ref().expect("cleaned retry evidence");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+        }
+        CompositionCleanupDisposition::Deferred => {
+            assert!(!recovered.passed);
+            assert!(!recovered.is_coherent_successful_terminal());
+            assert_eq!(
+                recovered.failure.as_deref(),
+                Some("composition_cleanup_deferred")
+            );
+            let cleanup = recovered.cleanup.as_ref().expect("deferred retry evidence");
+            assert!(!cleanup.attempted);
+            assert!(!cleanup.removed);
+            let error = cleanup.error.as_deref().expect("external observer error");
+            assert!(
+                error.starts_with("verifier_process_state_unknown:cannot inspect process ")
+                    && [" working directory", " file descriptors", " open files"]
+                        .iter()
+                        .any(|suffix| error.ends_with(suffix)),
+                "unexpected observer error: {error}"
+            );
+            let retry_worktree = Path::new(&recovered.isolated_worktree);
+            assert!(retry_worktree.is_dir(), "deferred retry tree must remain");
+            let retry_registration = format!("worktree {}", retry_worktree.display());
+            assert!(
+                run(root.path(), &["worktree", "list", "--porcelain"])
+                    .lines()
+                    .any(|line| line == retry_registration),
+                "deferred retry worktree registration must remain"
+            );
+        }
+        other => panic!("unexpected zombie-only retry cleanup disposition: {other:?}"),
+    }
 }
 
 #[test]
@@ -1409,7 +3391,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(first_input.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
     assert!(first.passed);
 
     let second_input = input(
@@ -1422,7 +3405,8 @@ fn changed_command_only_reexecutes_the_affected_node() {
         ],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let second = run_composition(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     if cfg!(unix) {
@@ -1463,7 +3447,8 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
         vec![api.clone(), docs.clone()],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(first_input).expect("first attempt");
+    let first =
+        run_composition_with_pure_cache_test_supervisor(first_input).expect("first attempt");
     assert!(first.passed);
 
     run(root.path(), &["checkout", "-q", "provider"]);
@@ -1473,7 +3458,7 @@ fn changed_source_file_only_reexecutes_nodes_that_observe_that_file() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition(input(
+    let second = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -1527,7 +3512,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         transitive.clone(),
         independent.clone(),
     ];
-    let first = run_composition(input(
+    let first = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![first_head.clone(), base.clone()]),
@@ -1535,7 +3520,25 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     ))
     .expect("first attempt");
-    assert!(first.passed);
+    assert!(
+        first.passed,
+        "first dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        first.execution_outcome,
+        first.execution_evidence_complete,
+        first.failure,
+        first.cleanup_disposition,
+        first.owned_tree_termination_unknown,
+        first
+            .execution_records
+            .iter()
+            .map(|record| (
+                &record.node_id,
+                record.passed,
+                record.exit_code,
+                record.termination_signal
+            ))
+            .collect::<Vec<_>>()
+    );
 
     run(root.path(), &["checkout", "-q", "provider"]);
     fs::write(root.path().join("api.txt"), "api-v2\n").expect("updated api input");
@@ -1544,7 +3547,7 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     let second_head = run(root.path(), &["rev-parse", "HEAD"]);
     run(root.path(), &["checkout", "-q", "main"]);
 
-    let second = run_composition(input(
+    let second = run_composition_with_pure_cache_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base, vec![second_head, base.clone()]),
@@ -1553,7 +3556,25 @@ fn changed_upstream_receipt_reexecutes_transitive_dependents_only() {
     ))
     .expect("second attempt");
 
-    assert!(second.passed);
+    assert!(
+        second.passed,
+        "second dependency attempt: outcome={:?} complete={} failure={:?} cleanup={:?} owned_tree_unknown={} node_results={:?}",
+        second.execution_outcome,
+        second.execution_evidence_complete,
+        second.failure,
+        second.cleanup_disposition,
+        second.owned_tree_termination_unknown,
+        second
+            .execution_records
+            .iter()
+            .map(|record| (
+                &record.node_id,
+                record.passed,
+                record.exit_code,
+                record.termination_signal
+            ))
+            .collect::<Vec<_>>()
+    );
     assert_eq!(second.processes_spawned, if cfg!(unix) { 3 } else { 4 });
     for node_id in ["source", "consumer", "transitive"] {
         let record = second
@@ -1597,7 +3618,8 @@ fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_i
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
     first_input.timeout_seconds = 30;
-    let first = run_composition(first_input.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(first_input.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt: {first:?}");
 
     let mut second_input = first_input;
@@ -1605,7 +3627,8 @@ fn actual_command_environment_change_invalidates_reuse_even_when_json_identity_i
         .environment
         .insert("COMPOSITION_FLAVOR".into(), "two".into());
     // Deliberately keep every caller-supplied identity digest unchanged.
-    let second = run_composition(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -1620,7 +3643,7 @@ fn inherited_environment_does_not_enter_runtime_child_or_invalidate_reuse() {
         let state = PathBuf::from(std::env::var_os("COMPOSITION_ENV_STATE").expect("state path"));
         let base = run(&root, &["rev-parse", "refs/heads/main"]);
         let check = command("inherited-environment-check", "env", &[]);
-        let attempt = run_composition(input(
+        let attempt = run_composition_with_pure_cache_test_supervisor(input(
             &root,
             &state,
             binding(&base, vec![base.clone(), base.clone()]),
@@ -1775,13 +3798,15 @@ fn unbounded_external_reads_execute_again_but_independent_node_reuses() {
     );
     let original_json = serde_json::to_vec(&composition).expect("serialize composition input");
 
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     fs::write(&source, "version-two\n").expect("change external source without editing input");
     assert_eq!(
         serde_json::to_vec(&composition).expect("serialize unchanged composition input"),
         original_json
     );
-    let second = run_composition(composition).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(composition).expect("second attempt");
 
     assert!(first.passed && second.passed);
     assert_eq!(first.processes_spawned, 2);
@@ -1814,7 +3839,8 @@ fn relative_executable_uses_isolated_worktree_bytes_and_changes_identity() {
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
 
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt: {first:?}");
     assert_ne!(
         first.identity.toolchain_digest,
@@ -1832,7 +3858,8 @@ fn relative_executable_uses_isolated_worktree_bytes_and_changes_identity() {
     let mut second_input = composition;
     second_input.binding.target_sha = next_head.clone();
     second_input.binding.participant_heads = vec![next_head.clone(), next_head];
-    let second = run_composition(second_input).expect("second attempt");
+    let second =
+        run_composition_with_pure_cache_test_supervisor(second_input).expect("second attempt");
 
     assert!(!second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -1904,7 +3931,7 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
     // Parallel package-test workers may inherit SIGINT as ignored. Reset the
     // child disposition explicitly so this remains a real signal termination
     // regardless of how Cargo's test process was launched.
-    let attempt = run_composition(input(
+    let attempt = run_composition_with_test_supervisor(input(
         root.path(),
         state.path(),
         binding(&base.clone(), vec![base.clone(), base]),
@@ -1918,9 +3945,14 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
         )],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     ))
-    .expect("signal-terminated composition attempt");
+    .expect("signal-terminated composition attempt with owned supervisor proof");
 
     assert!(!attempt.passed);
+    assert_eq!(
+        attempt.execution_outcome,
+        CompositionExecutionOutcome::Failed
+    );
+    assert!(attempt.execution_evidence_complete);
     assert_eq!(
         attempt.failure.as_deref(),
         Some("command_interrupted:signal=2")
@@ -1928,18 +3960,61 @@ fn signal_terminated_node_is_durable_and_not_reusable() {
     assert_eq!(attempt.processes_spawned, 1);
     assert_eq!(attempt.execution_records[0].termination_signal, Some(2));
     assert!(!attempt.execution_records[0].reused);
-    assert!(
-        attempt
-            .cleanup
-            .as_ref()
-            .is_some_and(|cleanup| cleanup.attempted && cleanup.removed)
-    );
+    let receipt = attempt
+        .supervisor_receipt
+        .as_ref()
+        .expect("real isolated supervisor receipt");
+    assert_eq!(receipt.attempt_id, attempt.attempt_id);
+    assert_eq!(attempt.owner_pid, Some(receipt.supervisor.process_id));
+    assert_eq!(receipt.owner, receipt.supervisor);
+    assert!(!attempt.owned_tree_termination_unknown);
+    #[cfg(target_os = "linux")]
+    {
+        assert_eq!(
+            receipt.backend,
+            CompositionSupervisorBackend::LinuxSubreaper
+        );
+        assert!(receipt.descendants_reaped_to_echild);
+    }
+    match attempt.cleanup_disposition {
+        CompositionCleanupDisposition::Cleaned => {
+            let cleanup = attempt.cleanup.as_ref().expect("cleaned signal attempt");
+            assert!(cleanup.attempted);
+            assert!(cleanup.removed);
+            assert!(cleanup.error.is_none());
+            assert!(!Path::new(&attempt.isolated_worktree).exists());
+        }
+        #[cfg(target_os = "linux")]
+        CompositionCleanupDisposition::Deferred => {
+            let cleanup = attempt.cleanup.as_ref().expect("deferred signal attempt");
+            assert!(!cleanup.attempted);
+            assert!(!cleanup.removed);
+            let error = cleanup.error.as_deref().expect("external observer error");
+            assert!(
+                error.starts_with("verifier_process_state_unknown:cannot inspect process ")
+                    && [" working directory", " file descriptors", " open files"]
+                        .iter()
+                        .any(|suffix| error.ends_with(suffix)),
+                "unexpected observer error: {error}"
+            );
+            let retained = Path::new(&attempt.isolated_worktree);
+            assert!(retained.is_dir(), "deferred signal tree must remain");
+            let registration = format!("worktree {}", retained.display());
+            assert!(
+                run(root.path(), &["worktree", "list", "--porcelain"])
+                    .lines()
+                    .any(|line| line == registration),
+                "deferred signal worktree registration must remain"
+            );
+        }
+        other => panic!("unexpected signal cleanup disposition: {other:?}"),
+    }
     let durable: serde_json::Value = serde_json::from_slice(
         &fs::read(attempt_record_path(state.path(), &attempt.attempt_id))
             .expect("durable signal attempt"),
     )
     .expect("signal attempt JSON");
-    assert_eq!(durable["schemaVersion"], 2);
+    assert_eq!(durable["schemaVersion"], 3);
     assert_eq!(durable["executionRecords"][0]["terminationSignal"], 2);
     assert_eq!(durable["passed"], false);
 }
@@ -1956,7 +4031,8 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
         vec![command("check", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("write current attempt");
     assert!(first.passed, "seed attempt failed: {first:?}");
     let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut legacy: serde_json::Value =
@@ -1969,7 +4045,8 @@ fn composition_v2_attempt_reads_but_does_not_reuse_v1_history() {
     )
     .expect("retain legacy attempt as v1");
 
-    let second = run_composition(composition).expect("run without legacy reuse");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("run without legacy reuse");
 
     assert!(second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -1993,13 +4070,15 @@ fn composition_attempt_reads_legacy_logical_id_filename_and_preserves_it() {
         vec![command("legacy-name", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("first attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first attempt");
     assert!(first.passed, "first attempt failed: {first:?}");
     let portable_path = attempt_record_path(state.path(), &first.attempt_id);
     let legacy_path = state.path().join(format!("{}.json", first.attempt_id));
     fs::rename(&portable_path, &legacy_path).expect("simulate historical Unix filename");
 
-    let second = run_composition(composition).expect("attempt should read legacy filename");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("attempt should read legacy filename");
 
     assert!(second.passed, "second attempt failed: {second:?}");
     assert_eq!(second.processes_spawned, 0);
@@ -2023,7 +4102,8 @@ fn composition_attempt_without_schema_version_is_not_reused() {
         vec![command("check", "true", &[])],
         vec![CompositionPrecondition::satisfied("identity-bound")],
     );
-    let first = run_composition(composition.clone()).expect("write current attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("write current attempt");
     let first_path = attempt_record_path(state.path(), &first.attempt_id);
     let mut historical: serde_json::Value =
         serde_json::from_slice(&fs::read(&first_path).expect("first attempt bytes"))
@@ -2038,7 +4118,8 @@ fn composition_attempt_without_schema_version_is_not_reused() {
     )
     .expect("retain pre-version history");
 
-    let second = run_composition(composition).expect("run without historical reuse");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("run without historical reuse");
 
     assert!(second.passed);
     assert_eq!(second.processes_spawned, 1);
@@ -2099,6 +4180,8 @@ fn installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node() {
     let output = Command::new(std::env::current_exe().expect("current test executable"))
         .args(["--exact", "installed_toolchain_change_child", "--nocapture"])
         .env("HOME", home.path())
+        .env_remove("CARGO_HOME")
+        .env_remove("RUSTUP_HOME")
         .env("COCKPIT_TOOLCHAIN_TEST_INPUT", &input_path)
         .env("COCKPIT_TOOLCHAIN_TEST_INSTALL", &toolchain)
         .output()
@@ -2124,13 +4207,15 @@ fn installed_toolchain_change_child() {
         serde_json::from_slice(&fs::read(input_path).expect("read unchanged composition JSON"))
             .expect("decode composition JSON");
 
-    let first = run_composition(composition.clone()).expect("first toolchain attempt");
+    let first = run_composition_with_pure_cache_test_supervisor(composition.clone())
+        .expect("first toolchain attempt");
     assert!(first.passed, "first attempt: {first:?}");
     assert_eq!(first.processes_spawned, 1);
     fs::write(toolchain.join("bin/rustc"), b"rustc-v2")
         .expect("update installed rustc without changing composition JSON");
 
-    let second = run_composition(composition).expect("second toolchain attempt");
+    let second = run_composition_with_pure_cache_test_supervisor(composition)
+        .expect("second toolchain attempt");
     assert!(second.passed, "second attempt: {second:?}");
     assert_eq!(second.processes_spawned, 1, "changed toolchain must rerun");
     assert!(!second.execution_records[0].reused);

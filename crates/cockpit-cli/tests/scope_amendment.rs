@@ -156,6 +156,34 @@ fn out_of_scope_change_is_stopped_before_spawn_and_same_intent_amendment_recover
     assert_eq!(attempt["state"], "precondition_rejected");
     assert_eq!(attempt["processesSpawned"], 0);
 
+    // Material review is bound to committed source. Preserve the dirty-tree
+    // preflight evidence above, then commit the support file before amending
+    // scope so the recovered candidate can receive a fresh clean-source plan.
+    assert!(
+        Command::new("git")
+            .args(["add", "README.md"])
+            .current_dir(root)
+            .status()
+            .expect("stage support README")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "add required support README",
+            ])
+            .current_dir(root)
+            .status()
+            .expect("commit support README")
+            .success()
+    );
+
     let amendment = tempfile::NamedTempFile::new().expect("amendment input");
     fs::write(
         amendment.path(),

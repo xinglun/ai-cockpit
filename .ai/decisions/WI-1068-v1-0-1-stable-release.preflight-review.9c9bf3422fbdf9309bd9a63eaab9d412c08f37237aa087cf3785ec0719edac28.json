@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c156d294bbd6706cb1ea0a3015ab92dd0958aab17342d6a136c50c4b15bbb925",
+  "reason": "agent:Raydot asked for option 1 to confirm review of exact WI-1068 Contract sha256:d710d38d1f1be94e17c9c84aff1f7a8cdf9ed6b4832f1fa2c3f43d1f04627726 at 2026-10-07T05:30:42Z (Sentinel_ada8378935948191b9d58efed6c85fb4); user:Ray replied '1' at 2026-10-07T05:32:10Z (Sentinel_b905c6d21a1c8191917c455558faf2b7) in the parent-supplied transcript. This records a human:Ray bounded plan-review decision as relayed by the user, not independently host-authenticated identity. The Runtime controls call is executed by agent:Codex (/root) at 2026-10-07T05:33:44Z. This confirms the current Contract plan and snapshot only; independent source-code review, verification, merge, tag, and publication gates remain separate.",
+  "recordedAt": "2026-10-07T05:33:44Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f322037780b9ce3af85c9d24d8a82698f06e39d06fe0b929d1bdeb612cf821df",
+  "schemaVersion": 1,
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}
