@@ -791,6 +791,16 @@
     "reason": "The accepted scope and staged criteria align with the human-approved goal; release and install outcomes remain pending evidence.",
     "state": "resolved"
   },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-10T05:00:02.486509067Z",
+      "recordedAt": "2026-10-10T05:00:02.486509067Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
   "materialReviewReceipt": {
     "digest": "sha256:96492fe6c5dcbd8f0730ec3303bcda4ddda0e152a245acbb23b02e0049b24e3c",
     "path": ".ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51.json",
@@ -1262,8 +1272,8 @@
       "verificationPlan": "Assert CLI top-level/group/leaf/parameter help, MCP initialize/tools/list/requests, docs key claims and receipt output; preserve hidden helper secrecy and existing usage/audit/timezone guide corrections."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-10T04:41:52.698604802+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T05:00:02.486509067Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -1322,6 +1332,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:49165b0f8cdbb9b62339479f9d8c8b93b62592f0f9b08df0d259b9b32c5097a5",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }
