@@ -13,9 +13,9 @@
     "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
     "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
   ],
-  "createdAt": "2026-10-10T13:10:01.567897505Z",
+  "createdAt": "2026-10-10T15:50:37.183392501Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:74d619329939d0967b2c500afa3dc76f10d880dffa1e9d30c96ca1dc3aa6e0ac",
+  "evidenceDigest": "sha256:833333449746d568a176203face3d5fa8a6477f0f5f5c9c7c90192f3ae34b96c",
   "evidenceRefs": [
     ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
   ],
@@ -41,7 +41,7 @@
         ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+      "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
       "workItemId": "WI-1070-v1-0-1-release-successor"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,36 +49,7 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.e53199b69b8694901c267d29e36f84fd49cec73b0e943f09be0823956c32e04c.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-        }
-      ],
+      "deliveredChanges": [],
       "evidence": [
         {
           "evidenceRefs": [
@@ -99,7 +70,15 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
       "outcomeSummary": [
         {
           "evidenceRefs": [
@@ -151,7 +130,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-10T13:10:01.567897505Z",
+      "cutoff": "2026-10-10T15:50:37.183392501Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -168,8 +147,8 @@
     },
     "workItemId": "WI-1070-v1-0-1-release-successor"
   },
-  "taskReportDigest": "sha256:356769a47ce1171989cfc6d05f86efbc3a9eff4800ff2e206603fea2daa75c0a",
-  "taskReportMarkdownDigest": "sha256:9700a0eea596f8be20e7a143414b1942e2fd3468fcc9fa6a89183a818318e315",
+  "taskReportDigest": "sha256:016bd24e2126d4607a0367d304a7e32a78626e98632b782517a57a509f821436",
+  "taskReportMarkdownDigest": "sha256:6c4876f861f8983961943b1fcd67e14a372e11f5fb8ef639d09e6296feb98a1f",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

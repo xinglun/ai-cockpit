@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+    "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
     "workItemId": "WI-1070-v1-0-1-release-successor"
   },
   "format": "ai-cockpit.task-outcome",
@@ -12,36 +12,7 @@
   "schemaVersion": 1,
   "sections": {
     "avoidedImpact": [],
-    "deliveredChanges": [
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.e53199b69b8694901c267d29e36f84fd49cec73b0e943f09be0823956c32e04c.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-      }
-    ],
+    "deliveredChanges": [],
     "evidence": [
       {
         "evidenceRefs": [
@@ -62,7 +33,15 @@
     "humanDecisions": [],
     "interventions": [],
     "limitations": [],
-    "nonRiskExplanations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
     "outcomeSummary": [
       {
         "evidenceRefs": [
@@ -114,7 +93,7 @@
   "status": "verified",
   "usage": {
     "coverage": "unknown",
-    "cutoff": "2026-10-10T13:10:01.567897505Z",
+    "cutoff": "2026-10-10T15:50:37.183392501Z",
     "receiptRefs": [],
     "schemaVersion": 1,
     "subtotals": [],

@@ -133,14 +133,9 @@
       ]
     }
   ],
-  "changedPaths": [
-    ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json",
-    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.e53199b69b8694901c267d29e36f84fd49cec73b0e943f09be0823956c32e04c.json",
-    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json",
-    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-10T09:36:05Z",
-  "checkpointContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+  "checkpointContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -218,7 +213,7 @@
       "workItemId": "WI-1070-v1-0-1-release-successor"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+  "checkpointRepositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
   "createdAt": "2026-10-10T07:23:43Z",
   "decisionEvidence": {
     "contractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
@@ -248,8 +243,8 @@
     "finish": {
       "actorProvenance": "unknown",
       "eventType": "work_item_finished",
-      "occurredAt": "2026-10-10T13:10:01.567897505Z",
-      "recordedAt": "2026-10-10T13:10:01.567897505Z",
+      "occurredAt": "2026-10-10T15:50:37.183392501Z",
+      "recordedAt": "2026-10-10T15:50:37.183392501Z",
       "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
       "runtimeVersion": "1.0.1"
     },
@@ -265,28 +260,24 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T13:47:35Z",
+  "preflightAt": "2026-10-10T15:49:56Z",
   "preflightContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
-  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
   "recoveryRetryConsumed": {
-    "consumedAt": "2026-10-10T12:57:06Z",
-    "contractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
-    "decisionDigest": "sha256:075447cf9825aec69ff2979594cef51be964aa4277f332f32d48f47cda782d5f",
-    "decisionPath": ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.json",
-    "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+    "consumedAt": "2026-10-10T15:49:56Z",
+    "contractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+    "decisionDigest": "sha256:ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6",
+    "decisionPath": ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6.json",
+    "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
     "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
     "runtimeVersion": "1.0.1",
     "schemaVersion": 1,
-    "verificationEvidenceDigest": "sha256:71a8745304053f8092eed90f3f532a90eabae9b54e7d5e353b8cd91c30b567e6"
+    "verificationEvidenceDigest": "sha256:833333449746d568a176203face3d5fa8a6477f0f5f5c9c7c90192f3ae34b96c"
   },
-  "recoveryRetryContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
-  "recoveryRetryDecisionDigest": "sha256:ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -354,8 +345,8 @@
       "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-10-10T15:40:49.202295260+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T15:50:37.183392501Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -414,10 +405,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-10T13:43:30Z"
-  },
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }
