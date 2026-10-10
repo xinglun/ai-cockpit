@@ -1,11 +1,161 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Planned output for A1; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A1.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "Planned output for A2; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A2.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "Planned output for A3; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A3.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Planned output for A4; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A4.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Planned output for A5; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A5.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Planned output for A6; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A6.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "Planned output for A7; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A7.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "Planned output for A8; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A8.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "Planned output for A9; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A9.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "Planned output for A10; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A10.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "Planned output for A11; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A11.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "Planned output for A12; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A12.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    }
+  ],
   "changedPaths": [
     ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
     ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json",
     ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-10-10T09:36:05Z",
+  "checkpointContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
   "createdAt": "2026-10-10T07:23:43Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+    "reason": "The human replied 'Confirm review' at 2026-10-10 09:34 UTC for Contract sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8 only. This confirms continued work under that Contract and does not claim verification, release, or later acceptance.",
+    "recordedAt": "2026-10-10T09:35:25Z",
+    "recordedBy": "human user (explicit conversation confirmation)",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+    "schemaVersion": 1,
+    "workItemId": "WI-1070-v1-0-1-release-successor"
+  },
   "intentAlignment": {
     "reason": "The Contract states the expected user benefit as a goal only; WI-1070 documentation, published artifacts, installation, and upgrade outcomes remain unverified.",
     "state": "unresolved"
@@ -23,10 +173,10 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T07:33:25Z",
-  "preflightContractDigest": "sha256:341a48165e15e234dd7f95aa82613d8e0031cc1f9bcf25f1420e7c635a4196a9",
-  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-  "preflightRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+  "preflightAt": "2026-10-10T09:40:28Z",
+  "preflightContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightRepositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
@@ -42,40 +192,40 @@
     {
       "evidence": [],
       "reason": "Planned only; no current successor PR-head or pre-tag evidence exists.",
-      "required": true,
+      "required": false,
       "scenario": "exact-head-ci-and-pretag-release-plan",
       "status": "unverified"
     },
     {
       "evidence": [],
       "reason": "Planned only; no WI-1070 candidate build or target smoke evidence exists.",
-      "required": true,
+      "required": false,
       "scenario": "four-target-candidate-install-smoke",
       "status": "unverified"
     },
     {
       "evidence": [],
       "reason": "Planned only; no WI-1070 staged v1.0.0-to-v1.0.1 upgrade evidence exists.",
-      "required": true,
+      "required": false,
       "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
       "status": "unverified"
     },
     {
       "evidence": [],
       "reason": "Planned only; public release, official asset acceptance, and close have not occurred.",
-      "required": true,
+      "required": false,
       "scenario": "public-release-install-upgrade-and-close",
       "status": "unverified"
     },
     {
       "evidence": [],
       "reason": "Planned only; no published macOS binary has been installed or exercised on Apple Silicon.",
-      "required": true,
+      "required": false,
       "scenario": "apple-silicon-macos-cli-mcp-identity",
       "status": "unverified"
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-10-10T07:33:16.919193737+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-10T09:36:05Z",
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }
