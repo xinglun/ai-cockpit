@@ -802,6 +802,25 @@ jobs:
           set -euo pipefail
           chmod +x target/release/ai-cockpit
           test -x target/release/ai-cockpit
+      - name: Stage source-local Runtime tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_repo="$GITHUB_WORKSPACE/release-source"
+          source_target="$source_repo/target"
+          legacy_runtime_revision=73f8bd2b86338f8025ef12ba9fff15bf45ef5782
+          mkdir -p "$source_target/release"
+          install -m 0755 "$GITHUB_WORKSPACE/target/release/ai-cockpit" "$source_target/release/ai-cockpit"
+          test -x "$source_target/release/ai-cockpit"
+
+          legacy_worktree="$RUNNER_TEMP/ai-cockpit-legacy-runtime"
+          test ! -e "$legacy_worktree"
+          git worktree add --detach "$legacy_worktree" "$legacy_runtime_revision"
+          trap 'git -C "$GITHUB_WORKSPACE" worktree remove --force "$legacy_worktree" >/dev/null 2>&1 || rm -rf "$legacy_worktree"' EXIT
+          test "$(git -C "$legacy_worktree" rev-parse HEAD)" = "$legacy_runtime_revision"
+          CARGO_TARGET_DIR="$source_target/legacy-runtime" cargo build \
+            --locked --release --manifest-path "$legacy_worktree/Cargo.toml" --package cockpit-cli
+          test -x "$source_target/legacy-runtime/release/ai-cockpit"
       - name: Evaluate Rust Contract-aware quality gate
         shell: bash
         run: |
@@ -909,9 +928,21 @@ jobs:
         shell: bash
         env:
           PLAN_MODE: ${{ needs.release_input_preflight.outputs.plan_mode }}
+          HEAD_REVISION: ${{ needs.release_input_preflight.outputs.head_revision }}
+          RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
+          head_revision="$HEAD_REVISION"
+          release_source_revision="$RELEASE_SOURCE_REVISION"
+          [[ "$head_revision" =~ ^[0-9a-f]{40}$ ]] || {
+            echo 'typed ReleasePlan workflow head must be a full immutable commit SHA' >&2
+            exit 1
+          }
+          test "$head_revision" = "$GITHUB_SHA" || {
+            echo 'typed ReleasePlan workflow head does not match the workflow execution revision' >&2
+            exit 1
+          }
           chmod +x tools/cockpit-release
           expected="$(awk -v name="cockpit-release" '$2 == name {print $1}' tools/cockpit-release.sha256)"
           if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum tools/cockpit-release | awk '{print $1}')"; else actual="$(shasum -a 256 tools/cockpit-release | awk '{print $1}')"; fi
@@ -929,9 +960,14 @@ jobs:
             test -n "$commit"
           elif [[ "$PLAN_MODE" == normal_release ]]; then
             test "$INPUT_TO_TAG" = "$tag"
+            [[ "$release_source_revision" =~ ^[0-9a-f]{40}$ ]] || {
+              echo 'typed ReleasePlan source must be a full immutable commit SHA' >&2
+              exit 1
+            }
             tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
-            test "$tag_commit" = "$GITHUB_SHA"
-            commit="$GITHUB_SHA"
+            test -n "$tag_commit"
+            test "$tag_commit" = "$release_source_revision"
+            commit="$release_source_revision"
           else
             commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
             test "$commit" = "$GITHUB_SHA"

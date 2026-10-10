@@ -1,0 +1,84 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "Source quality stages the typed source Runtime and fixed legacy Runtime under the exact target paths expected by the canonical release gates, and verifies both are executable.",
+    "Normal release validates the immutable remote annotated tag against typed sourceRevision and writes that source revision into the manifest while independently binding headRevision to GITHUB_SHA.",
+    "The two declared regression scripts cover source-local staging, head/source identity separation, tag-source success, and mismatched peeled-source failure.",
+    "No product Runtime, gate manifest, tag, Release, provider resource, or merge is changed by this Work Item."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "a1dbec70c8fc050b95165163da0da03cd90b79d1",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-10T22:01:37Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Ensure source-quality gates run against the exact planned source checkout and the normal release manifest commits to the annotated tag source, while the workflow execution head remains separately validated.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Bind release source-quality execution artifacts and annotated-tag manifest identity to the typed release source revision",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Product and Runtime source changes",
+    "Changes to other workflows or repository gates",
+    "Tag creation",
+    " Release publication",
+    " asset mutation",
+    " merge",
+    " and provider changes"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/release/annotated_tag_identity.sh"
+  ],
+  "sources": [
+    "User-approved release workflow source/head identity repair; candidate and public release actions remain excluded."
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/release/annotated_tag_identity.sh"
+  ],
+  "workItemId": "WI-1071-v1-0-1-release-source-quality-binding"
+}

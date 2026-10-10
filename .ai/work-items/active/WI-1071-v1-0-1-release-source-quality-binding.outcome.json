@@ -1,0 +1,153 @@
+{
+  "acceptanceResults": [
+    "Source quality stages the typed source Runtime and fixed legacy Runtime under the exact target paths expected by the canonical release gates, and verifies both are executable.",
+    "Normal release validates the immutable remote annotated tag against typed sourceRevision and writes that source revision into the manifest while independently binding headRevision to GITHUB_SHA.",
+    "The two declared regression scripts cover source-local staging, head/source identity separation, tag-source success, and mismatched peeled-source failure.",
+    "No product Runtime, gate manifest, tag, Release, provider resource, or merge is changed by this Work Item."
+  ],
+  "createdAt": "2026-10-10T22:09:28.461440886Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a72592d44c1688e74b08b15a690d0949be081be811a6f9170e190609ae131890",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:249ff9b39f9e52241e65523d84936d527ac1a83a9797041c4b74c3c31d01f606",
+      "workItemId": "WI-1071-v1-0-1-release-source-quality-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure source-quality gates run against the exact planned source checkout and the normal release manifest commits to the annotated tag source, while the workflow execution head remains separately validated."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-10T22:09:28.461440886Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1071-v1-0-1-release-source-quality-binding"
+    },
+    "workItemId": "WI-1071-v1-0-1-release-source-quality-binding"
+  },
+  "taskReportDigest": "sha256:9dd2f3a6d26d23469dac4fee1c3054d8158cf8f78a7fee3b1f89d1eaa5325361",
+  "taskReportMarkdownDigest": "sha256:7ad4975e3af0209929a2c35530be9e980115748af09ee6f67767e34baa50c137",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1071-v1-0-1-release-source-quality-binding"
+}
