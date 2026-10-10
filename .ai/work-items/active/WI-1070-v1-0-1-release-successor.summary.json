@@ -1,0 +1,432 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "Planned output for A1; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A1.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "Planned output for A2; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A2.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "Planned output for A3; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A3.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "Planned output for A4; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A4.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "Planned output for A5; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A5.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "Planned output for A6; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A6.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "Planned output for A7; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A7.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "Planned output for A8; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A8.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A9",
+      "evidence": [
+        {
+          "locator": "Planned output for A9; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A9.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A10",
+      "evidence": [
+        {
+          "locator": "Planned output for A10; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A10.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A11",
+      "evidence": [
+        {
+          "locator": "Planned output for A11; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A11.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A12",
+      "evidence": [
+        {
+          "locator": "Planned output for A12; file is not present and no evidence is asserted.",
+          "path": ".ai/evidence/WI-1070-v1-0-1-release-successor/acceptance/A12.json",
+          "type": "planned-evidence-output",
+          "verification": "Not executed; mapping only. Populate and verify against the exact source/artifact at the stage in the Contract before treating this criterion as accepted."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+  ],
+  "checkpointAt": "2026-10-10T09:36:05Z",
+  "checkpointContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "recorded": true,
+      "recordedAt": "2026-10-10T09:36:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "reason": "Add only crates/cockpit-cli/tests/cognitive_benefit.rs to WI-1070 scope and record the reproduced report-comparison RED. On exact head a777cfd42229dd784568bbdc83bfced9d923ee61, the same existing cognitive_benefit integration-test binary (SHA-256 7c39e2fcf62b64c21f5d90ee88ab128648a567d703c5e72de170f35e8ef0c80c) ran with RUST_TEST_THREADS=2: 7 passed, 1 failed. The only full-report difference was $.runtimeBinaryDigest (Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc); all other JSON fields were identical after normalizing only that digest. The repository-gate sibling runs cargo run with the same CARGO_TARGET_DIR. A single filtered test passed 1/1, while the full 8-test binary reproduced the 7/1 RED. This is diagnosis, not green verification; preserve the previous full-workspace failure and all earlier attempts. No test edit is authorized before this Contract is freshly preflighted and explicitly human-confirmed.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T11:21:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+      "reason": "Two Runtime-executed, exact-source cargo test --locked --workspace -- --quiet attempts at RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, with the warmed /tmp/wi1070-target both reached the Runtime's 300-second deadline. The latest receipt completed 151 test-result suites / 1,325 tests with zero reported assertion failures and was terminated while the final running-19-tests suite had no result; Cargo's test-profile build was 0.10 seconds, so the measured limit was consumed by test execution. Provide one bounded 900-second task-stage window for the currently declared full-workspace check. Keep the default at 300 seconds, one Runtime worker, the exact command and assertions, and all release/PR authority unchanged. The Runtime policy is operation/stage scoped rather than command-digest scoped; this Work Item declares cargo test --locked --workspace as its formal verification, and this ceiling applies only to otherwise admitted task-stage modify_source verification for WI-1070. This request records no human approval.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T11:49:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+      "reason": "Record Runtime amendment evidence for finalize-plan binding of the exact GitHub PR #1024, branch codex/wi1070-wi1068-parity-repair-20261010, worktree /workspace/ai-cockpit-wi1070, and origin/main; then obtain a fresh preflight for the resulting Contract digest before any later verification.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T13:43:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d06bef6ae038c128a36f241bb3c0cf074c966c2fea873d3054178f63d9d82d5b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "previousContractHash": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+      "reason": "Exact-head PR #1024 CI run 38065370124 passed hosted Work Item verification but its Contract-aware quality gate rejected stage pr because the effective modify_source verification requirement listed only stage task. The project policy baseline has no rules, so WI-1070 contributes the entire requirement and the same Contract-aware planner checks it at pr, merge, and release. Bind the existing 900-second explicit timeout ceiling to all five supported Runtime verification stages (task, pre_ci, pr, merge, release) so the exact same Work Item rule remains valid through the established source-quality routes. Keep the cap optional and finite, retain 300 seconds when no timeout is supplied, and preserve approvalMode single_authorized_human, requiredTier T0, requiredAssurance self_declared, policy references, evidence, and gates. The declared full-workspace command remains a task-stage verification with one Runtime worker and its existing assertions. This changes verification-stage traceability only; it does not authorize separate merge, release, publication, tag, provider, or close actions. Preserve the existing verification and review receipts as historical records; this sensitive amendment requires fresh preflight, human review for the resulting Contract digest, and affected verification before continuation.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T16:12:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+  "createdAt": "2026-10-10T07:23:43Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1",
+    "reason": "The user explicitly replied “confirm review” at 2026-10-10 20:06 UTC in the supplied transcript, bound to this exact Contract sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657, preflight decision sha256:03c73efe783bccb2154f1f95964bbe2b88a432d1a8d3668f455a23c8e67c58c1, and repository snapshot sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2. This confirms review of the WI-1070 modify_source verification policy stage bindings and its finite explicit 900-second ceiling across task, pre_ci, pr, merge, and release; omission keeps the 300-second default. It does not authorize merge, release, publication, tag, provider action, or close.",
+    "recordedAt": "2026-10-10T20:07:38Z",
+    "recordedBy": "Human user Ray (explicit confirmation in the supplied transcript; Runtime does not independently authenticate identity)",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+    "schemaVersion": 1,
+    "workItemId": "WI-1070-v1-0-1-release-successor"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.documentation-validation.log",
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.f5a8d2d7b8c5f20b990ea455a634584280818ca567c458f42e170283e1234fb3.json",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+      "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+    ],
+    "reason": "The verified trilingual documentation and formal source verification align with the WI-1070 source-stage intent. This does not claim the stable-release user benefit was delivered; candidate/publication, install, N-1, Apple Silicon, and close acceptance remain unverified.",
+    "state": "resolved"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-10T20:16:52.209176768Z",
+      "recordedAt": "2026-10-10T20:16:52.209176768Z",
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-10T07:25:06.727651962Z",
+      "recordedAt": "2026-10-10T07:25:06.727651962Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "release",
+  "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+  "preflightAt": "2026-10-10T20:14:09Z",
+  "preflightContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+  "recoveryRetryConsumed": {
+    "consumedAt": "2026-10-10T15:49:56Z",
+    "contractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+    "decisionDigest": "sha256:ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6",
+    "decisionPath": ".ai/decisions/WI-1070-v1-0-1-release-successor.recovery.ebcf304f23a013bbc8225146c427cebcccd187f7b9c6285f6ca3210921e151b6.json",
+    "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "verificationEvidenceDigest": "sha256:833333449746d568a176203face3d5fa8a6477f0f5f5c9c7c90192f3ae34b96c"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.documentation-validation.log",
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.f5a8d2d7b8c5f20b990ea455a634584280818ca567c458f42e170283e1234fb3.json",
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+      ],
+      "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment.",
+      "reason": "The trilingual WI-1068/WI-1070 parity and task-page projections pass canonical check-all and documentation acceptance; the complete cognitive_benefit test target passes 8/8 within the exact RUST_TEST_THREADS=2 workspace run with its private Runtime copy and full JSON/Markdown equality; and the single-node declared cargo test --locked --workspace -- --quiet verification passes under the current Runtime and Contract. This records source-stage alignment only; all release, public install, N-1, macOS, and close outcomes remain pending.",
+      "required": true,
+      "scenario": "documentation-and-formal-verification",
+      "status": "verified",
+      "verificationPlan": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
+    },
+    {
+      "evidence": [],
+      "expected": "The successor PR's exact current head has all required CI gates green; a fresh Runtime release plan binds PR #1022 and the exact merged source, identifies stable v1.0.0 as N-1, confirms v1.0.1 tag/Release names are unused before creation, records provider immutability metadata accurately, and verifies workflow dependencies for all later checks.",
+      "reason": "No WI-1070 PR-head or fresh release-plan evidence has been recorded.",
+      "required": false,
+      "scenario": "exact-head-ci-and-pretag-release-plan",
+      "status": "unverified",
+      "verificationPlan": "After documentation implementation and push, bind the successor PR and its exact head to all required hosted checks. Separately query PR #1022 and merge/source identities; use the A27 release-plan command against the current Contract and source; inspect the release workflow and provider tag/Release fields. Preserve the earlier revision-binding failure and do not reuse it as current green evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "The release workflow builds and passes candidate install/smoke for aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc before public Release publication.",
+      "reason": "The immutable v1.0.1 candidate has not been created or tested under WI-1070.",
+      "required": false,
+      "scenario": "four-target-candidate-install-smoke",
+      "status": "unverified",
+      "verificationPlan": "After the successor PR merge and fresh Runtime publication admission, create the v1.0.1 immutable tag once and execute the existing candidate-publication workflow. Bind all four target logs and artifacts to the exact source and tag; stop on any failed or skipped required job."
+    },
+    {
+      "evidence": [],
+      "expected": "The staged Linux x86_64 workflow installs stable v1.0.0, upgrades to candidate v1.0.1, and passes post-upgrade checks before the public Release is created.",
+      "reason": "The staged v1.0.0-to-v1.0.1 candidate upgrade has not been executed under WI-1070.",
+      "required": false,
+      "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
+      "status": "unverified",
+      "verificationPlan": "In the explicitly admitted candidate workflow, bind the actual v1.0.0 N-1 install, v1.0.1 candidate, upgrade output, and post-upgrade checks. Do not substitute N/A or another predecessor."
+    },
+    {
+      "evidence": [],
+      "expected": "After public Release publication, official manifest/SHA256SUMS and the Linux x86_64 asset verify; public install and N-1 upgrade from v1.0.0 pass; only after every required platform gate passes does Runtime admit branch/worktree finalization and successor close.",
+      "reason": "Public publication, downloaded-asset checks, upgrade acceptance, and finalization have not been executed under WI-1070.",
+      "required": false,
+      "scenario": "public-release-install-upgrade-and-close",
+      "status": "unverified",
+      "verificationPlan": "After candidate and N-1 gates pass and Runtime admits publication, publish the new immutable Release once. Download and bind official manifests, sums, and Linux asset; run the public install/N-1 adopter checks; then re-query Runtime and perform only admitted exact-resource finalization, finalization verification, and close. Keep the Work Item unverified until these real executions and receipts exist."
+    },
+    {
+      "evidence": [],
+      "expected": "The published macOS binary's archive, manifest, checksum, actual installed SHA-256, and version agree; the declared absolute CLI path runs version 1.0.1 and MCP initialize plus a read-only request succeeds.",
+      "reason": "The official macOS asset has not been installed or exercised on the local Apple Silicon host under WI-1070.",
+      "required": false,
+      "scenario": "apple-silicon-macos-cli-mcp-identity",
+      "status": "unverified",
+      "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-10-10T20:16:52.209176768Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

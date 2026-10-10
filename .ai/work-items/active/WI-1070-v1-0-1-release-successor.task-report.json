@@ -1,0 +1,119 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+    "workItemId": "WI-1070-v1-0-1-release-successor"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json"
+        ],
+        "inference": false,
+        "text": "Complete the remaining stable v1.0.1 release acceptance and approved WI-1068 parity/documentation repair on the exact accepted source. Intended user benefit: accurate English, Simplified Chinese, and Japanese release references plus a stable v1.0.1 offering whose published artifacts, installations, and N-1 upgrade are verified. This is only the goal; do not claim it delivered until every required acceptance gate has actually passed."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-10T20:16:52.209176768Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1070-v1-0-1-release-successor"
+  },
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

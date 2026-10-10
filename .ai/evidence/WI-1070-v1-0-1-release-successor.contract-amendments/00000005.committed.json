@@ -1,0 +1,70 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:6f5327c89e132892444de1459b86eedd5c7d4a5a70f4190efe73e5e445944d7d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 5,
+    "changeId": "wi1070-a6-task-workspace-timeout-20261010-01",
+    "requestDigest": "sha256:6f4c85218a0029decb31cf74107786b91174cc006411a5ac0eb0f4d5efcd379c",
+    "reason": "Two Runtime-executed, exact-source cargo test --locked --workspace -- --quiet attempts at RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, with the warmed /tmp/wi1070-target both reached the Runtime's 300-second deadline. The latest receipt completed 151 test-result suites / 1,325 tests with zero reported assertion failures and was terminated while the final running-19-tests suite had no result; Cargo's test-profile build was 0.10 seconds, so the measured limit was consumed by test execution. Provide one bounded 900-second task-stage window for the currently declared full-workspace check. Keep the default at 300 seconds, one Runtime worker, the exact command and assertions, and all release/PR authority unchanged. The Runtime policy is operation/stage scoped rather than command-digest scoped; this Work Item declares cargo test --locked --workspace as its formal verification, and this ceiling applies only to otherwise admitted task-stage modify_source verification for WI-1070. This request records no human approval.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/5",
+        "operation": "replace",
+        "oldValue": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a 300-second bound. Preserve all previous failures as historical evidence.",
+        "newValue": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite 900-second bound under this Work Item's task-stage timeout ceiling. Use one Runtime worker; omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence."
+      },
+      {
+        "path": "/governancePolicy",
+        "operation": "replace",
+        "oldValue": null,
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi1070-a6-task-workspace-timeout",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi1070-a6-task-workspace-timeout",
+                  "WI-1070-v1-0-1-release-successor:A6"
+                ],
+                "reason": "This Work Item rule permits an explicit timeout up to 900 seconds for otherwise admitted task-stage modify_source verification, to allow one complete run of the currently declared cargo test --locked --workspace check. It is a ceiling only: an omitted timeout retains the Runtime's 300-second default. The rule is limited to stage task and does not authorize pre_ci, pr, merge, release, publication, tag, or provider actions. The verification still uses one Runtime worker and the exact declared test command and assertions. Runtime policy binds timeout to operation/stage rather than command digest, so the ceiling applies to otherwise admitted task-stage modify_source verification under this Work Item. single_authorized_human requires actual human approval; this amendment records none.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+    "newContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+    "repositorySnapshotDigest": "sha256:219962388147f94b1bbefbb72bd9eb0ba9a3c1593e81eca6e2d1a472ae1c4f56",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/5",
+      "/governancePolicy"
+    ],
+    "previousJournalDigest": "sha256:e283a81f6620a1502357eb01d10cbc46305295ef7c4c3144c3b3a403a537eac6",
+    "journalDigest": "sha256:7bca1b22248ff038d27a4ace1f975aea135c14532ad1868fca83d2b9ce9bc945",
+    "recordedAt": "2026-10-10T11:49:08Z"
+  }
+}

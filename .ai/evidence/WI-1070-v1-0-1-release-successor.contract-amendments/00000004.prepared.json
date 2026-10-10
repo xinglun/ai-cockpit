@@ -1,0 +1,372 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1070-cognitive-benefit-binary-snapshot-20261010-02",
+      "expectedContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+      "reason": "Add only crates/cockpit-cli/tests/cognitive_benefit.rs to WI-1070 scope and record the reproduced report-comparison RED. On exact head a777cfd42229dd784568bbdc83bfced9d923ee61, the same existing cognitive_benefit integration-test binary (SHA-256 7c39e2fcf62b64c21f5d90ee88ab128648a567d703c5e72de170f35e8ef0c80c) ran with RUST_TEST_THREADS=2: 7 passed, 1 failed. The only full-report difference was $.runtimeBinaryDigest (Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc); all other JSON fields were identical after normalizing only that digest. The repository-gate sibling runs cargo run with the same CARGO_TARGET_DIR. A single filtered test passed 1/1, while the full 8-test binary reproduced the 7/1 RED. This is diagnosis, not green verification; preserve the previous full-workspace failure and all earlier attempts. No test edit is authorized before this Contract is freshly preflighted and explicitly human-confirmed.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "crates/cockpit-cli/tests/cognitive_benefit.rs"
+        },
+        {
+          "path": "/acceptanceCriteria/5",
+          "operation": "set",
+          "value": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a 300-second bound. Preserve all previous failures as historical evidence."
+        },
+        {
+          "path": "/scenarioCoverage/0/reason",
+          "operation": "set",
+          "value": "RED reproduced on exact head a777cfd42229dd784568bbdc83bfced9d923ee61: the complete cognitive_benefit integration binary ran 8 tests at RUST_TEST_THREADS=2, with 7 passed and generated_json_and_markdown_match_python_in_an_isolated_checkout failed. The only report difference was $.runtimeBinaryDigest: Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc. All other report fields matched after normalizing only this field. The sibling repository_gate_runs_without_invoking_python test executes cargo run in the same CARGO_TARGET_DIR, so the compared binary can be replaced between digest reads. The isolated single test passed 1/1; neither result is formal workspace success. Existing workspace attempt 9d2c92246203b27568ccdf4d831b50c5f54e186324d68123a20d7a70ca2edba5 remains failed and historical."
+        },
+        {
+          "path": "/scenarioCoverage/0/expected",
+          "operation": "set",
+          "value": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment."
+        },
+        {
+          "path": "/scenarioCoverage/0/verificationPlan",
+          "operation": "set",
+          "value": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
+        }
+      ]
+    },
+    "requestDigest": "sha256:75b28f0b09b104ede0d7f06c55bdbaf83de7b8eba05ee32f74cfeac4233e6981",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: Preserve the WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior successful or failed result byte-for-byte; append successor evidence without relabeling historical results.",
+        "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+        "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
+        "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+        "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
+        "A6: The sole declared formal verification cargo test --locked --workspace passes on the exact accepted successor source; preserve all earlier failures as historical evidence and record the new run separately.",
+        "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
+        "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
+        "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
+        "A10: On the local Apple Silicon macOS host, install the official published macOS binary and verify its archive, manifest, SHA256SUMS, actual installed digest, version 1.0.1, absolute CLI path, MCP initialize, and a read-only request; do not substitute a local build.",
+        "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
+        "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "dae495743e9a8bc2054ab8521a7e728520d5539d",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-10T07:23:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Complete the remaining stable v1.0.1 release acceptance and approved WI-1068 parity/documentation repair on the exact accepted source. Intended user benefit: accurate English, Simplified Chinese, and Japanese release references plus a stable v1.0.1 offering whose published artifacts, installations, and N-1 upgrade are verified. This is only the goal; do not claim it delivered until every required acceptance gate has actually passed.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Continue WI-1068's remaining stable v1.0.1 release acceptance through the authorized successor and repair the approved WI-1068 three-row parity projection with the required trilingual documentation.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Product source changes",
+        "Test source changes",
+        "CI policy changes",
+        "WI-1068 archive and all prior evidence changes",
+        "Overwriting an existing tag, release, or immutable asset"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; cargo test --locked --workspace passes on the exact successor source.",
+          "reason": "No WI-1070 execution has been recorded; WI-1068 evidence remains historical and unchanged.",
+          "required": true,
+          "scenario": "documentation-and-formal-verification",
+          "status": "unverified",
+          "verificationPlan": "After current preflight admission and checkpoint, update only the declared documentation paths using the canonical Runtime promotion validator. Run documentation acceptance and check-all, then execute the single declared full-workspace verification command. Capture each command, exact head, Contract digest, exit status, and output as new WI-1070 evidence."
+        },
+        {
+          "evidence": [],
+          "expected": "The successor PR's exact current head has all required CI gates green; a fresh Runtime release plan binds PR #1022 and the exact merged source, identifies stable v1.0.0 as N-1, confirms v1.0.1 tag/Release names are unused before creation, records provider immutability metadata accurately, and verifies workflow dependencies for all later checks.",
+          "reason": "No WI-1070 PR-head or fresh release-plan evidence has been recorded.",
+          "required": false,
+          "scenario": "exact-head-ci-and-pretag-release-plan",
+          "status": "unverified",
+          "verificationPlan": "After documentation implementation and push, bind the successor PR and its exact head to all required hosted checks. Separately query PR #1022 and merge/source identities; use the A27 release-plan command against the current Contract and source; inspect the release workflow and provider tag/Release fields. Preserve the earlier revision-binding failure and do not reuse it as current green evidence."
+        },
+        {
+          "evidence": [],
+          "expected": "The release workflow builds and passes candidate install/smoke for aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc before public Release publication.",
+          "reason": "The immutable v1.0.1 candidate has not been created or tested under WI-1070.",
+          "required": false,
+          "scenario": "four-target-candidate-install-smoke",
+          "status": "unverified",
+          "verificationPlan": "After the successor PR merge and fresh Runtime publication admission, create the v1.0.1 immutable tag once and execute the existing candidate-publication workflow. Bind all four target logs and artifacts to the exact source and tag; stop on any failed or skipped required job."
+        },
+        {
+          "evidence": [],
+          "expected": "The staged Linux x86_64 workflow installs stable v1.0.0, upgrades to candidate v1.0.1, and passes post-upgrade checks before the public Release is created.",
+          "reason": "The staged v1.0.0-to-v1.0.1 candidate upgrade has not been executed under WI-1070.",
+          "required": false,
+          "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
+          "status": "unverified",
+          "verificationPlan": "In the explicitly admitted candidate workflow, bind the actual v1.0.0 N-1 install, v1.0.1 candidate, upgrade output, and post-upgrade checks. Do not substitute N/A or another predecessor."
+        },
+        {
+          "evidence": [],
+          "expected": "After public Release publication, official manifest/SHA256SUMS and the Linux x86_64 asset verify; public install and N-1 upgrade from v1.0.0 pass; only after every required platform gate passes does Runtime admit branch/worktree finalization and successor close.",
+          "reason": "Public publication, downloaded-asset checks, upgrade acceptance, and finalization have not been executed under WI-1070.",
+          "required": false,
+          "scenario": "public-release-install-upgrade-and-close",
+          "status": "unverified",
+          "verificationPlan": "After candidate and N-1 gates pass and Runtime admits publication, publish the new immutable Release once. Download and bind official manifests, sums, and Linux asset; run the public install/N-1 adopter checks; then re-query Runtime and perform only admitted exact-resource finalization, finalization verification, and close. Keep the Work Item unverified until these real executions and receipts exist."
+        },
+        {
+          "evidence": [],
+          "expected": "The published macOS binary's archive, manifest, checksum, actual installed SHA-256, and version agree; the declared absolute CLI path runs version 1.0.1 and MCP initialize plus a read-only request succeeds.",
+          "reason": "The official macOS asset has not been installed or exercised on the local Apple Silicon host under WI-1070.",
+          "required": false,
+          "scenario": "apple-silicon-macos-cli-mcp-identity",
+          "status": "unverified",
+          "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
+        }
+      ],
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+      ],
+      "sources": [
+        "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation.",
+        "Parent delegation from source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 relays that the user has authorized stable v1.0.1 publication. This is relayed user-stated authority, not host-authenticated identity; Runtime admission and any explicitly human-only decision remain binding."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "previousContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A1: Preserve the WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior successful or failed result byte-for-byte; append successor evidence without relabeling historical results.",
+        "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+        "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
+        "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+        "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
+        "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a 300-second bound. Preserve all previous failures as historical evidence.",
+        "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
+        "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
+        "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
+        "A10: On the local Apple Silicon macOS host, install the official published macOS binary and verify its archive, manifest, SHA256SUMS, actual installed digest, version 1.0.1, absolute CLI path, MCP initialize, and a read-only request; do not substitute a local build.",
+        "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
+        "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "dae495743e9a8bc2054ab8521a7e728520d5539d",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-10T07:23:43Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Complete the remaining stable v1.0.1 release acceptance and approved WI-1068 parity/documentation repair on the exact accepted source. Intended user benefit: accurate English, Simplified Chinese, and Japanese release references plus a stable v1.0.1 offering whose published artifacts, installations, and N-1 upgrade are verified. This is only the goal; do not claim it delivered until every required acceptance gate has actually passed.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Continue WI-1068's remaining stable v1.0.1 release acceptance through the authorized successor and repair the approved WI-1068 three-row parity projection with the required trilingual documentation.",
+      "mode": "release",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Product source changes",
+        "Test source changes",
+        "CI policy changes",
+        "WI-1068 archive and all prior evidence changes",
+        "Overwriting an existing tag, release, or immutable asset"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt",
+        "external_evidence"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "high",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment.",
+          "reason": "RED reproduced on exact head a777cfd42229dd784568bbdc83bfced9d923ee61: the complete cognitive_benefit integration binary ran 8 tests at RUST_TEST_THREADS=2, with 7 passed and generated_json_and_markdown_match_python_in_an_isolated_checkout failed. The only report difference was $.runtimeBinaryDigest: Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc. All other report fields matched after normalizing only this field. The sibling repository_gate_runs_without_invoking_python test executes cargo run in the same CARGO_TARGET_DIR, so the compared binary can be replaced between digest reads. The isolated single test passed 1/1; neither result is formal workspace success. Existing workspace attempt 9d2c92246203b27568ccdf4d831b50c5f54e186324d68123a20d7a70ca2edba5 remains failed and historical.",
+          "required": true,
+          "scenario": "documentation-and-formal-verification",
+          "status": "unverified",
+          "verificationPlan": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
+        },
+        {
+          "evidence": [],
+          "expected": "The successor PR's exact current head has all required CI gates green; a fresh Runtime release plan binds PR #1022 and the exact merged source, identifies stable v1.0.0 as N-1, confirms v1.0.1 tag/Release names are unused before creation, records provider immutability metadata accurately, and verifies workflow dependencies for all later checks.",
+          "reason": "No WI-1070 PR-head or fresh release-plan evidence has been recorded.",
+          "required": false,
+          "scenario": "exact-head-ci-and-pretag-release-plan",
+          "status": "unverified",
+          "verificationPlan": "After documentation implementation and push, bind the successor PR and its exact head to all required hosted checks. Separately query PR #1022 and merge/source identities; use the A27 release-plan command against the current Contract and source; inspect the release workflow and provider tag/Release fields. Preserve the earlier revision-binding failure and do not reuse it as current green evidence."
+        },
+        {
+          "evidence": [],
+          "expected": "The release workflow builds and passes candidate install/smoke for aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc before public Release publication.",
+          "reason": "The immutable v1.0.1 candidate has not been created or tested under WI-1070.",
+          "required": false,
+          "scenario": "four-target-candidate-install-smoke",
+          "status": "unverified",
+          "verificationPlan": "After the successor PR merge and fresh Runtime publication admission, create the v1.0.1 immutable tag once and execute the existing candidate-publication workflow. Bind all four target logs and artifacts to the exact source and tag; stop on any failed or skipped required job."
+        },
+        {
+          "evidence": [],
+          "expected": "The staged Linux x86_64 workflow installs stable v1.0.0, upgrades to candidate v1.0.1, and passes post-upgrade checks before the public Release is created.",
+          "reason": "The staged v1.0.0-to-v1.0.1 candidate upgrade has not been executed under WI-1070.",
+          "required": false,
+          "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
+          "status": "unverified",
+          "verificationPlan": "In the explicitly admitted candidate workflow, bind the actual v1.0.0 N-1 install, v1.0.1 candidate, upgrade output, and post-upgrade checks. Do not substitute N/A or another predecessor."
+        },
+        {
+          "evidence": [],
+          "expected": "After public Release publication, official manifest/SHA256SUMS and the Linux x86_64 asset verify; public install and N-1 upgrade from v1.0.0 pass; only after every required platform gate passes does Runtime admit branch/worktree finalization and successor close.",
+          "reason": "Public publication, downloaded-asset checks, upgrade acceptance, and finalization have not been executed under WI-1070.",
+          "required": false,
+          "scenario": "public-release-install-upgrade-and-close",
+          "status": "unverified",
+          "verificationPlan": "After candidate and N-1 gates pass and Runtime admits publication, publish the new immutable Release once. Download and bind official manifests, sums, and Linux asset; run the public install/N-1 adopter checks; then re-query Runtime and perform only admitted exact-resource finalization, finalization verification, and close. Keep the Work Item unverified until these real executions and receipts exist."
+        },
+        {
+          "evidence": [],
+          "expected": "The published macOS binary's archive, manifest, checksum, actual installed SHA-256, and version agree; the declared absolute CLI path runs version 1.0.1 and MCP initialize plus a read-only request succeeds.",
+          "reason": "The official macOS asset has not been installed or exercised on the local Apple Silicon host under WI-1070.",
+          "required": false,
+          "scenario": "apple-silicon-macos-cli-mcp-identity",
+          "status": "unverified",
+          "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
+        }
+      ],
+      "scope": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+        "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+        "crates/cockpit-cli/tests/cognitive_benefit.rs"
+      ],
+      "sources": [
+        "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation.",
+        "Parent delegation from source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 relays that the user has authorized stable v1.0.1 publication. This is relayed user-stated authority, not host-authenticated identity; Runtime admission and any explicitly human-only decision remain binding."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace"
+      ],
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "newContractDigest": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+    "previousSummaryDigest": "sha256:551d5bc59074976ba04a41d6d7a893b4e39e998be12b62ba1093aebc5b348bf3",
+    "repositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:48f3bb872a460d0fa7f020b4d355d5163da9890d1aee2be6076d47743a176bb6",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/5",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/reason",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-10T11:21:06Z"
+  },
+  "preparedDigest": "sha256:2cd1e7f76e197e488f0d0b70af2f1783e05b158ffaf513cfef910296ae01d2bb"
+}

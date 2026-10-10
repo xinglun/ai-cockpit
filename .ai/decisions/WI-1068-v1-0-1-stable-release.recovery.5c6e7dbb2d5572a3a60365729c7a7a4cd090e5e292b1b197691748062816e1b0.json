@@ -1,0 +1,34 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "Human approval message Sentinel_0cf0706d33b08191a5627396d02aeec3 (2026-10-10T07:20:00Z): user replied \"批准\" to the successor request in Sentinel_7103c3df36888191b8c5f494090feb14.",
+  "decidedAt": "2026-10-10T07:20:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.outcome.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/1022",
+    "https://github.com/xinglun/ai-cockpit/commit/dae495743e9a8bc2054ab8521a7e728520d5539d",
+    "Sentinel_0cf0706d33b08191a5627396d02aeec3"
+  ],
+  "policyRefs": [
+    "docs/work-items/WI-1068-v1-0-1-stable-release.md#A3",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/commands.md#work-item-new"
+  ],
+  "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "predecessorEventsDigest": "sha256:82e5bafd43748c0e9cefc578d15ee34c87ce10c2ebe92ab5144f50114e8ee593",
+  "predecessorOutcomeDigest": "sha256:eb5f3f7dd0634125c542e071aee2f6fbdfadd3f3e20f0aeea7aa42e31e6ff73a",
+  "predecessorSummaryDigest": "sha256:a316f0b375ce7cf3de433550dd251209f78395d7cb718f45d217e6a9fb78c6cb",
+  "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+  "reason": "The user approved WI-1070-v1-0-1-release-successor to continue WI-1068's remaining release acceptance, include the already reviewed three-row parity repair and necessary English, Simplified Chinese, and Japanese documentation, preserve the predecessor record, and keep unfinished items explicitly incomplete.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue only on WI-1070-v1-0-1-release-successor. Complete the authorized remaining release acceptance and the already reviewed three-row parity repair with necessary English, Simplified Chinese, and Japanese documentation; preserve WI-1068 and every old success/failure record; report only freshly verified facts as complete. Stop before merge, tag, release, or public asset mutation unless separately authorized.",
+  "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1070-v1-0-1-release-successor",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

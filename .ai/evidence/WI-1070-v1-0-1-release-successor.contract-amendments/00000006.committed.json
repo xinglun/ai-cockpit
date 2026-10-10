@@ -1,0 +1,101 @@
+{
+  "sequence": 6,
+  "preparedDigest": "sha256:f7ed99d83b986aaed7f00e4153885138b36c5633633042946f0c668853e32e54",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 6,
+    "changeId": "wi1070-a6-verification-stage-coverage-20261010-01",
+    "requestDigest": "sha256:7b078ea36943950041ffbe8f4baa01daa59d6567d14a7e464ce821955dae7928",
+    "reason": "Exact-head PR #1024 CI run 38065370124 passed hosted Work Item verification but its Contract-aware quality gate rejected stage pr because the effective modify_source verification requirement listed only stage task. The project policy baseline has no rules, so WI-1070 contributes the entire requirement and the same Contract-aware planner checks it at pr, merge, and release. Bind the existing 900-second explicit timeout ceiling to all five supported Runtime verification stages (task, pre_ci, pr, merge, release) so the exact same Work Item rule remains valid through the established source-quality routes. Keep the cap optional and finite, retain 300 seconds when no timeout is supplied, and preserve approvalMode single_authorized_human, requiredTier T0, requiredAssurance self_declared, policy references, evidence, and gates. The declared full-workspace command remains a task-stage verification with one Runtime worker and its existing assertions. This changes verification-stage traceability only; it does not authorize separate merge, release, publication, tag, provider, or close actions. Preserve the existing verification and review receipts as historical records; this sensitive amendment requires fresh preflight, human review for the resulting Contract digest, and affected verification before continuation.",
+    "changedValues": [
+      {
+        "path": "/acceptanceCriteria/5",
+        "operation": "replace",
+        "oldValue": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite 900-second bound under this Work Item's task-stage timeout ceiling. Use one Runtime worker; omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
+        "newValue": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite explicit 900-second timeout under this Work Item's modify_source verification policy. The policy stage refs are task, pre_ci, pr, merge, and release; the full-workspace command runs at task stage with one Runtime worker. Omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence."
+      },
+      {
+        "path": "/governancePolicy",
+        "operation": "replace",
+        "oldValue": {
+          "layer": "work_item",
+          "policyId": "wi1070-a6-task-workspace-timeout",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi1070-a6-task-workspace-timeout",
+                  "WI-1070-v1-0-1-release-successor:A6"
+                ],
+                "reason": "This Work Item rule permits an explicit timeout up to 900 seconds for otherwise admitted task-stage modify_source verification, to allow one complete run of the currently declared cargo test --locked --workspace check. It is a ceiling only: an omitted timeout retains the Runtime's 300-second default. The rule is limited to stage task and does not authorize pre_ci, pr, merge, release, publication, tag, or provider actions. The verification still uses one Runtime worker and the exact declared test command and assertions. Runtime policy binds timeout to operation/stage rather than command digest, so the ceiling applies to otherwise admitted task-stage modify_source verification under this Work Item. single_authorized_human requires actual human approval; this amendment records none.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task"
+                ]
+              }
+            }
+          ]
+        },
+        "newValue": {
+          "layer": "work_item",
+          "policyId": "wi1070-a6-task-workspace-timeout",
+          "rules": [
+            {
+              "approvalMode": "single_authorized_human",
+              "operation": "modify_source",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "gateRefs": [],
+                "maxTimeoutSeconds": 900,
+                "policyRefs": [
+                  "wi1070-a6-task-workspace-timeout",
+                  "WI-1070-v1-0-1-release-successor:A6"
+                ],
+                "reason": "This Work Item rule permits a finite explicit timeout up to 900 seconds for otherwise admitted modify_source verification at each supported Runtime stage: task, pre_ci, pr, merge, and release. It is an authorization ceiling only; omitting an explicit timeout retains the Runtime's 300-second default. The declared full-workspace command is run at task stage with one Runtime worker and its exact assertions. Binding all five stages keeps the same Contract-aware verification policy traceable through task, pre-CI, pull-request, merge, and release quality routes. This rule does not authorize separate merge, release, publication, tag, provider, or close actions. The existing single_authorized_human approval mode remains in force; this amendment records no preflight review confirmation.",
+                "requiredAssurance": "self_declared",
+                "requiredTier": "T0",
+                "schemaVersion": 1,
+                "stageRefs": [
+                  "task",
+                  "pre_ci",
+                  "pr",
+                  "merge",
+                  "release"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "previousContractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+    "newContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+    "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/5",
+      "/governancePolicy"
+    ],
+    "previousJournalDigest": "sha256:7bca1b22248ff038d27a4ace1f975aea135c14532ad1868fca83d2b9ce9bc945",
+    "journalDigest": "sha256:fd4d922d94aef3d15760b3c93766fcfc5069ef0b744f2bca56c767ee5bda56e6",
+    "recordedAt": "2026-10-10T16:12:52Z"
+  }
+}

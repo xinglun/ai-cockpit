@@ -1,0 +1,24 @@
+{
+  "actor": "agent:Raydot",
+  "authoritySource": "Parent technical authorization in delegated task thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "decidedAt": "2026-10-10T13:40:33Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.5a07acd374f05fc5a3ac0314f14020d25ba5193cfea9214301d6804902b0a224.json",
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification-attempt.04d4717ce7ec6c01a89fd00510a5d70bedbc22e42a1fabd28f348567aee0de63.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:50d8b3a76f0475b43d3f5bc46d740aede72bb683bd07cfad15b81e76c98bfdde",
+  "predecessorEventsDigest": "sha256:1f94d13e9f44d62d215189830b7cab2dad7090eab6ab9c187b97eafa1847b2ed",
+  "predecessorOutcomeDigest": "sha256:75ebd468e3808938198978ab03f973bd05ee6990e2d2c93302588e2c71f82cbf",
+  "predecessorSummaryDigest": "sha256:cf2b6baef028baca0e7d6085d10dc0c7756183607d013b6d0e17125635371c99",
+  "predecessorWorkItemId": "WI-1070-v1-0-1-release-successor",
+  "reason": "The WI-1070 lifecycle reached finish_ready without binding its actual successor PR. Use the existing same-Work-Item retry route to return to checkpointed, bind the actual GitHub repository/branch/PR/worktree through finalize-plan, and revalidate the resulting Contract. Preserve the existing failed verification attempts; this retry does not claim a passing verification or authorize additional test execution.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After the typed retry, bind the exact WI-1070 PR #1024 resource through finalize-plan, run revalidate-amendment, and obtain a fresh Runtime preflight before any later verification. Preserve all predecessor and failed-attempt records.",
+  "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "reason": "The user supplied this exact human confirmation: Assistant, 2026-10-10 13:48:58 UTC, Sentinel_55cd9d40f06c81919a469416348a75a7, requested confirm_review for canonical Contract sha256:3a4f990555fdfb59c143952b45db9f7f5d7e7e0ca5683fe9211387fdb2443b68 and the real PR/worktree binding; User, 2026-10-10 15:37:39 UTC, Sentinel_fa47f07d34bc819182ebb91b54ec1e74, replied ‘confirm review’. This receipt binds preflight decision sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc and repository snapshot sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2 for repository ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b. It confirms only the bounded review of the actual PR #1024 resource binding; the existing acceptance criteria, scope, and 900-second task-stage ceiling remain unchanged. It does not claim tests passed or authorize merge, tag, release, publication, or close.",
+  "recordedAt": "2026-10-10T15:40:13Z",
+  "recordedBy": "human user Ray (explicit confirmation in the supplied conversation transcript; Runtime does not independently authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9f954a353280d29b07523048ba9bb1602ad33c184e4b759897baa65d21b040f2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

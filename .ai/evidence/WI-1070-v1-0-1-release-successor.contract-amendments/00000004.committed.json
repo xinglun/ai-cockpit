@@ -1,0 +1,81 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:2cd1e7f76e197e488f0d0b70af2f1783e05b158ffaf513cfef910296ae01d2bb",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 4,
+    "changeId": "wi1070-cognitive-benefit-binary-snapshot-20261010-02",
+    "requestDigest": "sha256:75b28f0b09b104ede0d7f06c55bdbaf83de7b8eba05ee32f74cfeac4233e6981",
+    "reason": "Add only crates/cockpit-cli/tests/cognitive_benefit.rs to WI-1070 scope and record the reproduced report-comparison RED. On exact head a777cfd42229dd784568bbdc83bfced9d923ee61, the same existing cognitive_benefit integration-test binary (SHA-256 7c39e2fcf62b64c21f5d90ee88ab128648a567d703c5e72de170f35e8ef0c80c) ran with RUST_TEST_THREADS=2: 7 passed, 1 failed. The only full-report difference was $.runtimeBinaryDigest (Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc); all other JSON fields were identical after normalizing only that digest. The repository-gate sibling runs cargo run with the same CARGO_TARGET_DIR. A single filtered test passed 1/1, while the full 8-test binary reproduced the 7/1 RED. This is diagnosis, not green verification; preserve the previous full-workspace failure and all earlier attempts. No test edit is authorized before this Contract is freshly preflighted and explicitly human-confirmed.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md"
+        ],
+        "newValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria/5",
+        "operation": "set",
+        "oldValue": "A6: The sole declared formal verification cargo test --locked --workspace passes on the exact accepted successor source; preserve all earlier failures as historical evidence and record the new run separately.",
+        "newValue": "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a 300-second bound. Preserve all previous failures as historical evidence."
+      },
+      {
+        "path": "/scenarioCoverage/0/reason",
+        "operation": "set",
+        "oldValue": "No WI-1070 execution has been recorded; WI-1068 evidence remains historical and unchanged.",
+        "newValue": "RED reproduced on exact head a777cfd42229dd784568bbdc83bfced9d923ee61: the complete cognitive_benefit integration binary ran 8 tests at RUST_TEST_THREADS=2, with 7 passed and generated_json_and_markdown_match_python_in_an_isolated_checkout failed. The only report difference was $.runtimeBinaryDigest: Python sha256:e21e9d95bad317fe0b75e48aaf4fa5ebeb81c4f9e55d4663557f4b4a36f3ede1; Rust sha256:5bb3fd0a44c85f62f1e20f94f2dbd196ee323497cf81e1bd5303080fd4cddddc. All other report fields matched after normalizing only this field. The sibling repository_gate_runs_without_invoking_python test executes cargo run in the same CARGO_TARGET_DIR, so the compared binary can be replaced between digest reads. The isolated single test passed 1/1; neither result is formal workspace success. Existing workspace attempt 9d2c92246203b27568ccdf4d831b50c5f54e186324d68123a20d7a70ca2edba5 remains failed and historical."
+      },
+      {
+        "path": "/scenarioCoverage/0/expected",
+        "operation": "set",
+        "oldValue": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; cargo test --locked --workspace passes on the exact successor source.",
+        "newValue": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; all eight cognitive_benefit integration tests pass at RUST_TEST_THREADS=2 with stable runtimeBinaryDigest while complete Python/Rust JSON and Markdown equality remains enforced; and cargo test --locked --workspace -- --quiet passes on the exact successor source under the bounded environment."
+      },
+      {
+        "path": "/scenarioCoverage/0/verificationPlan",
+        "operation": "set",
+        "oldValue": "After current preflight admission and checkpoint, update only the declared documentation paths using the canonical Runtime promotion validator. Run documentation acceptance and check-all, then execute the single declared full-workspace verification command. Capture each command, exact head, Contract digest, exit status, and output as new WI-1070 evidence.",
+        "newValue": "Only after fresh preflight of the amended Contract and explicit human confirmation, modify this scoped test file: in generated_json_and_markdown_match_python_in_an_isolated_checkout, copy env!(CARGO_BIN_EXE_ai-cockpit) once into the test TempDir, preserve the original filename/Windows .exe extension and executable permissions, keep the TempDir alive through all assertions, and use that exact private copy both to launch the Rust evaluator and as --binary for Python/Rust. Keep the runtimeBinaryDigest, path, full JSON equality, and byte-identical Markdown assertions unchanged. Run the complete existing 8-test cognitive_benefit binary with RUST_TEST_THREADS=2 and untruncated stdout/stderr; require 8/8 and stable binary digest. Then run cargo test --locked --workspace -- --quiet with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, CARGO_PROFILE_TEST_DEBUG=0, CARGO_INCREMENTAL=0, and a 300-second bound. Record exact head, Contract digest, Runtime identity, command, exit status, and output; then refresh exact-head hosted CI. Do not change production code, assertions, CI, or other tests."
+      }
+    ],
+    "previousContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+    "newContractDigest": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+    "repositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria/5",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/reason",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:48f3bb872a460d0fa7f020b4d355d5163da9890d1aee2be6076d47743a176bb6",
+    "journalDigest": "sha256:e283a81f6620a1502357eb01d10cbc46305295ef7c4c3144c3b3a403a537eac6",
+    "recordedAt": "2026-10-10T11:21:06Z"
+  }
+}

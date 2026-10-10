@@ -232,12 +232,24 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
         "clone failed: {}",
         String::from_utf8_lossy(&clone.stderr)
     );
-    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let source_binary = PathBuf::from(env!("CARGO_BIN_EXE_ai-cockpit"));
+    let private_binary = temp.path().join(
+        source_binary
+            .file_name()
+            .expect("Runtime binary basename, including platform extension"),
+    );
+    let source_permissions = std::fs::metadata(&source_binary)
+        .expect("Runtime binary metadata")
+        .permissions();
+    std::fs::copy(&source_binary, &private_binary).expect("copy Runtime binary into test TempDir");
+    std::fs::set_permissions(&private_binary, source_permissions)
+        .expect("preserve Runtime binary permissions");
     let python = python_oracle_command()
         .arg(checkout.join("tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"))
         .arg("--repo")
         .arg(&checkout)
-        .args(["--binary", binary])
+        .arg("--binary")
+        .arg(&private_binary)
         .output()
         .expect("launch Python evaluator");
     assert!(
@@ -253,10 +265,11 @@ fn generated_json_and_markdown_match_python_in_an_isolated_checkout() {
             .expect("Python JSON report");
     let python_markdown = std::fs::read(&markdown_path).expect("Python Markdown artifact");
 
-    let rust = Command::new(binary)
+    let rust = Command::new(&private_binary)
         .args(["audit", "cognitive-benefit", "--repo"])
         .arg(&checkout)
-        .args(["--binary", binary])
+        .arg("--binary")
+        .arg(&private_binary)
         .output()
         .expect("launch Rust evaluator");
     assert!(

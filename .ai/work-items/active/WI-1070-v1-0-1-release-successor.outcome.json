@@ -1,0 +1,168 @@
+{
+  "acceptanceResults": [
+    "A1: Preserve the WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior successful or failed result byte-for-byte; append successor evidence without relabeling historical results.",
+    "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+    "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
+    "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+    "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
+    "A6: The complete eight-test cognitive_benefit integration binary passes at RUST_TEST_THREADS=2 using one private immutable copy of CARGO_BIN_EXE_ai-cockpit for both Python and Rust; retain the full JSON/Markdown equality and runtimeBinaryDigest/path assertions. Then the full formal command cargo test --locked --workspace -- --quiet passes on the exact accepted source with RUST_TEST_THREADS=2, CARGO_BUILD_JOBS=1, and a finite explicit 900-second timeout under this Work Item's modify_source verification policy. The policy stage refs are task, pre_ci, pr, merge, and release; the full-workspace command runs at task stage with one Runtime worker. Omitting an explicit timeout retains the 300-second default. Preserve all previous failures as historical evidence.",
+    "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
+    "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
+    "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
+    "A10: On the local Apple Silicon macOS host, install the official published macOS binary and verify its archive, manifest, SHA256SUMS, actual installed digest, version 1.0.1, absolute CLI path, MCP initialize, and a read-only request; do not substitute a local build.",
+    "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
+    "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
+  ],
+  "createdAt": "2026-10-10T20:16:52.209176768Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ddf77d342926201dbedc27fb2b51647e8b5613054268a5dfbb9a85fffc1394e8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1070-v1-0-1-release-successor.preflight-review.94b4d82dfc92b8389efce0ee801e5d40246f42e47b34262703f4813a094fcb86.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the remaining stable v1.0.1 release acceptance and approved WI-1068 parity/documentation repair on the exact accepted source. Intended user benefit: accurate English, Simplified Chinese, and Japanese release references plus a stable v1.0.1 offering whose published artifacts, installations, and N-1 upgrade are verified. This is only the goal; do not claim it delivered until every required acceptance gate has actually passed."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-10T20:16:52.209176768Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1070-v1-0-1-release-successor"
+    },
+    "workItemId": "WI-1070-v1-0-1-release-successor"
+  },
+  "taskReportDigest": "sha256:dd3760ab816b3e0155407973555afbc6292cdbbf867d737adfc050f11f4a0a3b",
+  "taskReportMarkdownDigest": "sha256:3629ad35c0a749c5a8e03682d35c4ae10e588c907423872c1c9200238ff6c220",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

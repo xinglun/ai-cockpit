@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:d10c56cb87a5d92904961a944831950e130fb7da3e03d2be6b1abedbd593bca3",
+  "reason": "The user replied exactly \"confirm review\" at 2026-10-10 11:24 UTC to the review request for Contract sha256:f086fcad508db95c4dda8fd8a02b0d86338a91e3b305285b41b291e13fb84ae2. This confirms the bounded test-file plan and authorizes proceeding under this Contract; it is not test verification, release publication, or close approval.",
+  "recordedAt": "2026-10-10T11:25:46Z",
+  "recordedBy": "human user (explicit conversation confirmation; Runtime does not authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:77a0bc370290a779bd5cc55bf18ea252732672116b4282643f6cfeea552be288",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

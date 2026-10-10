@@ -1,0 +1,66 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:2a5999aa3745f471652cc630840e29e7c4694ef532a7f7129a35218d2e98d681",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 3,
+    "changeId": "wi1070-phase-gate-reorder-20261010-01",
+    "requestDigest": "sha256:60e88b6389aeccea1e0fe4dc79fa0d1fe9469121a0b0a41bf4f575bb729ba680",
+    "reason": "Keep documentation and formal verification as the pre-merge finish gate. Defer the other five release acceptance scenarios until their post-merge candidate, publication, public acceptance, and close stages; retain their unverified status, plans, all A1-A12 criteria, and ReleasePlan gates.",
+    "changedValues": [
+      {
+        "path": "/scenarioCoverage/1/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/2/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/3/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/4/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      },
+      {
+        "path": "/scenarioCoverage/5/required",
+        "operation": "set",
+        "oldValue": true,
+        "newValue": false
+      }
+    ],
+    "previousContractDigest": "sha256:341a48165e15e234dd7f95aa82613d8e0031cc1f9bcf25f1420e7c635a4196a9",
+    "newContractDigest": "sha256:30645ac8d81736ba66986c931042e5132685892192002fdd8cc0b9aacc21c1f8",
+    "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scenarioCoverage/1/required",
+      "/scenarioCoverage/2/required",
+      "/scenarioCoverage/3/required",
+      "/scenarioCoverage/4/required",
+      "/scenarioCoverage/5/required"
+    ],
+    "previousJournalDigest": "sha256:e6654d8029f2333480d12c6ccc47b9e162b97d56c85691789da372bd5aa576ad",
+    "journalDigest": "sha256:48f3bb872a460d0fa7f020b4d355d5163da9890d1aee2be6076d47743a176bb6",
+    "recordedAt": "2026-10-10T08:15:38Z"
+  }
+}
