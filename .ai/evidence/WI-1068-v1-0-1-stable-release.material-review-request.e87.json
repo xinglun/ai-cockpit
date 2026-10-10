@@ -1,0 +1,1235 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "immutableContractBaseRevision": "c417b65c3f3608b7fd2336314d7432fd72fa8723",
+  "sourceSnapshotDigest": "sha256:5589e071399a1592bf9fef04b4cbc7c6206535b31fc62819bc8cec71a63d8e55",
+  "materialManifestDigest": "sha256:03b6a971accce2d1148380a1bea99cb25a94a3d9fec867bbb1ff43832434ee50",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:4940d541f415e6c8d552cd46c96ee1d44c5fb39eb57a35d7204a2fb9022fbe33",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": "sha256:1bb86db91756f99dc75ef2d509905a97871db50ac44199c93cc8770c9b18ebc8",
+  "effectivePolicyDigest": "sha256:cf4ff852ceca2b5a473db77382f63b16ae0743bf93394d4698c7b773ab89bc34",
+  "entries": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5228230004c205f4d1aa2eb13227128113444e1840402c015ba061e5b816c6fc",
+      "afterBlobDigest": "sha256:7d3bb2a249832354471a0cd375b0b2a7b293af912b3dca7878fa2a3370cc8a32"
+    },
+    {
+      "path": "Cargo.lock",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e9d8f5c4de299a8c8b9fded77cc520bde854ff2083db42f16b5e349421a6036a",
+      "afterBlobDigest": "sha256:710c37f6d04e012289a855e468a8777248ceb6c8b83870b2c9029bd69080a78f"
+    },
+    {
+      "path": "Cargo.toml",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4a23c3df845631e77d57503d9772149d118fc54affe89d0f431dd857720d0ba5",
+      "afterBlobDigest": "sha256:29c9b72a5e68c31b157c13b4158d203fefac5d41cb7b2f60f4e6bcb5ef0e33a1"
+    },
+    {
+      "path": "README.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4542e8c6eef462e9df47016cf94d7c0ed55e539b6e8af68a02df0728bf3e59e0",
+      "afterBlobDigest": "sha256:f1c0c940cab7f72878bd639fdcdb9efe6d968d0df5500710131ebb41373cf5ca"
+    },
+    {
+      "path": "README.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6613685cb552623524b1346cd5879fc13a93e964915a5801ecf9b1e9aadd7e19",
+      "afterBlobDigest": "sha256:6bdb421edf83cf6c2f68e4efcb16997e4039ca1e7aa4158e9f779f5441176982"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8ea96d2b056aca5c9ebd27966c0993fd2c61899ba13a92616c57ad0650f28053",
+      "afterBlobDigest": "sha256:f24beaad755e5328150324b55a75d91722ef5bb15809ef46244cde307987cb99"
+    },
+    {
+      "path": "agents/skills/ordinary-work-item.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cb1e917b1845791199f73605f5ea6396f70782c9b58798bec1baea17547e22c3",
+      "afterBlobDigest": "sha256:a9be7b937a625e5c7733baa80ef9c10c189ca99206ae493f01911231d4dac8d8"
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ab211e1d20b196bf147e74a8c8bbd58c625cd30b60ed0df9070a10ead8d28aad",
+      "afterBlobDigest": "sha256:276169b40f9a133348c2ace0bd6eae80160c5d7cca9c816003982852fca66faf"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/audit_query.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d35d32f675a4ac68d8bc69e8a231a574d3ae3328b49cf1ad9352910d8648f691",
+      "afterBlobDigest": "sha256:9bcb9671aa9e38b4461415728b6aa214f2f8ffe12e6fdc939684d1ce84cff424"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/ci_gate.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:87c77389b51fd214825f974fcc2afd980f3dfb203b4e13a72d9ea6724a0fd82d",
+      "afterBlobDigest": "sha256:b3bcc688db8a9f1f96acb571b861cf8ce99d80b559472fdb690f6f474d26f01d"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5e0d9b249d05db9ee2f4268a2d0562b2d69c233581252722a408460698f953c5",
+      "afterBlobDigest": "sha256:d67467c937e74c094d9f3a373d9433df67bbb0552a4d6c42407d19dc7a25dce5"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_consistency.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4f0b92db3b0260c03e0091ec5283013bd55e51a3eb8ef14655fbffcd27eb5c99",
+      "afterBlobDigest": "sha256:a722ca312168f264e8326bfb81f02b4649a395b8f94aee8522e116bd77f77820"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6fb0158712ac8a7b2d43c22a2003d5fb50805ca971a6d4bc84bac21f09f95b99",
+      "afterBlobDigest": "sha256:1b1333a8230c4daa4ddbfc8a29ab9be47f248cc567b52c3d9fc08c2b797de8bd"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_outcome_parity.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f6ce73ef3fd83eded9720407e3b740e8b8d09f4122e16f840dc9fdcdf9e638da",
+      "afterBlobDigest": "sha256:e5c94906c26bc0bba6d8906faf9515207b93be6440a2327142fbf2a85fb96bea"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:7a8e2bb75c31eb0ff715d95fcee7d2624bd92a27d74c39d75804959d252eaeb0",
+      "afterBlobDigest": "sha256:56628d2d11af8273e066ead26a2e38ac1a3f7b61c4c3277611d2253cb7ab6dc4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/intelligence.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eee8edb4efb4a614a75d86ee199a31e3b2a3a7c5aabc2e2596ba16fdaa41952f",
+      "afterBlobDigest": "sha256:504d0d32335bfe3fac5a9be4aef6ceb881b98126c198d25def6566964b0797bb"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/knowledge.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:08d594dc8cdd68ff5adb1507817f225cf815eff3d68372b7327fc15f43cf2ae4",
+      "afterBlobDigest": "sha256:62807d6cfdc8dbc1de7c2bb7324e3289a6551c220a50f797db11afad609ce8d7"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:5c8eaf5adda8bafe3f9986bba95def875ed76a25dca35428ef0d9eca0f308710",
+      "afterBlobDigest": "sha256:9623568b1b6af6b1a8c6d61de50739cafabd0a22e40a614ae624f140c2528de4"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/material_review.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:1e60afc82f862d32d313413d8fac249a032c41a37f0a1e0a062375bd2cbfac85",
+      "afterBlobDigest": "sha256:aa892302d1ead95cca494925bebab89fff22a97226e2a50b93294c6fe2d2b681"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0476037854d18f82fdd13aa3d64b2310cce092a6e51cb68f6ca3283fc03d3af0",
+      "afterBlobDigest": "sha256:e5acb9abfa283efb4a5be7d391df66b8b7e9efab9a72af8af33ba85b5550f1b9"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/outcome_human_decision.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eee8edb4efb4a614a75d86ee199a31e3b2a3a7c5aabc2e2596ba16fdaa41952f",
+      "afterBlobDigest": "sha256:40ff8b5ddd6db0941bd3a877f236772341708f04ef42b930fae6dbd2650fed32"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/preflight.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4bafe3cfbafd1dced94bc333888f5bee544c11c67894ac885aa890ffc0417806",
+      "afterBlobDigest": "sha256:259884a4ed53bc29ef3b1c0e9954d6e87b027ec6183ff6186c2ac8d201635038"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c2ec2912e12f6cc6fdc6dd4658ab42946cb49670fbb2ff8ca604bdc09b6c45a1",
+      "afterBlobDigest": "sha256:9d42a600852456ab2ae1003609112a5fecc6d6a7a7b340b451af7b61da4fb510"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/scope_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:56a681cb2733e8d0eb8146aa6934d810066ad852d26af397ecaad44616ef5b2c",
+      "afterBlobDigest": "sha256:943f9ca91b1f731eeec1d0a1987b880458e0803c2082604ae36eefb0303b0750"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4af8ed2f79f6f38853d2c68dd12eab4111fca541d165802ce9554a8d331a1ea2",
+      "afterBlobDigest": "sha256:bacced8f6e727cf6b9240c7916300460e4fc9ed9b42d6ab992c674873abe729f"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:dfd764fb84bb2006d59f6d063f87452a0a2c2e254fa5abd4bb98a8cabe416d9b",
+      "afterBlobDigest": "sha256:3bcd0246ba8fa33929aaee7aa154a8f273c273ee71603810ea075f49822769c3"
+    },
+    {
+      "path": "crates/cockpit-core/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1dcbe34b8b420c5663436ec89612a7fe8349ff17017b3b9ddf9e4d866ff00f15",
+      "afterBlobDigest": "sha256:6291de5cd78e449e3eae61b2986b08868518afbd0064dc17b2eccc3e3cb1aa23"
+    },
+    {
+      "path": "crates/cockpit-core/tests/governance_semantics.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1be6c59a5cc449c7ef6c9902ce4b4786ab70f1fab8a6eeb8c129e36f751291d0",
+      "afterBlobDigest": "sha256:8dfe43db1007e268952ae70d520198ed46e7a76fb6d9a1cacbb7f228d128e4e7"
+    },
+    {
+      "path": "crates/cockpit-git/Cargo.toml",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a8f6cbfea8ab16cbcb6cf55710528437cfd3907f32238d2cd9cb3a558a90112e",
+      "afterBlobDigest": "sha256:c48a500f7d49c7b82a652b8a1612ccfd0a629ee210b4c978e6689a0f4a05b3ad"
+    },
+    {
+      "path": "crates/cockpit-git/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:183fec532080dff917556ab063237434d752fed4f50d96f8e36a7108b29295a0",
+      "afterBlobDigest": "sha256:c5e2f34306bc038194c803a5e49bda7626b9bf399c39f2ad4afda92f406e9443"
+    },
+    {
+      "path": "crates/cockpit-git/tests/repository.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:da1e0937e11fd5519b7372f7303dbf44fca32e43085ffbf87ec61579e26fb755",
+      "afterBlobDigest": "sha256:53289c35042e4e8d3c0528d2cd5485d5bdbec4ee39fef1cb233f0a88a60f2fb8"
+    },
+    {
+      "path": "crates/cockpit-interface/src/interface_description.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d31eb826601ee38cd5511ed06a8950b92eb855eb96a9b52da2b4daf4f7fa2737",
+      "afterBlobDigest": "sha256:e0327112c2f77644d929c32632f8af75bc8580e3ccce00f946b931f58c9b0bbb"
+    },
+    {
+      "path": "crates/cockpit-interface/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d83da62bfd715de9e5a528a75fbb0f14125e5149f22c49df3771021bfb0e0e96",
+      "afterBlobDigest": "sha256:dc8062e74219c06ec4561755738289a243ca5e22362fe163e232ac8e9409c59b"
+    },
+    {
+      "path": "crates/cockpit-mcp/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d22849aa4eed38202978d34d4fe3bf4a82a75ca9a4c2e5055bdf4bf02f2bf913",
+      "afterBlobDigest": "sha256:be1621fede3fc1718ed72e50a9935f40cd0e238b835a72bd95694c9ba4cc2ea8"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/material_review.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:735cb7c5754891ff8ee1e69bf40047d59744af8242c7261eab4c16bb21e36f21",
+      "afterBlobDigest": "sha256:84e8f068534e04916e94e5096cafbc2bd64f253064d72ec5816490f091000134"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/rpc.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8bef5be279f5de88249b0f6f3f7e13d17341bc74a0a21fb8a93cd5ec813ca409",
+      "afterBlobDigest": "sha256:ef669e31563637080845b5a4996746f50d9ce0cd1af873ea1293d9d58148b050"
+    },
+    {
+      "path": "crates/cockpit-mcp/tests/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:417e7064a4772c433e4852bd17f6d059b7af8893805499b02d14a04f00a402c4",
+      "afterBlobDigest": "sha256:1381083b73191a27aca9276ac55e5e782ef393099ece07bbbf41364bd2f56c84"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/audit_query.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:916cb698dfff3af7d9ccd42b15defee5baaafb550335e909ebc9d7bf7b17769a",
+      "afterBlobDigest": "sha256:31cae9779f4abe4174035dbf076599460e1849f3f6a03335c6348aa143d12b82"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d0d429c62dae4ff81a3fd191b5b52ef4a8048be00ada9070522b855683f06b2c",
+      "afterBlobDigest": "sha256:089a06cbb6afb5ef235a1058b01fafc0b958088862b082094f8f20c3f0add277"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3215362e21305d09714281866422fef5598d25bb6051e624b4f1f2dfdd8af054",
+      "afterBlobDigest": "sha256:ffc271395ba98b1090a574b086cb86b0e46d597716e5837185f0cf5cc5842c51"
+    },
+    {
+      "path": "crates/cockpit-protocol/src/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:7ad42219dcffc3d2fe719be253131bead0e231c9c2e63bfa0d0b00a639b08e87",
+      "afterBlobDigest": "sha256:d6d01256f482973e4a68d4f47ac7c2c749636c41511cca8efcf1b3f13b1dcfb4"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/audit_query.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c574b8784b13a752e4761d7c55a81ba6a28cf6fb2a3cd5260856874a05edecc8",
+      "afterBlobDigest": "sha256:ceae742cf15bcee137c9ec213b60df5fe916091c15c9a337dbf9cf903c8efd85"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c159a82c0d2ab7d0e524afff4eff55cc8d27f34c52a87a8f5a2ab39df8188d46",
+      "afterBlobDigest": "sha256:9ecafd64f594cbcbd6abeee67e6ea1f4027c95d10c5a0dcd65134a1295391b5c"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/interface_description.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d054ad8d7020bb2ad652aa462552e3cfb92a290034f16661bd2c236102cea296",
+      "afterBlobDigest": "sha256:0b3e4c23e198e3657efec7f8d24cc630251dabcf4349854b537e7018a2902250"
+    },
+    {
+      "path": "crates/cockpit-protocol/tests/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:973720cf30a3572ba944638b371de26376664b2c54b54f8ebbbb02853b1f143a",
+      "afterBlobDigest": "sha256:df103282d42b11344abf29ac2736dcd24bcb28a77404fb02aaf6105e85475429"
+    },
+    {
+      "path": "crates/cockpit-repository/Cargo.toml",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:26b51e4ab48d7c9b5b16bc79b0383a1c48759fe3288542ac74ac8e9aca8c7b43",
+      "afterBlobDigest": "sha256:2dcc393ab0ea6d007e9d66fedfb15421fc304f3d2fe6805bed6784730d120736"
+    },
+    {
+      "path": "crates/cockpit-repository/src/audit_query.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:27f94a94ff312294d802c05786ad5f1d2ec718e4563f36bc6b2581e022c7605b",
+      "afterBlobDigest": "sha256:10ae4aad62a224a445d38e013223102d769f6afd3e036c89c78755a6934a3e3d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/collaboration.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c76ac65067df80aec526a03cfe6a5696f5424e847615fdbc6afc3c5c9240f438",
+      "afterBlobDigest": "sha256:cdfb1361c5267ac90370d12f569b32ef3d0b35759049955ab34fb38ba1d3ae1d"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:20470530ed8fc1f8367e6d94e6949e4a3d741763219ad89029e6c99eb27e98da",
+      "afterBlobDigest": "sha256:5e5075d750877fe71716faddc15bf994cd948031a44ddc0b47fb9d3cb53c9a33"
+    },
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5bfe2daa749606d9f1c99402f8c702dc5b9f73f203a48f2e0fb37e5759cab7fe",
+      "afterBlobDigest": "sha256:df6cfd7a435801eb3859efb8dc77df60e2bbc733c3f8e274e84eac8abe531446"
+    },
+    {
+      "path": "crates/cockpit-repository/src/material_review.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:710f4fa86c5823433bbfb19a95486d91b7aca71747be3b95bd92248dcbfc7ac0",
+      "afterBlobDigest": "sha256:53e7195bde8e720ce1c4cc7b0d0c8f0361eb69c1e6fafa23647e4ec70097a488"
+    },
+    {
+      "path": "crates/cockpit-repository/src/outcome_render.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:66e459cb44f88e01a90d22e09d5b8b55dbf8027d5fd7a6925f389f65a51b463a",
+      "afterBlobDigest": "sha256:73d8194b17d8a960bf0f5046c27fc802d936b6c243a7d08804f98533a56b0f79"
+    },
+    {
+      "path": "crates/cockpit-repository/src/rust_material.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:88ef77cbab99a77719e433dabc956cdb8e20391e1aa9e6eff4135fd469040ce2",
+      "afterBlobDigest": "sha256:b8d7093d83d32e30ce37154a14f723bc935fded4acd6bd88e48f1fb9af3135b3"
+    },
+    {
+      "path": "crates/cockpit-repository/src/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:060441ef4416f164268463516ab98ddca5c961f2fd211d347745af9641cfc3cb",
+      "afterBlobDigest": "sha256:fbfe9385c99b717d06f9b44638752a5c8d129c5d65800e63477807ac2bc8ca9f"
+    },
+    {
+      "path": "crates/cockpit-repository/src/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f6c3a2e9f9b5fe96328f3e16c116919ca724d4a4edde6b1de277b3cabd35fabc",
+      "afterBlobDigest": "sha256:995dbebc29f2161e950f4ccbf29166585fa9b6a01c8273fa0789e0839645b764"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:c35c7c7b8612dc142a39d10851ca27caff0545eb3699d6d7db0ea8adb2f9594d",
+      "afterBlobDigest": "sha256:75fee7bf6cb8d9674ac0cc0776da3c7bcd70c2551f7ac949e1085cf1ecff7edd"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/audit_query.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f166595a2e903d361a5f9f2d481c46461a982e0f4647ef28ebe825ebac077ed7",
+      "afterBlobDigest": "sha256:7394b491619afff84180f51eb261a6bb97e4d44148336c843610001cdeb40329"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/ci_quality_gate.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6bb5b8da8d1072f78f030917c1a54b31924994ebe46d164de38e57e684cd6f11",
+      "afterBlobDigest": "sha256:539a515f4a8755906c5efad85cc1036e371258999403b91433e3a687ef5bcf25"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/collaboration_admission.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:c748ec1d6f0c777931ca9abe7630f084428d2d3fe4c7f48d0b31670b91232407",
+      "afterBlobDigest": "sha256:32b1079c79608d9399d298e7d4a40bf5f642c0bd54e04500412f275264cb37e0"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/contract_amendment.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:dba77ce189986798fdf55b4e4a0050a2e5584b1189f92594c1053c430a492080",
+      "afterBlobDigest": "sha256:8794e3607719d57322f0386987d09fe640b1135ba868fe38ea90d53e0cae1add"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/evidence_assurance.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0442432bd5f25caa01421057f2990ef14fbe0202d04b6a480b2bb17e1b5a9dea",
+      "afterBlobDigest": "sha256:b384c72a5611ed29f2d5b5867b3d15e7ba90fbc05f292818822aab45f575526b"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/governance_signals.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:65bc206490dd6e2de9b8dedf1b0ee5910cd7ec4fda5eb111218be70ec9bc5d19",
+      "afterBlobDigest": "sha256:7a1fa4b6c363c7ceb1ff971dc9e7cea62116b3dc02e04332206acaf8f441e589"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_cache.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:a19513d09e589dd4d8d622d7549ad9b68aabfc50ca86a19c4c51852756226ad8",
+      "afterBlobDigest": "sha256:05c29d875a0b06ac207a648233d8f2cae1857c8ae7b250c9efce13503070f4bc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/knowledge_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:eb3ddd2dcacb63657f2bf4bd73e197b9f3b441c6273e500337ae17ec4e289f98",
+      "afterBlobDigest": "sha256:5b40ac19494521a902699836d567e3858f413942abbe56dbe2591d0f190e7c36"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:2720e70616c26b00a22aa4f19a7361e3ab6f8528b53c8ebe0f9e23f4d2e6eca2",
+      "afterBlobDigest": "sha256:61047c68529620d495b833c743866f97bc63f2495677ac49842532f6506ca0e5"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9c66d6aec2e6b38a10053dac2709a16e929e1ada2951ac3efd8572bbd0270934",
+      "afterBlobDigest": "sha256:6ef79034bb8297136ba7ce16f7a4f2fd0436167763cba458c752eae7c18d13ec"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_order.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4d403eefa0843e635fb464cbb5edb3085806cb14190aa4b74f9311de876e8f17",
+      "afterBlobDigest": "sha256:19f6ebe3d6455908c11631eb4ce729ec5f56f2206086a4ca4769c7f56a59bbe1"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/material_review.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:9a9cbe2597d341aa25e72deb35167726afa0345955da8d90f735062eaab6afc5",
+      "afterBlobDigest": "sha256:89eb580c289cf894a06139dae9519b5087b449c5cc59c9957265f6e8bf943371"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/outcome_report.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:62e5e47fd83ea4973d88994b20c5fe40e8a2106cc60c38e506cbb764768067c5",
+      "afterBlobDigest": "sha256:365770ac956923e33047a71049479bfd35b23afecaaad607c928d850310269f4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/preflight_review.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:635e757412e5532b670e0eaab3dbaff03e51c5b7dd3a5727ff8ac55695e554c1",
+      "afterBlobDigest": "sha256:7a5a1fa60cd2831b97178fcfa273bdcabd38e6a05e5c2353e5e49f77ad3a2656"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_decision.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:9802cf81b2cbdafbf71b1341bc49fb538fd9e800e05d6982d95aa32b803eab8e",
+      "afterBlobDigest": "sha256:54cc775080774c8a25cfaf4db67595e38c7c3cfe4a1e42ad10f8f3156cb9c7e4"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_events.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:71b4812b408c6d8387b211ba879da76365e2bef5e56c855c9881952126aed93b",
+      "afterBlobDigest": "sha256:103e2168901d56c73e0f464e980f20ab34cae364b8ea2664ce680751a232926e"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/recovery_revalidation.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d495abf3c020dedc589941be89ea7a46b344d16062a9b73e762a296ced54857f",
+      "afterBlobDigest": "sha256:e9e74fc0929612511c8092bdbfb7296a623ce8d6b01395f1bcc5c4d83af449f6"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d3c19f71b19d0ff551c5fd05ca186add8764623f77fec1f7954dd4665ba1740c",
+      "afterBlobDigest": "sha256:36cb6f839fb279a65f0f8f12ec4f655711fc7de5804b3dd003d6ccc4ba293bcc"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:70298516aaf0df0e07f6910076b6c18492e6e7369c6748b50354d9da424b3184",
+      "afterBlobDigest": "sha256:73c8dc5d9f0156d7e63dfb36eb74b0e96cc0e165be494cd6c1e041003e4d7490"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1c8aeac1c998203a6c1d47119b276fe035eb912ccc7a06dcdae4d4a935f7076f",
+      "afterBlobDigest": "sha256:d69a265a9c1429463efbea11e311691692e9e7fbd152fbeb3bb79f6cc9c5f118"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7b5fb2db2ca132b2f9429dca51c7dfd2b592b8cc95fe985eafbda8d4301ea7cd",
+      "afterBlobDigest": "sha256:932b617fff5c46558bf9c647cce6bce5816bb89d4430b83464c83ca79e036b3d"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/status_projection.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e295d9d6ffc6e9e1a08dda8484a3c10cf460cac9b567bbfc6796b23bdaf7682b",
+      "afterBlobDigest": "sha256:e4f45cad2e0a8835e1ec39d51a9e0289cd5c84adb9a73f9535da9578131ac124"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/supersede_archive.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cb062c3a925f25e32a5e792f7993209e5f7282c998b6ad27473b5436352927c2",
+      "afterBlobDigest": "sha256:70644225d97da09aff5433438e713cdbcf32b77ecd80e413617dbdc8db7413ae"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/task_outcome_events.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5670c5b851a6f4e2d21f5b937dcd837f288b191d14d184b803dcbc6e3305be68",
+      "afterBlobDigest": "sha256:31f7c78ffe8c1267a9f49b6a0f05c34bb4806d503e7d0d37f81095b8d1b65b02"
+    },
+    {
+      "path": "crates/cockpit-repository/tests/usage.rs",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:2f59c4cc77ec783789c9e70227052a7a30fe1a81c24f5de6266767da4cbbc5b3",
+      "afterBlobDigest": "sha256:34822defcf87255314461a071836b80cfaa91d30f4e85bfb27001de17ccba64a"
+    },
+    {
+      "path": "crates/cockpit-verification/Cargo.toml",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e9c550d4f4909433bb375eaff9924783e450fc1ff20962e60db3208107cc80c2",
+      "afterBlobDigest": "sha256:f41f90c7a12e3a62ea28ae9ca99703e2608da3f9f89d3b1acfe43462deda868b"
+    },
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:9f13d2ce80f50b460c770a6074461dbd721b3a026f398255cf57aa300338eb0a",
+      "afterBlobDigest": "sha256:7982feb60c17bd480d3363cff6294af0789ff490fcfcd4fbb4c5dc195e7867d4"
+    },
+    {
+      "path": "crates/cockpit-verification/src/lib.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:74c60e6ef3dfbf6e4362796ac74281936de87e8f880d81a25838a6d41e111d5f",
+      "afterBlobDigest": "sha256:eef49ce5e6d4cb7b3e6a829232a5f054d574bc1ef60e6e5e443a1e30083e4ae0"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "unknown",
+      "unknownCause": "readable_committed_rust_syntax_unknown",
+      "reviewable": true,
+      "changedHunkDigest": "sha256:9aa77a2085be5e972a5aa91a83d1356919ab06da50d19a3295a1e9716d762b86",
+      "afterBlobDigest": "sha256:cf4e877a4a68ec6f355b3650f76b8521e53d6791a4eb8f443c32699f6b4d6589"
+    },
+    {
+      "path": "docs/architecture/release-distribution.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:5109cf71bd271151db0e7b033aac37477147d3136ce35b0b1be1e58391f26cba",
+      "afterBlobDigest": "sha256:ac3684ff4f6df32d17ac8a8a398793e6b9232afaca7aced1d8682db5eb8e0008"
+    },
+    {
+      "path": "docs/architecture/release-distribution.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:4a4055cda829b80a8f3d6828fa3da2fce7ee2e1bfa09fef20bfbd29f10d6af97",
+      "afterBlobDigest": "sha256:e4beb174be0841d10f678f87972e1e5e8eb82621c7cd7153450358dfc04b6ef1"
+    },
+    {
+      "path": "docs/architecture/release-distribution.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0ddb24bca174de343adcfbf9c8371250c237564c4f4c9dddb495a1c4670b7895",
+      "afterBlobDigest": "sha256:c0b6fb613b901b7e74e529323353fc67dfa79772c4d687fe7dc831dcd6e32334"
+    },
+    {
+      "path": "docs/architecture/versioning.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ea7e6610db4831b8a0c0ed4251e33ca5dff800cc910d7c7e70c7c7ec40d8874d",
+      "afterBlobDigest": "sha256:68e699e8615dee15193c8c28622dcc943028c6c9746a5d8c8d346c83da6d3d6f"
+    },
+    {
+      "path": "docs/architecture/versioning.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:2e57a4d075f46946094420b7337e1613bb6c8d4b2103c418d05c2ba8d3165871",
+      "afterBlobDigest": "sha256:3f76e396250ef200efc8bfaf25aeff4afa85a89b86930b5ea08e763311017466"
+    },
+    {
+      "path": "docs/architecture/versioning.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8b16ad5c94c70c582c046e13e4737cf252ee92ac3dafdd4fea72705e51155d11",
+      "afterBlobDigest": "sha256:62a1851d199badf42267662fb138aad29d3f0264ca9017f0fffa00a79ae4e890"
+    },
+    {
+      "path": "docs/reference/collaboration-language-contract.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b0991ce71397a51dada22eae4870542c677a87b3b3e6f3d80117ea6195cf1f1d",
+      "afterBlobDigest": "sha256:5e4590c5e5cd073840e7d29e019bf0a4a50602babfd609e9ffc45d620679639e"
+    },
+    {
+      "path": "docs/reference/collaboration-language-contract.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6c264e1c2c5758998cf747c3782ee06a52208ad5f3b808f357f9855faa26b30b",
+      "afterBlobDigest": "sha256:74bfe8641fd0745e4bb068cd9d2cb002fd8db269f245b8a818236c6e6a3e16d8"
+    },
+    {
+      "path": "docs/reference/collaboration-language-contract.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:cc3b3120f889ca3aa91ef203dbb8f72662d614f2bde65d4a7606128936b6a3f0",
+      "afterBlobDigest": "sha256:decc358e74cc797fba9bba61587df63ef91f4084e639744c1d64def56906db0b"
+    },
+    {
+      "path": "docs/reference/collaboration-scenario-matrix.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7936a5b523d9a83f2b857ad983928c58cb055b10ad859096a9f0434a09fc5729",
+      "afterBlobDigest": "sha256:96099b5190c890a6b9f4a8744092eed69f944f3dabc36bb66038abcec2ef96a6"
+    },
+    {
+      "path": "docs/reference/collaboration-scenario-matrix.json",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:7cb5ca1caedb826ab00fd789d802104932e907ec5710e9938a8ccdb45c791f3c",
+      "afterBlobDigest": "sha256:7949f93bef4f8f37193d628574a8bb628212d4952b31cbdd52a64530381eaa16"
+    },
+    {
+      "path": "docs/reference/collaboration-scenario-matrix.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:28672f53ea966411becfdd3580512d8d6c607cae0a5e4133ca5c9b576414ecf2",
+      "afterBlobDigest": "sha256:c02262a9e123bc6b29e20d28825ed464bb0ae00f1bff6ed29b96b72cff51bbf9"
+    },
+    {
+      "path": "docs/reference/collaboration-scenario-matrix.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:1309ae0b141cb343aa1f3bd7302d12158fb480de04735ac9a910c1a33de4c412",
+      "afterBlobDigest": "sha256:cb83d94c5185ccf7a75a5be657433bf46c09b421de1660ab7f80214055d1b18b"
+    },
+    {
+      "path": "docs/reference/commands.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:d86bafcd4bc60bd668cb702d1215c759c578accf64bd454a72d28da0a3896cd7",
+      "afterBlobDigest": "sha256:e995dfbfa3902a2c58ca3fb10b6783aa106565597dbb528d7acc642fe6a21f2f"
+    },
+    {
+      "path": "docs/reference/commands.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:461c9fb455cd7e4492eb0810de8381b71c9c7db4815da01aedb03e97e74f80f5",
+      "afterBlobDigest": "sha256:ecf3f67916ccbd06f963c6bf77558231e829f9f73e25b51596e3652b2cc4aa2e"
+    },
+    {
+      "path": "docs/reference/commands.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8ce1de8f47c0d05ca7ddefdd055e7342003ecd9946d4a4d235596e3f6c59419e",
+      "afterBlobDigest": "sha256:8be21730d25a013e50d9bd3c4a06b3bb4e21817b1402b3a6b407a3f4ae50b450"
+    },
+    {
+      "path": "docs/reference/contract-fields.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0e6c57bcd2e170eb616af9ea3d959e84c22e6e0d606ea010be028abf749dba38",
+      "afterBlobDigest": "sha256:01327f88b4d65eefc3d21cdb3b84f0e8572882165146bcef8b3cf7555694d231"
+    },
+    {
+      "path": "docs/reference/contract-fields.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:8094fdf96e7281af7e5b7ebba4f6f03ed70d3d21584e4a07d1c9c146a10394fd",
+      "afterBlobDigest": "sha256:6063a2216994f6e429c880f3bad7136d10fc93c43c3e2866939a14f580f22da3"
+    },
+    {
+      "path": "docs/reference/contract-fields.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:74e62ec461cf30d8e0bb409b6863156665ed7c8a37ecab767046ab1245eb9f03",
+      "afterBlobDigest": "sha256:80ac8647b21c2816e6b5e6af748eabfb21a593846d6027d408f83b0ddf90c020"
+    },
+    {
+      "path": "docs/reference/reference-comparison-metadata.json",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:043e2e377d73f4ade8634cf75f10efadf8f050721d7ae92b4662bdd740c68f7c",
+      "afterBlobDigest": "sha256:485c85a4f92fdac17dd361cad4294a9fd3b0eca4c6258160c86bc6975d8bcf0d"
+    },
+    {
+      "path": "docs/reference/reference-parity.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:93b973a225b881dbd0a55dff3f66a7083e8ff3e911f6ba66cc22d6c21014cba1",
+      "afterBlobDigest": "sha256:40a8ce3772b98aafe143237436f02372ee977e0ea3b840f8e571a54f28b50720"
+    },
+    {
+      "path": "docs/reference/reference-parity.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:11e1d2fa973867e909ff8cd5559078967dda3181530c600c6bcca1def4a19faa",
+      "afterBlobDigest": "sha256:d1961ed27c314659f4c1514d58cb3c71fc75ffae14a05a72abe4187a93cf933a"
+    },
+    {
+      "path": "docs/reference/reference-parity.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b070102f40c98044b02c26b858cc6b31eb4965eb516f30e2a5b36f7f22d11d27",
+      "afterBlobDigest": "sha256:bc10f8d988aa02dfc1b5f8b76b209b04126127d6840886a36f03ec7cbd95c064"
+    },
+    {
+      "path": "docs/release/candidate.json",
+      "kind": "deleted",
+      "contentState": "deleted",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:26dbb45f30f6aff98a44b40fbe556e18a15f5e2f658ad629bd6cfbfbdca8b53b",
+      "afterBlobDigest": null
+    },
+    {
+      "path": "docs/release/distribution.ja.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:ce7ee780226e1c1742480f860a7d1a2882e7ef3b9a1b6a052801aa6fc15f5fec",
+      "afterBlobDigest": "sha256:4b6bf837ee7b948613672331fd78f76a01a738559e69d5b0f1d315aeb7b14093"
+    },
+    {
+      "path": "docs/release/distribution.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:f3036b52419e4376026a36f19fb2a2bb720033c7ca2a9212a43efe365e759839",
+      "afterBlobDigest": "sha256:e8699e5c6f0001f47a34a0d1a2ed748a5627c4089595f87750f2bde49bf0ad5a"
+    },
+    {
+      "path": "docs/release/distribution.zh-CN.md",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:fe3d3c5e91bdcf1c3b1b9ee69f0aeec226974a7c51a1f2f0996d64460cd7e15e",
+      "afterBlobDigest": "sha256:2353f3df4392199fe3d512849df7cf46084a4089f4cea4d50c483f7a60d8fa06"
+    },
+    {
+      "path": "docs/work-items/WI-1068-runtime-preflight-action-admission.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:bc7131b470bab3aad633e123efb2b2a8bd2c1ff5d8e7a44ea9d542c37143282f",
+      "afterBlobDigest": "sha256:49ad4561b67167e921ebdc7a7a00f2a6235070375fa776ce20ff5c94617efa29"
+    },
+    {
+      "path": "docs/work-items/WI-1068-runtime-preflight-action-admission.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3cedf16ee59739d7d84576e1f45c16082f85307d19dfe8197c1a1daa1c75427d",
+      "afterBlobDigest": "sha256:d802626785371dedac49ef9b27730de5f638ef06e038317cef4286c987eb0771"
+    },
+    {
+      "path": "docs/work-items/WI-1068-runtime-preflight-action-admission.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:0ea8a479241a77191735bd2329f16e9f3e9e9d9f5f61e3242a4a6da9d4d77241",
+      "afterBlobDigest": "sha256:8bc7f4c5c5a3dd4907c66fd61c414f93664ce90a3d5001216dcc40df22e1db6c"
+    },
+    {
+      "path": "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:e33b3a7bc30649527c02e2a601fe1c459fc60e1958df63def2c54601affb49a9",
+      "afterBlobDigest": "sha256:e748e817516b9b92f4ddc34cc67b080ce934fd1b6270bfcae9a9ac4e27eb86c4"
+    },
+    {
+      "path": "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:75e284f0a4b87c6609518ecc1e34aaede01d3d6a4273a2abfaa395ff30e2e2aa",
+      "afterBlobDigest": "sha256:2b757a0028117294aa3f3f0ec6be30921deaf80b6dc8cfec5c610265102cd9f3"
+    },
+    {
+      "path": "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+      "kind": "added",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:3a927e9816b158d33c821bd41821bc62661d5354c7fda385a389979ffee7ffa2",
+      "afterBlobDigest": "sha256:555c3bd38d00fc1bdfd87af1f25703a24fd488444a9a9b23af53d8ab7b6c701e"
+    },
+    {
+      "path": "tests/acceptance/cross_wi_coordination_processes.py",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:465f5f9408fbe901a5f530cbbb6c4c91ca422e8bef08506227c5bc94c8186707",
+      "afterBlobDigest": "sha256:66c156c083238aefc66dbe9352b445338df61ccfd63a1ad63721fe41b9e86861"
+    },
+    {
+      "path": "tests/ci/quality_route_test.py",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:b302390f617c35393ed96c1a702831729fbd1bac24ff85f489f1e086a1c07d2b",
+      "afterBlobDigest": "sha256:5dfc996b994f075bee178fe78f9a048a045c4defa39254ee95173874854fc6e1"
+    },
+    {
+      "path": "tests/ci/workflow_convergence_test.sh",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:884d91c46c4ec7ccdf34891a8dd6e9b64082f9407a5e9ac174d6dad483bb7414",
+      "afterBlobDigest": "sha256:9f1d75b941d25b692218dd382da54e471f0292ff356dae8add949ba477982e0e"
+    }
+  ],
+  "rawUnknownCodes": [
+    "repository_material_inspection_unavailable"
+  ],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": true,
+  "reviewDiagnostic": null,
+  "requestDigest": "sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb",
+  "reviewedSourceHead": "e87cbf780bb6829638826d5138ea7f8d66bd77b9"
+}

@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "evidenceType": "parent_relay_of_agent_material_review",
+  "workItemId": "WI-1068-v1-0-1-stable-release",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "relayReceivedAt": "2026-10-10T01:20:34.330346Z",
+  "reviewerActor": "agent:Raydot",
+  "assurance": "self_declared",
+  "provenance": "Parent-agent relay in this delegated execution thread; not a direct reviewer signature and not host-authenticated identity.",
+  "exactRelayText": "Raydot 已完成累计delta及e87脚本独立审阅，接受当前精确request的限定syntax Unknown残余风险，agent:Raydot / self_declared。绑定：request sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb；head e87cbf780bb6829638826d5138ea7f8d66bd77b9；Contract sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3；snapshot sha256:5589e071399a1592bf9fef04b4cbc7c6206535b31fc62819bc8cec71a63d8e55；manifest sha256:03b6a971accce2d1148380a1bea99cb25a94a3d9fec867bbb1ff43832434ee50；analysis sha256:4940d541f415e6c8d552cd46c96ee1d44c5fb39eb57a35d7204a2fb9022fbe33。121项106clean15syntaxUnknown0Finding，15条路径/字节与已审16ef一致。脚本blob42abae9a0a77135f145526086e7152a4ba9044b2已读，schema3严格、五个成功receipt一致性、原计数/drift/reuse/环境/恢复断言保留，ATTACHED exit1如实。",
+  "bindings": {
+    "requestDigest": "sha256:61d3624711b28e68d6b460f6ce8967f0be20db70d88ff2f6d4bd73978af572bb",
+    "reviewedSourceHead": "e87cbf780bb6829638826d5138ea7f8d66bd77b9",
+    "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+    "sourceSnapshotDigest": "sha256:5589e071399a1592bf9fef04b4cbc7c6206535b31fc62819bc8cec71a63d8e55",
+    "materialManifestDigest": "sha256:03b6a971accce2d1148380a1bea99cb25a94a3d9fec867bbb1ff43832434ee50",
+    "analysisImplementationDigest": "sha256:4940d541f415e6c8d552cd46c96ee1d44c5fb39eb57a35d7204a2fb9022fbe33",
+    "entryCounts": {
+      "total": 121,
+      "clean": 106,
+      "syntaxUnknown": 15,
+      "finding": 0
+    },
+    "unknownPathsAndBytesMatchReviewed16ef": true,
+    "scriptBlob": "42abae9a0a77135f145526086e7152a4ba9044b2",
+    "doctorAttachedExitCode": 1
+  }
+}
