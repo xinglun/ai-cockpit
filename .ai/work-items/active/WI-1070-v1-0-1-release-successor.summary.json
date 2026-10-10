@@ -6,6 +6,10 @@
   ],
   "checkpointCount": 0,
   "createdAt": "2026-10-10T07:23:43Z",
+  "intentAlignment": {
+    "reason": "The Contract states the expected user benefit as a goal only; WI-1070 documentation, published artifacts, installation, and upgrade outcomes remain unverified.",
+    "state": "unresolved"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -19,15 +23,59 @@
   "mode": "release",
   "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
-  "preflightAt": "2026-10-10T07:25:07Z",
-  "preflightContractDigest": "sha256:5017ac38e363b665abee74419f5306004636fb05b0266a6d7fc25dc922169f44",
-  "preflightDecisionDigest": "sha256:6173b2857cc0c3a9e5eb099c28402407d6e430e65aaa53a45c17c936f6cd4ca6",
+  "preflightAt": "2026-10-10T07:33:25Z",
+  "preflightContractDigest": "sha256:341a48165e15e234dd7f95aa82613d8e0031cc1f9bcf25f1420e7c635a4196a9",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
   "preflightRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "reason": "Planned only; no WI-1070 execution evidence exists.",
+      "required": true,
+      "scenario": "documentation-and-formal-verification",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned only; no current successor PR-head or pre-tag evidence exists.",
+      "required": true,
+      "scenario": "exact-head-ci-and-pretag-release-plan",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned only; no WI-1070 candidate build or target smoke evidence exists.",
+      "required": true,
+      "scenario": "four-target-candidate-install-smoke",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned only; no WI-1070 staged v1.0.0-to-v1.0.1 upgrade evidence exists.",
+      "required": true,
+      "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned only; public release, official asset acceptance, and close have not occurred.",
+      "required": true,
+      "scenario": "public-release-install-upgrade-and-close",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "reason": "Planned only; no published macOS binary has been installed or exercised on Apple Silicon.",
+      "required": true,
+      "scenario": "apple-silicon-macos-cli-mcp-identity",
+      "status": "unverified"
+    }
+  ],
   "state": "implementation_active",
-  "updatedAt": "2026-10-10T07:25:06Z",
+  "updatedAt": "2026-10-10T07:33:16.919193737+00:00",
   "workItemId": "WI-1070-v1-0-1-release-successor"
 }

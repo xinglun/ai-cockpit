@@ -1,0 +1,166 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:4830f0dcb439556bd36dbadedd6f9a8d139e6bcc73458894fba969e397525de1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 2,
+    "changeId": "wi1070-complete-release-acceptance-plan-20261010-01",
+    "requestDigest": "sha256:80019c4db8c29505023346ba5f5742809980619708ee710f71bc6dac32fbadf4",
+    "reason": "Complete the user-authorized WI-1068 release successor plan. Separate each release and documentation gate, keep unexecuted scenarios unverified, and state the expected user benefit only as a goal until its evidence exists.",
+    "changedValues": [
+      {
+        "path": "/intent",
+        "operation": "replace",
+        "oldValue": "Resume WI-1068 remaining v1.0.1 release acceptance through its authorized recovery successor and repair the approved three-row WI-1068 parity projection with the required trilingual Work Item documentation.",
+        "newValue": "Continue WI-1068's remaining stable v1.0.1 release acceptance through the authorized successor and repair the approved WI-1068 three-row parity projection with the required trilingual documentation."
+      },
+      {
+        "path": "/goal",
+        "operation": "replace",
+        "oldValue": "Complete current authorized prepublication acceptance on the exact merged source and the canonical English, Simplified Chinese, and Japanese parity projections. Preserve all predecessor evidence and failures. Keep unfinished publication and post-publication gates pending.",
+        "newValue": "Complete the remaining stable v1.0.1 release acceptance and approved WI-1068 parity/documentation repair on the exact accepted source. Intended user benefit: accurate English, Simplified Chinese, and Japanese release references plus a stable v1.0.1 offering whose published artifacts, installations, and N-1 upgrade are verified. This is only the goal; do not claim it delivered until every required acceptance gate has actually passed."
+      },
+      {
+        "path": "/sources",
+        "operation": "replace",
+        "oldValue": [
+          "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation."
+        ],
+        "newValue": [
+          "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation.",
+          "Parent delegation from source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 relays that the user has authorized stable v1.0.1 publication. This is relayed user-stated authority, not host-authenticated identity; Runtime admission and any explicitly human-only decision remain binding."
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Product source changes",
+          "Test source changes",
+          "CI policy changes",
+          "WI-1068 archive and all prior evidence changes",
+          "Merge",
+          "Tag creation",
+          "Release publication or public asset mutation",
+          "Apple Silicon host installation"
+        ],
+        "newValue": [
+          "Product source changes",
+          "Test source changes",
+          "CI policy changes",
+          "WI-1068 archive and all prior evidence changes",
+          "Overwriting an existing tag, release, or immutable asset"
+        ]
+      },
+      {
+        "path": "/acceptanceCriteria",
+        "operation": "replace",
+        "oldValue": [
+          "A1: WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior success or failure remain byte-identical; the new successor receipt is append-only and no historical result is relabeled.",
+          "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+          "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; the projections match the finalized Contract and no WI-1069 record or worktree is overwritten.",
+          "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route on the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+          "A5: A fresh Runtime-bound release plan binds PR #1022, the exact merge commit and source, the v1.0.0 N-1 reference, unused v1.0.1 tag/Release names, provider immutability metadata, and publication workflow gates; do not infer publication from branch evidence.",
+          "A6: Run the currently admitted formal verification and exact-head CI checks, and preserve old failed attempts. Release artifact checks are accepted only against immutable published artifacts; no source checkout or local Runtime binary substitutes.",
+          "A7: Keep tag creation, public Release publication, official manifest/checksum/download/install checks, staged N-1 upgrade, Apple Silicon installation, and predecessor close explicitly pending; do not claim them complete or execute them without separate authorization."
+        ],
+        "newValue": [
+          "A1: Preserve the WI-1068 Contract, Summary, Outcome, events, archive, verification evidence, and every prior successful or failed result byte-for-byte; append successor evidence without relabeling historical results.",
+          "A2: Use the canonical Runtime promotion projection to repair exactly the three WI-1068 parity rows in the English, Simplified Chinese, and Japanese reference-parity documents; preserve unrelated rows.",
+          "A3: Add the required English, Simplified Chinese, and Japanese WI-1070 documentation projections and the WI-1070 parity row in all three parity documents; bind the projections to the final Contract and preserve WI-1069 records and worktree.",
+          "A4: Documentation acceptance, canonical promotion check-all, and the strict quality route for the exact successor base and head pass with no stale or pending parity entries; preserve any failure.",
+          "A5: A fresh Runtime-bound release plan binds PR #1022, its exact merged source and merge commit, the stable v1.0.0 N-1 reference, the then-unused v1.0.1 tag and Release names, provider immutability metadata, and the workflow's required release gates. Do not infer release publication from branch evidence.",
+          "A6: The sole declared formal verification cargo test --locked --workspace passes on the exact accepted successor source; preserve all earlier failures as historical evidence and record the new run separately.",
+          "A7: The successor's exact current PR head completes all required GitHub Actions, Rust Contract, repository-quality, package-coverage, Windows Runtime, and behavioral-oracle gates before the PR is marked ready or normally merged; a changed head requires fresh exact-head CI. Preserve the earlier PR #1022 revision-binding failure and do not bypass its checks.",
+          "A8: After the successor PR is normally merged and fresh Runtime publication admission permits it, create the new immutable v1.0.1 tag once. The existing workflow passes candidate install/smoke on aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc, and passes staged Linux x86_64 N-1 from v1.0.0 before public Release publication.",
+          "A9: After public Release publication, the official manifest, SHA256SUMS, and Linux x86_64 asset identities/digests verify; the downloaded public asset installs and passes post-upgrade N-1 checks from v1.0.0. Preserve failed downloads and never overwrite an immutable asset.",
+          "A10: On the local Apple Silicon macOS host, install the official published macOS binary and verify its archive, manifest, SHA256SUMS, actual installed digest, version 1.0.1, absolute CLI path, MCP initialize, and a read-only request; do not substitute a local build.",
+          "A11: Only after every required release and platform-acceptance step succeeds and Runtime admits cleanup, record the exact branch/worktree finalization and lifecycle receipts, then close the successor. Keep WI-1068 history unchanged.",
+          "A12: The stated multilingual documentation and validated stable v1.0.1 offering remain intended benefits only; report them as delivered only after the corresponding documentation and publication/install/upgrade evidence passes."
+        ]
+      },
+      {
+        "path": "/scenarioCoverage",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": [
+          {
+            "evidence": [],
+            "expected": "Canonical English, Simplified Chinese, and Japanese projections contain the exact WI-1068 and WI-1070 parity rows; the WI-1070 task pages match the final Contract; documentation acceptance and promotion check-all are current; cargo test --locked --workspace passes on the exact successor source.",
+            "reason": "No WI-1070 execution has been recorded; WI-1068 evidence remains historical and unchanged.",
+            "required": true,
+            "scenario": "documentation-and-formal-verification",
+            "status": "unverified",
+            "verificationPlan": "After current preflight admission and checkpoint, update only the declared documentation paths using the canonical Runtime promotion validator. Run documentation acceptance and check-all, then execute the single declared full-workspace verification command. Capture each command, exact head, Contract digest, exit status, and output as new WI-1070 evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "The successor PR's exact current head has all required CI gates green; a fresh Runtime release plan binds PR #1022 and the exact merged source, identifies stable v1.0.0 as N-1, confirms v1.0.1 tag/Release names are unused before creation, records provider immutability metadata accurately, and verifies workflow dependencies for all later checks.",
+            "reason": "No WI-1070 PR-head or fresh release-plan evidence has been recorded.",
+            "required": true,
+            "scenario": "exact-head-ci-and-pretag-release-plan",
+            "status": "unverified",
+            "verificationPlan": "After documentation implementation and push, bind the successor PR and its exact head to all required hosted checks. Separately query PR #1022 and merge/source identities; use the A27 release-plan command against the current Contract and source; inspect the release workflow and provider tag/Release fields. Preserve the earlier revision-binding failure and do not reuse it as current green evidence."
+          },
+          {
+            "evidence": [],
+            "expected": "The release workflow builds and passes candidate install/smoke for aarch64-apple-darwin, x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu, and x86_64-pc-windows-msvc before public Release publication.",
+            "reason": "The immutable v1.0.1 candidate has not been created or tested under WI-1070.",
+            "required": true,
+            "scenario": "four-target-candidate-install-smoke",
+            "status": "unverified",
+            "verificationPlan": "After the successor PR merge and fresh Runtime publication admission, create the v1.0.1 immutable tag once and execute the existing candidate-publication workflow. Bind all four target logs and artifacts to the exact source and tag; stop on any failed or skipped required job."
+          },
+          {
+            "evidence": [],
+            "expected": "The staged Linux x86_64 workflow installs stable v1.0.0, upgrades to candidate v1.0.1, and passes post-upgrade checks before the public Release is created.",
+            "reason": "The staged v1.0.0-to-v1.0.1 candidate upgrade has not been executed under WI-1070.",
+            "required": true,
+            "scenario": "staged-linux-x86_64-n-minus-one-upgrade",
+            "status": "unverified",
+            "verificationPlan": "In the explicitly admitted candidate workflow, bind the actual v1.0.0 N-1 install, v1.0.1 candidate, upgrade output, and post-upgrade checks. Do not substitute N/A or another predecessor."
+          },
+          {
+            "evidence": [],
+            "expected": "After public Release publication, official manifest/SHA256SUMS and the Linux x86_64 asset verify; public install and N-1 upgrade from v1.0.0 pass; only after every required platform gate passes does Runtime admit branch/worktree finalization and successor close.",
+            "reason": "Public publication, downloaded-asset checks, upgrade acceptance, and finalization have not been executed under WI-1070.",
+            "required": true,
+            "scenario": "public-release-install-upgrade-and-close",
+            "status": "unverified",
+            "verificationPlan": "After candidate and N-1 gates pass and Runtime admits publication, publish the new immutable Release once. Download and bind official manifests, sums, and Linux asset; run the public install/N-1 adopter checks; then re-query Runtime and perform only admitted exact-resource finalization, finalization verification, and close. Keep the Work Item unverified until these real executions and receipts exist."
+          },
+          {
+            "evidence": [],
+            "expected": "The published macOS binary's archive, manifest, checksum, actual installed SHA-256, and version agree; the declared absolute CLI path runs version 1.0.1 and MCP initialize plus a read-only request succeeds.",
+            "reason": "The official macOS asset has not been installed or exercised on the local Apple Silicon host under WI-1070.",
+            "required": true,
+            "scenario": "apple-silicon-macos-cli-mcp-identity",
+            "status": "unverified",
+            "verificationPlan": "After public publication, install the official macOS asset on the declared Apple Silicon host and capture archive/manifest/SHA256SUMS, installed digest, version, absolute path, MCP initialize, and read-only request. Do not substitute a local build or change provider-global identity configuration."
+          }
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:5017ac38e363b665abee74419f5306004636fb05b0266a6d7fc25dc922169f44",
+    "newContractDigest": "sha256:341a48165e15e234dd7f95aa82613d8e0031cc1f9bcf25f1420e7c635a4196a9",
+    "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+    "environmentObservationDigest": "sha256:660979fc57ded9683f0509af115af1b3261041f2487d80cb6c97f75f22fdd4cf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope",
+      "/scenarioCoverage"
+    ],
+    "previousJournalDigest": "sha256:a3a27e1778fb663c241e3162e1d92297961142bf6aa8057752f57e3b51ee2f78",
+    "journalDigest": "sha256:e6654d8029f2333480d12c6ccc47b9e162b97d56c85691789da372bd5aa576ad",
+    "recordedAt": "2026-10-10T07:31:34Z"
+  }
+}
