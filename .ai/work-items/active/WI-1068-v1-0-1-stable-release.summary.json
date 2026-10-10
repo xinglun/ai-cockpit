@@ -370,16 +370,7 @@
     }
   ],
   "changedPaths": [
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.2256e72b1ac26015b370cd21d14b7a637c7810f849be4bd2f4d5a46790b65f4d.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.5599c33d30adee832b18985428b9939413d379da9b49904d1a6bb53ca22f6e7d.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.57a4fba45dfb61d6f4d01db75ee16fdd93262cda6dcf4f61a98f87bb0eefce03.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.a42df20dcd91cf7f23e16cac23c5711adcf4547a4dca2c06dfa1bbd7d36620d3.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.aaa303024863053d79d53bc89b5ef064a54dd48e7393b8a43e61e85c3f461e96.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.b1d5b91f2557eda6398df96dfbc8e0aad0e4d35e3e84cd2ddb54855f1eddce02.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.b29ce2eaf213a0fe489af5b11e4c06c3c9b500783c0a11da9534cba2e5a4ca82.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.d2c7998817171c85cb57bd62829fad4e8c1bf0355147540da3cb6865f76f8a59.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
-    ".ai/work-items/active/WI-1068-v1-0-1-stable-release.summary.json"
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.1dffa55890e86202cce36267c6bdaaece02de1c2242b594cb3fc3871104ac14c.json"
   ],
   "checkpointAt": "2026-10-06T06:23:41Z",
   "checkpointContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
@@ -758,20 +749,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    {
+      "acceptanceCount": 27,
+      "contractHash": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:69c081a680f90f5bb37905c0749f3162f83f83445e094ee30b5eaa5dd766999f",
+      "previousContractHash": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+      "reason": "Add the existing cross-Work-Item process acceptance driver to scope so its current behavior can be reviewed as an in-scope acceptance artifact. This path-only change does not alter the script, acceptance criteria, authority, immutable base, release decisions, or verification timeout budget.",
+      "recorded": true,
+      "recordedAt": "2026-10-10T01:08:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
+    "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:bafc39b895a7c8afb6cf25d5f7302899b32aa63177de30f3b708b22cc4b7ceef",
-    "reason": "The user explicitly confirmed this exact five-stage Work Item amendment: at 2026-10-09 18:59 UTC, the user message Sentinel_c4616db290388191a159b13d2918fa8e said \"确认\"; at 19:00 UTC, user message Sentinel_a6fdba8e8db88191aae85ffc08177a13 said \"confirm_review\". These responded to Raydot's 2026-10-09 16:41:51 UTC message Sentinel_a08f118f62408191b9950f13fc7dfd33, which supplied the three historical language projection paths and five-stage 900-second timeout policy bound to prospective Contract digest sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e. This is the source of the user's bounded approval for this exact Contract and preflight review. Entered by agent:Codex as self-declared evidence; Runtime does not independently authenticate the user's identity. It does not assert tests passed, a new material-review decision, stable-release acceptance, merge, tag, publication, or close.",
-    "recordedAt": "2026-10-09T19:04:07Z",
-    "recordedBy": "user (explicit conversation approval; entered by agent:Codex)",
+    "preflightDecisionDigest": "sha256:cc8852e2db55f7b39fbca8403113901c0eea7af32c304f4e2cd4c17b3ba31651",
+    "reason": "The user replied exactly “Confirm review” at 2026-10-10T01:06:17Z (message Sentinel_efa97741f8988191b245818dfd127f97) to Raydot’s exact-scope confirmation request at 2026-10-10T00:18:37Z (message Sentinel_732d638b5a408191a19fbfd7dec50032), bound to requestDigest sha256:7f0505921b87f80195998cb20a1eaea67b707030adb78e7cee2eb33fd186816e and expected Contract digest sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3. This records the user’s bounded approval to add only tests/acceptance/cross_wi_coordination_processes.py to WI-1068 scope. It does not approve verification, merge, tag, release, publication, or close. The decision was entered by agent:Codex; Runtime does not independently authenticate the user identity.",
+    "recordedAt": "2026-10-10T01:08:38Z",
+    "recordedBy": "human:user (explicit conversation approval; entered by agent:Codex)",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:bc1c6582fe0613acada79a529ced87b53511206fd3b6ab8c06b14a8200e2b797",
+    "repositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
     "schemaVersion": 1,
     "workItemId": "WI-1068-v1-0-1-stable-release"
   },
@@ -833,11 +844,11 @@
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-09T21:38:57Z",
-  "preflightContractDigest": "sha256:0582aa7ac000ad8a05715bdb404a87761aa45a12f10d2b2a3474756d7f3a267e",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:e04ff9e17c34c2b60fbbf38bdeeaa6e7ae2825e194b0f28d2751c98ed9701820",
-  "preflightState": "green",
+  "preflightAt": "2026-10-10T01:08:23Z",
+  "preflightContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "preflightDecisionDigest": "sha256:cc8852e2db55f7b39fbca8403113901c0eea7af32c304f4e2cd4c17b3ba31651",
+  "preflightRepositorySnapshotDigest": "sha256:9b0cd18d4195e73138eeacb283723bebed5f85b5dc61365ae8880cc9b3b1d731",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
@@ -1227,7 +1238,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-09T19:04:21.548562955+00:00",
+  "updatedAt": "2026-10-10T01:08:50.944746427+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -1286,6 +1297,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-10T01:08:08Z"
+  },
   "verificationRecoveryReconciled": "sha256:13d144e69bec228c4c851a8b2f7137a97a01d3e63d90d2204c40c9f13d849e69",
   "workItemId": "WI-1068-v1-0-1-stable-release"
 }

@@ -576,7 +576,8 @@
     "crates/cockpit-repository/tests/task_outcome_events.rs",
     "docs/work-items/WI-1068-runtime-preflight-action-admission.md",
     "docs/work-items/WI-1068-runtime-preflight-action-admission.zh-CN.md",
-    "docs/work-items/WI-1068-runtime-preflight-action-admission.ja.md"
+    "docs/work-items/WI-1068-runtime-preflight-action-admission.ja.md",
+    "tests/acceptance/cross_wi_coordination_processes.py"
   ],
   "sources": [
     "main merge commit c417b65c3f3608b7fd2336314d7432fd72fa8723 after PR #1021; origin/main fetched and verified clean and exact.",
