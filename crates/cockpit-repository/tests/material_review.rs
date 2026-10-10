@@ -342,6 +342,18 @@ fn material_review_decision_fixture() -> (
     (directory, contract, request, input)
 }
 
+fn rebind_material_request_digest(value: &mut serde_json::Value) -> cockpit_core::Digest {
+    let mut payload = value.clone();
+    let fields = payload.as_object_mut().expect("request object");
+    fields.remove("requestDigest");
+    fields.remove("reviewedSourceHead");
+    fields.remove("reviewDiagnostic");
+    let digest = cockpit_protocol::digest_json(&("ai-cockpit:material-review-request:v1", payload))
+        .expect("canonical request digest");
+    value["requestDigest"] = json!(digest.to_string());
+    digest
+}
+
 #[test]
 fn material_review_decision_validator_rejects_unapproved_profile_actor() {
     let (_directory, contract, request, mut input) = material_review_decision_fixture();
@@ -433,6 +445,54 @@ fn material_review_decision_validator_rejects_stale_input_and_tampered_request()
         tampered_error,
         MaterialReviewDecisionValidationError::RequestDigestMismatch
     );
+}
+
+#[test]
+fn old_material_decision_is_stale_after_analysis_or_policy_identity_changes() {
+    let (_directory, contract, request, input) = material_review_decision_fixture();
+
+    for field in [
+        "analysisImplementationDigest",
+        "analysisTargetSemanticProfile",
+        "effectivePolicyDigest",
+    ] {
+        let mut current_request = request.clone();
+        match field {
+            "analysisImplementationDigest" => {
+                current_request.analysis_implementation_digest =
+                    cockpit_core::Digest::sha256_bytes(b"changed analysis implementation");
+            }
+            "analysisTargetSemanticProfile" => {
+                current_request.analysis_target_semantic_profile =
+                    "changed-target-semantic-profile".into();
+            }
+            "effectivePolicyDigest" => {
+                current_request.effective_policy_digest =
+                    cockpit_core::Digest::sha256_bytes(b"changed effective policy");
+            }
+            _ => unreachable!("listed request identity field"),
+        }
+        let mut current_value = serde_json::to_value(&current_request).expect("request JSON");
+        current_request.request_digest = rebind_material_request_digest(&mut current_value);
+        assert_ne!(
+            current_request.request_digest, request.request_digest,
+            "{field}"
+        );
+
+        let error = validate_material_review_decision(
+            &contract,
+            &current_request,
+            &input,
+            "agent:codex-executor",
+            "2026-10-07T14:00:00Z",
+        )
+        .expect_err("the old decision must not authorize a changed request identity");
+        assert_eq!(
+            error,
+            MaterialReviewDecisionValidationError::RequestDigestMismatch,
+            "{field}"
+        );
+    }
 }
 
 #[test]
@@ -848,6 +908,51 @@ fn admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer()
         non_ancestor
             .effective_unknowns
             .contains(&"material_review_projection_unavailable".into())
+    );
+}
+
+#[test]
+fn material_review_rejects_a_summary_pointer_to_a_noncanonical_sidecar_path() {
+    let (directory, runtime, _contract_path, summary_path, sidecar_path, _input) =
+        active_recorded_material_review_fixture();
+    let root = directory.path();
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("Summary bytes"))
+            .expect("Summary JSON");
+    let pointer = &mut summary["materialReviewReceipt"];
+    let wrong_relative_path =
+        ".ai/evidence/material-inspection-review/WI-MATERIAL/copied-receipt.json";
+    fs::write(
+        root.join(wrong_relative_path),
+        fs::read(&sidecar_path).expect("valid immutable sidecar"),
+    )
+    .expect("copy valid receipt under a wrong path");
+    pointer["path"] = json!(wrong_relative_path);
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("tampered Summary bytes"),
+    )
+    .expect("write Summary with wrong receipt path");
+
+    let status =
+        cockpit_repository::work_item_status_snapshot_with_runtime(root, "WI-MATERIAL", &runtime)
+            .expect("status with a noncanonical receipt path");
+    assert_eq!(status.review_receipt_digest, None);
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"material_review_receipt_invalid".into())
+    );
+    assert!(
+        status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    assert!(
+        !status
+            .safe_actions
+            .contains(&"record_material_review_decision".into()),
+        "a copied sidecar at a noncanonical path must not authorize renewal"
     );
 }
 
@@ -1509,7 +1614,11 @@ fn normalized_crlf_checkout_is_not_compared_to_committed_blob_bytes() {
         .iter()
         .find(|entry| entry.path == "README.md")
         .unwrap();
-    assert!(readme.after_blob_digest.is_some());
+    assert_eq!(
+        readme.after_blob_digest,
+        Some(cockpit_core::Digest::sha256_bytes(&committed_blob.stdout)),
+        "the request must bind committed LF bytes, not the CRLF-normalized checkout"
+    );
 }
 
 #[cfg(unix)]
@@ -1760,12 +1869,12 @@ fn binary_rust_material_is_unknown_but_not_reviewable() {
 }
 
 #[test]
-fn bounded_patch_in_large_committed_rust_source_uses_committed_blob() {
+fn bounded_patch_in_large_committed_rust_unknown_remains_reviewable_from_blob() {
     let (directory, mut contract) = fixture();
     let root = directory.path();
     fs::create_dir(root.join("src")).unwrap();
     let large = format!(
-        "fn material() {{ let value = 1; }}\n{}",
+        "fn material() -> String {{\n    let mut label = String::from(\"token\");\n    label\n}}\n{}",
         "// filler\n".repeat(35_000)
     );
     assert!(large.len() > cockpit_git::MAX_CHANGE_TEXT_BYTES);
@@ -1774,18 +1883,79 @@ fn bounded_patch_in_large_committed_rust_source_uses_committed_blob() {
     contract.base_revision = git(root, &["rev-parse", "HEAD"]);
     fs::write(
         root.join("src/material.rs"),
-        large.replacen("value = 1", "value = 2", 1),
+        large.replacen(
+            "    label\n",
+            "    label.push_str(\"ization\");\n    label\n",
+            1,
+        ),
     )
     .unwrap();
     commit(root);
+
+    contract.governance_profile = Some(json!({
+        "materialInspectionReview": {
+            "schemaVersion": 1,
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "assurance": "self_declared",
+            "reviewerActor": "agent:Raydot",
+            "authoritySource": "user-delegation:ray-approved-WI1068",
+            "acceptResidualRisk": true
+        }
+    }));
+    contract.required_runtime_capabilities =
+        vec![cockpit_protocol::MATERIAL_INSPECTION_REVIEW_CAPABILITY.to_owned()];
     let request = material_review_request(root, &contract).unwrap();
     let entry = request
         .entries
         .iter()
         .find(|entry| entry.path == "src/material.rs")
         .unwrap();
-    assert!(!entry.reviewable);
-    assert_eq!(entry.unknown_cause, None);
+    let blob_id = git(root, &["rev-parse", "HEAD:src/material.rs"]);
+    let committed_blob = Command::new("git")
+        .args(["cat-file", "blob", &blob_id])
+        .current_dir(root)
+        .output()
+        .unwrap();
+    assert!(committed_blob.status.success());
+    assert!(request.review_enabled);
+    assert!(entry.reviewable, "large committed entry: {entry:?}");
+    assert_eq!(
+        entry.unknown_cause,
+        Some(MaterialUnknownCause::ReadableCommittedRustSyntaxUnknown)
+    );
+    assert_eq!(
+        entry.after_blob_digest,
+        Some(cockpit_core::Digest::sha256_bytes(&committed_blob.stdout))
+    );
+    assert_eq!(
+        request.raw_unknown_codes,
+        ["repository_material_inspection_unavailable"]
+    );
+    let input: MaterialInspectionReviewDecisionInput = serde_json::from_value(json!({
+        "schemaVersion": 1,
+        "decision": "accept_permitted_unknowns",
+        "requestDigest": request.request_digest,
+        "reviewerActor": "agent:Raydot",
+        "authoritySource": "user-delegation:ray-approved-WI1068",
+        "assurance": "self_declared",
+        "evidenceRefs": [{
+            "path": "docs/review-evidence.md",
+            "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }],
+        "rationale": "Review the bounded syntax Unknown from the complete committed blob.",
+        "residualRisk": "The bounded source scanner remains incomplete for this syntax."
+    }))
+    .unwrap();
+    let receipt = validate_material_review_decision(
+        &contract,
+        &request,
+        &input,
+        "agent:codex-executor",
+        "2026-10-07T14:00:00Z",
+    )
+    .expect("an exact bounded patch in a large committed blob remains reviewable");
+    assert_eq!(receipt.request_digest, request.request_digest);
 }
 
 #[test]

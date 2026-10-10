@@ -12,7 +12,7 @@ use cockpit_repository::{
     preflight_work_item, preflight_work_item_with_runtime, record_verification_with_runtime,
     record_work_item_governance_controls, record_work_item_material_review,
     run_repository_verification, start_work_item_with_options,
-    validate_contract_quality_gate_report,
+    validate_contract_quality_gate_report, work_item_status_snapshot_with_runtime,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -31,14 +31,21 @@ fn git(repository: &Path, args: &[&str]) {
 }
 
 fn git_revision(repository: &Path) -> String {
+    git_output(repository, &["rev-parse", "HEAD"])
+}
+
+fn git_output(repository: &Path, args: &[&str]) -> String {
     let output = Command::new("git")
-        .args(["rev-parse", "HEAD"])
+        .args(args)
         .current_dir(repository)
         .output()
-        .expect("git revision");
-    assert!(output.status.success(), "git rev-parse failed: {output:?}");
+        .expect("git output");
+    assert!(
+        output.status.success(),
+        "git command failed: {args:?}: {output:?}"
+    );
     String::from_utf8(output.stdout)
-        .expect("git revision UTF-8")
+        .expect("git output UTF-8")
         .trim()
         .to_owned()
 }
@@ -493,6 +500,108 @@ fn quality_gate_recomputes_state_after_material_review_discharge() {
 }
 
 #[test]
+fn quality_gate_discharges_exact_reviewed_material_across_different_comparison_base() {
+    let (directory, contract, comparison_base) =
+        reviewed_material_repository_with_comparison_base_unknown(
+            b"fn comparison_material() -> i32 { 2 }\n",
+        );
+    let root = directory.path();
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&comparison_base),
+        &runtime(),
+    )
+    .expect("exact reviewed material may be consumed from a different comparison base");
+
+    assert_eq!(report.comparison_base_revision, comparison_base);
+    assert!(report.review_receipt_digest.is_some());
+    assert!(report.effective_unknowns.is_empty());
+    assert_eq!(report.state, "passed");
+    assert_eq!(report.decision_state, "green");
+}
+
+#[test]
+fn quality_gate_preserves_same_path_material_when_comparison_hunk_origin_differs() {
+    let (directory, contract) = reviewed_material_repository();
+    let root = directory.path();
+    let candidate_head = git_revision(root);
+    let contract_base =
+        serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).expect("Contract bytes"))
+            .expect("Contract JSON")["baseRevision"]
+            .as_str()
+            .expect("Contract base")
+            .to_owned();
+    let candidate_branch = git_output(root, &["branch", "--show-current"]);
+
+    git(root, &["branch", "comparison-base", &contract_base]);
+    git(root, &["checkout", "comparison-base"]);
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(
+        root.join("crates/material.rs"),
+        "fn comparison_material() -> i32 { 2 }\n",
+    )
+    .expect("comparison-base material");
+    git(root, &["add", "crates/material.rs"]);
+    git(
+        root,
+        &["commit", "-qm", "add clean comparison-base material"],
+    );
+    let comparison_base = git_revision(root);
+
+    git(root, &["checkout", &candidate_branch]);
+    let candidate_tree = git_output(root, &["rev-parse", &format!("{candidate_head}^{{tree}}")]);
+    let merged_head = git_output(
+        root,
+        &[
+            "commit-tree",
+            &candidate_tree,
+            "-p",
+            &candidate_head,
+            "-p",
+            &comparison_base,
+            "-m",
+            "merge tested comparison base",
+        ],
+    );
+    git(root, &["reset", "--hard", &merged_head]);
+    let merged_request = plan_work_item_material_review(root, "WI-CI-GATE")
+        .expect("same canonical material after merge");
+    assert_eq!(merged_request.reviewed_source_head, merged_head);
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&comparison_base),
+        &runtime(),
+    )
+    .expect("hosted gate report");
+
+    assert_eq!(report.comparison_base_revision, comparison_base);
+    assert!(
+        report
+            .changed_paths
+            .iter()
+            .any(|path| path == "crates/material.rs"),
+        "the CI diff changes the same path reviewed as an addition against the Contract base"
+    );
+    assert!(report.review_receipt_digest.is_some());
+    assert!(
+        report
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "same-path material with a different change origin/hunk must remain Unknown"
+    );
+    assert_eq!(report.state, "blocked");
+    assert_eq!(report.decision_state, "yellow");
+}
+
+#[test]
 fn quality_gate_does_not_discharge_comparison_base_only_material_unknown() {
     let (directory, contract, comparison_base) =
         reviewed_material_repository_with_comparison_base_unknown(
@@ -781,7 +890,7 @@ fn quality_gate_preserves_each_material_finding_category_as_a_blocker() {
 }
 
 #[test]
-fn report_validator_rejects_self_reported_green_over_material_unknown() {
+fn report_validator_rejects_self_reported_green_with_an_extra_material_unknown() {
     let directory = repository();
     let root = directory.path();
     let contract = contract_path(root);
@@ -796,8 +905,20 @@ fn report_validator_rejects_self_reported_green_over_material_unknown() {
         benign_syntax_unknown_source(),
     )
     .expect("unknown source");
-    git(root, &["add", "crates/material_unknown.rs"]);
-    git(root, &["commit", "-qm", "add bounded syntax Unknown"]);
+    fs::write(root.join("crates/second_unknown.rs"), b"binary\0material")
+        .expect("additional unreviewable Unknown");
+    git(
+        root,
+        &[
+            "add",
+            "crates/material_unknown.rs",
+            "crates/second_unknown.rs",
+        ],
+    );
+    git(
+        root,
+        &["commit", "-qm", "add an extra unreviewable Unknown"],
+    );
 
     let actual = evaluate_contract_quality_gate(
         root,
@@ -812,6 +933,12 @@ fn report_validator_rejects_self_reported_green_over_material_unknown() {
     assert!(!actual.raw_scanner_unknowns.is_empty());
     assert_eq!(actual.decision_state, "yellow");
     assert_eq!(actual.review_receipt_digest, None);
+    assert!(
+        actual
+            .changed_paths
+            .iter()
+            .any(|path| path == "crates/second_unknown.rs")
+    );
     assert!(
         actual
             .effective_unknowns
@@ -853,6 +980,111 @@ fn report_validator_rejects_self_reported_green_over_material_unknown() {
     let error = validate_contract_quality_gate_report(root, &report_path, &route_path)
         .expect_err("self-reported green must not validate");
     assert!(error.to_string().contains("canonical material"), "{error}");
+}
+
+#[test]
+fn valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verification() {
+    let (directory, _contract) = reviewed_material_repository();
+    let root = directory.path();
+    let current_runtime = runtime();
+    let status = work_item_status_snapshot_with_runtime(root, "WI-CI-GATE", &current_runtime)
+        .expect("status with a current review receipt");
+    assert!(status.review_receipt_digest.is_some());
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into())
+    );
+    checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
+
+    let failed_attempt = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "reviewed-material-failed-verification".into(),
+            program: "false".into(),
+            args: Vec::new(),
+            scope: vec!["crates/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    );
+    match failed_attempt {
+        Ok(run) => assert!(!run.receipt.passed, "the false command must not pass"),
+        Err(error) => assert!(
+            error.to_string().contains("failed") || error.to_string().contains("exit"),
+            "unexpected failure while running the false command: {error}"
+        ),
+    }
+    let finish_error = finish_work_item_with_runtime(root, "WI-CI-GATE", &current_runtime)
+        .expect_err("a valid material review cannot replace failed verification");
+    assert!(
+        finish_error.to_string().contains("verification"),
+        "unexpected finish rejection: {finish_error}"
+    );
+
+    let (directory, _contract) = reviewed_material_repository();
+    let root = directory.path();
+    let recorded_runtime = RuntimeContext {
+        runtime_version: "recorded-verification-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"recorded-verification-runtime"),
+    };
+    let current_runtime = runtime();
+    preflight_work_item_with_runtime(root, &contract_path(root), &recorded_runtime)
+        .expect("preflight under the verification Runtime");
+    checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "reviewed-material-stale-runtime-verification".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["crates/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: recorded_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    record_verification_with_runtime(
+        root,
+        "WI-CI-GATE",
+        &serde_json::to_value(&run.receipt).expect("verification receipt JSON"),
+        &recorded_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification under its executing Runtime");
+    finish_work_item_with_runtime(root, "WI-CI-GATE", &recorded_runtime)
+        .expect("finish under the Runtime that produced verification");
+
+    let status = work_item_status_snapshot_with_runtime(root, "WI-CI-GATE", &current_runtime)
+        .expect("status under a different current Runtime");
+    assert!(status.review_receipt_digest.is_some());
+    assert!(
+        !status
+            .effective_unknowns
+            .contains(&"repository_material_inspection_unavailable".into()),
+        "the material review remains current while the verification binding is stale"
+    );
+    assert_ne!(status.verification, "verified");
+    let archive_error = archive_work_item_with_runtime(root, "WI-CI-GATE", &current_runtime)
+        .expect_err("a current material review cannot replace stale verification");
+    assert!(
+        archive_error.to_string().contains("verification")
+            || archive_error.to_string().contains("Runtime"),
+        "unexpected archive rejection: {archive_error}"
+    );
 }
 
 #[test]
