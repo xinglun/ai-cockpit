@@ -369,10 +369,7 @@
       ]
     }
   ],
-  "changedPaths": [
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.1dffa55890e86202cce36267c6bdaaece02de1c2242b594cb3fc3871104ac14c.json",
-    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification-attempt.7996827ef3860e034af3613ac7fc501be305e52cfca349145c3f48714e446709.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-06T06:23:41Z",
   "checkpointContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
   "checkpointCount": 1,
@@ -772,7 +769,7 @@
       "workItemId": "WI-1068-v1-0-1-stable-release"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:59c56b3e19f122a9d8ddffa9722d5fa317d88dfe1c17f80010bf341f3e206a91",
+  "checkpointRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
   "createdAt": "2026-10-06T05:10:22Z",
   "decisionEvidence": {
     "contractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
@@ -863,11 +860,11 @@
     }
   ],
   "mode": "release",
-  "preflightAt": "2026-10-10T04:00:25Z",
+  "preflightAt": "2026-10-10T04:23:52Z",
   "preflightContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
-  "preflightDecisionDigest": "sha256:2266d4b17bec38acbd78b031db263ffa3c039dd9662a63e170ce9e7a14f417ee",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryRetryConsumed": {
     "consumedAt": "2026-10-06T21:24:09Z",
@@ -1204,7 +1201,8 @@
     {
       "evidence": [
         "Partial local Linux evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; scenario remains unverified pending candidate-specific acceptance.",
-        "Partial current-source evidence only: the cockpit-repository node in Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed; its material_review integration suite reported 39 passed, including adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality, binary_rust_material_is_unknown_but_not_reviewable, finding_is_never_reviewable, committed_symlink_refuses_request, unreadable_committed_source_refuses_request, changed_file_count_budget_rejects_before_material_scan, and request_binds_each_distinct_blocking_finding_category. Captured stdout is explicitly truncated at 65,536 bytes in the receipt. Test file sha256:e364b2882f0be899bb0c999ba893a15d8a8277d2bda5d372be02d9a451318e14 is unchanged from tested head 77cff103 to 1e7c10c5. This does not establish every composed/dynamic/provenance-invalid projection; status stays unverified."
+        "Partial current-source evidence only: the cockpit-repository node in Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed; its material_review integration suite reported 39 passed, including adding_a_syntax_unknown_adds_its_plan_member_without_fixed_cardinality, binary_rust_material_is_unknown_but_not_reviewable, finding_is_never_reviewable, committed_symlink_refuses_request, unreadable_committed_source_refuses_request, changed_file_count_budget_rejects_before_material_scan, and request_binds_each_distinct_blocking_finding_category. Captured stdout is explicitly truncated at 65,536 bytes in the receipt. Test file sha256:e364b2882f0be899bb0c999ba893a15d8a8277d2bda5d372be02d9a451318e14 is unchanged from tested head 77cff103 to 1e7c10c5. This does not establish every composed/dynamic/provenance-invalid projection; status stays unverified.",
+        "Exact candidate evidence at c32746c9fe1651e81e9c97323660397abeb6526b: material plan request sha256:d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 has 121 entries, 15 reviewable readable committed Rust syntax Unknowns, raw code repository_material_inspection_unavailable, and 0 Findings (plan SHA256 c63fac8cea70aa7921cac50bf4216a951f54f7e01cb8c7ed0aa5eb72b7afcd5b). `cargo test --locked -p cockpit-repository --test material_review --test ci_quality_gate` passed 41/41 and 28/28. The Runtime full-workspace receipt .ai/evidence/WI-1068-v1-0-1-stable-release.verification.json (file sha256:5573c8a5875c5d964b193468221f9b256bc921aeb7144e9a5ccfc274df99aba3) reports 1 node, exit 0, 1,563 passed, 0 failed, 1 ignored, and no stdout/stderr truncation. Evidence is candidate-bound; unexercised combinations remain unverified."
       ],
       "expected": "The current seven candidate Rust Unknowns remain raw Unknown; only complete readable provenance-valid syntax Unknowns are reviewable, while Finding and non-reviewable Unknown remain blocking.",
       "required": true,
@@ -1215,7 +1213,8 @@
     {
       "evidence": [
         "Local plan/test evidence: plan JSON sha256:13bd57a95dc8a57eef40302c13014087736727ad1bd3d659e5936eb768d43de8; requestDigest sha256:94811485f595d564444d5c2eacf9e3bad768d05f79fe56ed771e055c6e57f090; reviewedSourceHead 4c31bdf490b9a6b5f5f5ebb3777b2cb74bc12f09; sourceSnapshotDigest sha256:8d00e542e4feb8e948a0e9d6ddbd34fa1d963695bd891c9b8662b9e13394121a; materialManifestDigest sha256:9700d855ca43c21d8a34a0aad1da1fe86f778f12165bb9834e18808cec0d803b; analysisImplementationDigest sha256:ea269472ea5eba00927094bce35a4ba101f28cecffb22afb7bcdd8c5174dfac3; effectivePolicyDigest sha256:74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b; rawUnknownCodes=['repository_material_inspection_unavailable']; findingCodes=[]; reviewEnabled=False. cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; hosted binary comparison not run; scenario remains unverified.",
-        "Partial evidence only: the 39-test repository suite passed, including implementation_digest_is_build_independent_and_source_sensitive, committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent, ai_only_descendant_retains_request_identity_but_source_change_stales_it, and non_ancestor_rebase_cannot_become_a_canonical_request. Hosted CI run 37948082699 also passed the Rust Contract gate and consumed review receipt sha256:0b712bc1dcf25de54fbce51cae93f9c77d2e67e7b07416330648b7ddc708b882; CI reported reviewAssurance=self_declared, hosted Runtime sha256:5327a38654a622fe5cc2cc266a1aa08c9db3de031a7373d86cbe606387e366f0, and the reviewed material manifest. This is not a new Raydot decision or human approval; comparison-base mutation, same-version analyzer change, cfg/features mismatch, and full cross-environment rejection matrix remain unverified."
+        "Partial evidence only: the 39-test repository suite passed, including implementation_digest_is_build_independent_and_source_sensitive, committed_manifest_is_scanned_with_empty_worktree_diff_and_profile_absent, ai_only_descendant_retains_request_identity_but_source_change_stales_it, and non_ancestor_rebase_cannot_become_a_canonical_request. Hosted CI run 37948082699 also passed the Rust Contract gate and consumed review receipt sha256:0b712bc1dcf25de54fbce51cae93f9c77d2e67e7b07416330648b7ddc708b882; CI reported reviewAssurance=self_declared, hosted Runtime sha256:5327a38654a622fe5cc2cc266a1aa08c9db3de031a7373d86cbe606387e366f0, and the reviewed material manifest. This is not a new Raydot decision or human approval; comparison-base mutation, same-version analyzer change, cfg/features mismatch, and full cross-environment rejection matrix remain unverified.",
+        "At exact candidate c32746c9fe1651e81e9c97323660397abeb6526b, material plan request d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 remains the same across receipt-only .ai commits; source snapshot is sha256:9a1932215579bb6995ad1e8804a5e405aae332f4731cdc88054f466d237c845f and manifest is sha256:35d46a192461f2e6615a61e0ad66f91b8e493d0df4f4c1b75d1b0879c4e49dd3. `old_material_decision_is_stale_after_analysis_or_policy_identity_changes` proves a correctly rebound current decision validates and the old input fails after analysis implementation, target semantic profile, or effective policy identity changes. The targeted suite passed 41/41; full workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed. This is not a hosted-binary cross-environment comparison and does not claim origin-single-field isolation; scenario remains unverified."
       ],
       "expected": "A committed clean-source Contract-base material manifest and scanner implementation digest bind the review; matching source on Linux and hosted binaries with different SHA and legitimate .ai-only or tested-merge heads may reuse it, while changed scanner source with the same semantic version, target semantics, policy, diff or source cannot.",
       "required": true,
@@ -1226,7 +1225,8 @@
     {
       "evidence": [
         "Local stage-one and typed-writer regression evidence: cargo test --locked -p cockpit-repository --test material_review -- --test-threads=1; 39 passed, 0 failed; log sha256:837a4460c9a054dda06fd7a986e387d73af371b83216385f3953c08397a7b818; cargo test --locked -p cockpit-repository --test contract_amendment material_review_profile_amendment_adds_audited_protected_guard -- --exact --nocapture; 1 passed, 0 failed; log sha256:d5eaab9d279b1f376a8c39392b7e6253ab463c3e5461a0c92b571d44de061f95; cargo test --locked -p cockpit-cli --test material_review -- --test-threads=1; 4 passed, 0 failed; log sha256:6258ab64f4caacfa92d9124179a10b2e6c37abad30d6e13d7d9e7ee28326216e; cargo test --locked -p cockpit-mcp --test material_review -- --test-threads=1; 2 passed, 0 failed; log sha256:77d99325a1328f22983a935baf57527cf012e1582e1438ab1dc7401bfda20a09. No actual human Contract review/approval is represented; scenario remains unverified.",
-        "Partial current-source evidence only: repository material_review tests passed 39/39, including admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer, material_review_decision_types_reject_unknown_fields_and_receipt_tampering, material_review_decision_validator_rejects_stale_input_and_tampered_request, material_review_decision_validator_rejects_findings_and_extra_unknowns, material_review_decision_validator_rejects_unapproved_profile_actor, and material_review_decision_validator_rejects_wrong_authority_source. CLI and MCP stage-one record tests also passed. No human Contract approval or new typed Raydot decision is claimed; exact human-review freshness and replay matrix remains outstanding, so status stays unverified."
+        "Partial current-source evidence only: repository material_review tests passed 39/39, including admitted_material_review_writes_immutable_receipt_and_exact_summary_pointer, material_review_decision_types_reject_unknown_fields_and_receipt_tampering, material_review_decision_validator_rejects_stale_input_and_tampered_request, material_review_decision_validator_rejects_findings_and_extra_unknowns, material_review_decision_validator_rejects_unapproved_profile_actor, and material_review_decision_validator_rejects_wrong_authority_source. CLI and MCP stage-one record tests also passed. No human Contract approval or new typed Raydot decision is claimed; exact human-review freshness and replay matrix remains outstanding, so status stays unverified.",
+        "Runtime 1.0.1 recorded exact request d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51 as agent:Raydot / self_declared; receipt is .ai/evidence/material-inspection-review/WI-1068-v1-0-1-stable-release/d331cebc6a3c3ba80a3c2306c91832e878f30b9d44e3b633c5130ee75fb36e51.json, receiptDigest sha256:c6613ec07f740ce3ae5057638c3aa01d010157882aadec0406f4dfbec73fc2a1. The targeted material-review suite passed 41/41, including exact summary-pointer and sidecar-integrity coverage; full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed. This is delegated technical review, not a human Contract approval; broader replay/identity cases remain outside this evidence, so scenario remains unverified."
       ],
       "expected": "Stage one uses the old Runtime to authorize implementation while materialInspectionReview is absent and discharge disabled. Stage two uses the new Runtime typed amendment writer to install strict Contract.governanceProfile.materialInspectionReview opt-in and automatically add protected requiredRuntimeCapabilities=material-inspection-review. Old Runtime rejects the guarded Contract; only exact Contract review, fresh source preflight, delegated Raydot exact-source technical review and intact sidecar/summary binding allow discharge.",
       "required": true,
@@ -1237,7 +1237,8 @@
     {
       "evidence": [
         "Local Linux gate evidence: cargo test --locked -p cockpit-repository --test status_projection status_rechecks_committed_contract_base_material_with_empty_worktree_diff -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:e6a8052c7fbdaf6d3ed122b98f9837916a4ddd939d96c6fa642fbb3976504b53; cargo test --locked -p cockpit-repository --test ci_quality_gate report_validator_rejects_self_reported_green_over_material_unknown -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:a3d9570268b062af42f99bdd2c8bb6faa6e0c3fd6c55bc8b2bc0aff560fde50d; cargo test --locked -p cockpit-cli --test ci_gate gate_report_cli_validates_repository_bound_report -- --exact --nocapture --test-threads=1; 1 passed, 0 failed; log sha256:b3d4445dadaec939c9170c5fd54d6c2decbedb2846ec2190ff28b096b08720dc. Hosted comparison remains unrun; scenario remains unverified.",
-        "Partial current-source evidence only: Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed package nodes, including status_rechecks_committed_contract_base_material_with_empty_worktree_diff, report_validator_rejects_self_reported_green_over_material_unknown, and gate_report_cli_validates_repository_bound_report. Hosted Contract gate was green but the same CI run then failed only at docs_governance_integrity, so downstream gates were blocked; review assurance remained self_declared. Binding-mutation and complete consumer matrix remains outstanding, so status stays unverified."
+        "Partial current-source evidence only: Runtime receipt sha256:4c4c93a93cc34dae330abf35ffc4ae15c1e0066700b314777a0f2f1ffde9dd36 passed package nodes, including status_rechecks_committed_contract_base_material_with_empty_worktree_diff, report_validator_rejects_self_reported_green_over_material_unknown, and gate_report_cli_validates_repository_bound_report. Hosted Contract gate was green but the same CI run then failed only at docs_governance_integrity, so downstream gates were blocked; review assurance remained self_declared. Binding-mutation and complete consumer matrix remains outstanding, so status stays unverified.",
+        "The targeted quality-gate suite passed 28/28: `quality_gate_discharges_exact_reviewed_material_across_different_comparison_base` confirms a valid receipt discharges only the canonical reviewed material while raw scanner Unknown is present; `report_validator_rejects_self_reported_green_with_an_extra_material_unknown` preserves a second unreviewed Unknown and rejects forged green; `valid_material_review_does_not_bypass_failed_finish_or_stale_archive_verification` persists a false attempt, rejects its completion recording, keeps finish blocked, and rejects archive under a different Runtime binding. Full-workspace receipt sha256:12ecc326a405b6854a6c74a6fdf670057b04e5c9eadc7c9e023ea98bce29ecc6 passed with no output truncation. These exact cases do not exhaust every consumer/binding mutation; scenario remains unverified."
       ],
       "expected": "Status, preflight, finish/archive, quality gate and report validator recompute the same canonical committed material even when local changedPaths is empty; only exactly reviewed inspection Unknown can be discharged. Raw scanner result remains visible and forged green report fails.",
       "required": true,
@@ -1258,7 +1259,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-10-10T01:53:16.087620073+00:00",
+  "updatedAt": "2026-10-10T04:26:40.371204569+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
