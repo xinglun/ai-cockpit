@@ -721,9 +721,53 @@ mod unix_bounded_process_tests {
                 // fixture reap (5 seconds), forced reap (1 second), and
                 // startup margin. It only kills the supervisor through its
                 // held Child handle after that complete cleanup budget.
-                let _ = supervisor.kill();
-                let _ = supervisor.wait();
-                panic!("isolated supervisor exceeded its worker plus cleanup watchdog");
+                let supervisor_pid = supervisor.id();
+                let kill_result = match supervisor.kill() {
+                    Ok(()) => "sent".to_owned(),
+                    Err(error) => format!("error:{error}"),
+                };
+                let cleanup_deadline = Instant::now() + Duration::from_secs(1);
+                let mut cleanup_polls = Vec::new();
+                let mut cleanup_confirmed = false;
+                let terminal_record = loop {
+                    if Instant::now() >= cleanup_deadline {
+                        break "deadline_elapsed_before_exit_confirmation".to_owned();
+                    }
+                    match supervisor.try_wait() {
+                        Ok(Some(status)) => {
+                            let record = format!("exit_confirmed:{status:?}");
+                            cleanup_polls.push(record.clone());
+                            cleanup_confirmed = true;
+                            break record;
+                        }
+                        Ok(None) => {
+                            cleanup_polls.push("still_running".to_owned());
+                            let remaining =
+                                cleanup_deadline.saturating_duration_since(Instant::now());
+                            if remaining.is_zero() {
+                                break "deadline_expired_while_running".to_owned();
+                            }
+                            thread::sleep(remaining.min(Duration::from_millis(20)));
+                        }
+                        Err(error) => {
+                            let record = format!("poll_error:{error}");
+                            cleanup_polls.push(record.clone());
+                            break record;
+                        }
+                    }
+                };
+                panic!(
+                    "isolated supervisor exceeded its worker plus cleanup watchdog; \
+                     supervisor_pid={supervisor_pid}; watchdog_poll_error={supervisor_poll_error:?}; \
+                     kill_result={kill_result}; cleanup_budget_ms=1000; cleanup_poll_interval_ms=20; \
+                     cleanup_poll_count={}; cleanup_polls={cleanup_polls:?}; \
+                     terminal={terminal_record}; \
+                     cleanup_confirmed={cleanup_confirmed}; cleanup_unconfirmed={}; \
+                     possible_residual_supervisor={}; blocking_wait_attempted=false",
+                    cleanup_polls.len(),
+                    !cleanup_confirmed,
+                    !cleanup_confirmed
+                );
             }
             thread::sleep(Duration::from_millis(20));
         };
