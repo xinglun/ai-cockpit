@@ -1,0 +1,73 @@
+{
+  "attemptId": "sha256:bec58b497802a132f5cfdd50b8cf840207752a0ad8aed37019ebff5bd1861f2d",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:b360bca082166b7eef024214cfe644ec181ec87c7f1037430656a19aa5950d8f",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:81cbe6cd0554d462c578ccae3e41505ed9406263aa66753b78a611716d485e84",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:95fb7d2ecf90c919036949fcc24fb49590e165d712c047dd104ec325835d3850",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+  "contractExecutionScopeDigest": "sha256:1213f3cc240ca5e6bdba29289eb1953dcb5bd6f18ddd03850dc4b7b1d69278ad",
+  "createdAt": "2026-10-11T22:02:10Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1076-governance-recovered-predecessor-20261011/.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:43ee8a0cf3eabbedd15bd9f03b5cec9ed2a29961bcff92ea3ecf8ed9b4269298, issues=[\"material_review_projection_unavailable\", \"user_visible_benefit_not_declared\", \"verification_evidence_missing\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d22f17808a7750d6e44d0424292f8f2e717b17a63e0ccdf8cbc89c5cc8628fd7",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}

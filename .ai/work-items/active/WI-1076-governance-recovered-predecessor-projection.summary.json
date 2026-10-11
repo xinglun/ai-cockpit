@@ -1,0 +1,83 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-11T21:32:47Z",
+  "checkpointContractDigest": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+      "recorded": true,
+      "recordedAt": "2026-10-11T21:32:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+      "previousContractHash": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+      "reason": "Complete the owner-provided user benefit in the supported structured intent fields and declare the six mandatory preflight projections for this Work Item. Keep the approved two-file implementation boundary, acceptance criteria, verification checks, and all gate safety requirements unchanged.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T21:38:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
+  "createdAt": "2026-10-11T21:32:46Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+    "reason": "修复两个检查器的前驱状态判定冲突",
+    "recordedAt": "2026-10-11T21:58:44Z",
+    "recordedBy": "Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d22f17808a7750d6e44d0424292f8f2e717b17a63e0ccdf8cbc89c5cc8628fd7",
+    "schemaVersion": 1,
+    "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-11T21:32:46.610286296Z",
+      "recordedAt": "2026-10-11T21:32:46.610286296Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-11T21:39:29Z",
+  "preflightContractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightRepositorySnapshotDigest": "sha256:d22f17808a7750d6e44d0424292f8f2e717b17a63e0ccdf8cbc89c5cc8628fd7",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-11T22:01:21.967167725+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-11T21:38:18Z"
+  },
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}
