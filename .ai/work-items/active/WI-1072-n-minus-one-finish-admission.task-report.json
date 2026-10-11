@@ -1,0 +1,119 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+    "workItemId": "WI-1072-n-minus-one-finish-admission"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1072-n-minus-one-finish-admission.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-1072-n-minus-one-finish-admission.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.contract.json"
+        ],
+        "inference": false,
+        "text": "Ensure a real v1.0.0 adopter lifecycle is checked from fresh old-Runtime status before finish while retaining verification, archive, and upgraded-Runtime evidence. Intended user benefit: reliable governed proof that v1.0.1 upgrades from the public v1.0.0 release without losing adopter lifecycle history."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-11T00:08:24.955016279Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1072-n-minus-one-finish-admission"
+  },
+  "workItemId": "WI-1072-n-minus-one-finish-admission"
+}

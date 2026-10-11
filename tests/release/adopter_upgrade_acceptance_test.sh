@@ -204,14 +204,20 @@ if grep -q -- 'baseRevision:$old_head\|baseRevision:$new_head' "$script"; then
   exit 1
 fi
 old_verify_line=$(grep -n -- 'old-verify.json verify' "$script" | head -1 | cut -d: -f1)
-old_post_verify_preflight_line=$(grep -n -- 'old-preflight-after-verify.json preflight' "$script" | head -1 | cut -d: -f1)
+old_post_verify_status_line=$(grep -n -- 'old-status-after-verify.json work-item status --repo "$adopter" --id "$work_item" --json' "$script" | head -1 | cut -d: -f1)
+old_finish_line=$(grep -n -- 'old-finish.json finish --repo "$adopter" --id "$work_item"' "$script" | head -1 | cut -d: -f1)
+old_archive_line=$(grep -n -- 'old-archive.json archive --repo "$adopter" --id "$work_item"' "$script" | head -1 | cut -d: -f1)
 old_finalize_line=$(grep -n -- 'old-finalize.json work-item finalize' "$script" | head -1 | cut -d: -f1)
 old_finalize_verify_line=$(grep -n -- 'old-finalize-verify.json work-item finalize-verify' "$script" | head -1 | cut -d: -f1)
 old_close_line=$(grep -n -- 'old-close.json close' "$script" | head -1 | cut -d: -f1)
-[[ -n "$old_verify_line" && -n "$old_post_verify_preflight_line" && -n "$old_finalize_line" && -n "$old_finalize_verify_line" && -n "$old_close_line" && "$old_verify_line" -lt "$old_post_verify_preflight_line" && "$old_post_verify_preflight_line" -lt "$old_finalize_line" && "$old_finalize_line" -lt "$old_finalize_verify_line" && "$old_finalize_verify_line" -lt "$old_close_line" ]] || {
-  printf 'adopter upgrade acceptance must refresh old preflight after verify, then finalize, finalize-verify, and close\n' >&2
+[[ -n "$old_verify_line" && -n "$old_post_verify_status_line" && -n "$old_finish_line" && -n "$old_archive_line" && -n "$old_finalize_line" && -n "$old_finalize_verify_line" && -n "$old_close_line" && "$old_verify_line" -lt "$old_post_verify_status_line" && "$old_post_verify_status_line" -lt "$old_finish_line" && "$old_finish_line" -lt "$old_archive_line" && "$old_archive_line" -lt "$old_finalize_line" && "$old_finalize_line" -lt "$old_finalize_verify_line" && "$old_finalize_verify_line" -lt "$old_close_line" ]] || {
+  printf 'adopter upgrade acceptance must verify, read and validate old Runtime status, finish, archive, then finalize, finalize-verify, and close\n' >&2
   exit 1
 }
+if grep -Fq -- 'old-preflight-after-verify.json preflight' "$script"; then
+  printf 'adopter upgrade acceptance must not rerun old preflight after verification\n' >&2
+  exit 1
+fi
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
   echo 'upgrade acceptance must not fall back to source builds or workspace binaries' >&2
   exit 1
@@ -224,6 +230,42 @@ test_parent="${TMPDIR:-/tmp}"
 regression_root="$(mktemp -d "$test_parent/ai-cockpit-n-minus-one-regression.XXXXXX")"
 cleanup_regression_root() { find "$regression_root" -depth -mindepth 0 -delete; }
 trap cleanup_regression_root EXIT
+
+# Exercise the same fail-closed validator used before old-Runtime finish. A
+# harmless unknown is retained because finish admission is based on fresh
+# verification and the Runtime's current safeActions, not empty unknowns.
+status_fixture="$regression_root/old-finish-status.json"
+status_work_item='WI-N1-STATUS-TEST'
+status_repository_id='sha256:1111111111111111111111111111111111111111111111111111111111111111'
+jq -n --arg id "$status_work_item" --arg repo "$status_repository_id" \
+  '{workItemId:$id,repositoryId:$repo,verification:"verified",evidenceFreshness:{state:"fresh"},blockers:[],safeActions:["finish"],actionExplanation:{admissionState:"allowed",recommendedAction:"finish",humanDecisionRequired:false},humanDecisionRequired:false,unknowns:["user_visible_benefit_not_declared"]}' \
+  > "$status_fixture"
+"$script" --validate-old-finish-status "$status_fixture" "$status_work_item" "$status_repository_id" >/dev/null
+
+assert_old_finish_status_rejected() {
+  local label="$1" path="$2"
+  if "$script" --validate-old-finish-status "$path" "$status_work_item" "$status_repository_id" >/dev/null 2>&1; then
+    printf 'old finish status validator accepted unsafe fixture: %s\n' "$label" >&2
+    exit 1
+  fi
+}
+assert_old_finish_status_rejected missing-file "$regression_root/missing-status.json"
+printf '{broken json\n' > "$regression_root/malformed-status.json"
+assert_old_finish_status_rejected malformed-json "$regression_root/malformed-status.json"
+for mutation in \
+  '.workItemId = "other-work-item"' \
+  '.repositoryId = "sha256:2222222222222222222222222222222222222222222222222222222222222222"' \
+  '.verification = "not_ready"' \
+  '.evidenceFreshness.state = "stale_or_invalid"' \
+  '.blockers = ["verification_required"]' \
+  '.safeActions = []' \
+  '.actionExplanation.admissionState = "blocked"' \
+  '.actionExplanation.recommendedAction = "run_preflight"' \
+  '.actionExplanation.humanDecisionRequired = true' \
+  '.humanDecisionRequired = true'; do
+  jq "$mutation" "$status_fixture" > "$regression_root/mutated-status.json"
+  assert_old_finish_status_rejected "$mutation" "$regression_root/mutated-status.json"
+done
 
 # Regression: a clean CI-like environment must be able to commit both the
 # initial repository and a freshly cloned control repository without global

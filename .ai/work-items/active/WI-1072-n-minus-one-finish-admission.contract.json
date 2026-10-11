@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "After exact pinned public v1.0.0 verification, read fresh status with that binary and validate repository/Work Item identity, verified/fresh evidence, no blockers, and finish admission while preserving unknowns.",
+    "Fail closed for missing or malformed status, mismatched identity, stale or incomplete verification, blockers, missing finish safeAction, non-allowed or non-finish recommendation, or a required human decision.",
+    "Preserve the actual old Runtime finish and archive, finalization/close, upgrade migration, historical evidence byte-identity, candidate Runtime lifecycle, identity, and isolation assertions."
+  ],
+  "authority": "authorized",
+  "baseRevision": "806eff2f32806c7766e0a015c0823cac349da5b1",
+  "createdAt": "2026-10-11T00:01:39Z",
+  "goal": "Ensure a real v1.0.0 adopter lifecycle is checked from fresh old-Runtime status before finish while retaining verification, archive, and upgraded-Runtime evidence. Intended user benefit: reliable governed proof that v1.0.1 upgrades from the public v1.0.0 release without losing adopter lifecycle history.",
+  "intent": "Make staged N-1 release acceptance follow the old Runtime’s admitted post-verification lifecycle.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Product Runtime source or behavior",
+    "Other workflow",
+    " release gate",
+    " or test files",
+    "Tag",
+    " Release",
+    " or asset creation or mutation",
+    "WI-1070 and WI-1071 records or scope",
+    "Four-platform rebuilds"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:249ff9b39f9e52241e65523d84936d527ac1a83a9797041c4b74c3c31d01f606",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "workItemId": "WI-1072-n-minus-one-finish-admission"
+}
