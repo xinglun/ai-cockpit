@@ -688,6 +688,351 @@ assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
 PY
 printf 'governance invalid-close recovery lineage regression passed\n'
 
+# A Recovered predecessor projection is valid before the successor closes only
+# when the supersede receipt, predecessor close, and both successor records
+# carry the exact Runtime lineage bindings. The successor remains active and
+# has no verification receipt.
+superseded_pending="$tmp/digest-bound-supersede-pending-successor"
+build_fixture "$fixtures/valid.json" "$superseded_pending"
+python3 - "$superseded_pending" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+predecessor = "WI-900-release-v9-9-9"
+successor = "WI-901-digest-bound-successor"
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+repository_id = project["repositoryId"]
+archive = root / ".ai/work-items/archive"
+active = root / ".ai/work-items/active"
+decisions = root / ".ai/decisions"
+
+
+def read(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def canonical_digest(value):
+    encoded = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+predecessor_contract = read(archive / f"{predecessor}.contract.json")
+predecessor_summary = read(archive / f"{predecessor}.summary.json")
+predecessor_outcome = read(archive / f"{predecessor}.outcome.json")
+predecessor_contract_digest = canonical_digest(predecessor_contract)
+close_path = decisions / f"{predecessor}.close.json"
+close = read(close_path)
+close["humanDecision"] = "superseded"
+close["structuredDecision"]["decision"] = "superseded"
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+
+recovery = {
+    "schemaVersion": 1,
+    "decisionId": "work-item-recovery",
+    "decision": "supersede",
+    "workItemId": predecessor,
+    "repositoryId": repository_id,
+    "predecessorWorkItemId": predecessor,
+    "predecessorContractDigest": predecessor_contract_digest,
+    "predecessorSummaryDigest": canonical_digest(predecessor_summary),
+    "predecessorOutcomeDigest": canonical_digest(predecessor_outcome),
+    "successorWorkItemId": successor,
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:" + "a" * 64,
+    "actor": "human:fixture",
+    "authoritySource": "fixture-policy",
+    "reason": "Continue the bounded work through a selected successor.",
+    "evidenceRefs": [f".ai/evidence/{predecessor}.verification.json"],
+    "policyRefs": ["fixture-policy"],
+    "decidedAt": "2026-03-02T00:00:00Z",
+    "resumeCondition": "Continue with the active successor.",
+}
+recovery_path = (
+    f".ai/decisions/{predecessor}.recovery."
+    f"{canonical_digest(recovery).removeprefix('sha256:')}.json"
+)
+(root / recovery_path).write_text(
+    json.dumps(recovery, indent=2) + "\n", encoding="utf-8"
+)
+
+active.mkdir(parents=True, exist_ok=True)
+(active / f"{successor}.contract.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "repositoryId": repository_id,
+            "baseRevision": "3" * 40,
+            "predecessorWorkItemId": predecessor,
+            "predecessorContractDigest": predecessor_contract_digest,
+            "recoveryDecisionPath": recovery_path,
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(active / f"{successor}.summary.json").write_text(
+    json.dumps(
+        {
+            "workItemId": successor,
+            "predecessorWorkItemId": predecessor,
+            "predecessorContractDigest": predecessor_contract_digest,
+            "recoveryDecisionPath": recovery_path,
+            "verification": "not_ready",
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+
+for suffix, recovered, in_progress, conditional, separator in (
+    ("", "Recovered", "In progress", "In progress → Implemented after verified close", ";"),
+    (".zh-CN", "已恢复", "进行中", "进行中 → 验证关闭后已实现", "；"),
+    (".ja", "Recovered", "進行中", "進行中 → 検証済みクローズ後に実装済み", "；"),
+):
+    (root / "docs/work-items" / f"{successor}{suffix}.md").write_text(
+        f"---\nworkItemId: {successor}\n---\n\n# {successor}\n",
+        encoding="utf-8",
+    )
+    parity = root / "docs/reference" / f"reference-parity{suffix}.md"
+    rows = parity.read_text(encoding="utf-8").splitlines()
+    for index, row in enumerate(rows):
+        if row.startswith("| WI-900 "):
+            row = row.replace("| WI-900 —", f"| {predecessor} —", 1)
+            row = row.replace("| Implemented |", f"| {recovered} |", 1)
+            row = row.replace("| 已实现 |", f"| {recovered} |", 1)
+            row = row.replace(
+                f"`.ai/decisions/{predecessor}.close.json`",
+                f"`{recovery_path}`",
+                1,
+            )
+            rows[index] = row
+            break
+    else:
+        raise AssertionError(f"missing predecessor row in {parity}")
+    paths = (
+        f".ai/work-items/archive/{successor}.contract.json",
+        f".ai/evidence/{successor}.verification.json",
+        f".ai/decisions/{successor}.finalize.json",
+        f".ai/decisions/{successor}.close.json",
+    )
+    links = f"{separator} ".join(f"`{path}`" for path in paths)
+    rows.append(
+        f"| {successor} | {conditional} | prearchive registration; {links} |"
+    )
+    parity.write_text("\n".join(rows) + "\n", encoding="utf-8")
+PY
+python3 "$gate" --repo "$superseded_pending" \
+  --report "$tmp/digest-bound-supersede-pending-successor-report.json" >/dev/null
+python3 - "$tmp/digest-bound-supersede-pending-successor-report.json" "$superseded_pending" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+predecessor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert predecessor["lifecycleState"] == "awaiting_successor_close", predecessor
+assert predecessor["recoveredPredecessorProjection"] is True, predecessor
+assert ".recovery." in predecessor["decisionPath"], predecessor
+successor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-901-digest-bound-successor"
+)
+assert successor["lifecycleState"] == "prearchive_parity_registered", successor
+assert not any(
+    item["workItemId"] == "WI-901-digest-bound-successor"
+    for item in report["inventory"]
+    if item.get("lifecycleState") in {"recovered", "closed", "implemented"}
+), report["inventory"]
+successor_root = Path(sys.argv[2])
+assert (successor_root / ".ai/work-items/active/WI-901-digest-bound-successor.contract.json").is_file()
+assert (successor_root / ".ai/work-items/active/WI-901-digest-bound-successor.summary.json").is_file()
+assert not (successor_root / ".ai/evidence/WI-901-digest-bound-successor.verification.json").exists()
+assert not (successor_root / ".ai/work-items/archive/WI-901-digest-bound-successor.contract.json").exists()
+assert not (successor_root / ".ai/decisions/WI-901-digest-bound-successor.close.json").exists()
+PY
+
+run_recovered_negative() {
+  local variant=$1
+  local repo="$tmp/recovered-negative-$variant"
+  local report="$tmp/recovered-negative-$variant-report.json"
+  cp -R "$superseded_pending" "$repo"
+  python3 - "$repo" "$variant" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+variant = sys.argv[2]
+predecessor = "WI-900-release-v9-9-9"
+successor = "WI-901-digest-bound-successor"
+decisions = root / ".ai/decisions"
+active = root / ".ai/work-items/active"
+project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+contract_path = active / f"{successor}.contract.json"
+summary_path = active / f"{successor}.summary.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+summary = json.loads(summary_path.read_text(encoding="utf-8"))
+old_relative = contract["recoveryDecisionPath"]
+old_path = root / old_relative
+recovery = json.loads(old_path.read_text(encoding="utf-8"))
+
+
+def digest(value):
+    encoded = json.dumps(
+        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+if variant == "bad_digest":
+    recovery["reason"] += " Tampered after digest naming."
+    old_path.write_text(json.dumps(recovery, indent=2) + "\n", encoding="utf-8")
+elif variant == "wrong_repository":
+    recovery["repositoryId"] = "sha256:" + "f" * 64
+elif variant == "wrong_successor":
+    recovery["successorWorkItemId"] = "WI-999-foreign-successor"
+elif variant == "wrong_predecessor_id":
+    recovery["predecessorWorkItemId"] = "WI-999-foreign-predecessor"
+elif variant == "wrong_predecessor_digest":
+    recovery["predecessorContractDigest"] = "sha256:" + "f" * 64
+    contract["predecessorContractDigest"] = recovery["predecessorContractDigest"]
+    summary["predecessorContractDigest"] = recovery["predecessorContractDigest"]
+elif variant == "wrong_contract_path":
+    contract["recoveryDecisionPath"] = ".ai/decisions/foreign.recovery.json"
+elif variant == "wrong_summary_path":
+    summary["recoveryDecisionPath"] = ".ai/decisions/foreign.recovery.json"
+elif variant == "missing_close":
+    (decisions / f"{predecessor}.close.json").unlink()
+elif variant == "invalid_close":
+    (decisions / f"{predecessor}.close.json").write_text(
+        json.dumps(
+            {
+                "workItemId": predecessor,
+                "repositoryId": project["repositoryId"],
+                "state": "closed",
+                "decisionState": "rejected",
+                "humanDecision": "superseded",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+else:
+    raise AssertionError(variant)
+
+if variant not in {"bad_digest", "wrong_contract_path", "wrong_summary_path", "missing_close", "invalid_close"}:
+    new_relative = (
+        f".ai/decisions/{predecessor}.recovery."
+        f"{digest(recovery).removeprefix('sha256:')}.json"
+    )
+    (root / new_relative).write_text(
+        json.dumps(recovery, indent=2) + "\n", encoding="utf-8"
+    )
+    old_path.unlink()
+    if variant not in {"wrong_successor", "wrong_predecessor_id"}:
+        contract["recoveryDecisionPath"] = new_relative
+        summary["recoveryDecisionPath"] = new_relative
+    if variant == "wrong_successor":
+        contract["recoveryDecisionPath"] = new_relative
+        summary["recoveryDecisionPath"] = new_relative
+    for suffix in ("", ".zh-CN", ".ja"):
+        parity = root / "docs/reference" / f"reference-parity{suffix}.md"
+        text = parity.read_text(encoding="utf-8").replace(
+            f"`{old_relative}`", f"`{new_relative}`"
+        )
+        parity.write_text(text, encoding="utf-8")
+
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+summary_path.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+PY
+  set +e
+  env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+    -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+    python3 "$gate" --repo "$repo" --report "$report" >/dev/null 2>"$tmp/recovered-negative-$variant.err"
+  local code=$?
+  set -e
+  [[ "$code" -eq 1 ]] || {
+    printf 'recovered projection negative %s: expected exit 1, got %s\n' \
+      "$variant" "$code" >&2
+    cat "$tmp/recovered-negative-$variant.err" >&2
+    exit 1
+  }
+  python3 - "$report" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "stale_parity_status"
+    for item in report["findings"]
+), report["findings"]
+predecessor = next(
+    item for item in report["inventory"]
+    if item["workItemId"] == "WI-900-release-v9-9-9"
+)
+assert predecessor.get("recoveredPredecessorProjection") is not True, predecessor
+PY
+}
+
+for variant in bad_digest wrong_repository wrong_successor wrong_predecessor_id \
+  wrong_predecessor_digest wrong_contract_path wrong_summary_path missing_close invalid_close; do
+  run_recovered_negative "$variant"
+done
+printf 'governance digest-bound recovered predecessor projection regressions passed\n'
+
+# Merely awaiting successor close cannot use the Recovered status exception.
+cp -R "$tmp/pending-recovery-lineage" "$tmp/recovered-pending-without-proof"
+python3 - "$tmp/recovered-pending-without-proof" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for suffix in ("", ".zh-CN", ".ja"):
+    path = root / "docs/reference" / f"reference-parity{suffix}.md"
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("| In progress |", "| Recovered |", 1)
+    text = text.replace("| 进行中 |", "| 已恢复 |", 1)
+    path.write_text(text, encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/recovered-pending-without-proof" \
+  --report "$tmp/recovered-pending-without-proof-report.json" >/dev/null 2>"$tmp/recovered-pending-without-proof.err"
+unproven_recovered_code=$?
+set -e
+[[ "$unproven_recovered_code" -eq 1 ]] || {
+  printf 'recovered status without exact supersede proof: expected exit 1, got %s\n' \
+    "$unproven_recovered_code" >&2
+  cat "$tmp/recovered-pending-without-proof.err" >&2
+  exit 1
+}
+python3 - "$tmp/recovered-pending-without-proof-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "stale_parity_status"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance unproven recovered status regression passed\n'
+
 # A successor Contract reached through a parent symlink must not be accepted
 # as a repository-owned recovery binding. Absolute successor IDs are rejected
 # as well, even when an external file with that name exists.
