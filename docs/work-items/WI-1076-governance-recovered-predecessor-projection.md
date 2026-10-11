@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442
+contractDigest: sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893
 ---
 
 [简体中文](WI-1076-governance-recovered-predecessor-projection.zh-CN.md) · [日本語](WI-1076-governance-recovered-predecessor-projection.ja.md)
 
 # WI-1076 — governance recovered predecessor projection
 
-This page projects the active [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json), bound to `sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442`. Runtime records remain authoritative for admission, verification, and lifecycle state.
+This page projects the active [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json), bound to `sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893`. Runtime records remain authoritative for admission, verification, and lifecycle state.
 
 ## Intended benefit
 

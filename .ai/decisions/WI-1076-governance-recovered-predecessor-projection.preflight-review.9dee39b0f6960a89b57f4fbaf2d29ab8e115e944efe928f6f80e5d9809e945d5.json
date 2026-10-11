@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:736b62be574aa42f3a1aadc878c6ea160ddbafe2b23d85b2077dcc3e9cd9ba2b",
+  "reason": "确认资源绑定，纠正候选范围后重新验证",
+  "recordedAt": "2026-10-11T23:39:30Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dee2fe98a7539a791f41054a96900533cb214bc19c6b1c50934b79bc2f88df36",
+  "schemaVersion": 1,
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}
