@@ -1,0 +1,38 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "Ray explicitly approved supersede and close at Sentinel_a7e0ca4553c88191a877fbde85bd93a5 (2026-10-11T10:20:35Z), in response to the exact decision request Sentinel_9295cd8d32d881918184084ea4d43519 (2026-10-11T10:16:47Z).",
+  "decidedAt": "2026-10-11T10:20:35Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.outcome.json",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.events.jsonl",
+    ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.archive.json",
+    ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+    ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.contract.json",
+    ".ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json",
+    "Sentinel_a7e0ca4553c88191a877fbde85bd93a5"
+  ],
+  "policyRefs": [
+    "docs/work-items/WI-340-finalization-recovery.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/commands.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:d47880046e7b9ee3ac90a1aa5c32df31e4af20de6e8d5b81b751a7071f7c76da",
+  "predecessorContractDigest": "sha256:4deef51d4d556d2c0f9ad8605173ca0e129f0916d8deb8686913514520efe5f3",
+  "predecessorEventsDigest": "sha256:82e5bafd43748c0e9cefc578d15ee34c87ce10c2ebe92ab5144f50114e8ee593",
+  "predecessorOutcomeDigest": "sha256:eb5f3f7dd0634125c542e071aee2f6fbdfadd3f3e20f0aeea7aa42e31e6ff73a",
+  "predecessorSummaryDigest": "sha256:a316f0b375ce7cf3de433550dd251209f78395d7cb718f45d217e6a9fb78c6cb",
+  "predecessorWorkItemId": "WI-1068-v1-0-1-stable-release",
+  "reason": "Record WI-1068 as a historical predecessor superseded by its already selected ordinary successor WI-1070. The user reports stable v1.0.1 release 174 and public close completed and has taken the Mac/Sentinel acceptance. Preserve WI-1068 Contract, Summary, Outcome, Events, archive manifest, verification, and every prior result byte-for-byte; do not mark the six optional release/Mac scenarios or any unknown as verified, and do not claim the predecessor's historical verification is current. Leave WI-1070's current state unchanged; follow-up remains with that selected successor and the user-owned acceptance.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue any remaining accepted follow-up only on the existing WI-1070 successor or through the user's separately owned Mac/Sentinel acceptance. Preserve WI-1070's current lifecycle and all unverified historical scenarios as unverified.",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1070-v1-0-1-release-successor",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}

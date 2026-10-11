@@ -1,0 +1,166 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95fe6f7e46920ffd73608ddd41c2396c6a95802c68cbe611c4d7cf6262b7b5bf",
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json",
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json",
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.outcome.json",
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.events.jsonl",
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.archive.json",
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+            ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.e07deb68d70b0b2d5e200877474bfc955b7b6efdf0427d551cbf018e1988821a.json",
+            ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+            "Sentinel_a7e0ca4553c88191a877fbde85bd93a5"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:Ray via User approval Sentinel_a7e0ca4553c88191a877fbde85bd93a5 at 2026-10-11T10:20:35Z responding to exact request Sentinel_9295cd8d32d881918184084ea4d43519. at 2026-10-11T10:20:35Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json"
+          ],
+          "inference": false,
+          "text": "Starting from main c417b65c3f3608b7fd2336314d7432fd72fa8723, make and verify the exact original 16-path stable v1.0.1 update and the already-scoped Linux-only zombie-only verifier process-group liveness correction; retain the unique full-workspace verification declaration and independent Linux regression evidence; implement opt-in repository-bound Work Item usage receipts, distinct Runtime-recorded start/finish/archive/close facts, a typed read-only audit query and MCP surface, filtered audit export that preserves the legacy unfiltered wire, accurate UTC/IANA-zone time rendering, and complete CLI/MCP discovery/docs; pass exact-head repository CI and release gates; prove candidate build/install smoke for Apple Silicon macOS Homebrew, Linux x86_64 GNU, Linux ARM64 GNU, and Windows x86_64 MSVC; run full N-1 acceptance only on Linux x86_64; verify local macOS CLI/MCP identity switching; then publish stable v1.0.1 only after Runtime-admitted review and current acceptance evidence. Do not overwrite any existing tag or immutable release asset."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-11T10:26:50.182549830Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1068-v1-0-1-stable-release"
+    },
+    "workItemId": "WI-1068-v1-0-1-stable-release"
+  },
+  "finalReportDigest": "sha256:a7f1e534aac328b45c6e1b00a847e95c0deb7bce6e55fd3f199fc1b21162c054",
+  "humanDecision": "superseded",
+  "occurredAt": "2026-10-11T10:26:50.182528348Z",
+  "recordedAt": "2026-10-11T10:26:50.182528348Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "User approval Sentinel_a7e0ca4553c88191a877fbde85bd93a5 at 2026-10-11T10:20:35Z responding to exact request Sentinel_9295cd8d32d881918184084ea4d43519.",
+    "decidedAt": "2026-10-11T10:20:35Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.contract.json",
+      ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.summary.json",
+      ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.outcome.json",
+      ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.events.jsonl",
+      ".ai/work-items/archive/WI-1068-v1-0-1-stable-release.archive.json",
+      ".ai/evidence/WI-1068-v1-0-1-stable-release.verification.json",
+      ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.e07deb68d70b0b2d5e200877474bfc955b7b6efdf0427d551cbf018e1988821a.json",
+      ".ai/decisions/WI-1068-v1-0-1-stable-release.recovery.5c6e7dbb2d5572a3a60365729c7a7a4cd090e5e292b1b197691748062816e1b0.json",
+      "Sentinel_a7e0ca4553c88191a877fbde85bd93a5"
+    ],
+    "policyRefs": [
+      "wi1068-a14-workspace-test-timeout",
+      "docs/work-items/WI-340-finalization-recovery.md"
+    ],
+    "reason": "Close WI-1068 as a historical predecessor superseded by its already selected ordinary successor WI-1070. The user reports v1.0.1 release 174 and public close completed and has taken the Mac/Sentinel acceptance. Preserve the archived Contract, Summary, Outcome, Events, archive manifest, verification evidence and prior results byte-for-byte; do not mark any of the six optional release/Mac scenarios or unknowns as verified, and do not claim the predecessor historical verification is current. Leave WI-1070 current state unchanged; follow-up remains with the selected successor and user-owned acceptance.",
+    "resumeCondition": "Continue any remaining accepted follow-up only on the existing WI-1070 successor or through the user-owned Mac/Sentinel acceptance; keep WI-1070 state unchanged and all six optional WI-1068 release/Mac scenarios unverified."
+  },
+  "timestamp": "2026-10-11T10:26:50Z",
+  "usageCutoff": "2026-10-11T10:26:50.182549830Z",
+  "workItemId": "WI-1068-v1-0-1-stable-release"
+}
