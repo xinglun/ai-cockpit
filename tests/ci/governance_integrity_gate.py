@@ -2922,10 +2922,17 @@ def main() -> int:
                             else "In progress"
                         )
                         legacy_pending_status = ("In progress",) if japanese_parity else ()
-                        status_tokens = (
-                            pending_status,
-                            *legacy_pending_status,
-                        )
+                        status_tokens = (pending_status, *legacy_pending_status)
+                        if record.get("lifecycleState") == "awaiting_merge_close":
+                            # Preserve the existing exact-merge projection until
+                            # its own close receipt is available. A selected
+                            # unfinished successor is handled by the stricter
+                            # awaiting_successor_close branch above.
+                            status_tokens = (
+                                implemented,
+                                "実装済み",
+                                *status_tokens,
+                            )
                     elif record.get("lifecycleState") == "replaced":
                         status_tokens = (
                             ("已替代",)
