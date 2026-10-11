@@ -1,7 +1,6 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.contract.json",
-    ".ai/work-items/active/WI-1072-n-minus-one-finish-admission.summary.json"
+    ".ai/evidence/WI-1072-n-minus-one-finish-admission.verification-attempt.105e6c67d3deb4a9dd1a0d8212731c904395605b4d814019768c943e88b11d56.json"
   ],
   "checkpointAt": "2026-10-11T00:01:40Z",
   "checkpointContractDigest": "sha256:791113a8288db2c5ba5967186b61354e2911e8f4437388e49b4cc302eef7ef2e",
@@ -27,7 +26,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-11T00:07:46Z",
+  "preflightAt": "2026-10-11T05:07:01Z",
   "preflightContractDigest": "sha256:791113a8288db2c5ba5967186b61354e2911e8f4437388e49b4cc302eef7ef2e",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
