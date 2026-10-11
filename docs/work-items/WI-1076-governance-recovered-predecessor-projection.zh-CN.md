@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1
+contractDigest: sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442
 ---
 
 [English](WI-1076-governance-recovered-predecessor-projection.md) · [日本語](WI-1076-governance-recovered-predecessor-projection.ja.md)
 
 # WI-1076 — 治理门禁中的已恢复前驱投影
 
-本页投影当前 [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json)，绑定摘要 `sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1`。准入、验证和生命周期状态以 Runtime 记录为准。
+本页投影当前 [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json)，绑定摘要 `sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442`。准入、验证和生命周期状态以 Runtime 记录为准。
 
 ## 预期收益
 
@@ -24,10 +24,10 @@ contractDigest: sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e33931
 
 ## 范围与边界
 
-实现文件仅限 `tests/ci/governance_integrity_gate.py` 和 `tests/ci/governance_integrity_gate_test.sh`。三语页面和 parity 行属于必需的 Work Item 治理投影。状态一致性检查器、Runtime、产品代码、发布工作流、tag、发布和 provider 资源均不在范围内。现有 acceptance、archive 和 close 要求继续作为硬门槛。
+实现文件仅限 `tests/ci/governance_integrity_gate.py` 和 `tests/ci/governance_integrity_gate_test.sh`。三语页面和 parity 行属于必需的 Work Item 治理投影。另有三份范围内页面保留 WI-1068 稳定版发布历史，来源为经审阅的 WI-1070 文档提交 `b2402611267b5a8c65c15e834e462ea74d0b42ad`；WI-1070 治理记录和发布验收状态仍不属于本 Work Item。状态一致性检查器、Runtime、产品代码、发布工作流、tag、发布和 provider 资源均不在范围内。现有 acceptance、archive 和 close 要求继续作为硬门槛。
 
 ## 验收与验证
 
 验收需覆盖有效的已替代前驱及其尚未完成且身份绑定的后继；覆盖无效 recovery、close、repository 或 lineage 绑定的拒绝情形；并保留后继项未完成状态。只有通过验证、已归档且确认关闭的后继项才能使前驱转为已实现。
 
-Contract 声明运行 `bash tests/ci/governance_integrity_gate_test.sh`、`bash tests/docs/work_item_status_consistency_test.sh` 和 `bash tests/docs/parity_status_check.sh`。本 Work Item 尚未运行这些检查；本页不声称已有实现或通过结果。
+Contract 声明运行 `bash tests/ci/governance_integrity_gate_test.sh`、`bash tests/docs/work_item_status_consistency_test.sh` 和 `bash tests/docs/parity_status_check.sh`。检查结果以绑定当前 Work Item 的 Runtime 正式验证回执为准，本页不替代该证据。

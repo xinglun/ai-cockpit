@@ -1,0 +1,276 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1076-governance-recovered-predecessor-projection",
+    "sequence": 3,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "WI-1076-add-reviewed-wi1068-release-pages-20261011",
+      "expectedContractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+      "reason": "Per the user's explicit 2026-10-11 direction, keep WI-1076 as the sole delivery owner and add only the three already-reviewed WI-1068 stable-release projection pages to its existing scope. Bind their content provenance to WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad. Preserve the existing two governance source/test paths, three WI-1076 pages, three parity pages, and all existing release acceptance facts; do not import WI-1070 governance records or alter release acceptance.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "docs/work-items/WI-1068-v1-0-1-stable-release.md"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md"
+        },
+        {
+          "path": "/scope",
+          "operation": "add",
+          "value": "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "The three WI-1068-v1-0-1-stable-release pages are carried from the previously reviewed WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad; only those page texts and provenance are included, not WI-1070 Contract, Summary, governance records, or release-acceptance state."
+        }
+      ]
+    },
+    "requestDigest": "sha256:4429f1f428954745b050f52d2dd088065d64480606ae662b2c7806649796a5f9",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A valid digest-bound supersede recovery, valid predecessor close, matching repository and predecessor lineage, and exact successor Contract/Summary binding allow Recovered in all three parity ledgers while inventory remains awaiting_successor_close and the successor remains active and unverified.",
+        "In progress remains accepted for valid unfinished successor lineage; only a verified, archived, confirmed-closed successor resolves the predecessor to Implemented.",
+        "Wrong recovery digest, wrong repository, wrong successor, wrong predecessor lineage, missing or invalid predecessor close, or a merely awaiting_successor_close state without the exact supersede proof cannot use the Recovered exception.",
+        "Negative fixtures prove an unfinished successor cannot be projected as terminal, and existing acceptance, archive, and close requirements remain unchanged.",
+        "The clean six-document WI-1068 snapshot passes both governance integrity and Work Item status consistency after the gate correction."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T21:32:46Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow the three-language Recovered projection only for a strictly validated superseded predecessor while preserving awaiting_successor_close for the successor and every independent acceptance and close requirement.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": {
+        "businessGoal": "Keep the governance integrity and Work Item status consistency gates aligned on the same valid superseded-predecessor lineage.",
+        "constraints": [
+          "Change only the governance integrity gate and its regression test as implementation files.",
+          "Keep tests/docs/work_item_status_consistency.py unchanged.",
+          "Require valid digest-bound supersede recovery, predecessor close, repository identity, and exact successor lineage before the Recovered projection is accepted.",
+          "Keep successor verification, archive, acceptance, and close requirements unchanged."
+        ],
+        "nonGoals": [
+          "Do not change AI Cockpit Runtime binaries or libraries.",
+          "Do not change release workflow, publication, tags, or provider resources."
+        ],
+        "problem": "For the same valid lineage, the governance integrity gate rejects the predecessor's Recovered projection while status consistency accepts it; the successor must remain unfinished.",
+        "rationale": "The repair makes both gates agree on the predecessor's valid recovered status without representing an unfinished successor as terminal.",
+        "userGoal": "Repository maintainers can record a legally superseded predecessor as Recovered in all three parity ledgers while the unfinished successor remains visibly awaiting_successor_close."
+      },
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "AI Cockpit Runtime binaries or libraries",
+        "tests/docs/work_item_status_consistency.py",
+        "WI-1070 Contract or release acceptance",
+        "product code",
+        "workflow policy",
+        "release publication",
+        "tags",
+        "provider resources"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": "The governance integrity gate and Work Item status consistency gate classify the same valid superseded-predecessor lineage differently. The predecessor should project as Recovered only with strict recovery, close, repository, and successor bindings; its unfinished successor must remain awaiting_successor_close.",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "sources": [
+        "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": "WI-1076 governance recovered predecessor projection",
+      "unknowns": [],
+      "verification": [
+        "bash tests/ci/governance_integrity_gate_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/docs/parity_status_check.sh"
+      ],
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    "previousContractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A valid digest-bound supersede recovery, valid predecessor close, matching repository and predecessor lineage, and exact successor Contract/Summary binding allow Recovered in all three parity ledgers while inventory remains awaiting_successor_close and the successor remains active and unverified.",
+        "In progress remains accepted for valid unfinished successor lineage; only a verified, archived, confirmed-closed successor resolves the predecessor to Implemented.",
+        "Wrong recovery digest, wrong repository, wrong successor, wrong predecessor lineage, missing or invalid predecessor close, or a merely awaiting_successor_close state without the exact supersede proof cannot use the Recovered exception.",
+        "Negative fixtures prove an unfinished successor cannot be projected as terminal, and existing acceptance, archive, and close requirements remain unchanged.",
+        "The clean six-document WI-1068 snapshot passes both governance integrity and Work Item status consistency after the gate correction."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T21:32:46Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow the three-language Recovered projection only for a strictly validated superseded predecessor while preserving awaiting_successor_close for the successor and every independent acceptance and close requirement.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": {
+        "businessGoal": "Keep the governance integrity and Work Item status consistency gates aligned on the same valid superseded-predecessor lineage.",
+        "constraints": [
+          "Change only the governance integrity gate and its regression test as implementation files.",
+          "Keep tests/docs/work_item_status_consistency.py unchanged.",
+          "Require valid digest-bound supersede recovery, predecessor close, repository identity, and exact successor lineage before the Recovered projection is accepted.",
+          "Keep successor verification, archive, acceptance, and close requirements unchanged."
+        ],
+        "nonGoals": [
+          "Do not change AI Cockpit Runtime binaries or libraries.",
+          "Do not change release workflow, publication, tags, or provider resources."
+        ],
+        "problem": "For the same valid lineage, the governance integrity gate rejects the predecessor's Recovered projection while status consistency accepts it; the successor must remain unfinished.",
+        "rationale": "The repair makes both gates agree on the predecessor's valid recovered status without representing an unfinished successor as terminal.",
+        "userGoal": "Repository maintainers can record a legally superseded predecessor as Recovered in all three parity ledgers while the unfinished successor remains visibly awaiting_successor_close."
+      },
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "AI Cockpit Runtime binaries or libraries",
+        "tests/docs/work_item_status_consistency.py",
+        "WI-1070 Contract or release acceptance",
+        "product code",
+        "workflow policy",
+        "release publication",
+        "tags",
+        "provider resources"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": "The governance integrity gate and Work Item status consistency gate classify the same valid superseded-predecessor lineage differently. The predecessor should project as Recovered only with strict recovery, close, repository, and successor bindings; its unfinished successor must remain awaiting_successor_close.",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "tests/ci/governance_integrity_gate.py",
+        "tests/ci/governance_integrity_gate_test.sh",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+        "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md",
+        "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+        "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+        "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+      ],
+      "sources": [
+        "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit.",
+        "The three WI-1068-v1-0-1-stable-release pages are carried from the previously reviewed WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad; only those page texts and provenance are included, not WI-1070 Contract, Summary, governance records, or release-acceptance state."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": "WI-1076 governance recovered predecessor projection",
+      "unknowns": [],
+      "verification": [
+        "bash tests/ci/governance_integrity_gate_test.sh",
+        "bash tests/docs/work_item_status_consistency_test.sh",
+        "bash tests/docs/parity_status_check.sh"
+      ],
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    "newContractDigest": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
+    "previousSummaryDigest": "sha256:ab1c0f1f5d7bcffca25f8ace96d188ac67cc5d1f6cce983c2638ddfe7be2d245",
+    "repositorySnapshotDigest": "sha256:d0ba318bd33b561b267ce1c3967e4e6126be48402c91d068ed790e772fa765f1",
+    "environmentObservationDigest": "sha256:9d979c590782d1f49c636c526e3cb57140709861eca98e4fa90c31b4c0d5f417",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:39fa1da2ebad4671af791b6eaa25c7e7597edb0e17ae65dddc8bdfbada6df984",
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-11T23:08:10Z"
+  },
+  "preparedDigest": "sha256:0c8cc91a85e709ddfafb5d6bb4cb34a58a81f9406ed789c8b63107372bf976f9"
+}

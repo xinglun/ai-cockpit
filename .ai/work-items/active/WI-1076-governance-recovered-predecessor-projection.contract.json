@@ -89,10 +89,14 @@
     "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
   ],
   "sources": [
-    "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit."
+    "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit.",
+    "The three WI-1068-v1-0-1-stable-release pages are carried from the previously reviewed WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad; only those page texts and provenance are included, not WI-1070 Contract, Summary, governance records, or release-acceptance state."
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,

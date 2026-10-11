@@ -37,20 +37,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+      "previousContractHash": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+      "reason": "Per the user's explicit 2026-10-11 direction, keep WI-1076 as the sole delivery owner and add only the three already-reviewed WI-1068 stable-release projection pages to its existing scope. Bind their content provenance to WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad. Preserve the existing two governance source/test paths, three WI-1076 pages, three parity pages, and all existing release acceptance facts; do not import WI-1070 governance records or alter release acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T23:08:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d0ba318bd33b561b267ce1c3967e4e6126be48402c91d068ed790e772fa765f1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:256bc4aed876e10402b5a84b14f22d1398f99ca28f285700f90ab515b10c008a",
   "createdAt": "2026-10-11T21:32:46Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "contractDigest": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
-    "reason": "修复两个检查器的前驱状态判定冲突",
-    "recordedAt": "2026-10-11T21:58:44Z",
+    "preflightDecisionDigest": "sha256:7a68dd732e45301878ffb615cfef844679cf11b03efd5e4d9ae4d1e7650b3a1e",
+    "reason": "合并已审修复与文档，完成一致性验证",
+    "recordedAt": "2026-10-11T23:11:58Z",
     "recordedBy": "Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:d22f17808a7750d6e44d0424292f8f2e717b17a63e0ccdf8cbc89c5cc8628fd7",
+    "repositorySnapshotDigest": "sha256:d0ba318bd33b561b267ce1c3967e4e6126be48402c91d068ed790e772fa765f1",
     "schemaVersion": 1,
     "workItemId": "WI-1076-governance-recovered-predecessor-projection"
   },
@@ -65,19 +85,19 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-11T22:35:28Z",
-  "preflightContractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
-  "preflightDecisionDigest": "sha256:7437ed81528a51caa505a2e39b936ca83185a52d5d5f36ab2a1e235aea5c0779",
-  "preflightRepositorySnapshotDigest": "sha256:a8d13388bb37f08b72e6c40f6c61650a83baf24da2dc56b047c80410bf18f10f",
+  "preflightAt": "2026-10-11T23:08:28Z",
+  "preflightContractDigest": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
+  "preflightDecisionDigest": "sha256:7a68dd732e45301878ffb615cfef844679cf11b03efd5e4d9ae4d1e7650b3a1e",
+  "preflightRepositorySnapshotDigest": "sha256:d0ba318bd33b561b267ce1c3967e4e6126be48402c91d068ed790e772fa765f1",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-10-11T22:01:21.967167725+00:00",
+  "updatedAt": "2026-10-11T23:12:44.931543071+00:00",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "contractHash": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-11T21:38:18Z"
+    "recordedAt": "2026-10-11T23:08:10Z"
   },
   "workItemId": "WI-1076-governance-recovered-predecessor-projection"
 }
