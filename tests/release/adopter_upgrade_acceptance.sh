@@ -8,6 +8,46 @@ USAGE
 }
 die() { failure_reason="$*"; printf 'adopter upgrade acceptance failed: %s\n' "$failure_reason" >&2; exit 1; }
 need() { command -v "$1" >/dev/null 2>&1 || die "required command is unavailable: $1"; }
+
+validate_old_finish_status() {
+  local status_file="$1" work_item_id="$2" repository_id="$3"
+  [[ -f "$status_file" && ! -L "$status_file" ]] || {
+    printf 'old Runtime finish status is missing or symlinked: %s\n' "$status_file" >&2
+    return 1
+  }
+  [[ -n "$work_item_id" && "$repository_id" =~ ^sha256:[0-9a-f]{64}$ ]] || {
+    printf 'old Runtime finish status validation requires a Work Item and canonical repository identity\n' >&2
+    return 1
+  }
+  jq -e \
+    --arg workItemId "$work_item_id" \
+    --arg repositoryId "$repository_id" \
+    'type == "object"
+     and .workItemId == $workItemId
+     and .repositoryId == $repositoryId
+     and .verification == "verified"
+     and (.evidenceFreshness | type == "object" and .state == "fresh")
+     and (.blockers | type == "array" and length == 0)
+     and (.safeActions | type == "array" and index("finish") != null)
+     and .humanDecisionRequired == false
+     and (.actionExplanation | type == "object"
+       and .admissionState == "allowed"
+       and .recommendedAction == "finish"
+       and .humanDecisionRequired == false)' \
+    "$status_file" >/dev/null || {
+      printf 'old Runtime status does not admit finish for the verified N-1 Work Item\n' >&2
+      return 1
+    }
+}
+
+# Private entrypoint used by this script's behavior-level regression suite.
+# It intentionally reaches the same validator used by the N-1 run below.
+if [[ "${1:-}" == --validate-old-finish-status ]]; then
+  [[ $# -eq 4 ]] || { printf 'usage: %s --validate-old-finish-status STATUS_JSON WORK_ITEM_ID REPOSITORY_ID\n' "$0" >&2; exit 2; }
+  validate_old_finish_status "$2" "$3" "$4"
+  exit $?
+fi
+
 source "$(cd "$(dirname "$0")" && pwd)/isolation_manifest.sh"
 
 # Prefer the workflow token for GitHub Release API metadata requests so
@@ -981,8 +1021,8 @@ else
       ;;
   esac
 fi
-run "$from_bin" old-preflight-after-verify.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$work_item.contract.json"
-jq -e '.state=="green"' "$output/old-preflight-after-verify.json" >/dev/null || die 'old Runtime did not refresh preflight after verification'
+run "$from_bin" old-status-after-verify.json work-item status --repo "$adopter" --id "$work_item" --json
+validate_old_finish_status "$output/old-status-after-verify.json" "$work_item" "$adopter_repository_id" || die 'old Runtime status is not a fresh, identity-bound finish admission'
 run "$from_bin" old-finish.json finish --repo "$adopter" --id "$work_item"
 run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
 old_archived_contract="$adopter/.ai/work-items/archive/$work_item.contract.json"
