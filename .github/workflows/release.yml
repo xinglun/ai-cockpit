@@ -1254,6 +1254,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -1278,23 +1279,30 @@ jobs:
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
-      - name: Restore staged adopter receipt on rerun
+      - name: Restore the exact staged adopter artifact on rerun
+        id: restore_attempt
         if: github.run_attempt > 1
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          RELEASE_PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}
+          CANDIDATE_DIR: ${{ github.workspace }}/dist
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/staged-adopter-acceptance"
-          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
-            --name "staged-adopter-acceptance-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
-            --dir "$RUNNER_TEMP/staged-adopter-acceptance"
+          chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          bash .github/scripts/restore_release_attempt_artifact.sh restore \
+            --stage staged_adopter_acceptance \
+            --output "$RUNNER_TEMP/staged-adopter-acceptance"
       - name: Run staged candidate adopter acceptance
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
           ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
+          RESUME_ACCEPTANCE: ${{ steps.restore_attempt.outputs.resume }}
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
@@ -1303,7 +1311,7 @@ jobs:
           output="$RUNNER_TEMP/staged-adopter-acceptance"
           mkdir -p "$output"
           resume_args=()
-          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
+          if [[ "$RESUME_ACCEPTANCE" == true ]]; then resume_args+=(--resume); fi
           tests/release/adopter_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --tag "$tag" \
@@ -1312,6 +1320,19 @@ jobs:
             --source-repo "$GITHUB_WORKSPACE/release-source" \
             "${resume_args[@]}" \
             --output "$output"
+      - name: Seal staged adopter attempt binding
+        if: always()
+        shell: bash
+        env:
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          RELEASE_PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}
+          CANDIDATE_DIR: ${{ github.workspace }}/dist
+        run: |
+          set -euo pipefail
+          bash .github/scripts/restore_release_attempt_artifact.sh seal \
+            --stage staged_adopter_acceptance \
+            --output "$RUNNER_TEMP/staged-adopter-acceptance"
       - name: Upload staged adopter acceptance evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -1328,6 +1349,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -1352,17 +1374,6 @@ jobs:
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
-      - name: Restore staged N-1 receipt on rerun
-        if: github.run_attempt > 1
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/staged-adopter-upgrade"
-          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
-            --name "staged-adopter-upgrade-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
-            --dir "$RUNNER_TEMP/staged-adopter-upgrade"
       - name: Resolve public N-1 and staged candidate pair
         id: staged_release_pair
         shell: bash
@@ -1399,6 +1410,25 @@ jobs:
           fi
           echo "from_tag=$from_tag" >> "$GITHUB_OUTPUT"
           echo "to_tag=$to_tag" >> "$GITHUB_OUTPUT"
+      - name: Restore the exact staged N-1 artifact on rerun
+        id: restore_attempt
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          RELEASE_PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}
+          CANDIDATE_DIR: ${{ github.workspace }}/dist
+          FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
+          TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
+        run: |
+          set -euo pipefail
+          chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          bash .github/scripts/restore_release_attempt_artifact.sh restore \
+            --stage staged_adopter_upgrade_acceptance \
+            --output "$RUNNER_TEMP/staged-adopter-upgrade"
       - name: Run public-to-staged N-1 acceptance
         if: steps.staged_release_pair.outputs.from_tag != ''
         shell: bash
@@ -1406,6 +1436,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
           ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
+          RESUME_ACCEPTANCE: ${{ steps.restore_attempt.outputs.resume }}
           FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
         run: |
@@ -1415,7 +1446,7 @@ jobs:
           output="$RUNNER_TEMP/staged-adopter-upgrade"
           mkdir -p "$output"
           resume_args=()
-          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
+          if [[ "$RESUME_ACCEPTANCE" == true ]]; then resume_args+=(--resume); fi
           tests/release/adopter_upgrade_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --from-tag "$FROM_TAG" \
@@ -1438,6 +1469,21 @@ jobs:
             '{schemaVersion:1,releasePublished:false,stagedCandidate:true,adopterAcceptance:"not_applicable",fromTag:null,toTag:$toTag,target:"x86_64-unknown-linux-gnu",reason:"no previous published Release"}' \
             > "$output/acceptance.json"
           printf '%s  %s\n' "$(sha256sum "$output/acceptance.json" | awk '{print $1}')" acceptance.json > "$output/SHA256SUMS"
+      - name: Seal staged N-1 attempt binding
+        if: always()
+        shell: bash
+        env:
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          RELEASE_PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}
+          CANDIDATE_DIR: ${{ github.workspace }}/dist
+          FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
+          TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
+        run: |
+          set -euo pipefail
+          bash .github/scripts/restore_release_attempt_artifact.sh seal \
+            --stage staged_adopter_upgrade_acceptance \
+            --output "$RUNNER_TEMP/staged-adopter-upgrade"
       - name: Upload staged N-1 acceptance evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
