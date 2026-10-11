@@ -1,0 +1,62 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:69cba779fe1fad9b0a380893b5a90a461c1c95b01816d38caaea4969d67618bb",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard",
+    "sequence": 2,
+    "changeId": "wi1073-register-restore-regression-in-existing-gate-20261011",
+    "requestDigest": "sha256:8da41e33691cfb0c0463335902e98239831f276fd8b3be742e35cd42b865c284",
+    "reason": "Integrate the staged release artifact recovery regressions into the already registered adopter acceptance resume gate, so repository manifest coverage remains complete without adding a new CI gate; keep the workflow policy regression as the second declared check.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          ".github/workflows/release.yml",
+          ".github/scripts/restore_release_attempt_artifact.sh",
+          "tests/release/restore_release_attempt_artifact_test.sh",
+          "tests/release/workflow_policy.sh"
+        ],
+        "newValue": [
+          ".github/workflows/release.yml",
+          ".github/scripts/restore_release_attempt_artifact.sh",
+          "tests/release/adopter_acceptance_resume_test.sh",
+          "tests/release/restore_release_attempt_artifact_test_support.sh",
+          "tests/release/workflow_policy.sh"
+        ]
+      },
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          "bash tests/release/restore_release_attempt_artifact_test.sh",
+          "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+        ],
+        "newValue": [
+          "bash tests/release/adopter_acceptance_resume_test.sh",
+          "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+    "newContractDigest": "sha256:5178ac94d9c9bef3923a437fa01526a2f211431b1b73ce7e9de5822a46aaa8d3",
+    "repositorySnapshotDigest": "sha256:69bb2e21a0b0e194b4c170d98e0953912a35125b26ad50ddb73f07afd0e8aff8",
+    "environmentObservationDigest": "sha256:6b3c0d16038a373e0624a2e849e4962d7f9e4aa2a5a2c3f97005d1bf989cba49",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:68ab066b5ffed188cc39660013667ee89f516a0b3ad68f396f501a698317f9bb",
+    "journalDigest": "sha256:648e90528f7d58942dd6fdb0bde4245cd4f794705671e598339ede16d468caad",
+    "recordedAt": "2026-10-11T06:25:05Z"
+  }
+}

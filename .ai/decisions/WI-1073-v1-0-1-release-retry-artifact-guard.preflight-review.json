@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:8a2b2925efc470cf0f0a302b16f28858cbc2f19d5e93a6a5dd13c0d4985a059a",
+  "reason": "Ray replied 'confirm review' in Sentinel message Sentinel_c3150bafca548191aa6cf9b5546a8aa7 at 2026-10-11T06:48:30 UTC, responding to the explicit WI-1073 confirmation request Sentinel_f813db8c21d481918df4a54ab49cbf39 for Contract sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510.",
+  "recordedAt": "2026-10-11T06:48:30Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+  "schemaVersion": 1,
+  "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+}

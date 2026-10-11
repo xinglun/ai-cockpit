@@ -1,0 +1,131 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1073-v1-0-1-release-retry-artifact-guard.preflight-review.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.prepared.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.committed.json",
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.prepared.json",
+    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.approach.json",
+    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json",
+    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+  ],
+  "checkpointAt": "2026-10-11T06:02:08Z",
+  "checkpointContractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 0,
+      "contractHash": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+      "recorded": true,
+      "recordedAt": "2026-10-11T06:02:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    {
+      "acceptanceCount": 0,
+      "contractHash": "sha256:5178ac94d9c9bef3923a437fa01526a2f211431b1b73ce7e9de5822a46aaa8d3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+      "previousContractHash": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+      "reason": "Integrate the staged release artifact recovery regressions into the already registered adopter acceptance resume gate, so repository manifest coverage remains complete without adding a new CI gate; keep the workflow policy regression as the second declared check.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T06:25:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:69bb2e21a0b0e194b4c170d98e0953912a35125b26ad50ddb73f07afd0e8aff8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    {
+      "acceptanceCount": 0,
+      "contractHash": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+      "previousContractHash": "sha256:5178ac94d9c9bef3923a437fa01526a2f211431b1b73ce7e9de5822a46aaa8d3",
+      "reason": "Keep the existing restore regression at its tracked *_test.sh path so the Runtime does not classify the rename as test deletion, register that exact script under the already existing release_adopter_acceptance_resume gate via covers, and include the manifest plus its registered regression in this Work Item's declared scope and verification.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T06:41:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dd0e47d461de2b0e3179dd1103ae479d52e20cdb5fba65b894ce9cb20d685dbc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+  "createdAt": "2026-10-11T06:02:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:8a2b2925efc470cf0f0a302b16f28858cbc2f19d5e93a6a5dd13c0d4985a059a",
+    "reason": "Ray replied 'confirm review' in Sentinel message Sentinel_c3150bafca548191aa6cf9b5546a8aa7 at 2026-10-11T06:48:30 UTC, responding to the explicit WI-1073 confirmation request Sentinel_f813db8c21d481918df4a54ab49cbf39 for Contract sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510.",
+    "recordedAt": "2026-10-11T06:48:30Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+    "schemaVersion": 1,
+    "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-11T06:50:37.643717931Z",
+      "recordedAt": "2026-10-11T06:50:37.643717931Z",
+      "runtimeDigest": "sha256:e745db4d78608e2e165f24068e2ec06d5180252f6b34c06b6d2717746baf47ff",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-11T06:02:07.410948438Z",
+      "recordedAt": "2026-10-11T06:02:07.410948438Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-11T06:50:11Z",
+  "preflightContractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-11T06:50:37.643717931Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+}
