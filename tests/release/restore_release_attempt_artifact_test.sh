@@ -220,7 +220,7 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   rm -rf "$output"
   write_jobs_page2_skipped "$stage"
   write_no_artifacts
-  unset GH_FAIL || true
+  unset GH_FAIL
   export GH_MULTI_PAGE=1
   GITHUB_OUTPUT="$tmp/fresh-output"
   : > "$GITHUB_OUTPUT"
