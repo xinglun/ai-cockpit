@@ -1,0 +1,168 @@
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency passed
+work item status consistency regression passed
+governance integrity gate passed: 906 work items
+adapter digest drift regression passed
+WI-900-release-v9-9-9: retirement_projection_claims_verification_evidence: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: retirement_projection_claims_verification_evidence: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: retirement_projection_claims_verification_evidence: docs/reference/reference-parity.zh-CN.md
+governance retired verification contradiction regression passed
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.zh-CN.md
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: missing_parity_entry: docs/reference/reference-parity.zh-CN.md
+governance retired parity omission regression passed
+WI-900-release-v9-9-9: invalid_retirement_receipt: .ai/decisions/WI-900-release-v9-9-9.retirement.json
+governance retirement compatibility regression passed
+WI-900-release-v9-9-9: missing_retirement_receipt: .ai/decisions/WI-900-release-v9-9-9.retirement.json
+governance missing retirement receipt regression passed
+WI-900-release-v9-9-9: invalid_recovery_successor_binding: .ai/decisions/WI-900-release-v9-9-9.recovery.json
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.zh-CN.md
+governance pending recovery lineage regression passed
+governance invalid-close recovery lineage regression passed
+governance append-only successor-to-supersede recovery lineage regression passed
+governance append-only recovery lineage rejection regressions passed
+governance digest-bound recovered predecessor projection regressions passed
+governance pending/recovered status-cell regression passed
+governance unproven recovered status regression passed
+governance pending successor non-terminal status regression passed
+WI-900-release-v9-9-9: invalid_recovery_successor_binding: .ai/decisions/WI-900-release-v9-9-9.recovery.json
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.zh-CN.md
+governance recovery successor containment regression passed
+WI-900-release-v9-9-9: invalid_recovery_successor_binding: .ai/decisions/WI-900-release-v9-9-9.recovery.json
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: stale_parity_status: docs/reference/reference-parity.zh-CN.md
+governance absolute recovery successor regression passed
+governance confirmed-decision regression passed
+WI-900: missing_work_item: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: missing_evidence: .ai/evidence/WI-900-release-v9-9-9.verification.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+exact PR-introduced archive lifecycle regression passed
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+PR event mismatch and fail-closed lifecycle regressions passed
+WI-900-release-v9-9-9: unknown_problem: .ai/problems/problem-1.json
+WI-900-release-v9-9-9: ambiguous_short_id: docs/reference
+WI-900-release-v9-9-9: missing_parity_decision: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: missing_parity_decision: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: missing_parity_decision: docs/reference/reference-parity.zh-CN.md
+WI-900-release-v9-9-9: missing_parity_evidence: docs/reference/reference-parity.ja.md
+WI-900-release-v9-9-9: missing_parity_evidence: docs/reference/reference-parity.md
+WI-900-release-v9-9-9: missing_parity_evidence: docs/reference/reference-parity.zh-CN.md
+WI-900-release-v9-9-9-retry: ambiguous_short_id: docs/reference
+governance recovery short-id alias regression passed
+governance full-id parity regression passed
+WI-900-release-v9-9-9: invalid_outcome: .ai/work-items/archive/WI-900-release-v9-9-9.outcome.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+Merge made by the 'ort' strategy.
+ .ai/decisions/WI-901-release-v9-9-9.finalize.json | 6 +++---
+ fixture-change.txt                                | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 fixture-change.txt
+WI-901-release-v9-9-9: stale_awaiting_merge_close: .ai/decisions/WI-901-release-v9-9-9.finalize.json
+Merge made by the 'ort' strategy.
+ .ai/decisions/WI-901-release-v9-9-9.finalize.json | 6 +++---
+ fixture-change.txt                                | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 fixture-change.txt
+Merge made by the 'ort' strategy.
+ .ai/decisions/WI-901-release-v9-9-9.finalize.json | 6 +++---
+ fixture-change.txt                                | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 fixture-change.txt
+WI-901-release-v9-9-9: invalid_premerge_finalize: .ai/decisions/WI-901-release-v9-9-9.finalize.json
+WI-901-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-901-release-v9-9-9.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+Deleted branch codex/fixture (was 42056f3).
+post-merge transition regression passed
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+post-merge transition expiry regression passed
+ordinary mainline merge transition regressions passed
+WI-900-release-v9-9-9: missing_terminal_decision: .ai/decisions/WI-900-release-v9-9-9.close.json
+governance orphaned-retry regression passed
+governance recovery suffix successor-lineage regression passed
+governance successful-retry history regression passed
+governance stale-retry binding regression passed
+governance successful-retry closed-history regression passed
+governance structured superseded-close regression passed
+WI-902-recovered-predecessor: invalid_outcome: .ai/work-items/archive/WI-902-recovered-predecessor.outcome.json
+WI-902-recovered-predecessor: invalid_terminal_decision: .ai/decisions/WI-902-recovered-predecessor.recovery.json
+WI-902-recovered-predecessor: missing_terminal_decision: .ai/decisions/WI-902-recovered-predecessor.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: missing_prearchive_parity_entry: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: missing_prearchive_parity_entry: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: missing_prearchive_parity_entry: docs/reference/reference-parity.zh-CN.md
+WI-901-corrective-after-baseline: missing_prearchive_parity_entry: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: invalid_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: invalid_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md
+HEAD is now at 99bf5a4 prepare active parity work item
+WI-901-corrective-after-baseline: invalid_premerge_finalize: .ai/decisions/WI-901-corrective-after-baseline.finalize.json
+WI-901-corrective-after-baseline: missing_terminal_decision: .ai/decisions/WI-901-corrective-after-baseline.close.json
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: stale_prearchive_parity_registration: docs/reference/reference-parity.zh-CN.md
+WI-901-corrective-after-baseline: missing_parity_decision: docs/reference/reference-parity.ja.md
+WI-901-corrective-after-baseline: missing_parity_decision: docs/reference/reference-parity.md
+WI-901-corrective-after-baseline: missing_parity_decision: docs/reference/reference-parity.zh-CN.md
+WI-900-release-v9-9-9: missing_work_item_document: docs/work-items/WI-900-release-v9-9-9.ja.md
+WI-900-release-v9-9-9: missing_work_item_document: docs/work-items/WI-900-release-v9-9-9.md
+WI-900-release-v9-9-9: missing_work_item_document: docs/work-items/WI-900-release-v9-9-9.zh-CN.md
+WI-900-release-v9-9-9: invalid_work_item_document: docs/work-items/WI-900-release-v9-9-9.zh-CN.md
+WI-900-release-v9-9-9: missing_work_item_document: docs/work-items/WI-900-release-v9-9-9.zh-CN.md
+governance integrity gate regression passed
+work_item_status_consistency=0
+parity_status_check=0
+governance_integrity_gate_test=0
