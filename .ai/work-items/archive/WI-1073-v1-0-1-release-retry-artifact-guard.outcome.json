@@ -39,73 +39,73 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1073-v1-0-1-release-retry-artifact-guard.preflight-review.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.committed.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.prepared.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.committed.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.prepared.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.committed.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.prepared.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.approach.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.approach.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
         }
       ],
       "evidence": [
@@ -161,7 +161,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
           ],
           "inference": false,
           "text": "On a second workflow attempt where each staged acceptance job was skipped with no receipt, start that stage fresh without --resume. Resume only from a unique, unexpired artifact of the exact immediately previous attempt after checksum and binding validation; fail closed on all ambiguous, missing-after-execution, expired, mismatched, or API/download error cases."
@@ -170,7 +170,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
