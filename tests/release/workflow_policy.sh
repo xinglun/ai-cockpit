@@ -423,6 +423,54 @@ for source_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance ad
     exit 1
   }
 done
+
+for retry_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
+  retry_block="$(job_block "$retry_job")"
+  grep -Fq 'actions: read' <<<"$retry_block" || {
+    printf 'policy failure: %s must have read-only Actions access to inspect the exact prior attempt and artifacts\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'id: restore_attempt' <<<"$retry_block" || {
+    printf 'policy failure: %s must expose the typed resume decision from its exact-attempt restore step\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'restore_release_attempt_artifact.sh restore' <<<"$retry_block" || {
+    printf 'policy failure: %s must use the shared fail-closed staged artifact restorer\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'RELEASE_PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}' <<<"$retry_block" || {
+    printf 'policy failure: %s must bind retries to the current typed ReleasePlan digest\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'RELEASE_SOURCE_REVISION: ${{ needs.release_input_preflight.outputs.release_source_revision }}' <<<"$retry_block" || {
+    printf 'policy failure: %s must bind retries to the current immutable release source\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'RESUME_ACCEPTANCE: ${{ steps.restore_attempt.outputs.resume }}' <<<"$retry_block" || {
+    printf 'policy failure: %s must derive --resume from verified artifact restoration, not from attempt number\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'if [[ "$RESUME_ACCEPTANCE" == true ]]; then resume_args+=(--resume); fi' <<<"$retry_block" || {
+    printf 'policy failure: %s must pass --resume only after the restorer validates a reusable artifact\n' "$retry_job" >&2
+    exit 1
+  }
+  grep -Fq 'restore_release_attempt_artifact.sh seal' <<<"$retry_block" || {
+    printf 'policy failure: %s must upload a checksummed identity binding for later exact-attempt recovery\n' "$retry_job" >&2
+    exit 1
+  }
+  if grep -Fq 'gh run download "$GITHUB_RUN_ID"' <<<"$retry_block"; then
+    printf 'policy failure: %s must not bypass exact artifact enumeration with a name-only download\n' "$retry_job" >&2
+    exit 1
+  fi
+done
+
+upgrade_retry_block="$(job_block staged_adopter_upgrade_acceptance)"
+pair_resolution_line="$(awk 'index($0, "name: Resolve public N-1 and staged candidate pair") { print NR; exit }' <<<"$upgrade_retry_block")"
+upgrade_restore_line="$(awk 'index($0, "name: Restore the exact staged N-1 artifact on rerun") { print NR; exit }' <<<"$upgrade_retry_block")"
+if [[ -z "$pair_resolution_line" || -z "$upgrade_restore_line" ]] || (( pair_resolution_line >= upgrade_restore_line )); then
+  printf 'policy failure: N-1 tags must resolve before exact-attempt artifact identity validation\n' >&2
+  exit 1
+fi
 if ! grep -Fq 'release_source_revision=' "$release_plan_adapter" ||
    ! grep -Fq 'head_revision' "$release_plan_adapter" ||
    ! grep -Fq 'recovery_evidence_required' "$release_plan_adapter"; then

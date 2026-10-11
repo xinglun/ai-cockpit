@@ -178,4 +178,5 @@ record_scoped_phase public close "$public_receipts"
 jq -e '[.results[] | select(.phase == "close")] | length == 1' "$public_receipts" >/dev/null
 "$helper" acceptance-plan --scope public --identity "$identity" --receipts "$public_receipts" --output "$scoped/public-closed-plan.json"
 jq -e '[.actions[] | select(.phase == "close" and .action == "reuse")] | length == 1' "$scoped/public-closed-plan.json" >/dev/null
+bash "$repo/tests/release/restore_release_attempt_artifact_test.sh"
 echo 'adopter acceptance resume regression passed'

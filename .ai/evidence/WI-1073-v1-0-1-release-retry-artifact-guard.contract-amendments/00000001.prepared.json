@@ -1,0 +1,170 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-0591db1a874a70e6eae9aed97d1f2e1d86e30776e6f0b7e260b0dbaca02e09a8",
+      "expectedContractDigest": "sha256:457e91a392d7b945c958202fab63784583a8ff93557f5b3fe1aee682e405a08d",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "User-authorized technical review: fix the two staged release retry restore steps; fresh only for exact attempt-1 skipped/no-receipt state; resume only after exact identity/cache verification; all uncertainty fails closed."
+        }
+      ]
+    },
+    "requestDigest": "sha256:4a9c4d0468c47bc5db9d1f3fca266ffec3a3d60f174fc46dc56d138399e25d59",
+    "previousContract": {
+      "acceptanceCriteria": [],
+      "authority": "authorized",
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "createdAt": "2026-10-11T06:02:07Z",
+      "goal": "On a second workflow attempt where each staged acceptance job was skipped with no receipt, start that stage fresh without --resume. Resume only from a unique, unexpired artifact of the exact immediately previous attempt after checksum and binding validation; fail closed on all ambiguous, missing-after-execution, expired, mismatched, or API/download error cases.",
+      "intent": "Make staged release acceptance retries phase-aware and fail closed unless the exact prior-attempt artifact is verified against run, attempt, stage, workflow head, release plan, source, and cached candidate identity.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Any publication",
+        " tag",
+        " Release",
+        " N-1",
+        " candidate",
+        " or public acceptance execution",
+        "Changes to the acceptance assertions or phase validation in adopter_acceptance.sh and adopter_upgrade_acceptance.sh",
+        "WI-1070/WI-1068 records",
+        " lineage",
+        " receipts",
+        " and lifecycle decisions",
+        "Automatic recovery from arbitrary earlier workflow attempts"
+      ],
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt"
+      ],
+      "risk": "normal",
+      "scope": [
+        ".github/workflows/release.yml",
+        ".github/scripts/restore_release_attempt_artifact.sh",
+        "tests/release/restore_release_attempt_artifact_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "bash tests/release/restore_release_attempt_artifact_test.sh",
+        "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+      ],
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    "previousContractDigest": "sha256:457e91a392d7b945c958202fab63784583a8ff93557f5b3fe1aee682e405a08d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T06:02:07Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "On a second workflow attempt where each staged acceptance job was skipped with no receipt, start that stage fresh without --resume. Resume only from a unique, unexpired artifact of the exact immediately previous attempt after checksum and binding validation; fail closed on all ambiguous, missing-after-execution, expired, mismatched, or API/download error cases.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Make staged release acceptance retries phase-aware and fail closed unless the exact prior-attempt artifact is verified against run, attempt, stage, workflow head, release plan, source, and cached candidate identity.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Any publication",
+        " tag",
+        " Release",
+        " N-1",
+        " candidate",
+        " or public acceptance execution",
+        "Changes to the acceptance assertions or phase validation in adopter_acceptance.sh and adopter_upgrade_acceptance.sh",
+        "WI-1070/WI-1068 records",
+        " lineage",
+        " receipts",
+        " and lifecycle decisions",
+        "Automatic recovery from arbitrary earlier workflow attempts"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification",
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        ".github/workflows/release.yml",
+        ".github/scripts/restore_release_attempt_artifact.sh",
+        "tests/release/restore_release_attempt_artifact_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "sources": [
+        "User-authorized technical review: fix the two staged release retry restore steps; fresh only for exact attempt-1 skipped/no-receipt state; resume only after exact identity/cache verification; all uncertainty fails closed."
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "bash tests/release/restore_release_attempt_artifact_test.sh",
+        "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+      ],
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    "newContractDigest": "sha256:cb5ad3aae8fce5b17a2ee83e86ee511c786bc01f12c6d9e3ca896a6a86555d80",
+    "previousSummaryDigest": "sha256:84b76e7dceeba972f2388d6f7bc99be0d5bb537c68933a229e1b27e553da6266",
+    "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+    "environmentObservationDigest": "sha256:6b3c0d16038a373e0624a2e849e4962d7f9e4aa2a5a2c3f97005d1bf989cba49",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:0591db1a874a70e6eae9aed97d1f2e1d86e30776e6f0b7e260b0dbaca02e09a8",
+    "preparedAt": "2026-10-11T06:02:07Z"
+  },
+  "preparedDigest": "sha256:3dadcc668ef369efbbea70c0f139d95fbfaf8e4ab44a6fd8bbb08b6c9f7014eb"
+}
