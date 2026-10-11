@@ -1,0 +1,73 @@
+{
+  "attemptId": "sha256:09c2ad6932211e8d7ba38125b283b9a31183722480b3047acfce122b8f042ac7",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:c45243debca2e1e8463b61a25f51e98c10f9129a7b1818e36263f5f784c75f93",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:eddba62f5b9900b8ae4dd61cf6eaab5c0c06acfed73f85763fda13d3b52ba5cd",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:a5bce3dd3c00ed58050ae26393e94656c4bdc63163f3c666e967a0b4e353e61e",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893",
+  "contractExecutionScopeDigest": "sha256:fe3e927c5b9332698298119b4fbd5ce6531885851b2e36804cfc033c63dc7429",
+  "createdAt": "2026-10-11T23:42:02Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1076-governance-recovered-predecessor-20261011/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}
