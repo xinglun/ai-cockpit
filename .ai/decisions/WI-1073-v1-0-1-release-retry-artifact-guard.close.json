@@ -1,0 +1,227 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1073-v1-0-1-release-retry-artifact-guard.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:Ray via Sentinel-user-message:Sentinel_b42aac3e9ae08191a43b25917b441972 at 2026-10-11T08:26:48Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+          ],
+          "inference": false,
+          "text": "On a second workflow attempt where each staged acceptance job was skipped with no receipt, start that stage fresh without --resume. Resume only from a unique, unexpired artifact of the exact immediately previous attempt after checksum and binding validation; fail closed on all ambiguous, missing-after-execution, expired, mismatched, or API/download error cases."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-11T08:28:40.924206921Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+    },
+    "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+  },
+  "finalReportDigest": "sha256:59e9531a13c18e7fca6a9d482ed2db2466b096ea8aba0c4b7503ae2e98fb05c8",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-11T08:28:40.924157888Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:4f25e2372c0545ae80f2a930b0bc5c3c2e3564eb54fd272692a622ed9534dccc",
+    "branch": "codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011",
+    "branchRef": "refs/heads/codex/wi1073-v1-0-1-release-retry-artifact-guard-20261011",
+    "capturedAt": "2026-10-11T08:28:40Z",
+    "contractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
+    "headRevision": "4f00e6e326a673e5a9a03170027bec289ee13bed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard",
+    "worktreeGitDir": "/workspace/ai-cockpit-wi1070/.git/worktrees/ai-cockpit-wi1073-release-retry",
+    "worktreeId": "sha256:d7cdef603da203bf40f73fdfa60444511f04213a9de7fe909c440518b237f426",
+    "worktreePath": "/workspace/ai-cockpit-wi1073-release-retry"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:62243bdc07643c87404c53a342204eff859e7506cd41714cdb82aac31eb2ec7a",
+  "recordedAt": "2026-10-11T08:28:40.924157888Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "Sentinel-user-message:Sentinel_b42aac3e9ae08191a43b25917b441972",
+    "decidedAt": "2026-10-11T08:26:48Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+    ],
+    "policyRefs": [],
+    "reason": "Ray explicitly approved archiving and closing WI-1073 in response to the request, based on the reviewed verification and merged PR #1027/main CI; preserve branch, worktree, and historical evidence.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-11T08:28:40Z",
+  "usageCutoff": "2026-10-11T08:28:40.924206921Z",
+  "workItemId": "WI-1073-v1-0-1-release-retry-artifact-guard"
+}
