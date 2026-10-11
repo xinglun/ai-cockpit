@@ -259,7 +259,7 @@ jobs:
           echo "release_source_revision=$(jq -r '.plan.request.sourceRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "reuse_run_id=$(jq -r '.plan.request.reuseRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "reuse_acceptance_run_id=$(jq -r '.plan.request.reuseAcceptanceRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "close_only=$(jq -r '.plan.request.mode == \"close_only\"' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "close_only=$(jq -r '.plan.request.mode == "close_only"' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "work_item_id=$(jq -r '.plan.request.workItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "contract_digest=$(jq -r '.plan.request.contractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "source_work_item_id=$(jq -r '.plan.request.sourceWorkItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"

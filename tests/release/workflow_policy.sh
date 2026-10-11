@@ -237,6 +237,46 @@ require_match 'publication tag must match the remote immutable peeled commit' 'p
 require_match 'test "\$manifest_commit" = "\$tag_commit"' 'release identity must remain bound to the remote tag commit'
 require_match "plan_mode == 'close_only'" 'release close expression must consume the resolved plan mode'
 fail_if_match 'github\\.event\\.inputs\\.(publish_existing_tag|post_release_acceptance|close_only).*needs\\.' 'downstream release jobs must not re-infer mode from raw dispatch flags'
+
+close_only_filter="$(awk '
+  index($0, "echo \"close_only=$(jq -r ") {
+    prefix = "echo \"close_only=$(jq -r "
+    prefix_start = index($0, prefix)
+    if (substr($0, 1, prefix_start - 1) !~ /^[[:space:]]*$/) next
+    remainder = substr($0, prefix_start + length(prefix))
+    if (substr(remainder, 1, 1) != "\047") next
+    remainder = substr(remainder, 2)
+    closing_quote = index(remainder, "\047")
+    if (closing_quote == 0) next
+    candidate = substr(remainder, 1, closing_quote - 1)
+    suffix = substr(remainder, closing_quote + 1)
+    if (suffix != " target/release-input-preflight.json)\" >> \"$GITHUB_OUTPUT\"") next
+    print candidate
+    matches++
+  }
+  END { if (matches != 1) exit 1 }
+' "$workflow")" || {
+  printf 'policy failure: close_only output must contain one extractable jq filter\n' >&2
+  exit 1
+}
+close_only_tmp="$(mktemp -d "${TMPDIR:-/tmp}/release-close-only-filter.XXXXXX")"
+trap 'rm -rf -- "$close_only_tmp"' EXIT
+for mode in close_only normal_release; do
+  printf '{"plan":{"request":{"mode":"%s"}}}\n' "$mode" > "$close_only_tmp/plan.json"
+  if ! close_only_value="$(jq -r "$close_only_filter" "$close_only_tmp/plan.json")"; then
+    printf 'policy failure: extracted close_only jq filter failed for mode %s\n' "$mode" >&2
+    exit 1
+  fi
+  expected_close_only=false
+  if [[ "$mode" == close_only ]]; then
+    expected_close_only=true
+  fi
+  if [[ "$close_only_value" != "$expected_close_only" ]]; then
+    printf 'policy failure: extracted close_only jq filter returned %s for mode %s (expected %s)\n' \
+      "$close_only_value" "$mode" "$expected_close_only" >&2
+    exit 1
+  fi
+done
 require_match 'gh api .*releases/tags' 'release policy must inspect an existing provider Release'
 require_match 'verify-provider-release' 'existing provider Releases must be checked by the shared Rust identity verifier'
 require_match 'provider-release-state' 'provider Release identity must be persisted for publish recovery'

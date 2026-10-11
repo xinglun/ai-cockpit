@@ -1,0 +1,108 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1074-v1-0-1-close-only-jq-filter.preflight-review.json",
+    ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000001.committed.json",
+    ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000001.prepared.json",
+    ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000002.committed.json",
+    ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000002.prepared.json",
+    ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.contract.json",
+    ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+  ],
+  "checkpointAt": "2026-10-11T08:33:07Z",
+  "checkpointContractDigest": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f4e557bf03f041e03ae5bf759c328e264c15deb22cb7a062b711cf16792f1753",
+      "recorded": true,
+      "recordedAt": "2026-10-11T08:33:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f4e557bf03f041e03ae5bf759c328e264c15deb22cb7a062b711cf16792f1753",
+      "previousContractHash": "sha256:f4e557bf03f041e03ae5bf759c328e264c15deb22cb7a062b711cf16792f1753",
+      "reason": "Align the declared regression command with its required workflow-file argument from the existing repository gate, and keep out-of-scope boundaries unambiguous without comma-delimited input parsing.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T08:36:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+  "createdAt": "2026-10-11T08:33:06Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+    "reason": "Ray replied confirm_review in Sentinel user message Sentinel_bb80ce5746748191858ff3aa65dad9f0 for the exact amended Contract sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c, preflight sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a, and repository snapshot sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5.",
+    "recordedAt": "2026-10-11T08:41:10Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+    "schemaVersion": 1,
+    "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-11T08:43:08.833275555Z",
+      "recordedAt": "2026-10-11T08:43:08.833275555Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-11T08:33:06.535347180Z",
+      "recordedAt": "2026-10-11T08:33:06.535347180Z",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-11T08:42:44Z",
+  "preflightContractDigest": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-11T08:43:08.833275555Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+}

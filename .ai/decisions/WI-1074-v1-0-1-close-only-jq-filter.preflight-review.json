@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a",
+  "reason": "Ray replied confirm_review in Sentinel user message Sentinel_bb80ce5746748191858ff3aa65dad9f0 for the exact amended Contract sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c, preflight sha256:56479e2a8f4b09dd95d4c5d28bb398cd9628cde1449d2383cfbe61ec8e6c7c6a, and repository snapshot sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5.",
+  "recordedAt": "2026-10-11T08:41:10Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+  "schemaVersion": 1,
+  "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+}

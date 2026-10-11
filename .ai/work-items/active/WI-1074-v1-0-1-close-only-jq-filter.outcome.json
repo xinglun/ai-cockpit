@@ -1,0 +1,194 @@
+{
+  "acceptanceResults": [
+    "The workflow jq program compares .plan.request.mode with the jq string literal \"close_only\" and emits a valid boolean output.",
+    "The existing tests/release/workflow_policy.sh extracts the actual jq filter from the workflow and executes it against minimal typed-plan fixtures: mode close_only yields true and mode normal_release yields false, with exit status 0 for both.",
+    "bash tests/release/workflow_policy.sh, bash -n tests/release/workflow_policy.sh, and git diff --check pass; no new gate or test file is introduced."
+  ],
+  "createdAt": "2026-10-11T08:43:08.833275555Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fd2c87d0bc1e4b8b0e812d4d114a4b5ac61d57463efb26ee4f42b0ad1d0108a2",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+      "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1074-v1-0-1-close-only-jq-filter.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000002.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.contract-amendments/00000002.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.contract.json"
+          ],
+          "inference": false,
+          "text": "Emit close_only=true for a typed close_only plan and false for normal_release with jq exit status 0 in both cases; extract the filter from the workflow in the existing release_workflow_policy regression and prove those two results."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1074-v1-0-1-close-only-jq-filter.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-11T08:43:08.833275555Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+    },
+    "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+  },
+  "taskReportDigest": "sha256:a6861708edabfa17f1b4e8a0225327fcab82b68e3285738410f62fa2528e0814",
+  "taskReportMarkdownDigest": "sha256:c521dbe09a4b1c98567ff3991e7a27aefd7122704028be8dfc0767ed09000d2c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1074-v1-0-1-close-only-jq-filter.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+}
