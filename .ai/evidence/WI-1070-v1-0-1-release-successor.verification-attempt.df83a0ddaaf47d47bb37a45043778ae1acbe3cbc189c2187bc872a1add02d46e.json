@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:df83a0ddaaf47d47bb37a45043778ae1acbe3cbc189c2187bc872a1add02d46e",
+  "commands": [
+    {
+      "args": [
+        "test --locked --workspace"
+      ],
+      "baseCommit": "dae495743e9a8bc2054ab8521a7e728520d5539d",
+      "commandDigest": "sha256:e572334a3b055869ca32b2d0044bc96163ce6c9609ed253fccdc32234d756afc",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7340b70266cc64640a47fbefb438773ab9fa9260fa4e03105921614ddb37da83",
+  "contractExecutionScopeDigest": "sha256:43add5904cc7c2399ec4ff950001a9340bc9f4909e55383953dc8d0897c33bc0",
+  "createdAt": "2026-10-11T20:55:27Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1070/.ai/work-items/active/WI-1070-v1-0-1-release-successor.summary.json: current action admission rejected requested action \"run_verification\": admission=Blocked, blockers=[\"material_review_projection_unavailable\"], safeActions=[\"record_governance_controls\", \"record_usage\", \"refresh_status\", \"resolve_blockers\", \"run_preflight\", \"stop\"], nextAction=Some(\"run_preflight\"), admissionDigest=sha256:1fd48dfb909a171a39de57f1dc9ec8d104eab8196cb224b2b345129d66d8653a, issues=[\"evidence_stale\", \"material_review_projection_unavailable\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:59b6fdef8c188af1d7b7820608d595bc72d272652ec0f0bce4df8a411b358990",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}
