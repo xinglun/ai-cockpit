@@ -1033,6 +1033,47 @@ assert any(
 PY
 printf 'governance unproven recovered status regression passed\n'
 
+# An unfinished successor cannot be projected as Implemented either. The
+# conditional "In progress → Implemented after verified close" remains valid.
+cp -R "$tmp/pending-recovery-lineage" "$tmp/implemented-pending-successor"
+python3 - "$tmp/implemented-pending-successor" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for suffix in ("", ".zh-CN", ".ja"):
+    path = root / "docs/reference" / f"reference-parity{suffix}.md"
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("| In progress |", "| Implemented |", 1)
+    text = text.replace("| 进行中 |", "| 已实现 |", 1)
+    path.write_text(text, encoding="utf-8")
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/implemented-pending-successor" \
+  --report "$tmp/implemented-pending-successor-report.json" >/dev/null 2>"$tmp/implemented-pending-successor.err"
+implemented_pending_code=$?
+set -e
+[[ "$implemented_pending_code" -eq 1 ]] || {
+  printf 'implemented pending successor: expected exit 1, got %s\n' \
+    "$implemented_pending_code" >&2
+  cat "$tmp/implemented-pending-successor.err" >&2
+  exit 1
+}
+python3 - "$tmp/implemented-pending-successor-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert any(
+    item["workItemId"] == "WI-900-release-v9-9-9"
+    and item["code"] == "stale_parity_status"
+    for item in report["findings"]
+), report["findings"]
+PY
+printf 'governance pending successor non-terminal status regression passed\n'
+
 # A successor Contract reached through a parent symlink must not be accepted
 # as a repository-owned recovery binding. Absolute successor IDs are rejected
 # as well, even when an external file with that name exists.
