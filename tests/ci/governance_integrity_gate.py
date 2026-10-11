@@ -122,6 +122,12 @@ def parity_work_item_id(line: str) -> str | None:
     return value if re.match(r"^WI-[0-9]+[A-Za-z]?-[A-Za-z0-9]", value) else value.upper()
 
 
+def parity_status_cell(line: str) -> str | None:
+    """Return the status column without searching explanatory cells."""
+    cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+    return cells[1] if len(cells) >= 2 and cells[1] else None
+
+
 def parity_rows_for_work_item(
     rows: dict[str, dict[str, str]], work_item: str
 ) -> dict[str, str]:
@@ -1684,6 +1690,34 @@ def strict_superseded_predecessor_projection_is_valid(
             result[key] = value
         return result
 
+    def load_digest_named_recovery(relative: str) -> dict[str, Any] | None:
+        expected_prefix = f".ai/decisions/{predecessor}.recovery."
+        if (
+            not relative.startswith(expected_prefix)
+            or not relative.endswith(".json")
+            or re.fullmatch(r"[0-9a-f]{64}", relative[len(expected_prefix) : -5])
+            is None
+        ):
+            return None
+        path = _regular_repository_file(repo, relative)
+        if path is None or not repository_contained_regular_file(repo, path):
+            return None
+        try:
+            raw = path.read_bytes()
+            if len(raw) > 1_048_576:
+                return None
+            value = json.loads(
+                raw.decode("utf-8"), object_pairs_hook=unique_json_object
+            )
+        except (OSError, UnicodeError, ValueError, json.JSONDecodeError):
+            return None
+        if not isinstance(value, dict):
+            return None
+        named_digest = relative[len(expected_prefix) : -5]
+        if _json_digest(value).removeprefix("sha256:") != named_digest:
+            return None
+        return value
+
     recovery_file = _regular_repository_file(repo, relative_recovery)
     if recovery_file is None or not repository_contained_regular_file(repo, recovery_file):
         return False
@@ -1858,15 +1892,95 @@ def strict_superseded_predecessor_projection_is_valid(
         record.get("workItemId") != successor
         or record.get("predecessorWorkItemId") != predecessor
         or record.get("predecessorContractDigest") != bound_contract_digest
-        or record.get("recoveryDecisionPath") != relative_recovery
         for record in (successor_contract, successor_summary)
-    ) or successor_contract.get("repositoryId") != repository_id:
+    ) or (
+        successor_contract.get("repositoryId") != repository_id
+        or successor_summary.get("repositoryId") != repository_id
+    ):
         return False
 
-    for field in ("verification", "verificationState", "verificationStatus"):
-        state = successor_summary.get(field)
-        if isinstance(state, str) and state.lower() in {"passed", "verified", "green"}:
+    successor_contract_recovery_path = successor_contract.get("recoveryDecisionPath")
+    successor_summary_recovery_path = successor_summary.get("recoveryDecisionPath")
+    if (
+        not isinstance(successor_contract_recovery_path, str)
+        or successor_contract_recovery_path != successor_summary_recovery_path
+    ):
+        return False
+    if successor_contract_recovery_path != relative_recovery:
+        # The selected successor may keep its original "successor" receipt
+        # after the predecessor later receives an append-only "supersede"
+        # decision. Accept only that exact digest-bound chain, with identical
+        # predecessor/source identity and a current supersede receipt that
+        # explicitly references the original decision and both active records.
+        original = load_digest_named_recovery(successor_contract_recovery_path)
+        if (
+            original is None
+            or set(original) - allowed_fields
+            or not required_fields.issubset(original)
+            or type(original.get("schemaVersion")) is not int
+            or original.get("schemaVersion") != 1
+            or original.get("decisionId") != "work-item-recovery"
+            or original.get("decision") != "successor"
+            or original.get("workItemId") != predecessor
+            or original.get("predecessorWorkItemId") != predecessor
+            or original.get("repositoryId") != repository_id
+            or original.get("successorWorkItemId") != successor
+        ):
             return False
+        for field in (
+            "predecessorContractDigest",
+            "predecessorSummaryDigest",
+            "runtimeDigest",
+        ):
+            if not digest_string(original.get(field)):
+                return False
+        for field in (
+            "predecessorContractDigest",
+            "predecessorSummaryDigest",
+            "predecessorOutcomeDigest",
+            "predecessorEventsDigest",
+            "predecessorFinalizationContractDigest",
+        ):
+            if original.get(field) != recovery.get(field):
+                return False
+        original_manifest_digest = original.get("predecessorArchiveManifestDigest")
+        if original_manifest_digest is not None and (
+            not digest_string(original_manifest_digest)
+            or original_manifest_digest != recovery.get("predecessorArchiveManifestDigest")
+        ):
+            return False
+        original_refs = original.get("evidenceRefs")
+        current_refs = recovery.get("evidenceRefs")
+        required_current_refs = {
+            successor_contract_recovery_path,
+            f".ai/work-items/active/{successor}.contract.json",
+            f".ai/work-items/active/{successor}.summary.json",
+        }
+        if (
+            not isinstance(original_refs, list)
+            or not original_refs
+            or any(not nonempty_string(item) for item in original_refs)
+            or not isinstance(current_refs, list)
+            or not required_current_refs.issubset(set(current_refs))
+        ):
+            return False
+
+    terminal_states = {
+        "archived",
+        "closed",
+        "complete",
+        "completed",
+        "implemented",
+        "recovered",
+        "terminal",
+        "verified_closed",
+    }
+    for record in (successor_contract, successor_summary):
+        for field in ("state", "lifecycleState", "lifecyclePhase", "archiveState", "closeState"):
+            state = record.get(field)
+            if isinstance(state, str) and state.strip().lower().replace("-", "_") in terminal_states:
+                return False
+
     successor_verification_path = repo / ".ai/evidence" / f"{successor}.verification.json"
     if successor_verification_path.exists() or successor_verification_path.is_symlink():
         if not repository_contained_regular_file(repo, successor_verification_path):
@@ -1878,9 +1992,31 @@ def strict_superseded_predecessor_projection_is_valid(
         if (
             successor_verification.get("workItemId") != successor
             or successor_verification.get("repositoryId") != repository_id
-            or successor_verification.get("passed") is not False
+            or type(successor_verification.get("passed")) is not bool
         ):
             return False
+        if successor_verification["passed"] is True:
+            verification_receipt = successor_verification.get("receipt")
+            plan_receipt = (
+                verification_receipt.get("planReceipt")
+                if isinstance(verification_receipt, dict)
+                else None
+            )
+            if (
+                not digest_string(successor_verification.get("contractDigest"))
+                or not digest_string(successor_verification.get("repositorySnapshotDigest"))
+                or not isinstance(verification_receipt, dict)
+                or successor_verification.get("receiptDigest") != _json_digest(verification_receipt)
+                or verification_receipt.get("workItemId") != successor
+                or verification_receipt.get("repositoryId") != repository_id
+                or verification_receipt.get("passed") is not True
+                or not isinstance(plan_receipt, dict)
+                or plan_receipt.get("workItemId") != successor
+                or plan_receipt.get("repositoryId") != repository_id
+                or plan_receipt.get("repositorySnapshotDigest")
+                != successor_verification.get("repositorySnapshotDigest")
+            ):
+                return False
 
     return True
 
@@ -2889,11 +3025,16 @@ def main() -> int:
                         if japanese_parity
                         else (implemented,)
                     )
+                    strict_status_cell = record.get("lifecycleState") in {
+                        "recovered",
+                        "awaiting_successor_close",
+                    }
                     if record.get("lifecycleState") == "recovered":
                         recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
                         localized_recovery = "復旧済み" if japanese_parity else recovery_status
                         status_tokens = (implemented, recovery_status, localized_recovery)
                     elif record.get("recoveredPredecessorProjection") is True:
+                        strict_status_cell = True
                         recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
                         localized_recovery = "復旧済み" if japanese_parity else recovery_status
                         pending_status = (
@@ -2945,7 +3086,20 @@ def main() -> int:
                             if parity_doc.endswith(".zh-CN.md")
                             else ("Retired",)
                         )
-                    if not any(token in line for token in status_tokens):
+                    if strict_status_cell:
+                        status_cell = parity_status_cell(line)
+                        status_matches = bool(
+                            status_cell is not None
+                            and any(
+                                status_cell == token
+                                or status_cell.startswith(f"{token} →")
+                                or status_cell.startswith(f"{token} ->")
+                                for token in status_tokens
+                            )
+                        )
+                    else:
+                        status_matches = any(token in line for token in status_tokens)
+                    if not status_matches:
                         findings.append(finding(work_item, "stale_parity_status", parity_doc))
         inventory.append(record)
 
