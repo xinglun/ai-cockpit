@@ -1,0 +1,78 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "The workflow jq program compares .plan.request.mode with the jq string literal \"close_only\" and emits a valid boolean output.",
+    "The existing tests/release/workflow_policy.sh extracts the actual jq filter from the workflow and executes it against minimal typed-plan fixtures: mode close_only yields true and mode normal_release yields false, with exit status 0 for both.",
+    "bash tests/release/workflow_policy.sh, bash -n tests/release/workflow_policy.sh, and git diff --check pass; no new gate or test file is introduced."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "2e4c7b7af22969ff3b30f764a33affead3df92cc",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-11T08:33:06Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Emit close_only=true for a typed close_only plan and false for normal_release with jq exit status 0 in both cases; extract the filter from the workflow in the existing release_workflow_policy regression and prove those two results.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Correct jq escaping for the close_only output in the release_input_preflight workflow and cover the actual workflow filter in its existing policy regression.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Do not alter other release workflow or gate semantics",
+    "Do not add a gate test file or manifest entry",
+    "Do not change Rust or Runtime product code or historical Work Item records",
+    "Do not run a real release publish create tags or merge"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sources": [
+    "user-delegation:01a11856-d6ba-72e0-9aab-25a34cd2f018"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash -n tests/release/workflow_policy.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-1074-v1-0-1-close-only-jq-filter"
+}

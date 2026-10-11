@@ -1,0 +1,65 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:9979e64196f166f8109854cd9a22adf714fecd7e302928d416eca9363e4200a7",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1074-v1-0-1-close-only-jq-filter",
+    "sequence": 2,
+    "changeId": "wi1074-correct-verification-entrypoint",
+    "requestDigest": "sha256:eb923f4142a8e6ac256000375fd8efbcad71d12084c9ec45c7b70c87aeb5fc44",
+    "reason": "Align the declared regression command with its required workflow-file argument from the existing repository gate, and keep out-of-scope boundaries unambiguous without comma-delimited input parsing.",
+    "changedValues": [
+      {
+        "path": "/verification",
+        "operation": "replace",
+        "oldValue": [
+          "bash tests/release/workflow_policy.sh",
+          "bash -n tests/release/workflow_policy.sh",
+          "git diff --check"
+        ],
+        "newValue": [
+          "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+          "bash -n tests/release/workflow_policy.sh",
+          "git diff --check"
+        ]
+      },
+      {
+        "path": "/outOfScope",
+        "operation": "replace",
+        "oldValue": [
+          "Do not change other release workflow or gate semantics; do not add a gate",
+          " test file",
+          " or manifest entry; do not change Rust/runtime product code or historical Work Item records; do not run a real release",
+          " publish",
+          " create tags",
+          " or merge."
+        ],
+        "newValue": [
+          "Do not alter other release workflow or gate semantics",
+          "Do not add a gate test file or manifest entry",
+          "Do not change Rust or Runtime product code or historical Work Item records",
+          "Do not run a real release publish create tags or merge"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f4e557bf03f041e03ae5bf759c328e264c15deb22cb7a062b711cf16792f1753",
+    "newContractDigest": "sha256:3700cb3941e09610e1ee4e184cc9651aee5198a5932cac82c0fea9c12ec7d66c",
+    "repositorySnapshotDigest": "sha256:18bfd05fe038efeffd5d2f7227c5c2b68f618dda781f80f0f27e1ff4d38943c5",
+    "environmentObservationDigest": "sha256:ac58b6718bdec8a21a4c6f8a92db155ec95804b5b44c7d557bd424a4ce165712",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/outOfScope",
+      "/verification"
+    ],
+    "previousJournalDigest": "sha256:f28f4a85f6e4a4a37e6f35a73fb97c2f0f80887f7775ecab5a9fbb619212186b",
+    "journalDigest": "sha256:3669607ccfe117f54d49efb4956513ab9bee26272c648eb9ed85ae53911973f9",
+    "recordedAt": "2026-10-11T08:36:29Z"
+  }
+}
