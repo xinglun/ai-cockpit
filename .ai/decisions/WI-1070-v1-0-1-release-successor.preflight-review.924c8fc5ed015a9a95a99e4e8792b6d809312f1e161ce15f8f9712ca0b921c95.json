@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7340b70266cc64640a47fbefb438773ab9fa9260fa4e03105921614ddb37da83",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:74ccffa9fb9230f0927dd63dea34f35779fd27dcdb559a4f7e6f5433a0409ec9",
+  "reason": "同意补齐关闭后的三语文档状态",
+  "recordedAt": "2026-10-11T20:46:49Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}
