@@ -1,0 +1,109 @@
+{
+  "sequence": 7,
+  "preparedDigest": "sha256:0af3d9d94a9d75b3c6dcc5019707329037d2c676e6f57e52c3c89d9267699b4c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1070-v1-0-1-release-successor",
+    "sequence": 7,
+    "changeId": "wi1070-add-wi1068-trilingual-lifecycle-projection-20261011",
+    "requestDigest": "sha256:2812909d7bf051ba08a88694795cd766818c030f43f00fbe72a2431673c690b4",
+    "reason": "The authorized successor's Contract includes the three parity ledgers but omits the three WI-1068 reader-facing lifecycle pages that must project the existing supersede and close records. Add only those exact page paths so the current lifecycle projection can be corrected under WI-1070. Preserve all WI-1068 archived Contract, Summary, Outcome, event, verification, decision, and archive bytes; keep every unfinished release acceptance unverified and do not change acceptance criteria, authority, verification, or publication permissions.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs"
+        ],
+        "newValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md"
+        ],
+        "newValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md"
+        ],
+        "newValue": [
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
+          "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
+          "crates/cockpit-cli/tests/cognitive_benefit.rs",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b92b2eecb57e68f7943b54f67bca249158d31c55824146c47827cb8ea43f2657",
+    "newContractDigest": "sha256:7340b70266cc64640a47fbefb438773ab9fa9260fa4e03105921614ddb37da83",
+    "repositorySnapshotDigest": "sha256:9dc20fd2760fefe642f890736b52dfa191972053f05f25d27ebbb2dadcb9fda2",
+    "environmentObservationDigest": "sha256:e94dfd6aa38a7e2b11b97c9bf5265b3acd7d2f6dd835a69ee1d9e8ef47f3620b",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1070-v1-0-1-release-successor.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:fd4d922d94aef3d15760b3c93766fcfc5069ef0b744f2bca56c767ee5bda56e6",
+    "journalDigest": "sha256:32279057a68a69cff0d6302a9d14ea8de211e1e4234d10e031d945d79886ffec",
+    "recordedAt": "2026-10-11T13:39:56Z"
+  }
+}

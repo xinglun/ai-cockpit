@@ -173,7 +173,10 @@
     "docs/work-items/WI-1070-v1-0-1-release-successor.md",
     "docs/work-items/WI-1070-v1-0-1-release-successor.zh-CN.md",
     "docs/work-items/WI-1070-v1-0-1-release-successor.ja.md",
-    "crates/cockpit-cli/tests/cognitive_benefit.rs"
+    "crates/cockpit-cli/tests/cognitive_benefit.rs",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+    "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
   ],
   "sources": [
     "Human approval Sentinel_0cf0706d33b08191a5627396d02aeec3 at 2026-10-10T07:20:00Z: approved WI-1070-v1-0-1-release-successor for remaining release acceptance, the reviewed three-row parity repair, and necessary trilingual documentation.",
