@@ -1,15 +1,6 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1073-v1-0-1-release-retry-artifact-guard.preflight-review.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.committed.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000001.prepared.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.committed.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000002.prepared.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.committed.json",
-    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.contract-amendments/00000003.prepared.json",
-    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.approach.json",
-    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.contract.json",
-    ".ai/work-items/active/WI-1073-v1-0-1-release-retry-artifact-guard.summary.json"
+    ".ai/evidence/WI-1073-v1-0-1-release-retry-artifact-guard.verification-attempt.e2774780e9644a1092b9c5f78da41ea86f76633c42c563c30cee0ffe867ad69a.json"
   ],
   "checkpointAt": "2026-10-11T06:02:08Z",
   "checkpointContractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
@@ -104,7 +95,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-11T06:50:11Z",
+  "preflightAt": "2026-10-11T07:00:43Z",
   "preflightContractDigest": "sha256:18ad897ed1f53f6192d4a4a4d532cfa95d789c3f5b02664c8be45580e6758510",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:4304e550e6a5d6240858692e51aca5dd05b6df51bd8392154f13bdc88d50e1d8",
