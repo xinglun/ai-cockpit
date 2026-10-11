@@ -7,7 +7,7 @@
   ],
   "createdAt": "2026-10-10T22:09:28.461440886Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:a72592d44c1688e74b08b15a690d0949be081be811a6f9170e190609ae131890",
+  "evidenceDigest": "sha256:c2e98b32721cfc466b6ad407e24ee4c3a578acaf4c4c14aa05b9ce32148dab2c",
   "evidenceRefs": [
     ".ai/evidence/WI-1071-v1-0-1-release-source-quality-binding.verification.json"
   ],
@@ -44,10 +44,10 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
+            ".ai/work-items/archive/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1071-v1-0-1-release-source-quality-binding.summary.json"
         }
       ],
       "evidence": [
@@ -103,7 +103,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
+            ".ai/work-items/archive/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
           ],
           "inference": false,
           "text": "Ensure source-quality gates run against the exact planned source checkout and the normal release manifest commits to the annotated tag source, while the workflow execution head remains separately validated."
@@ -112,7 +112,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
+            ".ai/work-items/archive/WI-1071-v1-0-1-release-source-quality-binding.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
