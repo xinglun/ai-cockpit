@@ -297,6 +297,63 @@ fetch_pages() {
   jq -s '[.[].items[]]' "$destination" > "${destination}.items.json"
 }
 
+extract_artifact_zip() {
+  local archive=$1 destination=$2
+  python3 - "$archive" "$destination" <<'PY'
+import os
+import shutil
+import stat
+import sys
+import zipfile
+from pathlib import PurePosixPath
+
+archive_path, destination = sys.argv[1:]
+root = os.path.realpath(destination)
+os.makedirs(root, mode=0o700, exist_ok=True)
+
+with zipfile.ZipFile(archive_path) as source:
+    members = source.infolist()
+    names = set()
+    for member in members:
+        name = member.filename
+        path = PurePosixPath(name.rstrip("/"))
+        if (
+            not name
+            or "\x00" in name
+            or "\\" in name
+            or path.is_absolute()
+            or not path.parts
+            or any(part in {"", ".", ".."} for part in path.parts)
+            or (len(path.parts[0]) >= 2 and path.parts[0][1] == ":")
+        ):
+            raise SystemExit("unsafe artifact archive path")
+        normalized = path.as_posix()
+        if normalized in names:
+            raise SystemExit("duplicate artifact archive path")
+        names.add(normalized)
+        mode = (member.external_attr >> 16) & 0o170000
+        if mode == stat.S_IFLNK or mode not in {0, stat.S_IFREG, stat.S_IFDIR}:
+            raise SystemExit("unsupported artifact archive file type")
+        resolved = os.path.realpath(os.path.join(root, *path.parts))
+        if os.path.commonpath((root, resolved)) != root:
+            raise SystemExit("artifact archive path escapes its destination")
+
+    for member in members:
+        path = PurePosixPath(member.filename.rstrip("/"))
+        target = os.path.join(root, *path.parts)
+        if member.is_dir():
+            os.makedirs(target, mode=0o700, exist_ok=True)
+            continue
+        os.makedirs(os.path.dirname(target), mode=0o700, exist_ok=True)
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        if hasattr(os, "O_NOFOLLOW"):
+            flags |= os.O_NOFOLLOW
+        descriptor = os.open(target, flags, 0o600)
+        with os.fdopen(descriptor, "wb") as output, source.open(member) as input_file:
+            shutil.copyfileobj(input_file, output)
+PY
+}
+
 validate_downloaded_artifact() {
   local stage=$1 root=$2 previous_attempt=$3 binding="$2/phase-binding.json"
   validate_sums "$root" || fail 'artifact checksum set is missing, unsafe, incomplete, or invalid'
@@ -391,8 +448,21 @@ restore() {
     local jobs="$(jq -c --arg stage "$stage" '[.[] | select(.name == $stage)]' "$jobs_items")" || fail 'exact attempt job list could not be parsed'
     count="$(jq -er 'length' <<<"$jobs")" || fail 'exact attempt job count could not be read'
     if (( count == 0 )); then
-      : # The exact prior attempt confirms that this stage never ran.
+      fail 'exact prior attempt has no stage job record; cannot establish that the stage was skipped'
     elif (( count == 1 )); then
+      # The attempt number is bound by jobs_endpoint. GitHub's job response
+      # schema exposes run_id/head_sha but not run_attempt; validate the exact
+      # fields the endpoint returns and check run_attempt if it is ever present.
+      jq -e \
+        --arg runId "$GITHUB_RUN_ID" \
+        --arg attempt "$previous_attempt" \
+        --arg head "$GITHUB_SHA" \
+        'length == 1
+         and (.[0].id | type == "number" and . > 0)
+         and (.[0].run_id | type == "number" and . == ($runId|tonumber))
+         and .[0].head_sha == $head
+         and ((.[0] | has("run_attempt") | not) or .[0].run_attempt == ($attempt|tonumber))' \
+        <<<"$jobs" >/dev/null || fail 'exact prior-attempt stage job identity is missing or mismatched'
       jq -e '.[0].status == "completed" and .[0].conclusion == "skipped" and .[0].steps == []' <<<"$jobs" >/dev/null || \
         fail 'exact prior-attempt stage ran, was not conclusively skipped, or has step evidence; artifact is missing'
     else
@@ -405,6 +475,9 @@ restore() {
     return 0
   fi
   (( count == 1 )) || fail 'more than one artifact matches the exact prior-attempt name'
+  local artifact_id
+  artifact_id="$(jq -er '.[0].id | select(type == "number" and . > 0 and floor == .) | tostring | select(test("^[1-9][0-9]*$"))' <<<"$matched")" || \
+    fail 'exact prior-attempt artifact has no valid numeric ID'
   jq -e \
     --arg runId "$GITHUB_RUN_ID" \
     --arg head "$GITHUB_SHA" \
@@ -413,10 +486,15 @@ restore() {
      and (.[0].size_in_bytes | type == "number" and . > 0)
      and .[0].workflow_run.id == ($runId|tonumber)
      and .[0].workflow_run.head_sha == $head' <<<"$matched" >/dev/null || fail 'exact artifact is expired or belongs to a different workflow run/head'
-  if ! gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$name" --dir "$scratch/download"; then
-    fail 'exact prior-attempt artifact download failed'
+  if ! gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact_id/zip" > "$scratch/artifact.zip"; then
+    fail 'exact prior-attempt artifact download by ID failed'
   fi
-  [[ -d "$scratch/download" && ! -L "$scratch/download" ]] || fail 'artifact download did not produce a regular directory'
+  [[ -f "$scratch/artifact.zip" && ! -L "$scratch/artifact.zip" && -s "$scratch/artifact.zip" ]] || fail 'artifact download by ID did not produce a regular archive'
+  mkdir -m 700 "$scratch/download"
+  if ! extract_artifact_zip "$scratch/artifact.zip" "$scratch/download"; then
+    fail 'exact prior-attempt artifact archive is invalid or unsafe to extract'
+  fi
+  [[ -d "$scratch/download" && ! -L "$scratch/download" ]] || fail 'artifact archive extraction did not produce a regular directory'
   validate_downloaded_artifact "$stage" "$scratch/download" "$previous_attempt"
   cp -a "$scratch/download/." "$output/" || fail 'verified artifact could not be restored'
   printf 'resume=true\n' >> "$GITHUB_OUTPUT"

@@ -5,11 +5,21 @@ repo="$(git rev-parse --show-toplevel)"
 helper="$repo/.github/scripts/restore_release_attempt_artifact.sh"
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-release-attempt-restore.XXXXXX")"
 trap 'rm -rf "$tmp"' EXIT
+export RUNNER_TEMP="$tmp/runner-temp"
+mkdir -p "$RUNNER_TEMP"
 
 fail() { printf 'restore regression failure: %s\n' "$*" >&2; exit 1; }
 expect_restore_failure() {
   local label=$1
   if restore >/dev/null 2>&1; then fail "$label unexpectedly passed"; fi
+}
+expect_restore_failure_reason() {
+  local label=$1 reason=$2 log="$tmp/restore-failure.log"
+  if restore >"$log" 2>&1; then fail "$label unexpectedly passed"; fi
+  grep -Fq "$reason" "$log" || {
+    cat "$log" >&2
+    fail "$label failed for a different reason than: $reason"
+  }
 }
 sha() { sha256sum "$1" | awk '{print $1}'; }
 
@@ -47,13 +57,27 @@ set -euo pipefail
 case "${1:-}" in
   api)
     endpoint=''
-    for argument in "$@"; do [[ "$argument" == repos/* ]] && endpoint=$argument; done
-    [[ " $* " == *" --paginate "* ]] || exit 70
+    while (($#)); do
+      case "$1" in
+        repos/*) endpoint=$1; shift ;;
+        *) shift ;;
+      esac
+    done
+    if [[ "$endpoint" == repos/$GITHUB_REPOSITORY/actions/artifacts/*/zip ]]; then
+      [[ "$endpoint" == "repos/$GITHUB_REPOSITORY/actions/artifacts/$GH_EXPECTED_ARTIFACT_ID/zip" ]] || exit 76
+      [[ "${GH_FAIL:-}" != download ]] || exit 75
+      cat "$GH_FIXTURE/artifact.zip"
+      exit 0
+    fi
+    [[ -n "$endpoint" ]] || exit 70
     if [[ "${GH_FAIL:-}" == jobs && "$endpoint" == */jobs\?* ]]; then exit 71; fi
     if [[ "${GH_FAIL:-}" == artifacts && "$endpoint" == */artifacts\?* ]]; then exit 72; fi
     if [[ "$endpoint" == */jobs\?* ]]; then
+      expected="repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/attempts/$((GITHUB_RUN_ATTEMPT - 1))/jobs?per_page=100"
+      [[ "$endpoint" == "$expected" ]] || exit 78
       if [[ "${GH_MULTI_PAGE:-}" == 1 ]]; then
         jq -c '{total_count,items:(.jobs[0:1])}' "$GH_FIXTURE/jobs.json"
+        [[ "${GH_FAIL:-}" != jobs-page2 ]] || exit 71
         jq -c '{total_count,items:(.jobs[1:])}' "$GH_FIXTURE/jobs.json"
       else
         jq -c '{total_count,items:.jobs}' "$GH_FIXTURE/jobs.json"
@@ -63,6 +87,7 @@ case "${1:-}" in
     if [[ "$endpoint" == */artifacts\?* ]]; then
       if [[ "${GH_MULTI_PAGE:-}" == 1 ]]; then
         jq -c '{total_count,items:(.artifacts[0:1])}' "$GH_FIXTURE/artifacts.json"
+        [[ "${GH_FAIL:-}" != artifacts-page2 ]] || exit 72
         jq -c '{total_count,items:(.artifacts[1:])}' "$GH_FIXTURE/artifacts.json"
       else
         jq -c '{total_count,items:.artifacts}' "$GH_FIXTURE/artifacts.json"
@@ -71,21 +96,7 @@ case "${1:-}" in
     fi
     exit 73
     ;;
-  run)
-    [[ "${2:-}" == download ]] || exit 74
-    name=''; destination=''
-    while (($#)); do
-      case "$1" in
-        --name) name=$2; shift 2 ;;
-        --dir) destination=$2; shift 2 ;;
-        *) shift ;;
-      esac
-    done
-    [[ "${GH_FAIL:-}" != download ]] || exit 75
-    [[ "$name" == "${GH_EXPECTED_ARTIFACT:-}" ]] || exit 76
-    mkdir -p "$destination"
-    cp -a "$GH_FIXTURE/artifact/." "$destination/"
-    ;;
+  run) exit 74 ;;
   *) exit 77 ;;
 esac
 GH
@@ -106,13 +117,42 @@ export COCKPIT_RELEASE_BIN="$tmp/bin/cockpit-release"
 
 write_jobs_skipped() {
   local stage=$1
-  jq -n --arg stage "$stage" '{total_count:1,jobs:[{name:$stage,status:"completed",conclusion:"skipped",steps:[]}]}' > "$GH_FIXTURE/jobs.json"
+  jq -n --arg stage "$stage" --arg runId "$GITHUB_RUN_ID" --arg head "$GITHUB_SHA" \
+    '{total_count:1,jobs:[{id:501,run_id:($runId|tonumber),head_sha:$head,name:$stage,status:"completed",conclusion:"skipped",steps:[]}]}' \
+    > "$GH_FIXTURE/jobs.json"
 }
 write_jobs_executed() {
   local stage=$1
-  jq -n --arg stage "$stage" '{total_count:1,jobs:[{name:$stage,status:"completed",conclusion:"failure",steps:[{name:"Run acceptance",status:"completed",conclusion:"failure"}]}]}' > "$GH_FIXTURE/jobs.json"
+  jq -n --arg stage "$stage" --arg runId "$GITHUB_RUN_ID" --arg head "$GITHUB_SHA" \
+    '{total_count:1,jobs:[{id:501,run_id:($runId|tonumber),head_sha:$head,name:$stage,status:"completed",conclusion:"failure",steps:[{name:"Run acceptance",status:"completed",conclusion:"failure"}]}]}' \
+    > "$GH_FIXTURE/jobs.json"
+}
+write_jobs_page2_skipped() {
+  local stage=$1
+  jq -n --arg stage "$stage" --arg runId "$GITHUB_RUN_ID" --arg head "$GITHUB_SHA" \
+    '{total_count:2,jobs:[{id:499,run_id:($runId|tonumber),head_sha:$head,name:"unrelated job",status:"completed",conclusion:"success",steps:[]},{id:501,run_id:($runId|tonumber),head_sha:$head,name:$stage,status:"completed",conclusion:"skipped",steps:[]}]}' \
+    > "$GH_FIXTURE/jobs.json"
+}
+write_jobs_duplicates_on_page2() {
+  local stage=$1
+  jq -n --arg stage "$stage" --arg runId "$GITHUB_RUN_ID" --arg head "$GITHUB_SHA" \
+    '{total_count:3,jobs:[{id:499,run_id:($runId|tonumber),head_sha:$head,name:"unrelated job",status:"completed",conclusion:"success",steps:[]},{id:501,run_id:($runId|tonumber),head_sha:$head,name:$stage,status:"completed",conclusion:"skipped",steps:[]},{id:502,run_id:($runId|tonumber),head_sha:$head,name:$stage,status:"completed",conclusion:"skipped",steps:[]}]}' \
+    > "$GH_FIXTURE/jobs.json"
 }
 write_no_artifacts() { printf '{"total_count":0,"artifacts":[]}\n' > "$GH_FIXTURE/artifacts.json"; }
+write_artifact_zip() {
+  python3 - "$GH_FIXTURE/artifact" "$GH_FIXTURE/artifact.zip" <<'PY'
+import pathlib
+import sys
+import zipfile
+
+root = pathlib.Path(sys.argv[1])
+with zipfile.ZipFile(sys.argv[2], "w", compression=zipfile.ZIP_DEFLATED) as archive:
+    for path in sorted(root.rglob("*")):
+        if path.is_file():
+            archive.write(path, path.relative_to(root).as_posix())
+PY
+}
 
 stage=''
 output=''
@@ -151,6 +191,7 @@ seal_artifact() {
     > "$target/phase-receipts.json"
   printf '{"adopterAcceptance":"failed"}\n' > "$target/acceptance.json"
   "$helper" seal --stage "$stage" --output "$target"
+  write_artifact_zip
 }
 write_valid_artifact() {
   local name
@@ -166,8 +207,9 @@ write_valid_artifact() {
   GITHUB_RUN_ATTEMPT=1
   seal_artifact "$GH_FIXTURE/artifact"
   GITHUB_RUN_ATTEMPT=$current_attempt
+  export GH_EXPECTED_ARTIFACT_ID=44
   jq -n --arg name "$name" --arg head "$GITHUB_SHA" \
-    '{total_count:1,artifacts:[{id:44,name:$name,expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}}]}' \
+    '{total_count:2,artifacts:[{id:43,name:"unrelated-artifact",expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}},{id:44,name:$name,expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}}]}' \
     > "$GH_FIXTURE/artifacts.json"
   printf '{"total_count":0,"jobs":[]}\n' > "$GH_FIXTURE/jobs.json"
 }
@@ -176,20 +218,98 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   if [[ "$stage" == staged_adopter_upgrade_acceptance ]]; then export FROM_TAG=v1.0.0; else unset FROM_TAG; fi
   output="$tmp/output-$stage"
   rm -rf "$output"
-  write_jobs_skipped "$stage"
+  write_jobs_page2_skipped "$stage"
   write_no_artifacts
   unset GH_FAIL || true
+  export GH_MULTI_PAGE=1
   GITHUB_OUTPUT="$tmp/fresh-output"
   : > "$GITHUB_OUTPUT"
   restore >/dev/null
+  unset GH_MULTI_PAGE
   grep -Fxq 'resume=false' "$GITHUB_OUTPUT" || fail "$stage did not select a fresh run after an exact skipped/no-artifact attempt"
 
   printf '{"total_count":0,"jobs":[]}\n' > "$GH_FIXTURE/jobs.json"
   output="$tmp/never-ran-$stage"
   GITHUB_OUTPUT="$tmp/never-ran-output"
   : > "$GITHUB_OUTPUT"
-  restore >/dev/null
-  grep -Fxq 'resume=false' "$GITHUB_OUTPUT" || fail "$stage never-run/no-artifact attempt was not allowed to start fresh"
+  expect_restore_failure_reason "$stage empty exact-attempt job list" 'no stage job record; cannot establish that the stage was skipped'
+
+  write_jobs_page2_skipped "$stage"
+  jq '.jobs = .jobs[0:1] | .total_count = 1' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/missing-stage-job-$stage"
+  GITHUB_OUTPUT="$tmp/missing-stage-job-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage missing stage job among other jobs" 'no stage job record; cannot establish that the stage was skipped'
+
+  write_jobs_skipped "$stage"
+  jq 'del(.jobs[0].run_id)' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/missing-run-id-$stage"
+  GITHUB_OUTPUT="$tmp/missing-run-id-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage missing job run_id" 'stage job identity is missing or mismatched'
+
+  write_jobs_skipped "$stage"
+  jq '.jobs[0].run_id = 174' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/mismatched-run-id-$stage"
+  GITHUB_OUTPUT="$tmp/mismatched-run-id-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage mismatched job run_id" 'stage job identity is missing or mismatched'
+
+  write_jobs_skipped "$stage"
+  jq 'del(.jobs[0].head_sha)' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/missing-head-$stage"
+  GITHUB_OUTPUT="$tmp/missing-head-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage missing job head_sha" 'stage job identity is missing or mismatched'
+
+  write_jobs_skipped "$stage"
+  jq '.jobs[0].head_sha = "ffffffffffffffffffffffffffffffffffffffff"' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/mismatched-head-$stage"
+  GITHUB_OUTPUT="$tmp/mismatched-head-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage mismatched job head_sha" 'stage job identity is missing or mismatched'
+
+  write_jobs_skipped "$stage"
+  # The attempt number is carried by the exact attempt-specific API endpoint.
+  # If GitHub ever includes run_attempt in a job object, a contradiction fails closed.
+  jq '.jobs[0].run_attempt = 2' "$GH_FIXTURE/jobs.json" > "$GH_FIXTURE/jobs.tmp"
+  mv "$GH_FIXTURE/jobs.tmp" "$GH_FIXTURE/jobs.json"
+  output="$tmp/mismatched-run-attempt-$stage"
+  GITHUB_OUTPUT="$tmp/mismatched-run-attempt-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage mismatched optional job run_attempt" 'stage job identity is missing or mismatched'
+
+  write_jobs_duplicates_on_page2 "$stage"
+  write_no_artifacts
+  export GH_MULTI_PAGE=1
+  output="$tmp/duplicate-jobs-$stage"
+  GITHUB_OUTPUT="$tmp/duplicate-jobs-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage duplicate stage jobs on page 2" 'duplicate stage jobs'
+  unset GH_MULTI_PAGE
+
+  write_jobs_page2_skipped "$stage"
+  write_no_artifacts
+  export GH_MULTI_PAGE=1 GH_FAIL=jobs-page2
+  output="$tmp/jobs-page2-failed-$stage"
+  GITHUB_OUTPUT="$tmp/jobs-page2-failed-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage jobs page 2 API failure" 'exact prior-attempt jobs API query failed or returned incomplete pagination'
+  unset GH_MULTI_PAGE GH_FAIL
+
+  write_jobs_skipped "$stage"
+  write_no_artifacts
+  export GH_MULTI_PAGE=1 GH_FAIL=artifacts-page2
+  output="$tmp/artifacts-page2-failed-$stage"
+  GITHUB_OUTPUT="$tmp/artifacts-page2-failed-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage artifacts page 2 API failure" 'prior-run artifact API query failed or returned incomplete pagination'
+  unset GH_MULTI_PAGE GH_FAIL
 
   write_valid_artifact
   output="$tmp/resumed-$stage"
@@ -201,6 +321,20 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   unset GH_MULTI_PAGE
   grep -Fxq 'resume=true' "$GITHUB_OUTPUT" || fail "$stage did not resume a valid exact artifact"
   [[ -f "$output/phase-receipts.json" ]] || fail "$stage valid receipt was not restored"
+
+  write_valid_artifact
+  python3 - "$GH_FIXTURE/artifact.zip" <<'PY'
+import sys
+import zipfile
+
+with zipfile.ZipFile(sys.argv[1], "w", compression=zipfile.ZIP_DEFLATED) as archive:
+    archive.writestr("../escaped", b"must not leave the extraction root")
+PY
+  output="$tmp/unsafe-archive-$stage"
+  GITHUB_OUTPUT="$tmp/unsafe-archive-output"
+  : > "$GITHUB_OUTPUT"
+  expect_restore_failure_reason "$stage unsafe artifact archive path" 'artifact archive is invalid or unsafe to extract'
+  [[ ! -e "$RUNNER_TEMP/escaped" ]] || fail "$stage extracted an archive path outside its temporary root"
 
   # A later skipped attempt cannot establish that earlier attempts had no
   # receipt, so absence must fail closed after attempt 2.
@@ -225,32 +359,33 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   output="$tmp/expired-$stage"
   GITHUB_OUTPUT="$tmp/expired-output"
   : > "$GITHUB_OUTPUT"
-  jq '.artifacts[0].expired = true' "$GH_FIXTURE/artifacts.json" > "$GH_FIXTURE/artifacts.tmp"
+  jq '.artifacts[1].expired = true' "$GH_FIXTURE/artifacts.json" > "$GH_FIXTURE/artifacts.tmp"
   mv "$GH_FIXTURE/artifacts.tmp" "$GH_FIXTURE/artifacts.json"
   expect_restore_failure "$stage expired artifact"
 
   write_valid_artifact
-  jq '.artifacts += [.artifacts[0]]' "$GH_FIXTURE/artifacts.json" > "$GH_FIXTURE/artifacts.tmp"
+  jq '.artifacts += [.artifacts[1]] | .total_count = (.artifacts | length)' "$GH_FIXTURE/artifacts.json" > "$GH_FIXTURE/artifacts.tmp"
   mv "$GH_FIXTURE/artifacts.tmp" "$GH_FIXTURE/artifacts.json"
+  export GH_MULTI_PAGE=1
   output="$tmp/duplicate-$stage"
   GITHUB_OUTPUT="$tmp/duplicate-output"
   : > "$GITHUB_OUTPUT"
-  expect_restore_failure "$stage duplicate exact artifacts"
+  expect_restore_failure_reason "$stage duplicate exact artifacts across pages" 'more than one artifact matches the exact prior-attempt name'
+  unset GH_MULTI_PAGE
 
-  write_valid_artifact
-  # Re-seal against a different plan to make a checksum-valid but misbound artifact.
   RELEASE_PLAN_DIGEST=sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-  seal_artifact "$GH_FIXTURE/artifact"
+  write_valid_artifact
   RELEASE_PLAN_DIGEST=sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   output="$tmp/wrong-plan-$stage"
   GITHUB_OUTPUT="$tmp/wrong-plan-output"
   : > "$GITHUB_OUTPUT"
-  expect_restore_failure "$stage plan mismatch"
+  expect_restore_failure_reason "$stage plan mismatch" 'artifact phase binding does not match this run, stage, workflow head, plan, source, or prior attempt'
 
   write_valid_artifact
   cache_archive_path="$GH_FIXTURE/artifact/.resume-cache/$archive"
   [[ "$stage" != staged_adopter_upgrade_acceptance ]] || cache_archive_path="$GH_FIXTURE/artifact/.resume-cache/to-$archive"
   printf 'tampered cache\n' >> "$cache_archive_path"
+  write_artifact_zip
   output="$tmp/tampered-cache-$stage"
   GITHUB_OUTPUT="$tmp/tampered-cache-output"
   : > "$GITHUB_OUTPUT"
@@ -261,7 +396,7 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   GITHUB_OUTPUT="$tmp/download-failed-output"
   : > "$GITHUB_OUTPUT"
   export GH_FAIL=download
-  expect_restore_failure "$stage artifact download failure"
+  expect_restore_failure_reason "$stage artifact download failure" 'exact prior-attempt artifact download by ID failed'
   unset GH_FAIL
 
   output="$tmp/api-failed-$stage"
@@ -284,15 +419,18 @@ for stage in staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
     "$helper" seal --stage "$stage" --output "$output" >/dev/null
     GITHUB_RUN_ATTEMPT=$local_attempt
     cp -a "$output/." "$GH_FIXTURE/artifact/"
+    write_artifact_zip
     write_jobs_skipped "$stage"
     jq -n --arg name "$GH_EXPECTED_ARTIFACT" --arg head "$GITHUB_SHA" \
-      '{total_count:1,artifacts:[{id:44,name:$name,expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}}]}' \
+      '{total_count:2,artifacts:[{id:43,name:"unrelated-artifact",expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}},{id:44,name:$name,expired:false,size_in_bytes:128,workflow_run:{id:173,head_sha:$head}}]}' \
       > "$GH_FIXTURE/artifacts.json"
     output="$tmp/not-applicable-restored"
     rm -rf "$output"
     GITHUB_OUTPUT="$tmp/not-applicable-resume-output"
     : > "$GITHUB_OUTPUT"
+    export GH_MULTI_PAGE=1
     restore >/dev/null
+    unset GH_MULTI_PAGE
     grep -Fxq 'resume=true' "$GITHUB_OUTPUT" || fail 'N-1 not-applicable evidence did not restore on a valid rerun'
     jq -e '.adopterAcceptance == "not_applicable"' "$output/acceptance.json" >/dev/null || fail 'N-1 not-applicable receipt was not restored'
   fi
