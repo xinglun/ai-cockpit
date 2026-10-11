@@ -1,0 +1,133 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-11T02:26:00Z",
+  "checkpointContractDigest": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "recorded": true,
+      "recordedAt": "2026-10-11T02:26:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a985322ac9824fb9cd86a308eff9f5c0155bd7dbbda15e89b28965fe6ae47186",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "previousContractHash": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "reason": "Map the hosted composition requirement to the supported verification receipt evidence class while preserving the hosted result as a required unverified test scenario until the workflow produces real evidence. Correct the branch trigger to the exact Work Item branch so the authorized push starts the diagnostic. This follows the approved source, scope, and stage plan and avoids claiming an unrun hosted result.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T02:31:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e45aaa78a730c47a194cc0e30c836aeaeea1ce77aa25428bd7bc4af1a7b0ac59",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "previousContractHash": "sha256:a985322ac9824fb9cd86a308eff9f5c0155bd7dbbda15e89b28965fe6ae47186",
+      "reason": "Correct the Contract scope representation to the two exact repository-relative paths approved by Ray: the dedicated composition diagnostic workflow and the composition integration test file. Preserve every acceptance criterion and out-of-scope boundary; this is a path-format correction, not an expansion of intent, authority, behavior, or verification requirements.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T02:50:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a79fd5d12798db25ddae77caed3e331f1a564246ee1445189f849d5106aed4a1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "previousContractHash": "sha256:e45aaa78a730c47a194cc0e30c836aeaeea1ce77aa25428bd7bc4af1a7b0ac59",
+      "reason": "Ray directed a single bounded workflow-only diagnostic after review found the exact WI-1068 archived-scope overlap was composition.rs. Narrow the scope to the dedicated workflow; remove any test-source patching; describe unmodified exact-source test execution and external attempt-state observation as best-effort because TempDir cleanup can win the race; retain required scenario evidence as unverified and make no claim of guaranteed capture or root-cause identification. This is not a change to WI-1070 or release lineage.",
+      "recorded": true,
+      "recordedAt": "2026-10-11T03:02:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0eeeee066e4a0a24b92556128c1144c38211c48281b1c8e1aad20ed5da586bc3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+  "createdAt": "2026-10-11T02:25:59Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+    "reason": "Ray explicitly replied \"confirm review\" at 2026-10-11 03:07:42 UTC in the provided transcript after being shown the workflow-only scope and Contract sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29. This confirms only this bounded review: run the original unmodified a1db composition target through the repository process-observer runner at most three times, stop on first failure, capture logs/results, and make best-effort read-only copies of live state that may be lost to TempDir cleanup. It does not claim verification success or authorize merge, tags, Release, publication, or close.",
+    "recordedAt": "2026-10-11T03:09:06Z",
+    "recordedBy": "Ray (human user; explicit confirmation in the provided transcript; Runtime does not independently authenticate identity)",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:0eeeee066e4a0a24b92556128c1144c38211c48281b1c8e1aad20ed5da586bc3",
+    "schemaVersion": 1,
+    "workItemId": "WI-1073-composition-hosted-diagnostic"
+  },
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-11T02:25:59.509005636Z",
+      "recordedAt": "2026-10-11T02:25:59.509005636Z",
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-11T03:03:01Z",
+  "preflightContractDigest": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "preflightRepositorySnapshotDigest": "sha256:0eeeee066e4a0a24b92556128c1144c38211c48281b1c8e1aad20ed5da586bc3",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The hosted composition target runs against exact product source a1db with diagnostic-only test instrumentation, preserves real failure state and logs, and stops after the first failure; a failing attempt identifies a concrete observer/test branch, while three passing attempts establish only non-reproduction.",
+      "required": true,
+      "scenario": "hosted_composition_diagnostic",
+      "status": "unverified",
+      "verificationPlan": "Push the exact diagnostic branch to trigger the dedicated ubuntu-24.04 workflow. Verify exact a1db and pinned test-patch SHA before execution, run the complete composition target through the process-observer runner up to three times, stop on the first failure, and inspect the always-uploaded attempt/state/log artifacts."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-10-11T03:09:17.835380445+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-11T03:02:54Z"
+  },
+  "workItemId": "WI-1073-composition-hosted-diagnostic"
+}

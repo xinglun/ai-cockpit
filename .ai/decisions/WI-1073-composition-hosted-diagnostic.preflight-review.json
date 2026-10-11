@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a985322ac9824fb9cd86a308eff9f5c0155bd7dbbda15e89b28965fe6ae47186",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "reason": "Ray explicitly replied \"confirm review\" at 2026-10-11 02:38:26 UTC in the supplied transcript, confirming review of this exact WI-1073 Contract and its bounded diagnostic scope. This authorizes continuing under the confirmed Contract: test-only diagnostics, exact a1db source with hash-pinned test patch, at most three hosted attempts, first failure stops the run, and logs and attempt/state artifacts are preserved. It does not assert verification success or authorize merge, tags, Release, publication, or close.",
+  "recordedAt": "2026-10-11T02:39:21Z",
+  "recordedBy": "Human user Ray (explicit confirmation in the supplied transcript; Runtime does not independently authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+  "schemaVersion": 1,
+  "workItemId": "WI-1073-composition-hosted-diagnostic"
+}

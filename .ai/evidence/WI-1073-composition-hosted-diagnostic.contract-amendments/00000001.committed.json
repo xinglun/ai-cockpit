@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:52ddc97a6c19d2e990db242360a2e86afce39755011f4f7dae407dfb84ce1409",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-composition-hosted-diagnostic",
+    "sequence": 1,
+    "changeId": "legacy-e0e03936a1c61a94856994d907b25c036ddab8cf6080d263f3d1159169c9b64e",
+    "requestDigest": "sha256:1fef6322b499bf519853de78bbb0afcc68222d99f8c2ec0ee59c0538c1e75ffa",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:e0e03936a1c61a94856994d907b25c036ddab8cf6080d263f3d1159169c9b64e",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "hosted-release-failure:38102386335/source_quality/workspace_package_tests"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "hosted-release-failure:38102386335/source_quality/workspace_package_tests"
+        ],
+        "newValue": [
+          "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+          "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a1ad20c8fb4a46a0a66d4e2e99cab83efff347700b88845c88c55650490086d7",
+    "newContractDigest": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+    "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+    "environmentObservationDigest": "sha256:59c25758496f5bbc0cab516297e8aadc338c209befd1a9f70dcbf533b7ab5b69",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:48d06d69f9765d62c32cc58d9846695420da7ba286fc491f1d7489573a8d79de",
+    "recordedAt": "2026-10-11T02:25:59Z"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:3d820913ce0599dd02e3aae950b588606c7b5547cfdae6758cda458befed71d8",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-composition-hosted-diagnostic",
+    "sequence": 3,
+    "changeId": "wi1073-exact-two-path-scope-20261011",
+    "requestDigest": "sha256:102c110933de761092d0bc5f677cb44c7cfb4e6542170d52a4ded14ada220873",
+    "reason": "Correct the Contract scope representation to the two exact repository-relative paths approved by Ray: the dedicated composition diagnostic workflow and the composition integration test file. Preserve every acceptance criterion and out-of-scope boundary; this is a path-format correction, not an expansion of intent, authority, behavior, or verification requirements.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "replace",
+        "oldValue": [
+          "The Work Item branch is based on synchronized default main da0fe894da1b44494ff36487c729366a6f2cb082.",
+          "Modify crates/cockpit-verification/tests/composition.rs only to emit actual attempt data and preserve failing fixture state without changing assertions, locks, or process-observer behavior.",
+          "Add .github/workflows/composition-diagnostic.yml only; trigger pushes to the exact branch codex/wi1073-composition-hosted-diagnostic with contents:read and run on ubuntu-24.04.",
+          "The workflow checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 and applies only a test-file patch whose digest is pinned and validated.",
+          "Run the complete cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times and stop after the first failure; always upload logs and real attempt/state artifacts."
+        ],
+        "newValue": [
+          ".github/workflows/composition-diagnostic.yml",
+          "crates/cockpit-verification/tests/composition.rs"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:a985322ac9824fb9cd86a308eff9f5c0155bd7dbbda15e89b28965fe6ae47186",
+    "newContractDigest": "sha256:e45aaa78a730c47a194cc0e30c836aeaeea1ce77aa25428bd7bc4af1a7b0ac59",
+    "repositorySnapshotDigest": "sha256:a79fd5d12798db25ddae77caed3e331f1a564246ee1445189f849d5106aed4a1",
+    "environmentObservationDigest": "sha256:59c25758496f5bbc0cab516297e8aadc338c209befd1a9f70dcbf533b7ab5b69",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:c09d8b6011e18e105b2852b3bdd95dd2a60d81b9f6aa411da7ab53f6484fb3fe",
+    "journalDigest": "sha256:b4811ffeb81a3ef61b47517765898ce0b31ce25a14edfb963b366ec8a8fd1279",
+    "recordedAt": "2026-10-11T02:50:20Z"
+  }
+}

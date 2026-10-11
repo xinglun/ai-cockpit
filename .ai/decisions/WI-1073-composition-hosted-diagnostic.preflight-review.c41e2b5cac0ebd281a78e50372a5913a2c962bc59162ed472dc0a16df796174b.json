@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:536616fcab5c604f31d5a6ed49dfa1693919fb930384739dea38ea8441eb7b98",
+  "reason": "Ray explicitly replied \"confirm review\" at 2026-10-11 03:07:42 UTC in the provided transcript after being shown the workflow-only scope and Contract sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29. This confirms only this bounded review: run the original unmodified a1db composition target through the repository process-observer runner at most three times, stop on first failure, capture logs/results, and make best-effort read-only copies of live state that may be lost to TempDir cleanup. It does not claim verification success or authorize merge, tags, Release, publication, or close.",
+  "recordedAt": "2026-10-11T03:09:06Z",
+  "recordedBy": "Ray (human user; explicit confirmation in the provided transcript; Runtime does not independently authenticate identity)",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0eeeee066e4a0a24b92556128c1144c38211c48281b1c8e1aad20ed5da586bc3",
+  "schemaVersion": 1,
+  "workItemId": "WI-1073-composition-hosted-diagnostic"
+}

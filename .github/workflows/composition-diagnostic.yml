@@ -1,0 +1,456 @@
+name: WI-1073 composition diagnostic
+
+on:
+  push:
+    branches:
+      - codex/wi1073-composition-hosted-diagnostic
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wi1073-composition-diagnostic-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  composition:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Initialize always-uploaded diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          diagnostic_root="$RUNNER_TEMP/wi1073-composition-diagnostic"
+          mkdir -p "$diagnostic_root/attempts"
+          cat > "$diagnostic_root/run-context.json" <<'JSON'
+          {"schemaVersion":1,"workItemId":"WI-1073-composition-hosted-diagnostic","result":"initializing"}
+          JSON
+          cat > "$diagnostic_root/summary.json" <<'JSON'
+          {"schemaVersion":1,"result":"incomplete","attempts":[]}
+          JSON
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          path: workflow-source
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: a1dbec70c8fc050b95165163da0da03cd90b79d1
+          fetch-depth: 1
+          persist-credentials: false
+          path: product-source
+
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.98.1
+
+      - name: Run original composition target with bounded observation
+        shell: bash
+        env:
+          PRODUCT_SOURCE_SHA: a1dbec70c8fc050b95165163da0da03cd90b79d1
+          EXPECTED_PRODUCT_TREE: be8685f2801334f614d750e58a2f4d71798b3be2
+          EXPECTED_COMPOSITION_SHA256: cf4e877a4a68ec6f355b3650f76b8521e53d6791a4eb8f443c32699f6b4d6589
+          EXPECTED_PROCESS_OBSERVER_RUNNER_SHA256: 488fab3e82d944f102c7d2d742c16ce4f59da8ad1835b080b72479455e60050d
+        run: |
+          set -Eeuo pipefail
+
+          diagnostic_root="$RUNNER_TEMP/wi1073-composition-diagnostic"
+          workflow_source="$GITHUB_WORKSPACE/workflow-source"
+          product_source="$GITHUB_WORKSPACE/product-source"
+          target_dir="$RUNNER_TEMP/wi1073-composition-target"
+          test_path="crates/cockpit-verification/tests/composition.rs"
+          runner_path="tests/ci/run_process_observer_test_runner.sh"
+          phase="initialization"
+          watcher_pid=""
+          watcher_stop=""
+          inherited_tmp="${TMPDIR:-/tmp}"
+          preserved_observer_lock="${AI_COCKPIT_PROCESS_OBSERVER_LOCK:-$inherited_tmp/ai-cockpit-process-observer-${UID}.lock}"
+
+          write_summary() {
+            local step_exit_code="$1"
+            set +e
+            python3 - \
+              "$diagnostic_root" \
+              "$step_exit_code" \
+              "$phase" \
+              "$GITHUB_SHA" \
+              "$PRODUCT_SOURCE_SHA" \
+              "$EXPECTED_PRODUCT_TREE" \
+              "$EXPECTED_COMPOSITION_SHA256" \
+              "$EXPECTED_PROCESS_OBSERVER_RUNNER_SHA256" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          root = Path(sys.argv[1])
+          step_exit_code = int(sys.argv[2])
+          phase, workflow_sha, source_sha, tree_sha, test_sha, runner_sha = sys.argv[3:]
+          attempts = []
+          for path in sorted((root / "attempts").glob("*/attempt-result.json")):
+              try:
+                  attempts.append(json.loads(path.read_text()))
+              except (OSError, UnicodeError, json.JSONDecodeError):
+                  continue
+          nonzero = [item for item in attempts if item.get("exitCode") != 0]
+          result = "non_reproduction" if (
+              step_exit_code == 0
+              and len(attempts) == 3
+              and all(item.get("exitCode") == 0 for item in attempts)
+          ) else "failed_or_incomplete"
+          summary = {
+              "schemaVersion": 1,
+              "workItemId": "WI-1073-composition-hosted-diagnostic",
+              "result": result,
+              "phaseAtExit": phase,
+              "stepExitCode": step_exit_code,
+              "workflowSha": workflow_sha,
+              "productSourceSha": source_sha,
+              "productSourceTree": tree_sha,
+              "compositionSourceSha256": test_sha,
+              "processObserverRunnerSha256": runner_sha,
+              "attemptCount": len(attempts),
+              "stoppedAfterFirstFailure": bool(nonzero),
+              "attempts": attempts,
+              "stateCaptureGuarantee": "best_effort_only; TempDir cleanup may win the read-only copy race",
+              "rootCauseGuaranteed": False,
+          }
+          (root / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+          print(json.dumps(summary, indent=2))
+          PY
+            return 0
+          }
+
+          finalize() {
+            local step_exit_code="$1"
+            if [[ -n "$watcher_pid" ]] && kill -0 "$watcher_pid" 2>/dev/null; then
+              touch "$watcher_stop" 2>/dev/null || true
+              wait "$watcher_pid" 2>/dev/null || true
+            fi
+            write_summary "$step_exit_code"
+          }
+          trap 'step_exit_code=$?; finalize "$step_exit_code"' EXIT
+          trap 'exit 130' INT
+          trap 'exit 143' TERM
+
+          test "$GITHUB_REF" = "refs/heads/codex/wi1073-composition-hosted-diagnostic"
+          test "$(git -C "$workflow_source" rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git -C "$product_source" rev-parse HEAD)" = "$PRODUCT_SOURCE_SHA"
+          product_tree="$(git -C "$product_source" rev-parse 'HEAD^{tree}')"
+          test "$product_tree" = "$EXPECTED_PRODUCT_TREE"
+
+          composition_sha="$(sha256sum "$product_source/$test_path" | awk '{print $1}')"
+          runner_sha="$(sha256sum "$product_source/$runner_path" | awk '{print $1}')"
+          test "$composition_sha" = "$EXPECTED_COMPOSITION_SHA256"
+          test "$runner_sha" = "$EXPECTED_PROCESS_OBSERVER_RUNNER_SHA256"
+          test -z "$(git -C "$product_source" status --porcelain --untracked-files=all)"
+          git -C "$product_source" diff --quiet HEAD --
+          git -C "$product_source" diff --cached --quiet
+
+          jq -n \
+            --arg workItem "WI-1073-composition-hosted-diagnostic" \
+            --arg workflowSha "$GITHUB_SHA" \
+            --arg branch "$GITHUB_REF" \
+            --arg sourceSha "$PRODUCT_SOURCE_SHA" \
+            --arg sourceTree "$product_tree" \
+            --arg compositionSha256 "$composition_sha" \
+            --arg runnerSha256 "$runner_sha" \
+            --arg runner "$runner_path" \
+            --arg testPath "$test_path" \
+            --arg commandTemplate "$runner_path <composition-test-binary> --test-threads=4 --nocapture" \
+            --arg observerLockPath "$preserved_observer_lock" \
+            --argjson workflowRunId "$GITHUB_RUN_ID" \
+            --argjson workflowRunAttempt "$GITHUB_RUN_ATTEMPT" \
+            '{schemaVersion:1,workItemId:$workItem,workflowSha:$workflowSha,branch:$branch,workflowRunId:$workflowRunId,workflowRunAttempt:$workflowRunAttempt,productSourceSha:$sourceSha,productSourceTree:$sourceTree,compositionSourceSha256:$compositionSha256,processObserverRunner:$runner,processObserverRunnerSha256:$runnerSha256,testPath:$testPath,commandTemplate:$commandTemplate,sourcePatchApplied:false,maxCompleteTargetAttempts:3,stopAfterFirstFailure:true,stateCapture:{mode:"bounded read-only external copies",pollIntervalMs:250,maxJsonEntriesPerScan:4096,maxFilesPerAttempt:128,maxFileBytes:524288,maxTotalBytesPerAttempt:4194304,cleanupRaceMayPreventCapture:true},observerLockPolicy:"preserve inherited override or the runner default resolved before per-attempt TMPDIR",observerLockPath:$observerLockPath}' \
+            > "$diagnostic_root/run-context.json"
+
+          phase="build"
+          build_log="$diagnostic_root/build.log"
+          printf '%s\n' \
+            'CARGO_BUILD_JOBS=1 cargo test --locked --package cockpit-verification --target x86_64-unknown-linux-gnu --test composition --no-run --target-dir <RUNNER_TEMP>/wi1073-composition-target' \
+            > "$diagnostic_root/build-command.txt"
+          set +e
+          CARGO_BUILD_JOBS=1 CARGO_TARGET_DIR="$target_dir" \
+            cargo test \
+              --locked \
+              --manifest-path "$product_source/Cargo.toml" \
+              --package cockpit-verification \
+              --target x86_64-unknown-linux-gnu \
+              --test composition \
+              --no-run \
+              --target-dir "$target_dir" \
+              > "$build_log" 2>&1
+          build_status=$?
+          set -e
+          cat "$build_log"
+          if ((build_status != 0)); then
+            phase="build_failed"
+            exit "$build_status"
+          fi
+
+          phase="binary_discovery"
+          mapfile -t test_binaries < <(
+            find "$target_dir" -type f -path '*/deps/composition-*' -perm /111 -print | sort
+          )
+          if ((${#test_binaries[@]} != 1)); then
+            printf 'expected one composition test binary, found %s\n' "${#test_binaries[@]}" >&2
+            printf '%s\n' "${test_binaries[@]}" >&2
+            exit 2
+          fi
+          test_binary="${test_binaries[0]}"
+          test_binary_sha="$(sha256sum "$test_binary" | awk '{print $1}')"
+
+          phase="attempts"
+          for attempt_number in 1 2 3; do
+            attempt_dir="$diagnostic_root/attempts/$attempt_number"
+            attempt_tmp="$attempt_dir/tmp"
+            state_copies="$attempt_dir/state-copies"
+            watcher_stop="$attempt_dir/observer.stop"
+            watcher_log="$attempt_dir/observer.log"
+            stdout_log="$attempt_dir/stdout.log"
+            stderr_log="$attempt_dir/stderr.log"
+            mkdir -p "$attempt_tmp" "$state_copies"
+            rm -f "$watcher_stop"
+            printf -v display_command '%q ' \
+              "$product_source/$runner_path" "$test_binary" --test-threads=4 --nocapture
+            printf '%s\n' "$display_command" > "$attempt_dir/command.txt"
+            printf 'Starting complete composition target attempt %s/3\n' "$attempt_number"
+
+            python3 - "$attempt_tmp" "$state_copies" "$watcher_stop" <<'PY' > "$watcher_log" 2>&1 &
+          import hashlib
+          import json
+          import os
+          import sys
+          import time
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          source_root = Path(sys.argv[1])
+          destination = Path(sys.argv[2])
+          stop_file = Path(sys.argv[3])
+          deadline = time.monotonic() + 660
+          max_files = 128
+          max_file_bytes = 512 * 1024
+          max_total_bytes = 4 * 1024 * 1024
+          max_json_entries_per_scan = 4096
+          seen = set()
+          records = []
+          total_bytes = 0
+          skipped_large = 0
+          read_races = 0
+          scan_limit_hits = 0
+          limit_reached = False
+
+          def publish():
+              value = {
+                  "schemaVersion": 1,
+                  "sourceRoot": str(source_root),
+                  "copyMode": "bounded read-only observation; source files are never changed or retained",
+                  "maxFiles": max_files,
+                  "maxFileBytes": max_file_bytes,
+                  "maxTotalBytes": max_total_bytes,
+                  "maxJsonEntriesPerScan": max_json_entries_per_scan,
+                  "copyCount": len(records),
+                  "copiedBytes": total_bytes,
+                  "skippedLargeFiles": skipped_large,
+                  "readRaces": read_races,
+                  "scanLimitHits": scan_limit_hits,
+                  "limitReached": limit_reached,
+                  "noMatchingStateJsonObserved": len(records) == 0,
+                  "cleanupRaceMayHavePreventedCapture": True,
+                  "captureCompletenessGuaranteed": False,
+                  "records": records,
+              }
+              temporary = destination / "state-copy-manifest.json.tmp"
+              temporary.write_text(json.dumps(value, indent=2) + "\n")
+              os.replace(temporary, destination / "state-copy-manifest.json")
+
+          def scan_once():
+              global total_bytes, skipped_large, read_races, scan_limit_hits, limit_reached
+              if len(records) >= max_files or total_bytes >= max_total_bytes:
+                  limit_reached = True
+                  return
+              json_entries = 0
+              roots = []
+              try:
+                  roots = [
+                      path for path in source_root.iterdir()
+                      if path.name.startswith("cockpit-composition-")
+                      and path.is_dir()
+                      and not path.is_symlink()
+                  ]
+              except OSError:
+                  return
+              roots.sort(key=lambda path: ("state" not in path.name, path.name))
+              for fixture_root in roots:
+                  for current, directories, files in os.walk(fixture_root, followlinks=False):
+                      directories[:] = [
+                          name for name in directories
+                          if not (Path(current) / name).is_symlink()
+                      ]
+                      for name in files:
+                          path = Path(current) / name
+                          if path.suffix != ".json" or path.is_symlink():
+                              continue
+                          json_entries += 1
+                          if json_entries > max_json_entries_per_scan:
+                              scan_limit_hits += 1
+                              return
+                          try:
+                              if path.stat(follow_symlinks=False).st_size > max_file_bytes:
+                                  skipped_large += 1
+                                  continue
+                              raw = path.read_bytes()
+                              if len(raw) > max_file_bytes:
+                                  skipped_large += 1
+                                  continue
+                              value = json.loads(raw)
+                          except (OSError, UnicodeError, json.JSONDecodeError):
+                              read_races += 1
+                              continue
+                          if not isinstance(value, dict) or not isinstance(value.get("attemptId"), str):
+                              continue
+                          digest = hashlib.sha256(raw).hexdigest()
+                          key = (str(path.relative_to(source_root)), digest)
+                          if key in seen:
+                              continue
+                          if len(records) >= max_files or total_bytes + len(raw) > max_total_bytes:
+                              limit_reached = True
+                              return
+                          seen.add(key)
+                          index = len(records) + 1
+                          copied = destination / f"state-{index:03d}-{digest[:16]}.json"
+                          copied.write_bytes(raw)
+                          records.append({
+                              "sourceRelativePath": key[0],
+                              "copiedFile": copied.name,
+                              "attemptId": value["attemptId"],
+                              "sha256": digest,
+                              "bytes": len(raw),
+                              "observedAt": datetime.now(timezone.utc).isoformat(),
+                          })
+                          total_bytes += len(raw)
+                          publish()
+
+          while time.monotonic() < deadline:
+              scan_once()
+              if stop_file.exists() or limit_reached:
+                  break
+              time.sleep(0.25)
+          publish()
+          PY
+            watcher_pid=$!
+
+            set +e
+            AI_COCKPIT_PROCESS_OBSERVER_LOCK="$preserved_observer_lock" \
+            TMPDIR="$attempt_tmp" \
+              timeout --signal=TERM --kill-after=30s 600s \
+                "$product_source/$runner_path" \
+                "$test_binary" \
+                --test-threads=4 \
+                --nocapture \
+                > "$stdout_log" 2> "$stderr_log"
+            attempt_status=$?
+            set -e
+
+            touch "$watcher_stop"
+            set +e
+            wait "$watcher_pid"
+            observer_status=$?
+            set -e
+            watcher_pid=""
+            cat "$stdout_log"
+            cat "$stderr_log" >&2
+
+            stdout_sha="$(sha256sum "$stdout_log" | awk '{print $1}')"
+            stderr_sha="$(sha256sum "$stderr_log" | awk '{print $1}')"
+            python3 - \
+              "$attempt_dir" \
+              "$attempt_number" \
+              "$attempt_status" \
+              "$observer_status" \
+              "$GITHUB_SHA" \
+              "$PRODUCT_SOURCE_SHA" \
+              "$product_tree" \
+              "$composition_sha" \
+              "$runner_sha" \
+              "$test_binary_sha" \
+              "$stdout_sha" \
+              "$stderr_sha" \
+              "$product_source/$runner_path" \
+              "$test_binary" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          attempt_dir = Path(sys.argv[1])
+          number, exit_code, observer_status = map(int, sys.argv[2:5])
+          workflow_sha, source_sha, tree_sha, test_sha, runner_sha, binary_sha, stdout_sha, stderr_sha = sys.argv[5:13]
+          runner_path, binary_path = sys.argv[13:15]
+          command = [runner_path, binary_path, "--test-threads=4", "--nocapture"]
+          watcher_path = attempt_dir / "state-copies" / "state-copy-manifest.json"
+          watcher = None
+          if watcher_path.is_file():
+              try:
+                  watcher = json.loads(watcher_path.read_text())
+              except (OSError, UnicodeError, json.JSONDecodeError):
+                  watcher = {"parseError": True}
+          result = {
+              "schemaVersion": 1,
+              "attemptNumber": number,
+              "workflowSha": workflow_sha,
+              "productSourceSha": source_sha,
+              "productSourceTree": tree_sha,
+              "compositionSourceSha256": test_sha,
+              "processObserverRunnerSha256": runner_sha,
+              "testBinarySha256": binary_sha,
+              "command": command,
+              "exitCode": exit_code,
+              "timedOut": exit_code in (124, 137),
+              "stdoutSha256": stdout_sha,
+              "stderrSha256": stderr_sha,
+              "stateCopyObserverExitCode": observer_status,
+              "stateCopy": watcher or {
+                  "copyCount": 0,
+                  "cleanupRaceMayHavePreventedCapture": True,
+                  "observerSummaryAvailable": False,
+              },
+          }
+          (attempt_dir / "attempt-result.json").write_text(json.dumps(result, indent=2) + "\n")
+          print(json.dumps(result, indent=2))
+          PY
+
+            if ((attempt_status != 0)); then
+              phase="stopped_after_first_failure"
+              printf 'Stopping after first nonzero composition attempt %s (exit %s)\n' \
+                "$attempt_number" "$attempt_status"
+              exit "$attempt_status"
+            fi
+          done
+
+          phase="post_run_source_validation"
+          test -z "$(git -C "$product_source" status --porcelain --untracked-files=all)"
+          git -C "$product_source" diff --quiet HEAD --
+          git -C "$product_source" diff --cached --quiet
+          phase="complete"
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        id: upload-diagnostic
+        if: always()
+        with:
+          name: wi1073-composition-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/wi1073-composition-diagnostic
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Report uploaded artifact digest
+        if: always()
+        env:
+          ARTIFACT_DIGEST: ${{ steps.upload-diagnostic.outputs.artifact-digest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf 'WI-1073 artifact digest: %s\n' "${ARTIFACT_DIGEST:-unavailable}" >> "$GITHUB_STEP_SUMMARY"

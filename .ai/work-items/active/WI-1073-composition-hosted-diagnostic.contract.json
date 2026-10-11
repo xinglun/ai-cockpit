@@ -1,0 +1,89 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "The dedicated workflow runs only for pushes to codex/wi1073-composition-hosted-diagnostic, uses ubuntu-24.04 with contents:read, and checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 without applying, generating, or otherwise introducing a source patch.",
+    "The workflow runs the complete original cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times, stopping after the first nonzero attempt; it does not change the composition test source, assertions, process-observer behavior, locks, or fixture cleanup.",
+    "For each attempt, the workflow captures the exact command, stdout/stderr, exit status, and timeout status. While the test runs, a bounded read-only observer may copy actual attempt/state JSON from the external temp root when present; it does not prevent TempDir deletion or otherwise change test cleanup. Logs and available records are always uploaded, and missing JSON is recorded as an allowed best-effort miss caused by the cleanup race.",
+    "The evidence binds workflow SHA, exact a1db source SHA, command, attempt outcomes, and digests of uploaded artifacts. Three successful complete attempts are reported only as hosted non-reproduction; neither state capture nor root-cause identification is guaranteed."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-11T02:25:59Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Run at most three complete hosted composition-target attempts against exact, unmodified product source a1dbec70c8fc050b95165163da0da03cd90b79d1, stopping at the first failure. Capture the command and stdout/stderr, and make a bounded, read-only best-effort copy of observed attempt/state JSON while fixtures are available. Do not alter test, process-observer, lock, or cleanup behavior. A TempDir cleanup race may leave no copied attempt JSON; three passing attempts mean only non-reproduction, not root-cause identification.",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Diagnose the hosted-only Linux process-observer composition-test failure through workflow-level observation of the original, unmodified composition target.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Any change to crates/cockpit-verification/tests/composition.rs or any other test/product source, and any branch-derived, generated, or otherwise hidden source patch applied to the exact a1db checkout.",
+    "Production or Runtime source changes.",
+    "Changes to original assertions, lock logic, process-observer semantics, or fixture cleanup behavior.",
+    "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+    "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Run the complete original composition target against exact, unmodified a1db source through the repository process-observer runner, at most three attempts and stop on the first failure. Capture logs and outcomes; copying live attempt/state JSON is best-effort and may miss records if TempDir cleanup wins. Three passes show only hosted non-reproduction and do not establish a root cause.",
+      "required": true,
+      "scenario": "hosted_composition_diagnostic",
+      "status": "unverified",
+      "verificationPlan": "After Runtime admits execution and the review decision is recorded, run the dedicated workflow on the exact Work Item branch. Verify the workflow checkout resolves to a1dbec70c8fc050b95165163da0da03cd90b79d1 and no source patch is applied. Run the complete target through tests/ci/run_process_observer_test_runner.sh no more than three times, stopping after the first nonzero result. Capture command, stdout/stderr, timeout and exit status; make only bounded read-only copies of attempt/state JSON observed under the external temp root while attempts are running. Always upload logs and whatever state was found; explicitly report missing JSON as a possible TempDir cleanup race and do not claim guaranteed reproduction or diagnosis."
+    }
+  ],
+  "scope": [
+    ".github/workflows/composition-diagnostic.yml"
+  ],
+  "sources": [
+    "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+    "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=<source-root>/tests/ci/run_process_observer_test_runner.sh cargo test --locked -p cockpit-verification --target x86_64-unknown-linux-gnu --test composition -- --test-threads=4 --nocapture"
+  ],
+  "workItemId": "WI-1073-composition-hosted-diagnostic"
+}

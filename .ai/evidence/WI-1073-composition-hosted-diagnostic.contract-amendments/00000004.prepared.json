@@ -1,0 +1,266 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-composition-hosted-diagnostic",
+    "sequence": 4,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1073-workflow-only-best-effort-20261011",
+      "expectedContractDigest": "sha256:e45aaa78a730c47a194cc0e30c836aeaeea1ce77aa25428bd7bc4af1a7b0ac59",
+      "reason": "Ray directed a single bounded workflow-only diagnostic after review found the exact WI-1068 archived-scope overlap was composition.rs. Narrow the scope to the dedicated workflow; remove any test-source patching; describe unmodified exact-source test execution and external attempt-state observation as best-effort because TempDir cleanup can win the race; retain required scenario evidence as unverified and make no claim of guaranteed capture or root-cause identification. This is not a change to WI-1070 or release lineage.",
+      "changes": [
+        {
+          "path": "/goal",
+          "operation": "set",
+          "value": "Run at most three complete hosted composition-target attempts against exact, unmodified product source a1dbec70c8fc050b95165163da0da03cd90b79d1, stopping at the first failure. Capture the command and stdout/stderr, and make a bounded, read-only best-effort copy of observed attempt/state JSON while fixtures are available. Do not alter test, process-observer, lock, or cleanup behavior. A TempDir cleanup race may leave no copied attempt JSON; three passing attempts mean only non-reproduction, not root-cause identification."
+        },
+        {
+          "path": "/intent",
+          "operation": "set",
+          "value": "Diagnose the hosted-only Linux process-observer composition-test failure through workflow-level observation of the original, unmodified composition target."
+        },
+        {
+          "path": "/scope",
+          "operation": "replace",
+          "value": [
+            ".github/workflows/composition-diagnostic.yml"
+          ]
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "replace",
+          "value": [
+            "The dedicated workflow runs only for pushes to codex/wi1073-composition-hosted-diagnostic, uses ubuntu-24.04 with contents:read, and checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 without applying, generating, or otherwise introducing a source patch.",
+            "The workflow runs the complete original cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times, stopping after the first nonzero attempt; it does not change the composition test source, assertions, process-observer behavior, locks, or fixture cleanup.",
+            "For each attempt, the workflow captures the exact command, stdout/stderr, exit status, and timeout status. While the test runs, a bounded read-only observer may copy actual attempt/state JSON from the external temp root when present; it does not prevent TempDir deletion or otherwise change test cleanup. Logs and available records are always uploaded, and missing JSON is recorded as an allowed best-effort miss caused by the cleanup race.",
+            "The evidence binds workflow SHA, exact a1db source SHA, command, attempt outcomes, and digests of uploaded artifacts. Three successful complete attempts are reported only as hosted non-reproduction; neither state capture nor root-cause identification is guaranteed."
+          ]
+        },
+        {
+          "path": "/scenarioCoverage/0/expected",
+          "operation": "set",
+          "value": "Run the complete original composition target against exact, unmodified a1db source through the repository process-observer runner, at most three attempts and stop on the first failure. Capture logs and outcomes; copying live attempt/state JSON is best-effort and may miss records if TempDir cleanup wins. Three passes show only hosted non-reproduction and do not establish a root cause."
+        },
+        {
+          "path": "/scenarioCoverage/0/verificationPlan",
+          "operation": "set",
+          "value": "After Runtime admits execution and the review decision is recorded, run the dedicated workflow on the exact Work Item branch. Verify the workflow checkout resolves to a1dbec70c8fc050b95165163da0da03cd90b79d1 and no source patch is applied. Run the complete target through tests/ci/run_process_observer_test_runner.sh no more than three times, stopping after the first nonzero result. Capture command, stdout/stderr, timeout and exit status; make only bounded read-only copies of attempt/state JSON observed under the external temp root while attempts are running. Always upload logs and whatever state was found; explicitly report missing JSON as a possible TempDir cleanup race and do not claim guaranteed reproduction or diagnosis."
+        },
+        {
+          "path": "/outOfScope",
+          "operation": "replace",
+          "value": [
+            "Any change to crates/cockpit-verification/tests/composition.rs or any other test/product source, and any branch-derived, generated, or otherwise hidden source patch applied to the exact a1db checkout.",
+            "Production or Runtime source changes.",
+            "Changes to original assertions, lock logic, process-observer semantics, or fixture cleanup behavior.",
+            "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+            "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:fac5a7a0b5de6a5eced63ea0a136b382ed8b2d0ffbe02f0b77ab639caa160e50",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The workflow push filter exactly matches codex/wi1073-composition-hosted-diagnostic.",
+        "The hosted product test tree is a detached checkout of exact commit a1dbec70c8fc050b95165163da0da03cd90b79d1 with only the hash-pinned diagnostic test patch applied.",
+        "The branch contains only the two implementation files in scope; the workflow uses ubuntu-24.04, contents:read, the repository process-observer runner, no more than three complete composition-target attempts, first-failure stop, and always-uploaded artifacts.",
+        "Hosted evidence binds workflow SHA, a1db source SHA, patch SHA, command, each attempt ID and exit status, and artifact digests; three passes are reported only as hosted non-reproduction."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T02:25:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run up to three complete hosted composition-target attempts against exact source a1db, stop at the first failure, preserve the actual attempt state and logs, and make no product-behavior or release changes.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Diagnose the hosted-only Linux process-observer composition test failure with bounded, test-only instrumentation.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Production or Runtime source changes.",
+        "Changes to original assertions, lock logic, or process-observer semantics.",
+        "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+        "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The hosted composition target runs against exact product source a1db with diagnostic-only test instrumentation, preserves real failure state and logs, and stops after the first failure; a failing attempt identifies a concrete observer/test branch, while three passing attempts establish only non-reproduction.",
+          "required": true,
+          "scenario": "hosted_composition_diagnostic",
+          "status": "unverified",
+          "verificationPlan": "Push the exact diagnostic branch to trigger the dedicated ubuntu-24.04 workflow. Verify exact a1db and pinned test-patch SHA before execution, run the complete composition target through the process-observer runner up to three times, stop on the first failure, and inspect the always-uploaded attempt/state/log artifacts."
+        }
+      ],
+      "scope": [
+        ".github/workflows/composition-diagnostic.yml",
+        "crates/cockpit-verification/tests/composition.rs"
+      ],
+      "sources": [
+        "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+        "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=<source-root>/tests/ci/run_process_observer_test_runner.sh cargo test --locked -p cockpit-verification --target x86_64-unknown-linux-gnu --test composition -- --test-threads=4 --nocapture"
+      ],
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    "previousContractDigest": "sha256:e45aaa78a730c47a194cc0e30c836aeaeea1ce77aa25428bd7bc4af1a7b0ac59",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The dedicated workflow runs only for pushes to codex/wi1073-composition-hosted-diagnostic, uses ubuntu-24.04 with contents:read, and checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 without applying, generating, or otherwise introducing a source patch.",
+        "The workflow runs the complete original cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times, stopping after the first nonzero attempt; it does not change the composition test source, assertions, process-observer behavior, locks, or fixture cleanup.",
+        "For each attempt, the workflow captures the exact command, stdout/stderr, exit status, and timeout status. While the test runs, a bounded read-only observer may copy actual attempt/state JSON from the external temp root when present; it does not prevent TempDir deletion or otherwise change test cleanup. Logs and available records are always uploaded, and missing JSON is recorded as an allowed best-effort miss caused by the cleanup race.",
+        "The evidence binds workflow SHA, exact a1db source SHA, command, attempt outcomes, and digests of uploaded artifacts. Three successful complete attempts are reported only as hosted non-reproduction; neither state capture nor root-cause identification is guaranteed."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T02:25:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run at most three complete hosted composition-target attempts against exact, unmodified product source a1dbec70c8fc050b95165163da0da03cd90b79d1, stopping at the first failure. Capture the command and stdout/stderr, and make a bounded, read-only best-effort copy of observed attempt/state JSON while fixtures are available. Do not alter test, process-observer, lock, or cleanup behavior. A TempDir cleanup race may leave no copied attempt JSON; three passing attempts mean only non-reproduction, not root-cause identification.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Diagnose the hosted-only Linux process-observer composition-test failure through workflow-level observation of the original, unmodified composition target.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Any change to crates/cockpit-verification/tests/composition.rs or any other test/product source, and any branch-derived, generated, or otherwise hidden source patch applied to the exact a1db checkout.",
+        "Production or Runtime source changes.",
+        "Changes to original assertions, lock logic, process-observer semantics, or fixture cleanup behavior.",
+        "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+        "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "Run the complete original composition target against exact, unmodified a1db source through the repository process-observer runner, at most three attempts and stop on the first failure. Capture logs and outcomes; copying live attempt/state JSON is best-effort and may miss records if TempDir cleanup wins. Three passes show only hosted non-reproduction and do not establish a root cause.",
+          "required": true,
+          "scenario": "hosted_composition_diagnostic",
+          "status": "unverified",
+          "verificationPlan": "After Runtime admits execution and the review decision is recorded, run the dedicated workflow on the exact Work Item branch. Verify the workflow checkout resolves to a1dbec70c8fc050b95165163da0da03cd90b79d1 and no source patch is applied. Run the complete target through tests/ci/run_process_observer_test_runner.sh no more than three times, stopping after the first nonzero result. Capture command, stdout/stderr, timeout and exit status; make only bounded read-only copies of attempt/state JSON observed under the external temp root while attempts are running. Always upload logs and whatever state was found; explicitly report missing JSON as a possible TempDir cleanup race and do not claim guaranteed reproduction or diagnosis."
+        }
+      ],
+      "scope": [
+        ".github/workflows/composition-diagnostic.yml"
+      ],
+      "sources": [
+        "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+        "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=<source-root>/tests/ci/run_process_observer_test_runner.sh cargo test --locked -p cockpit-verification --target x86_64-unknown-linux-gnu --test composition -- --test-threads=4 --nocapture"
+      ],
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    "newContractDigest": "sha256:caf9b32590248faa944b640c117d23d33ea5aa7eafc473955e85eaa954080f29",
+    "previousSummaryDigest": "sha256:a58f6a01ce4418bf90fe0fc5b58784137584c90baacabc5e8108eea7a2b98608",
+    "repositorySnapshotDigest": "sha256:0eeeee066e4a0a24b92556128c1144c38211c48281b1c8e1aad20ed5da586bc3",
+    "environmentObservationDigest": "sha256:59c25758496f5bbc0cab516297e8aadc338c209befd1a9f70dcbf533b7ab5b69",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:b4811ffeb81a3ef61b47517765898ce0b31ce25a14edfb963b366ec8a8fd1279",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope",
+      "/scenarioCoverage/0/expected",
+      "/scenarioCoverage/0/verificationPlan",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-11T03:02:54Z"
+  },
+  "preparedDigest": "sha256:c5c01ecad59e0f27e91d5daece606f74d00745cbd627126ea05a4da363bb530e"
+}

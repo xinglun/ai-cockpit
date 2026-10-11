@@ -1,0 +1,274 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1073-composition-hosted-diagnostic",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1073-standard-evidence-and-exact-trigger",
+      "expectedContractDigest": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+      "reason": "Map the hosted composition requirement to the supported verification receipt evidence class while preserving the hosted result as a required unverified test scenario until the workflow produces real evidence. Correct the branch trigger to the exact Work Item branch so the authorized push starts the diagnostic. This follows the approved source, scope, and stage plan and avoids claiming an unrun hosted result.",
+      "changes": [
+        {
+          "path": "/scope",
+          "operation": "replace",
+          "value": [
+            "The Work Item branch is based on synchronized default main da0fe894da1b44494ff36487c729366a6f2cb082.",
+            "Modify crates/cockpit-verification/tests/composition.rs only to emit actual attempt data and preserve failing fixture state without changing assertions, locks, or process-observer behavior.",
+            "Add .github/workflows/composition-diagnostic.yml only; trigger pushes to the exact branch codex/wi1073-composition-hosted-diagnostic with contents:read and run on ubuntu-24.04.",
+            "The workflow checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 and applies only a test-file patch whose digest is pinned and validated.",
+            "Run the complete cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times and stop after the first failure; always upload logs and real attempt/state artifacts."
+          ]
+        },
+        {
+          "path": "/outOfScope",
+          "operation": "replace",
+          "value": [
+            "Production or Runtime source changes.",
+            "Changes to original assertions, lock logic, or process-observer semantics.",
+            "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+            "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+          ]
+        },
+        {
+          "path": "/acceptanceCriteria",
+          "operation": "replace",
+          "value": [
+            "The workflow push filter exactly matches codex/wi1073-composition-hosted-diagnostic.",
+            "The hosted product test tree is a detached checkout of exact commit a1dbec70c8fc050b95165163da0da03cd90b79d1 with only the hash-pinned diagnostic test patch applied.",
+            "The branch contains only the two implementation files in scope; the workflow uses ubuntu-24.04, contents:read, the repository process-observer runner, no more than three complete composition-target attempts, first-failure stop, and always-uploaded artifacts.",
+            "Hosted evidence binds workflow SHA, a1db source SHA, patch SHA, command, each attempt ID and exit status, and artifact digests; three passes are reported only as hosted non-reproduction."
+          ]
+        },
+        {
+          "path": "/requiredEvidenceClasses",
+          "operation": "replace",
+          "value": [
+            "verification_receipt"
+          ]
+        },
+        {
+          "path": "/scenarioCoverage",
+          "operation": "set",
+          "value": [
+            {
+              "evidence": [],
+              "expected": "The hosted composition target runs against exact product source a1db with diagnostic-only test instrumentation, preserves real failure state and logs, and stops after the first failure; a failing attempt identifies a concrete observer/test branch, while three passing attempts establish only non-reproduction.",
+              "required": true,
+              "scenario": "hosted_composition_diagnostic",
+              "status": "unverified",
+              "verificationPlan": "Push the exact diagnostic branch to trigger the dedicated ubuntu-24.04 workflow. Verify exact a1db and pinned test-patch SHA before execution, run the complete composition target through the process-observer runner up to three times, stop on the first failure, and inspect the always-uploaded attempt/state/log artifacts."
+            }
+          ]
+        }
+      ]
+    },
+    "requestDigest": "sha256:95d3508add069ff7418b128fa9ae9780fd7e4a7abe38d90241a391c06d471f97",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The diagnostic branch is based on the latest default main observed at start; the hosted product test tree is a detached checkout of exact commit a1dbec70c8fc050b95165163da0da03cd90b79d1, with only the hash-pinned test instrumentation patch applied.",
+        "The branch contains exactly the two implementation files in scope; the diagnostic workflow is push-triggered only for codex/composition-diagnostic-* and has contents:read permissions.",
+        "The hosted job uses ubuntu-24.04 and the repository process-observer test runner; it runs the full cockpit-verification composition target at most three times, stops after the first failure, and uploads complete logs and actual attempt/state artifacts with if: always().",
+        "Hosted evidence binds the workflow SHA, exact a1db source SHA, patch SHA, command, each attempt ID, exit status, and artifact digests; three passes are reported only as hosted non-reproduction."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T02:25:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run up to three complete hosted composition-target attempts against exact source a1db, stop at the first failure, preserve the actual attempt state and logs, and make no product-behavior or release changes.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Diagnose the hosted-only Linux process-observer composition test failure with bounded, test-only instrumentation.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Production/runtime source changes; changing assertions",
+        " lock logic",
+        " or the process observer; edits to ci.yml or release.yml; release build/publication",
+        " tags",
+        " Releases",
+        " PR merge",
+        " Sentinel",
+        " downloading Library files",
+        " or restoring backups."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt",
+        "hosted_composition_diagnostic"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "Starting from the current default main commit da0fe894da1b44494ff36487c729366a6f2cb082",
+        " change only crates/cockpit-verification/tests/composition.rs to add attempt output and failure-state preservation without changing assertions",
+        " lock behavior",
+        " or process-observer semantics; add only .github/workflows/composition-diagnostic.yml",
+        " triggered by pushes to codex/composition-diagnostic-* with contents:read",
+        " that runs the exact a1db source plus a hash-pinned patch limited to that test file on ubuntu-24.04 using tests/ci/run_process_observer_test_runner.sh."
+      ],
+      "sources": [
+        "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+        "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=<source-root>/tests/ci/run_process_observer_test_runner.sh cargo test --locked -p cockpit-verification --target x86_64-unknown-linux-gnu --test composition -- --test-threads=4 --nocapture"
+      ],
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    "previousContractDigest": "sha256:178dd995f76fd86d8cabbce2d3c3f1f9ea9fe6087e7d8b54d69d4496adc76d08",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "The workflow push filter exactly matches codex/wi1073-composition-hosted-diagnostic.",
+        "The hosted product test tree is a detached checkout of exact commit a1dbec70c8fc050b95165163da0da03cd90b79d1 with only the hash-pinned diagnostic test patch applied.",
+        "The branch contains only the two implementation files in scope; the workflow uses ubuntu-24.04, contents:read, the repository process-observer runner, no more than three complete composition-target attempts, first-failure stop, and always-uploaded artifacts.",
+        "Hosted evidence binds workflow SHA, a1db source SHA, patch SHA, command, each attempt ID and exit status, and artifact digests; three passes are reported only as hosted non-reproduction."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "da0fe894da1b44494ff36487c729366a6f2cb082",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-11T02:25:59Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Run up to three complete hosted composition-target attempts against exact source a1db, stop at the first failure, preserve the actual attempt state and logs, and make no product-behavior or release changes.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Diagnose the hosted-only Linux process-observer composition test failure with bounded, test-only instrumentation.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Production or Runtime source changes.",
+        "Changes to original assertions, lock logic, or process-observer semantics.",
+        "Changes to .github/workflows/ci.yml or .github/workflows/release.yml.",
+        "Release builds, tags, GitHub Releases, publication, PR merge, Sentinel, Library downloads, or backup restoration."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification_receipt"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": [
+        {
+          "evidence": [],
+          "expected": "The hosted composition target runs against exact product source a1db with diagnostic-only test instrumentation, preserves real failure state and logs, and stops after the first failure; a failing attempt identifies a concrete observer/test branch, while three passing attempts establish only non-reproduction.",
+          "required": true,
+          "scenario": "hosted_composition_diagnostic",
+          "status": "unverified",
+          "verificationPlan": "Push the exact diagnostic branch to trigger the dedicated ubuntu-24.04 workflow. Verify exact a1db and pinned test-patch SHA before execution, run the complete composition target through the process-observer runner up to three times, stop on the first failure, and inspect the always-uploaded attempt/state/log artifacts."
+        }
+      ],
+      "scope": [
+        "The Work Item branch is based on synchronized default main da0fe894da1b44494ff36487c729366a6f2cb082.",
+        "Modify crates/cockpit-verification/tests/composition.rs only to emit actual attempt data and preserve failing fixture state without changing assertions, locks, or process-observer behavior.",
+        "Add .github/workflows/composition-diagnostic.yml only; trigger pushes to the exact branch codex/wi1073-composition-hosted-diagnostic with contents:read and run on ubuntu-24.04.",
+        "The workflow checks out exact product source a1dbec70c8fc050b95165163da0da03cd90b79d1 and applies only a test-file patch whose digest is pinned and validated.",
+        "Run the complete cockpit-verification composition test target through tests/ci/run_process_observer_test_runner.sh at most three times and stop after the first failure; always upload logs and real attempt/state artifacts."
+      ],
+      "sources": [
+        "hosted-release-failure:38102386335/source_quality/workspace_package_tests",
+        "exact-product-source:a1dbec70c8fc050b95165163da0da03cd90b79d1"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER=<source-root>/tests/ci/run_process_observer_test_runner.sh cargo test --locked -p cockpit-verification --target x86_64-unknown-linux-gnu --test composition -- --test-threads=4 --nocapture"
+      ],
+      "workItemId": "WI-1073-composition-hosted-diagnostic"
+    },
+    "newContractDigest": "sha256:a985322ac9824fb9cd86a308eff9f5c0155bd7dbbda15e89b28965fe6ae47186",
+    "previousSummaryDigest": "sha256:ec3c932be01bbb910a4d146986073f98fe107d71bb22d615106ec2c38369b129",
+    "repositorySnapshotDigest": "sha256:a2033e17a979d9e92e1c0d96e4e01e09c746803d7c32c230702bea83f32c887b",
+    "environmentObservationDigest": "sha256:59c25758496f5bbc0cab516297e8aadc338c209befd1a9f70dcbf533b7ab5b69",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:9c1579b6c775240dd0310beef33214d19d74e97d736acc4b9fd3e3462ee9c433"
+    },
+    "verificationStarted": false,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:48d06d69f9765d62c32cc58d9846695420da7ba286fc491f1d7489573a8d79de",
+    "policyReviewRequirements": [
+      "/acceptanceCriteria",
+      "/outOfScope",
+      "/requiredEvidenceClasses",
+      "/scenarioCoverage",
+      "/scope"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-11T02:31:57Z"
+  },
+  "preparedDigest": "sha256:1dd85cdbe71dddd97fa7162c76539be41ca3621a30c28cef06a8d7b10b7ab0b4"
+}
