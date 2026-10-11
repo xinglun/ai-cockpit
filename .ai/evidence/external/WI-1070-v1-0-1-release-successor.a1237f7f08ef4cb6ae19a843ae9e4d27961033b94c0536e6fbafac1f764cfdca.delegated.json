@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-10-11T05:08:58Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-10-11T04:39:05Z",
+    "digest": "sha256:a1237f7f08ef4cb6ae19a843ae9e4d27961033b94c0536e6fbafac1f764cfdca",
+    "origin": "https://api.github.com/repos/xinglun/ai-cockpit/actions/runs/38110402437/jobs",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/github-jobs-38110402437.json",
+    "subject": "GitHub Actions jobs for workflow run 38110402437 attempt 1",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1070-v1-0-1-release-successor"
+}

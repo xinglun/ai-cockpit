@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "phase": "close",
+  "releasePlanDigest": "sha256:1b6d19dccb4210d1420c787d3c4060f73dd2f684827b8fb7d68372c3e2dd5261",
+  "releasePlanMode": "normal_release",
+  "tag": "v1.0.1",
+  "commit": "a1dbec70c8fc050b95165163da0da03cd90b79d1",
+  "state": "passed",
+  "reusedAcceptanceRunId": null,
+  "closeOnly": false,
+  "requiredReceipts": {
+    "governanceBinding": {
+      "jobState": "success",
+      "digest": "sha256:00f5022cbc8441ab47df15f2212082fc55d69231a34f2bd27a1d41b52c2ea26f"
+    },
+    "publishHandoff": {
+      "jobState": "success",
+      "digest": "sha256:f6d27b9febbb75d81a80e345b7cf3f11b5692b1e083668bdad6bcf947a2fdfe8"
+    },
+    "versionConsistency": {
+      "jobState": "success",
+      "digest": "sha256:3759c347c6d97ecccdb248799a0a8fed00cf06d9e95d32594ddbf812c661361a"
+    },
+    "publicInstall": {
+      "jobState": "success",
+      "digest": "sha256:69bbfcf5cb652862d4f1168eb68e62f7690e9ad28a8fa734218dc1b781e119d2",
+      "phaseDigest": "sha256:db6e008d41f9f9fae5014628198cb8d4ae0388b2fcffaf482a4ace9077061f29"
+    },
+    "publicUpgrade": {
+      "jobState": "success",
+      "digest": "sha256:817faa75eee97350d324bb9b0561e8b89c425ea1d9496a6b6bcef491d8c23058",
+      "phaseDigest": "sha256:9470167d3bc0b22bbe60160841b526564e50521c702218a1c49028340fd4c6d9"
+    }
+  },
+  "failureRoots": []
+}
