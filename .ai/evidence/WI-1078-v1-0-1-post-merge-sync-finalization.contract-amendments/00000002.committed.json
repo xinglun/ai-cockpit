@@ -1,0 +1,61 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:b668bbf034132b4ae461a178a8fd2ab242c6980de0b672be4bc7593321ccb01d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "sequence": 2,
+    "changeId": "wi1078-material-review-optin-raydot-20261012-112301",
+    "requestDigest": "sha256:58f4f814d562216d1e63052f501a0c0ee679df2c0d66274eb01825dda6114b67",
+    "reason": "Raydot explicitly approved enabling only WI-1078 self-declared material review at 2026-10-12T11:23:01Z (Sentinel_dc1698122e788191ab0b847dfb51c65f). Enable the typed review profile for the single permitted committed-Rust syntax Unknown, with reviewer actor agent:Raydot and self_declared assurance. Preserve the raw scanner Unknown; this is not human, provider, or release approval. Do not change scope, source, acceptance, verification, scanner rules, or other policy.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "user-approval:Sentinel_dc1698122e788191ab0b847dfb51c65f:2026-10-12T11:23:01Z",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Raydot",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f01650660f24f6a2935b99c1bbaafce4cfd755566aeed7162037320c5c85eaa4",
+    "newContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+    "repositorySnapshotDigest": "sha256:d28f9aa76dd1f5c0eacef719705608e0a74932ae37c552c90e42da0cf84fe481",
+    "environmentObservationDigest": "sha256:78370e52e1e9a304e3e86a545df41f677fd0ac1fbc2bd2f42470ab3c3392d5e2",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:fe42f6aa3f56361a1628401b862c75b43831498dfff272a96d4ccc838cf5a2d7",
+    "journalDigest": "sha256:5c1faaaddd6963a4f269b9303113e3cf15e613b273a3fe0f336a732f00a67af6",
+    "recordedAt": "2026-10-12T11:26:14Z"
+  }
+}
