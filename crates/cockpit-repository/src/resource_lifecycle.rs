@@ -2568,6 +2568,196 @@ fn materialize_git_revision(
     Ok(checkout)
 }
 
+struct FinishAttemptBindings {
+    repository_id: String,
+    contract_digest: Digest,
+    scope_digest: Digest,
+    snapshot_digest: Digest,
+    runtime_version: String,
+    runtime_digest: Digest,
+}
+
+fn finish_attempt_bindings(
+    root: &Path,
+    work_item_id: &str,
+    source_head: &str,
+    finish_revision: &str,
+) -> Result<FinishAttemptBindings, ObserverError> {
+    let contract_path = format!(".ai/work-items/active/{work_item_id}.contract.json");
+    let contract = git_json(root, source_head, &contract_path)?;
+    if contract["workItemId"] != serde_json::json!(work_item_id) {
+        return Err(post_merge_sync_error(
+            root,
+            "source PR Contract does not identify the finish-stage Work Item",
+        ));
+    }
+    let contract_digest = super::canonical_contract_digest(&contract).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("source PR Contract digest is invalid: {error}"),
+        )
+    })?;
+    let scope_digest = cockpit_protocol::digest_json(&serde_json::json!({
+        "scope": contract.get("scope").cloned().unwrap_or_else(|| serde_json::json!([])),
+    }))
+    .map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("source PR Contract scope digest is invalid: {error}"),
+        )
+    })?;
+    let verification = git_json(
+        root,
+        finish_revision,
+        &format!(".ai/evidence/{work_item_id}.verification.json"),
+    )?;
+    let runtime_digest: Digest = serde_json::from_value(verification["runtimeDigest"].clone())
+        .map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("finish-stage Runtime digest is invalid: {error}"),
+            )
+        })?;
+    let snapshot_digest: Digest = serde_json::from_value(
+        verification["repositorySnapshotDigest"].clone(),
+    )
+    .map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("finish-stage repository snapshot digest is invalid: {error}"),
+        )
+    })?;
+    let runtime_version = verification["runtimeVersion"]
+        .as_str()
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| post_merge_sync_error(root, "finish-stage Runtime version is missing"))?
+        .to_owned();
+    if verification["passed"] != serde_json::json!(true)
+        || verification["repositoryId"] != serde_json::json!(super::repository_id(root).to_string())
+        || verification["contractDigest"] != serde_json::json!(contract_digest.to_string())
+        || verification["receipt"]["passed"] != serde_json::json!(true)
+        || verification["receipt"]["runtimeVersion"] != serde_json::json!(runtime_version)
+        || verification["receipt"]["runtimeDigest"] != serde_json::json!(runtime_digest.to_string())
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "finish-stage verification does not bind the source Contract and Runtime identity",
+        ));
+    }
+    Ok(FinishAttemptBindings {
+        repository_id: super::repository_id(root).to_string(),
+        contract_digest,
+        scope_digest,
+        snapshot_digest,
+        runtime_version,
+        runtime_digest,
+    })
+}
+
+fn finish_attempt_matches(
+    attempt: &serde_json::Value,
+    filename_digest: &str,
+    work_item_id: &str,
+    bindings: &FinishAttemptBindings,
+) -> bool {
+    let Some(attempt_id) = attempt
+        .get("attemptId")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+    else {
+        return false;
+    };
+    let mut unsigned = attempt.clone();
+    let Some(unsigned_object) = unsigned.as_object_mut() else {
+        return false;
+    };
+    unsigned_object.remove("attemptId");
+    let Ok(content_digest) = cockpit_protocol::digest_json(&unsigned) else {
+        return false;
+    };
+    let state = attempt["state"].as_str().unwrap_or_default();
+    let passed = attempt["passed"].as_bool();
+    let process_count = attempt["processesSpawned"].as_u64();
+    let records = attempt
+        .get("executionRecords")
+        .and_then(serde_json::Value::as_array);
+    if filename_digest
+        != attempt_id
+            .to_string()
+            .strip_prefix("sha256:")
+            .unwrap_or_default()
+        || content_digest != attempt_id
+        || attempt["protocolVersion"] != serde_json::json!(1)
+        || attempt["schemaVersion"] != serde_json::json!(1)
+        || attempt["kind"] != serde_json::json!("verification_attempt")
+        || attempt["workItemId"] != serde_json::json!(work_item_id)
+        || attempt["repositoryId"] != serde_json::json!(bindings.repository_id)
+        || attempt["contractDigest"] != serde_json::json!(bindings.contract_digest.to_string())
+        || attempt["contractExecutionScopeDigest"]
+            != serde_json::json!(bindings.scope_digest.to_string())
+        || attempt["repositorySnapshotDigest"]
+            != serde_json::json!(bindings.snapshot_digest.to_string())
+        || attempt["runtimeVersion"] != serde_json::json!(bindings.runtime_version)
+        || attempt["runtimeDigest"] != serde_json::json!(bindings.runtime_digest.to_string())
+        || !attempt["createdAt"]
+            .as_str()
+            .is_some_and(|value| chrono::DateTime::parse_from_rfc3339(value).is_ok())
+        || !attempt["commands"].is_array()
+        || passed.is_none()
+        || process_count.is_none()
+        || records.is_none()
+    {
+        return false;
+    }
+
+    match state {
+        "precondition_rejected" => {
+            passed == Some(false)
+                && process_count == Some(0)
+                && records.is_some_and(Vec::is_empty)
+                && attempt["receipt"].is_null()
+        }
+        "execution_failed" | "execution_completed" | "formal_receipt_rejected" => {
+            let Some(receipt_value) = attempt.get("receipt").filter(|value| !value.is_null())
+            else {
+                return false;
+            };
+            let Ok(receipt) = serde_json::from_value::<cockpit_verification::VerificationReceipt>(
+                receipt_value.clone(),
+            ) else {
+                return false;
+            };
+            let expected_passed = state != "execution_failed";
+            let receipt_records =
+                serde_json::to_value(&receipt.execution_records).unwrap_or_default();
+            let state_consistent = match state {
+                "execution_failed" => passed == Some(false),
+                "execution_completed" => passed == Some(true),
+                "formal_receipt_rejected" => {
+                    passed == Some(true)
+                        && attempt["diagnostic"]["code"]
+                            .as_str()
+                            .is_some_and(|value| !value.is_empty())
+                        && attempt["diagnostic"]["message"]
+                            .as_str()
+                            .is_some_and(|value| !value.is_empty())
+                }
+                _ => false,
+            };
+            receipt.work_item_id.as_deref() == Some(work_item_id)
+                && receipt.repository_id.as_deref() == Some(bindings.repository_id.as_str())
+                && receipt.runtime_version.as_deref() == Some(bindings.runtime_version.as_str())
+                && receipt.runtime_digest.as_deref()
+                    == Some(bindings.runtime_digest.to_string().as_str())
+                && receipt.passed == expected_passed
+                && attempt["executionRecords"] == receipt_records
+                && attempt["processesSpawned"].as_u64() == Some(receipt.processes_spawned as u64)
+                && state_consistent
+        }
+        _ => false,
+    }
+}
+
 fn validate_finish_attempt_history(
     root: &Path,
     work_item_id: &str,
@@ -2590,6 +2780,7 @@ fn validate_finish_attempt_history(
             "finish revision is not on the exact first-parent chain from the source PR head",
         ));
     }
+    let bindings = finish_attempt_bindings(root, work_item_id, source_head, finish_revision)?;
     let mut predecessor = source_head;
     for commit in commits.iter().take(commits.len().saturating_sub(1)) {
         require_exact_parent_chain(root, commit, &[predecessor])?;
@@ -2639,43 +2830,10 @@ fn validate_finish_attempt_history(
             ));
         }
         let attempt = git_json(root, commit, path)?;
-        let attempt_id = attempt["attemptId"]
-            .as_str()
-            .and_then(|value| value.parse::<Digest>().ok())
-            .ok_or_else(|| {
-                post_merge_sync_error(root, "verification attempt has no typed attemptId")
-            })?;
-        let attempt_id_hex = attempt_id
-            .to_string()
-            .strip_prefix("sha256:")
-            .unwrap_or_default()
-            .to_owned();
-        let mut unsigned = attempt.clone();
-        let Some(object) = unsigned.as_object_mut() else {
+        if !finish_attempt_matches(&attempt, suffix, work_item_id, &bindings) {
             return Err(post_merge_sync_error(
                 root,
-                "verification attempt must be a JSON object",
-            ));
-        };
-        object.remove("attemptId");
-        let content_digest = cockpit_protocol::digest_json(&unsigned).map_err(|error| {
-            post_merge_sync_error(
-                root,
-                format!("verification attempt digest cannot be recomputed: {error}"),
-            )
-        })?;
-        if suffix != attempt_id_hex
-            || content_digest != attempt_id
-            || attempt["schemaVersion"] != serde_json::json!(1)
-            || attempt["kind"] != serde_json::json!("verification_attempt")
-            || attempt["workItemId"] != serde_json::json!(work_item_id)
-            || attempt["repositoryId"] != serde_json::json!(super::repository_id(root).to_string())
-            || !attempt["passed"].is_boolean()
-            || attempt["state"].as_str().is_none_or(str::is_empty)
-        {
-            return Err(post_merge_sync_error(
-                root,
-                "verification attempt content or identity binding is invalid",
+                "verification attempt content, Runtime receipt, or Contract/snapshot identity binding is invalid",
             ));
         }
         require_same_git_blob(root, commit, sync_merge, path)?;
@@ -2769,22 +2927,84 @@ fn validate_archive_stage_bytes(
     Ok(())
 }
 
+fn validate_current_archive_matches_revision(
+    root: &Path,
+    work_item_id: &str,
+    archive_revision: &str,
+) -> Result<(), ObserverError> {
+    let prefix = format!(".ai/work-items/archive/{work_item_id}");
+    for suffix in [
+        "contract.json",
+        "summary.json",
+        "outcome.json",
+        "task-report.json",
+        "task-report.md",
+        "events.jsonl",
+        "archive.json",
+    ] {
+        let relative = format!("{prefix}.{suffix}");
+        let path = root.join(&relative);
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            return Err(post_merge_sync_error(
+                root,
+                format!("current archive artifact is not a regular file: {relative}"),
+            ));
+        }
+        let current = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        let committed = git_blob_bytes(root, archive_revision, &relative)?;
+        if current != committed {
+            return Err(post_merge_sync_error(
+                root,
+                format!(
+                    "current archive artifact differs from the selected immutable archive commit: {relative}"
+                ),
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn archived_contract_digest(
+    root: &Path,
+    work_item_id: &str,
+    archive_revision: &str,
+) -> Result<Digest, ObserverError> {
+    let path = format!(".ai/work-items/archive/{work_item_id}.contract.json");
+    let contract = git_json(root, archive_revision, &path)?;
+    if contract["workItemId"] != serde_json::json!(work_item_id) {
+        return Err(post_merge_sync_error(
+            root,
+            "selected archive Contract identifies a different Work Item",
+        ));
+    }
+    super::canonical_contract_digest(&contract).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("selected archive Contract is invalid: {error}"),
+        )
+    })
+}
+
 fn validate_documentation_projection(
     root: &Path,
     work_item_id: &str,
     archive_revision: &str,
     docs_revision: &str,
 ) -> Result<(), ObserverError> {
+    let archive_digest = archived_contract_digest(root, work_item_id, archive_revision)?;
     let short_id = work_item_id
         .split('-')
         .take(2)
         .collect::<Vec<_>>()
         .join("-");
-    for (suffix, expected_status) in [
-        ("", "Implemented"),
-        (".zh-CN", "已实现"),
-        (".ja", "Implemented"),
-    ] {
+    for suffix in ["", ".zh-CN", ".ja"] {
         let parity_path = format!("docs/reference/reference-parity{suffix}.md");
         let before = String::from_utf8(git_blob_bytes(root, archive_revision, &parity_path)?)
             .map_err(|error| {
@@ -2803,23 +3023,27 @@ fn validate_documentation_projection(
         }
         let old_cells = parity_cells(before_row);
         let new_cells = parity_cells(after_row);
-        if old_cells.len() < 3
+        if old_cells.len() != 3
             || new_cells.len() != 3
             || old_cells[0] != new_cells[0]
-            || new_cells[1] != expected_status
+            || old_cells[1] != new_cells[1]
+            || !pending_status_projection(new_cells[1])
         {
             return Err(post_merge_sync_error(
                 root,
-                "parity target row does not have the expected localized terminal status",
+                "parity projection must preserve the target Work Item's pending status",
             ));
         }
         let page_suffix = if suffix.is_empty() { "" } else { suffix };
+        let source_evidence = old_cells[2];
         let evidence = new_cells[2];
         for required in [
             format!("[Work Item](../work-items/{work_item_id}{page_suffix}.md)"),
-            format!("archive `.ai/work-items/archive/{work_item_id}.contract.json`"),
-            format!("verification `.ai/evidence/{work_item_id}.verification.json`"),
-            format!("close `.ai/decisions/{work_item_id}.close.json`"),
+            format!(".ai/work-items/archive/{work_item_id}.contract.json"),
+            format!(".ai/evidence/{work_item_id}.verification.json"),
+            format!(".ai/work-items/archive/{work_item_id}.archive.json"),
+            format!(".ai/decisions/{work_item_id}.close.json"),
+            archive_digest.to_string(),
         ] {
             if !evidence.contains(&required) {
                 return Err(post_merge_sync_error(
@@ -2828,12 +3052,29 @@ fn validate_documentation_projection(
                 ));
             }
         }
-        if !evidence.contains(&format!(
-            "finalization `.ai/decisions/{work_item_id}.finalize"
-        )) {
+        if !evidence.contains(&format!(".ai/decisions/{work_item_id}.finalize")) {
             return Err(post_merge_sync_error(
                 root,
                 "parity evidence cell is missing the finalization receipt reference",
+            ));
+        }
+        if !source_evidence.contains(&format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        )) || !source_evidence.contains(&format!(".ai/decisions/{work_item_id}.finalize"))
+            || !source_evidence.contains(&format!(".ai/decisions/{work_item_id}.close.json"))
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "parity source row does not describe the active-to-archive pending lifecycle",
+            ));
+        }
+        if !pending_archive_evidence(evidence, work_item_id, suffix)
+            || evidence.to_ascii_lowercase().contains("terminal")
+            || evidence.to_ascii_lowercase().contains("implemented")
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "parity evidence must record verification/archive and leave finalization/close pending",
             ));
         }
 
@@ -2849,9 +3090,50 @@ fn validate_documentation_projection(
                     format!("projected Work Item document is not UTF-8: {error}"),
                 )
             })?;
-        validate_work_item_document_projection(root, work_item_id, &before, &after)?;
+        validate_work_item_document_projection(
+            root,
+            work_item_id,
+            suffix,
+            &archive_digest,
+            &before,
+            &after,
+        )?;
     }
     Ok(())
+}
+
+fn pending_status_projection(status: &str) -> bool {
+    let status = status.to_lowercase();
+    status.contains("in progress") || status.contains("进行中") || status.contains("進行中")
+}
+
+fn pending_archive_evidence(evidence: &str, work_item_id: &str, suffix: &str) -> bool {
+    let finalization = format!(".ai/decisions/{work_item_id}.finalize");
+    let close = format!(".ai/decisions/{work_item_id}.close.json");
+    let Some(finalization_at) = evidence.find(&finalization) else {
+        return false;
+    };
+    let Some(close_at) = evidence.find(&close) else {
+        return false;
+    };
+    if finalization_at >= close_at {
+        return false;
+    }
+    let after_close = &evidence[close_at + close.len()..];
+    if suffix == ".zh-CN" {
+        evidence.contains("已通过")
+            && evidence.contains("已记录")
+            && after_close.contains("仍待完成")
+    } else if suffix == ".ja" {
+        evidence.contains("検証済み")
+            && evidence.contains("記録済み")
+            && after_close.contains("未完了")
+    } else {
+        let lower = evidence.to_ascii_lowercase();
+        (lower.contains("is verified") || lower.contains("is passed"))
+            && lower.contains("is recorded")
+            && after_close.to_ascii_lowercase().contains("remain pending")
+    }
 }
 
 fn parity_row<'a>(
@@ -2915,6 +3197,8 @@ fn parity_cells(row: &str) -> Vec<&str> {
 fn validate_work_item_document_projection(
     root: &Path,
     work_item_id: &str,
+    suffix: &str,
+    archive_digest: &Digest,
     before: &str,
     after: &str,
 ) -> Result<(), ObserverError> {
@@ -2924,51 +3208,78 @@ fn validate_work_item_document_projection(
     let (after_header, after_body) = markdown_frontmatter(after).ok_or_else(|| {
         post_merge_sync_error(root, "promoted Work Item page has invalid frontmatter")
     })?;
-    if before_body != after_body {
-        return Err(post_merge_sync_error(
-            root,
-            "documentation promotion changed Work Item page body text",
-        ));
-    }
     if unprojected_frontmatter_lines(before_header) != unprojected_frontmatter_lines(after_header) {
         return Err(post_merge_sync_error(
             root,
             "Work Item promotion changed unrelated frontmatter",
         ));
     }
-    let fields = after_header
-        .lines()
-        .filter_map(|line| line.split_once(": "))
-        .collect::<Vec<_>>();
-    let count = |key: &str| fields.iter().filter(|(field, _)| *field == key).count();
-    let value = |key: &str| {
-        fields
-            .iter()
-            .find(|(field, _)| *field == key)
-            .map(|(_, value)| *value)
+    let fields = |header: &str| {
+        header
+            .lines()
+            .filter_map(|line| line.split_once(": "))
+            .collect::<Vec<_>>()
     };
-    if count("status") != 1
-        || count("lastVerifiedBy") != 1
-        || count("terminalArchive") != 1
-        || count("terminalVerification") != 1
-        || count("terminalFinalization") != 1
-        || count("terminalDecision") != 1
-        || value("status") != Some("implemented")
-        || value("lastVerifiedBy") != Some(work_item_id)
-        || value("terminalArchive")
-            != Some(format!(".ai/work-items/archive/{work_item_id}.contract.json").as_str())
-        || value("terminalVerification")
-            != Some(format!(".ai/evidence/{work_item_id}.verification.json").as_str())
-        || !value("terminalFinalization").is_some_and(|value| {
-            value.starts_with(&format!(".ai/decisions/{work_item_id}.finalize"))
-                && value.ends_with(".json")
+    let before_fields = fields(before_header);
+    let after_fields = fields(after_header);
+    let field = |fields: &[(&str, &str)], key: &str| {
+        let matches = fields
+            .iter()
+            .filter(|(candidate, _)| *candidate == key)
+            .collect::<Vec<_>>();
+        (matches.len() == 1).then(|| matches[0].1)
+    };
+    let has_terminal_field = |header: &str| {
+        header.lines().any(|line| {
+            line.split_once(": ")
+                .is_some_and(|(key, _)| key.starts_with("terminal"))
         })
-        || value("terminalDecision")
-            != Some(format!(".ai/decisions/{work_item_id}.close.json").as_str())
+    };
+    let old_digest = field(&before_fields, "contractDigest");
+    let new_digest = field(&after_fields, "contractDigest");
+    if field(&before_fields, "status") != Some("in_progress")
+        || field(&after_fields, "status") != Some("in_progress")
+        || field(&before_fields, "workItemId") != Some(work_item_id)
+        || field(&after_fields, "workItemId") != Some(work_item_id)
+        || old_digest
+            .and_then(|value| value.parse::<Digest>().ok())
+            .is_none()
+        || new_digest != Some(archive_digest.to_string().as_str())
+        || has_terminal_field(before_header)
+        || has_terminal_field(after_header)
     {
         return Err(post_merge_sync_error(
             root,
-            "Work Item frontmatter is not the canonical terminal evidence projection",
+            "Work Item document must remain pending and bind the archived Contract digest without terminal fields",
+        ));
+    }
+    let old_digest = old_digest.expect("the Contract digest was validated above");
+    let old_target = format!("../../.ai/work-items/active/{work_item_id}.contract.json");
+    let new_target = format!("../../.ai/work-items/archive/{work_item_id}.contract.json");
+    if before_body.matches(&old_target).count() != 1 {
+        return Err(post_merge_sync_error(
+            root,
+            "archived Work Item page must contain exactly one active Contract link before projection",
+        ));
+    }
+    let mut expected_body = before_body.replace(&old_target, &new_target);
+    let (old_label, new_label) = match suffix {
+        ".zh-CN" => ("当前 [", "已归档的 ["),
+        ".ja" => ("active な [", "アーカイブ済みの ["),
+        _ => ("active [", "archived ["),
+    };
+    if expected_body.matches(old_label).count() != 1 {
+        return Err(post_merge_sync_error(
+            root,
+            "Work Item page Contract link label is not the expected active projection",
+        ));
+    }
+    expected_body = expected_body.replacen(old_label, new_label, 1);
+    expected_body = expected_body.replace(old_digest, &archive_digest.to_string());
+    if expected_body != after_body {
+        return Err(post_merge_sync_error(
+            root,
+            "Work Item page body changed beyond the Contract path and digest projection",
         ));
     }
     Ok(())
@@ -2983,14 +3294,7 @@ fn markdown_frontmatter(text: &str) -> Option<(&str, &str)> {
 }
 
 fn unprojected_frontmatter_lines(header: &str) -> Vec<String> {
-    let projected = [
-        "status",
-        "lastVerifiedBy",
-        "terminalArchive",
-        "terminalVerification",
-        "terminalFinalization",
-        "terminalDecision",
-    ];
+    let projected = ["contractDigest"];
     header
         .lines()
         .filter(|line| {
@@ -3117,6 +3421,7 @@ fn validate_post_merge_sync_commit_stages(
         &sync.finish_revision,
         &sync.archive_revision,
     )?;
+    validate_current_archive_matches_revision(root, work_item_id, &sync.archive_revision)?;
     validate_documentation_projection(
         root,
         work_item_id,
@@ -3411,6 +3716,9 @@ fn validate_github_remote_ref_observation(
     evidence: &cockpit_protocol::DelegatedEvidence,
     sync: &PostMergeSyncEvidence,
     repository: &str,
+    retained_root_timestamp: Option<&str>,
+    evidence_bound_at: &str,
+    finalization_timestamp: &str,
 ) -> Result<(), ObserverError> {
     let branch = sync
         .remote_branch_ref
@@ -3443,14 +3751,95 @@ fn validate_github_remote_ref_observation(
             }
         }
         PostMergeSyncRemoteBranchState::Deleted => {
-            if value["message"].as_str() != Some("Not Found")
-                || value["status"].as_str() != Some("404")
-                || value.get("ref").is_some()
-                || value.get("object").is_some()
+            let access_url = format!(
+                "https://api.github.com/repos/{repository}/git/matching-refs/heads/{branch}"
+            );
+            let query_url =
+                format!("https://api.github.com/repos/{repository}/git/ref/heads/{branch}");
+            let Some(observation_id) = value["observationId"]
+                .as_str()
+                .filter(|value| !value.is_empty())
+            else {
+                return Err(post_merge_sync_error(
+                    root,
+                    "deleted ref observation has no stable observation id",
+                ));
+            };
+            let Some(principal) = value["principal"]
+                .as_str()
+                .filter(|value| !value.is_empty())
+            else {
+                return Err(post_merge_sync_error(
+                    root,
+                    "deleted ref observation has no provider principal",
+                ));
+            };
+            let Some(observed_at) = value["observedAt"]
+                .as_str()
+                .and_then(|value| chrono::DateTime::parse_from_rfc3339(value).ok())
+            else {
+                return Err(post_merge_sync_error(
+                    root,
+                    "deleted ref observation time is invalid",
+                ));
+            };
+            let refs = value["accessCheck"]["refs"].as_array();
+            let access = &value["accessCheck"];
+            let query = &value["refQuery"];
+            let access_identity_matches = access["observationId"] == observation_id
+                && access["principal"] == principal
+                && access["repository"] == repository
+                && access["ref"] == sync.remote_branch_ref
+                && access["method"] == "GET"
+                && access["url"] == access_url
+                && access["httpStatus"] == 200
+                && access["nextPageUrl"].is_null()
+                && refs.is_some_and(|refs| {
+                    refs.iter().all(|item| {
+                        item["ref"].as_str().is_some_and(|name| {
+                            name.starts_with(&sync.remote_branch_ref)
+                                && name != sync.remote_branch_ref
+                        })
+                    })
+                });
+            let query_identity_matches = query["observationId"] == observation_id
+                && query["principal"] == principal
+                && query["repository"] == repository
+                && query["ref"] == sync.remote_branch_ref
+                && query["method"] == "GET"
+                && query["url"] == query_url
+                && query["httpStatus"] == 404
+                && query["body"]["message"] == "Not Found"
+                && query["body"]["status"] == "404"
+                && query["body"].get("ref").is_none()
+                && query["body"].get("object").is_none();
+            let fresh_after_retained_root = retained_root_timestamp
+                .and_then(|value| chrono::DateTime::parse_from_rfc3339(value).ok())
+                .is_some_and(|retained_at| observed_at > retained_at);
+            let collected_at = chrono::DateTime::parse_from_rfc3339(&evidence.collected_at).ok();
+            let bound_at = chrono::DateTime::parse_from_rfc3339(evidence_bound_at).ok();
+            let operation_at = chrono::DateTime::parse_from_rfc3339(finalization_timestamp).ok();
+            let timely_for_operation = matches!(
+                (collected_at, bound_at, operation_at),
+                (Some(collected), Some(bound), Some(operation))
+                    if collected == observed_at
+                        && observed_at <= bound
+                        && bound <= operation
+                        && bound - observed_at <= chrono::Duration::minutes(5)
+                        && observed_at <= operation
+                        && operation - observed_at <= chrono::Duration::minutes(5)
+            );
+            if value["schemaVersion"] != 1
+                || value["repository"] != repository
+                || value["ref"] != sync.remote_branch_ref
+                || !access_identity_matches
+                || !query_identity_matches
+                || !fresh_after_retained_root
+                || !timely_for_operation
             {
                 return Err(post_merge_sync_error(
                     root,
-                    "deleted remote branch requires a definitive GitHub 404 ref response",
+                    "deleted remote branch requires a fresh exact-ref 404 plus a successful accessible ref-list observation after the Retained root",
                 ));
             }
         }
@@ -3473,6 +3862,24 @@ fn validate_post_merge_sync_delegated_evidence(
     let timestamp = chrono::DateTime::parse_from_rfc3339(&receipt.timestamp).map_err(|error| {
         post_merge_sync_error(root, format!("finalization timestamp is invalid: {error}"))
     })?;
+    let retained_root_timestamp =
+        if receipt.result.disposition == ResourceFinalizationDisposition::Deleted {
+            let root_receipt = super::read_resource_finalization_receipt(
+                &super::resource_finalization_decision_path(root, &receipt.work_item_id),
+            )?;
+            if root_receipt.work_item_id != receipt.work_item_id
+                || root_receipt.repository_id != receipt.repository_id
+                || root_receipt.result.disposition != ResourceFinalizationDisposition::Retained
+            {
+                return Err(post_merge_sync_error(
+                    root,
+                    "Deleted remote-ref evidence must follow the exact Retained finalization root",
+                ));
+            }
+            Some(root_receipt.timestamp)
+        } else {
+            None
+        };
     let bindings = [
         (
             &sync.source_evidence_digest,
@@ -3556,7 +3963,15 @@ fn validate_post_merge_sync_delegated_evidence(
         .iter()
         .find(|candidate| candidate.evidence.digest == sync.remote_evidence_digest)
         .expect("the remote evidence digest was matched above");
-    validate_github_remote_ref_observation(root, &remote.evidence, sync, &source_repository)?;
+    validate_github_remote_ref_observation(
+        root,
+        &remote.evidence,
+        sync,
+        &source_repository,
+        retained_root_timestamp.as_deref(),
+        &remote.bound_at,
+        &receipt.timestamp,
+    )?;
     Ok(())
 }
 
@@ -3698,13 +4113,13 @@ fn validate_post_merge_sync_local_state(
                 "retained worktree .git identity differs",
             ));
         }
-    } else if receipt.result.disposition == ResourceFinalizationDisposition::Deleted {
-        if !local_resources_deleted(root, receipt)? {
-            return Err(post_merge_sync_error(
-                root,
-                "deleted finalization still has a local branch or registered/recreated worktree",
-            ));
-        }
+    } else if receipt.result.disposition == ResourceFinalizationDisposition::Deleted
+        && !local_resources_deleted(root, receipt)?
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "deleted finalization still has a local branch or registered/recreated worktree",
+        ));
     }
     if git_common_dir(root)? != canonical_expected_path(&sync.git_common_dir)? {
         return Err(post_merge_sync_error(
@@ -4889,11 +5304,46 @@ mod post_merge_sync_tests {
         .expect("GitHub present-ref observation serializes")
     }
 
-    fn github_deleted_ref_body() -> Vec<u8> {
+    fn github_deleted_ref_body(
+        repository: &str,
+        reference: &str,
+        observation_id: &str,
+        principal: &str,
+        observed_at: &str,
+    ) -> Vec<u8> {
+        let branch = reference.strip_prefix("refs/heads/").unwrap();
         serde_json::to_vec(&serde_json::json!({
-            "message": "Not Found",
-            "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
-            "status": "404"
+            "schemaVersion": 1,
+            "observationId": observation_id,
+            "principal": principal,
+            "repository": repository,
+            "ref": reference,
+            "observedAt": observed_at,
+            "accessCheck": {
+                "observationId": observation_id,
+                "principal": principal,
+                "repository": repository,
+                "ref": reference,
+                "method": "GET",
+                "url": format!("https://api.github.com/repos/{repository}/git/matching-refs/heads/{branch}"),
+                "httpStatus": 200,
+                "nextPageUrl": null,
+                "refs": []
+            },
+            "refQuery": {
+                "observationId": observation_id,
+                "principal": principal,
+                "repository": repository,
+                "ref": reference,
+                "method": "GET",
+                "url": format!("https://api.github.com/repos/{repository}/git/ref/heads/{branch}"),
+                "httpStatus": 404,
+                "body": {
+                    "message": "Not Found",
+                    "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+                    "status": "404"
+                }
+            }
         }))
         .expect("GitHub deleted-ref observation serializes")
     }
@@ -4999,19 +5449,135 @@ mod post_merge_sync_tests {
         git(root, &["rev-parse", "HEAD"])
     }
 
-    fn append_attempt(root: &Path, work_item_id: &str) -> String {
+    fn fixture_attempt_receipt(
+        work_item_id: &str,
+        bindings: &super::FinishAttemptBindings,
+        passed: bool,
+        execution_records: serde_json::Value,
+        processes_spawned: u64,
+    ) -> serde_json::Value {
+        serde_json::json!({
+            "workItemId": work_item_id,
+            "repositoryId": bindings.repository_id,
+            "runtimeVersion": bindings.runtime_version,
+            "runtimeDigest": bindings.runtime_digest.to_string(),
+            "results": [],
+            "executionRecords": execution_records,
+            "receiptCandidates": [],
+            "nodesPlanned": processes_spawned,
+            "nodesExecuted": processes_spawned,
+            "nodesReused": 0,
+            "rerunStale": 0,
+            "rerunUnknown": 0,
+            "protectedNodesExecuted": 0,
+            "protectedNodesSkipped": 0,
+            "planningElapsedMs": 0,
+            "executionElapsedMs": 1,
+            "processesSpawned": processes_spawned,
+            "maxConcurrentProcesses": 1,
+            "processSpawnFailures": 0,
+            "gitCalls": 0,
+            "filesRead": 0,
+            "filesHashed": 0,
+            "elapsedMs": 1,
+            "passed": passed
+        })
+    }
+
+    fn fixture_attempt_value(
+        work_item_id: &str,
+        bindings: &super::FinishAttemptBindings,
+        state: &str,
+        passed: bool,
+    ) -> serde_json::Value {
+        let execution_records = if state == "precondition_rejected" {
+            serde_json::json!([])
+        } else {
+            serde_json::json!([{
+                "nodeId": "fixture-command",
+                "commandDigest": Digest::sha256_bytes(b"fixture command").to_string(),
+                "timeoutSeconds": 10,
+                "deadlineMs": 1000,
+                "spawned": true,
+                "passed": passed,
+                "exitCode": if passed { 0 } else { 1 },
+                "stdout": "",
+                "stderr": "",
+                "stdoutTruncated": false,
+                "stderrTruncated": false,
+                "timedOut": false,
+                "elapsedMs": 1
+            }])
+        };
+        let processes_spawned = if state == "precondition_rejected" {
+            0
+        } else {
+            1
+        };
+        let receipt = if state == "precondition_rejected" {
+            serde_json::Value::Null
+        } else {
+            fixture_attempt_receipt(
+                work_item_id,
+                bindings,
+                passed,
+                execution_records.clone(),
+                processes_spawned,
+            )
+        };
         let mut attempt = serde_json::json!({
+            "protocolVersion": 1,
             "schemaVersion": 1,
             "kind": "verification_attempt",
-            "state": "execution_completed",
+            "state": state,
             "workItemId": work_item_id,
-            "repositoryId": super::super::repository_id(root).to_string(),
-            "passed": false
+            "repositoryId": bindings.repository_id,
+            "runtimeVersion": bindings.runtime_version,
+            "runtimeDigest": bindings.runtime_digest.to_string(),
+            "contractDigest": bindings.contract_digest.to_string(),
+            "contractExecutionScopeDigest": bindings.scope_digest.to_string(),
+            "repositorySnapshotDigest": bindings.snapshot_digest.to_string(),
+            "commands": [],
+            "passed": passed,
+            "processesSpawned": processes_spawned,
+            "executionRecords": execution_records,
+            "receipt": receipt,
+            "createdAt": "2026-10-12T00:00:00Z"
         });
+        if state == "formal_receipt_rejected" {
+            attempt["diagnostic"] =
+                serde_json::json!({"code": "fixture_rejected", "message": "fixture diagnostic"});
+        }
+        seal_attempt(&mut attempt);
+        attempt
+    }
+
+    fn seal_attempt(attempt: &mut serde_json::Value) {
+        if let Some(object) = attempt.as_object_mut() {
+            object.remove("attemptId");
+        }
         let digest = cockpit_protocol::digest_json(&attempt).unwrap();
         attempt["attemptId"] = serde_json::json!(digest.to_string());
-        let suffix = digest
-            .to_string()
+    }
+
+    fn attempt_filename_digest(attempt: &serde_json::Value) -> String {
+        attempt["attemptId"]
+            .as_str()
+            .unwrap()
+            .strip_prefix("sha256:")
+            .unwrap()
+            .to_owned()
+    }
+
+    fn append_attempt(
+        root: &Path,
+        work_item_id: &str,
+        bindings: &super::FinishAttemptBindings,
+    ) -> String {
+        let attempt = fixture_attempt_value(work_item_id, bindings, "execution_failed", false);
+        let suffix = attempt["attemptId"]
+            .as_str()
+            .unwrap()
             .strip_prefix("sha256:")
             .unwrap()
             .to_owned();
@@ -5021,6 +5587,60 @@ mod post_merge_sync_tests {
         std::fs::create_dir_all(path.parent().unwrap()).unwrap();
         std::fs::write(path, serde_json::to_vec_pretty(&attempt).unwrap()).unwrap();
         suffix
+    }
+
+    fn fixture_finish_bindings(
+        root: &Path,
+        work_item_id: &str,
+    ) -> (String, super::FinishAttemptBindings) {
+        let contract_path = root.join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        std::fs::create_dir_all(contract_path.parent().unwrap()).unwrap();
+        let contract = serde_json::json!({"workItemId": work_item_id, "scope": ["source.txt"]});
+        std::fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).unwrap(),
+        )
+        .unwrap();
+        let source_head = commit(root, "source Contract");
+        let contract_digest = super::super::canonical_contract_digest(&contract).unwrap();
+        let scope_digest = cockpit_protocol::digest_json(&serde_json::json!({
+            "scope": contract["scope"],
+        }))
+        .unwrap();
+        let bindings = super::FinishAttemptBindings {
+            repository_id: super::super::repository_id(root).to_string(),
+            contract_digest,
+            scope_digest,
+            snapshot_digest: Digest::sha256_bytes(b"fixture source snapshot"),
+            runtime_version: "test-runtime".into(),
+            runtime_digest: Digest::sha256_bytes(b"test runtime"),
+        };
+        (source_head, bindings)
+    }
+
+    fn write_finish_verification(
+        root: &Path,
+        work_item_id: &str,
+        bindings: &super::FinishAttemptBindings,
+    ) {
+        let evidence = root.join(format!(".ai/evidence/{work_item_id}.verification.json"));
+        std::fs::create_dir_all(evidence.parent().unwrap()).unwrap();
+        let value = serde_json::json!({
+            "passed": true,
+            "repositoryId": bindings.repository_id,
+            "contractDigest": bindings.contract_digest.to_string(),
+            "repositorySnapshotDigest": bindings.snapshot_digest.to_string(),
+            "runtimeVersion": bindings.runtime_version,
+            "runtimeDigest": bindings.runtime_digest.to_string(),
+            "receipt": {
+                "passed": true,
+                "runtimeVersion": bindings.runtime_version,
+                "runtimeDigest": bindings.runtime_digest.to_string()
+            }
+        });
+        std::fs::write(evidence, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
     }
 
     fn post_merge_history_fixture() -> tempfile::TempDir {
@@ -5038,15 +5658,16 @@ mod post_merge_sync_tests {
     fn post_merge_sync_finish_history_accepts_only_append_only_attempt_commits() {
         let fixture = post_merge_history_fixture();
         let root = fixture.path();
-        let source_head = git(root, &["rev-parse", "HEAD"]);
         let work_item_id = "WI-9999-post-merge-sync-fixture";
-        append_attempt(root, work_item_id);
+        let (source_head, bindings) = fixture_finish_bindings(root, work_item_id);
+        append_attempt(root, work_item_id, &bindings);
         commit(root, "append failed verification attempt");
         std::fs::write(root.join("finish-evidence.txt"), "finish\n").unwrap();
+        write_finish_verification(root, work_item_id, &bindings);
         let finish = commit(root, "finish");
         super::validate_finish_attempt_history(root, work_item_id, &source_head, &finish, &finish)
             .expect(
-                "the first-parent interval may append immutable attempt artifacts before finish",
+                "a Runtime execution_failed attempt may be appended before a successful finish",
             );
     }
 
@@ -5054,15 +5675,16 @@ mod post_merge_sync_tests {
     fn post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes() {
         let fixture = post_merge_history_fixture();
         let root = fixture.path();
-        let source_head = git(root, &["rev-parse", "HEAD"]);
         let work_item_id = "WI-9998-post-merge-sync-fixture";
-        append_attempt(root, work_item_id);
+        let (source_head, bindings) = fixture_finish_bindings(root, work_item_id);
+        append_attempt(root, work_item_id, &bindings);
         commit(root, "append failed verification attempt");
         std::fs::write(root.join("product.txt"), "temporary product change\n").unwrap();
         commit(root, "unexpected product change");
         git(root, &["rm", "-q", "product.txt"]);
         commit(root, "revert product change");
         std::fs::write(root.join("finish-evidence.txt"), "finish\n").unwrap();
+        write_finish_verification(root, work_item_id, &bindings);
         let finish = commit(root, "finish");
         assert!(
             super::validate_finish_attempt_history(
@@ -5075,6 +5697,82 @@ mod post_merge_sync_tests {
             .is_err(),
             "reverting an intermediate product change must not erase it from the reviewed history"
         );
+    }
+
+    #[test]
+    fn post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9991-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(root, id);
+        let valid = fixture_attempt_value(id, &bindings, "execution_failed", false);
+        assert!(super::finish_attempt_matches(
+            &valid,
+            &attempt_filename_digest(&valid),
+            id,
+            &bindings,
+        ));
+        let precondition = fixture_attempt_value(id, &bindings, "precondition_rejected", false);
+        assert!(super::finish_attempt_matches(
+            &precondition,
+            &attempt_filename_digest(&precondition),
+            id,
+            &bindings,
+        ));
+
+        let mut wrong_contract = valid.clone();
+        wrong_contract["contractDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"other contract").to_string());
+        seal_attempt(&mut wrong_contract);
+        assert!(!super::finish_attempt_matches(
+            &wrong_contract,
+            &attempt_filename_digest(&wrong_contract),
+            id,
+            &bindings,
+        ));
+
+        let mut wrong_snapshot = valid.clone();
+        wrong_snapshot["repositorySnapshotDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"other snapshot").to_string());
+        seal_attempt(&mut wrong_snapshot);
+        assert!(!super::finish_attempt_matches(
+            &wrong_snapshot,
+            &attempt_filename_digest(&wrong_snapshot),
+            id,
+            &bindings,
+        ));
+
+        let mut wrong_runtime = valid.clone();
+        wrong_runtime["runtimeDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"other runtime").to_string());
+        seal_attempt(&mut wrong_runtime);
+        assert!(!super::finish_attempt_matches(
+            &wrong_runtime,
+            &attempt_filename_digest(&wrong_runtime),
+            id,
+            &bindings,
+        ));
+
+        let mut wrong_receipt = valid.clone();
+        wrong_receipt["receipt"]["runtimeDigest"] =
+            serde_json::json!(Digest::sha256_bytes(b"foreign receipt runtime").to_string());
+        seal_attempt(&mut wrong_receipt);
+        assert!(!super::finish_attempt_matches(
+            &wrong_receipt,
+            &attempt_filename_digest(&wrong_receipt),
+            id,
+            &bindings,
+        ));
+
+        let mut invalid_state = valid;
+        invalid_state["state"] = serde_json::json!("execution_completed");
+        seal_attempt(&mut invalid_state);
+        assert!(!super::finish_attempt_matches(
+            &invalid_state,
+            &attempt_filename_digest(&invalid_state),
+            id,
+            &bindings,
+        ));
     }
 
     #[test]
@@ -5095,6 +5793,42 @@ mod post_merge_sync_tests {
         let materialized = std::fs::read_to_string(checkout.repository.join(path)).unwrap();
         assert!(materialized.contains("false"));
         assert!(!materialized.contains("true"));
+    }
+
+    #[test]
+    fn post_merge_sync_current_archive_must_match_the_selected_archive_commit() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9992-post-merge-sync-fixture";
+        let archive = root.join(format!(".ai/work-items/archive/{id}"));
+        std::fs::create_dir_all(archive.parent().unwrap()).unwrap();
+        for (suffix, contents) in [
+            (
+                "contract.json",
+                b"{\"workItemId\":\"fixture\"}\n".as_slice(),
+            ),
+            ("summary.json", b"summary\n".as_slice()),
+            ("outcome.json", b"outcome\n".as_slice()),
+            ("task-report.json", b"report\n".as_slice()),
+            ("task-report.md", b"report markdown\n".as_slice()),
+            ("events.jsonl", b"event\n".as_slice()),
+            ("archive.json", b"manifest\n".as_slice()),
+        ] {
+            std::fs::write(format!("{}.{}", archive.display(), suffix), contents).unwrap();
+        }
+        let archive_revision = commit(root, "select archive identity");
+        super::validate_current_archive_matches_revision(root, id, &archive_revision)
+            .expect("live archive records match their immutable archive commit");
+
+        std::fs::write(
+            format!("{}.summary.json", archive.display()),
+            b"self-consistent replacement summary\n",
+        )
+        .unwrap();
+        assert!(
+            super::validate_current_archive_matches_revision(root, id, &archive_revision).is_err(),
+            "a self-consistent replacement archive set cannot replace the selected commit blobs"
+        );
     }
 
     #[test]
@@ -5160,103 +5894,181 @@ mod post_merge_sync_tests {
     }
 
     #[test]
-    fn post_merge_sync_document_projection_changes_only_terminal_frontmatter() {
-        let before = "---\ntitle: Fixture\nstatus: in_progress\nlastVerifiedBy: WI-9995-post-merge-sync-fixture\n---\n\nBody stays byte-identical.\n";
-        let after = "---\ntitle: Fixture\nstatus: implemented\nlastVerifiedBy: WI-9995-post-merge-sync-fixture\nterminalArchive: .ai/work-items/archive/WI-9995-post-merge-sync-fixture.contract.json\nterminalVerification: .ai/evidence/WI-9995-post-merge-sync-fixture.verification.json\nterminalFinalization: .ai/decisions/WI-9995-post-merge-sync-fixture.finalize.abc.json\nterminalDecision: .ai/decisions/WI-9995-post-merge-sync-fixture.close.json\n---\n\nBody stays byte-identical.\n";
+    fn post_merge_sync_document_projection_preserves_pending_state() {
+        let id = "WI-9995-post-merge-sync-fixture";
+        let old_digest = Digest::sha256_bytes(b"old contract");
+        let archive_digest = Digest::sha256_bytes(b"archived contract");
+        let before = format!(
+            "---\ntitle: Fixture\nworkItemId: {id}\nstatus: in_progress\nlastVerifiedBy: {id}\ncontractDigest: {old_digest}\n---\n\nThis page projects the active [{id} Contract](../../.ai/work-items/active/{id}.contract.json), bound to `{old_digest}`. Runtime records remain authoritative.\n"
+        );
+        let after = format!(
+            "---\ntitle: Fixture\nworkItemId: {id}\nstatus: in_progress\nlastVerifiedBy: {id}\ncontractDigest: {archive_digest}\n---\n\nThis page projects the archived [{id} Contract](../../.ai/work-items/archive/{id}.contract.json), bound to `{archive_digest}`. Runtime records remain authoritative.\n"
+        );
         super::validate_work_item_document_projection(
             Path::new("/synthetic/repository"),
-            "WI-9995-post-merge-sync-fixture",
-            before,
-            after,
+            id,
+            "",
+            &archive_digest,
+            &before,
+            &after,
         )
-        .expect("canonical terminal fields may change while preserving all other frontmatter and body bytes");
+        .expect("the archived Contract link and digest may change while the page stays pending");
 
-        let changed_body = after.replace("Body stays byte-identical.", "changed body");
+        let premature_terminal = after.replace("status: in_progress", "status: implemented");
         assert!(
             super::validate_work_item_document_projection(
                 Path::new("/synthetic/repository"),
-                "WI-9995-post-merge-sync-fixture",
-                before,
-                &changed_body,
+                id,
+                "",
+                &archive_digest,
+                &before,
+                &premature_terminal,
             )
             .is_err(),
-            "projection must not conceal page-body changes"
+            "documentation projection must reject premature terminal status"
+        );
+
+        let changed_body = after.replace("Runtime records remain authoritative.", "unrelated edit");
+        assert!(
+            super::validate_work_item_document_projection(
+                Path::new("/synthetic/repository"),
+                id,
+                "",
+                &archive_digest,
+                &before,
+                &changed_body,
+            )
+            .is_err()
         );
     }
 
     #[test]
-    fn post_merge_sync_docs_projection_is_confined_to_six_terminal_pages() {
+    fn post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes() {
         let fixture = post_merge_history_fixture();
         let root = fixture.path();
         let id = "WI-9993-post-merge-sync-fixture";
         let archive = root.join(format!(".ai/work-items/archive/{id}.contract.json"));
         std::fs::create_dir_all(archive.parent().unwrap()).unwrap();
-        std::fs::write(&archive, b"synthetic archived contract\n").unwrap();
-        let evidence = format!(
-            "[Work Item](../work-items/{id}{{suffix}}.md); archive `.ai/work-items/archive/{id}.contract.json`; verification `.ai/evidence/{id}.verification.json`; finalization `.ai/decisions/{id}.finalize.abc.json`; close `.ai/decisions/{id}.close.json`."
-        );
-        for (suffix, status) in [
-            ("", "Implemented"),
-            (".zh-CN", "已实现"),
-            (".ja", "Implemented"),
+        let contract = serde_json::json!({"workItemId": id, "scope": ["source.txt"]});
+        std::fs::write(&archive, serde_json::to_vec_pretty(&contract).unwrap()).unwrap();
+        let archive_digest = super::super::canonical_contract_digest(&contract).unwrap();
+        let old_digest = Digest::sha256_bytes(b"active contract digest");
+        for (suffix, status, active_label) in [
+            (
+                "",
+                "In progress → Implemented after verified close",
+                "active",
+            ),
+            (".zh-CN", "进行中 → 验证关闭后已实现", "当前"),
+            (".ja", "進行中 → 検証済みクローズ後に実装済み", "active な"),
         ] {
             let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
             std::fs::create_dir_all(parity.parent().unwrap()).unwrap();
+            let before_evidence = format!(
+                "[Work Item](../work-items/{id}{suffix}.md); {active_label} Contract `.ai/work-items/active/{id}.contract.json` (`{old_digest}`); planned archive `.ai/work-items/archive/{id}.contract.json`; planned verification `.ai/evidence/{id}.verification.json`; planned finalization `.ai/decisions/{id}.finalize.json`; planned close `.ai/decisions/{id}.close.json`."
+            );
             std::fs::write(
                 parity,
-                format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| WI-9993 | In progress | pending |\n| WI-8888 | Unrelated | unchanged |\n"),
+                format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| WI-9993 | {status} | {before_evidence} |\n| WI-8888 | Unrelated | unchanged |\n"),
             )
             .unwrap();
             let document = root.join(format!("docs/work-items/{id}{suffix}.md"));
             std::fs::create_dir_all(document.parent().unwrap()).unwrap();
+            let (before_label, before_digest_text) = match suffix {
+                ".zh-CN" => ("当前", "，绑定摘要"),
+                ".ja" => ("active な", " に結び付いています。"),
+                _ => ("active", ", bound to"),
+            };
+            let body = match suffix {
+                ".zh-CN" => format!(
+                    "本页投影{before_label} [{id} Contract](../../.ai/work-items/active/{id}.contract.json){before_digest_text} `{old_digest}`。Runtime records remain authoritative.\n"
+                ),
+                ".ja" => format!(
+                    "このページは {before_label} [{id} Contract](../../.ai/work-items/active/{id}.contract.json) の投影であり、`{old_digest}`{before_digest_text}Runtime records remain authoritative.\n"
+                ),
+                _ => format!(
+                    "This page projects the {before_label} [{id} Contract](../../.ai/work-items/active/{id}.contract.json){before_digest_text} `{old_digest}`. Runtime records remain authoritative.\n"
+                ),
+            };
             std::fs::write(
                 document,
-                format!("---\ntitle: Fixture\nstatus: in_progress\nlastVerifiedBy: {id}\n---\n\nPreserved page body.\n"),
+                format!("---\ntitle: Fixture\nworkItemId: {id}\nstatus: in_progress\nlastVerifiedBy: {id}\ncontractDigest: {old_digest}\n---\n\n{body}"),
             )
             .unwrap();
-            assert!(matches!(status, "Implemented" | "已实现"));
         }
         let archive_revision = commit(root, "archive projection source");
         for (suffix, status) in [
-            ("", "Implemented"),
-            (".zh-CN", "已实现"),
-            (".ja", "Implemented"),
+            ("", "In progress → Implemented after verified close"),
+            (".zh-CN", "进行中 → 验证关闭后已实现"),
+            (".ja", "進行中 → 検証済みクローズ後に実装済み"),
         ] {
             let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
             let mut current = std::fs::read_to_string(&parity).unwrap();
-            let row = format!("| WI-9993 | In progress | pending |\n");
-            current = current.replace(
-                &row,
-                &format!(
-                    "| WI-9993 | {status} | {} |\n",
-                    evidence.replace("{suffix}", suffix)
+            let work_item = format!("[Work Item](../work-items/{id}{suffix}.md)");
+            let new_evidence = match suffix {
+                ".zh-CN" => format!(
+                    "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); 验证 `.ai/evidence/{id}.verification.json` 已通过；归档 `.ai/work-items/archive/{id}.archive.json` 已记录；provider 最终化 `.ai/decisions/{id}.finalize.json` 和真人 close `.ai/decisions/{id}.close.json` 仍待完成."
                 ),
-            );
+                ".ja" => format!(
+                    "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); verification `.ai/evidence/{id}.verification.json` は検証済み; archive `.ai/work-items/archive/{id}.archive.json` は記録済み; provider finalization `.ai/decisions/{id}.finalize.json` と human close `.ai/decisions/{id}.close.json` は未完了."
+                ),
+                _ => format!(
+                    "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); verification `.ai/evidence/{id}.verification.json` is verified; archive `.ai/work-items/archive/{id}.archive.json` is recorded; provider finalization `.ai/decisions/{id}.finalize.json` and human close `.ai/decisions/{id}.close.json` remain pending."
+                ),
+            };
+            let old_row = current
+                .lines()
+                .find(|line| line.starts_with("| WI-9993 |"))
+                .expect("target fixture row exists");
+            let new_row = format!("| WI-9993 | {status} | {new_evidence} |");
+            current = current.replace(old_row, &new_row);
             std::fs::write(&parity, current).unwrap();
             let document = root.join(format!("docs/work-items/{id}{suffix}.md"));
             let mut current = std::fs::read_to_string(&document).unwrap();
-            current = current.replace("status: in_progress", "status: implemented");
-            current = current.replace(
-                &format!("lastVerifiedBy: {id}\n---"),
-                &format!("lastVerifiedBy: {id}\nterminalArchive: .ai/work-items/archive/{id}.contract.json\nterminalVerification: .ai/evidence/{id}.verification.json\nterminalFinalization: .ai/decisions/{id}.finalize.abc.json\nterminalDecision: .ai/decisions/{id}.close.json\n---"),
-            );
+            let target = format!("../../.ai/work-items/active/{id}.contract.json");
+            let archive_target = format!("../../.ai/work-items/archive/{id}.contract.json");
+            current = current.replace(&target, &archive_target);
+            let (old_label, new_label) = match suffix {
+                ".zh-CN" => ("当前 [", "已归档的 ["),
+                ".ja" => ("active な [", "アーカイブ済みの ["),
+                _ => ("active [", "archived ["),
+            };
+            current = current.replace(old_label, new_label);
+            current = current.replace(&old_digest.to_string(), &archive_digest.to_string());
             std::fs::write(document, current).unwrap();
+            let row = format!("| WI-9993 | {status} | ");
+            assert!(std::fs::read_to_string(parity).unwrap().contains(&row));
         }
-        let docs_revision = commit(root, "promote terminal documentation");
+        let docs_revision = commit(root, "sync pending archive documentation");
         super::validate_documentation_projection(root, id, &archive_revision, &docs_revision)
-            .expect("the three parity rows and three page frontmatters may receive canonical terminal evidence");
+            .expect("the real archive-pending-close projection must pass in all languages");
 
-        let page = root.join(format!("docs/work-items/{id}.ja.md"));
-        let current = std::fs::read_to_string(&page)
-            .unwrap()
-            .replace("Preserved page body.", "changed");
-        std::fs::write(page, current).unwrap();
-        let tampered_docs = commit(root, "change projected page body");
+        let parity = root.join("docs/reference/reference-parity.md");
+        let current = std::fs::read_to_string(&parity).unwrap().replace(
+            "WI-8888 | Unrelated | unchanged",
+            "WI-8888 | Unrelated | changed",
+        );
+        std::fs::write(parity, current).unwrap();
+        let tampered_docs = commit(root, "change unrelated parity row");
         assert!(
             super::validate_documentation_projection(root, id, &archive_revision, &tampered_docs)
                 .is_err(),
-            "terminal promotion must reject page-body changes outside the projection fields"
+            "documentation projection must reject unrelated Work Item row changes"
         );
+    }
+
+    #[test]
+    fn post_merge_sync_accepts_the_real_archive_pending_close_projection() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let archive_revision = git(&root, &["rev-parse", "700f6cd5^{commit}"]);
+        let docs_revision = git(&root, &["rev-parse", "0f1d54b3^{commit}"]);
+        super::validate_documentation_projection(
+            &root,
+            "WI-1076-governance-recovered-predecessor-projection",
+            &archive_revision,
+            &docs_revision,
+        )
+        .expect("the actual archive-to-docs commit pair preserves the pending close lifecycle");
     }
 
     #[test]
@@ -5348,10 +6160,29 @@ mod post_merge_sync_tests {
             &fixture.path().join(".git/worktrees/target-worktree"),
             &common_dir,
         );
-        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::seconds(2))
+        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
             .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
         let post_merge_sync = receipt.post_merge_sync.as_ref().unwrap().clone();
         let remote_reference = post_merge_sync.remote_branch_ref.clone();
+        let mut retained_root = receipt.clone();
+        retained_root.result.disposition = ResourceFinalizationDisposition::Retained;
+        retained_root.after.branch = ResourceFinalizationBranchState::Present;
+        retained_root.after.worktree = ResourceFinalizationWorktreeState::Clean;
+        retained_root.timestamp = (chrono::Utc::now() - chrono::Duration::seconds(60))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        retained_root
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        let retained_root_path =
+            super::resource_finalization_decision_path(root, "WI-9997-post-merge-sync-fixture");
+        std::fs::create_dir_all(retained_root_path.parent().unwrap()).unwrap();
+        std::fs::write(
+            &retained_root_path,
+            serde_json::to_vec_pretty(&retained_root).unwrap(),
+        )
+        .unwrap();
         let imports = [
             (
                 "source",
@@ -5371,7 +6202,13 @@ mod post_merge_sync_tests {
                 "remote",
                 remote_reference.clone(),
                 github_ref_origin(&remote_reference),
-                github_deleted_ref_body(),
+                github_deleted_ref_body(
+                    "example/fixture",
+                    &remote_reference,
+                    "observation-1",
+                    "fixture-user",
+                    &collect_time,
+                ),
                 AssuranceLevel::ProviderVerified,
             ),
         ];
@@ -5409,6 +6246,129 @@ mod post_merge_sync_tests {
             receipt.post_merge_sync.as_ref().unwrap(),
         )
         .expect("structured provider facts must match both PR identities and exact ref state");
+
+        let import_remote = |name: &str, raw: Vec<u8>, collected_at: String| {
+            let evidence = DelegatedEvidence {
+                provider: "github".into(),
+                subject: remote_reference.clone(),
+                origin: github_ref_origin(&remote_reference),
+                assurance: AssuranceLevel::ProviderVerified,
+                collected_at,
+                digest: Digest::sha256_bytes(&raw),
+                validity: EvidenceValidity::Valid,
+                raw_evidence_ref: format!(".ai/evidence/external/sync-fixture-{name}.json"),
+            };
+            super::super::import_delegated_evidence(
+                root,
+                "WI-9997-post-merge-sync-fixture",
+                &evidence,
+                &raw,
+                &runtime,
+            )
+            .expect("import remote observation fixture");
+            evidence.digest
+        };
+
+        let mut permission_denied: serde_json::Value =
+            serde_json::from_slice(&github_deleted_ref_body(
+                "example/fixture",
+                &remote_reference,
+                "permission-404",
+                "fixture-user",
+                &collect_time,
+            ))
+            .unwrap();
+        permission_denied["accessCheck"]["httpStatus"] = serde_json::json!(404);
+        let permission_digest = import_remote(
+            "permission-404",
+            serde_json::to_vec(&permission_denied).unwrap(),
+            collect_time.clone(),
+        );
+        let mut permission_receipt = receipt.clone();
+        permission_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = permission_digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &permission_receipt,
+                permission_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "a permission-denied 404 cannot prove that an accessible exact ref is absent"
+        );
+
+        retained_root.timestamp = (chrono::Utc::now() - chrono::Duration::minutes(12))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        std::fs::write(
+            &retained_root_path,
+            serde_json::to_vec_pretty(&retained_root).unwrap(),
+        )
+        .unwrap();
+        let stale_time = (chrono::Utc::now() - chrono::Duration::minutes(10))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let mut stale_replay: serde_json::Value = serde_json::from_slice(&github_deleted_ref_body(
+            "example/fixture",
+            &remote_reference,
+            "observation-1",
+            "fixture-user",
+            &stale_time,
+        ))
+        .unwrap();
+        stale_replay["accessCheck"]["refs"] = serde_json::json!([
+            {"ref": format!("{remote_reference}/nested"), "object": {"sha": "child"}}
+        ]);
+        let stale_digest = import_remote(
+            "stale-replay-rehashed",
+            serde_json::to_vec(&stale_replay).unwrap(),
+            stale_time,
+        );
+        let mut stale_receipt = receipt.clone();
+        stale_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = stale_digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &stale_receipt,
+                stale_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "rehashing a replayed observation cannot refresh its timestamp"
+        );
+
+        let future_time = (chrono::Utc::now() + chrono::Duration::minutes(10))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let future_digest = import_remote(
+            "future-observation",
+            github_deleted_ref_body(
+                "example/fixture",
+                &remote_reference,
+                "future-observation",
+                "fixture-user",
+                &future_time,
+            ),
+            future_time,
+        );
+        let mut future_receipt = receipt.clone();
+        future_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = future_digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &future_receipt,
+                future_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "a future-dated provider observation cannot authorize deletion"
+        );
 
         let arbitrary_pr = b"source PR metadata";
         let arbitrary_pr_evidence = DelegatedEvidence {
