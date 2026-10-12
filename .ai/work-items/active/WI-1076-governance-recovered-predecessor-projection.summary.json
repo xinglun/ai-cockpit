@@ -59,20 +59,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9c39de71c31fb2377f7f1011ff47a034b09c12b8069d599a1da70ab9d73a02f6",
+      "previousContractHash": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
+      "reason": "Declare the canonical complete Cargo workspace test required by the hosted workspace package coverage consumer; retain existing verification commands and source scope.",
+      "recorded": true,
+      "recordedAt": "2026-10-12T00:08:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
   "createdAt": "2026-10-11T21:32:46Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893",
+    "contractDigest": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:736b62be574aa42f3a1aadc878c6ea160ddbafe2b23d85b2077dcc3e9cd9ba2b",
-    "reason": "确认资源绑定，纠正候选范围后重新验证",
-    "recordedAt": "2026-10-11T23:39:30Z",
+    "preflightDecisionDigest": "sha256:b537f5f33238d501f49b8911ca4a8cf0d58727f87fe7241f4e29a5df890e2ba5",
+    "reason": "补齐完整工作区测试覆盖",
+    "recordedAt": "2026-10-12T00:11:09Z",
     "recordedBy": "Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:dee2fe98a7539a791f41054a96900533cb214bc19c6b1c50934b79bc2f88df36",
+    "repositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
     "schemaVersion": 1,
     "workItemId": "WI-1076-governance-recovered-predecessor-projection"
   },
@@ -95,15 +115,15 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-11T23:43:33Z",
-  "preflightContractDigest": "sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
-  "preflightState": "green",
+  "preflightAt": "2026-10-12T00:14:55Z",
+  "preflightContractDigest": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
+  "preflightDecisionDigest": "sha256:1674138f844a86eb6c660438193989ca092c036bd369f29be7bf3156e8bf38dc",
+  "preflightRepositorySnapshotDigest": "sha256:40e4a2a72f6cbe969dfe50ac2e32922f7e9e79a1d5125c130253660106c1383e",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
-  "updatedAt": "2026-10-11T23:44:20.903086386Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-12T00:12:29.819586008+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -118,5 +138,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-12T00:08:57Z"
+  },
   "workItemId": "WI-1076-governance-recovered-predecessor-projection"
 }

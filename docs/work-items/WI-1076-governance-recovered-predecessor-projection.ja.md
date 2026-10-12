@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893
+contractDigest: sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84
 ---
 
 [English](WI-1076-governance-recovered-predecessor-projection.md) · [简体中文](WI-1076-governance-recovered-predecessor-projection.zh-CN.md)
 
 # WI-1076 — governance recovered predecessor projection
 
-このページは active な [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json) の投影であり、`sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893` に結び付いています。准入、検証、ライフサイクル状態は Runtime の記録を正とします。
+このページは active な [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json) の投影であり、`sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84` に結び付いています。准入、検証、ライフサイクル状態は Runtime の記録を正とします。
 
 ## 期待する効果
 
@@ -30,4 +30,4 @@ contractDigest: sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8
 
 有効な superseded predecessor と、identity-bound で未完了の successor の組み合わせを通すこと、無効な recovery、close、repository、lineage binding を拒否すること、successor の未完了状態を保持することを確認します。検証済みで archive 済みかつ close 確認済みの successor だけが predecessor を Implemented にできます。
 
-Contract に宣言された確認コマンドは `bash tests/ci/governance_integrity_gate_test.sh`、`bash tests/docs/work_item_status_consistency_test.sh`、`bash tests/docs/parity_status_check.sh` です。確認結果は Work Item に結び付いた Runtime の正式検証レシートに記録され、このページはその証拠を代替しません。
+Contract に宣言された確認コマンドは `bash tests/ci/governance_integrity_gate_test.sh`、`bash tests/docs/work_item_status_consistency_test.sh`、`bash tests/docs/parity_status_check.sh`、`cargo test --locked --workspace` です。確認結果は Work Item に結び付いた Runtime の正式検証レシートに記録され、このページはその証拠を代替しません。

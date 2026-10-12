@@ -114,7 +114,8 @@
   "verification": [
     "bash tests/ci/governance_integrity_gate_test.sh",
     "bash tests/docs/work_item_status_consistency_test.sh",
-    "bash tests/docs/parity_status_check.sh"
+    "bash tests/docs/parity_status_check.sh",
+    "cargo test --locked --workspace"
   ],
   "workItemId": "WI-1076-governance-recovered-predecessor-projection"
 }

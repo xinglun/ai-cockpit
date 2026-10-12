@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893
+contractDigest: sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84
 ---
 
 [简体中文](WI-1076-governance-recovered-predecessor-projection.zh-CN.md) · [日本語](WI-1076-governance-recovered-predecessor-projection.ja.md)
 
 # WI-1076 — governance recovered predecessor projection
 
-This page projects the active [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json), bound to `sha256:988b6c0d670c237df062bd3b90867b23e39c512eb6774400043a1dac8042f893`. Runtime records remain authoritative for admission, verification, and lifecycle state.
+This page projects the active [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json), bound to `sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84`. Runtime records remain authoritative for admission, verification, and lifecycle state.
 
 ## Intended benefit
 
@@ -30,4 +30,4 @@ Implementation files are limited to `tests/ci/governance_integrity_gate.py` and 
 
 Acceptance requires positive coverage for a valid superseded predecessor with an unfinished, identity-bound successor; negative coverage for invalid recovery, close, repository, and lineage bindings; and preservation of the successor's incomplete state. Only a verified, archived, confirmed-closed successor may resolve the predecessor as implemented.
 
-The Contract declares `bash tests/ci/governance_integrity_gate_test.sh`, `bash tests/docs/work_item_status_consistency_test.sh`, and `bash tests/docs/parity_status_check.sh`. Runtime verification receipts, not this page, record check results; the page does not substitute for current Work Item evidence.
+The Contract declares `bash tests/ci/governance_integrity_gate_test.sh`, `bash tests/docs/work_item_status_consistency_test.sh`, `bash tests/docs/parity_status_check.sh`, and `cargo test --locked --workspace`. Runtime verification receipts, not this page, record check results; the page does not substitute for current Work Item evidence.
