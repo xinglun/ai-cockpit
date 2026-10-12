@@ -2971,7 +2971,7 @@ fn validate_current_archive_matches_revision(
     Ok(())
 }
 
-fn archived_contract_digest(
+fn archived_contract_digest_at_revision(
     root: &Path,
     work_item_id: &str,
     archive_revision: &str,
@@ -2998,7 +2998,8 @@ fn validate_documentation_projection(
     archive_revision: &str,
     docs_revision: &str,
 ) -> Result<(), ObserverError> {
-    let archive_digest = archived_contract_digest(root, work_item_id, archive_revision)?;
+    let archive_digest =
+        archived_contract_digest_at_revision(root, work_item_id, archive_revision)?;
     let short_id = work_item_id
         .split('-')
         .take(2)
@@ -3214,33 +3215,18 @@ fn validate_work_item_document_projection(
             "Work Item promotion changed unrelated frontmatter",
         ));
     }
-    let fields = |header: &str| {
-        header
-            .lines()
-            .filter_map(|line| line.split_once(": "))
-            .collect::<Vec<_>>()
-    };
-    let before_fields = fields(before_header);
-    let after_fields = fields(after_header);
-    let field = |fields: &[(&str, &str)], key: &str| {
-        let matches = fields
-            .iter()
-            .filter(|(candidate, _)| *candidate == key)
-            .collect::<Vec<_>>();
-        (matches.len() == 1).then(|| matches[0].1)
-    };
     let has_terminal_field = |header: &str| {
         header.lines().any(|line| {
             line.split_once(": ")
                 .is_some_and(|(key, _)| key.starts_with("terminal"))
         })
     };
-    let old_digest = field(&before_fields, "contractDigest");
-    let new_digest = field(&after_fields, "contractDigest");
-    if field(&before_fields, "status") != Some("in_progress")
-        || field(&after_fields, "status") != Some("in_progress")
-        || field(&before_fields, "workItemId") != Some(work_item_id)
-        || field(&after_fields, "workItemId") != Some(work_item_id)
+    let old_digest = unique_frontmatter_field(before_header, "contractDigest");
+    let new_digest = unique_frontmatter_field(after_header, "contractDigest");
+    if unique_frontmatter_field(before_header, "status") != Some("in_progress")
+        || unique_frontmatter_field(after_header, "status") != Some("in_progress")
+        || unique_frontmatter_field(before_header, "workItemId") != Some(work_item_id)
+        || unique_frontmatter_field(after_header, "workItemId") != Some(work_item_id)
         || old_digest
             .and_then(|value| value.parse::<Digest>().ok())
             .is_none()
@@ -3283,6 +3269,16 @@ fn validate_work_item_document_projection(
         ));
     }
     Ok(())
+}
+
+fn unique_frontmatter_field<'a>(header: &'a str, key: &str) -> Option<&'a str> {
+    let mut matches = header
+        .lines()
+        .filter_map(|line| line.split_once(": "))
+        .filter(|(candidate, _)| *candidate == key)
+        .map(|(_, value)| value);
+    let value = matches.next()?;
+    matches.next().is_none().then_some(value)
 }
 
 fn markdown_frontmatter(text: &str) -> Option<(&str, &str)> {
