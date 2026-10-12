@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json"
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json"
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json"
           ],
           "inference": false,
           "text": "Allow the three-language Recovered projection only for a strictly validated superseded predecessor while preserving awaiting_successor_close for the successor and every independent acceptance and close requirement."
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json"
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
