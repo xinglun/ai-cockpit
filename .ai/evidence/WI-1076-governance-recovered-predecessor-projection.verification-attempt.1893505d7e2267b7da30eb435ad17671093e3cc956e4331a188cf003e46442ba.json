@@ -1,0 +1,73 @@
+{
+  "attemptId": "sha256:1893505d7e2267b7da30eb435ad17671093e3cc956e4331a188cf003e46442ba",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:afd2946685a21167ddf812999dea94b9cec2266cbf3d49e2631f9929bff19682",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:3cf1bfd16bc0060b090e7a3ecb529c3851fb008cf639fe2ddc2d0e596055ec18",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "commandDigest": "sha256:5bcf04d5c1ff3b44fb940fe9419d964dc3c455528962d29daf87b25258416073",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
+  "contractExecutionScopeDigest": "sha256:fe3e927c5b9332698298119b4fbd5ce6531885851b2e36804cfc033c63dc7429",
+  "createdAt": "2026-10-12T00:29:41Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1076-governance-recovered-predecessor-20261011/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40e4a2a72f6cbe969dfe50ac2e32922f7e9e79a1d5125c130253660106c1383e",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}

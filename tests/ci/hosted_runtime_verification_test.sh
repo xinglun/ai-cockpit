@@ -13,11 +13,19 @@ make_runtime() {
   printf 'fixture source\n' >"$directory/repository/README.md"
   printf '{"workItemId":"WI-HOSTED-TEST","verification":["cargo test --locked --workspace"]}\n' >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json"
   : >"$directory/repository/.ai/evidence/.keep"
+  printf '{"workItemId":"WI-HOSTED-TEST","passed":true,"contractDigest":"sha256:%064d","repositorySnapshotDigest":"sha256:%064d"}\n' 1 1 \
+    >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification.json"
+  printf '{"attempt":"historical failed attempt; retain"}\n' \
+    >"$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json"
+  printf '{"summary":"must remain byte-for-byte unchanged"}\n' \
+    >"$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json"
   git -C "$directory/repository" init -q
   git -C "$directory/repository" config user.name 'Hosted Runtime Test'
   git -C "$directory/repository" config user.email hosted-runtime@example.invalid
-  git -C "$directory/repository" add README.md .ai
-  git -C "$directory/repository" commit -qm 'hosted Runtime fixture'
+  git -C "$directory/repository" add README.md
+  git -C "$directory/repository" commit -qm 'hosted Runtime fixture baseline'
+  git -C "$directory/repository" add .ai
+  git -C "$directory/repository" commit -qm 'commit the Work Item receipt path before hosted verification'
   FAKE_MODE="$mode" FAKE_RUNTIME="$directory/runtime" python3 - <<'PY'
 import json
 import os
@@ -60,13 +68,21 @@ path.write_text(
     "        snapshot_digest = 'sha256:' + '2' * 64\n"
     "        if mode == 'stale-contract-after-verification': contract_digest = 'sha256:' + '4' * 64\n"
     "        if mode == 'stale-snapshot-after-verification': snapshot_digest = 'sha256:' + '4' * 64\n"
-    "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': snapshot_digest}}))\n"
+    "        if mode == 'workspace-symlink':\n"
+    "            workspace_target = Path(os.environ['FAKE_WORKSPACE']) / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
+    "            if workspace_target.exists() or workspace_target.is_symlink(): workspace_target.unlink()\n"
+    "            workspace_target.symlink_to('WI-HOSTED-TEST.verification-attempt.failed.json')\n"
+    "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'verified', 'evidenceFreshness': {'state': 'fresh'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': snapshot_digest}}))\n"
     "    else:\n"
-    "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'safeActions': actions}))\n"
+    "        repository = Path(args[args.index('--repo') + 1])\n"
+    "        contract = json.loads((repository / '.ai/work-items/active/WI-HOSTED-TEST.contract.json').read_text())\n"
+    "        contract_digest = 'sha256:' + hashlib.sha256(json.dumps(contract, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()).hexdigest()\n"
+    "        print(json.dumps({'workItemId': 'WI-HOSTED-TEST', 'verification': 'not_verified', 'evidenceFreshness': {'state': 'stale_or_invalid'}, 'repositoryId': 'sha256:' + '1' * 64, 'baseCommit': 'a' * 40, 'sourceDigests': {'contract': contract_digest, 'repositorySnapshot': 'sha256:' + '2' * 64}, 'safeActions': actions}))\n"
     "elif args and args[0] == 'preflight':\n"
     "    print(json.dumps({'kind': 'preflight', 'state': 'passed'}))\n"
     "elif args and args[0] == 'verify':\n"
     "    assert args[args.index('--workers') + 1] == '1'\n"
+    "    mode = os.environ['FAKE_MODE']\n"
     "    repository = Path(args[args.index('--repo') + 1])\n"
     "    runtime_digest = 'sha256:' + hashlib.sha256(Path(sys.argv[0]).read_bytes()).hexdigest()\n"
     "    repository_id = 'sha256:' + '1' * 64\n"
@@ -78,7 +94,20 @@ path.write_text(
     "    receipt = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'repositoryId': repository_id, 'nodesPlanned': 1, 'nodesExecuted': 1, 'nodesReused': 0, 'results': [{'nodeId': node_id, 'passed': True, 'reused': False, 'action': 'execute', 'satisfiedBy': 'execution'}], 'executionRecords': [{'nodeId': node_id, 'commandDigest': command_digest, 'spawned': True, 'passed': True, 'exitCode': 0}], 'planReceipt': {'workItemId': 'WI-HOSTED-TEST', 'repositoryId': repository_id, 'baseRevision': 'a' * 40, 'stage': 'task', 'repositorySnapshotDigest': snapshot_digest, 'executedNodes': [node_id], 'reusedNodes': [], 'coverageManifest': {'workspaceMembers': ['fixture'], 'nodeIds': [node_id], 'commandDigests': [command_digest], 'sourceProgram': 'cargo', 'sourceArgs': ['test', '--locked', '--workspace']}}}\n"
     "    evidence = {'workItemId': 'WI-HOSTED-TEST', 'passed': True, 'runtimeDigest': runtime_digest, 'runtimeVersion': '0.2.113', 'contractDigest': contract_digest, 'repositoryId': repository_id, 'repositorySnapshotDigest': snapshot_digest, 'receipt': receipt}\n"
     "    evidence_path = repository / '.ai/evidence/WI-HOSTED-TEST.verification.json'\n"
-    "    evidence_path.write_text(json.dumps(evidence), encoding='utf-8')\n"
+    "    if mode == 'wrong-work-item-id':\n"
+    "        evidence['workItemId'] = 'WI-OTHER'\n"
+    "        evidence['receipt']['workItemId'] = 'WI-OTHER'\n"
+    "        evidence['receipt']['planReceipt']['workItemId'] = 'WI-OTHER'\n"
+    "    elif mode == 'wrong-repository-id':\n"
+    "        evidence['repositoryId'] = 'sha256:' + '3' * 64\n"
+    "        evidence['receipt']['repositoryId'] = 'sha256:' + '3' * 64\n"
+    "        evidence['receipt']['planReceipt']['repositoryId'] = 'sha256:' + '3' * 64\n"
+    "    elif mode == 'wrong-contract-digest': evidence['contractDigest'] = 'sha256:' + '4' * 64\n"
+    "    elif mode == 'wrong-snapshot-digest': evidence['repositorySnapshotDigest'] = 'sha256:' + '4' * 64\n"
+    "    elif mode == 'wrong-runtime-digest':\n"
+    "        evidence['runtimeDigest'] = 'sha256:' + '4' * 64\n"
+    "        evidence['receipt']['runtimeDigest'] = 'sha256:' + '4' * 64\n"
+    "    if mode != 'missing-formal-receipt': evidence_path.write_text(json.dumps(evidence), encoding='utf-8')\n"
     "    print(json.dumps({'kind': 'verification', 'passed': True}))\n"
     "else:\n"
     "    raise SystemExit('unexpected fake Runtime command: ' + repr(args))\n",
@@ -103,10 +132,11 @@ assert spec is not None and spec.loader is not None
 route = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(route)
 head = subprocess.check_output(["git", "-C", str(repository), "rev-parse", "HEAD"], text=True).strip()
+base = subprocess.check_output(["git", "-C", str(repository), "rev-parse", "HEAD^"], text=True).strip()
 receipt = route.plan_repository_route(
     repository=repository,
     manifest_path=manifest,
-    base=head,
+    base=base,
     head=head,
     stage="pull_request",
     risk="normal",
@@ -187,14 +217,35 @@ evidence = repository / ".ai" / "evidence" / f"{work_item_id}.verification.json"
 evidence.write_bytes(json.dumps(formal).encode("utf-8"))
 PY
   fi
+  if [[ "$mode" == path-traversal ]]; then
+    python3 - "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+contract_path = Path(sys.argv[1])
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["workItemId"] = "WI-../../outside"
+contract_path.write_text(json.dumps(contract), encoding="utf-8")
+PY
+    git -C "$directory/repository" add .ai/work-items/active/WI-HOSTED-TEST.contract.json
+    git -C "$directory/repository" commit -qm 'unsafe path traversal Work Item ID fixture'
+  fi
   if [[ "$mode" == stale ]]; then
     capture_route_receipt "$directory/repository" "$directory/route-before.json"
   fi
+  cp "$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+    "$directory/initial-verification.json"
+  cp "$directory/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json" \
+    "$directory/initial-failed-attempt.json"
+  cp "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json" \
+    "$directory/initial-summary.json"
   mkdir -p "$directory/runner-temp"
   local result=0
   if [[ "$defer_worktree" == true ]]; then
     RUNNER_TEMP="$directory/runner-temp" AI_COCKPIT_DEFER_WORKTREE_CLEANUP=true \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
+      FAKE_WORKSPACE="$directory/repository" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
@@ -202,6 +253,7 @@ PY
   else
     AI_COCKPIT_DEFER_WORKTREE_CLEANUP=false \
       FAKE_MODE="$mode" FAKE_LOG="$directory/commands.jsonl" FAKE_STATE="$directory/status-count" \
+      FAKE_WORKSPACE="$directory/repository" \
       "$root/tests/ci/run_hosted_runtime_verification.sh" \
         "$directory/runtime" "$directory/repository" \
         "$directory/repository/.ai/work-items/active/WI-HOSTED-TEST.contract.json" \
@@ -236,8 +288,15 @@ PY
 }
 
 run_helper stale true
-test -z "$(git -C "$tmp/stale/repository" status --porcelain)" || {
-  printf 'hosted verification changed the route-planning checkout\n' >&2
+cmp "$tmp/stale/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+  "$tmp/stale/artifacts/hosted-runtime-verification.json"
+cmp "$tmp/stale/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json" \
+  "$tmp/stale/initial-summary.json"
+cmp "$tmp/stale/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json" \
+  "$tmp/stale/initial-failed-attempt.json"
+test "$(git -C "$tmp/stale/repository" status --porcelain)" = \
+  ' M .ai/evidence/WI-HOSTED-TEST.verification.json' || {
+  printf 'hosted verification changed paths outside the canonical receipt\n' >&2
   git -C "$tmp/stale/repository" status --short >&2
   exit 1
 }
@@ -255,7 +314,7 @@ import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "preflight", "work-item", "work-item", "verify", "work-item"]
+assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "preflight", "work-item", "work-item", "verify", "work-item", "work-item"]
 verify = commands[6]
 assert "--workers" in verify and verify[verify.index("--workers") + 1] == "1"
 assert verify[verify.index("--repo") + 1] != str(Path(sys.argv[1]).parents[0] / "repository")
@@ -272,6 +331,20 @@ jq -e '.state == "deferred_for_consumer" and .cleanupExitCode == 0 and .isolated
 deferred_repository=$(jq -er '.isolatedRepository' \
   "$tmp/stale-deferred/artifacts/hosted-runtime-worktree-cleanup.json")
 test -d "$deferred_repository"
+cmp "$tmp/stale-deferred/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-verification.json"
+cmp "$tmp/stale-deferred/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json" \
+  "$tmp/stale-deferred/initial-summary.json"
+cmp "$tmp/stale-deferred/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json" \
+  "$tmp/stale-deferred/initial-failed-attempt.json"
+test "$(git -C "$tmp/stale-deferred/repository" rev-parse HEAD)" = \
+  "$(git -C "$deferred_repository" rev-parse HEAD)"
+jq -e '.verification != "verified" and .evidenceFreshness.state == "stale_or_invalid"' \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-status-source.json" >/dev/null
+jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-status-verified.json" >/dev/null
+jq -e '.verification == "verified" and .evidenceFreshness.state == "fresh"' \
+  "$tmp/stale-deferred/artifacts/hosted-runtime-status-workspace.json" >/dev/null
 git -C "$tmp/stale-deferred/repository" worktree list --porcelain | \
   grep -F -q "worktree $deferred_repository"
 jq -e --arg repository "$deferred_repository" '.executionRepository == $repository and .verificationState == "passed"' \
@@ -451,7 +524,7 @@ import sys
 from pathlib import Path
 
 commands = [json.loads(line) for line in Path(sys.argv[1]).read_text().splitlines()]
-assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "work-item", "work-item", "verify", "work-item"]
+assert [command[0] for command in commands] == ["work-item", "work-item", "work-item", "work-item", "work-item", "verify", "work-item", "work-item"]
 PY
 
 run_helper existing-fresh-receipt true
@@ -467,6 +540,35 @@ run_helper existing-fresh-mismatched-receipt false
 jq -e '.verificationState == "invalidated" and .failureReason == "existing_fresh_receipt_identity_mismatch"' \
   "$tmp/existing-fresh-mismatched-receipt/artifacts/hosted-runtime-orchestration.json" >/dev/null
 assert_no_commands "$tmp/existing-fresh-mismatched-receipt/commands.jsonl" preflight verify
+
+for rejected_mode in missing-formal-receipt wrong-work-item-id wrong-repository-id \
+  wrong-contract-digest wrong-snapshot-digest wrong-runtime-digest; do
+  run_helper "$rejected_mode" false
+  jq -e '.verificationState == "invalidated" and .failureReason != null' \
+    "$tmp/$rejected_mode/artifacts/hosted-runtime-orchestration.json" >/dev/null
+  cmp "$tmp/$rejected_mode/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+    "$tmp/$rejected_mode/initial-verification.json"
+  cmp "$tmp/$rejected_mode/repository/.ai/work-items/active/WI-HOSTED-TEST.summary.json" \
+    "$tmp/$rejected_mode/initial-summary.json"
+  cmp "$tmp/$rejected_mode/repository/.ai/evidence/WI-HOSTED-TEST.verification-attempt.failed.json" \
+    "$tmp/$rejected_mode/initial-failed-attempt.json"
+  test ! -s "$tmp/$rejected_mode/artifacts/hosted-runtime-verification.json"
+done
+
+run_helper path-traversal false
+jq -e '.verificationState == "invalidated" and .failureReason == "work_item_id_path_invalid"' \
+  "$tmp/path-traversal/artifacts/hosted-runtime-orchestration.json" >/dev/null
+test ! -e "$tmp/path-traversal/commands.jsonl"
+cmp "$tmp/path-traversal/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+  "$tmp/path-traversal/initial-verification.json"
+
+run_helper workspace-symlink false
+jq -e '.verificationState == "invalidated" and .failureReason == "workspace_formal_verification_sync_failed"' \
+  "$tmp/workspace-symlink/artifacts/hosted-runtime-orchestration.json" >/dev/null
+test -L "$tmp/workspace-symlink/repository/.ai/evidence/WI-HOSTED-TEST.verification.json"
+cmp "$tmp/workspace-symlink/repository/.ai/evidence/WI-HOSTED-TEST.verification.json" \
+  "$tmp/workspace-symlink/initial-failed-attempt.json"
+test ! -s "$tmp/workspace-symlink/artifacts/hosted-runtime-verification.json"
 
 run_helper stale-contract-after-verification false true
 jq -e '.verificationState == "invalidated" and .failureReason == "post_verification_status_mismatch"' \

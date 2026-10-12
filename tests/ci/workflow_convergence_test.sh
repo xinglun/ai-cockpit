@@ -342,8 +342,8 @@ quality_gate = workflow.split(
     "      - name: Evaluate Rust Contract-aware quality gate", 1
 )[1].split("      - name: Build legacy Runtime for coordination compatibility", 1)[0]
 quality_gate_flat = re.sub(r"\s+", " ", quality_gate)
-assert 'ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}' in quality_gate
-assert 'if [[ "$ROUTE_LANE" == active ]]; then' in quality_gate_flat
+assert 'ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}' not in quality_gate
+assert 'verification_repository' not in quality_gate_flat
 assert "run_preflight" in hosted_runner and "run_verification" in hosted_runner
 assert "--workers 1" in hosted_runner
 assert 'status_allows "$status_after" run_verification' in hosted_runner
@@ -360,10 +360,10 @@ assert 'source_head" != "$worktree_head' in cleanup_runner
 assert workflow.index("name: Run admitted hosted Work Item verification with the candidate Runtime") < workflow.index(
     "name: Evaluate Rust Contract-aware quality gate"
 ), "refresh and verify with the exact hosted Runtime before the Contract gate"
-assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in quality_gate_flat
-assert '--repo "$verification_repository"' in quality_gate_flat
+assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' not in quality_gate_flat
+assert '--repo "$GITHUB_WORKSPACE"' in quality_gate_flat
 assert 'contract_path="$ROUTE_CONTRACT_PATH"' in quality_gate_flat
-assert 'contract_path="$verification_repository/$contract_path"' in quality_gate_flat
+assert 'contract_path="$GITHUB_WORKSPACE/$contract_path"' in quality_gate_flat
 assert '--contract "$contract_path"' in quality_gate_flat
 assert '--report "$GITHUB_WORKSPACE/target/rust-contract-quality-gate.json"' in quality_gate_flat
 quality_job = job_block("quality")
@@ -389,6 +389,7 @@ assert "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUNNER" in repository_gates_step
 assert "${{ github.workspace }}/tests/ci/run_process_observer_test_runner.sh" in repository_gates_step
 assert r'cleanup_hosted_runtime_verification_worktree.sh \ --resolve' in repository_gates_step_flat
 assert 'AI_COCKPIT_VERIFICATION_REPOSITORY="$verification_repository"' in repository_gates_step_flat
+assert 'run_repository_gates.py --repo "$GITHUB_WORKSPACE"' in repository_gates_step_flat
 cleanup_step = workflow.split("      - name: Cleanup hosted Runtime verification worktree", 1)[1].split("      - name:", 1)[0]
 upload_hosted = workflow.split("      - name: Upload hosted Work Item verification evidence", 1)[1].split("      - name:", 1)[0]
 assert "if: always() && steps.quality_route.outputs.lane == 'active'" in cleanup_step

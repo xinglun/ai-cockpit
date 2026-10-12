@@ -2,9 +2,9 @@
 author: AI Cockpit maintainers
 workItemId: WI-1068-v1-0-1-stable-release
 title: stable v1.0.1 release
-description: Deliver stable v1.0.1 from the existing reviewed line with public artifact and installation acceptance.
+description: Historical record for the v1.0.1 release predecessor superseded by WI-1070.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1068-v1-0-1-stable-release
 ---
@@ -13,13 +13,28 @@ lastVerifiedBy: WI-1068-v1-0-1-stable-release
 
 # WI-1068 — stable v1.0.1 release
 
-This Work Item delivers the existing v1.0.1 line as a true stable release, verifies the official artifacts, and updates the local CLI/MCP installation.
+## Historical status
 
-## Boundaries
+WI-1068 is a preserved historical predecessor. Runtime recorded a `supersede`
+recovery selecting WI-1070, then closed WI-1068. Its archived Contract,
+Summary, Outcome, events, verification receipt, and prior results remain
+unchanged. Follow-up for the selected successor and user-owned acceptance
+belongs to WI-1070.
 
-- Product/source changes remain within the 16 declared product paths. The three language pages and parity rows are required Work Item governance projections.
-- The real v1.0.0 stable release is the N-1 predecessor, and full N-1 acceptance runs on x86_64 Linux only.
-- v1.0.1-rc.2 remains a separate immutable prerelease. The new stable tag is created only after merge and fresh Runtime publication admission. No existing tag, release, or asset may be replaced.
-- The existing release workflow must pass its four-target candidate smokes and staged N-1 check before making the Release public. Public download/install acceptance and the macOS installed CLI/MCP checks follow publication.
+## Recorded release facts
 
-The source candidate is under review in PR #1022. CI, publication, public acceptance, local installation, and cleanup remain pending until current evidence proves each stage.
+GitHub Release `v1.0.1` (release ID `409414602`) was published at
+`2026-10-11T04:34:07Z`. Release workflow run `174`
+(`38110402437`) completed successfully at `2026-10-11T04:35:46Z`. The
+existing records are
+`.ai/evidence/external/github-v1.0.1-release-409414602.json` and
+`.ai/evidence/external/github-run-38110402437.json`. These are historical
+release facts; they do not establish current WI-1070 verification or mark its
+outstanding acceptance or close complete.
+
+## Preservation boundary
+
+The supersede and close records preserve the predecessor's terminal history.
+This projection does not rewrite WI-1068's archived Contract, Summary, Outcome,
+event log, archive manifest, or verification, and does not change the statuses
+of WI-1070's acceptance criteria or unknowns.

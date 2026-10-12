@@ -1,0 +1,124 @@
+{
+  "sequence": 3,
+  "preparedDigest": "sha256:0c8cc91a85e709ddfafb5d6bb4cb34a58a81f9406ed789c8b63107372bf976f9",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1076-governance-recovered-predecessor-projection",
+    "sequence": 3,
+    "changeId": "WI-1076-add-reviewed-wi1068-release-pages-20261011",
+    "requestDigest": "sha256:4429f1f428954745b050f52d2dd088065d64480606ae662b2c7806649796a5f9",
+    "reason": "Per the user's explicit 2026-10-11 direction, keep WI-1076 as the sole delivery owner and add only the three already-reviewed WI-1068 stable-release projection pages to its existing scope. Bind their content provenance to WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad. Preserve the existing two governance source/test paths, three WI-1076 pages, three parity pages, and all existing release acceptance facts; do not import WI-1070 governance records or alter release acceptance.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit."
+        ],
+        "newValue": [
+          "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit.",
+          "The three WI-1068-v1-0-1-stable-release pages are carried from the previously reviewed WI-1070 documentation commit b2402611267b5a8c65c15e834e462ea74d0b42ad; only those page texts and provenance are included, not WI-1070 Contract, Summary, governance records, or release-acceptance state."
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:8e66ad0fe684897115710684f5b7bd026d07fabbed2a537c2a3e339316f3e5a1",
+    "newContractDigest": "sha256:dadae347c9c827447d1869b674f4572507a677516321ad3d389aeab11e67e442",
+    "repositorySnapshotDigest": "sha256:d0ba318bd33b561b267ce1c3967e4e6126be48402c91d068ed790e772fa765f1",
+    "environmentObservationDigest": "sha256:9d979c590782d1f49c636c526e3cb57140709861eca98e4fa90c31b4c0d5f417",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:39fa1da2ebad4671af791b6eaa25c7e7597edb0e17ae65dddc8bdfbada6df984",
+    "journalDigest": "sha256:153ab033ec22fdc518e570d4b04100d7e959b1e074e881053bd63b1b2a87fa28",
+    "recordedAt": "2026-10-11T23:08:10Z"
+  }
+}
