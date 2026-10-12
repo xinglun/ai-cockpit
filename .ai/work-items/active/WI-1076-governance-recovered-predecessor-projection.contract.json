@@ -100,7 +100,12 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-1068-v1-0-1-stable-release.md",
     "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
-    "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+    "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+    ".github/workflows/ci.yml",
+    "tests/ci/run_hosted_runtime_verification.sh",
+    "tests/ci/hosted_runtime_verification_test.sh",
+    "tests/ci/workflow_convergence_test.sh",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs"
   ],
   "sources": [
     "Human authorization via Sentinel_8799489e5abc819187766d55c1c791ea at 2026-10-11T21:30:09Z: implement the independently scoped gate consistency repair; keep human-only Contract decisions explicit.",

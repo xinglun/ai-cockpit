@@ -50,6 +50,31 @@ fn git_output(repository: &Path, args: &[&str]) -> String {
         .to_owned()
 }
 
+fn copy_tree(source: &Path, destination: &Path) {
+    fs::create_dir_all(destination).expect("create copied directory");
+    for entry in fs::read_dir(source).expect("read copied directory") {
+        let entry = entry.expect("copied directory entry");
+        let source_path = entry.path();
+        let destination_path = destination.join(entry.file_name());
+        let metadata = fs::symlink_metadata(&source_path).expect("copied source metadata");
+        assert!(
+            !metadata.file_type().is_symlink(),
+            "fixture .ai tree must not contain symlinks: {}",
+            source_path.display()
+        );
+        if metadata.is_dir() {
+            copy_tree(&source_path, &destination_path);
+        } else {
+            assert!(
+                metadata.is_file(),
+                "unsupported fixture file type: {}",
+                source_path.display()
+            );
+            fs::copy(&source_path, &destination_path).expect("copy fixture file");
+        }
+    }
+}
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     let root = directory.path();
@@ -476,6 +501,134 @@ fn valid_gate_is_identity_bound_and_read_only() {
         validate_contract_quality_gate_report(directory.path(), &report_path, &route_path)
             .expect("validate freshly recomputed report"),
         report
+    );
+}
+
+#[test]
+fn isolated_fresh_receipt_revalidates_in_workspace_without_summary_copy() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let current_runtime = runtime();
+    preflight_work_item_with_runtime(root, &contract, &current_runtime)
+        .expect("fresh workspace preflight");
+    checkpoint_work_item(root, "WI-CI-GATE").expect("workspace checkpoint");
+    let summary_path = root.join(".ai/work-items/active/WI-CI-GATE.summary.json");
+    let workspace_summary_before = fs::read(&summary_path).expect("workspace Summary");
+    let source_head = git_revision(root);
+
+    let isolated_directory = tempfile::tempdir().expect("isolated worktree parent");
+    let isolated_root = isolated_directory.path().join("source");
+    let isolated_root_string = isolated_root.to_string_lossy().into_owned();
+    git(
+        root,
+        &[
+            "worktree",
+            "add",
+            "--detach",
+            isolated_root_string.as_str(),
+            source_head.as_str(),
+        ],
+    );
+    copy_tree(&root.join(".ai"), &isolated_root.join(".ai"));
+    let isolated_contract = contract_path(&isolated_root);
+    assert_eq!(
+        git_revision(&isolated_root),
+        source_head,
+        "verification worktree must use the exact same Git head"
+    );
+    assert_eq!(
+        cockpit_repository::repository_id(root),
+        cockpit_repository::repository_id(&isolated_root),
+        "workspace and isolated worktree must keep one repository identity"
+    );
+
+    let (program, args) = verification_exit_command(true);
+    let run = run_repository_verification(
+        &isolated_root,
+        &RepositoryVerificationRequest {
+            node_id: "ci-current-hosted-receipt".into(),
+            program,
+            args,
+            scope: vec!["README.md".into()],
+            stage: "task".into(),
+            runner: "hosted".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: Some("WI-CI-GATE".into()),
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("isolated hosted verification");
+    let verification_json = serde_json::to_value(&run.receipt).expect("verification receipt JSON");
+    record_verification_with_runtime(
+        &isolated_root,
+        "WI-CI-GATE",
+        &verification_json,
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record isolated verification");
+
+    let isolated_summary =
+        fs::read(isolated_root.join(".ai/work-items/active/WI-CI-GATE.summary.json"))
+            .expect("isolated Summary after verification");
+    assert_ne!(
+        isolated_summary, workspace_summary_before,
+        "fixture must model the verification worktree's newer Summary"
+    );
+    let isolated_receipt = isolated_root.join(".ai/evidence/WI-CI-GATE.verification.json");
+    let workspace_receipt = root.join(".ai/evidence/WI-CI-GATE.verification.json");
+    fs::copy(&isolated_receipt, &workspace_receipt).expect("sync only the formal receipt");
+    assert_eq!(
+        fs::read(&summary_path).expect("workspace Summary after receipt sync"),
+        workspace_summary_before,
+        "Summary must remain the workspace's original bytes"
+    );
+    assert_eq!(
+        fs::read(&workspace_receipt).expect("workspace receipt bytes"),
+        fs::read(&isolated_receipt).expect("isolated receipt bytes"),
+        "workspace must receive the exact validated receipt bytes"
+    );
+
+    let workspace_status =
+        work_item_status_snapshot_with_runtime(root, "WI-CI-GATE", &current_runtime)
+            .expect("workspace status from the synchronized receipt");
+    assert_eq!(workspace_status.verification, "verified");
+    assert_eq!(workspace_status.evidence_freshness.state, "fresh");
+
+    let report = pull_request_gate_report(&isolated_root, &isolated_contract);
+    assert_eq!(report.state, "passed");
+    let report_path = root.join(".ai/decisions/isolated-quality-gate.json");
+    fs::write(
+        &report_path,
+        serde_json::to_vec_pretty(&report).expect("quality gate report JSON"),
+    )
+    .expect("write isolated report for workspace review");
+    let route = serde_json::json!({
+        "schemaVersion": 1,
+        "kind": "repository_quality_route",
+        "contractPath": ".ai/work-items/active/WI-CI-GATE.contract.json",
+        "contractDigest": report.contract_file_digest,
+        "baseRevision": report.comparison_base_revision,
+        "stage": "pull_request"
+    });
+    let route_path = root.join(".ai/decisions/quality-route.json");
+    fs::write(
+        &route_path,
+        serde_json::to_vec_pretty(&route).expect("route JSON"),
+    )
+    .expect("write workspace route");
+    assert_eq!(
+        validate_contract_quality_gate_report(root, &report_path, &route_path)
+            .expect("workspace must recompute the isolated report from its synchronized receipt"),
+        report
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("workspace Summary remains unchanged after review"),
+        workspace_summary_before
     );
 }
 

@@ -1,0 +1,209 @@
+{
+  "sequence": 5,
+  "preparedDigest": "sha256:26bffa5c18c224e9bfce2bbf822748b0f7b88f39aafc4cbffcab1e5b68dcb26c",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1076-governance-recovered-predecessor-projection",
+    "sequence": 5,
+    "changeId": "wi1076-hosted-receipt-projection-20261012",
+    "requestDigest": "sha256:a996bd90818f6fdc022e76a29309baa9fa0848b579bb0077b47098f3998836ef",
+    "reason": "Add the CI receipt synchronization, workflow binding, and focused regressions required to repair the stale-versus-missing verification projection. Preserve the existing four verification commands, current acceptance criteria, and all other scope; do not expand manifest gates, validators, or release permissions.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workflow_convergence_test.sh"
+        ]
+      },
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workflow_convergence_test.sh"
+        ],
+        "newValue": [
+          "tests/ci/governance_integrity_gate.py",
+          "tests/ci/governance_integrity_gate_test.sh",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.zh-CN.md",
+          "docs/work-items/WI-1076-governance-recovered-predecessor-projection.ja.md",
+          "docs/reference/reference-parity.md",
+          "docs/reference/reference-parity.zh-CN.md",
+          "docs/reference/reference-parity.ja.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.zh-CN.md",
+          "docs/work-items/WI-1068-v1-0-1-stable-release.ja.md",
+          ".github/workflows/ci.yml",
+          "tests/ci/run_hosted_runtime_verification.sh",
+          "tests/ci/hosted_runtime_verification_test.sh",
+          "tests/ci/workflow_convergence_test.sh",
+          "crates/cockpit-repository/tests/ci_quality_gate.rs"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84",
+    "newContractDigest": "sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378",
+    "repositorySnapshotDigest": "sha256:40e4a2a72f6cbe969dfe50ac2e32922f7e9e79a1d5125c130253660106c1383e",
+    "environmentObservationDigest": "sha256:8dc4d622f79fa925ad83312e7613351ccb260af7fa20badf03759551025eac12",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:4b9dec2c365a0cc2f68713c1426f3d7601edaf03920b462d7a809bf7d7e58942",
+    "journalDigest": "sha256:2654bd88e02cede7e6a88b201187f5d07cd877e4718a943c75cdd9126db650f9",
+    "recordedAt": "2026-10-12T01:21:42Z"
+  }
+}

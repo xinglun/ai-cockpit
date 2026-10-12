@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1751da736c1a19b4a21131ead475038d8016a7be9b3970a7dc0e12ee0eb4ce50",
+  "reason": "修复 CI 验证回执同步与复核一致性",
+  "recordedAt": "2026-10-12T01:24:01Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:40e4a2a72f6cbe969dfe50ac2e32922f7e9e79a1d5125c130253660106c1383e",
+  "schemaVersion": 1,
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}

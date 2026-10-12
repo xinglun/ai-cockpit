@@ -295,24 +295,18 @@ jobs:
         if: steps.quality_route.outputs.contract_path != ''
         shell: bash
         env:
-          ROUTE_LANE: ${{ steps.quality_route.outputs.lane }}
           ROUTE_BASE_REVISION: ${{ steps.quality_route.outputs.base_revision }}
           ROUTE_CONTRACT_PATH: ${{ steps.quality_route.outputs.contract_path }}
           ROUTE_STAGE: ${{ steps.quality_route.outputs.stage }}
         run: |
           set -euo pipefail
-          verification_repository="$GITHUB_WORKSPACE"
-          if [[ "$ROUTE_LANE" == active ]]; then
-            verification_repository=$(tests/ci/cleanup_hosted_runtime_verification_worktree.sh \
-              --resolve "$GITHUB_WORKSPACE" target/hosted-runtime-worktree-cleanup.json)
-          fi
           contract_path="$ROUTE_CONTRACT_PATH"
           if [[ -n "$contract_path" && "$contract_path" != /* ]]; then
-            contract_path="$verification_repository/$contract_path"
+            contract_path="$GITHUB_WORKSPACE/$contract_path"
           fi
           target/release/ai-cockpit \
             gate \
-            --repo "$verification_repository" \
+            --repo "$GITHUB_WORKSPACE" \
             --contract "$contract_path" \
             --stage "$ROUTE_STAGE" \
             --runner hosted \
