@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "contractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+  "materialManifestDigest": "sha256:8633be92b4cb1390babd7b9ac1e3798bc60f13ef0f3de00b5a196ba44427da76",
+  "profileDigest": "sha256:553d9e42c0c5653b74eee779fc7218902382332ac335397858418bbd3819bb91",
+  "requestDigest": "sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774",
+  "reviewedSourceHead": "84fb04ee43e33842865a1544a5588466174c0639",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+  "authoritySource": "user-approval:Sentinel_dc1698122e788191ab0b847dfb51c65f:2026-10-12T11:23:01Z",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:bb6720424b201f2b4e415f0bbd8685d59ca1c68f09cb256da33f98ab79b9c97a"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:8fd67933211580dac849837756593e588881adbe3c5c3d53686c65cd60b69d71"
+    }
+  ],
+  "rationale": "Raydot proxy technical review for exact candidate request sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774, source head 84fb04ee43e33842865a1544a5588466174c0639 and manifest sha256:8633be92b4cb1390babd7b9ac1e3798bc60f13ef0f3de00b5a196ba44427da76. Parent confirmed the comparison against the previously authorized request sha256:8c4a0c007ee95ad0e765c63d8d5c873c17373d6f8c4031e17cf004303137b3bd changes only analysisImplementationDigest and derived requestDigest; all five material entries and both reviewable Unknown hunk/blob references, Contract, source snapshot, manifest, profile, effective policy, and findings are unchanged. The existing six independent P1 reviews remain closed, and there are no new source hunks after the reviewed d448 source. This carries forward the same bounded self-declared technical review of the two request-listed readable Rust syntax Unknown entries. Preserve the raw scanner Unknown; do not claim a clean scan or human, provider, or release approval.",
+  "residualRisk": "The Rust material analyzer remains conservative for the bound syntax. The raw scanner Unknown repository_material_inspection_unavailable remains preserved; this self-declared review only discharges the permitted Unknown from effective gate projection for the exact bound request and does not satisfy other human, provider, release, or verification gates.",
+  "recordedAt": "2026-10-12T12:12:19Z",
+  "receiptDigest": "sha256:547e8981ba971c66b0b522ecf23885ed68dabd1619fbc25931d91184e875dcb0"
+}

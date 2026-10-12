@@ -79,6 +79,7 @@ fn receipt() -> ResourceFinalizationReceipt {
             pull_request: "https://github.example/acme/project/pull/158".into(),
         }),
         historical: None,
+        post_merge_sync: None,
     }
 }
 
@@ -768,6 +769,170 @@ fn unknown_top_level_and_nested_fields_fail_closed() {
     let mut value = serde_json::to_value(receipt()).unwrap();
     value["result"]["providerResult"] = serde_json::json!("must not pass");
     assert!(serde_json::from_value::<ResourceFinalizationReceipt>(value).is_err());
+}
+
+#[test]
+fn post_merge_sync_schema_v2_requires_two_pr_evidence_and_preserves_v1_boundary() {
+    let value = serde_json::to_value(receipt()).unwrap();
+    let source_pr = serde_json::json!({
+        "number": 9001,
+        "url": "https://github.com/example/fixture/pull/9001",
+        "headRevision": "b0e98ae9efe54cde951bb8f547762736411c1628",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+        "mergeCommit": "686a71a07cc0bd6f3d76ab7261c829067db7ee26"
+    });
+    let sync_pr = serde_json::json!({
+        "number": 9002,
+        "url": "https://github.com/example/fixture/pull/9002",
+        "headRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "686a71a07cc0bd6f3d76ab7261c829067db7ee26",
+        "mergeCommit": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9"
+    });
+    let branch_name = "codex/test-post-merge-sync";
+    let mut value = value;
+    value["schemaVersion"] = 2.into();
+    value["pullRequest"] = source_pr.clone();
+    value["branch"] = serde_json::json!({
+        "name": branch_name,
+        "remote": "origin",
+        "headRevision": sync_pr["headRevision"]
+    });
+    value["worktree"] = serde_json::json!({
+        "worktreeId": "test-sync-worktree",
+        "path": "/tmp/ai-cockpit-sync-fixture",
+        "branch": branch_name,
+        "headRevision": sync_pr["headRevision"]
+    });
+    value["before"] = serde_json::json!({
+        "pullRequest": "merged",
+        "branch": "present",
+        "worktree": "clean"
+    });
+    value["after"] = value["before"].clone();
+    value["result"] = serde_json::json!({
+        "disposition": "retained",
+        "failureCodes": [],
+        "unknownCodes": []
+    });
+    value["resourceContext"] = serde_json::json!({
+        "branch": branch_name,
+        "worktree": "/tmp/ai-cockpit-sync-fixture",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "provider": "github",
+        "pullRequest": source_pr["url"]
+    });
+    value["postMergeSync"] = serde_json::json!({
+        "sourcePullRequest": source_pr,
+        "syncPullRequest": sync_pr,
+        "sourceEvidenceDigest": Digest::sha256_bytes(b"fixture source PR delegated observation").to_string(),
+        "syncEvidenceDigest": Digest::sha256_bytes(b"fixture sync PR delegated observation").to_string(),
+        "finishRevision": "d651f93d4a8bcbe9413d055d501ceae6f7d0132e",
+        "archiveRevision": "700f6cd5dcb81833aa63d38913908c5543865a8d",
+        "docsRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+        "currentMainRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+        "remoteBranchRef": format!("refs/heads/{branch_name}"),
+        "remoteBranchState": "present",
+        "remoteEvidenceDigest": Digest::sha256_bytes(b"remote branch observation").to_string(),
+        "gitCommonDir": "/tmp/ai-cockpit/.git",
+        "worktreeGitDir": "/tmp/ai-cockpit-sync-fixture/.git/worktrees/test-sync-worktree"
+    });
+
+    let root_receipt: ResourceFinalizationReceipt = serde_json::from_value(value.clone())
+        .expect("schema-v2 post-merge-sync receipt should deserialize");
+    validate_resource_finalization_receipt(&root_receipt)
+        .expect("complete two-PR schema-v2 root should validate");
+
+    let mut wrong_source_identity = root_receipt.clone();
+    wrong_source_identity.pull_request = wrong_source_identity
+        .post_merge_sync
+        .as_ref()
+        .unwrap()
+        .sync_pull_request
+        .clone();
+    assert!(
+        validate_resource_finalization_receipt(&wrong_source_identity).is_err(),
+        "the canonical receipt keeps the frozen source PR while branch/worktree identify the sync PR"
+    );
+
+    let mut deleted_transition = value.clone();
+    deleted_transition["after"]["branch"] = "deleted".into();
+    deleted_transition["after"]["worktree"] = "removed".into();
+    deleted_transition["result"]["disposition"] = "deleted".into();
+    deleted_transition["postMergeSync"]["remoteBranchState"] = "deleted".into();
+    deleted_transition["postMergeSync"]["remoteEvidenceDigest"] =
+        Digest::sha256_bytes(b"remote branch deleted observation")
+            .to_string()
+            .into();
+    let parsed: ResourceFinalizationReceipt =
+        serde_json::from_value(deleted_transition).expect("deleted v2 transition parses");
+    validate_resource_finalization_receipt(&parsed)
+        .expect("deleted transition must retain the two-PR merge proof");
+    let transition = ResourceFinalizationTransitionReceipt {
+        schema_version: 1,
+        transition_id: "wi1076-cleanup-transition".into(),
+        sequence: 1,
+        predecessor_receipt_digest: cockpit_protocol::digest_json(
+            &serde_json::to_value(&root_receipt).unwrap(),
+        )
+        .unwrap(),
+        governance_append_revision: None,
+        receipt: parsed.clone(),
+    };
+    validate_resource_finalization_transition(&root_receipt, &transition, 1)
+        .expect("retained v2 root may append a fresh deleted-branch transition");
+
+    let mut altered_transition = transition.clone();
+    altered_transition
+        .receipt
+        .post_merge_sync
+        .as_mut()
+        .unwrap()
+        .source_evidence_digest = Digest::sha256_bytes(b"replacement source evidence");
+    assert!(
+        validate_resource_finalization_transition(&root_receipt, &altered_transition, 1).is_err(),
+        "cleanup transition must preserve source and sync PR evidence"
+    );
+    let mut runtime_mismatch = transition;
+    runtime_mismatch.receipt.runtime_digest = Digest::sha256_bytes(b"another runtime");
+    assert!(
+        validate_resource_finalization_transition(&root_receipt, &runtime_mismatch, 1).is_err(),
+        "schema-v2 cleanup transition must preserve the executing Runtime identity"
+    );
+
+    let mut mismatched_merge_chain = value.clone();
+    mismatched_merge_chain["postMergeSync"]["syncPullRequest"]["baseRevision"] =
+        "095e185b710b0c0016c655d3792f1b3438a62bac".into();
+    let parsed: ResourceFinalizationReceipt =
+        serde_json::from_value(mismatched_merge_chain).expect("mismatched proof parses");
+    assert!(
+        validate_resource_finalization_receipt(&parsed).is_err(),
+        "the sync PR base must bind to the source PR merge"
+    );
+
+    let mut missing_post_merge_sync = value.clone();
+    missing_post_merge_sync
+        .as_object_mut()
+        .unwrap()
+        .remove("postMergeSync");
+    let parsed: ResourceFinalizationReceipt = serde_json::from_value(missing_post_merge_sync)
+        .expect("optional field is structurally readable before validation");
+    assert!(
+        validate_resource_finalization_receipt(&parsed).is_err(),
+        "schema-v2 must not fall back to the v1 receipt rules when postMergeSync is absent"
+    );
+
+    value["schemaVersion"] = 1.into();
+    let parsed: ResourceFinalizationReceipt =
+        serde_json::from_value(value).expect("schema-v1 receipt is structurally readable");
+    assert!(
+        validate_resource_finalization_receipt(&parsed).is_err(),
+        "schema-v1 must not accept a v2-only postMergeSync payload"
+    );
 }
 
 #[test]
