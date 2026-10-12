@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:d0d481e1ecb9cf4f4d86837a23b852741f9f171afd143b9549c273dcfcce2ed5",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+    "sequence": 1,
+    "changeId": "legacy-15e63501a1f5e0a676dcddeaf4f17e28c8d7dc38d93e450ef0dab52def94b162",
+    "requestDigest": "sha256:a5c47b3352a2edbabd020fc02c93db1388c0c3dfb69e65d8db08690d23745e32",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:15e63501a1f5e0a676dcddeaf4f17e28c8d7dc38d93e450ef0dab52def94b162",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "human-approval:Raydot:2026-10-12T06:40:07Z"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "human-approval:Raydot:2026-10-12T06:40:07Z"
+        ],
+        "newValue": [
+          "human-approval:Raydot:2026-10-12T06:40:07Z",
+          "github-pull-request:1030"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "human-approval:Raydot:2026-10-12T06:40:07Z",
+          "github-pull-request:1030"
+        ],
+        "newValue": [
+          "human-approval:Raydot:2026-10-12T06:40:07Z",
+          "github-pull-request:1030",
+          "github-pull-request:1031"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:766c18ad07d4ce090389950f2b152005fc0a4e459b31b023a297da57a4c4dac6",
+    "newContractDigest": "sha256:b6a3c1c993b9e9f4a17b205eea52222532cf75366ea0e2964ecb429f93c14d4f",
+    "repositorySnapshotDigest": "sha256:b42e8617ccbdbddeb324a2c8b3ad507c39f6976d12c88e7afc978fc169841c67",
+    "environmentObservationDigest": "sha256:a90c183d88c54fd6802a88f4a32e1b6e7770b07900bc699db89f4c28d94184d1",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:fe42f6aa3f56361a1628401b862c75b43831498dfff272a96d4ccc838cf5a2d7",
+    "recordedAt": "2026-10-12T06:45:40Z"
+  }
+}
