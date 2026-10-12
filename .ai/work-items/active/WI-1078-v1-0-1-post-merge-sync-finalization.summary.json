@@ -65,11 +65,19 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:5acaa96acb9e427820cc9037eb2ac2829643fc7ba284155a8a0875d912156a80",
-    "path": ".ai/evidence/material-inspection-review/WI-1078-v1-0-1-post-merge-sync-finalization/8c4a0c007ee95ad0e765c63d8d5c873c17373d6f8c4031e17cf004303137b3bd.json",
-    "receiptDigest": "sha256:c4409c8e60cabfa38adae053f73b7cd8a8d1c575b23a0c2145a04917247b1745",
-    "requestDigest": "sha256:8c4a0c007ee95ad0e765c63d8d5c873c17373d6f8c4031e17cf004303137b3bd"
+    "digest": "sha256:dedd05464f1ffe377a4ae506220b3378ce1be1a5103a4301d9c3df898d9f1a7f",
+    "path": ".ai/evidence/material-inspection-review/WI-1078-v1-0-1-post-merge-sync-finalization/b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774.json",
+    "receiptDigest": "sha256:547e8981ba971c66b0b522ecf23885ed68dabd1619fbc25931d91184e875dcb0",
+    "requestDigest": "sha256:b7816e7a21171070ff1503b8dd6d4f369259420828a0db415ee4a1a418197774"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:5acaa96acb9e427820cc9037eb2ac2829643fc7ba284155a8a0875d912156a80",
+      "path": ".ai/evidence/material-inspection-review/WI-1078-v1-0-1-post-merge-sync-finalization/8c4a0c007ee95ad0e765c63d8d5c873c17373d6f8c4031e17cf004303137b3bd.json",
+      "receiptDigest": "sha256:c4409c8e60cabfa38adae053f73b7cd8a8d1c575b23a0c2145a04917247b1745",
+      "requestDigest": "sha256:8c4a0c007ee95ad0e765c63d8d5c873c17373d6f8c4031e17cf004303137b3bd"
+    }
+  ],
   "mode": "implementation",
   "preflightAt": "2026-10-12T11:26:30Z",
   "preflightContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
