@@ -11,10 +11,11 @@ use super::{
 };
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, FinalizationErrorCode, HistoricalFinalizationKind,
-    HistoricalFinalizationRecoveryReceipt, ResourceFinalizationContext,
-    ResourceFinalizationDisposition, ResourceFinalizationPullRequestState,
-    ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
+    Contract, EvidenceAssurance, EvidenceValidity, FinalizationErrorCode,
+    HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt, PostMergeSyncEvidence,
+    PostMergeSyncRemoteBranchState, ResourceFinalizationContext, ResourceFinalizationDisposition,
+    ResourceFinalizationPullRequestState, ResourceFinalizationReceipt,
+    ResourceFinalizationTransitionReceipt, RuntimeContext,
     validate_historical_finalization_recovery, validate_resource_finalization_context,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
     validate_resource_finalization_transition,
@@ -1997,6 +1998,7 @@ pub fn record_resource_finalization(
         })?;
     }
     validate_historical_finalization(&root, &receipt, receipt_path)?;
+    validate_post_merge_sync_repository_evidence(&root, &receipt)?;
     ensure_resource_finalization_base_binding(&receipt, &contract, receipt_path)?;
     if receipt.provider == "unknown"
         || receipt
@@ -2247,7 +2249,730 @@ fn local_resources_deleted(
     }) {
         return Ok(false);
     }
+    if receipt.schema_version
+        == cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+    {
+        let sync = receipt
+            .post_merge_sync
+            .as_ref()
+            .ok_or_else(|| ObserverError::State {
+                path: root.to_path_buf(),
+                message: "schema-v2 finalization is missing postMergeSync evidence".into(),
+            })?;
+        let branch_ref = format!("refs/heads/{}", receipt.branch.name);
+        let local_refs = git_text(root, &["for-each-ref", "--format=%(refname)", "refs/heads"])
+            .ok_or_else(|| ObserverError::State {
+                path: root.to_path_buf(),
+                message: "cannot prove local branch state for schema-v2 finalization".into(),
+            })?;
+        if local_refs.lines().any(|reference| reference == branch_ref) {
+            return Ok(false);
+        }
+        let target_path = Path::new(&receipt.worktree.path);
+        match fs::symlink_metadata(target_path) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Ok(_) => return Ok(false),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: target_path.into(),
+                    source,
+                });
+            }
+        }
+        let expected_git_dir = Path::new(&sync.worktree_git_dir);
+        match fs::symlink_metadata(expected_git_dir) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Ok(_) => return Ok(false),
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: expected_git_dir.into(),
+                    source,
+                });
+            }
+        }
+        let records = git_worktree_records(root)?;
+        if records.iter().any(|record| {
+            record
+                .path
+                .as_deref()
+                .is_some_and(|path| worktree_paths_identical(path, target_path))
+                || record.path.as_deref().is_some_and(|path| {
+                    worktree_git_dir_reference(path)
+                        .is_some_and(|git_dir| git_dir_paths_identical(&git_dir, expected_git_dir))
+                })
+        }) {
+            return Ok(false);
+        }
+        if git_common_dir(root)? != canonical_expected_path(&sync.git_common_dir)? {
+            return Ok(false);
+        }
+        if canonical_path(root)? == canonical_expected_path(&receipt.worktree.path)? {
+            return Ok(false);
+        }
+    }
     Ok(true)
+}
+
+fn canonical_path(path: &Path) -> Result<PathBuf, ObserverError> {
+    fs::canonicalize(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })
+}
+
+fn canonical_expected_path(path: &str) -> Result<PathBuf, ObserverError> {
+    let path = Path::new(path);
+    path.canonicalize()
+        .or_else(|_| {
+            if path.is_absolute() {
+                Ok(path.to_path_buf())
+            } else {
+                Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidInput,
+                    "expected path must be absolute",
+                ))
+            }
+        })
+        .map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        })
+}
+
+fn worktree_paths_identical(left: &Path, right: &Path) -> bool {
+    match (left.canonicalize(), right.canonicalize()) {
+        (Ok(left), Ok(right)) => left == right,
+        _ => left == right,
+    }
+}
+
+fn git_dir_paths_identical(left: &Path, right: &Path) -> bool {
+    match (left.canonicalize(), right.canonicalize()) {
+        (Ok(left), Ok(right)) => left == right,
+        _ => left == right,
+    }
+}
+
+fn worktree_git_dir_reference(worktree: &Path) -> Option<PathBuf> {
+    let git_file = worktree.join(".git");
+    let metadata = fs::symlink_metadata(&git_file).ok()?;
+    let value = if metadata.file_type().is_symlink() {
+        fs::read_link(&git_file).ok()?
+    } else if metadata.is_file() {
+        let contents = fs::read_to_string(&git_file).ok()?;
+        let target = contents.trim().strip_prefix("gitdir: ")?;
+        PathBuf::from(target)
+    } else {
+        return None;
+    };
+    if value.is_absolute() {
+        Some(value)
+    } else {
+        Some(worktree.join(value))
+    }
+}
+
+fn git_common_dir(root: &Path) -> Result<PathBuf, ObserverError> {
+    let reported = git_text(
+        root,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )
+    .ok_or_else(|| ObserverError::State {
+        path: root.to_path_buf(),
+        message: "cannot determine Git common directory".into(),
+    })?;
+    canonical_path(Path::new(&reported))
+}
+
+fn post_merge_sync_error(root: &Path, message: impl Into<String>) -> ObserverError {
+    ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: message.into(),
+    }
+}
+
+fn commit_tree_and_parents(
+    root: &Path,
+    revision: &str,
+) -> Result<(String, Vec<String>), ObserverError> {
+    let output = git_text(root, &["show", "-s", "--format=%T %P", revision]).ok_or_else(|| {
+        post_merge_sync_error(
+            root,
+            format!("post-merge sync commit is unavailable: {revision}"),
+        )
+    })?;
+    let mut fields = output.split_whitespace();
+    let tree = fields.next().unwrap_or_default().to_owned();
+    let parents = fields.map(str::to_owned).collect::<Vec<_>>();
+    if !valid_git_object_id(&tree) || parents.iter().any(|parent| !valid_git_object_id(parent)) {
+        return Err(post_merge_sync_error(
+            root,
+            format!("post-merge sync commit metadata is invalid: {revision}"),
+        ));
+    }
+    Ok((tree, parents))
+}
+
+fn is_ancestor(root: &Path, ancestor: &str, descendant: &str) -> Result<bool, ObserverError> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["merge-base", "--is-ancestor", ancestor, descendant])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        })?;
+    match output.status.code() {
+        Some(0) => Ok(true),
+        Some(1) => Ok(false),
+        _ => Err(post_merge_sync_error(
+            root,
+            format!("cannot determine commit ancestry: {ancestor} -> {descendant}"),
+        )),
+    }
+}
+
+fn require_exact_parent_chain(
+    root: &Path,
+    revision: &str,
+    expected_parents: &[&str],
+) -> Result<(), ObserverError> {
+    let (_, actual_parents) = commit_tree_and_parents(root, revision)?;
+    if actual_parents
+        .iter()
+        .map(String::as_str)
+        .collect::<Vec<_>>()
+        != expected_parents
+    {
+        return Err(post_merge_sync_error(
+            root,
+            format!("unexpected parent list for post-merge sync commit {revision}"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_post_merge_sync_commit_stages(
+    root: &Path,
+    work_item_id: &str,
+    sync: &PostMergeSyncEvidence,
+) -> Result<(), ObserverError> {
+    let source = &sync.source_pull_request;
+    let followup = &sync.sync_pull_request;
+    let source_merge = source
+        .merge_commit
+        .as_deref()
+        .ok_or_else(|| post_merge_sync_error(root, "source PR merge commit is missing"))?;
+    let sync_merge = followup
+        .merge_commit
+        .as_deref()
+        .ok_or_else(|| post_merge_sync_error(root, "sync PR merge commit is missing"))?;
+    require_exact_parent_chain(
+        root,
+        source_merge,
+        &[&source.base_revision, &source.head_revision],
+    )?;
+    require_exact_parent_chain(root, sync_merge, &[source_merge, &followup.head_revision])?;
+    let (source_merge_tree, _) = commit_tree_and_parents(root, source_merge)?;
+    let (source_head_tree, _) = commit_tree_and_parents(root, &source.head_revision)?;
+    let (sync_merge_tree, _) = commit_tree_and_parents(root, sync_merge)?;
+    let (sync_head_tree, _) = commit_tree_and_parents(root, &followup.head_revision)?;
+    if source_merge_tree != source_head_tree || sync_merge_tree != sync_head_tree {
+        return Err(post_merge_sync_error(
+            root,
+            "the reviewed merge trees differ from their exact PR head trees",
+        ));
+    }
+    let common = git_text(root, &["merge-base", source_merge, &followup.head_revision])
+        .ok_or_else(|| post_merge_sync_error(root, "cannot determine source/sync merge base"))?;
+    if common != source.head_revision || is_ancestor(root, source_merge, &followup.head_revision)? {
+        return Err(post_merge_sync_error(
+            root,
+            "source merge must remain separate from the sync PR head, with the source PR head as their merge base",
+        ));
+    }
+    if !is_ancestor(root, &source.head_revision, &sync.finish_revision)?
+        || !is_ancestor(root, &sync.finish_revision, &sync.archive_revision)?
+        || !is_ancestor(root, &sync.archive_revision, &sync.docs_revision)?
+        || !is_ancestor(root, &sync.docs_revision, sync_merge)?
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "finish, archive, docs, and sync merge do not form the required ancestry",
+        ));
+    }
+    require_exact_parent_chain(root, &sync.archive_revision, &[&sync.finish_revision])?;
+    require_exact_parent_chain(root, &sync.docs_revision, &[&sync.archive_revision])?;
+
+    let active_prefix = format!(".ai/work-items/active/{work_item_id}");
+    let archive_prefix = format!(".ai/work-items/archive/{work_item_id}");
+    let expected_finish = [
+        format!("M:.ai/evidence/{work_item_id}.verification.json"),
+        format!("M:{active_prefix}.events.jsonl"),
+        format!("M:{active_prefix}.outcome.json"),
+        format!("M:{active_prefix}.summary.json"),
+        format!("M:{active_prefix}.task-report.json"),
+        format!("M:{active_prefix}.task-report.md"),
+    ];
+    let expected_archive = [
+        format!("D:{active_prefix}.events.jsonl"),
+        format!("A:{archive_prefix}.archive.json"),
+        format!("R100:{active_prefix}.contract.json=>{archive_prefix}.contract.json"),
+        format!("R095:{active_prefix}.outcome.json=>{archive_prefix}.outcome.json"),
+        format!("R100:{active_prefix}.summary.json=>{archive_prefix}.summary.json"),
+        format!("R100:{active_prefix}.task-report.json=>{archive_prefix}.task-report.json"),
+        format!("R100:{active_prefix}.task-report.md=>{archive_prefix}.task-report.md"),
+        format!("A:{archive_prefix}.events.jsonl"),
+    ];
+    let expected_docs = [
+        "M:docs/reference/reference-parity.ja.md".to_owned(),
+        "M:docs/reference/reference-parity.md".to_owned(),
+        "M:docs/reference/reference-parity.zh-CN.md".to_owned(),
+        format!("M:docs/work-items/{work_item_id}.ja.md"),
+        format!("M:docs/work-items/{work_item_id}.md"),
+        format!("M:docs/work-items/{work_item_id}.zh-CN.md"),
+    ];
+    validate_stage_changes(root, &sync.finish_revision, &expected_finish)?;
+    validate_stage_changes(root, &sync.archive_revision, &expected_archive)?;
+    validate_stage_changes(root, &sync.docs_revision, &expected_docs)?;
+
+    let verification_path = format!(".ai/evidence/{work_item_id}.verification.json");
+    require_same_git_blob(root, &sync.finish_revision, sync_merge, &verification_path)?;
+    let verification = read_json(&root.join(&verification_path))?;
+    if verification["passed"] != serde_json::json!(true) {
+        return Err(post_merge_sync_error(
+            root,
+            "the immutable finish-stage verification evidence is not passed",
+        ));
+    }
+    let archived_runtime_digest: Digest = serde_json::from_value(
+        verification["receipt"]["runtimeDigest"].clone(),
+    )
+    .map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("finish-stage verification Runtime digest is invalid: {error}"),
+        )
+    })?;
+    let archived_runtime_version = verification["receipt"]["runtimeVersion"]
+        .as_str()
+        .ok_or_else(|| post_merge_sync_error(root, "finish-stage Runtime version is missing"))?;
+    let archive_manifest_path = format!("{archive_prefix}.archive.json");
+    require_same_git_blob(
+        root,
+        &sync.archive_revision,
+        sync_merge,
+        &archive_manifest_path,
+    )?;
+    let archive_manifest = read_json(&root.join(&archive_manifest_path))?;
+    let manifest_runtime_digest: Digest =
+        serde_json::from_value(archive_manifest["runtimeDigest"].clone()).map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("archive manifest Runtime digest is invalid: {error}"),
+            )
+        })?;
+    if manifest_runtime_digest != archived_runtime_digest
+        || archive_manifest["runtimeVersion"].as_str() != Some(archived_runtime_version)
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "archive manifest does not preserve the finish-stage Runtime identity",
+        ));
+    }
+    verify_archive_manifest(root, work_item_id, &archive_manifest)?;
+    for name in [
+        "contract.json",
+        "events.jsonl",
+        "outcome.json",
+        "summary.json",
+        "task-report.json",
+        "task-report.md",
+    ] {
+        let path = format!("{archive_prefix}.{name}");
+        require_same_git_blob(root, &sync.archive_revision, sync_merge, &path)?;
+    }
+    let main_ref = format!(
+        "refs/remotes/{}/{}",
+        followup.base_remote, followup.base_branch
+    );
+    let remote_main = git_text(root, &["rev-parse", "--verify", &main_ref]).ok_or_else(|| {
+        post_merge_sync_error(
+            root,
+            format!("cannot resolve synced default branch {main_ref}"),
+        )
+    })?;
+    if !is_ancestor(root, &sync.current_main_revision, &remote_main)? {
+        return Err(post_merge_sync_error(
+            root,
+            "the remote-tracking default branch no longer contains the reviewed sync merge",
+        ));
+    }
+    let common_dir = git_common_dir(root)?;
+    if common_dir != canonical_expected_path(&sync.git_common_dir)? {
+        return Err(post_merge_sync_error(
+            root,
+            "post-merge sync evidence is bound to a different Git common directory",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_stage_changes(
+    root: &Path,
+    revision: &str,
+    expected: &[String],
+) -> Result<(), ObserverError> {
+    let (_, parents) = commit_tree_and_parents(root, revision)?;
+    if parents.len() != 1 {
+        return Err(post_merge_sync_error(
+            root,
+            format!("stage commit must have exactly one parent: {revision}"),
+        ));
+    }
+    let changes = git_text(
+        root,
+        &[
+            "diff-tree",
+            "--raw",
+            "--no-commit-id",
+            "-r",
+            "-M",
+            &parents[0],
+            revision,
+        ],
+    )
+    .ok_or_else(|| {
+        post_merge_sync_error(root, format!("cannot inspect stage commit {revision}"))
+    })?;
+    let mut actual = Vec::new();
+    for line in changes.lines() {
+        let (metadata, paths) = line.split_once('\t').ok_or_else(|| {
+            post_merge_sync_error(root, format!("malformed Git diff record for {revision}"))
+        })?;
+        let fields = metadata.split_whitespace().collect::<Vec<_>>();
+        if fields.len() != 5 || !fields[0].starts_with(':') {
+            return Err(post_merge_sync_error(
+                root,
+                format!("malformed Git diff metadata for {revision}"),
+            ));
+        }
+        let old_mode = fields[0].trim_start_matches(':');
+        let new_mode = fields[1];
+        let status = fields[4];
+        if !matches!(old_mode, "000000" | "100644") || !matches!(new_mode, "000000" | "100644") {
+            return Err(post_merge_sync_error(
+                root,
+                format!("stage commit changes an unexpected file mode: {revision}"),
+            ));
+        }
+        let operation = match status.as_bytes().first().copied() {
+            Some(b'M') if old_mode == "100644" && new_mode == "100644" => {
+                format!("M:{paths}")
+            }
+            Some(b'A') if old_mode == "000000" && new_mode == "100644" => {
+                format!("A:{paths}")
+            }
+            Some(b'D') if old_mode == "100644" && new_mode == "000000" => {
+                format!("D:{paths}")
+            }
+            Some(b'R') if old_mode == "100644" && new_mode == "100644" => {
+                let (source, target) = paths.split_once('\t').ok_or_else(|| {
+                    post_merge_sync_error(root, format!("malformed rename record for {revision}"))
+                })?;
+                format!("{status}:{source}=>{target}")
+            }
+            _ => {
+                return Err(post_merge_sync_error(
+                    root,
+                    format!("stage commit contains an unapproved path operation: {revision}"),
+                ));
+            }
+        };
+        actual.push(operation);
+    }
+    actual.sort();
+    let mut expected = expected.to_vec();
+    expected.sort();
+    if actual != expected {
+        return Err(post_merge_sync_error(
+            root,
+            format!("stage commit changed paths outside its exact approved set: {revision}"),
+        ));
+    }
+    Ok(())
+}
+
+fn require_same_git_blob(
+    root: &Path,
+    left_revision: &str,
+    right_revision: &str,
+    path: &str,
+) -> Result<(), ObserverError> {
+    let left_spec = format!("{left_revision}:{path}");
+    let right_spec = format!("{right_revision}:{path}");
+    let left = git_text(root, &["rev-parse", "--verify", &left_spec]).ok_or_else(|| {
+        post_merge_sync_error(
+            root,
+            format!("required historical blob is missing: {left_spec}"),
+        )
+    })?;
+    let right = git_text(root, &["rev-parse", "--verify", &right_spec]).ok_or_else(|| {
+        post_merge_sync_error(
+            root,
+            format!("required final blob is missing: {right_spec}"),
+        )
+    })?;
+    if left != right {
+        return Err(post_merge_sync_error(
+            root,
+            format!("immutable historical blob changed after its stage: {path}"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_post_merge_sync_delegated_evidence(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+    sync: &PostMergeSyncEvidence,
+) -> Result<(), ObserverError> {
+    let evidence_receipts = super::list_delegated_evidence(root, &receipt.work_item_id)?;
+    let timestamp = chrono::DateTime::parse_from_rfc3339(&receipt.timestamp).map_err(|error| {
+        post_merge_sync_error(root, format!("finalization timestamp is invalid: {error}"))
+    })?;
+    let bindings = [
+        (
+            &sync.source_evidence_digest,
+            sync.source_pull_request.url.as_str(),
+        ),
+        (
+            &sync.sync_evidence_digest,
+            sync.sync_pull_request.url.as_str(),
+        ),
+        (
+            &sync.remote_evidence_digest,
+            sync.remote_branch_ref.as_str(),
+        ),
+    ];
+    for (digest, subject) in bindings {
+        let matches = evidence_receipts
+            .iter()
+            .filter(|candidate| &candidate.evidence.digest == digest)
+            .collect::<Vec<_>>();
+        if matches.len() != 1 {
+            return Err(post_merge_sync_error(
+                root,
+                format!("delegated evidence digest must resolve exactly once: {digest}"),
+            ));
+        }
+        let evidence = &matches[0].evidence;
+        if evidence.provider != receipt.provider
+            || evidence.subject != subject
+            || evidence.validity != EvidenceValidity::Valid
+            || evidence.assurance.rank() < EvidenceAssurance::ProviderVerified.rank()
+        {
+            return Err(post_merge_sync_error(
+                root,
+                format!("delegated evidence binding is insufficient for {subject}"),
+            ));
+        }
+        let collected_at =
+            chrono::DateTime::parse_from_rfc3339(&evidence.collected_at).map_err(|error| {
+                post_merge_sync_error(root, format!("delegated evidence time is invalid: {error}"))
+            })?;
+        let bound_at =
+            chrono::DateTime::parse_from_rfc3339(&matches[0].bound_at).map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("delegated evidence binding time is invalid: {error}"),
+                )
+            })?;
+        if collected_at > bound_at || bound_at > timestamp {
+            return Err(post_merge_sync_error(
+                root,
+                "delegated evidence collection and binding times must precede the finalization receipt",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn validate_post_merge_sync_local_state(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+    sync: &PostMergeSyncEvidence,
+) -> Result<(), ObserverError> {
+    let expected_remote_state = match receipt.result.disposition {
+        ResourceFinalizationDisposition::Retained => PostMergeSyncRemoteBranchState::Present,
+        ResourceFinalizationDisposition::Deleted => PostMergeSyncRemoteBranchState::Deleted,
+        _ => {
+            return Err(post_merge_sync_error(
+                root,
+                "post-merge sync supports only retained roots and deleted transitions",
+            ));
+        }
+    };
+    if sync.remote_branch_state != expected_remote_state {
+        return Err(post_merge_sync_error(
+            root,
+            "delegated remote branch state does not match the finalization disposition",
+        ));
+    }
+    if canonical_path(root)? == canonical_expected_path(&receipt.worktree.path)? {
+        return Err(post_merge_sync_error(
+            root,
+            "post-merge sync proof must be inspected from a surviving control checkout",
+        ));
+    }
+    let target = Path::new(&receipt.worktree.path);
+    let expected_git_dir_path = Path::new(&sync.worktree_git_dir);
+    let expected_git_dir = canonical_expected_path(&sync.worktree_git_dir)?;
+    let records = git_worktree_records(root)?;
+    let matching = records
+        .iter()
+        .filter(|record| {
+            record
+                .path
+                .as_deref()
+                .is_some_and(|path| worktree_paths_identical(path, target))
+        })
+        .collect::<Vec<_>>();
+    if receipt.result.disposition == ResourceFinalizationDisposition::Retained {
+        let git_dir_metadata =
+            fs::symlink_metadata(expected_git_dir_path).map_err(|source| ObserverError::Read {
+                path: expected_git_dir_path.to_path_buf(),
+                source,
+            })?;
+        if git_dir_metadata.file_type().is_symlink() || !git_dir_metadata.is_dir() {
+            return Err(post_merge_sync_error(
+                root,
+                "retained worktree Git directory is not a real directory",
+            ));
+        }
+        let branch_ref = format!("refs/heads/{}", receipt.branch.name);
+        let ref_state = git_text(
+            root,
+            &[
+                "for-each-ref",
+                "--format=%(objectname) %(refname)",
+                &branch_ref,
+            ],
+        )
+        .ok_or_else(|| post_merge_sync_error(root, "cannot determine retained local branch"))?;
+        if ref_state != format!("{} {branch_ref}", receipt.branch.head_revision)
+            || matching.len() != 1
+            || matching[0].head.as_deref() != Some(receipt.worktree.head_revision.as_str())
+            || matching[0].branch_ref.as_deref() != Some(branch_ref.as_str())
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "retained branch/worktree does not match the exact local Git registration",
+            ));
+        }
+        let actual_branch = git_text(target, &["branch", "--show-current"])
+            .ok_or_else(|| post_merge_sync_error(root, "cannot read retained worktree branch"))?;
+        let actual_head = git_text(target, &["rev-parse", "--verify", "HEAD"])
+            .ok_or_else(|| post_merge_sync_error(root, "cannot read retained worktree HEAD"))?;
+        let actual_status = git_text(target, &["status", "--porcelain", "--untracked-files=all"])
+            .ok_or_else(|| {
+            post_merge_sync_error(root, "cannot read retained worktree status")
+        })?;
+        if actual_branch != receipt.branch.name
+            || actual_head != receipt.worktree.head_revision
+            || !actual_status.is_empty()
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "retained worktree branch, HEAD, or clean state differs from the receipt",
+            ));
+        }
+        let target_metadata =
+            fs::symlink_metadata(target).map_err(|source| ObserverError::Read {
+                path: target.to_path_buf(),
+                source,
+            })?;
+        if target_metadata.file_type().is_symlink() || !target_metadata.is_dir() {
+            return Err(post_merge_sync_error(
+                root,
+                "retained worktree path is not a real directory",
+            ));
+        }
+        let git_file = target.join(".git");
+        let git_file_metadata =
+            fs::symlink_metadata(&git_file).map_err(|source| ObserverError::Read {
+                path: git_file.clone(),
+                source,
+            })?;
+        if git_file_metadata.file_type().is_symlink() || !git_file_metadata.is_file() {
+            return Err(post_merge_sync_error(
+                root,
+                "retained worktree has no regular .git file",
+            ));
+        }
+        let git_file_contents =
+            fs::read_to_string(&git_file).map_err(|source| ObserverError::Read {
+                path: git_file.clone(),
+                source,
+            })?;
+        let git_dir_line = git_file_contents
+            .trim()
+            .strip_prefix("gitdir: ")
+            .ok_or_else(|| {
+                post_merge_sync_error(root, "retained worktree .git file is malformed")
+            })?;
+        let reported_git_dir = Path::new(git_dir_line);
+        let reported_git_dir = if reported_git_dir.is_absolute() {
+            reported_git_dir.to_path_buf()
+        } else {
+            git_file
+                .parent()
+                .unwrap_or_else(|| Path::new("."))
+                .join(reported_git_dir)
+        };
+        if canonical_path(&reported_git_dir)? != expected_git_dir {
+            return Err(post_merge_sync_error(
+                root,
+                "retained worktree .git identity differs",
+            ));
+        }
+    } else if receipt.result.disposition == ResourceFinalizationDisposition::Deleted {
+        if !local_resources_deleted(root, receipt)? {
+            return Err(post_merge_sync_error(
+                root,
+                "deleted finalization still has a local branch or registered/recreated worktree",
+            ));
+        }
+    }
+    if git_common_dir(root)? != canonical_expected_path(&sync.git_common_dir)? {
+        return Err(post_merge_sync_error(
+            root,
+            "control checkout Git common directory differs",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_post_merge_sync_repository_evidence(
+    root: &Path,
+    receipt: &ResourceFinalizationReceipt,
+) -> Result<(), ObserverError> {
+    if receipt.schema_version
+        != cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+    {
+        return Ok(());
+    }
+    let sync = receipt.post_merge_sync.as_ref().ok_or_else(|| {
+        post_merge_sync_error(
+            root,
+            "schema-v2 finalization is missing postMergeSync evidence",
+        )
+    })?;
+    validate_post_merge_sync_commit_stages(root, &receipt.work_item_id, sync)?;
+    validate_post_merge_sync_delegated_evidence(root, receipt, sync)?;
+    validate_post_merge_sync_local_state(root, receipt, sync)?;
+    Ok(())
 }
 
 /// Revalidate a stored finalization receipt and local cleanup postconditions.
@@ -2363,6 +3088,9 @@ pub(crate) fn verify_resource_finalization_internal(
     )
     .map_err(|error| {
         finalization_observation_error(path.clone(), error.finalization_error_code(), error)
+    })?;
+    validate_post_merge_sync_repository_evidence(&root, &receipt).map_err(|error| {
+        finalization_observation_error(path.clone(), FinalizationErrorCode::IdentityMismatch, error)
     })?;
     validate_historical_finalization(&root, &receipt, &path).map_err(|error| {
         finalization_observation_error(path.clone(), FinalizationErrorCode::RecordCorrupt, error)
@@ -3299,5 +4027,444 @@ pub(crate) fn resource_cleanup_completion_state(
         }
         Ok(None) => "unsupported".into(),
         Err(_) => "unknown".into(),
+    }
+}
+
+#[cfg(test)]
+mod post_merge_sync_tests {
+    use super::{local_resources_deleted, validate_post_merge_sync_local_state};
+    use cockpit_core::Digest;
+    use cockpit_protocol::{
+        AssuranceLevel, DelegatedEvidence, EvidenceValidity, PostMergeSyncEvidence,
+        PostMergeSyncRemoteBranchState, ResourceFinalizationBranchIdentity,
+        ResourceFinalizationBranchState, ResourceFinalizationDisposition,
+        ResourceFinalizationPullRequestIdentity, ResourceFinalizationPullRequestState,
+        ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationState,
+        ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState, RuntimeContext,
+    };
+    use std::path::{Path, PathBuf};
+    use std::process::Command;
+
+    fn git(root: &Path, args: &[&str]) -> String {
+        let output = Command::new("git")
+            .arg("-C")
+            .arg(root)
+            .args(args)
+            .output()
+            .expect("git command starts");
+        assert!(
+            output.status.success(),
+            "git {args:?} failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        String::from_utf8(output.stdout)
+            .expect("git output is UTF-8")
+            .trim()
+            .to_owned()
+    }
+
+    fn deleted_receipt(
+        branch: &str,
+        worktree: &Path,
+        worktree_git_dir: &Path,
+        common_dir: &Path,
+    ) -> ResourceFinalizationReceipt {
+        let revision = "head-1".to_owned();
+        let branch = branch.to_owned();
+        ResourceFinalizationReceipt {
+            schema_version: cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION,
+            receipt_id: "receipt-1".into(),
+            operation_id: "operation-1".into(),
+            repository_id:
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into(),
+            work_item_id: "WI-1076-governance-recovered-predecessor-projection".into(),
+            runtime_version: "test-runtime".into(),
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+            provider: "github".into(),
+            pull_request: ResourceFinalizationPullRequestIdentity {
+                number: 1031,
+                url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
+                head_revision: revision.clone(),
+                base_branch: "main".into(),
+                base_remote: "origin".into(),
+                base_revision: "base-1".into(),
+                merge_commit: Some("merge-1".into()),
+            },
+            branch: ResourceFinalizationBranchIdentity {
+                name: branch.clone(),
+                remote: "origin".into(),
+                head_revision: revision.clone(),
+            },
+            worktree: ResourceFinalizationWorktreeIdentity {
+                worktree_id: "worktree-1".into(),
+                path: worktree.display().to_string(),
+                branch: branch.clone(),
+                head_revision: revision,
+            },
+            before: ResourceFinalizationState {
+                pull_request: ResourceFinalizationPullRequestState::Merged,
+                branch: ResourceFinalizationBranchState::Present,
+                worktree: ResourceFinalizationWorktreeState::Clean,
+            },
+            after: ResourceFinalizationState {
+                pull_request: ResourceFinalizationPullRequestState::Merged,
+                branch: ResourceFinalizationBranchState::Deleted,
+                worktree: ResourceFinalizationWorktreeState::Removed,
+            },
+            result: ResourceFinalizationResult {
+                disposition: ResourceFinalizationDisposition::Deleted,
+                failure_codes: Vec::new(),
+                unknown_codes: Vec::new(),
+            },
+            actor: "human:test".into(),
+            authority_source: "test".into(),
+            reason: "test deleted post-merge sync resources".into(),
+            timestamp: "2026-10-12T00:00:00Z".into(),
+            contract_digest: None,
+            contract_base_revision: None,
+            resource_context: None,
+            historical: None,
+            post_merge_sync: Some(PostMergeSyncEvidence {
+                source_pull_request: ResourceFinalizationPullRequestIdentity {
+                    number: 1030,
+                    url: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
+                    head_revision: "source-head".into(),
+                    base_branch: "main".into(),
+                    base_remote: "origin".into(),
+                    base_revision: "source-base".into(),
+                    merge_commit: Some("source-merge".into()),
+                },
+                sync_pull_request: ResourceFinalizationPullRequestIdentity {
+                    number: 1031,
+                    url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
+                    head_revision: "head-1".into(),
+                    base_branch: "main".into(),
+                    base_remote: "origin".into(),
+                    base_revision: "source-merge".into(),
+                    merge_commit: Some("merge-1".into()),
+                },
+                source_evidence_digest: Digest::sha256_bytes(b"source"),
+                sync_evidence_digest: Digest::sha256_bytes(b"sync"),
+                finish_revision: "finish-1".into(),
+                archive_revision: "archive-1".into(),
+                docs_revision: "head-1".into(),
+                current_main_revision: "merge-1".into(),
+                remote_branch_ref: format!("refs/heads/{branch}"),
+                remote_branch_state: PostMergeSyncRemoteBranchState::Deleted,
+                remote_evidence_digest: Digest::sha256_bytes(b"remote"),
+                git_common_dir: common_dir.display().to_string(),
+                worktree_git_dir: worktree_git_dir.display().to_string(),
+            }),
+        }
+    }
+
+    fn pinned_wi1076_sync_proof(root: &Path) -> PostMergeSyncEvidence {
+        PostMergeSyncEvidence {
+            source_pull_request: ResourceFinalizationPullRequestIdentity {
+                number: 1030,
+                url: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
+                head_revision: "b0e98ae9efe54cde951bb8f547762736411c1628".into(),
+                base_branch: "main".into(),
+                base_remote: "origin".into(),
+                base_revision: "095e185b710b0c0016c655d3792f1b3438a62bac".into(),
+                merge_commit: Some("686a71a07cc0bd6f3d76ab7261c829067db7ee26".into()),
+            },
+            sync_pull_request: ResourceFinalizationPullRequestIdentity {
+                number: 1031,
+                url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
+                head_revision: "0f1d54b334104a67eb383f5946ce2305b7b0ba94".into(),
+                base_branch: "main".into(),
+                base_remote: "origin".into(),
+                base_revision: "686a71a07cc0bd6f3d76ab7261c829067db7ee26".into(),
+                merge_commit: Some("ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9".into()),
+            },
+            source_evidence_digest: Digest::sha256_bytes(b"source PR observation"),
+            sync_evidence_digest: Digest::sha256_bytes(b"sync PR observation"),
+            finish_revision: "d651f93d4a8bcbe9413d055d501ceae6f7d0132e".into(),
+            archive_revision: "700f6cd5dcb81833aa63d38913908c5543865a8d".into(),
+            docs_revision: "0f1d54b334104a67eb383f5946ce2305b7b0ba94".into(),
+            current_main_revision: "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9".into(),
+            remote_branch_ref: "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011"
+                .into(),
+            remote_branch_state: PostMergeSyncRemoteBranchState::Present,
+            remote_evidence_digest: Digest::sha256_bytes(b"remote branch observation"),
+            git_common_dir: super::git_common_dir(root)
+                .expect("Git common directory")
+                .display()
+                .to_string(),
+            worktree_git_dir: "/workspace/.git/worktrees/wi1076".into(),
+        }
+    }
+
+    #[test]
+    fn wi1076_post_merge_sync_stages_match_the_actual_merge_graph() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let root = root.canonicalize().expect("repository root");
+        let proof = pinned_wi1076_sync_proof(&root);
+        super::validate_post_merge_sync_commit_stages(
+            &root,
+            "WI-1076-governance-recovered-predecessor-projection",
+            &proof,
+        )
+        .expect("actual merge graph and finish/archive/docs stages should validate");
+
+        let mut wrong = proof;
+        wrong.docs_revision = wrong.finish_revision.clone();
+        assert!(
+            super::validate_post_merge_sync_commit_stages(
+                &root,
+                "WI-1076-governance-recovered-predecessor-projection",
+                &wrong,
+            )
+            .is_err(),
+            "a wrong stage revision must fail closed"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path();
+        let output = Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(root)
+            .status()
+            .expect("git init starts");
+        assert!(output.success());
+        git(root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(root, &["config", "user.email", "tests@example.invalid"]);
+        std::fs::write(root.join("tracked.txt"), "fixture\n").unwrap();
+        git(root, &["add", "tracked.txt"]);
+        git(root, &["commit", "-q", "-m", "fixture baseline"]);
+        super::super::attach(root).expect("attach fixture repository");
+        super::super::start_work_item(
+            root,
+            "WI-1076-governance-recovered-predecessor-projection",
+            "bind post-merge evidence",
+            "test the delegated evidence trust boundary",
+            &[".ai/**".into()],
+        )
+        .expect("start Work Item for evidence binding");
+        let runtime = RuntimeContext {
+            runtime_version: "test-runtime".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+        };
+        let collect_time = (chrono::Utc::now() - chrono::Duration::seconds(10))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let imports = [
+            (
+                "source",
+                "https://github.com/xinglun/ai-cockpit/pull/1030",
+                b"source PR metadata".as_slice(),
+                AssuranceLevel::ProviderVerified,
+            ),
+            (
+                "sync",
+                "https://github.com/xinglun/ai-cockpit/pull/1031",
+                b"sync PR metadata".as_slice(),
+                AssuranceLevel::ProviderVerified,
+            ),
+            (
+                "remote",
+                "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+                b"remote branch metadata".as_slice(),
+                AssuranceLevel::ProviderVerified,
+            ),
+        ];
+        let mut digests = Vec::new();
+        for (name, subject, raw, assurance) in imports {
+            let evidence = DelegatedEvidence {
+                provider: "github".into(),
+                subject: subject.into(),
+                origin: format!("https://api.github.com/{name}"),
+                assurance,
+                collected_at: collect_time.clone(),
+                digest: Digest::sha256_bytes(raw),
+                validity: EvidenceValidity::Valid,
+                raw_evidence_ref: format!(".ai/evidence/external/wi1076-{name}.json"),
+            };
+            super::super::import_delegated_evidence(
+                root,
+                "WI-1076-governance-recovered-predecessor-projection",
+                &evidence,
+                raw,
+                &runtime,
+            )
+            .expect("import delegated evidence");
+            digests.push(evidence.digest);
+        }
+        let common_dir = super::git_common_dir(root).unwrap();
+        let mut receipt = deleted_receipt(
+            "codex/wi1076-governance-recovered-predecessor-20261011",
+            &fixture.path().join("target-worktree"),
+            &fixture.path().join(".git/worktrees/target-worktree"),
+            &common_dir,
+        );
+        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::seconds(2))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        {
+            let sync = receipt.post_merge_sync.as_mut().unwrap();
+            sync.source_evidence_digest = digests[0].clone();
+            sync.sync_evidence_digest = digests[1].clone();
+            sync.remote_evidence_digest = digests[2].clone();
+        }
+        super::validate_post_merge_sync_delegated_evidence(
+            root,
+            &receipt,
+            receipt.post_merge_sync.as_ref().unwrap(),
+        )
+        .expect("all three imported ProviderVerified facts should remain bound");
+
+        let raw = b"self-declared source metadata";
+        let evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
+            origin: "https://api.github.com/pulls/1030".into(),
+            assurance: AssuranceLevel::SelfDeclared,
+            collected_at: collect_time,
+            digest: Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/wi1076-self-declared.json".into(),
+        };
+        let imported = super::super::import_delegated_evidence(
+            root,
+            "WI-1076-governance-recovered-predecessor-projection",
+            &evidence,
+            raw,
+            &runtime,
+        )
+        .expect("import SelfDeclared evidence without changing its assurance");
+        assert_eq!(imported.evidence.assurance, AssuranceLevel::SelfDeclared);
+        receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .source_evidence_digest = evidence.digest;
+        let sync = receipt.post_merge_sync.as_ref().unwrap().clone();
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(root, &receipt, &sync,).is_err(),
+            "SelfDeclared evidence must not be promoted to provider-backed proof"
+        );
+    }
+
+    #[test]
+    fn schema_v2_deleted_requires_branch_worktree_and_gitdir_absence() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path().join("control");
+        let worktree = fixture.path().join("target-worktree");
+        std::fs::create_dir_all(&root).expect("control checkout directory");
+        let output = Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&root)
+            .status()
+            .expect("git init starts");
+        assert!(output.success());
+        git(&root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(&root, &["config", "user.email", "tests@example.invalid"]);
+        std::fs::write(root.join("tracked.txt"), "fixture\n").unwrap();
+        git(&root, &["add", "tracked.txt"]);
+        git(&root, &["commit", "-q", "-m", "fixture baseline"]);
+        git(&root, &["branch", "-M", "main"]);
+        git(
+            &root,
+            &[
+                "worktree",
+                "add",
+                "-b",
+                "codex/wi1076-post-merge-proof",
+                worktree.to_str().unwrap(),
+                "HEAD",
+            ],
+        );
+        let git_file = std::fs::read_to_string(worktree.join(".git")).unwrap();
+        let worktree_git_dir = PathBuf::from(git_file.trim().strip_prefix("gitdir: ").unwrap());
+        let common_dir = git(
+            &root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        );
+        git(
+            &root,
+            &["worktree", "remove", "--force", worktree.to_str().unwrap()],
+        );
+        git(&root, &["branch", "-D", "codex/wi1076-post-merge-proof"]);
+
+        let receipt = deleted_receipt(
+            "codex/wi1076-post-merge-proof",
+            &worktree,
+            &worktree_git_dir,
+            Path::new(&common_dir),
+        );
+        assert!(local_resources_deleted(&root, &receipt).unwrap());
+
+        std::fs::create_dir(&worktree).unwrap();
+        assert!(!local_resources_deleted(&root, &receipt).unwrap());
+        std::fs::remove_dir(&worktree).unwrap();
+
+        std::fs::create_dir_all(&worktree_git_dir).unwrap();
+        assert!(!local_resources_deleted(&root, &receipt).unwrap());
+        std::fs::remove_dir_all(&worktree_git_dir).unwrap();
+
+        git(&root, &["branch", "codex/wi1076-post-merge-proof", "HEAD"]);
+        assert!(!local_resources_deleted(&root, &receipt).unwrap());
+    }
+
+    #[test]
+    fn schema_v2_retained_requires_exact_local_worktree_identity() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path().join("control");
+        let worktree = fixture.path().join("target-worktree");
+        std::fs::create_dir_all(&root).expect("control checkout directory");
+        let output = Command::new("git")
+            .args(["init", "-q"])
+            .current_dir(&root)
+            .status()
+            .expect("git init starts");
+        assert!(output.success());
+        git(&root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(&root, &["config", "user.email", "tests@example.invalid"]);
+        std::fs::write(root.join("tracked.txt"), "fixture\n").unwrap();
+        git(&root, &["add", "tracked.txt"]);
+        git(&root, &["commit", "-q", "-m", "fixture baseline"]);
+        git(&root, &["branch", "-M", "main"]);
+        let branch = "codex/wi1076-retained-proof";
+        git(
+            &root,
+            &[
+                "worktree",
+                "add",
+                "-b",
+                branch,
+                worktree.to_str().unwrap(),
+                "HEAD",
+            ],
+        );
+        let head = git(&worktree, &["rev-parse", "--verify", "HEAD"]);
+        let git_file = std::fs::read_to_string(worktree.join(".git")).unwrap();
+        let worktree_git_dir = PathBuf::from(git_file.trim().strip_prefix("gitdir: ").unwrap());
+        let common_dir = super::git_common_dir(&root).unwrap();
+        let mut receipt = deleted_receipt(branch, &worktree, &worktree_git_dir, &common_dir);
+        receipt.pull_request.head_revision = head.clone();
+        receipt.branch.head_revision = head.clone();
+        receipt.worktree.head_revision = head.clone();
+        receipt.before.branch = ResourceFinalizationBranchState::Present;
+        receipt.before.worktree = ResourceFinalizationWorktreeState::Clean;
+        receipt.after.branch = ResourceFinalizationBranchState::Present;
+        receipt.after.worktree = ResourceFinalizationWorktreeState::Clean;
+        receipt.result.disposition = ResourceFinalizationDisposition::Retained;
+        let sync = receipt.post_merge_sync.as_mut().unwrap();
+        sync.sync_pull_request.head_revision = head;
+        sync.docs_revision = sync.sync_pull_request.head_revision.clone();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        let sync = receipt.post_merge_sync.as_ref().unwrap().clone();
+        validate_post_merge_sync_local_state(&root, &receipt, &sync)
+            .expect("retained worktree identity should match the receipt");
+
+        let mut wrong_git_dir = sync.clone();
+        wrong_git_dir.worktree_git_dir = fixture.path().join("wrong-git-dir").display().to_string();
+        assert!(validate_post_merge_sync_local_state(&root, &receipt, &wrong_git_dir).is_err());
+
+        std::fs::write(worktree.join("untracked.txt"), "dirty\n").unwrap();
+        assert!(validate_post_merge_sync_local_state(&root, &receipt, &sync).is_err());
     }
 }

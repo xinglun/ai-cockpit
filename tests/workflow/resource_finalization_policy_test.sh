@@ -9,6 +9,126 @@ policy="$root/tests/workflow/resource_finalization_policy.sh"
 # Positive repository check.
 "$policy" "$root"
 
+# The accepted WI-1076 history is a two-merge graph. Pin its parents, trees,
+# stage paths, and modes independently of the Rust implementation so a
+# later cleanup cannot silently reuse only a three-dot comparison or an
+# incomplete path allowlist.
+python3 - "$root" <<'PY'
+from pathlib import Path
+import json
+import subprocess
+import sys
+
+root = Path(sys.argv[1])
+
+def git(*args):
+    return subprocess.run(
+        ["git", "-C", str(root), *args],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout.strip()
+
+source_base = "095e185b710b0c0016c655d3792f1b3438a62bac"
+source_head = "b0e98ae9efe54cde951bb8f547762736411c1628"
+source_merge = "686a71a07cc0bd6f3d76ab7261c829067db7ee26"
+finish = "d651f93d4a8bcbe9413d055d501ceae6f7d0132e"
+archive = "700f6cd5dcb81833aa63d38913908c5543865a8d"
+docs = "0f1d54b334104a67eb383f5946ce2305b7b0ba94"
+sync_merge = "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9"
+
+def parents(revision):
+    fields = git("show", "-s", "--format=%P", revision).split()
+    return fields
+
+assert parents(source_merge) == [source_base, source_head]
+assert parents(archive) == [finish]
+assert parents(docs) == [archive]
+assert parents(sync_merge) == [source_merge, docs]
+assert git("rev-parse", f"{source_merge}^{{tree}}") == git("rev-parse", f"{source_head}^{{tree}}")
+assert git("rev-parse", f"{sync_merge}^{{tree}}") == git("rev-parse", f"{docs}^{{tree}}")
+assert git("merge-base", source_merge, docs) == source_head
+remote_main = git("rev-parse", "--verify", "refs/remotes/origin/main")
+assert subprocess.run(
+    ["git", "-C", str(root), "merge-base", "--is-ancestor", sync_merge, remote_main]
+).returncode == 0
+assert subprocess.run(
+    ["git", "-C", str(root), "merge-base", "--is-ancestor", source_merge, docs]
+).returncode == 1
+for ancestor, descendant in ((source_head, finish), (finish, archive), (archive, docs), (docs, sync_merge)):
+    assert subprocess.run(
+        ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant]
+    ).returncode == 0
+
+prefix = "WI-1076-governance-recovered-predecessor-projection"
+active = f".ai/work-items/active/{prefix}"
+archived = f".ai/work-items/archive/{prefix}"
+expected = {
+    finish: {
+        f"M:.ai/evidence/{prefix}.verification.json",
+        f"M:{active}.events.jsonl",
+        f"M:{active}.outcome.json",
+        f"M:{active}.summary.json",
+        f"M:{active}.task-report.json",
+        f"M:{active}.task-report.md",
+    },
+    archive: {
+        f"D:{active}.events.jsonl",
+        f"A:{archived}.archive.json",
+        f"R100:{active}.contract.json=>{archived}.contract.json",
+        f"R095:{active}.outcome.json=>{archived}.outcome.json",
+        f"R100:{active}.summary.json=>{archived}.summary.json",
+        f"R100:{active}.task-report.json=>{archived}.task-report.json",
+        f"R100:{active}.task-report.md=>{archived}.task-report.md",
+        f"A:{archived}.events.jsonl",
+    },
+    docs: {
+        "M:docs/reference/reference-parity.ja.md",
+        "M:docs/reference/reference-parity.md",
+        "M:docs/reference/reference-parity.zh-CN.md",
+        f"M:docs/work-items/{prefix}.ja.md",
+        f"M:docs/work-items/{prefix}.md",
+        f"M:docs/work-items/{prefix}.zh-CN.md",
+    },
+}
+
+for revision, wanted in expected.items():
+    parent = parents(revision)[0]
+    raw = git("diff-tree", "--raw", "--no-commit-id", "-r", "-M", parent, revision)
+    actual = set()
+    for line in raw.splitlines():
+        metadata, *paths = line.split("\t")
+        fields = metadata.split()
+        old_mode = fields[0][1:]
+        new_mode = fields[1]
+        status = fields[4]
+        assert old_mode in {"000000", "100644"} and new_mode in {"000000", "100644"}
+        if status.startswith("R"):
+            assert len(paths) == 2
+            actual.add(f"{status}:{paths[0]}=>{paths[1]}")
+        else:
+            assert len(paths) == 1
+            actual.add(f"{status}:{paths[0]}")
+    assert actual == wanted, (revision, actual, wanted)
+
+def blob(revision, path):
+    return git("rev-parse", "--verify", f"{revision}:{path}")
+
+verification = f".ai/evidence/{prefix}.verification.json"
+assert blob(finish, verification) == blob(sync_merge, verification)
+verification_json = json.loads(git("show", f"{sync_merge}:{verification}"))
+assert verification_json["passed"] is True
+assert verification_json["receipt"]["runtimeDigest"] == "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+manifest = f"{archived}.archive.json"
+assert blob(archive, manifest) == blob(sync_merge, manifest)
+manifest_json = json.loads(git("show", f"{sync_merge}:{manifest}"))
+assert manifest_json["runtimeDigest"] == "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+for name in ("contract.json", "events.jsonl", "outcome.json", "summary.json", "task-report.json", "task-report.md"):
+    path = f"{archived}.{name}"
+    assert blob(archive, path) == blob(sync_merge, path)
+PY
+
 # Regression: removing one language-neutral transition must fail the gate. The
 # fixture is isolated and disposable; no repository policy file is mutated.
 fixture=$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-finalization-policy.XXXXXX")

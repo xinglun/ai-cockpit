@@ -1157,6 +1157,37 @@ pub struct ResourceFinalizationContext {
     pub pull_request: String,
 }
 
+/// Evidence binding a retained finalization receipt to the actual two-PR
+/// synchronization that followed the original merge. The digests identify
+/// imported delegated evidence; this record never upgrades its assurance.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PostMergeSyncEvidence {
+    pub source_pull_request: ResourceFinalizationPullRequestIdentity,
+    pub sync_pull_request: ResourceFinalizationPullRequestIdentity,
+    pub source_evidence_digest: Digest,
+    pub sync_evidence_digest: Digest,
+    pub finish_revision: String,
+    pub archive_revision: String,
+    pub docs_revision: String,
+    pub current_main_revision: String,
+    pub remote_branch_ref: String,
+    pub remote_branch_state: PostMergeSyncRemoteBranchState,
+    pub remote_evidence_digest: Digest,
+    pub git_common_dir: String,
+    pub worktree_git_dir: String,
+}
+
+/// Provider-reported remote branch state carried by a post-merge sync root or
+/// its append-only cleanup transition.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PostMergeSyncRemoteBranchState {
+    Present,
+    Deleted,
+    Unknown,
+}
+
 impl ResourceFinalizationContext {
     /// `start` records local branch/worktree facts before a provider-side
     /// finalization plan exists.  The remaining identity fields are explicit
@@ -1326,6 +1357,10 @@ pub struct ResourceFinalizationReceipt {
     pub resource_context: Option<ResourceFinalizationContext>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub historical: Option<HistoricalFinalization>,
+    /// Present only on schema-v2 receipts for a reviewed post-merge sync.
+    /// Historical schema-v1 receipts retain their original wire shape.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub post_merge_sync: Option<PostMergeSyncEvidence>,
 }
 
 /// Append-only successor to an immutable canonical resource-finalization
@@ -1507,12 +1542,197 @@ impl FinalizationError {
 }
 
 pub const RESOURCE_FINALIZATION_SCHEMA_VERSION: u32 = 1;
+pub const RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION: u32 = 2;
 
 pub const RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE: &str = "dirty_worktree";
 pub const RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST: &str = "unmerged_pull_request";
 pub const RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH: &str = "protected_branch";
 pub const RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE: &str = "ambiguous_state";
 pub const RESOURCE_FINALIZATION_CODE_PROVIDER_UNAVAILABLE: &str = "provider_unavailable";
+
+fn validate_post_merge_sync_revision(
+    value: &str,
+    field: &'static str,
+) -> Result<(), ResourceFinalizationError> {
+    validate_resource_finalization_text(value, field)?;
+    if !matches!(value.len(), 40 | 64) || !value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        return Err(ResourceFinalizationError::InvalidState(field));
+    }
+    Ok(())
+}
+
+fn validate_post_merge_sync_receipt(
+    receipt: &ResourceFinalizationReceipt,
+    sync: &PostMergeSyncEvidence,
+) -> Result<(), ResourceFinalizationError> {
+    if receipt.historical.is_some() {
+        return Err(ResourceFinalizationError::InvalidState(
+            "post-merge sync receipts cannot be historical",
+        ));
+    }
+    if receipt.result.disposition != ResourceFinalizationDisposition::Retained
+        && receipt.result.disposition != ResourceFinalizationDisposition::Deleted
+    {
+        return Err(ResourceFinalizationError::InvalidDisposition(
+            "post-merge sync receipt must be retained or deleted",
+        ));
+    }
+    if sync.source_pull_request.number == 0
+        || sync.sync_pull_request.number == 0
+        || sync.source_pull_request.number == sync.sync_pull_request.number
+        || sync.source_pull_request.url == sync.sync_pull_request.url
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "post-merge sync requires two distinct pull requests",
+        ));
+    }
+    for (identity, prefix) in [
+        (&sync.source_pull_request, "postMergeSync.sourcePullRequest"),
+        (&sync.sync_pull_request, "postMergeSync.syncPullRequest"),
+    ] {
+        for value in [
+            identity.url.as_str(),
+            identity.base_branch.as_str(),
+            identity.base_remote.as_str(),
+        ] {
+            validate_resource_finalization_text(value, "postMergeSync.pullRequest")?;
+        }
+        validate_post_merge_sync_revision(
+            &identity.head_revision,
+            if prefix == "postMergeSync.sourcePullRequest" {
+                "postMergeSync.sourcePullRequest.headRevision"
+            } else {
+                "postMergeSync.syncPullRequest.headRevision"
+            },
+        )?;
+        validate_post_merge_sync_revision(
+            &identity.base_revision,
+            if prefix == "postMergeSync.sourcePullRequest" {
+                "postMergeSync.sourcePullRequest.baseRevision"
+            } else {
+                "postMergeSync.syncPullRequest.baseRevision"
+            },
+        )?;
+        let merge_commit =
+            identity
+                .merge_commit
+                .as_deref()
+                .ok_or(ResourceFinalizationError::InvalidState(
+                    "post-merge sync PR requires mergeCommit",
+                ))?;
+        validate_post_merge_sync_revision(
+            merge_commit,
+            if prefix == "postMergeSync.sourcePullRequest" {
+                "postMergeSync.sourcePullRequest.mergeCommit"
+            } else {
+                "postMergeSync.syncPullRequest.mergeCommit"
+            },
+        )?;
+    }
+    if sync.source_pull_request.base_branch != sync.sync_pull_request.base_branch
+        || sync.source_pull_request.base_remote != sync.sync_pull_request.base_remote
+        || sync.sync_pull_request.base_branch != "main"
+        || sync.sync_pull_request.base_remote != "origin"
+        || sync.sync_pull_request.base_revision
+            != sync
+                .source_pull_request
+                .merge_commit
+                .as_deref()
+                .unwrap_or_default()
+        || sync.sync_pull_request.merge_commit.as_deref()
+            != Some(sync.current_main_revision.as_str())
+        || receipt.pull_request != sync.sync_pull_request
+        || receipt.branch.head_revision != sync.sync_pull_request.head_revision
+        || receipt.branch.remote != sync.sync_pull_request.base_remote
+        || receipt.worktree.head_revision != sync.sync_pull_request.head_revision
+        || sync.docs_revision != sync.sync_pull_request.head_revision
+        || sync.remote_branch_ref != format!("refs/heads/{}", receipt.branch.name)
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "post-merge sync identities do not form one reviewed merge chain",
+        ));
+    }
+    for (value, field) in [
+        (
+            sync.finish_revision.as_str(),
+            "postMergeSync.finishRevision",
+        ),
+        (
+            sync.archive_revision.as_str(),
+            "postMergeSync.archiveRevision",
+        ),
+        (sync.docs_revision.as_str(), "postMergeSync.docsRevision"),
+        (
+            sync.current_main_revision.as_str(),
+            "postMergeSync.currentMainRevision",
+        ),
+    ] {
+        validate_post_merge_sync_revision(value, field)?;
+    }
+    if sync.finish_revision == sync.archive_revision
+        || sync.archive_revision == sync.docs_revision
+        || sync.finish_revision == sync.docs_revision
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "post-merge finish, archive, and docs stages must be distinct revisions",
+        ));
+    }
+    for digest in [
+        &sync.source_evidence_digest,
+        &sync.sync_evidence_digest,
+        &sync.remote_evidence_digest,
+    ] {
+        if Digest::from_str(digest.as_str()).is_err() {
+            return Err(ResourceFinalizationError::InvalidDigest(
+                "postMergeSync.evidenceDigest",
+            ));
+        }
+    }
+    if sync.source_evidence_digest == sync.sync_evidence_digest
+        || sync.source_evidence_digest == sync.remote_evidence_digest
+        || sync.sync_evidence_digest == sync.remote_evidence_digest
+    {
+        return Err(ResourceFinalizationError::IdentityMismatch(
+            "post-merge sync evidence digests must identify distinct observations",
+        ));
+    }
+    for (value, field) in [
+        (sync.git_common_dir.as_str(), "postMergeSync.gitCommonDir"),
+        (
+            sync.worktree_git_dir.as_str(),
+            "postMergeSync.worktreeGitDir",
+        ),
+    ] {
+        validate_resource_finalization_text(value, field)?;
+        if !PathBuf::from(value).is_absolute() {
+            return Err(ResourceFinalizationError::InvalidState(field));
+        }
+    }
+    match receipt.result.disposition {
+        ResourceFinalizationDisposition::Retained => {
+            if sync.remote_branch_state != PostMergeSyncRemoteBranchState::Present
+                || receipt.after.branch != ResourceFinalizationBranchState::Present
+                || receipt.after.worktree != ResourceFinalizationWorktreeState::Clean
+            {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "retained post-merge sync must bind present provider and local resources",
+                ));
+            }
+        }
+        ResourceFinalizationDisposition::Deleted => {
+            if sync.remote_branch_state != PostMergeSyncRemoteBranchState::Deleted
+                || receipt.after.branch != ResourceFinalizationBranchState::Deleted
+                || receipt.after.worktree != ResourceFinalizationWorktreeState::Removed
+            {
+                return Err(ResourceFinalizationError::InvalidDisposition(
+                    "deleted post-merge sync must bind deleted provider and local resources",
+                ));
+            }
+        }
+        _ => unreachable!("post-merge sync disposition was checked above"),
+    }
+    Ok(())
+}
 pub const RESOURCE_FINALIZATION_CODE_PARTIAL_CLEANUP: &str = "partial_cleanup";
 
 fn validate_resource_finalization_text(
@@ -1790,8 +2010,20 @@ pub fn validate_resource_finalization_context(
 pub fn validate_resource_finalization_receipt(
     receipt: &ResourceFinalizationReceipt,
 ) -> Result<(), ResourceFinalizationError> {
-    if receipt.schema_version != RESOURCE_FINALIZATION_SCHEMA_VERSION {
+    if !matches!(
+        receipt.schema_version,
+        RESOURCE_FINALIZATION_SCHEMA_VERSION | RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+    ) {
         return Err(ResourceFinalizationError::UnsupportedSchema);
+    }
+    if (receipt.schema_version == RESOURCE_FINALIZATION_SCHEMA_VERSION
+        && receipt.post_merge_sync.is_some())
+        || (receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+            && receipt.post_merge_sync.is_none())
+    {
+        return Err(ResourceFinalizationError::InvalidState(
+            "postMergeSync is required only for schema-v2 finalization receipts",
+        ));
     }
     validate_resource_finalization_identity(receipt)?;
     validate_resource_finalization_state(&receipt.before)?;
@@ -1928,6 +2160,15 @@ pub fn validate_resource_finalization_receipt(
                 ));
             }
         }
+    }
+    if receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION {
+        validate_post_merge_sync_receipt(
+            receipt,
+            receipt
+                .post_merge_sync
+                .as_ref()
+                .expect("schema-v2 postMergeSync presence was checked above"),
+        )?;
     }
     Ok(())
 }
@@ -2103,6 +2344,7 @@ pub fn validate_resource_finalization_replay(
         || original.runtime_digest != replay.runtime_digest
         || original.contract_digest != replay.contract_digest
         || original.resource_context != replay.resource_context
+        || original.post_merge_sync != replay.post_merge_sync
     {
         return Err(ResourceFinalizationError::ReplayMismatch(
             "finalization identity or result",
@@ -2201,10 +2443,37 @@ pub fn validate_resource_finalization_transition(
         || previous.contract_digest != next.contract_digest
         || previous.resource_context != next.resource_context
         || previous.historical != next.historical
+        || previous.schema_version != next.schema_version
     {
         return Err(ResourceFinalizationError::IdentityMismatch(
             "finalization transition identity",
         ));
+    }
+    match (&previous.post_merge_sync, &next.post_merge_sync) {
+        (None, None) => {}
+        (Some(previous_sync), Some(next_sync)) => {
+            let mut normalized_next = next_sync.clone();
+            normalized_next.remote_branch_state = previous_sync.remote_branch_state;
+            normalized_next.remote_evidence_digest = previous_sync.remote_evidence_digest.clone();
+            if previous.runtime_version != next.runtime_version
+                || previous.runtime_digest != next.runtime_digest
+                || previous.result.disposition != ResourceFinalizationDisposition::Retained
+                || next.result.disposition != ResourceFinalizationDisposition::Deleted
+                || previous_sync.remote_branch_state != PostMergeSyncRemoteBranchState::Present
+                || next_sync.remote_branch_state != PostMergeSyncRemoteBranchState::Deleted
+                || previous_sync.remote_evidence_digest == next_sync.remote_evidence_digest
+                || *previous_sync != normalized_next
+            {
+                return Err(ResourceFinalizationError::IdentityMismatch(
+                    "post-merge sync transition must preserve its merge proof and append fresh deleted-branch evidence",
+                ));
+            }
+        }
+        _ => {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "post-merge sync schema cannot be added or removed by a transition",
+            ));
+        }
     }
     if head_changed {
         let bounded_merge_observation = transition.sequence == 1
