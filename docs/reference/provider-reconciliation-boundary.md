@@ -33,3 +33,11 @@ file-by-file ledger. They are not copied into `.ai/`, not merged into current
 status, and never override a repository-local Contract or Runtime evidence.
 Use the current [Release distribution](../release/distribution.md) and
 [Reference parity](reference-parity.md) pages for target-specific boundaries.
+
+## Explicit lifecycle layout evidence
+
+Schema-v3 resource finalization uses `postMergeSync.lifecycleLayout` (`separate` or `combined`) and `postMergeSync.documentation` (`projected` or `absent`). Schema-v1 and schema-v2 retain their original rules. `combined` binds one real parent-to-commit finish/archive transition; it never invents an intermediate commit. The Runtime validates the canonical Summary, Outcome, reports, events, archive manifest and verification bindings together. Frozen reports may retain historical active paths. Existing verification and failed attempts keep their original bytes and Runtime identity; newly added attempts require execution bindings.
+
+The source PR identity remains immutable. The sync PR binds its actual base, head and merge; its base must contain the source merge. Runtime proves the conflict-free Git merge result, rejecting conflicts and additional merge content instead of assuming the merge tree equals the sync head tree. Only this Work Item's lifecycle artifacts and required documentation may change on the sync branch.
+
+`absent` is explicit evidence, not a documentation waiver: the source head, lifecycle parent, archive, sync base/head and merge must have no Work Item page, parity entry or active documentation reference, and the Contract must permit that absence. Historical evidence and report references remain valid. Provider identity, freshness and ambiguity checks, a surviving control checkout in the same Git common directory, Retained → Deleted, finalize-verify and a distinct real human close decision remain mandatory.

@@ -501,6 +501,20 @@ fn cli_direct_merge_plan_round_trips_through_recovery_and_finalize() {
 
 #[test]
 fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close() {
+    exercise_post_merge_sync_closeout(false, 2);
+}
+
+#[test]
+fn cli_post_merge_sync_v3_combined_absent_advanced_base_closeout() {
+    exercise_post_merge_sync_closeout(true, 3);
+}
+
+#[test]
+fn cli_post_merge_sync_v3_separate_projected_advanced_base_closeout() {
+    exercise_post_merge_sync_closeout(false, 3);
+}
+
+fn exercise_post_merge_sync_closeout(combined: bool, schema_version: u32) {
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     let repo = repository();
     let root = repo.path();
@@ -628,7 +642,9 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     let active_contract_digest = cockpit_protocol::digest_json(&contract)
         .unwrap()
         .to_string();
-    seed_sync_projection_docs(&worktree_path, id, &active_contract_digest);
+    if !combined {
+        seed_sync_projection_docs(&worktree_path, id, &active_contract_digest);
+    }
 
     assert_success(
         &run(
@@ -651,6 +667,16 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         !initial_failure.status.success(),
         "the source PR fixture should preserve one real failed verification attempt"
     );
+    if combined {
+        assert_success(
+            &run(
+                binary,
+                &["verify", "--work-item", id, "--command", "true"],
+                &worktree_path,
+            ),
+            "verify before original PR head",
+        );
+    }
     git(&worktree_path, &["add", "--all", ".ai"]);
     git(
         &worktree_path,
@@ -683,50 +709,56 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     git(&worktree_path, &["checkout", "-q", "-b", sync_branch]);
     git(root, &["branch", "-D", source_branch]);
 
-    assert_success(
-        &run(
-            binary,
-            &["verify", "--work-item", id, "--command", "true"],
-            &worktree_path,
-        ),
-        "verify sync branch",
-    );
-    let evidence_dir = worktree_path.join(".ai/evidence");
-    let attempts = fs::read_dir(&evidence_dir)
-        .unwrap()
-        .filter_map(Result::ok)
-        .map(|entry| entry.path())
-        .filter(|path| {
-            path.file_name()
-                .and_then(|name| name.to_str())
-                .is_some_and(|name| name.starts_with(&format!("{id}.verification-attempt.")))
-                && !git(
-                    &worktree_path,
-                    &[
-                        "status",
-                        "--porcelain",
-                        "--ignored=matching",
-                        "--",
-                        path.to_str().unwrap(),
-                    ],
-                )
-                .is_empty()
-        })
-        .collect::<Vec<_>>();
-    assert!(
-        !attempts.is_empty(),
-        "verify must persist immutable attempt artifacts"
-    );
-    for attempt in attempts {
-        git(&worktree_path, &["add", attempt.to_str().unwrap()]);
-        commit_staged(&worktree_path, "append immutable verification attempt");
+    if !combined {
+        assert_success(
+            &run(
+                binary,
+                &["verify", "--work-item", id, "--command", "true"],
+                &worktree_path,
+            ),
+            "verify sync branch",
+        );
+        let evidence_dir = worktree_path.join(".ai/evidence");
+        let attempts = fs::read_dir(&evidence_dir)
+            .unwrap()
+            .filter_map(Result::ok)
+            .map(|entry| entry.path())
+            .filter(|path| {
+                path.file_name()
+                    .and_then(|name| name.to_str())
+                    .is_some_and(|name| name.starts_with(&format!("{id}.verification-attempt.")))
+                    && !git(
+                        &worktree_path,
+                        &[
+                            "status",
+                            "--porcelain",
+                            "--ignored=matching",
+                            "--",
+                            path.to_str().unwrap(),
+                        ],
+                    )
+                    .is_empty()
+            })
+            .collect::<Vec<_>>();
+        assert!(
+            !attempts.is_empty(),
+            "verify must persist immutable attempt artifacts"
+        );
+        for attempt in attempts {
+            git(&worktree_path, &["add", attempt.to_str().unwrap()]);
+            commit_staged(&worktree_path, "append immutable verification attempt");
+        }
     }
     assert_success(
         &run(binary, &["finish", "--id", id], &worktree_path),
         "finish sync branch",
     );
-    git(&worktree_path, &["add", "--all"]);
-    let finish_revision = commit_staged(&worktree_path, "finish verified Work Item");
+    let finish_revision = if combined {
+        String::new()
+    } else {
+        git(&worktree_path, &["add", "--all"]);
+        commit_staged(&worktree_path, "finish verified Work Item")
+    };
     assert_success(
         &run(binary, &["archive", "--id", id], &worktree_path),
         "archive sync branch",
@@ -744,16 +776,35 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     let archive_contract_digest = cockpit_protocol::digest_json(&archived_contract)
         .unwrap()
         .to_string();
-    promote_sync_projection_docs(
-        &worktree_path,
-        id,
-        &active_contract_digest,
-        &archive_contract_digest,
-    );
+    if !combined {
+        promote_sync_projection_docs(
+            &worktree_path,
+            id,
+            &active_contract_digest,
+            &archive_contract_digest,
+        );
+    }
+    let finish_revision = if combined {
+        archive_revision.clone()
+    } else {
+        finish_revision
+    };
     let docs_revision = git(&worktree_path, &["rev-parse", "HEAD"]);
-    assert_ne!(finish_revision, archive_revision);
-    assert_ne!(archive_revision, docs_revision);
-    assert_ne!(finish_revision, docs_revision);
+    if !combined {
+        assert_ne!(finish_revision, archive_revision);
+        assert_ne!(archive_revision, docs_revision);
+        assert_ne!(finish_revision, docs_revision);
+    }
+    if schema_version == 3 {
+        fs::write(
+            root.join("unrelated-main.txt"),
+            "main advanced independently\n",
+        )
+        .unwrap();
+        git(root, &["add", "unrelated-main.txt"]);
+        commit_staged(root, "advance actual sync base");
+    }
+    let sync_base = git(root, &["rev-parse", "HEAD"]);
     git(
         root,
         &["merge", "--no-ff", "-q", sync_branch, "-m", "merge sync PR"],
@@ -791,7 +842,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         "headRevision": docs_revision,
         "baseBranch": "main",
         "baseRemote": "origin",
-        "baseRevision": source_merge,
+        "baseRevision": sync_base,
         "mergeCommit": current_main
     });
     let remote_ref = format!("refs/heads/{sync_branch}");
@@ -822,7 +873,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
                 "merged": true,
                 "merge_commit_sha": current_main,
                 "head": {"ref": sync_branch, "sha": docs_revision, "repo": {"full_name": "example/fixture"}},
-                "base": {"ref": "main", "sha": source_merge, "repo": {"full_name": "example/fixture"}}
+                "base": {"ref": "main", "sha": sync_base, "repo": {"full_name": "example/fixture"}}
             }))
             .unwrap(),
         ),
@@ -882,8 +933,8 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     let runtime_digest = runtime_digest(binary);
     let context = archived_contract["resourceContext"].clone();
     let retained_timestamp = current_timestamp_rfc3339();
-    let retained = serde_json::json!({
-        "schemaVersion": 2,
+    let mut retained = serde_json::json!({
+        "schemaVersion": schema_version,
         "receiptId": "cli-retained-root",
         "operationId": "cli-retained-operation",
         "repositoryId": repository_id,
@@ -920,6 +971,12 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
             "worktreeGitDir": worktree_git_dir
         }
     });
+    if schema_version == 3 {
+        retained["postMergeSync"]["lifecycleLayout"] =
+            if combined { "combined" } else { "separate" }.into();
+        retained["postMergeSync"]["documentation"] =
+            if combined { "absent" } else { "projected" }.into();
+    }
     assert_eq!(status["repositoryId"], repository_id);
     let root_file = tempfile::NamedTempFile::new().expect("Retained receipt");
     fs::write(
