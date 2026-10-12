@@ -4,7 +4,7 @@
       ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
+    "repositorySnapshotDigest": "sha256:9d7ec712d51799b2fefd8c786d66b2ccaea031b7b247880600ebc9cafbb03109",
     "workItemId": "WI-1076-governance-recovered-predecessor-projection"
   },
   "format": "ai-cockpit.task-outcome",
@@ -12,15 +12,7 @@
   "schemaVersion": 1,
   "sections": {
     "avoidedImpact": [],
-    "deliveredChanges": [
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification-attempt.09c2ad6932211e8d7ba38125b283b9a31183722480b3047acfce122b8f042ac7.json"
-      }
-    ],
+    "deliveredChanges": [],
     "evidence": [
       {
         "evidenceRefs": [
@@ -41,7 +33,15 @@
     "humanDecisions": [],
     "interventions": [],
     "limitations": [],
-    "nonRiskExplanations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
     "outcomeSummary": [
       {
         "evidenceRefs": [
@@ -93,7 +93,7 @@
   "status": "verified",
   "usage": {
     "coverage": "unknown",
-    "cutoff": "2026-10-11T23:44:20.903086386Z",
+    "cutoff": "2026-10-12T03:21:47.964303011Z",
     "receiptRefs": [],
     "schemaVersion": 1,
     "subtotals": [],

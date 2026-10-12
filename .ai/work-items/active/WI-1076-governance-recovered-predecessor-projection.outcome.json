@@ -6,9 +6,9 @@
     "Negative fixtures prove an unfinished successor cannot be projected as terminal, and existing acceptance, archive, and close requirements remain unchanged.",
     "The clean six-document WI-1068 snapshot passes both governance integrity and Work Item status consistency after the gate correction."
   ],
-  "createdAt": "2026-10-11T23:44:20.903086386Z",
+  "createdAt": "2026-10-12T03:21:47.964303011Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:47637b2775c8f23f15bce7da542bba03d7ff6abc4562819be7f6f9d12617dac4",
+  "evidenceDigest": "sha256:f7b536e87eca3f74f69516f15e043871332daa20643b114225c1be9a2d65e648",
   "evidenceRefs": [
     ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:ab6e90be2143b14a95150d299c4f85f718aa985ea6dd421aea7e0494086b77e0",
+      "repositorySnapshotDigest": "sha256:9d7ec712d51799b2fefd8c786d66b2ccaea031b7b247880600ebc9cafbb03109",
       "workItemId": "WI-1076-governance-recovered-predecessor-projection"
     },
     "format": "ai-cockpit.task-outcome",
@@ -42,15 +42,7 @@
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification-attempt.09c2ad6932211e8d7ba38125b283b9a31183722480b3047acfce122b8f042ac7.json"
-        }
-      ],
+      "deliveredChanges": [],
       "evidence": [
         {
           "evidenceRefs": [
@@ -71,7 +63,15 @@
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
-      "nonRiskExplanations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
       "outcomeSummary": [
         {
           "evidenceRefs": [
@@ -123,7 +123,7 @@
     "status": "verified",
     "usage": {
       "coverage": "unknown",
-      "cutoff": "2026-10-11T23:44:20.903086386Z",
+      "cutoff": "2026-10-12T03:21:47.964303011Z",
       "receiptRefs": [],
       "schemaVersion": 1,
       "subtotals": [],
@@ -140,8 +140,8 @@
     },
     "workItemId": "WI-1076-governance-recovered-predecessor-projection"
   },
-  "taskReportDigest": "sha256:07c3bf91df5634c30bb3a5bb6aba18ec3d2a30360c82d0430a215656008b498f",
-  "taskReportMarkdownDigest": "sha256:5791d75fd7039db872aac029bb1b4a86eba10f7f5bb42153f9472f28368a2be1",
+  "taskReportDigest": "sha256:a418ad389deb81be45024863d1445f1d2c795111dccb4c09b57b8b8f7f1264fb",
+  "taskReportMarkdownDigest": "sha256:4f4803ff9ee2e548cd6f8344fc5c96eedf26c92e066970cf523d67deb7fae429",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

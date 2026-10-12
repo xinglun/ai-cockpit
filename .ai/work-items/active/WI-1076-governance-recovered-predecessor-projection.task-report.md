@@ -14,7 +14,7 @@
 
 ## Delivered changes
 
-- Changed path: .ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification-attempt.09c2ad6932211e8d7ba38125b283b9a31183722480b3047acfce122b8f042ac7.json
+- None
 
 ## Findings
 
