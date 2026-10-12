@@ -1,0 +1,160 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9d7ec712d51799b2fefd8c786d66b2ccaea031b7b247880600ebc9cafbb03109",
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.archive.json",
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json",
+            ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json",
+            ".ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.json",
+            ".ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.7f4612a89e2b7032862fec128eab4b5ced032f7eda10f425aa2a848b6dd9bd94.json",
+            "chatgpt:user-message:Sentinel_bdd7ba1886f881919b2a852db7e9ff59"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by Ray via chatgpt:user-message:Sentinel_bdd7ba1886f881919b2a852db7e9ff59; author_id=user-1lSz36PWE5SpWu8hYO6DjdOp; original user text: 我本人 Ray 确认按上述绑定关闭 WI-1076; relayed verbatim with transcript evidence at 2026-10-12T22:07:45.653148+00:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow the three-language Recovered projection only for a strictly validated superseded predecessor while preserving awaiting_successor_close for the successor and every independent acceptance and close requirement."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-12T22:08:56.949391045Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+    },
+    "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+  },
+  "finalReportDigest": "sha256:ddefb75fd658add97a2c98032da301b0a01c6f1f9aa1a466d76e8df8b7087947",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-12T22:08:56.949349534Z",
+  "recordedAt": "2026-10-12T22:08:56.949349534Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:53a634faf333b85aca3ecfe59ae9b0777cc273f2e878d9a75be3cbe2f97e99fc",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.7f4612a89e2b7032862fec128eab4b5ced032f7eda10f425aa2a848b6dd9bd94.json",
+  "resourceFinalizationSequence": 1,
+  "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "Ray",
+    "authoritySource": "chatgpt:user-message:Sentinel_bdd7ba1886f881919b2a852db7e9ff59; author_id=user-1lSz36PWE5SpWu8hYO6DjdOp; original user text: 我本人 Ray 确认按上述绑定关闭 WI-1076; relayed verbatim with transcript evidence",
+    "decidedAt": "2026-10-12T22:07:45.653148+00:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.archive.json",
+      ".ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json",
+      ".ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json",
+      ".ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.json",
+      ".ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.7f4612a89e2b7032862fec128eab4b5ced032f7eda10f425aa2a848b6dd9bd94.json",
+      "chatgpt:user-message:Sentinel_bdd7ba1886f881919b2a852db7e9ff59"
+    ],
+    "policyRefs": [],
+    "reason": "Ray 本人批准按提交 204bbc6f6a4ebe08675f3c4825d721ada91ee8a8 及 Deleted headDigest sha256:53a634faf333b85aca3ecfe59ae9b0777cc273f2e878d9a75be3cbe2f97e99fc 关闭 WI-1076；真实 GitHub 观察、v2 Retained→Deleted 链与本地资源删除均已验证，保留全部历史证据及历史状态。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-12T22:08:56Z",
+  "usageCutoff": "2026-10-12T22:08:56.949391045Z",
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}
