@@ -6,9 +6,13 @@ audience:
   - maintainer
   - reviewer
 workItemId: WI-1076-governance-recovered-predecessor-projection
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
+terminalArchive: .ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json
+terminalVerification: .ai/evidence/WI-1076-governance-recovered-predecessor-projection.verification.json
+terminalFinalization: .ai/decisions/WI-1076-governance-recovered-predecessor-projection.finalize.7f4612a89e2b7032862fec128eab4b5ced032f7eda10f425aa2a848b6dd9bd94.json
+terminalDecision: .ai/decisions/WI-1076-governance-recovered-predecessor-projection.close.json
 contractDigest: sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378
 ---
 
