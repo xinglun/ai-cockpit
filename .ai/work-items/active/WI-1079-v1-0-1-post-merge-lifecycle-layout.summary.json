@@ -1,0 +1,29 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-12T23:35:43Z",
+  "checkpointContractDigest": "sha256:395f978b3889c325a7082c8c366f949b8c27838cee4e656a414f9da16f6a1ba7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+  "createdAt": "2026-10-12T23:35:42Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-12T23:35:42.613224849Z",
+      "recordedAt": "2026-10-12T23:35:42.613224849Z",
+      "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-12T23:35:43Z",
+  "preflightContractDigest": "sha256:395f978b3889c325a7082c8c366f949b8c27838cee4e656a414f9da16f6a1ba7",
+  "preflightDecisionDigest": "sha256:6bd98895fda3acccefd9b79796121752e0cbc3579f365db7fdb29360d8d854ab",
+  "preflightRepositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-12T23:35:43Z",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}
