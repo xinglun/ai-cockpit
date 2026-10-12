@@ -1,5 +1,10 @@
 use sha2::{Digest as ShaDigest, Sha256};
-use std::{fs, path::Path, process::Command};
+use std::{
+    fs,
+    path::Path,
+    process::Command,
+    time::{Duration, SystemTime, UNIX_EPOCH},
+};
 
 fn run(binary: &str, args: &[&str], repo: &Path) -> std::process::Output {
     Command::new(binary)
@@ -15,7 +20,7 @@ fn run_json(binary: &str, args: &[&str], repo: &Path) -> serde_json::Value {
     let output = run(binary, args, repo);
     assert!(
         output.status.success(),
-        "stderr: {}",
+        "command {args:?} failed; stderr: {}",
         String::from_utf8_lossy(&output.stderr)
     );
     serde_json::from_slice(&output.stdout).expect("JSON output")
@@ -78,55 +83,158 @@ fn commit_staged(root: &Path, message: &str) -> String {
     git(root, &["rev-parse", "HEAD"])
 }
 
-fn seed_sync_projection_docs(root: &Path, id: &str) {
+fn sync_projection_status(suffix: &str) -> &'static str {
+    match suffix {
+        ".zh-CN" => "进行中 → 验证关闭后已实现",
+        ".ja" => "進行中 → 検証済みクローズ後に実装済み",
+        _ => "In progress → Implemented after verified close",
+    }
+}
+
+fn seed_sync_projection_docs(root: &Path, id: &str, active_digest: &str) {
     let short = id.split('-').take(2).collect::<Vec<_>>().join("-");
     for suffix in ["", ".zh-CN", ".ja"] {
+        let status = sync_projection_status(suffix);
+        let (evidence, body) = match suffix {
+            ".zh-CN" => (
+                format!(
+                    "[Work Item](../work-items/{id}{suffix}.md); 当前 Contract `.ai/work-items/active/{id}.contract.json` (`{active_digest}`); planned verification `.ai/evidence/{id}.verification.json`; planned archive `.ai/work-items/archive/{id}.archive.json`; provider finalization `.ai/decisions/{id}.finalize.json`; human close `.ai/decisions/{id}.close.json`."
+                ),
+                format!(
+                    "本页投影当前 [{id} Contract](../../.ai/work-items/active/{id}.contract.json)，绑定摘要 `{active_digest}`。Runtime records remain authoritative.\n"
+                ),
+            ),
+            ".ja" => (
+                format!(
+                    "[Work Item](../work-items/{id}{suffix}.md); active Contract `.ai/work-items/active/{id}.contract.json` (`{active_digest}`); planned verification `.ai/evidence/{id}.verification.json`; planned archive `.ai/work-items/archive/{id}.archive.json`; provider finalization `.ai/decisions/{id}.finalize.json`; human close `.ai/decisions/{id}.close.json`."
+                ),
+                format!(
+                    "このページは active な [{id} Contract](../../.ai/work-items/active/{id}.contract.json) の投影であり、`{active_digest}` に結び付いています。Runtime records remain authoritative.\n"
+                ),
+            ),
+            _ => (
+                format!(
+                    "[Work Item](../work-items/{id}{suffix}.md); active Contract `.ai/work-items/active/{id}.contract.json` (`{active_digest}`); planned verification `.ai/evidence/{id}.verification.json`; planned archive `.ai/work-items/archive/{id}.archive.json`; provider finalization `.ai/decisions/{id}.finalize.json`; human close `.ai/decisions/{id}.close.json`."
+                ),
+                format!(
+                    "This page projects the active [{id} Contract](../../.ai/work-items/active/{id}.contract.json), bound to `{active_digest}`. Runtime records remain authoritative.\n"
+                ),
+            ),
+        };
         let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
         fs::create_dir_all(parity.parent().unwrap()).unwrap();
         fs::write(
             parity,
-            format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| {short} | In progress | pending |\n| WI-8888 | Unrelated | unchanged |\n"),
+            format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| {short} | {status} | {evidence} |\n| WI-8888 | Unrelated | unchanged |\n"),
         )
         .unwrap();
         let page = root.join(format!("docs/work-items/{id}{suffix}.md"));
         fs::create_dir_all(page.parent().unwrap()).unwrap();
         fs::write(
             page,
-            format!("---\ntitle: Synthetic post-merge fixture\nstatus: in_progress\nlastVerifiedBy: {id}\n---\n\nPreserve this page body.\n"),
+            format!("---\ntitle: Synthetic post-merge fixture\nworkItemId: {id}\nstatus: in_progress\nlastVerifiedBy: {id}\ncontractDigest: {active_digest}\n---\n\n{body}"),
         )
         .unwrap();
     }
     git(root, &["add", "docs"]);
-    commit_staged(root, "seed synthetic terminal projection docs");
+    commit_staged(root, "seed synthetic pending archive projection docs");
 }
 
-fn promote_sync_projection_docs(root: &Path, id: &str) {
+fn promote_sync_projection_docs(root: &Path, id: &str, active_digest: &str, archive_digest: &str) {
     let short = id.split('-').take(2).collect::<Vec<_>>().join("-");
-    for (suffix, status) in [
-        ("", "Implemented"),
-        (".zh-CN", "已实现"),
-        (".ja", "Implemented"),
-    ] {
+    for suffix in ["", ".zh-CN", ".ja"] {
+        let status = sync_projection_status(suffix);
         let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
         let mut text = fs::read_to_string(&parity).unwrap();
-        let row = format!("| {short} | In progress | pending |\n");
-        let evidence = format!(
-            "[Work Item](../work-items/{id}{suffix}.md); archive `.ai/work-items/archive/{id}.contract.json`; verification `.ai/evidence/{id}.verification.json`; finalization `.ai/decisions/{id}.finalize.synthetic.json`; close `.ai/decisions/{id}.close.json`."
-        );
-        text = text.replace(&row, &format!("| {short} | {status} | {evidence} |\n"));
+        let work_item = format!("[Work Item](../work-items/{id}{suffix}.md)");
+        let evidence = match suffix {
+            ".zh-CN" => format!(
+                "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); 验证 `.ai/evidence/{id}.verification.json` 已通过；归档 `.ai/work-items/archive/{id}.archive.json` 已记录；provider 最终化 `.ai/decisions/{id}.finalize.json` 和真人 close `.ai/decisions/{id}.close.json` 仍待完成."
+            ),
+            ".ja" => format!(
+                "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); verification `.ai/evidence/{id}.verification.json` は検証済み; archive `.ai/work-items/archive/{id}.archive.json` は記録済み; provider finalization `.ai/decisions/{id}.finalize.json` と human close `.ai/decisions/{id}.close.json` は未完了."
+            ),
+            _ => format!(
+                "{work_item}; archived Contract `.ai/work-items/archive/{id}.contract.json` (canonical Contract digest `{archive_digest}`); verification `.ai/evidence/{id}.verification.json` is verified; archive `.ai/work-items/archive/{id}.archive.json` is recorded; provider finalization `.ai/decisions/{id}.finalize.json` and human close `.ai/decisions/{id}.close.json` remain pending."
+            ),
+        };
+        let row_prefix = format!("| {short} | ");
+        let old_row = text
+            .lines()
+            .find(|line| line.starts_with(&row_prefix))
+            .expect("target Work Item row exists");
+        text = text.replace(old_row, &format!("| {short} | {status} | {evidence} |"));
         fs::write(parity, text).unwrap();
 
         let page = root.join(format!("docs/work-items/{id}{suffix}.md"));
         let mut text = fs::read_to_string(&page).unwrap();
-        text = text.replace("status: in_progress", "status: implemented");
+        let old_target = format!("../../.ai/work-items/active/{id}.contract.json");
+        let new_target = format!("../../.ai/work-items/archive/{id}.contract.json");
+        text = text.replace(&old_target, &new_target);
+        let (old_label, new_label) = match suffix {
+            ".zh-CN" => ("当前 [", "已归档的 ["),
+            ".ja" => (" active な [", "アーカイブ済みの ["),
+            _ => ("active [", "archived ["),
+        };
+        text = text.replace(old_label, new_label);
+        text = text.replace(active_digest, archive_digest);
         text = text.replace(
-            &format!("lastVerifiedBy: {id}\n---"),
-            &format!("lastVerifiedBy: {id}\nterminalArchive: .ai/work-items/archive/{id}.contract.json\nterminalVerification: .ai/evidence/{id}.verification.json\nterminalFinalization: .ai/decisions/{id}.finalize.synthetic.json\nterminalDecision: .ai/decisions/{id}.close.json\n---"),
+            &format!("contractDigest: {active_digest}"),
+            &format!("contractDigest: {archive_digest}"),
         );
         fs::write(page, text).unwrap();
     }
     git(root, &["add", "docs"]);
-    commit_staged(root, "promote terminal projection docs");
+    commit_staged(
+        root,
+        "project archived Contract while close remains pending",
+    );
+}
+
+fn current_timestamp_rfc3339() -> String {
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("system clock is after the Unix epoch");
+    let seconds = i64::try_from(now.as_secs()).expect("current Unix timestamp fits in i64");
+    let days = seconds.div_euclid(86_400);
+    let day_seconds = seconds.rem_euclid(86_400);
+    let z = days + 719_468;
+    let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
+    let day_of_era = z - era * 146_097;
+    let year_of_era =
+        (day_of_era - day_of_era / 1_460 + day_of_era / 36_524 - day_of_era / 146_096) / 365;
+    let year = year_of_era + era * 400;
+    let day_of_year = day_of_era - (365 * year_of_era + year_of_era / 4 - year_of_era / 100);
+    let month_prime = (5 * day_of_year + 2) / 153;
+    let day = day_of_year - (153 * month_prime + 2) / 5 + 1;
+    let month = month_prime + if month_prime < 10 { 3 } else { -9 };
+    let year = year + if month <= 2 { 1 } else { 0 };
+    let hour = day_seconds / 3_600;
+    let minute = day_seconds % 3_600 / 60;
+    let second = day_seconds % 60;
+    format!(
+        "{year:04}-{month:02}-{day:02}T{hour:02}:{minute:02}:{second:02}.{:09}Z",
+        now.subsec_nanos()
+    )
+}
+
+fn current_timestamp_second_after(previous_timestamp: &str) -> String {
+    let previous_second = previous_timestamp
+        .split('.')
+        .next()
+        .expect("RFC3339 timestamp has a time component")
+        .trim_end_matches('Z');
+    loop {
+        let current = current_timestamp_rfc3339();
+        let current_second = current
+            .split('.')
+            .next()
+            .expect("RFC3339 timestamp has a time component");
+        if current_second > previous_second {
+            return format!("{current_second}Z");
+        }
+        std::thread::sleep(Duration::from_millis(5));
+    }
 }
 
 fn assert_success(output: &std::process::Output, operation: &str) {
@@ -517,7 +625,10 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     let contract: serde_json::Value =
         serde_json::from_slice(&fs::read(active_contract).unwrap()).unwrap();
     assert_eq!(contract["resourceContext"]["branch"], sync_branch);
-    seed_sync_projection_docs(&worktree_path, id);
+    let active_contract_digest = cockpit_protocol::digest_json(&contract)
+        .unwrap()
+        .to_string();
+    seed_sync_projection_docs(&worktree_path, id, &active_contract_digest);
 
     assert_success(
         &run(
@@ -626,7 +737,19 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         &["add", "-f", "--all", ".ai/work-items/archive"],
     );
     let archive_revision = commit_staged(&worktree_path, "archive finished Work Item");
-    promote_sync_projection_docs(&worktree_path, id);
+    let archived_contract_path =
+        worktree_path.join(format!(".ai/work-items/archive/{id}.contract.json"));
+    let archived_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(archived_contract_path).unwrap()).unwrap();
+    let archive_contract_digest = cockpit_protocol::digest_json(&archived_contract)
+        .unwrap()
+        .to_string();
+    promote_sync_projection_docs(
+        &worktree_path,
+        id,
+        &active_contract_digest,
+        &archive_contract_digest,
+    );
     let docs_revision = git(&worktree_path, &["rev-parse", "HEAD"]);
     assert_ne!(finish_revision, archive_revision);
     assert_ne!(archive_revision, docs_revision);
@@ -758,6 +881,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
     let status = run_json(binary, &["status"], root);
     let runtime_digest = runtime_digest(binary);
     let context = archived_contract["resourceContext"].clone();
+    let retained_timestamp = current_timestamp_rfc3339();
     let retained = serde_json::json!({
         "schemaVersion": 2,
         "receiptId": "cli-retained-root",
@@ -776,7 +900,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         "actor": "human:test",
         "authoritySource": "synthetic-cli-test",
         "reason": "record the retained resources before append-only cleanup",
-        "timestamp": "2999-01-01T00:00:00Z",
+        "timestamp": retained_timestamp.clone(),
         "contractDigest": sha256(&archived_contract_bytes),
         "contractBaseRevision": archived_contract["baseRevision"],
         "resourceContext": context,
@@ -824,10 +948,41 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         &["worktree", "remove", "--force", worktree_arg.as_str()],
     );
     git(root, &["branch", "-D", sync_branch]);
+    let observed_at = current_timestamp_second_after(&retained_timestamp);
+    let observation_id = "wi9997-deleted-ref-observation";
+    let principal = "fixture-user";
     let deleted_raw = serde_json::to_vec(&serde_json::json!({
-        "message": "Not Found",
-        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
-        "status": "404"
+        "schemaVersion": 1,
+        "observationId": observation_id,
+        "principal": principal,
+        "repository": "example/fixture",
+        "ref": remote_ref,
+        "observedAt": observed_at,
+        "accessCheck": {
+            "observationId": observation_id,
+            "principal": principal,
+            "repository": "example/fixture",
+            "ref": remote_ref,
+            "method": "GET",
+            "url": format!("https://api.github.com/repos/example/fixture/git/matching-refs/heads/{sync_branch}"),
+            "httpStatus": 200,
+            "nextPageUrl": null,
+            "refs": []
+        },
+        "refQuery": {
+            "observationId": observation_id,
+            "principal": principal,
+            "repository": "example/fixture",
+            "ref": remote_ref,
+            "method": "GET",
+            "url": format!("https://api.github.com/repos/example/fixture/git/ref/heads/{sync_branch}"),
+            "httpStatus": 404,
+            "body": {
+                "message": "Not Found",
+                "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+                "status": "404"
+            }
+        }
     }))
     .unwrap();
     let metadata = tempfile::NamedTempFile::new().expect("deleted-ref metadata");
@@ -840,7 +995,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
             "subject": remote_ref,
             "origin": format!("https://api.github.com/repos/example/fixture/git/ref/heads/{sync_branch}"),
             "assurance": "provider_verified",
-            "collectedAt": "2026-01-01T00:00:00Z",
+            "collectedAt": observed_at,
             "digest": deleted_digest,
             "validity": "valid",
             "rawEvidenceRef": ".ai/evidence/external/wi9997-deleted-ref.json"
@@ -878,7 +1033,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
         serde_json::json!({"disposition": "deleted", "failureCodes": [], "unknownCodes": []});
     deleted["postMergeSync"]["remoteBranchState"] = "deleted".into();
     deleted["postMergeSync"]["remoteEvidenceDigest"] = deleted_digest.into();
-    deleted["timestamp"] = "2999-01-01T00:01:00Z".into();
+    deleted["timestamp"] = current_timestamp_rfc3339().into();
     let transition = serde_json::json!({
         "schemaVersion": 1,
         "transitionId": "cli-delete-transition",
@@ -927,7 +1082,7 @@ fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close()
             "--evidence-ref",
             &format!(".ai/decisions/{id}.finalize.json"),
             "--decided-at",
-            "2999-01-01T00:02:00Z",
+            &current_timestamp_rfc3339(),
         ],
         root,
     );

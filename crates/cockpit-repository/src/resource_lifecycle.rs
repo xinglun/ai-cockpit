@@ -21,6 +21,7 @@ use cockpit_protocol::{
     validate_resource_finalization_transition,
 };
 use serde::{Deserialize, Serialize};
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -2702,13 +2703,16 @@ fn finish_attempt_matches(
         || !attempt["createdAt"]
             .as_str()
             .is_some_and(|value| chrono::DateTime::parse_from_rfc3339(value).is_ok())
-        || !attempt["commands"].is_array()
         || passed.is_none()
         || process_count.is_none()
         || records.is_none()
     {
         return false;
     }
+
+    let Some(commands) = finish_attempt_command_index(attempt, bindings) else {
+        return false;
+    };
 
     match state {
         "precondition_rejected" => {
@@ -2753,9 +2757,138 @@ fn finish_attempt_matches(
                 && attempt["executionRecords"] == receipt_records
                 && attempt["processesSpawned"].as_u64() == Some(receipt.processes_spawned as u64)
                 && state_consistent
+                && finish_attempt_receipt_matches_commands(
+                    &receipt,
+                    &commands,
+                    process_count.unwrap_or_default(),
+                )
         }
         _ => false,
     }
+}
+
+fn finish_attempt_command_index(
+    attempt: &serde_json::Value,
+    bindings: &FinishAttemptBindings,
+) -> Option<BTreeMap<String, (String, u64)>> {
+    let commands = attempt.get("commands")?.as_array()?;
+    let mut index = BTreeMap::new();
+    for command in commands {
+        let node_id = command
+            .get("nodeId")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())?;
+        let command_digest = command
+            .get("commandDigest")
+            .and_then(serde_json::Value::as_str)
+            .and_then(|value| value.parse::<Digest>().ok())?
+            .to_string();
+        let runtime_digest = command
+            .get("runtimeDigest")
+            .and_then(serde_json::Value::as_str)
+            .and_then(|value| value.parse::<Digest>().ok())?;
+        let timeout_seconds = command
+            .get("timeoutSeconds")
+            .and_then(serde_json::Value::as_u64)
+            .filter(|value| *value > 0)?;
+        if command
+            .get("program")
+            .and_then(serde_json::Value::as_str)
+            .is_none_or(|value| value.trim().is_empty())
+            || !command
+                .get("args")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|values| values.iter().all(serde_json::Value::is_string))
+            || !command
+                .get("scope")
+                .and_then(serde_json::Value::as_array)
+                .is_some_and(|values| values.iter().all(serde_json::Value::is_string))
+            || command
+                .get("stage")
+                .and_then(serde_json::Value::as_str)
+                .is_none_or(|value| value.trim().is_empty())
+            || command
+                .get("runner")
+                .and_then(serde_json::Value::as_str)
+                .is_none_or(|value| value.trim().is_empty())
+            || command.get("baseCommit").is_none_or(|value| {
+                !value.is_null() && !value.as_str().is_some_and(valid_git_object_id)
+            })
+            || runtime_digest != bindings.runtime_digest
+            || index
+                .insert(node_id.to_owned(), (command_digest, timeout_seconds))
+                .is_some()
+        {
+            return None;
+        }
+    }
+    Some(index)
+}
+
+fn finish_attempt_receipt_matches_commands(
+    receipt: &cockpit_verification::VerificationReceipt,
+    commands: &BTreeMap<String, (String, u64)>,
+    attempt_processes_spawned: u64,
+) -> bool {
+    if commands.is_empty()
+        || receipt.nodes_planned != commands.len()
+        || receipt.results.len() != commands.len()
+        || receipt.nodes_executed != receipt.execution_records.len()
+    {
+        return false;
+    }
+
+    let mut results_by_node = BTreeMap::new();
+    for result in &receipt.results {
+        if !commands.contains_key(&result.node_id)
+            || results_by_node
+                .insert(result.node_id.as_str(), result)
+                .is_some()
+        {
+            return false;
+        }
+    }
+    if results_by_node.len() != commands.len()
+        || receipt.nodes_reused
+            != receipt
+                .results
+                .iter()
+                .filter(|result| result.reused)
+                .count()
+        || receipt.passed != receipt.results.iter().all(|result| result.passed)
+    {
+        return false;
+    }
+
+    let mut record_ids = BTreeSet::new();
+    let mut processes_spawned = 0_u64;
+    let mut process_spawn_failures = 0_u64;
+    for record in &receipt.execution_records {
+        let Some((command_digest, timeout_seconds)) = commands.get(&record.node_id) else {
+            return false;
+        };
+        if !record_ids.insert(record.node_id.as_str())
+            || record.command_digest != *command_digest
+            || record.timeout_seconds != *timeout_seconds
+        {
+            return false;
+        }
+        let Some(result) = results_by_node.get(record.node_id.as_str()) else {
+            return false;
+        };
+        if result.reused || result.passed != record.passed || result.timed_out != record.timed_out {
+            return false;
+        }
+        if record.spawned {
+            processes_spawned = processes_spawned.saturating_add(1);
+        } else {
+            process_spawn_failures = process_spawn_failures.saturating_add(1);
+        }
+    }
+
+    attempt_processes_spawned == processes_spawned
+        && receipt.processes_spawned as u64 == processes_spawned
+        && receipt.process_spawn_failures as u64 == process_spawn_failures
 }
 
 fn validate_finish_attempt_history(
@@ -3251,7 +3384,7 @@ fn validate_work_item_document_projection(
     let mut expected_body = before_body.replace(&old_target, &new_target);
     let (old_label, new_label) = match suffix {
         ".zh-CN" => ("当前 [", "已归档的 ["),
-        ".ja" => ("active な [", "アーカイブ済みの ["),
+        ".ja" => (" active な [", "アーカイブ済みの ["),
         _ => ("active [", "archived ["),
     };
     if expected_body.matches(old_label).count() != 1 {
@@ -5451,17 +5584,31 @@ mod post_merge_sync_tests {
         passed: bool,
         execution_records: serde_json::Value,
         processes_spawned: u64,
+        process_spawn_failures: u64,
     ) -> serde_json::Value {
         serde_json::json!({
             "workItemId": work_item_id,
             "repositoryId": bindings.repository_id,
             "runtimeVersion": bindings.runtime_version,
             "runtimeDigest": bindings.runtime_digest.to_string(),
-            "results": [],
+            "results": [{
+                "nodeId": "fixture-command",
+                "passed": passed,
+                "reused": false,
+                "protected": false,
+                "action": "execute",
+                "state": "not_applicable",
+                "reason": "reuse_not_configured",
+                "receiptId": null,
+                "outputDigest": Digest::sha256_bytes(b"fixture output").to_string(),
+                "outputTruncated": false,
+                "timedOut": false,
+                "satisfiedBy": "execution"
+            }],
             "executionRecords": execution_records,
             "receiptCandidates": [],
-            "nodesPlanned": processes_spawned,
-            "nodesExecuted": processes_spawned,
+            "nodesPlanned": 1,
+            "nodesExecuted": 1,
             "nodesReused": 0,
             "rerunStale": 0,
             "rerunUnknown": 0,
@@ -5470,13 +5617,28 @@ mod post_merge_sync_tests {
             "planningElapsedMs": 0,
             "executionElapsedMs": 1,
             "processesSpawned": processes_spawned,
-            "maxConcurrentProcesses": 1,
-            "processSpawnFailures": 0,
+            "maxConcurrentProcesses": processes_spawned,
+            "processSpawnFailures": process_spawn_failures,
             "gitCalls": 0,
             "filesRead": 0,
             "filesHashed": 0,
             "elapsedMs": 1,
             "passed": passed
+        })
+    }
+
+    fn fixture_attempt_command(bindings: &super::FinishAttemptBindings) -> serde_json::Value {
+        serde_json::json!({
+            "nodeId": "fixture-command",
+            "program": "cargo",
+            "args": ["test", "--locked", "--package", "cockpit-repository"],
+            "scope": ["source.txt"],
+            "stage": "task",
+            "runner": "local",
+            "runtimeDigest": bindings.runtime_digest.to_string(),
+            "baseCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "timeoutSeconds": 10,
+            "commandDigest": Digest::sha256_bytes(b"fixture command").to_string()
         })
     }
 
@@ -5519,6 +5681,7 @@ mod post_merge_sync_tests {
                 passed,
                 execution_records.clone(),
                 processes_spawned,
+                0,
             )
         };
         let mut attempt = serde_json::json!({
@@ -5533,7 +5696,7 @@ mod post_merge_sync_tests {
             "contractDigest": bindings.contract_digest.to_string(),
             "contractExecutionScopeDigest": bindings.scope_digest.to_string(),
             "repositorySnapshotDigest": bindings.snapshot_digest.to_string(),
-            "commands": [],
+            "commands": [fixture_attempt_command(bindings)],
             "passed": passed,
             "processesSpawned": processes_spawned,
             "executionRecords": execution_records,
@@ -5716,6 +5879,25 @@ mod post_merge_sync_tests {
             &bindings,
         ));
 
+        let mut spawn_failure = valid.clone();
+        spawn_failure["executionRecords"][0]["spawned"] = false.into();
+        spawn_failure["executionRecords"][0]["exitCode"] = serde_json::Value::Null;
+        spawn_failure["receipt"]["executionRecords"] = spawn_failure["executionRecords"].clone();
+        spawn_failure["processesSpawned"] = 0.into();
+        spawn_failure["receipt"]["processesSpawned"] = 0.into();
+        spawn_failure["receipt"]["processSpawnFailures"] = 1.into();
+        spawn_failure["receipt"]["maxConcurrentProcesses"] = 1.into();
+        seal_attempt(&mut spawn_failure);
+        assert!(
+            super::finish_attempt_matches(
+                &spawn_failure,
+                &attempt_filename_digest(&spawn_failure),
+                id,
+                &bindings,
+            ),
+            "a typed failed spawn must be retained as an unspawned execution record"
+        );
+
         let mut wrong_contract = valid.clone();
         wrong_contract["contractDigest"] =
             serde_json::json!(Digest::sha256_bytes(b"other contract").to_string());
@@ -5748,6 +5930,121 @@ mod post_merge_sync_tests {
             id,
             &bindings,
         ));
+
+        let mut spawned_without_command = valid.clone();
+        spawned_without_command["commands"] = serde_json::json!([]);
+        seal_attempt(&mut spawned_without_command);
+        assert!(
+            !super::finish_attempt_matches(
+                &spawned_without_command,
+                &attempt_filename_digest(&spawned_without_command),
+                id,
+                &bindings,
+            ),
+            "a spawned execution record must resolve to a declared command"
+        );
+
+        let mut missing_command_id = valid.clone();
+        missing_command_id["commands"][0]
+            .as_object_mut()
+            .unwrap()
+            .remove("nodeId");
+        seal_attempt(&mut missing_command_id);
+        assert!(!super::finish_attempt_matches(
+            &missing_command_id,
+            &attempt_filename_digest(&missing_command_id),
+            id,
+            &bindings,
+        ));
+
+        let mut missing_command_digest = valid.clone();
+        missing_command_digest["commands"][0]
+            .as_object_mut()
+            .unwrap()
+            .remove("commandDigest");
+        seal_attempt(&mut missing_command_digest);
+        assert!(!super::finish_attempt_matches(
+            &missing_command_digest,
+            &attempt_filename_digest(&missing_command_digest),
+            id,
+            &bindings,
+        ));
+
+        let mut mismatched_command_digest = valid.clone();
+        mismatched_command_digest["commands"][0]["commandDigest"] =
+            Digest::sha256_bytes(b"another command").to_string().into();
+        seal_attempt(&mut mismatched_command_digest);
+        assert!(
+            !super::finish_attempt_matches(
+                &mismatched_command_digest,
+                &attempt_filename_digest(&mismatched_command_digest),
+                id,
+                &bindings,
+            ),
+            "execution records must bind the exact declared command digest"
+        );
+
+        let mut wrong_spawned_count = valid.clone();
+        wrong_spawned_count["processesSpawned"] = 0.into();
+        wrong_spawned_count["receipt"]["processesSpawned"] = 0.into();
+        seal_attempt(&mut wrong_spawned_count);
+        assert!(!super::finish_attempt_matches(
+            &wrong_spawned_count,
+            &attempt_filename_digest(&wrong_spawned_count),
+            id,
+            &bindings,
+        ));
+
+        let mut mismatched_result = valid.clone();
+        mismatched_result["receipt"]["results"][0]["passed"] = true.into();
+        seal_attempt(&mut mismatched_result);
+        assert!(!super::finish_attempt_matches(
+            &mismatched_result,
+            &attempt_filename_digest(&mismatched_result),
+            id,
+            &bindings,
+        ));
+
+        let mut duplicate_command_id = valid.clone();
+        let duplicate = duplicate_command_id["commands"][0].clone();
+        duplicate_command_id["commands"]
+            .as_array_mut()
+            .unwrap()
+            .push(duplicate);
+        seal_attempt(&mut duplicate_command_id);
+        assert!(
+            !super::finish_attempt_matches(
+                &duplicate_command_id,
+                &attempt_filename_digest(&duplicate_command_id),
+                id,
+                &bindings,
+            ),
+            "the command index must reject duplicate node IDs"
+        );
+
+        let mut duplicate_execution_id = valid.clone();
+        let duplicate = duplicate_execution_id["executionRecords"][0].clone();
+        duplicate_execution_id["executionRecords"]
+            .as_array_mut()
+            .unwrap()
+            .push(duplicate.clone());
+        duplicate_execution_id["receipt"]["executionRecords"] =
+            duplicate_execution_id["executionRecords"].clone();
+        duplicate_execution_id["receipt"]["processesSpawned"] = 2.into();
+        duplicate_execution_id["processesSpawned"] = 2.into();
+        duplicate_execution_id["receipt"]["processSpawnFailures"] = 0.into();
+        duplicate_execution_id["receipt"]["nodesExecuted"] = 2.into();
+        duplicate_execution_id["receipt"]["maxConcurrentProcesses"] = 2.into();
+        seal_attempt(&mut duplicate_execution_id);
+        assert!(
+            !super::finish_attempt_matches(
+                &duplicate_execution_id,
+                &attempt_filename_digest(&duplicate_execution_id),
+                id,
+                &bindings,
+            ),
+            "the execution history must reject duplicate node IDs"
+        );
 
         let mut wrong_receipt = valid.clone();
         wrong_receipt["receipt"]["runtimeDigest"] =
@@ -6026,7 +6323,7 @@ mod post_merge_sync_tests {
             current = current.replace(&target, &archive_target);
             let (old_label, new_label) = match suffix {
                 ".zh-CN" => ("当前 [", "已归档的 ["),
-                ".ja" => ("active な [", "アーカイブ済みの ["),
+                ".ja" => (" active な [", "アーカイブ済みの ["),
                 _ => ("active [", "archived ["),
             };
             current = current.replace(old_label, new_label);
