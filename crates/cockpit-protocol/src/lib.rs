@@ -1641,7 +1641,7 @@ fn validate_post_merge_sync_receipt(
                 .unwrap_or_default()
         || sync.sync_pull_request.merge_commit.as_deref()
             != Some(sync.current_main_revision.as_str())
-        || receipt.pull_request != sync.sync_pull_request
+        || receipt.pull_request != sync.source_pull_request
         || receipt.branch.head_revision != sync.sync_pull_request.head_revision
         || receipt.branch.remote != sync.sync_pull_request.base_remote
         || receipt.worktree.head_revision != sync.sync_pull_request.head_revision
@@ -1866,7 +1866,23 @@ fn validate_resource_finalization_identity(
     if let Some(merge_commit) = &receipt.pull_request.merge_commit {
         validate_resource_finalization_revision(merge_commit, "pullRequest.mergeCommit")?;
     }
-    if receipt.pull_request.head_revision != receipt.branch.head_revision
+    if receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION {
+        let sync =
+            receipt
+                .post_merge_sync
+                .as_ref()
+                .ok_or(ResourceFinalizationError::InvalidState(
+                    "postMergeSync is required only for schema-v2 finalization receipts",
+                ))?;
+        if receipt.pull_request != sync.source_pull_request
+            || sync.sync_pull_request.head_revision != receipt.branch.head_revision
+            || receipt.branch.head_revision != receipt.worktree.head_revision
+        {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "schema-v2 source PR identity and sync PR operational head do not match",
+            ));
+        }
+    } else if receipt.pull_request.head_revision != receipt.branch.head_revision
         || receipt.branch.head_revision != receipt.worktree.head_revision
     {
         return Err(ResourceFinalizationError::IdentityMismatch(
@@ -2407,16 +2423,8 @@ pub fn validate_resource_finalization_transition(
             "predecessor digest",
         ));
     }
-    let previous_heads = (
-        previous.pull_request.head_revision.as_str(),
-        previous.branch.head_revision.as_str(),
-        previous.worktree.head_revision.as_str(),
-    );
-    let next_heads = (
-        next.pull_request.head_revision.as_str(),
-        next.branch.head_revision.as_str(),
-        next.worktree.head_revision.as_str(),
-    );
+    let previous_heads = resource_finalization_operational_heads(previous);
+    let next_heads = resource_finalization_operational_heads(next);
     if previous_heads.0 != previous_heads.1
         || previous_heads.1 != previous_heads.2
         || next_heads.0 != next_heads.1
@@ -2528,6 +2536,21 @@ pub fn validate_resource_finalization_transition(
         ));
     }
     Ok(())
+}
+
+fn resource_finalization_operational_heads(
+    receipt: &ResourceFinalizationReceipt,
+) -> (&str, &str, &str) {
+    let pull_request_head = receipt
+        .post_merge_sync
+        .as_ref()
+        .map(|sync| sync.sync_pull_request.head_revision.as_str())
+        .unwrap_or(receipt.pull_request.head_revision.as_str());
+    (
+        pull_request_head,
+        receipt.branch.head_revision.as_str(),
+        receipt.worktree.head_revision.as_str(),
+    )
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

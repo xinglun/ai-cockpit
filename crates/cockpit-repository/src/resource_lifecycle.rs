@@ -977,6 +977,14 @@ fn resolve_resource_finalization_head_from_observed(
     mut digest: Digest,
     mut candidates: Vec<(PathBuf, ResourceFinalizationTransitionReceipt)>,
 ) -> Result<(ResourceFinalizationReceipt, PathBuf, Digest, u64), ObserverError> {
+    let schema_v2_root = receipt.schema_version
+        == cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION;
+    if schema_v2_root && receipt.result.disposition != ResourceFinalizationDisposition::Retained {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "schema-v2 post-merge sync canonical root must be Retained; Deleted must be an append-only transition".into(),
+        });
+    }
     let mut sequence = 0;
     loop {
         let matches = candidates
@@ -2035,7 +2043,7 @@ pub fn record_resource_finalization(
     if decision_path.exists() {
         let (existing, head_path, _head_digest, sequence) =
             resolve_resource_finalization_head(&root, work_item_id)?;
-        if let Some(transition) = transition {
+        if let Some(transition) = transition.as_ref() {
             if close_present {
                 validate_post_close_finalization_reconciliation(
                     &root,
@@ -2044,10 +2052,10 @@ pub fn record_resource_finalization(
                     &existing,
                     &head_path,
                     sequence,
-                    &transition,
+                    transition,
                 )?;
             }
-            validate_resource_finalization_transition(&existing, &transition, sequence + 1)
+            validate_resource_finalization_transition(&existing, transition, sequence + 1)
                 .map_err(|error| ObserverError::State {
                     path: receipt_path.into(),
                     message: error.to_string(),
@@ -2056,14 +2064,13 @@ pub fn record_resource_finalization(
                 &root,
                 work_item_id,
                 &existing,
-                &transition,
+                transition,
                 receipt_path,
             )?;
-            let value =
-                serde_json::to_value(&transition).map_err(|error| ObserverError::State {
-                    path: receipt_path.into(),
-                    message: error.to_string(),
-                })?;
+            let value = serde_json::to_value(transition).map_err(|error| ObserverError::State {
+                path: receipt_path.into(),
+                message: error.to_string(),
+            })?;
             let transition_digest =
                 cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
                     path: receipt_path.into(),
@@ -2108,6 +2115,21 @@ pub fn record_resource_finalization(
             "disposition": existing.result.disposition,
             "path": repository_relative_path(&root, &head_path)
         }));
+    }
+    if transition.is_some() {
+        return Err(ObserverError::State {
+            path: receipt_path.into(),
+            message: "an append-only finalization transition requires an existing immutable predecessor receipt".into(),
+        });
+    }
+    if receipt.schema_version
+        == cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+        && receipt.result.disposition != ResourceFinalizationDisposition::Retained
+    {
+        return Err(ObserverError::State {
+            path: receipt_path.into(),
+            message: "a schema-v2 post-merge sync root must retain the verified clean resources; Deleted requires an append-only transition from that root".into(),
+        });
     }
     fs::create_dir_all(decision_path.parent().unwrap_or(root.as_path())).map_err(|source| {
         ObserverError::Read {
@@ -2453,6 +2475,534 @@ fn require_exact_parent_chain(
     Ok(())
 }
 
+fn git_blob_bytes(root: &Path, revision: &str, path: &str) -> Result<Vec<u8>, ObserverError> {
+    let spec = format!("{revision}:{path}");
+    git_bytes(root, &["show", &spec]).ok_or_else(|| {
+        post_merge_sync_error(root, format!("required committed blob is missing: {spec}"))
+    })
+}
+
+fn git_json(root: &Path, revision: &str, path: &str) -> Result<serde_json::Value, ObserverError> {
+    let bytes = git_blob_bytes(root, revision, path)?;
+    super::reject_duplicate_json_keys(&bytes).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("committed JSON has duplicate keys at {path}: {error}"),
+        )
+    })?;
+    serde_json::from_slice(&bytes).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("committed JSON is invalid at {path}: {error}"),
+        )
+    })
+}
+
+struct HistoricalGitCheckout {
+    directory: PathBuf,
+    repository: PathBuf,
+}
+
+impl Drop for HistoricalGitCheckout {
+    fn drop(&mut self) {
+        let _ = fs::remove_dir_all(&self.directory);
+    }
+}
+
+fn materialize_git_revision(
+    root: &Path,
+    revision: &str,
+) -> Result<HistoricalGitCheckout, ObserverError> {
+    let nonce = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |duration| duration.as_nanos());
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-finalization-history-{}-{nonce}",
+        std::process::id()
+    ));
+    fs::create_dir(&directory).map_err(|source| ObserverError::Read {
+        path: directory.clone(),
+        source,
+    })?;
+    let checkout = HistoricalGitCheckout {
+        repository: directory.join("repository"),
+        directory,
+    };
+    let clone = Command::new("git")
+        .args(["clone", "--quiet", "--shared", "--no-checkout"])
+        .arg(root)
+        .arg(&checkout.repository)
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: checkout.repository.clone(),
+            source,
+        })?;
+    if !clone.status.success() {
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "cannot create an isolated historical checkout: {}",
+                String::from_utf8_lossy(&clone.stderr).trim()
+            ),
+        ));
+    }
+    let detached = Command::new("git")
+        .arg("-C")
+        .arg(&checkout.repository)
+        .args(["checkout", "--quiet", "--detach"])
+        .arg(revision)
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: checkout.repository.clone(),
+            source,
+        })?;
+    if !detached.status.success() {
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "cannot materialize archive-stage revision {revision}: {}",
+                String::from_utf8_lossy(&detached.stderr).trim()
+            ),
+        ));
+    }
+    Ok(checkout)
+}
+
+fn validate_finish_attempt_history(
+    root: &Path,
+    work_item_id: &str,
+    source_head: &str,
+    finish_revision: &str,
+    sync_merge: &str,
+) -> Result<(), ObserverError> {
+    let range = format!("{source_head}..{finish_revision}");
+    let commits =
+        git_text(root, &["rev-list", "--first-parent", "--reverse", &range]).ok_or_else(|| {
+            post_merge_sync_error(root, "cannot enumerate finish-stage first-parent history")
+        })?;
+    let commits = commits
+        .lines()
+        .filter(|commit| !commit.is_empty())
+        .collect::<Vec<_>>();
+    if commits.last().copied() != Some(finish_revision) {
+        return Err(post_merge_sync_error(
+            root,
+            "finish revision is not on the exact first-parent chain from the source PR head",
+        ));
+    }
+    let mut predecessor = source_head;
+    for commit in commits.iter().take(commits.len().saturating_sub(1)) {
+        require_exact_parent_chain(root, commit, &[predecessor])?;
+        let changes = git_text(
+            root,
+            &[
+                "diff-tree",
+                "--raw",
+                "--no-commit-id",
+                "-r",
+                "--no-renames",
+                predecessor,
+                commit,
+            ],
+        )
+        .ok_or_else(|| post_merge_sync_error(root, "cannot inspect pre-finish commit"))?;
+        let prefix = format!(".ai/evidence/{work_item_id}.verification-attempt.");
+        let (metadata, path) = changes.trim_end().split_once('\t').ok_or_else(|| {
+            post_merge_sync_error(root, "pre-finish commit must append one attempt artifact")
+        })?;
+        let fields = metadata.split_whitespace().collect::<Vec<_>>();
+        if changes.lines().count() != 1
+            || fields.len() != 5
+            || fields[0] != ":000000"
+            || fields[1] != "100644"
+            || fields[4] != "A"
+            || !path.starts_with(&prefix)
+            || !path.ends_with(".json")
+        {
+            return Err(post_merge_sync_error(
+                root,
+                format!(
+                    "pre-finish commit contains a change other than one immutable verification attempt: {commit}"
+                ),
+            ));
+        }
+        let suffix = path
+            .strip_prefix(&prefix)
+            .and_then(|value| value.strip_suffix(".json"))
+            .ok_or_else(|| {
+                post_merge_sync_error(root, "verification attempt artifact path is malformed")
+            })?;
+        if suffix.len() != 64 || !suffix.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+            return Err(post_merge_sync_error(
+                root,
+                "verification attempt filename digest is malformed",
+            ));
+        }
+        let attempt = git_json(root, commit, path)?;
+        let attempt_id = attempt["attemptId"]
+            .as_str()
+            .and_then(|value| value.parse::<Digest>().ok())
+            .ok_or_else(|| {
+                post_merge_sync_error(root, "verification attempt has no typed attemptId")
+            })?;
+        let attempt_id_hex = attempt_id
+            .to_string()
+            .strip_prefix("sha256:")
+            .unwrap_or_default()
+            .to_owned();
+        let mut unsigned = attempt.clone();
+        let Some(object) = unsigned.as_object_mut() else {
+            return Err(post_merge_sync_error(
+                root,
+                "verification attempt must be a JSON object",
+            ));
+        };
+        object.remove("attemptId");
+        let content_digest = cockpit_protocol::digest_json(&unsigned).map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("verification attempt digest cannot be recomputed: {error}"),
+            )
+        })?;
+        if suffix != attempt_id_hex
+            || content_digest != attempt_id
+            || attempt["schemaVersion"] != serde_json::json!(1)
+            || attempt["kind"] != serde_json::json!("verification_attempt")
+            || attempt["workItemId"] != serde_json::json!(work_item_id)
+            || attempt["repositoryId"] != serde_json::json!(super::repository_id(root).to_string())
+            || !attempt["passed"].is_boolean()
+            || attempt["state"].as_str().is_none_or(str::is_empty)
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "verification attempt content or identity binding is invalid",
+            ));
+        }
+        require_same_git_blob(root, commit, sync_merge, path)?;
+        predecessor = commit;
+    }
+    require_exact_parent_chain(root, finish_revision, &[predecessor])?;
+    Ok(())
+}
+
+fn validate_archive_stage_bytes(
+    root: &Path,
+    work_item_id: &str,
+    finish_revision: &str,
+    archive_revision: &str,
+) -> Result<(), ObserverError> {
+    let active = format!(".ai/work-items/active/{work_item_id}");
+    let archive = format!(".ai/work-items/archive/{work_item_id}");
+    let source_report =
+        git_blob_bytes(root, finish_revision, &format!("{active}.task-report.json"))?;
+    let report_value: serde_json::Value =
+        serde_json::from_slice(&source_report).map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("finish-stage Task Outcome report is invalid: {error}"),
+            )
+        })?;
+    let cutoff_bound_report = report_value
+        .get("usage")
+        .is_some_and(|usage| !usage.is_null());
+    let mut expected_artifacts = Vec::new();
+    for suffix in [
+        "contract.json",
+        "summary.json",
+        "task-report.json",
+        "task-report.md",
+        "events.jsonl",
+    ] {
+        let source = git_blob_bytes(root, finish_revision, &format!("{active}.{suffix}"))?;
+        let expected =
+            if cutoff_bound_report && matches!(suffix, "task-report.json" | "task-report.md") {
+                source
+            } else {
+                super::normalized_archive_artifact_bytes(suffix, &source, work_item_id)?
+            };
+        expected_artifacts.push((suffix, expected));
+    }
+    let mut outcome = super::normalized_archive_artifact_bytes(
+        "outcome.json",
+        &git_blob_bytes(root, finish_revision, &format!("{active}.outcome.json"))?,
+        work_item_id,
+    )?;
+    let task_report_digest = expected_artifacts
+        .iter()
+        .find(|(suffix, _)| *suffix == "task-report.json")
+        .map(|(_, bytes)| Digest::sha256_bytes(bytes).to_string());
+    let task_report_markdown_digest = expected_artifacts
+        .iter()
+        .find(|(suffix, _)| *suffix == "task-report.md")
+        .map(|(_, bytes)| Digest::sha256_bytes(bytes).to_string());
+    let mut outcome_value: serde_json::Value =
+        serde_json::from_slice(&outcome).map_err(|error| {
+            post_merge_sync_error(
+                root,
+                format!("normalized archive Outcome is invalid: {error}"),
+            )
+        })?;
+    if let Some(digest) = task_report_digest {
+        outcome_value["taskReportDigest"] = serde_json::json!(digest);
+    }
+    if let Some(digest) = task_report_markdown_digest {
+        outcome_value["taskReportMarkdownDigest"] = serde_json::json!(digest);
+    }
+    outcome = serde_json::to_vec_pretty(&outcome_value).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("normalized archive Outcome cannot be encoded: {error}"),
+        )
+    })?;
+    expected_artifacts.push(("outcome.json", outcome));
+    for (suffix, expected) in expected_artifacts {
+        let actual = git_blob_bytes(root, archive_revision, &format!("{archive}.{suffix}"))?;
+        if actual != expected {
+            return Err(post_merge_sync_error(
+                root,
+                format!(
+                    "archive-stage {suffix} bytes are not the exact normalized finish-stage artifact"
+                ),
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn validate_documentation_projection(
+    root: &Path,
+    work_item_id: &str,
+    archive_revision: &str,
+    docs_revision: &str,
+) -> Result<(), ObserverError> {
+    let short_id = work_item_id
+        .split('-')
+        .take(2)
+        .collect::<Vec<_>>()
+        .join("-");
+    for (suffix, expected_status) in [
+        ("", "Implemented"),
+        (".zh-CN", "已实现"),
+        (".ja", "Implemented"),
+    ] {
+        let parity_path = format!("docs/reference/reference-parity{suffix}.md");
+        let before = String::from_utf8(git_blob_bytes(root, archive_revision, &parity_path)?)
+            .map_err(|error| {
+                post_merge_sync_error(root, format!("parity source is not UTF-8: {error}"))
+            })?;
+        let after = String::from_utf8(git_blob_bytes(root, docs_revision, &parity_path)?).map_err(
+            |error| post_merge_sync_error(root, format!("parity projection is not UTF-8: {error}")),
+        )?;
+        let (before_lines, before_row) = parity_row(root, work_item_id, &short_id, &before)?;
+        let (after_lines, after_row) = parity_row(root, work_item_id, &short_id, &after)?;
+        if before_lines != after_lines {
+            return Err(post_merge_sync_error(
+                root,
+                "parity projection changed rows outside the target Work Item",
+            ));
+        }
+        let old_cells = parity_cells(before_row);
+        let new_cells = parity_cells(after_row);
+        if old_cells.len() < 3
+            || new_cells.len() != 3
+            || old_cells[0] != new_cells[0]
+            || new_cells[1] != expected_status
+        {
+            return Err(post_merge_sync_error(
+                root,
+                "parity target row does not have the expected localized terminal status",
+            ));
+        }
+        let page_suffix = if suffix.is_empty() { "" } else { suffix };
+        let evidence = new_cells[2];
+        for required in [
+            format!("[Work Item](../work-items/{work_item_id}{page_suffix}.md)"),
+            format!("archive `.ai/work-items/archive/{work_item_id}.contract.json`"),
+            format!("verification `.ai/evidence/{work_item_id}.verification.json`"),
+            format!("close `.ai/decisions/{work_item_id}.close.json`"),
+        ] {
+            if !evidence.contains(&required) {
+                return Err(post_merge_sync_error(
+                    root,
+                    format!("parity evidence cell is missing {required}"),
+                ));
+            }
+        }
+        if !evidence.contains(&format!(
+            "finalization `.ai/decisions/{work_item_id}.finalize"
+        )) {
+            return Err(post_merge_sync_error(
+                root,
+                "parity evidence cell is missing the finalization receipt reference",
+            ));
+        }
+
+        let document_path = format!("docs/work-items/{work_item_id}{suffix}.md");
+        let before = String::from_utf8(git_blob_bytes(root, archive_revision, &document_path)?)
+            .map_err(|error| {
+                post_merge_sync_error(root, format!("Work Item document is not UTF-8: {error}"))
+            })?;
+        let after = String::from_utf8(git_blob_bytes(root, docs_revision, &document_path)?)
+            .map_err(|error| {
+                post_merge_sync_error(
+                    root,
+                    format!("projected Work Item document is not UTF-8: {error}"),
+                )
+            })?;
+        validate_work_item_document_projection(root, work_item_id, &before, &after)?;
+    }
+    Ok(())
+}
+
+fn parity_row<'a>(
+    root: &Path,
+    work_item_id: &str,
+    short_id: &str,
+    text: &'a str,
+) -> Result<(Vec<&'a str>, &'a str), ObserverError> {
+    let lines = text.split_inclusive('\n').collect::<Vec<_>>();
+    let matches = |candidate: &str| {
+        let cells = candidate
+            .trim_end_matches('\n')
+            .split('|')
+            .collect::<Vec<_>>();
+        let first = cells.get(1).map(|value| value.trim()).unwrap_or_default();
+        first == work_item_id
+            || first.starts_with(&format!("{work_item_id} "))
+            || first.starts_with(&format!("{work_item_id}—"))
+    };
+    let mut target = lines
+        .iter()
+        .copied()
+        .filter(|line| matches(line))
+        .collect::<Vec<_>>();
+    if target.is_empty() {
+        target = lines
+            .iter()
+            .copied()
+            .filter(|line| {
+                let first = line
+                    .trim_end_matches('\n')
+                    .split('|')
+                    .nth(1)
+                    .unwrap_or_default()
+                    .trim();
+                first == short_id
+                    || first.starts_with(&format!("{short_id} "))
+                    || first.starts_with(&format!("{short_id}—"))
+            })
+            .collect();
+    }
+    if target.len() != 1 {
+        return Err(post_merge_sync_error(
+            root,
+            "parity projection requires exactly one target row",
+        ));
+    }
+    let row = target[0];
+    Ok((lines.into_iter().filter(|line| *line != row).collect(), row))
+}
+
+fn parity_cells(row: &str) -> Vec<&str> {
+    let raw = row.trim_end_matches('\n').split('|').collect::<Vec<_>>();
+    raw.iter()
+        .skip(1)
+        .take(raw.len().saturating_sub(2))
+        .map(|cell| cell.trim())
+        .collect()
+}
+
+fn validate_work_item_document_projection(
+    root: &Path,
+    work_item_id: &str,
+    before: &str,
+    after: &str,
+) -> Result<(), ObserverError> {
+    let (before_header, before_body) = markdown_frontmatter(before).ok_or_else(|| {
+        post_merge_sync_error(root, "archived Work Item page has invalid frontmatter")
+    })?;
+    let (after_header, after_body) = markdown_frontmatter(after).ok_or_else(|| {
+        post_merge_sync_error(root, "promoted Work Item page has invalid frontmatter")
+    })?;
+    if before_body != after_body {
+        return Err(post_merge_sync_error(
+            root,
+            "documentation promotion changed Work Item page body text",
+        ));
+    }
+    if unprojected_frontmatter_lines(before_header) != unprojected_frontmatter_lines(after_header) {
+        return Err(post_merge_sync_error(
+            root,
+            "Work Item promotion changed unrelated frontmatter",
+        ));
+    }
+    let fields = after_header
+        .lines()
+        .filter_map(|line| line.split_once(": "))
+        .collect::<Vec<_>>();
+    let count = |key: &str| fields.iter().filter(|(field, _)| *field == key).count();
+    let value = |key: &str| {
+        fields
+            .iter()
+            .find(|(field, _)| *field == key)
+            .map(|(_, value)| *value)
+    };
+    if count("status") != 1
+        || count("lastVerifiedBy") != 1
+        || count("terminalArchive") != 1
+        || count("terminalVerification") != 1
+        || count("terminalFinalization") != 1
+        || count("terminalDecision") != 1
+        || value("status") != Some("implemented")
+        || value("lastVerifiedBy") != Some(work_item_id)
+        || value("terminalArchive")
+            != Some(format!(".ai/work-items/archive/{work_item_id}.contract.json").as_str())
+        || value("terminalVerification")
+            != Some(format!(".ai/evidence/{work_item_id}.verification.json").as_str())
+        || !value("terminalFinalization").is_some_and(|value| {
+            value.starts_with(&format!(".ai/decisions/{work_item_id}.finalize"))
+                && value.ends_with(".json")
+        })
+        || value("terminalDecision")
+            != Some(format!(".ai/decisions/{work_item_id}.close.json").as_str())
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "Work Item frontmatter is not the canonical terminal evidence projection",
+        ));
+    }
+    Ok(())
+}
+
+fn markdown_frontmatter(text: &str) -> Option<(&str, &str)> {
+    if !text.starts_with("---\n") {
+        return None;
+    }
+    let end = text[4..].find("\n---\n")? + 4;
+    Some((&text[4..end], &text[end..]))
+}
+
+fn unprojected_frontmatter_lines(header: &str) -> Vec<String> {
+    let projected = [
+        "status",
+        "lastVerifiedBy",
+        "terminalArchive",
+        "terminalVerification",
+        "terminalFinalization",
+        "terminalDecision",
+    ];
+    header
+        .lines()
+        .filter(|line| {
+            !projected.iter().any(|key| {
+                line.strip_prefix(key)
+                    .is_some_and(|tail| tail.starts_with(':'))
+            })
+        })
+        .map(str::to_owned)
+        .collect()
+}
+
 fn validate_post_merge_sync_commit_stages(
     root: &Path,
     work_item_id: &str,
@@ -2504,27 +3054,52 @@ fn validate_post_merge_sync_commit_stages(
     }
     require_exact_parent_chain(root, &sync.archive_revision, &[&sync.finish_revision])?;
     require_exact_parent_chain(root, &sync.docs_revision, &[&sync.archive_revision])?;
+    validate_finish_attempt_history(
+        root,
+        work_item_id,
+        &source.head_revision,
+        &sync.finish_revision,
+        sync_merge,
+    )?;
 
     let active_prefix = format!(".ai/work-items/active/{work_item_id}");
     let archive_prefix = format!(".ai/work-items/archive/{work_item_id}");
+    let (_, finish_parents) = commit_tree_and_parents(root, &sync.finish_revision)?;
+    let finish_parent = finish_parents
+        .first()
+        .ok_or_else(|| post_merge_sync_error(root, "finish stage has no first-parent revision"))?;
+    let finish_operation = |path: &str| {
+        let spec = format!("{finish_parent}:{path}");
+        let operation = if git_text(root, &["rev-parse", "--verify", &spec]).is_some() {
+            "M"
+        } else {
+            "A"
+        };
+        format!("{operation}:{path}")
+    };
     let expected_finish = [
-        format!("M:.ai/evidence/{work_item_id}.verification.json"),
-        format!("M:{active_prefix}.events.jsonl"),
-        format!("M:{active_prefix}.outcome.json"),
+        finish_operation(&format!(".ai/evidence/{work_item_id}.verification.json")),
+        finish_operation(&format!("{active_prefix}.events.jsonl")),
+        finish_operation(&format!("{active_prefix}.outcome.json")),
         format!("M:{active_prefix}.summary.json"),
-        format!("M:{active_prefix}.task-report.json"),
-        format!("M:{active_prefix}.task-report.md"),
+        finish_operation(&format!("{active_prefix}.task-report.json")),
+        finish_operation(&format!("{active_prefix}.task-report.md")),
     ];
-    let expected_archive = [
-        format!("D:{active_prefix}.events.jsonl"),
+    let mut expected_archive = vec![
         format!("A:{archive_prefix}.archive.json"),
-        format!("R100:{active_prefix}.contract.json=>{archive_prefix}.contract.json"),
-        format!("R095:{active_prefix}.outcome.json=>{archive_prefix}.outcome.json"),
-        format!("R100:{active_prefix}.summary.json=>{archive_prefix}.summary.json"),
-        format!("R100:{active_prefix}.task-report.json=>{archive_prefix}.task-report.json"),
-        format!("R100:{active_prefix}.task-report.md=>{archive_prefix}.task-report.md"),
+        format!("D:{active_prefix}.events.jsonl"),
         format!("A:{archive_prefix}.events.jsonl"),
     ];
+    for suffix in [
+        "contract.json",
+        "outcome.json",
+        "summary.json",
+        "task-report.json",
+        "task-report.md",
+    ] {
+        expected_archive.push(format!("D:{active_prefix}.{suffix}"));
+        expected_archive.push(format!("A:{archive_prefix}.{suffix}"));
+    }
     let expected_docs = [
         "M:docs/reference/reference-parity.ja.md".to_owned(),
         "M:docs/reference/reference-parity.md".to_owned(),
@@ -2536,10 +3111,22 @@ fn validate_post_merge_sync_commit_stages(
     validate_stage_changes(root, &sync.finish_revision, &expected_finish)?;
     validate_stage_changes(root, &sync.archive_revision, &expected_archive)?;
     validate_stage_changes(root, &sync.docs_revision, &expected_docs)?;
+    validate_archive_stage_bytes(
+        root,
+        work_item_id,
+        &sync.finish_revision,
+        &sync.archive_revision,
+    )?;
+    validate_documentation_projection(
+        root,
+        work_item_id,
+        &sync.archive_revision,
+        &sync.docs_revision,
+    )?;
 
     let verification_path = format!(".ai/evidence/{work_item_id}.verification.json");
     require_same_git_blob(root, &sync.finish_revision, sync_merge, &verification_path)?;
-    let verification = read_json(&root.join(&verification_path))?;
+    let verification = git_json(root, &sync.finish_revision, &verification_path)?;
     if verification["passed"] != serde_json::json!(true) {
         return Err(post_merge_sync_error(
             root,
@@ -2565,7 +3152,7 @@ fn validate_post_merge_sync_commit_stages(
         sync_merge,
         &archive_manifest_path,
     )?;
-    let archive_manifest = read_json(&root.join(&archive_manifest_path))?;
+    let archive_manifest = git_json(root, &sync.archive_revision, &archive_manifest_path)?;
     let manifest_runtime_digest: Digest =
         serde_json::from_value(archive_manifest["runtimeDigest"].clone()).map_err(|error| {
             post_merge_sync_error(
@@ -2581,7 +3168,12 @@ fn validate_post_merge_sync_commit_stages(
             "archive manifest does not preserve the finish-stage Runtime identity",
         ));
     }
-    verify_archive_manifest(root, work_item_id, &archive_manifest)?;
+    let historical_checkout = materialize_git_revision(root, &sync.archive_revision)?;
+    super::verify_archive_manifest(
+        &historical_checkout.repository,
+        work_item_id,
+        &archive_manifest,
+    )?;
     for name in [
         "contract.json",
         "events.jsonl",
@@ -2638,7 +3230,7 @@ fn validate_stage_changes(
             "--raw",
             "--no-commit-id",
             "-r",
-            "-M",
+            "--no-renames",
             &parents[0],
             revision,
         ],
@@ -2676,12 +3268,6 @@ fn validate_stage_changes(
             }
             Some(b'D') if old_mode == "100644" && new_mode == "000000" => {
                 format!("D:{paths}")
-            }
-            Some(b'R') if old_mode == "100644" && new_mode == "100644" => {
-                let (source, target) = paths.split_once('\t').ok_or_else(|| {
-                    post_merge_sync_error(root, format!("malformed rename record for {revision}"))
-                })?;
-                format!("{status}:{source}=>{target}")
             }
             _ => {
                 return Err(post_merge_sync_error(
@@ -2729,6 +3315,151 @@ fn require_same_git_blob(
             root,
             format!("immutable historical blob changed after its stage: {path}"),
         ));
+    }
+    Ok(())
+}
+
+fn github_repository_from_pull_request_url(url: &str) -> Option<(String, u64)> {
+    let path = url.strip_prefix("https://github.com/")?;
+    let parts = path.split('/').collect::<Vec<_>>();
+    if parts.len() != 4 || parts[2] != "pull" || parts[0].is_empty() || parts[1].is_empty() {
+        return None;
+    }
+    let number = parts[3].parse::<u64>().ok()?;
+    (number > 0).then(|| (format!("{}/{}", parts[0], parts[1]), number))
+}
+
+fn delegated_raw_json(
+    root: &Path,
+    evidence: &cockpit_protocol::DelegatedEvidence,
+) -> Result<serde_json::Value, ObserverError> {
+    let path = super::external_evidence_file(root, &evidence.raw_evidence_ref)?;
+    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    if Digest::sha256_bytes(&bytes) != evidence.digest {
+        return Err(post_merge_sync_error(
+            root,
+            "delegated raw provider response digest differs from its imported evidence receipt",
+        ));
+    }
+    super::reject_duplicate_json_keys(&bytes).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("delegated provider response is ambiguous JSON: {error}"),
+        )
+    })?;
+    serde_json::from_slice(&bytes).map_err(|error| {
+        post_merge_sync_error(
+            root,
+            format!("delegated provider response is not JSON: {error}"),
+        )
+    })
+}
+
+fn validate_github_pull_request_observation(
+    root: &Path,
+    evidence: &cockpit_protocol::DelegatedEvidence,
+    identity: &cockpit_protocol::ResourceFinalizationPullRequestIdentity,
+    repository: &str,
+    expected_head_ref: Option<&str>,
+) -> Result<(), ObserverError> {
+    let (observed_repository, observed_number) =
+        github_repository_from_pull_request_url(&identity.url).ok_or_else(|| {
+            post_merge_sync_error(root, "bound pull request URL is not an exact GitHub PR URL")
+        })?;
+    let expected_origin =
+        format!("https://api.github.com/repos/{observed_repository}/pulls/{observed_number}");
+    if observed_repository != repository
+        || observed_number != identity.number
+        || evidence.provider != "github"
+        || evidence.subject != identity.url
+        || evidence.origin != expected_origin
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "delegated pull request evidence origin or identity does not match the bound GitHub PR",
+        ));
+    }
+    let value = delegated_raw_json(root, evidence)?;
+    let head_ref = value["head"]["ref"].as_str().unwrap_or_default();
+    let merged = value["merged"].as_bool() == Some(true);
+    if value["number"].as_u64() != Some(identity.number)
+        || value["html_url"].as_str() != Some(identity.url.as_str())
+        || value["state"].as_str() != Some("closed")
+        || !merged
+        || value["merge_commit_sha"].as_str() != identity.merge_commit.as_deref()
+        || value["head"]["sha"].as_str() != Some(identity.head_revision.as_str())
+        || head_ref.is_empty()
+        || expected_head_ref.is_some_and(|expected| expected != head_ref)
+        || value["head"]["repo"]["full_name"].as_str() != Some(repository)
+        || value["base"]["ref"].as_str() != Some(identity.base_branch.as_str())
+        || value["base"]["sha"].as_str() != Some(identity.base_revision.as_str())
+        || value["base"]["repo"]["full_name"].as_str() != Some(repository)
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "delegated GitHub PR response does not prove the exact merged PR, head, base, and merge commit",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_github_remote_ref_observation(
+    root: &Path,
+    evidence: &cockpit_protocol::DelegatedEvidence,
+    sync: &PostMergeSyncEvidence,
+    repository: &str,
+) -> Result<(), ObserverError> {
+    let branch = sync
+        .remote_branch_ref
+        .strip_prefix("refs/heads/")
+        .filter(|branch| !branch.is_empty())
+        .ok_or_else(|| post_merge_sync_error(root, "remote branch ref is not a branch ref"))?;
+    let expected_origin =
+        format!("https://api.github.com/repos/{repository}/git/ref/heads/{branch}");
+    if evidence.provider != "github"
+        || evidence.subject != sync.remote_branch_ref
+        || evidence.origin != expected_origin
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "delegated remote ref origin or subject does not match the bound GitHub branch",
+        ));
+    }
+    let value = delegated_raw_json(root, evidence)?;
+    match sync.remote_branch_state {
+        PostMergeSyncRemoteBranchState::Present => {
+            if value["ref"].as_str() != Some(sync.remote_branch_ref.as_str())
+                || value["object"]["type"].as_str() != Some("commit")
+                || value["object"]["sha"].as_str()
+                    != Some(sync.sync_pull_request.head_revision.as_str())
+            {
+                return Err(post_merge_sync_error(
+                    root,
+                    "delegated GitHub ref response does not prove the exact present branch commit",
+                ));
+            }
+        }
+        PostMergeSyncRemoteBranchState::Deleted => {
+            if value["message"].as_str() != Some("Not Found")
+                || value["status"].as_str() != Some("404")
+                || value.get("ref").is_some()
+                || value.get("object").is_some()
+            {
+                return Err(post_merge_sync_error(
+                    root,
+                    "deleted remote branch requires a definitive GitHub 404 ref response",
+                ));
+            }
+        }
+        PostMergeSyncRemoteBranchState::Unknown => {
+            return Err(post_merge_sync_error(
+                root,
+                "unknown remote branch observation cannot finalize resources",
+            ));
+        }
     }
     Ok(())
 }
@@ -2796,6 +3527,36 @@ fn validate_post_merge_sync_delegated_evidence(
             ));
         }
     }
+    let source_repository = github_repository_from_pull_request_url(&sync.source_pull_request.url)
+        .map(|(repository, _)| repository)
+        .ok_or_else(|| post_merge_sync_error(root, "source PR URL is not a GitHub PR URL"))?;
+    validate_github_pull_request_observation(
+        root,
+        &evidence_receipts
+            .iter()
+            .find(|candidate| candidate.evidence.digest == sync.source_evidence_digest)
+            .expect("the source evidence digest was matched above")
+            .evidence,
+        &sync.source_pull_request,
+        &source_repository,
+        None,
+    )?;
+    validate_github_pull_request_observation(
+        root,
+        &evidence_receipts
+            .iter()
+            .find(|candidate| candidate.evidence.digest == sync.sync_evidence_digest)
+            .expect("the sync evidence digest was matched above")
+            .evidence,
+        &sync.sync_pull_request,
+        &source_repository,
+        Some(&receipt.branch.name),
+    )?;
+    let remote = evidence_receipts
+        .iter()
+        .find(|candidate| candidate.evidence.digest == sync.remote_evidence_digest)
+        .expect("the remote evidence digest was matched above");
+    validate_github_remote_ref_observation(root, &remote.evidence, sync, &source_repository)?;
     Ok(())
 }
 
@@ -3002,6 +3763,19 @@ pub(crate) fn verify_resource_finalization_internal(
                 error,
             )
         })?;
+    if receipt.schema_version
+        == cockpit_protocol::RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+        && (sequence != 1 || receipt.result.disposition != ResourceFinalizationDisposition::Deleted)
+    {
+        return Err(finalization_observation_error(
+            path.clone(),
+            FinalizationErrorCode::CleanupPending,
+            ObserverError::State {
+                path: path.clone(),
+                message: "schema-v2 finalization verification requires the sequence-1 Deleted transition after its Retained root".into(),
+            },
+        ));
+    }
     let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)
         .map_err(|error| {
             finalization_observation_error(
@@ -4063,6 +4837,67 @@ mod post_merge_sync_tests {
             .to_owned()
     }
 
+    fn github_pull_request_origin(identity: &ResourceFinalizationPullRequestIdentity) -> String {
+        format!(
+            "https://api.github.com/repos/example/fixture/pulls/{}",
+            identity.number
+        )
+    }
+
+    fn github_pull_request_body(
+        identity: &ResourceFinalizationPullRequestIdentity,
+        head_ref: &str,
+    ) -> Vec<u8> {
+        serde_json::to_vec(&serde_json::json!({
+            "number": identity.number,
+            "html_url": identity.url,
+            "state": "closed",
+            "merged": true,
+            "merge_commit_sha": identity.merge_commit,
+            "head": {
+                "ref": head_ref,
+                "sha": identity.head_revision,
+                "repo": {"full_name": "example/fixture"}
+            },
+            "base": {
+                "ref": identity.base_branch,
+                "sha": identity.base_revision,
+                "repo": {"full_name": "example/fixture"}
+            }
+        }))
+        .expect("GitHub pull request observation serializes")
+    }
+
+    fn github_ref_origin(reference: &str) -> String {
+        let branch = reference
+            .strip_prefix("refs/heads/")
+            .expect("branch ref has refs/heads prefix");
+        format!("https://api.github.com/repos/example/fixture/git/ref/heads/{branch}")
+    }
+
+    fn github_present_ref_body(reference: &str, sha: &str) -> Vec<u8> {
+        serde_json::to_vec(&serde_json::json!({
+            "ref": reference,
+            "node_id": "fixture-node",
+            "url": "https://api.github.com/repos/example/fixture/git/refs/heads/fixture",
+            "object": {
+                "sha": sha,
+                "type": "commit",
+                "url": "https://api.github.com/repos/example/fixture/git/commits/fixture"
+            }
+        }))
+        .expect("GitHub present-ref observation serializes")
+    }
+
+    fn github_deleted_ref_body() -> Vec<u8> {
+        serde_json::to_vec(&serde_json::json!({
+            "message": "Not Found",
+            "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+            "status": "404"
+        }))
+        .expect("GitHub deleted-ref observation serializes")
+    }
+
     fn deleted_receipt(
         branch: &str,
         worktree: &Path,
@@ -4077,18 +4912,18 @@ mod post_merge_sync_tests {
             operation_id: "operation-1".into(),
             repository_id:
                 "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into(),
-            work_item_id: "WI-1076-governance-recovered-predecessor-projection".into(),
+            work_item_id: "WI-9997-post-merge-sync-fixture".into(),
             runtime_version: "test-runtime".into(),
             runtime_digest: Digest::sha256_bytes(b"runtime"),
             provider: "github".into(),
             pull_request: ResourceFinalizationPullRequestIdentity {
-                number: 1031,
-                url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
-                head_revision: revision.clone(),
+                number: 9001,
+                url: "https://github.com/example/fixture/pull/9001".into(),
+                head_revision: "source-head-revision".into(),
                 base_branch: "main".into(),
                 base_remote: "origin".into(),
-                base_revision: "base-1".into(),
-                merge_commit: Some("merge-1".into()),
+                base_revision: "source-base-revision".into(),
+                merge_commit: Some("source-merge-commit".into()),
             },
             branch: ResourceFinalizationBranchIdentity {
                 name: branch.clone(),
@@ -4126,29 +4961,29 @@ mod post_merge_sync_tests {
             historical: None,
             post_merge_sync: Some(PostMergeSyncEvidence {
                 source_pull_request: ResourceFinalizationPullRequestIdentity {
-                    number: 1030,
-                    url: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
-                    head_revision: "source-head".into(),
+                    number: 9001,
+                    url: "https://github.com/example/fixture/pull/9001".into(),
+                    head_revision: "source-head-revision".into(),
                     base_branch: "main".into(),
                     base_remote: "origin".into(),
-                    base_revision: "source-base".into(),
-                    merge_commit: Some("source-merge".into()),
+                    base_revision: "source-base-revision".into(),
+                    merge_commit: Some("source-merge-commit".into()),
                 },
                 sync_pull_request: ResourceFinalizationPullRequestIdentity {
-                    number: 1031,
-                    url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
+                    number: 9002,
+                    url: "https://github.com/example/fixture/pull/9002".into(),
                     head_revision: "head-1".into(),
                     base_branch: "main".into(),
                     base_remote: "origin".into(),
-                    base_revision: "source-merge".into(),
-                    merge_commit: Some("merge-1".into()),
+                    base_revision: "source-merge-commit".into(),
+                    merge_commit: Some("merge-commit".into()),
                 },
                 source_evidence_digest: Digest::sha256_bytes(b"source"),
                 sync_evidence_digest: Digest::sha256_bytes(b"sync"),
                 finish_revision: "finish-1".into(),
                 archive_revision: "archive-1".into(),
                 docs_revision: "head-1".into(),
-                current_main_revision: "merge-1".into(),
+                current_main_revision: "merge-commit".into(),
                 remote_branch_ref: format!("refs/heads/{branch}"),
                 remote_branch_state: PostMergeSyncRemoteBranchState::Deleted,
                 remote_evidence_digest: Digest::sha256_bytes(b"remote"),
@@ -4158,67 +4993,321 @@ mod post_merge_sync_tests {
         }
     }
 
-    fn pinned_wi1076_sync_proof(root: &Path) -> PostMergeSyncEvidence {
-        PostMergeSyncEvidence {
-            source_pull_request: ResourceFinalizationPullRequestIdentity {
-                number: 1030,
-                url: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
-                head_revision: "b0e98ae9efe54cde951bb8f547762736411c1628".into(),
-                base_branch: "main".into(),
-                base_remote: "origin".into(),
-                base_revision: "095e185b710b0c0016c655d3792f1b3438a62bac".into(),
-                merge_commit: Some("686a71a07cc0bd6f3d76ab7261c829067db7ee26".into()),
-            },
-            sync_pull_request: ResourceFinalizationPullRequestIdentity {
-                number: 1031,
-                url: "https://github.com/xinglun/ai-cockpit/pull/1031".into(),
-                head_revision: "0f1d54b334104a67eb383f5946ce2305b7b0ba94".into(),
-                base_branch: "main".into(),
-                base_remote: "origin".into(),
-                base_revision: "686a71a07cc0bd6f3d76ab7261c829067db7ee26".into(),
-                merge_commit: Some("ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9".into()),
-            },
-            source_evidence_digest: Digest::sha256_bytes(b"source PR observation"),
-            sync_evidence_digest: Digest::sha256_bytes(b"sync PR observation"),
-            finish_revision: "d651f93d4a8bcbe9413d055d501ceae6f7d0132e".into(),
-            archive_revision: "700f6cd5dcb81833aa63d38913908c5543865a8d".into(),
-            docs_revision: "0f1d54b334104a67eb383f5946ce2305b7b0ba94".into(),
-            current_main_revision: "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9".into(),
-            remote_branch_ref: "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011"
-                .into(),
-            remote_branch_state: PostMergeSyncRemoteBranchState::Present,
-            remote_evidence_digest: Digest::sha256_bytes(b"remote branch observation"),
-            git_common_dir: super::git_common_dir(root)
-                .expect("Git common directory")
-                .display()
-                .to_string(),
-            worktree_git_dir: "/workspace/.git/worktrees/wi1076".into(),
-        }
+    fn commit(root: &Path, message: &str) -> String {
+        git(root, &["add", "--all"]);
+        git(root, &["commit", "-q", "-m", message]);
+        git(root, &["rev-parse", "HEAD"])
+    }
+
+    fn append_attempt(root: &Path, work_item_id: &str) -> String {
+        let mut attempt = serde_json::json!({
+            "schemaVersion": 1,
+            "kind": "verification_attempt",
+            "state": "execution_completed",
+            "workItemId": work_item_id,
+            "repositoryId": super::super::repository_id(root).to_string(),
+            "passed": false
+        });
+        let digest = cockpit_protocol::digest_json(&attempt).unwrap();
+        attempt["attemptId"] = serde_json::json!(digest.to_string());
+        let suffix = digest
+            .to_string()
+            .strip_prefix("sha256:")
+            .unwrap()
+            .to_owned();
+        let path = root.join(format!(
+            ".ai/evidence/{work_item_id}.verification-attempt.{suffix}.json"
+        ));
+        std::fs::create_dir_all(path.parent().unwrap()).unwrap();
+        std::fs::write(path, serde_json::to_vec_pretty(&attempt).unwrap()).unwrap();
+        suffix
+    }
+
+    fn post_merge_history_fixture() -> tempfile::TempDir {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path();
+        git(root, &["init", "-q"]);
+        git(root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(root, &["config", "user.email", "tests@example.invalid"]);
+        std::fs::write(root.join("source.txt"), "synthetic source\n").unwrap();
+        commit(root, "source head");
+        fixture
     }
 
     #[test]
-    fn wi1076_post_merge_sync_stages_match_the_actual_merge_graph() {
-        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-        let root = root.canonicalize().expect("repository root");
-        let proof = pinned_wi1076_sync_proof(&root);
-        super::validate_post_merge_sync_commit_stages(
-            &root,
-            "WI-1076-governance-recovered-predecessor-projection",
-            &proof,
-        )
-        .expect("actual merge graph and finish/archive/docs stages should validate");
+    fn post_merge_sync_finish_history_accepts_only_append_only_attempt_commits() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let source_head = git(root, &["rev-parse", "HEAD"]);
+        let work_item_id = "WI-9999-post-merge-sync-fixture";
+        append_attempt(root, work_item_id);
+        commit(root, "append failed verification attempt");
+        std::fs::write(root.join("finish-evidence.txt"), "finish\n").unwrap();
+        let finish = commit(root, "finish");
+        super::validate_finish_attempt_history(root, work_item_id, &source_head, &finish, &finish)
+            .expect(
+                "the first-parent interval may append immutable attempt artifacts before finish",
+            );
+    }
 
-        let mut wrong = proof;
-        wrong.docs_revision = wrong.finish_revision.clone();
+    #[test]
+    fn post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let source_head = git(root, &["rev-parse", "HEAD"]);
+        let work_item_id = "WI-9998-post-merge-sync-fixture";
+        append_attempt(root, work_item_id);
+        commit(root, "append failed verification attempt");
+        std::fs::write(root.join("product.txt"), "temporary product change\n").unwrap();
+        commit(root, "unexpected product change");
+        git(root, &["rm", "-q", "product.txt"]);
+        commit(root, "revert product change");
+        std::fs::write(root.join("finish-evidence.txt"), "finish\n").unwrap();
+        let finish = commit(root, "finish");
         assert!(
-            super::validate_post_merge_sync_commit_stages(
-                &root,
-                "WI-1076-governance-recovered-predecessor-projection",
-                &wrong,
+            super::validate_finish_attempt_history(
+                root,
+                work_item_id,
+                &source_head,
+                &finish,
+                &finish
             )
             .is_err(),
-            "a wrong stage revision must fail closed"
+            "reverting an intermediate product change must not erase it from the reviewed history"
         );
+    }
+
+    #[test]
+    fn post_merge_sync_historical_json_is_read_from_the_committed_revision() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let path = ".ai/evidence/WI-9996-post-merge-sync-fixture.verification.json";
+        let absolute = root.join(path);
+        std::fs::create_dir_all(absolute.parent().unwrap()).unwrap();
+        std::fs::write(&absolute, br#"{"passed":false}"#).unwrap();
+        let revision = commit(root, "commit immutable verification evidence");
+        std::fs::write(&absolute, br#"{"passed":true}"#).unwrap();
+
+        let historical = super::git_json(root, &revision, path).expect("read committed JSON blob");
+        assert_eq!(historical["passed"], serde_json::json!(false));
+        let checkout = super::materialize_git_revision(root, &revision)
+            .expect("materialize an isolated historical checkout");
+        let materialized = std::fs::read_to_string(checkout.repository.join(path)).unwrap();
+        assert!(materialized.contains("false"));
+        assert!(!materialized.contains("true"));
+    }
+
+    #[test]
+    fn post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9994-post-merge-sync-fixture";
+        let active = root.join(format!(".ai/work-items/active/{id}"));
+        std::fs::create_dir_all(active.parent().unwrap()).unwrap();
+        for (suffix, bytes) in [
+            ("contract.json", b"contract\n".as_slice()),
+            ("outcome.json", b"{}\n".as_slice()),
+            ("summary.json", b"summary\n".as_slice()),
+            ("task-report.json", b"{}\n".as_slice()),
+            ("task-report.md", b"report\n".as_slice()),
+            ("events.jsonl", b"event\n".as_slice()),
+        ] {
+            std::fs::write(format!("{}.{}", active.display(), suffix), bytes).unwrap();
+        }
+        let finish = commit(root, "finish stage");
+
+        let archive = root.join(format!(".ai/work-items/archive/{id}"));
+        std::fs::create_dir_all(archive.parent().unwrap()).unwrap();
+        for suffix in [
+            "contract.json",
+            "summary.json",
+            "task-report.json",
+            "task-report.md",
+            "events.jsonl",
+        ] {
+            let bytes = std::fs::read(format!("{}.{}", active.display(), suffix)).unwrap();
+            std::fs::write(
+                format!("{}.{}", archive.display(), suffix),
+                super::super::normalized_archive_artifact_bytes(suffix, &bytes, id).unwrap(),
+            )
+            .unwrap();
+        }
+        let report = std::fs::read(format!("{}.task-report.json", archive.display())).unwrap();
+        let markdown = std::fs::read(format!("{}.task-report.md", archive.display())).unwrap();
+        let mut outcome = serde_json::json!({});
+        outcome["taskReportDigest"] = serde_json::json!(Digest::sha256_bytes(&report).to_string());
+        outcome["taskReportMarkdownDigest"] =
+            serde_json::json!(Digest::sha256_bytes(&markdown).to_string());
+        std::fs::write(
+            format!("{}.outcome.json", archive.display()),
+            serde_json::to_vec_pretty(&outcome).unwrap(),
+        )
+        .unwrap();
+        let archive_revision = commit(root, "archive stage");
+        super::validate_archive_stage_bytes(root, id, &finish, &archive_revision)
+            .expect("archive stage may copy the exact normal form of finish-stage artifacts");
+
+        std::fs::write(
+            format!("{}.summary.json", archive.display()),
+            b"substituted summary\n",
+        )
+        .unwrap();
+        let substituted_archive = commit(root, "tamper with archived summary");
+        assert!(
+            super::validate_archive_stage_bytes(root, id, &finish, &substituted_archive).is_err(),
+            "an archive manifest cannot authorize a substituted archived summary blob"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_document_projection_changes_only_terminal_frontmatter() {
+        let before = "---\ntitle: Fixture\nstatus: in_progress\nlastVerifiedBy: WI-9995-post-merge-sync-fixture\n---\n\nBody stays byte-identical.\n";
+        let after = "---\ntitle: Fixture\nstatus: implemented\nlastVerifiedBy: WI-9995-post-merge-sync-fixture\nterminalArchive: .ai/work-items/archive/WI-9995-post-merge-sync-fixture.contract.json\nterminalVerification: .ai/evidence/WI-9995-post-merge-sync-fixture.verification.json\nterminalFinalization: .ai/decisions/WI-9995-post-merge-sync-fixture.finalize.abc.json\nterminalDecision: .ai/decisions/WI-9995-post-merge-sync-fixture.close.json\n---\n\nBody stays byte-identical.\n";
+        super::validate_work_item_document_projection(
+            Path::new("/synthetic/repository"),
+            "WI-9995-post-merge-sync-fixture",
+            before,
+            after,
+        )
+        .expect("canonical terminal fields may change while preserving all other frontmatter and body bytes");
+
+        let changed_body = after.replace("Body stays byte-identical.", "changed body");
+        assert!(
+            super::validate_work_item_document_projection(
+                Path::new("/synthetic/repository"),
+                "WI-9995-post-merge-sync-fixture",
+                before,
+                &changed_body,
+            )
+            .is_err(),
+            "projection must not conceal page-body changes"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_docs_projection_is_confined_to_six_terminal_pages() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9993-post-merge-sync-fixture";
+        let archive = root.join(format!(".ai/work-items/archive/{id}.contract.json"));
+        std::fs::create_dir_all(archive.parent().unwrap()).unwrap();
+        std::fs::write(&archive, b"synthetic archived contract\n").unwrap();
+        let evidence = format!(
+            "[Work Item](../work-items/{id}{{suffix}}.md); archive `.ai/work-items/archive/{id}.contract.json`; verification `.ai/evidence/{id}.verification.json`; finalization `.ai/decisions/{id}.finalize.abc.json`; close `.ai/decisions/{id}.close.json`."
+        );
+        for (suffix, status) in [
+            ("", "Implemented"),
+            (".zh-CN", "已实现"),
+            (".ja", "Implemented"),
+        ] {
+            let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+            std::fs::create_dir_all(parity.parent().unwrap()).unwrap();
+            std::fs::write(
+                parity,
+                format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| WI-9993 | In progress | pending |\n| WI-8888 | Unrelated | unchanged |\n"),
+            )
+            .unwrap();
+            let document = root.join(format!("docs/work-items/{id}{suffix}.md"));
+            std::fs::create_dir_all(document.parent().unwrap()).unwrap();
+            std::fs::write(
+                document,
+                format!("---\ntitle: Fixture\nstatus: in_progress\nlastVerifiedBy: {id}\n---\n\nPreserved page body.\n"),
+            )
+            .unwrap();
+            assert!(matches!(status, "Implemented" | "已实现"));
+        }
+        let archive_revision = commit(root, "archive projection source");
+        for (suffix, status) in [
+            ("", "Implemented"),
+            (".zh-CN", "已实现"),
+            (".ja", "Implemented"),
+        ] {
+            let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+            let mut current = std::fs::read_to_string(&parity).unwrap();
+            let row = format!("| WI-9993 | In progress | pending |\n");
+            current = current.replace(
+                &row,
+                &format!(
+                    "| WI-9993 | {status} | {} |\n",
+                    evidence.replace("{suffix}", suffix)
+                ),
+            );
+            std::fs::write(&parity, current).unwrap();
+            let document = root.join(format!("docs/work-items/{id}{suffix}.md"));
+            let mut current = std::fs::read_to_string(&document).unwrap();
+            current = current.replace("status: in_progress", "status: implemented");
+            current = current.replace(
+                &format!("lastVerifiedBy: {id}\n---"),
+                &format!("lastVerifiedBy: {id}\nterminalArchive: .ai/work-items/archive/{id}.contract.json\nterminalVerification: .ai/evidence/{id}.verification.json\nterminalFinalization: .ai/decisions/{id}.finalize.abc.json\nterminalDecision: .ai/decisions/{id}.close.json\n---"),
+            );
+            std::fs::write(document, current).unwrap();
+        }
+        let docs_revision = commit(root, "promote terminal documentation");
+        super::validate_documentation_projection(root, id, &archive_revision, &docs_revision)
+            .expect("the three parity rows and three page frontmatters may receive canonical terminal evidence");
+
+        let page = root.join(format!("docs/work-items/{id}.ja.md"));
+        let current = std::fs::read_to_string(&page)
+            .unwrap()
+            .replace("Preserved page body.", "changed");
+        std::fs::write(page, current).unwrap();
+        let tampered_docs = commit(root, "change projected page body");
+        assert!(
+            super::validate_documentation_projection(root, id, &archive_revision, &tampered_docs)
+                .is_err(),
+            "terminal promotion must reject page-body changes outside the projection fields"
+        );
+    }
+
+    #[test]
+    fn schema_v2_first_root_must_be_retained() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path();
+        let common = root.join(".git");
+        let worktree = root.join("target-worktree");
+        let worktree_git_dir = root.join(".git/worktrees/target-worktree");
+        let deleted = deleted_receipt(
+            "codex/test-post-merge-sync",
+            &worktree,
+            &worktree_git_dir,
+            &common,
+        );
+        let deleted_digest =
+            cockpit_protocol::digest_json(&serde_json::to_value(&deleted).unwrap()).unwrap();
+        assert!(
+            super::resolve_resource_finalization_head_from_observed(
+                root,
+                &deleted.work_item_id,
+                deleted.clone(),
+                PathBuf::from(".ai/decisions/root.json"),
+                deleted_digest,
+                Vec::new(),
+            )
+            .is_err(),
+            "a schema-v2 Deleted receipt cannot masquerade as the canonical root"
+        );
+
+        let mut retained = deleted;
+        retained.result.disposition = ResourceFinalizationDisposition::Retained;
+        retained.after.branch = ResourceFinalizationBranchState::Present;
+        retained.after.worktree = ResourceFinalizationWorktreeState::Clean;
+        retained
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        let digest =
+            cockpit_protocol::digest_json(&serde_json::to_value(&retained).unwrap()).unwrap();
+        let retained_work_item_id = retained.work_item_id.clone();
+        super::resolve_resource_finalization_head_from_observed(
+            root,
+            &retained_work_item_id,
+            retained,
+            PathBuf::from(".ai/decisions/root.json"),
+            digest,
+            Vec::new(),
+        )
+        .expect("a schema-v2 Retained receipt is a valid first root");
     }
 
     #[test]
@@ -4239,7 +5328,7 @@ mod post_merge_sync_tests {
         super::super::attach(root).expect("attach fixture repository");
         super::super::start_work_item(
             root,
-            "WI-1076-governance-recovered-predecessor-projection",
+            "WI-9997-post-merge-sync-fixture",
             "bind post-merge evidence",
             "test the delegated evidence trust boundary",
             &[".ai/**".into()],
@@ -4252,57 +5341,62 @@ mod post_merge_sync_tests {
         };
         let collect_time = (chrono::Utc::now() - chrono::Duration::seconds(10))
             .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
-        let imports = [
-            (
-                "source",
-                "https://github.com/xinglun/ai-cockpit/pull/1030",
-                b"source PR metadata".as_slice(),
-                AssuranceLevel::ProviderVerified,
-            ),
-            (
-                "sync",
-                "https://github.com/xinglun/ai-cockpit/pull/1031",
-                b"sync PR metadata".as_slice(),
-                AssuranceLevel::ProviderVerified,
-            ),
-            (
-                "remote",
-                "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
-                b"remote branch metadata".as_slice(),
-                AssuranceLevel::ProviderVerified,
-            ),
-        ];
-        let mut digests = Vec::new();
-        for (name, subject, raw, assurance) in imports {
-            let evidence = DelegatedEvidence {
-                provider: "github".into(),
-                subject: subject.into(),
-                origin: format!("https://api.github.com/{name}"),
-                assurance,
-                collected_at: collect_time.clone(),
-                digest: Digest::sha256_bytes(raw),
-                validity: EvidenceValidity::Valid,
-                raw_evidence_ref: format!(".ai/evidence/external/wi1076-{name}.json"),
-            };
-            super::super::import_delegated_evidence(
-                root,
-                "WI-1076-governance-recovered-predecessor-projection",
-                &evidence,
-                raw,
-                &runtime,
-            )
-            .expect("import delegated evidence");
-            digests.push(evidence.digest);
-        }
         let common_dir = super::git_common_dir(root).unwrap();
         let mut receipt = deleted_receipt(
-            "codex/wi1076-governance-recovered-predecessor-20261011",
+            "codex/test-post-merge-sync",
             &fixture.path().join("target-worktree"),
             &fixture.path().join(".git/worktrees/target-worktree"),
             &common_dir,
         );
         receipt.timestamp = (chrono::Utc::now() + chrono::Duration::seconds(2))
             .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let post_merge_sync = receipt.post_merge_sync.as_ref().unwrap().clone();
+        let remote_reference = post_merge_sync.remote_branch_ref.clone();
+        let imports = [
+            (
+                "source",
+                post_merge_sync.source_pull_request.url.clone(),
+                github_pull_request_origin(&post_merge_sync.source_pull_request),
+                github_pull_request_body(&post_merge_sync.source_pull_request, "source"),
+                AssuranceLevel::ProviderVerified,
+            ),
+            (
+                "sync",
+                post_merge_sync.sync_pull_request.url.clone(),
+                github_pull_request_origin(&post_merge_sync.sync_pull_request),
+                github_pull_request_body(&post_merge_sync.sync_pull_request, &receipt.branch.name),
+                AssuranceLevel::ProviderVerified,
+            ),
+            (
+                "remote",
+                remote_reference.clone(),
+                github_ref_origin(&remote_reference),
+                github_deleted_ref_body(),
+                AssuranceLevel::ProviderVerified,
+            ),
+        ];
+        let mut digests = Vec::new();
+        for (name, subject, origin, raw, assurance) in imports {
+            let evidence = DelegatedEvidence {
+                provider: "github".into(),
+                subject,
+                origin,
+                assurance,
+                collected_at: collect_time.clone(),
+                digest: Digest::sha256_bytes(&raw),
+                validity: EvidenceValidity::Valid,
+                raw_evidence_ref: format!(".ai/evidence/external/sync-fixture-{name}.json"),
+            };
+            super::super::import_delegated_evidence(
+                root,
+                "WI-9997-post-merge-sync-fixture",
+                &evidence,
+                &raw,
+                &runtime,
+            )
+            .expect("import delegated evidence");
+            digests.push(evidence.digest);
+        }
         {
             let sync = receipt.post_merge_sync.as_mut().unwrap();
             sync.source_evidence_digest = digests[0].clone();
@@ -4314,22 +5408,214 @@ mod post_merge_sync_tests {
             &receipt,
             receipt.post_merge_sync.as_ref().unwrap(),
         )
-        .expect("all three imported ProviderVerified facts should remain bound");
+        .expect("structured provider facts must match both PR identities and exact ref state");
+
+        let arbitrary_pr = b"source PR metadata";
+        let arbitrary_pr_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: post_merge_sync.source_pull_request.url.clone(),
+            origin: github_pull_request_origin(&post_merge_sync.source_pull_request),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collect_time.clone(),
+            digest: Digest::sha256_bytes(arbitrary_pr),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-arbitrary-pr.json".into(),
+        };
+        super::super::import_delegated_evidence(
+            root,
+            "WI-9997-post-merge-sync-fixture",
+            &arbitrary_pr_evidence,
+            arbitrary_pr,
+            &runtime,
+        )
+        .expect("arbitrary bytes remain digest-bound but must not become semantic proof");
+        let mut arbitrary_pr_receipt = receipt.clone();
+        arbitrary_pr_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .source_evidence_digest = arbitrary_pr_evidence.digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &arbitrary_pr_receipt,
+                arbitrary_pr_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "arbitrary provider-verified text must not assert a merged source PR"
+        );
+
+        let mut wrong_pr_value: serde_json::Value = serde_json::from_slice(
+            &github_pull_request_body(&post_merge_sync.source_pull_request, "source"),
+        )
+        .unwrap();
+        wrong_pr_value["head"]["sha"] = serde_json::json!("different-source-head");
+        let wrong_pr_bytes = serde_json::to_vec(&wrong_pr_value).unwrap();
+        let wrong_pr_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: post_merge_sync.source_pull_request.url.clone(),
+            origin: github_pull_request_origin(&post_merge_sync.source_pull_request),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collect_time.clone(),
+            digest: Digest::sha256_bytes(&wrong_pr_bytes),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-wrong-source-head.json".into(),
+        };
+        super::super::import_delegated_evidence(
+            root,
+            "WI-9997-post-merge-sync-fixture",
+            &wrong_pr_evidence,
+            &wrong_pr_bytes,
+            &runtime,
+        )
+        .expect("wrong-head GitHub response remains raw imported evidence");
+        let mut wrong_pr_receipt = receipt.clone();
+        wrong_pr_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .source_evidence_digest = wrong_pr_evidence.digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &wrong_pr_receipt,
+                wrong_pr_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "ProviderVerified metadata cannot override a mismatched PR head SHA in the raw body"
+        );
+
+        let arbitrary_remote = b"remote branch metadata";
+        let arbitrary_remote_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_reference.clone(),
+            origin: github_ref_origin(&remote_reference),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collect_time.clone(),
+            digest: Digest::sha256_bytes(arbitrary_remote),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-arbitrary-remote.json".into(),
+        };
+        super::super::import_delegated_evidence(
+            root,
+            "WI-9997-post-merge-sync-fixture",
+            &arbitrary_remote_evidence,
+            arbitrary_remote,
+            &runtime,
+        )
+        .expect("arbitrary ref bytes remain digest-bound");
+        let mut arbitrary_remote_receipt = receipt.clone();
+        arbitrary_remote_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = arbitrary_remote_evidence.digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &arbitrary_remote_receipt,
+                arbitrary_remote_receipt.post_merge_sync.as_ref().unwrap(),
+            )
+            .is_err(),
+            "arbitrary provider-verified text must not assert an absent remote ref"
+        );
+
+        let present_remote = github_present_ref_body(&remote_reference, "head-1");
+        let present_remote_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_reference.clone(),
+            origin: github_ref_origin(&remote_reference),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collect_time.clone(),
+            digest: Digest::sha256_bytes(&present_remote),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-present-remote.json".into(),
+        };
+        super::super::import_delegated_evidence(
+            root,
+            "WI-9997-post-merge-sync-fixture",
+            &present_remote_evidence,
+            &present_remote,
+            &runtime,
+        )
+        .expect("present ref observation imports as raw provider evidence");
+        let mut deleted_from_present_receipt = receipt.clone();
+        deleted_from_present_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = present_remote_evidence.digest.clone();
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &deleted_from_present_receipt,
+                deleted_from_present_receipt
+                    .post_merge_sync
+                    .as_ref()
+                    .unwrap(),
+            )
+            .is_err(),
+            "a present ref with any SHA must not authorize Deleted"
+        );
+        let wrong_sha = github_present_ref_body(&remote_reference, "wrong-sha");
+        let wrong_sha_evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_reference.clone(),
+            origin: github_ref_origin(&remote_reference),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: collect_time.clone(),
+            digest: Digest::sha256_bytes(&wrong_sha),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-wrong-sha.json".into(),
+        };
+        super::super::import_delegated_evidence(
+            root,
+            "WI-9997-post-merge-sync-fixture",
+            &wrong_sha_evidence,
+            &wrong_sha,
+            &runtime,
+        )
+        .expect("wrong-SHA observation imports as raw provider evidence");
+        let mut present_from_wrong_sha_receipt = receipt.clone();
+        present_from_wrong_sha_receipt.result.disposition =
+            ResourceFinalizationDisposition::Retained;
+        present_from_wrong_sha_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        present_from_wrong_sha_receipt
+            .post_merge_sync
+            .as_mut()
+            .unwrap()
+            .remote_evidence_digest = wrong_sha_evidence.digest;
+        assert!(
+            super::validate_post_merge_sync_delegated_evidence(
+                root,
+                &present_from_wrong_sha_receipt,
+                present_from_wrong_sha_receipt
+                    .post_merge_sync
+                    .as_ref()
+                    .unwrap(),
+            )
+            .is_err(),
+            "Present must bind the exact expected branch head SHA"
+        );
 
         let raw = b"self-declared source metadata";
         let evidence = DelegatedEvidence {
             provider: "github".into(),
-            subject: "https://github.com/xinglun/ai-cockpit/pull/1030".into(),
-            origin: "https://api.github.com/pulls/1030".into(),
+            subject: "https://github.com/example/fixture/pull/9001".into(),
+            origin: "https://api.github.com/pulls/9001".into(),
             assurance: AssuranceLevel::SelfDeclared,
             collected_at: collect_time,
             digest: Digest::sha256_bytes(raw),
             validity: EvidenceValidity::Valid,
-            raw_evidence_ref: ".ai/evidence/external/wi1076-self-declared.json".into(),
+            raw_evidence_ref: ".ai/evidence/external/sync-fixture-self-declared.json".into(),
         };
         let imported = super::super::import_delegated_evidence(
             root,
-            "WI-1076-governance-recovered-predecessor-projection",
+            "WI-9997-post-merge-sync-fixture",
             &evidence,
             raw,
             &runtime,
@@ -4372,7 +5658,7 @@ mod post_merge_sync_tests {
                 "worktree",
                 "add",
                 "-b",
-                "codex/wi1076-post-merge-proof",
+                "codex/sync-fixture-post-merge-proof",
                 worktree.to_str().unwrap(),
                 "HEAD",
             ],
@@ -4387,10 +5673,13 @@ mod post_merge_sync_tests {
             &root,
             &["worktree", "remove", "--force", worktree.to_str().unwrap()],
         );
-        git(&root, &["branch", "-D", "codex/wi1076-post-merge-proof"]);
+        git(
+            &root,
+            &["branch", "-D", "codex/sync-fixture-post-merge-proof"],
+        );
 
         let receipt = deleted_receipt(
-            "codex/wi1076-post-merge-proof",
+            "codex/sync-fixture-post-merge-proof",
             &worktree,
             &worktree_git_dir,
             Path::new(&common_dir),
@@ -4405,7 +5694,10 @@ mod post_merge_sync_tests {
         assert!(!local_resources_deleted(&root, &receipt).unwrap());
         std::fs::remove_dir_all(&worktree_git_dir).unwrap();
 
-        git(&root, &["branch", "codex/wi1076-post-merge-proof", "HEAD"]);
+        git(
+            &root,
+            &["branch", "codex/sync-fixture-post-merge-proof", "HEAD"],
+        );
         assert!(!local_resources_deleted(&root, &receipt).unwrap());
     }
 
@@ -4427,7 +5719,7 @@ mod post_merge_sync_tests {
         git(&root, &["add", "tracked.txt"]);
         git(&root, &["commit", "-q", "-m", "fixture baseline"]);
         git(&root, &["branch", "-M", "main"]);
-        let branch = "codex/wi1076-retained-proof";
+        let branch = "codex/sync-fixture-retained-proof";
         git(
             &root,
             &[
@@ -4444,7 +5736,6 @@ mod post_merge_sync_tests {
         let worktree_git_dir = PathBuf::from(git_file.trim().strip_prefix("gitdir: ").unwrap());
         let common_dir = super::git_common_dir(&root).unwrap();
         let mut receipt = deleted_receipt(branch, &worktree, &worktree_git_dir, &common_dir);
-        receipt.pull_request.head_revision = head.clone();
         receipt.branch.head_revision = head.clone();
         receipt.worktree.head_revision = head.clone();
         receipt.before.branch = ResourceFinalizationBranchState::Present;

@@ -26,6 +26,10 @@ fn runtime_digest(binary: &str) -> String {
     format!("sha256:{}", hex::encode(Sha256::digest(bytes)))
 }
 
+fn sha256(bytes: &[u8]) -> String {
+    format!("sha256:{}", hex::encode(Sha256::digest(bytes)))
+}
+
 fn repository() -> tempfile::TempDir {
     let repo = tempfile::tempdir().expect("temp repo");
     assert!(
@@ -67,6 +71,62 @@ fn repository() -> tempfile::TempDir {
             .success()
     );
     repo
+}
+
+fn commit_staged(root: &Path, message: &str) -> String {
+    git(root, &["commit", "-q", "-m", message]);
+    git(root, &["rev-parse", "HEAD"])
+}
+
+fn seed_sync_projection_docs(root: &Path, id: &str) {
+    let short = id.split('-').take(2).collect::<Vec<_>>().join("-");
+    for suffix in ["", ".zh-CN", ".ja"] {
+        let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+        fs::create_dir_all(parity.parent().unwrap()).unwrap();
+        fs::write(
+            parity,
+            format!("| Work Item | Status | Evidence |\n| --- | --- | --- |\n| {short} | In progress | pending |\n| WI-8888 | Unrelated | unchanged |\n"),
+        )
+        .unwrap();
+        let page = root.join(format!("docs/work-items/{id}{suffix}.md"));
+        fs::create_dir_all(page.parent().unwrap()).unwrap();
+        fs::write(
+            page,
+            format!("---\ntitle: Synthetic post-merge fixture\nstatus: in_progress\nlastVerifiedBy: {id}\n---\n\nPreserve this page body.\n"),
+        )
+        .unwrap();
+    }
+    git(root, &["add", "docs"]);
+    commit_staged(root, "seed synthetic terminal projection docs");
+}
+
+fn promote_sync_projection_docs(root: &Path, id: &str) {
+    let short = id.split('-').take(2).collect::<Vec<_>>().join("-");
+    for (suffix, status) in [
+        ("", "Implemented"),
+        (".zh-CN", "已实现"),
+        (".ja", "Implemented"),
+    ] {
+        let parity = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+        let mut text = fs::read_to_string(&parity).unwrap();
+        let row = format!("| {short} | In progress | pending |\n");
+        let evidence = format!(
+            "[Work Item](../work-items/{id}{suffix}.md); archive `.ai/work-items/archive/{id}.contract.json`; verification `.ai/evidence/{id}.verification.json`; finalization `.ai/decisions/{id}.finalize.synthetic.json`; close `.ai/decisions/{id}.close.json`."
+        );
+        text = text.replace(&row, &format!("| {short} | {status} | {evidence} |\n"));
+        fs::write(parity, text).unwrap();
+
+        let page = root.join(format!("docs/work-items/{id}{suffix}.md"));
+        let mut text = fs::read_to_string(&page).unwrap();
+        text = text.replace("status: in_progress", "status: implemented");
+        text = text.replace(
+            &format!("lastVerifiedBy: {id}\n---"),
+            &format!("lastVerifiedBy: {id}\nterminalArchive: .ai/work-items/archive/{id}.contract.json\nterminalVerification: .ai/evidence/{id}.verification.json\nterminalFinalization: .ai/decisions/{id}.finalize.synthetic.json\nterminalDecision: .ai/decisions/{id}.close.json\n---"),
+        );
+        fs::write(page, text).unwrap();
+    }
+    git(root, &["add", "docs"]);
+    commit_staged(root, "promote terminal projection docs");
 }
 
 fn assert_success(output: &std::process::Output, operation: &str) {
@@ -329,6 +389,549 @@ fn cli_direct_merge_plan_round_trips_through_recovery_and_finalize() {
         root,
     );
     assert_success(&closed, "close");
+}
+
+#[test]
+fn cli_post_merge_sync_retained_root_deleted_transition_verify_and_human_close() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    let root = repo.path();
+    let id = "WI-9997-post-merge-sync-cli";
+    let source_branch = "codex/wi9997-source";
+    let sync_branch = "codex/wi9997-sync";
+    let worktrees = tempfile::tempdir().expect("worktree parent");
+    let worktree_path = worktrees.path().join("sync-worktree");
+    let worktree_arg = worktree_path.to_string_lossy().into_owned();
+    fs::write(root.join(".gitignore"), ".ai/locks/\n").unwrap();
+    git(root, &["add", ".gitignore"]);
+    commit_staged(root, "ignore ephemeral lifecycle locks");
+    git(root, &["branch", "-M", "main"]);
+    git(
+        root,
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/example/fixture.git",
+        ],
+    );
+    let base = git(root, &["rev-parse", "HEAD"]);
+    git(root, &["update-ref", "refs/remotes/origin/main", &base]);
+    git(
+        root,
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    git(
+        root,
+        &[
+            "worktree",
+            "add",
+            "-b",
+            source_branch,
+            worktree_arg.as_str(),
+            "main",
+        ],
+    );
+    git(
+        root,
+        &["branch", "--set-upstream-to=origin/main", source_branch],
+    );
+    assert_success(
+        &run(binary, &["attach"], &worktree_path),
+        "attach source worktree",
+    );
+    assert_success(
+        &run(
+            binary,
+            &[
+                "start",
+                "--id",
+                id,
+                "--intent",
+                "record synthetic post-merge sync lifecycle",
+                "--goal",
+                "exercise the public Retained to Deleted finalization path",
+                "--scope",
+                ".ai/**",
+                "--authority",
+                "authorized",
+                "--acceptance",
+                "CLI finalization preserves the merged PR identity and sync cleanup evidence",
+                "--required-evidence",
+                "verification",
+            ],
+            &worktree_path,
+        ),
+        "start synthetic Work Item",
+    );
+    assert_success(
+        &run(
+            binary,
+            &[
+                "preflight",
+                "--contract",
+                &format!(".ai/work-items/active/{id}.contract.json"),
+            ],
+            &worktree_path,
+        ),
+        "preflight synthetic Work Item",
+    );
+    assert_success(
+        &run(binary, &["checkpoint", "--id", id], &worktree_path),
+        "checkpoint synthetic Work Item",
+    );
+    let context = tempfile::NamedTempFile::new().expect("resource context");
+    fs::write(
+        context.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "branch": sync_branch,
+            "worktree": worktree_arg,
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "provider": "github",
+            "pullRequest": "https://github.com/example/fixture/pull/9001"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    assert_success(
+        &run(
+            binary,
+            &[
+                "work-item",
+                "finalize-plan",
+                "--id",
+                id,
+                "--input",
+                context.path().to_str().unwrap(),
+            ],
+            &worktree_path,
+        ),
+        "bind future sync resource context",
+    );
+    let active_contract = worktree_path.join(format!(".ai/work-items/active/{id}.contract.json"));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(active_contract).unwrap()).unwrap();
+    assert_eq!(contract["resourceContext"]["branch"], sync_branch);
+    seed_sync_projection_docs(&worktree_path, id);
+
+    assert_success(
+        &run(
+            binary,
+            &[
+                "preflight",
+                "--contract",
+                &format!(".ai/work-items/active/{id}.contract.json"),
+            ],
+            &worktree_path,
+        ),
+        "preflight source PR head",
+    );
+    let initial_failure = run(
+        binary,
+        &["verify", "--work-item", id, "--command", "false"],
+        &worktree_path,
+    );
+    assert!(
+        !initial_failure.status.success(),
+        "the source PR fixture should preserve one real failed verification attempt"
+    );
+    git(&worktree_path, &["add", "--all", ".ai"]);
+    git(
+        &worktree_path,
+        &[
+            "add",
+            "-f",
+            "--all",
+            ".ai/work-items/active",
+            ".ai/evidence",
+        ],
+    );
+    commit_staged(&worktree_path, "checkpoint source Work Item contract");
+    let source_head = git(&worktree_path, &["rev-parse", "HEAD"]);
+    git(
+        root,
+        &[
+            "merge",
+            "--no-ff",
+            "-q",
+            source_branch,
+            "-m",
+            "merge source PR",
+        ],
+    );
+    let source_merge = git(root, &["rev-parse", "HEAD"]);
+    git(
+        root,
+        &["update-ref", "refs/remotes/origin/main", &source_merge],
+    );
+    git(&worktree_path, &["checkout", "-q", "-b", sync_branch]);
+    git(root, &["branch", "-D", source_branch]);
+
+    assert_success(
+        &run(
+            binary,
+            &["verify", "--work-item", id, "--command", "true"],
+            &worktree_path,
+        ),
+        "verify sync branch",
+    );
+    let evidence_dir = worktree_path.join(".ai/evidence");
+    let attempts = fs::read_dir(&evidence_dir)
+        .unwrap()
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| name.starts_with(&format!("{id}.verification-attempt.")))
+                && !git(
+                    &worktree_path,
+                    &[
+                        "status",
+                        "--porcelain",
+                        "--ignored=matching",
+                        "--",
+                        path.to_str().unwrap(),
+                    ],
+                )
+                .is_empty()
+        })
+        .collect::<Vec<_>>();
+    assert!(
+        !attempts.is_empty(),
+        "verify must persist immutable attempt artifacts"
+    );
+    for attempt in attempts {
+        git(&worktree_path, &["add", attempt.to_str().unwrap()]);
+        commit_staged(&worktree_path, "append immutable verification attempt");
+    }
+    assert_success(
+        &run(binary, &["finish", "--id", id], &worktree_path),
+        "finish sync branch",
+    );
+    git(&worktree_path, &["add", "--all"]);
+    let finish_revision = commit_staged(&worktree_path, "finish verified Work Item");
+    assert_success(
+        &run(binary, &["archive", "--id", id], &worktree_path),
+        "archive sync branch",
+    );
+    git(&worktree_path, &["add", "-u", ".ai/work-items/active"]);
+    git(
+        &worktree_path,
+        &["add", "-f", "--all", ".ai/work-items/archive"],
+    );
+    let archive_revision = commit_staged(&worktree_path, "archive finished Work Item");
+    promote_sync_projection_docs(&worktree_path, id);
+    let docs_revision = git(&worktree_path, &["rev-parse", "HEAD"]);
+    assert_ne!(finish_revision, archive_revision);
+    assert_ne!(archive_revision, docs_revision);
+    assert_ne!(finish_revision, docs_revision);
+    git(
+        root,
+        &["merge", "--no-ff", "-q", sync_branch, "-m", "merge sync PR"],
+    );
+    let current_main = git(root, &["rev-parse", "HEAD"]);
+    git(
+        root,
+        &["update-ref", "refs/remotes/origin/main", &current_main],
+    );
+    let source_base = base;
+    let common_dir = root.join(".git").canonicalize().unwrap();
+    let worktree_git_dir = git(&worktree_path, &["rev-parse", "--absolute-git-dir"]);
+    let worktree_git_dir = Path::new(&worktree_git_dir).canonicalize().unwrap();
+    let repository_id = run_json(binary, &["status"], root)["repositoryId"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let archived_contract_path = root.join(format!(".ai/work-items/archive/{id}.contract.json"));
+    let archived_contract_bytes = fs::read(&archived_contract_path).expect("archived Contract");
+    let archived_contract: serde_json::Value =
+        serde_json::from_slice(&archived_contract_bytes).unwrap();
+
+    let source_pr = serde_json::json!({
+        "number": 9001,
+        "url": "https://github.com/example/fixture/pull/9001",
+        "headRevision": source_head,
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": source_base,
+        "mergeCommit": source_merge
+    });
+    let sync_pr = serde_json::json!({
+        "number": 9002,
+        "url": "https://github.com/example/fixture/pull/9002",
+        "headRevision": docs_revision,
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": source_merge,
+        "mergeCommit": current_main
+    });
+    let remote_ref = format!("refs/heads/{sync_branch}");
+    let observations = [
+        (
+            "source",
+            source_pr["url"].as_str().unwrap().to_owned(),
+            "https://api.github.com/repos/example/fixture/pulls/9001".to_owned(),
+            serde_json::to_vec(&serde_json::json!({
+                "number": 9001,
+                "html_url": source_pr["url"],
+                "state": "closed",
+                "merged": true,
+                "merge_commit_sha": source_merge,
+                "head": {"ref": source_branch, "sha": source_head, "repo": {"full_name": "example/fixture"}},
+                "base": {"ref": "main", "sha": source_base, "repo": {"full_name": "example/fixture"}}
+            }))
+            .unwrap(),
+        ),
+        (
+            "sync",
+            sync_pr["url"].as_str().unwrap().to_owned(),
+            "https://api.github.com/repos/example/fixture/pulls/9002".to_owned(),
+            serde_json::to_vec(&serde_json::json!({
+                "number": 9002,
+                "html_url": sync_pr["url"],
+                "state": "closed",
+                "merged": true,
+                "merge_commit_sha": current_main,
+                "head": {"ref": sync_branch, "sha": docs_revision, "repo": {"full_name": "example/fixture"}},
+                "base": {"ref": "main", "sha": source_merge, "repo": {"full_name": "example/fixture"}}
+            }))
+            .unwrap(),
+        ),
+        (
+            "remote",
+            remote_ref.clone(),
+            format!("https://api.github.com/repos/example/fixture/git/ref/heads/{sync_branch}"),
+            serde_json::to_vec(&serde_json::json!({
+                "ref": remote_ref,
+                "object": {"sha": docs_revision, "type": "commit"}
+            }))
+            .unwrap(),
+        ),
+    ];
+    let mut evidence_digests = Vec::new();
+    for (name, subject, origin, raw) in observations {
+        let metadata = tempfile::NamedTempFile::new().expect("delegated metadata");
+        let raw_file = tempfile::NamedTempFile::new().expect("delegated raw observation");
+        let digest = sha256(&raw);
+        let raw_ref = format!(".ai/evidence/external/wi9997-{name}.json");
+        fs::write(
+            metadata.path(),
+            serde_json::to_vec_pretty(&serde_json::json!({
+                "provider": "github",
+                "subject": subject,
+                "origin": origin,
+                "assurance": "provider_verified",
+                "collectedAt": "2026-01-01T00:00:00Z",
+                "digest": digest,
+                "validity": "valid",
+                "rawEvidenceRef": raw_ref
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+        fs::write(raw_file.path(), &raw).unwrap();
+        assert_success(
+            &run(
+                binary,
+                &[
+                    "evidence",
+                    "import",
+                    "--work-item",
+                    id,
+                    "--metadata",
+                    metadata.path().to_str().unwrap(),
+                    "--raw",
+                    raw_file.path().to_str().unwrap(),
+                ],
+                root,
+            ),
+            "import provider observation",
+        );
+        evidence_digests.push(digest);
+    }
+    let status = run_json(binary, &["status"], root);
+    let runtime_digest = runtime_digest(binary);
+    let context = archived_contract["resourceContext"].clone();
+    let retained = serde_json::json!({
+        "schemaVersion": 2,
+        "receiptId": "cli-retained-root",
+        "operationId": "cli-retained-operation",
+        "repositoryId": repository_id,
+        "workItemId": id,
+        "runtimeVersion": env!("CARGO_PKG_VERSION"),
+        "runtimeDigest": runtime_digest,
+        "provider": "github",
+        "pullRequest": source_pr,
+        "branch": {"name": sync_branch, "remote": "origin", "headRevision": docs_revision},
+        "worktree": {"worktreeId": "wi9997-sync-worktree", "path": worktree_arg, "branch": sync_branch, "headRevision": docs_revision},
+        "before": {"pullRequest": "merged", "branch": "present", "worktree": "clean"},
+        "after": {"pullRequest": "merged", "branch": "present", "worktree": "clean"},
+        "result": {"disposition": "retained", "failureCodes": [], "unknownCodes": []},
+        "actor": "human:test",
+        "authoritySource": "synthetic-cli-test",
+        "reason": "record the retained resources before append-only cleanup",
+        "timestamp": "2999-01-01T00:00:00Z",
+        "contractDigest": sha256(&archived_contract_bytes),
+        "contractBaseRevision": archived_contract["baseRevision"],
+        "resourceContext": context,
+        "postMergeSync": {
+            "sourcePullRequest": source_pr,
+            "syncPullRequest": sync_pr,
+            "sourceEvidenceDigest": evidence_digests[0],
+            "syncEvidenceDigest": evidence_digests[1],
+            "finishRevision": finish_revision,
+            "archiveRevision": archive_revision,
+            "docsRevision": docs_revision,
+            "currentMainRevision": current_main,
+            "remoteBranchRef": remote_ref,
+            "remoteBranchState": "present",
+            "remoteEvidenceDigest": evidence_digests[2],
+            "gitCommonDir": common_dir,
+            "worktreeGitDir": worktree_git_dir
+        }
+    });
+    assert_eq!(status["repositoryId"], repository_id);
+    let root_file = tempfile::NamedTempFile::new().expect("Retained receipt");
+    fs::write(
+        root_file.path(),
+        serde_json::to_vec_pretty(&retained).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        run_json(
+            binary,
+            &[
+                "work-item",
+                "finalize",
+                "--id",
+                id,
+                "--input",
+                root_file.path().to_str().unwrap()
+            ],
+            root,
+        )["state"],
+        "recorded"
+    );
+
+    git(
+        root,
+        &["worktree", "remove", "--force", worktree_arg.as_str()],
+    );
+    git(root, &["branch", "-D", sync_branch]);
+    let deleted_raw = serde_json::to_vec(&serde_json::json!({
+        "message": "Not Found",
+        "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+        "status": "404"
+    }))
+    .unwrap();
+    let metadata = tempfile::NamedTempFile::new().expect("deleted-ref metadata");
+    let raw_file = tempfile::NamedTempFile::new().expect("deleted-ref observation");
+    let deleted_digest = sha256(&deleted_raw);
+    fs::write(
+        metadata.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "provider": "github",
+            "subject": remote_ref,
+            "origin": format!("https://api.github.com/repos/example/fixture/git/ref/heads/{sync_branch}"),
+            "assurance": "provider_verified",
+            "collectedAt": "2026-01-01T00:00:00Z",
+            "digest": deleted_digest,
+            "validity": "valid",
+            "rawEvidenceRef": ".ai/evidence/external/wi9997-deleted-ref.json"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    fs::write(raw_file.path(), &deleted_raw).unwrap();
+    assert_success(
+        &run(
+            binary,
+            &[
+                "evidence",
+                "import",
+                "--work-item",
+                id,
+                "--metadata",
+                metadata.path().to_str().unwrap(),
+                "--raw",
+                raw_file.path().to_str().unwrap(),
+            ],
+            root,
+        ),
+        "import deleted remote-ref observation",
+    );
+    let predecessor = cockpit_protocol::digest_json(&retained).unwrap();
+    let mut deleted = retained;
+    deleted["receiptId"] = "cli-deleted-transition".into();
+    deleted["operationId"] = "cli-deleted-operation".into();
+    deleted["before"] =
+        serde_json::json!({"pullRequest": "merged", "branch": "present", "worktree": "clean"});
+    deleted["after"] =
+        serde_json::json!({"pullRequest": "merged", "branch": "deleted", "worktree": "removed"});
+    deleted["result"] =
+        serde_json::json!({"disposition": "deleted", "failureCodes": [], "unknownCodes": []});
+    deleted["postMergeSync"]["remoteBranchState"] = "deleted".into();
+    deleted["postMergeSync"]["remoteEvidenceDigest"] = deleted_digest.into();
+    deleted["timestamp"] = "2999-01-01T00:01:00Z".into();
+    let transition = serde_json::json!({
+        "schemaVersion": 1,
+        "transitionId": "cli-delete-transition",
+        "sequence": 1,
+        "predecessorReceiptDigest": predecessor,
+        "receipt": deleted
+    });
+    let transition_file = tempfile::NamedTempFile::new().expect("Deleted transition");
+    fs::write(
+        transition_file.path(),
+        serde_json::to_vec_pretty(&transition).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(
+        run_json(
+            binary,
+            &[
+                "work-item",
+                "finalize",
+                "--id",
+                id,
+                "--input",
+                transition_file.path().to_str().unwrap()
+            ],
+            root,
+        )["state"],
+        "appended"
+    );
+    let verified = run_json(binary, &["work-item", "finalize-verify", "--id", id], root);
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["disposition"], "deleted");
+    let close = run(
+        binary,
+        &[
+            "close",
+            "--id",
+            id,
+            "--human-decision",
+            "approved",
+            "--actor",
+            "human:test",
+            "--authority-source",
+            "synthetic-cli-test",
+            "--reason",
+            "close after verified provider cleanup",
+            "--evidence-ref",
+            &format!(".ai/decisions/{id}.finalize.json"),
+            "--decided-at",
+            "2999-01-01T00:02:00Z",
+        ],
+        root,
+    );
+    assert_success(&close, "human close after Deleted finalization");
 }
 
 #[test]
