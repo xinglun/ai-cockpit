@@ -2879,6 +2879,9 @@ fn finish_attempt_receipt_matches_commands(
         if result.reused || result.passed != record.passed || result.timed_out != record.timed_out {
             return false;
         }
+        if record.passed && (!record.spawned || record.exit_code != Some(0) || record.timed_out) {
+            return false;
+        }
         if record.spawned {
             processes_spawned = processes_spawned.saturating_add(1);
         } else {
@@ -2886,7 +2889,14 @@ fn finish_attempt_receipt_matches_commands(
         }
     }
 
-    attempt_processes_spawned == processes_spawned
+    let passed_non_reused_results_have_records = receipt
+        .results
+        .iter()
+        .filter(|result| result.passed && !result.reused)
+        .all(|result| record_ids.contains(result.node_id.as_str()));
+
+    passed_non_reused_results_have_records
+        && attempt_processes_spawned == processes_spawned
         && receipt.processes_spawned as u64 == processes_spawned
         && receipt.process_spawn_failures as u64 == process_spawn_failures
 }
@@ -6066,6 +6076,103 @@ mod post_merge_sync_tests {
             id,
             &bindings,
         ));
+    }
+
+    #[test]
+    fn post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9981-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(root, id);
+        let mut attempt = fixture_attempt_value(id, &bindings, "execution_completed", true);
+        attempt["executionRecords"] = serde_json::json!([]);
+        attempt["receipt"]["executionRecords"] = serde_json::json!([]);
+        attempt["receipt"]["nodesExecuted"] = 0.into();
+        attempt["receipt"]["processesSpawned"] = 0.into();
+        attempt["receipt"]["maxConcurrentProcesses"] = 0.into();
+        attempt["processesSpawned"] = 0.into();
+        seal_attempt(&mut attempt);
+
+        assert!(
+            !super::finish_attempt_matches(
+                &attempt,
+                &attempt_filename_digest(&attempt),
+                id,
+                &bindings,
+            ),
+            "every passed non-reused result must have one matching execution record"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9982-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(root, id);
+        let mut attempt = fixture_attempt_value(id, &bindings, "execution_failed", false);
+        attempt["state"] = "execution_completed".into();
+        attempt["passed"] = true.into();
+        attempt["receipt"]["passed"] = true.into();
+        attempt["receipt"]["results"][0]["passed"] = true.into();
+        attempt["executionRecords"][0]["passed"] = true.into();
+        attempt["receipt"]["executionRecords"][0]["passed"] = true.into();
+        seal_attempt(&mut attempt);
+
+        assert!(
+            !super::finish_attempt_matches(
+                &attempt,
+                &attempt_filename_digest(&attempt),
+                id,
+                &bindings,
+            ),
+            "a passed record must be spawned, successful, and not timed out"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9983-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(root, id);
+        let mut attempt = fixture_attempt_value(id, &bindings, "execution_failed", false);
+        attempt["executionRecords"][0]["exitCode"] = serde_json::Value::Null;
+        attempt["receipt"]["executionRecords"][0]["exitCode"] = serde_json::Value::Null;
+        seal_attempt(&mut attempt);
+
+        assert!(
+            super::finish_attempt_matches(
+                &attempt,
+                &attempt_filename_digest(&attempt),
+                id,
+                &bindings,
+            ),
+            "a process observer failure can be spawned but have no exit code"
+        );
+    }
+
+    #[test]
+    fn post_merge_sync_finish_attempt_preserves_success_with_truncated_output() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let id = "WI-9984-post-merge-sync-fixture";
+        let (_, bindings) = fixture_finish_bindings(root, id);
+        let mut attempt = fixture_attempt_value(id, &bindings, "execution_completed", true);
+        attempt["executionRecords"][0]["stdoutTruncated"] = true.into();
+        attempt["receipt"]["executionRecords"][0]["stdoutTruncated"] = true.into();
+        attempt["receipt"]["results"][0]["outputTruncated"] = true.into();
+        seal_attempt(&mut attempt);
+
+        assert!(
+            super::finish_attempt_matches(
+                &attempt,
+                &attempt_filename_digest(&attempt),
+                id,
+                &bindings,
+            ),
+            "successful execution remains valid when captured output is truncated"
+        );
     }
 
     #[test]
