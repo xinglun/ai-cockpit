@@ -1,0 +1,90 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "Explicit user authorization in this conversation to use ec249ead candidate SHA-256 56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587 for WI-1076 v2 finalization; close reserved for subsequent human confirmation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+    "name": "codex/wi1076-governance-recovered-predecessor-20261011",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+  "contractDigest": "sha256:d2a73011f884168043749754a0b5afc5077f9c5bedec45bfebfe76358602b8cd",
+  "operationId": "WI-1076-governance-recovered-predecessor-projection-post-merge-finalization-20261013",
+  "postMergeSync": {
+    "archiveRevision": "700f6cd5dcb81833aa63d38913908c5543865a8d",
+    "currentMainRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+    "docsRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+    "finishRevision": "d651f93d4a8bcbe9413d055d501ceae6f7d0132e",
+    "gitCommonDir": "/workspace/ai-cockpit-wi1070/.git",
+    "remoteBranchRef": "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+    "remoteBranchState": "present",
+    "remoteEvidenceDigest": "sha256:5416b462a4d4a3cb883ca6b03ac345da8ce14380cb47adf063626113c7b6a884",
+    "sourceEvidenceDigest": "sha256:ed57108bf4c9efaf164f631195905bc45c0845665f629b21e35c1877b0749974",
+    "sourcePullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+      "headRevision": "b0e98ae9efe54cde951bb8f547762736411c1628",
+      "mergeCommit": "686a71a07cc0bd6f3d76ab7261c829067db7ee26",
+      "number": 1030,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/1030"
+    },
+    "syncEvidenceDigest": "sha256:11f58d13070feb29cb86dcb814c77185dee13f9f09e708fc6175e16cfd7d851b",
+    "syncPullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "686a71a07cc0bd6f3d76ab7261c829067db7ee26",
+      "headRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+      "mergeCommit": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+      "number": 1031,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/1031"
+    },
+    "worktreeGitDir": "/workspace/ai-cockpit-wi1070/.git/worktrees/ai-cockpit-wi1076-governance-recovered-predecessor-20261011"
+  },
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+    "headRevision": "b0e98ae9efe54cde951bb8f547762736411c1628",
+    "mergeCommit": "686a71a07cc0bd6f3d76ab7261c829067db7ee26",
+    "number": 1030,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1030"
+  },
+  "reason": "Record merged source and archive/documentation sync PRs with exact resources retained before authorized cleanup",
+  "receiptId": "WI-1076-governance-recovered-predecessor-projection-retained-20261013",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1076-governance-recovered-predecessor-20261011",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1030",
+    "worktree": "/workspace/ai-cockpit-wi1076-governance-recovered-predecessor-20261011"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 2,
+  "timestamp": "2026-10-12T22:01:57.647651Z",
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection",
+  "worktree": {
+    "branch": "codex/wi1076-governance-recovered-predecessor-20261011",
+    "headRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+    "path": "/workspace/ai-cockpit-wi1076-governance-recovered-predecessor-20261011",
+    "worktreeId": "ai-cockpit-wi1076-governance-recovered-predecessor-20261011"
+  }
+}

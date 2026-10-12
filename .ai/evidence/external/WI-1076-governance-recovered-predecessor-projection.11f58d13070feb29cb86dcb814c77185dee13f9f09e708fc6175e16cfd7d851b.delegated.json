@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-10-12T22:01:57Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-10-12T22:00:09.802732Z",
+    "digest": "sha256:11f58d13070feb29cb86dcb814c77185dee13f9f09e708fc6175e16cfd7d851b",
+    "origin": "https://api.github.com/repos/xinglun/ai-cockpit/pulls/1031",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-1076-governance-recovered-predecessor-projection.pr1031.raw.json",
+    "subject": "https://github.com/xinglun/ai-cockpit/pull/1031",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "workItemId": "WI-1076-governance-recovered-predecessor-projection"
+}

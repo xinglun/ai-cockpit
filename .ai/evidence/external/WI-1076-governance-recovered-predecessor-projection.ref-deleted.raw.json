@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "observationId": "c2125696-13f0-4b2c-8865-bf2ea33e5681",
+  "principal": "xinglun",
+  "observedAt": "2026-10-12T22:02:52Z",
+  "repository": "xinglun/ai-cockpit",
+  "ref": "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+  "accessCheck": {
+    "observationId": "c2125696-13f0-4b2c-8865-bf2ea33e5681",
+    "principal": "xinglun",
+    "repository": "xinglun/ai-cockpit",
+    "ref": "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+    "method": "GET",
+    "url": "https://api.github.com/repos/xinglun/ai-cockpit/git/matching-refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+    "httpStatus": 200,
+    "nextPageUrl": null,
+    "refs": []
+  },
+  "refQuery": {
+    "observationId": "c2125696-13f0-4b2c-8865-bf2ea33e5681",
+    "principal": "xinglun",
+    "repository": "xinglun/ai-cockpit",
+    "ref": "refs/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+    "method": "GET",
+    "url": "https://api.github.com/repos/xinglun/ai-cockpit/git/ref/heads/codex/wi1076-governance-recovered-predecessor-20261011",
+    "httpStatus": 404,
+    "body": {
+      "message": "Not Found",
+      "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+      "status": "404"
+    }
+  }
+}
