@@ -55,6 +55,14 @@
     "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-12T23:18:17.038385849Z",
+      "recordedAt": "2026-10-12T23:18:17.038385849Z",
+      "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -79,15 +87,15 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-12T11:26:30Z",
+  "preflightAt": "2026-10-12T20:57:11Z",
   "preflightContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
-  "preflightDecisionDigest": "sha256:6d9a7da407d038a411d541c840e07f95c781832da194924384af3d1afc83febe",
+  "preflightDecisionDigest": "sha256:a8b87e70c63fe177926be047146432fe12a1d13e9e66b01590d11263ae8fe78c",
   "preflightRepositorySnapshotDigest": "sha256:d28f9aa76dd1f5c0eacef719705608e0a74932ae37c552c90e42da0cf84fe481",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-12T11:43:34.296321565+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-12T23:18:17.038385849Z",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
     "invalidatedRequiredChecks": [],

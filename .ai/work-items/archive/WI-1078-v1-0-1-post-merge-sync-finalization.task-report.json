@@ -1,0 +1,112 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d28f9aa76dd1f5c0eacef719705608e0a74932ae37c552c90e42da0cf84fe481",
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+        ],
+        "inference": false,
+        "text": "No repository paths were observed as changed by the current Summary."
+      }
+    ],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-1078-v1-0-1-post-merge-sync-finalization.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "Validate delegated source/sync PR observations against the exact immutable Git graph and finish/archive phases; when no finalization root exists, record and verify a candidate-Runtime-bound schema-v2 Retained-to-Deleted transition with fail-closed local and delegated remote resource observations, while requiring the existing human close decision."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "usage": {
+    "coverage": "unknown",
+    "cutoff": "2026-10-12T23:18:17.038385849Z",
+    "receiptRefs": [],
+    "schemaVersion": 1,
+    "subtotals": [],
+    "totals": {
+      "cachedInputTokens": null,
+      "inputTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "unknownReasons": [
+      "no_usage_receipts"
+    ],
+    "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+  },
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}
