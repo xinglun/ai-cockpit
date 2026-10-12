@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84
+contractDigest: sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378
 ---
 
 [English](WI-1076-governance-recovered-predecessor-projection.md) · [日本語](WI-1076-governance-recovered-predecessor-projection.ja.md)
 
 # WI-1076 — 治理门禁中的已恢复前驱投影
 
-本页投影当前 [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json)，绑定摘要 `sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84`。准入、验证和生命周期状态以 Runtime 记录为准。
+本页投影已归档的 [WI-1076 Contract](../../.ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json)，绑定摘要 `sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378`。准入、验证和生命周期状态以 Runtime 记录为准。
 
 ## 预期收益
 

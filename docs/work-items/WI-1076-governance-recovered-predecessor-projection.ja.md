@@ -9,14 +9,14 @@ workItemId: WI-1076-governance-recovered-predecessor-projection
 status: in_progress
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1076-governance-recovered-predecessor-projection
-contractDigest: sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84
+contractDigest: sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378
 ---
 
 [English](WI-1076-governance-recovered-predecessor-projection.md) · [简体中文](WI-1076-governance-recovered-predecessor-projection.zh-CN.md)
 
 # WI-1076 — governance recovered predecessor projection
 
-このページは active な [WI-1076 Contract](../../.ai/work-items/active/WI-1076-governance-recovered-predecessor-projection.contract.json) の投影であり、`sha256:ac6abe1dfe9cf086521c5d481ba714d04e78552507a79aa1a0f0a7ce16564f84` に結び付いています。准入、検証、ライフサイクル状態は Runtime の記録を正とします。
+このページはアーカイブ済みの [WI-1076 Contract](../../.ai/work-items/archive/WI-1076-governance-recovered-predecessor-projection.contract.json) の投影であり、`sha256:bcf4f75bb435521ec592d5702af0e6308e50289dc77d79105a352c9d1919c378` に結び付いています。准入、検証、ライフサイクル状態は Runtime の記録を正とします。
 
 ## 期待する効果
 
