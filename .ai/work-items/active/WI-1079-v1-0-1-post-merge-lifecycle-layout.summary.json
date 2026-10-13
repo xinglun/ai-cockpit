@@ -1,9 +1,47 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/work-items/active/WI-1079-v1-0-1-post-merge-lifecycle-layout.summary.json"
+  ],
   "checkpointAt": "2026-10-12T23:35:43Z",
-  "checkpointContractDigest": "sha256:395f978b3889c325a7082c8c366f949b8c27838cee4e656a414f9da16f6a1ba7",
+  "checkpointContractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "recorded": true,
+      "recordedAt": "2026-10-12T23:35:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94ef589529cec1e301a73a6e139ade4c9ab45dfc466c034304065a369e8f118c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "reason": "The user explicitly allowed only WI-1079 material review opt-in and agent:Raydot/self_declared technical registration in Sentinel_21256653502c819186f175f718a7fadb, sent 2026-10-13T00:33:13.990553+00:00, replying to the WI-1079-specific request Sentinel_8119c182e364819186718a96e9a9f228. Enable only the single permitted readable committed Rust syntax Unknown profile. Preserve raw scanner Unknowns, all existing source/verification/provider/close authority and every historical attempt. This permission does not record a contract-preflight-review confirmation or a human close decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T00:55:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fa9705f9fbb2d7fd8ba88190565c0b95bd897c968292dff65ff18961d2f5731",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:94ef589529cec1e301a73a6e139ade4c9ab45dfc466c034304065a369e8f118c",
   "createdAt": "2026-10-12T23:35:42Z",
   "lifecycleFacts": {
     "start": {
@@ -16,14 +54,78 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-13T00:02:06Z",
+  "preflightAt": "2026-10-13T00:37:40Z",
   "preflightContractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
-  "preflightDecisionDigest": "sha256:bb186cfa9e4dc42f2731db4d89db3b08e63f0b6bacf794f1c5b76514f16b8af8",
-  "preflightRepositorySnapshotDigest": "sha256:0990205dbe9c402abf6fc854fc440586192d26be41a8d43678c311e36cb620ec",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:94ef589529cec1e301a73a6e139ade4c9ab45dfc466c034304065a369e8f118c",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-12T23:35:43Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-13T00:55:52Z"
+  },
+  "verificationRecoveryReconciled": "sha256:ecb61ed0e5a25e1d165348939117fc9128981a6d37f01eb38e180f7976e935b9",
   "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
 }

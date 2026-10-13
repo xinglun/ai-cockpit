@@ -2474,9 +2474,26 @@ fn require_exact_parent_chain(
 
 fn git_blob_bytes(root: &Path, revision: &str, path: &str) -> Result<Vec<u8>, ObserverError> {
     let spec = format!("{revision}:{path}");
-    git_bytes(root, &["show", &spec]).ok_or_else(|| {
-        post_merge_sync_error(root, format!("required committed blob is missing: {spec}"))
-    })
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(["show", &spec])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: root.to_path_buf(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "required committed blob could not be read: {spec}; Git status={}; stderr={}",
+                output.status,
+                String::from_utf8_lossy(&output.stderr).trim()
+            ),
+        ));
+    }
+    Ok(output.stdout)
 }
 
 fn git_json(root: &Path, revision: &str, path: &str) -> Result<serde_json::Value, ObserverError> {
@@ -2526,7 +2543,16 @@ fn materialize_git_revision(
         directory,
     };
     let clone = Command::new("git")
-        .args(["clone", "--quiet", "--shared", "--no-checkout"])
+        .args([
+            "clone",
+            "--quiet",
+            "--shared",
+            "--no-checkout",
+            "--config",
+            "core.autocrlf=false",
+            "--config",
+            "core.longpaths=true",
+        ])
         .arg(root)
         .arg(&checkout.repository)
         .output()
@@ -4758,6 +4784,20 @@ fn layout_new_attempt_paths(
 
 // A historical lifecycle consumes its frozen review, not the new consumer's
 // analysis implementation identity. This does not admit current source work.
+fn analysis_recipe_source_matches(historical: &[u8], compiled: &[u8]) -> bool {
+    // Rust treats platform CRLF source line endings as LF. This comparison
+    // only checks whether the digest recipe code is supported; all evidence,
+    // implementation-input hashes and receipt bytes remain completely raw.
+    let normalized = |bytes: &[u8]| {
+        bytes
+            .iter()
+            .enumerate()
+            .filter_map(|(i, b)| (!(*b == b'\r' && bytes.get(i + 1) == Some(&b'\n'))).then_some(*b))
+            .collect::<Vec<_>>()
+    };
+    normalized(historical) == normalized(compiled)
+}
+
 fn apply_historical_material_projection(
     root: &Path,
     contract: &Contract,
@@ -4818,12 +4858,12 @@ fn apply_historical_material_projection(
         }
         // Fail closed if the digest recipe changed. The original scanner code
         // and all implementation inputs must be preserved in committed history.
-        if git_blob_bytes(
+        let recipe_source = git_blob_bytes(
             root,
             reviewed,
             "crates/cockpit-repository/src/material_review.rs",
-        )? != include_bytes!("material_review.rs")
-        {
+        )?;
+        if !analysis_recipe_source_matches(&recipe_source, include_bytes!("material_review.rs")) {
             return Err(post_merge_sync_error(
                 root,
                 "historical material digest recipe is unsupported",
@@ -4946,7 +4986,13 @@ fn apply_historical_material_projection(
     {
         return Err(post_merge_sync_error(
             root,
-            "historical material projection remains blocked or unknown",
+            format!(
+                "historical material projection remains blocked or unknown: unknowns={:?}, findings={:?}, unavailable={}, blocked={}",
+                decision.unknowns,
+                projection.finding_codes,
+                projection.projection_unavailable,
+                projection.blocked_by_finding
+            ),
         ));
     }
     Ok(())
@@ -7009,6 +7055,43 @@ mod post_merge_sync_tests {
                 "ordinary archive must reject mutated {key}"
             );
         }
+    }
+
+    #[test]
+    fn post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let revision = git(root, &["rev-parse", "HEAD"]);
+        let checkout = super::materialize_git_revision(root, &revision).unwrap();
+        for (key, expected) in [("core.autocrlf", "false"), ("core.longpaths", "true")] {
+            let output = Command::new("git")
+                .arg("-C")
+                .arg(&checkout.repository)
+                .args(["config", "--local", "--get", key])
+                .output()
+                .unwrap();
+            assert_eq!(
+                String::from_utf8_lossy(&output.stdout).trim(),
+                expected,
+                "historical checkout must explicitly pin {key} without altering global configuration"
+            );
+        }
+    }
+
+    #[test]
+    fn post_merge_layout_recipe_comparison_accepts_only_platform_line_endings() {
+        assert!(super::analysis_recipe_source_matches(
+            b"same recipe\n",
+            b"same recipe\r\n"
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            b"same recipe\n",
+            b"changed recipe\r\n"
+        ));
+        assert!(!super::analysis_recipe_source_matches(
+            b"same recipe\n",
+            b"same recipe\r"
+        ));
     }
 
     fn github_pull_request_origin(identity: &ResourceFinalizationPullRequestIdentity) -> String {

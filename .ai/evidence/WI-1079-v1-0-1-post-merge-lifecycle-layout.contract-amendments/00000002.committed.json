@@ -1,0 +1,63 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:277c9d7585e6688e5ed933aa2577b5ae45478533e8c674b072035de41673238f",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+    "sequence": 2,
+    "changeId": "wi1079-material-review-opt-in-20261013-01",
+    "requestDigest": "sha256:efd128c59d863691942c6512c56ee312ec6275fe751afeed05574d5d11f4232d",
+    "reason": "The user explicitly allowed only WI-1079 material review opt-in and agent:Raydot/self_declared technical registration in Sentinel_21256653502c819186f175f718a7fadb, sent 2026-10-13T00:33:13.990553+00:00, replying to the WI-1079-specific request Sentinel_8119c182e364819186718a96e9a9f228. Enable only the single permitted readable committed Rust syntax Unknown profile. Preserve raw scanner Unknowns, all existing source/verification/provider/close authority and every historical attempt. This permission does not record a contract-preflight-review confirmation or a human close decision.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:Raydot",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+    "newContractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+    "repositorySnapshotDigest": "sha256:3fa9705f9fbb2d7fd8ba88190565c0b95bd897c968292dff65ff18961d2f5731",
+    "environmentObservationDigest": "sha256:60cc206ad465d0f54179a76c537521213f0a10f76991c3de08e461cfa070f1e8",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:62eec293fddf21055f4674671212faa28c9ec2e40756d352bce3d06b78d937bf",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:91398104d7148871235570dd2d08aef50f21cef438373b549569e315d32fbd1f",
+    "journalDigest": "sha256:6a582b7a727a7355d7cd24a147239cab8ddfc0ababe6d650ee82fc073e9aca30",
+    "recordedAt": "2026-10-13T00:55:52Z"
+  }
+}
