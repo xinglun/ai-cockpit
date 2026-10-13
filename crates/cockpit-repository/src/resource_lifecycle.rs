@@ -2538,7 +2538,7 @@ fn materialize_git_revision(
         path: directory.clone(),
         source,
     })?;
-    let checkout = HistoricalGitCheckout {
+    let mut checkout = HistoricalGitCheckout {
         repository: directory.join("repository"),
         directory,
     };
@@ -2588,6 +2588,15 @@ fn materialize_git_revision(
             ),
         ));
     }
+    // Consumers bind descendant paths to a canonical root. In particular,
+    // Windows expands the ambient temp directory's 8.3 name and verbatim
+    // prefix during canonicalization; mixing it with the original Summary
+    // path would correctly fail the strict material reader's containment check.
+    checkout.repository =
+        fs::canonicalize(&checkout.repository).map_err(|source| ObserverError::Read {
+            path: checkout.repository.clone(),
+            source,
+        })?;
     Ok(checkout)
 }
 
@@ -7063,6 +7072,11 @@ mod post_merge_sync_tests {
         let root = fixture.path();
         let revision = git(root, &["rev-parse", "HEAD"]);
         let checkout = super::materialize_git_revision(root, &revision).unwrap();
+        assert_eq!(
+            checkout.repository,
+            std::fs::canonicalize(&checkout.repository).unwrap(),
+            "historical consumers must derive paths from the exact canonical root"
+        );
         for (key, expected) in [("core.autocrlf", "false"), ("core.longpaths", "true")] {
             let output = Command::new("git")
                 .arg("-C")
