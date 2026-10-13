@@ -2602,7 +2602,15 @@ fn materialize_git_revision(
         path: root.to_path_buf(),
         source,
     })?;
-    let (clone_cwd, clone_source) = historical_clone_location(&source)?;
+    #[cfg(windows)]
+    let use_bundle = source.as_os_str().len() > 200;
+    #[cfg(not(windows))]
+    let use_bundle = false;
+    let (clone_cwd, clone_source) = if use_bundle {
+        (source.to_path_buf(), PathBuf::new())
+    } else {
+        historical_clone_location(&source)?
+    };
     let nonce = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map_or(0, |duration| duration.as_nanos());
@@ -2618,17 +2626,23 @@ fn materialize_git_revision(
         repository: directory.join("repository"),
         directory,
     };
+    #[cfg(windows)]
+    let (clone_cwd, clone_source) = if use_bundle {
+        prepare_windows_source_bundle(&source, revision, &checkout.directory)?
+    } else {
+        (clone_cwd, clone_source)
+    };
     // Canonical containment identity remains unchanged; only the child cwd and
     // proven equivalent relative source argument are selected for Git.
-    let clone = Command::new("git")
+    let mut clone_command = Command::new("git");
+    clone_command
         .current_dir(&clone_cwd)
+        .args(["-c", "core.longpaths=true", "clone", "--quiet"]);
+    if !use_bundle {
+        clone_command.args(["--shared", "--local"]);
+    }
+    let clone = clone_command
         .args([
-            "-c",
-            "core.longpaths=true",
-            "clone",
-            "--quiet",
-            "--shared",
-            "--local",
             "--no-checkout",
             "--config",
             "core.autocrlf=false",
@@ -2680,7 +2694,159 @@ fn materialize_git_revision(
             path: checkout.repository.clone(),
             source,
         })?;
+    #[cfg(windows)]
+    if use_bundle {
+        verify_windows_bundle_checkout(&source, revision, &checkout.repository)?;
+    }
     Ok(checkout)
+}
+
+#[cfg(windows)]
+fn windows_dos_metadata_locator(source: &Path) -> Result<PathBuf, ObserverError> {
+    use std::os::windows::{
+        ffi::{OsStrExt, OsStringExt},
+        fs::MetadataExt,
+    };
+    for entry in [
+        source.join(".git"),
+        source.join(".git/HEAD"),
+        source.join(".git/objects"),
+    ] {
+        let metadata = fs::symlink_metadata(&entry).map_err(|source| ObserverError::Read {
+            path: entry.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || metadata.file_attributes() & 0x400 != 0 {
+            return Err(post_merge_sync_error(
+                source,
+                "Windows bundle source metadata is a reparse point",
+            ));
+        }
+    }
+    if !source.join(".git").is_dir() {
+        return Err(post_merge_sync_error(
+            source,
+            "Windows long-source bundle requires an ordinary Git directory",
+        ));
+    }
+    let alias = existing_windows_short_clone_source(source)?.join(".git");
+    let mut units: Vec<u16> = alias.as_os_str().encode_wide().collect();
+    if units.starts_with(&[92, 92, 63, 92]) && units.get(5) == Some(&58) {
+        units.drain(..4);
+    }
+    for unit in &mut units {
+        if *unit == 92 {
+            *unit = 47;
+        }
+    }
+    let locator = PathBuf::from(std::ffi::OsString::from_wide(&units));
+    let canonical = fs::canonicalize(&locator).map_err(|source| ObserverError::Read {
+        path: locator.clone(),
+        source,
+    })?;
+    if canonical != source.join(".git") {
+        return Err(post_merge_sync_error(
+            source,
+            "Windows bundle metadata source identity changed",
+        ));
+    }
+    Ok(locator)
+}
+
+#[cfg(windows)]
+fn windows_metadata_output(
+    source: &Path,
+    args: &[&std::ffi::OsStr],
+) -> Result<Vec<u8>, ObserverError> {
+    let cwd = source
+        .ancestors()
+        .find(|path| path.as_os_str().len() <= 200)
+        .ok_or_else(|| post_merge_sync_error(source, "no short physical metadata cwd"))?;
+    let locator = windows_dos_metadata_locator(source)?;
+    let output = Command::new("git")
+        .current_dir(cwd)
+        .args(["-c", "core.longpaths=true", "--git-dir"])
+        .arg(locator)
+        .args(args)
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: cwd.to_path_buf(),
+            source,
+        })?;
+    if !output.status.success() {
+        return Err(post_merge_sync_error(
+            source,
+            format!(
+                "Windows metadata transport failed: {}",
+                String::from_utf8_lossy(&output.stderr).trim()
+            ),
+        ));
+    }
+    Ok(output.stdout)
+}
+
+#[cfg(windows)]
+fn prepare_windows_source_bundle(
+    source: &Path,
+    revision: &str,
+    directory: &Path,
+) -> Result<(PathBuf, PathBuf), ObserverError> {
+    use std::ffi::OsStr;
+    let bundle = directory.join("source.bundle");
+    windows_metadata_output(
+        source,
+        &[
+            OsStr::new("bundle"),
+            OsStr::new("create"),
+            bundle.as_os_str(),
+            OsStr::new("--all"),
+            OsStr::new(revision),
+        ],
+    )?;
+    let cwd = source
+        .ancestors()
+        .find(|path| path.as_os_str().len() <= 200)
+        .ok_or_else(|| post_merge_sync_error(source, "no short physical bundle cwd"))?;
+    Ok((cwd.to_path_buf(), bundle))
+}
+
+#[cfg(windows)]
+fn verify_windows_bundle_checkout(
+    source: &Path,
+    revision: &str,
+    checkout: &Path,
+) -> Result<(), ObserverError> {
+    use std::ffi::OsStr;
+    let requested_tree = format!("{revision}^{{tree}}");
+    let expected_tree = windows_metadata_output(
+        source,
+        &[
+            OsStr::new("rev-parse"),
+            OsStr::new("--verify"),
+            OsStr::new(&requested_tree),
+        ],
+    )?;
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(checkout)
+        .args(["rev-parse", "HEAD", "HEAD^{tree}"])
+        .output()
+        .map_err(|source| ObserverError::Read {
+            path: checkout.to_path_buf(),
+            source,
+        })?;
+    let actual = String::from_utf8_lossy(&output.stdout);
+    let mut lines = actual.lines();
+    if !output.status.success()
+        || lines.next() != Some(revision)
+        || lines.next() != Some(String::from_utf8_lossy(&expected_tree).trim())
+    {
+        return Err(post_merge_sync_error(
+            source,
+            "Windows bundle checkout HEAD/tree identity mismatch",
+        ));
+    }
+    Ok(())
 }
 
 struct FinishAttemptBindings {
@@ -7214,10 +7380,30 @@ mod post_merge_sync_tests {
         }
         let nested = nested.unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
-        assert_eq!(git(&cwd, &["rev-parse", "HEAD"]), revision);
-        assert_eq!(
-            git(&nested.repository, &["rev-parse", "HEAD^{tree}"]),
+        #[cfg(windows)]
+        let source_identity = String::from_utf8(
+            super::windows_metadata_output(
+                &canonical,
+                &[
+                    std::ffi::OsStr::new("rev-parse"),
+                    std::ffi::OsStr::new("HEAD"),
+                    std::ffi::OsStr::new("HEAD^{tree}"),
+                ],
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        #[cfg(not(windows))]
+        let source_identity = format!(
+            "{}\n{}",
+            git(&cwd, &["rev-parse", "HEAD"]),
             git(&cwd, &["rev-parse", "HEAD^{tree}"])
+        );
+        let mut source_lines = source_identity.lines();
+        assert_eq!(source_lines.next(), Some(revision.as_str()));
+        assert_eq!(
+            Some(git(&nested.repository, &["rev-parse", "HEAD^{tree}"])).as_deref(),
+            source_lines.next()
         );
         assert_eq!(
             std::fs::read(nested.repository.join("source.txt")).unwrap(),
