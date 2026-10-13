@@ -2548,24 +2548,6 @@ fn historical_clone_location(source: &Path) -> Result<(PathBuf, PathBuf), Observ
         )
     })?;
     let argument = Path::new(".").join(suffix);
-    #[cfg(windows)]
-    let argument = {
-        use std::os::windows::ffi::{OsStrExt, OsStringExt};
-        // Git parses this argument as a local URL/path before opening it.
-        // Preserve every UTF-16 unit except the separator representation.
-        let units: Vec<u16> = argument
-            .as_os_str()
-            .encode_wide()
-            .map(|unit| {
-                if unit == u16::from(b'\\') {
-                    u16::from(b'/')
-                } else {
-                    unit
-                }
-            })
-            .collect();
-        PathBuf::from(std::ffi::OsString::from_wide(&units))
-    };
     let resolved = fs::canonicalize(cwd.join(&argument)).map_err(|source| ObserverError::Read {
         path: cwd.join(&argument),
         source,
@@ -7185,16 +7167,7 @@ mod post_merge_sync_tests {
             canonical
         );
         #[cfg(windows)]
-        {
-            use std::os::windows::ffi::OsStrExt;
-            assert!(cwd.as_os_str().len() <= 200);
-            assert!(
-                source_argument
-                    .as_os_str()
-                    .encode_wide()
-                    .all(|unit| unit != u16::from(b'\\'))
-            );
-        }
+        assert!(cwd.as_os_str().len() <= 200);
         let nested = super::materialize_git_revision(&canonical, &revision).unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
         assert_eq!(
