@@ -7208,9 +7208,10 @@ mod post_merge_sync_tests {
         }
         let nested = nested.unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
+        assert_eq!(git(&cwd, &["rev-parse", "HEAD"]), revision);
         assert_eq!(
             git(&nested.repository, &["rev-parse", "HEAD^{tree}"]),
-            git(&canonical, &["rev-parse", "HEAD^{tree}"])
+            git(&cwd, &["rev-parse", "HEAD^{tree}"])
         );
         assert_eq!(
             std::fs::read(nested.repository.join("source.txt")).unwrap(),
