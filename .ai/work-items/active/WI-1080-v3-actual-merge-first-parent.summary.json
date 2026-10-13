@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
+    ".ai/work-items/active/WI-1080-v3-actual-merge-first-parent.contract.json",
+    ".ai/work-items/active/WI-1080-v3-actual-merge-first-parent.summary.json"
+  ],
+  "checkpointAt": "2026-10-13T23:47:34Z",
+  "checkpointContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "createdAt": "2026-10-13T23:46:39Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-13T23:47:32.005448959Z",
+      "recordedAt": "2026-10-13T23:47:32.005448959Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+  "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "preflightAt": "2026-10-13T23:47:33Z",
+  "preflightContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
+  "preflightRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-13T23:47:34Z",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

@@ -1,0 +1,71 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:b06715d6e52954da8ced3669f8628ecf7c234ee56dc7d2a9aaacd45a77a54f58",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1080-v3-actual-merge-first-parent",
+    "sequence": 1,
+    "changeId": "legacy-4a4c03135075f6443df70e48b60933cad9b8ad0b505a41c3361a6bba40fce7e7",
+    "requestDigest": "sha256:11729f7eb556adb1f5f2496c8754a74649d698e5991932a3fdd061dc155f5816",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:4a4c03135075f6443df70e48b60933cad9b8ad0b505a41c3361a6bba40fce7e7",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018"
+        ],
+        "newValue": [
+          "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+          "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+          "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1"
+        ],
+        "newValue": [
+          "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+          "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+          "https://github.com/xinglun/ai-cockpit/pull/1034"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:dcd6be1751f29a2f3a12f5e337962e2920ba7d593e470c25440e31fbb24aca5d",
+    "newContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+    "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+    "environmentObservationDigest": "sha256:65899211c1a805197254566de8cc7f91af926fcb980b9b7eb4d23fd46a607984",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:dde1ff345c7f58594e005e6e7d68186b791fd1886708659b7fd438f49760f01e",
+    "recordedAt": "2026-10-13T23:47:32Z"
+  }
+}
