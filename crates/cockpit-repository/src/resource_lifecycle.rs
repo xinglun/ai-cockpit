@@ -7168,7 +7168,12 @@ mod post_merge_sync_tests {
         );
         #[cfg(windows)]
         assert!(cwd.as_os_str().len() <= 200);
-        let nested = super::materialize_git_revision(&canonical, &revision).unwrap();
+        let nested = super::materialize_git_revision(&canonical, &revision);
+        #[cfg(windows)]
+        if nested.is_err() {
+            diagnose_long_local_clone(&cwd, &source_argument, &canonical, &first.directory);
+        }
+        let nested = nested.unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
         assert_eq!(
             git(&nested.repository, &["rev-parse", "HEAD^{tree}"]),
@@ -7186,6 +7191,110 @@ mod post_merge_sync_tests {
             .is_err(),
             "remote-looking input must fail local filesystem resolution"
         );
+    }
+
+    // Failure-only, test-only probes. They retain the original assertion and
+    // distinguish local source discovery from upload-pack's enter_repo stage.
+    #[cfg(windows)]
+    fn diagnose_long_local_clone(cwd: &Path, native: &Path, source: &Path, directory: &Path) {
+        use std::os::windows::ffi::{OsStrExt, OsStringExt};
+        let units: Vec<u16> = native
+            .as_os_str()
+            .encode_wide()
+            .map(|unit| {
+                if unit == u16::from(b'\\') {
+                    u16::from(b'/')
+                } else {
+                    unit
+                }
+            })
+            .collect();
+        let slashes = PathBuf::from(std::ffi::OsString::from_wide(&units));
+        assert_eq!(std::fs::canonicalize(cwd.join(&slashes)).unwrap(), source);
+        eprintln!(
+            "long clone diagnostic: cwd_units={} source_units={} relative_units={} git_head_read={:?}",
+            cwd.as_os_str().encode_wide().count(),
+            source.as_os_str().encode_wide().count(),
+            native.as_os_str().encode_wide().count(),
+            std::fs::read(source.join(".git/HEAD")).map(|bytes| bytes.len())
+        );
+        let report = |label: &str, mut command: Command| {
+            let started = std::time::Instant::now();
+            command
+                .current_dir(cwd)
+                .stdin(std::process::Stdio::null())
+                .env("GIT_TRACE", "1");
+            match command.output() {
+                Ok(output) => {
+                    let stderr = String::from_utf8_lossy(&output.stderr);
+                    eprintln!(
+                        "long clone probe {label}: elapsed_ms={} exit_code={:?} stdout_bytes={} stderr_bytes={} upload_pack_seen={} enter_repo_rejected={} path_too_long={} permission_denied={}",
+                        started.elapsed().as_millis(),
+                        output.status.code(),
+                        output.stdout.len(),
+                        output.stderr.len(),
+                        stderr.contains("git-upload-pack") || stderr.contains("git upload-pack"),
+                        stderr.contains("does not appear to be a git repository"),
+                        stderr.contains("Filename too long")
+                            || stderr.contains("File name too long"),
+                        stderr.contains("Permission denied")
+                    );
+                }
+                Err(error) => eprintln!(
+                    "long clone probe {label}: elapsed_ms={} spawn_error={error:?}",
+                    started.elapsed().as_millis()
+                ),
+            }
+        };
+        for (label, argument) in [("native", native), ("forward-slash", slashes.as_path())] {
+            let mut discover = Command::new("git");
+            discover
+                .args(["-c", "core.longpaths=true", "-C"])
+                .arg(argument)
+                .args(["rev-parse", "--absolute-git-dir", "HEAD"]);
+            report(&format!("discover-{label}"), discover);
+            let mut clone = Command::new("git");
+            clone
+                .args([
+                    "-c",
+                    "core.longpaths=true",
+                    "clone",
+                    "--quiet",
+                    "--shared",
+                    "--local",
+                    "--no-checkout",
+                    "--config",
+                    "core.autocrlf=false",
+                    "--config",
+                    "core.longpaths=true",
+                    "--",
+                ])
+                .arg(argument)
+                .arg(directory.join(format!("diagnostic-{label}")));
+            report(&format!("clone-{label}"), clone);
+        }
+        for strict in [false, true] {
+            let mut upload = Command::new("git");
+            upload.args([
+                "-c",
+                "core.longpaths=true",
+                "upload-pack",
+                "--stateless-rpc",
+                "--advertise-refs",
+            ]);
+            if strict {
+                upload.arg("--strict");
+            }
+            upload.arg(source.join(".git"));
+            report(
+                if strict {
+                    "upload-pack-strict"
+                } else {
+                    "upload-pack-default"
+                },
+                upload,
+            );
+        }
     }
 
     #[test]
