@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "materialManifestDigest": "sha256:aff0b44889a500ddaed7001f70145af6d134278a04bb66bbd7a32fa97bf97a7b",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491",
+  "reviewedSourceHead": "4975052f11a1b0ce5048f56056129e046ec04eed",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:16b339d07ae600998240591195095c682e798d40ad8075dba32807f17a726e1e"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:eb572752ffb8d1387ee2742b610e7566bb51a4984afdd35981c81bab66fb3763"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:8e2257364223e41c137731a1cf9caf5aff3b5e8f1fa66cd301fc2c250fc20a9f"
+    }
+  ],
+  "rationale": "Reviewed only the three exact request-bound Rust hunks. The CLI test content matches previously reviewed content and covers combined/absent, separate/projected, Retained-to-Deleted, and verify/close cases; the repository lifecycle source matches the reviewed Windows bundle final source and preserves historical evidence validity, archived closeRequired=true, frozen evidence, exact merged-provider binding, and bundle identity; the composition test preserves byte-change re-execution, no-reuse, and digest-change assertions. No new P0/P1 was identified. This accepts only the three request-listed readable Rust syntax Unknowns.",
+  "residualRisk": "The raw repository_material_inspection_unavailable Unknown remains visible and unresolved. This self-declared review does not claim scanner semantic inspection, CI success, human approval, merge, release, or user-visible benefit.",
+  "recordedAt": "2026-10-13T13:09:32Z",
+  "receiptDigest": "sha256:7039d3d906047c9cd296cec3ab1b5aa207de3c81c38a9f5044313096d7325962"
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+  "materialManifestDigest": "sha256:aff0b44889a500ddaed7001f70145af6d134278a04bb66bbd7a32fa97bf97a7b",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e",
+  "reviewedSourceHead": "4975052f11a1b0ce5048f56056129e046ec04eed",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:b42fc260abdffc5f16f303650edad32bf4fe2723a27493029224b228d8667589"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:98d6ac38df379de934163c3620f06402794438b54de5b71ac91ec7c57d279c5c"
+    }
+  ],
+  "rationale": "Self-declared, request-scoped review of the exact current Runtime plan 6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e, Contract sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89, source snapshot sha256:1356873e04050835848b31f1968648f3b61933890c0408c736610910fd648256, material manifest sha256:aff0b44889a500ddaed7001f70145af6d134278a04bb66bbd7a32fa97bf97a7b, and source head 4975052f11a1b0ce5048f56056129e046ec04eed. The CLI lifecycle test is Git blob 284a0d93f94fef3e09554aeafe84638a76136d0a, after-byte digest 029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df; it is byte-identical to the exact test file bound by prior WI-1079 review request 4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea and covers combined/absent and separate/projected lifecycle layouts, Retained-to-Deleted transitions, and verify/close assertions; test identity is not production approval. The repository lifecycle source is Git blob efe72ff98b14a3db70f5a24814ca1272bd0416b2, after-byte digest b42fc260abdffc5f16f303650edad32bf4fe2723a27493029224b228d8667589; it is byte-identical to the prior reviewed Windows bundle final source and preserves historical evidence validity, archived closeRequired state, frozen evidence, exact merged-provider binding, and bundle identity checks. The composition regression test is Git blob 750d88cf1b25cb7fddcd84e2e7df86fe9f3e2303, after-byte digest 98d6ac38df379de934163c3620f06402794438b54de5b71ac91ec7c57d279c5c; it is byte-identical to the latest reviewed content and retains byte-change re-execution, no-reuse, and digest-change assertions. No new P0/P1 was found in this bounded review. Accept only these three request-listed readable Rust syntax Unknowns; leave raw repository_material_inspection_unavailable visible and unresolved, without accepting other Unknowns or Findings.",
+  "residualRisk": "The scanner could not classify Rust syntax in these three committed files. Raw repository_material_inspection_unavailable remains visible and unresolved. This self-declared material review does not assert scanner inspection, human confirmation, hosted CI success, provider approval, merge, release, resource deletion, or human close.",
+  "recordedAt": "2026-10-13T12:24:02Z",
+  "receiptDigest": "sha256:bee545852a4da33d5de0bfe271a11c994081010aaf0db36c85cf437fd96bd035"
+}

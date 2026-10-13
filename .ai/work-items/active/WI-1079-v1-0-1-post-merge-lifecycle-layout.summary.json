@@ -100,6 +100,46 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "reason": "Record the owner-authorized user-visible benefit of the WI-1079 Rustup configuration compatibility and exact host selection repair. Preserve the existing business intent and do not change scope, acceptance criteria, authority, implementation, or verification requirements.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T12:18:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+      "reason": "Restore only the original WI-1079 intent value while preserving sequence 6 and every prior verification, preflight, amendment, and material-review record. A read-only Outcome inspection shows the user-benefit projection remains Unknown and this Runtime has no supported Outcome benefit setter. Provenance clarification: receipt bee545852a4da33d5de0bfe271a11c994081010aaf0db36c85cf437fd96bd035 is a self-declared agent:Raydot record for material request 6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e; the parent's bounded technical review applied to request ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6, not 6615. Do not treat bee545 as parent approval or rewrite it.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T12:37:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
@@ -128,10 +168,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:3c8cb84c50a76d6d7fa56a84ae4a673c072ca5c804d0a961f9c433dc42ce03be",
-    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9.json",
-    "receiptDigest": "sha256:a40ca1340bbc6aa6a809239852fad26efe1e68cc664e8c1a092083e810837a4a",
-    "requestDigest": "sha256:adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9"
+    "digest": "sha256:679687d0ae64ea38708820e33d469a32f9d3fe4a8314e7c8ca9fba480bc0fcc6",
+    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491.json",
+    "receiptDigest": "sha256:7039d3d906047c9cd296cec3ab1b5aa207de3c81c38a9f5044313096d7325962",
+    "requestDigest": "sha256:11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491"
   },
   "materialReviewReceiptHistory": [
     {
@@ -193,14 +233,32 @@
       "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944.json",
       "receiptDigest": "sha256:6a848fa7853923144c047c2712b410cab479a38ab1bdae8e67826587b922c91f",
       "requestDigest": "sha256:e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944"
+    },
+    {
+      "digest": "sha256:3c8cb84c50a76d6d7fa56a84ae4a673c072ca5c804d0a961f9c433dc42ce03be",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9.json",
+      "receiptDigest": "sha256:a40ca1340bbc6aa6a809239852fad26efe1e68cc664e8c1a092083e810837a4a",
+      "requestDigest": "sha256:adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9"
+    },
+    {
+      "digest": "sha256:388646e5afe8f201a2ec80a8afa2d5739d02cda43fca9e2daf7172b986780468",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6.json",
+      "receiptDigest": "sha256:0490663a0939cd88cc54fc7b43e5dfbd2818ba7dbd4378437adeb706f84c98d4",
+      "requestDigest": "sha256:ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6"
+    },
+    {
+      "digest": "sha256:89c03eccaebe28ceefa556b3e80fb6eb0653901508bf1e4dceab9d13af90f760",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e.json",
+      "receiptDigest": "sha256:bee545852a4da33d5de0bfe271a11c994081010aaf0db36c85cf437fd96bd035",
+      "requestDigest": "sha256:6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e"
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-13T11:54:18Z",
+  "preflightAt": "2026-10-13T12:37:15Z",
   "preflightContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightDecisionDigest": "sha256:a54963a22a97614bc35181c6f50b61fbf28ada97da68c50ef11d789378a4d30a",
   "preflightRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
@@ -267,6 +325,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-13T12:37:03Z"
+  },
   "verificationRecoveryReconciled": "sha256:9aee393548cb2cda62b7755617eac2a4db8ca23a2f890c5ecf8b1c4435d2d27c",
   "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
 }

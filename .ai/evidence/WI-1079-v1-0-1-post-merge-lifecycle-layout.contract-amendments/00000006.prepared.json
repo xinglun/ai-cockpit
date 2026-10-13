@@ -1,0 +1,285 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+    "sequence": 6,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "declare-user-benefit-20261013",
+      "expectedContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "reason": "Record the owner-authorized user-visible benefit of the WI-1079 Rustup configuration compatibility and exact host selection repair. Preserve the existing business intent and do not change scope, acceptance criteria, authority, implementation, or verification requirements.",
+      "changes": [
+        {
+          "path": "/intent",
+          "operation": "set",
+          "value": {
+            "businessGoal": "Add an explicit versioned post-merge finalization mode for truthful separate or combined lifecycle commits and an advanced main base, preserving v1/v2 and immutable history.",
+            "userGoal": "Developers using valid Rustup configuration can resolve explicit host-qualified channels without requiring default-host metadata, select the exact requested host toolchain even when it differs from the configured default, and rely on unchanged inputs being reused while changed toolchain bytes trigger re-execution."
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:ec2d3d0d17f0a9a2f0c20e24dc46b7f0bae780858be9ff620a1f293115cb3722",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A new explicit versioned mode supports separate and combined lifecycle with shared strict semantics; v1 and v2 behavior remains unchanged and no synthetic stage commit is created.",
+        "Combined validation derives allowed operations from artifacts and Runtime normalization; binds Contract Summary events verification attempts reports Outcome and archive manifest; unchanged verification and all prior failed attempts remain byte identical with their original Runtime identity; extra source foreign Work Item unknown artifact and resealed tampering fail closed.",
+        "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
+        "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
+        "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
+        "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites.",
+        "Rustup settings parsing accepts a validated default_host_tuple or its default_host_triple alias, rejects duplicate keys and simultaneous alias declarations, validates host values, preserves the full settings-byte digest, and keeps unknown keys, non-empty overrides, missing/symlinked settings or incomplete toolchain identity fail-closed.",
+        "A short Rustup toolchain name resolves only to an exact installed toolchain proven to match the validated host tuple; there is no unique-prefix fallback across hosts. Host/config/toolchain changes block reuse, while identical observed inputs permit exact reuse.",
+        "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration.",
+        "Rustup host selection treats default_host_tuple/default_host_triple as optional metadata. A selected toolchain name with a validated explicit host suffix resolves to that exact installed directory, independent of a different configured default host; a short channel name requires a validated default host and resolves only to the exact qualified directory. Missing host for a short channel, malformed/conflicting metadata, or non-exact resolution remains fail-closed; no unique-prefix fallback. Regression coverage verifies an explicit full host without a settings host, an explicit host differing from configured default, unchanged-identity reuse, and toolchain-byte changes forcing re-execution. This scope does not add general custom-toolchain resolution."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-12T23:35:42Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Add an explicit versioned post-merge finalization mode for truthful separate or combined lifecycle commits and an advanced main base, preserving v1/v2 and immutable history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Task9 and Issue1004; provider mutation or credentials; merge PR1034; rewriting published commits or generated historical records; production cleanup or close without distinct authorization; installing shared Runtime or tags or Releases"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1079-post-merge-lifecycle-layout",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1035",
+        "worktree": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs",
+        "tests/workflow/resource_finalization_policy.sh",
+        "tests/workflow/resource_finalization_policy_test.sh",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-verification/tests/composition.rs"
+      ],
+      "sources": [
+        "parent-technical-review:1079-narrow-successor:2026-10-12",
+        "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization",
+        "https://github.com/rust-lang/rustup/blob/d5513a294ef371f16895c6c6f5ae99c2ec62f1f3/src/settings.rs"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "bash tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "previousContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A new explicit versioned mode supports separate and combined lifecycle with shared strict semantics; v1 and v2 behavior remains unchanged and no synthetic stage commit is created.",
+        "Combined validation derives allowed operations from artifacts and Runtime normalization; binds Contract Summary events verification attempts reports Outcome and archive manifest; unchanged verification and all prior failed attempts remain byte identical with their original Runtime identity; extra source foreign Work Item unknown artifact and resealed tampering fail closed.",
+        "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
+        "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
+        "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
+        "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites.",
+        "Rustup settings parsing accepts a validated default_host_tuple or its default_host_triple alias, rejects duplicate keys and simultaneous alias declarations, validates host values, preserves the full settings-byte digest, and keeps unknown keys, non-empty overrides, missing/symlinked settings or incomplete toolchain identity fail-closed.",
+        "A short Rustup toolchain name resolves only to an exact installed toolchain proven to match the validated host tuple; there is no unique-prefix fallback across hosts. Host/config/toolchain changes block reuse, while identical observed inputs permit exact reuse.",
+        "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration.",
+        "Rustup host selection treats default_host_tuple/default_host_triple as optional metadata. A selected toolchain name with a validated explicit host suffix resolves to that exact installed directory, independent of a different configured default host; a short channel name requires a validated default host and resolves only to the exact qualified directory. Missing host for a short channel, malformed/conflicting metadata, or non-exact resolution remains fail-closed; no unique-prefix fallback. Regression coverage verifies an explicit full host without a settings host, an explicit host differing from configured default, unchanged-identity reuse, and toolchain-byte changes forcing re-execution. This scope does not add general custom-toolchain resolution."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-12T23:35:42Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": {
+        "businessGoal": "Add an explicit versioned post-merge finalization mode for truthful separate or combined lifecycle commits and an advanced main base, preserving v1/v2 and immutable history.",
+        "constraints": [],
+        "nonGoals": [],
+        "problem": null,
+        "rationale": null,
+        "userGoal": "Developers using valid Rustup configuration can resolve explicit host-qualified channels without requiring default-host metadata, select the exact requested host toolchain even when it differs from the configured default, and rely on unchanged inputs being reused while changed toolchain bytes trigger re-execution."
+      },
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Task9 and Issue1004; provider mutation or credentials; merge PR1034; rewriting published commits or generated historical records; production cleanup or close without distinct authorization; installing shared Runtime or tags or Releases"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1079-post-merge-lifecycle-layout",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1035",
+        "worktree": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs",
+        "tests/workflow/resource_finalization_policy.sh",
+        "tests/workflow/resource_finalization_policy_test.sh",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md",
+        "crates/cockpit-verification/src/composition.rs",
+        "crates/cockpit-verification/tests/composition.rs"
+      ],
+      "sources": [
+        "parent-technical-review:1079-narrow-successor:2026-10-12",
+        "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization",
+        "https://github.com/rust-lang/rustup/blob/d5513a294ef371f16895c6c6f5ae99c2ec62f1f3/src/settings.rs"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "bash tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "newContractDigest": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+    "previousSummaryDigest": "sha256:c943d8193e514a71fba71ee69807638ff37b835b99c68fb0f908456a8cbc43ff",
+    "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+    "environmentObservationDigest": "sha256:b5de8ff8d25febc90ca27fce0ce397dd8292c37a302f28caf3dce8ad0da4ce80",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:15f2a9ed854ce5c7fc28503c4908c43834b54cf601dab08d79325b27d0ca3aeb",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-13T12:18:14Z"
+  },
+  "preparedDigest": "sha256:e7b1f574bfcb4d976fbce4b499a3f0f36afb44c75e98581eade004db31bc5c70"
+}
