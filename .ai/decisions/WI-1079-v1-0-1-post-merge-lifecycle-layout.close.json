@@ -1,0 +1,160 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.archive.json",
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json",
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json",
+            ".ai/decisions/WI-1079-v1-0-1-post-merge-lifecycle-layout.finalize.json",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/38467583126",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/38468143652"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by Ray via user-confirmation:Ray:WI-1079-bound-close-2026-10-14 at 2026-10-13T21:43:15Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-13T21:43:21.899086581Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+  },
+  "finalReportDigest": "sha256:83c245aed7b13b1d8e4cb8d1110aaf1ec6d65861606c611a6ee69eb3a5694ddb",
+  "humanDecision": "approved",
+  "occurredAt": "2026-10-13T21:43:21.898878407Z",
+  "recordedAt": "2026-10-13T21:43:21.898878407Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:168a4c96f9637afc341f2d5825f2bb8d13ac4c46ba8e5d9839feb15ca33d1b70",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1079-v1-0-1-post-merge-lifecycle-layout.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "Ray",
+    "authoritySource": "user-confirmation:Ray:WI-1079-bound-close-2026-10-14",
+    "decidedAt": "2026-10-13T21:43:15Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.archive.json",
+      ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json",
+      ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json",
+      ".ai/decisions/WI-1079-v1-0-1-post-merge-lifecycle-layout.finalize.json",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/38467583126",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/38468143652"
+    ],
+    "policyRefs": [],
+    "reason": "Ray本人明确批准依照已确认的归档、Contract、PR merge、Runtime验证及finalize回执绑定关闭WI-1079。保留主分支run 38467583126成功与run 38468143652失败的不同事实；后者quality的docs_governance_integrity诊断为invalid_premerge_finalize和missing_terminal_decision，不将失败记录为成功。保留现有unknown，不补写user_visible_benefit。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-13T21:43:21Z",
+  "usageCutoff": "2026-10-13T21:43:21.899086581Z",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}
