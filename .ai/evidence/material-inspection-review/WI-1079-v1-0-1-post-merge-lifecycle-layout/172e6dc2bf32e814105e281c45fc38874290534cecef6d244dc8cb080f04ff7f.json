@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:dadc37746101a30047d597be067dad259300d23c35e281f32aafc7e5cd47bcbb",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:172e6dc2bf32e814105e281c45fc38874290534cecef6d244dc8cb080f04ff7f",
+  "reviewedSourceHead": "8afffdad0967f4101cb8d9645e1225cd796d4a4f",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:59b163eb6daee83e36878079515807f55b0e4c6578ae61b6a38f5e8c2055df98",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:ef14a0bcf501108f163795587b529bd93c6d274a10b81cabde89abd1b92ad9f8"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared technical review of exact diagnostic source 8afffdad. The unproven separator-only production variant b312f940 is preserved and reverted by b1de60f5; production remains the independently reviewed 29280624 implementation. New code is confined to the existing Windows regression and executes only after its original nested clone fails. It probes source discovery and native/forward-slash clone plus strict/non-strict upload-pack, using identical canonical source identity and short cwd. Child-only GIT_TRACE is inspected in memory; output contains only lengths, exit codes, elapsed time and stage/error category booleans, not raw refs, stdout/stderr, environment or credentials. No workflow, Contract scope, global config, permission or assertion weakening. Original length >260, internal spaces, HEAD/tree/file-byte and canonical identity assertions remain. Linux focused layout checks passed 10/10 and actual rebuilt production Runtime is unchanged at 59b163eb. This is a bounded diagnostic under the existing Windows CI entry, not a proven repair or successful Windows acceptance. Raw permitted syntax Unknown and all old failure evidence remain; accept only this request-listed syntax identity under the current scoped opt-in.",
+  "residualRisk": "The Rust analyzer remains conservative for these complete readable committed syntax changes. The raw repository_material_inspection_unavailable Unknown is preserved. This technical decision does not make the scanner machine Clean or claim authenticated human, provider, merge, release or close approval. Windows CI must independently establish the remaining platform regression result.",
+  "recordedAt": "2026-10-13T03:19:56Z",
+  "receiptDigest": "sha256:5da684ff1b11d41f2c668a6fef3ab3e36f29fb86d421cda0b05d23d46813265a"
+}
