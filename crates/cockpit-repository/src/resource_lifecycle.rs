@@ -2525,29 +2525,16 @@ impl Drop for HistoricalGitCheckout {
 
 fn historical_clone_location(source: &Path) -> Result<(PathBuf, PathBuf), ObserverError> {
     let cwd = source.to_path_buf();
-    // CreateProcessW cannot start with a cwd longer than MAX_PATH. Keep an
-    // existing canonical ancestor as cwd and pass an explicitly relative local
-    // source instead. No verbatim prefix enters Git's URL parser.
+    // Git source discovery/upload-pack cannot bootstrap the long canonical
+    // directory even with core.longpaths. Use an existing equivalent short
+    // name only at this command boundary; consumers retain the canonical root.
     #[cfg(windows)]
-    let cwd = {
-        let mut candidate = cwd;
-        while candidate.as_os_str().len() > 200 {
-            if !candidate.pop() {
-                return Err(post_merge_sync_error(
-                    source,
-                    "no short local clone ancestor",
-                ));
-            }
-        }
-        candidate
+    let cwd = if cwd.as_os_str().len() > 200 {
+        existing_windows_short_clone_source(source)?
+    } else {
+        cwd
     };
-    let suffix = source.strip_prefix(&cwd).map_err(|_| {
-        post_merge_sync_error(
-            source,
-            "local clone source is outside its canonical ancestor",
-        )
-    })?;
-    let argument = Path::new(".").join(suffix);
+    let argument = PathBuf::from(".");
     let resolved = fs::canonicalize(cwd.join(&argument)).map_err(|source| ObserverError::Read {
         path: cwd.join(&argument),
         source,
@@ -2559,6 +2546,52 @@ fn historical_clone_location(source: &Path) -> Result<(PathBuf, PathBuf), Observ
         ));
     }
     Ok((cwd, argument))
+}
+
+#[cfg(windows)]
+fn existing_windows_short_clone_source(source: &Path) -> Result<PathBuf, ObserverError> {
+    use std::os::windows::ffi::{OsStrExt, OsStringExt};
+    use windows_sys::Win32::Storage::FileSystem::GetShortPathNameW;
+    let input: Vec<u16> = source.as_os_str().encode_wide().chain(Some(0)).collect();
+    // SAFETY: input is NUL-terminated; the sizing call has no output buffer.
+    let required = unsafe { GetShortPathNameW(input.as_ptr(), std::ptr::null_mut(), 0) };
+    if required == 0 {
+        return Err(ObserverError::Read {
+            path: source.to_path_buf(),
+            source: std::io::Error::last_os_error(),
+        });
+    }
+    if required > 32768 {
+        return Err(post_merge_sync_error(
+            source,
+            "invalid Windows short-name buffer size",
+        ));
+    }
+    let mut output = vec![0u16; required as usize];
+    // SAFETY: output is writable for exactly the advertised buffer capacity.
+    let written = unsafe { GetShortPathNameW(input.as_ptr(), output.as_mut_ptr(), required) };
+    if written == 0 {
+        return Err(ObserverError::Read {
+            path: source.to_path_buf(),
+            source: std::io::Error::last_os_error(),
+        });
+    }
+    if written >= required {
+        return Err(post_merge_sync_error(
+            source,
+            "Windows short-name source changed during lookup",
+        ));
+    }
+    let alias = PathBuf::from(std::ffi::OsString::from_wide(&output[..written as usize]));
+    if alias.as_os_str().len() > 200 {
+        return Err(post_merge_sync_error(
+            source,
+            "no existing short source name fits the Windows Git bootstrap limit",
+        ));
+    }
+    // No alias is created and no volume/global setting is changed. The caller
+    // must prove canonicalize(alias/.) == the original source before spawning.
+    Ok(alias)
 }
 
 fn materialize_git_revision(
