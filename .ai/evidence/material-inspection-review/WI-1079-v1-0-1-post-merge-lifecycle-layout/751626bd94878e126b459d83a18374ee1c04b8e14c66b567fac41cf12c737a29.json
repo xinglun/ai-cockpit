@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:9c448f5fcc41bf673f9c950f8706e50a5ac78b2b8cb24fafe641eea1f2fd4edd",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:751626bd94878e126b459d83a18374ee1c04b8e14c66b567fac41cf12c737a29",
+  "reviewedSourceHead": "00f7cc0cec702973fcf0b8e9eafe048517232e91",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:92f9797f3a65c917cd8e31c3adbddc1f2ffad93c32397df39753460fc5b47a10",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:06700c6ef708b1eb13384a049e1ec6d2df847acaa678ba8037129748f3c7ea52"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared review of exact test-only source 00f7cc0c. Production remains a537aef5; the real 0fd9 Windows result is failed, not promoted. Existing alias resolved to the original 318-unit source but Git getcwd expanded it and rejected it; exact Git 2.55 mingw_getcwd source confirms fixed MAX_PATH final/long-name buffers. New failure-only probes keep a genuinely short canonical ancestor as process cwd, validate explicit Git metadata locator against the original canonical .git, read HEAD/tree, create a local temporary bundle and clone/check out that bundle, then report only HEAD/tree/file-byte match booleans and stage/exit/length/time categories. No production bundle route is implemented or claimed. Existing long directory, internal spaces, source identity and all original assertions remain. No workflow, permission, global Windows setting or source-repository writes; bundle/clone outputs are confined to owned temporary fixture storage. Linux focused layout 10/10 passed. Actual Windows diagnostic is required before a production transport change. Preserve failed history, raw scanner Unknown and distinct human boundaries; accept only request-listed permitted syntax Unknown identities.",
+  "residualRisk": "Windows short names are filesystem-dependent. No short name generation is enabled; absence or canonical mismatch fails closed and cannot count as acceptance. The Windows-specific branch requires actual CI proof. This self_declared material review neither marks the scanner machine Clean nor authorizes merge, release, provider deletion or human close; prior unrelated local composition failures remain failed.",
+  "recordedAt": "2026-10-13T04:34:19Z",
+  "receiptDigest": "sha256:ceba5825e72e8005dc50a1bf0c695cd868516fc28bb672265e292f4e8b0184dc"
+}
