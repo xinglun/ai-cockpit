@@ -66,20 +66,60 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:0bbf03930355a22649bca9e06da07416746947d558b4cee7813e95602d8c9ea5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+      "reason": "The official 14-node run exposed one existing regression fixture outside the approved scope: installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node creates Rustup settings without a default host tuple and installs a bare test-channel directory. The amended implementation correctly fails closed for incomplete host identity, so the fixture must be brought into the same validated host-qualified model. Add only this test file to scope so its fixture can supply default_host_tuple and a host-qualified toolchain path while retaining assertions that identical inputs reuse exactly and rustc-byte changes force re-execution. Do not change assertions, production semantics, verification commands, or gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T11:01:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:0bbf03930355a22649bca9e06da07416746947d558b4cee7813e95602d8c9ea5",
+      "reason": "Independent review identified a production compatibility defect in the current narrow Rustup parser: Rustup default_host_tuple is optional, and a fully host-qualified selected toolchain carries its own exact host identity even when it differs from the configured default. Make this behavior explicit in the same bounded WI-1079 acceptance boundary. Keep short-channel resolution dependent on a validated configured host, exact directory selection, fail-closed malformed/conflicting/ambiguous cases, and no unique-prefix fallback. Preserve the existing exact-reuse and toolchain-byte-change regression goals; do not add general custom-toolchain resolution or alter gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T11:05:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
   "createdAt": "2026-10-12T23:35:42Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+    "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:c5dbba7e2f24f9aee1a98d3ec3bc6b1b13bffdaee1538be9ebcd5b2067d79334",
-    "reason": "Ray replied confirm_review in the actual user message Sentinel_cc96137b619c8191bc1e3b726a59d5e7, received 2026-10-13T10:28:53Z, in response to the exact-bound request Sentinel_ccaa14689cbc81919325a7d42fff1c5a. The confirmation applies only to the WI-1079 narrow Rustup host-field compatibility and strict regression scope bound to this Contract, preflight, and repository snapshot; it does not authorize merge or final close.",
-    "recordedAt": "2026-10-13T10:28:53Z",
+    "preflightDecisionDigest": "sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4",
+    "reason": "Ray replied confirm_review in actual user message Sentinel_a6be5d4e706881919014182c16e91040, received 2026-10-13T11:21:06Z, in response to exact-bound WI-1079 request Sentinel_d151522c12048191981ee5ba8486fc18 sent at 2026-10-13T11:07:59.587527Z. The confirmation applies only to Contract sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc, preflight sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4, and snapshot sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683; it authorizes only the bounded WI-1079 Rustup compatibility repair and necessary regressions, not merge or close.",
+    "recordedAt": "2026-10-13T11:21:06Z",
     "recordedBy": "human:Ray",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+    "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
     "schemaVersion": 1,
     "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
   },
@@ -162,15 +202,15 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-13T10:47:17Z",
-  "preflightContractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+  "preflightAt": "2026-10-13T11:05:59Z",
+  "preflightContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
   "preflightDecisionDigest": "sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4",
   "preflightRepositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-10-13T10:30:34.366021657+00:00",
+  "updatedAt": "2026-10-13T11:22:24.899538992+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -234,9 +274,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+    "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-13T08:40:28Z"
+    "recordedAt": "2026-10-13T11:05:54Z"
   },
   "verificationRecoveryReconciled": "sha256:bc4f30410abb5f277fd1cbbe469927ae51445ef050216de8006ae9efa44e9aea",
   "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"

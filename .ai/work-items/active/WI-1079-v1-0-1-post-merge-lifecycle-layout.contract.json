@@ -9,7 +9,8 @@
     "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites.",
     "Rustup settings parsing accepts a validated default_host_tuple or its default_host_triple alias, rejects duplicate keys and simultaneous alias declarations, validates host values, preserves the full settings-byte digest, and keeps unknown keys, non-empty overrides, missing/symlinked settings or incomplete toolchain identity fail-closed.",
     "A short Rustup toolchain name resolves only to an exact installed toolchain proven to match the validated host tuple; there is no unique-prefix fallback across hosts. Host/config/toolchain changes block reuse, while identical observed inputs permit exact reuse.",
-    "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration."
+    "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration.",
+    "Rustup host selection treats default_host_tuple/default_host_triple as optional metadata. A selected toolchain name with a validated explicit host suffix resolves to that exact installed directory, independent of a different configured default host; a short channel name requires a validated default host and resolves only to the exact qualified directory. Missing host for a short channel, malformed/conflicting metadata, or non-exact resolution remains fail-closed; no unique-prefix fallback. Regression coverage verifies an explicit full host without a settings host, an explicit host differing from configured default, unchanged-identity reuse, and toolchain-byte changes forcing re-execution. This scope does not add general custom-toolchain resolution."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -96,7 +97,8 @@
     "docs/reference/provider-reconciliation-boundary.md",
     "docs/reference/provider-reconciliation-boundary.zh-CN.md",
     "docs/reference/provider-reconciliation-boundary.ja.md",
-    "crates/cockpit-verification/src/composition.rs"
+    "crates/cockpit-verification/src/composition.rs",
+    "crates/cockpit-verification/tests/composition.rs"
   ],
   "sources": [
     "parent-technical-review:1079-narrow-successor:2026-10-12",

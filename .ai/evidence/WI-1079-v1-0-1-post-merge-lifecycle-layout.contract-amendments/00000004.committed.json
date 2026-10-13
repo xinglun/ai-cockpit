@@ -1,0 +1,77 @@
+{
+  "sequence": 4,
+  "preparedDigest": "sha256:e5c9b40fac31d7a04b0825bb39d8c14165126d9dd21a29eefbfaaeae262ced5d",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+    "sequence": 4,
+    "changeId": "wi1079-add-composition-integration-fixture-20261013",
+    "requestDigest": "sha256:c2e7b7f197fc92b7643610ec481b6bd35abc1da199146b807ce7418713cfccb0",
+    "reason": "The official 14-node run exposed one existing regression fixture outside the approved scope: installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node creates Rustup settings without a default host tuple and installs a bare test-channel directory. The amended implementation correctly fails closed for incomplete host identity, so the fixture must be brought into the same validated host-qualified model. Add only this test file to scope so its fixture can supply default_host_tuple and a host-qualified toolchain path while retaining assertions that identical inputs reuse exactly and rustc-byte changes force re-execution. Do not change assertions, production semantics, verification commands, or gates.",
+    "changedValues": [
+      {
+        "path": "/scope",
+        "operation": "add",
+        "oldValue": [
+          "crates/cockpit-protocol/src/lib.rs",
+          "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/resource_finalization.rs",
+          "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "crates/cockpit-cli/tests/resource_finalization.rs",
+          "tests/workflow/resource_finalization_policy.sh",
+          "tests/workflow/resource_finalization_policy_test.sh",
+          "docs/reference/agent-workflow.md",
+          "docs/reference/agent-workflow.zh-CN.md",
+          "docs/reference/agent-workflow.ja.md",
+          "docs/reference/provider-reconciliation-boundary.md",
+          "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+          "docs/reference/provider-reconciliation-boundary.ja.md",
+          "crates/cockpit-verification/src/composition.rs"
+        ],
+        "newValue": [
+          "crates/cockpit-protocol/src/lib.rs",
+          "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "crates/cockpit-repository/src/lib.rs",
+          "crates/cockpit-repository/src/resource_lifecycle.rs",
+          "crates/cockpit-repository/src/status_projection.rs",
+          "crates/cockpit-repository/tests/resource_finalization.rs",
+          "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "crates/cockpit-cli/tests/resource_finalization.rs",
+          "tests/workflow/resource_finalization_policy.sh",
+          "tests/workflow/resource_finalization_policy_test.sh",
+          "docs/reference/agent-workflow.md",
+          "docs/reference/agent-workflow.zh-CN.md",
+          "docs/reference/agent-workflow.ja.md",
+          "docs/reference/provider-reconciliation-boundary.md",
+          "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+          "docs/reference/provider-reconciliation-boundary.ja.md",
+          "crates/cockpit-verification/src/composition.rs",
+          "crates/cockpit-verification/tests/composition.rs"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+    "newContractDigest": "sha256:0bbf03930355a22649bca9e06da07416746947d558b4cee7813e95602d8c9ea5",
+    "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+    "environmentObservationDigest": "sha256:a1ff452ea93736609c7f182d1a460f169d1f5d3df99cee3b741a7fe8e971a3d4",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/scope"
+    ],
+    "previousJournalDigest": "sha256:c759ebad58aefbbe2dcc677dc3c4f4eee5cf0060fd7c7be0774452764799284e",
+    "journalDigest": "sha256:608835282abf63c46a533fab4dc07ea9415f62c82b6aab01e352de8512c7be2c",
+    "recordedAt": "2026-10-13T11:01:39Z"
+  }
+}

@@ -3822,8 +3822,10 @@ fn observe_runtime_toolchain_digest(
         return None;
     }
 
-    let host_qualified_channel =
-        rustup_toolchain_name_for_host(&requested_channel, &rustup_settings.default_host_tuple)?;
+    let host_qualified_channel = rustup_toolchain_name_for_host(
+        &requested_channel,
+        rustup_settings.default_host_tuple.as_deref(),
+    )?;
     let installed_toolchain =
         resolve_rustup_toolchain_directory(&rustup_home, &host_qualified_channel)?;
     let toolchain_root = PathBuf::from("toolchains").join(&installed_toolchain);
@@ -3982,7 +3984,7 @@ fn parse_toolchain_file_channel(bytes: &[u8]) -> Option<String> {
 
 struct RustupSettings {
     default_toolchain: String,
-    default_host_tuple: String,
+    default_host_tuple: Option<String>,
 }
 
 #[cfg(test)]
@@ -4044,13 +4046,17 @@ fn parse_rustup_settings(bytes: &[u8]) -> Option<RustupSettings> {
         }
     }
     let channel = default_channel?;
-    let host = default_host_tuple?;
-    (is_safe_toolchain_channel(&channel) && is_valid_rustup_host_tuple(&host)).then_some(
-        RustupSettings {
-            default_toolchain: channel,
-            default_host_tuple: host,
-        },
-    )
+    if !is_safe_toolchain_channel(&channel)
+        || default_host_tuple
+            .as_ref()
+            .is_some_and(|host| !is_valid_rustup_host_tuple(host))
+    {
+        return None;
+    }
+    Some(RustupSettings {
+        default_toolchain: channel,
+        default_host_tuple,
+    })
 }
 
 fn parse_toml_host_tuple(value: &str) -> Option<String> {
@@ -4105,18 +4111,21 @@ fn is_valid_rustup_host_tuple(host: &str) -> bool {
         })
 }
 
-fn rustup_toolchain_name_for_host(channel: &str, host_tuple: &str) -> Option<String> {
-    if !is_safe_toolchain_channel(channel) || !is_valid_rustup_host_tuple(host_tuple) {
+fn rustup_toolchain_name_for_host(
+    channel: &str,
+    default_host_tuple: Option<&str>,
+) -> Option<String> {
+    if !is_safe_toolchain_channel(channel) {
         return None;
     }
-    let host_suffix = format!("-{host_tuple}");
-    if channel.ends_with(&host_suffix) {
-        Some(channel.to_owned())
-    } else if rustup_toolchain_host_suffix(channel).is_some() {
-        None
-    } else {
-        Some(format!("{channel}{host_suffix}"))
+    if rustup_toolchain_host_suffix(channel).is_some() {
+        return Some(channel.to_owned());
     }
+    let default_host_tuple = default_host_tuple?;
+    if !is_valid_rustup_host_tuple(default_host_tuple) {
+        return None;
+    }
+    Some(format!("{channel}-{default_host_tuple}"))
 }
 
 fn rustup_toolchain_host_suffix(channel: &str) -> Option<&str> {
@@ -7524,6 +7533,7 @@ mod rustup_default_host_settings_tests {
         CompositionBinding, CompositionCommand, CompositionIdentity, CompositionInput, Digest,
         observe_runtime_toolchain_digest, observed_node_identity, parse_rustup_default_toolchain,
         parse_rustup_settings, resolve_executable, resolve_rustup_toolchain_directory,
+        rustup_toolchain_name_for_host,
     };
     use cockpit_protocol::RuntimeCapabilityBinding;
     use std::collections::BTreeMap;
@@ -7557,6 +7567,14 @@ mod rustup_default_host_settings_tests {
         }
     }
 
+    fn rustc_file_name() -> &'static str {
+        if cfg!(windows) { "rustc.exe" } else { "rustc" }
+    }
+
+    fn rustc_path(toolchain: &Path) -> PathBuf {
+        toolchain.join("bin").join(rustc_file_name())
+    }
+
     fn rustup_fixture(
         settings: &str,
         toolchains: &[(&str, &[u8])],
@@ -7576,7 +7594,7 @@ mod rustup_default_host_settings_tests {
             fs::create_dir_all(toolchain.join("bin")).expect("create fake bin directory");
             fs::create_dir_all(toolchain.join("lib/rustlib"))
                 .expect("create fake rustlib directory");
-            fs::write(toolchain.join("bin/rustc"), compiler).expect("write fake compiler");
+            fs::write(rustc_path(&toolchain), compiler).expect("write fake compiler");
             fs::write(toolchain.join("lib/rustlib/components"), b"rustc\n")
                 .expect("write fake components");
             fs::write(toolchain.join("lib/rustlib/manifest-host"), b"manifest\n")
@@ -7631,6 +7649,61 @@ profile = "minimal"
         assert_eq!(
             parse_rustup_default_toolchain(settings).as_deref(),
             Some("stable")
+        );
+    }
+
+    #[test]
+    fn explicit_host_channel_does_not_require_default_host_metadata() {
+        let channel = "stable-x86_64-unknown-linux-gnu";
+        let settings = format!(
+            "version = 12\ndefault_toolchain = \"{channel}\"\nprofile = \"minimal\"\n[overrides]\n"
+        );
+        let parsed = parse_rustup_settings(settings.as_bytes())
+            .expect("an explicit toolchain host makes default host metadata optional");
+        assert_eq!(parsed.default_host_tuple, None);
+        assert_eq!(
+            rustup_toolchain_name_for_host(channel, None).as_deref(),
+            Some(channel),
+            "a validated explicit host suffix must be used as written"
+        );
+
+        let (_root, worktree, rustup_home, environment) =
+            rustup_fixture(&settings, &[(channel, b"explicit host rustc")]);
+        assert_eq!(
+            resolve_rustup_toolchain_directory(&rustup_home, channel).as_deref(),
+            Some(channel),
+            "the full host suffix resolves to its exact installed directory"
+        );
+        #[cfg(unix)]
+        assert!(observe_runtime_toolchain_digest(&worktree, &environment).is_some());
+        #[cfg(not(unix))]
+        assert_eq!(
+            observe_runtime_toolchain_digest(&worktree, &environment),
+            None
+        );
+    }
+
+    #[test]
+    fn short_channel_without_default_host_remains_unresolvable() {
+        let settings =
+            "version = 12\ndefault_toolchain = \"stable\"\nprofile = \"minimal\"\n[overrides]\n";
+        assert!(
+            parse_rustup_settings(settings.as_bytes()).is_some(),
+            "default host is optional metadata even when the selected channel is short"
+        );
+        assert_eq!(rustup_toolchain_name_for_host("stable", None), None);
+
+        let (_root, worktree, _rustup_home, environment) = rustup_fixture(
+            settings,
+            &[
+                ("stable", b"unqualified rustc"),
+                ("stable-x86_64-unknown-linux-gnu", b"qualified rustc"),
+            ],
+        );
+        assert_eq!(
+            observe_runtime_toolchain_digest(&worktree, &environment),
+            None,
+            "a short channel cannot infer a host from installed directories"
         );
     }
 
@@ -7723,20 +7796,61 @@ profile = "minimal"
     }
 
     #[test]
-    fn explicit_toolchain_host_must_match_settings_host() {
-        let settings = "version = 12\ndefault_host_tuple = \"x86_64-unknown-linux-gnu\"\ndefault_toolchain = \"stable-x86_64-pc-windows-msvc\"\nprofile = \"minimal\"\n[overrides]\n";
-        let mismatched_qualified_name = "stable-x86_64-pc-windows-msvc-x86_64-unknown-linux-gnu";
-        let (_root, worktree, _rustup_home, environment) = rustup_fixture(
-            settings,
-            &[(mismatched_qualified_name, b"not-the-linux-compiler")],
+    fn explicit_toolchain_host_can_differ_from_settings_host() {
+        let explicit_channel = "stable-x86_64-pc-windows-msvc";
+        let settings = runtime_settings("x86_64-unknown-linux-gnu", explicit_channel);
+        assert_eq!(
+            rustup_toolchain_name_for_host(explicit_channel, Some("x86_64-unknown-linux-gnu"),)
+                .as_deref(),
+            Some(explicit_channel),
+            "the explicit host is authoritative even when Rustup has another default host"
+        );
+        let (_root, worktree, rustup_home, environment) = rustup_fixture(
+            &settings,
+            &[
+                (explicit_channel, b"explicit Windows rustc"),
+                ("stable-x86_64-unknown-linux-gnu", b"default Linux rustc"),
+            ],
+        );
+        assert_eq!(
+            resolve_rustup_toolchain_directory(&rustup_home, explicit_channel).as_deref(),
+            Some(explicit_channel),
+            "a different configured default host does not redirect explicit selection"
         );
 
+        #[cfg(unix)]
+        {
+            let selected = observe_runtime_toolchain_digest(&worktree, &environment)
+                .expect("explicit host-qualified toolchain is observable");
+            fs::write(
+                rustc_path(&rustup_home.join("toolchains/stable-x86_64-unknown-linux-gnu")),
+                b"changed default Linux rustc",
+            )
+            .expect("change the unselected default-host toolchain");
+            assert_eq!(
+                observe_runtime_toolchain_digest(&worktree, &environment),
+                Some(selected.clone()),
+                "the different configured default host must not affect explicit selection"
+            );
+            fs::write(
+                rustc_path(&rustup_home.join("toolchains").join(explicit_channel)),
+                b"changed explicit Windows rustc",
+            )
+            .expect("change the explicitly selected toolchain");
+            assert_ne!(
+                observe_runtime_toolchain_digest(&worktree, &environment),
+                Some(selected),
+                "selected toolchain bytes remain part of the identity"
+            );
+        }
+        #[cfg(not(unix))]
         assert_eq!(
             observe_runtime_toolchain_digest(&worktree, &environment),
             None
         );
     }
 
+    #[cfg(unix)]
     #[test]
     fn short_toolchain_selects_only_the_configured_host_directory() {
         let settings = runtime_settings("x86_64-unknown-linux-gnu", "stable");
@@ -7751,7 +7865,7 @@ profile = "minimal"
             .expect("host-qualified Linux toolchain is observable");
 
         fs::write(
-            rustup_home.join("toolchains/stable-x86_64-pc-windows-msvc/bin/rustc"),
+            rustc_path(&rustup_home.join("toolchains/stable-x86_64-pc-windows-msvc")),
             b"changed Windows rustc",
         )
         .expect("change the unselected Windows toolchain");
@@ -7762,7 +7876,7 @@ profile = "minimal"
         );
 
         fs::write(
-            rustup_home.join("toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc"),
+            rustc_path(&rustup_home.join("toolchains/stable-x86_64-unknown-linux-gnu")),
             b"changed Linux rustc",
         )
         .expect("change the selected Linux toolchain");
@@ -7770,6 +7884,33 @@ profile = "minimal"
             observe_runtime_toolchain_digest(&worktree, &environment),
             Some(selected),
             "the selected toolchain bytes are part of the identity"
+        );
+    }
+
+    #[cfg(not(unix))]
+    #[test]
+    fn short_toolchain_selects_only_the_configured_host_directory() {
+        let settings = runtime_settings("x86_64-unknown-linux-gnu", "stable");
+        let (_root, worktree, rustup_home, environment) = rustup_fixture(
+            &settings,
+            &[
+                ("stable-x86_64-unknown-linux-gnu", b"linux rustc"),
+                ("stable-x86_64-pc-windows-msvc", b"windows rustc"),
+            ],
+        );
+        let selected = rustup_toolchain_name_for_host("stable", Some("x86_64-unknown-linux-gnu"))
+            .expect("short channel is qualified only by the configured host");
+        assert_eq!(selected, "stable-x86_64-unknown-linux-gnu");
+        assert!(rustc_path(&rustup_home.join("toolchains").join(&selected)).is_file());
+        assert_eq!(
+            resolve_rustup_toolchain_directory(&rustup_home, &selected).as_deref(),
+            Some(selected.as_str()),
+            "resolution is exact and does not use a prefix match"
+        );
+        assert_eq!(
+            observe_runtime_toolchain_digest(&worktree, &environment),
+            None,
+            "non-Unix hosts remain fail-closed for reusable runtime identity"
         );
     }
 
@@ -7887,7 +8028,7 @@ profile = "minimal"
 
         fs::remove_file(&cargo_config).expect("remove Cargo config");
         fs::write(
-            rustup_home.join("toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc"),
+            rustc_path(&rustup_home.join("toolchains/stable-x86_64-unknown-linux-gnu")),
             b"changed linux rustc",
         )
         .expect("change selected toolchain bytes");
