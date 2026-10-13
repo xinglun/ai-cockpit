@@ -1,0 +1,24 @@
+{
+  "attemptId": "sha256:3b46637d91359f858711fd3ceeeded6d1cda0a6ae9acc6895cd010e8d51bdeaf",
+  "commands": [],
+  "contractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+  "contractExecutionScopeDigest": "sha256:fde9cd0d9edc6f409418e5682ce037d2947c5dd3e84e593ca78a82891c53fc24",
+  "createdAt": "2026-10-13T00:02:55Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout/Cargo.toml: cargo metadata could not start: No such file or directory (os error 2)"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0990205dbe9c402abf6fc854fc440586192d26be41a8d43678c311e36cb620ec",
+  "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

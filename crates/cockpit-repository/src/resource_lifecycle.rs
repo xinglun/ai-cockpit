@@ -4952,6 +4952,88 @@ fn apply_historical_material_projection(
     Ok(())
 }
 
+fn validate_layout_archive_manifest(
+    root: &Path,
+    id: &str,
+    revision: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let keys = [
+        "actorProvenance",
+        "closeRequired",
+        "createdAt",
+        "files",
+        "historicalArtifacts",
+        "occurredAt",
+        "protocolVersion",
+        "recordedAt",
+        "repositoryId",
+        "runtimeDigest",
+        "runtimeVersion",
+        "state",
+        "workItemId",
+    ];
+    if manifest.as_object().is_none_or(|object| {
+        object.len() != keys.len() || keys.iter().any(|key| !object.contains_key(*key))
+    }) || manifest["protocolVersion"] != 1
+        || manifest["workItemId"] != id
+        || manifest["repositoryId"] != repository_id(root).to_string()
+        || manifest["state"] != "archived"
+        || manifest["closeRequired"] != true
+        || manifest["actorProvenance"] != "unknown"
+        || manifest["historicalArtifacts"] != serde_json::json!([])
+        || manifest["recordedAt"] != manifest["occurredAt"]
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "ordinary archive lifecycle metadata is invalid or would weaken the real human close boundary",
+        ));
+    }
+    let created_text = manifest["createdAt"].as_str().unwrap_or_default();
+    let occurred_text = manifest["occurredAt"].as_str().unwrap_or_default();
+    let created = chrono::DateTime::parse_from_rfc3339(created_text)
+        .map_err(|_| post_merge_sync_error(root, "ordinary archive creation time is invalid"))?;
+    let occurred = chrono::DateTime::parse_from_rfc3339(occurred_text)
+        .map_err(|_| post_merge_sync_error(root, "ordinary archive occurrence time is invalid"))?;
+    // Runtime takes second-resolution now() immediately before lifecycle_now().
+    // Scheduler delay is permitted; both times still precede the manifest write.
+    if !created_text.ends_with('Z')
+        || !occurred_text.ends_with('Z')
+        || created > occurred
+        || created_text != created.to_rfc3339_opts(chrono::SecondsFormat::Secs, true)
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "ordinary archive actor/time binding is invalid",
+        ));
+    }
+    let mut files = serde_json::Map::new();
+    for (name, suffix) in [
+        ("contract", "contract.json"),
+        ("summary", "summary.json"),
+        ("outcome", "outcome.json"),
+        ("events", "events.jsonl"),
+        ("taskReport", "task-report.json"),
+        ("taskReportMarkdown", "task-report.md"),
+    ] {
+        let path = format!(".ai/work-items/archive/{id}.{suffix}");
+        files.insert(format!("{name}Path"), path.clone().into());
+        files.insert(
+            format!("{name}Digest"),
+            Digest::sha256_bytes(&git_blob_bytes(root, revision, &path)?)
+                .to_string()
+                .into(),
+        );
+    }
+    if manifest["files"] != serde_json::Value::Object(files) {
+        return Err(post_merge_sync_error(
+            root,
+            "ordinary archive artifact map is not the exact canonical set of paths and byte digests",
+        ));
+    }
+    Ok(())
+}
+
 fn validate_layout_finish_semantics(
     root: &Path,
     id: &str,
@@ -4976,6 +5058,7 @@ fn validate_layout_finish_semantics(
         archive,
         &format!(".ai/work-items/archive/{id}.archive.json"),
     )?;
+    validate_layout_archive_manifest(root, id, archive, &manifest)?;
     let checkout = materialize_git_revision(root, parent)?;
     let isolated = &checkout.repository;
     let contract_path = isolated.join(format!("{active}.contract.json"));
@@ -5029,39 +5112,52 @@ fn validate_layout_finish_semantics(
         }
     })?;
 
+    // A cached green Summary is not authority. Real finish unconditionally
+    // requires material review and governance; refresh metadata alone is conditional.
+    let runtime = RuntimeContext {
+        runtime_version: evidence["runtimeVersion"]
+            .as_str()
+            .ok_or_else(|| post_merge_sync_error(root, "verification Runtime version missing"))?
+            .into(),
+        runtime_digest: serde_json::from_value(evidence["runtimeDigest"].clone())
+            .map_err(|e| post_merge_sync_error(root, e.to_string()))?,
+        protocol_version: 1,
+    };
+    let mut raw = super::governance_decision_for_pre_execution_boundary(
+        isolated,
+        &contract,
+        &snapshot,
+        Some(&runtime),
+        None,
+    )?;
+    apply_historical_material_projection(
+        isolated,
+        &contract,
+        &isolated.join(format!("{active}.summary.json")),
+        &mut raw,
+    )?;
+    let decision = super::apply_preflight_review_evidence(isolated, &contract, raw.clone(), false)?;
+    if decision.state != DecisionState::Green {
+        return Err(post_merge_sync_error(
+            root,
+            "captured preflight refresh does not admit finish",
+        ));
+    }
+    let controls =
+        super::validate_work_item_governance_controls_with_runtime(isolated, id, &runtime)?;
+    let gaps = super::governance_controls::governance_controls_gaps_for_finish(&controls);
+    if !gaps.is_empty() {
+        return Err(post_merge_sync_error(
+            root,
+            format!(
+                "historical finish governance controls do not admit finish: {}",
+                gaps.join(", ")
+            ),
+        ));
+    }
     if summary["preflightDecisionDigest"] != observed["preflightDecisionDigest"]
         || summary["preflightState"] != observed["preflightState"]
     {
-        let runtime = RuntimeContext {
-            runtime_version: evidence["runtimeVersion"]
-                .as_str()
-                .ok_or_else(|| post_merge_sync_error(root, "verification Runtime version missing"))?
-                .into(),
-            runtime_digest: serde_json::from_value(evidence["runtimeDigest"].clone())
-                .map_err(|e| post_merge_sync_error(root, e.to_string()))?,
-            protocol_version: 1,
-        };
-        let mut raw = super::governance_decision_for_pre_execution_boundary(
-            isolated,
-            &contract,
-            &snapshot,
-            Some(&runtime),
-            None,
-        )?;
-        apply_historical_material_projection(
-            isolated,
-            &contract,
-            &isolated.join(format!("{active}.summary.json")),
-            &mut raw,
-        )?;
-        let decision =
-            super::apply_preflight_review_evidence(isolated, &contract, raw.clone(), false)?;
-        if decision.state != DecisionState::Green {
-            return Err(post_merge_sync_error(
-                root,
-                "captured preflight refresh does not admit finish",
-            ));
-        }
         summary["preflightState"] = "green".into();
         summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(
             &serde_json::to_value(raw).map_err(|e| post_merge_sync_error(root, e.to_string()))?,
@@ -5103,6 +5199,10 @@ fn validate_layout_finish_semantics(
         .and_then(|t| chrono::DateTime::parse_from_rfc3339(t).ok())
         .ok_or_else(|| post_merge_sync_error(root, "archive time is invalid"))?;
     if parsed_time > archive_time
+        || manifest["createdAt"]
+            .as_str()
+            .and_then(|t| chrono::DateTime::parse_from_rfc3339(t).ok())
+            .is_none_or(|t| t.timestamp() < parsed_time.timestamp())
         || summary["state"] != "checkpointed"
         || summary["checkpointCount"] != 1
         || summary["preflightState"] != "green"
@@ -6750,6 +6850,163 @@ mod post_merge_sync_tests {
             assert!(
                 super::validate_post_merge_layout_stages(root, id, &sync).is_err(),
                 "must reject {case} even when the archive is resealed"
+            );
+        }
+    }
+
+    fn same_green_lifecycle_fixture(case: &str) -> (super::HistoricalGitCheckout, String, String) {
+        let fixture = real_combined_checkout();
+        let root = &fixture.repository;
+        let id = "WI-1078-v1-0-1-post-merge-sync-finalization";
+        let active = format!(".ai/work-items/active/{id}");
+        let archive = format!(".ai/work-items/archive/{id}");
+        let observed =
+            super::git_json(root, "d18be4f8", &format!("{archive}.summary.json")).unwrap();
+        git(root, &["checkout", "-q", "--detach", "ba435024"]);
+        let summary_path = root.join(format!("{active}.summary.json"));
+        let mut summary: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&summary_path).unwrap()).unwrap();
+        for key in ["preflightState", "preflightDecisionDigest", "preflightAt"] {
+            summary[key] = observed[key].clone();
+        }
+        std::fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+        git(
+            root,
+            &["add", "-f", "--", &format!("{active}.summary.json")],
+        );
+        let receipt_path = summary["materialReviewReceipt"]["path"].as_str().unwrap();
+        if case == "missing_material" {
+            std::fs::remove_file(root.join(receipt_path)).unwrap();
+        }
+        if case == "invalid_material" {
+            let mut receipt: serde_json::Value =
+                serde_json::from_slice(&std::fs::read(root.join(receipt_path)).unwrap()).unwrap();
+            receipt["rationale"] = "tampered historical material sidecar".into();
+            std::fs::write(
+                root.join(receipt_path),
+                serde_json::to_vec_pretty(&receipt).unwrap(),
+            )
+            .unwrap();
+        }
+        git(root, &["add", "-f", "--", receipt_path]);
+        let tree = git(root, &["write-tree"]);
+        let parent = git(
+            root,
+            &[
+                "commit-tree",
+                &tree,
+                "-p",
+                "ba435024",
+                "-m",
+                "synthetic same-green preflight fixture",
+            ],
+        );
+        git(root, &["read-tree", "--reset", "-u", "d18be4f8"]);
+        let tree = git(root, &["write-tree"]);
+        let lifecycle = git(
+            root,
+            &[
+                "commit-tree",
+                &tree,
+                "-p",
+                &parent,
+                "-m",
+                "synthetic combined lifecycle fixture",
+            ],
+        );
+        git(root, &["reset", "--hard", &lifecycle]);
+        (fixture, parent, lifecycle)
+    }
+
+    #[test]
+    fn post_merge_layout_same_green_preflight_still_requires_valid_material() {
+        let id = "WI-1078-v1-0-1-post-merge-sync-finalization";
+        let (valid, parent, lifecycle) = same_green_lifecycle_fixture("valid");
+        super::validate_layout_finish_semantics(
+            &valid.repository,
+            id,
+            &parent,
+            &lifecycle,
+            &lifecycle,
+            true,
+        )
+        .expect("valid historical material must still pass with unchanged green preflight fields");
+        for case in ["missing_material", "invalid_material"] {
+            let (fixture, parent, lifecycle) = same_green_lifecycle_fixture(case);
+            assert!(
+                super::validate_layout_finish_semantics(
+                    &fixture.repository,
+                    id,
+                    &parent,
+                    &lifecycle,
+                    &lifecycle,
+                    true
+                )
+                .is_err(),
+                "unchanged green Summary must not bypass {case}"
+            );
+        }
+    }
+
+    #[test]
+    fn post_merge_layout_archive_metadata_cannot_disable_real_human_close() {
+        let fixture = real_combined_checkout();
+        let root = &fixture.repository;
+        let id = "WI-1078-v1-0-1-post-merge-sync-finalization";
+        let path = format!(".ai/work-items/archive/{id}.archive.json");
+        let original = super::git_json(root, "d18be4f8", &path).unwrap();
+        let mut extra_files = original["files"].clone();
+        extra_files["unexpectedPath"] = "outside-the-Work-Item.json".into();
+        let mut missing_files = original["files"].clone();
+        missing_files
+            .as_object_mut()
+            .unwrap()
+            .remove("taskReportMarkdownPath");
+        let changes = [
+            ("files", extra_files),
+            ("files", missing_files),
+            ("workItemId", serde_json::json!("WI-foreign")),
+            ("closeRequired", serde_json::json!(false)),
+            ("state", serde_json::json!("retired")),
+            (
+                "repositoryId",
+                serde_json::json!(Digest::sha256_bytes(b"foreign repository").to_string()),
+            ),
+            ("protocolVersion", serde_json::json!(2)),
+            ("actorProvenance", serde_json::json!("human:forged")),
+            ("recordedAt", serde_json::json!("2026-10-13T00:00:00Z")),
+            ("createdAt", serde_json::json!("not a timestamp")),
+            ("unexpectedMetadata", serde_json::json!(true)),
+        ];
+        for (key, value) in changes {
+            git(root, &["checkout", "-q", "--detach", "d18be4f8"]);
+            let mut manifest = original.clone();
+            manifest[key] = value;
+            std::fs::write(
+                root.join(&path),
+                serde_json::to_vec_pretty(&manifest).unwrap(),
+            )
+            .unwrap();
+            git(root, &["add", "-f", "--", &path]);
+            let tree = git(root, &["write-tree"]);
+            let lifecycle = git(
+                root,
+                &[
+                    "commit-tree",
+                    &tree,
+                    "-p",
+                    "ba435024",
+                    "-m",
+                    "synthetic single-field archive tamper fixture",
+                ],
+            );
+            git(root, &["reset", "--hard", &lifecycle]);
+            assert!(
+                super::validate_layout_finish_semantics(
+                    root, id, "ba435024", &lifecycle, &lifecycle, true
+                )
+                .is_err(),
+                "ordinary archive must reject mutated {key}"
             );
         }
     }
