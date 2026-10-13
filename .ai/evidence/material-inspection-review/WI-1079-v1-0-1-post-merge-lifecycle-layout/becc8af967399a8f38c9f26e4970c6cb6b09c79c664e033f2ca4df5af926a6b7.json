@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:7d939ba26f16f2f07fee2bf670cab16cf376d1b25616963dabe5017ab7495e4d",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:becc8af967399a8f38c9f26e4970c6cb6b09c79c664e033f2ca4df5af926a6b7",
+  "reviewedSourceHead": "29280624f8d5534913be64e91141d5f1955a3243",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:59b163eb6daee83e36878079515807f55b0e4c6578ae61b6a38f5e8c2055df98",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:53eee58dacf94479008c9c7e89138d41403246a9deba6bd9212cb1c8e3ce1c92"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared technical review of exact WI-1079 source 29280624 and request-listed permitted readable committed Rust syntax Unknown entries. The only new production change is historical Git clone invocation: Windows selects an existing canonical ancestor with cwd length <=200, constructs an explicitly relative local source argument, and requires canonicalize(cwd.join(argument)) to equal the original canonical source before spawning. Git core.longpaths is configured only for that child and the isolated destination. No lossy string conversion or global prefix rewriting, containment-reader change, permission bypass, evidence-byte normalization, assertion weakening or historic record mutation. Microsoft SetCurrentDirectory documentation confirms that a cwd above MAX_PATH causes CreateProcessW failure; actual cc84 Windows failure was process-start error 267 on the >260 fixture after successful directory creation, while the three original historical cases passed. New assertions cover short cwd and exact source equivalence; original internal spaces, length >260, nested local clone and immutable tree/file bytes remain. Exact-source Linux layout regression passed 10/10. Actual Windows CI remains required and pending; the Windows-specific branch has not been claimed passing. Prior local composition failures remain failed and unresolved; no composition source/scope change. Accept only the request-listed permitted syntax Unknown identities under the existing profile.",
+  "residualRisk": "The Rust analyzer remains conservative for these complete readable committed syntax changes. The raw repository_material_inspection_unavailable Unknown is preserved. This technical decision does not make the scanner machine Clean or claim authenticated human, provider, merge, release or close approval. Windows CI must independently establish the remaining platform regression result.",
+  "recordedAt": "2026-10-13T02:28:16Z",
+  "receiptDigest": "sha256:67fbade7138942dd2c9c416f76e07c6022b6b8945512a8a755d6f1cd1f12cbc0"
+}
