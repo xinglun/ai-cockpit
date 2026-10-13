@@ -2523,6 +2523,44 @@ impl Drop for HistoricalGitCheckout {
     }
 }
 
+fn historical_clone_location(source: &Path) -> Result<(PathBuf, PathBuf), ObserverError> {
+    let cwd = source.to_path_buf();
+    // CreateProcessW cannot start with a cwd longer than MAX_PATH. Keep an
+    // existing canonical ancestor as cwd and pass an explicitly relative local
+    // source instead. No verbatim prefix enters Git's URL parser.
+    #[cfg(windows)]
+    let cwd = {
+        let mut candidate = cwd;
+        while candidate.as_os_str().len() > 200 {
+            if !candidate.pop() {
+                return Err(post_merge_sync_error(
+                    source,
+                    "no short local clone ancestor",
+                ));
+            }
+        }
+        candidate
+    };
+    let suffix = source.strip_prefix(&cwd).map_err(|_| {
+        post_merge_sync_error(
+            source,
+            "local clone source is outside its canonical ancestor",
+        )
+    })?;
+    let argument = Path::new(".").join(suffix);
+    let resolved = fs::canonicalize(cwd.join(&argument)).map_err(|source| ObserverError::Read {
+        path: cwd.join(&argument),
+        source,
+    })?;
+    if resolved != source {
+        return Err(post_merge_sync_error(
+            source,
+            "local clone source identity changed",
+        ));
+    }
+    Ok((cwd, argument))
+}
+
 fn materialize_git_revision(
     root: &Path,
     revision: &str,
@@ -2531,6 +2569,7 @@ fn materialize_git_revision(
         path: root.to_path_buf(),
         source,
     })?;
+    let (clone_cwd, clone_source) = historical_clone_location(&source)?;
     let nonce = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map_or(0, |duration| duration.as_nanos());
@@ -2546,12 +2585,13 @@ fn materialize_git_revision(
         repository: directory.join("repository"),
         directory,
     };
-    // Keep the canonical root for containment and use it as the child cwd.
-    // The explicit local source "." never enters Git's Windows URL parser as
-    // a verbatim path; filesystem paths and their bytes remain unchanged.
+    // Canonical containment identity remains unchanged; only the child cwd and
+    // proven equivalent relative source argument are selected for Git.
     let clone = Command::new("git")
-        .current_dir(&source)
+        .current_dir(&clone_cwd)
         .args([
+            "-c",
+            "core.longpaths=true",
             "clone",
             "--quiet",
             "--shared",
@@ -2563,7 +2603,7 @@ fn materialize_git_revision(
             "core.longpaths=true",
         ])
         .arg("--")
-        .arg(".")
+        .arg(&clone_source)
         .arg(&checkout.repository)
         .output()
         .map_err(|source| ObserverError::Read {
@@ -7120,6 +7160,14 @@ mod post_merge_sync_tests {
         std::fs::rename(&first.repository, &spaced).unwrap();
         let canonical = std::fs::canonicalize(&spaced).unwrap();
         assert!(canonical.as_os_str().len() > 260);
+        let (cwd, source_argument) = super::historical_clone_location(&canonical).unwrap();
+        assert!(source_argument.is_relative());
+        assert_eq!(
+            std::fs::canonicalize(cwd.join(&source_argument)).unwrap(),
+            canonical
+        );
+        #[cfg(windows)]
+        assert!(cwd.as_os_str().len() <= 200);
         let nested = super::materialize_git_revision(&canonical, &revision).unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
         assert_eq!(
