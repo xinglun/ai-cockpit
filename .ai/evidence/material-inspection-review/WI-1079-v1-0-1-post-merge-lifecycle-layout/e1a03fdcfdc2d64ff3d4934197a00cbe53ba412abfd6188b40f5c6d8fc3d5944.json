@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+  "materialManifestDigest": "sha256:41ff30216af1f3eaf399314752d66dc10f6812c3f419b3c170b96b8d46ba60f4",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944",
+  "reviewedSourceHead": "7f589957cd2fb6516c906fcdc03153feb664ef24",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:b42fc260abdffc5f16f303650edad32bf4fe2723a27493029224b228d8667589"
+    }
+  ],
+  "rationale": "I reviewed the exact committed material-review request for this Work Item. Its only raw scanner Unknown code is the Contract-permitted repository_material_inspection_unavailable, and every affected entry is readable committed Rust with the explicitly permitted readable_committed_rust_syntax_unknown cause; the plan reports no findings. Accept this bounded self-declared technical review under the user-approved Contract profile. Preserve the raw scanner Unknowns and all other policy gates.",
+  "residualRisk": "The source scanner still cannot semantically classify the affected Rust syntax. This receipt records only the permitted self-declared material review; it does not turn scanner Unknown into Clean or grant human, provider, merge, release, or close approval.",
+  "recordedAt": "2026-10-13T10:33:17Z",
+  "receiptDigest": "sha256:6a848fa7853923144c047c2712b410cab479a38ab1bdae8e67826587b922c91f"
+}

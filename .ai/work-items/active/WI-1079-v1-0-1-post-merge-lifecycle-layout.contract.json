@@ -6,7 +6,10 @@
     "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
     "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
     "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
-    "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites."
+    "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites.",
+    "Rustup settings parsing accepts a validated default_host_tuple or its default_host_triple alias, rejects duplicate keys and simultaneous alias declarations, validates host values, preserves the full settings-byte digest, and keeps unknown keys, non-empty overrides, missing/symlinked settings or incomplete toolchain identity fail-closed.",
+    "A short Rustup toolchain name resolves only to an exact installed toolchain proven to match the validated host tuple; there is no unique-prefix fallback across hosts. Host/config/toolchain changes block reuse, while identical observed inputs permit exact reuse.",
+    "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration."
   ],
   "adoptionBootstrapPaths": [],
   "agentCapability": null,
@@ -92,11 +95,13 @@
     "docs/reference/agent-workflow.ja.md",
     "docs/reference/provider-reconciliation-boundary.md",
     "docs/reference/provider-reconciliation-boundary.zh-CN.md",
-    "docs/reference/provider-reconciliation-boundary.ja.md"
+    "docs/reference/provider-reconciliation-boundary.ja.md",
+    "crates/cockpit-verification/src/composition.rs"
   ],
   "sources": [
     "parent-technical-review:1079-narrow-successor:2026-10-12",
-    "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization"
+    "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization",
+    "https://github.com/rust-lang/rustup/blob/d5513a294ef371f16895c6c6f5ae99c2ec62f1f3/src/settings.rs"
   ],
   "state": "implementation_active",
   "synchronizationCheckpoint": null,
