@@ -1,0 +1,59 @@
+{
+  "actor": "agent:Codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user-approval:exact-head-merge-and-pr1035-cleanup-2026-10-13",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1631c13b5a8d60e08fee9b03da4ebcf0b99f1a10",
+    "name": "codex/wi1079-post-merge-lifecycle-layout",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+  "contractDigest": "sha256:582314d6398de4bcf408640a9378e60d269dbf5a05be9ed7051dc07bf55795fa",
+  "operationId": "operation-WI-1079-v1-0-1-post-merge-lifecycle-layout-pr1035-merge-cleanup-707ba00c",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+    "headRevision": "1631c13b5a8d60e08fee9b03da4ebcf0b99f1a10",
+    "mergeCommit": "707ba00c99b96b060df3b8ba997e1aad03431ea1",
+    "number": 1035,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/1035"
+  },
+  "reason": "PR #1035 was merged at 707ba00c after exact-head and successful CI checks; the bound remote branch and local branch/worktree association were then removed in the recovered checkout.",
+  "receiptId": "WI-1079-v1-0-1-post-merge-lifecycle-layout-finalization-707ba00c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi1079-post-merge-lifecycle-layout",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1035",
+    "worktree": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "timestamp": "2026-10-13T21:06:20Z",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "worktree": {
+    "branch": "codex/wi1079-post-merge-lifecycle-layout",
+    "headRevision": "1631c13b5a8d60e08fee9b03da4ebcf0b99f1a10",
+    "path": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout",
+    "worktreeId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+  }
+}
