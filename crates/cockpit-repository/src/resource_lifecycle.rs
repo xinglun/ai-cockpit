@@ -2527,6 +2527,10 @@ fn materialize_git_revision(
     root: &Path,
     revision: &str,
 ) -> Result<HistoricalGitCheckout, ObserverError> {
+    let source = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.to_path_buf(),
+        source,
+    })?;
     let nonce = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .map_or(0, |duration| duration.as_nanos());
@@ -2542,18 +2546,24 @@ fn materialize_git_revision(
         repository: directory.join("repository"),
         directory,
     };
+    // Keep the canonical root for containment and use it as the child cwd.
+    // The explicit local source "." never enters Git's Windows URL parser as
+    // a verbatim path; filesystem paths and their bytes remain unchanged.
     let clone = Command::new("git")
+        .current_dir(&source)
         .args([
             "clone",
             "--quiet",
             "--shared",
+            "--local",
             "--no-checkout",
             "--config",
             "core.autocrlf=false",
             "--config",
             "core.longpaths=true",
         ])
-        .arg(root)
+        .arg("--")
+        .arg(".")
         .arg(&checkout.repository)
         .output()
         .map_err(|source| ObserverError::Read {
@@ -7090,6 +7100,41 @@ mod post_merge_sync_tests {
                 "historical checkout must explicitly pin {key} without altering global configuration"
             );
         }
+    }
+
+    #[test]
+    fn post_merge_layout_nested_checkout_uses_local_paths_with_spaces() {
+        let fixture = post_merge_history_fixture();
+        let root = fixture.path();
+        let revision = git(root, &["rev-parse", "HEAD"]);
+        let first = super::materialize_git_revision(root, &revision).unwrap();
+        let long_parent = first
+            .directory
+            .join("long local path ".repeat(6))
+            .join("nested path ".repeat(8));
+        std::fs::create_dir_all(&long_parent).unwrap();
+        let spaced = long_parent.join("local repository with spaces");
+        std::fs::rename(&first.repository, &spaced).unwrap();
+        let canonical = std::fs::canonicalize(&spaced).unwrap();
+        assert!(canonical.as_os_str().len() > 260);
+        let nested = super::materialize_git_revision(&canonical, &revision).unwrap();
+        assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
+        assert_eq!(
+            git(&nested.repository, &["rev-parse", "HEAD^{tree}"]),
+            git(&canonical, &["rev-parse", "HEAD^{tree}"])
+        );
+        assert_eq!(
+            std::fs::read(nested.repository.join("source.txt")).unwrap(),
+            std::fs::read(canonical.join("source.txt")).unwrap()
+        );
+        assert!(
+            super::materialize_git_revision(
+                std::path::Path::new("ssh://invalid.example/repository"),
+                &revision
+            )
+            .is_err(),
+            "remote-looking input must fail local filesystem resolution"
+        );
     }
 
     #[test]
