@@ -7108,10 +7108,13 @@ mod post_merge_sync_tests {
         let root = fixture.path();
         let revision = git(root, &["rev-parse", "HEAD"]);
         let first = super::materialize_git_revision(root, &revision).unwrap();
-        let long_parent = first
-            .directory
-            .join("long local path ".repeat(6))
-            .join("nested path ".repeat(8));
+        // Windows ordinary directory components cannot end with a space.
+        // Use the canonical parent for the long-path filesystem operation;
+        // keep internal spaces and the >260-character source path assertion.
+        let long_parent = std::fs::canonicalize(&first.directory)
+            .unwrap()
+            .join("long local path ".repeat(6).trim_end())
+            .join("nested path ".repeat(8).trim_end());
         std::fs::create_dir_all(&long_parent).unwrap();
         let spaced = long_parent.join("local repository with spaces");
         std::fs::rename(&first.repository, &spaced).unwrap();
