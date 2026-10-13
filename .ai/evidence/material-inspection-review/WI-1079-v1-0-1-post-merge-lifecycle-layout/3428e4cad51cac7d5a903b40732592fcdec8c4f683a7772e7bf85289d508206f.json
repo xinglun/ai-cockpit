@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:05c7a9f73604afe5db376fc1390d4d793c8f8d9add95e02294f4540ba90dc936",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f",
+  "reviewedSourceHead": "82980165706fecee20432a890719121e9e52f4ae",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:1ecb7f99d16ce4ba411623ec8f22e577f0cdf298f070fd90b88664dd35e2d338",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:77a0994fee6e992d10127a69e72c9d2fe9dad1fca3d22f23d5212cc7e681503f"
+    }
+  ],
+  "rationale": "Raydot-delegated technical review of this exact WI-1079 committed request and its two listed readable Rust syntax Unknown entries. The parent approved the narrow versioned layout design and independently reviewed the two P1 repairs and Windows representation patch. Source 82980165 additionally derives historical consumers from the canonical isolated checkout root, restoring the existing strict Windows Summary containment check without changing the reader, disabling a gate, altering an assertion or rewriting historical records. Focused historical/metadata/material regression passes 26/26 and the exact-source public CLI suite passes 9/9. The declaration remains self_declared; actual Windows CI verification is still required and not inferred from Linux results. Accept only the request-listed permitted syntax Unknown hunk/blob identities; preserve all raw scanner diagnostics and other authority boundaries.",
+  "residualRisk": "The Rust analyzer remains conservative for these complete readable committed syntax changes. The raw repository_material_inspection_unavailable Unknown is preserved. This technical decision does not make the scanner machine Clean or claim authenticated human, provider, merge, release or close approval. Windows CI must independently establish the remaining platform regression result.",
+  "recordedAt": "2026-10-13T01:22:54Z",
+  "receiptDigest": "sha256:2f19caf6d87645b747f380805c7932a35a41c3fd9cef0f23522172949ead8573"
+}

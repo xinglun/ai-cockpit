@@ -1,0 +1,415 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 31.35s
+     Running unittests src/lib.rs (/workspace/.wi1078-target/debug/deps/cockpit_repository-73e8d5087f5b070b)
+
+running 106 tests
+test audit_query::lifecycle_elapsed_tests::wall_elapsed_includes_wait_and_rejects_clock_rollback ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_race_is_rejected ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_back_is_rejected_without_timestamp_resolution ... ok
+test collaboration::registered_worktree_file_tests::opened_active_directory_swap_cannot_redirect_contract_read ... ok
+test contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary ... FAILED
+test coordination_store::lock_recovery_tests::coordination_lock_child_helper ... ok
+test collaboration::outcome_publication_tests::pause_committed_after_initial_admission_blocks_the_process_start_boundary ... ok
+test coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged ... FAILED
+test coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged ... FAILED
+test environment_identity_tests::cargo_executable_case_variant_keeps_package_deadline_and_target_isolation ... ok
+test environment_identity_tests::cargo_verification_defaults_to_checkout_specific_home_target_when_not_declared ... ok
+test environment_identity_tests::cargo_verification_preserves_explicit_non_incremental_target ... ok
+test environment_identity_tests::command_environment_changes_still_invalidate_exact_reuse ... ok
+test environment_identity_tests::empty_home_still_gets_an_absolute_checkout_specific_cargo_target ... ok
+test environment_identity_tests::mise_session_metadata_does_not_invalidate_exact_reuse ... ok
+test environment_identity_tests::non_cargo_verification_keeps_declared_environment ... ok
+test environment_identity_tests::pinned_cargo_execution_preserves_inherited_target_directory ... ok
+test historical_compatibility::tests::canonical_close_vocabulary_remains_explicit_and_finite ... ok
+test historical_compatibility::tests::legacy_evidence_projection_rejects_current_schema_and_malformed_records ... ok
+test coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event ... FAILED
+test lifecycle::cross_checkout_closeout_tests::crash_child ... ok
+test collaboration::registered_worktree_file_tests::outcome_verification_uses_event_bound_bytes_and_digest_bound_contract ... ok
+test lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes ... FAILED
+test lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked ... FAILED
+test lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck ... FAILED
+test lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker ... FAILED
+test lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker ... FAILED
+test lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears ... FAILED
+test lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes ... FAILED
+test lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes ... FAILED
+test lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload ... FAILED
+test lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification ... FAILED
+test lifecycle::recovery_retry_consumption_tests::explicit_supersession_overrides_tied_attempt_digest_order ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded ... ok
+test lifecycle::recovery_retry_consumption_tests::recovery_rejection_diagnostics_are_bounded_for_rejected_projection ... ok
+test lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry ... FAILED
+test material_review::tests::checkout_source_open_refuses_symlinks_and_does_not_block_on_fifo ... ok
+test material_review::tests::implementation_digest_is_build_independent_and_source_sensitive ... ok
+test material_review::tests::material_request_digest_binds_finding_categories ... ok
+test material_review::tests::material_review_amendment_anchor_requires_adjacent_unique_receipt_edges ... ok
+test material_review::tests::material_review_amendment_chain_is_contiguous_from_receipt_to_current_contract ... ok
+test material_review::tests::material_review_amendment_chain_rejects_duplicate_receipt_anchor ... ok
+test material_review::tests::material_review_initial_base_anchor_requires_a_unique_origin ... ok
+test lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file ... FAILED
+test observation_ledger::tests::detects_type_and_symlink_target_drift ... ok
+test observation_ledger::tests::detects_file_and_candidate_set_drift ... ok
+test observation_ledger::tests::request_cache_deduplicates_initial_reads_but_refreshes_at_boundary ... ok
+test outcome_render::render_tests::archived_unclosed_recommends_close_decision ... ok
+test outcome_render::render_tests::archive_delivery_segments_reassemble_without_truncation ... ok
+test outcome_render::render_tests::cleanup_summary_lists_evidence_bound_objects_counts_reason_and_action_in_all_languages ... ok
+test outcome_render::render_tests::finalization_recovery_actions_follow_classified_facts ... ok
+test outcome_render::render_tests::human_renderer_preserves_blockers_and_unknowns_in_summary ... ok
+test outcome_render::render_tests::invalid_decision_is_visible_as_unknown ... ok
+test outcome_render::render_tests::outcome_assembly_registers_event_stream_drift ... FAILED
+test outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change ... FAILED
+test outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes ... FAILED
+test outcome_render::render_tests::receipt_next_action_is_executable_and_retained_action_is_non_destructive ... ok
+test outcome_render::render_tests::renderer_is_driven_by_in_memory_facts_for_missing_decision ... ok
+test outcome_render::render_tests::renderer_preserves_valid_decision_and_assurance ... ok
+test outcome_render::render_tests::reobserve_action_is_executable_and_repository_bound ... ok
+test outcome_render::render_tests::resource_facts_are_read_once_and_reused_by_boundary_digests ... ok
+test outcome_render::render_tests::superseded_history_is_not_rendered_as_current_failure ... ok
+test outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read ... FAILED
+test outcome_render::render_tests::validated_receipt_projection_classifies_deleted_retained_and_unknown_without_guessing ... ok
+test post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution ... FAILED
+test post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution ... FAILED
+test post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces ... FAILED
+test outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_recipe_comparison_accepts_only_platform_line_endings ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_document_projection_preserves_pending_state ... ok
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence ... FAILED
+test resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence ... FAILED
+test resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid ... FAILED
+test resource_lifecycle::post_merge_sync_tests::schema_v2_first_root_must_be_retained ... ok
+test rust_material::diagnosis_tests::direct_malicious_literal_remains_finding ... ok
+test rust_material::diagnosis_tests::typed_causes_do_not_turn_missing_or_invalid_evidence_into_reviewable_syntax ... ok
+test status_projection::human_decision_tests::admitted_verification_does_not_reopen_an_ordinary_preflight_decision ... ok
+test status_projection::human_decision_tests::pending_amendment_review_stays_human_required_during_preflight_recovery ... ok
+test status_projection::pending_retry_amendment_preflight_tests::only_unreviewed_amendment_with_pending_retry_recovers_preflight ... ok
+test status_projection::transition_index_tests::historical_finalization_transition_is_parsed_once_per_observation ... ok
+test status_projection::transition_index_tests::indexed_resolution_preserves_canonical_error_precedence ... ok
+test usage::lifecycle_clock_tests::injectable_lifecycle_clock_keeps_same_second_order_and_utc ... ok
+test collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append ... FAILED
+test resource_lifecycle::post_merge_sync_tests::schema_v2_retained_requires_exact_local_worktree_identity ... ok
+test lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry ... FAILED
+test usage::lifecycle_clock_tests::injected_clock_drives_real_lifecycle_transitions_and_negative_wall_is_unknown ... ok
+
+failures:
+
+---- contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary stdout ----
+
+thread 'contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary' (2142817) panicked at /rustc/48a229ceaefd4985c50990b14116b6d856af0985/library/std/src/thread/functions.rs:131:29:
+failed to spawn thread: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged stdout ----
+
+thread 'coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged' (2143318) panicked at crates/cockpit-repository/src/coordination_store.rs:2032:56:
+discover: Command("Resource temporarily unavailable (os error 11)")
+
+---- coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged stdout ----
+
+thread 'coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged' (2143391) panicked at crates/cockpit-repository/src/coordination_store.rs:1869:18:
+git command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event stdout ----
+
+thread 'coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event' (2143191) panicked at crates/cockpit-repository/src/coordination_store_lock_tests.rs:229:10:
+register initial generation: RecoveryRequired("cannot observe Runtime environment for WI-LOCK-RECOVERY: repository protocol state error at /workspace/wi1079-evidence/tmp/cockpit-coordination-lock-2142806-1791875322191549413: Rust compiler sysroot probe failed or exceeded its bounded output/deadline")
+
+---- lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes' (2143405) panicked at crates/cockpit-repository/src/lifecycle.rs:9617:55:
+preflight source: State { path: "/workspace/wi1079-evidence/tmp/.tmpnWXhMQ", message: "git command failed: Resource temporarily unavailable (os error 11)" }
+
+---- lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked' (2143476) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck' (2143478) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker' (2143480) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker' (2143482) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears' (2143484) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes' (2143486) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes' (2143488) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload' (2143492) panicked at crates/cockpit-repository/src/lifecycle.rs:9565:14:
+run fixture command: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification stdout ----
+
+thread 'lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification' (2143494) panicked at crates/cockpit-repository/src/lifecycle.rs:9172:14:
+git init: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry stdout ----
+
+thread 'lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry' (2143499) panicked at crates/cockpit-repository/src/lifecycle.rs:9172:14:
+git init: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file' (2143415) panicked at crates/cockpit-repository/src/lifecycle.rs:9617:55:
+preflight source: State { path: "/workspace/wi1079-evidence/tmp/.tmpkxP0EK", message: "git command failed: Resource temporarily unavailable (os error 11)" }
+
+---- outcome_render::render_tests::outcome_assembly_registers_event_stream_drift stdout ----
+
+thread 'outcome_render::render_tests::outcome_assembly_registers_event_stream_drift' (2143526) panicked at crates/cockpit-repository/src/outcome_render.rs:3781:10:
+start: State { path: "/workspace/wi1079-evidence/tmp/.tmps3uSK0", message: "git command failed: Resource temporarily unavailable (os error 11)" }
+
+---- outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change stdout ----
+
+thread 'outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change' (2143547) panicked at crates/cockpit-repository/src/outcome_render.rs:3765:18:
+git init: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes stdout ----
+
+thread 'outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes' (2143549) panicked at crates/cockpit-repository/src/outcome_render.rs:3765:18:
+git init: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read stdout ----
+
+thread 'outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read' (2143558) panicked at crates/cockpit-repository/src/outcome_render.rs:3765:18:
+git init: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution stdout ----
+
+thread 'post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution' (2143562) panicked at crates/cockpit-repository/src/lib.rs:14398:22:
+git: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution stdout ----
+
+thread 'post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution' (2143564) panicked at crates/cockpit-repository/src/lib.rs:14398:22:
+git: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier stdout ----
+
+thread 'post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier' (2143567) panicked at crates/cockpit-repository/src/lib.rs:14398:22:
+git: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs' (2143571) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close' (2143573) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6833:18:
+called `Result::unwrap()` on an `Err` value: Read { path: "/workspace/wi1079-evidence/tmp/cockpit-finalization-history-2142806-1791875322446415432/repository", source: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" } }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration' (2143575) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict' (2143577) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces' (2143579) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract stdout ----
+
+thread 'outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract' (2143527) panicked at crates/cockpit-repository/src/outcome_render.rs:3781:10:
+start: State { path: "/workspace/wi1079-evidence/tmp/.tmpf2WMys", message: "ordinary close cannot prove an exact worktree: `git worktree list --porcelain` failed" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts' (2143586) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6833:18:
+called `Result::unwrap()` on an `Err` value: Read { path: "/workspace/wi1079-evidence/tmp/cockpit-finalization-history-2142806-1791875322447797919/repository", source: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" } }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss' (2143589) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6833:18:
+called `Result::unwrap()` on an `Err` value: Read { path: "/workspace/wi1079-evidence/tmp/cockpit-finalization-history-2142806-1791875322448258000/repository", source: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" } }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material' (2143592) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6833:18:
+called `Result::unwrap()` on an `Err` value: Read { path: "/workspace/wi1079-evidence/tmp/cockpit-finalization-history-2142806-1791875322448416615/repository", source: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" } }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection' (2143594) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes' (2143596) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit' (2143598) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes' (2143600) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code' (2143603) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output' (2143605) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record' (2143607) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code' (2143610) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt' (2143613) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits' (2143615) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes' (2143617) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision' (2143619) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6817:14:
+git command starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence' (2143621) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:8845:14:
+git init starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence' (2143623) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:9319:14:
+git init starts: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+---- resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid stdout ----
+
+thread 'resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid' (2143581) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:6892:18:
+called `Result::unwrap()` on an `Err` value: State { path: "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout/crates/cockpit-repository/../../.ai/decisions", message: "cannot create an isolated historical checkout: error: cannot fork() for git-upload-pack '/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1079-post-merge-lifecycle-layout': Resource temporarily unavailable\nfatal: unable to fork" }
+
+---- collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append stdout ----
+
+thread 'collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append' (2142809) panicked at crates/cockpit-repository/src/collaboration.rs:4246:18:
+register verification-required consumer at the prepared-event boundary: RecoveryRequired("cannot observe Runtime environment for WI-CONSUMER: repository protocol state error at /workspace/wi1079-evidence/tmp/.tmpUJbAGu: Rust compiler sysroot probe failed or exceeded its bounded output/deadline")
+
+---- lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry stdout ----
+
+thread 'lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry' (2143457) panicked at /rustc/48a229ceaefd4985c50990b14116b6d856af0985/library/std/src/thread/functions.rs:131:29:
+failed to spawn thread: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
+
+
+failures:
+    collaboration::outcome_publication_tests::publish_outcome_observes_consumer_registered_before_locked_append
+    contract_amendment::tests::amendment_recovers_exactly_once_at_every_durable_boundary
+    coordination_store::lock_recovery_tests::killed_lock_owner_releases_coordination_lock_and_registration_retry_reconciles_event
+    coordination_store::registered_worktree_file_tests::moved_open_contract_rejection_leaves_registration_and_event_bytes_unchanged
+    coordination_store::registered_worktree_file_tests::swap_back_during_registration_leaves_registration_and_event_bytes_unchanged
+    lifecycle::cross_checkout_closeout_tests::abrupt_exit_before_close_is_pending_and_retry_completes
+    lifecycle::cross_checkout_closeout_tests::detected_destination_addition_preserves_partial_recovery_and_user_file
+    lifecycle::cross_checkout_closeout_tests::failed_recovery_preserves_installed_payload_for_safe_retry
+    lifecycle::cross_checkout_closeout_tests::modified_racing_target_and_other_payloads_are_never_unlinked
+    lifecycle::cross_checkout_closeout_tests::postcommit_reporting_error_preserves_close_marker_for_read_only_recheck
+    lifecycle::cross_checkout_closeout_tests::postcommit_status_read_failure_reports_commit_without_unlinking_marker
+    lifecycle::cross_checkout_closeout_tests::preexisting_payload_deleted_before_commit_cannot_leave_close_marker
+    lifecycle::cross_checkout_closeout_tests::recovered_close_is_not_projected_closed_after_payload_disappears
+    lifecycle::cross_checkout_closeout_tests::runtime_error_before_commit_preserves_partial_files_and_retry_completes
+    lifecycle::cross_checkout_closeout_tests::source_change_during_recovery_preserves_pending_destination_writes
+    lifecycle::cross_checkout_closeout_tests::tampered_recovery_receipt_cannot_omit_missing_archived_payload
+    lifecycle::recovery_retry_consumption_tests::consumed_retry_receipt_remains_valid_after_verification
+    lifecycle::recovery_retry_consumption_tests::verification_after_failed_finish_requires_retry
+    outcome_render::render_tests::outcome_assembly_registers_event_stream_drift
+    outcome_render::render_tests::outcome_assembly_rejects_a_symlinked_active_contract
+    outcome_render::render_tests::outcome_assembly_retries_once_after_deterministic_record_change
+    outcome_render::render_tests::outcome_assembly_stops_after_bounded_record_changes
+    outcome_render::render_tests::timezone_handoff_rejects_lifecycle_drift_between_guard_and_audit_read
+    post_prepare_identity_tests::cockpit_config_byte_drift_after_prepare_forces_execution
+    post_prepare_identity_tests::project_config_byte_drift_after_prepare_forces_execution
+    post_prepare_identity_tests::unchanged_identity_reuses_candidate_after_post_prepare_barrier
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_absent_projection_rejects_existing_pages_parity_and_active_refs
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_archive_metadata_cannot_disable_real_human_close
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_historical_checkout_pins_byte_preserving_git_configuration
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_merge_proof_rejects_wrong_base_extra_content_and_conflict
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_nested_checkout_uses_local_paths_with_spaces
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1076_separate_projected_semantics_remain_valid
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_real_1078_combined_absent_advanced_base_preserves_old_attempts
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_rejects_resealed_artifacts_foreign_paths_and_history_loss
+    resource_lifecycle::post_merge_sync_tests::post_merge_layout_same_green_preflight_still_requires_valid_material
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_accepts_the_real_archive_pending_close_projection
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_archive_stage_requires_exact_normalized_finish_bytes
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_current_archive_must_match_the_selected_archive_commit
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_docs_projection_accepts_pending_archive_and_rejects_other_row_changes
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_spawned_observer_failure_without_exit_code
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_preserves_success_with_truncated_output
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_non_reused_result_without_execution_record
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempt_rejects_passed_record_with_nonzero_exit_code
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_attempts_bind_contract_snapshot_runtime_and_receipt
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_accepts_only_append_only_attempt_commits
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_finish_history_rejects_even_reverted_intermediate_product_changes
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_historical_json_is_read_from_the_committed_revision
+    resource_lifecycle::post_merge_sync_tests::post_merge_sync_requires_imported_provider_assurance_without_upgrading_evidence
+    resource_lifecycle::post_merge_sync_tests::schema_v2_deleted_requires_branch_worktree_and_gitdir_absence
+
+test result: FAILED. 57 passed; 49 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.14s
+
+error: test failed, to rerun pass `-p cockpit-repository --lib`

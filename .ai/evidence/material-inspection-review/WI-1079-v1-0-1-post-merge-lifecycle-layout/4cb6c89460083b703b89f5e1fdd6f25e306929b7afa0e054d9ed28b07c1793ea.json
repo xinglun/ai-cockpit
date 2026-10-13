@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:41ff30216af1f3eaf399314752d66dc10f6812c3f419b3c170b96b8d46ba60f4",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea",
+  "reviewedSourceHead": "d5c88149331d4212793aaf02c90cb751b1208b5c",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:78642edfc7ec2c44103de643cb9e0ed0da07effe844f59c883d43b81ffccad82",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:b42fc260abdffc5f16f303650edad32bf4fe2723a27493029224b228d8667589"
+    }
+  ],
+  "rationale": "Raydot-delegated self_declared review of exact production source d5c88149. The current Windows long-source path explicitly uses a genuinely short physical ancestor as process cwd, identity-checked existing DOS metadata locator, read-only source revision bundle, clone/detach from the short temporary bundle, and source/target HEAD-tree validation. This route was actually demonstrated by df10236 Windows probes: DOS metadata both modes exit0, bundle create/clone/checkout/identity exit0, checkout/head/tree/file-byte checks all true; no claim that the old production assertion was passing. Applicability is Windows source path >200 with an ordinary verified Git metadata directory, existing short alias, no reparse/symlink marker/HEAD/objects, and exact canonical metadata equality; absence or any command/identity failure returns error without exception-driven fallback. Source canonical containment and readers remain unchanged, short-source shared/local clone remains, physical >260/internal-space fixture and all original source HEAD/tree/file-byte checks remain via metadata-only lookup. Bundle and checkout remain under the existing RAII directory cleanup. No global configuration/permissions/workflow/dependency/scope change, no new human authority and no shared Runtime deployment. Linux focused layout 10/10 passed; actual final production Windows CI remains required. Actual immutable Runtime SHA is 78642edfc7ec2c44103de643cb9e0ed0da07effe844f59c883d43b81ffccad82, distinct from 92f. Accept only request-listed permitted readable syntax Unknown identities under the existing scoped profile, preserving raw scanner diagnostics and failed history.",
+  "residualRisk": "The ordinary-directory bundle branch deliberately fails closed for unsupported long gitfile layouts, unavailable existing short aliases, reparse metadata or identity drift. Git bundle preserves actual commit/object identities and selected tree; all source/target evidence bytes still require verification. Final production Windows/CI acceptance is pending, and earlier unrelated local composition failures are not overwritten. This self_declared technical review does not authorize merge, release, resource deletion or human close.",
+  "recordedAt": "2026-10-13T05:25:21Z",
+  "receiptDigest": "sha256:735975c44ba7bdf88932a8b02b352223fa0fcce8aa3e8c22ee73002091e16e50"
+}

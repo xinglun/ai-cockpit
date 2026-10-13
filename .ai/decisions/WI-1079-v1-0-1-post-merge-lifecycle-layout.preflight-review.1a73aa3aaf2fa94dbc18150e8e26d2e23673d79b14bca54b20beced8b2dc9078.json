@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:c5dbba7e2f24f9aee1a98d3ec3bc6b1b13bffdaee1538be9ebcd5b2067d79334",
+  "reason": "Ray replied confirm_review in the actual user message Sentinel_cc96137b619c8191bc1e3b726a59d5e7, received 2026-10-13T10:28:53Z, in response to the exact-bound request Sentinel_ccaa14689cbc81919325a7d42fff1c5a. The confirmation applies only to the WI-1079 narrow Rustup host-field compatibility and strict regression scope bound to this Contract, preflight, and repository snapshot; it does not authorize merge or final close.",
+  "recordedAt": "2026-10-13T10:28:53Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+  "schemaVersion": 1,
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

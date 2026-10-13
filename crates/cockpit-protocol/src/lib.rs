@@ -1163,6 +1163,11 @@ pub struct ResourceFinalizationContext {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct PostMergeSyncEvidence {
+    /// Required only by schema-v3. Old schemas reject these opt-in fields.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lifecycle_layout: Option<PostMergeLifecycleLayout>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub documentation: Option<PostMergeDocumentation>,
     pub source_pull_request: ResourceFinalizationPullRequestIdentity,
     pub sync_pull_request: ResourceFinalizationPullRequestIdentity,
     pub source_evidence_digest: Digest,
@@ -1176,6 +1181,20 @@ pub struct PostMergeSyncEvidence {
     pub remote_evidence_digest: Digest,
     pub git_common_dir: String,
     pub worktree_git_dir: String,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PostMergeLifecycleLayout {
+    Separate,
+    Combined,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum PostMergeDocumentation {
+    Projected,
+    Absent,
 }
 
 /// Provider-reported remote branch state carried by a post-merge sync root or
@@ -1543,6 +1562,17 @@ impl FinalizationError {
 
 pub const RESOURCE_FINALIZATION_SCHEMA_VERSION: u32 = 1;
 pub const RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION: u32 = 2;
+pub const RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION: u32 = 3;
+
+impl ResourceFinalizationReceipt {
+    pub fn is_post_merge_sync(&self) -> bool {
+        matches!(
+            self.schema_version,
+            RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+                | RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
+        )
+    }
+}
 
 pub const RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE: &str = "dirty_worktree";
 pub const RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST: &str = "unmerged_pull_request";
@@ -1633,12 +1663,13 @@ fn validate_post_merge_sync_receipt(
         || sync.source_pull_request.base_remote != sync.sync_pull_request.base_remote
         || sync.sync_pull_request.base_branch != "main"
         || sync.sync_pull_request.base_remote != "origin"
-        || sync.sync_pull_request.base_revision
-            != sync
-                .source_pull_request
-                .merge_commit
-                .as_deref()
-                .unwrap_or_default()
+        || (receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+            && sync.sync_pull_request.base_revision
+                != sync
+                    .source_pull_request
+                    .merge_commit
+                    .as_deref()
+                    .unwrap_or_default())
         || sync.sync_pull_request.merge_commit.as_deref()
             != Some(sync.current_main_revision.as_str())
         || receipt.pull_request != sync.source_pull_request
@@ -1669,13 +1700,38 @@ fn validate_post_merge_sync_receipt(
     ] {
         validate_post_merge_sync_revision(value, field)?;
     }
-    if sync.finish_revision == sync.archive_revision
-        || sync.archive_revision == sync.docs_revision
-        || sync.finish_revision == sync.docs_revision
-    {
-        return Err(ResourceFinalizationError::InvalidState(
-            "post-merge finish, archive, and docs stages must be distinct revisions",
-        ));
+    let distinct = sync.finish_revision != sync.archive_revision
+        && sync.archive_revision != sync.docs_revision
+        && sync.finish_revision != sync.docs_revision;
+    if receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION {
+        if sync.lifecycle_layout.is_some() || sync.documentation.is_some() || !distinct {
+            return Err(ResourceFinalizationError::InvalidState(
+                "schema-v2 requires distinct finish, archive, and docs stages without layout options",
+            ));
+        }
+    } else {
+        let valid_lifecycle = match sync.lifecycle_layout {
+            Some(PostMergeLifecycleLayout::Separate) => {
+                sync.finish_revision != sync.archive_revision
+            }
+            Some(PostMergeLifecycleLayout::Combined) => {
+                sync.finish_revision == sync.archive_revision
+            }
+            None => false,
+        };
+        let valid_docs = match sync.documentation {
+            Some(PostMergeDocumentation::Projected) => {
+                sync.docs_revision != sync.archive_revision
+                    && sync.docs_revision != sync.finish_revision
+            }
+            Some(PostMergeDocumentation::Absent) => sync.docs_revision == sync.archive_revision,
+            None => false,
+        };
+        if !valid_lifecycle || !valid_docs {
+            return Err(ResourceFinalizationError::InvalidState(
+                "schema-v3 requires an explicit consistent lifecycle layout and documentation mode",
+            ));
+        }
     }
     for digest in [
         &sync.source_evidence_digest,
@@ -1866,7 +1922,7 @@ fn validate_resource_finalization_identity(
     if let Some(merge_commit) = &receipt.pull_request.merge_commit {
         validate_resource_finalization_revision(merge_commit, "pullRequest.mergeCommit")?;
     }
-    if receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION {
+    if receipt.is_post_merge_sync() {
         let sync =
             receipt
                 .post_merge_sync
@@ -2028,14 +2084,15 @@ pub fn validate_resource_finalization_receipt(
 ) -> Result<(), ResourceFinalizationError> {
     if !matches!(
         receipt.schema_version,
-        RESOURCE_FINALIZATION_SCHEMA_VERSION | RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+        RESOURCE_FINALIZATION_SCHEMA_VERSION
+            | RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
+            | RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
     ) {
         return Err(ResourceFinalizationError::UnsupportedSchema);
     }
     if (receipt.schema_version == RESOURCE_FINALIZATION_SCHEMA_VERSION
         && receipt.post_merge_sync.is_some())
-        || (receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
-            && receipt.post_merge_sync.is_none())
+        || (receipt.is_post_merge_sync() && receipt.post_merge_sync.is_none())
     {
         return Err(ResourceFinalizationError::InvalidState(
             "postMergeSync is required only for schema-v2 finalization receipts",
@@ -2177,7 +2234,7 @@ pub fn validate_resource_finalization_receipt(
             }
         }
     }
-    if receipt.schema_version == RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION {
+    if receipt.is_post_merge_sync() {
         validate_post_merge_sync_receipt(
             receipt,
             receipt

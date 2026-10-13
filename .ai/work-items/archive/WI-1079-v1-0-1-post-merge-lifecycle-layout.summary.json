@@ -1,0 +1,334 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-10-12T23:35:43Z",
+  "checkpointContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "recorded": true,
+      "recordedAt": "2026-10-12T23:35:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:94ef589529cec1e301a73a6e139ade4c9ab45dfc466c034304065a369e8f118c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "reason": "The user explicitly allowed only WI-1079 material review opt-in and agent:Raydot/self_declared technical registration in Sentinel_21256653502c819186f175f718a7fadb, sent 2026-10-13T00:33:13.990553+00:00, replying to the WI-1079-specific request Sentinel_8119c182e364819186718a96e9a9f228. Enable only the single permitted readable committed Rust syntax Unknown profile. Preserve raw scanner Unknowns, all existing source/verification/provider/close authority and every historical attempt. This permission does not record a contract-preflight-review confirmation or a human close decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T00:55:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3fa9705f9fbb2d7fd8ba88190565c0b95bd897c968292dff65ff18961d2f5731",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+      "reason": "The local formal verification exposed that the current Runtime cannot observe Rustup toolchain identity when settings.toml uses the supported default_host_tuple key. Raydot approved a narrow WI-1079 amendment to include this existing composition parser and its necessary regression coverage. Preserve strict fail-closed behavior, complete settings-byte hashing, host-qualified selection, all existing gates and the 900-second verification ceiling.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T08:40:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:0bbf03930355a22649bca9e06da07416746947d558b4cee7813e95602d8c9ea5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
+      "reason": "The official 14-node run exposed one existing regression fixture outside the approved scope: installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node creates Rustup settings without a default host tuple and installs a bare test-channel directory. The amended implementation correctly fails closed for incomplete host identity, so the fixture must be brought into the same validated host-qualified model. Add only this test file to scope so its fixture can supply default_host_tuple and a host-qualified toolchain path while retaining assertions that identical inputs reuse exactly and rustc-byte changes force re-execution. Do not change assertions, production semantics, verification commands, or gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T11:01:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:0bbf03930355a22649bca9e06da07416746947d558b4cee7813e95602d8c9ea5",
+      "reason": "Independent review identified a production compatibility defect in the current narrow Rustup parser: Rustup default_host_tuple is optional, and a fully host-qualified selected toolchain carries its own exact host identity even when it differs from the configured default. Make this behavior explicit in the same bounded WI-1079 acceptance boundary. Keep short-channel resolution dependent on a validated configured host, exact directory selection, fail-closed malformed/conflicting/ambiguous cases, and no unique-prefix fallback. Preserve the existing exact-reuse and toolchain-byte-change regression goals; do not add general custom-toolchain resolution or alter gates.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T11:05:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "reason": "Record the owner-authorized user-visible benefit of the WI-1079 Rustup configuration compatibility and exact host selection repair. Preserve the existing business intent and do not change scope, acceptance criteria, authority, implementation, or verification requirements.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T12:18:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "previousContractHash": "sha256:3ca6979abbcdf4d7e99de0b18f7d2f61a52adfd68da1aaf096abac719bd56c89",
+      "reason": "Restore only the original WI-1079 intent value while preserving sequence 6 and every prior verification, preflight, amendment, and material-review record. A read-only Outcome inspection shows the user-benefit projection remains Unknown and this Runtime has no supported Outcome benefit setter. Provenance clarification: receipt bee545852a4da33d5de0bfe271a11c994081010aaf0db36c85cf437fd96bd035 is a self-declared agent:Raydot record for material request 6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e; the parent's bounded technical review applied to request ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6, not 6615. Do not treat bee545 as parent approval or rewrite it.",
+      "recorded": true,
+      "recordedAt": "2026-10-13T12:37:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "createdAt": "2026-10-12T23:35:42Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4",
+    "reason": "Ray replied confirm_review in actual user message Sentinel_a6be5d4e706881919014182c16e91040, received 2026-10-13T11:21:06Z, in response to exact-bound WI-1079 request Sentinel_d151522c12048191981ee5ba8486fc18 sent at 2026-10-13T11:07:59.587527Z. The confirmation applies only to Contract sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc, preflight sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4, and snapshot sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683; it authorizes only the bounded WI-1079 Rustup compatibility repair and necessary regressions, not merge or close.",
+    "recordedAt": "2026-10-13T11:21:06Z",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+    "schemaVersion": 1,
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+  },
+  "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-13T14:59:14.518957568Z",
+      "recordedAt": "2026-10-13T14:59:14.518957568Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-12T23:35:42.613224849Z",
+      "recordedAt": "2026-10-12T23:35:42.613224849Z",
+      "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:679687d0ae64ea38708820e33d469a32f9d3fe4a8314e7c8ca9fba480bc0fcc6",
+    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491.json",
+    "receiptDigest": "sha256:7039d3d906047c9cd296cec3ab1b5aa207de3c81c38a9f5044313096d7325962",
+    "requestDigest": "sha256:11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491"
+  },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:0e96b59fe0db12c63b42d40d45edb1ce9ba3fef59cef22608be018b4ab20785f",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f.json",
+      "receiptDigest": "sha256:2f19caf6d87645b747f380805c7932a35a41c3fd9cef0f23522172949ead8573",
+      "requestDigest": "sha256:3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f"
+    },
+    {
+      "digest": "sha256:f359259f472140787112337c9a63461b25d566f6af3400c1325303854e91d331",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/9fcc98ecd562cf98eee5b3ca36706e424635c086203f174356d78e82a76d80a6.json",
+      "receiptDigest": "sha256:e13ee126e95e162b7fd813af8477881dbb1ca258a949e28ca7840a3319ec48e7",
+      "requestDigest": "sha256:9fcc98ecd562cf98eee5b3ca36706e424635c086203f174356d78e82a76d80a6"
+    },
+    {
+      "digest": "sha256:586429595503e4301c7e17eb07bf2fd7e8960959a973b58f8428ede2702e9986",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/f585b94864c258e1fbd11fbf80ca9f7761362376fa1d9f7f7630565a32c762a3.json",
+      "receiptDigest": "sha256:239c6a0bae16165189b0bd99384a6342202318041bae63f817d2764c45c3c6ac",
+      "requestDigest": "sha256:f585b94864c258e1fbd11fbf80ca9f7761362376fa1d9f7f7630565a32c762a3"
+    },
+    {
+      "digest": "sha256:835317f3e84623230febee65b638155227419c2454de7dc265a7509c8ca5cdc5",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/becc8af967399a8f38c9f26e4970c6cb6b09c79c664e033f2ca4df5af926a6b7.json",
+      "receiptDigest": "sha256:67fbade7138942dd2c9c416f76e07c6022b6b8945512a8a755d6f1cd1f12cbc0",
+      "requestDigest": "sha256:becc8af967399a8f38c9f26e4970c6cb6b09c79c664e033f2ca4df5af926a6b7"
+    },
+    {
+      "digest": "sha256:1bb0ade0009e9b9cdd93d0111ddfe8180d00ab31522528291faeda0390142e07",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/172e6dc2bf32e814105e281c45fc38874290534cecef6d244dc8cb080f04ff7f.json",
+      "receiptDigest": "sha256:5da684ff1b11d41f2c668a6fef3ab3e36f29fb86d421cda0b05d23d46813265a",
+      "requestDigest": "sha256:172e6dc2bf32e814105e281c45fc38874290534cecef6d244dc8cb080f04ff7f"
+    },
+    {
+      "digest": "sha256:544b9f4f53c67a2116e48566e851796c0afdff563dfc144ea502d862801cdf90",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/453788926e7d6164485ad3d0b1b68540543b27774e07a58504aafdc321428e05.json",
+      "receiptDigest": "sha256:1db84007361bb26ca491dfd58360c1a999a94acad6c9a6560d5926f0cbc43a75",
+      "requestDigest": "sha256:453788926e7d6164485ad3d0b1b68540543b27774e07a58504aafdc321428e05"
+    },
+    {
+      "digest": "sha256:0becc2266431f57752664ded8f83b28321d8842c6d7b4e55584bbca2dda898aa",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/751626bd94878e126b459d83a18374ee1c04b8e14c66b567fac41cf12c737a29.json",
+      "receiptDigest": "sha256:ceba5825e72e8005dc50a1bf0c695cd868516fc28bb672265e292f4e8b0184dc",
+      "requestDigest": "sha256:751626bd94878e126b459d83a18374ee1c04b8e14c66b567fac41cf12c737a29"
+    },
+    {
+      "digest": "sha256:91988a4e12a3723a6bc9860b91e230620a570af1f6ef0c5c93ba569f176ab4ec",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/79fad8b6d1d3ab63fdf7cb886eed43b08cd4352ae7aded3ed30d39842c8da295.json",
+      "receiptDigest": "sha256:73e891d5b4d05fe1d03671ffbf4583368f779fd6daf9b13038cb5469f0c17f82",
+      "requestDigest": "sha256:79fad8b6d1d3ab63fdf7cb886eed43b08cd4352ae7aded3ed30d39842c8da295"
+    },
+    {
+      "digest": "sha256:2f3c70230a6eabfeb40777c9720462a2818935ec6cf2a62d6814c72ce6147e77",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea.json",
+      "receiptDigest": "sha256:735975c44ba7bdf88932a8b02b352223fa0fcce8aa3e8c22ee73002091e16e50",
+      "requestDigest": "sha256:4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea"
+    },
+    {
+      "digest": "sha256:9806b9c96db90a032e01d4e87dc149f457f1188c8ed383268f5a9fb7d615b638",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944.json",
+      "receiptDigest": "sha256:6a848fa7853923144c047c2712b410cab479a38ab1bdae8e67826587b922c91f",
+      "requestDigest": "sha256:e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944"
+    },
+    {
+      "digest": "sha256:3c8cb84c50a76d6d7fa56a84ae4a673c072ca5c804d0a961f9c433dc42ce03be",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9.json",
+      "receiptDigest": "sha256:a40ca1340bbc6aa6a809239852fad26efe1e68cc664e8c1a092083e810837a4a",
+      "requestDigest": "sha256:adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9"
+    },
+    {
+      "digest": "sha256:388646e5afe8f201a2ec80a8afa2d5739d02cda43fca9e2daf7172b986780468",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6.json",
+      "receiptDigest": "sha256:0490663a0939cd88cc54fc7b43e5dfbd2818ba7dbd4378437adeb706f84c98d4",
+      "requestDigest": "sha256:ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6"
+    },
+    {
+      "digest": "sha256:89c03eccaebe28ceefa556b3e80fb6eb0653901508bf1e4dceab9d13af90f760",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e.json",
+      "receiptDigest": "sha256:bee545852a4da33d5de0bfe271a11c994081010aaf0db36c85cf437fd96bd035",
+      "requestDigest": "sha256:6615f233a34fcd2f0fea8608a872c83c2f81470fda92c52d6cfaa40c0003909e"
+    }
+  ],
+  "mode": "implementation",
+  "preflightAt": "2026-10-13T14:57:26Z",
+  "preflightContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-13T14:59:14.518957568Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

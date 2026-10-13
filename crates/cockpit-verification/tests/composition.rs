@@ -4144,7 +4144,8 @@ fn installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node() {
         .expect("make rustup proxy executable");
     symlink("rustup", proxy_dir.join("cargo")).expect("create cargo proxy");
 
-    let toolchain = home.path().join(".rustup/toolchains/test-channel");
+    let toolchain_name = "stable-x86_64-unknown-linux-gnu";
+    let toolchain = home.path().join(".rustup/toolchains").join(toolchain_name);
     let toolchain_bin = toolchain.join("bin");
     fs::create_dir_all(&toolchain_bin).expect("create fake toolchain");
     fs::write(toolchain_bin.join("cargo"), b"cargo-v1").expect("write cargo identity");
@@ -4153,13 +4154,16 @@ fn installed_rust_toolchain_change_with_stale_json_reexecutes_reusable_node() {
     fs::create_dir_all(&rustlib).expect("create rustlib metadata");
     fs::write(rustlib.join("components"), b"rustc\nrust-std\n")
         .expect("write installed components");
-    fs::write(rustlib.join("manifest-test-channel"), b"toolchain-v1")
-        .expect("write toolchain manifest");
+    fs::write(
+        rustlib.join(format!("manifest-{toolchain_name}")),
+        b"toolchain-v1",
+    )
+    .expect("write toolchain manifest");
     let rustup_home = home.path().join(".rustup");
     fs::create_dir_all(&rustup_home).expect("create rustup home");
     fs::write(
         rustup_home.join("settings.toml"),
-        "default_toolchain = \"test-channel\"\n[overrides]\n",
+        "default_host_tuple = \"x86_64-unknown-linux-gnu\"\ndefault_toolchain = \"stable\"\n[overrides]\n",
     )
     .expect("write rustup settings");
 

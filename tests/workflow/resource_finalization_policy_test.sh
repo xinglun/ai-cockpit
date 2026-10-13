@@ -142,6 +142,9 @@ for path in \
   docs/reference/agent-workflow.md \
   docs/reference/agent-workflow.ja.md \
   docs/reference/agent-workflow.zh-CN.md \
+  docs/reference/provider-reconciliation-boundary.md \
+  docs/reference/provider-reconciliation-boundary.zh-CN.md \
+  docs/reference/provider-reconciliation-boundary.ja.md \
   docs/reference/repository-workflow.md \
   docs/reference/repository-workflow.ja.md \
   docs/reference/repository-workflow.zh-CN.md \
@@ -160,6 +163,8 @@ for path in \
   mkdir -p "$fixture/$(dirname "$path")"
   cp "$root/$path" "$fixture/$path"
 done
+
+"$policy" "$fixture" >/dev/null
 
 python3 - "$fixture/docs/reference/agent-workflow.zh-CN.md" <<'PY'
 from pathlib import Path
@@ -413,3 +418,24 @@ PY
 done
 
 printf 'resource finalization policy tests passed\n'
+
+# The explicit layout mode must remain documented in every projection.
+rm -rf "$fixture"
+layout_fixture=$(mktemp -d)
+trap 'rm -rf "$layout_fixture"' EXIT
+cp -a "$root/docs" "$root/agents" "$root/AGENTS.md" "$layout_fixture/"
+mkdir -p "$layout_fixture/.ai"
+cp "$root/.ai/README.md" "$layout_fixture/.ai/README.md"
+"$policy" "$layout_fixture" >/dev/null
+python3 - "$layout_fixture/docs/reference/agent-workflow.md" <<'PYFIX'
+from pathlib import Path
+import sys
+path = Path(sys.argv[1])
+path.write_text(path.read_text().replace("postMergeSync.lifecycleLayout", "missing_layout_field"))
+PYFIX
+if "$policy" "$layout_fixture" >/dev/null 2>&1; then
+  echo 'resource finalization policy accepted a missing explicit layout boundary' >&2
+  exit 1
+fi
+rm -rf "$layout_fixture"
+trap - EXIT

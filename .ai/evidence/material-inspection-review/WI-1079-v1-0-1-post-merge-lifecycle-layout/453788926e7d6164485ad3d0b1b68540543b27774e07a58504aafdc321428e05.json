@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:92742fafa27c9de5ce2ffdaba354dc91899bd0b14943e38295bd590c71008b4d",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:453788926e7d6164485ad3d0b1b68540543b27774e07a58504aafdc321428e05",
+  "reviewedSourceHead": "c52fa24f8155ebf3b642d61cccedc57a17f203db",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:92f9797f3a65c917cd8e31c3adbddc1f2ffad93c32397df39753460fc5b47a10",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:e1897b327d4ea26a3d975a16789a73c1e828b4d07fa5a69b6d88c7293472c3f6"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared technical review of exact source c52fa24f (production a537aef5). Actual bounded Windows diagnostic on f1b564e6 showed readable long-source Git HEAD (41 bytes), both native/forward-slash discovery rejecting long paths, both clone variants failing upload-pack entry, and both strict/default upload-pack failing; separator and strict overrides are not promoted. The narrow replacement queries only existing Windows short names using the already enabled windows-sys filesystem API, validates buffers and bounds, and requires canonicalize(cwd/.) == original canonical source before Git. It creates no alias, changes no volume/global setting, relaxes no owner/containment/governance check, and returns an explicit failure when no fitting equivalent name exists. Original physical source >260 and internal spaces remain; the same source HEAD/tree is checked through the proven equivalent locator and file bytes through the original canonical path. An additional source HEAD assertion is retained. Linux exact final layout checks passed 10/10; actual Windows acceptance is pending. Existing failure-only stage diagnostics and all historical failures/reverts remain. Actual production candidate SHA is 92f9797f3a65c917cd8e31c3adbddc1f2ffad93c32397df39753460fc5b47a10, not the older 59b binary; no shared Runtime deployment. Accept only request-listed permitted syntax Unknown identities under the current profile, preserving raw scanner Unknown and separate real human approval boundaries.",
+  "residualRisk": "Windows short names are filesystem-dependent. No short name generation is enabled; absence or canonical mismatch fails closed and cannot count as acceptance. The Windows-specific branch requires actual CI proof. This self_declared material review neither marks the scanner machine Clean nor authorizes merge, release, provider deletion or human close; prior unrelated local composition failures remain failed.",
+  "recordedAt": "2026-10-13T03:53:07Z",
+  "receiptDigest": "sha256:1db84007361bb26ca491dfd58360c1a999a94acad6c9a6560d5926f0cbc43a75"
+}

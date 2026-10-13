@@ -11286,6 +11286,18 @@ fn append_task_outcome_events(
     report: &TaskOutcomeReport,
     allow_recovery_retry: bool,
 ) -> Result<(), ObserverError> {
+    append_task_outcome_events_at(root, contract, report, allow_recovery_retry, &now())
+}
+
+// Shared deterministic event projection for historical lifecycle validation.
+// This writes only to its supplied isolated checkout; callers supply captured time.
+fn append_task_outcome_events_at(
+    root: &Path,
+    contract: &Contract,
+    report: &TaskOutcomeReport,
+    allow_recovery_retry: bool,
+    timestamp: &str,
+) -> Result<(), ObserverError> {
     let path = task_outcome_event_path(root, &contract.work_item_id, false);
     let mut events = if fs::symlink_metadata(&path).is_ok() {
         let existing = validate_task_outcome_events(
@@ -11315,7 +11327,7 @@ fn append_task_outcome_events(
         Vec::new()
     };
     let original_len = events.len();
-    let timestamp = now();
+    let timestamp = timestamp.to_owned();
     let mut append = |event_type: &str, detail: &str, evidence_refs: Vec<String>| {
         let fingerprint = matches!(event_type, "finding" | "risk")
             .then(|| finding_fingerprint(event_type, detail, &evidence_refs));

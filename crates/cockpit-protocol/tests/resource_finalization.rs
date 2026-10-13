@@ -1288,3 +1288,110 @@ fn disposition_codes_and_states_are_strict() {
         vec![RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE.into()];
     assert!(validate_resource_finalization_receipt(&deleted_with_code).is_err());
 }
+
+fn layout_receipt_value() -> serde_json::Value {
+    let value = serde_json::to_value(receipt()).unwrap();
+    let source_pr = serde_json::json!({
+        "number": 9001,
+        "url": "https://github.com/example/fixture/pull/9001",
+        "headRevision": "b0e98ae9efe54cde951bb8f547762736411c1628",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "095e185b710b0c0016c655d3792f1b3438a62bac",
+        "mergeCommit": "686a71a07cc0bd6f3d76ab7261c829067db7ee26"
+    });
+    let sync_pr = serde_json::json!({
+        "number": 9002,
+        "url": "https://github.com/example/fixture/pull/9002",
+        "headRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "baseRevision": "686a71a07cc0bd6f3d76ab7261c829067db7ee26",
+        "mergeCommit": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9"
+    });
+    let branch_name = "codex/test-post-merge-sync";
+    let mut value = value;
+    value["schemaVersion"] = 2.into();
+    value["pullRequest"] = source_pr.clone();
+    value["branch"] = serde_json::json!({
+        "name": branch_name,
+        "remote": "origin",
+        "headRevision": sync_pr["headRevision"]
+    });
+    value["worktree"] = serde_json::json!({
+        "worktreeId": "test-sync-worktree",
+        "path": "/tmp/ai-cockpit-sync-fixture",
+        "branch": branch_name,
+        "headRevision": sync_pr["headRevision"]
+    });
+    value["before"] = serde_json::json!({
+        "pullRequest": "merged",
+        "branch": "present",
+        "worktree": "clean"
+    });
+    value["after"] = value["before"].clone();
+    value["result"] = serde_json::json!({
+        "disposition": "retained",
+        "failureCodes": [],
+        "unknownCodes": []
+    });
+    value["resourceContext"] = serde_json::json!({
+        "branch": branch_name,
+        "worktree": "/tmp/ai-cockpit-sync-fixture",
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "provider": "github",
+        "pullRequest": source_pr["url"]
+    });
+    value["postMergeSync"] = serde_json::json!({
+        "sourcePullRequest": source_pr,
+        "syncPullRequest": sync_pr,
+        "sourceEvidenceDigest": Digest::sha256_bytes(b"fixture source PR delegated observation").to_string(),
+        "syncEvidenceDigest": Digest::sha256_bytes(b"fixture sync PR delegated observation").to_string(),
+        "finishRevision": "d651f93d4a8bcbe9413d055d501ceae6f7d0132e",
+        "archiveRevision": "700f6cd5dcb81833aa63d38913908c5543865a8d",
+        "docsRevision": "0f1d54b334104a67eb383f5946ce2305b7b0ba94",
+        "currentMainRevision": "ae1d0db0221c3afed297b05a0af34b4cd5f0b6c9",
+        "remoteBranchRef": format!("refs/heads/{branch_name}"),
+        "remoteBranchState": "present",
+        "remoteEvidenceDigest": Digest::sha256_bytes(b"remote branch observation").to_string(),
+        "gitCommonDir": "/tmp/ai-cockpit/.git",
+        "worktreeGitDir": "/tmp/ai-cockpit-sync-fixture/.git/worktrees/test-sync-worktree"
+    });
+
+    value
+}
+
+#[test]
+fn post_merge_sync_v3_explicit_layout_preserves_legacy_boundary() {
+    let mut value = layout_receipt_value();
+    value["schemaVersion"] = 3.into();
+    value["postMergeSync"]["lifecycleLayout"] = "combined".into();
+    value["postMergeSync"]["documentation"] = "absent".into();
+    let head = value["postMergeSync"]["syncPullRequest"]["headRevision"].clone();
+    value["postMergeSync"]["finishRevision"] = head.clone();
+    value["postMergeSync"]["archiveRevision"] = head;
+    value["postMergeSync"]["syncPullRequest"]["baseRevision"] =
+        "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50".into();
+    let parsed: ResourceFinalizationReceipt =
+        serde_json::from_value(value.clone()).expect("explicit v3 layout should deserialize");
+    validate_resource_finalization_receipt(&parsed)
+        .expect("combined lifecycle and advanced base are explicit v3 shapes");
+    for field in ["lifecycleLayout", "documentation"] {
+        let mut missing = value.clone();
+        missing["postMergeSync"]
+            .as_object_mut()
+            .unwrap()
+            .remove(field);
+        let parsed: ResourceFinalizationReceipt = serde_json::from_value(missing).unwrap();
+        assert!(validate_resource_finalization_receipt(&parsed).is_err());
+    }
+    let mut legacy = parsed.clone();
+    legacy.schema_version = 2;
+    assert!(validate_resource_finalization_receipt(&legacy).is_err());
+    let mut wrong = value.clone();
+    wrong["postMergeSync"]["lifecycleLayout"] = "separate".into();
+    assert!(
+        validate_resource_finalization_receipt(&serde_json::from_value(wrong).unwrap()).is_err()
+    );
+}

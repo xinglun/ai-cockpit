@@ -1,0 +1,262 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1079-material-review-opt-in-20261013-01",
+      "expectedContractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+      "reason": "The user explicitly allowed only WI-1079 material review opt-in and agent:Raydot/self_declared technical registration in Sentinel_21256653502c819186f175f718a7fadb, sent 2026-10-13T00:33:13.990553+00:00, replying to the WI-1079-specific request Sentinel_8119c182e364819186718a96e9a9f228. Enable only the single permitted readable committed Rust syntax Unknown profile. Preserve raw scanner Unknowns, all existing source/verification/provider/close authority and every historical attempt. This permission does not record a contract-preflight-review confirmation or a human close decision.",
+      "changes": [
+        {
+          "path": "/governanceProfile",
+          "operation": "set",
+          "value": {
+            "materialInspectionReview": {
+              "acceptResidualRisk": true,
+              "assurance": "self_declared",
+              "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+              "permittedCause": "readable_committed_rust_syntax_unknown",
+              "permittedUnknown": "repository_material_inspection_unavailable",
+              "reviewerActor": "agent:Raydot",
+              "schemaVersion": 1
+            }
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:efd128c59d863691942c6512c56ee312ec6275fe751afeed05574d5d11f4232d",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A new explicit versioned mode supports separate and combined lifecycle with shared strict semantics; v1 and v2 behavior remains unchanged and no synthetic stage commit is created.",
+        "Combined validation derives allowed operations from artifacts and Runtime normalization; binds Contract Summary events verification attempts reports Outcome and archive manifest; unchanged verification and all prior failed attempts remain byte identical with their original Runtime identity; extra source foreign Work Item unknown artifact and resealed tampering fail closed.",
+        "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
+        "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
+        "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
+        "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-12T23:35:42Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Add an explicit versioned post-merge finalization mode for truthful separate or combined lifecycle commits and an advanced main base, preserving v1/v2 and immutable history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Task9 and Issue1004; provider mutation or credentials; merge PR1034; rewriting published commits or generated historical records; production cleanup or close without distinct authorization; installing shared Runtime or tags or Releases"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1079-post-merge-lifecycle-layout",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1035",
+        "worktree": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs",
+        "tests/workflow/resource_finalization_policy.sh",
+        "tests/workflow/resource_finalization_policy_test.sh",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md"
+      ],
+      "sources": [
+        "parent-technical-review:1079-narrow-successor:2026-10-12",
+        "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "bash tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "previousContractDigest": "sha256:72645289477c0bad03c5128d2a589f4ae5e0072c45b740949c3513f877bf574e",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "A new explicit versioned mode supports separate and combined lifecycle with shared strict semantics; v1 and v2 behavior remains unchanged and no synthetic stage commit is created.",
+        "Combined validation derives allowed operations from artifacts and Runtime normalization; binds Contract Summary events verification attempts reports Outcome and archive manifest; unchanged verification and all prior failed attempts remain byte identical with their original Runtime identity; extra source foreign Work Item unknown artifact and resealed tampering fail closed.",
+        "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
+        "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
+        "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
+        "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-12T23:35:42Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Add an explicit versioned post-merge finalization mode for truthful separate or combined lifecycle commits and an advanced main base, preserving v1/v2 and immutable history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Task9 and Issue1004; provider mutation or credentials; merge PR1034; rewriting published commits or generated historical records; production cleanup or close without distinct authorization; installing shared Runtime or tags or Releases"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "resourceContext": {
+        "baseBranch": "main",
+        "baseRemote": "origin",
+        "branch": "codex/wi1079-post-merge-lifecycle-layout",
+        "provider": "github",
+        "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/1035",
+        "worktree": "/workspace/ai-cockpit-wi1079-post-merge-lifecycle-layout"
+      },
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs",
+        "tests/workflow/resource_finalization_policy.sh",
+        "tests/workflow/resource_finalization_policy_test.sh",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/provider-reconciliation-boundary.md",
+        "docs/reference/provider-reconciliation-boundary.zh-CN.md",
+        "docs/reference/provider-reconciliation-boundary.ja.md"
+      ],
+      "sources": [
+        "parent-technical-review:1079-narrow-successor:2026-10-12",
+        "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked --workspace",
+        "bash tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "newContractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+    "previousSummaryDigest": "sha256:cd8d21fa04bfd79aea23eb4f71f0466007e55a76adefce2c64e4fc772b48fb56",
+    "repositorySnapshotDigest": "sha256:3fa9705f9fbb2d7fd8ba88190565c0b95bd897c968292dff65ff18961d2f5731",
+    "environmentObservationDigest": "sha256:60cc206ad465d0f54179a76c537521213f0a10f76991c3de08e461cfa070f1e8",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:62eec293fddf21055f4674671212faa28c9ec2e40756d352bce3d06b78d937bf"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:91398104d7148871235570dd2d08aef50f21cef438373b549569e315d32fbd1f",
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-13T00:55:51Z"
+  },
+  "preparedDigest": "sha256:277c9d7585e6688e5ed933aa2577b5ae45478533e8c674b072035de41673238f"
+}

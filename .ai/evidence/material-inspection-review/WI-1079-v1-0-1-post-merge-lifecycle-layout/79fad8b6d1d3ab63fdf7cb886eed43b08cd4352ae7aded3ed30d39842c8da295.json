@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:183242202799fab8e3c9709dcb9a4e8eed22173be58d87843e45ec57337847b0",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:79fad8b6d1d3ab63fdf7cb886eed43b08cd4352ae7aded3ed30d39842c8da295",
+  "reviewedSourceHead": "18235eb2004f088b5a6e40e1e22067bbe2f349d6",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:92f9797f3a65c917cd8e31c3adbddc1f2ffad93c32397df39753460fc5b47a10",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:eb0028b580c88d9896592cc314226394ae37727038ec5161bd9f5ccc62b76ebc"
+    }
+  ],
+  "rationale": "Raydot-delegated self_declared review of exact test-only diagnostic source 18235eb2. The real d4dcd640 metadata/bundle attempt failed exit128 and never ran bundle clone/checkout/identity; those absent stages are not promoted. Production remains a537aef5 and its actual getcwd failure is preserved. This incremental diagnostic retains the precise fatal template while replacing quoted path values, plus all phase/exit/length/time categories. It compares only canonically equivalent namespace/DOS metadata argument representations and bare/non-bare process interpretation, all with a genuinely short physical cwd; no source files or global configuration are changed. It runs the existing bundle chain only if a metadata representation succeeds and still reports original HEAD/tree/file-byte matches. All original long-path/internal-space/source-identity assertions and the failed unwrap remain. No raw refs, environment or credentials are printed, no new workflow/dependency/permission/scope, no production fix claim. Linux focused layout checks passed 10/10. This one bounded Windows diagnostic is required to determine the actual exit128 cause before a production transport change. Accept only request-listed permitted readable committed syntax Unknown entries under the existing profile; preserve raw Unknown and human boundaries.",
+  "residualRisk": "Windows short names are filesystem-dependent. No short name generation is enabled; absence or canonical mismatch fails closed and cannot count as acceptance. The Windows-specific branch requires actual CI proof. This self_declared material review neither marks the scanner machine Clean nor authorizes merge, release, provider deletion or human close; prior unrelated local composition failures remain failed.",
+  "recordedAt": "2026-10-13T04:57:31Z",
+  "receiptDigest": "sha256:73e891d5b4d05fe1d03671ffbf4583368f779fd6daf9b13038cb5469f0c17f82"
+}

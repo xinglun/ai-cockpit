@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:c6b92201ecd780e07f1aab5a49248255c136ebdd2ddd538c25aa46987369e101",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:f585b94864c258e1fbd11fbf80ca9f7761362376fa1d9f7f7630565a32c762a3",
+  "reviewedSourceHead": "74791ebf77eda0bcd7b402e09e80aeb89db563d7",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:9fe49f0e4cfaa420a137fec7e9e95850f75a6f392043e498ef9bb388565b26a8",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:6505d815fa3ff9400958e94c4df50f96dcbdc769a961571d179fae68c0fa1470"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared technical review of exact WI-1079 source 74791ebf. Production local clone continues to preserve canonical containment and use child cwd plus explicit local source dot. The only source delta from independently reviewed f99626b6 is the regression fixture: create its long-path parent from a canonical root and remove trailing spaces from directory components, preserving internal spaces, path length >260, nested clone, immutable tree and file-byte equality, and remote-input rejection. Actual Windows ff696 run passed all three previously failing historical fixtures; its sole failure was fixture create_dir_all before clone. Exact-source Linux layout regression after this test repair passed 10/10. Actual final-head Windows verification is still required and not inferred. Formal local ff696 attempt 18cc is failed in a different unchanged composition fixture; hosted ff696 formal verification and quality gate succeeded as distinct execution evidence. No composition production or assertion change, no historical evidence rewrite, no bypass of scanner or authority. Accept only request-listed permitted readable committed Rust syntax Unknown identities under the existing profile.",
+  "residualRisk": "The Rust analyzer remains conservative for these complete readable committed syntax changes. The raw repository_material_inspection_unavailable Unknown is preserved. This technical decision does not make the scanner machine Clean or claim authenticated human, provider, merge, release or close approval. Windows CI must independently establish the remaining platform regression result.",
+  "recordedAt": "2026-10-13T02:08:48Z",
+  "receiptDigest": "sha256:239c6a0bae16165189b0bd99384a6342202318041bae63f817d2764c45c3c6ac"
+}

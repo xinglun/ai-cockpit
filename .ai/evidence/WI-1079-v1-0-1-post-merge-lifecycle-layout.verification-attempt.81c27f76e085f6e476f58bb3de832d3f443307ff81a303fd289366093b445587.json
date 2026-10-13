@@ -1,0 +1,39 @@
+{
+  "attemptId": "sha256:81c27f76e085f6e476f58bb3de832d3f443307ff81a303fd289366093b445587",
+  "commands": [
+    {
+      "args": [],
+      "baseCommit": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "commandDigest": "sha256:8a4e65a002a4fa2b83d040576224705d9cd780abc31921a1591fd66bd288c470",
+      "nodeId": "project-command-0",
+      "program": "cargo test --locked --workspace",
+      "runner": "local",
+      "runtimeDigest": "sha256:ea9c59adb76960d8f45600accbdedbf1a0fd7dc5dede91e951e5c8882e23c0c3",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "contractExecutionScopeDigest": "sha256:b5f782038d9fbc876745e1660c8d3af4dea0b73f87f5b6360936d5b79c6cba88",
+  "createdAt": "2026-10-13T12:41:33Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "runtimeDigest": "sha256:ea9c59adb76960d8f45600accbdedbf1a0fd7dc5dede91e951e5c8882e23c0c3",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

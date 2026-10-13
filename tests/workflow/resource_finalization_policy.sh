@@ -66,6 +66,13 @@ for path in "${workflow_docs[@]}"; do
   done
 done
 
+# Versioned layout options preserve the old receipt boundaries and public cleanup order.
+for path in "${workflow_docs[@]}" docs/reference/provider-reconciliation-boundary{,.zh-CN,.ja}.md; do
+  for marker in postMergeSync.lifecycleLayout postMergeSync.documentation separate combined projected absent; do
+    require_text "$path" "$marker"
+  done
+done
+
 require_text docs/reference/agent-workflow.md 'Resource finalization boundary'
 require_text docs/reference/agent-workflow.md 'Runtime commands'
 require_text docs/reference/agent-workflow.md 'historical'

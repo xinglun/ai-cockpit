@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "kind": "environment_diagnostic_not_formal_verification",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "createdAt": "2026-10-13T14:46:29Z",
+  "repositoryHead": "bb755ee9f2c4c431314f54eece1c717d21f7d0b0",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "materialRequestDigest": "sha256:11798b45fa633a9348e2b148f298b7114aa0994c60c53237273119e4ca775491",
+  "materialManifestDigest": "sha256:aff0b44889a500ddaed7001f70145af6d134278a04bb66bbd7a32fa97bf97a7b",
+  "materialReviewReceiptDigest": "sha256:7039d3d906047c9cd296cec3ab1b5aa207de3c81c38a9f5044313096d7325962",
+  "command": "cargo test --locked --package cockpit-repository --test verification_service",
+  "sharedEnvironment": {
+    "CARGO_PROFILE_DEV_DEBUG": "0",
+    "CARGO_PROFILE_TEST_DEBUG": "0",
+    "CARGO_INCREMENTAL": "0",
+    "CARGO_BUILD_JOBS": "1",
+    "CARGO_TARGET_DIR": "/tmp/wi1079-verification-target",
+    "TMPDIR": "/tmp/wi1079-tmp",
+    "CARGO_HOME": "/tmp/wi1079-toolchain/cargo",
+    "RUSTUP_HOME": "/tmp/wi1079-toolchain/rustup",
+    "PATH_PREFIX": "/tmp/wi1079-toolchain/cargo/bin:/tmp/wi1079-toolchain/rustup/toolchains/1.98.1-x86_64-unknown-linux-gnu/bin"
+  },
+  "controlledRuns": [
+    {
+      "startedAt": "2026-10-13T14:38:16Z",
+      "endedAt": "2026-10-13T14:38:18Z",
+      "home": "/home/agent",
+      "homeWritable": false,
+      "exitCode": 101,
+      "tests": 17,
+      "passed": 16,
+      "failed": 1,
+      "firstAssertion": "crates/cockpit-repository/tests/verification_service.rs:415: assert!(run.receipt.passed)",
+      "failureTest": "linked_worktree_cargo_test_binary_embeds_its_own_manifest_directory"
+    },
+    {
+      "startedAt": "2026-10-13T14:46:27Z",
+      "endedAt": "2026-10-13T14:46:29Z",
+      "home": "/tmp/wi1079-home",
+      "homeWritable": true,
+      "homeMode": "0700",
+      "personalConfigurationCopied": false,
+      "exitCode": 0,
+      "tests": 17,
+      "passed": 17,
+      "failed": 0
+    }
+  ],
+  "causeEvidence": {
+    "testRemovesInheritedCargoTargetDir": "crates/cockpit-repository/tests/verification_service.rs:63-75",
+    "runtimeFallback": "crates/cockpit-repository/src/execution_context.rs:941-985 derives a checkout-specific target under $HOME/.cache/ai-cockpit-verify-target when CARGO_TARGET_DIR is absent",
+    "readonlyHomeFallbackTargets": [
+      "/home/agent/.cache/ai-cockpit-verify-target/7c7350a91e95a69da11302bc84a8002cd3cfc5c3990d8cd23fd6a4e07c2b5f9a",
+      "/home/agent/.cache/ai-cockpit-verify-target/a5095defdb1e33516bd532ecdfbcdc192b3d8eab3df9e5115eded00f357f2d47"
+    ],
+    "observed": "The HOME fallback location and parent are not writable in this environment. Changing only process-local HOME to /tmp/wi1079-home changes the target to a writable filesystem and the same target passes 17/17.",
+    "innerCargoErrorCaptured": false,
+    "osErrnoClaimed": false
+  },
+  "originalFormalAttempt": {
+    "attemptDigest": "sha256:33d9002aa2c01a026c9c78840326a38fdf4cd18ac193a105c4a3665a24f0c599",
+    "state": "execution_failed",
+    "nodesPassed": 13,
+    "nodesTotal": 14,
+    "repositoryNodeExitCode": 101,
+    "stdoutLimitBytes": 65536,
+    "stdoutTruncated": true,
+    "preservedSeparately": true
+  },
+  "logs": {
+    "verification_service-readonly-home.stdout.log": {
+      "sha256": "7a6e4b3f5297f1395bc86e0c159cf83fc8a74843e0a820aefda1b9963264afb6",
+      "bytes": 2646
+    },
+    "verification_service-readonly-home.stderr.log": {
+      "sha256": "9ecfdbbf387c4d6aa9908af64c4bf0865333c27ea08c2e302b0224764509866d",
+      "bytes": 273
+    },
+    "verification_service-writable-home.stdout.log": {
+      "sha256": "fcd1677efc88f4d352e29edd243136217012ed7266475a0eebd145e6c5f381cc",
+      "bytes": 1456
+    },
+    "verification_service-writable-home.stderr.log": {
+      "sha256": "465b61c62ca66b22890b29d8e41c89ee46c871f9a25ad0228da4bd77ff6cad27",
+      "bytes": 187
+    }
+  }
+}

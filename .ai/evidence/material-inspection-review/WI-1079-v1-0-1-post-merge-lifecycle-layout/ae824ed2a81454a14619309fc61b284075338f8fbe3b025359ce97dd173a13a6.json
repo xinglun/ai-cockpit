@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "materialManifestDigest": "sha256:aff0b44889a500ddaed7001f70145af6d134278a04bb66bbd7a32fa97bf97a7b",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:ae824ed2a81454a14619309fc61b284075338f8fbe3b025359ce97dd173a13a6",
+  "reviewedSourceHead": "4975052f11a1b0ce5048f56056129e046ec04eed",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:b42fc260abdffc5f16f303650edad32bf4fe2723a27493029224b228d8667589"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "digest": "sha256:98d6ac38df379de934163c3620f06402794438b54de5b71ac91ec7c57d279c5c"
+    }
+  ],
+  "rationale": "Self-declared review of all three permitted readable_committed_rust_syntax_unknown entries in the exact current material request for reviewed source head 4975052f11a1b0ce5048f56056129e046ec04eed and Contract sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc. The independent technical review accepted the current Rustup resolver and regression delta, closed the two earlier P1 findings, and found no new P0/P1; it bound crates/cockpit-verification/src/composition.rs Git blob 9ac7285e402f0813261df88359cbed86d5d5aea3 and crates/cockpit-verification/tests/composition.rs Git blob 750d88cf1b25cb7fddcd84e2e7df86fe9f3e2303. This decision accepts only request-listed, Contract-permitted syntax Unknowns for progression; it does not relabel scanner results clean.",
+  "residualRisk": "The scanner cannot classify Rust syntax in these three committed files. Raw Unknown repository_material_inspection_unavailable remains visible and unresolved. This self-declared material review does not claim the scanner inspected those bytes, does not expand test coverage or hosted CI claims, and is not provider, merge, release, or human-close approval.",
+  "recordedAt": "2026-10-13T12:06:30Z",
+  "receiptDigest": "sha256:0490663a0939cd88cc54fc7b43e5dfbd2818ba7dbd4378437adeb706f84c98d4"
+}

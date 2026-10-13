@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "materialManifestDigest": "sha256:1b2b991c157be80d945f832b8943d35a644cf8c4472b6d9cc86155769a583e05",
+  "profileDigest": "sha256:b0babe2d301aa5f4fc64cf122aa6ddebdb41795406e8dcc0e5d701d81577ef00",
+  "requestDigest": "sha256:9fcc98ecd562cf98eee5b3ca36706e424635c086203f174356d78e82a76d80a6",
+  "reviewedSourceHead": "f99626b6703469c0687b519bf6b582e8768e1da8",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:Raydot",
+  "recordedBy": "runtime:1.0.1:sha256:9fe49f0e4cfaa420a137fec7e9e95850f75a6f392043e498ef9bb388565b26a8",
+  "authoritySource": "user-approval:Sentinel_21256653502c819186f175f718a7fadb:2026-10-13T00:33:13.990553+00:00",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-cli/tests/resource_finalization.rs",
+      "digest": "sha256:029d7de5824d15beeb0e35dbc359cbb7f2ee3be895fe104f6462ba3d4f0722df"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:0448c8eb1e003609ddfb471454178864c8e530f5ebd3389ffbd71b896e02e3f0"
+    }
+  ],
+  "rationale": "Raydot-delegated self-declared technical review of the exact WI-1079 f99626b6 material request. The parent supplied and approved the minimal local clone route: preserve canonical containment root, set child cwd to that root, pass explicit local source dot with local clone, preserving clone-local byte and long-path configuration. Changes are confined to resource_lifecycle.rs and its tests; strict readers, permissions, historical bytes and assertion gates are preserved. The exact-source Linux post_merge_layout regression passed 10/10, including canonical nested clone with spaces and length above 260, immutable tree and file-byte equality, rejection of remote-looking filesystem input, and three historical Windows failure fixtures. Windows CI remains pending; no Windows success is inferred. Prior overall local formal run failed in the unrelated timeout cleanup fixture and is retained as failed. Accept only the two request-listed readable committed Rust syntax Unknown blob identities under the existing scoped opt-in.",
+  "residualRisk": "The Rust analyzer remains conservative for these complete readable committed syntax changes. The raw repository_material_inspection_unavailable Unknown is preserved. This technical decision does not make the scanner machine Clean or claim authenticated human, provider, merge, release or close approval. Windows CI must independently establish the remaining platform regression result.",
+  "recordedAt": "2026-10-13T01:43:23Z",
+  "receiptDigest": "sha256:e13ee126e95e162b7fd813af8477881dbb1ca258a949e28ca7840a3319ec48e7"
+}

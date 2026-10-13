@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4",
+  "reason": "Ray replied confirm_review in actual user message Sentinel_a6be5d4e706881919014182c16e91040, received 2026-10-13T11:21:06Z, in response to exact-bound WI-1079 request Sentinel_d151522c12048191981ee5ba8486fc18 sent at 2026-10-13T11:07:59.587527Z. The confirmation applies only to Contract sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc, preflight sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4, and snapshot sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683; it authorizes only the bounded WI-1079 Rustup compatibility repair and necessary regressions, not merge or close.",
+  "recordedAt": "2026-10-13T11:21:06Z",
+  "recordedBy": "human:Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
+  "schemaVersion": 1,
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

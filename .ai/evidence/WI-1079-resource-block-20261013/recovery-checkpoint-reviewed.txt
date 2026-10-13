@@ -1,0 +1,18 @@
+## GitHub recovery checkpoint (no new Git commit)
+
+Remote branch codex/wi1079-post-merge-lifecycle-layout was read successfully at 5d4818f814c2623e760e9ba30e3d41ff9bc33c1b. The only accepted full CI remains run 38351446777 on that exact head. Production source d5c88149331d4212793aaf02c90cb751b1208b5c. Normal git status failed again with threaded-lstat Resource temporarily unavailable; no new commit/push or clean-worktree claim is made. Old environment is retained.
+
+Current immutable local candidate SHA-256 78642edfc7ec2c44103de643cb9e0ed0da07effe844f59c883d43b81ffccad82; current Contract sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e; material request sha256:4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea; material source snapshot sha256:25ef1a9a3bb62d77c43be4c69f8f242f13bda0fd66076698b3163d6698ac352c; material manifest sha256:41ff30216af1f3eaf399314752d66dc10f6812c3f419b3c170b96b8d46ba60f4; accepted receipt sha256:735975c44ba7bdf88932a8b02b352223fa0fcce8aa3e8c22ee73002091e16e50. These are existing evidence identities, not fresh facts for another environment.
+
+Required formal verification exited 1 after 11 passed nodes and failed repository node; Runtime then could not observe Git snapshot because threaded lstat creation failed. Stdout empty, no new canonical attempt/receipt. Smallest repository diagnostic exited101 with explicit thread creation errno11; its 57/49 result is not established as code regression. No active verifier remained. Visible PID quota was not exhausted; zombies reparented to PID1 were observed, but exact errno11 limiting mechanism and original parent lineage remain unknown.
+
+Recovery: clone this exact remote branch; read repository AGENTS and relevant guides; inspect supported Runtime installation/build and report its actual executable hash. Preserve committed Contract, decisions, material receipts and failed attempts; retain existing human approvals as historical records without impersonation. Query repository-bound status, environment drift and admission, use supported record/recovery actions where required, and regenerate material binding if the Runtime asks. Do not copy old local status or hosted CI as a fresh local verification receipt. Run admitted formal verification with serial Runtime workers, one Cargo build job, full Rust PATH and writable HOME/TMPDIR; honor declared per-node600/300s ceilings and approved maximum900s. Only after accepted fresh verification and admission continue finish/archive. Merge, exact cleanup and real human close remain separate authorization boundaries. WI-1078/PR1034 waits for integration; do not mix its identities.
+
+Local-only complete execution/resource logs remain preserved in the old environment; only reviewed summaries and file hashes are published here, not raw process/environment dumps. Local-file SHA-256 manifest:
+
+- 5d4818f8-formal-verification.stderr.log: 680dcdcfb1ec38a4060426f6cc921a43f9f8725a24e5e74ad1098c97d50dd5f8
+- 5d4818f8-repository-diagnostic.log: 991aaa94e4838a24c7697637eff135e1a58205bc6f4e9b6db21d1cb93daf44fc
+- resource-readonly-diagnostic.json: b32792c4bf2eb67a715d03b25a0c93dfb8ecb5f3d30a5f14a6a00bf3e3253d1c
+- 5d4818f8-after-abort.status.json: cbe8c4589fa4113c646da78d0df77bee7f2bcbae6844ad60f721f7e7a9e10f57
+- 5d4818f8-final.outcome.txt: 7379af9d2a29c840d9076b7f33f62507f04be1600d862b155f06cde29a827763
+

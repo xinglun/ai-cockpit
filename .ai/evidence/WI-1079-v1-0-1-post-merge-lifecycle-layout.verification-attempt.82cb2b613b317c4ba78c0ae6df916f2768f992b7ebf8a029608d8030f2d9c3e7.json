@@ -1,0 +1,162 @@
+{
+  "attemptId": "sha256:82cb2b613b317c4ba78c0ae6df916f2768f992b7ebf8a029608d8030f2d9c3e7",
+  "commands": [
+    {
+      "args": [
+        "tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "baseCommit": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "commandDigest": "sha256:e3ae09c6c059f2177e6a0353ba97e78f3c51fcf92020d27b3765558fb2176208",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
+  "contractExecutionScopeDigest": "sha256:fde9cd0d9edc6f409418e5682ce037d2947c5dd3e84e593ca78a82891c53fc24",
+  "createdAt": "2026-10-13T07:49:35Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:e3ae09c6c059f2177e6a0353ba97e78f3c51fcf92020d27b3765558fb2176208",
+      "deadlineMs": 1791878074763,
+      "elapsedMs": 287,
+      "exitCode": 1,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "54726163656261636b20286d6f737420726563656e742063616c6c206c617374293a0a202046696c6520223c737464696e3e222c206c696e652033372c20696e203c6d6f64756c653e0a417373657274696f6e4572726f720a",
+      "stderrTruncated": false,
+      "stdout": "7265736f757263652066696e616c697a6174696f6e20706f6c696379207061737365643a207472692d6c696e6775616c20636c6f7375726520626f756e646172792069732070726573656e740a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 562,
+      "executionElapsedMs": 287,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+      "runtimeVersion": "1.0.1",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 562,
+    "executionElapsedMs": 287,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:e3ae09c6c059f2177e6a0353ba97e78f3c51fcf92020d27b3765558fb2176208",
+        "deadlineMs": 1791878074763,
+        "elapsedMs": 287,
+        "exitCode": 1,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "54726163656261636b20286d6f737420726563656e742063616c6c206c617374293a0a202046696c6520223c737464696e3e222c206c696e652033372c20696e203c6d6f64756c653e0a417373657274696f6e4572726f720a",
+        "stderrTruncated": false,
+        "stdout": "7265736f757263652066696e616c697a6174696f6e20706f6c696379207061737365643a207472692d6c696e6775616c20636c6f7375726520626f756e646172792069732070726573656e740a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 287,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:4652f05c3d6ecd3b05130b0ce91e0d015d9a9491b519d45a5bb54f0efff640d6",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+    "runtimeVersion": "1.0.1",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+  "runtimeDigest": "sha256:b2a43b0a1f7c460f5f4d4969d02b02c4f27d45152b1027d46e68d458a9ec63fd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

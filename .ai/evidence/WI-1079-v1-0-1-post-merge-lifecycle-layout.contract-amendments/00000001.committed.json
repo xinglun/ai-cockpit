@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:89c786f852dad0a06e03e9fb763cfbe0cf77211068130e4c89fbbff26fd8b7ed",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout",
+    "sequence": 1,
+    "changeId": "legacy-694f14562812cb2b2bfd6d7898897799b87ec9d615d8a396efbe2c20d2d3d16d",
+    "requestDigest": "sha256:5f6c3b4fede48531cf7e1958db11ecf2a62760e3f38eaec24487247b14b4a5be",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:694f14562812cb2b2bfd6d7898897799b87ec9d615d8a396efbe2c20d2d3d16d",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "parent-technical-review:1079-narrow-successor:2026-10-12"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "parent-technical-review:1079-narrow-successor:2026-10-12"
+        ],
+        "newValue": [
+          "parent-technical-review:1079-narrow-successor:2026-10-12",
+          "predecessor:WI-1078-v1-0-1-post-merge-sync-finalization"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:82f2d9d3a402e5496470f1f682ce9ad7b010388be67b502f092d7836a2c3897a",
+    "newContractDigest": "sha256:395f978b3889c325a7082c8c366f949b8c27838cee4e656a414f9da16f6a1ba7",
+    "repositorySnapshotDigest": "sha256:146a947ae68f7b0cd22467f798e21b74adf7bba9adf233add020694abdd3dc6b",
+    "environmentObservationDigest": "sha256:c1032466a38c28df2992e7108cd20f2827791023a34fe1a8c1c2517f5092e9ce",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:56c549b02746545a7f29ebafef4158f55290bcbb3bb7db9943b0264184987587",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:91398104d7148871235570dd2d08aef50f21cef438373b549569e315d32fbd1f",
+    "recordedAt": "2026-10-12T23:35:42Z"
+  }
+}
