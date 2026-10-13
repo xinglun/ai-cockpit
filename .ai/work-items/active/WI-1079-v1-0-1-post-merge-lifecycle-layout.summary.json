@@ -94,10 +94,10 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:9806b9c96db90a032e01d4e87dc149f457f1188c8ed383268f5a9fb7d615b638",
-    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944.json",
-    "receiptDigest": "sha256:6a848fa7853923144c047c2712b410cab479a38ab1bdae8e67826587b922c91f",
-    "requestDigest": "sha256:e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944"
+    "digest": "sha256:3c8cb84c50a76d6d7fa56a84ae4a673c072ca5c804d0a961f9c433dc42ce03be",
+    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9.json",
+    "receiptDigest": "sha256:a40ca1340bbc6aa6a809239852fad26efe1e68cc664e8c1a092083e810837a4a",
+    "requestDigest": "sha256:adbfbff9c03628116022abf7949bb793520996b7700a18d121ddea5f3a6540d9"
   },
   "materialReviewReceiptHistory": [
     {
@@ -153,13 +153,19 @@
       "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea.json",
       "receiptDigest": "sha256:735975c44ba7bdf88932a8b02b352223fa0fcce8aa3e8c22ee73002091e16e50",
       "requestDigest": "sha256:4cb6c89460083b703b89f5e1fdd6f25e306929b7afa0e054d9ed28b07c1793ea"
+    },
+    {
+      "digest": "sha256:9806b9c96db90a032e01d4e87dc149f457f1188c8ed383268f5a9fb7d615b638",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944.json",
+      "receiptDigest": "sha256:6a848fa7853923144c047c2712b410cab479a38ab1bdae8e67826587b922c91f",
+      "requestDigest": "sha256:e1a03fdcfdc2d64ff3d4934197a00cbe53ba412abfd6188b40f5c6d8fc3d5944"
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-13T08:41:38Z",
+  "preflightAt": "2026-10-13T10:47:17Z",
   "preflightContractDigest": "sha256:f5e4ee6ab43189841ba9227d7ba16f2f76c2a1617f2d0fc148ac079c86371e36",
-  "preflightDecisionDigest": "sha256:c5dbba7e2f24f9aee1a98d3ec3bc6b1b13bffdaee1538be9ebcd5b2067d79334",
-  "preflightRepositorySnapshotDigest": "sha256:042362055af08a2119705cb5a3b77804a58df2d28fe9152fcc1d8fdb20d39b35",
+  "preflightDecisionDigest": "sha256:4c14b197ff2044fda22451d21819977f6905bf7c2928114efa42d79fafc4dca4",
+  "preflightRepositorySnapshotDigest": "sha256:c2ba82128c653a21ae8a1f22040bfa2bda12a7c4170783ffa45a7e590359e683",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
