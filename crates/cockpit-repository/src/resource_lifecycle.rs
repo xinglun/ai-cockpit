@@ -7204,7 +7204,13 @@ mod post_merge_sync_tests {
         let nested = super::materialize_git_revision(&canonical, &revision);
         #[cfg(windows)]
         if nested.is_err() {
-            diagnose_long_local_clone(&cwd, &source_argument, &canonical, &first.directory);
+            diagnose_long_local_clone(
+                &cwd,
+                &source_argument,
+                &canonical,
+                &first.directory,
+                &revision,
+            );
         }
         let nested = nested.unwrap();
         assert_eq!(git(&nested.repository, &["rev-parse", "HEAD"]), revision);
@@ -7230,7 +7236,13 @@ mod post_merge_sync_tests {
     // Failure-only, test-only probes. They retain the original assertion and
     // distinguish local source discovery from upload-pack's enter_repo stage.
     #[cfg(windows)]
-    fn diagnose_long_local_clone(cwd: &Path, native: &Path, source: &Path, directory: &Path) {
+    fn diagnose_long_local_clone(
+        cwd: &Path,
+        native: &Path,
+        source: &Path,
+        directory: &Path,
+        revision: &str,
+    ) {
         use std::os::windows::ffi::{OsStrExt, OsStringExt};
         let units: Vec<u16> = native
             .as_os_str()
@@ -7252,10 +7264,10 @@ mod post_merge_sync_tests {
             native.as_os_str().encode_wide().count(),
             std::fs::read(source.join(".git/HEAD")).map(|bytes| bytes.len())
         );
-        let report = |label: &str, mut command: Command| {
+        let report_from = |label: &str, mut command: Command, process_cwd: &Path| {
             let started = std::time::Instant::now();
             command
-                .current_dir(cwd)
+                .current_dir(process_cwd)
                 .stdin(std::process::Stdio::null())
                 .env("GIT_TRACE", "1");
             match command.output() {
@@ -7273,12 +7285,20 @@ mod post_merge_sync_tests {
                             || stderr.contains("File name too long"),
                         stderr.contains("Permission denied")
                     );
+                    drop(stderr);
+                    Some(output)
                 }
-                Err(error) => eprintln!(
-                    "long clone probe {label}: elapsed_ms={} spawn_error={error:?}",
-                    started.elapsed().as_millis()
-                ),
+                Err(error) => {
+                    eprintln!(
+                        "long clone probe {label}: elapsed_ms={} spawn_error={error:?}",
+                        started.elapsed().as_millis()
+                    );
+                    None
+                }
             }
+        };
+        let report = |label: &str, command: Command| {
+            let _ = report_from(label, command, cwd);
         };
         for (label, argument) in [("native", native), ("forward-slash", slashes.as_path())] {
             let mut discover = Command::new("git");
@@ -7328,6 +7348,103 @@ mod post_merge_sync_tests {
                 },
                 upload,
             );
+        }
+        // Keep every process at a genuinely short canonical ancestor. The
+        // metadata-only source locator is verified before these probes.
+        let safe_cwd = source
+            .ancestors()
+            .find(|path| path.as_os_str().len() <= 200)
+            .unwrap();
+        let git_dir = cwd.join(native).join(".git");
+        assert_eq!(
+            std::fs::canonicalize(&git_dir).unwrap(),
+            source.join(".git")
+        );
+        eprintln!(
+            "long clone bundle geometry: safe_cwd_units={} git_dir_units={}",
+            safe_cwd.as_os_str().encode_wide().count(),
+            git_dir.as_os_str().encode_wide().count()
+        );
+        let mut metadata = Command::new("git");
+        metadata
+            .args(["-c", "core.longpaths=true", "--git-dir"])
+            .arg(&git_dir)
+            .args(["rev-parse", "HEAD", "HEAD^{tree}"]);
+        let source_output = report_from("explicit-metadata", metadata, safe_cwd);
+        let expected_tree = source_output
+            .as_ref()
+            .filter(|o| o.status.success())
+            .and_then(|o| std::str::from_utf8(&o.stdout).ok())
+            .and_then(|s| s.lines().nth(1));
+        let source_head_match = source_output
+            .as_ref()
+            .filter(|o| o.status.success())
+            .and_then(|o| std::str::from_utf8(&o.stdout).ok())
+            .and_then(|s| s.lines().next())
+            == Some(revision);
+        eprintln!(
+            "long clone bundle source: head_match={source_head_match} tree_read={}",
+            expected_tree.is_some()
+        );
+        let bundle = directory.join("diagnostic-source.bundle");
+        let mut create = Command::new("git");
+        create
+            .args(["-c", "core.longpaths=true", "--git-dir"])
+            .arg(&git_dir)
+            .args(["bundle", "create"])
+            .arg(&bundle)
+            .arg("--all")
+            .arg(revision);
+        let created = report_from("bundle-create", create, safe_cwd);
+        if created.is_some_and(|o| o.status.success()) {
+            let target = directory.join("diagnostic-bundle-clone");
+            let mut clone = Command::new("git");
+            clone
+                .args([
+                    "-c",
+                    "core.longpaths=true",
+                    "clone",
+                    "--quiet",
+                    "--no-checkout",
+                    "--config",
+                    "core.autocrlf=false",
+                    "--config",
+                    "core.longpaths=true",
+                    "--",
+                ])
+                .arg(&bundle)
+                .arg(&target);
+            let cloned = report_from("bundle-clone", clone, safe_cwd);
+            if cloned.is_some_and(|o| o.status.success()) {
+                let mut checkout = Command::new("git");
+                checkout
+                    .arg("-C")
+                    .arg(&target)
+                    .args(["checkout", "--quiet", "--detach"])
+                    .arg(revision);
+                let checked = report_from("bundle-checkout", checkout, safe_cwd);
+                let mut identity = Command::new("git");
+                identity
+                    .arg("-C")
+                    .arg(&target)
+                    .args(["rev-parse", "HEAD", "HEAD^{tree}"]);
+                let identity = report_from("bundle-identity", identity, safe_cwd);
+                let lines = identity
+                    .as_ref()
+                    .filter(|o| o.status.success())
+                    .and_then(|o| std::str::from_utf8(&o.stdout).ok());
+                let bytes_match = std::fs::read(target.join("source.txt"))
+                    .ok()
+                    .zip(std::fs::read(source.join("source.txt")).ok())
+                    .is_some_and(|(a, b)| a == b);
+                eprintln!(
+                    "long clone bundle proof: checkout_ok={} head_match={} tree_match={} bytes_match={bytes_match}",
+                    checked.is_some_and(|o| o.status.success()),
+                    lines.and_then(|s| s.lines().next()) == Some(revision),
+                    expected_tree.is_some()
+                        && lines.and_then(|s| s.lines().nth(1)) == expected_tree
+                );
+            }
         }
     }
 
