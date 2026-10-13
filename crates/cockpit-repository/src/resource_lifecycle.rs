@@ -7285,6 +7285,15 @@ mod post_merge_sync_tests {
                             || stderr.contains("File name too long"),
                         stderr.contains("Permission denied")
                     );
+                    if let Some(fatal) = stderr.lines().find(|line| line.starts_with("fatal:")) {
+                        let redacted = fatal
+                            .split(char::from(39))
+                            .enumerate()
+                            .map(|(index, part)| if index % 2 == 0 { part } else { "<path>" })
+                            .collect::<Vec<_>>()
+                            .join("'");
+                        eprintln!("long clone probe {label}: fatal_template={redacted}");
+                    }
                     drop(stderr);
                     Some(output)
                 }
@@ -7365,12 +7374,50 @@ mod post_merge_sync_tests {
             safe_cwd.as_os_str().encode_wide().count(),
             git_dir.as_os_str().encode_wide().count()
         );
-        let mut metadata = Command::new("git");
-        metadata
-            .args(["-c", "core.longpaths=true", "--git-dir"])
-            .arg(&git_dir)
-            .args(["rev-parse", "HEAD", "HEAD^{tree}"]);
-        let source_output = report_from("explicit-metadata", metadata, safe_cwd);
+        // Compare only command-boundary representations of the same Git dir.
+        let mut dos_units: Vec<u16> = git_dir.as_os_str().encode_wide().collect();
+        if dos_units.starts_with(&[92, 92, 63, 92]) && dos_units.get(5) == Some(&58) {
+            dos_units.drain(..4);
+        }
+        for unit in &mut dos_units {
+            if *unit == 92 {
+                *unit = 47;
+            }
+        }
+        let dos_git_dir = PathBuf::from(std::ffi::OsString::from_wide(&dos_units));
+        assert_eq!(
+            std::fs::canonicalize(&dos_git_dir).unwrap(),
+            source.join(".git")
+        );
+        let mut selected_dir = git_dir.clone();
+        let mut selected_bare = false;
+        let mut source_output = None;
+        for (form, locator) in [
+            ("verbatim", git_dir.as_path()),
+            ("dos", dos_git_dir.as_path()),
+        ] {
+            for bare in [false, true] {
+                let mut metadata = Command::new("git");
+                metadata.args(["-c", "core.longpaths=true"]);
+                if bare {
+                    metadata.arg("--bare");
+                }
+                metadata
+                    .arg("--git-dir")
+                    .arg(locator)
+                    .args(["rev-parse", "HEAD", "HEAD^{tree}"]);
+                let output = report_from(
+                    &format!("explicit-metadata-{form}-bare-{bare}"),
+                    metadata,
+                    safe_cwd,
+                );
+                if source_output.is_none() && output.as_ref().is_some_and(|o| o.status.success()) {
+                    source_output = output;
+                    selected_dir = locator.to_path_buf();
+                    selected_bare = bare;
+                }
+            }
+        }
         let expected_tree = source_output
             .as_ref()
             .filter(|o| o.status.success())
@@ -7388,9 +7435,13 @@ mod post_merge_sync_tests {
         );
         let bundle = directory.join("diagnostic-source.bundle");
         let mut create = Command::new("git");
+        create.args(["-c", "core.longpaths=true"]);
+        if selected_bare {
+            create.arg("--bare");
+        }
         create
-            .args(["-c", "core.longpaths=true", "--git-dir"])
-            .arg(&git_dir)
+            .arg("--git-dir")
+            .arg(&selected_dir)
             .args(["bundle", "create"])
             .arg(&bundle)
             .arg("--all")
