@@ -67,16 +67,24 @@
     }
   },
   "materialReviewReceipt": {
-    "digest": "sha256:0e96b59fe0db12c63b42d40d45edb1ce9ba3fef59cef22608be018b4ab20785f",
-    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f.json",
-    "receiptDigest": "sha256:2f19caf6d87645b747f380805c7932a35a41c3fd9cef0f23522172949ead8573",
-    "requestDigest": "sha256:3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f"
+    "digest": "sha256:f359259f472140787112337c9a63461b25d566f6af3400c1325303854e91d331",
+    "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/9fcc98ecd562cf98eee5b3ca36706e424635c086203f174356d78e82a76d80a6.json",
+    "receiptDigest": "sha256:e13ee126e95e162b7fd813af8477881dbb1ca258a949e28ca7840a3319ec48e7",
+    "requestDigest": "sha256:9fcc98ecd562cf98eee5b3ca36706e424635c086203f174356d78e82a76d80a6"
   },
+  "materialReviewReceiptHistory": [
+    {
+      "digest": "sha256:0e96b59fe0db12c63b42d40d45edb1ce9ba3fef59cef22608be018b4ab20785f",
+      "path": ".ai/evidence/material-inspection-review/WI-1079-v1-0-1-post-merge-lifecycle-layout/3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f.json",
+      "receiptDigest": "sha256:2f19caf6d87645b747f380805c7932a35a41c3fd9cef0f23522172949ead8573",
+      "requestDigest": "sha256:3428e4cad51cac7d5a903b40732592fcdec8c4f683a7772e7bf85289d508206f"
+    }
+  ],
   "mode": "implementation",
-  "preflightAt": "2026-10-13T01:21:58Z",
+  "preflightAt": "2026-10-13T01:42:54Z",
   "preflightContractDigest": "sha256:b3980367ee51ea5d63fe8b4f69df3929b67fd1b7ebd7d1a60003722bd424772e",
-  "preflightDecisionDigest": "sha256:5800c01698cbb116845a3cac387777b3918b7db139914c08fe7c86c3ce37d4cc",
-  "preflightRepositorySnapshotDigest": "sha256:7a82392842ea9c0d5e83c153f17fd33d9b736f68109d92b0443aaf0ac1118cb4",
+  "preflightDecisionDigest": "sha256:650eaac376746d570dbe344d1d44e9e06a2bcdb06059a0f867c6d87094f858c8",
+  "preflightRepositorySnapshotDigest": "sha256:8fb87f594664292e45fb351af473d539cf950736b591919729687b94f46ac2f2",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
