@@ -1,8 +1,5 @@
 {
-  "changedPaths": [
-    ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification-attempt.87d924c7b88301a015c790e30f757605b8b3c12a6fd5234520ba0bdcea9b192c.json",
-    ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification-attempt.b65098bee2f308cb8df650bfa6c39916b7c808db19137686d14e89f658220cec.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-10-12T23:35:43Z",
   "checkpointContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
   "checkpointCount": 1,
@@ -158,6 +155,14 @@
     "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-13T14:59:14.518957568Z",
+      "recordedAt": "2026-10-13T14:59:14.518957568Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -254,15 +259,15 @@
     }
   ],
   "mode": "implementation",
-  "preflightAt": "2026-10-13T12:37:15Z",
+  "preflightAt": "2026-10-13T14:57:26Z",
   "preflightContractDigest": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
-  "preflightDecisionDigest": "sha256:a54963a22a97614bc35181c6f50b61fbf28ada97da68c50ef11d789378a4d30a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-13T11:22:24.899538992+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-13T14:59:14.518957568Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -325,11 +330,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:ff06f168e9900de5482a08e87939ce695983da367a866755559e5d2411b69fcc",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-10-13T12:37:03Z"
-  },
-  "verificationRecoveryReconciled": "sha256:9aee393548cb2cda62b7755617eac2a4db8ca23a2f890c5ecf8b1c4435d2d27c",
   "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
 }

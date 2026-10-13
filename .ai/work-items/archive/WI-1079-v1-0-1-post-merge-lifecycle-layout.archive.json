@@ -1,0 +1,30 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-13T15:00:21Z",
+  "files": {
+    "approachDigest": "sha256:80d02326ef976a228ad1c17cf24fb185be3d2eea933adf5d6f46eec147a7280e",
+    "approachPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.approach.json",
+    "contractDigest": "sha256:582314d6398de4bcf408640a9378e60d269dbf5a05be9ed7051dc07bf55795fa",
+    "contractPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json",
+    "eventsDigest": "sha256:6c73ba3b534b2389fd0a8ca14b38009a3d56e63efef4354af338e4bf50849156",
+    "eventsPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.events.jsonl",
+    "outcomeDigest": "sha256:62906cf7ba0825cc99662e7c6b0900196deb3462550df6cfc69504b8fe7a79dc",
+    "outcomePath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.outcome.json",
+    "summaryDigest": "sha256:0bc4bc62c8bfdb769a15927a1e89bc86fe64419d1fc18377953b6f784230c9bf",
+    "summaryPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.summary.json",
+    "taskReportDigest": "sha256:2f2251cbc02bdd7fef02cf46503fd903a220fbb96031764f6caaf48ae63fd01e",
+    "taskReportMarkdownDigest": "sha256:12b8497f1dd46d8da076166ad7b44f9a1b18cd2978198a8ff75eb39c28f82dea",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-13T15:00:21.611296047Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-13T15:00:21.611296047Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}

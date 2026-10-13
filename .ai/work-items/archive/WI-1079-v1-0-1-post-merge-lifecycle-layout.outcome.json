@@ -1,0 +1,159 @@
+{
+  "acceptanceResults": [
+    "A new explicit versioned mode supports separate and combined lifecycle with shared strict semantics; v1 and v2 behavior remains unchanged and no synthetic stage commit is created.",
+    "Combined validation derives allowed operations from artifacts and Runtime normalization; binds Contract Summary events verification attempts reports Outcome and archive manifest; unchanged verification and all prior failed attempts remain byte identical with their original Runtime identity; extra source foreign Work Item unknown artifact and resealed tampering fail closed.",
+    "Validate H0 to H1 governance-only changes independently of M0 to actual B main advancement; bind original source PR and actual provider B H1 M1; M0 is ancestor of B and M1 is the proven exact clean merge result; conflicts or added merge content fail closed.",
+    "Explicit absent docs is valid only when Contract permits and parent head actual base and merged result have no Work Item page parity entry or active document reference; existing projections cannot be removed to claim absence and historical report or evidence references remain legal.",
+    "Preserve delegated provider identity freshness ambiguity checks same-common surviving control Retained Deleted predecessor verification and real human close; public CLI fixtures prove both WI1078 combined absent advanced-base and WI1076 separate projected routes and a successor closeout route.",
+    "Successor finish archive and documentation are separately committed after formal verification; later production finalization and human close remain later-stage evidence rather than finish prerequisites.",
+    "Rustup settings parsing accepts a validated default_host_tuple or its default_host_triple alias, rejects duplicate keys and simultaneous alias declarations, validates host values, preserves the full settings-byte digest, and keeps unknown keys, non-empty overrides, missing/symlinked settings or incomplete toolchain identity fail-closed.",
+    "A short Rustup toolchain name resolves only to an exact installed toolchain proven to match the validated host tuple; there is no unique-prefix fallback across hosts. Host/config/toolchain changes block reuse, while identical observed inputs permit exact reuse.",
+    "Regression tests in the composition parser cover tuple and triple alias acceptance; duplicate, alias-conflict and invalid-host rejection; unknown keys and non-empty overrides; missing/symlinked settings; short-name cross-host selection or ambiguity; full settings-byte hash changes; toolchain/config changes blocking reuse; and exact reuse for identical configuration.",
+    "Rustup host selection treats default_host_tuple/default_host_triple as optional metadata. A selected toolchain name with a validated explicit host suffix resolves to that exact installed directory, independent of a different configured default host; a short channel name requires a validated default host and resolves only to the exact qualified directory. Missing host for a short channel, malformed/conflicting metadata, or non-exact resolution remains fail-closed; no unique-prefix fallback. Regression coverage verifies an explicit full host without a settings host, an explicit host differing from configured default, unchanged-identity reuse, and toolchain-byte changes forcing re-execution. This scope does not add general custom-toolchain resolution."
+  ],
+  "createdAt": "2026-10-13T14:59:14.518957568Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fbfb5c681c66480b0720ac0f2be8aaae229d6f8fe81c1a4af9e142e8f7742d45",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the existing WI-1078 combined finish/archive history legally finalizable with strict artifact, semantic, provider, merge-result and documentation proof, and prove the successor own closeout route before archive."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1079-v1-0-1-post-merge-lifecycle-layout.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-13T14:59:14.518957568Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+    },
+    "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+  },
+  "taskReportDigest": "sha256:2f2251cbc02bdd7fef02cf46503fd903a220fbb96031764f6caaf48ae63fd01e",
+  "taskReportMarkdownDigest": "sha256:12b8497f1dd46d8da076166ad7b44f9a1b18cd2978198a8ff75eb39c28f82dea",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1079-v1-0-1-post-merge-lifecycle-layout.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1079-v1-0-1-post-merge-lifecycle-layout"
+}
