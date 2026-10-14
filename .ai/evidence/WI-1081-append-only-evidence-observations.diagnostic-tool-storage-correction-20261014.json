@@ -1,0 +1,31 @@
+{
+  "kind": "agent_diagnostic_data_storage_correction",
+  "originalCommit": "fa29c4c63633223d42eae24c300d35706b857a2a",
+  "reason": "Store original helper bytes as data attachments; repository doctor forbids .py/.rs code inside .ai. Existing manifests remain immutable and resolve original paths at originalCommit.",
+  "mappings": [
+    {
+      "originalPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe1-20261014/capture-helper.py",
+      "currentDataPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe1-20261014/capture-helper.py.txt",
+      "bytes": 5772,
+      "sha256": "1e1b843c190f8df6d0ff5ef6114f51e7206c400bf127ff84e585a0bf173244f4"
+    },
+    {
+      "originalPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe2-20261014/capture-helper.py",
+      "currentDataPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe2-20261014/capture-helper.py.txt",
+      "bytes": 6028,
+      "sha256": "c391cffc3d004a6e9a9ca0a6d0366fc6bbea36bf47c8890a996b779e8e92d3be"
+    },
+    {
+      "originalPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe3-20261014/capture-helper.py",
+      "currentDataPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe3-20261014/capture-helper.py.txt",
+      "bytes": 6287,
+      "sha256": "efefa7849a4383d62aa099d07c9d9ea1299d67e5732b9217e3104915be6d1c09"
+    },
+    {
+      "originalPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe3-20261014/independent-monitor-helper.py",
+      "currentDataPath": ".ai/evidence/WI-1081-append-only-evidence-observations.pause-observation-probe3-20261014/independent-monitor-helper.py.txt",
+      "bytes": 1142,
+      "sha256": "37b04f6d630beaa2337943eba2fa5a9911500999e8e03b01885942fd1d6d98c3"
+    }
+  ]
+}
