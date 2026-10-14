@@ -1,0 +1,30 @@
+{
+  "kind": "actual_delegated_tests_only_implementation_scope",
+  "sourceThreadId": "01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "recordedAtUtc": "2026-10-14T22:54:51.141815+00:00",
+  "approvingReviewer": "agent:Raydot",
+  "authority": "User delegated ordinary technical decisions; approved full implementation instructions retransmitted by coordinator. No WI-1081 human retry/close authority is borrowed.",
+  "baseline": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "files": [
+    "crates/cockpit-verification/tests/composition.rs",
+    "crates/cockpit-verification/src/composition.rs"
+  ],
+  "rawCIFailureDiagnostic": "cannot inspect process pid=248778 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=unknown identity_before=observed(pid=248778,starttime_ticks=86173,pgid=38553,sid=38553,state=R) identity_after=unknown(identity stat read failed error_kind=Uncategorized errno=3: No such process (os error 3)) message=Permission denied (os error 13) file descriptors",
+  "diagnosticEvidence": {
+    "runId": 38594384692,
+    "artifactId": 11910505547,
+    "logRawSHA256": "38db1d4402376ca1bc4eab89dd4e2c7cd15c83950a4183f53f1ff25e2d01dec6",
+    "provenance": "Exact original diagnostic/hash independently read by parent Raydot; this environment earlier artifact download returned403, not claimed as an independent local read."
+  },
+  "redRequirement": "Old classifier rejects valid fd replay and falsely accepts errno130/cwd-extra; old cwd positive retained.",
+  "formatterRequirement": "Delete fixture stat to produce deterministic ENOENT/NotFound, never label as kernel ESRCH or admit ENOENT into classifier.",
+  "controlRequirement": "Use existing private hooks and no-receipt path; real spawn exit0 remains Unknown/Retained, incomplete evidence and owned-tree unknown, cleanup None, actual registered worktree and persisted JSON parity.",
+  "excluded": [
+    "production functions/types/observer",
+    "permissions/cleanup/platform guards",
+    "public test-support",
+    "dependencies/generic frameworks",
+    "WI-1081 resources/records",
+    "merge/deletion/human close"
+  ]
+}
