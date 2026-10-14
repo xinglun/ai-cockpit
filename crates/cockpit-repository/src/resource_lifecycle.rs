@@ -4594,6 +4594,14 @@ fn validate_post_merge_layout_stages(
             "provider-reported sync base is not an ancestor of the actual merge first parent",
         ));
     }
+    if git_text(root, &["merge-base", actual_base, &followup.head_revision]).as_deref()
+        != Some(source.head_revision.as_str())
+    {
+        return Err(post_merge_sync_error(
+            root,
+            "actual sync base must preserve the original source-head fork",
+        ));
+    }
     prove_clean_merge(root, actual_base, &followup.head_revision, m1)?;
     if git_text(
         root,
@@ -7005,6 +7013,7 @@ mod post_merge_sync_tests {
         receipt.repository_id = super::super::repository_id(root).to_string();
         receipt.branch.name = "codex/wi1078-post-merge-sync-finalization".into();
         receipt.branch.head_revision = h1.into();
+        receipt.worktree.head_revision = h1.into();
         receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
             .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
         sync.source_pull_request.number = 1032;
@@ -7016,29 +7025,62 @@ mod post_merge_sync_tests {
         sync.sync_pull_request.merge_commit = Some(m1.into());
         sync.current_main_revision = m1.into();
         sync.remote_branch_ref = "refs/heads/codex/wi1078-post-merge-sync-finalization".into();
-        receipt.pull_request = sync.sync_pull_request.clone();
+        receipt.pull_request = sync.source_pull_request.clone();
         receipt.post_merge_sync = Some(sync.clone());
 
-        let collect_time = (chrono::Utc::now() - chrono::Duration::seconds(10))
-            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
-        let mut retained_root = receipt.clone();
-        retained_root.result.disposition = ResourceFinalizationDisposition::Retained;
-        retained_root.after.branch = ResourceFinalizationBranchState::Present;
-        retained_root.after.worktree = ResourceFinalizationWorktreeState::Clean;
-        retained_root.timestamp = (chrono::Utc::now() - chrono::Duration::seconds(60))
-            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
-        retained_root
-            .post_merge_sync
-            .as_mut()
-            .unwrap()
-            .remote_branch_state = PostMergeSyncRemoteBranchState::Present;
-        let retained_path = super::resource_finalization_decision_path(root, id);
-        std::fs::create_dir_all(retained_path.parent().unwrap()).unwrap();
-        std::fs::write(
-            retained_path,
-            serde_json::to_vec_pretty(&retained_root).unwrap(),
+        let context = super::effective_resource_context(
+            root,
+            id,
+            &super::archived_contract_digest(root, id).unwrap().0,
         )
-        .unwrap();
+        .unwrap()
+        .expect("archived Contract binds the reviewed GitHub resource");
+        let worktree_path = PathBuf::from(&context.worktree);
+        assert!(
+            !worktree_path.exists(),
+            "the archived resource path must be free in this isolated fixture"
+        );
+        git(
+            root,
+            &[
+                "worktree",
+                "add",
+                "-b",
+                &receipt.branch.name,
+                worktree_path.to_str().unwrap(),
+                h1,
+            ],
+        );
+        struct WorktreeCleanup {
+            repository: PathBuf,
+            path: PathBuf,
+        }
+        impl Drop for WorktreeCleanup {
+            fn drop(&mut self) {
+                let _ = Command::new("git")
+                    .arg("-C")
+                    .arg(&self.repository)
+                    .args(["worktree", "remove", "--force"])
+                    .arg(&self.path)
+                    .output();
+            }
+        }
+        let _worktree_cleanup = WorktreeCleanup {
+            repository: root.to_path_buf(),
+            path: worktree_path.clone(),
+        };
+        receipt.worktree.path = worktree_path.display().to_string();
+        receipt.worktree.head_revision = h1.into();
+        receipt.resource_context = Some(context);
+        let (contract, contract_digest) = super::archived_contract_digest(root, id).unwrap();
+        receipt.repository_id = super::super::repository_id(root).to_string();
+        receipt.contract_digest = Some(contract_digest);
+        receipt.contract_base_revision = Some(contract.base_revision.clone());
+        receipt.runtime_version = "test-runtime".into();
+        receipt.runtime_digest = Digest::sha256_bytes(b"test-runtime");
+        receipt.result.disposition = ResourceFinalizationDisposition::Retained;
+        receipt.after.branch = ResourceFinalizationBranchState::Present;
+        receipt.after.worktree = ResourceFinalizationWorktreeState::Clean;
 
         let runtime = RuntimeContext {
             runtime_version: "test-runtime".into(),
@@ -7046,8 +7088,12 @@ mod post_merge_sync_tests {
             runtime_digest: Digest::sha256_bytes(b"test-runtime"),
         };
         let sync = receipt.post_merge_sync.as_mut().unwrap();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Present;
+        sync.worktree_git_dir = git(&worktree_path, &["rev-parse", "--absolute-git-dir"]);
         let remote_ref = sync.remote_branch_ref.clone();
         let repository = "xinglun/ai-cockpit";
+        let collect_time = (chrono::Utc::now() - chrono::Duration::seconds(10))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
         let imports = [
             (
                 "source",
@@ -7074,13 +7120,7 @@ mod post_merge_sync_tests {
                     "https://api.github.com/repos/{repository}/git/ref/heads/{}",
                     remote_ref.strip_prefix("refs/heads/").unwrap()
                 ),
-                github_deleted_ref_body(
-                    repository,
-                    &remote_ref,
-                    "observation-1",
-                    "fixture-user",
-                    &collect_time,
-                ),
+                github_present_ref_body(&remote_ref, h1),
             ),
         ];
         let mut digests = Vec::new();
@@ -7102,9 +7142,15 @@ mod post_merge_sync_tests {
         sync.source_evidence_digest = digests[0].clone();
         sync.sync_evidence_digest = digests[1].clone();
         sync.remote_evidence_digest = digests[2].clone();
-        let sync = receipt.post_merge_sync.as_ref().unwrap();
-        super::validate_post_merge_sync_delegated_evidence(root, &receipt, sync)
-            .expect("provider raw PR bytes must preserve the reported base revision");
+
+        cockpit_protocol::validate_resource_finalization_receipt_for(
+            &receipt,
+            &receipt.repository_id,
+            id,
+            receipt.contract_digest.as_ref(),
+            receipt.resource_context.as_ref(),
+        )
+        .expect("the legitimate schema-v3 receipt must pass protocol identity validation");
         let mut tampered_identity = receipt.clone();
         tampered_identity
             .post_merge_sync
@@ -7122,9 +7168,16 @@ mod post_merge_sync_tests {
             .is_err(),
             "receipt identity tampering must not override provider raw base bytes"
         );
-        super::validate_post_merge_layout_stages(root, id, sync).expect(
-            "v3 must prove the actual merge first parent while retaining the provider base",
-        );
+        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let receipt_path = root
+            .parent()
+            .unwrap()
+            .join("wi1080-real-m1-retained-receipt.json");
+        std::fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
+        let result = super::record_resource_finalization(root, id, &receipt_path, &runtime)
+            .expect("the normal repository finalization entry point must accept the same receipt");
+        assert_eq!(result["state"], "recorded");
     }
 
     #[test]
@@ -7140,6 +7193,47 @@ mod post_merge_sync_tests {
         let h0 = "ba4350249313b2ffd95c5bae52a3ffff8e9597a9";
         let source_merge = "ec249eadb1d4075b351db729d6c719d7905b3f16";
         let m1_tree = git(root, &["rev-parse", &format!("{m1}^{{tree}}")]);
+
+        let forked_actual_base_tree = git(root, &["merge-tree", "--write-tree", provider_base, h1]);
+        let forked_actual_base = commit_tree_with_parents(
+            root,
+            forked_actual_base_tree.lines().next().unwrap(),
+            &[provider_base, h1],
+            "synthetic actual base that already contains the sync head",
+        );
+        let forked_m1_tree = git(
+            root,
+            &["merge-tree", "--write-tree", &forked_actual_base, h1],
+        );
+        let forked_m1 = commit_tree_with_parents(
+            root,
+            forked_m1_tree.lines().next().unwrap(),
+            &[&forked_actual_base, h1],
+            "synthetic M1 whose actual base already contains H1",
+        );
+        assert_eq!(git(root, &["merge-base", &forked_actual_base, h1],), h1);
+        let mut actual_base_fork = baseline.clone();
+        actual_base_fork.sync_pull_request.merge_commit = Some(forked_m1.clone());
+        actual_base_fork.current_main_revision = forked_m1;
+        git(
+            root,
+            &[
+                "update-ref",
+                "refs/remotes/origin/main",
+                actual_base_fork
+                    .sync_pull_request
+                    .merge_commit
+                    .as_deref()
+                    .unwrap(),
+            ],
+        );
+        let error =
+            super::validate_post_merge_layout_stages(root, id, &actual_base_fork).unwrap_err();
+        assert!(
+            format!("{error:?}")
+                .contains("actual sync base must preserve the original source-head fork"),
+            "actual first parent must remain forked at H0, got {error:?}"
+        );
 
         for (case, parents, expected) in [
             ("one parent", vec![actual_base], "exactly two parents"),
