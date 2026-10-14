@@ -1,0 +1,28 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "explicit-user-authorization:Ray, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+  "decidedAt": "2026-10-13T23:46:39Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.contract.json",
+    ".ai/work-items/archive/WI-1078-v1-0-1-post-merge-sync-finalization.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+  "predecessorEventsDigest": "sha256:e474d36a08a9764568b548d95d3e28defc10a92ee8517381370e1d96dbc71ba9",
+  "predecessorOutcomeDigest": "sha256:3ca7dc162a68c7b90e2b236ee76b19e2bb0875a39100b2ca1661a356fe97e8bc",
+  "predecessorSummaryDigest": "sha256:5cf0d7ab2e89a8511cf82313aae5cb0e5bb71ab7e3cf1c7116e19fd5a26c8c0b",
+  "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "reason": "Preserve archived WI-1078 and its historical evidence; create only the explicitly approved, narrowly scoped successor to fix schema-v3 validate_post_merge_layout_stages on main 37cc4e540ce23a721382d9c6b510218dc5ba69c1 by retaining provider base identity and deriving the actual M1 first parent, with v1/v2 unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the successor Contract for the approved narrow scope and let the current Runtime evaluate admission; continue only when admitted or after any exact Contract-digest-bound human confirm_review required by preflight.",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+  "workItemId": "WI-1078-v1-0-1-post-merge-sync-finalization"
+}

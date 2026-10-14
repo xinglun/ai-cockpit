@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:46255d126a178add66aa61d6e2c8d202cdcbff70344cb988a984099fb40b9d28",
+  "reason": "Ray directed confirm_review for this exact current WI-1080 binding in this conversation: Contract sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30, preflight decision sha256:46255d126a178add66aa61d6e2c8d202cdcbff70344cb988a984099fb40b9d28, and repository snapshot sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d. Preserve repository_material_inspection_unavailable and user_visible_benefit_not_declared as unresolved; this decision does not record material review or authorize merge or close.",
+  "recordedAt": "2026-10-14T03:38:53Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

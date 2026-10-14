@@ -1,0 +1,174 @@
+{
+  "acceptanceResults": [
+    "For schema-v3, preserve the provider-reported base in raw identity bindings while deriving the actual base from M1 first parent; require exactly two M1 parents in exact order [actualBase,H1], correct H1 identity, provider-base ancestry, clean merge-tree equality, and docs absence checks including actualBase.",
+    "Positive end-to-end receipt-path regression uses M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 with actual first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d, H1 d18be4f8624d08f91fe1c961dfed287cfe9543df, and provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50; the provider base differs from the actual first parent but is its ancestor.",
+    "Negative end-to-end cases reject wrong parent count/order/head, a non-ancestor provider base, merge conflict or tampered tree, tampered provider raw-base identity, and required-absent docs found at actualBase.",
+    "Existing v1/v2 behavior and boundary tests remain unchanged; no v1/v2 migration or receipt/schema change."
+  ],
+  "createdAt": "2026-10-14T04:42:19.660348428Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1b3373fdacbc4c5023dc64a583f0ae18bad9b7f3f44e82d732d7a594e2fff8fb",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1080-v3-actual-merge-first-parent.preflight-review.278ca9a68c322d988ce0abdec0e2c015dfa8ea18055d63cf62f77047afd7209b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1080-v3-actual-merge-first-parent.verification-attempt.1ee3b81c69d536b644ef9b020de4177afb438bb1b827b4ea923c22cebcdd578d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-1080-v3-actual-merge-first-parent/287856a29f58725b09777f76b65cdcc6be04c8271427c4d6873e722d596c38b6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+          ],
+          "inference": false,
+          "text": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-14T04:42:19.660348428Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "workItemId": "WI-1080-v3-actual-merge-first-parent"
+  },
+  "taskReportDigest": "sha256:9c6c7a6c9e70cddca841b77fc85423dd005eb35ffa942bfc6df9c4b368d5ac41",
+  "taskReportMarkdownDigest": "sha256:c55f23855cbed82da8ec624fb40f1052fef13601406b5c1ed4cc40849efbe661",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

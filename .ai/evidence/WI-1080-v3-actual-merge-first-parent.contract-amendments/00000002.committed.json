@@ -1,0 +1,63 @@
+{
+  "sequence": 2,
+  "preparedDigest": "sha256:a0907433fa025c4ff19f5b402346a86fdb4d0229202c9ca381a941a45e26f8c1",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1080-v3-actual-merge-first-parent",
+    "sequence": 2,
+    "changeId": "wi1080-material-review-opt-in-2026-10-14",
+    "requestDigest": "sha256:9c4db881abf6404b05bf5d5208de4a7e4bc33bbb9b221a953180c8490e65116a",
+    "reason": "User explicitly authorized this exact materialInspectionReview opt-in in response to the policy authorization question in this conversation. This enables only a future self-declared technical review of the permitted committed-Rust syntax Unknown; it does not resolve user_visible_benefit_not_declared, authenticate the reviewer, or record a material review decision.",
+    "changedValues": [
+      {
+        "path": "/governanceProfile",
+        "operation": "set",
+        "oldValue": null,
+        "newValue": {
+          "materialInspectionReview": {
+            "acceptResidualRisk": true,
+            "assurance": "self_declared",
+            "authoritySource": "explicit user instruction in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 authorizing Raydot to review ordinary technical proposals",
+            "permittedCause": "readable_committed_rust_syntax_unknown",
+            "permittedUnknown": "repository_material_inspection_unavailable",
+            "reviewerActor": "agent:raydot",
+            "schemaVersion": 1
+          }
+        }
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "oldValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ],
+        "newValue": [
+          "material-inspection-review",
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+    "newContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+    "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "environmentObservationDigest": "sha256:6c530391ed7cf5a6d4248fcf64cfcd9d52617ca8171c17ff46687ad39a3588bf",
+    "runtimeVersion": "1.0.1",
+    "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+    "verificationStarted": true,
+    "checkpointed": true,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [
+      ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+    ],
+    "policyReviewRequired": true,
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "previousJournalDigest": "sha256:dde1ff345c7f58594e005e6e7d68186b791fd1886708659b7fd438f49760f01e",
+    "journalDigest": "sha256:45cba14c2eff9056f81447b2e93aeb1bb03d30424c9a73ec949d2ef468a6bb30",
+    "recordedAt": "2026-10-14T03:10:27Z"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "For schema-v3, preserve the provider-reported base in raw identity bindings while deriving the actual base from M1 first parent; require exactly two M1 parents in exact order [actualBase,H1], correct H1 identity, provider-base ancestry, clean merge-tree equality, and docs absence checks including actualBase.",
+    "Positive end-to-end receipt-path regression uses M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 with actual first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d, H1 d18be4f8624d08f91fe1c961dfed287cfe9543df, and provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50; the provider base differs from the actual first parent but is its ancestor.",
+    "Negative end-to-end cases reject wrong parent count/order/head, a non-ancestor provider base, merge conflict or tampered tree, tampered provider raw-base identity, and required-absent docs found at actualBase.",
+    "Existing v1/v2 behavior and boundary tests remain unchanged; no v1/v2 migration or receipt/schema change."
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": null,
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-13T23:46:39Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": null,
+  "goal": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs.",
+  "governancePolicy": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "explicit user instruction in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 authorizing Raydot to review ordinary technical proposals",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:raydot",
+      "schemaVersion": 1
+    }
+  },
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "Fix only schema-v3 validate_post_merge_layout_stages to use the actual M1 first parent for merge proof while retaining the provider base identity.",
+  "mode": "implementation",
+  "notCodable": null,
+  "operation": null,
+  "outOfScope": [
+    "Changes outside crates/cockpit-repository/src/resource_lifecycle.rs",
+    "Any v1 or v2 behavior",
+    " schema",
+    " or receipt changes",
+    "Changes to WI-1078 historical Contract",
+    " archive",
+    " or evidence",
+    "Other Work Items",
+    " PRs",
+    " provider mutations",
+    " CI gates",
+    " or assertion relaxations"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+  "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "requiredRuntimeCapabilities": [
+    "material-inspection-review",
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "crates/cockpit-repository/src/resource_lifecycle.rs"
+  ],
+  "sources": [
+    "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+    "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+    "https://github.com/xinglun/ai-cockpit/pull/1034"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    "cargo test --locked -p cockpit-repository"
+  ],
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

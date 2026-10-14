@@ -1,0 +1,188 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1080-v3-actual-merge-first-parent",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-4a4c03135075f6443df70e48b60933cad9b8ad0b505a41c3361a6bba40fce7e7",
+      "expectedContractDigest": "sha256:dcd6be1751f29a2f3a12f5e337962e2920ba7d593e470c25440e31fbb24aca5d",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "https://github.com/xinglun/ai-cockpit/pull/1034"
+        }
+      ]
+    },
+    "requestDigest": "sha256:11729f7eb556adb1f5f2496c8754a74649d698e5991932a3fdd061dc155f5816",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "For schema-v3, preserve the provider-reported base in raw identity bindings while deriving the actual base from M1 first parent; require exactly two M1 parents in exact order [actualBase,H1], correct H1 identity, provider-base ancestry, clean merge-tree equality, and docs absence checks including actualBase.",
+        "Positive end-to-end receipt-path regression uses M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 with actual first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d, H1 d18be4f8624d08f91fe1c961dfed287cfe9543df, and provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50; the provider base differs from the actual first parent but is its ancestor.",
+        "Negative end-to-end cases reject wrong parent count/order/head, a non-ancestor provider base, merge conflict or tampered tree, tampered provider raw-base identity, and required-absent docs found at actualBase.",
+        "Existing v1/v2 behavior and boundary tests remain unchanged; no v1/v2 migration or receipt/schema change."
+      ],
+      "authority": "authorized",
+      "baseRevision": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+      "createdAt": "2026-10-13T23:46:39Z",
+      "goal": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs.",
+      "intent": "Fix only schema-v3 validate_post_merge_layout_stages to use the actual M1 first parent for merge proof while retaining the provider base identity.",
+      "mode": "implementation",
+      "outOfScope": [
+        "Changes outside crates/cockpit-repository/src/resource_lifecycle.rs",
+        "Any v1 or v2 behavior",
+        " schema",
+        " or receipt changes",
+        "Changes to WI-1078 historical Contract",
+        " archive",
+        " or evidence",
+        "Other Work Items",
+        " PRs",
+        " provider mutations",
+        " CI gates",
+        " or assertion relaxations"
+      ],
+      "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+      "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "risk": "normal",
+      "scope": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "cargo test --locked -p cockpit-repository"
+      ],
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "previousContractDigest": "sha256:dcd6be1751f29a2f3a12f5e337962e2920ba7d593e470c25440e31fbb24aca5d",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "For schema-v3, preserve the provider-reported base in raw identity bindings while deriving the actual base from M1 first parent; require exactly two M1 parents in exact order [actualBase,H1], correct H1 identity, provider-base ancestry, clean merge-tree equality, and docs absence checks including actualBase.",
+        "Positive end-to-end receipt-path regression uses M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 with actual first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d, H1 d18be4f8624d08f91fe1c961dfed287cfe9543df, and provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50; the provider base differs from the actual first parent but is its ancestor.",
+        "Negative end-to-end cases reject wrong parent count/order/head, a non-ancestor provider base, merge conflict or tampered tree, tampered provider raw-base identity, and required-absent docs found at actualBase.",
+        "Existing v1/v2 behavior and boundary tests remain unchanged; no v1/v2 migration or receipt/schema change."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-13T23:46:39Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Fix only schema-v3 validate_post_merge_layout_stages to use the actual M1 first parent for merge proof while retaining the provider base identity.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Changes outside crates/cockpit-repository/src/resource_lifecycle.rs",
+        "Any v1 or v2 behavior",
+        " schema",
+        " or receipt changes",
+        "Changes to WI-1078 historical Contract",
+        " archive",
+        " or evidence",
+        "Other Work Items",
+        " PRs",
+        " provider mutations",
+        " CI gates",
+        " or assertion relaxations"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
+      "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs"
+      ],
+      "sources": [
+        "explicit-user-authorization:Ray:WI-1080 narrow successor scope, source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018",
+        "main merge M1:37cc4e540ce23a721382d9c6b510218dc5ba69c1",
+        "https://github.com/xinglun/ai-cockpit/pull/1034"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --locked -p cockpit-repository"
+      ],
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "newContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+    "previousSummaryDigest": "sha256:93e1d6bdbb652015b3e84837a5b45be0b593b56727259179526a10738ee83d8b",
+    "repositorySnapshotDigest": "sha256:6963d19714335f46673ff471f6ea2fbb0738aa5d1d6c680a210f4310c83a9118",
+    "environmentObservationDigest": "sha256:65899211c1a805197254566de8cc7f91af926fcb980b9b7eb4d23fd46a607984",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:4a4c03135075f6443df70e48b60933cad9b8ad0b505a41c3361a6bba40fce7e7",
+    "preparedAt": "2026-10-13T23:47:32Z"
+  },
+  "preparedDigest": "sha256:b06715d6e52954da8ced3669f8628ecf7c234ee56dc7d2a9aaacd45a77a54f58"
+}
