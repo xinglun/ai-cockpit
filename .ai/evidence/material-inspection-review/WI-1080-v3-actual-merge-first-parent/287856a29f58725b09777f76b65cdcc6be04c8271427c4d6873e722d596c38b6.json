@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent",
+  "contractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "materialManifestDigest": "sha256:a53d8faf2ae77dda38f5b683ce9e3a5ccc5e5f911f344ead92d2f6cb772aec92",
+  "profileDigest": "sha256:174902d329dca573692871a6bd6484c003b48e69c884b812f5e4fb8aa67fae2b",
+  "requestDigest": "sha256:287856a29f58725b09777f76b65cdcc6be04c8271427c4d6873e722d596c38b6",
+  "reviewedSourceHead": "363354701ddda97d5ca719546338a4567ff714b1",
+  "decision": "accept_permitted_unknowns",
+  "reviewerActor": "agent:raydot",
+  "recordedBy": "runtime:1.0.1:sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+  "authoritySource": "explicit user instruction in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 authorizing Raydot to review ordinary technical proposals",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:ed3b95ccc15fc83c3bcff7c2161c47b7b010e9b144ae0cd780b3c3085f989ee2"
+    }
+  ],
+  "rationale": "Raydot delegated technical review for the exact WI-1080 request sha256:287856a29f58725b09777f76b65cdcc6be04c8271427c4d6873e722d596c38b6, manifest sha256:a53d8faf2ae77dda38f5b683ce9e3a5ccc5e5f911f344ead92d2f6cb772aec92, and source head 363354701ddda97d5ca719546338a4567ff714b1. Review of the sole committed entry crates/cockpit-repository/src/resource_lifecycle.rs confirmed the v3 validator binds M1's exact two parents and H1, checks provider-base ancestry and H0 fork preservation, recalculates the clean tree from actual first parent plus H1, and checks absent documentation at actual first parent while retaining provider-base checks. The regression set includes the same receipt through raw provider-byte protocol validation and the public repository recorder, plus negative parent, base ancestry/fork, tree, raw identity, and documentation cases; v1/v2 boundaries remain unchanged. No in-scope correctness finding was identified.",
+  "residualRisk": "This decision has self_declared assurance: Runtime does not authenticate reviewer identity or prove reviewer independence. It accepts only the exact permitted committed Rust syntax Unknown; the raw scanner Unknown remains preserved, and this record does not establish machine-clean classification, human/provider/release approval, or user-visible benefit.",
+  "recordedAt": "2026-10-14T03:44:23Z",
+  "receiptDigest": "sha256:5103e0f09e18c206496a52559768000dd92a57df98fe6970e6d9ac4370275d0b"
+}
