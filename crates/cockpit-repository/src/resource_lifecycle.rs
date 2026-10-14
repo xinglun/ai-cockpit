@@ -6829,9 +6829,10 @@ mod post_merge_sync_tests {
     use cockpit_protocol::{
         AssuranceLevel, DelegatedEvidence, EvidenceValidity, PostMergeSyncEvidence,
         PostMergeSyncRemoteBranchState, ResourceFinalizationBranchIdentity,
-        ResourceFinalizationBranchState, ResourceFinalizationDisposition,
-        ResourceFinalizationPullRequestIdentity, ResourceFinalizationPullRequestState,
-        ResourceFinalizationReceipt, ResourceFinalizationResult, ResourceFinalizationState,
+        ResourceFinalizationBranchState, ResourceFinalizationContext,
+        ResourceFinalizationDisposition, ResourceFinalizationPullRequestIdentity,
+        ResourceFinalizationPullRequestState, ResourceFinalizationReceipt,
+        ResourceFinalizationResult, ResourceFinalizationState,
         ResourceFinalizationWorktreeIdentity, ResourceFinalizationWorktreeState, RuntimeContext,
     };
     use std::path::{Path, PathBuf};
@@ -7028,14 +7029,19 @@ mod post_merge_sync_tests {
         receipt.pull_request = sync.source_pull_request.clone();
         receipt.post_merge_sync = Some(sync.clone());
 
-        let context = super::effective_resource_context(
+        let mut context = super::effective_resource_context(
             root,
             id,
             &super::archived_contract_digest(root, id).unwrap().0,
         )
         .unwrap()
         .expect("archived Contract binds the reviewed GitHub resource");
-        let worktree_path = PathBuf::from(&context.worktree);
+        let worktree_path = fixture.directory.join("synthetic-resource-worktree");
+        context.worktree = worktree_path.display().to_string();
+        assert!(
+            worktree_path.starts_with(&fixture.directory),
+            "positive lifecycle fixtures must keep worktree resources inside their TempDir"
+        );
         assert!(
             !worktree_path.exists(),
             "the archived resource path must be free in this isolated fixture"
@@ -7170,13 +7176,163 @@ mod post_merge_sync_tests {
         );
         receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
             .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
-        let receipt_path = root
-            .parent()
-            .unwrap()
-            .join("wi1080-real-m1-retained-receipt.json");
+        super::validate_post_merge_sync_repository_evidence(root, &receipt).expect(
+            "the same v3 receipt must pass provider-byte, Git-stage, and local-state validation",
+        );
+    }
+
+    #[test]
+    fn record_resource_finalization_accepts_tempdir_bound_initial_contract() {
+        let fixture = tempfile::tempdir().expect("fixture directory");
+        let root = fixture.path().join("repository");
+        let worktree_path = fixture.path().join("synthetic-resource-worktree");
+        std::fs::create_dir_all(&root).unwrap();
+        git(&root, &["init", "-q"]);
+        git(&root, &["config", "user.name", "AI Cockpit Tests"]);
+        git(&root, &["config", "user.email", "tests@example.invalid"]);
+        git(&root, &["checkout", "-q", "-b", "main"]);
+        std::fs::write(root.join("source.txt"), "synthetic repository\n").unwrap();
+        git(&root, &["add", "source.txt"]);
+        let head = commit(&root, "synthetic initial repository");
+
+        let id = "WI-1080-resource-finalization-tempdir";
+        let branch = "codex/wi1080-resource-finalization-tempdir";
+        let pull_request = "https://github.com/xinglun/ai-cockpit/pull/9001";
+        let context = ResourceFinalizationContext {
+            branch: branch.into(),
+            worktree: worktree_path.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: pull_request.into(),
+        };
+        git(
+            &root,
+            &[
+                "worktree",
+                "add",
+                "-q",
+                "-b",
+                branch,
+                worktree_path.to_str().unwrap(),
+                &head,
+            ],
+        );
+
+        let repository_id = super::super::repository_id(&root).to_string();
+        let contract = serde_json::json!({
+            "protocolVersion": 1,
+            "repositoryId": repository_id,
+            "workItemId": id,
+            "intent": "Exercise the public resource-finalization boundary with an isolated fixture.",
+            "goal": "Bind a synthetic retained resource to a TempDir-owned initial Contract.",
+            "scope": ["source.txt"],
+            "outOfScope": [],
+            "risk": "normal",
+            "authority": "authorized",
+            "acceptanceCriteria": ["The retained resource receipt matches the initial Contract."],
+            "requiredEvidenceClasses": ["verification"],
+            "baseRevision": head,
+            "projectProfileDigest": Digest::sha256_bytes(b"synthetic project profile").to_string(),
+            "repositorySnapshotDigest": Digest::sha256_bytes(b"synthetic repository snapshot").to_string(),
+            "resourceContext": serde_json::to_value(&context).unwrap()
+        });
+        let contract: cockpit_protocol::Contract =
+            serde_json::from_value(contract.clone()).expect("synthetic initial Contract parses");
+        contract
+            .validate()
+            .expect("synthetic initial Contract is valid");
+        let contract_bytes = serde_json::to_vec_pretty(&contract).unwrap();
+        let contract_digest = Digest::sha256_bytes(&contract_bytes);
+
+        let archive = root.join(".ai/work-items/archive");
+        let active = root.join(".ai/work-items/active");
+        std::fs::create_dir_all(&archive).unwrap();
+        std::fs::create_dir_all(&active).unwrap();
+        let contract_path = archive.join(format!("{id}.contract.json"));
+        std::fs::write(&contract_path, &contract_bytes).unwrap();
+        std::fs::write(active.join(format!("{id}.contract.json")), &contract_bytes).unwrap();
+        let summary_bytes = serde_json::to_vec(&serde_json::json!({"workItemId": id})).unwrap();
+        let outcome_bytes = serde_json::to_vec(&serde_json::json!({"workItemId": id})).unwrap();
+        std::fs::write(archive.join(format!("{id}.summary.json")), &summary_bytes).unwrap();
+        std::fs::write(archive.join(format!("{id}.outcome.json")), &outcome_bytes).unwrap();
+        let manifest = serde_json::json!({
+            "workItemId": id,
+            "state": "archived",
+            "files": {
+                "contractDigest": contract_digest.to_string(),
+                "summaryDigest": Digest::sha256_bytes(&summary_bytes).to_string(),
+                "outcomeDigest": Digest::sha256_bytes(&outcome_bytes).to_string()
+            }
+        });
+        std::fs::write(
+            archive.join(format!("{id}.archive.json")),
+            serde_json::to_vec_pretty(&manifest).unwrap(),
+        )
+        .unwrap();
+
+        let runtime = RuntimeContext {
+            runtime_version: "test-runtime".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"synthetic test runtime"),
+        };
+        let mut receipt = deleted_receipt(
+            branch,
+            &worktree_path,
+            &worktree_path.join(".git"),
+            &root.join(".git"),
+        );
+        receipt.schema_version = cockpit_protocol::RESOURCE_FINALIZATION_SCHEMA_VERSION;
+        receipt.work_item_id = id.into();
+        receipt.repository_id = repository_id;
+        receipt.runtime_version = runtime.runtime_version.clone();
+        receipt.runtime_digest = runtime.runtime_digest.clone();
+        receipt.provider = "github".into();
+        receipt.pull_request = ResourceFinalizationPullRequestIdentity {
+            number: 9001,
+            url: pull_request.into(),
+            head_revision: head.clone(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            base_revision: head.clone(),
+            merge_commit: Some(head.clone()),
+        };
+        receipt.branch = ResourceFinalizationBranchIdentity {
+            name: branch.into(),
+            remote: "origin".into(),
+            head_revision: head.clone(),
+        };
+        receipt.worktree = ResourceFinalizationWorktreeIdentity {
+            worktree_id: "synthetic-tempdir-worktree".into(),
+            path: worktree_path.display().to_string(),
+            branch: branch.into(),
+            head_revision: head,
+        };
+        receipt.before = ResourceFinalizationState {
+            pull_request: ResourceFinalizationPullRequestState::Merged,
+            branch: ResourceFinalizationBranchState::Present,
+            worktree: ResourceFinalizationWorktreeState::Clean,
+        };
+        receipt.after = receipt.before.clone();
+        receipt.result.disposition = ResourceFinalizationDisposition::Retained;
+        receipt.contract_digest = Some(contract_digest.clone());
+        receipt.contract_base_revision = Some(contract.base_revision.clone());
+        receipt.resource_context = Some(context.clone());
+        receipt.post_merge_sync = None;
+        receipt.timestamp = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+
+        cockpit_protocol::validate_resource_finalization_receipt_for(
+            &receipt,
+            &contract.repository_id,
+            id,
+            Some(&contract_digest),
+            Some(&context),
+        )
+        .expect("the synthetic receipt must pass protocol identity validation");
+        let receipt_path = fixture.path().join("retained-resource-receipt.json");
         std::fs::write(&receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
-        let result = super::record_resource_finalization(root, id, &receipt_path, &runtime)
-            .expect("the normal repository finalization entry point must accept the same receipt");
+        let result = super::record_resource_finalization(&root, id, &receipt_path, &runtime)
+            .expect("the public repository finalization entry point accepts the TempDir fixture");
         assert_eq!(result["state"], "recorded");
     }
 
