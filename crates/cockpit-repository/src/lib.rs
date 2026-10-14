@@ -3957,6 +3957,7 @@ pub fn import_delegated_evidence_observation(
             message: message.into(),
         },
     )?;
+    validate_delegated_observation_bound_at(&receipt, &path)?;
     validate_delegated_observation_idempotent_binding(&receipt, &expected, &path)?;
     Ok(DelegatedEvidenceObservation {
         selector: delegated_observation_selector(&receipt, &stored_bytes),

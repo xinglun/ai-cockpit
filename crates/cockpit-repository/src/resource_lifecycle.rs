@@ -4272,12 +4272,33 @@ fn validate_github_remote_ref_observation(
     Ok(())
 }
 
+enum SelectedDelegatedEvidence {
+    Legacy(DelegatedEvidenceReceipt),
+    Observation(cockpit_protocol::DelegatedEvidenceObservation),
+}
+
+impl SelectedDelegatedEvidence {
+    fn evidence(&self) -> &cockpit_protocol::DelegatedEvidence {
+        match self {
+            Self::Legacy(receipt) => &receipt.evidence,
+            Self::Observation(observation) => &observation.receipt.evidence,
+        }
+    }
+
+    fn bound_at(&self) -> &str {
+        match self {
+            Self::Legacy(receipt) => &receipt.bound_at,
+            Self::Observation(observation) => &observation.receipt.bound_at,
+        }
+    }
+}
+
 fn validate_post_merge_sync_delegated_evidence(
     root: &Path,
     receipt: &ResourceFinalizationReceipt,
     sync: &PostMergeSyncEvidence,
 ) -> Result<(), ObserverError> {
-    let evidence_receipts = if receipt.schema_version
+    let (source, synchronization, remote) = if receipt.schema_version
         == cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
     {
         let selectors = sync.observation_selectors.as_ref().ok_or_else(|| {
@@ -4288,12 +4309,9 @@ fn validate_post_merge_sync_delegated_evidence(
         })?;
         let observations =
             super::list_delegated_evidence_observations(root, &receipt.work_item_id)?;
-        let mut selected = Vec::with_capacity(3);
-        for (role, selector) in [
-            ("source", &selectors.source),
-            ("sync", &selectors.sync),
-            ("remote", &selectors.remote),
-        ] {
+        let select = |role: &str,
+                      selector: &cockpit_protocol::DelegatedEvidenceObservationSelector|
+         -> Result<SelectedDelegatedEvidence, ObserverError> {
             cockpit_protocol::validate_delegated_evidence_observation_selector(selector).map_err(
                 |message| post_merge_sync_error(root, format!("{role} selector: {message}")),
             )?;
@@ -4307,20 +4325,35 @@ fn validate_post_merge_sync_delegated_evidence(
                     format!("{role} observation selector must resolve exactly once"),
                 ));
             }
-            let observation = &matches[0].receipt;
-            selected.push(DelegatedEvidenceReceipt {
-                schema_version: 1,
-                repository_id: observation.repository_id.clone(),
-                work_item_id: observation.work_item_id.clone(),
-                evidence: observation.evidence.clone(),
-                runtime_version: observation.runtime_version.clone(),
-                runtime_digest: observation.runtime_digest.clone(),
-                bound_at: observation.bound_at.clone(),
-            });
-        }
-        selected
+            Ok(SelectedDelegatedEvidence::Observation(
+                (*matches[0]).clone(),
+            ))
+        };
+        (
+            select("source", &selectors.source)?,
+            select("sync", &selectors.sync)?,
+            select("remote", &selectors.remote)?,
+        )
     } else {
-        super::list_delegated_evidence(root, &receipt.work_item_id)?
+        let receipts = super::list_delegated_evidence(root, &receipt.work_item_id)?;
+        let select = |digest: &Digest| -> Result<SelectedDelegatedEvidence, ObserverError> {
+            let matches = receipts
+                .iter()
+                .filter(|candidate| &candidate.evidence.digest == digest)
+                .collect::<Vec<_>>();
+            if matches.len() != 1 {
+                return Err(post_merge_sync_error(
+                    root,
+                    format!("delegated evidence digest must resolve exactly once: {digest}"),
+                ));
+            }
+            Ok(SelectedDelegatedEvidence::Legacy((*matches[0]).clone()))
+        };
+        (
+            select(&sync.source_evidence_digest)?,
+            select(&sync.sync_evidence_digest)?,
+            select(&sync.remote_evidence_digest)?,
+        )
     };
     let timestamp = chrono::DateTime::parse_from_rfc3339(&receipt.timestamp).map_err(|error| {
         post_merge_sync_error(root, format!("finalization timestamp is invalid: {error}"))
@@ -4339,37 +4372,47 @@ fn validate_post_merge_sync_delegated_evidence(
                     "Deleted remote-ref evidence must follow the exact Retained finalization root",
                 ));
             }
+            if receipt.schema_version
+                == cockpit_protocol::RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
+            {
+                if root_receipt.schema_version != receipt.schema_version {
+                    return Err(post_merge_sync_error(
+                        root,
+                        "schema-v4 Deleted evidence requires a schema-v4 Retained root",
+                    ));
+                }
+                let root_sync = root_receipt.post_merge_sync.as_ref().ok_or_else(|| {
+                    post_merge_sync_error(root, "Retained root is missing post-merge evidence")
+                })?;
+                // Revalidate the root's exact observations, including its old
+                // remote selector. Current Deleted evidence cannot replace them.
+                validate_post_merge_sync_delegated_evidence(root, &root_receipt, root_sync)?;
+            }
             Some(root_receipt.timestamp)
         } else {
             None
         };
     let bindings = [
         (
+            &source,
             &sync.source_evidence_digest,
             sync.source_pull_request.url.as_str(),
         ),
         (
+            &synchronization,
             &sync.sync_evidence_digest,
             sync.sync_pull_request.url.as_str(),
         ),
         (
+            &remote,
             &sync.remote_evidence_digest,
             sync.remote_branch_ref.as_str(),
         ),
     ];
-    for (digest, subject) in bindings {
-        let matches = evidence_receipts
-            .iter()
-            .filter(|candidate| &candidate.evidence.digest == digest)
-            .collect::<Vec<_>>();
-        if matches.len() != 1 {
-            return Err(post_merge_sync_error(
-                root,
-                format!("delegated evidence digest must resolve exactly once: {digest}"),
-            ));
-        }
-        let evidence = &matches[0].evidence;
-        if evidence.provider != receipt.provider
+    for (selected, digest, subject) in bindings {
+        let evidence = selected.evidence();
+        if &evidence.digest != digest
+            || evidence.provider != receipt.provider
             || evidence.subject != subject
             || evidence.validity != EvidenceValidity::Valid
             || evidence.assurance.rank() < EvidenceAssurance::ProviderVerified.rank()
@@ -4384,7 +4427,7 @@ fn validate_post_merge_sync_delegated_evidence(
                 post_merge_sync_error(root, format!("delegated evidence time is invalid: {error}"))
             })?;
         let bound_at =
-            chrono::DateTime::parse_from_rfc3339(&matches[0].bound_at).map_err(|error| {
+            chrono::DateTime::parse_from_rfc3339(selected.bound_at()).map_err(|error| {
                 post_merge_sync_error(
                     root,
                     format!("delegated evidence binding time is invalid: {error}"),
@@ -4402,37 +4445,25 @@ fn validate_post_merge_sync_delegated_evidence(
         .ok_or_else(|| post_merge_sync_error(root, "source PR URL is not a GitHub PR URL"))?;
     validate_github_pull_request_observation(
         root,
-        &evidence_receipts
-            .iter()
-            .find(|candidate| candidate.evidence.digest == sync.source_evidence_digest)
-            .expect("the source evidence digest was matched above")
-            .evidence,
+        source.evidence(),
         &sync.source_pull_request,
         &source_repository,
         None,
     )?;
     validate_github_pull_request_observation(
         root,
-        &evidence_receipts
-            .iter()
-            .find(|candidate| candidate.evidence.digest == sync.sync_evidence_digest)
-            .expect("the sync evidence digest was matched above")
-            .evidence,
+        synchronization.evidence(),
         &sync.sync_pull_request,
         &source_repository,
         Some(&receipt.branch.name),
     )?;
-    let remote = evidence_receipts
-        .iter()
-        .find(|candidate| candidate.evidence.digest == sync.remote_evidence_digest)
-        .expect("the remote evidence digest was matched above");
     validate_github_remote_ref_observation(
         root,
-        &remote.evidence,
+        remote.evidence(),
         sync,
         &source_repository,
         retained_root_timestamp.as_deref(),
-        &remote.bound_at,
+        remote.bound_at(),
         &receipt.timestamp,
     )?;
     Ok(())
