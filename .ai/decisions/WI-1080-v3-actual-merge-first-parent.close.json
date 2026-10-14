@@ -1,0 +1,193 @@
+{
+  "actorProvenance": "structuredDecision.actor",
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1080-v3-actual-merge-first-parent.preflight-review.278ca9a68c322d988ce0abdec0e2c015dfa8ea18055d63cf62f77047afd7209b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1080-v3-actual-merge-first-parent.verification-attempt.1ee3b81c69d536b644ef9b020de4177afb438bb1b827b4ea923c22cebcdd578d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/material-inspection-review/WI-1080-v3-actual-merge-first-parent/287856a29f58725b09777f76b65cdcc6be04c8271427c4d6873e722d596c38b6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json",
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.archive.json",
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json",
+            "https://github.com/xinglun/ai-cockpit/commit/5849e881ce4f79bf3e9a6c1b4d3d972bff77192b",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/38516880094"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by Ray via User message in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 quoting Ray at 2026-10-14T06:12 UTC: I, Ray, confirm closing WI-1080 under the stated bindings and approve the corresponding cleanup. at 2026-10-14T06:12:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+          ],
+          "inference": false,
+          "text": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "usage": {
+      "coverage": "unknown",
+      "cutoff": "2026-10-14T06:16:18.392833609Z",
+      "receiptRefs": [],
+      "schemaVersion": 1,
+      "subtotals": [],
+      "totals": {
+        "cachedInputTokens": null,
+        "inputTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      "unknownReasons": [
+        "no_usage_receipts"
+      ],
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    "workItemId": "WI-1080-v3-actual-merge-first-parent"
+  },
+  "finalReportDigest": "sha256:1555d2028753e8a6ac477ba759c2765c8badf76fe735e5277604b4c7935e85de",
+  "humanDecision": "confirmed",
+  "occurredAt": "2026-10-14T06:16:18.392774480Z",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:630351b95af4150ff0a430851aacd39f18102a0f53eb173a769d8e2d0b4c60b7",
+    "branch": "codex/wi1080-v3-actual-merge-first-parent",
+    "branchRef": "refs/heads/codex/wi1080-v3-actual-merge-first-parent",
+    "capturedAt": "2026-10-14T06:16:18Z",
+    "contractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+    "headRevision": "bb1aa0ec65de41d7955572a8732a4819be1e3c20",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+    "runtimeVersion": "1.0.1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1080-v3-actual-merge-first-parent",
+    "worktreeGitDir": "/workspace/ai-cockpit/.git/worktrees/ai-cockpit-wi1080-v3-actual-merge-first-parent",
+    "worktreeId": "sha256:ef3cf5504c333eff0b0582ea31ced1116da80686620be59a5bbd01cbe643daec",
+    "worktreePath": "/workspace/ai-cockpit-wi1080-v3-actual-merge-first-parent"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:5a95216dcf409d0b4df3ed88cb418e6e034162f9ece6d96beb05a37c2ba7aef6",
+  "recordedAt": "2026-10-14T06:16:18.392774480Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+  "runtimeVersion": "1.0.1",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "Ray",
+    "authoritySource": "User message in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 quoting Ray at 2026-10-14T06:12 UTC: I, Ray, confirm closing WI-1080 under the stated bindings and approve the corresponding cleanup.",
+    "decidedAt": "2026-10-14T06:12:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json",
+      ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.archive.json",
+      ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json",
+      "https://github.com/xinglun/ai-cockpit/commit/5849e881ce4f79bf3e9a6c1b4d3d972bff77192b",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/38516880094"
+    ],
+    "policyRefs": [],
+    "reason": "Ray confirmed this close bound to Contract sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30, archive sha256:630351b95af4150ff0a430851aacd39f18102a0f53eb173a769d8e2d0b4c60b7, verification receipt sha256:ca15223d722d424b9f25cfa351c6fba21b7cc11352fd86aa41e01685231ab471, and merge 5849e881ce4f79bf3e9a6c1b4d3d972bff77192b. Preserve userBenefitReport unknown, scanner unknown, original material review receipt 5103e0f09e18c206496a52559768000dd92a57df98fe6970e6d9ac4370275d0b, and the public correction; prior merge approval and technical review are not this close authority.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-10-14T06:16:18Z",
+  "usageCutoff": "2026-10-14T06:16:18.392833609Z",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

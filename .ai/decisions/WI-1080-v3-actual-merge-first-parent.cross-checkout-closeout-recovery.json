@@ -1,0 +1,61 @@
+{
+  "contractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "createdAt": "2026-10-14T06:17:48Z",
+  "destinationRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "destinationSnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "fileDigests": [
+    {
+      "digest": "sha256:ddd3106ee978c6f064f466cf87b71f6c295766c9f217dfb5eff07280c530e368",
+      "path": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.close.json",
+      "sizeBytes": 9204
+    },
+    {
+      "digest": "sha256:b4892b750576ef0351267f99cadf1339ae0f4dcb81ff072f10d163f99ec144f4",
+      "path": ".ai/evidence/WI-1080-v3-actual-merge-first-parent.verification.json",
+      "sizeBytes": 153060
+    },
+    {
+      "digest": "sha256:630351b95af4150ff0a430851aacd39f18102a0f53eb173a769d8e2d0b4c60b7",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.archive.json",
+      "sizeBytes": 1744
+    },
+    {
+      "digest": "sha256:466b3c459488a0353eba99d4142454c19dee60e21b37587e70172a6d3d74c10d",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json",
+      "sizeBytes": 4840
+    },
+    {
+      "digest": "sha256:8adbfb3c80fb2961f59bc1b51623cd0b4304daf20316c0b8cc6f15513182e4b9",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.events.jsonl",
+      "sizeBytes": 2373
+    },
+    {
+      "digest": "sha256:a9e6e44990a64f30c21420ad7dd3dd8fdf6a7e6e1341e434ba4ea5b686c4cc17",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.outcome.json",
+      "sizeBytes": 7444
+    },
+    {
+      "digest": "sha256:84eae652bd86da72b72ebc62c2f912108a74e7abc60573909b97fff5de223c12",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json",
+      "sizeBytes": 6320
+    },
+    {
+      "digest": "sha256:9c6c7a6c9e70cddca841b77fc85423dd005eb35ffa942bfc6df9c4b368d5ac41",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.task-report.json",
+      "sizeBytes": 4783
+    },
+    {
+      "digest": "sha256:c55f23855cbed82da8ec624fb40f1052fef13601406b5c1ed4cc40849efbe661",
+      "path": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.task-report.md",
+      "sizeBytes": 1757
+    }
+  ],
+  "kind": "cross_checkout_closeout_recovery",
+  "providerFacts": null,
+  "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "sourceSnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}
