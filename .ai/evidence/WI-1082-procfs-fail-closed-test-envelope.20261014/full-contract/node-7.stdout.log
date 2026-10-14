@@ -1,0 +1,20 @@
+
+running 2 tests
+test tests::structural_validation_rejects_derived_index_tampering ... ok
+test tests::structural_validation_does_not_rebuild_the_derived_index ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 8 tests
+test context_projection_derives_bounded_topic_and_component ... ok
+test deterministic_query_uses_conjunctive_exact_filters_and_stable_order ... ok
+test empty_result_does_not_infer_historical_existence ... ok
+test index_validates_derived_structures_and_record_digest ... ok
+test indexed_candidates_are_materialized_by_position ... ok
+test missing_context_remains_explicitly_unknown ... ok
+test any_missing_explicit_filter_short_circuits_before_other_candidates ... ok
+test unrelated_query_avoids_historical_record_access ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s
+

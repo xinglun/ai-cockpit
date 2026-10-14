@@ -1,0 +1,65 @@
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling proc-macro2 v1.0.107
+   Compiling siphasher v1.0.4
+   Compiling quote v1.0.47
+   Compiling phf_shared v0.12.1
+   Compiling getrandom v0.4.3
+   Compiling iana-time-zone v0.1.65
+   Compiling chrono-tz v0.10.4
+   Compiling tempfile v3.27.0
+   Compiling chrono v0.4.45
+   Compiling phf v0.12.1
+   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-verification)
+   Compiling syn v2.0.119
+   Compiling cockpit-knowledge v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-knowledge)
+   Compiling anyhow v1.0.104
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-repository)
+   Compiling cockpit-agent v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-agent)
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-mcp)
+   Compiling cockpit-isolation v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-isolation)
+   Compiling cockpit-cli v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-cli)
+    Finished `test` profile [unoptimized] target(s) in 47.66s
+     Running unittests src/main.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/ai_cockpit-11bb2e5a7fd7aa33)
+     Running tests/agent.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/agent-b2297fc9a3f7b9a9)
+     Running tests/attach.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/attach-1fd3deffc86aa94f)
+     Running tests/audit_query.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/audit_query-a1deafca29483c66)
+     Running tests/ci_gate.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/ci_gate-3a4701abafa254f5)
+     Running tests/cli_mcp_outcome_parity.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cli_mcp_outcome_parity-5781409f663c1654)
+     Running tests/closeout_recovery.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/closeout_recovery-6f68b587e7b889c8)
+     Running tests/cognitive_benefit.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cognitive_benefit-cded6320bcf9883e)
+     Running tests/collaboration_cli.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_cli-8aec6de9a079437e)
+     Running tests/collaboration_consistency.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_consistency-f55c659826462509)
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+     Running tests/collaboration_handoff.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_handoff-4b67c72b1fd872fc)
+     Running tests/collaboration_outcome_parity.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_outcome_parity-2dde6d33f0288f51)
+     Running tests/collaboration_scenario_matrix.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_scenario_matrix-cf5fa3e26ac287f7)
+     Running tests/contract_amendment_processes.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/contract_amendment_processes-51eb1170dae3038b)
+     Running tests/delegated_evidence.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/delegated_evidence-7b3741a5c47e8a6b)
+     Running tests/doctor.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/doctor-6d905af2971b25b4)
+     Running tests/gate_plan.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/gate_plan-e5ad0f2c12b4bce7)
+     Running tests/inspect.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/inspect-42e1f84dba71f824)
+     Running tests/intelligence.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/intelligence-68e2a93bab8ffa1c)
+     Running tests/knowledge.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/knowledge-d254c0d522c1e791)
+     Running tests/lifecycle.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/lifecycle-972eb723e2421431)
+     Running tests/material_review.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/material_review-ffe04359121d0ab6)
+     Running tests/mcp.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/mcp-5b952f53e68741ec)
+     Running tests/observe.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/observe-23eeea57b286aace)
+     Running tests/outcome_handoff.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/outcome_handoff-e5c5a56fb8725f86)
+     Running tests/outcome_human_decision.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/outcome_human_decision-8912d92b0c085229)
+     Running tests/parallel_boundary.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/parallel_boundary-b33b7b43c2cd8d8b)
+     Running tests/performance.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/performance-9303d8710e189677)
+     Running tests/preflight.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/preflight-8f6a06c9670db2c4)
+     Running tests/profile.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/profile-e724f995d64a6881)
+     Running tests/profile_propose.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/profile_propose-0c511b485a76a4cd)
+     Running tests/release_isolation.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/release_isolation-19c51c5dafa4c9a6)
+     Running tests/release_plan.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/release_plan-adf79d8e8cf1179a)
+     Running tests/resource_finalization.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/resource_finalization-8a3c29b35e2325e9)
+     Running tests/retirement.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/retirement-ca7dcd18c2d673ff)
+     Running tests/scope_amendment.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/scope_amendment-06caa58b04831135)
+     Running tests/usage.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/usage-62ce4839c9bc7c39)
+     Running tests/verify.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/verify-e5578d663b48fa92)
+Verification progress: started node "project-command-0" (0/1 complete, 0%)
+Verification progress: completed node "project-command-0": passed (1/1 complete, 100%)
+     Running tests/work_item_scaffold.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/work_item_scaffold-3be5a3f944f25111)
+     Running tests/worktree_entry.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/worktree_entry-1b649f88e39562f0)

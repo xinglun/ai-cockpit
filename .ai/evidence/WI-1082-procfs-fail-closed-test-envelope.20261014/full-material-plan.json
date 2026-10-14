@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1082-procfs-fail-closed-test-envelope",
+  "contractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
+  "immutableContractBaseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+  "sourceSnapshotDigest": "sha256:f45aad59fe535ea607a1f490e977b9c8397a577a31ab01069deba725854176d7",
+  "materialManifestDigest": "sha256:f7f0e080bf80dc7b9d6228fa4f71e32f9f91776922e71f75055015c12561189d",
+  "scannerSemanticVersion": "rust-material-v1",
+  "analysisImplementationDigest": "sha256:8ff6abf85481e9e49e02a1ff4ae974dd79b2db0b3c397cbbe80aa5bc7eed5321",
+  "analysisTargetSemanticProfile": "cross-platform-rust-source-v1",
+  "materialInspectionReviewProfileDigest": null,
+  "effectivePolicyDigest": "sha256:4022dbdd989b6b05ee6116c7fc73b9465a373c1ed42b01999f77ea65d8d8921a",
+  "entries": [
+    {
+      "path": "crates/cockpit-verification/src/composition.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:dc319d9797d729e5b7f0d22b63f8093d92950a89e62d78fbfde0ddcc7079b871",
+      "afterBlobDigest": "sha256:9a1aac3f76600cea29c45eac09bcf8702cb1b8bda8fcefff4faeb502ee77e4d7"
+    },
+    {
+      "path": "crates/cockpit-verification/tests/composition.rs",
+      "kind": "modified",
+      "contentState": "text",
+      "scannerAssessment": "clean",
+      "unknownCause": null,
+      "reviewable": false,
+      "changedHunkDigest": "sha256:6336bd0d190a806aac3295f8c22670221e37925c411143dd750aabe594db2591",
+      "afterBlobDigest": "sha256:3f877e056979aec50aaf537469a07b06ee9470b279f75ed432bc12f9c2be398c"
+    }
+  ],
+  "rawUnknownCodes": [],
+  "findingCodes": [],
+  "blockedByFinding": false,
+  "reviewEnabled": false,
+  "reviewDiagnostic": "material_review_not_enabled",
+  "requestDigest": "sha256:b85994a2bc83d0daf0233a3cc76548ed10cc837d7e78a964f8529071b3529fea",
+  "reviewedSourceHead": "9d7408cae78647a325d77e64cff6ac960cc4d8b1"
+}

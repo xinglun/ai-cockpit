@@ -1,40 +1,27 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/node-0.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/node-0.stdout.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/run.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/stdout.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-classifier/verification.receipt.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/node-0.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/node-0.stdout.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/private-control-attempts/fd-directory-esrch-replay.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/run.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/status.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/status.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/stdout.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/validate.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/validate.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-controls/verification.receipt.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-material-plan.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-material-plan.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-preflight.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-preflight.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-status.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-status.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-validate.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/green-validate.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/status.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/status.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/stdout.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/validate.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/original-failed-integration/validate.stderr.log",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification-attempt.78ed1141c20f9d4fbf554d33e219fbd7766d046ce2b6d4933e28713b674571c7.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification-attempt.dbe720244ed310b866f04a8823883f2e2850e324dd77027addad34c4b187d54d.json",
-    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification.json",
-    ".ai/work-items/active/WI-1082-procfs-fail-closed-test-envelope.summary.json"
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/active-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/denied-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/failed-execution.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/fd-directory-esrch-replay.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/first.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-proof.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-clean.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/no-receipt-unknown.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/second.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/stale-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unbound-proof.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/private-control-attempts/unsafe-retry.raw.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/status.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/stdout.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-contract/validate.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-material-plan.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/full-preflight.stderr.log"
   ],
   "checkpointAt": "2026-10-14T22:53:17Z",
   "checkpointContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
@@ -52,7 +39,7 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-14T23:07:04Z",
+  "preflightAt": "2026-10-14T23:19:05Z",
   "preflightContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
@@ -64,6 +51,58 @@
   "verification": [
     {
       "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
     }
   ],

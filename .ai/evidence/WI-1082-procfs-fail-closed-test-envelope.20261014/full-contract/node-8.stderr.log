@@ -1,0 +1,10 @@
+   Compiling cockpit-mcp v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-mcp)
+    Finished `test` profile [unoptimized] target(s) in 3.75s
+     Running unittests src/lib.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/cockpit_mcp-9669ea4eaad00f91)
+     Running tests/closeout_recovery.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/closeout_recovery-3f1bde3b219113d5)
+     Running tests/collaboration_rpc.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/collaboration_rpc-b0f69a2ba64bc0e1)
+     Running tests/material_review.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/material_review-9a12feb69ee43ddb)
+     Running tests/rpc.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/rpc-0f0c7ca1880ad93b)
+     Running tests/security.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/security-9fad8305be5fc333)
+     Running tests/usage.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/usage-20a6f5caf86355f7)
+     Running tests/work_item_amendment_parity.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/work_item_amendment_parity-7c4045d8aa9eb5ff)
