@@ -1,0 +1,26 @@
+{
+  "kind": "actual_runtime_finish_invocation",
+  "head": "29a6778d106c479be5e81ff2bf5de2a4c0f38f40",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "finish",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+    "--id",
+    "WI-1081-append-only-evidence-observations",
+    "--language",
+    "zh-CN"
+  ],
+  "startedAtUtc": "2026-10-14T15:54:41.085105+00:00",
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "runtimeRawSHA256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "authorizationSource": "Raydot coordinator instruction in thread 01a11856-d6ba-72e0-9aab-25a34cd2f018; user-delegated ordinary technical decisions",
+  "humanDecisionAsserted": false,
+  "environment": {
+    "HOME": "/workspace/.tmp-wi1081-runtime-home-20261014",
+    "TMPDIR": "/workspace/.tmp-wi1081-tests-20261014",
+    "RUSTUP_HOME": "/workspace/.rustup",
+    "CARGO_HOME": "/workspace/.cargo"
+  }
+}
