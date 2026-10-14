@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:5a95216dcf409d0b4df3ed88cb418e6e034162f9ece6d96beb05a37c2ba7aef6",
+  "branchRef": "refs/heads/codex/wi1080-v3-actual-merge-first-parent",
+  "contractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "headRevision": "bb1aa0ec65de41d7955572a8732a4819be1e3c20",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-10-14T06:21:18Z",
+  "operationId": "sha256:289b63d277635b5d41c4272d638137901336e9e7a44d7d2bd0d57613da8d7569",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1080-v3-actual-merge-first-parent",
+  "worktreeId": "sha256:ef3cf5504c333eff0b0582ea31ced1116da80686620be59a5bbd01cbe643daec"
+}
