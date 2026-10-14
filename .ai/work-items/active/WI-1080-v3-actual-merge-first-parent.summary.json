@@ -5,6 +5,42 @@
   "checkpointAt": "2026-10-13T23:47:34Z",
   "checkpointContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+      "recorded": true,
+      "recordedAt": "2026-10-13T23:47:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+      "previousContractHash": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+      "reason": "User explicitly authorized this exact materialInspectionReview opt-in in response to the policy authorization question in this conversation. This enables only a future self-declared technical review of the permitted committed-Rust syntax Unknown; it does not resolve user_visible_benefit_not_declared, authenticate the reviewer, or record a material review decision.",
+      "recorded": true,
+      "recordedAt": "2026-10-14T03:10:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1080-v3-actual-merge-first-parent"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
   "createdAt": "2026-10-13T23:46:39Z",
   "decisionEvidence": {
@@ -33,9 +69,9 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
   "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
-  "preflightAt": "2026-10-14T02:39:42Z",
-  "preflightContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
-  "preflightDecisionDigest": "sha256:3ec927796f6a121cb8850aa2757a7e510775097809b3b540b257def286593320",
+  "preflightAt": "2026-10-14T03:10:49Z",
+  "preflightContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "preflightDecisionDigest": "sha256:46255d126a178add66aa61d6e2c8d202cdcbff70344cb988a984099fb40b9d28",
   "preflightRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
   "preflightState": "yellow",
   "protocolVersion": 1,
@@ -49,6 +85,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-14T03:10:27Z"
+  },
   "verificationRecoveryReconciled": "sha256:c77b181eea5830653b70f43565e6aa5aa975ee5a0d9f72cd79e5fa7542d39178",
   "workItemId": "WI-1080-v3-actual-merge-first-parent"
 }

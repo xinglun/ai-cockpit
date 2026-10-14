@@ -23,7 +23,17 @@
   "executionDecision": null,
   "goal": "Correct the schema-v3 post-merge layout validator on base M1 37cc4e540ce23a721382d9c6b510218dc5ba69c1 where provider raw base d1a731570fb0af2ee5142e13b5d7cf9a7d4b0b50 differs from actual merge first parent 508a0a0f47dcbb957aacb8b03220f6234a87549d; preserve v1 and v2 behavior, with code and inline cross-layer tests only in resource_lifecycle.rs.",
   "governancePolicy": null,
-  "governanceProfile": null,
+  "governanceProfile": {
+    "materialInspectionReview": {
+      "acceptResidualRisk": true,
+      "assurance": "self_declared",
+      "authoritySource": "explicit user instruction in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 authorizing Raydot to review ordinary technical proposals",
+      "permittedCause": "readable_committed_rust_syntax_unknown",
+      "permittedUnknown": "repository_material_inspection_unavailable",
+      "reviewerActor": "agent:raydot",
+      "schemaVersion": 1
+    }
+  },
   "guidelines": [],
   "humanDecisionPoints": null,
   "implementationSurface": null,
@@ -60,6 +70,7 @@
     "verification"
   ],
   "requiredRuntimeCapabilities": [
+    "material-inspection-review",
     "work-item-contract-amendment",
     "work-item-environment-drift"
   ],
