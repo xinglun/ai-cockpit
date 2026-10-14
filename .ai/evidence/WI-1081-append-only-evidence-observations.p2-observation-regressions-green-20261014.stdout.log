@@ -1,0 +1,19 @@
+
+running 7 tests
+test concurrent_conflicting_raw_bytes_cannot_replace_the_shared_evidence_path ... [master (root-commit) b0648e7] fixture baseline
+ok
+test concurrent_identical_observations_share_one_immutable_selector ... [master (root-commit) b0648e7] fixture baseline
+ok
+test idempotent_observation_rejects_tampered_stored_bound_at ... [master (root-commit) b0648e7] fixture baseline
+ok
+test observation_binding_covers_runtime_protocol_identity ... [master (root-commit) b0648e7] fixture baseline
+ok
+test same_raw_digest_source_correction_appends_and_selects_without_replacing_legacy_bytes ... [master (root-commit) 7ec0ea2] fixture baseline
+ok
+test tampered_raw_bytes_are_rejected_without_being_replaced_by_a_later_import ... [master (root-commit) 7ec0ea2] fixture baseline
+ok
+test unsafe_observation_directory_does_not_publish_raw_evidence_first ... [master (root-commit) 7ec0ea2] fixture baseline
+ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.43s
+

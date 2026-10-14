@@ -1,0 +1,8 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1081-append-only-evidence-observations/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 17.91s
+     Running tests/delegated_evidence_observations.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/delegated_evidence_observations-bbc8d9c8884f32e5)
+
+thread 'idempotent_observation_rejects_tampered_stored_bound_at' (2240614) panicked at crates/cockpit-repository/tests/delegated_evidence_observations.rs:211:5:
+idempotent observe must reject a malformed stored boundAt
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-repository --test delegated_evidence_observations`

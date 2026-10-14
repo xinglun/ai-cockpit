@@ -1,0 +1,11 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1081-append-only-evidence-observations/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 18.59s
+     Running unittests src/lib.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/cockpit_repository-5063e98527cc9fb0)
+
+thread 'resource_lifecycle::post_merge_sync_tests::schema_v4_deleted_head_revalidates_retained_remote_observation' (2238225) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:7893:9:
+a Deleted head must not silently lose its Retained root remote observation
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'resource_lifecycle::post_merge_sync_tests::schema_v4_rejects_source_sync_observation_selector_role_swap' (2239536) panicked at crates/cockpit-repository/src/resource_lifecycle.rs:7784:9:
+source/sync selectors must retain their exact role/raw bindings
+error: test failed, to rerun pass `-p cockpit-repository --lib`

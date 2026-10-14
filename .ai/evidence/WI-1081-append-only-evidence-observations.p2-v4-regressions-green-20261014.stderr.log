@@ -1,0 +1,3 @@
+   Compiling cockpit-repository v1.0.1 (/workspace/ai-cockpit-wi1081-append-only-evidence-observations/crates/cockpit-repository)
+    Finished `test` profile [unoptimized] target(s) in 19.06s
+     Running unittests src/lib.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/cockpit_repository-5063e98527cc9fb0)

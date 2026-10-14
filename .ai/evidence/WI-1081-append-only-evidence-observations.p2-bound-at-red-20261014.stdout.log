@@ -1,0 +1,12 @@
+
+running 1 test
+test idempotent_observation_rejects_tampered_stored_bound_at ... [master (root-commit) e96b6ea] fixture baseline
+FAILED
+
+failures:
+
+failures:
+    idempotent_observation_rejects_tampered_stored_bound_at
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.05s
+
