@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized] target(s) in 0.04s
+     Running tests/composition.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)
+composition_reconcile_trace stage=loaded attempt=composition-sha256:481c5d51c28b4ac60784fc21812e0f5bd080f04e58daaef6238c2bc4231dc99a schema=3 owner_pid=Some(2009890) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+
+thread 'pause_write_cannot_commit_between_reuse_admission_and_receipt_acceptance' (2009880) panicked at crates/cockpit-verification/tests/composition.rs:1905:5:
+the cached receipt is accepted before a concurrent pause can commit
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p cockpit-verification --test composition`

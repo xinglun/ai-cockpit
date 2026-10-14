@@ -1,0 +1,21 @@
+{
+  "kind": "agent_read_only_capture_probe",
+  "startedUnixNs": 1791980090547368939,
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "verify",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+    "--work-item",
+    "WI-1081-append-only-evidence-observations",
+    "--command",
+    "cargo",
+    "--args=test,--package,cockpit-verification,--test,composition,--,--nocapture",
+    "--workers",
+    "1"
+  ],
+  "testThreads": 2,
+  "home": "/workspace/.tmp-wi1081-runtime-home-20261014",
+  "tmpdir": "/workspace/.tmp-wi1081-tests-20261014",
+  "sourceHead": "3b1934516a5ba0778b53d5e018654ecbb00c5515"
+}

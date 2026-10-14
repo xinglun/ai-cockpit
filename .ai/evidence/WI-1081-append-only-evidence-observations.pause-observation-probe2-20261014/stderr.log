@@ -1,0 +1,3 @@
+    Finished `test` profile [unoptimized] target(s) in 0.05s
+     Running tests/composition.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)
+composition_reconcile_trace stage=loaded attempt=composition-sha256:e4507d8adf671076add14db75d0af786729c63f54c452440158854cd33a39087 schema=3 owner_pid=Some(2009383) observation_schema=1 group_id=None leader=None owned_tree_unknown=false

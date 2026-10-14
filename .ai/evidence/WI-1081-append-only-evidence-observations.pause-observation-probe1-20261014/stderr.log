@@ -1,0 +1,20 @@
+    Finished `test` profile [unoptimized] target(s) in 0.06s
+     Running tests/composition.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)
+composition_reconcile_trace stage=loaded attempt=composition-sha256:369e9970d3fe411f582787046cb4aafdbfedae6c32d49247c7e13a6db0ae4bcb schema=3 owner_pid=Some(2007107) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=loaded attempt=composition-sha256:98f0b52218a0da698247d0b2a53521eb4db06fe534faa0fb0f1c846177f5c99e schema=3 owner_pid=Some(2007086) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=loaded attempt=composition-sha256:2690bb0d358c3cf2b1583e027c3cc723b236fc496a13430bc5cb394f8a214573 schema=3 owner_pid=Some(2007086) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=loaded attempt=composition-sha256:d08bef8adfbaf7026995f3ed87c387ce3b94b7244fbe7a98870e3e62832a4959 schema=3 owner_pid=Some(2007986) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=loaded attempt=composition-sha256:9eeb01cf8bf244d2e612f883c6d754958b7dcbc0993be67bea9afc8c086f856d schema=3 owner_pid=Some(2007086) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=2007086 kill_result=0 errno=None alive=true
+composition_reconcile_trace stage=loaded attempt=composition-sha256:c570c402f7091f2315fd00c91e0a740bf88294a566c1eac5d5f96715beaec0a0 schema=3 owner_pid=Some(2008475) observation_schema=0 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=2008475 kill_result=-1 errno=Some(3) alive=false
+composition_reconcile_trace stage=loaded attempt=composition-sha256:c570c402f7091f2315fd00c91e0a740bf88294a566c1eac5d5f96715beaec0a0 schema=3 owner_pid=Some(2008475) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=2008475 kill_result=-1 errno=Some(3) alive=false
+observed detached verifier zombie: pid=2008492 state='Z' ppid=2008464 pgid=2008492 sid=2008492; waitid(WNOWAIT)=0; kill(pid, 0)=0
+composition_reconcile_trace stage=loaded attempt=composition-sha256:c570c402f7091f2315fd00c91e0a740bf88294a566c1eac5d5f96715beaec0a0 schema=3 owner_pid=Some(2008475) observation_schema=1 group_id=None leader=None owned_tree_unknown=false
+composition_reconcile_trace stage=owner_probe owner_pid=2008475 kill_result=-1 errno=Some(3) alive=false
+preserving Unknown/Retained composition fixture: test=unknown_observer_fixture_owners_survive_assertion_unwind attempt=lifecycle-regression repository=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-repository-2007086-103 state=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-state-2007086-104 worktree=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-worktree-owner-2007086-102/worktrees/composition manifest=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-state-2007086-104/.ai-cockpit-retained-unknown-owner.json
+
+thread 'unknown_observer_fixture_owners_survive_assertion_unwind' (2008850) panicked at crates/cockpit-verification/tests/composition.rs:246:9:
+simulate a later assertion failure after the real assertion helper
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

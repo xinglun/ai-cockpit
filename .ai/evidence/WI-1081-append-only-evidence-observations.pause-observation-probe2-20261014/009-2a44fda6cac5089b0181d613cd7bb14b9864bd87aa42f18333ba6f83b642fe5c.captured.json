@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 3,
+  "attemptId": "composition-sha256:08d0cffadfefb8d6e4aad1cb55256e746fd3e481aa79fb18115ffb5c56549514",
+  "binding": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:e2885f2bbe3d7a8b08e328b9abf1e0824bebad97625b300e24649a256c6c4847",
+    "bindingId": "composition-test",
+    "targetBranch": "main",
+    "targetSha": "4af308ae64679f9e7d8b0ff7eee292357fd5d636",
+    "participantWorkItems": [
+      "WI-PROVIDER",
+      "WI-CONSUMER"
+    ],
+    "participantHeads": [
+      "4af308ae64679f9e7d8b0ff7eee292357fd5d636",
+      "4af308ae64679f9e7d8b0ff7eee292357fd5d636"
+    ],
+    "contractDigests": [
+      "sha256:619dc79f3be3ee9d98c40b56b7e8a9d837081d388aaa8edd38b33bcb3f575201",
+      "sha256:d114d2d012fd2095ed99c10ed97fe0e4a52835fd8bc3529a88bc639c0c9dcc0a"
+    ],
+    "verifier": {
+      "schemaVersion": 1,
+      "runtimeVersion": "0.2.113",
+      "runtimeDigest": "sha256:f70cc052e512dc877d3fbcc8c1f254dc7270c7cb7e803a909a2c99a62ae71c2e",
+      "capability": "cross_wi_coordination_v1"
+    }
+  },
+  "identity": {
+    "sourceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "dependencyDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "interfaceDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "configurationDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "toolchainDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "lockfileDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "generatedInputDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "environmentDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "verifierDigest": "sha256:c17e7688fd07533e8b90f36a9dea188971ec9058968dab908f2fde2968d5fcfe",
+    "commandDigest": "sha256:f8dbd3a4a0b4de609d4b2994053de6a79787875c8509e19722cf67d7a5a4216f"
+  },
+  "preconditions": [
+    {
+      "name": "identity-bound",
+      "satisfied": true,
+      "reason": "observed and bound"
+    }
+  ],
+  "isolatedWorktree": "/workspace/.tmp-wi1081-tests-20261014/ai-cockpit-composition-2009372-1791980345637704494-0/composition",
+  "textConflicts": [],
+  "executionRecords": [],
+  "processesSpawned": 0,
+  "reuseDecision": {
+    "kind": "unknown",
+    "reason": "reuse classification requires runtime-observed node inputs",
+    "predecessorAttemptId": "composition-sha256:e4507d8adf671076add14db75d0af786729c63f54c452440158854cd33a39087"
+  },
+  "passed": false,
+  "failure": "in_progress",
+  "executionOutcome": "unknown",
+  "executionEvidenceComplete": false,
+  "cleanupDisposition": "unknown",
+  "cleanup": null,
+  "recordedAtUnixNanos": 1791980345636209109,
+  "ownerPid": 2009372,
+  "processObservationSchemaVersion": 1,
+  "activeExecutionNode": null,
+  "activeProcessGroupId": null
+}
