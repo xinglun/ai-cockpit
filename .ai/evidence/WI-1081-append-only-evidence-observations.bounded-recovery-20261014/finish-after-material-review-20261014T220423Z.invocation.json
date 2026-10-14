@@ -1,0 +1,20 @@
+{
+  "kind": "actual_finish_after_material_review",
+  "startedAtUtc": "2026-10-14T22:04:23.964514+00:00",
+  "head": "889acfceed77aef4e1b6e8e25214414ae5308222",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "finish",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+    "--id",
+    "WI-1081-append-only-evidence-observations",
+    "--language",
+    "zh-CN"
+  ],
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "reviewReceiptDigest": "sha256:aa8b3c0875b6479f24b16fe88fae010caed1929112a3399df828badb3fd76522",
+  "runtimeRawSHA256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "authority": "coordinator instructs finish only after actual Raydot review; archive/merge/delete/close excluded"
+}

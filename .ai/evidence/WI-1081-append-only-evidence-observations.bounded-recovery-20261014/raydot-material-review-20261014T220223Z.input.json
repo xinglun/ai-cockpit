@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "decision": "accept_permitted_unknowns",
+  "requestDigest": "sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4",
+  "reviewerActor": "agent:Raydot",
+  "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "assurance": "self_declared",
+  "evidenceRefs": [
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/material-review-request-after-verification.json",
+      "digest": "sha256:692c4a83490b26da056669fbabebcc1c3284ebb4f14472d702afdad494a3f5f2"
+    },
+    {
+      "path": "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "digest": "sha256:9f0afabe32d525c93daf29baa3c4993e2c8732ba14e8ee0012b4e76fe5314734"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.receipt.json",
+      "digest": "sha256:3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.invocation.json",
+      "digest": "sha256:8c7a11c36d1d2a40c51df083e554a152caccb894505adb5ac41dbefd7ca8cce1"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/human-authorization-source.json",
+      "digest": "sha256:45f5bb65955e705093b4a0af7ee250b20fe7f0c12c2ad50953637f51c5afd896"
+    }
+  ],
+  "rationale": "固定源码及实际变更经审阅，完整selector角色、raw/receipt、来源、assurance、freshness和Retained历史根绑定保持；旧schema隔离，stored boundAt检查有效；未发现动态执行、注入或验收绕过，新Contract正式13节点实际执行通过，仅接受本请求唯一允许Unknown。",
+  "residualRisk": "self_declared审阅不是scanner完整解析或无缺陷保证，repository stdout65536截断，其他Unknown/intent alignment/benefit未解除，历史证据损坏仍failclosed，原子写不防有仓库写权限者事后篡改；独立CI测试问题仍待处理。"
+}

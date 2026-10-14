@@ -61,6 +61,14 @@
     "workItemId": "WI-1081-append-only-evidence-observations"
   },
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-14T22:04:28.535261228Z",
+      "recordedAt": "2026-10-14T22:04:28.535261228Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -69,6 +77,12 @@
       "runtimeDigest": "sha256:c308195ab8dddfcee926e0f256206a631365b924be841401037faff491f134bd",
       "runtimeVersion": "1.0.1"
     }
+  },
+  "materialReviewReceipt": {
+    "digest": "sha256:418abab7c2290d86eaf015744ed5284994f63ee89d2ab341c5f9eb2e2f4116c0",
+    "path": ".ai/evidence/material-inspection-review/WI-1081-append-only-evidence-observations/7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4.json",
+    "receiptDigest": "sha256:aa8b3c0875b6479f24b16fe88fae010caed1929112a3399df828badb3fd76522",
+    "requestDigest": "sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4"
   },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
@@ -92,8 +106,8 @@
     "verificationEvidenceDigest": "sha256:059549e635cc642f7c857ceaf6a5e5bba28e4a06d54c0639d94ced0373cd6013"
   },
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-14T21:23:52.987079214+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-14T22:04:28.535261228Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -152,6 +166,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:059549e635cc642f7c857ceaf6a5e5bba28e4a06d54c0639d94ced0373cd6013",
   "workItemId": "WI-1081-append-only-evidence-observations"
 }

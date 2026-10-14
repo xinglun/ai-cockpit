@@ -76,7 +76,7 @@
           ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -121,7 +121,7 @@
   "status": "verified",
   "usage": {
     "coverage": "unknown",
-    "cutoff": "2026-10-14T21:23:52.987079214+00:00",
+    "cutoff": "2026-10-14T22:04:28.535261228Z",
     "receiptRefs": [],
     "schemaVersion": 1,
     "subtotals": [],
