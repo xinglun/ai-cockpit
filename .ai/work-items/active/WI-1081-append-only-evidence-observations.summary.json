@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+    ".ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json",
+    ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
+  ],
+  "checkpointAt": "2026-10-14T10:09:58Z",
+  "checkpointContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "createdAt": "2026-10-14T10:08:27Z",
+  "lifecycleFacts": {
+    "start": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_started",
+      "occurredAt": "2026-10-14T10:09:56.438752643Z",
+      "recordedAt": "2026-10-14T10:09:56.438752643Z",
+      "runtimeDigest": "sha256:c308195ab8dddfcee926e0f256206a631365b924be841401037faff491f134bd",
+      "runtimeVersion": "1.0.1"
+    }
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+  "preflightAt": "2026-10-14T11:00:32Z",
+  "preflightContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "preflightDecisionDigest": "sha256:498017d0b76a571cb2598d938b3a1063f4cbbc62f2c469c10f603a2da349c889",
+  "preflightRepositorySnapshotDigest": "sha256:7a73013e1101c92e74cc2ac57f29079261241b5cf7656c59e6a431e1f9d09e9d",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-10-14T10:09:58Z",
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}

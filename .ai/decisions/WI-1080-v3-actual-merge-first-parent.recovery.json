@@ -1,0 +1,30 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "Ray message Sentinel_4e58805ce34c8191b2729ad58959fc48 in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018 (2026-10-14 10:04 UTC)",
+  "decidedAt": "2026-10-14T10:04:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json",
+    ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json",
+    ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.outcome.json",
+    ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+  "predecessorEventsDigest": "sha256:8adbfb3c80fb2961f59bc1b51623cd0b4304daf20316c0b8cc6f15513182e4b9",
+  "predecessorOutcomeDigest": "sha256:a7d6f68acc257805504f914c8a854862e5202e059cb96974752cc6ac99ce7a74",
+  "predecessorSummaryDigest": "sha256:aefffae432969e6818871f747e7749262ffc2b9e94db71069b2ca0d729afcff7",
+  "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+  "reason": "Ray explicitly approved WI-1080 to WI-1081 using archived Contract canonical digest sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30, raw Summary SHA256 sha256:84eae652bd86da72b72ebc62c2f912108a74e7abc60573909b97fff5de223c12, raw Outcome SHA256 sha256:a9e6e44990a64f30c21420ad7dd3dd8fdf6a7e6e1341e434ba4ea5b686c4cc17, and Events SHA256 sha256:8adbfb3c80fb2961f59bc1b51623cd0b4304daf20316c0b8cc6f15513182e4b9. Runtime recovery fields use canonical JSON digests for Summary and Outcome; those same artifacts are bound here as sha256:aefffae432969e6818871f747e7749262ffc2b9e94db71069b2ca0d729afcff7 and sha256:a7d6f68acc257805504f914c8a854862e5202e059cb96974752cc6ac99ce7a74. Create the approved successor for the reviewed same-raw-digest source-correction fix; preserve WI-1080's archive, close, and historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create the WI-1081 successor scaffold under the approved lineage, then proceed only under its completed Contract and current Runtime admission. Keep WI-1080 closed and its archive, close record, and evidence unchanged.",
+  "runtimeDigest": "sha256:c308195ab8dddfcee926e0f256206a631365b924be841401037faff491f134bd",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1081-append-only-evidence-observations",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}

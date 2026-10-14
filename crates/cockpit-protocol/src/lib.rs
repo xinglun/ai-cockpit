@@ -1060,6 +1060,101 @@ pub struct DelegatedEvidenceReceipt {
     pub bound_at: String,
 }
 
+pub const DELEGATED_EVIDENCE_OBSERVATION_SCHEMA_VERSION: u32 = 1;
+pub const DELEGATED_EVIDENCE_OBSERVATION_SELECTOR_SCHEMA_VERSION: u32 = 1;
+
+/// Stable identity of one delegated-evidence observation. `observationDigest`
+/// binds the complete evidence and Runtime identity but omits the generated
+/// `boundAt`; `receiptDigest` pins the exact immutable record bytes selected by
+/// a consumer.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedEvidenceObservationSelector {
+    pub schema_version: u32,
+    pub observation_digest: Digest,
+    pub receipt_digest: Digest,
+}
+
+/// Append-only observation of provider evidence, separate from the legacy
+/// one-receipt-per-raw-digest binding. Re-collecting identical raw bytes may
+/// produce a new observation when its full source binding changes.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedEvidenceObservationReceipt {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub observation_digest: Digest,
+    pub evidence: DelegatedEvidence,
+    pub protocol_version: u32,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub bound_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct DelegatedEvidenceObservation {
+    pub receipt: DelegatedEvidenceObservationReceipt,
+    pub selector: DelegatedEvidenceObservationSelector,
+}
+
+pub fn delegated_evidence_observation_digest(
+    repository_id: &str,
+    work_item_id: &str,
+    evidence: &DelegatedEvidence,
+    protocol_version: u32,
+    runtime_version: &str,
+    runtime_digest: &Digest,
+) -> Result<Digest, serde_json::Error> {
+    digest_json(&serde_json::json!({
+        "schemaVersion": DELEGATED_EVIDENCE_OBSERVATION_SCHEMA_VERSION,
+        "repositoryId": repository_id,
+        "workItemId": work_item_id,
+        "evidence": evidence,
+        "protocolVersion": protocol_version,
+        "runtimeVersion": runtime_version,
+        "runtimeDigest": runtime_digest,
+    }))
+}
+
+pub fn validate_delegated_evidence_observation_receipt(
+    receipt: &DelegatedEvidenceObservationReceipt,
+) -> Result<(), &'static str> {
+    if receipt.schema_version != DELEGATED_EVIDENCE_OBSERVATION_SCHEMA_VERSION {
+        return Err("unsupported delegated evidence observation schema");
+    }
+    if receipt.repository_id.trim().is_empty()
+        || receipt.work_item_id.trim().is_empty()
+        || receipt.protocol_version == 0
+        || receipt.runtime_version.trim().is_empty()
+    {
+        return Err("delegated evidence observation identity must not be empty");
+    }
+    let expected = delegated_evidence_observation_digest(
+        &receipt.repository_id,
+        &receipt.work_item_id,
+        &receipt.evidence,
+        receipt.protocol_version,
+        &receipt.runtime_version,
+        &receipt.runtime_digest,
+    )
+    .map_err(|_| "delegated evidence observation binding cannot be serialized")?;
+    if expected != receipt.observation_digest {
+        return Err("delegated evidence observation binding digest mismatch");
+    }
+    Ok(())
+}
+
+pub fn validate_delegated_evidence_observation_selector(
+    selector: &DelegatedEvidenceObservationSelector,
+) -> Result<(), &'static str> {
+    if selector.schema_version != DELEGATED_EVIDENCE_OBSERVATION_SELECTOR_SCHEMA_VERSION {
+        return Err("unsupported delegated evidence observation selector schema");
+    }
+    Ok(())
+}
+
 /// The result of the resource-finalization boundary that follows a reviewed
 /// PR merge.  This protocol is deliberately separate from the Work Item
 /// lifecycle: `closed` is not evidence that an external branch or worktree
@@ -1163,11 +1258,14 @@ pub struct ResourceFinalizationContext {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct PostMergeSyncEvidence {
-    /// Required only by schema-v3. Old schemas reject these opt-in fields.
+    /// Required only by schema-v3/v4. Older schemas retain their old shape.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub lifecycle_layout: Option<PostMergeLifecycleLayout>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub documentation: Option<PostMergeDocumentation>,
+    /// Required only by schema-v4 and pins each delegated source observation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observation_selectors: Option<PostMergeSyncEvidenceObservationSelectors>,
     pub source_pull_request: ResourceFinalizationPullRequestIdentity,
     pub sync_pull_request: ResourceFinalizationPullRequestIdentity,
     pub source_evidence_digest: Digest,
@@ -1181,6 +1279,15 @@ pub struct PostMergeSyncEvidence {
     pub remote_evidence_digest: Digest,
     pub git_common_dir: String,
     pub worktree_git_dir: String,
+}
+
+/// Exact delegated-evidence versions used by a schema-v4 post-merge receipt.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PostMergeSyncEvidenceObservationSelectors {
+    pub source: DelegatedEvidenceObservationSelector,
+    pub sync: DelegatedEvidenceObservationSelector,
+    pub remote: DelegatedEvidenceObservationSelector,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -1563,6 +1670,7 @@ impl FinalizationError {
 pub const RESOURCE_FINALIZATION_SCHEMA_VERSION: u32 = 1;
 pub const RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION: u32 = 2;
 pub const RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION: u32 = 3;
+pub const RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION: u32 = 4;
 
 impl ResourceFinalizationReceipt {
     pub fn is_post_merge_sync(&self) -> bool {
@@ -1570,6 +1678,7 @@ impl ResourceFinalizationReceipt {
             self.schema_version,
             RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
                 | RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
+                | RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
         )
     }
 }
@@ -1729,9 +1838,36 @@ fn validate_post_merge_sync_receipt(
         };
         if !valid_lifecycle || !valid_docs {
             return Err(ResourceFinalizationError::InvalidState(
-                "schema-v3 requires an explicit consistent lifecycle layout and documentation mode",
+                "schema-v3/v4 requires an explicit consistent lifecycle layout and documentation mode",
             ));
         }
+    }
+    if receipt.schema_version == RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION {
+        let selectors =
+            sync.observation_selectors
+                .as_ref()
+                .ok_or(ResourceFinalizationError::InvalidState(
+                    "schema-v4 requires exact source, sync, and remote observation selectors",
+                ))?;
+        for selector in [&selectors.source, &selectors.sync, &selectors.remote] {
+            validate_delegated_evidence_observation_selector(selector)
+                .map_err(ResourceFinalizationError::InvalidState)?;
+        }
+        if selectors.source.observation_digest == selectors.sync.observation_digest
+            || selectors.source.observation_digest == selectors.remote.observation_digest
+            || selectors.sync.observation_digest == selectors.remote.observation_digest
+            || selectors.source.receipt_digest == selectors.sync.receipt_digest
+            || selectors.source.receipt_digest == selectors.remote.receipt_digest
+            || selectors.sync.receipt_digest == selectors.remote.receipt_digest
+        {
+            return Err(ResourceFinalizationError::IdentityMismatch(
+                "schema-v4 observation selectors must identify three distinct receipts",
+            ));
+        }
+    } else if sync.observation_selectors.is_some() {
+        return Err(ResourceFinalizationError::InvalidState(
+            "observation selectors are supported only by schema-v4 finalization receipts",
+        ));
     }
     for digest in [
         &sync.source_evidence_digest,
@@ -2087,6 +2223,7 @@ pub fn validate_resource_finalization_receipt(
         RESOURCE_FINALIZATION_SCHEMA_VERSION
             | RESOURCE_FINALIZATION_POST_MERGE_SYNC_SCHEMA_VERSION
             | RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION
+            | RESOURCE_FINALIZATION_EVIDENCE_OBSERVATION_SCHEMA_VERSION
     ) {
         return Err(ResourceFinalizationError::UnsupportedSchema);
     }
@@ -2520,6 +2657,30 @@ pub fn validate_resource_finalization_transition(
             let mut normalized_next = next_sync.clone();
             normalized_next.remote_branch_state = previous_sync.remote_branch_state;
             normalized_next.remote_evidence_digest = previous_sync.remote_evidence_digest.clone();
+            let observation_selectors_advanced = match (
+                &previous_sync.observation_selectors,
+                &next_sync.observation_selectors,
+            ) {
+                (Some(previous_selectors), Some(next_selectors)) => {
+                    let source_and_sync_preserved = previous_selectors.source
+                        == next_selectors.source
+                        && previous_selectors.sync == next_selectors.sync;
+                    let remote_selector_advanced =
+                        previous_selectors.remote != next_selectors.remote;
+                    if source_and_sync_preserved && remote_selector_advanced {
+                        if let Some(normalized_selectors) =
+                            normalized_next.observation_selectors.as_mut()
+                        {
+                            normalized_selectors.remote = previous_selectors.remote.clone();
+                        }
+                        true
+                    } else {
+                        false
+                    }
+                }
+                (None, None) => true,
+                _ => false,
+            };
             if previous.runtime_version != next.runtime_version
                 || previous.runtime_digest != next.runtime_digest
                 || previous.result.disposition != ResourceFinalizationDisposition::Retained
@@ -2527,6 +2688,7 @@ pub fn validate_resource_finalization_transition(
                 || previous_sync.remote_branch_state != PostMergeSyncRemoteBranchState::Present
                 || next_sync.remote_branch_state != PostMergeSyncRemoteBranchState::Deleted
                 || previous_sync.remote_evidence_digest == next_sync.remote_evidence_digest
+                || !observation_selectors_advanced
                 || *previous_sync != normalized_next
             {
                 return Err(ResourceFinalizationError::IdentityMismatch(
