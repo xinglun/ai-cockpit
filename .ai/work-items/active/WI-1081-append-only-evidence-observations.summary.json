@@ -1,17 +1,17 @@
 {
   "changedPaths": [
-    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-serial-writable-home-20261014.admission.json",
-    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-serial-writable-home-20261014.current-plan.json",
-    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-serial-writable-home-20261014.invocation.json",
-    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-serial-writable-home-20261014.runtime.log",
-    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-serial-writable-home-20261014.validation-before.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.admission.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.current-plan.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.invocation.json",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.runtime.log",
+    ".ai/evidence/WI-1081-append-only-evidence-observations.full-verification-p2-corrected-20261014.validation-before.json",
     ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
     ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json"
   ],
   "checkpointAt": "2026-10-14T10:09:58Z",
   "checkpointContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:6ffcd0aaadd80bdba91dc6d7b70dc3baf588d76be913ba8dc89c5123f55d2dcc",
+  "checkpointRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
   "createdAt": "2026-10-14T10:08:27Z",
   "lifecycleFacts": {
     "start": {
@@ -26,10 +26,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
   "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
-  "preflightAt": "2026-10-14T12:48:59Z",
+  "preflightAt": "2026-10-14T15:13:41Z",
   "preflightContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:6ffcd0aaadd80bdba91dc6d7b70dc3baf588d76be913ba8dc89c5123f55d2dcc",
+  "preflightRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",

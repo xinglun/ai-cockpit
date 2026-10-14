@@ -1,0 +1,15 @@
+{
+  "kind": "prepublication_sensitive_pattern_inspection",
+  "scope": "new corrected-source verification attachments and generated canonical receipt/Summary",
+  "filesInspected": 17,
+  "decodedStdoutStderrSegments": 130,
+  "highConfidencePatterns": [
+    "github_token",
+    "openai_key",
+    "aws_access_key",
+    "private_key",
+    "authorization_value"
+  ],
+  "findings": [],
+  "limit": "Pattern inspection does not prove the absence of every possible sensitive value; raw and decoded Runtime output were inspected without exposing credentials."
+}

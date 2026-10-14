@@ -1,0 +1,18 @@
+{
+  "state": "unknown",
+  "scenarioCoverage": "not_applicable",
+  "acceptanceEvidence": "not_applicable",
+  "evidenceClasses": "verified",
+  "intentAlignment": "unknown",
+  "finalDimensions": "not_applicable",
+  "unknowns": [
+    "intent_alignment_missing"
+  ],
+  "findings": [
+    {
+      "code": "intent_alignment_missing",
+      "message": "declared intent has no alignment projection",
+      "severity": "warning"
+    }
+  ]
+}
