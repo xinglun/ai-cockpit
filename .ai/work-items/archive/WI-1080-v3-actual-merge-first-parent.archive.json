@@ -1,0 +1,28 @@
+{
+  "actorProvenance": "unknown",
+  "closeRequired": true,
+  "createdAt": "2026-10-14T04:42:49Z",
+  "files": {
+    "contractDigest": "sha256:466b3c459488a0353eba99d4142454c19dee60e21b37587e70172a6d3d74c10d",
+    "contractPath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json",
+    "eventsDigest": "sha256:8adbfb3c80fb2961f59bc1b51623cd0b4304daf20316c0b8cc6f15513182e4b9",
+    "eventsPath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.events.jsonl",
+    "outcomeDigest": "sha256:a9e6e44990a64f30c21420ad7dd3dd8fdf6a7e6e1341e434ba4ea5b686c4cc17",
+    "outcomePath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.outcome.json",
+    "summaryDigest": "sha256:84eae652bd86da72b72ebc62c2f912108a74e7abc60573909b97fff5de223c12",
+    "summaryPath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.summary.json",
+    "taskReportDigest": "sha256:9c6c7a6c9e70cddca841b77fc85423dd005eb35ffa942bfc6df9c4b368d5ac41",
+    "taskReportMarkdownDigest": "sha256:c55f23855cbed82da8ec624fb40f1052fef13601406b5c1ed4cc40849efbe661",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "occurredAt": "2026-10-14T04:42:49.022783112Z",
+  "protocolVersion": 1,
+  "recordedAt": "2026-10-14T04:42:49.022783112Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:8cfe5504621acf1546541113a22a433a916ed8eae6fdbfa531b5801644d4cd59",
+  "runtimeVersion": "1.0.1",
+  "state": "archived",
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}
