@@ -7351,6 +7351,7 @@ mod post_merge_sync_tests {
         let worktree_path = fixture.path().join("synthetic-resource-worktree");
         std::fs::create_dir_all(&root).unwrap();
         git(&root, &["init", "--quiet", "-b", "main"]);
+        git(&root, &["config", "core.autocrlf", "false"]);
         git(&root, &["config", "user.name", "AI Cockpit Tests"]);
         git(&root, &["config", "user.email", "tests@example.invalid"]);
         std::fs::write(root.join("seed.txt"), "synthetic repository\n").unwrap();
