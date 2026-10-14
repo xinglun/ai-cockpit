@@ -7,6 +7,19 @@
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
   "createdAt": "2026-10-13T23:46:39Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:3ec927796f6a121cb8850aa2757a7e510775097809b3b540b257def286593320",
+    "reason": "Ray confirmed confirm_review for this exact WI-1080 Contract, preflight, snapshot, and source head in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018, message Sentinel_c6a9a7b999248191ae118bb4d2fdbb74. Code and formal verification were reviewed. Preserve repository_material_inspection_unavailable and user_visible_benefit_not_declared as unresolved; this decision does not authorize merge or close.",
+    "recordedAt": "2026-10-14T03:02:52Z",
+    "recordedBy": "Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+    "schemaVersion": 1,
+    "workItemId": "WI-1080-v3-actual-merge-first-parent"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -20,16 +33,16 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
   "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
-  "preflightAt": "2026-10-14T02:32:27Z",
+  "preflightAt": "2026-10-14T02:39:42Z",
   "preflightContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightDecisionDigest": "sha256:3ec927796f6a121cb8850aa2757a7e510775097809b3b540b257def286593320",
   "preflightRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-10-13T23:47:34Z",
+  "updatedAt": "2026-10-14T03:04:09.469824132+00:00",
   "verification": [
     {
       "check": "project-command-0",

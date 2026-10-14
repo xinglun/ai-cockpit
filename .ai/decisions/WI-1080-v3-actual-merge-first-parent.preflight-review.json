@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:3ec927796f6a121cb8850aa2757a7e510775097809b3b540b257def286593320",
+  "reason": "Ray confirmed confirm_review for this exact WI-1080 Contract, preflight, snapshot, and source head in source thread 01a11856-d6ba-72e0-9aab-25a34cd2f018, message Sentinel_c6a9a7b999248191ae118bb4d2fdbb74. Code and formal verification were reviewed. Preserve repository_material_inspection_unavailable and user_visible_benefit_not_declared as unresolved; this decision does not authorize merge or close.",
+  "recordedAt": "2026-10-14T03:02:52Z",
+  "recordedBy": "Ray",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "schemaVersion": 1,
+  "workItemId": "WI-1080-v3-actual-merge-first-parent"
+}
