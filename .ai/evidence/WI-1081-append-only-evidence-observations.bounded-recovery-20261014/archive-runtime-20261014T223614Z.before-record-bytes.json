@@ -1,0 +1,32 @@
+[
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.contract.json",
+    "size": 5397,
+    "rawSHA256": "46a8f312f08276ce066cbda3f29c0ec4e0278691a947ce5132948f3a00ba5640"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json",
+    "size": 8378,
+    "rawSHA256": "5345668152ba2632e463cd7c22b3da15d20badcdf19473d93d5ba873fec09915"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.outcome.json",
+    "size": 8193,
+    "rawSHA256": "625b7b9475b58704911cc55271c6022761f5b81213d97fbc671453aeaa7f48f5"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.events.jsonl",
+    "size": 3048,
+    "rawSHA256": "a23ae784cbd840effa043cae13915f209f898bc031e1c995799ae74b8d8b1d94"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.task-report.json",
+    "size": 5134,
+    "rawSHA256": "2a550056d6334622b60bb53562fa154be94243b78937ef41103481f46a72b91c"
+  },
+  {
+    "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.task-report.md",
+    "size": 1856,
+    "rawSHA256": "f21e5fc658f1181df4cf7dbaf92dffbcc73c18cfb1cccbea82ce7ef352b905ab"
+  }
+]

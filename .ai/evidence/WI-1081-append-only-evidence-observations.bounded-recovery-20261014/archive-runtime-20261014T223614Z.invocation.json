@@ -1,0 +1,25 @@
+{
+  "kind": "actual_normal_runtime_archive",
+  "startedAtUtc": "2026-10-14T22:36:14.172619+00:00",
+  "head": "35303499188eb43d17e2a44f498c37f19d79a420",
+  "command": [
+    "/tmp/wi1079-toolchain/runtime/ai-cockpit",
+    "archive",
+    "--repo",
+    "/workspace/ai-cockpit-wi1081-append-only-evidence-observations",
+    "--id",
+    "WI-1081-append-only-evidence-observations",
+    "--language",
+    "zh-CN"
+  ],
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "materialReviewReceiptDigest": "sha256:aa8b3c0875b6479f24b16fe88fae010caed1929112a3399df828badb3fd76522",
+  "runtimeRawSHA256": "5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "authorization": "Explicit coordinator approval after Raydot independent review and CI38645536534 success; ordinary technical archive, not human close",
+  "excluded": [
+    "merge",
+    "resource deletion",
+    "human close"
+  ]
+}
