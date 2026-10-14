@@ -1796,6 +1796,38 @@ fn procfs_eacces_diagnostic(identity_before: &str, identity_after: &str) -> Stri
 }
 
 #[cfg(target_os = "linux")]
+const FD_DIRECTORY_ESRCH_DIAGNOSTIC_REPLAY: &str = "cannot inspect process pid=248778 filter_uid=Some(1001) phase=procfs.fd-directory error_kind=PermissionDenied errno=13 identity_state=unknown identity_before=observed(pid=248778,starttime_ticks=86173,pgid=38553,sid=38553,state=R) identity_after=unknown(identity stat read failed error_kind=Uncategorized errno=3: No such process (os error 3)) message=Permission denied (os error 13) file descriptors";
+
+#[cfg(target_os = "linux")]
+fn expected_procfs_observer_failure(failure: &str) -> bool {
+    std::panic::catch_unwind(|| assert_procfs_cwd_eacces(failure)).is_ok()
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_observer_diagnostic_accepts_fd_directory_esrch_replay() {
+    let failure = format!("verifier_process_state_unknown:{FD_DIRECTORY_ESRCH_DIAGNOSTIC_REPLAY}");
+    assert!(expected_procfs_observer_failure(&failure));
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_observer_diagnostic_rejects_errno130() {
+    let identity = "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)";
+    let failure = procfs_eacces_diagnostic(identity, identity).replace("errno=13", "errno=130");
+    assert!(!expected_procfs_observer_failure(&failure));
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn procfs_observer_diagnostic_rejects_cwd_extra() {
+    let identity = "observed(pid=4242,starttime_ticks=7,pgid=41,sid=41,state=R)";
+    let failure =
+        procfs_eacces_diagnostic(identity, identity).replace("procfs.cwd", "procfs.cwd-extra");
+    assert!(!expected_procfs_observer_failure(&failure));
+}
+
+#[cfg(target_os = "linux")]
 #[test]
 fn procfs_cwd_eacces_identity_accepts_state_transition() {
     let failure = procfs_eacces_diagnostic(
