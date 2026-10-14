@@ -1,0 +1,3 @@
+   Compiling cockpit-verification v1.0.1 (/workspace/ai-cockpit-wi1082-procfs-fail-closed-test-envelope/crates/cockpit-verification)
+    Finished `test` profile [unoptimized] target(s) in 1.16s
+     Running tests/composition.rs (/tmp/wi1082-target-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)

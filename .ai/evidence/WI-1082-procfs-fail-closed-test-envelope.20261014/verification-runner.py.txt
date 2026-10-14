@@ -8,6 +8,13 @@ args=sys.argv[2:]
 logs=root/'.ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014'/label
 logs.mkdir(parents=True,exist_ok=False)
 wi1082_env=dict(os.environ,PATH='/workspace/.cargo/bin:'+os.environ['PATH'],RUSTUP_HOME='/workspace/.rustup',CARGO_HOME='/workspace/.cargo',HOME='/workspace/.tmp-wi1082-runtime-home-20261014',TMPDIR='/workspace/.tmp-wi1082-tests-20261014',CARGO_TARGET_DIR='/tmp/wi1082-target-00461714-20261014',CARGO_BUILD_JOBS='1',CARGO_INCREMENTAL='0',CARGO_PROFILE_TEST_DEBUG='0',RUST_TEST_THREADS='2',AI_COCKPIT_A12_EVIDENCE_DIR=str(logs/'private-control-attempts'))
+for action in ['status','validate']:
+ q=subprocess.run([rt,'work-item',action,'--repo',str(root),'--id',wi,'--json'],cwd=root,env=wi1082_env,capture_output=True)
+ (logs/(action+'.json')).write_bytes(q.stdout);(logs/(action+'.stderr.log')).write_bytes(q.stderr)
+ if q.returncode:print(action,q.returncode,q.stderr.decode(),flush=True);sys.exit(q.returncode)
+ if action=='status':
+  state=json.loads(q.stdout)
+  if 'run_verification' not in state.get('safeActions',[]):print('verification not admitted',q.stdout.decode(),flush=True);sys.exit(2)
 command=[rt,'verify','--repo',str(root),'--work-item',wi,'--workers','1']+args
 started=datetime.datetime.now(datetime.timezone.utc).isoformat(); start=time.monotonic()
 head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root).decode().strip()
