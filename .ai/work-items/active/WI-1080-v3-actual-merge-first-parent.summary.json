@@ -5,7 +5,7 @@
   "checkpointAt": "2026-10-13T23:47:34Z",
   "checkpointContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:16026a2c23b6de616200986375f9e121200c28f97bd62ceb55ec9d35ab9c1486",
+  "checkpointRepositorySnapshotDigest": "sha256:209fdc4e4c2dc89f3907716f364a5266a36228050f07f95cb8aa2cb94de6dcb3",
   "createdAt": "2026-10-13T23:46:39Z",
   "lifecycleFacts": {
     "start": {
@@ -20,10 +20,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e88235839caaea350e71070a0f161aaa6117680161d8fde2ae007a3686c9e63a",
   "predecessorWorkItemId": "WI-1078-v1-0-1-post-merge-sync-finalization",
-  "preflightAt": "2026-10-14T01:20:29Z",
+  "preflightAt": "2026-10-14T01:45:05Z",
   "preflightContractDigest": "sha256:b5495572d26155e0324a125e69a0a4e6908334c0aa2dc89df68344d2f3229e9b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:16026a2c23b6de616200986375f9e121200c28f97bd62ceb55ec9d35ab9c1486",
+  "preflightRepositorySnapshotDigest": "sha256:209fdc4e4c2dc89f3907716f364a5266a36228050f07f95cb8aa2cb94de6dcb3",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1078-v1-0-1-post-merge-sync-finalization.recovery.json",
