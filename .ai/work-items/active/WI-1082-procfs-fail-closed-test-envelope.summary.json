@@ -1,12 +1,28 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1082-procfs-fail-closed-test-envelope.contract.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-classifier/node-0.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-classifier/node-0.stdout.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-classifier/run.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-classifier/stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-classifier/stdout.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-material-plan.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-material-plan.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-preflight.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-preflight.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-source-controls/private-control-attempts/fd-directory-esrch-replay.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-source-controls/stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-source-controls/stdout.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-status.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-status.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-validate.json",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.20261014/red-validate.stderr.log",
+    ".ai/evidence/WI-1082-procfs-fail-closed-test-envelope.verification-attempt.fe5aef2da1b7479f89dfe4c5118689495d2a1de3a90527117e3a0820d591268a.json",
     ".ai/work-items/active/WI-1082-procfs-fail-closed-test-envelope.summary.json"
   ],
   "checkpointAt": "2026-10-14T22:53:17Z",
   "checkpointContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+  "checkpointRepositorySnapshotDigest": "sha256:da14bcdd55766adfbfe28dd78357c3615300f4a9956cb226f768077234eb8bc1",
   "createdAt": "2026-10-14T22:53:13Z",
   "lifecycleFacts": {
     "start": {
@@ -19,14 +35,21 @@
     }
   },
   "mode": "implementation",
-  "preflightAt": "2026-10-14T22:53:16Z",
+  "preflightAt": "2026-10-14T23:04:38Z",
   "preflightContractDigest": "sha256:6f9a14a83c7a5c8963f5e978b9949a3a8d4907ee4e5d605ef938b4f15ee246dd",
-  "preflightDecisionDigest": "sha256:59ca2cce06c52bd0078fbbcc102662f3e51bd02653f1a8671538205c8f103048",
-  "preflightRepositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:da14bcdd55766adfbfe28dd78357c3615300f4a9956cb226f768077234eb8bc1",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-10-14T22:53:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:4e8b776d990bc0a2a90c382afad833735aa82fac8f7a8c4aedf3dddd8cc05a02",
   "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
 }
