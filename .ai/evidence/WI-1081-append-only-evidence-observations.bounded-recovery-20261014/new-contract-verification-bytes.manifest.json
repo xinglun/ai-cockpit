@@ -1,0 +1,115 @@
+{
+  "kind": "new_contract_full_verification_bytes",
+  "testedHead": "30b6ab286fd37b0dbaa46d522b39498d556cde42",
+  "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "sourceSnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+  "receiptDigest": "sha256:e24571d26809eab42f170893cadb9349afe1e66dc1660ab36abf8372b258ec5a",
+  "pendingMaterialRequestDigest": "sha256:7c52809e997d0a842b7849a5eb70f06d4fcd38c142f9ca2a00fee3e90d12daa4",
+  "files": [
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/material-review-handoff.json",
+      "size": 4344,
+      "rawSHA256": "eeb15f02123fc2163d3b5c1acfc368212db04afb596052fc6a4cf37f705144b6"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/material-review-request-after-verification.json",
+      "size": 3935,
+      "rawSHA256": "692c4a83490b26da056669fbabebcc1c3284ebb4f14472d702afdad494a3f5f2"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.admission.json",
+      "size": 3647,
+      "rawSHA256": "6e835fc99365a8992a688f2cf2b930af2c1e98d0890f4327b69f0d75cc9fed83"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.current-plan.json",
+      "size": 19998,
+      "rawSHA256": "c42c8311af6a3abc0c831f3c11a8589b1a87fed79d35250dc1e76b981f02aa85"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.exit-code",
+      "size": 2,
+      "rawSHA256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.invocation.json",
+      "size": 1597,
+      "rawSHA256": "8c7a11c36d1d2a40c51df083e554a152caccb894505adb5ac41dbefd7ca8cce1"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.parent-monitor.json",
+      "size": 4803,
+      "rawSHA256": "ca41fda0d20ef26b3bbdb65da889f525e7ed776549cd199827a778352f33e8e2"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.receipt.json",
+      "size": 411186,
+      "rawSHA256": "3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.runtime.log",
+      "size": 425534,
+      "rawSHA256": "9b6fba9b73f7368acca9c76fb556f41f7951aebac6cf76bfded26fe8c681bc43"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification.validation-before.json",
+      "size": 430,
+      "rawSHA256": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-verification-and-review-handoff.md",
+      "size": 2610,
+      "rawSHA256": "595df8bb105b1fef0ffa926e0f6d26f1be8b840fae00582fa5a9cdffe0119d5f"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-verification-sensitive-inspection.json",
+      "size": 256,
+      "rawSHA256": "68b3a296ace70e1e1106723a858441b4f4678d4cc355ada72f0b0b47cfa5a57e"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/outcome-after-new-contract-verification.txt",
+      "size": 2283,
+      "rawSHA256": "ae88c04dec9825b5166a543a1d53edf38e7239b7c2f92a2fb87df0232a6f47f3"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/status-after-new-contract-verification.json",
+      "size": 3458,
+      "rawSHA256": "2e6fdc762e2fac424f290f65b8b5eea9d4e6222493964565c9818404482b3fdc"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/validation-after-new-contract-verification.json",
+      "size": 430,
+      "rawSHA256": "b92a617b7d24d77f762cbcbd765e7e1b7b43c63f8a46c1a7d3de523ed86e2932"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.verification-attempt.479ee68e0115d996010f1bfbc81a1ab8e11d1aab4f34ec34da7e622775a392d8.json",
+      "size": 816812,
+      "rawSHA256": "e3d41ee30fa734622c26ab8e1dbeac6f06e88bea094a1c940d165abb44494bb8"
+    },
+    {
+      "path": ".ai/evidence/WI-1081-append-only-evidence-observations.verification.json",
+      "size": 411186,
+      "rawSHA256": "3ec7191eabf3b5cd8edeec0912771213b77a999304bb978b3fb716901db3ed17"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.outcome.json",
+      "size": 10434,
+      "rawSHA256": "5ce53a639b98ac8eee83b34736c82017c09347861ffa6107f9433981b0128b91"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json",
+      "size": 7675,
+      "rawSHA256": "1e91de0dea6d27c41f0a366e8f1cae16e7db3edde603cd89e9793ef7d007093d"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.task-report.json",
+      "size": 5101,
+      "rawSHA256": "847a370bd3020975d8f877429bb8739166adad950d71e1c8f55f52486b1100eb"
+    },
+    {
+      "path": ".ai/work-items/active/WI-1081-append-only-evidence-observations.task-report.md",
+      "size": 1818,
+      "rawSHA256": "a4d8ab6f7167785f97ac47d7ffa4ed8b3892432cf1364dc4565ad6afd545eb1a"
+    }
+  ]
+}
