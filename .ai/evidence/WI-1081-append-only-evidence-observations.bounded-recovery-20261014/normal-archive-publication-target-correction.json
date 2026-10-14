@@ -1,0 +1,16 @@
+{
+  "kind": "actual_archive_publication_target_correction",
+  "observedAtUtc": "2026-10-14T22:42:38.970529+00:00",
+  "archiveCommit": "1b2bf25a027cf6b16f144c82c41b2fc6f7751170",
+  "intendedRef": "refs/heads/codex/wi1081-append-only-evidence-observations",
+  "unexpectedCreatedRemoteRef": "refs/heads/codex/wi1081-post-merge-lifecycle-layout",
+  "actualInitialPushResult": "new remote branch created at the archive commit; PR branch was not updated",
+  "remoteRefsBeforeCorrection": [
+    "35303499188eb43d17e2a44f498c37f19d79a420\trefs/heads/codex/wi1081-append-only-evidence-observations",
+    "1b2bf25a027cf6b16f144c82c41b2fc6f7751170\trefs/heads/codex/wi1081-post-merge-lifecycle-layout"
+  ],
+  "correction": "Record this actual publication error, then normal-push the current branch determined from git symbolic-ref and matched to PR1037. No force-push.",
+  "unexpectedRefDisposition": "Retained; no deletion authorized. Report explicitly for a future authorized resource decision.",
+  "sourceOrContractChanged": false,
+  "mergeOrClosePerformed": false
+}
