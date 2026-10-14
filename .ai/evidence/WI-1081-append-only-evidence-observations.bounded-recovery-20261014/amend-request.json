@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "changeId": "wi1081-ray-bounded-material-review-20261014",
+  "expectedContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "reason": "Ray approved the exact bounded recovery combination at 2026-10-14T21:15:31Z; enable only the single reviewable committed Rust syntax Unknown for delegated Raydot technical review, preserve source/history/verification requirements, and perform one retry plus fresh confirm_review and 13-node verification. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+  "changes": [
+    {
+      "path": "/governanceProfile",
+      "operation": "replace",
+      "value": {
+        "materialInspectionReview": {
+          "schemaVersion": 1,
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "assurance": "self_declared",
+          "reviewerActor": "agent:Raydot",
+          "acceptResidualRisk": true,
+          "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc"
+        }
+      }
+    }
+  ]
+}

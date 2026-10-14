@@ -1,0 +1,1 @@
+record Work Item recovery decision: repository protocol state error at /workspace/ai-cockpit-wi1081-append-only-evidence-observations/.ai/work-items/active/WI-1081-append-only-evidence-observations.outcome.json: recovery_decision_invalid:predecessor_outcome_mismatch: predecessor Outcome digest mismatch

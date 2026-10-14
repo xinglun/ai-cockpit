@@ -11,9 +11,57 @@
   "checkpointAt": "2026-10-14T10:09:58Z",
   "checkpointContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+      "recorded": true,
+      "recordedAt": "2026-10-14T10:09:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+      "previousContractHash": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+      "reason": "Ray approved the exact bounded recovery combination at 2026-10-14T21:15:31Z; enable only the single reviewable committed Rust syntax Unknown for delegated Raydot technical review, preserve source/history/verification requirements, and perform one retry plus fresh confirm_review and 13-node verification. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+      "recorded": true,
+      "recordedAt": "2026-10-14T21:21:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
   "createdAt": "2026-10-14T10:08:27Z",
-  "failedGate": "finish.lifecycle",
+  "decisionEvidence": {
+    "contractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:f2adb553f6b0c31d8d6275dbd48bef9c125c6326403de06f5c5b74c7fcec6acd",
+    "reason": "Record Ray actual approval at 2026-10-14T21:15:31Z for the bounded single-Unknown material-review opt-in, same corrected source Contract adjustment, one retry and corresponding confirm_review. Exact resulting amended Contract and fresh preflight/snapshot are bound here. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+    "recordedAt": "2026-10-14T21:23:50.714515+00:00",
+    "recordedBy": "human:Ray",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+    "schemaVersion": 1,
+    "workItemId": "WI-1081-append-only-evidence-observations"
+  },
   "lifecycleFacts": {
     "start": {
       "actorProvenance": "unknown",
@@ -25,20 +73,22 @@
     }
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
   "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
-  "preflightAt": "2026-10-14T15:13:41Z",
-  "preflightContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightAt": "2026-10-14T21:23:14Z",
+  "preflightContractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "preflightDecisionDigest": "sha256:f2adb553f6b0c31d8d6275dbd48bef9c125c6326403de06f5c5b74c7fcec6acd",
   "preflightRepositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
-  "preflightState": "green",
+  "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
   "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+  "recoveryRetryContractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+  "recoveryRetryDecisionDigest": "sha256:e9e4bfe17ed4aaa8e1bc9dc1b8c5e41dbdb8ad2ed4b64472306dbaf8d640b3bc",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-1081-append-only-evidence-observations.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-10-14T15:54:45Z",
+  "updatedAt": "2026-10-14T21:23:52.987079214+00:00",
   "verification": [
     {
       "check": "project-command-0",
@@ -97,6 +147,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-10-14T21:21:08Z"
+  },
   "verificationRecoveryReconciled": "sha256:fd545fdaa428429cfe7add53cd9a3d17b8a1c502f9e248380c1a3c08e5313e7b",
   "workItemId": "WI-1081-append-only-evidence-observations"
 }

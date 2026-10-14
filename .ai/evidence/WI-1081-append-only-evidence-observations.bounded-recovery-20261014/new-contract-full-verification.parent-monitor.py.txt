@@ -1,0 +1,108 @@
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import time
+
+repo = Path('/workspace/ai-cockpit-wi1081-append-only-evidence-observations')
+stem = repo / '.ai/evidence/WI-1081-append-only-evidence-observations.bounded-recovery-20261014/new-contract-full-verification'
+runtime = '/tmp/wi1079-toolchain/runtime/ai-cockpit'
+work_item = 'WI-1081-append-only-evidence-observations'
+environment = os.environ.copy()
+environment.update({'PATH': '/workspace/.cargo/bin:' + environment['PATH'],
+    'HOME': '/workspace/.tmp-wi1081-runtime-home-20261014',
+    'RUSTUP_HOME': '/workspace/.rustup', 'CARGO_HOME': '/workspace/.cargo',
+    'CARGO_TARGET_DIR': '/tmp/wi1081-build-00461714-20261014',
+    'CARGO_BUILD_JOBS': '1', 'CARGO_INCREMENTAL': '0', 'CARGO_PROFILE_TEST_DEBUG': '0',
+    'TMPDIR': '/workspace/.tmp-wi1081-tests-20261014', 'RUST_TEST_THREADS': '2'})
+environment.pop('AI_COCKPIT_COMPOSITION_RECONCILE_TRACE', None)
+
+def run_read(arguments, suffix):
+    result = subprocess.run(arguments, cwd=repo, env=environment, capture_output=True, check=True)
+    Path(str(stem) + suffix).write_bytes(result.stdout)
+    return json.loads(result.stdout)
+
+status = run_read([runtime, 'work-item', 'status', '--repo', str(repo), '--id', work_item, '--json'], '.admission.json')
+if status['humanDecisionRequired'] or 'run_verification' not in status['safeActions']:
+    raise RuntimeError('Runtime does not admit full verification')
+run_read([runtime, 'work-item', 'validate', '--repo', str(repo), '--id', work_item, '--json'], '.validation-before.json')
+assert status['sourceDigests']['contract'] == 'sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20'
+assert status['sourceDigests']['repositorySnapshot'] == 'sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1'
+summary_before = json.loads((repo / '.ai/work-items/active/WI-1081-append-only-evidence-observations.summary.json').read_bytes())
+assert summary_before['recoveryRetryPending'] is True
+assert summary_before['decisionEvidence']['contractDigest'] == status['sourceDigests']['contract']
+plan = run_read([runtime, 'verify', '--repo', str(repo), '--work-item', work_item,
+                 '--workers', '1', '--plan-only'], '.current-plan.json')
+assert plan['coverageManifest']['sourceArgs'] == ['test', '--workspace', '--all-targets']
+assert plan['nodesPlanned'] == 13
+assert plan['nodesReused'] == 0
+command = [runtime, 'verify', '--repo', str(repo), '--work-item', work_item, '--workers', '1']
+invocation = {'kind': 'agent_full_verification_invocation',
+    'sourceHead': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo, text=True).strip(),
+    'command': command, 'contractDigest': status['sourceDigests']['contract'],
+    'sourceSnapshotDigest': status['sourceDigests']['repositorySnapshot'],
+    'runtimeSha256': hashlib.sha256(Path(runtime).read_bytes()).hexdigest(),
+    'environment': {key: environment[key] for key in ['HOME', 'RUSTUP_HOME', 'CARGO_HOME',
+        'CARGO_TARGET_DIR', 'CARGO_BUILD_JOBS', 'CARGO_INCREMENTAL', 'CARGO_PROFILE_TEST_DEBUG',
+        'TMPDIR', 'RUST_TEST_THREADS']},
+    'rustcVersion': subprocess.check_output(['rustc', '--version', '--verbose'], cwd=repo, env=environment, text=True),
+    'cargoVersion': subprocess.check_output(['cargo', '--version'], cwd=repo, env=environment, text=True).strip(),
+    'monitoring': 'statvfs and log reads in the existing parent process; no independent tool-sandbox monitors',
+    'parentPid': os.getpid(), 'userNamespace': os.readlink('/proc/self/ns/user'),
+    'startedAtUtc': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'hostLimitSeconds': 900}
+Path(str(stem) + '.invocation.json').write_text(json.dumps(invocation, indent=2) + '\n')
+print(json.dumps({'startedAtUtc': invocation['startedAtUtc'], 'head': invocation['sourceHead'],
+                  'nodesPlanned': plan['nodesPlanned'], 'nodesReused': plan['nodesReused']}), flush=True)
+log_path = Path(str(stem) + '.runtime.log')
+metrics = []
+host_limit_reached = False
+started = time.monotonic()
+with log_path.open('xb') as log:
+    process = subprocess.Popen(command, cwd=repo, env=environment, stdout=log, stderr=subprocess.STDOUT)
+    next_resource_report = 0.0
+    with log_path.open() as reader:
+        while process.poll() is None:
+            while True:
+                line = reader.readline()
+                if not line:
+                    break
+                if line.startswith('Verification progress:'):
+                    print(line.rstrip(), flush=True)
+            elapsed = time.monotonic() - started
+            if elapsed >= next_resource_report:
+                resource = {'elapsedSeconds': round(elapsed, 1), 'resources': {}}
+                for path in ['/workspace', '/tmp']:
+                    observed = os.statvfs(path)
+                    resource['resources'][path] = {'availableBytes': observed.f_bavail * observed.f_frsize,
+                                                  'availableInodes': observed.f_favail}
+                metrics.append(resource)
+                print(json.dumps(resource), flush=True)
+                next_resource_report = elapsed + 30
+            if elapsed >= 880:
+                host_limit_reached = True
+                process.send_signal(signal.SIGINT)
+                try:
+                    process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    process.terminate()
+                    try:
+                        process.wait(timeout=5)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                break
+            time.sleep(0.2)
+        exit_code = process.wait()
+        for line in reader:
+            if line.startswith('Verification progress:'):
+                print(line.rstrip(), flush=True)
+elapsed = time.monotonic() - started
+Path(str(stem) + '.exit-code').write_text(str(exit_code) + '\n')
+Path(str(stem) + '.parent-monitor.json').write_text(json.dumps({'kind': 'agent_same_parent_resource_monitor',
+    'runtimeExitCode': exit_code, 'hostLimitReached': host_limit_reached,
+    'elapsedSeconds': elapsed, 'observations': metrics}, indent=2) + '\n')
+print(json.dumps({'runtimeExitCode': exit_code, 'hostLimitReached': host_limit_reached,
+                  'elapsedSeconds': elapsed, 'runtimeLog': str(log_path)}), flush=True)
+raise SystemExit(exit_code if not host_limit_reached else 124)

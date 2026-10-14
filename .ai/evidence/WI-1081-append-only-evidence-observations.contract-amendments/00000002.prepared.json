@@ -1,0 +1,260 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "workItemId": "WI-1081-append-only-evidence-observations",
+    "sequence": 2,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "wi1081-ray-bounded-material-review-20261014",
+      "expectedContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+      "reason": "Ray approved the exact bounded recovery combination at 2026-10-14T21:15:31Z; enable only the single reviewable committed Rust syntax Unknown for delegated Raydot technical review, preserve source/history/verification requirements, and perform one retry plus fresh confirm_review and 13-node verification. Source: user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+      "changes": [
+        {
+          "path": "/governanceProfile",
+          "operation": "replace",
+          "value": {
+            "materialInspectionReview": {
+              "acceptResidualRisk": true,
+              "assurance": "self_declared",
+              "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+              "permittedCause": "readable_committed_rust_syntax_unknown",
+              "permittedUnknown": "repository_material_inspection_unavailable",
+              "reviewerActor": "agent:Raydot",
+              "schemaVersion": 1
+            }
+          }
+        }
+      ]
+    },
+    "requestDigest": "sha256:21677a68ea2733deeaea5f11a38b4ccae849543ea1c2250926860826dddee5c8",
+    "previousContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Same raw bytes and the same complete evidence observation binding are idempotent; corrected source metadata or a new collection observation at the same raw digest is appended under a distinct observation identity without replacing raw bytes or the existing receipt.",
+        "A consumer can explicitly select and bind the intended observation version; unsupported older Runtime versions reject the new selector instead of silently ignoring it, while legacy v1/v2/v3 inputs and outputs keep their existing interpretation.",
+        "The observation binding includes every identity/source/runtime-relevant field except generated now; raw digest remains the byte identity; existing source, assurance, freshness, Git, resource, and Runtime checks are not relaxed.",
+        "Parsed evidence/selector objects flow through validation and persistence; no serialization round trip can drop or reinterpret the selector.",
+        "Publication is no-replace and atomic; repeated identical imports are idempotent; concurrent conflicting writes, malformed records, cross-Work-Item bindings, tampered raw bytes, wrong source, stale evidence, and ambiguous selectors fail closed.",
+        "Historical evidence remains readable without migration; tests prove legacy compatibility, append-only corrections, exact selector binding, idempotency, concurrency behavior, and negative validation cases."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-14T10:08:27Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow a corrected or freshly collected delegated-evidence observation to coexist with the original when raw SHA-256 is unchanged, bind consumers to an explicit versioned observation selector, retain strict source and assurance checks, and preserve legacy v1/v2/v3 behavior.",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Support repeat collection and source correction for delegated evidence with identical raw bytes while preserving immutable observation history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "WI-1078 and WI-1080 archived records",
+        " summaries",
+        " outcomes",
+        " events",
+        " close or cleanup records; generic migration or database work; provider network fetching or authentication; changes that weaken raw digest",
+        " source",
+        " assurance",
+        " freshness",
+        " Git",
+        " resource",
+        " or Runtime validation; cross-history finalization-chain upgrades; merge",
+        " close",
+        " or cleanup."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+      "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/delegated_evidence_observations.rs",
+        "crates/cockpit-cli/tests/delegated_evidence.rs"
+      ],
+      "sources": [
+        ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+        ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace --all-targets"
+      ],
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    },
+    "previousContractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Same raw bytes and the same complete evidence observation binding are idempotent; corrected source metadata or a new collection observation at the same raw digest is appended under a distinct observation identity without replacing raw bytes or the existing receipt.",
+        "A consumer can explicitly select and bind the intended observation version; unsupported older Runtime versions reject the new selector instead of silently ignoring it, while legacy v1/v2/v3 inputs and outputs keep their existing interpretation.",
+        "The observation binding includes every identity/source/runtime-relevant field except generated now; raw digest remains the byte identity; existing source, assurance, freshness, Git, resource, and Runtime checks are not relaxed.",
+        "Parsed evidence/selector objects flow through validation and persistence; no serialization round trip can drop or reinterpret the selector.",
+        "Publication is no-replace and atomic; repeated identical imports are idempotent; concurrent conflicting writes, malformed records, cross-Work-Item bindings, tampered raw bytes, wrong source, stale evidence, and ambiguous selectors fail closed.",
+        "Historical evidence remains readable without migration; tests prove legacy compatibility, append-only corrections, exact selector binding, idempotency, concurrency behavior, and negative validation cases."
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-14T10:08:27Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "Allow a corrected or freshly collected delegated-evidence observation to coexist with the original when raw SHA-256 is unchanged, bind consumers to an explicit versioned observation selector, retain strict source and assurance checks, and preserve legacy v1/v2/v3 behavior.",
+      "governancePolicy": null,
+      "governanceProfile": {
+        "materialInspectionReview": {
+          "acceptResidualRisk": true,
+          "assurance": "self_declared",
+          "authoritySource": "user-transcript:01a11856-d6ba-72e0-9aab-25a34cd2f018/Sentinel_8dc19d14fdd48191a750c6a0880e85fc",
+          "permittedCause": "readable_committed_rust_syntax_unknown",
+          "permittedUnknown": "repository_material_inspection_unavailable",
+          "reviewerActor": "agent:Raydot",
+          "schemaVersion": 1
+        }
+      },
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Support repeat collection and source correction for delegated evidence with identical raw bytes while preserving immutable observation history.",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "WI-1078 and WI-1080 archived records",
+        " summaries",
+        " outcomes",
+        " events",
+        " close or cleanup records; generic migration or database work; provider network fetching or authentication; changes that weaken raw digest",
+        " source",
+        " assurance",
+        " freshness",
+        " Git",
+        " resource",
+        " or Runtime validation; cross-history finalization-chain upgrades; merge",
+        " close",
+        " or cleanup."
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "predecessorContractDigest": "sha256:255293e72d1cc5921b2adf0f84111a36ad0cab692116a071d43a45f5ee975c30",
+      "predecessorWorkItemId": "WI-1080-v3-actual-merge-first-parent",
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+      "protocolVersion": 1,
+      "recoveryDecisionPath": ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e670a65248bf0c924d8ae564c2b2e1d838262beb041c77244d456fe63b65702d",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [
+        "verification"
+      ],
+      "requiredRuntimeCapabilities": [
+        "material-inspection-review",
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/delegated_evidence_observations.rs",
+        "crates/cockpit-cli/tests/delegated_evidence.rs"
+      ],
+      "sources": [
+        ".ai/decisions/WI-1080-v3-actual-merge-first-parent.recovery.json",
+        ".ai/work-items/archive/WI-1080-v3-actual-merge-first-parent.contract.json"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "cargo test --workspace --all-targets"
+      ],
+      "workItemId": "WI-1081-append-only-evidence-observations"
+    },
+    "newContractDigest": "sha256:fa050a50662e772dbe28afecd44e92b22e41749197b39ea78dc02806dc921d20",
+    "previousSummaryDigest": "sha256:af3027f88f6d81a77a8d777c056031422ac74ccaf2bff564165bdf7b37b93678",
+    "repositorySnapshotDigest": "sha256:1df671d690e6b41ba964633198718f2d06d36f63cced491d4af9ebb7aa85cdc1",
+    "environmentObservationDigest": "sha256:049c5d15a16efd2884810876844f70265a94696ac60b5d33d6489fb825146784",
+    "runtime": {
+      "runtimeVersion": "1.0.1",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e"
+    },
+    "verificationStarted": true,
+    "checkpointed": true,
+    "previousJournalDigest": "sha256:f96b1aab7c875c38b41bcdaae22e58904e1ba4e3b62373f4c859ee1b21560095",
+    "policyReviewRequirements": [
+      "/governanceProfile"
+    ],
+    "legacyInputDigest": null,
+    "preparedAt": "2026-10-14T21:21:07Z"
+  },
+  "preparedDigest": "sha256:f3d86c39a74014f32ef29153e92b8cbbef4e67dca1971ca23a650df6f020957a"
+}
