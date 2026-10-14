@@ -1,0 +1,272 @@
+{
+  "attemptId": "sha256:bb3527a31ec0953b4c44c025e5bde471e81e890506c287f8521f02ec36e664f6",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-agent",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:bb8ce06b1a0f6c9071c200fea094c513711a08b75bef9a9ce691d1bac5bd97d5",
+      "nodeId": "project-command-0-package-cockpit-agent",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-cli",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:65f2ec2409aff9eabb6925ab0a041ed250891dc8814dc10b6ee4687e19aca724",
+      "nodeId": "project-command-0-package-cockpit-cli",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-core",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:0a6e390755cb6da582c575956bb97c3a7d8a6bf85c19f66198288fc83d515815",
+      "nodeId": "project-command-0-package-cockpit-core",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-evidence",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:728f71e2e699af0c74355c3ddfd1b53905da4d5509819701ec0072acd44fdff2",
+      "nodeId": "project-command-0-package-cockpit-evidence",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-git",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:7dc62a0a2a5b54f886ca4eb3332fb5f83309b9281b8c5caee97675055eab4e4c",
+      "nodeId": "project-command-0-package-cockpit-git",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-interface",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:e8b99d2eabb4c5e3164b883e3a1a6ce4705b5f7dfc416ed5c1a54e7488ec56cf",
+      "nodeId": "project-command-0-package-cockpit-interface",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-isolation",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:a1ce2b0261154fef76bdfe41adba9a5b53de2268bc95b7187b0bafa1bf620120",
+      "nodeId": "project-command-0-package-cockpit-isolation",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-knowledge",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:1c275af8b9abe3f786a4d3a8b45501e2d75b6de8000a2c7b3848ddb6619184c5",
+      "nodeId": "project-command-0-package-cockpit-knowledge",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-mcp",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:9ffba030d38b765e5ca529b66d3db2d96a90251f8a5e280d6cdbebcd99850f96",
+      "nodeId": "project-command-0-package-cockpit-mcp",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-protocol",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:0c012779f5973fcc97b997a8a790c10d88a1905656642c5751e1129ad1ca3232",
+      "nodeId": "project-command-0-package-cockpit-protocol",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-release",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:cb51c017c6582a4ad38a7a775dbde6c244fd8d83d6cc9baf0cd22ad2faf0eca2",
+      "nodeId": "project-command-0-package-cockpit-release",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-repository",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:d9a4e644506e782e7bcc5fded95be2a65b60be10861a8c63faf3394107f976fb",
+      "nodeId": "project-command-0-package-cockpit-repository",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    },
+    {
+      "args": [
+        "test",
+        "--package",
+        "cockpit-verification",
+        "--all-targets"
+      ],
+      "baseCommit": "00461714bd43d3f6c42ede66491e01d22d475604",
+      "commandDigest": "sha256:f0024d9334000c2de77a51d9cb7c8f5b19a97ba1332c802a1290fd4460d707ee",
+      "nodeId": "project-command-0-package-cockpit-verification",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:8f28e50938c1c594db450768be4ca14db02e46f0866c7316893f86e4c5bbb33b",
+  "contractExecutionScopeDigest": "sha256:2d5b2f13f88eedfe91714f36bb73937953d78f60b983eccddcf0a8335e3a279b",
+  "createdAt": "2026-10-14T11:15:20Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /workspace/ai-cockpit-wi1081-append-only-evidence-observations/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6ffcd0aaadd80bdba91dc6d7b70dc3baf588d76be913ba8dc89c5123f55d2dcc",
+  "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+  "runtimeVersion": "1.0.1",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1081-append-only-evidence-observations"
+}
