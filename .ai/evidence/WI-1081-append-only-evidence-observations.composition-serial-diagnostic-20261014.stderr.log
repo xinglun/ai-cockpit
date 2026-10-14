@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized] target(s) in 0.05s
+     Running tests/composition.rs (/tmp/wi1081-build-00461714-20261014/debug/deps/composition-9b8b18e520d84dfb)
+observed detached verifier zombie: pid=2005266 state='Z' ppid=2005240 pgid=2005266 sid=2005266; waitid(WNOWAIT)=0; kill(pid, 0)=0
+preserving Unknown/Retained composition fixture: test=unknown_observer_fixture_owners_survive_assertion_unwind attempt=lifecycle-regression repository=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-repository-2003633-103 state=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-state-2003633-104 worktree=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-worktree-owner-2003633-102/worktrees/composition manifest=/workspace/.tmp-wi1081-tests-20261014/cockpit-composition-retained-unknown-state-2003633-104/.ai-cockpit-retained-unknown-owner.json
+
+thread 'unknown_observer_fixture_owners_survive_assertion_unwind' (2005445) panicked at crates/cockpit-verification/tests/composition.rs:246:9:
+simulate a later assertion failure after the real assertion helper
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
