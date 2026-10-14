@@ -172,6 +172,60 @@ fn same_raw_digest_source_correction_appends_and_selects_without_replacing_legac
 }
 
 #[test]
+fn idempotent_observation_rejects_tampered_stored_bound_at() {
+    let root = repository();
+    let raw = br#"{"run":88,"conclusion":"success"}"#;
+    let evidence = evidence(
+        raw,
+        "https://api.github.com/repos/example/repo/actions/runs/88",
+    );
+    let first = import_delegated_evidence_observation(
+        root.path(),
+        WORK_ITEM_ID,
+        &evidence,
+        raw,
+        &runtime(),
+    )
+    .expect("initial observation");
+    let path = root.path().join(".ai/evidence/observations").join(format!(
+        "{WORK_ITEM_ID}.{}.observation.json",
+        first
+            .selector
+            .observation_digest
+            .as_str()
+            .strip_prefix("sha256:")
+            .unwrap()
+    ));
+    let mut stored: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    stored["boundAt"] = "not-a-date".into();
+    let corrupted = serde_json::to_vec_pretty(&stored).unwrap();
+    fs::write(&path, &corrupted).unwrap();
+
+    let result = import_delegated_evidence_observation(
+        root.path(),
+        WORK_ITEM_ID,
+        &evidence,
+        raw,
+        &runtime(),
+    );
+    assert!(
+        result.is_err(),
+        "idempotent observe must reject a malformed stored boundAt"
+    );
+    assert!(result.unwrap_err().to_string().contains("boundAt"));
+    assert_eq!(
+        fs::read(&path).unwrap(),
+        corrupted,
+        "rejection preserves the stored evidence"
+    );
+    assert_eq!(
+        fs::read(root.path().join(&evidence.raw_evidence_ref)).unwrap(),
+        raw
+    );
+    assert!(list_delegated_evidence_observations(root.path(), WORK_ITEM_ID).is_err());
+}
+
+#[test]
 fn concurrent_identical_observations_share_one_immutable_selector() {
     let root = repository();
     let root_path = root.path().to_path_buf();

@@ -7390,8 +7390,15 @@ mod post_merge_sync_tests {
         assert_eq!(result["state"], "recorded");
     }
 
-    #[test]
-    fn record_resource_finalization_accepts_tempdir_bound_schema_v3_history() {
+    fn recorded_post_merge_layout_fixture(
+        schema_version: u32,
+    ) -> (
+        tempfile::TempDir,
+        PathBuf,
+        PathBuf,
+        ResourceFinalizationReceipt,
+        RuntimeContext,
+    ) {
         use cockpit_protocol::PROTOCOL_VERSION;
 
         let fixture = tempfile::tempdir().expect("fixture directory");
@@ -7602,8 +7609,7 @@ mod post_merge_sync_tests {
             base_revision: provider_base.clone(),
             merge_commit: Some(m1.clone()),
         };
-        receipt.schema_version =
-            cockpit_protocol::RESOURCE_FINALIZATION_LIFECYCLE_LAYOUT_SCHEMA_VERSION;
+        receipt.schema_version = schema_version;
         receipt.work_item_id = id.into();
         receipt.repository_id = repository_id.clone();
         receipt.runtime_version = runtime.runtime_version.clone();
@@ -7666,6 +7672,7 @@ mod post_merge_sync_tests {
             ),
         ];
         let mut digests = Vec::new();
+        let mut observation_selectors = Vec::new();
         for (name, identity, raw) in imports {
             let evidence = DelegatedEvidence {
                 provider: "github".into(),
@@ -7679,6 +7686,15 @@ mod post_merge_sync_tests {
             };
             super::super::import_delegated_evidence(&root, id, &evidence, &raw, &runtime)
                 .expect("import exact synthetic provider bytes");
+            if schema_version == 4 {
+                observation_selectors.push(
+                    super::super::import_delegated_evidence_observation(
+                        &root, id, &evidence, &raw, &runtime,
+                    )
+                    .expect("append exact synthetic provider observation")
+                    .selector,
+                );
+            }
             digests.push(evidence.digest);
         }
         let remote_ref = sync.remote_branch_ref.clone();
@@ -7697,11 +7713,30 @@ mod post_merge_sync_tests {
         };
         super::super::import_delegated_evidence(&root, id, &remote_evidence, &remote_raw, &runtime)
             .expect("import exact synthetic remote-ref bytes");
+        if schema_version == 4 {
+            let remote = super::super::import_delegated_evidence_observation(
+                &root,
+                id,
+                &remote_evidence,
+                &remote_raw,
+                &runtime,
+            )
+            .expect("append exact synthetic remote-ref observation");
+            sync.observation_selectors = Some(PostMergeSyncEvidenceObservationSelectors {
+                source: observation_selectors[0].clone(),
+                sync: observation_selectors[1].clone(),
+                remote: remote.selector,
+            });
+        }
         sync.source_evidence_digest = digests[0].clone();
         sync.sync_evidence_digest = digests[1].clone();
         sync.remote_evidence_digest = remote_evidence.digest;
-        receipt.timestamp = (chrono::Utc::now() + chrono::Duration::minutes(2))
-            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let finalization_time = if schema_version == 4 {
+            chrono::Utc::now()
+        } else {
+            chrono::Utc::now() + chrono::Duration::minutes(2)
+        };
+        receipt.timestamp = finalization_time.to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
 
         let (_, contract_digest) = super::archived_contract_digest(&root, id).unwrap();
         cockpit_protocol::validate_resource_finalization_receipt_for(
@@ -7724,6 +7759,159 @@ mod post_merge_sync_tests {
         assert_eq!(
             recorded["postMergeSync"]["syncPullRequest"]["baseRevision"], provider_base,
             "provider raw base remains distinct from the actual M1 first parent"
+        );
+        (fixture, root, worktree_path, receipt, runtime)
+    }
+
+    #[test]
+    fn record_resource_finalization_accepts_tempdir_bound_schema_v3_history() {
+        let _fixture = recorded_post_merge_layout_fixture(3);
+    }
+
+    #[test]
+    fn schema_v4_rejects_source_sync_observation_selector_role_swap() {
+        let (_fixture, root, _worktree, mut receipt, _runtime) =
+            recorded_post_merge_layout_fixture(4);
+        let sync = receipt.post_merge_sync.as_mut().unwrap();
+        let selectors = sync.observation_selectors.as_mut().unwrap();
+        std::mem::swap(&mut selectors.source, &mut selectors.sync);
+        assert_ne!(sync.source_evidence_digest, sync.sync_evidence_digest);
+        let result = super::validate_post_merge_sync_delegated_evidence(
+            &root,
+            &receipt,
+            receipt.post_merge_sync.as_ref().unwrap(),
+        );
+        assert!(
+            result.is_err(),
+            "source/sync selectors must retain their exact role/raw bindings"
+        );
+    }
+
+    #[test]
+    fn schema_v4_deleted_head_revalidates_retained_remote_observation() {
+        let (fixture, root, worktree, retained, runtime) = recorded_post_merge_layout_fixture(4);
+        let id = retained.work_item_id.clone();
+        let old_remote = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .observation_selectors
+            .as_ref()
+            .unwrap()
+            .remote
+            .clone();
+        let old_observation_path = root.join(".ai/evidence/observations").join(format!(
+            "{id}.{}.observation.json",
+            old_remote
+                .observation_digest
+                .as_str()
+                .strip_prefix("sha256:")
+                .unwrap()
+        ));
+        let original_observation_bytes = std::fs::read(&old_observation_path).unwrap();
+        let root_receipt_path = super::resource_finalization_decision_path(&root, &id);
+        let original_root_bytes = std::fs::read(&root_receipt_path).unwrap();
+
+        git(
+            &root,
+            &["worktree", "remove", "--force", worktree.to_str().unwrap()],
+        );
+        git(&root, &["branch", "-D", &retained.branch.name]);
+        git(
+            &root,
+            &[
+                "update-ref",
+                "-d",
+                &format!("refs/remotes/origin/{}", retained.branch.name),
+            ],
+        );
+        // Imported boundAt uses second precision; collect in a later second
+        // so the absence observation is both after the root and before binding.
+        std::thread::sleep(std::time::Duration::from_secs(1));
+        let collected_at = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+        let remote_ref = retained
+            .post_merge_sync
+            .as_ref()
+            .unwrap()
+            .remote_branch_ref
+            .clone();
+        let raw = github_deleted_ref_body(
+            "xinglun/ai-cockpit",
+            &remote_ref,
+            "v4-absence-after-retained",
+            "fixture-user",
+            &collected_at,
+        );
+        let evidence = DelegatedEvidence {
+            provider: "github".into(),
+            subject: remote_ref,
+            origin: format!(
+                "https://api.github.com/repos/xinglun/ai-cockpit/git/ref/heads/{}",
+                retained.branch.name
+            ),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at,
+            digest: Digest::sha256_bytes(&raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: format!(".ai/evidence/external/{id}-remote-deleted.json"),
+        };
+        let observation = super::super::import_delegated_evidence_observation(
+            &root, &id, &evidence, &raw, &runtime,
+        )
+        .expect("append the fresh absence observation");
+        let mut deleted = retained.clone();
+        deleted.before = retained.after.clone();
+        deleted.after.branch = ResourceFinalizationBranchState::Deleted;
+        deleted.after.worktree = ResourceFinalizationWorktreeState::Removed;
+        deleted.result.disposition = ResourceFinalizationDisposition::Deleted;
+        deleted.timestamp = chrono::Utc::now().to_rfc3339_opts(chrono::SecondsFormat::Millis, true);
+        let sync = deleted.post_merge_sync.as_mut().unwrap();
+        sync.remote_branch_state = PostMergeSyncRemoteBranchState::Deleted;
+        sync.remote_evidence_digest = evidence.digest;
+        sync.observation_selectors.as_mut().unwrap().remote = observation.selector;
+        let transition = ResourceFinalizationTransitionReceipt {
+            schema_version: 1,
+            transition_id: "v4-root-observation-integrity".into(),
+            sequence: 1,
+            predecessor_receipt_digest: cockpit_protocol::digest_json(
+                &serde_json::to_value(&retained).unwrap(),
+            )
+            .unwrap(),
+            governance_append_revision: None,
+            receipt: deleted,
+        };
+        let input = fixture.path().join("deleted-v4-resource-transition.json");
+        std::fs::write(&input, serde_json::to_vec_pretty(&transition).unwrap()).unwrap();
+        super::record_resource_finalization(&root, &id, &input, &runtime)
+            .expect("record the valid Deleted transition after Retained");
+        let verified = super::verify_resource_finalization(&root, &id, &runtime)
+            .expect("the intact v4 Deleted head verifies end to end");
+        assert_eq!(verified["disposition"], "deleted");
+        assert_eq!(verified["sequence"], 1);
+
+        std::fs::remove_file(&old_observation_path).unwrap();
+        assert!(
+            super::verify_resource_finalization(&root, &id, &runtime).is_err(),
+            "a Deleted head must not silently lose its Retained root remote observation"
+        );
+        std::fs::write(&old_observation_path, &original_observation_bytes).unwrap();
+        let mut changed: serde_json::Value =
+            serde_json::from_slice(&original_observation_bytes).unwrap();
+        changed["boundAt"] = (chrono::Utc::now() + chrono::Duration::minutes(1))
+            .to_rfc3339_opts(chrono::SecondsFormat::Millis, true)
+            .into();
+        std::fs::write(
+            &old_observation_path,
+            serde_json::to_vec_pretty(&changed).unwrap(),
+        )
+        .unwrap();
+        assert!(
+            super::verify_resource_finalization(&root, &id, &runtime).is_err(),
+            "a Deleted head must retain the original root observation receipt bytes"
+        );
+        assert_eq!(
+            std::fs::read(&root_receipt_path).unwrap(),
+            original_root_bytes
         );
     }
 
