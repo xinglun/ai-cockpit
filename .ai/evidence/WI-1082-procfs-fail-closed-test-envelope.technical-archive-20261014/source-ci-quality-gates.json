@@ -1,0 +1,182 @@
+{
+  "runId": 38653477624,
+  "head": "4890bb3a1eb47b3d0463328eb8c8d57e7ba6cd92",
+  "qualityJobId": 116159315476,
+  "counts": {
+    "not_applicable": 2,
+    "passed": 40
+  },
+  "gateResults": [
+    {
+      "name": "docs_closed_work_item_promotion",
+      "status": "not_applicable"
+    },
+    {
+      "name": "docs_acceptance",
+      "status": "passed"
+    },
+    {
+      "name": "docs_closed_work_item_promotion_regression",
+      "status": "passed"
+    },
+    {
+      "name": "docs_governance_integrity",
+      "status": "passed"
+    },
+    {
+      "name": "docs_interface_reference_generation",
+      "status": "passed"
+    },
+    {
+      "name": "docs_parity_regression",
+      "status": "passed"
+    },
+    {
+      "name": "docs_pending_parity_registry_regression",
+      "status": "passed"
+    },
+    {
+      "name": "docs_work_item_status_consistency",
+      "status": "not_applicable"
+    },
+    {
+      "name": "release_action_runtime",
+      "status": "passed"
+    },
+    {
+      "name": "release_adopter_receipt_schema",
+      "status": "passed"
+    },
+    {
+      "name": "release_annotated_tag",
+      "status": "passed"
+    },
+    {
+      "name": "release_close_state_regression",
+      "status": "passed"
+    },
+    {
+      "name": "release_policy_regression",
+      "status": "passed"
+    },
+    {
+      "name": "release_source_archive",
+      "status": "passed"
+    },
+    {
+      "name": "release_version_consistency",
+      "status": "passed"
+    },
+    {
+      "name": "release_version_consistency_policy",
+      "status": "passed"
+    },
+    {
+      "name": "release_workflow_policy",
+      "status": "passed"
+    },
+    {
+      "name": "release_adopter",
+      "status": "passed"
+    },
+    {
+      "name": "release_adopter_acceptance_resume",
+      "status": "passed"
+    },
+    {
+      "name": "release_adopter_upgrade",
+      "status": "passed"
+    },
+    {
+      "name": "workflow_resource_finalization",
+      "status": "passed"
+    },
+    {
+      "name": "ci_governance_integrity_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_hosted_runtime_verification_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_inspect_projection_boundary",
+      "status": "passed"
+    },
+    {
+      "name": "ci_knowledge_projection_boundary",
+      "status": "passed"
+    },
+    {
+      "name": "ci_manifest_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_process_observer_test_runner",
+      "status": "passed"
+    },
+    {
+      "name": "ci_quality_route_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_runtime_shadow_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_work_item_resolution_regression",
+      "status": "passed"
+    },
+    {
+      "name": "ci_workflow_convergence",
+      "status": "passed"
+    },
+    {
+      "name": "ci_workspace_coverage_regression",
+      "status": "passed"
+    },
+    {
+      "name": "conformance_contract_amendment_processes",
+      "status": "passed"
+    },
+    {
+      "name": "conformance_cross_wi_coordination_processes",
+      "status": "passed"
+    },
+    {
+      "name": "conformance_final_replacement",
+      "status": "passed"
+    },
+    {
+      "name": "conformance_reference_file_inventory",
+      "status": "passed"
+    },
+    {
+      "name": "evaluation_wi750_cognitive_benefit",
+      "status": "passed"
+    },
+    {
+      "name": "performance_p0_regression",
+      "status": "passed"
+    },
+    {
+      "name": "performance_regression",
+      "status": "passed"
+    },
+    {
+      "name": "workspace_clippy",
+      "status": "passed"
+    },
+    {
+      "name": "workspace_format",
+      "status": "passed"
+    },
+    {
+      "name": "workspace_package_tests",
+      "status": "passed"
+    }
+  ],
+  "source": "GitHub workflow job logs via supported GitHub connector",
+  "artifactId": 11936980559,
+  "artifactDownload": "local gh ZIP download received HTTP 403; counts independently read from job logs"
+}

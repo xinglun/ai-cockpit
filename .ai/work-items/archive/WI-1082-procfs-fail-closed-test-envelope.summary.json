@@ -29,6 +29,14 @@
   "checkpointRepositorySnapshotDigest": "sha256:5717b916bda06e4c6163e0a5f6c25d78cb0c021ddb2041079d08f9bdad834b8c",
   "createdAt": "2026-10-14T22:53:13Z",
   "lifecycleFacts": {
+    "finish": {
+      "actorProvenance": "unknown",
+      "eventType": "work_item_finished",
+      "occurredAt": "2026-10-14T23:50:22.872913780Z",
+      "recordedAt": "2026-10-14T23:50:22.872913780Z",
+      "runtimeDigest": "sha256:5cca63a1b051da37b325b7d123842b6a4f7302f25cd235c0d22c12450c6b264e",
+      "runtimeVersion": "1.0.1"
+    },
     "start": {
       "actorProvenance": "unknown",
       "eventType": "work_item_started",
@@ -46,8 +54,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-10-14T22:53:17Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-14T23:50:22.872913780Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -106,6 +114,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:4e8b776d990bc0a2a90c382afad833735aa82fac8f7a8c4aedf3dddd8cc05a02",
   "workItemId": "WI-1082-procfs-fail-closed-test-envelope"
 }
